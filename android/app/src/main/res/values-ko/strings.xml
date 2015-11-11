@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Mala 교사</string>
+	<string name="find_teacher">선생님 찾기</string>
+	<string name="navigation_drawer_open">오픈 탐색 서랍</string>
+	<string name="navigation_drawer_close">닫기 탐색 서랍</string>
+	<string name="action_settings">설정</string>
+	<string name="title_activity_login">로그인</string>
+	<string name="prompt_email">메일 주소</string>
+	<string name="prompt_password">암호 (선택 사항)</string>
+	<string name="action_sign_in">로그인 또는 등록</string>
+	<string name="action_sign_in_short">로그인</string>
+	<string name="error_invalid_email">이 이메일 주소는 유효 하지</string>
+	<string name="error_invalid_password">이 암호가 너무 짧습니다.</string>
+	<string name="error_incorrect_password">이 암호가 올바르지 않습니다.</string>
+	<string name="error_field_required">이 필드는 필수</string>
+	<string name="permission_rationale">"연락처 사용 권한은 제공 하는 이메일 완료에 대 한 필요 합니다."</string>
+	<string name="title_activity_settings">설정</string>
+	<string name="pref_header_general">일반</string>
+	<string name="pref_title_social_recommendations">소셜 추천 활성화</string>
+	<string name="pref_description_social_recommendations">메시지 역사를 기반으로 하는 사람들에 게 연락에 대 한 권장 사항</string>
+	<string name="pref_title_display_name">표시 이름</string>
+	<string name="pref_default_display_name">존 스미스</string>
+	<string name="pref_title_add_friends_to_messages">메시지에 친구 추가</string>
+	<string name="pref_header_data_sync">데이터 및 동기화</string>
+	<string name="pref_title_sync_frequency">동기화 주파수</string>
+	<string name="pref_title_system_sync_settings">시스템 동기화 설정</string>
+	<string name="pref_header_notifications">알림</string>
+	<string name="pref_title_new_message_notifications">새 메시지 알림</string>
+	<string name="pref_title_ringtone">벨소리</string>
+	<string name="pref_ringtone_silent">자동</string>
+	<string name="pref_title_vibrate">진동</string>
+	<string name="title_activity_screen_teacher">ScreenTeacherActivity</string>
+	<string name="title_activity_teacher_list">TeacherListActivity</string>
+	<string name="large_text">"물자는 metaphor.
+
+는" "소재 유 합리화 공간과 모션 시스템의 통합 이론 이다."
+        "소재는 현실에 기초 촉각, 종이 잉크의 연구에 의해 영감을 아직" "기술적으로 고급 하 고 상상력 및 마술. 
+" "표면 및 재료의 가장자리 제공 현실에 기초 하는 시각적 단서. "" 익숙한 촉각 특성의 사용 수 사용자가 신속 하 게 affordances 이해 있습니다. 아직 ""유연성 재료의 실제에서 그들을 대체 하는 새로운 affordances 만듭니다""세계, 물리학. 
+의 규칙을 위반 하지 않고""빛, 표면, 및 움직임의 기본 개체를 이동 하는 방법, 전달 하는 열쇠는 ""상호 작용, 그리고 공간에 존재 하는 서로 관하여. 현실적인 조명 쇼 "" 솔, 공간, 나누고 이동 parts.
+
+를 나타냅니다""굵게, 그래픽, intentional.
+
+""인쇄 기반된 디자인 인쇄 술, 격자, 공간, 규모의 기초 요소 색상,"" 및 이미지 가이드 시각적 트리 트 먼 트의 사용. 이러한 요소에는 "" 눈 하시기 바랍니다 보다 훨씬 더 할. 그들은 계층 구조, 의미, 그리고 초점을 만듭니다. 색상 선택, 가장자리에 가장자리를 심의 ""이미지, 대규모 인쇄 술과 대담 하 고 그래픽을 만들 의도 공백""인터페이스를 사용자 경험. 
+에 젖어""사용자 작업에 중점 핵심 기능을 즉시 명백 하 게 하며""는 user.
+
+에 대 한 중간점""모션에 meaning.
+
+가 제공 되는 경우""모션 존중 하 고 있는 원동력으로 사용자를 강화. 기본 사용자 작업은 "" 전체 디자인. 
+ 변형 동작을 시작 하는 굴절 포인트"" 모든 액션에서에서 일어난다 단일 환경. 개체 없이 사용자에 게 표시 됩니다 "" 그들은 변형 및 재구성. 
+으로도 경험의 연속성을 깨고"" 움직임은 주의 집중 하 고 연속성을 유지를 의미 하 고, 적절 한 봉사."" 피드백은 미묘한 아직 명확. 전환 efﬁcient 아직 coherent.
+
+는 ""3D world.
+
+"" 소재입니다 즉 모든 개체는 3D 공간 x, y, 및 z ""치수. Z 축 수직 맞춰집니다 디스플레이의 평면에 "" 긍정적인 z 축 뷰어 쪽으로 확장. 재료의 모든 시트를 단일 차지 ""z 축을 따라 위치 하 고 있다 표준 1dp 두께. 
+""웹에 z 축 사용 됩니다 레이어 링에 대 한 관점에 대 한 안. 3D 세계는 ""는 y-axis.
+
+를 조작 하 여 에뮬레이션""빛과 shadow.
+
+""소재 환경 내 가상 빛을 밝히는 현장. 키 조명 만들기 "" 방향 그림자, 주변광 모든 각도. 
+에서 부드러운 그림자를 생성 하는 동안"" 소재 환경에서 그림자는 캐스팅이 두 광원에 의해. 안 드 로이드에서 "" 개발, 그림자 발생 때 광원에서 "" 다양 한 위치에 z 축 따라 소재의 시트에 의해 차단 됩니다. 웹에 그림자는 "" y 축입니다만 조작 하 여 묘사. 다음 예제에서는 6dp.
+
+의 높이와 카드""휴식 elevation.
+
+""크기에 관계 없이 모든 재료 개체는 휴식 상승, 또는 기본 상승""는 변경 되지 않습니다. 개체 높이 변경의 휴식을 반환 해야 합니다 ""상승 대로 possible.
+
+""구성 요소 elevations.
+
+"" 구성 요소 형식에 대 한 휴식 상승은 애플 리 케이 션에 걸쳐 일관 된 (예를 들어, 팹 상승 "" 않습니다 하지 다 한 애플 리 케이 션에 6dp에서 다른 애플 리 케이 션에 16dp). 
+ ""구성 요소는 플랫폼, 깊이 따라 다른 휴식도 할 수 있습니다"" 환경 (예: TV는 모바일 또는 desktop).
+
+ 보다 더 깊이 ""응답 상승 및 동적 상승 offsets.
+
+""일부 구성 요소 형식 필요가 응답 상승, 그들은 응답에서 상승 변경 의미"" 사용자 입력 (예:, 보통, 집중, 고) 또는 시스템 이벤트. 이러한 상승 ""변경 내용이 일관 되 게 구현 동적 높이 오프셋. 
+을 사용 하 여""동적 높이 오프셋은 구성 요소, 상대를 향해 이동 하는 목표 상승"" 구성 요소의 휴식 상태. 그들은 상승 변경 일치 확인할 "" 전역 작업 및 구성 요소 형식 예를 들어 언론에 들어 있는 모든 구성 요소는 ""그들의 휴식 상승. 
+을 기준으로 동일한 해발 고도 변화""일단 입력된 이벤트는 완료 되거나 취소, 구성으로 돌아갑니다 그것의 휴식""elevation.
+
+""피하고 상승 interference.
+
+"" "" 그들의 휴식도 하며 동적 높이 오프셋 사이 이동 반응 고도 가진 다른 구성 요소를 발생할 수 있습니다 자료를 전달할 수 없습니다 있기 때문에 ""다른 소재를 통해 구성 요소 방지 다양 한 방법으로, 서로 방해""당 구성 요소 단위로 또는 전체 응용 프로그램 레이아웃. 
+을 사용 하 여 여부""구성 요소 수준, 구성 요소 이동 하거나 간섭을 일으킬 그들은 전에 제거할."" 예를 들어 부동 액션 버튼 (팹) 사라질 수 있다 또는 전에 화면 밖으로 이동은 "" 사용자는 카드를 선택 하거나는 스낵 바 나타납니다 이동할 수 있습니다. 
+ ""레이아웃 수준에서 간섭에 대 한 기회를 최소화 하기 위해 응용 프로그램 레이아웃 디자인."" 예를 들어 위치 팹 카드의 스트림의 1 개의 측에 "" 때 사용자가 cards.
+
+ 중 하나를 선택 하려고"팹 방해 하지 않습니다</string>
+	<string name="title_activity_teacher_detail">TeacherDetailActivity</string>
+	<string name="title_activity_place_order">PlaceOrderActivity</string>
+	<string name="title_activity_payment_method">PaymentMethodActivity</string>
+	<string name="title_activity_payment_result">PaymentResultActivity</string>
+	<string name="title_activity_order_detail">OrderDetailActivity</string>
+	<string name="title_activity_timetable">TimetableActivity</string>
+	<string name="title_activity_renew">RenewActivity</string>
+	<string name="title_activity_member_service_list">MemberServiceListActivity</string>
+	<string name="title_activity_member_service_detail">MemberServiceDetailActivity</string>
+	<string name="title_activity_join">JoinActivity</string>
+	<string name="title_activity_application_state">ApplicationStateActivity</string>
+	<string name="title_activity_income">IncomeActivity</string>
+	<string name="title_activity_transaction_list">TransactionListActivity</string>
+	<string name="title_activity_withdraw">WithdrawActivity</string>
+	<string name="title_activity_bind_card">BindCardActivity</string>
+	<string name="title_activity_feedback">FeedbackActivity</string>
+	<string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
+	<string name="title_activity_coupon_list">CouponListActivity</string>
+	<string name="hello_blank_fragment">안녕하세요 빈 조각</string>
+
+</resources>
