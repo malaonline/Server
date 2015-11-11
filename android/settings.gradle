@@ -1,2 +1,1 @@
 include ':app', ':volley'
-project(':volley').projectDir = new File('app/libs/volley')
