@@ -1,15 +1,20 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "mala server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
+  "repository" : {
+      "type" : "git",
+      "url" : "https://bitbucket.org/malalaoshi/mala"
+  },
   "dependencies": {
     "express": "^4.13.3",
+    "express-generator": "^4.13.1",
     "pg": "^4.4.3"
   }
 }
