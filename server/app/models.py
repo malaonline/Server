@@ -2,14 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class BaseModel(models.Model):
-    MALE = 'm'
-    FEMALE = 'f'
-    UNKNOWN = 'u'
-    GENDER_CHOICES = (
-        (FEMALE, '女'),
-        (MALE, '男'),
-        (UNKNOWN, '未知'),
-    )
+    pass
 
 class Area(BaseModel):
     '''
@@ -120,6 +113,15 @@ class Person(BaseModel):
     '''
     For extending the system class: User
     '''
+    MALE = 'm'
+    FEMALE = 'f'
+    UNKNOWN = 'u'
+    GENDER_CHOICES = (
+        (FEMALE, '女'),
+        (MALE, '男'),
+        (UNKNOWN, '未知'),
+    )
+
     user = models.OneToOneField(User)
     name = models.CharField(max_length=200)
     role = models.ForeignKey(Role)
@@ -231,6 +233,10 @@ class TimeSegment(BaseModel):
     start = models.PositiveIntegerField()
     end = models.PositiveIntegerField()
 
+class AreaTimeSegment(BaseModel):
+    area = models.ForeignKey(Area)
+    time_segments = models.ManyToManyField(TimeSegment)
+
 class Order(BaseModel):
     UNPAID = 'u'
     PAID = 'p'
@@ -245,13 +251,14 @@ class Order(BaseModel):
 
     parent = models.ForeignKey(Parent)
     teacher = models.ForeignKey(Teacher)
-    coupon = models.ForeignKey(Coupon)
     school = models.ForeignKey(School)
+    grade_subject = models.ForeignKey(GradeSubject)
+    coupon = models.ForeignKey(Coupon)
     time_segments = models.ManyToManyField(TimeSegment)
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
-    charge_id = models.CharField(max_length=100)
+    charge_id = models.CharField(max_length=100) # For Ping++ use
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField()
@@ -260,4 +267,69 @@ class Order(BaseModel):
     status = models.CharField(max_length=2,
         choices=STATUS_CHOICES,
     )
+
+class Course(BaseModel):
+    CONFIRMED_CHOICES = (
+        ('s', 'System'),
+        ('h', 'Human'),
+    )
+    order = models.ForeignKey(Order)
+    date = models.DateField()
+    time_segment = models.ForeignKey(TimeSegment)
+
+    cancled = models.BooleanField()
+    attended = models.BooleanField()
+    commented = models.BooleanField()
+    confirmed_by = models.CharField(max_length=1,
+        choices=CONFIRMED_CHOICES,
+    )
+    transformed_from = models.ForeignKey(Course, null=True, blank=True)
+
+    created_at = models.DateTimeField()
+    last_updated_at = models.DateTimeField()
+    last_updated_by = models.ForeignKey(Person, null=True, blank=True)
+
+class Comment(BaseModel):
+    course = models.ForeignKey(Course)
+    ma_degree = models.PositiveIntegerField()
+    la_degree = models.PositiveIntegerField()
+    content = models.CharField(max_length=500)
+    created_at = models.DateTimeField()
+
+class Message(BaseModel):
+    SYSTEM = 's'
+    FINANCE = 'f'
+    COURSE = 'c'
+    AUDIT = 'a'
+    COMMENT = 'm'
+    TYPE_CHOICES = (
+        (SYSTEM, '系统消息'),
+        (FINANCE, '收入消息'),
+        (CUORSE, '课程消息'),
+        (AUDIT, '审核消息'),
+        (COMMENT, '评论消息'),
+    )
+
+    SMS = 's'
+    MAIL = 'm'
+    NOTIFICATION = 'n'
+    VIA_CHOICES = (
+        (SMS, '短信'),
+        (MAIL, '邮件'),
+        (NOTIFICATION, '通知栏提醒'),
+    )
+
+    to = models.ForeignKey(Person)
+    viewed = models.BooleanField()
+    deleted = models.BooleanField()
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=1000)
+    type_ = models.CharField(max_length=1,
+        choices=TYPE_CHOICES,
+    )
+    via = models.CharField(max_length=1,
+        choices=VIA_CHOICES,
+    )
+    created_at = models.DateTimeField()
+
 
