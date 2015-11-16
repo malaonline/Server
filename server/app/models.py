@@ -9,7 +9,7 @@ class Area(BaseModel):
     Provice, City & Distric
     '''
     name = models.CharField(max_length=50)
-    parent = models.ForeignKey(Location)
+    parent = models.ForeignKey('Area')
     level = models.PositiveIntegerField()
     leaf = models.BooleanField()
 
@@ -25,7 +25,7 @@ class School(BaseModel):
 
 class Grade(BaseModel):
     name = models.CharField(max_length=10)
-    parent = models.ForeignKey(Grade)
+    parent = models.ForeignKey('Grade')
     leaf = models.BooleanField()
 
 class Subject(BaseModel):
@@ -131,9 +131,9 @@ class Person(BaseModel):
     )
     avatar = models.ImageField()
 
-    nGoodComments = model.PositiveIntegerField()
-    nMidComments = model.PositiveIntegerField()
-    nBadComments = model.PositiveIntegerField()
+    nGoodComments = models.PositiveIntegerField()
+    nMidComments = models.PositiveIntegerField()
+    nBadComments = models.PositiveIntegerField()
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
@@ -202,12 +202,12 @@ class Balance(BaseModel):
     balance = models.PositiveIntegerField()
 
 class Withdraw(BaseModel):
-    person = models.ForeignKey(Person)
+    person = models.ForeignKey(Person, related_name='my_withdraws')
     amount = models.PositiveIntegerField()
     bankcard = models.ForeignKey(BankCard)
     submit_time = models.DateTimeField()
     done = models.BooleanField()
-    done_by = models.ForeignKey(Person, null=True, blank=True)
+    done_by = models.ForeignKey(Person, related_name='processed_withdraws', null=True, blank=True)
     done_at = models.DateTimeField()
 
 class Feedback(BaseModel):
@@ -240,7 +240,7 @@ class AreaTimeSegment(BaseModel):
 class Order(BaseModel):
     UNPAID = 'u'
     PAID = 'p'
-    DELETED = 'd'
+    CANCLED = 'd'
     COMPLETED = 'c'
     STATUS_CHOICES = (
         (UNPAID, '待付款'),
@@ -283,7 +283,7 @@ class Course(BaseModel):
     confirmed_by = models.CharField(max_length=1,
         choices=CONFIRMED_CHOICES,
     )
-    transformed_from = models.ForeignKey(Course, null=True, blank=True)
+    transformed_from = models.ForeignKey('Course', null=True, blank=True)
 
     created_at = models.DateTimeField()
     last_updated_at = models.DateTimeField()
@@ -305,7 +305,7 @@ class Message(BaseModel):
     TYPE_CHOICES = (
         (SYSTEM, '系统消息'),
         (FINANCE, '收入消息'),
-        (CUORSE, '课程消息'),
+        (COURSE, '课程消息'),
         (AUDIT, '审核消息'),
         (COMMENT, '评论消息'),
     )
@@ -324,7 +324,7 @@ class Message(BaseModel):
     deleted = models.BooleanField()
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=1000)
-    type_ = models.CharField(max_length=1,
+    _type = models.CharField(max_length=1,
         choices=TYPE_CHOICES,
     )
     via = models.CharField(max_length=1,
