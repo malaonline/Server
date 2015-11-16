@@ -1,17 +1,21 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-class Area(models.Model):
+class BaseModel(models.Model):
+    class Meta:
+        abstract = True
+
+class Area(BaseModel):
     '''
     Provice, City & Distric
     '''
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     parent = models.ForeignKey('Area', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     level = models.PositiveIntegerField()
     leaf = models.BooleanField()
 
-class School(models.Model):
+class School(BaseModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     thumbnail = models.ImageField(upload_to='schools')
@@ -20,13 +24,13 @@ class School(models.Model):
     longitude = models.IntegerField()
     latitude = models.IntegerField()
 
-class Grade(models.Model):
-    name = models.CharField(max_length=10)
+class Grade(BaseModel):
+    name = models.CharField(max_length=10, unique=True)
     parent = models.ForeignKey('Grade', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     leaf = models.BooleanField()
 
-class Subject(models.Model):
+class Subject(BaseModel):
     CHINESE = 'ch'
     MATH = 'ma'
     ENGLISH = 'en'
@@ -51,15 +55,18 @@ class Subject(models.Model):
         (POLITICS, '政治'),
     )
 
-    name = models.CharField(max_length=2,
+    name = models.CharField(max_length=2, unique=True,
         choices=SUBJECT_CHOICES,
     )
 
-class GradeSubject(models.Model):
+class GradeSubject(BaseModel):
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
 
-class Leveling(models.Model):
+    class Meta:
+        unique_together = ('grade', 'subject')
+
+class Leveling(BaseModel):
     PRIMARY = 'pr'
     MIDDLING = 'md'
     SENIOR = 'se'
@@ -72,17 +79,22 @@ class Leveling(models.Model):
         (PARTNER, '合伙人'),
     )
 
-    name = models.CharField(max_length=2,
+    name = models.CharField(max_length=2, unique=True,
         choices=LEVELING_CHOICES
     )
+    def __str__(self):
+        return self.get_name_display()
 
-class AreaGradeSubjectLevelingPrice(models.Model):
+class AreaGradeSubjectLevelingPrice(BaseModel):
     area = models.ForeignKey(Area)
     grade_subject = models.ForeignKey(GradeSubject)
     leveling = models.ForeignKey(Leveling)
     price = models.PositiveIntegerField()
 
-class Role(models.Model):
+    class Meta:
+        unique_together = ('area', 'grade_subject', 'leveling')
+
+class Role(BaseModel):
     SUPERUSER = 'su'
     MANAGER = 'ma'
     TEACHER = 'te'
@@ -103,11 +115,10 @@ class Role(models.Model):
         (SCHOOLMANAGER, '社区店管理员'),
         (CITYMANAGER, '城市管理员'),
     )
-    name = models.CharField(max_length=2,
-            choices=ROLE_CHOICES,
+    name = models.CharField(max_length=2, unique=True, choices=ROLE_CHOICES,
             default=PARENT)
 
-class Person(models.Model):
+class Person(BaseModel):
     '''
     For extending the system class: User
     '''
@@ -133,7 +144,7 @@ class Person(models.Model):
     nMidComments = models.PositiveIntegerField(default=0)
     nBadComments = models.PositiveIntegerField(default=0)
 
-class Teacher(models.Model):
+class Teacher(BaseModel):
     DEGREE_CHOICES = (
         ('h', '高中'),
         ('s', '专科'),
@@ -156,13 +167,13 @@ class Teacher(models.Model):
 
     grade_subjects = models.ManyToManyField(GradeSubject)
 
-class Certification(models.Model):
+class Certification(BaseModel):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=100)
     img = models.ImageField()
     verified = models.BooleanField()
 
-class Interview(models.Model):
+class Interview(BaseModel):
     TOAPPROVE = 't'
     APPROVED = 'a'
     REJECTED = 'r'
@@ -181,12 +192,12 @@ class Interview(models.Model):
             choices=STATUS_CHOICES,
             default=TOAPPROVE)
 
-class BankCard(models.Model):
+class BankCard(BaseModel):
     bankName = models.CharField(max_length=100)
-    cardNumber = models.CharField(max_length=100)
+    cardNumber = models.CharField(max_length=100, unique=True)
     person = models.ForeignKey(Person)
 
-class BankCardRule(models.Model):
+class BankCardRule(BaseModel):
     org_code = models.CharField(max_length=30)
     bank_name = models.CharField(max_length=30)
     card_name = models.CharField(max_length=30)
@@ -195,11 +206,11 @@ class BankCardRule(models.Model):
     bin_code_length = models.PositiveIntegerField()
     bin_code = models.CharField(max_length=30)
 
-class Balance(models.Model):
+class Balance(BaseModel):
     person = models.OneToOneField(Person)
     balance = models.PositiveIntegerField()
 
-class Withdraw(models.Model):
+class Withdraw(BaseModel):
     person = models.ForeignKey(Person, related_name='my_withdraws')
     amount = models.PositiveIntegerField()
     bankcard = models.ForeignKey(BankCard)
@@ -208,16 +219,19 @@ class Withdraw(models.Model):
     done_by = models.ForeignKey(Person, related_name='processed_withdraws', null=True, blank=True)
     done_at = models.DateTimeField()
 
-class Feedback(models.Model):
+class Feedback(BaseModel):
     person = models.ForeignKey(Person, null=True, blank=True)
     contact = models.CharField(max_length=30)
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField()
 
-class Parent(models.Model):
+class Parent(BaseModel):
     person = models.ForeignKey(Person, null=True, blank=True)
 
-class Coupon(models.Model):
+    student_name = models.CharField(max_length=50)
+
+
+class Coupon(BaseModel):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
@@ -226,16 +240,20 @@ class Coupon(models.Model):
     used = models.BooleanField()
 
 
-class TimeSegment(models.Model):
+class TimeSegment(BaseModel):
     weekday = models.PositiveIntegerField()
     start = models.PositiveIntegerField()
     end = models.PositiveIntegerField()
 
-class AreaTimeSegment(models.Model):
+    class Meta:
+        unique_together = ('weekday', 'start', 'end')
+
+
+class AreaTimeSegment(BaseModel):
     area = models.ForeignKey(Area)
     time_segments = models.ManyToManyField(TimeSegment)
 
-class Order(models.Model):
+class Order(BaseModel):
     UNPAID = 'u'
     PAID = 'p'
     CANCLED = 'd'
@@ -266,7 +284,7 @@ class Order(models.Model):
         choices=STATUS_CHOICES,
     )
 
-class Course(models.Model):
+class Course(BaseModel):
     CONFIRMED_CHOICES = (
         ('s', 'System'),
         ('h', 'Human'),
@@ -287,14 +305,14 @@ class Course(models.Model):
     last_updated_at = models.DateTimeField()
     last_updated_by = models.ForeignKey(Person, null=True, blank=True)
 
-class Comment(models.Model):
+class Comment(BaseModel):
     course = models.ForeignKey(Course)
     ma_degree = models.PositiveIntegerField()
     la_degree = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField()
 
-class Message(models.Model):
+class Message(BaseModel):
     SYSTEM = 's'
     FINANCE = 'f'
     COURSE = 'c'
