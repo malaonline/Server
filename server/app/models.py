@@ -6,10 +6,10 @@ class Area(models.Model):
     Provice, City & Distric
     '''
     name = models.CharField(max_length=50)
-    parent = models.ForeignKey('Area', blank=True, null=True, default=None, on_delete=models.SET_NULL)
+    parent = models.ForeignKey('Area', blank=True, null=True, default=None,
+            on_delete=models.SET_NULL)
     level = models.PositiveIntegerField()
     leaf = models.BooleanField()
-
 
 class School(models.Model):
     name = models.CharField(max_length=100)
@@ -22,7 +22,8 @@ class School(models.Model):
 
 class Grade(models.Model):
     name = models.CharField(max_length=10)
-    parent = models.ForeignKey('Grade', blank=True, null=True, default=None, on_delete=models.SET_NULL)
+    parent = models.ForeignKey('Grade', blank=True, null=True, default=None,
+            on_delete=models.SET_NULL)
     leaf = models.BooleanField()
 
 class Subject(models.Model):
@@ -155,7 +156,7 @@ class Teacher(models.Model):
 
     grade_subjects = models.ManyToManyField(GradeSubject)
 
-class Certificaiton(models.Model):
+class Certification(models.Model):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=100)
     img = models.ImageField()
@@ -328,5 +329,4 @@ class Message(models.Model):
         choices=VIA_CHOICES,
     )
     created_at = models.DateTimeField()
-
 

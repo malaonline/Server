@@ -1,6 +1,30 @@
 from django.contrib import admin
 
-from .models import Teacher
+from .models import *
 
 
+admin.site.register(Area)
+admin.site.register(School)
+admin.site.register(Grade)
+admin.site.register(Subject)
+admin.site.register(GradeSubject)
+admin.site.register(Leveling)
+admin.site.register(AreaGradeSubjectLevelingPrice)
+admin.site.register(Role)
+admin.site.register(Person)
 admin.site.register(Teacher)
+admin.site.register(Certification)
+admin.site.register(Interview)
+admin.site.register(BankCard)
+admin.site.register(BankCardRule)
+admin.site.register(Balance)
+admin.site.register(Withdraw)
+admin.site.register(Feedback)
+admin.site.register(Parent)
+admin.site.register(Coupon)
+admin.site.register(TimeSegment)
+admin.site.register(AreaTimeSegment)
+admin.site.register(Order)
+admin.site.register(Course)
+admin.site.register(Comment)
+admin.site.register(Message)
