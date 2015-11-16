@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A57F4F091BF1CA8E004A711D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F081BF1CA8E004A711D /* LoginViewController.swift */; };
+		A57F4F0B1BF1CCAF004A711D /* AddressListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */; };
+		A57F4F0D1BF1CCCC004A711D /* BindCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */; };
+		A57F4F0F1BF1CCDD004A711D /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */; };
+		A57F4F111BF1CCE8004A711D /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */; };
+		A57F4F131BF1CCF2004A711D /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */; };
+		A57F4F151BF1CD06004A711D /* InterviewStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */; };
+		A57F4F171BF1CD15004A711D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F161BF1CD15004A711D /* JoinViewController.swift */; };
+		A57F4F191BF1CD23004A711D /* MemberServiceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */; };
+		A57F4F1B1BF1CD33004A711D /* MemberServiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */; };
+		A57F4F1D1BF1CD3E004A711D /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */; };
+		A57F4F1F1BF1CD47004A711D /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */; };
+		A57F4F211BF1CD54004A711D /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */; };
+		A57F4F231BF1CD5E004A711D /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */; };
+		A57F4F251BF1CD6E004A711D /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */; };
+		A57F4F271BF1CD7D004A711D /* RateCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */; };
+		A57F4F291BF1CD8B004A711D /* RenewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F281BF1CD8B004A711D /* RenewViewController.swift */; };
+		A57F4F2B1BF1CD96004A711D /* ScreenTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */; };
+		A57F4F2D1BF1CDA8004A711D /* TeacherCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */; };
+		A57F4F2F1BF1CDB2004A711D /* TeacherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */; };
+		A57F4F311BF1CDBE004A711D /* TeacherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */; };
+		A57F4F331BF1CDCA004A711D /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */; };
+		A57F4F351BF1CDD5004A711D /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */; };
+		A57F4F371BF1CDEE004A711D /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */; };
+		A5927B9E1BEC8BD900E9BDB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
+		A5927BA01BEC8BD900E9BDB4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
+		A5927BA21BEC8BD900E9BDB4 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
+		A5927BA41BEC8BD900E9BDB4 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */; };
+		A5927BA71BEC8BD900E9BDB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */; };
+		A5927BA91BEC8BD900E9BDB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */; };
+		A5927BAC1BEC8BD900E9BDB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
+		A5927BB71BEC8BD900E9BDB4 /* mala_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */; };
+		A5927BC21BEC8BD900E9BDB4 /* mala_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A5927BB31BEC8BD900E9BDB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5927B921BEC8BD900E9BDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5927B991BEC8BD900E9BDB4;
+			remoteInfo = "mala-ios";
+		};
+		A5927BBE1BEC8BD900E9BDB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5927B921BEC8BD900E9BDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5927B991BEC8BD900E9BDB4;
+			remoteInfo = "mala-ios";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A57F4F081BF1CA8E004A711D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressListViewController.swift; sourceTree = "<group>"; };
+		A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindCardViewController.swift; sourceTree = "<group>"; };
+		A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponListViewController.swift; sourceTree = "<group>"; };
+		A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
+		A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterviewStatusViewController.swift; sourceTree = "<group>"; };
+		A57F4F161BF1CD15004A711D /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceDetailViewController.swift; sourceTree = "<group>"; };
+		A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceListViewController.swift; sourceTree = "<group>"; };
+		A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentListViewController.swift; sourceTree = "<group>"; };
+		A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
+		A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethodViewController.swift; sourceTree = "<group>"; };
+		A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
+		A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
+		A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateCourseViewController.swift; sourceTree = "<group>"; };
+		A57F4F281BF1CD8B004A711D /* RenewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenewViewController.swift; sourceTree = "<group>"; };
+		A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTeacherViewController.swift; sourceTree = "<group>"; };
+		A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCommentListViewController.swift; sourceTree = "<group>"; };
+		A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailViewController.swift; sourceTree = "<group>"; };
+		A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherListViewController.swift; sourceTree = "<group>"; };
+		A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
+		A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
+		A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawViewController.swift; sourceTree = "<group>"; };
+		A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mala-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
+		A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
+		A5927BA61BEC8BD900E9BDB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A5927BAB1BEC8BD900E9BDB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A5927BAD1BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mala-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosTests.swift; sourceTree = "<group>"; };
+		A5927BB81BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mala-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosUITests.swift; sourceTree = "<group>"; };
+		A5927BC31BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A5927B971BEC8BD900E9BDB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BAF1BEC8BD900E9BDB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BBA1BEC8BD900E9BDB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A5927B911BEC8BD900E9BDB4 = {
+			isa = PBXGroup;
+			children = (
+				A5927B9C1BEC8BD900E9BDB4 /* mala-ios */,
+				A5927BB51BEC8BD900E9BDB4 /* mala-iosTests */,
+				A5927BC01BEC8BD900E9BDB4 /* mala-iosUITests */,
+				A5927B9B1BEC8BD900E9BDB4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A5927B9B1BEC8BD900E9BDB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */,
+				A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */,
+				A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5927B9C1BEC8BD900E9BDB4 /* mala-ios */ = {
+			isa = PBXGroup;
+			children = (
+				A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */,
+				A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */,
+				A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */,
+				A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */,
+				A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */,
+				A57F4F081BF1CA8E004A711D /* LoginViewController.swift */,
+				A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */,
+				A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */,
+				A5927BAD1BEC8BD900E9BDB4 /* Info.plist */,
+				A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */,
+				A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */,
+				A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */,
+				A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */,
+				A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */,
+				A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */,
+				A57F4F161BF1CD15004A711D /* JoinViewController.swift */,
+				A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */,
+				A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */,
+				A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */,
+				A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */,
+				A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */,
+				A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */,
+				A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */,
+				A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */,
+				A57F4F281BF1CD8B004A711D /* RenewViewController.swift */,
+				A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */,
+				A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */,
+				A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */,
+				A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */,
+				A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */,
+				A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */,
+				A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */,
+			);
+			path = "mala-ios";
+			sourceTree = "<group>";
+		};
+		A5927BB51BEC8BD900E9BDB4 /* mala-iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */,
+				A5927BB81BEC8BD900E9BDB4 /* Info.plist */,
+			);
+			path = "mala-iosTests";
+			sourceTree = "<group>";
+		};
+		A5927BC01BEC8BD900E9BDB4 /* mala-iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */,
+				A5927BC31BEC8BD900E9BDB4 /* Info.plist */,
+			);
+			path = "mala-iosUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5927B991BEC8BD900E9BDB4 /* mala-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5927BC61BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-ios" */;
+			buildPhases = (
+				A5927B961BEC8BD900E9BDB4 /* Sources */,
+				A5927B971BEC8BD900E9BDB4 /* Frameworks */,
+				A5927B981BEC8BD900E9BDB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mala-ios";
+			productName = "mala-ios";
+			productReference = A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A5927BB11BEC8BD900E9BDB4 /* mala-iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5927BC91BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosTests" */;
+			buildPhases = (
+				A5927BAE1BEC8BD900E9BDB4 /* Sources */,
+				A5927BAF1BEC8BD900E9BDB4 /* Frameworks */,
+				A5927BB01BEC8BD900E9BDB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5927BB41BEC8BD900E9BDB4 /* PBXTargetDependency */,
+			);
+			name = "mala-iosTests";
+			productName = "mala-iosTests";
+			productReference = A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A5927BBC1BEC8BD900E9BDB4 /* mala-iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5927BCC1BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosUITests" */;
+			buildPhases = (
+				A5927BB91BEC8BD900E9BDB4 /* Sources */,
+				A5927BBA1BEC8BD900E9BDB4 /* Frameworks */,
+				A5927BBB1BEC8BD900E9BDB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5927BBF1BEC8BD900E9BDB4 /* PBXTargetDependency */,
+			);
+			name = "mala-iosUITests";
+			productName = "mala-iosUITests";
+			productReference = A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A5927B921BEC8BD900E9BDB4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Mala Online";
+				TargetAttributes = {
+					A5927B991BEC8BD900E9BDB4 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					A5927BB11BEC8BD900E9BDB4 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = A5927B991BEC8BD900E9BDB4;
+					};
+					A5927BBC1BEC8BD900E9BDB4 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = A5927B991BEC8BD900E9BDB4;
+					};
+				};
+			};
+			buildConfigurationList = A5927B951BEC8BD900E9BDB4 /* Build configuration list for PBXProject "mala-ios" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A5927B911BEC8BD900E9BDB4;
+			productRefGroup = A5927B9B1BEC8BD900E9BDB4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5927B991BEC8BD900E9BDB4 /* mala-ios */,
+				A5927BB11BEC8BD900E9BDB4 /* mala-iosTests */,
+				A5927BBC1BEC8BD900E9BDB4 /* mala-iosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5927B981BEC8BD900E9BDB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5927BAC1BEC8BD900E9BDB4 /* LaunchScreen.storyboard in Resources */,
+				A5927BA91BEC8BD900E9BDB4 /* Assets.xcassets in Resources */,
+				A5927BA71BEC8BD900E9BDB4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BB01BEC8BD900E9BDB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BBB1BEC8BD900E9BDB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5927B961BEC8BD900E9BDB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A57F4F0F1BF1CCDD004A711D /* CouponListViewController.swift in Sources */,
+				A57F4F131BF1CCF2004A711D /* IncomeViewController.swift in Sources */,
+				A57F4F1B1BF1CD33004A711D /* MemberServiceListViewController.swift in Sources */,
+				A57F4F251BF1CD6E004A711D /* PlaceOrderViewController.swift in Sources */,
+				A5927BA01BEC8BD900E9BDB4 /* RootViewController.swift in Sources */,
+				A57F4F231BF1CD5E004A711D /* PaymentResultViewController.swift in Sources */,
+				A57F4F211BF1CD54004A711D /* PaymentMethodViewController.swift in Sources */,
+				A57F4F091BF1CA8E004A711D /* LoginViewController.swift in Sources */,
+				A57F4F1D1BF1CD3E004A711D /* MyCommentListViewController.swift in Sources */,
+				A57F4F151BF1CD06004A711D /* InterviewStatusViewController.swift in Sources */,
+				A5927BA41BEC8BD900E9BDB4 /* ModelController.swift in Sources */,
+				A57F4F1F1BF1CD47004A711D /* OrderDetailViewController.swift in Sources */,
+				A57F4F0D1BF1CCCC004A711D /* BindCardViewController.swift in Sources */,
+				A57F4F0B1BF1CCAF004A711D /* AddressListViewController.swift in Sources */,
+				A57F4F2F1BF1CDB2004A711D /* TeacherDetailViewController.swift in Sources */,
+				A57F4F2D1BF1CDA8004A711D /* TeacherCommentListViewController.swift in Sources */,
+				A57F4F371BF1CDEE004A711D /* WithdrawViewController.swift in Sources */,
+				A57F4F351BF1CDD5004A711D /* TransactionListViewController.swift in Sources */,
+				A57F4F311BF1CDBE004A711D /* TeacherListViewController.swift in Sources */,
+				A57F4F291BF1CD8B004A711D /* RenewViewController.swift in Sources */,
+				A5927BA21BEC8BD900E9BDB4 /* DataViewController.swift in Sources */,
+				A57F4F111BF1CCE8004A711D /* FeedbackViewController.swift in Sources */,
+				A57F4F331BF1CDCA004A711D /* TimetableViewController.swift in Sources */,
+				A57F4F171BF1CD15004A711D /* JoinViewController.swift in Sources */,
+				A57F4F271BF1CD7D004A711D /* RateCourseViewController.swift in Sources */,
+				A5927B9E1BEC8BD900E9BDB4 /* AppDelegate.swift in Sources */,
+				A57F4F191BF1CD23004A711D /* MemberServiceDetailViewController.swift in Sources */,
+				A57F4F2B1BF1CD96004A711D /* ScreenTeacherViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BAE1BEC8BD900E9BDB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5927BB71BEC8BD900E9BDB4 /* mala_iosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5927BB91BEC8BD900E9BDB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5927BC21BEC8BD900E9BDB4 /* mala_iosUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A5927BB41BEC8BD900E9BDB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5927B991BEC8BD900E9BDB4 /* mala-ios */;
+			targetProxy = A5927BB31BEC8BD900E9BDB4 /* PBXContainerItemProxy */;
+		};
+		A5927BBF1BEC8BD900E9BDB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5927B991BEC8BD900E9BDB4 /* mala-ios */;
+			targetProxy = A5927BBE1BEC8BD900E9BDB4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5927BA61BEC8BD900E9BDB4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5927BAB1BEC8BD900E9BDB4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A5927BC41BEC8BD900E9BDB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A5927BC51BEC8BD900E9BDB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A5927BC71BEC8BD900E9BDB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A5927BC81BEC8BD900E9BDB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A5927BCA1BEC8BD900E9BDB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "mala-iosTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mala-ios.app/mala-ios";
+			};
+			name = Debug;
+		};
+		A5927BCB1BEC8BD900E9BDB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "mala-iosTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mala-ios.app/mala-ios";
+			};
+			name = Release;
+		};
+		A5927BCD1BEC8BD900E9BDB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "mala-iosUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "mala-ios";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		A5927BCE1BEC8BD900E9BDB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "mala-iosUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "mala-ios";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A5927B951BEC8BD900E9BDB4 /* Build configuration list for PBXProject "mala-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5927BC41BEC8BD900E9BDB4 /* Debug */,
+				A5927BC51BEC8BD900E9BDB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5927BC61BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5927BC71BEC8BD900E9BDB4 /* Debug */,
+				A5927BC81BEC8BD900E9BDB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5927BC91BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5927BCA1BEC8BD900E9BDB4 /* Debug */,
+				A5927BCB1BEC8BD900E9BDB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5927BCC1BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5927BCD1BEC8BD900E9BDB4 /* Debug */,
+				A5927BCE1BEC8BD900E9BDB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A5927B921BEC8BD900E9BDB4 /* Project object */;
+}
