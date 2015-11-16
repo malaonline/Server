@@ -15,20 +15,29 @@ class Area(BaseModel):
     level = models.PositiveIntegerField()
     leaf = models.BooleanField()
 
+    def __str__(self):
+        return '%s (%d)' % (self.name, self.level)
+
 class School(BaseModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
-    thumbnail = models.ImageField(upload_to='schools')
+    thumbnail = models.ImageField(upload_to='schools', null=True, blank=True)
     area = models.ForeignKey(Area)
     center = models.BooleanField()
     longitude = models.IntegerField()
     latitude = models.IntegerField()
+
+    def __str__(self):
+        return '%s %s %s' % (self.area, self.name, 'C' if self.center else '')
 
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     parent = models.ForeignKey('Grade', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     leaf = models.BooleanField()
+
+    def __str__(self):
+        return self.name
 
 class Subject(BaseModel):
     CHINESE = 'ch'
@@ -59,12 +68,18 @@ class Subject(BaseModel):
         choices=SUBJECT_CHOICES,
     )
 
+    def __str__(self):
+        return self.get_name_display()
+
 class GradeSubject(BaseModel):
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
 
     class Meta:
         unique_together = ('grade', 'subject')
+
+    def __str__(self):
+        return '%s%s' % (self.grade, self.subject)
 
 class Leveling(BaseModel):
     PRIMARY = 'pr'
@@ -94,6 +109,10 @@ class AreaGradeSubjectLevelingPrice(BaseModel):
     class Meta:
         unique_together = ('area', 'grade_subject', 'leveling')
 
+    def __str__(self):
+        return '%s%s%s => %d' % (self.area, self.grade_subject, self.leveling,
+                self.price)
+
 class Role(BaseModel):
     SUPERUSER = 'su'
     MANAGER = 'ma'
@@ -118,6 +137,9 @@ class Role(BaseModel):
     name = models.CharField(max_length=2, unique=True, choices=ROLE_CHOICES,
             default=PARENT)
 
+    def __str__(self):
+        return self.get_name_display()
+
 class Person(BaseModel):
     '''
     For extending the system class: User
@@ -138,11 +160,10 @@ class Person(BaseModel):
             choices=GENDER_CHOICES,
             default=UNKNOWN,
     )
-    avatar = models.ImageField()
+    avatar = models.ImageField(null=True, blank=True)
 
-    nGoodComments = models.PositiveIntegerField(default=0)
-    nMidComments = models.PositiveIntegerField(default=0)
-    nBadComments = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return '%s (%s, %s)' % (self.name, self.role, self.gender)
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
@@ -167,11 +188,19 @@ class Teacher(BaseModel):
 
     grade_subjects = models.ManyToManyField(GradeSubject)
 
+    def __str__(self):
+        return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
+                'Banned' if not self.active else '')
+
 class Certification(BaseModel):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=100)
-    img = models.ImageField()
+    img = models.ImageField(null=True, blank=True)
     verified = models.BooleanField()
+
+    def __str__(self):
+        return '%s, %s : %s' % (self.person, self.name,
+                'V' if self.verified else '')
 
 class Interview(BaseModel):
     TOAPPROVE = 't'
@@ -184,18 +213,24 @@ class Interview(BaseModel):
     )
 
     teacher = models.ForeignKey(Teacher)
-    created_at = models.DateTimeField()
-    reviewed_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    reviewed_at = models.DateTimeField(auto_now=True)
     reviewed_by = models.ForeignKey(Person)
     review_msg = models.CharField(max_length=1000)
     status = models.CharField(max_length=1,
             choices=STATUS_CHOICES,
             default=TOAPPROVE)
 
+    def __str__(self):
+        return '%s by %s' % (self.teacher, self.reviewed_by)
+
 class BankCard(BaseModel):
-    bankName = models.CharField(max_length=100)
-    cardNumber = models.CharField(max_length=100, unique=True)
+    bank_name = models.CharField(max_length=100)
+    card_number = models.CharField(max_length=100, unique=True)
     person = models.ForeignKey(Person)
+
+    def __str__(self):
+        return '%s %s (%s)' % (self.bank_name, self.card_number, self.person)
 
 class BankCardRule(BaseModel):
     org_code = models.CharField(max_length=30)
@@ -206,9 +241,16 @@ class BankCardRule(BaseModel):
     bin_code_length = models.PositiveIntegerField()
     bin_code = models.CharField(max_length=30)
 
+    def __str__(self):
+        return '%s, %s, %s (%s)' % (self.bank_name, self.card_name,
+                self.card_type, self.bin_code)
+
 class Balance(BaseModel):
     person = models.OneToOneField(Person)
     balance = models.PositiveIntegerField()
+
+    def __str__(self):
+        return '%s : %d' % (self.person, self.balance)
 
 class Withdraw(BaseModel):
     person = models.ForeignKey(Person, related_name='my_withdraws')
@@ -219,39 +261,57 @@ class Withdraw(BaseModel):
     done_by = models.ForeignKey(Person, related_name='processed_withdraws', null=True, blank=True)
     done_at = models.DateTimeField()
 
+    def __str__(self):
+        return '%s %s : %s' % (self.person, self.amount,
+                'D' if self.done else '')
+
 class Feedback(BaseModel):
     person = models.ForeignKey(Person, null=True, blank=True)
     contact = models.CharField(max_length=30)
     content = models.CharField(max_length=500)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s %s %s' % (self.person, self.contact, self.created_at)
 
 class Parent(BaseModel):
     person = models.ForeignKey(Person, null=True, blank=True)
 
     student_name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return "%s's parent" % self.student_name
 
 class Coupon(BaseModel):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     expired_at = models.DateTimeField()
     used = models.BooleanField()
 
+    def __str__(self):
+        return '%s, %s (%s) %s' % (self.person, self.amount, self.expired_at,
+                'D' if self.used else '')
 
 class TimeSegment(BaseModel):
     weekday = models.PositiveIntegerField()
-    start = models.PositiveIntegerField()
-    end = models.PositiveIntegerField()
+    start = models.TimeField()
+    end = models.TimeField()
 
     class Meta:
         unique_together = ('weekday', 'start', 'end')
+
+    def __str__(self):
+        return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
 
 class AreaTimeSegment(BaseModel):
     area = models.ForeignKey(Area)
     time_segments = models.ManyToManyField(TimeSegment)
+
+    def __str__(self):
+        return self.area
 
 class Order(BaseModel):
     UNPAID = 'u'
@@ -277,12 +337,16 @@ class Order(BaseModel):
     charge_id = models.CharField(max_length=100) # For Ping++ use
     total = models.PositiveIntegerField()
 
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField()
 
     status = models.CharField(max_length=2,
         choices=STATUS_CHOICES,
     )
+
+    def __str__(self):
+        return '%s %s %s %s : %s' % (self.school, self.parent, self.teacher,
+                self.grade_subect, self.total)
 
 class Course(BaseModel):
     CONFIRMED_CHOICES = (
@@ -301,16 +365,22 @@ class Course(BaseModel):
     )
     transformed_from = models.ForeignKey('Course', null=True, blank=True)
 
-    created_at = models.DateTimeField()
-    last_updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(Person, null=True, blank=True)
+
+    def __str__(self):
+        return '%s %s' % (self.date, self.last_updated_by)
 
 class Comment(BaseModel):
     course = models.ForeignKey(Course)
     ma_degree = models.PositiveIntegerField()
     la_degree = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s : %d, %d' % (self.course, self.ma_degree, self.la_degree)
 
 class Message(BaseModel):
     SYSTEM = 's'
@@ -346,5 +416,8 @@ class Message(BaseModel):
     via = models.CharField(max_length=1,
         choices=VIA_CHOICES,
     )
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s, %s, to %s, %s' % (self.get__type_display(), self.get_via_display(), self.to, self.title)
 
