@@ -40,36 +40,10 @@ class Grade(BaseModel):
         return self.name
 
 class Subject(BaseModel):
-    CHINESE = 'ch'
-    MATH = 'ma'
-    ENGLISH = 'en'
-
-    PHYSICS = 'ph'
-    CHEMICAL = 'cm'
-    BIOLOGY = 'bi'
-
-    HISTORY = 'hi'
-    GEOGOROPHY = 'ge'
-    POLITICS = 'po'
-
-    SUBJECT_CHOICES = (
-        (CHINESE, '语文'),
-        (MATH, '数学'),
-        (ENGLISH, '英语'),
-        (PHYSICS, '物理 '),
-        (CHEMICAL, '化学'),
-        (BIOLOGY, '生物'),
-        (HISTORY, '历史'),
-        (GEOGOROPHY, '地理'),
-        (POLITICS, '政治'),
-    )
-
-    name = models.CharField(max_length=2, unique=True,
-        choices=SUBJECT_CHOICES,
-    )
+    name = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
-        return self.get_name_display()
+        return self.name
 
 class GradeSubject(BaseModel):
     grade = models.ForeignKey(Grade)
@@ -82,23 +56,9 @@ class GradeSubject(BaseModel):
         return '%s%s' % (self.grade, self.subject)
 
 class Level(BaseModel):
-    PRIMARY = 'pr'
-    MIDDLING = 'md'
-    SENIOR = 'se'
-    PARTNER = 'pa'
-
-    LEVEL_CHOICES = (
-        (PRIMARY, '初级'),
-        (MIDDLING, '中级'),
-        (SENIOR, '高级'),
-        (PARTNER, '合伙人'),
-    )
-
-    name = models.CharField(max_length=2, unique=True,
-        choices=LEVEL_CHOICES
-    )
+    name = models.CharField(max_length=20, unique=True)
     def __str__(self):
-        return self.get_name_display()
+        return self.name
 
 class RegionGradeSubjectLevelPrice(BaseModel):
     region = models.ForeignKey(Region)
@@ -114,31 +74,10 @@ class RegionGradeSubjectLevelPrice(BaseModel):
                 self.price)
 
 class Role(BaseModel):
-    SUPERUSER = 'su'
-    MANAGER = 'ma'
-    TEACHER = 'te'
-    STUDENT = 'st'
-    PARENT = 'pa'
-    CASHIER = 'ca'
-    CUSTOMESERVICE = 'se'
-    SCHOOLMANAGER = 'sm'
-    CITYMANAGER = 'cm'
-    ROLE_CHOICES = (
-        (SUPERUSER, '超级管理员'),
-        (MANAGER, '普通管理员'),
-        (TEACHER, '老师'),
-        (STUDENT, '学生'),
-        (PARENT, '家长'),
-        (CASHIER, '出纳'),
-        (CUSTOMESERVICE, '客服'),
-        (SCHOOLMANAGER, '社区店管理员'),
-        (CITYMANAGER, '城市管理员'),
-    )
-    name = models.CharField(max_length=2, unique=True, choices=ROLE_CHOICES,
-            default=PARENT)
+    name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
-        return self.get_name_display()
+        return self.name
 
 class Person(BaseModel):
     '''
@@ -202,7 +141,7 @@ class Certification(BaseModel):
         return '%s, %s : %s' % (self.person, self.name,
                 'V' if self.verified else '')
 
-class Interview(BaseModel):
+class InterviewRecord(BaseModel):
     TOAPPROVE = 't'
     APPROVED = 'a'
     REJECTED = 'r'
