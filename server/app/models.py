@@ -9,7 +9,7 @@ class Region(BaseModel):
     '''
     Provice, City & Distric
     '''
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     superset = models.ForeignKey('Region', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     admin_level = models.PositiveIntegerField()
