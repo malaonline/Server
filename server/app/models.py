@@ -5,34 +5,34 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-class Area(BaseModel):
+class Region(BaseModel):
     '''
     Provice, City & Distric
     '''
     name = models.CharField(max_length=50, unique=True)
-    parent = models.ForeignKey('Area', blank=True, null=True, default=None,
+    superset = models.ForeignKey('Region', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
-    level = models.PositiveIntegerField()
+    admin_level = models.PositiveIntegerField()
     leaf = models.BooleanField()
 
     def __str__(self):
-        return '%s (%d)' % (self.name, self.level)
+        return '%s (%d)' % (self.name, self.admin_level)
 
 class School(BaseModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     thumbnail = models.ImageField(upload_to='schools', null=True, blank=True)
-    area = models.ForeignKey(Area)
+    region = models.ForeignKey(Region)
     center = models.BooleanField()
     longitude = models.IntegerField()
     latitude = models.IntegerField()
 
     def __str__(self):
-        return '%s %s %s' % (self.area, self.name, 'C' if self.center else '')
+        return '%s %s %s' % (self.region, self.name, 'C' if self.center else '')
 
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
-    parent = models.ForeignKey('Grade', blank=True, null=True, default=None,
+    superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     leaf = models.BooleanField()
 
@@ -81,13 +81,13 @@ class GradeSubject(BaseModel):
     def __str__(self):
         return '%s%s' % (self.grade, self.subject)
 
-class Leveling(BaseModel):
+class Level(BaseModel):
     PRIMARY = 'pr'
     MIDDLING = 'md'
     SENIOR = 'se'
     PARTNER = 'pa'
 
-    LEVELING_CHOICES = (
+    LEVEL_CHOICES = (
         (PRIMARY, '初级'),
         (MIDDLING, '中级'),
         (SENIOR, '高级'),
@@ -95,22 +95,22 @@ class Leveling(BaseModel):
     )
 
     name = models.CharField(max_length=2, unique=True,
-        choices=LEVELING_CHOICES
+        choices=LEVEL_CHOICES
     )
     def __str__(self):
         return self.get_name_display()
 
-class AreaGradeSubjectLevelingPrice(BaseModel):
-    area = models.ForeignKey(Area)
+class RegionGradeSubjectLevelPrice(BaseModel):
+    region = models.ForeignKey(Region)
     grade_subject = models.ForeignKey(GradeSubject)
-    leveling = models.ForeignKey(Leveling)
+    level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = ('area', 'grade_subject', 'leveling')
+        unique_together = ('region', 'grade_subject', 'level')
 
     def __str__(self):
-        return '%s%s%s => %d' % (self.area, self.grade_subject, self.leveling,
+        return '%s%s%s => %d' % (self.region, self.grade_subject, self.level,
                 self.price)
 
 class Role(BaseModel):
@@ -184,7 +184,7 @@ class Teacher(BaseModel):
 
     schools = models.ManyToManyField(School)
 
-    leveling = models.ForeignKey(Leveling)
+    level = models.ForeignKey(Level)
 
     grade_subjects = models.ManyToManyField(GradeSubject)
 
@@ -232,7 +232,7 @@ class BankCard(BaseModel):
     def __str__(self):
         return '%s %s (%s)' % (self.bank_name, self.card_number, self.person)
 
-class BankCardRule(BaseModel):
+class BankCodeInfo(BaseModel):
     org_code = models.CharField(max_length=30)
     bank_name = models.CharField(max_length=30)
     card_name = models.CharField(max_length=30)
@@ -294,7 +294,7 @@ class Coupon(BaseModel):
         return '%s, %s (%s) %s' % (self.person, self.amount, self.expired_at,
                 'D' if self.used else '')
 
-class TimeSegment(BaseModel):
+class TimeTable(BaseModel):
     weekday = models.PositiveIntegerField()
     start = models.TimeField()
     end = models.TimeField()
@@ -306,12 +306,12 @@ class TimeSegment(BaseModel):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
 
-class AreaTimeSegment(BaseModel):
-    area = models.ForeignKey(Area)
-    time_segments = models.ManyToManyField(TimeSegment)
+class RegionTimeTable(BaseModel):
+    region = models.ForeignKey(Region)
+    time_tables = models.ManyToManyField(TimeTable)
 
     def __str__(self):
-        return self.area
+        return self.region
 
 class Order(BaseModel):
     UNPAID = 'u'
@@ -330,7 +330,7 @@ class Order(BaseModel):
     school = models.ForeignKey(School)
     grade_subject = models.ForeignKey(GradeSubject)
     coupon = models.ForeignKey(Coupon)
-    time_segments = models.ManyToManyField(TimeSegment)
+    time_tables = models.ManyToManyField(TimeTable)
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
@@ -348,14 +348,14 @@ class Order(BaseModel):
         return '%s %s %s %s : %s' % (self.school, self.parent, self.teacher,
                 self.grade_subect, self.total)
 
-class Course(BaseModel):
+class PlannedCourse(BaseModel):
     CONFIRMED_CHOICES = (
         ('s', 'System'),
         ('h', 'Human'),
     )
     order = models.ForeignKey(Order)
     date = models.DateField()
-    time_segment = models.ForeignKey(TimeSegment)
+    time_table = models.ForeignKey(TimeTable)
 
     cancled = models.BooleanField()
     attended = models.BooleanField()
@@ -363,7 +363,8 @@ class Course(BaseModel):
     confirmed_by = models.CharField(max_length=1,
         choices=CONFIRMED_CHOICES,
     )
-    transformed_from = models.ForeignKey('Course', null=True, blank=True)
+    transformed_from = models.ForeignKey('PlannedCourse', null=True,
+            blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
@@ -373,7 +374,7 @@ class Course(BaseModel):
         return '%s %s' % (self.date, self.last_updated_by)
 
 class Comment(BaseModel):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(PlannedCourse)
     ma_degree = models.PositiveIntegerField()
     la_degree = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
@@ -420,4 +421,3 @@ class Message(BaseModel):
 
     def __str__(self):
         return '%s, %s, to %s, %s' % (self.get__type_display(), self.get_via_display(), self.to, self.title)
-
