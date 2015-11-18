@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from django.conf import settings
 import django.db.models.deletion
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Balance',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('balance', models.PositiveIntegerField()),
             ],
             options={
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BankCard',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('bank_name', models.CharField(max_length=100)),
                 ('card_number', models.CharField(max_length=100, unique=True)),
             ],
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BankCodeInfo',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('org_code', models.CharField(max_length=30)),
                 ('bank_name', models.CharField(max_length=30)),
                 ('card_name', models.CharField(max_length=30)),
@@ -53,9 +53,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Certification',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
-                ('img', models.ImageField(null=True, upload_to='', blank=True)),
+                ('img', models.ImageField(blank=True, upload_to='', null=True)),
                 ('verified', models.BooleanField()),
             ],
             options={
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('ma_degree', models.PositiveIntegerField()),
                 ('la_degree', models.PositiveIntegerField()),
                 ('content', models.CharField(max_length=500)),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Coupon',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
                 ('amount', models.PositiveIntegerField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Feedback',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('contact', models.CharField(max_length=30)),
                 ('content', models.CharField(max_length=500)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -104,10 +104,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Grade',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=10, unique=True)),
                 ('leaf', models.BooleanField()),
-                ('superset', models.ForeignKey(to='app.Grade', null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, default=None)),
+                ('superset', models.ForeignKey(to='app.Grade', default=None, null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL)),
             ],
             options={
                 'abstract': False,
@@ -116,18 +116,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GradeSubject',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('grade', models.ForeignKey(to='app.Grade')),
             ],
         ),
         migrations.CreateModel(
             name='InterviewRecord',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('reviewed_at', models.DateTimeField(auto_now=True)),
                 ('review_msg', models.CharField(max_length=1000)),
-                ('status', models.CharField(choices=[('t', '待认证'), ('a', '已认证'), ('r', '已拒绝')], max_length=1, default='t')),
+                ('status', models.CharField(max_length=1, default='t', choices=[('t', '待认证'), ('a', '已认证'), ('r', '已拒绝')])),
             ],
             options={
                 'abstract': False,
@@ -136,7 +136,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Level',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=20, unique=True)),
             ],
             options={
@@ -146,13 +146,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Message',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('viewed', models.BooleanField()),
                 ('deleted', models.BooleanField()),
                 ('title', models.CharField(max_length=100)),
                 ('content', models.CharField(max_length=1000)),
-                ('_type', models.CharField(choices=[('s', '系统消息'), ('f', '收入消息'), ('c', '课程消息'), ('a', '审核消息'), ('m', '评论消息')], max_length=1)),
-                ('via', models.CharField(choices=[('s', '短信'), ('m', '邮件'), ('n', '通知栏提醒')], max_length=1)),
+                ('_type', models.CharField(max_length=1, choices=[('s', '系统消息'), ('f', '收入消息'), ('c', '课程消息'), ('a', '审核消息'), ('m', '评论消息')])),
+                ('via', models.CharField(max_length=1, choices=[('s', '短信'), ('m', '邮件'), ('n', '通知栏提醒')])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
             options={
@@ -162,14 +162,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('price', models.PositiveIntegerField()),
                 ('hours', models.PositiveIntegerField()),
                 ('charge_id', models.CharField(max_length=100)),
                 ('total', models.PositiveIntegerField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('paid_at', models.DateTimeField()),
-                ('status', models.CharField(choices=[('u', '待付款'), ('p', '已付款'), ('d', '已取消'), ('c', '已完成')], max_length=2)),
+                ('status', models.CharField(max_length=2, choices=[('u', '待付款'), ('p', '已付款'), ('d', '已取消'), ('c', '已完成')])),
                 ('coupon', models.ForeignKey(to='app.Coupon')),
                 ('grade_subject', models.ForeignKey(to='app.GradeSubject')),
             ],
@@ -180,7 +180,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Parent',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('student_name', models.CharField(max_length=50)),
             ],
             options={
@@ -190,10 +190,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Person',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200, default='')),
-                ('gender', models.CharField(choices=[('f', '女'), ('m', '男'), ('u', '未知')], max_length=1, default='u')),
-                ('avatar', models.ImageField(null=True, upload_to='', blank=True)),
+                ('gender', models.CharField(max_length=1, default='u', choices=[('f', '女'), ('m', '男'), ('u', '未知')])),
+                ('avatar', models.ImageField(blank=True, upload_to='', null=True)),
             ],
             options={
                 'abstract': False,
@@ -202,15 +202,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PlannedCourse',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date', models.DateField()),
                 ('cancled', models.BooleanField()),
                 ('attended', models.BooleanField()),
                 ('commented', models.BooleanField()),
-                ('confirmed_by', models.CharField(choices=[('s', 'System'), ('h', 'Human')], max_length=1)),
+                ('confirmed_by', models.CharField(max_length=1, choices=[('s', 'System'), ('h', 'Human')])),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('last_updated_at', models.DateTimeField(auto_now=True)),
-                ('last_updated_by', models.ForeignKey(to='app.Person', null=True, blank=True)),
+                ('last_updated_by', models.ForeignKey(to='app.Person', blank=True, null=True)),
                 ('order', models.ForeignKey(to='app.Order')),
             ],
             options={
@@ -220,11 +220,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Region',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
                 ('admin_level', models.PositiveIntegerField()),
                 ('leaf', models.BooleanField()),
-                ('superset', models.ForeignKey(to='app.Region', null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, default=None)),
+                ('superset', models.ForeignKey(to='app.Region', default=None, null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL)),
             ],
             options={
                 'abstract': False,
@@ -233,7 +233,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RegionGradeSubjectLevelPrice',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('price', models.PositiveIntegerField()),
                 ('grade_subject', models.ForeignKey(to='app.GradeSubject')),
                 ('level', models.ForeignKey(to='app.Level')),
@@ -241,9 +241,9 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='RegionTimeTable',
+            name='RegionTimeSlot',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('region', models.ForeignKey(to='app.Region')),
             ],
             options={
@@ -253,7 +253,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Role',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=20, unique=True)),
             ],
             options={
@@ -263,10 +263,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='School',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
                 ('address', models.CharField(max_length=200)),
-                ('thumbnail', models.ImageField(null=True, upload_to='schools', blank=True)),
+                ('thumbnail', models.ImageField(blank=True, upload_to='schools', null=True)),
                 ('center', models.BooleanField()),
                 ('longitude', models.IntegerField()),
                 ('latitude', models.IntegerField()),
@@ -279,7 +279,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subject',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=10, unique=True)),
             ],
             options={
@@ -289,9 +289,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Teacher',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
-                ('degree', models.CharField(choices=[('h', '高中'), ('s', '专科'), ('b', '本科'), ('p', '研究生')], max_length=2)),
+                ('degree', models.CharField(max_length=2, choices=[('h', '高中'), ('s', '专科'), ('b', '本科'), ('p', '研究生')])),
                 ('active', models.BooleanField()),
                 ('fulltime', models.BooleanField()),
                 ('grade_subjects', models.ManyToManyField(to='app.GradeSubject')),
@@ -304,9 +304,9 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='TimeTable',
+            name='TimeSlot',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('weekday', models.PositiveIntegerField()),
                 ('start', models.TimeField()),
                 ('end', models.TimeField()),
@@ -315,13 +315,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Withdraw',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('amount', models.PositiveIntegerField()),
                 ('submit_time', models.DateTimeField()),
                 ('done', models.BooleanField()),
                 ('done_at', models.DateTimeField()),
                 ('bankcard', models.ForeignKey(to='app.BankCard')),
-                ('done_by', models.ForeignKey(to='app.Person', null=True, blank=True, related_name='processed_withdraws')),
+                ('done_by', models.ForeignKey(to='app.Person', related_name='processed_withdraws', blank=True, null=True)),
                 ('person', models.ForeignKey(to='app.Person', related_name='my_withdraws')),
             ],
             options={
@@ -329,28 +329,28 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AlterUniqueTogether(
-            name='timetable',
+            name='timeslot',
             unique_together=set([('weekday', 'start', 'end')]),
         ),
         migrations.AddField(
-            model_name='regiontimetable',
-            name='time_tables',
-            field=models.ManyToManyField(to='app.TimeTable'),
+            model_name='regiontimeslot',
+            name='time_slots',
+            field=models.ManyToManyField(to='app.TimeSlot'),
         ),
         migrations.AddField(
             model_name='plannedcourse',
-            name='time_table',
-            field=models.ForeignKey(to='app.TimeTable'),
+            name='time_slot',
+            field=models.ForeignKey(to='app.TimeSlot'),
         ),
         migrations.AddField(
             model_name='plannedcourse',
             name='transformed_from',
-            field=models.ForeignKey(to='app.PlannedCourse', null=True, blank=True),
+            field=models.ForeignKey(to='app.PlannedCourse', blank=True, null=True),
         ),
         migrations.AddField(
             model_name='person',
             name='role',
-            field=models.ForeignKey(to='app.Role', null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL),
+            field=models.ForeignKey(to='app.Role', blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL),
         ),
         migrations.AddField(
             model_name='person',
@@ -360,7 +360,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='parent',
             name='person',
-            field=models.ForeignKey(to='app.Person', null=True, blank=True),
+            field=models.ForeignKey(to='app.Person', blank=True, null=True),
         ),
         migrations.AddField(
             model_name='order',
@@ -379,8 +379,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='order',
-            name='time_tables',
-            field=models.ManyToManyField(to='app.TimeTable'),
+            name='time_slots',
+            field=models.ManyToManyField(to='app.TimeSlot'),
         ),
         migrations.AddField(
             model_name='message',
@@ -405,7 +405,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='feedback',
             name='person',
-            field=models.ForeignKey(to='app.Person', null=True, blank=True),
+            field=models.ForeignKey(to='app.Person', blank=True, null=True),
         ),
         migrations.AddField(
             model_name='coupon',

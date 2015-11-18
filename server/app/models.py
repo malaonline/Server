@@ -233,7 +233,7 @@ class Coupon(BaseModel):
         return '%s, %s (%s) %s' % (self.person, self.amount, self.expired_at,
                 'D' if self.used else '')
 
-class TimeTable(BaseModel):
+class TimeSlot(BaseModel):
     weekday = models.PositiveIntegerField()
     start = models.TimeField()
     end = models.TimeField()
@@ -245,9 +245,9 @@ class TimeTable(BaseModel):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
 
-class RegionTimeTable(BaseModel):
+class RegionTimeSlot(BaseModel):
     region = models.ForeignKey(Region)
-    time_tables = models.ManyToManyField(TimeTable)
+    time_slots = models.ManyToManyField(TimeSlot)
 
     def __str__(self):
         return self.region
@@ -269,7 +269,7 @@ class Order(BaseModel):
     school = models.ForeignKey(School)
     grade_subject = models.ForeignKey(GradeSubject)
     coupon = models.ForeignKey(Coupon)
-    time_tables = models.ManyToManyField(TimeTable)
+    time_slots = models.ManyToManyField(TimeSlot)
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
@@ -294,7 +294,7 @@ class PlannedCourse(BaseModel):
     )
     order = models.ForeignKey(Order)
     date = models.DateField()
-    time_table = models.ForeignKey(TimeTable)
+    time_slot = models.ForeignKey(TimeSlot)
 
     cancled = models.BooleanField()
     attended = models.BooleanField()
