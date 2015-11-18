@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="130dip"
+android:orientation="vertical"
+android:layout_gravity="center_horizontal"
+    >
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="注册"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:text="手机号"
+            android:textSize="21sp"
+            android:minWidth="120dp"
+            android:gravity="right" />
+        <EditText
+            android:id="@+id/registerPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:hint="请输入手机号"
+            android:inputType="phone"
+            android:layout_marginLeft="30dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:text="密码"
+            android:textSize="21sp"
+            android:minWidth="120dp"
+            android:gravity="right" />
+        <EditText
+            android:id="@+id/registerPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:layout_marginLeft="30dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="5dip"
+            android:text="确认密码"
+            android:textSize="21sp"
+            android:minWidth="120dp"
+            android:gravity="right" />
+        <EditText
+            android:id="@+id/registerPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:layout_marginLeft="30dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/registerButton"
+        android:text="注册"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+    <TextView
+        android:id="@+id/gotoLogin"
+        android:text="快速登录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom" />
+</LinearLayout>
