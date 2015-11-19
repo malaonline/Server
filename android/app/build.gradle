@@ -56,8 +56,17 @@ android {
         }
     }
 
-    lintOptions{
+    lintOptions {
         abortOnError false
+    }
+    
+    productFlavors {
+        teacher {
+            applicationId "com.malalaoshi.android.teacher"
+        }
+        parent {
+            applicationId "com.malalaoshi.android.parent"
+        }
     }
 }
 
