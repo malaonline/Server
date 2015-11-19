@@ -233,7 +233,7 @@ class Coupon(BaseModel):
         return '%s, %s (%s) %s' % (self.person, self.amount, self.expired_at,
                 'D' if self.used else '')
 
-class TimeSlot(BaseModel):
+class WeeklyTimeSlot(BaseModel):
     weekday = models.PositiveIntegerField()
     start = models.TimeField()
     end = models.TimeField()
@@ -245,12 +245,19 @@ class TimeSlot(BaseModel):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
 
-class RegionTimeSlot(BaseModel):
+class RegionWeeklyTimeSlot(BaseModel):
     region = models.ForeignKey(Region)
-    time_slots = models.ManyToManyField(TimeSlot)
+    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
 
     def __str__(self):
         return self.region
+
+class TeacherWeeklyTimeSlot(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
+
+    def __str__(self):
+        return self.teacher
 
 class Order(BaseModel):
     UNPAID = 'u'
@@ -269,7 +276,7 @@ class Order(BaseModel):
     school = models.ForeignKey(School)
     grade_subject = models.ForeignKey(GradeSubject)
     coupon = models.ForeignKey(Coupon)
-    time_slots = models.ManyToManyField(TimeSlot)
+    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
@@ -287,14 +294,14 @@ class Order(BaseModel):
         return '%s %s %s %s : %s' % (self.school, self.parent, self.teacher,
                 self.grade_subect, self.total)
 
-class PlannedCourse(BaseModel):
+class TimeSlot(BaseModel):
     CONFIRMED_CHOICES = (
         ('s', 'System'),
         ('h', 'Human'),
     )
     order = models.ForeignKey(Order)
-    date = models.DateField()
-    time_slot = models.ForeignKey(TimeSlot)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
 
     cancled = models.BooleanField()
     attended = models.BooleanField()
@@ -302,7 +309,7 @@ class PlannedCourse(BaseModel):
     confirmed_by = models.CharField(max_length=1,
         choices=CONFIRMED_CHOICES,
     )
-    transformed_from = models.ForeignKey('PlannedCourse', null=True,
+    transformed_from = models.ForeignKey('TimeSlot', null=True,
             blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -313,14 +320,14 @@ class PlannedCourse(BaseModel):
         return '%s %s' % (self.date, self.last_updated_by)
 
 class Comment(BaseModel):
-    course = models.ForeignKey(PlannedCourse)
+    time_slot = models.ForeignKey(TimeSlot)
     ma_degree = models.PositiveIntegerField()
     la_degree = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s : %d, %d' % (self.course, self.ma_degree, self.la_degree)
+        return '%s : %d, %d' % (self.time_slot, self.ma_degree, self.la_degree)
 
 class Message(BaseModel):
     SYSTEM = 's'
