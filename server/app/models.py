@@ -163,13 +163,20 @@ class InterviewRecord(BaseModel):
     def __str__(self):
         return '%s by %s' % (self.teacher, self.reviewed_by)
 
+class Account(BaseModel):
+    teacher = models.OneToOneField(Teacher)
+    balance = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return '%s : %d' % (self.teacher, self.balance)
+
 class BankCard(BaseModel):
     bank_name = models.CharField(max_length=100)
     card_number = models.CharField(max_length=100, unique=True)
-    person = models.ForeignKey(Person)
+    account = models.ForeignKey(Account)
 
     def __str__(self):
-        return '%s %s (%s)' % (self.bank_name, self.card_number, self.person)
+        return '%s %s (%s)' % (self.bank_name, self.card_number, self.account.teacher)
 
 class BankCodeInfo(BaseModel):
     org_code = models.CharField(max_length=30)
@@ -184,15 +191,9 @@ class BankCodeInfo(BaseModel):
         return '%s, %s, %s (%s)' % (self.bank_name, self.card_name,
                 self.card_type, self.bin_code)
 
-class Balance(BaseModel):
-    person = models.OneToOneField(Person)
-    balance = models.PositiveIntegerField()
 
-    def __str__(self):
-        return '%s : %d' % (self.person, self.balance)
-
-class Withdraw(BaseModel):
-    person = models.ForeignKey(Person, related_name='my_withdraws')
+class AccountHistory(BaseModel):
+    account = models.ForeignKey(Account)
     amount = models.PositiveIntegerField()
     bankcard = models.ForeignKey(BankCard)
     submit_time = models.DateTimeField()
