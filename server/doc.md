@@ -1,5 +1,7 @@
 ## TokenAuthentication
 
+View detail documentation [here](http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication).
+
 Url: `/api/token-auth/`
 
 Method: POST
