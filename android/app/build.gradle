@@ -59,7 +59,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    
+
     productFlavors {
         teacher {
             applicationId "com.malalaoshi.android.teacher"
