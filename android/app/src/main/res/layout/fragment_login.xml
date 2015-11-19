@@ -3,8 +3,20 @@
     android:layout_height="match_parent"
     tools:context="com.malalaoshi.android.fragments.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ViewFlipper
+        android:id="@+id/login_flipper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#f0f0f0" >
+
+        <!-- login panel -->
+        <include layout="@layout/panel_login" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center" />
+
+        <!-- register panel -->
+        <include layout="@layout/panel_register" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center" />
+
+    </ViewFlipper>
 
 </FrameLayout>
