@@ -79,7 +79,7 @@ class Role(BaseModel):
     def __str__(self):
         return self.name
 
-class Person(BaseModel):
+class Profile(BaseModel):
     '''
     For extending the system class: User
     '''
@@ -111,7 +111,7 @@ class Teacher(BaseModel):
         ('b', '本科'),
         ('p', '研究生'),
     )
-    person = models.ForeignKey(Person)
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     degree = models.CharField(max_length=2,
         choices=DEGREE_CHOICES,
@@ -132,13 +132,13 @@ class Teacher(BaseModel):
                 'Banned' if not self.active else '')
 
 class Certification(BaseModel):
-    person = models.ForeignKey(Person)
+    teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=100)
     img = models.ImageField(null=True, blank=True)
     verified = models.BooleanField()
 
     def __str__(self):
-        return '%s, %s : %s' % (self.person, self.name,
+        return '%s, %s : %s' % (self.teacher, self.name,
                 'V' if self.verified else '')
 
 class InterviewRecord(BaseModel):
@@ -154,7 +154,7 @@ class InterviewRecord(BaseModel):
     teacher = models.ForeignKey(Teacher)
     created_at = models.DateTimeField(auto_now_add=True)
     reviewed_at = models.DateTimeField(auto_now=True)
-    reviewed_by = models.ForeignKey(Person)
+    reviewed_by = models.ForeignKey(User, null=True, blank=True)
     review_msg = models.CharField(max_length=1000)
     status = models.CharField(max_length=1,
             choices=STATUS_CHOICES,
@@ -198,24 +198,24 @@ class AccountHistory(BaseModel):
     bankcard = models.ForeignKey(BankCard)
     submit_time = models.DateTimeField()
     done = models.BooleanField()
-    done_by = models.ForeignKey(Person, related_name='processed_withdraws', null=True, blank=True)
+    done_by = models.ForeignKey(User, related_name='processed_withdraws', null=True, blank=True)
     done_at = models.DateTimeField()
 
     def __str__(self):
-        return '%s %s : %s' % (self.person, self.amount,
+        return '%s %s : %s' % (self.account.teacher, self.amount,
                 'D' if self.done else '')
 
 class Feedback(BaseModel):
-    person = models.ForeignKey(Person, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True)
     contact = models.CharField(max_length=30)
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s %s %s' % (self.person, self.contact, self.created_at)
+        return '%s %s %s' % (self.user, self.contact, self.created_at)
 
 class Parent(BaseModel):
-    person = models.ForeignKey(Person, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True)
 
     student_name = models.CharField(max_length=50)
 
@@ -223,7 +223,7 @@ class Parent(BaseModel):
         return "%s's parent" % self.student_name
 
 class Coupon(BaseModel):
-    person = models.ForeignKey(Person)
+    parent = models.ForeignKey(Parent)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -231,7 +231,7 @@ class Coupon(BaseModel):
     used = models.BooleanField()
 
     def __str__(self):
-        return '%s, %s (%s) %s' % (self.person, self.amount, self.expired_at,
+        return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                 'D' if self.used else '')
 
 class WeeklyTimeSlot(BaseModel):
@@ -261,15 +261,17 @@ class TeacherWeeklyTimeSlot(BaseModel):
         return self.teacher
 
 class Order(BaseModel):
-    UNPAID = 'u'
+    PENDING = 'u'
     PAID = 'p'
     CANCLED = 'd'
-    COMPLETED = 'c'
+    CONFIRMED = 'c'
+    NOSHOW = 'n'
     STATUS_CHOICES = (
-        (UNPAID, '待付款'),
+        (PENDING, '待付款'),
         (PAID, '已付款'),
         (CANCLED, '已取消'),
-        (COMPLETED, '已完成'),
+        (NOSHOW, '没出现'),
+        (CONFIRMED, '已确认'),
     )
 
     parent = models.ForeignKey(Parent, null=True)
@@ -304,18 +306,12 @@ class TimeSlot(BaseModel):
     start = models.DateTimeField()
     end = models.DateTimeField()
 
-    cancled = models.BooleanField()
-    attended = models.BooleanField()
-    commented = models.BooleanField()
-    confirmed_by = models.CharField(max_length=1,
-        choices=CONFIRMED_CHOICES,
-    )
-    transformed_from = models.ForeignKey('TimeSlot', null=True,
-            blank=True)
+    confirmed_by = models.ForeignKey(Parent, null=True, blank=True)
+    transformed_from = models.ForeignKey('TimeSlot', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(Person, null=True, blank=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.date, self.last_updated_by)
@@ -353,7 +349,7 @@ class Message(BaseModel):
         (NOTIFICATION, '通知栏提醒'),
     )
 
-    to = models.ForeignKey(Person)
+    to = models.ForeignKey(User)
     viewed = models.BooleanField()
     deleted = models.BooleanField()
     title = models.CharField(max_length=100)
