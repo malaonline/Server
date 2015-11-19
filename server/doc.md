@@ -1,3 +1,11 @@
+## Getting started
+
+```
+cd server
+pip install -r pip_install.txt
+python manage.py runserver
+```
+
 ## TokenAuthentication
 
 View detail documentation [here](http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication).
