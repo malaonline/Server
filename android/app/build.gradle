@@ -29,6 +29,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        teacher {
+            applicationId "com.malalaoshi.android.teacher"
+        }
+        parent {
+            applicationId "com.malalaoshi.android.parent"
+        }
+    }
 }
 
 dependencies {
