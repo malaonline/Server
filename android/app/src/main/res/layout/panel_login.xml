@@ -6,7 +6,7 @@ android:layout_marginTop="130dip"
 android:orientation="vertical"
 android:layout_gravity="center_horizontal">
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="登录"
+        android:text="@string/title_activity_login"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textSize="25sp"
@@ -20,18 +20,17 @@ android:layout_gravity="center_horizontal">
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginTop="5dip"
-            android:text="手机号"
+            android:text="@string/login_phone_no"
             android:textSize="21sp"
             android:gravity="right"
-            android:minWidth="120dp"
-            android:nestedScrollingEnabled="false" />
+            android:minWidth="120dp" />
         <EditText
             android:id="@+id/loginPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="50"
             android:maxLines="1"
-            android:hint="请输入手机号"
+            android:hint="@string/input_hint_phone_no"
             android:inputType="phone"
             android:layout_marginLeft="30dp" />
     </LinearLayout>
@@ -44,7 +43,7 @@ android:layout_gravity="center_horizontal">
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginTop="5dip"
-            android:text="密码"
+            android:text="@string/login_password"
             android:textSize="21sp"
             android:minWidth="120dp"
             android:gravity="right" />
@@ -54,19 +53,19 @@ android:layout_gravity="center_horizontal">
             android:layout_height="wrap_content"
             android:maxLength="50"
             android:maxLines="1"
-            android:hint="请输入密码"
+            android:hint="@string/input_hint_password"
             android:inputType="textPassword"
             android:layout_marginLeft="30dp" />
     </LinearLayout>
     <Button
         android:id="@+id/loginButton"
-        android:text="登录"
+        android:text="@string/title_activity_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
     <TextView
         android:id="@+id/gotoRegister"
-        android:text="快速注册"
+        android:text="@string/action_quick_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom" />
