@@ -14,6 +14,7 @@ class Region(BaseModel):
             on_delete=models.SET_NULL)
     admin_level = models.PositiveIntegerField()
     leaf = models.BooleanField()
+    weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
     def __str__(self):
         return '%s (%d)' % (self.name, self.admin_level)
@@ -126,6 +127,8 @@ class Teacher(BaseModel):
     level = models.ForeignKey(Level)
 
     grade_subjects = models.ManyToManyField(GradeSubject)
+
+    weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
@@ -244,21 +247,6 @@ class WeeklyTimeSlot(BaseModel):
 
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
-
-
-class RegionWeeklyTimeSlot(BaseModel):
-    region = models.ForeignKey(Region)
-    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
-
-    def __str__(self):
-        return self.region
-
-class TeacherWeeklyTimeSlot(BaseModel):
-    teacher = models.ForeignKey(Teacher)
-    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
-
-    def __str__(self):
-        return self.teacher
 
 class Order(BaseModel):
     PENDING = 'u'
