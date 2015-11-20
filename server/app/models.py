@@ -117,22 +117,27 @@ class Teacher(BaseModel):
     degree = models.CharField(max_length=2,
         choices=DEGREE_CHOICES,
     )
-
     active = models.BooleanField()
-
     fulltime = models.BooleanField()
 
     schools = models.ManyToManyField(School)
-
-    level = models.ForeignKey(Level)
-
     grade_subjects = models.ManyToManyField(GradeSubject)
-
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                 'Banned' if not self.active else '')
+
+class TeacherSubjectLevel(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    subject = models.ForeignKey(Subject)
+    level = models.ForeignKey(Level)
+
+    class Meta:
+        unique_together = ('teacher', 'subject')
+
+    def __str__(self):
+        return '%s %s : %s' % (self.teacher, self.subject, self.level)
 
 class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
