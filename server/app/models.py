@@ -142,11 +142,11 @@ class Certification(BaseModel):
                 'V' if self.verified else '')
 
 class InterviewRecord(BaseModel):
-    TOAPPROVE = 't'
+    PENDING = 'p'
     APPROVED = 'a'
     REJECTED = 'r'
     STATUS_CHOICES = (
-        (TOAPPROVE, '待认证'),
+        (PENDING, '待认证'),
         (APPROVED, '已认证'),
         (REJECTED, '已拒绝'),
     )
@@ -158,7 +158,7 @@ class InterviewRecord(BaseModel):
     review_msg = models.CharField(max_length=1000)
     status = models.CharField(max_length=1,
             choices=STATUS_CHOICES,
-            default=TOAPPROVE)
+            default=PENDING)
 
     def __str__(self):
         return '%s by %s' % (self.teacher, self.reviewed_by)
