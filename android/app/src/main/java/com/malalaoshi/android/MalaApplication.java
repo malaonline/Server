@@ -35,6 +35,7 @@ public class MalaApplication extends Application {
 
     public void init() {
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
+        token = userInfo.getString("token", "");
         userId = userInfo.getString("userId", "");
         phoneNo = userInfo.getString("phoneNo", "");
         isLogin = userInfo.getBoolean("isLogin", false);
@@ -94,6 +95,12 @@ public class MalaApplication extends Application {
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putBoolean("isLogin", isLogin).commit();
         this.isLogin = isLogin;
+    }
+
+    public boolean logout() {
+        SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
+        userInfo.edit().putBoolean("isLogin", false).putString("token", "").commit();
+        return true;
     }
 
     public String getRole() {

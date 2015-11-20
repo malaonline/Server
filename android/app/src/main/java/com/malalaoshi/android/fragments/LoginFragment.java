@@ -99,16 +99,16 @@ public class LoginFragment extends Fragment {
                 String phone = tPhone.getText().toString();
                 String password = tPassword.getText().toString();
                 if (phone.isEmpty()) {
-                    Toast.makeText(LoginFragment.this.getActivity(), "请输入手机号", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.input_hint_phone_no), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.isEmpty()) {
-                    Toast.makeText(LoginFragment.this.getActivity(), "请输入密码", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.input_hint_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
                 btn.setEnabled(false);
-                ((Button)btn).setText("正在登录");
+                ((Button)btn).setText(getString(R.string.hint_login_processing));
                 new LoginTask().execute(phone, password);
             }
         });
@@ -123,11 +123,11 @@ public class LoginFragment extends Fragment {
                 String password = tPassword.getText().toString();
                 String password2 = tPassword2.getText().toString();
                 if (phone.isEmpty()) {
-                    Toast.makeText(LoginFragment.this.getActivity(), "请输入手机号", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.input_hint_phone_no), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.isEmpty() || !password.equals(password2)) {
-                    Toast.makeText(LoginFragment.this.getActivity(), "密码输入错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.input_hint_password), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
@@ -237,7 +237,7 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                            Toast.makeText(LoginFragment.this.getActivity(), "登录失败："+error.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.hint_login_fail)+": "+error.getMessage(), Toast.LENGTH_LONG).show();
                             postLoginTask();
                         }
                     });
@@ -250,7 +250,7 @@ public class LoginFragment extends Fragment {
         }
 
         private void onLoginSuccess(String token, String phoneNo) {
-            Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.hint_login_success), Toast.LENGTH_LONG).show();
             MalaApplication.getInstance().setToken(token);
             MalaApplication.getInstance().setPhoneNo(phoneNo);
             MalaApplication.getInstance().setIsLogin(true);
