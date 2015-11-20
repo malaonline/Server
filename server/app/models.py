@@ -235,8 +235,8 @@ class Coupon(BaseModel):
                 'D' if self.used else '')
 
 class WeeklyTimeSlot(BaseModel):
-    weekday = models.PositiveIntegerField()
-    start = models.TimeField()
+    weekday = models.PositiveIntegerField() # 1 - 7
+    start = models.TimeField() # [0:00 - 24:00)
     end = models.TimeField()
 
     class Meta:
@@ -298,10 +298,6 @@ class Order(BaseModel):
                 self.grade_subect, self.total)
 
 class TimeSlot(BaseModel):
-    CONFIRMED_CHOICES = (
-        ('s', 'System'),
-        ('h', 'Human'),
-    )
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
     end = models.DateTimeField()
