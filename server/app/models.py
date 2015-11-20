@@ -131,7 +131,7 @@ class Teacher(BaseModel):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                 'Banned' if not self.active else '')
 
-class Certification(BaseModel):
+class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=100)
     img = models.ImageField(null=True, blank=True)
