@@ -14,7 +14,7 @@ public class MalaApplication extends Application {
     private static MalaApplication instance;
 
     private RequestQueue mRequestQueue;
-    private String mMalaHost = "http://172.16.0.93:8000";
+    private String mMalaHost = BuildConfig.API_HOST;;
 
     private String token;
     private String userId;
