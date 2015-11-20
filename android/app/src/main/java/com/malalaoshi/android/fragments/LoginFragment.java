@@ -2,12 +2,22 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 
 /**
@@ -65,7 +75,76 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        final View v = inflater.inflate(R.layout.fragment_login, container, false);
+        String phoneNo = MalaApplication.getInstance().getPhoneNo();
+        if (phoneNo!=null && !phoneNo.isEmpty()) {
+            EditText tPhone = (EditText)v.findViewById(R.id.loginPhone);
+            tPhone.setText(phoneNo);
+        }
+        Button loginButton = (Button)v.findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+                EditText tPhone = (EditText)v.findViewById(R.id.loginPhone);
+                EditText tPassword = (EditText)v.findViewById(R.id.loginPassword);
+                String phone = tPhone.getText().toString();
+                String password = tPassword.getText().toString();
+                if (phone.isEmpty()) {
+                    Toast.makeText(LoginFragment.this.getActivity(), "请输入手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (password.isEmpty()) {
+                    Toast.makeText(LoginFragment.this.getActivity(), "请输入密码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
+                new LoginTask().execute(phone, password);
+            }
+        });
+        Button registerButton = (Button)v.findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+                EditText tPhone = (EditText)v.findViewById(R.id.registerPhone);
+                EditText tPassword = (EditText)v.findViewById(R.id.registerPassword);
+                EditText tPassword2 = (EditText)v.findViewById(R.id.registerPasswordConfirm);
+                String phone = tPhone.getText().toString();
+                String password = tPassword.getText().toString();
+                String password2 = tPassword2.getText().toString();
+                if (phone.isEmpty()) {
+                    Toast.makeText(LoginFragment.this.getActivity(), "请输入手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (password.isEmpty() || !password.equals(password2)) {
+                    Toast.makeText(LoginFragment.this.getActivity(), "密码输入错误", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
+            }
+        });
+        // switch login & register
+        final ViewFlipper viewFlipper = (ViewFlipper) v.findViewById(R.id.login_flipper);
+        TextView gotoRegister = (TextView) v.findViewById(R.id.gotoRegister);
+        gotoRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+                //显示注册panel
+                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginFragment.this.getActivity(), R.anim.push_left_in));
+                viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginFragment.this.getActivity(), R.anim.push_left_out));
+                viewFlipper.showNext();
+            }
+        });
+        TextView gotoLogin = (TextView) v.findViewById(R.id.gotoLogin);
+        gotoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+                //显示登录panel
+                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginFragment.this.getActivity(), R.anim.push_right_in));
+                viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginFragment.this.getActivity(), R.anim.push_right_out));
+                viewFlipper.showPrevious();
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,7 +158,7 @@ public class LoginFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+//            mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -107,4 +186,23 @@ public class LoginFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    private class LoginTask extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String phone = params[0];
+            return phone;
+        }
+
+        protected void onPostExecute(String result) {
+            if (result!=null && !result.isEmpty()) {
+                Log.i("Login", result);
+                MalaApplication.getInstance().setPhoneNo(result);
+                MalaApplication.getInstance().setIsLogin(true);
+                FragmentManager fragmentManager = getFragmentManager();
+                MainFragment mainFragment = new MainFragment();
+                fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
+            }
+        }
+    }
 }
