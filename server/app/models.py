@@ -117,8 +117,8 @@ class Teacher(BaseModel):
     degree = models.CharField(max_length=2,
         choices=DEGREE_CHOICES,
     )
-    active = models.BooleanField()
-    fulltime = models.BooleanField()
+    active = models.BooleanField(default=True)
+    fulltime = models.BooleanField(default=True)
 
     schools = models.ManyToManyField(School)
     grade_subjects = models.ManyToManyField(GradeSubject)
