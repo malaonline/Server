@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
 
+def releaseTime(){
+    return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
 android {
     signingConfigs {
         release {
             try {
-                storeFile file("~/Dropbox/openvpn/mini_keystore")
+                storeFile file(KEYSTORE_FILE_PATH)
                 storePassword KEYSTORE_PASSWORD
                 keyAlias "malalaoshi"
                 keyPassword KEY_PASSWORD
@@ -24,9 +28,44 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
+        debug{
+            applicationIdSuffix ".debug"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
             minifyEnabled false
+            zipAlignEnabled false
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all{ variant ->
+        variant.outputs.each{ output ->
+            def outputFile = output.outputFile
+            if(outputFile != null && outputFile.name.endsWith('.apk')){
+                def fileName = outputFile.name.substring(0, outputFile.name.length() - 4) + '_' + releaseTime() + '.apk'
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    productFlavors {
+        teacher {
+            applicationId "com.malalaoshi.android.teacher"
+        }
+        parent {
+            applicationId "com.malalaoshi.android.parent"
         }
     }
 }
