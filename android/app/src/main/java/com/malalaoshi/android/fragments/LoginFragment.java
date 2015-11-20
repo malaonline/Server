@@ -17,8 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +41,7 @@ public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String LOGIN_API_PATH = "/api/token-auth/";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -97,7 +106,9 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(LoginFragment.this.getActivity(), "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginFragment.this.getActivity(), phone+":"+password, Toast.LENGTH_SHORT).show();
+                btn.setEnabled(false);
+                ((Button)btn).setText("正在登录");
                 new LoginTask().execute(phone, password);
             }
         });
@@ -186,23 +197,66 @@ public class LoginFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    private void postLoginTask() {
+        Button loginButton = (Button)this.getView().findViewById(R.id.loginButton);
+        loginButton.setEnabled(true);
+        loginButton.setText(this.getString(R.string.title_activity_login));
+    }
+
     private class LoginTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            String phone = params[0];
-            return phone;
+            try {
+                final String phone = params[0];
+                String password = params[1];
+                String url = MalaApplication.getInstance().getMalaHost()+LOGIN_API_PATH;
+                RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("username", phone);
+                jsonParam.put("password", password);
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest(
+                    Request.Method.POST, url, jsonParam,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String token = null;
+                                if (response.has("token")) {
+                                    token = response.getString("token");
+                                }
+                                if (token != null && !token.isEmpty()) {
+                                    onLoginSuccess(token, phone);
+                                }
+                            } catch (Exception e) {
+                                Log.e(LoginFragment.class.getName(), e.getMessage(), e);
+                            }
+                            postLoginTask();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(LoginFragment.class.getName(), error.getMessage(), error);
+                            Toast.makeText(LoginFragment.this.getActivity(), "登录失败："+error.getMessage(), Toast.LENGTH_LONG).show();
+                            postLoginTask();
+                        }
+                    });
+                requestQueue.add(jsObjRequest);
+                return phone;
+            } catch (Exception e) {
+                Log.e(LoginFragment.class.getName(), e.getMessage(), e);
+            }
+            return null;
         }
 
-        protected void onPostExecute(String result) {
-            if (result!=null && !result.isEmpty()) {
-                Log.i("Login", result);
-                MalaApplication.getInstance().setPhoneNo(result);
-                MalaApplication.getInstance().setIsLogin(true);
-                FragmentManager fragmentManager = getFragmentManager();
-                MainFragment mainFragment = new MainFragment();
-                fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
-            }
+        private void onLoginSuccess(String token, String phoneNo) {
+            Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
+            MalaApplication.getInstance().setToken(token);
+            MalaApplication.getInstance().setPhoneNo(phoneNo);
+            MalaApplication.getInstance().setIsLogin(true);
+            FragmentManager fragmentManager = getFragmentManager();
+            MainFragment mainFragment = new MainFragment();
+            fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
         }
     }
 }

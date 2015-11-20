@@ -3,6 +3,9 @@ package com.malalaoshi.android;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 /**
  * Created by liumengjun on 11/16/15.
  */
@@ -10,6 +13,10 @@ public class MalaApplication extends Application {
 
     private static MalaApplication instance;
 
+    private RequestQueue mRequestQueue;
+    private String mMalaHost = "http://172.16.0.93:8000";
+
+    private String token;
     private String userId;
     private String phoneNo;
     private boolean isLogin;
@@ -32,6 +39,31 @@ public class MalaApplication extends Application {
         phoneNo = userInfo.getString("phoneNo", "");
         isLogin = userInfo.getBoolean("isLogin", false);
         role = userInfo.getString("role", "");
+    }
+
+    public static RequestQueue getHttpRequestQueue() {
+        return getInstance().getRequestQueue();
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return mRequestQueue;
+    }
+
+    public String getMalaHost() {
+        return mMalaHost;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
+        userInfo.edit().putString("token", token).commit();
+        this.token = token;
     }
 
     public String getUserId() {
