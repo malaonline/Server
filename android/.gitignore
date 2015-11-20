@@ -8,5 +8,4 @@ local.properties
 .DS_Store
 build
 captures
-
-
+gradle-app.setting
