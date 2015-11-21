@@ -296,7 +296,7 @@ class TimeSlot(BaseModel):
     end = models.DateTimeField()
 
     confirmed_by = models.ForeignKey(Parent, null=True, blank=True)
-    transformed_from = models.ForeignKey('TimeSlot', null=True, blank=True)
+    transferred_from = models.ForeignKey('TimeSlot', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
