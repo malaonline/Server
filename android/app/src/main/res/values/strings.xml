@@ -16,6 +16,9 @@
     <string name="input_hint_password">Please input password</string>
     <string name="action_quick_login">login now</string>
     <string name="action_quick_register">register now</string>
+    <string name="hint_login_processing">logining...</string>
+    <string name="hint_login_success">login success</string>
+    <string name="hint_login_fail">login failed</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

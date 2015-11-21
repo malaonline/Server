@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_logout) {
-            MalaApplication.getInstance().setIsLogin(false);
+            MalaApplication.getInstance().logout();
             FragmentManager fragmentManager = getFragmentManager();
             LoginFragment loginFragment = new LoginFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, loginFragment).commit();
