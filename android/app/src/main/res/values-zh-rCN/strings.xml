@@ -7,6 +7,17 @@
 	<string name="navigation_drawer_close">关闭导航抽屉</string>
 	<string name="action_settings">设置</string>
 	<string name="title_activity_login">登录</string>
+	<string name="title_register">注册</string>
+	<string name="login_phone_no">手机号</string>
+	<string name="login_password">密码</string>
+	<string name="login_password_confirm">确认密码</string>
+	<string name="input_hint_phone_no">请输入手机号</string>
+	<string name="input_hint_password">请输入密码</string>
+	<string name="action_quick_login">快速登录</string>
+	<string name="action_quick_register">快速注册</string>
+	<string name="hint_login_processing">正在登录...</string>
+	<string name="hint_login_success">登录成功</string>
+	<string name="hint_login_fail">登录失败</string>
 	<string name="prompt_email">电子邮件</string>
 	<string name="prompt_password">密码 (可选)</string>
 	<string name="action_sign_in">登录或注册</string>
