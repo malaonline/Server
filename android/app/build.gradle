@@ -14,7 +14,7 @@ android {
                 keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+                throw new InvalidUserDataException("You should define KEYSTORE_FILE_PATH, KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
             }
         }
     }
@@ -26,6 +26,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "API_HOST", "\""+LOCAL_SERVER+"\"")
     }
     buildTypes {
         debug{

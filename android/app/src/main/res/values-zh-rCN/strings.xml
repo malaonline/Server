@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
 	<string name="app_name">麻辣老师</string>
 	<string name="find_teacher">找个老师</string>
 	<string name="navigation_drawer_open">打开导航抽屉</string>
 	<string name="navigation_drawer_close">关闭导航抽屉</string>
 	<string name="action_settings">设置</string>
-	<string name="title_activity_login">登录</string>
+	<string name="signin">登录</string>
+	<string name="signout">退出账号</string>
 	<string name="title_register">注册</string>
 	<string name="login_phone_no">手机号</string>
 	<string name="login_password">密码</string>
@@ -15,6 +15,9 @@
 	<string name="input_hint_password">请输入密码</string>
 	<string name="action_quick_login">快速登录</string>
 	<string name="action_quick_register">快速注册</string>
+	<string name="hint_login_processing">正在登录...</string>
+	<string name="hint_login_success">登录成功</string>
+	<string name="hint_login_fail">登录失败</string>
 	<string name="prompt_email">电子邮件</string>
 	<string name="prompt_password">密码 (可选)</string>
 	<string name="action_sign_in">登录或注册</string>
@@ -25,72 +28,9 @@
 	<string name="error_field_required">此字段是必需的</string>
 	<string name="permission_rationale">"联系人权限需要提供电子邮件完成"。</string>
 	<string name="title_activity_settings">设置</string>
-	<string name="pref_header_general">一般</string>
-	<string name="pref_title_social_recommendations">使社会的建议</string>
-	<string name="pref_description_social_recommendations">人接触的建议基于消息历史记录</string>
-	<string name="pref_title_display_name">显示名称</string>
-	<string name="pref_default_display_name">约翰 · 史密斯</string>
-	<string name="pref_title_add_friends_to_messages">添加到邮件的朋友</string>
-	<string name="pref_header_data_sync">数据与同步</string>
-	<string name="pref_title_sync_frequency">同步频率</string>
-	<string name="pref_title_system_sync_settings">系统同步设置</string>
-	<string name="pref_header_notifications">通知</string>
-	<string name="pref_title_new_message_notifications">新邮件通知</string>
-	<string name="pref_title_ringtone">铃声</string>
-	<string name="pref_ringtone_silent">沉默</string>
-	<string name="pref_title_vibrate">震动</string>
 	<string name="title_activity_screen_teacher">ScreenTeacherActivity</string>
 	<string name="title_activity_teacher_list">TeacherListActivity</string>
-	<string name="large_text">"材料是 metaphor.
 
-""材料的隐喻是合理化的空间和运动系统的统一理论"。
-        "材料植根于现实触觉，灵感的纸张和油墨，研究尚未"技术先进的、 开放的想象力和魔法 
-""表面和材料的边缘，提供视觉提示，植根于现实。""使用熟悉的触觉属性可帮助用户快速了解启示。然而，""灵活性的材料创造取代那些在物理的新启示""世界，而不会破坏规则的物理 
-""光、 曲面和运动的基本原理是关键所在输送对象是如何动作的""互动，和存在于空间和相互关系。逼真的光线显示""煤层、 划分的空间，和指示移动 parts.
-
-""加粗，图形，intentional.
-
-""打印基于的设计排版、 网格、 空间、 规模，基本要素色彩，""和使用的意象指南视觉处理。这些元素远远超过请做""眼。他们创建的层次结构、 含义和焦点。深思熟虑的颜色选择，边到边""意象、 大型字体，故意空白创建大胆和图形""界面，沉浸在经验 
- 用户""强调用户采取行动使核心功能立即显现出来，并提供""user.
-
- 小站""运动提供了 meaning.
-
-""议案尊重并加强用户作为原动机。初级用户操作是""拐点，发起运动，改变了整个的设计 
-""一切行动发生在一个单一的环境。对象提交没有用户""打破经验甚至作为他们变换和重组 
- 的连续性""运动是有意义和适当的服务，要集中注意力，保持连续性。反馈是微妙尚未明确。过渡规避尚 coherent.
-
-""3D world.
-
-""物质环境是一个三维的空间，这意味着所有对象都有 x、 y 和 z""维度。Z 轴是垂直对齐平面显示器，与""积极 z 轴延伸向观众。每张材料占有单""沿 z 轴的位置并且拥有一个标准 1dp 厚度 
-""在 web 上，z 轴用于分层和不角度来看。3D 世界""通过操纵 y-axis.
-
- 效仿""光与 shadow.
-
-""内的物质环境，虚拟的灯光照亮场景。钥匙灯创建""定向阴影，虽然光线从所有角度 
- 创建软阴影""中的物质环境投射出的阴影这些两个光源。在 Android""发展，阴影会发生当光源被床单的材料""各个位置沿 z 轴。在 web 上，阴影被描述通过操纵""y 轴只。下面的示例演示与高度 6dp.
-
- 卡""静息 elevation.
-
-""一切物质的东西，无论规模大小，有休息的海拔或默认仰角""这并没有改变。如果对象改变高程，则应返回到其休息""尽快 possible.
-
- 海拔""组件 elevations.
-
-""静息海拔为组件类型是一致的应用程序 (例如，FAB 海拔""并不改变从一个应用程序中的 6dp 到另一个应用程序中的 16dp)。 
-""组件可能有不同的静息海拔跨平台，取决于深度""的环境 (例如电视有一个更大的深度比移动或 desktop).
-
-""响应高程和动态标高 offsets.
-
-""一些组件类型有响应的高程，意思他们改变高程的响应""对用户输入 (例如，正常，重点突出，并按下) 或系统事件。这些高程""变化予以贯彻执行使用动态标高偏移 
-""动态标高偏移量是一个组件的走向，相对目标高程""到组件的静息状态。他们确保高程变化相一致，""在行动和组件类型。例如，解除对新闻的所有组件都具有""相对于他们休息的海拔 
- 同一高程变化""一旦输入的事件是完成或取消，该组件将返回到其休息""elevation.
-
-""避免海拔 interference.
-
-""组件的响应海拔可能会遇到其他组件，当他们移动""他们休息的海拔和动态标高偏移量。因为材料不能通过""通过其他材料组件避免互相干扰任意数量的方法，""无论是对每个组件的基础或使用的整个应用程序布局 
-""组件在组件级，可以移动或被删除之前他们造成干扰""举个例子，一个浮动的动作按钮 (FAB) 可以消失或搬离屏幕前""用户拿起一张卡片，或它可以移动如果小吃店出现。 
-""在布局层面上，设计您的应用程序布局，尽量减少干扰的机会""例如，FAB 定位到一侧的流的卡所以晶圆厂不会干扰""当用户试图捡到了一个 cards.
-
-"</string>
 	<string name="title_activity_teacher_detail">TeacherDetailActivity</string>
 	<string name="title_activity_place_order">PlaceOrderActivity</string>
 	<string name="title_activity_payment_method">PaymentMethodActivity</string>
@@ -109,6 +49,4 @@
 	<string name="title_activity_feedback">FeedbackActivity</string>
 	<string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
 	<string name="title_activity_coupon_list">CouponListActivity</string>
-	<string name="hello_blank_fragment">你好空白片段</string>
-
 </resources>
