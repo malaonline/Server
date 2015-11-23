@@ -25,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -200,7 +199,7 @@ public class LoginFragment extends Fragment {
     private void postLoginTask() {
         Button loginButton = (Button)this.getView().findViewById(R.id.loginButton);
         loginButton.setEnabled(true);
-        loginButton.setText(this.getString(R.string.title_activity_login));
+        loginButton.setText(this.getString(R.string.signin));
     }
 
     private class LoginTask extends AsyncTask<String, Integer, String> {
