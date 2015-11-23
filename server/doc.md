@@ -3,6 +3,7 @@
 ```
 cd server
 pip install -r pip_install.txt
+python manage.py migrate
 python manage.py runserver
 ```
 
