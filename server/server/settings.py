@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_s3_storage',
     'app',
 )
 
@@ -120,8 +121,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+#STATIC_ROOT = '/var/www/static/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+
+DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+
+AWS_REGION = 'cn-north-1'
+AWS_ACCESS_KEY_ID = 'AKIAP22CWKUZDOMHLFGA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_S3_BUCKET_NAME = 'stage-upload'
+AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
+AWS_S3_KEY_PREFIX = ""
+AWS_S3_BUCKET_AUTH = True
+AWS_S3_MAX_AGE_SECONDS = 60*60  # 1 hour.
+AWS_S3_PUBLIC_URL = ''
+AWS_S3_REDUCED_REDUNDANCY = False
+
+AWS_S3_BUCKET_NAME_STATIC = "stage-static"
+AWS_S3_CALLING_FORMAT_STATIC = "boto.s3.connection.OrdinaryCallingFormat"
+AWS_S3_BUCKET_AUTH_STATIC = False
+AWS_S3_KEY_PREFIX_STATIC = ""
+AWS_S3_MAX_AGE_SECONDS_STATIC = 60*60*24*365  # 1 year.
+AWS_S3_PUBLIC_URL_STATIC = ''
+AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
 try:
     from local_settings import *
