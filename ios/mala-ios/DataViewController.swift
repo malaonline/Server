@@ -28,7 +28,10 @@ class DataViewController: UIViewController {
         super.viewWillAppear(animated)
         self.dataLabel!.text = dataObject
     }
-
-
+    
+    @IBAction func onBack(segue: UIStoryboardSegue) {
+        
+    }
+    
 }
 
