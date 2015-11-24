@@ -100,7 +100,7 @@ class Profile(BaseModel):
             choices=GENDER_CHOICES,
             default=UNKNOWN,
     )
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
 
     def __str__(self):
         return '%s (%s, %s)' % (self.name, self.role, self.gender)
@@ -142,7 +142,7 @@ class TeacherSubjectLevel(BaseModel):
 class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=100)
-    img = models.ImageField(null=True, blank=True)
+    img = models.ImageField(null=True, blank=True, upload_to='certs')
     verified = models.BooleanField()
 
     def __str__(self):
