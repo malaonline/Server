@@ -147,6 +147,6 @@ AWS_S3_PUBLIC_URL_STATIC = ''
 AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except:
     pass
