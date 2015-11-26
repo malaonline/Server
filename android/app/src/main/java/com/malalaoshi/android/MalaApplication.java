@@ -98,6 +98,8 @@ public class MalaApplication extends Application {
     }
 
     public boolean logout() {
+        this.isLogin = false;
+        this.token = "";
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putBoolean("isLogin", false).putString("token", "").commit();
         return true;
