@@ -93,7 +93,7 @@ public class MainFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    @OnClick(R.id.index_btn_find_teacher)
+    @OnClick(R.id.main_find_teacher_btn)
     protected void onBtnFindTeacherClick(){
         TeacherFragment.openTeacherFragment(getFragmentManager());
     }
