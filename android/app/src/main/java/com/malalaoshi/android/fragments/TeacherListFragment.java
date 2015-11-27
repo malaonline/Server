@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,18 +27,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class TeacherFragment extends Fragment {
+public class TeacherListFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
     public static void openTeacherFragment(FragmentManager fragmentManager){
-        TeacherFragment teacherFragment = new TeacherFragment();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherFragment).commit();
+        TeacherListFragment teacherListFragment = new TeacherListFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).commit();
     }
 
-    public TeacherFragment() {
+    public TeacherListFragment() {
     }
 
     @Override

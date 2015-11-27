@@ -2,7 +2,6 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -95,6 +94,6 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.main_find_teacher_btn)
     protected void onBtnFindTeacherClick(){
-        TeacherFragment.openTeacherFragment(getFragmentManager());
+        TeacherListFragment.openTeacherFragment(getFragmentManager());
     }
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.fragments.TeacherFragment;
+import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
 
 import java.util.ArrayList;
@@ -18,15 +18,15 @@ import butterknife.ButterKnife;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Teacher} and makes a call to the
- * specified {@link TeacherFragment.OnListFragmentInteractionListener}.
+ * specified {@link TeacherListFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder> {
 
     public static final List<Teacher> mValues = new ArrayList<Teacher>();
-    private final TeacherFragment.OnListFragmentInteractionListener mListener;
+    private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
-    public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherFragment.OnListFragmentInteractionListener listener) {
+    public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener) {
         mValues.addAll(items);
         mListener = listener;
     }
