@@ -4,49 +4,28 @@
 	<string name="find_teacher">找个老师</string>
 	<string name="navigation_drawer_open">打开导航抽屉</string>
 	<string name="navigation_drawer_close">关闭导航抽屉</string>
-	<string name="action_settings">设置</string>
+
 	<string name="signin">登录</string>
 	<string name="signout">退出账号</string>
-	<string name="title_register">注册</string>
+	<string name="register">注册</string>
 	<string name="login_phone_no">手机号</string>
 	<string name="login_password">密码</string>
 	<string name="login_password_confirm">确认密码</string>
 	<string name="input_hint_phone_no">请输入手机号</string>
 	<string name="input_hint_password">请输入密码</string>
-	<string name="action_quick_login">快速登录</string>
-	<string name="action_quick_register">快速注册</string>
+
 	<string name="hint_login_processing">正在登录...</string>
 	<string name="hint_login_success">登录成功</string>
 	<string name="hint_login_fail">登录失败</string>
 	<string name="prompt_email">电子邮件</string>
 	<string name="prompt_password">密码 (可选)</string>
 	<string name="action_sign_in">登录或注册</string>
-	<string name="action_sign_in_short">登录</string>
+
 	<string name="error_invalid_email">此电子邮件地址无效</string>
 	<string name="error_invalid_password">此密码是太短</string>
 	<string name="error_incorrect_password">此密码不正确</string>
 	<string name="error_field_required">此字段是必需的</string>
 	<string name="permission_rationale">"联系人权限需要提供电子邮件完成"。</string>
+	<string name="action_settings">设置</string>
 	<string name="title_activity_settings">设置</string>
-	<string name="title_activity_screen_teacher">ScreenTeacherActivity</string>
-	<string name="title_activity_teacher_list">TeacherListActivity</string>
-
-	<string name="title_activity_teacher_detail">TeacherDetailActivity</string>
-	<string name="title_activity_place_order">PlaceOrderActivity</string>
-	<string name="title_activity_payment_method">PaymentMethodActivity</string>
-	<string name="title_activity_payment_result">PaymentResultActivity</string>
-	<string name="title_activity_order_detail">OrderDetailActivity</string>
-	<string name="title_activity_timetable">TimetableActivity</string>
-	<string name="title_activity_renew">RenewActivity</string>
-	<string name="title_activity_member_service_list">MemberServiceListActivity</string>
-	<string name="title_activity_member_service_detail">MemberServiceDetailActivity</string>
-	<string name="title_activity_join">JoinActivity</string>
-	<string name="title_activity_application_state">ApplicationStateActivity</string>
-	<string name="title_activity_income">IncomeActivity</string>
-	<string name="title_activity_transaction_list">TransactionListActivity</string>
-	<string name="title_activity_withdraw">WithdrawActivity</string>
-	<string name="title_activity_bind_card">BindCardActivity</string>
-	<string name="title_activity_feedback">FeedbackActivity</string>
-	<string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
-	<string name="title_activity_coupon_list">CouponListActivity</string>
 </resources>

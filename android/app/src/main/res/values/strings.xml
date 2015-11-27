@@ -1,30 +1,28 @@
 <resources>
     <string name="app_name">Mala Teacher</string>
-    <string name="find_teacher">Find a Teacher</string>
+    <string name="find_teacher">Find a teacher</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="signin">Sign in</string>
     <string name="signout">Sign out</string>
 
-    <string name="title_register">Sign up</string>
+    <string name="register">Sign up</string>
     <string name="login_phone_no">Phone No.</string>
     <string name="login_password">Password</string>
     <string name="login_password_confirm">Confirm Password</string>
     <string name="input_hint_phone_no">Please input you phone NO.</string>
     <string name="input_hint_password">Please input password</string>
-    <string name="action_quick_login">login now</string>
-    <string name="action_quick_register">register now</string>
-    <string name="hint_login_processing">logining...</string>
-    <string name="hint_login_success">login success</string>
-    <string name="hint_login_fail">login failed</string>
+
+    <string name="hint_login_processing">Sgining in...</string>
+    <string name="hint_login_success">Signed in</string>
+    <string name="hint_login_fail">Sign in failed</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -32,45 +30,46 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
 
 
-    <string name="title_activity_screen_teacher">ScreenTeacherActivity</string>
-    <string name="title_activity_teacher_list">TeacherListActivity</string>
+    <string name="title_activity_screen_teacher" translatable="false">ScreenTeacherActivity</string>
+    <string name="title_activity_teacher_list" translatable="false">TeacherListActivity</string>
 
-    <string name="title_activity_teacher_detail">TeacherDetailActivity</string>
-    <string name="title_activity_place_order">PlaceOrderActivity</string>
-    <string name="title_activity_payment_method">PaymentMethodActivity</string>
-    <string name="title_activity_payment_result">PaymentResultActivity</string>
-    <string name="title_activity_order_detail">OrderDetailActivity</string>
-    <string name="title_activity_timetable">TimetableActivity</string>
-    <string name="title_activity_renew">RenewActivity</string>
-    <string name="title_activity_member_service_list">MemberServiceListActivity</string>
-    <string name="title_activity_member_service_detail">MemberServiceDetailActivity</string>
-    <string name="title_activity_join">JoinActivity</string>
-    <string name="title_activity_application_state">ApplicationStateActivity</string>
-    <string name="title_activity_income">IncomeActivity</string>
-    <string name="title_activity_transaction_list">TransactionListActivity</string>
-    <string name="title_activity_withdraw">WithdrawActivity</string>
-    <string name="title_activity_bind_card">BindCardActivity</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
-    <string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
-    <string name="title_activity_coupon_list">CouponListActivity</string>
+    <string name="title_activity_teacher_detail" translatable="false">TeacherDetailActivity</string>
+    <string name="title_activity_place_order" translatable="false">PlaceOrderActivity</string>
+    <string name="title_activity_payment_method" translatable="false">PaymentMethodActivity</string>
+    <string name="title_activity_payment_result" translatable="false">PaymentResultActivity</string>
+    <string name="title_activity_order_detail" translatable="false">OrderDetailActivity</string>
+    <string name="title_activity_timetable" translatable="false">TimetableActivity</string>
+    <string name="title_activity_renew" translatable="false">RenewActivity</string>
+    <string name="title_activity_member_service_list" translatable="false">MemberServiceListActivity</string>
+    <string name="title_activity_member_service_detail" translatable="false">MemberServiceDetailActivity</string>
+    <string name="title_activity_join" translatable="false">JoinActivity</string>
+    <string name="title_activity_application_state" translatable="false">ApplicationStateActivity</string>
+    <string name="title_activity_income" translatable="false">IncomeActivity</string>
+    <string name="title_activity_transaction_list" translatable="false">TransactionListActivity</string>
+    <string name="title_activity_withdraw" translatable="false">WithdrawActivity</string>
+    <string name="title_activity_bind_card" translatable="false">BindCardActivity</string>
+    <string name="title_activity_feedback" translatable="false">FeedbackActivity</string>
+    <string name="title_activity_teacher_comment_list" translatable="false">TeacherCommentListActivity</string>
+    <string name="title_activity_coupon_list" translatable="false">CouponListActivity</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
+    <string name="pref_header_general" translatable="false">General</string>
 
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
+    <string name="pref_title_social_recommendations" translatable="false">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations" translatable="false">Recommendations for people to contact
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_title_display_name" translatable="false">Display name</string>
+    <string name="pref_default_display_name" translatable="false">John Smith</string>
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string name="pref_title_add_friends_to_messages" translatable="false">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
         <item>When possible</item>
@@ -83,9 +82,9 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="pref_header_data_sync" translatable="false">Data &amp; sync</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string name="pref_title_sync_frequency" translatable="false">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -103,18 +102,18 @@
         <item>-1</item>
     </string-array>
 
-    <string name="pref_title_system_sync_settings">System sync settings</string>
+    <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_header_notifications" translatable="false">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_new_message_notifications" translatable="false">New message notifications</string>
 
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
+    <string name="pref_title_ringtone" translatable="false">Ringtone</string>
+    <string name="pref_ringtone_silent" translatable="false">Silent</string>
 
-    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_title_vibrate" translatable="false">Vibrate</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>
