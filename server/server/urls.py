@@ -109,7 +109,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime', 'schools', 'grade_subjects', 'weekly_time_slots')
+        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime', 'schools', 'grade_subjects',)
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
