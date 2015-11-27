@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_main2, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
         TextView main_find_teacher_btn = (TextView)v.findViewById(R.id.main_find_teacher_btn);
         main_find_teacher_btn.setOnClickListener(new View.OnClickListener() {
             @Override
