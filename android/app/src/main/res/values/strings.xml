@@ -117,4 +117,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_address_type_go_home">go home</string>
+    <string name="title_address_type_study_center">study center</string>
+    <string name="title_choise_address_type">address type</string>
+    <string name="title_choise_course_address">address</string>
+    <string name="title_grade">Grade</string>
+    <string name="title_subject">Subject</string>
 </resources>

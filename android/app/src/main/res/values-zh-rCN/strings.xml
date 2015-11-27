@@ -49,4 +49,11 @@
 	<string name="title_activity_feedback">FeedbackActivity</string>
 	<string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
 	<string name="title_activity_coupon_list">CouponListActivity</string>
+
+	<string name="title_subject">科目</string>
+	<string name="title_grade">年级</string>
+	<string name="title_choise_course_address">预约上课地点</string>
+	<string name="title_choise_address_type">选择上课方式</string>
+	<string name="title_address_type_go_home">老师上门</string>
+	<string name="title_address_type_study_center">学习中心</string>
 </resources>
