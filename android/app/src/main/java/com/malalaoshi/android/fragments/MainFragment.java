@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.malalaoshi.android.R;
 
 /**
@@ -67,7 +66,20 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main2, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        TextView main_find_teacher_btn = (TextView)v.findViewById(R.id.main_find_teacher_btn);
+        main_find_teacher_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View btn) {
+                FindTeacherFragment findTeacherFragment = new FindTeacherFragment();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_layout, findTeacherFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
