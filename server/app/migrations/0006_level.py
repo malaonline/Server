@@ -12,7 +12,7 @@ def add_level(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('app', '0005_gradesubject'),
+        ('app', '0004_grade'),
     ]
 
     operations = [
