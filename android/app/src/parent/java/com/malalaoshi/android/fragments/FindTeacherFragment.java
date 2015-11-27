@@ -1,20 +1,32 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +41,14 @@ public class FindTeacherFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
+    private static final String API_GRADES_URL = "/api/v1/grades/";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String[] subjectsArr;
-    private String[] gradesArr;
+    private List<Map<String,String>> subjectsList;
+    private List<Map<String,String>> gradesList;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,8 +81,8 @@ public class FindTeacherFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        subjectsArr = new String[]{"语文", "数学", "英语"};
-        gradesArr = new String[]{"一年级", "二年级", "三年级", "四年级", "五年级", "六年级"};
+        subjectsList = new ArrayList<Map<String, String>>();
+        gradesList = new ArrayList<Map<String, String>>();
     }
 
     @Override
@@ -92,33 +106,65 @@ public class FindTeacherFragment extends Fragment {
         });
         // 科目年级列表
         ListView subjectsListView = (ListView)view.findViewById(R.id.find_teacher_subjects_list);
-        subjectsListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.abc_list_menu_item_layout, R.id.title, subjectsArr));
+        subjectsListView.setAdapter(new SimpleAdapter(getActivity(), subjectsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
         subjectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (position<0 || position>=subjectsArr.length) {
+                if (position < 0 || position >= subjectsList.size()) {
                     return;
                 }
-                String subject = subjectsArr[position];
+                String subject = subjectsList.get(position).get("name");
                 TextView label = (TextView)view.findViewById(R.id.subject_text);
                 label.setText(subject);
             }
         });
+        updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
         ListView gradesListView = (ListView)view.findViewById(R.id.find_teacher_grades_list);
-        gradesListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.abc_list_menu_item_layout, R.id.title, gradesArr));
+        gradesListView.setAdapter(new SimpleAdapter(getActivity(), gradesList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
         gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (position < 0 || position >= gradesArr.length) {
+                if (position < 0 || position >= gradesList.size()) {
                     return;
                 }
-                String grade = gradesArr[position];
+                String grade = gradesList.get(position).get("name");
                 TextView label = (TextView) view.findViewById(R.id.grade_text);
                 label.setText(grade);
             }
         });
+        updateListView(API_GRADES_URL, gradesList, gradesListView);
         // 选择上课地点
         return view;
+    }
+
+    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final ListView listView) {
+        String url = MalaApplication.getInstance().getMalaHost() + apiUrl;
+        RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        dataSet.clear();
+                        try {
+                            int len = response.length();
+                            for (int i = 0; i < len; i++) {
+                                JSONObject obj = response.getJSONObject(i);
+                                Map<String, String> item = new HashMap<String, String>();
+                                item.put("name", obj.getString("name"));
+                                dataSet.add(item);
+                            }
+                        }catch (Exception e) {
+                        }
+                        ((SimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        requestQueue.add(jsonRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
