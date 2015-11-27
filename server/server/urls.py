@@ -70,15 +70,6 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
-class GradeSubjectSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = GradeSubject
-        fields = ('url', 'grade', 'subject')
-
-class GradeSubjectViewSet(viewsets.ModelViewSet):
-    queryset = GradeSubject.objects.all()
-    serializer_class = GradeSubjectSerializer
-
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
@@ -109,7 +100,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime', 'schools', 'grade_subjects',)
+        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime',
+                'schools',)
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
@@ -131,7 +123,6 @@ router.register(r'regions', RegionViewSet)
 router.register(r'schools', SchoolViewSet)
 router.register(r'grades', GradeViewSet)
 router.register(r'subjects', SubjectViewSet)
-router.register(r'gradesubjects', GradeSubjectViewSet)
 router.register(r'levels', LevelViewSet)
 router.register(r'roles', RoleViewSet)
 router.register(r'profiles', ProfileViewSet)
