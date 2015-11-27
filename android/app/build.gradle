@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def releaseTime(){
+def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("Asia/Shanghai"))
 }
 
@@ -26,10 +26,10 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "API_HOST", "\""+LOCAL_SERVER+"\"")
+        buildConfigField("String", "API_HOST", "\"" + LOCAL_SERVER + "\"")
     }
     buildTypes {
-        debug{
+        debug {
             applicationIdSuffix ".debug"
             buildConfigField "boolean", "LOG_DEBUG", "true"
             versionNameSuffix "-debug"
@@ -47,10 +47,10 @@ android {
         }
     }
 
-    applicationVariants.all{ variant ->
-        variant.outputs.each{ output ->
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
             def outputFile = output.outputFile
-            if(outputFile != null && outputFile.name.endsWith('.apk')){
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 def fileName = outputFile.name.substring(0, outputFile.name.length() - 4) + '_' + releaseTime() + '.apk'
                 output.outputFile = new File(outputFile.parent, fileName)
             }
@@ -74,10 +74,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile project(':volley')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.+'
-    compile project(':volley')
+    compile 'com.android.support:recyclerview-v7:22.2.1'
 }

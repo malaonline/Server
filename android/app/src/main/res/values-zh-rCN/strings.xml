@@ -2,6 +2,7 @@
 <resources>
 	<string name="app_name">麻辣老师</string>
 	<string name="find_teacher">找个老师</string>
+	<string name="teacher_list">老师列表</string>
 	<string name="navigation_drawer_open">打开导航抽屉</string>
 	<string name="navigation_drawer_close">关闭导航抽屉</string>
 	<string name="action_settings">设置</string>

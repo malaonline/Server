@@ -24,9 +24,9 @@ public class MalaApplication extends Application {
 
     @Override
     public void onCreate() {
-        instance = this;
-        this.init();
         super.onCreate();
+        this.init();
+        instance = this;
     }
 
     public static MalaApplication getInstance() {
