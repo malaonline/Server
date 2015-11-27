@@ -14,6 +14,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Ability',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+            ],
+        ),
+        migrations.CreateModel(
             name='Account',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -130,13 +136,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='GradeSubject',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('grade', models.ForeignKey(to='app.Grade')),
-            ],
-        ),
-        migrations.CreateModel(
             name='InterviewRecord',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -189,7 +188,7 @@ class Migration(migrations.Migration):
                 ('paid_at', models.DateTimeField()),
                 ('status', models.CharField(choices=[('u', '待付款'), ('p', '已付款'), ('d', '已取消'), ('n', '没出现'), ('c', '已确认')], max_length=2)),
                 ('coupon', models.ForeignKey(to='app.Coupon')),
-                ('grade_subject', models.ForeignKey(to='app.GradeSubject')),
+                ('grade', models.ForeignKey(to='app.Grade')),
             ],
             options={
                 'abstract': False,
@@ -205,6 +204,15 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
+        ),
+        migrations.CreateModel(
+            name='Price',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('price', models.PositiveIntegerField()),
+                ('grade', models.ForeignKey(to='app.Grade')),
+                ('level', models.ForeignKey(to='app.Level')),
+            ],
         ),
         migrations.CreateModel(
             name='Profile',
@@ -225,21 +233,12 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=50)),
                 ('admin_level', models.PositiveIntegerField()),
                 ('leaf', models.BooleanField()),
+                ('opened', models.BooleanField(default=False)),
                 ('superset', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, to='app.Region')),
             ],
             options={
                 'abstract': False,
             },
-        ),
-        migrations.CreateModel(
-            name='RegionGradeSubjectLevelPrice',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.PositiveIntegerField()),
-                ('grade_subject', models.ForeignKey(to='app.GradeSubject')),
-                ('level', models.ForeignKey(to='app.Level')),
-                ('region', models.ForeignKey(to='app.Region')),
-            ],
         ),
         migrations.CreateModel(
             name='Role',
@@ -285,22 +284,12 @@ class Migration(migrations.Migration):
                 ('degree', models.CharField(choices=[('h', '高中'), ('s', '专科'), ('b', '本科'), ('p', '研究生')], max_length=2)),
                 ('active', models.BooleanField(default=True)),
                 ('fulltime', models.BooleanField(default=True)),
-                ('grade_subjects', models.ManyToManyField(to='app.GradeSubject')),
                 ('schools', models.ManyToManyField(to='app.School')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
             },
-        ),
-        migrations.CreateModel(
-            name='TeacherSubjectLevel',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('level', models.ForeignKey(to='app.Level')),
-                ('subject', models.ForeignKey(to='app.Subject')),
-                ('teacher', models.ForeignKey(to='app.Teacher')),
-            ],
         ),
         migrations.CreateModel(
             name='TimeSlot',
@@ -353,6 +342,16 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
+            model_name='price',
+            name='region',
+            field=models.ForeignKey(to='app.Region'),
+        ),
+        migrations.AddField(
+            model_name='price',
+            name='subject',
+            field=models.ForeignKey(to='app.Subject'),
+        ),
+        migrations.AddField(
             model_name='order',
             name='parent',
             field=models.ForeignKey(null=True, to='app.Parent'),
@@ -361,6 +360,11 @@ class Migration(migrations.Migration):
             model_name='order',
             name='school',
             field=models.ForeignKey(to='app.School'),
+        ),
+        migrations.AddField(
+            model_name='order',
+            name='subject',
+            field=models.ForeignKey(to='app.Subject'),
         ),
         migrations.AddField(
             model_name='order',
@@ -376,11 +380,6 @@ class Migration(migrations.Migration):
             model_name='interviewrecord',
             name='teacher',
             field=models.ForeignKey(to='app.Teacher'),
-        ),
-        migrations.AddField(
-            model_name='gradesubject',
-            name='subject',
-            field=models.ForeignKey(to='app.Subject'),
         ),
         migrations.AddField(
             model_name='coupon',
@@ -412,16 +411,32 @@ class Migration(migrations.Migration):
             name='teacher',
             field=models.OneToOneField(to='app.Teacher'),
         ),
-        migrations.AlterUniqueTogether(
-            name='teachersubjectlevel',
-            unique_together=set([('teacher', 'subject')]),
+        migrations.AddField(
+            model_name='ability',
+            name='grade',
+            field=models.ForeignKey(to='app.Grade'),
+        ),
+        migrations.AddField(
+            model_name='ability',
+            name='level',
+            field=models.ForeignKey(to='app.Level'),
+        ),
+        migrations.AddField(
+            model_name='ability',
+            name='subject',
+            field=models.ForeignKey(to='app.Subject'),
+        ),
+        migrations.AddField(
+            model_name='ability',
+            name='teacher',
+            field=models.ForeignKey(to='app.Teacher'),
         ),
         migrations.AlterUniqueTogether(
-            name='regiongradesubjectlevelprice',
-            unique_together=set([('region', 'grade_subject', 'level')]),
+            name='price',
+            unique_together=set([('region', 'grade', 'subject', 'level')]),
         ),
         migrations.AlterUniqueTogether(
-            name='gradesubject',
-            unique_together=set([('grade', 'subject')]),
+            name='ability',
+            unique_together=set([('teacher', 'grade', 'subject')]),
         ),
     ]
