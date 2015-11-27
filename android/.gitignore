@@ -8,4 +8,4 @@ local.properties
 build
 captures
 gradle-app.setting
-app/app.xml
+app/app.iml
