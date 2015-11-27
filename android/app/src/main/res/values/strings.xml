@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mala Teacher</string>
     <string name="find_teacher">Find a teacher</string>
+    <string name="teacher_list">Teacher List</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
