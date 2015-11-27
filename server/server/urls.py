@@ -26,7 +26,7 @@ from app.models import *
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+        fields = ('url', 'username', 'email', 'is_staff', 'profile')
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -109,7 +109,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('url', 'name', 'degree', 'active', 'fulltime', 'schools', 'grade_subjects', 'weekly_time_slots')
+        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime', 'schools', 'grade_subjects', 'weekly_time_slots')
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
