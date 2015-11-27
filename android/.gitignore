@@ -1,6 +1,7 @@
 # Android
 
 .gradle
+gradle
 gradle.properties
 local.properties
 .idea
@@ -8,4 +9,4 @@ local.properties
 build
 captures
 gradle-app.setting
-app/app.iml
+*.iml
