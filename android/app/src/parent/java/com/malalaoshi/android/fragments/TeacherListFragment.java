@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,15 +29,11 @@ import org.json.JSONObject;
 
 
 public class TeacherListFragment extends Fragment {
+    public static final String fragmentTag = "parent_teacher_list_fragment";
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
-
-    public static void openTeacherFragment(FragmentManager fragmentManager){
-        TeacherListFragment teacherListFragment = new TeacherListFragment();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).commit();
-    }
 
     public TeacherListFragment() {
     }
