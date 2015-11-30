@@ -86,7 +86,7 @@ class Profile(BaseModel):
     )
 
     user = models.OneToOneField(User)
-    name = models.CharField(max_length=200, default='')
+    phone = models.CharField(max_length=20, default='')
     role = models.ForeignKey(Role, null=True, blank=True, on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
             choices=GENDER_CHOICES,
