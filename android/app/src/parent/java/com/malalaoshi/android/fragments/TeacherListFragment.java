@@ -35,7 +35,7 @@ public class TeacherListFragment extends Fragment {
 
     public static void openTeacherFragment(FragmentManager fragmentManager){
         TeacherListFragment teacherListFragment = new TeacherListFragment();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).addToBackStack(null).commit();
     }
 
     public TeacherListFragment() {
