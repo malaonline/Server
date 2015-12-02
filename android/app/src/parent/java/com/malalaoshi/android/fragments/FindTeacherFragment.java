@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -134,6 +137,8 @@ public class FindTeacherFragment extends Fragment {
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
         // 选择上课地点
+
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -204,6 +209,11 @@ public class FindTeacherFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @OnClick(R.id.find_teacher_btn)
+    protected void onBtnFindTeacherClick() {
+        TeacherListFragment.openTeacherFragment(getFragmentManager());
     }
 
 }

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.fragments.TeacherListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
