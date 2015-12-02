@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 
 public class TeacherListFragment extends Fragment {
-    public static final String fragmentTag = "parent_teacher_list_fragment";
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
