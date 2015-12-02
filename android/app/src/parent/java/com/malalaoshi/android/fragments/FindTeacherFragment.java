@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,8 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +59,13 @@ public class FindTeacherFragment extends Fragment {
     private String mParam2;
     private List<Map<String,String>> subjectsList;
     private List<Map<String,String>> gradesList;
+    private List<Map<String,String>> schoolsList;
+    @Bind(R.id.school_list)
+    protected ListView mSchoolListView;
+    @Bind(R.id.school_row)
+    protected View mSchoolRow;
+    @Bind(R.id.school_tv)
+    protected TextView mSchoolLabel;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,6 +100,7 @@ public class FindTeacherFragment extends Fragment {
         }
         subjectsList = new ArrayList<Map<String, String>>();
         gradesList = new ArrayList<Map<String, String>>();
+        schoolsList = new ArrayList<Map<String, String>>();
     }
 
     @Override
@@ -94,6 +108,7 @@ public class FindTeacherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_find_teacher, container, false);
+        ButterKnife.bind(this, view);
         // 科目年级事件
         View subjectsGradesRow = view.findViewById(R.id.subjects_grades_row);
         subjectsGradesRow.setOnClickListener(new View.OnClickListener() {
@@ -159,9 +174,8 @@ public class FindTeacherFragment extends Fragment {
             }
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
-        // 选择上课地点
-
-        ButterKnife.bind(this, view);
+        // 选择学习中心
+        mSchoolListView.setAdapter(new ArrayAdapter(getActivity(), R.layout.abc_list_menu_item_layout, R.id.title, new String[]{"a", "b", "c", "d", "e", "f", "g"}));
         return view;
     }
 
@@ -242,6 +256,22 @@ public class FindTeacherFragment extends Fragment {
     @OnClick(R.id.find_teacher_btn)
     protected void onBtnFindTeacherClick() {
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
+    }
+
+    @OnClick(R.id.school_row)
+    protected void onViewSchoolRowClick() {
+        if (mSchoolListView==null) return;
+        int visibility = mSchoolListView.getVisibility();
+        if (visibility==View.GONE) {
+            mSchoolListView.setVisibility(View.VISIBLE);
+        } else {
+            mSchoolListView.setVisibility(View.GONE);
+        }
+    }
+
+    @OnItemClick(R.id.school_list)
+    protected void onListViewSchoolItemClick(AdapterView<?> parent, View v, int position, long id) {
+        Log.d(TAG, "select school " + position);
     }
 
 }

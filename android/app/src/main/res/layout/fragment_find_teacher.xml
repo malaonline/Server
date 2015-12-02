@@ -59,38 +59,27 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        <!-- 选择学习中心 -->
         <LinearLayout
+            android:id="@+id/school_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <TextView
+                android:id="@+id/school_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_choise_address_type"
+                android:text="@string/title_choose_school"
                 />
         </LinearLayout>
-        <LinearLayout
+        <ListView
+            android:id="@+id/school_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:width="50dp"
-                android:gravity="center"
-                android:text="@string/title_address_type_go_home"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:width="50dp"
-                android:gravity="center"
-                android:text="@string/title_address_type_study_center"
-                />
-        </LinearLayout>
+            android:layout_height="200dp"
+            android:visibility="gone">
+        </ListView>
 
     </LinearLayout>
     <Button
