@@ -35,6 +35,8 @@ public class TeacherDetailActivity extends StatusBarActivity{
         setContentView(R.layout.teacher_detail);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
     }
 }
