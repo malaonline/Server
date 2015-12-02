@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.view.WheelView;
 
 import org.json.JSONArray;
@@ -240,7 +241,7 @@ public class FindTeacherFragment extends Fragment {
 
     @OnClick(R.id.find_teacher_btn)
     protected void onBtnFindTeacherClick() {
-        TeacherListFragment.openTeacherFragment(getFragmentManager());
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
     }
 
 }

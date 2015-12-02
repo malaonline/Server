@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.util.FragmentUtil;
@@ -83,6 +82,6 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.main_find_teacher_btn)
     protected void onBtnFindTeacherClick(){
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new FindTeacherFragment(), FindTeacherFragment.class.getName());
     }
 }
