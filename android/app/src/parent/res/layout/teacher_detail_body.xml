@@ -35,7 +35,7 @@
     <View style="@style/AppWidget.DeepLine" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_edu_result"
+        android:id="@+id/parent_teacher_detail_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -147,7 +147,7 @@
     <View style="@style/AppWidget.ShadowGap" />
 
     <TextView
-        android:id="@+id/parent_teacher_detail_photo"
+        android:id="@+id/about_btn_open_source_license"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"

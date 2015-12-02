@@ -43,7 +43,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/activity_teacher_detail" />
+        <include layout="@layout/teacher_detail_body" />
 
     </android.support.v4.widget.NestedScrollView>
 
