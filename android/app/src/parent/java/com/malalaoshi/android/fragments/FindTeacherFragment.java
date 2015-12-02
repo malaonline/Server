@@ -60,6 +60,8 @@ public class FindTeacherFragment extends Fragment {
     private List<Map<String,String>> subjectsList;
     private List<Map<String,String>> gradesList;
     private List<Map<String,String>> schoolsList;
+    @Bind(R.id.subjects_grades_comp)
+    protected View mSubjectsGradesComp;
     @Bind(R.id.school_list)
     protected ListView mSchoolListView;
     @Bind(R.id.school_row)
@@ -109,35 +111,8 @@ public class FindTeacherFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_find_teacher, container, false);
         ButterKnife.bind(this, view);
-        // 科目年级事件
-        View subjectsGradesRow = view.findViewById(R.id.subjects_grades_row);
-        subjectsGradesRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View subjectsGradesComp = view.findViewById(R.id.subjects_grades_comp);
-                int visibility = subjectsGradesComp.getVisibility();
-                if (visibility==View.GONE) {
-                    subjectsGradesComp.setVisibility(View.VISIBLE);
-                } else {
-                    subjectsGradesComp.setVisibility(View.GONE);
-                }
-            }
-        });
         // 科目年级列表
-//        ListView subjectsListView = (ListView)view.findViewById(R.id.find_teacher_subjects_list);
-//        subjectsListView.setAdapter(new SimpleAdapter(getActivity(), subjectsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-//        subjectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                if (position < 0 || position >= subjectsList.size()) {
-//                    return;
-//                }
-//                String subject = subjectsList.get(position).get("name");
-//                TextView label = (TextView)view.findViewById(R.id.subject_text);
-//                label.setText(subject);
-//            }
-//        });
-//        updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
+        // 科目list
         WheelView subjectsListView = (WheelView) view.findViewById(R.id.find_teacher_subjects_list);
         subjectsListView.setOffset(1);
         subjectsListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
@@ -149,20 +124,7 @@ public class FindTeacherFragment extends Fragment {
             }
         });
         updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
-//        ListView gradesListView = (ListView)view.findViewById(R.id.find_teacher_grades_list);
-//        gradesListView.setAdapter(new SimpleAdapter(getActivity(), gradesList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-//        gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                if (position < 0 || position >= gradesList.size()) {
-//                    return;
-//                }
-//                String grade = gradesList.get(position).get("name");
-//                TextView label = (TextView) view.findViewById(R.id.grade_text);
-//                label.setText(grade);
-//            }
-//        });
-//        updateListView(API_GRADES_URL, gradesList, gradesListView);
+        // 年级list
         WheelView gradesListView = (WheelView) view.findViewById(R.id.find_teacher_grades_list);
         gradesListView.setOffset(1);
         gradesListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
@@ -260,6 +222,16 @@ public class FindTeacherFragment extends Fragment {
     @OnClick(R.id.find_teacher_btn)
     protected void onBtnFindTeacherClick() {
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
+    }
+
+    @OnClick(R.id.subjects_grades_row)
+    protected void onViewSubjectGradeRowClick() {
+        int visibility = mSubjectsGradesComp.getVisibility();
+        if (visibility==View.GONE) {
+            mSubjectsGradesComp.setVisibility(View.VISIBLE);
+        } else {
+            mSubjectsGradesComp.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.school_row)
