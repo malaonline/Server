@@ -36,19 +36,28 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:visibility="gone">
-            <ListView
-                android:id="@+id/find_teacher_subjects_list"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                ></ListView>
-
-            <ListView
-                android:id="@+id/find_teacher_grades_list"
+                >
+                <com.malalaoshi.android.view.WheelView
+                    android:id="@+id/find_teacher_subjects_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                ></ListView>
+                >
+                <com.malalaoshi.android.view.WheelView
+                    android:id="@+id/find_teacher_grades_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

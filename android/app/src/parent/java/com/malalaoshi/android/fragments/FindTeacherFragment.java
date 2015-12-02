@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.view.WheelView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,6 +39,7 @@ import butterknife.OnClick;
  * create an instance of this fragment.
  */
 public class FindTeacherFragment extends Fragment {
+    private static final String TAG = FindTeacherFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -108,31 +108,53 @@ public class FindTeacherFragment extends Fragment {
             }
         });
         // 科目年级列表
-        ListView subjectsListView = (ListView)view.findViewById(R.id.find_teacher_subjects_list);
-        subjectsListView.setAdapter(new SimpleAdapter(getActivity(), subjectsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-        subjectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        ListView subjectsListView = (ListView)view.findViewById(R.id.find_teacher_subjects_list);
+//        subjectsListView.setAdapter(new SimpleAdapter(getActivity(), subjectsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
+//        subjectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                if (position < 0 || position >= subjectsList.size()) {
+//                    return;
+//                }
+//                String subject = subjectsList.get(position).get("name");
+//                TextView label = (TextView)view.findViewById(R.id.subject_text);
+//                label.setText(subject);
+//            }
+//        });
+//        updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
+        WheelView subjectsListView = (WheelView) view.findViewById(R.id.find_teacher_subjects_list);
+        subjectsListView.setOffset(1);
+        subjectsListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (position < 0 || position >= subjectsList.size()) {
-                    return;
-                }
-                String subject = subjectsList.get(position).get("name");
-                TextView label = (TextView)view.findViewById(R.id.subject_text);
-                label.setText(subject);
+            public void onSelected(int selectedIndex, String item) {
+                Log.d(TAG, "subject selectedIndex: " + selectedIndex + ", item: " + item);
+                TextView label = (TextView) view.findViewById(R.id.subject_text);
+                label.setText(item);
             }
         });
         updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
-        ListView gradesListView = (ListView)view.findViewById(R.id.find_teacher_grades_list);
-        gradesListView.setAdapter(new SimpleAdapter(getActivity(), gradesList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-        gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        ListView gradesListView = (ListView)view.findViewById(R.id.find_teacher_grades_list);
+//        gradesListView.setAdapter(new SimpleAdapter(getActivity(), gradesList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
+//        gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                if (position < 0 || position >= gradesList.size()) {
+//                    return;
+//                }
+//                String grade = gradesList.get(position).get("name");
+//                TextView label = (TextView) view.findViewById(R.id.grade_text);
+//                label.setText(grade);
+//            }
+//        });
+//        updateListView(API_GRADES_URL, gradesList, gradesListView);
+        WheelView gradesListView = (WheelView) view.findViewById(R.id.find_teacher_grades_list);
+        gradesListView.setOffset(1);
+        gradesListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (position < 0 || position >= gradesList.size()) {
-                    return;
-                }
-                String grade = gradesList.get(position).get("name");
+            public void onSelected(int selectedIndex, String item) {
+                Log.d(TAG, "grade selectedIndex: " + selectedIndex + ", item: " + item);
                 TextView label = (TextView) view.findViewById(R.id.grade_text);
-                label.setText(grade);
+                label.setText(item);
             }
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
@@ -142,7 +164,7 @@ public class FindTeacherFragment extends Fragment {
         return view;
     }
 
-    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final ListView listView) {
+    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final WheelView listView) {
         String url = MalaApplication.getInstance().getMalaHost() + apiUrl;
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
         JsonArrayRequest jsonRequest = new JsonArrayRequest(
@@ -151,6 +173,7 @@ public class FindTeacherFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         dataSet.clear();
+                        List<String> list = new ArrayList<>();
                         try {
                             int len = response.length();
                             for (int i = 0; i < len; i++) {
@@ -158,15 +181,17 @@ public class FindTeacherFragment extends Fragment {
                                 Map<String, String> item = new HashMap<String, String>();
                                 item.put("name", obj.getString("name"));
                                 dataSet.add(item);
+                                list.add(obj.getString("name"));
                             }
                         }catch (Exception e) {
                         }
-                        ((SimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
+//                        ((SimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
+                        listView.setItems(list);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e(TAG, "get data list error", error);
                     }
                 });
         requestQueue.add(jsonRequest);
