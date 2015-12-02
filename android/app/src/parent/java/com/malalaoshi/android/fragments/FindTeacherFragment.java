@@ -14,7 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.view.WheelView;
@@ -166,18 +166,20 @@ public class FindTeacherFragment extends Fragment {
 
     private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final WheelView listView) {
         String url = MalaApplication.getInstance().getMalaHost() + apiUrl;
+        Log.d(TAG, String.valueOf(url));
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         dataSet.clear();
                         List<String> list = new ArrayList<>();
                         try {
-                            int len = response.length();
+                            JSONArray results = response.getJSONArray("results");
+                            int len = results.length();
                             for (int i = 0; i < len; i++) {
-                                JSONObject obj = response.getJSONObject(i);
+                                JSONObject obj = results.getJSONObject(i);
                                 Map<String, String> item = new HashMap<String, String>();
                                 item.put("name", obj.getString("name"));
                                 dataSet.add(item);
