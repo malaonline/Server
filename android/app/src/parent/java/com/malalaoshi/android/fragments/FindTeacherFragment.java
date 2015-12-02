@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -53,6 +52,7 @@ public class FindTeacherFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
+    private static final String API_SCHOOLS_URL = "/api/v1/schools/";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -175,11 +175,12 @@ public class FindTeacherFragment extends Fragment {
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
         // 选择学习中心
-        mSchoolListView.setAdapter(new ArrayAdapter(getActivity(), R.layout.abc_list_menu_item_layout, R.id.title, new String[]{"a", "b", "c", "d", "e", "f", "g"}));
+        mSchoolListView.setAdapter(new SimpleAdapter(getActivity(), schoolsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
+        updateListView(API_SCHOOLS_URL, schoolsList, mSchoolListView);
         return view;
     }
 
-    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final WheelView listView) {
+    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final View listView) {
         String url = MalaApplication.getInstance().getMalaHost() + apiUrl;
         Log.d(TAG, String.valueOf(url));
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
@@ -202,8 +203,11 @@ public class FindTeacherFragment extends Fragment {
                             }
                         }catch (Exception e) {
                         }
-//                        ((SimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
-                        listView.setItems(list);
+                        if (listView instanceof WheelView) {
+                            ((WheelView)listView).setItems(list);
+                        } else {
+                            ((SimpleAdapter)((ListView)listView).getAdapter()).notifyDataSetChanged();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -272,6 +276,11 @@ public class FindTeacherFragment extends Fragment {
     @OnItemClick(R.id.school_list)
     protected void onListViewSchoolItemClick(AdapterView<?> parent, View v, int position, long id) {
         Log.d(TAG, "select school " + position);
+        if (position < 0 || position >= schoolsList.size() || mSchoolLabel == null) {
+            return;
+        }
+        String school = schoolsList.get(position).get("name");
+        mSchoolLabel.setText(school);
     }
 
 }
