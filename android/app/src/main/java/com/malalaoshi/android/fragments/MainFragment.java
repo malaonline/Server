@@ -2,7 +2,6 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.common.FragmentManage;
+import com.malalaoshi.android.util.FragmentUtil;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -96,6 +95,6 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.main_find_teacher_btn)
     protected void onBtnFindTeacherClick(){
-        FragmentManage.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.fragmentTag);
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
     }
 }

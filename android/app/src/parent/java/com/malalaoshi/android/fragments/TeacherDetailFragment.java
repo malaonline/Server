@@ -1,9 +1,6 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,8 +17,6 @@ import com.malalaoshi.android.R;
  * to handle interaction events.
  */
 public class TeacherDetailFragment extends Fragment {
-    public static final String fragmentTag = "parent_teacher_detail_fragment";
-
     private OnFragmentInteractionListener mListener;
 
     public TeacherDetailFragment() {
@@ -38,7 +33,7 @@ public class TeacherDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_teacher_detail, container, false);
+        return inflater.inflate(R.layout.parent_teacher_detail, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

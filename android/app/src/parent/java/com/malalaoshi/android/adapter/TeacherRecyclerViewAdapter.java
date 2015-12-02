@@ -1,7 +1,6 @@
 package com.malalaoshi.android.adapter;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.common.FragmentManage;
+import com.malalaoshi.android.TeacherDetailActivity;
+import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.fragments.TeacherDetailFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
@@ -89,9 +89,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @OnClick(R.id.fragment_teacher_list_item)
         protected void onItemClick(){
-            Toast.makeText(this.view.getContext(), "click:"+this.name.getText(), Toast.LENGTH_SHORT).show();
-            FragmentManager frm = ((Activity)this.view.getContext()).getFragmentManager();
-            FragmentManage.opFragmentMainActivity(frm, frm.findFragmentByTag(TeacherListFragment.fragmentTag), new TeacherDetailFragment(), TeacherDetailFragment.fragmentTag);
+            TeacherDetailActivity.open(this.view.getContext(), null);
         }
     }
 }

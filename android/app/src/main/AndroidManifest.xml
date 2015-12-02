@@ -22,6 +22,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.malalaoshi.android.TeacherDetailActivity"
+            android:label="老师详情"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 
