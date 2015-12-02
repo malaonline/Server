@@ -38,18 +38,6 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView main_find_teacher_btn = (TextView)v.findViewById(R.id.main_find_teacher_btn);
-        main_find_teacher_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View btn) {
-                FindTeacherFragment findTeacherFragment = new FindTeacherFragment();
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.content_layout, findTeacherFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
         ButterKnife.bind(this, v);
         return v;
     }

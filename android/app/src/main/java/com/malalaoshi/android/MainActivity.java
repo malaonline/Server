@@ -3,6 +3,7 @@ package com.malalaoshi.android;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -51,10 +52,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (getFragmentManager().getBackStackEntryCount() > 0 ){
-                getFragmentManager().popBackStack();
-            } else {
-                super.onBackPressed();
+            if (!getFragmentManager().popBackStackImmediate()) {
+                ActivityCompat.finishAfterTransition(this);
             }
         }
     }

@@ -1,18 +1,13 @@
 package com.malalaoshi.android.adapter;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import android.widget.TextView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
-import com.malalaoshi.android.util.FragmentUtil;
-import com.malalaoshi.android.fragments.TeacherDetailFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
 
