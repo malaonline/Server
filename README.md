@@ -18,3 +18,13 @@
 
 1. `git remote add upstream git@bitbucket.org:malalaoshi/mala.git`
 2. `git pull upstream dev`
+
+### Dev server
+
+
+<https://dev.malalaoshi.com/admin>
+
+username: test
+password: mala-test
+
+
