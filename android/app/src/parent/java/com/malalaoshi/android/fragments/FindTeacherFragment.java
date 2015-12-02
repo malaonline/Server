@@ -60,6 +60,7 @@ public class FindTeacherFragment extends Fragment {
     private List<Map<String,String>> subjectsList;
     private List<Map<String,String>> gradesList;
     private List<Map<String,String>> schoolsList;
+    private List<View> mCollapsableList;
     @Bind(R.id.subjects_grades_comp)
     protected View mSubjectsGradesComp;
     @Bind(R.id.school_list)
@@ -103,6 +104,7 @@ public class FindTeacherFragment extends Fragment {
         subjectsList = new ArrayList<Map<String, String>>();
         gradesList = new ArrayList<Map<String, String>>();
         schoolsList = new ArrayList<Map<String, String>>();
+        mCollapsableList = new ArrayList<>();
     }
 
     @Override
@@ -111,6 +113,8 @@ public class FindTeacherFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_find_teacher, container, false);
         ButterKnife.bind(this, view);
+        mCollapsableList.add(mSubjectsGradesComp);
+        mCollapsableList.add(mSchoolListView);
         // 科目年级列表
         // 科目list
         WheelView subjectsListView = (WheelView) view.findViewById(R.id.find_teacher_subjects_list);
@@ -226,22 +230,27 @@ public class FindTeacherFragment extends Fragment {
 
     @OnClick(R.id.subjects_grades_row)
     protected void onViewSubjectGradeRowClick() {
-        int visibility = mSubjectsGradesComp.getVisibility();
-        if (visibility==View.GONE) {
-            mSubjectsGradesComp.setVisibility(View.VISIBLE);
-        } else {
-            mSubjectsGradesComp.setVisibility(View.GONE);
-        }
+        onCollapseView(mSubjectsGradesComp);
     }
 
     @OnClick(R.id.school_row)
     protected void onViewSchoolRowClick() {
-        if (mSchoolListView==null) return;
-        int visibility = mSchoolListView.getVisibility();
-        if (visibility==View.GONE) {
-            mSchoolListView.setVisibility(View.VISIBLE);
-        } else {
-            mSchoolListView.setVisibility(View.GONE);
+        onCollapseView(mSchoolListView);
+    }
+
+    private void onCollapseView(View targetView) {
+        if (targetView==null) return;
+        for(View v: mCollapsableList) {
+            if (v != targetView) {
+                v.setVisibility(View.GONE);
+                continue;
+            }
+            int visibility = targetView.getVisibility();
+            if (visibility == View.GONE) {
+                targetView.setVisibility(View.VISIBLE);
+            } else {
+                targetView.setVisibility(View.GONE);
+            }
         }
     }
 
