@@ -57,4 +57,6 @@
 	<string name="title_choise_address_type">选择上课方式</string>
 	<string name="title_address_type_go_home">老师上门</string>
 	<string name="title_address_type_study_center">学习中心</string>
+
+	<string name="nav_bar_back">返回</string>
 </resources>

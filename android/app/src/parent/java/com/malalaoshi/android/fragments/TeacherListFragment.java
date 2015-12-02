@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
@@ -105,20 +107,21 @@ public class TeacherListFragment extends Fragment {
             try{
                 String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-                JsonArrayRequest jsArrayRequest = new JsonArrayRequest(
+                JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
-                        new Response.Listener<JSONArray>(){
+                        new Response.Listener<JSONObject>(){
                             @Override
-                            public void onResponse(JSONArray response){
+                            public void onResponse(JSONObject response){
                                 try{
-                                    for(int i=0;i<response.length();i++){
-                                        JSONObject obj = (JSONObject)response.get(i);
+                                    JSONArray result = response.getJSONArray("results");
+                                    for(int i=0;i<result.length();i++){
+                                        JSONObject obj = (JSONObject)result.get(i);
                                         Teacher teacher = new Teacher();
                                         teacher.setId(String.valueOf(i+1));
                                         teacher.setName(obj.getString("name"));
                                         TeacherRecyclerViewAdapter.mValues.add(teacher);
                                     }
-                                    if(response.length() > 0){
+                                    if(result.length() > 0){
                                         adapter.notifyDataSetChanged();
                                     }
                                 } catch (Exception e) {

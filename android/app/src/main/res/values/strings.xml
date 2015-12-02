@@ -123,4 +123,5 @@
     <string name="title_choise_course_address">address</string>
     <string name="title_grade">Grade</string>
     <string name="title_subject">Subject</string>
+    <string name="nav_bar_back">back</string>
 </resources>
