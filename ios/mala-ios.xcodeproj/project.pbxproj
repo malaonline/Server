@@ -7,116 +7,109 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A57F4F091BF1CA8E004A711D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F081BF1CA8E004A711D /* LoginViewController.swift */; };
-		A57F4F0B1BF1CCAF004A711D /* AddressListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */; };
-		A57F4F0D1BF1CCCC004A711D /* BindCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */; };
-		A57F4F0F1BF1CCDD004A711D /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */; };
-		A57F4F111BF1CCE8004A711D /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */; };
-		A57F4F131BF1CCF2004A711D /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */; };
-		A57F4F151BF1CD06004A711D /* InterviewStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */; };
-		A57F4F171BF1CD15004A711D /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F161BF1CD15004A711D /* JoinViewController.swift */; };
-		A57F4F191BF1CD23004A711D /* MemberServiceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */; };
-		A57F4F1B1BF1CD33004A711D /* MemberServiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */; };
-		A57F4F1D1BF1CD3E004A711D /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */; };
-		A57F4F1F1BF1CD47004A711D /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */; };
-		A57F4F211BF1CD54004A711D /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */; };
-		A57F4F231BF1CD5E004A711D /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */; };
-		A57F4F251BF1CD6E004A711D /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */; };
-		A57F4F271BF1CD7D004A711D /* RateCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */; };
-		A57F4F291BF1CD8B004A711D /* RenewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F281BF1CD8B004A711D /* RenewViewController.swift */; };
-		A57F4F2B1BF1CD96004A711D /* ScreenTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */; };
-		A57F4F2D1BF1CDA8004A711D /* TeacherCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */; };
-		A57F4F2F1BF1CDB2004A711D /* TeacherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */; };
-		A57F4F311BF1CDBE004A711D /* TeacherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */; };
-		A57F4F331BF1CDCA004A711D /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */; };
-		A57F4F351BF1CDD5004A711D /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */; };
-		A57F4F371BF1CDEE004A711D /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */; };
-		A5927B9E1BEC8BD900E9BDB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
-		A5927BA01BEC8BD900E9BDB4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
-		A5927BA21BEC8BD900E9BDB4 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
-		A5927BA41BEC8BD900E9BDB4 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */; };
-		A5927BA71BEC8BD900E9BDB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */; };
-		A5927BA91BEC8BD900E9BDB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */; };
-		A5927BAC1BEC8BD900E9BDB4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
-		A5927BB71BEC8BD900E9BDB4 /* mala_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */; };
-		A5927BC21BEC8BD900E9BDB4 /* mala_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */; };
+		357E69D21C0FEE290009AF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
+		357E69D31C0FEE290009AF9A /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
+		357E69D41C0FEE290009AF9A /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
+		357E69D51C0FEE290009AF9A /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */; };
+		357E69D61C0FEE290009AF9A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F081BF1CA8E004A711D /* LoginViewController.swift */; };
+		357E69DC1C0FEE290009AF9A /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */; };
+		357E69E21C0FEE290009AF9A /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */; };
+		357E69ED1C0FEE290009AF9A /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */; };
+		357E69F01C0FEEC90009AF9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */; };
+		357E69F11C0FEEC90009AF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
+		357E69F31C0FEF5C0009AF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
+		357E69F41C0FEF5C0009AF9A /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
+		357E69F51C0FEF5C0009AF9A /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
+		357E69F61C0FEF5C0009AF9A /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */; };
+		357E69F71C0FEF5C0009AF9A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F081BF1CA8E004A711D /* LoginViewController.swift */; };
+		357E69FD1C0FEF5C0009AF9A /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */; };
+		357E6A031C0FEF5C0009AF9A /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */; };
+		357E6A0E1C0FEF5C0009AF9A /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */; };
+		357E6A111C0FEF700009AF9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */; };
+		357E6A121C0FEF700009AF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
+		357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357E6A131C0FF1FF0009AF9A /* Main.storyboard */; };
+		357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */; };
+		357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */; };
+		357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A181C0FF2EE0009AF9A /* InterviewStatusViewController.swift */; };
+		357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */; };
+		357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */; };
+		357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */; };
+		357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A221C0FF3010009AF9A /* AddressListViewController.swift */; };
+		357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A231C0FF3010009AF9A /* CouponListViewController.swift */; };
+		357E6A321C0FF3010009AF9A /* MemberServiceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A241C0FF3010009AF9A /* MemberServiceDetailViewController.swift */; };
+		357E6A331C0FF3010009AF9A /* MemberServiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A251C0FF3010009AF9A /* MemberServiceListViewController.swift */; };
+		357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A261C0FF3010009AF9A /* OrderDetailViewController.swift */; };
+		357E6A351C0FF3010009AF9A /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A271C0FF3010009AF9A /* PaymentMethodViewController.swift */; };
+		357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A281C0FF3010009AF9A /* PaymentResultViewController.swift */; };
+		357E6A371C0FF3010009AF9A /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A291C0FF3010009AF9A /* PlaceOrderViewController.swift */; };
+		357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2A1C0FF3010009AF9A /* RateCourseViewController.swift */; };
+		357E6A391C0FF3010009AF9A /* RenewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2B1C0FF3010009AF9A /* RenewViewController.swift */; };
+		357E6A3A1C0FF3010009AF9A /* ScreenTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2C1C0FF3010009AF9A /* ScreenTeacherViewController.swift */; };
+		357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */; };
+		357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */; };
+		357E6A3D1C0FF3010009AF9A /* TeacherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */; };
+		35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35D7A2F51C0FE82E007D7679 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		A5927BB31BEC8BD900E9BDB4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A5927B921BEC8BD900E9BDB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A5927B991BEC8BD900E9BDB4;
-			remoteInfo = "mala-ios";
-		};
-		A5927BBE1BEC8BD900E9BDB4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A5927B921BEC8BD900E9BDB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A5927B991BEC8BD900E9BDB4;
-			remoteInfo = "mala-ios";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindCardViewController.swift; sourceTree = "<group>"; };
+		357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
+		357E6A181C0FF2EE0009AF9A /* InterviewStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterviewStatusViewController.swift; sourceTree = "<group>"; };
+		357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
+		357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawViewController.swift; sourceTree = "<group>"; };
+		357E6A221C0FF3010009AF9A /* AddressListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressListViewController.swift; sourceTree = "<group>"; };
+		357E6A231C0FF3010009AF9A /* CouponListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponListViewController.swift; sourceTree = "<group>"; };
+		357E6A241C0FF3010009AF9A /* MemberServiceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceDetailViewController.swift; sourceTree = "<group>"; };
+		357E6A251C0FF3010009AF9A /* MemberServiceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceListViewController.swift; sourceTree = "<group>"; };
+		357E6A261C0FF3010009AF9A /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
+		357E6A271C0FF3010009AF9A /* PaymentMethodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethodViewController.swift; sourceTree = "<group>"; };
+		357E6A281C0FF3010009AF9A /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
+		357E6A291C0FF3010009AF9A /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
+		357E6A2A1C0FF3010009AF9A /* RateCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateCourseViewController.swift; sourceTree = "<group>"; };
+		357E6A2B1C0FF3010009AF9A /* RenewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenewViewController.swift; sourceTree = "<group>"; };
+		357E6A2C1C0FF3010009AF9A /* ScreenTeacherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTeacherViewController.swift; sourceTree = "<group>"; };
+		357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCommentListViewController.swift; sourceTree = "<group>"; };
+		357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailViewController.swift; sourceTree = "<group>"; };
+		357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherListViewController.swift; sourceTree = "<group>"; };
+		35D7A2EF1C0FE82E007D7679 /* teacher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = teacher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		35D7A2F61C0FE82E007D7679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		35D7A3061C0FE82E007D7679 /* teacherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teacherTests.swift; sourceTree = "<group>"; };
+		35D7A3081C0FE82E007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35D7A3111C0FE82E007D7679 /* teacherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teacherUITests.swift; sourceTree = "<group>"; };
+		35D7A3131C0FE82E007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35D7A3211C0FE851007D7679 /* parent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = parent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		35D7A3381C0FE851007D7679 /* parentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentTests.swift; sourceTree = "<group>"; };
+		35D7A33A1C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35D7A3431C0FE851007D7679 /* parentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentUITests.swift; sourceTree = "<group>"; };
+		35D7A3451C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A57F4F081BF1CA8E004A711D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressListViewController.swift; sourceTree = "<group>"; };
-		A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindCardViewController.swift; sourceTree = "<group>"; };
-		A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponListViewController.swift; sourceTree = "<group>"; };
 		A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
-		A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
-		A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterviewStatusViewController.swift; sourceTree = "<group>"; };
-		A57F4F161BF1CD15004A711D /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
-		A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceDetailViewController.swift; sourceTree = "<group>"; };
-		A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceListViewController.swift; sourceTree = "<group>"; };
 		A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentListViewController.swift; sourceTree = "<group>"; };
-		A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
-		A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethodViewController.swift; sourceTree = "<group>"; };
-		A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
-		A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
-		A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateCourseViewController.swift; sourceTree = "<group>"; };
-		A57F4F281BF1CD8B004A711D /* RenewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenewViewController.swift; sourceTree = "<group>"; };
-		A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenTeacherViewController.swift; sourceTree = "<group>"; };
-		A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCommentListViewController.swift; sourceTree = "<group>"; };
-		A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailViewController.swift; sourceTree = "<group>"; };
-		A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherListViewController.swift; sourceTree = "<group>"; };
 		A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
-		A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
-		A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawViewController.swift; sourceTree = "<group>"; };
-		A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mala-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
 		A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
-		A5927BA61BEC8BD900E9BDB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5927BAB1BEC8BD900E9BDB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5927BAD1BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mala-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosTests.swift; sourceTree = "<group>"; };
 		A5927BB81BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mala-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosUITests.swift; sourceTree = "<group>"; };
 		A5927BC31BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A5927B971BEC8BD900E9BDB4 /* Frameworks */ = {
+		35D7A2EC1C0FE82E007D7679 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A5927BAF1BEC8BD900E9BDB4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A5927BBA1BEC8BD900E9BDB4 /* Frameworks */ = {
+		35D7A31E1C0FE851007D7679 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -126,12 +119,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35D7A2F01C0FE82E007D7679 /* teacher */ = {
+			isa = PBXGroup;
+			children = (
+				35D7A2F51C0FE82E007D7679 /* Main.storyboard */,
+				357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */,
+				357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */,
+				357E6A181C0FF2EE0009AF9A /* InterviewStatusViewController.swift */,
+				357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */,
+				357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */,
+				357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */,
+			);
+			path = teacher;
+			sourceTree = "<group>";
+		};
+		35D7A3051C0FE82E007D7679 /* teacherTests */ = {
+			isa = PBXGroup;
+			children = (
+				35D7A3061C0FE82E007D7679 /* teacherTests.swift */,
+				35D7A3081C0FE82E007D7679 /* Info.plist */,
+			);
+			path = teacherTests;
+			sourceTree = "<group>";
+		};
+		35D7A3101C0FE82E007D7679 /* teacherUITests */ = {
+			isa = PBXGroup;
+			children = (
+				35D7A3111C0FE82E007D7679 /* teacherUITests.swift */,
+				35D7A3131C0FE82E007D7679 /* Info.plist */,
+			);
+			path = teacherUITests;
+			sourceTree = "<group>";
+		};
+		35D7A3221C0FE851007D7679 /* parent */ = {
+			isa = PBXGroup;
+			children = (
+				357E6A131C0FF1FF0009AF9A /* Main.storyboard */,
+				357E6A221C0FF3010009AF9A /* AddressListViewController.swift */,
+				357E6A231C0FF3010009AF9A /* CouponListViewController.swift */,
+				357E6A241C0FF3010009AF9A /* MemberServiceDetailViewController.swift */,
+				357E6A251C0FF3010009AF9A /* MemberServiceListViewController.swift */,
+				357E6A261C0FF3010009AF9A /* OrderDetailViewController.swift */,
+				357E6A271C0FF3010009AF9A /* PaymentMethodViewController.swift */,
+				357E6A281C0FF3010009AF9A /* PaymentResultViewController.swift */,
+				357E6A291C0FF3010009AF9A /* PlaceOrderViewController.swift */,
+				357E6A2A1C0FF3010009AF9A /* RateCourseViewController.swift */,
+				357E6A2B1C0FF3010009AF9A /* RenewViewController.swift */,
+				357E6A2C1C0FF3010009AF9A /* ScreenTeacherViewController.swift */,
+				357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */,
+				357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */,
+				357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */,
+			);
+			path = parent;
+			sourceTree = "<group>";
+		};
+		35D7A3371C0FE851007D7679 /* parentTests */ = {
+			isa = PBXGroup;
+			children = (
+				35D7A3381C0FE851007D7679 /* parentTests.swift */,
+				35D7A33A1C0FE851007D7679 /* Info.plist */,
+			);
+			path = parentTests;
+			sourceTree = "<group>";
+		};
+		35D7A3421C0FE851007D7679 /* parentUITests */ = {
+			isa = PBXGroup;
+			children = (
+				35D7A3431C0FE851007D7679 /* parentUITests.swift */,
+				35D7A3451C0FE851007D7679 /* Info.plist */,
+			);
+			path = parentUITests;
+			sourceTree = "<group>";
+		};
 		A5927B911BEC8BD900E9BDB4 = {
 			isa = PBXGroup;
 			children = (
 				A5927B9C1BEC8BD900E9BDB4 /* mala-ios */,
+				35D7A2F01C0FE82E007D7679 /* teacher */,
+				35D7A3221C0FE851007D7679 /* parent */,
 				A5927BB51BEC8BD900E9BDB4 /* mala-iosTests */,
 				A5927BC01BEC8BD900E9BDB4 /* mala-iosUITests */,
+				35D7A3371C0FE851007D7679 /* parentTests */,
+				35D7A3421C0FE851007D7679 /* parentUITests */,
+				35D7A3051C0FE82E007D7679 /* teacherTests */,
+				35D7A3101C0FE82E007D7679 /* teacherUITests */,
 				A5927B9B1BEC8BD900E9BDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -139,9 +210,8 @@
 		A5927B9B1BEC8BD900E9BDB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */,
-				A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */,
-				A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */,
+				35D7A2EF1C0FE82E007D7679 /* teacher.app */,
+				35D7A3211C0FE851007D7679 /* parent.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -153,34 +223,13 @@
 				A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */,
 				A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */,
 				A5927BA31BEC8BD900E9BDB4 /* ModelController.swift */,
-				A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */,
 				A57F4F081BF1CA8E004A711D /* LoginViewController.swift */,
 				A5927BA81BEC8BD900E9BDB4 /* Assets.xcassets */,
 				A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */,
 				A5927BAD1BEC8BD900E9BDB4 /* Info.plist */,
-				A57F4F0A1BF1CCAF004A711D /* AddressListViewController.swift */,
-				A57F4F0C1BF1CCCC004A711D /* BindCardViewController.swift */,
-				A57F4F0E1BF1CCDD004A711D /* CouponListViewController.swift */,
 				A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */,
-				A57F4F121BF1CCF2004A711D /* IncomeViewController.swift */,
-				A57F4F141BF1CD06004A711D /* InterviewStatusViewController.swift */,
-				A57F4F161BF1CD15004A711D /* JoinViewController.swift */,
-				A57F4F181BF1CD23004A711D /* MemberServiceDetailViewController.swift */,
-				A57F4F1A1BF1CD33004A711D /* MemberServiceListViewController.swift */,
 				A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */,
-				A57F4F1E1BF1CD47004A711D /* OrderDetailViewController.swift */,
-				A57F4F201BF1CD54004A711D /* PaymentMethodViewController.swift */,
-				A57F4F221BF1CD5E004A711D /* PaymentResultViewController.swift */,
-				A57F4F241BF1CD6E004A711D /* PlaceOrderViewController.swift */,
-				A57F4F261BF1CD7D004A711D /* RateCourseViewController.swift */,
-				A57F4F281BF1CD8B004A711D /* RenewViewController.swift */,
-				A57F4F2A1BF1CD96004A711D /* ScreenTeacherViewController.swift */,
-				A57F4F2C1BF1CDA8004A711D /* TeacherCommentListViewController.swift */,
-				A57F4F2E1BF1CDB2004A711D /* TeacherDetailViewController.swift */,
-				A57F4F301BF1CDBE004A711D /* TeacherListViewController.swift */,
 				A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */,
-				A57F4F341BF1CDD5004A711D /* TransactionListViewController.swift */,
-				A57F4F361BF1CDEE004A711D /* WithdrawViewController.swift */,
 			);
 			path = "mala-ios";
 			sourceTree = "<group>";
@@ -206,58 +255,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A5927B991BEC8BD900E9BDB4 /* mala-ios */ = {
+		35D7A2EE1C0FE82E007D7679 /* teacher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A5927BC61BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-ios" */;
+			buildConfigurationList = 35D7A3141C0FE82E007D7679 /* Build configuration list for PBXNativeTarget "teacher" */;
 			buildPhases = (
-				A5927B961BEC8BD900E9BDB4 /* Sources */,
-				A5927B971BEC8BD900E9BDB4 /* Frameworks */,
-				A5927B981BEC8BD900E9BDB4 /* Resources */,
+				35D7A2EB1C0FE82E007D7679 /* Sources */,
+				35D7A2EC1C0FE82E007D7679 /* Frameworks */,
+				35D7A2ED1C0FE82E007D7679 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "mala-ios";
-			productName = "mala-ios";
-			productReference = A5927B9A1BEC8BD900E9BDB4 /* mala-ios.app */;
+			name = teacher;
+			productName = teacher;
+			productReference = 35D7A2EF1C0FE82E007D7679 /* teacher.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A5927BB11BEC8BD900E9BDB4 /* mala-iosTests */ = {
+		35D7A3201C0FE851007D7679 /* parent */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A5927BC91BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosTests" */;
+			buildConfigurationList = 35D7A3461C0FE851007D7679 /* Build configuration list for PBXNativeTarget "parent" */;
 			buildPhases = (
-				A5927BAE1BEC8BD900E9BDB4 /* Sources */,
-				A5927BAF1BEC8BD900E9BDB4 /* Frameworks */,
-				A5927BB01BEC8BD900E9BDB4 /* Resources */,
+				35D7A31D1C0FE851007D7679 /* Sources */,
+				35D7A31E1C0FE851007D7679 /* Frameworks */,
+				35D7A31F1C0FE851007D7679 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A5927BB41BEC8BD900E9BDB4 /* PBXTargetDependency */,
 			);
-			name = "mala-iosTests";
-			productName = "mala-iosTests";
-			productReference = A5927BB21BEC8BD900E9BDB4 /* mala-iosTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		A5927BBC1BEC8BD900E9BDB4 /* mala-iosUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A5927BCC1BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosUITests" */;
-			buildPhases = (
-				A5927BB91BEC8BD900E9BDB4 /* Sources */,
-				A5927BBA1BEC8BD900E9BDB4 /* Frameworks */,
-				A5927BBB1BEC8BD900E9BDB4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A5927BBF1BEC8BD900E9BDB4 /* PBXTargetDependency */,
-			);
-			name = "mala-iosUITests";
-			productName = "mala-iosUITests";
-			productReference = A5927BBD1BEC8BD900E9BDB4 /* mala-iosUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			name = parent;
+			productName = parent;
+			productReference = 35D7A3211C0FE851007D7679 /* parent.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -269,17 +299,13 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Mala Online";
 				TargetAttributes = {
-					A5927B991BEC8BD900E9BDB4 = {
-						CreatedOnToolsVersion = 7.1;
+					35D7A2EE1C0FE82E007D7679 = {
+						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 85KXKD6J43;
 					};
-					A5927BB11BEC8BD900E9BDB4 = {
-						CreatedOnToolsVersion = 7.1;
-						TestTargetID = A5927B991BEC8BD900E9BDB4;
-					};
-					A5927BBC1BEC8BD900E9BDB4 = {
-						CreatedOnToolsVersion = 7.1;
-						TestTargetID = A5927B991BEC8BD900E9BDB4;
+					35D7A3201C0FE851007D7679 = {
+						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 85KXKD6J43;
 					};
 				};
 			};
@@ -296,112 +322,101 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A5927B991BEC8BD900E9BDB4 /* mala-ios */,
-				A5927BB11BEC8BD900E9BDB4 /* mala-iosTests */,
-				A5927BBC1BEC8BD900E9BDB4 /* mala-iosUITests */,
+				35D7A2EE1C0FE82E007D7679 /* teacher */,
+				35D7A3201C0FE851007D7679 /* parent */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A5927B981BEC8BD900E9BDB4 /* Resources */ = {
+		35D7A2ED1C0FE82E007D7679 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5927BAC1BEC8BD900E9BDB4 /* LaunchScreen.storyboard in Resources */,
-				A5927BA91BEC8BD900E9BDB4 /* Assets.xcassets in Resources */,
-				A5927BA71BEC8BD900E9BDB4 /* Main.storyboard in Resources */,
+				357E6A111C0FEF700009AF9A /* Assets.xcassets in Resources */,
+				357E6A121C0FEF700009AF9A /* LaunchScreen.storyboard in Resources */,
+				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A5927BB01BEC8BD900E9BDB4 /* Resources */ = {
+		35D7A31F1C0FE851007D7679 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A5927BBB1BEC8BD900E9BDB4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */,
+				357E69F01C0FEEC90009AF9A /* Assets.xcassets in Resources */,
+				357E69F11C0FEEC90009AF9A /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A5927B961BEC8BD900E9BDB4 /* Sources */ = {
+		35D7A2EB1C0FE82E007D7679 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A57F4F0F1BF1CCDD004A711D /* CouponListViewController.swift in Sources */,
-				A57F4F131BF1CCF2004A711D /* IncomeViewController.swift in Sources */,
-				A57F4F1B1BF1CD33004A711D /* MemberServiceListViewController.swift in Sources */,
-				A57F4F251BF1CD6E004A711D /* PlaceOrderViewController.swift in Sources */,
-				A5927BA01BEC8BD900E9BDB4 /* RootViewController.swift in Sources */,
-				A57F4F231BF1CD5E004A711D /* PaymentResultViewController.swift in Sources */,
-				A57F4F211BF1CD54004A711D /* PaymentMethodViewController.swift in Sources */,
-				A57F4F091BF1CA8E004A711D /* LoginViewController.swift in Sources */,
-				A57F4F1D1BF1CD3E004A711D /* MyCommentListViewController.swift in Sources */,
-				A57F4F151BF1CD06004A711D /* InterviewStatusViewController.swift in Sources */,
-				A5927BA41BEC8BD900E9BDB4 /* ModelController.swift in Sources */,
-				A57F4F1F1BF1CD47004A711D /* OrderDetailViewController.swift in Sources */,
-				A57F4F0D1BF1CCCC004A711D /* BindCardViewController.swift in Sources */,
-				A57F4F0B1BF1CCAF004A711D /* AddressListViewController.swift in Sources */,
-				A57F4F2F1BF1CDB2004A711D /* TeacherDetailViewController.swift in Sources */,
-				A57F4F2D1BF1CDA8004A711D /* TeacherCommentListViewController.swift in Sources */,
-				A57F4F371BF1CDEE004A711D /* WithdrawViewController.swift in Sources */,
-				A57F4F351BF1CDD5004A711D /* TransactionListViewController.swift in Sources */,
-				A57F4F311BF1CDBE004A711D /* TeacherListViewController.swift in Sources */,
-				A57F4F291BF1CD8B004A711D /* RenewViewController.swift in Sources */,
-				A5927BA21BEC8BD900E9BDB4 /* DataViewController.swift in Sources */,
-				A57F4F111BF1CCE8004A711D /* FeedbackViewController.swift in Sources */,
-				A57F4F331BF1CDCA004A711D /* TimetableViewController.swift in Sources */,
-				A57F4F171BF1CD15004A711D /* JoinViewController.swift in Sources */,
-				A57F4F271BF1CD7D004A711D /* RateCourseViewController.swift in Sources */,
-				A5927B9E1BEC8BD900E9BDB4 /* AppDelegate.swift in Sources */,
-				A57F4F191BF1CD23004A711D /* MemberServiceDetailViewController.swift in Sources */,
-				A57F4F2B1BF1CD96004A711D /* ScreenTeacherViewController.swift in Sources */,
+				357E69F31C0FEF5C0009AF9A /* AppDelegate.swift in Sources */,
+				357E69F41C0FEF5C0009AF9A /* RootViewController.swift in Sources */,
+				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
+				357E69F51C0FEF5C0009AF9A /* DataViewController.swift in Sources */,
+				357E69F61C0FEF5C0009AF9A /* ModelController.swift in Sources */,
+				357E69F71C0FEF5C0009AF9A /* LoginViewController.swift in Sources */,
+				357E69FD1C0FEF5C0009AF9A /* FeedbackViewController.swift in Sources */,
+				357E6A031C0FEF5C0009AF9A /* MyCommentListViewController.swift in Sources */,
+				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
+				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
+				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
+				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
+				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
+				357E6A0E1C0FEF5C0009AF9A /* TimetableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A5927BAE1BEC8BD900E9BDB4 /* Sources */ = {
+		35D7A31D1C0FE851007D7679 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5927BB71BEC8BD900E9BDB4 /* mala_iosTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A5927BB91BEC8BD900E9BDB4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A5927BC21BEC8BD900E9BDB4 /* mala_iosUITests.swift in Sources */,
+				357E69D21C0FEE290009AF9A /* AppDelegate.swift in Sources */,
+				357E6A321C0FF3010009AF9A /* MemberServiceDetailViewController.swift in Sources */,
+				357E69D31C0FEE290009AF9A /* RootViewController.swift in Sources */,
+				357E69D41C0FEE290009AF9A /* DataViewController.swift in Sources */,
+				357E6A351C0FF3010009AF9A /* PaymentMethodViewController.swift in Sources */,
+				357E6A331C0FF3010009AF9A /* MemberServiceListViewController.swift in Sources */,
+				357E69D51C0FEE290009AF9A /* ModelController.swift in Sources */,
+				357E6A3D1C0FF3010009AF9A /* TeacherListViewController.swift in Sources */,
+				357E69D61C0FEE290009AF9A /* LoginViewController.swift in Sources */,
+				357E6A3A1C0FF3010009AF9A /* ScreenTeacherViewController.swift in Sources */,
+				357E69DC1C0FEE290009AF9A /* FeedbackViewController.swift in Sources */,
+				357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */,
+				357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */,
+				357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */,
+				357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */,
+				357E69E21C0FEE290009AF9A /* MyCommentListViewController.swift in Sources */,
+				357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */,
+				357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */,
+				357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */,
+				357E6A391C0FF3010009AF9A /* RenewViewController.swift in Sources */,
+				357E6A371C0FF3010009AF9A /* PlaceOrderViewController.swift in Sources */,
+				357E69ED1C0FEE290009AF9A /* TimetableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		A5927BB41BEC8BD900E9BDB4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A5927B991BEC8BD900E9BDB4 /* mala-ios */;
-			targetProxy = A5927BB31BEC8BD900E9BDB4 /* PBXContainerItemProxy */;
-		};
-		A5927BBF1BEC8BD900E9BDB4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A5927B991BEC8BD900E9BDB4 /* mala-ios */;
-			targetProxy = A5927BBE1BEC8BD900E9BDB4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		A5927BA51BEC8BD900E9BDB4 /* Main.storyboard */ = {
+		357E6A131C0FF1FF0009AF9A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A5927BA61BEC8BD900E9BDB4 /* Base */,
+				357E6A141C0FF1FF0009AF9A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		35D7A2F51C0FE82E007D7679 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				35D7A2F61C0FE82E007D7679 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -417,6 +432,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		35D7A3151C0FE82E007D7679 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		35D7A3161C0FE82E007D7679 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		35D7A3471C0FE851007D7679 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.parent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		35D7A3481C0FE851007D7679 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.parent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		A5927BC41BEC8BD900E9BDB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -500,119 +567,32 @@
 			};
 			name = Release;
 		};
-		A5927BC71BEC8BD900E9BDB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "mala-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-			};
-			name = Debug;
-		};
-		A5927BC81BEC8BD900E9BDB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "mala-ios/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-			};
-			name = Release;
-		};
-		A5927BCA1BEC8BD900E9BDB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "mala-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mala-ios.app/mala-ios";
-			};
-			name = Debug;
-		};
-		A5927BCB1BEC8BD900E9BDB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "mala-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mala-ios.app/mala-ios";
-			};
-			name = Release;
-		};
-		A5927BCD1BEC8BD900E9BDB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "mala-iosUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = "mala-ios";
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		A5927BCE1BEC8BD900E9BDB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "mala-iosUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.malalaoshi.ios.mala-iosUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = "mala-ios";
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		35D7A3141C0FE82E007D7679 /* Build configuration list for PBXNativeTarget "teacher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35D7A3151C0FE82E007D7679 /* Debug */,
+				35D7A3161C0FE82E007D7679 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		35D7A3461C0FE851007D7679 /* Build configuration list for PBXNativeTarget "parent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35D7A3471C0FE851007D7679 /* Debug */,
+				35D7A3481C0FE851007D7679 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A5927B951BEC8BD900E9BDB4 /* Build configuration list for PBXProject "mala-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A5927BC41BEC8BD900E9BDB4 /* Debug */,
 				A5927BC51BEC8BD900E9BDB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5927BC61BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-ios" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5927BC71BEC8BD900E9BDB4 /* Debug */,
-				A5927BC81BEC8BD900E9BDB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5927BC91BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5927BCA1BEC8BD900E9BDB4 /* Debug */,
-				A5927BCB1BEC8BD900E9BDB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5927BCC1BEC8BD900E9BDB4 /* Build configuration list for PBXNativeTarget "mala-iosUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5927BCD1BEC8BD900E9BDB4 /* Debug */,
-				A5927BCE1BEC8BD900E9BDB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
