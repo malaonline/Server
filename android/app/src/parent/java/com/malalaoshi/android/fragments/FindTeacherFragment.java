@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
@@ -141,7 +144,31 @@ public class FindTeacherFragment extends Fragment {
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
         // 选择学习中心
-        mSchoolListView.setAdapter(new SimpleAdapter(getActivity(), schoolsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
+        SimpleAdapter schoolListAdapter = new SimpleAdapter(getActivity(), schoolsList, R.layout.school_list_item, new String[]{"name", "thumbnail"}, new int[]{R.id.title, R.id.icon});
+        schoolListAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(final View view, Object data, String text) {
+                if (view instanceof ImageView) {
+                    ImageRequest ir = new ImageRequest(text, new Response.Listener<Bitmap>() {
+                                @Override
+                                public void onResponse(Bitmap response) {
+                                    if (response!=null) {
+                                        ((ImageView) view).setImageBitmap(response);
+                                    }
+                                }
+                            }, 100, 100, ImageView.ScaleType.CENTER_INSIDE, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e(TAG, "get school image error", error);
+                                }
+                            });
+                    MalaApplication.getHttpRequestQueue().add(ir);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mSchoolListView.setAdapter(schoolListAdapter);
         updateListView(API_SCHOOLS_URL, schoolsList, mSchoolListView);
         return view;
     }
@@ -164,6 +191,9 @@ public class FindTeacherFragment extends Fragment {
                                 JSONObject obj = results.getJSONObject(i);
                                 Map<String, String> item = new HashMap<String, String>();
                                 item.put("name", obj.getString("name"));
+                                if (obj.has("thumbnail")) {
+                                    item.put("thumbnail", obj.getString("thumbnail"));
+                                }
                                 dataSet.add(item);
                                 list.add(obj.getString("name"));
                             }
