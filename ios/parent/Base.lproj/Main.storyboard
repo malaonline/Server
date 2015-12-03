@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="703-4V-yAM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C31f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="703-4V-yAM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
@@ -10,7 +10,7 @@
         <!--Root View Controller-->
         <scene sceneID="clB-vc-fyl">
             <objects>
-                <viewController id="703-4V-yAM" customClass="RootViewController" customModule="mala_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="703-4V-yAM" customClass="RootViewController" customModule="parent" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="I7W-xW-C47"/>
                         <viewControllerLayoutGuide type="bottom" id="IfR-02-kHw"/>
@@ -29,7 +29,7 @@
         <!--Data View Controller-->
         <scene sceneID="snT-py-3hH">
             <objects>
-                <viewController storyboardIdentifier="DataViewController" id="S4R-Ja-viH" customClass="DataViewController" customModule="mala_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DataViewController" id="S4R-Ja-viH" customClass="DataViewController" customModule="parent" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fXf-Jd-eTc"/>
                         <viewControllerLayoutGuide type="bottom" id="EPS-s9-h4K"/>
@@ -95,7 +95,7 @@
         <!--Login View Controller-->
         <scene sceneID="WLM-tL-i9Y">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="gDO-l2-Iz1" customClass="LoginViewController" customModule="mala_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="gDO-l2-Iz1" customClass="LoginViewController" customModule="parent" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sYU-Pa-VZW"/>
                         <viewControllerLayoutGuide type="bottom" id="8tJ-b9-s4d"/>
