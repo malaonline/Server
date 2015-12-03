@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -72,6 +73,7 @@ public class FindTeacherFragment extends Fragment {
     protected View mSchoolRow;
     @Bind(R.id.school_tv)
     protected TextView mSchoolLabel;
+    private List<Integer> selectedSchools;
 
     private OnFragmentInteractionListener mListener;
 
@@ -108,6 +110,7 @@ public class FindTeacherFragment extends Fragment {
         gradesList = new ArrayList<Map<String, String>>();
         schoolsList = new ArrayList<Map<String, String>>();
         mCollapsableList = new ArrayList<>();
+        selectedSchools = new ArrayList<>();
     }
 
     @Override
@@ -290,8 +293,26 @@ public class FindTeacherFragment extends Fragment {
         if (position < 0 || position >= schoolsList.size() || mSchoolLabel == null) {
             return;
         }
-        String school = schoolsList.get(position).get("name");
-        mSchoolLabel.setText(school);
+        // toggle select
+        CheckBox cb = (CheckBox)v.findViewById(R.id.checkbox);
+        cb.setChecked(!cb.isChecked());
+        Integer obj = position;
+        if (selectedSchools.contains(obj)) {
+            selectedSchools.remove(obj);
+        } else {
+            selectedSchools.add(obj);
+        }
+        // show text
+        int count = selectedSchools.size();
+        String text;
+        if (count>1) {
+            text = "您选择了"+count+"个学习中心";
+        } else if (count==1) {
+            text = schoolsList.get(selectedSchools.get(0)).get("name");
+        } else {
+            text = getString(R.string.title_choose_school);
+        }
+        mSchoolLabel.setText(text);
     }
 
 }
