@@ -15,6 +15,7 @@ class Region(BaseModel):
     admin_level = models.PositiveIntegerField()
     leaf = models.BooleanField()
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
+    opened = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s (%d)' % (self.name, self.admin_level)
@@ -23,7 +24,7 @@ class School(BaseModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     thumbnail = models.ImageField(upload_to='schools', null=True, blank=True)
-    region = models.ForeignKey(Region)
+    region = models.ForeignKey(Region, limit_choices_to={'leaf': True})
     center = models.BooleanField()
     longitude = models.IntegerField()
     latitude = models.IntegerField()
@@ -46,33 +47,24 @@ class Subject(BaseModel):
     def __str__(self):
         return self.name
 
-class GradeSubject(BaseModel):
-    grade = models.ForeignKey(Grade)
-    subject = models.ForeignKey(Subject)
-
-    class Meta:
-        unique_together = ('grade', 'subject')
-
-    def __str__(self):
-        return '%s%s' % (self.grade, self.subject)
-
 class Level(BaseModel):
     name = models.CharField(max_length=20, unique=True)
     def __str__(self):
         return self.name
 
-class RegionGradeSubjectLevelPrice(BaseModel):
-    region = models.ForeignKey(Region)
-    grade_subject = models.ForeignKey(GradeSubject)
+class Price(BaseModel):
+    region = models.ForeignKey(Region, limit_choices_to={'leaf': True})
+    grade = models.ForeignKey(Grade, limit_choices_to={'leaf': True})
+    subject = models.ForeignKey(Subject)
     level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = ('region', 'grade_subject', 'level')
+        unique_together = ('region', 'grade', 'subject', 'level')
 
     def __str__(self):
-        return '%s%s%s => %d' % (self.region, self.grade_subject, self.level,
-                self.price)
+        return '%s,%s,%s,%s => %d' % (self.region, self.grade, self.subject,
+                self.level, self.price)
 
 class Role(BaseModel):
     name = models.CharField(max_length=20, unique=True)
@@ -94,7 +86,7 @@ class Profile(BaseModel):
     )
 
     user = models.OneToOneField(User)
-    name = models.CharField(max_length=200, default='')
+    phone = models.CharField(max_length=20, default='')
     role = models.ForeignKey(Role, null=True, blank=True, on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
             choices=GENDER_CHOICES,
@@ -121,23 +113,24 @@ class Teacher(BaseModel):
     fulltime = models.BooleanField(default=True)
 
     schools = models.ManyToManyField(School)
-    grade_subjects = models.ManyToManyField(GradeSubject)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                 'Banned' if not self.active else '')
 
-class TeacherSubjectLevel(BaseModel):
+class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)
+    grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
     level = models.ForeignKey(Level)
 
     class Meta:
-        unique_together = ('teacher', 'subject')
+        unique_together = ('teacher', 'grade', 'subject')
 
     def __str__(self):
-        return '%s %s : %s' % (self.teacher, self.subject, self.level)
+        return '%s <%s, %s> : %s' % (self.teacher, self.grade, self.subject,
+                self.level)
 
 class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
@@ -270,7 +263,8 @@ class Order(BaseModel):
     parent = models.ForeignKey(Parent, null=True)
     teacher = models.ForeignKey(Teacher)
     school = models.ForeignKey(School)
-    grade_subject = models.ForeignKey(GradeSubject)
+    grade = models.ForeignKey(Grade)
+    subject = models.ForeignKey(Subject)
     coupon = models.ForeignKey(Coupon)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
 

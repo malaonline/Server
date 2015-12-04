@@ -1,11 +1,12 @@
 # Android
 
 .gradle
+gradle
 gradle.properties
 local.properties
-.idea/workspace.xml
-.idea/libraries
+.idea
 .DS_Store
 build
 captures
 gradle-app.setting
+*.iml

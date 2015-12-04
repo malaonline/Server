@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_cer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="认证信息"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/parent_teacher_detail_cer2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true"
+            tools:text="身份证 教师证 学历证" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.DeepLine" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="教学成果"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="30年前,当我第一次当乐老师"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.DeepLine" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="过往经历"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="2008年6月至2015年8月"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.DeepLine" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_go_home_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上门区域"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="海淀区 | 朝阳区 | 昌平区"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.ShadowGap" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="教师评价"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="这个老师不错,讲课很好"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.ShadowGap" />
+
+    <TextView
+        android:id="@+id/about_btn_open_source_license"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="照片展示"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackgroundGeneral" />
+
+    <View style="@style/AppWidget.ShadowGap" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:text="马上约课"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+</LinearLayout>

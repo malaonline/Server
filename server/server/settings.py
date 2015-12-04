@@ -54,6 +54,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    'PAGE_SIZE': 10,
 }
 
 MIDDLEWARE_CLASSES = (
@@ -165,7 +166,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'app.log',
+            'filename': 'log.log',
             'formatter': 'verbose'
         },
     },

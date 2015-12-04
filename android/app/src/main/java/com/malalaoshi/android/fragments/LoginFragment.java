@@ -40,7 +40,7 @@ public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String LOGIN_API_PATH = "/api/token-auth/";
+    private static final String LOGIN_API_PATH = "/api/v1/token-auth/";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
