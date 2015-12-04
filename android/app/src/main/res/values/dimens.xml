@@ -12,4 +12,6 @@
     <dimen name="elevation_editor">2dp</dimen>
     <dimen name="elevation_normal">2dp</dimen>
     <dimen name="shadow_gap_margin_fill">6dp</dimen>
+
+    <dimen name="toolbar_padding_top">10dp</dimen>
 </resources>
