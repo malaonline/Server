@@ -63,7 +63,7 @@
         android:elevation="16dp"
         android:paddingTop="@dimen/toolbar_padding_top"
         app:title="@string/nav_bar_back"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_collapseMode="pin" />
 

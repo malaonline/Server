@@ -13,8 +13,6 @@ import butterknife.ButterKnife;
 
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 
-import java.lang.reflect.Field;
-
 /**
  * Created by zl on 15/11/30.
  */
@@ -41,5 +39,4 @@ public class TeacherDetailActivity extends StatusBarActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
     }
-
 }
