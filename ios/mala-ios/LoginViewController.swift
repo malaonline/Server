@@ -40,20 +40,20 @@ class LoginViewController: UIViewController {
         let data = response.data as NSData
         let str = NSString(data: data, encoding: NSUTF8StringEncoding)
         print("response: \(str)")
-        do {
-          let jsonObject : AnyObject! = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
-          let token = jsonObject.objectForKey("token")
-          if (token != nil) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-              // do some task
-              dispatch_async(dispatch_get_main_queue()) {
-                // update some UI
-                self.performSegueWithIdentifier("login", sender: self)
-              }
+
+        let json = JSON(data: data)
+        if let token = json["token"].string {
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // do some task
+            print(token)
+            dispatch_async(dispatch_get_main_queue()) {
+              // update some UI
+              self.performSegueWithIdentifier("login", sender: self)
             }
           }
-        } catch let error {
-          print("JSON parse error: \(error)")
+        } else {
+          print("JSON parse error: ")
+          json["token"].string
         }
       }
     } catch let error {
