@@ -111,6 +111,7 @@ class Teacher(BaseModel):
     )
     active = models.BooleanField(default=True)
     fulltime = models.BooleanField(default=True)
+    teaching_age = models.PositiveIntegerField(default=0)
 
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
@@ -118,6 +119,17 @@ class Teacher(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                 'Banned' if not self.active else '')
+
+class Highscore(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    name = models.CharField(max_length=200)
+    increased_scores = models.IntegerField(default=0)
+    school_name = models.CharField(max_length=300)
+    admitted_to = models.CharField(max_length=300)
+
+    def __str__(self):
+        return '%s %s (%s => %s)' % (name, increased_scores, school_name,
+                admitted_to)
 
 class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)
