@@ -2,18 +2,25 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
@@ -28,8 +35,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,12 +56,24 @@ public class FindTeacherFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
+    private static final String API_SCHOOLS_URL = "/api/v1/schools/";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private List<Map<String,String>> subjectsList;
     private List<Map<String,String>> gradesList;
+    private List<Map<String,String>> schoolsList;
+    private List<View> mCollapsableList;
+    @Bind(R.id.subjects_grades_comp)
+    protected View mSubjectsGradesComp;
+    @Bind(R.id.school_list)
+    protected ListView mSchoolListView;
+    @Bind(R.id.school_row)
+    protected View mSchoolRow;
+    @Bind(R.id.school_tv)
+    protected TextView mSchoolLabel;
+    private List<Integer> selectedSchools;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,6 +108,9 @@ public class FindTeacherFragment extends Fragment {
         }
         subjectsList = new ArrayList<Map<String, String>>();
         gradesList = new ArrayList<Map<String, String>>();
+        schoolsList = new ArrayList<Map<String, String>>();
+        mCollapsableList = new ArrayList<>();
+        selectedSchools = new ArrayList<>();
     }
 
     @Override
@@ -94,35 +118,11 @@ public class FindTeacherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_find_teacher, container, false);
-        // 科目年级事件
-        View subjectsGradesRow = view.findViewById(R.id.subjects_grades_row);
-        subjectsGradesRow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View subjectsGradesComp = view.findViewById(R.id.subjects_grades_comp);
-                int visibility = subjectsGradesComp.getVisibility();
-                if (visibility==View.GONE) {
-                    subjectsGradesComp.setVisibility(View.VISIBLE);
-                } else {
-                    subjectsGradesComp.setVisibility(View.GONE);
-                }
-            }
-        });
+        ButterKnife.bind(this, view);
+        mCollapsableList.add(mSubjectsGradesComp);
+        mCollapsableList.add(mSchoolListView);
         // 科目年级列表
-//        ListView subjectsListView = (ListView)view.findViewById(R.id.find_teacher_subjects_list);
-//        subjectsListView.setAdapter(new SimpleAdapter(getActivity(), subjectsList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-//        subjectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                if (position < 0 || position >= subjectsList.size()) {
-//                    return;
-//                }
-//                String subject = subjectsList.get(position).get("name");
-//                TextView label = (TextView)view.findViewById(R.id.subject_text);
-//                label.setText(subject);
-//            }
-//        });
-//        updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
+        // 科目list
         WheelView subjectsListView = (WheelView) view.findViewById(R.id.find_teacher_subjects_list);
         subjectsListView.setOffset(1);
         subjectsListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
@@ -134,20 +134,7 @@ public class FindTeacherFragment extends Fragment {
             }
         });
         updateListView(API_SUBJECTS_URL, subjectsList, subjectsListView);
-//        ListView gradesListView = (ListView)view.findViewById(R.id.find_teacher_grades_list);
-//        gradesListView.setAdapter(new SimpleAdapter(getActivity(), gradesList, R.layout.abc_list_menu_item_layout, new String[]{"name"}, new int[]{R.id.title}));
-//        gradesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                if (position < 0 || position >= gradesList.size()) {
-//                    return;
-//                }
-//                String grade = gradesList.get(position).get("name");
-//                TextView label = (TextView) view.findViewById(R.id.grade_text);
-//                label.setText(grade);
-//            }
-//        });
-//        updateListView(API_GRADES_URL, gradesList, gradesListView);
+        // 年级list
         WheelView gradesListView = (WheelView) view.findViewById(R.id.find_teacher_grades_list);
         gradesListView.setOffset(1);
         gradesListView.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
@@ -159,13 +146,37 @@ public class FindTeacherFragment extends Fragment {
             }
         });
         updateListView(API_GRADES_URL, gradesList, gradesListView);
-        // 选择上课地点
-
-        ButterKnife.bind(this, view);
+        // 选择学习中心
+        SimpleAdapter schoolListAdapter = new SimpleAdapter(getActivity(), schoolsList, R.layout.school_list_item, new String[]{"name", "thumbnail"}, new int[]{R.id.title, R.id.icon});
+        schoolListAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(final View view, Object data, String text) {
+                if (view instanceof ImageView) {
+                    ImageRequest ir = new ImageRequest(text, new Response.Listener<Bitmap>() {
+                                @Override
+                                public void onResponse(Bitmap response) {
+                                    if (response!=null) {
+                                        ((ImageView) view).setImageBitmap(response);
+                                    }
+                                }
+                            }, 100, 100, ImageView.ScaleType.CENTER_INSIDE, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e(TAG, "get school image error", error);
+                                }
+                            });
+                    MalaApplication.getHttpRequestQueue().add(ir);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mSchoolListView.setAdapter(schoolListAdapter);
+        updateListView(API_SCHOOLS_URL, schoolsList, mSchoolListView);
         return view;
     }
 
-    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final WheelView listView) {
+    private void updateListView(final String apiUrl, final List<Map<String, String>> dataSet, final View listView) {
         String url = MalaApplication.getInstance().getMalaHost() + apiUrl;
         Log.d(TAG, String.valueOf(url));
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
@@ -183,13 +194,19 @@ public class FindTeacherFragment extends Fragment {
                                 JSONObject obj = results.getJSONObject(i);
                                 Map<String, String> item = new HashMap<String, String>();
                                 item.put("name", obj.getString("name"));
+                                if (obj.has("thumbnail")) {
+                                    item.put("thumbnail", obj.getString("thumbnail"));
+                                }
                                 dataSet.add(item);
                                 list.add(obj.getString("name"));
                             }
                         }catch (Exception e) {
                         }
-//                        ((SimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
-                        listView.setItems(list);
+                        if (listView instanceof WheelView) {
+                            ((WheelView)listView).setItems(list);
+                        } else {
+                            ((SimpleAdapter)((ListView)listView).getAdapter()).notifyDataSetChanged();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -242,6 +259,60 @@ public class FindTeacherFragment extends Fragment {
     @OnClick(R.id.find_teacher_btn)
     protected void onBtnFindTeacherClick() {
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new TeacherListFragment(), TeacherListFragment.class.getName());
+    }
+
+    @OnClick(R.id.subjects_grades_row)
+    protected void onViewSubjectGradeRowClick() {
+        onCollapseView(mSubjectsGradesComp);
+    }
+
+    @OnClick(R.id.school_row)
+    protected void onViewSchoolRowClick() {
+        onCollapseView(mSchoolListView);
+    }
+
+    private void onCollapseView(View targetView) {
+        if (targetView==null) return;
+        for(View v: mCollapsableList) {
+            if (v != targetView) {
+                v.setVisibility(View.GONE);
+                continue;
+            }
+            int visibility = targetView.getVisibility();
+            if (visibility == View.GONE) {
+                targetView.setVisibility(View.VISIBLE);
+            } else {
+                targetView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @OnItemClick(R.id.school_list)
+    protected void onListViewSchoolItemClick(AdapterView<?> parent, View v, int position, long id) {
+        Log.d(TAG, "select school " + position);
+        if (position < 0 || position >= schoolsList.size() || mSchoolLabel == null) {
+            return;
+        }
+        // toggle select
+        CheckBox cb = (CheckBox)v.findViewById(R.id.checkbox);
+        cb.setChecked(!cb.isChecked());
+        Integer obj = position;
+        if (selectedSchools.contains(obj)) {
+            selectedSchools.remove(obj);
+        } else {
+            selectedSchools.add(obj);
+        }
+        // show text
+        int count = selectedSchools.size();
+        String text;
+        if (count>1) {
+            text = "您选择了"+count+"个学习中心";
+        } else if (count==1) {
+            text = schoolsList.get(selectedSchools.get(0)).get("name");
+        } else {
+            text = getString(R.string.title_choose_school);
+        }
+        mSchoolLabel.setText(text);
     }
 
 }
