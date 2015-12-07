@@ -35,11 +35,6 @@ public class TeacherListFragment extends Fragment {
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
-    public static void openTeacherFragment(FragmentManager fragmentManager){
-        TeacherListFragment teacherListFragment = new TeacherListFragment();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).addToBackStack(null).commit();
-    }
-
     public TeacherListFragment() {
     }
 
