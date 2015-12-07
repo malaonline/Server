@@ -12,7 +12,7 @@ def index(request):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'is_staff', 'profile')
+        fields = ('id', 'username', 'email', 'is_staff', 'profile')
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -22,7 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class RegionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Region
-        fields = ('url', 'name', 'superset', 'admin_level', 'leaf', 'weekly_time_slots')
+        fields = ('id', 'name', 'superset', 'admin_level', 'leaf', 'weekly_time_slots')
 
 class RegionViewSet(viewsets.ModelViewSet):
     queryset = Region.objects.all()
@@ -31,7 +31,7 @@ class RegionViewSet(viewsets.ModelViewSet):
 class SchoolSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = School
-        fields = ('url', 'name', 'address', 'thumbnail', 'region', 'center',
+        fields = ('id', 'name', 'address', 'thumbnail', 'region', 'center',
                 'longitude', 'latitude',)
 
 class SchoolViewSet(viewsets.ModelViewSet):
@@ -41,7 +41,7 @@ class SchoolViewSet(viewsets.ModelViewSet):
 class GradeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Grade
-        fields = ('url', 'name', 'superset', 'leaf')
+        fields = ('id', 'name', 'superset', 'leaf')
 
 class GradeViewSet(viewsets.ModelViewSet):
     queryset = Grade.objects.all()
@@ -50,7 +50,7 @@ class GradeViewSet(viewsets.ModelViewSet):
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Subject
-        fields = ('url', 'name')
+        fields = ('id', 'name')
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
@@ -59,7 +59,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
-        fields = ('url', 'name')
+        fields = ('id', 'name')
 
 class LevelViewSet(viewsets.ModelViewSet):
     queryset = Level.objects.all()
@@ -68,7 +68,7 @@ class LevelViewSet(viewsets.ModelViewSet):
 class RoleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Role
-        fields = ('url', 'name')
+        fields = ('id', 'name')
 
 class RoleViewSet(viewsets.ModelViewSet):
     queryset = Role.objects.all()
@@ -77,17 +77,20 @@ class RoleViewSet(viewsets.ModelViewSet):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
-        fields = ('url', 'name', 'role', 'gender', 'avatar',)
+        fields = ('id', 'name', 'role', 'gender', 'avatar',)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer()
+    schools = SchoolSerializer(many=True)
+
     class Meta:
         model = Teacher
-        fields = ('url', 'user', 'name', 'degree', 'active', 'fulltime',
-                'schools',)
+        fields = ('id', 'user', 'name', 'degree', 'active', 'fulltime',
+                'teaching_age', 'schools',)
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
@@ -96,7 +99,7 @@ class TeacherViewSet(viewsets.ModelViewSet):
 class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WeeklyTimeSlot
-        fields = ('url', 'weekday', 'start', 'end',)
+        fields = ('id', 'weekday', 'start', 'end',)
 
 class WeeklyTimeSlotViewSet(viewsets.ModelViewSet):
     queryset = WeeklyTimeSlot.objects.all()
