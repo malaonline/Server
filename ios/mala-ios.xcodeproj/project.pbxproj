@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2EA565F41C157378008F511E /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA565F31C157378008F511E /* BackAPI.swift */; };
+		2EA565F51C157378008F511E /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA565F31C157378008F511E /* BackAPI.swift */; };
 		357E69D21C0FEE290009AF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
 		357E69D31C0FEE290009AF9A /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
 		357E69D41C0FEE290009AF9A /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
@@ -54,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		221981D636A61CD12F22A371 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EA565F31C157378008F511E /* BackAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAPI.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindCardViewController.swift; sourceTree = "<group>"; };
 		357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +257,7 @@
 				A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */,
 				A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */,
 				A57F4F321BF1CDCA004A711D /* TimetableViewController.swift */,
+				2EA565F31C157378008F511E /* BackAPI.swift */,
 			);
 			path = "mala-ios";
 			sourceTree = "<group>";
@@ -444,6 +448,7 @@
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
 				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
+				2EA565F41C157378008F511E /* BackAPI.swift in Sources */,
 				357E6A0E1C0FEF5C0009AF9A /* TimetableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +476,7 @@
 				357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */,
 				357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */,
 				357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */,
+				2EA565F51C157378008F511E /* BackAPI.swift in Sources */,
 				357E6A391C0FF3010009AF9A /* RenewViewController.swift in Sources */,
 				357E6A371C0FF3010009AF9A /* PlaceOrderViewController.swift in Sources */,
 				357E69ED1C0FEE290009AF9A /* TimetableViewController.swift in Sources */,
