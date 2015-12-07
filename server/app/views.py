@@ -8,8 +8,28 @@ from app.models import *
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
 
+class RoleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Role
+        fields = ('id', 'name')
+
+class RoleViewSet(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    role = RoleSerializer()
+    class Meta:
+        model = Profile
+        fields = ('id', 'role', 'gender', 'avatar',)
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile = ProfileSerializer()
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'is_staff', 'profile')
@@ -64,24 +84,6 @@ class LevelSerializer(serializers.HyperlinkedModelSerializer):
 class LevelViewSet(viewsets.ModelViewSet):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
-
-class RoleSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Role
-        fields = ('id', 'name')
-
-class RoleViewSet(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
-
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('id', 'role', 'gender', 'avatar',)
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer()
