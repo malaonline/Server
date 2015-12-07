@@ -20,6 +20,11 @@
 		2EA5662F1C15B803008F511E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA566231C15B7F5008F511E /* Request.swift */; };
 		2EA566301C15B803008F511E /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA566241C15B7F5008F511E /* StatusCode.swift */; };
 		2EA566311C15B803008F511E /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA566251C15B7F5008F511E /* Upload.swift */; };
+		2EEC08A81C15C05B006FA8DC /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC08A41C15C05B006FA8DC /* CHANGELOG.md */; };
+		2EEC08A91C15C05B006FA8DC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2EEC08A51C15C05B006FA8DC /* LICENSE */; };
+		2EEC08AA1C15C05B006FA8DC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC08A61C15C05B006FA8DC /* README.md */; };
+		2EEC08AB1C15C05B006FA8DC /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC08A71C15C05B006FA8DC /* SwiftyJSON.swift */; };
+		2EEC08AC1C15C06F006FA8DC /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEC08A71C15C05B006FA8DC /* SwiftyJSON.swift */; };
 		357E69D21C0FEE290009AF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9D1BEC8BD900E9BDB4 /* AppDelegate.swift */; };
 		357E69D31C0FEE290009AF9A /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927B9F1BEC8BD900E9BDB4 /* RootViewController.swift */; };
 		357E69D41C0FEE290009AF9A /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5927BA11BEC8BD900E9BDB4 /* DataViewController.swift */; };
@@ -74,6 +79,10 @@
 		2EA566231C15B7F5008F511E /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Request.swift; path = "mala-ios/3rdParty/SwiftHTTP/Request.swift"; sourceTree = "<group>"; };
 		2EA566241C15B7F5008F511E /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusCode.swift; path = "mala-ios/3rdParty/SwiftHTTP/StatusCode.swift"; sourceTree = "<group>"; };
 		2EA566251C15B7F5008F511E /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Upload.swift; path = "mala-ios/3rdParty/SwiftHTTP/Upload.swift"; sourceTree = "<group>"; };
+		2EEC08A41C15C05B006FA8DC /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = "mala-ios/3rdParty/SwiftyJSON/CHANGELOG.md"; sourceTree = "<group>"; };
+		2EEC08A51C15C05B006FA8DC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "mala-ios/3rdParty/SwiftyJSON/LICENSE"; sourceTree = "<group>"; };
+		2EEC08A61C15C05B006FA8DC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "mala-ios/3rdParty/SwiftyJSON/README.md"; sourceTree = "<group>"; };
+		2EEC08A71C15C05B006FA8DC /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = "mala-ios/3rdParty/SwiftyJSON/SwiftyJSON.swift"; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindCardViewController.swift; sourceTree = "<group>"; };
 		357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +164,7 @@
 		2EA5661B1C15B77B008F511E /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				2EEC08A31C15C049006FA8DC /* SwiftyJSON */,
 				2EA5661E1C15B7B8008F511E /* SwiftHTTP */,
 			);
 			name = 3rdParty;
@@ -172,6 +182,17 @@
 				2EA566251C15B7F5008F511E /* Upload.swift */,
 			);
 			name = SwiftHTTP;
+			sourceTree = "<group>";
+		};
+		2EEC08A31C15C049006FA8DC /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				2EEC08A41C15C05B006FA8DC /* CHANGELOG.md */,
+				2EEC08A51C15C05B006FA8DC /* LICENSE */,
+				2EEC08A61C15C05B006FA8DC /* README.md */,
+				2EEC08A71C15C05B006FA8DC /* SwiftyJSON.swift */,
+			);
+			name = SwiftyJSON;
 			sourceTree = "<group>";
 		};
 		35D7A2F01C0FE82E007D7679 /* teacher */ = {
@@ -402,6 +423,7 @@
 			files = (
 				357E6A111C0FEF700009AF9A /* Assets.xcassets in Resources */,
 				357E6A121C0FEF700009AF9A /* LaunchScreen.storyboard in Resources */,
+				2EEC08A91C15C05B006FA8DC /* LICENSE in Resources */,
 				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,6 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEC08AB1C15C05B006FA8DC /* SwiftyJSON.swift in Sources */,
 				2EA566261C15B7F5008F511E /* HTTPSecurity.swift in Sources */,
 				2EA566281C15B7F5008F511E /* Operation.swift in Sources */,
 				2EA5662A1C15B7F5008F511E /* Request.swift in Sources */,
@@ -431,11 +454,13 @@
 				357E69F31C0FEF5C0009AF9A /* AppDelegate.swift in Sources */,
 				357E69F41C0FEF5C0009AF9A /* RootViewController.swift in Sources */,
 				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
+				2EEC08AA1C15C05B006FA8DC /* README.md in Sources */,
 				357E69F51C0FEF5C0009AF9A /* DataViewController.swift in Sources */,
 				357E69F61C0FEF5C0009AF9A /* ModelController.swift in Sources */,
 				2EA566291C15B7F5008F511E /* README.md in Sources */,
 				357E69F71C0FEF5C0009AF9A /* LoginViewController.swift in Sources */,
 				357E69FD1C0FEF5C0009AF9A /* FeedbackViewController.swift in Sources */,
+				2EEC08A81C15C05B006FA8DC /* CHANGELOG.md in Sources */,
 				357E6A031C0FEF5C0009AF9A /* MyCommentListViewController.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
@@ -451,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEC08AC1C15C06F006FA8DC /* SwiftyJSON.swift in Sources */,
 				2EA5662D1C15B803008F511E /* HTTPSecurity.swift in Sources */,
 				2EA5662E1C15B803008F511E /* Operation.swift in Sources */,
 				2EA5662F1C15B803008F511E /* Request.swift in Sources */,
