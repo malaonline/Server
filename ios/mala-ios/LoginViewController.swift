@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftHTTP
 
 class LoginViewController: UIViewController {
   
