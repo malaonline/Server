@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
   @IBAction func onLoginBtnClicked() {
     let params = ["username": phoneNumber, "password": password]
     do {
-      let opt = try HTTP.POST(BackAPI.tokenAuth_v1, parameters: params)
+      let opt = try HTTP.POST(BackAPI.tokenAuth, parameters: params)
       opt.start { response in
         //do things...
         let data = response.data as NSData

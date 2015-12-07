@@ -12,9 +12,9 @@ struct BackAPI {
   // Server domain
   private static let _domain = "https://dev.malalaoshi.com/"
 
-  // API paths
-  private static let _tokenAuth_v1 = "api/v1/token-auth/"
+  // API paths with version
+  private static let _tokenAuth = "api/v1/token-auth/"
 
-  // API URL(s)
-  static let tokenAuth_v1 = _domain + _tokenAuth_v1
+  // API Urls
+  static let tokenAuth = _domain + _tokenAuth
 }
