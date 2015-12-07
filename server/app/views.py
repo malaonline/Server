@@ -77,7 +77,7 @@ class RoleViewSet(viewsets.ModelViewSet):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'name', 'role', 'gender', 'avatar',)
+        fields = ('id', 'role', 'gender', 'avatar',)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()

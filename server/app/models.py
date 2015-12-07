@@ -95,7 +95,7 @@ class Profile(BaseModel):
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
 
     def __str__(self):
-        return '%s (%s, %s)' % (self.name, self.role, self.gender)
+        return '%s (%s, %s)' % (self.user, self.role, self.gender)
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
