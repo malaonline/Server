@@ -87,7 +87,8 @@ class Profile(BaseModel):
 
     user = models.OneToOneField(User)
     phone = models.CharField(max_length=20, default='')
-    role = models.ForeignKey(Role, null=True, blank=True, on_delete=models.SET_NULL)
+    role = models.ForeignKey(Role, null=True, blank=True,
+            on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
             choices=GENDER_CHOICES,
             default=UNKNOWN,
@@ -109,9 +110,11 @@ class Teacher(BaseModel):
     degree = models.CharField(max_length=2,
         choices=DEGREE_CHOICES,
     )
-    active = models.BooleanField(default=True)
+    public = models.BooleanField(default=False)
     fulltime = models.BooleanField(default=True)
     teaching_age = models.PositiveIntegerField(default=0)
+    level = models.ForeignKey(Level, null=True, blank=True,
+            on_delete=models.SET_NULL)
 
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
@@ -135,14 +138,12 @@ class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
-    level = models.ForeignKey(Level)
 
     class Meta:
         unique_together = ('teacher', 'grade', 'subject')
 
     def __str__(self):
-        return '%s <%s, %s> : %s' % (self.teacher, self.grade, self.subject,
-                self.level)
+        return '%s <%s, %s>' % (self.teacher, self.grade, self.subject)
 
 class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
@@ -189,7 +190,8 @@ class BankCard(BaseModel):
     account = models.ForeignKey(Account)
 
     def __str__(self):
-        return '%s %s (%s)' % (self.bank_name, self.card_number, self.account.teacher)
+        return '%s %s (%s)' % (self.bank_name, self.card_number,
+                self.account.teacher)
 
 class BankCodeInfo(BaseModel):
     org_code = models.CharField(max_length=30)
@@ -211,7 +213,8 @@ class AccountHistory(BaseModel):
     bankcard = models.ForeignKey(BankCard)
     submit_time = models.DateTimeField()
     done = models.BooleanField()
-    done_by = models.ForeignKey(User, related_name='processed_withdraws', null=True, blank=True)
+    done_by = models.ForeignKey(User, related_name='processed_withdraws',
+            null=True, blank=True)
     done_at = models.DateTimeField()
 
     def __str__(self):
@@ -358,4 +361,5 @@ class Message(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s, %s, to %s, %s' % (self.get__type_display(), self.get_via_display(), self.to, self.title)
+        return '%s, %s, to %s, %s' % (self.get__type_display(),
+                self.get_via_display(), self.to, self.title)
