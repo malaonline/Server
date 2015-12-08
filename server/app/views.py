@@ -58,15 +58,6 @@ class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
 
-class GradeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Grade
-        fields = ('id', 'name', 'superset', 'leaf')
-
-class GradeViewSet(viewsets.ModelViewSet):
-    queryset = Grade.objects.all()
-    serializer_class = GradeSerializer
-
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Subject
@@ -75,6 +66,17 @@ class SubjectSerializer(serializers.HyperlinkedModelSerializer):
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
+
+class GradeSerializer(serializers.ModelSerializer):
+    subjects = SubjectSerializer(many=True)
+
+    class Meta:
+        model = Grade
+        fields = ('id', 'name', 'superset', 'leaf', 'subjects')
+
+class GradeViewSet(viewsets.ModelViewSet):
+    queryset = Grade.objects.all()
+    serializer_class = GradeSerializer
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -32,17 +32,18 @@ class School(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.region, self.name, 'C' if self.center else '')
 
+class Subject(BaseModel):
+    name = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
             on_delete=models.SET_NULL)
     leaf = models.BooleanField()
-
-    def __str__(self):
-        return self.name
-
-class Subject(BaseModel):
-    name = models.CharField(max_length=10, unique=True)
+    subjects = models.ManyToManyField(Subject)
 
     def __str__(self):
         return self.name
