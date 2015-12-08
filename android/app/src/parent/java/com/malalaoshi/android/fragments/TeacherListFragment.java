@@ -1,8 +1,6 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
@@ -34,11 +31,6 @@ public class TeacherListFragment extends Fragment {
     private TeacherRecyclerViewAdapter adapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
-
-    public static void openTeacherFragment(FragmentManager fragmentManager){
-        TeacherListFragment teacherListFragment = new TeacherListFragment();
-        fragmentManager.beginTransaction().replace(R.id.content_layout, teacherListFragment).addToBackStack(null).commit();
-    }
 
     public TeacherListFragment() {
     }

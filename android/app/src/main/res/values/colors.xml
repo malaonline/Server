@@ -12,8 +12,8 @@
 
     <color name="list_divider_light">#ffe0e0e0</color>
 
-    <color name="selectable_item_background_general_light_normal">@android:color/white</color>
-    <color name="selectable_item_background_general_light_pressed">#ffeeeeee</color>
+    <color name="selectable_item_background_general_light_normal">#ffeeeeee</color>
+    <color name="selectable_item_background_general_light_pressed">#ffd6d7d7</color>
     <color name="selectable_item_background_general_light_accent">#ffcccccc</color>
     <color name="selectable_item_background_general_dark_normal">#ff3c3c3c</color>
     <color name="selectable_item_background_general_dark_pressed">#ff444444</color>
