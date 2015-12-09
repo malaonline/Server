@@ -60,4 +60,7 @@
 	<string name="title_choose_school">选择学习中心</string>
 
 	<string name="nav_bar_back">返回</string>
+
+	<string name="networt_connected">网络已连接</string>
+	<string name="networt_disconnected">网络断开了</string>
 </resources>

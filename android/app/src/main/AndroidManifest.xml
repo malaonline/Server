@@ -3,6 +3,7 @@
     package="com.malalaoshi.android" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -28,6 +29,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             />
+
+        <receiver android:name=".receiver.NetworkStateReceiver" android:label="NetworkConnection">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
