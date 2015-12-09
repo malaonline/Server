@@ -3,6 +3,7 @@ package com.malalaoshi.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -12,6 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
+import com.malalaoshi.android.util.ThemeUtils;
 
 /**
  * Created by zl on 15/11/30.
@@ -37,6 +39,14 @@ public class TeacherDetailActivity extends StatusBarActivity{
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this), 0, 0);
+        }else{
+            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this)/2, 0, 5);
+        }
+
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
     }
+
 }

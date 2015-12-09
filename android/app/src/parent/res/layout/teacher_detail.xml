@@ -61,10 +61,10 @@
         android:layout_height="wrap_content"
         android:background="#01000000"
         android:elevation="16dp"
-        android:paddingTop="@dimen/toolbar_padding_top"
-        app:title="@string/nav_bar_back"
+        android:padding="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/nav_bar_back"
         app:layout_collapseMode="pin" />
 
 </android.support.design.widget.CoordinatorLayout>
