@@ -16,11 +16,15 @@ public class MalaApplication extends Application {
     private RequestQueue mRequestQueue;
     private String mMalaHost = BuildConfig.API_HOST;;
 
+    // 用户信息
     private String token;
     private String userId;
     private String phoneNo;
     private boolean isLogin;
     private String role;
+
+    // 运行信息
+    private boolean isNetworkOk;
 
     @Override
     public void onCreate() {
@@ -113,5 +117,13 @@ public class MalaApplication extends Application {
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putString("role", role).commit();
         this.role = role;
+    }
+
+    public boolean isNetworkOk() {
+        return isNetworkOk;
+    }
+
+    public void setIsNetworkOk(boolean isNetworkOk) {
+        this.isNetworkOk = isNetworkOk;
     }
 }
