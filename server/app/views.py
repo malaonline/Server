@@ -6,7 +6,7 @@ from rest_framework import serializers, viewsets
 from app.models import *
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the index.")
+    return render(request, 'index.html')
 
 class RoleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
