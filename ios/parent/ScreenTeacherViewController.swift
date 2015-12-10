@@ -53,7 +53,7 @@ class ScreenTeacherViewController: UIViewController {
   }
 
   @IBAction func onBtnClicked() {
-    pickerView.reloadAllComponents()
+    // todo: go to teacher list view page
   }
 
   override func viewDidLoad() {
