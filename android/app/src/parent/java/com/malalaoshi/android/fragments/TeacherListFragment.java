@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
+import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 
 import org.json.JSONArray;
@@ -41,17 +42,17 @@ public class TeacherListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_teacher_list, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.teacher_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
             adapter = new TeacherRecyclerViewAdapter(TeacherRecyclerViewAdapter.mValues, mListener);
             recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context));
         }
         refresh();
         return view;
