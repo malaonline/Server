@@ -68,8 +68,6 @@ class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
 
 class GradeSerializer(serializers.ModelSerializer):
-    subjects = SubjectSerializer(many=True)
-
     class Meta:
         model = Grade
         fields = ('id', 'name', 'superset', 'leaf', 'subjects')
@@ -93,7 +91,7 @@ class TeacherSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Teacher
-        fields = ('id', 'user', 'name', 'degree', 'active', 'fulltime',
+        fields = ('id', 'user', 'name', 'degree', 'fulltime',
                 'teaching_age', 'schools',)
 
 class TeacherViewSet(viewsets.ModelViewSet):
