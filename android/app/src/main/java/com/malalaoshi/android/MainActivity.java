@@ -14,8 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.malalaoshi.android.fragments.LoginFragment;
-import com.malalaoshi.android.fragments.MainFragment;
+import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
+import com.malalaoshi.android.util.FragmentUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,18 +38,10 @@ public class MainActivity extends AppCompatActivity
 //        drawer.setDrawerListener(toggle);
 //        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        MalaApplication malaApp = MalaApplication.getInstance();
-        if (!malaApp.isLogin()) {
-            LoginFragment loginFragment = new LoginFragment();
-            fragmentManager.beginTransaction().replace(R.id.content_layout, loginFragment).commit();
-        } else {
-            MainFragment mainFragment = new MainFragment();
-            fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
-        }
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment(), TeacherListFragment.class.getName());
     }
 
     private void init() {

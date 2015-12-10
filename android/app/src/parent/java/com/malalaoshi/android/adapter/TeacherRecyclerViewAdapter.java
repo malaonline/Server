@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
 import com.malalaoshi.android.fragments.TeacherListFragment;
@@ -14,7 +13,6 @@ import com.malalaoshi.android.entity.Teacher;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -36,7 +34,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_teacher, parent, false);
+                .inflate(R.layout.teacher_list_body, parent, false);
         return new NormalViewHolder(view);
     }
 
@@ -59,11 +57,11 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     }
 
     public class NormalViewHolder extends ViewHolder{
-        @Bind(R.id.fragment_teacher_list_item_id)
-        protected TextView id;
-
-        @Bind(R.id.fragment_teacher_list_item_name)
-        protected TextView name;
+//        @Bind(R.id.fragment_teacher_list_item_id)
+//        protected TextView id;
+//
+//        @Bind(R.id.fragment_teacher_list_item_name)
+//        protected TextView name;
 
         private com.malalaoshi.android.entity.Teacher teacher;
 
@@ -77,12 +75,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
-            teacher = mValues.get(position);
-            id.setText(teacher.getId());
-            name.setText(teacher.getName());
         }
 
-        @OnClick(R.id.fragment_teacher_list_item)
+        @OnClick(R.id.teacher_list_item_body)
         protected void onItemClick(){
             TeacherDetailActivity.open(this.view.getContext(), null);
         }
