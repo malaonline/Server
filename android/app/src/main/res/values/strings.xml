@@ -125,4 +125,7 @@
     <string name="title_subject">Subject</string>
     <string name="nav_bar_back">back</string>
     <string name="title_choose_school">choose one school</string>
+
+    <string name="networt_connected">networt is connected</string>
+    <string name="networt_disconnected">networt is disconnected</string>
 </resources>

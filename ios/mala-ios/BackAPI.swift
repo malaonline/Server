@@ -14,7 +14,11 @@ struct BackAPI {
 
   // API paths with version
   private static let _tokenAuth = "api/v1/token-auth/"
+  //private static let _subjects = "api/v1/subjects/"
+  private static let _grades = "api/v1/grades/"
 
   // API Urls
   static let tokenAuth = _domain + _tokenAuth
+  //static let subjects = _domain + _subjects
+  static let grades = _domain + _grades
 }

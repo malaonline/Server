@@ -1,6 +1,8 @@
 package com.malalaoshi.android;
 
 import android.app.FragmentManager;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -8,20 +10,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.fragments.MainFragment;
+import com.malalaoshi.android.receiver.NetworkStateReceiver;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NetworkStateReceiver mNetworkStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -44,6 +49,13 @@ public class MainActivity extends AppCompatActivity
             MainFragment mainFragment = new MainFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
         }
+    }
+
+    private void init() {
+        mNetworkStateReceiver = new NetworkStateReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mNetworkStateReceiver, filter);
     }
 
     @Override
@@ -111,4 +123,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mNetworkStateReceiver != null) {
+            unregisterReceiver(mNetworkStateReceiver);
+        }
+    }
+
 }

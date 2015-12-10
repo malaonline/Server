@@ -6,9 +6,6 @@
     android:name="com.malalaoshi.android.fragments.TeacherFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    android:background="@color/selectable_item_background_general_light_normal"
     tools:context=".fragments.TeacherListFragment"
     tools:listitem="@layout/fragment_teacher" />
