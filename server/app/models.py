@@ -38,10 +38,16 @@ class Subject(BaseModel):
     def __str__(self):
         return self.name
 
+class Tag(BaseModel):
+    name = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
-            on_delete=models.SET_NULL)
+            on_delete=models.SET_NULL, related_name='subset')
     leaf = models.BooleanField()
     subjects = models.ManyToManyField(Subject)
 
@@ -117,6 +123,7 @@ class Teacher(BaseModel):
     level = models.ForeignKey(Level, null=True, blank=True,
             on_delete=models.SET_NULL)
 
+    tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
