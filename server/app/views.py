@@ -3,86 +3,95 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import serializers, viewsets
 
-from app.models import *
+from app import models
 
 def index(request):
     return render(request, 'index.html')
 
 class RoleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Role
+        model = models.Role
         fields = ('id', 'name')
 
-class RoleViewSet(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
+class RoleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Role.objects.all()
     serializer_class = RoleSerializer
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     role = RoleSerializer()
     class Meta:
-        model = Profile
+        model = models.Profile
         fields = ('id', 'role', 'gender', 'avatar',)
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Profile.objects.all()
     serializer_class = ProfileSerializer
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = ProfileSerializer()
     class Meta:
-        model = User
+        model = models.User
         fields = ('id', 'username', 'email', 'is_staff', 'profile')
 
 # ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.User.objects.all()
     serializer_class = UserSerializer
 
 class RegionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Region
+        model = models.Region
         fields = ('id', 'name', 'superset', 'admin_level', 'leaf', 'weekly_time_slots')
 
-class RegionViewSet(viewsets.ModelViewSet):
-    queryset = Region.objects.all()
+class RegionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Region.objects.all()
     serializer_class = RegionSerializer
 
 class SchoolSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = School
+        model = models.School
         fields = ('id', 'name', 'address', 'thumbnail', 'region', 'center',
                 'longitude', 'latitude',)
 
-class SchoolViewSet(viewsets.ModelViewSet):
-    queryset = School.objects.all()
+class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.School.objects.all()
     serializer_class = SchoolSerializer
 
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Subject
+        model = models.Subject
         fields = ('id', 'name')
 
-class SubjectViewSet(viewsets.ModelViewSet):
-    queryset = Subject.objects.all()
+class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Subject.objects.all()
     serializer_class = SubjectSerializer
+
+class TagSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Tag
+        fields = ('id', 'name')
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Tag.objects.all()
+    serializer_class = TagSerializer
 
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Grade
+        model = models.Grade
         fields = ('id', 'name', 'superset', 'leaf', 'subjects')
 
-class GradeViewSet(viewsets.ModelViewSet):
-    queryset = Grade.objects.all()
+class GradeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Grade.objects.all()
     serializer_class = GradeSerializer
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Level
+        model = models.Level
         fields = ('id', 'name')
 
-class LevelViewSet(viewsets.ModelViewSet):
-    queryset = Level.objects.all()
+class LevelViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Level.objects.all()
     serializer_class = LevelSerializer
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
@@ -90,21 +99,21 @@ class TeacherSerializer(serializers.HyperlinkedModelSerializer):
     schools = SchoolSerializer(many=True)
 
     class Meta:
-        model = Teacher
+        model = models.Teacher
         fields = ('id', 'user', 'name', 'degree', 'fulltime',
                 'teaching_age', 'schools',)
 
-class TeacherViewSet(viewsets.ModelViewSet):
-    queryset = Teacher.objects.all()
+class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
 
 class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = WeeklyTimeSlot
+        model = models.WeeklyTimeSlot
         fields = ('id', 'weekday', 'start', 'end',)
 
-class WeeklyTimeSlotViewSet(viewsets.ModelViewSet):
-    queryset = WeeklyTimeSlot.objects.all()
+class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.WeeklyTimeSlot.objects.all()
     serializer_class = WeeklyTimeSlotSerializer
 
 
