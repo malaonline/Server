@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/outside_padding"
     android:paddingTop="@dimen/outside_padding"
     android:paddingBottom="@dimen/outside_padding"
+    android:layout_marginBottom="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity">
