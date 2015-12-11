@@ -35,7 +35,7 @@ GET /api/v1/grades/
 
 {
     "count": 16,
-    "next": "http://127.0.0.1:8000/api/v1/grades/?page=2",
+    "next": null,
     "previous": null,
     "results": [
         {
@@ -65,6 +65,28 @@ GET /api/v1/grades/
 }
 ```
 
+### Tag List
+
+```
+GET /api/v1/tags/
+
+```
+
+```
+{
+    "count": 16,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "name": "幽默"
+        },
+        ...
+    ]
+}
+
+```
 
 ### Teacher list
 
