@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:id="@+id/content_layout"
     android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" tools:showIn="@layout/app_bar_main"
+    android:paddingLeft="@dimen/outside_padding"
+    android:paddingRight="@dimen/outside_padding"
+    android:paddingTop="@dimen/outside_padding"
+    android:paddingBottom="@dimen/outside_padding"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity">
 
     <!--<Button-->

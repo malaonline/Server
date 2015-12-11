@@ -63,4 +63,6 @@
 
 	<string name="networt_connected">网络已连接</string>
 	<string name="networt_disconnected">网络断开了</string>
+
+	<string name="teacher_list_title">麻辣老师</string>
 </resources>
