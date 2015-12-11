@@ -231,6 +231,13 @@ class Feedback(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
 
+class Memberservice(BaseModel):
+    name = models.CharField(max_length=30)
+    detail = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return '%s' % self.name
+
 class Parent(BaseModel):
     user = models.ForeignKey(User, null=True, blank=True)
 
@@ -250,6 +257,7 @@ class Coupon(BaseModel):
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                 'D' if self.used else '')
+
 
 class WeeklyTimeSlot(BaseModel):
     weekday = models.PositiveIntegerField() # 1 - 7
