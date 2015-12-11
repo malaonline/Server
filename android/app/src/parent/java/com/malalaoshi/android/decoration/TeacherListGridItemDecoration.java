@@ -25,8 +25,8 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state){
-        drawHorizontal(c, parent);
-        drawVertical(c, parent);
+//        drawHorizontal(c, parent);
+//        drawVertical(c, parent);
     }
 
     private int getSpanCount(RecyclerView parent){
@@ -117,11 +117,11 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
         int childCount = parent.getAdapter().getItemCount();
         int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-            outRect.set(0, 0, mDivider.getIntrinsicWidth()+8, 0);
+            outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, 0);
         }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight()+8);
+            outRect.set(mDivider.getIntrinsicWidth()+3, 0, 0, mDivider.getIntrinsicHeight()+8);
         }else{
-            outRect.set(0, 0, mDivider.getIntrinsicWidth()+8, mDivider.getIntrinsicHeight()+8);
+            outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, mDivider.getIntrinsicHeight()+8);
         }
     }
 }

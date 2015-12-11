@@ -4,6 +4,7 @@
              android:id="@+id/teacher_list_item_body"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
+             android:background="#FFFFFF"
     >
 
     <LinearLayout
@@ -16,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:background="@color/item_background"
             android:orientation="horizontal">
 
             <ImageView
@@ -32,6 +34,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:paddingRight="@dimen/item_content_padding"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|end"
+                android:text="150-200/课时"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/item_content_padding"
+            android:paddingRight="@dimen/item_content_padding"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -78,12 +97,15 @@
 
             <TextView
                 android:id="@+id/teacher_list_item_label"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="14sp"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:paddingLeft="@dimen/item_content_padding"
+                android:paddingRight="@dimen/item_content_padding"
+                android:maxLines="2"
                 android:text="幽默 | 有责任心 | 正能量" />
 
         </LinearLayout>

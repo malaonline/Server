@@ -13,4 +13,6 @@
     <dimen name="elevation_normal">2dp</dimen>
     <dimen name="shadow_gap_margin_fill">6dp</dimen>
 
+    <dimen name="item_content_padding">5dp</dimen>
+
 </resources>
