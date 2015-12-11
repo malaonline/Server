@@ -41,19 +41,19 @@ GET /api/v1/grades/
         {
             "id": 1,
             "name": "小学",
-            "superset": null,
-            "leaf": false,
-            "subjects": [
-                1,
-                2,
-                3
-            ]
-        },
-        {
-            "id": 2,
-            "name": "一年级",
-            "superset": 1,
-            "leaf": true,
+            "subset": [
+                {
+                    "id": 2,
+                    "name": "一年级",
+                    "subset": [],
+                    "subjects": [
+                        1,
+                        2,
+                        3
+                    ]
+                },
+                ...
+            ],
             "subjects": [
                 1,
                 2,
