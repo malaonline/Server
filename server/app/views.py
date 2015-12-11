@@ -79,10 +79,12 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Grade
-        fields = ('id', 'name', 'superset', 'leaf', 'subjects')
+        fields = ('id', 'name', 'subset', 'subjects')
+
+GradeSerializer._declared_fields['subset'] = GradeSerializer(many=True)
 
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Grade.objects.all()
+    queryset = models.Grade.objects.all().filter(superset=None)
     serializer_class = GradeSerializer
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):

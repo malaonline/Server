@@ -47,7 +47,7 @@ class Tag(BaseModel):
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
-            on_delete=models.SET_NULL)
+            on_delete=models.SET_NULL, related_name='subset')
     leaf = models.BooleanField()
     subjects = models.ManyToManyField(Subject)
 
