@@ -128,4 +128,6 @@
 
     <string name="networt_connected">networt is connected</string>
     <string name="networt_disconnected">networt is disconnected</string>
+
+    <string name="teacher_list_title">Mala Teacher</string>
 </resources>
