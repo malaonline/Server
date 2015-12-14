@@ -146,7 +146,7 @@ GET /api/v1/teachers/{teacher id}/
     "subject": 1,
     "grades": [1, 2, 3],
     "tags": [1, 3],
-    "highscores": [
+    "highscore_set": [
         {
             "name": "123",
             "increased_scores": 100,
