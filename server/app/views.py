@@ -8,7 +8,16 @@ from app import models
 def index(request):
     return render(request, 'index.html')
 
-class RoleSerializer(serializers.HyperlinkedModelSerializer):
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Price
+        fields = ('grade', 'price')
+
+class PriceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Price.objects.all()
+    serializer_class = PriceSerializer
+
+class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Role
         fields = ('id', 'name')
@@ -96,16 +105,36 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Level.objects.all()
     serializer_class = LevelSerializer
 
-class TeacherSerializer(serializers.ModelSerializer):
+class HighscoreSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Highscore
+        fields = ('id', 'name', 'increased_scores', 'school_name',
+                'admitted_to')
+
+class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Highscore.objects.all()
+    serializer_class = HighscoreSerializer
+
+class TeacherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
-                'max_price', 'subject', 'grades', 'tags', 'teaching_age',
-                'level')
+                'max_price', 'subject', 'grades', 'tags',)
+
+class TeacherSerializer(serializers.ModelSerializer):
+    prices = PriceSerializer(many=True)
+    class Meta:
+        model = models.Teacher
+        fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
+                'level', 'subject', 'grades', 'tags', 'highscore_set', 'prices')
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.all()
-    serializer_class = TeacherSerializer
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TeacherListSerializer
+        else:
+            return TeacherSerializer
 
 class MemberserviceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
