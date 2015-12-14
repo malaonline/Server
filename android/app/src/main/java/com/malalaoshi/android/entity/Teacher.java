@@ -7,8 +7,16 @@ public class Teacher {
     private String id;
     private String name;
     private char degree;
-    private boolean active;
     private User user;
+
+    private Double minPrice;
+    private Double maxPrice;
+
+    private Long subject;
+    private Long[] grades;
+    private Long[] tags;
+
+    private String avatar;
 
     public String getId() {
         return id;
@@ -22,9 +30,6 @@ public class Teacher {
         return degree;
     }
 
-    public boolean isActive() {
-        return active;
-    }
 
     public User getUser() {
         return user;
@@ -42,11 +47,63 @@ public class Teacher {
         this.degree = degree;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Double getMinPrice(){
+        return minPrice;
+    }
+
+    public void setMinPrice(Double minPrice){
+        if(Double.isNaN(minPrice)){
+            this.minPrice = null;
+        }else{
+            this.minPrice = minPrice;
+        }
+    }
+
+    public String getAvatar(){
+        return avatar;
+    }
+
+    public void setAvatar(String avatar){
+        this.avatar = avatar;
+    }
+
+    public Long[] getTags(){
+        return tags;
+    }
+
+    public void setTags(Long[] tags){
+        this.tags = tags;
+    }
+
+    public Long[] getGrades(){
+        return grades;
+    }
+
+    public void setGrades(Long[] grades){
+        this.grades = grades;
+    }
+
+    public Double getMaxPrice(){
+        return maxPrice;
+    }
+
+    public void setMaxPrice(Double maxPrice){
+        if(Double.isNaN(maxPrice)){
+            this.maxPrice = null;
+        }else{
+            this.maxPrice = maxPrice;
+        }
+    }
+
+    public Long getSubject(){
+        return subject;
+    }
+
+    public void setSubject(Long subject){
+        this.subject = subject;
     }
 }

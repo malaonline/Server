@@ -112,6 +112,33 @@ public class TeacherListFragment extends Fragment {
                                         Teacher teacher = new Teacher();
                                         teacher.setId(String.valueOf(i+1));
                                         teacher.setName(obj.getString("name"));
+                                        String degreeStr = obj.optString("degree");
+                                        if(degreeStr != null && degreeStr.length() == 1){
+                                            teacher.setDegree(degreeStr.charAt(0));
+                                        }
+                                        teacher.setMinPrice(obj.optDouble("min_price"));
+                                        teacher.setMaxPrice(obj.optDouble("max_price"));
+                                        teacher.setSubject(obj.optLong("subject"));
+                                        JSONArray gradesAry = obj.optJSONArray("grades");
+                                        if(gradesAry != null && gradesAry.length() > 0){
+                                            Long [] tmp = new Long[gradesAry.length()];
+                                            for(int ind=0; ind < gradesAry.length(); i++){
+                                                tmp[i] = Long.parseLong(gradesAry.get(i).toString());
+                                            }
+
+                                            teacher.setGrades(tmp);
+                                        }
+
+                                        JSONArray tagsAry = obj.optJSONArray("tags");
+                                        if(tagsAry != null && tagsAry.length() > 0){
+                                            Long [] tmp = new Long[tagsAry.length()];
+                                            for(int ind=0; ind < tagsAry.length(); i++){
+                                                tmp[i] = Long.parseLong(tagsAry.get(i).toString());
+                                            }
+
+                                            teacher.setTags(tmp);
+                                        }
+
                                         TeacherRecyclerViewAdapter.mValues.add(teacher);
                                     }
                                     if(result.length() > 0){
