@@ -58,7 +58,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.School.objects.all()
     serializer_class = SchoolSerializer
 
-class SubjectSerializer(serializers.HyperlinkedModelSerializer):
+class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
         fields = ('id', 'name')
@@ -96,14 +96,12 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Level.objects.all()
     serializer_class = LevelSerializer
 
-class TeacherSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
-    schools = SchoolSerializer(many=True)
-
+class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
-        fields = ('id', 'user', 'name', 'degree', 'fulltime',
-                'teaching_age', 'schools',)
+        fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
+                'max_price', 'subject', 'grades', 'tags', 'teaching_age',
+                'level')
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.all()

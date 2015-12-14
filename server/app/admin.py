@@ -3,7 +3,10 @@ from django.contrib import admin
 from .models import *
 
 
-admin.site.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+admin.site.register(Region, RegionAdmin)
 admin.site.register(School)
 admin.site.register(Grade)
 admin.site.register(Tag)
