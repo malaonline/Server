@@ -109,6 +109,15 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
 
+class MemberserviceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Memberservice
+        fields = ('name', 'detail',)
+
+class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Memberservice.objects.all()
+    serializer_class = MemberserviceSerializer
+
 class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.WeeklyTimeSlot
@@ -117,5 +126,4 @@ class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
 class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.WeeklyTimeSlot.objects.all()
     serializer_class = WeeklyTimeSlotSerializer
-
 
