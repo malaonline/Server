@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Q
 from rest_framework import serializers, viewsets
 
 from app import models
@@ -130,6 +131,26 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.all()
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        grade = self.request.query_params.get('grade', None) or None
+        if grade is not None:
+            queryset = queryset.filter(Q(ability__grade__id__contains=grade) |
+                    Q(ability__grade__subset__id__contains=grade)).distinct()
+
+        subject = self.request.query_params.get('subject', None) or None
+        if subject is not None:
+            queryset = queryset.filter(ability__subject__id__contains=subject)
+
+        tags = self.request.query_params.get('tags', '').split()
+        tags = list(map(int, filter(lambda x:x, tags)))
+        if tags:
+            queryset = queryset.filter(tags__id__in=tags)
+
+        return queryset
+
     def get_serializer_class(self):
         if self.action == 'list':
             return TeacherListSerializer
