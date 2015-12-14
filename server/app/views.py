@@ -8,7 +8,16 @@ from app import models
 def index(request):
     return render(request, 'index.html')
 
-class RoleSerializer(serializers.HyperlinkedModelSerializer):
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Price
+        fields = ('grade', 'price')
+
+class PriceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Price.objects.all()
+    serializer_class = PriceSerializer
+
+class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Role
         fields = ('id', 'name')
@@ -58,7 +67,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.School.objects.all()
     serializer_class = SchoolSerializer
 
-class SubjectSerializer(serializers.HyperlinkedModelSerializer):
+class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
         fields = ('id', 'name')
@@ -96,18 +105,45 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Level.objects.all()
     serializer_class = LevelSerializer
 
-class TeacherSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
-    schools = SchoolSerializer(many=True)
+class HighscoreSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Highscore
+        fields = ('id', 'name', 'increased_scores', 'school_name',
+                'admitted_to')
 
+class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Highscore.objects.all()
+    serializer_class = HighscoreSerializer
+
+class TeacherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
-        fields = ('id', 'user', 'name', 'degree', 'fulltime',
-                'teaching_age', 'schools',)
+        fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
+                'max_price', 'subject', 'grades', 'tags',)
+
+class TeacherSerializer(serializers.ModelSerializer):
+    prices = PriceSerializer(many=True)
+    class Meta:
+        model = models.Teacher
+        fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
+                'level', 'subject', 'grades', 'tags', 'highscore_set', 'prices')
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.all()
-    serializer_class = TeacherSerializer
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TeacherListSerializer
+        else:
+            return TeacherSerializer
+
+class MemberserviceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Memberservice
+        fields = ('name', 'detail',)
+
+class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Memberservice.objects.all()
+    serializer_class = MemberserviceSerializer
 
 class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -117,5 +153,4 @@ class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
 class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.WeeklyTimeSlot.objects.all()
     serializer_class = WeeklyTimeSlotSerializer
-
 
