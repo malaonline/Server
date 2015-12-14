@@ -2,6 +2,7 @@ package com.malalaoshi.android;
 
 import android.app.FragmentManager;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.malalaoshi.android.fragments.LoginFragment;
-import com.malalaoshi.android.fragments.MainFragment;
+import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
+import com.malalaoshi.android.util.FragmentUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +31,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
+        Drawable[] drawable = mainBarLocation.getCompoundDrawables();
+        drawable[0].setBounds(0, 0, drawable[0].getMinimumWidth()/2, drawable[0].getMinimumHeight()/2);
+        mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
+
+        TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
+        Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
+        drawableMBF[0].setBounds(0, 0, drawableMBF[0].getMinimumWidth()/2, drawableMBF[0].getMinimumHeight()/2);
+        mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
 
         setSupportActionBar(toolbar);
 
@@ -37,18 +49,10 @@ public class MainActivity extends AppCompatActivity
 //        drawer.setDrawerListener(toggle);
 //        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        MalaApplication malaApp = MalaApplication.getInstance();
-        if (!malaApp.isLogin()) {
-            LoginFragment loginFragment = new LoginFragment();
-            fragmentManager.beginTransaction().replace(R.id.content_layout, loginFragment).commit();
-        } else {
-            MainFragment mainFragment = new MainFragment();
-            fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
-        }
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment(), TeacherListFragment.class.getName());
     }
 
     private void init() {
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
