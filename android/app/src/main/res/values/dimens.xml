@@ -17,4 +17,7 @@
     <dimen name="item_content_padding">5dp</dimen>
 
     <dimen name="title_size">18dp</dimen>
+
+    <dimen name="teacher_list_card_corner_radius">4dp</dimen>
+    <dimen name="teacher_list_card_elevation">2dp</dimen>
 </resources>
