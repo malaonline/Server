@@ -1,5 +1,6 @@
 package com.malalaoshi.android;
 
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
@@ -14,11 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity
 //        navigationView.setNavigationItemSelectedListener(this);
 
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment(), TeacherListFragment.class.getName());
+        ButterKnife.bind(this);
     }
 
     private void init() {
@@ -60,6 +67,17 @@ public class MainActivity extends AppCompatActivity
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(mNetworkStateReceiver, filter);
+    }
+
+    @OnClick(R.id.main_bar_location)
+    protected void onClickBarBtnLocation() {
+        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.main_bar_filter)
+    protected void onClickBarBtnFilter() {
+        DialogFragment newFragment = FilterDialogFragment.newInstance();
+        newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
     }
 
     @Override
