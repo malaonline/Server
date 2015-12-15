@@ -112,7 +112,7 @@ public class FilterDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
-        window.setLayout(window.getAttributes().width, 1000);//Here!
+        window.setLayout(window.getAttributes().width, 700);//Here!
         //设置自定义的title  layout
         window.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.dialog_filter_title);
         ButterKnife.bind(this, getDialog());

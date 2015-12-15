@@ -6,45 +6,54 @@
         android:id="@+id/filter_views"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ScrollView android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="小学"/>
-                <GridView
+                <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="2"
-                    ></GridView>
+                    android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="初中"/>
-                <GridView
+                <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="2"></GridView>
+                    android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="高中"/>
-                <GridView
+                <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="2"></GridView>
+                    android:numColumns="2"/>
             </LinearLayout>
+        </ScrollView>
         <!--科目-->
-        <GridView
-            android:id="@+id/filter_subjects_list"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="2"></GridView>
+            android:layout_height="match_parent">
+            <GridView
+                android:id="@+id/filter_subjects_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:numColumns="2"></GridView>
+        </FrameLayout>
         <!--风格-->
         <FrameLayout
             android:layout_width="match_parent"
