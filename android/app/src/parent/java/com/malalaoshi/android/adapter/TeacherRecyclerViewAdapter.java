@@ -4,15 +4,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
+import com.malalaoshi.android.entity.Grade;
+import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.util.Number;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -57,15 +64,27 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     }
 
     public class NormalViewHolder extends ViewHolder{
-//        @Bind(R.id.fragment_teacher_list_item_id)
-//        protected TextView id;
-//
-//        @Bind(R.id.fragment_teacher_list_item_name)
-//        protected TextView name;
+        @Bind(R.id.teacher_list_item_avatar)
+        protected ImageView avatar;
 
-        private com.malalaoshi.android.entity.Teacher teacher;
+        @Bind(R.id.teacher_list_item_price)
+        protected TextView priceView;
 
-        private View view;
+        @Bind(R.id.teacher_list_item_name)
+        protected TextView name;
+
+        @Bind(R.id.teacher_list_item_grade_view)
+        protected TextView gradeView;
+
+        @Bind(R.id.teacher_list_item_subject)
+        protected TextView subject;
+
+        @Bind(R.id.teacher_list_item_tags)
+        protected TextView tagView;
+
+        protected com.malalaoshi.android.entity.Teacher teacher;
+
+        protected View view;
 
         protected NormalViewHolder(View itemView){
             super(itemView);
@@ -75,6 +94,26 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
+            teacher = mValues.get(position);
+            name.setText(teacher.getName());
+            Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
+            if(sub != null){
+                subject.setText(sub.getName());
+            }
+            String gradeStr = Grade.generateGradeViewString(teacher.getGrades());
+            if(gradeStr != null){
+                gradeView.setText(gradeStr);
+            }
+            String tagStr = Tag.generateTagViewString(teacher.getTags(), Tag.tags);
+            if(tagStr != null){
+                tagView.setText(tagStr);
+            }
+
+            Double minPrice = teacher.getMinPrice();
+            String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
+            Double maxPrice = teacher.getMaxPrice();
+            String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
+            priceView.setText(minPriceStr + "-" + maxPriceStr);
         }
 
         @OnClick(R.id.teacher_list_item_body)
