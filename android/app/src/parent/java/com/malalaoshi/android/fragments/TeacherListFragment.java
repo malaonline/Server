@@ -132,8 +132,8 @@ public class TeacherListFragment extends Fragment {
                                         JSONArray tagsAry = obj.optJSONArray("tags");
                                         if(tagsAry != null && tagsAry.length() > 0){
                                             Long [] tmp = new Long[tagsAry.length()];
-                                            for(int ind=0; ind < tagsAry.length(); i++){
-                                                tmp[i] = Long.parseLong(tagsAry.get(i).toString());
+                                            for(int ind=0; ind < tagsAry.length(); ind++){
+                                                tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
                                             }
 
                                             teacher.setTags(tmp);
