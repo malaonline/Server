@@ -1,5 +1,7 @@
 package com.malalaoshi.android.adapter;
 
+import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.teacher_list_body, parent, false);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            ((CardView)view).setPreventCornerOverlap(false);
+        }
         return new NormalViewHolder(view);
     }
 

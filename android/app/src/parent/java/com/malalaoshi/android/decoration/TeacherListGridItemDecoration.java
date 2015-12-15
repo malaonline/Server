@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -113,15 +115,20 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
-        int spanCount = getSpanCount(parent);
-        int childCount = parent.getAdapter().getItemCount();
-        int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
-        if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-            outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, 0);
-        }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-            outRect.set(mDivider.getIntrinsicWidth()+3, 0, 0, mDivider.getIntrinsicHeight()+8);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            outRect.set(0, 0, 0, 0);
         }else{
-            outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, mDivider.getIntrinsicHeight()+8);
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+
+            if(isLastRaw(parent, itemPosition, spanCount, childCount)){
+                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, 0);
+            }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
+                outRect.set(mDivider.getIntrinsicWidth()+3, 0, 0, mDivider.getIntrinsicHeight()+8);
+            }else{
+                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, mDivider.getIntrinsicHeight()+8);
+            }
         }
     }
 }

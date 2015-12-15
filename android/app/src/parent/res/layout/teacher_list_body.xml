@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/teacher_list_item_body"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:background="#FFFFFF"
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teacher_list_item_body"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/teacher_list_card_corner_radius"
+    card_view:cardElevation="@dimen/teacher_list_card_elevation"
+    android:background="#FFFFFF"
     >
 
     <LinearLayout
@@ -24,10 +27,14 @@
                 android:id="@+id/teacher_list_item_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:src="@drawable/user_detail_header_bg"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true" />
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/image_bck_rounded"
+                />
 
         </LinearLayout>
 
@@ -135,4 +142,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</android.support.v7.widget.CardView>
