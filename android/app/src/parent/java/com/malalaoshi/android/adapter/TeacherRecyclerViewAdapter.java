@@ -30,42 +30,91 @@ import butterknife.OnClick;
  * specified {@link TeacherListFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder> {
+public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder>{
+    private static final int TYPE_NORMAL = 0;
+    private static final int TYPE_LOAD_MORE = 1;
+
+    public static final int TEACHER_LIST_PAGE_SIZE = 10;
 
     public static final List<Teacher> mValues = new ArrayList<Teacher>();
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
-    public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener) {
+    private boolean loading = false;
+
+    public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
         mValues.addAll(items);
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.teacher_list_body, parent, false);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            ((CardView)view).setPreventCornerOverlap(false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = null;
+
+        switch(viewType){
+            case TYPE_LOAD_MORE:
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false));
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                    ((CardView)view).setPreventCornerOverlap(false);
+                }
+                return new NormalViewHolder(view);
         }
-        return new NormalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position){
         holder.update(position);
     }
 
-    @Override
-    public int getItemCount() {
-        return mValues.size();
+    public void setLoading(boolean loading) {
+        this.loading = loading;
     }
 
+    public boolean canLoadMore() {
+        return mValues.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && !loading;
+    }
+
+    @Override
+    public int getItemCount(){
+        return mValues.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? mValues.size() + 1 : mValues.size();
+    }
+
+    @Override
+    public int getItemViewType(int position){
+        if(mValues.size() >= 9 && position == getItemCount() - 1){
+            return TYPE_LOAD_MORE;
+        }else{
+            return TYPE_NORMAL;
+        }
+    }
+    
     public class ViewHolder extends RecyclerView.ViewHolder {
-        protected ViewHolder(View itemView) {
+        protected ViewHolder(View itemView){
             super(itemView);
         }
 
-        protected void update(int position) {}
+        protected void update(int position){}
+    }
+
+    public class LoadMoreViewHolder extends ViewHolder{
+        @Bind(R.id.item_load_more_icon_loading)
+        protected View iconLoading;
+
+        @Bind(R.id.item_load_more_icon_finish)
+        protected View iconFinish;
+
+        protected LoadMoreViewHolder(View itemView){
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        protected void update(int position){
+            iconLoading.setVisibility(loading ? View.VISIBLE : View.GONE);
+            iconFinish.setVisibility(loading ? View.GONE : View.VISIBLE);
+        }
+
     }
 
     public class NormalViewHolder extends ViewHolder{

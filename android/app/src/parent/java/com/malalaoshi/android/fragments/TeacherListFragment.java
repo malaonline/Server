@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import org.json.JSONArray;
@@ -33,7 +35,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
@@ -57,17 +59,18 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
         if(recyclerView != null){
             Context context = view.getContext();
-            recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            recyclerView.setLayoutManager(layoutManager);
             adapter = new TeacherRecyclerViewAdapter(TeacherRecyclerViewAdapter.mValues, mListener);
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context));
+            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
         ButterKnife.bind(this, view);
         RefreshLayoutUtils.initOnCreate(refreshLayout, this);
         RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
         return view;
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -91,6 +94,11 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         new loadTeachersTask().execute();
     }
 
+    @Override
+    public void onLoadMore(){
+        new loadTeachersTask().execute();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -109,6 +117,14 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     public void setRefreshing(boolean status){
         refreshLayout.setRefreshing(status);
     }
+
+    private void notifyDataSetChanged(){
+        if(TeacherRecyclerViewAdapter.mValues.size() < 20){
+            adapter.setLoading(false);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private class loadTeachersTask extends AsyncTask<String, Integer, String>{
         @Override
         protected String doInBackground(String ...params){
@@ -157,7 +173,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                                         TeacherRecyclerViewAdapter.mValues.add(teacher);
                                     }
                                     if(result.length() > 0){
-                                        adapter.notifyDataSetChanged();
+                                        notifyDataSetChanged();
                                     }
                                 } catch (Exception e) {
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
