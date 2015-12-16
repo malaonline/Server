@@ -39,7 +39,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
+    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
     @Bind(R.id.teacher_list_refresh_layout)
     protected SwipeRefreshLayout refreshLayout;
@@ -153,8 +153,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                                         JSONArray gradesAry = obj.optJSONArray("grades");
                                         if(gradesAry != null && gradesAry.length() > 0){
                                             Long [] tmp = new Long[gradesAry.length()];
-                                            for(int ind=0; ind < gradesAry.length(); i++){
-                                                tmp[i] = Long.parseLong(gradesAry.get(i).toString());
+                                            for(int ind=0; ind < gradesAry.length(); ind++){
+                                                tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
                                             }
 
                                             teacher.setGrades(tmp);
