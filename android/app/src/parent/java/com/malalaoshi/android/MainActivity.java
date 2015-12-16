@@ -22,6 +22,7 @@ import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
+import com.malalaoshi.android.util.ThemeUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,14 +38,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        int statusBarHeight = ThemeUtils.getStatusBarHeight(this);
+
         TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
         Drawable[] drawable = mainBarLocation.getCompoundDrawables();
-        drawable[0].setBounds(0, 0, drawable[0].getMinimumWidth()/2, drawable[0].getMinimumHeight()/2);
+        drawable[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
         mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
 
         TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
         Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
-        drawableMBF[0].setBounds(0, 0, drawableMBF[0].getMinimumWidth()/2, drawableMBF[0].getMinimumHeight()/2);
+        drawableMBF[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
         mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
 
         setSupportActionBar(toolbar);
@@ -80,6 +84,16 @@ public class MainActivity extends AppCompatActivity
     protected void onClickBarBtnFilter() {
         DialogFragment newFragment = FilterDialogFragment.newInstance();
         newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+    }
+
+    @OnClick(R.id.index_home_btn)
+    protected void onClickIndexHomeBtn(){
+        Toast.makeText(this,"首页", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.index_personal_btn)
+    protected void onClickIndexPersonalBtn(){
+        Toast.makeText(this,"个人", Toast.LENGTH_SHORT).show();
     }
 
     @Override

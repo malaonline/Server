@@ -20,4 +20,6 @@
 
     <dimen name="teacher_list_card_corner_radius">4dp</dimen>
     <dimen name="teacher_list_card_elevation">2dp</dimen>
+
+    <dimen name="teacher_list_price_size">13sp</dimen>
 </resources>

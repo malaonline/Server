@@ -130,4 +130,8 @@
     <string name="networt_disconnected">networt is disconnected</string>
 
     <string name="teacher_list_title">Mala Teacher</string>
+
+    <string name="load_more">load more</string>
+
+    <string name="no_data">no data</string>
 </resources>
