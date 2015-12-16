@@ -2,10 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
+
+    <include layout="@layout/dialog_filter_title"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:layout_gravity="top"
+        />
+
     <ViewFlipper
         android:id="@+id/filter_views"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        >
         <ScrollView android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

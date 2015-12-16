@@ -100,7 +100,7 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;
     }
 
@@ -115,14 +115,8 @@ public class FilterDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
         window.setLayout(window.getAttributes().width, 700);//Here!
-        //设置自定义的title  layout
-        window.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.dialog_filter_title);
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
-        int divierId = window.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
-        View divider = window.findViewById(divierId);
-//        divider.setBackgroundColor(Color.TRANSPARENT);
-        divider.setVisibility(View.INVISIBLE);
         getData();
     }
 
