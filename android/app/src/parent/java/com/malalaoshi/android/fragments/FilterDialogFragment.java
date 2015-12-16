@@ -70,17 +70,18 @@ public class FilterDialogFragment extends DialogFragment {
     @Bind(R.id.filter_tags_all)
     protected CheckedTextView mTagsAll;
 
-    private List<Map<String, Object>> mSubjectsList;
+    private List<Map<String, Object>> mTotalSubjectsList;
+    private List<Map<String, Object>> mSubjectsList; // for subjects list adapter
     private List<Map<String, Object>> mGragesList;
     private List<Map<String, Object>> mTagsList;
 
     private View mLastSelectedGradeView;
-    private String mSelectedGradeId;
+    private long mSelectedGradeId;
 
     private View mLastSelectedSubjectView;
-    private String mSelectedSubjectId;
+    private long mSelectedSubjectId;
 
-    private List<String> mSelectedTagsId;
+    private List<Long> mSelectedTagsId;
 
     public static FilterDialogFragment newInstance() {
         return new FilterDialogFragment();
@@ -89,6 +90,7 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mTotalSubjectsList = new ArrayList<>();
         mSubjectsList = new ArrayList<>();
         mGragesList = new ArrayList<>();
         mTagsList = new ArrayList<>();
@@ -133,18 +135,20 @@ public class FilterDialogFragment extends DialogFragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        mTotalSubjectsList.clear();
                         mSubjectsList.clear();
                         try {
                             JSONArray results = response.getJSONArray("results");
                             for (int i = 0; i < results.length(); i++) {
                                 JSONObject obj = results.getJSONObject(i);
                                 Map<String, Object> item = new HashMap<String, Object>();
-                                item.put("id", obj.getString("id"));
+                                item.put("id", obj.getLong("id"));
                                 item.put("name", obj.getString("name"));
-                                mSubjectsList.add(item);
+                                mTotalSubjectsList.add(item);
                             }
                         }catch (Exception e) {
                         }
+                        mSubjectsList.addAll(mTotalSubjectsList);
                         mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
                                 mSubjectsList, R.layout.abc_list_item_singlechoice,
                                 new String[]{"name"},
@@ -172,12 +176,12 @@ public class FilterDialogFragment extends DialogFragment {
                             for (int i = 0; i < results.length(); i++) {
                                 JSONObject obj = results.getJSONObject(i);
                                 Map<String, Object> item = new HashMap<String, Object>();
-                                item.put("id", obj.getString("id"));
+                                item.put("id", obj.getLong("id"));
                                 item.put("name", obj.getString("name"));
                                 JSONArray subjects = obj.getJSONArray("subjects");
-                                int[] subjectIds = new int[subjects.length()];
+                                long[] subjectIds = new long[subjects.length()];
                                 for (int s = 0; s < subjectIds.length; s++) {
-                                    subjectIds[s] = subjects.getInt(s);
+                                    subjectIds[s] = subjects.getLong(s);
                                 }
                                 item.put("subjects", subjectIds);
                                 List<Map> subGrades = new ArrayList<>();
@@ -188,12 +192,12 @@ public class FilterDialogFragment extends DialogFragment {
                                 for (int k = 0; k < subset.length(); k++) {
                                     JSONObject subObj = subset.getJSONObject(k);
                                     Map<String, Object> subItem = new HashMap<String, Object>();
-                                    subItem.put("id", subObj.getString("id"));
+                                    subItem.put("id", subObj.getLong("id"));
                                     subItem.put("name", subObj.getString("name"));
                                     JSONArray subjects2 = subObj.getJSONArray("subjects");
-                                    int[] subjectIds2 = new int[subjects2.length()];
+                                    long[] subjectIds2 = new long[subjects2.length()];
                                     for (int s = 0; s < subjectIds2.length; s++) {
-                                        subjectIds2[s] = subjects2.getInt(s);
+                                        subjectIds2[s] = subjects2.getLong(s);
                                     }
                                     subItem.put("subjects", subjectIds2);
                                     subGrades.add(subItem);
@@ -241,7 +245,7 @@ public class FilterDialogFragment extends DialogFragment {
                             for (int i = 0; i < results.length(); i++) {
                                 JSONObject obj = results.getJSONObject(i);
                                 Map<String, Object> item = new HashMap<String, Object>();
-                                item.put("id", obj.getString("id"));
+                                item.put("id", obj.getLong("id"));
                                 item.put("name", obj.getString("name"));
                                 mTagsList.add(item);
                             }
@@ -301,7 +305,21 @@ public class FilterDialogFragment extends DialogFragment {
         ckt.setChecked(true);
         mLastSelectedGradeView = ckt;
         List<Map<String,Object>> subGrades = (List<Map<String,Object>>)mGragesList.get(stage-1).get("subset");
-        mSelectedGradeId = (String)subGrades.get(position).get("id");
+        Map grade = subGrades.get(position);
+        mSelectedGradeId = (long)grade.get("id");
+        long[] subjectIds = (long[])grade.get("subjects");
+        mSubjectsList.clear();
+        for (int s = 0; s < subjectIds.length; s++) {
+            long sId = subjectIds[s];
+            for (int i = 0; i < mTotalSubjectsList.size(); i++) {
+                Map subj = mTotalSubjectsList.get(i);
+                if ((long)subj.get("id") == sId) {
+                    mSubjectsList.add(subj);
+                    break;
+                }
+            }
+        }
+        ((SimpleAdapter)mSubjectsViewList.getAdapter()).notifyDataSetChanged();
         gotoNextFilterView();
     }
 
@@ -314,7 +332,7 @@ public class FilterDialogFragment extends DialogFragment {
         }
         ckt.setChecked(true);
         mLastSelectedSubjectView = ckt;
-        mSelectedSubjectId = (String)mSubjectsList.get(position).get("id");
+        mSelectedSubjectId = (long)mSubjectsList.get(position).get("id");
         gotoNextFilterView();
     }
 
@@ -334,7 +352,7 @@ public class FilterDialogFragment extends DialogFragment {
         }
         CheckedTextView ckt = (CheckedTextView)view;
         ckt.setChecked(!ckt.isChecked());
-        String tagId = (String)mTagsList.get(position).get("id");
+        long tagId = (long)mTagsList.get(position).get("id");
         if (ckt.isChecked()) {
             mSelectedTagsId.add(tagId);
         } else {
