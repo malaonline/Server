@@ -7,9 +7,11 @@
     >
 
     <ImageView
-        android:layout_height="match_parent"
-        android:src="@android:drawable/ic_menu_set_as"
+        android:id="@+id/index_home_btn"
+        android:layout_height="35dp"
+        android:src="@drawable/index_home"
         android:layout_width="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
         />
 
@@ -21,10 +23,12 @@
         />
 
     <ImageView
-        android:layout_height="match_parent"
+        android:id="@+id/index_personal_btn"
+        android:layout_height="35dp"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:src="@android:drawable/star_big_on"
+        android:layout_gravity="center"
+        android:src="@drawable/index_personal"
         />
 
 </LinearLayout>

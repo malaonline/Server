@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#e8413e</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -25,4 +25,9 @@
     <color name="green_light">#ff99cc00</color>
     <color name="blue_light">#ff33b5e5</color>
     <color name="orange_light">#ffffbb33</color>
+
+    <color name="teacher_list_price_background">#32000000</color>
+    <color name="teacher_list_price">#dcffffff</color>
+    <color name="teacher_list_teacher_name">#dc000000</color>
+    <color name="teacher_list_teacher_subject">#e8413e</color>
 </resources>
