@@ -66,7 +66,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		221981D636A61CD12F22A371 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EA565F31C157378008F511E /* BackAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAPI.swift; sourceTree = "<group>"; };
 		2EA5661F1C15B7F5008F511E /* HTTPSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPSecurity.swift; path = "mala-ios/3rdParty/SwiftHTTP/HTTPSecurity.swift"; sourceTree = "<group>"; };
 		2EA566201C15B7F5008F511E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "mala-ios/3rdParty/SwiftHTTP/LICENSE"; sourceTree = "<group>"; };
@@ -112,7 +111,6 @@
 		35D7A33A1C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D7A3431C0FE851007D7679 /* parentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentUITests.swift; sourceTree = "<group>"; };
 		35D7A3451C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A2D7B28CF6F56A22C84470B3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A57F4F081BF1CA8E004A711D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A57F4F101BF1CCE8004A711D /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		A57F4F1C1BF1CD3E004A711D /* MyCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentListViewController.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 		A5927BB81BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5927BC11BEC8BD900E9BDB4 /* mala_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosUITests.swift; sourceTree = "<group>"; };
 		A5927BC31BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FBE97B4F5F04F57A965088F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,15 +146,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0725272F54F26E814DD7ECBE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A2D7B28CF6F56A22C84470B3 /* Pods.debug.xcconfig */,
-				FBE97B4F5F04F57A965088F0 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		2EA5661B1C15B77B008F511E /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,14 +253,6 @@
 			path = parentUITests;
 			sourceTree = "<group>";
 		};
-		6A2B14156779334F63D9326C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				221981D636A61CD12F22A371 /* Pods.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		A5927B911BEC8BD900E9BDB4 = {
 			isa = PBXGroup;
 			children = (
@@ -287,8 +267,6 @@
 				35D7A3051C0FE82E007D7679 /* teacherTests */,
 				35D7A3101C0FE82E007D7679 /* teacherUITests */,
 				A5927B9B1BEC8BD900E9BDB4 /* Products */,
-				0725272F54F26E814DD7ECBE /* Pods */,
-				6A2B14156779334F63D9326C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -534,7 +512,6 @@
 /* Begin XCBuildConfiguration section */
 		35D7A3151C0FE82E007D7679 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A2D7B28CF6F56A22C84470B3 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -548,7 +525,6 @@
 		};
 		35D7A3161C0FE82E007D7679 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBE97B4F5F04F57A965088F0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
