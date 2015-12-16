@@ -69,6 +69,7 @@
                     android:gravity="center_vertical"
                     android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
                     android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                    android:checked="true"
                     android:text="不限"/>
                 <GridView
                     android:id="@+id/filter_tags_list"
