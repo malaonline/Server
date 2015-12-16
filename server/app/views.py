@@ -117,6 +117,7 @@ class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = HighscoreSerializer
 
 class TeacherListSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField()
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
@@ -124,6 +125,7 @@ class TeacherListSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     prices = PriceSerializer(many=True)
+    avatar = serializers.ImageField()
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
