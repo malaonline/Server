@@ -15,10 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
+import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity
 
     @OnClick(R.id.main_bar_location)
     protected void onClickBarBtnLocation() {
-        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance(null, "目前只支持洛阳市，其他地区正在拓展中", "知道了");
+        d.show(getFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.main_bar_filter)
