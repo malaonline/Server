@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */; };
 		2EA565F41C157378008F511E /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA565F31C157378008F511E /* BackAPI.swift */; };
 		2EA565F51C157378008F511E /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA565F31C157378008F511E /* BackAPI.swift */; };
 		2EA566261C15B7F5008F511E /* HTTPSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5661F1C15B7F5008F511E /* HTTPSecurity.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionCell.swift; sourceTree = "<group>"; };
 		2EA565F31C157378008F511E /* BackAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAPI.swift; sourceTree = "<group>"; };
 		2EA5661F1C15B7F5008F511E /* HTTPSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPSecurity.swift; path = "mala-ios/3rdParty/SwiftHTTP/HTTPSecurity.swift"; sourceTree = "<group>"; };
 		2EA566201C15B7F5008F511E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "mala-ios/3rdParty/SwiftHTTP/LICENSE"; sourceTree = "<group>"; };
@@ -146,6 +148,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E65424A1C219781007AE628 /* TeacherListView */ = {
+			isa = PBXGroup;
+			children = (
+				357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */,
+				2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */,
+			);
+			name = TeacherListView;
+			sourceTree = "<group>";
+		};
 		2EA5661B1C15B77B008F511E /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				357E6A131C0FF1FF0009AF9A /* Main.storyboard */,
+				2E65424A1C219781007AE628 /* TeacherListView */,
 				357E6A221C0FF3010009AF9A /* AddressListViewController.swift */,
 				357E6A231C0FF3010009AF9A /* CouponListViewController.swift */,
 				357E6A241C0FF3010009AF9A /* MemberServiceDetailViewController.swift */,
@@ -230,7 +242,6 @@
 				357E6A2C1C0FF3010009AF9A /* ScreenTeacherViewController.swift */,
 				357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */,
 				357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */,
-				357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */,
 			);
 			path = parent;
 			sourceTree = "<group>";
@@ -450,6 +461,7 @@
 			files = (
 				2EEC08AC1C15C06F006FA8DC /* SwiftyJSON.swift in Sources */,
 				2EA5662D1C15B803008F511E /* HTTPSecurity.swift in Sources */,
+				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				2EA5662E1C15B803008F511E /* Operation.swift in Sources */,
 				2EA5662F1C15B803008F511E /* Request.swift in Sources */,
 				2EA566301C15B803008F511E /* StatusCode.swift in Sources */,
@@ -598,7 +610,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -637,7 +649,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
