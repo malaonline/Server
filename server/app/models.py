@@ -133,9 +133,13 @@ class Teacher(BaseModel):
                 'Private' if not self.public else '')
 
     def avatar(self):
+        if not hasattr(self.user, 'profile'):
+            return None
         return self.user.profile.avatar or None
 
     def gender(self):
+        if not hasattr(self.user, 'profile'):
+            return None
         return self.user.profile.gender
 
     def subject(self):

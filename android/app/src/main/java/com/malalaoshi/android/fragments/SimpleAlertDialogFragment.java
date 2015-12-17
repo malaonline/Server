@@ -1,44 +1,64 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.malalaoshi.android.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liumengjun on 12/16/15.
  */
 public class SimpleAlertDialogFragment extends DialogFragment {
-    public static SimpleAlertDialogFragment newInstance(String title, String msg, String buttonText) {
+
+    @Bind(R.id.message)
+    protected TextView messageView;
+    @Bind(R.id.btn_ok)
+    protected Button btnOk;
+
+    public static SimpleAlertDialogFragment newInstance(String msg, String buttonText) {
         SimpleAlertDialogFragment frag = new SimpleAlertDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
         args.putString("message", msg);
         args.putString("buttonText", buttonText);
         frag.setArguments(args);
         return frag;
     }
 
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        String title = getArguments().getString("title");
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.dialog_simple, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         String message = getArguments().getString("message");
         String buttonText = getArguments().getString("buttonText");
-        AlertDialog.Builder db = new AlertDialog.Builder(getActivity());
-        if (title!=null && !title.isEmpty()) {
-            db.setTitle(title);
-        }
-        db.setMessage(message);
-        if (buttonText==null || buttonText.isEmpty()) {
-            buttonText = "OK";
-        }
-        db.setPositiveButton(buttonText,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                }
-        );
-        return db.create();
+        messageView.setText(message);
+        btnOk.setText(buttonText);
+    }
+
+    @OnClick(R.id.btn_ok)
+    protected void onClickBtnOk() {
+        dismiss();
     }
 }

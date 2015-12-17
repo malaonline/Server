@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.main_bar_location)
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance(null, "目前只支持洛阳市，其他地区正在拓展中", "知道了");
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "知道了");
         d.show(getFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
