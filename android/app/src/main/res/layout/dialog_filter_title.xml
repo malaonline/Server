@@ -2,26 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:layout_marginTop="0dp">
+android:layout_gravity="center"
+    >
     <ImageView
         android:id="@+id/filter_bar_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_media_previous"
+        android:src="@drawable/ic_back"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:layout_centerVertical="true"
         android:visibility="invisible"
         />
     <TextView
         android:id="@+id/filter_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="筛选老师"
+        android:text="@string/do_filter"
+        android:textSize="@dimen/title_size"
+        android:textColor="@color/text_color_darkgray"
         android:layout_centerInParent="true"/>
     <ImageView
         android:id="@+id/filter_bar_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_delete"
-        android:layout_alignParentRight="true"/>
+        android:src="@drawable/ic_close"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>

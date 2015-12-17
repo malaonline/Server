@@ -2,13 +2,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
+
+    <include layout="@layout/dialog_filter_title"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:layout_gravity="top"
+        />
+
     <ViewFlipper
         android:id="@+id/filter_views"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        >
         <ScrollView android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
                     android:scrollbars="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -17,41 +28,57 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:text="小学"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="8dp"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:text="初中"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="8dp"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:text="高中"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="8dp"
                     android:numColumns="2"/>
             </LinearLayout>
         </ScrollView>
         <!--科目-->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            >
             <GridView
                 android:id="@+id/filter_subjects_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:numColumns="2"></GridView>
         </FrameLayout>
         <!--风格-->
@@ -61,14 +88,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
                 android:orientation="vertical">
                 <CheckedTextView
                     android:id="@+id/filter_tags_all"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
-                    android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                    android:drawableLeft="@drawable/selectable_checkbox_round_style"
+                    android:drawableStart="@drawable/selectable_checkbox_round_style"
+                    android:textColor="@color/selectable_color"
+                    android:drawablePadding="5dp"
+                    android:paddingBottom="8dp"
+                    android:ellipsize="marquee"
                     android:checked="true"
                     android:text="不限"/>
                 <GridView
@@ -77,12 +110,25 @@
                     android:layout_height="wrap_content"
                     android:numColumns="2"></GridView>
             </LinearLayout>
-            <Button
-                android:id="@+id/filter_search"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="筛选老师"/>
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    />
+                <Button
+                    android:id="@+id/filter_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@android:color/transparent"
+                    android:text="@string/do_filter"
+                    android:textSize="@dimen/title_size"/>
+            </LinearLayout>
         </FrameLayout>
     </ViewFlipper>
 </FrameLayout>
