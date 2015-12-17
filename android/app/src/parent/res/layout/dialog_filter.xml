@@ -5,7 +5,7 @@
 
     <include layout="@layout/dialog_filter_title"
              android:layout_width="match_parent"
-             android:layout_height="50dp"
+             android:layout_height="@dimen/dialog_toolbar_height"
              android:layout_gravity="top"
         />
 
@@ -13,13 +13,13 @@
         android:id="@+id/filter_views"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/dialog_toolbar_height"
         >
         <ScrollView android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginLeft="@dimen/page_padding"
+                    android:layout_marginRight="@dimen/page_padding"
                     android:scrollbars="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,41 +28,47 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="小学"/>
+                    android:layout_marginBottom="9dp"
+                    android:text="小学"
+                    android:textSize="@dimen/body_head_text_size"
+                    android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="@dimen/page_padding_inner"
+                    android:layout_marginRight="@dimen/page_padding_inner"
+                    android:layout_marginBottom="13dp"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="初中"/>
+                    android:layout_marginBottom="9dp"
+                    android:text="初中"
+                    android:textSize="@dimen/body_head_text_size"
+                    android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="@dimen/page_padding_inner"
+                    android:layout_marginRight="@dimen/page_padding_inner"
+                    android:layout_marginBottom="13dp"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="高中"/>
+                    android:layout_marginBottom="9dp"
+                    android:text="高中"
+                    android:textSize="@dimen/body_head_text_size"
+                    android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="@dimen/page_padding_inner"
+                    android:layout_marginRight="@dimen/page_padding_inner"
+                    android:layout_marginBottom="13dp"
                     android:numColumns="2"/>
             </LinearLayout>
         </ScrollView>
@@ -70,15 +76,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginLeft="@dimen/page_padding"
+            android:layout_marginRight="@dimen/page_padding"
             >
             <GridView
                 android:id="@+id/filter_subjects_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="@dimen/page_padding_inner"
+                android:layout_marginRight="@dimen/page_padding_inner"
                 android:numColumns="2"></GridView>
         </FrameLayout>
         <!--风格-->
@@ -88,8 +94,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginLeft="@dimen/page_padding_all"
+                android:layout_marginRight="@dimen/page_padding_all"
                 android:orientation="vertical">
                 <CheckedTextView
                     android:id="@+id/filter_tags_all"
@@ -118,7 +124,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/list_divider_light"
+                    android:background="?android:attr/listDivider"
                     />
                 <Button
                     android:id="@+id/filter_search"
@@ -127,7 +133,7 @@
                     android:textColor="@color/colorPrimary"
                     android:background="@android:color/transparent"
                     android:text="@string/do_filter"
-                    android:textSize="@dimen/title_size"/>
+                    android:textSize="@dimen/dialog_title_size"/>
             </LinearLayout>
         </FrameLayout>
     </ViewFlipper>

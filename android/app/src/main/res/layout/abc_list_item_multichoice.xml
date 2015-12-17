@@ -2,12 +2,11 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/text1"
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="32dp"
                  android:gravity="center_vertical"
                  android:drawableLeft="@drawable/selectable_checkbox_round_style"
                  android:drawableStart="@drawable/selectable_checkbox_round_style"
                  android:textColor="@color/selectable_color"
-                 android:drawablePadding="5dp"
-                 android:paddingBottom="8dp"
+                 android:drawablePadding="6dp"
                  android:ellipsize="marquee" />
 <!-- From: file:/usr/local/google/buildbot/src/googleplex-android/mnc-supportlib-release/frameworks/support/v7/appcompat/res/layout/select_dialog_multichoice_material.xml -->

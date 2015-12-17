@@ -7,9 +7,9 @@
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp"
+        android:padding="@dimen/page_padding"
         android:textColor="@color/text_color_darkgray2"
-        android:textSize="15dp"
+        android:textSize="@dimen/body_text_size"
         android:lineSpacingExtra="5dp"/>
     <View
         android:layout_width="match_parent"
@@ -22,5 +22,5 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
         android:background="@android:color/transparent"
-        android:textSize="@dimen/title_size"/>
+        android:textSize="@dimen/dialog_title_size"/>
 </LinearLayout>
