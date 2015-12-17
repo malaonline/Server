@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -376,5 +377,9 @@ public class FilterDialogFragment extends DialogFragment {
     @OnClick(R.id.filter_search)
     protected void onClickBtnSearch() {
         dismiss();
+        Fragment teacherListFragment = getFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
+        if (teacherListFragment != null) {
+            ((TeacherListFragment) teacherListFragment).doFilter(mSelectedGradeId, mSelectedSubjectId, mSelectedTagsId);
+        }
     }
 }
