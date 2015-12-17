@@ -118,6 +118,14 @@ public class FilterDialogFragment extends DialogFragment {
         window.setLayout(window.getAttributes().width, shownHeight);//Here!
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
+        mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
+                mSubjectsList, R.layout.abc_list_item_singlechoice,
+                new String[]{"name"},
+                new int[]{R.id.text1}));
+        mTagsViewList.setAdapter(new SimpleAdapter(getActivity(),
+                mTagsList, R.layout.abc_list_item_multichoice,
+                new String[]{"name"},
+                new int[]{R.id.text1}));
         getData();
     }
 
@@ -135,7 +143,6 @@ public class FilterDialogFragment extends DialogFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         mTotalSubjectsList.clear();
-                        mSubjectsList.clear();
                         try {
                             JSONArray results = response.getJSONArray("results");
                             for (int i = 0; i < results.length(); i++) {
@@ -147,11 +154,6 @@ public class FilterDialogFragment extends DialogFragment {
                             }
                         }catch (Exception e) {
                         }
-                        mSubjectsList.addAll(mTotalSubjectsList);
-                        mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
-                                mSubjectsList, R.layout.abc_list_item_singlechoice,
-                                new String[]{"name"},
-                                new int[]{R.id.text1}));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -250,10 +252,7 @@ public class FilterDialogFragment extends DialogFragment {
                             }
                         }catch (Exception e) {
                         }
-                        mTagsViewList.setAdapter(new SimpleAdapter(getActivity(),
-                                mTagsList, R.layout.abc_list_item_multichoice,
-                                new String[]{"name"},
-                                new int[]{R.id.text1}));
+                        ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
