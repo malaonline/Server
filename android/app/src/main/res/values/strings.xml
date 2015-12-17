@@ -134,4 +134,6 @@
     <string name="load_more">load more</string>
 
     <string name="no_data">no data</string>
+
+    <string name="do_filter">Search</string>
 </resources>

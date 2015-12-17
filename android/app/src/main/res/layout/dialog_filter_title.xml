@@ -3,8 +3,6 @@
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:layout_gravity="center"
-android:paddingLeft="32dp"
-android:paddingRight="32dp"
     >
     <ImageView
         android:id="@+id/filter_bar_left"
@@ -12,7 +10,8 @@ android:paddingRight="32dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_back"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         android:layout_centerVertical="true"
         android:visibility="invisible"
         />
@@ -20,8 +19,8 @@ android:paddingRight="32dp"
         android:id="@+id/filter_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="筛选老师"
-        android:textSize="22dp"
+        android:text="@string/do_filter"
+        android:textSize="@dimen/title_size"
         android:textColor="@color/text_color_darkgray"
         android:layout_centerInParent="true"/>
     <ImageView
@@ -30,5 +29,7 @@ android:paddingRight="32dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_close"
         android:layout_alignParentRight="true"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         android:layout_centerVertical="true"/>
 </RelativeLayout>
