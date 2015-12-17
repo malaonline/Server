@@ -2,6 +2,7 @@ package com.malalaoshi.android;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -17,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
@@ -25,7 +25,6 @@ import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
-import com.malalaoshi.android.util.ThemeUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,17 +42,17 @@ public class MainActivity extends AppCompatActivity
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        int statusBarHeight = ThemeUtils.getStatusBarHeight(this);
-
-        TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
-        Drawable[] drawable = mainBarLocation.getCompoundDrawables();
-        drawable[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
-        mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
-
-        TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
-        Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
-        drawableMBF[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
-        mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
+//        int statusBarHeight = ThemeUtils.getStatusBarHeight(this);
+//
+//        TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
+//        Drawable[] drawable = mainBarLocation.getCompoundDrawables();
+//        drawable[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
+//        mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
+//
+//        TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
+//        Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
+//        drawableMBF[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
+//        mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
 
         setSupportActionBar(toolbar);
 
