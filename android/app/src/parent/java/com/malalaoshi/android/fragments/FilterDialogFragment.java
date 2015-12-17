@@ -114,7 +114,8 @@ public class FilterDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
-        window.setLayout(window.getAttributes().width, 700);//Here!
+        int shownHeight = (int)(window.getWindowManager().getDefaultDisplay().getHeight() * 0.5F);
+        window.setLayout(window.getAttributes().width, shownHeight);//Here!
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
         getData();
