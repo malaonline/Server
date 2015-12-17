@@ -2,10 +2,11 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/text1"
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="32dp"
                  android:gravity="center_vertical"
-                 android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
-                 android:drawableStart="?android:attr/listChoiceIndicatorSingle"
-                 android:drawablePadding="5dp"
+                 android:drawableLeft="@drawable/selectable_radio_button_style"
+                 android:drawableStart="@drawable/selectable_radio_button_style"
+                 android:textColor="@color/selectable_color"
+                 android:drawablePadding="6dp"
                  android:ellipsize="marquee" />
 <!-- From: file:/usr/local/google/buildbot/src/googleplex-android/mnc-supportlib-release/frameworks/support/v7/appcompat/res/layout/select_dialog_singlechoice_material.xml -->
