@@ -53,6 +53,8 @@
 		30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */; };
 		30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		30D4AA051C23E07600C5A336 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
+		30D4AA071C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */; };
+		30D4AA081C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -108,6 +110,7 @@
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewFlowLayout.swift; sourceTree = "<group>"; };
 		30F9E6C41C23BF6F0022A3BF /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		30F9E6C71C23D23C0022A3BF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -280,6 +283,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -539,6 +543,7 @@
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				304135B01C23AE6400830C43 /* Operation.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
+				30D4AA071C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
@@ -581,6 +586,7 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				304135C91C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */,
+				30D4AA081C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */,
 				304135B71C23AE6400830C43 /* StatusCode.swift in Sources */,
 				357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
