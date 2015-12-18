@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @OnTouch(R.id.index_home_btn)
+    @OnTouch(R.id.index_home_btn_view)
     protected boolean onTouchIndexHomeBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_home_btn, R.drawable.index_home, R.drawable.index_home_press);
         return true;
     }
 
-    @OnTouch(R.id.index_personal_btn)
+    @OnTouch(R.id.index_personal_btn_view)
     protected boolean onTouchIndexPersonalBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_personal_btn, R.drawable.index_personal, R.drawable.index_personal_press);
         return true;
