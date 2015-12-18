@@ -63,8 +63,9 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
             recyclerView.setLayoutManager(layoutManager);
             adapter = new TeacherRecyclerViewAdapter(TeacherRecyclerViewAdapter.mValues, mListener);
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
             recyclerView.setAdapter(adapter);
-            recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context));
+            recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
         ButterKnife.bind(this, view);

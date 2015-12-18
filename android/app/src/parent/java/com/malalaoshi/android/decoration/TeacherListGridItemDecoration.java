@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -19,10 +18,25 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Drawable mDivider;
 
-    public TeacherListGridItemDecoration(Context context){
+    private Context mContext;
+    //行间距
+    private int mSpace = 0;
+
+    /**
+     *构造函数
+     * @param context 上下文
+     * @param space   各个Item的行间距
+     */
+    public TeacherListGridItemDecoration(Context context, int space){
+        mContext = context;
+        this.mSpace = space;
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
+    }
+
+    public void setItemSpace(int space) {
+        this.mSpace = space;
     }
 
     @Override
@@ -116,18 +130,18 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            outRect.set(0, 0, 0, 0);
+            outRect.set(0, 0, 0, 0);//int left, int top, int right, int bottom
         }else{
             int spanCount = getSpanCount(parent);
             int childCount = parent.getAdapter().getItemCount();
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, 0);
+                outRect.set(0, mDivider.getIntrinsicHeight()+ mSpace, mDivider.getIntrinsicWidth()+ mSpace /2, 0);
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set(mDivider.getIntrinsicWidth()+3, 0, 0, mDivider.getIntrinsicHeight()+8);
+                outRect.set(mDivider.getIntrinsicWidth()+ mSpace /2, mDivider.getIntrinsicHeight()+ mSpace, 0, 0);
             }else{
-                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, mDivider.getIntrinsicHeight()+8);
+                outRect.set(0, mDivider.getIntrinsicHeight()+ mSpace, mDivider.getIntrinsicWidth()+ mSpace /2, 0);
             }
         }
     }
