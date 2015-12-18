@@ -7,7 +7,8 @@
                  android:drawableLeft="@drawable/selectable_checkbox_round_style"
                  android:drawableStart="@drawable/selectable_checkbox_round_style"
                  android:textColor="@color/selectable_color"
-                 android:drawablePadding="6dp"
+                 android:drawablePadding="4dp"
                  android:textSize="@dimen/body_text_size"
+                 android:paddingLeft="@dimen/page_padding_inner"
                  android:ellipsize="marquee" />
 <!-- From: file:/usr/local/google/buildbot/src/googleplex-android/mnc-supportlib-release/frameworks/support/v7/appcompat/res/layout/select_dialog_multichoice_material.xml -->
