@@ -19,11 +19,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/page_padding"
-                    android:layout_marginRight="@dimen/page_padding"
+                    android:layout_marginRight="@dimen/page_padding_small"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
                     android:scrollbars="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingRight="@dimen/page_padding_inner"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -31,13 +34,14 @@
                     android:layout_marginBottom="9dp"
                     android:text="小学"
                     android:textSize="@dimen/body_head_text_size"
+                    android:height="@dimen/body_head_text_size"
+                    android:includeFontPadding="false"
                     android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/page_padding_inner"
-                    android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
@@ -47,13 +51,14 @@
                     android:layout_marginBottom="9dp"
                     android:text="初中"
                     android:textSize="@dimen/body_head_text_size"
+                    android:height="@dimen/body_head_text_size"
+                    android:includeFontPadding="false"
                     android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/page_padding_inner"
-                    android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
@@ -63,67 +68,85 @@
                     android:layout_marginBottom="9dp"
                     android:text="高中"
                     android:textSize="@dimen/body_head_text_size"
+                    android:height="@dimen/body_head_text_size"
+                    android:includeFontPadding="false"
                     android:textColor="@color/text_color_gray"/>
                 <com.malalaoshi.android.view.ExpandedHeightGridView
                     android:id="@+id/filter_grages_list3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/page_padding_inner"
-                    android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
             </LinearLayout>
         </ScrollView>
         <!--科目-->
-        <FrameLayout
+        <ScrollView
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/page_padding"
-            android:layout_marginRight="@dimen/page_padding"
+            android:layout_marginRight="@dimen/page_padding_small"
+            android:paddingLeft="@dimen/page_padding_inner"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
             >
-            <GridView
+            <com.malalaoshi.android.view.ExpandedHeightGridView
                 android:id="@+id/filter_subjects_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/page_padding_inner"
-                android:layout_marginRight="@dimen/page_padding_inner"
+                android:layout_marginTop="-9dp"
+                android:paddingRight="@dimen/page_padding_inner"
                 android:listSelector="@android:color/transparent"
-                android:numColumns="2"></GridView>
-        </FrameLayout>
+                android:numColumns="2"/>
+        </ScrollView>
         <!--风格-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/page_padding_all"
-                android:layout_marginRight="@dimen/page_padding_all"
-                android:orientation="vertical">
-                <CheckedTextView
-                    android:id="@+id/filter_tags_all"
+            <ScrollView android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/page_padding"
+                        android:layout_marginRight="@dimen/page_padding_small"
+                        android:layout_marginBottom="@dimen/dialog_bottom_bar_height"
+                        android:paddingLeft="@dimen/page_padding_inner"
+                        android:fadingEdge="none"
+                        android:overScrollMode="never"
+                        android:scrollbars="vertical" >
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/selectable_checkbox_round_style"
-                    android:drawableStart="@drawable/selectable_checkbox_round_style"
-                    android:textColor="@color/selectable_color"
-                    android:drawablePadding="5dp"
-                    android:paddingBottom="8dp"
-                    android:ellipsize="marquee"
-                    android:checked="true"
-                    android:text="不限"/>
-                <GridView
-                    android:id="@+id/filter_tags_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:listSelector="@android:color/transparent"
-                    android:numColumns="2"></GridView>
-            </LinearLayout>
+                    android:paddingRight="@dimen/page_padding_inner"
+                    android:orientation="vertical">
+                    <CheckedTextView
+                        android:id="@+id/filter_tags_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/selectable_checkbox_round_style"
+                        android:drawableStart="@drawable/selectable_checkbox_round_style"
+                        android:textColor="@color/selectable_color"
+                        android:drawablePadding="6dp"
+                        android:paddingBottom="9dp"
+                        android:textSize="@dimen/body_text_size"
+                        android:height="23dp"
+                        android:includeFontPadding="false"
+                        android:ellipsize="marquee"
+                        android:checked="true"
+                        android:text="不限"/>
+                    <com.malalaoshi.android.view.ExpandedHeightGridView
+                        android:id="@+id/filter_tags_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:listSelector="@android:color/transparent"
+                        android:numColumns="2"/>
+                </LinearLayout>
+            </ScrollView>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dialog_bottom_bar_height"
                 android:layout_gravity="bottom"
                 android:orientation="vertical">
                 <View
