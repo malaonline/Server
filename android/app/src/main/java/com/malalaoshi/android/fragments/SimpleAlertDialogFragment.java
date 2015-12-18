@@ -57,6 +57,14 @@ public class SimpleAlertDialogFragment extends DialogFragment {
         btnOk.setText(buttonText);
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Window window = getDialog().getWindow();
+        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
+        window.setLayout(width, window.getAttributes().height);//Here!
+    }
+
     @OnClick(R.id.btn_ok)
     protected void onClickBtnOk() {
         dismiss();
