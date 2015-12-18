@@ -18,13 +18,34 @@ class HomeViewController: UICollectionViewController {
         
         // Register Cell Class
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
-
-        // Setup UserInterface
-        collectionView?.backgroundColor = UIColor.whiteColor()
+        
+        setupUserInterface()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    
+    // MARK: - private Function
+    private func setupUserInterface() {
+        
+        collectionView?.backgroundColor = UIColor.whiteColor()
+        
+        // leftBarButtonItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
+        // rightBarButtonItem
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
+    }
+    
+    
+    // MARK: - Event
+    @objc private func locationButtonDidClick() {
+        print("LocationButton DidClick")
+    }
+    
+    @objc private func screeningButtonDidClick() {
+        print("screeningButton DidClick")
     }
     
     

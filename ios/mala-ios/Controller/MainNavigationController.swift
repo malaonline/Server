@@ -9,13 +9,12 @@
 import UIKit
 
 class MainNavigationController: UINavigationController {
-
+    
     // MARK: - Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        setupStyle()
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,5 +22,12 @@ class MainNavigationController: UINavigationController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: - Private Function
+    private func setupStyle() {
+        
+        // Text Style
+        navigationBar.titleTextAttributes = commonTextStyle()
+    }
 
 }

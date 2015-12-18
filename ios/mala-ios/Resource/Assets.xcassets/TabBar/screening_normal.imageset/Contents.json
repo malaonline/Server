@@ -2,16 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "filter_normal-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "filter_normal.png",
+      "filename" : "filter_normal-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "filter_normal.png",
       "scale" : "3x"
     }
   ],

@@ -32,7 +32,8 @@ class MainViewController: UITabBarController {
     }
     
     /**
-     convenience Function to Create TabBar
+     Convenience Function to Create SubViewControllers
+     And Add Into TabBarViewController
      
      - parameter viewController: ViewController
      - parameter title:          String for ViewController's Title
