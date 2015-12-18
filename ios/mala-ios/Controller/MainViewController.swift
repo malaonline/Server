@@ -10,7 +10,6 @@ import UIKit
 
 class MainViewController: UITabBarController {
 
-    
     // MARK: - Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +22,7 @@ class MainViewController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     // MARK: - Private Function
     private func setupTabBar() {
