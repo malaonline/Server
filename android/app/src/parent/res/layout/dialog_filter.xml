@@ -41,7 +41,6 @@
                     android:id="@+id/filter_grages_list1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
@@ -58,7 +57,6 @@
                     android:id="@+id/filter_grages_list2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
@@ -75,7 +73,6 @@
                     android:id="@+id/filter_grages_list3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
@@ -88,7 +85,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/page_padding"
             android:layout_marginRight="@dimen/page_padding_small"
-            android:paddingLeft="@dimen/page_padding_inner"
             android:fadingEdge="none"
             android:overScrollMode="never"
             >
@@ -111,7 +107,6 @@
                         android:layout_marginLeft="@dimen/page_padding"
                         android:layout_marginRight="@dimen/page_padding_small"
                         android:layout_marginBottom="@dimen/dialog_bottom_bar_height"
-                        android:paddingLeft="@dimen/page_padding_inner"
                         android:fadingEdge="none"
                         android:overScrollMode="never"
                         android:scrollbars="vertical" >
@@ -128,11 +123,12 @@
                         android:drawableLeft="@drawable/selectable_checkbox_round_style"
                         android:drawableStart="@drawable/selectable_checkbox_round_style"
                         android:textColor="@color/selectable_color"
-                        android:drawablePadding="6dp"
+                        android:drawablePadding="4dp"
                         android:paddingBottom="9dp"
                         android:textSize="@dimen/body_text_size"
                         android:height="23dp"
                         android:includeFontPadding="false"
+                        android:paddingLeft="@dimen/page_padding_inner"
                         android:ellipsize="marquee"
                         android:checked="true"
                         android:text="不限"/>
