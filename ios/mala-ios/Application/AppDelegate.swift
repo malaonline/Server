@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - AppDelegate
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,7 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        setupAppearance()
+        
+        // Setup Widow
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.backgroundColor = UIColor.whiteColor()
+        window?.rootViewController = defaultRootViewController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
@@ -41,6 +51,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    /// Setup Common Exterior
+    private func setupAppearance() {
+        // Navigation Common Exterior
+        UINavigationBar.appearance().tintColor = MalaAppearanceTintColor
+        UITabBar.appearance().tintColor = MalaAppearanceTintColor
+    }
 
+}
+
+// MARK: - RootViewController Switch
+extension AppDelegate {
+    
+    // Setup RootViewController
+    private var defaultRootViewController: UIViewController {
+        
+        // 1. Has Logged
+        //        if HasLogged {
+        //            return isNewVersion ? NewFeatureViewController() : WelcomeViewController()
+        //        }
+        
+        // 2. not logged in
+        //        return loginViewController()
+        return MainViewController()
+    }
+    
 }
 
