@@ -25,6 +25,8 @@
     <dimen name="body_head_text_size">15dp</dimen>
     <dimen name="body_text_size">14dp</dimen>
 
+    <dimen name="teacher_list_card_diver">8dp</dimen>
+
     <dimen name="teacher_list_card_corner_radius">4dp</dimen>
     <dimen name="teacher_list_card_elevation">2dp</dimen>
 
