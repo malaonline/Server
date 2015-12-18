@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,16 +44,35 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     @Bind(R.id.teacher_list_refresh_layout)
     protected SwipeRefreshLayout refreshLayout;
 
-    public TeacherListFragment() {
+    private  List<Teacher> teachersList;
+
+    private Long gradeId;
+    private Long subjectId;
+    private Long [] tagIds;
+
+    public TeacherListFragment(){
+    }
+
+    public TeacherListFragment setTeacherList(List<Teacher> teachers){
+        teachersList = teachers;
+        return this;
+    }
+
+    public TeacherListFragment setSearchCondition(Long gradeId, Long subjectId, Long [] tagIds){
+        this.gradeId = gradeId;
+        this.subjectId = subjectId;
+        this.tagIds = tagIds;
+
+        return this;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.teacher_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
@@ -62,7 +80,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             Context context = view.getContext();
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new TeacherRecyclerViewAdapter(TeacherRecyclerViewAdapter.mValues, mListener);
+            adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context));
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
@@ -74,9 +92,9 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity){
         super.onAttach(activity);
-//        if (activity instanceof OnListFragmentInteractionListener) {
+//        if (activity instanceof OnListFragmentInteractionListener){
 //            mListener = (OnListFragmentInteractionListener) activity;
 //        } else {
 //            throw new RuntimeException(activity.toString()
@@ -85,7 +103,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach(){
         super.onDetach();
         mListener = null;
     }
@@ -98,16 +116,6 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onLoadMore(){
         new loadTeachersTask().execute();
-    }
-
-    /**
-     * 根据筛选条件筛选老师
-     * @param gradeId 年级ID
-     * @param subjectId 科目ID
-     * @param tagIds 风格ID数组。null or empty i.e. all
-     */
-    public void doFilter(long gradeId, long subjectId, List<Long> tagIds) {
-        onRefresh();
     }
 
     /**
@@ -130,7 +138,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private void notifyDataSetChanged(){
-        if(TeacherRecyclerViewAdapter.mValues.size() < 20){
+        if(teachersList != null && teachersList.size() < 20){
             adapter.setLoading(false);
         }
         adapter.notifyDataSetChanged();
@@ -141,6 +149,25 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         protected String doInBackground(String ...params){
             try{
                 String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+                boolean hasParam = false;
+                if(gradeId != null && gradeId > 0){
+                    url += "?grade=" + gradeId;
+                    hasParam = true;
+                }
+                if(subjectId != null && subjectId > 0){
+                    url += hasParam ? "&subject=" : "?subject=";
+                    url += subjectId;
+                    hasParam = true;
+                }
+                if(tagIds != null && tagIds.length > 0){
+                    url += hasParam ? "&tags=" : "?tags=";
+                    for(int i=0; i<tagIds.length;){
+                        url += tagIds[i];
+                        if(++i < tagIds.length){
+                            url += "+";
+                        }
+                    }
+                }
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
@@ -180,13 +207,12 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
                                             teacher.setTags(tmp);
                                         }
-
-                                        TeacherRecyclerViewAdapter.mValues.add(teacher);
+                                        teachersList.add(teacher);
                                     }
                                     if(result.length() > 0){
                                         notifyDataSetChanged();
                                     }
-                                } catch (Exception e) {
+                                } catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
                                 }
                                 setRefreshing(false);

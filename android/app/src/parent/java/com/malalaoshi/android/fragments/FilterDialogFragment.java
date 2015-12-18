@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.TeacherListFilterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -379,7 +380,11 @@ public class FilterDialogFragment extends DialogFragment {
         dismiss();
         Fragment teacherListFragment = getFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
         if (teacherListFragment != null) {
-            ((TeacherListFragment) teacherListFragment).doFilter(mSelectedGradeId, mSelectedSubjectId, mSelectedTagsId);
+            long [] selectedTags = new long[mSelectedTagsId.size()];
+            for(int i=0; i< selectedTags.length; i++){
+                selectedTags[i] = mSelectedTagsId.get(i);
+            }
+            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
         }
     }
 }
