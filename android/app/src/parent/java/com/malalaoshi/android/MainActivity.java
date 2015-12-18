@@ -2,20 +2,22 @@ package com.malalaoshi.android;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.MotionEvent;
+import android.widget.ImageView;
 
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
@@ -23,10 +25,10 @@ import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
-import com.malalaoshi.android.util.ThemeUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,17 +42,17 @@ public class MainActivity extends AppCompatActivity
         init();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        int statusBarHeight = ThemeUtils.getStatusBarHeight(this);
-
-        TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
-        Drawable[] drawable = mainBarLocation.getCompoundDrawables();
-        drawable[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
-        mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
-
-        TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
-        Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
-        drawableMBF[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
-        mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
+//        int statusBarHeight = ThemeUtils.getStatusBarHeight(this);
+//
+//        TextView mainBarLocation = (TextView)findViewById(R.id.main_bar_location);
+//        Drawable[] drawable = mainBarLocation.getCompoundDrawables();
+//        drawable[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
+//        mainBarLocation.setCompoundDrawables(drawable[0], drawable[1], drawable[2], drawable[3]);
+//
+//        TextView mainBarFilter = (TextView)findViewById(R.id.main_bar_filter);
+//        Drawable[] drawableMBF = mainBarFilter.getCompoundDrawables();
+//        drawableMBF[0].setBounds(0, 0, statusBarHeight, statusBarHeight);
+//        mainBarFilter.setCompoundDrawables(drawableMBF[0], null, null, null);
 
         setSupportActionBar(toolbar);
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.main_bar_location)
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance(null, "目前只支持洛阳市，其他地区正在拓展中", "知道了");
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "知道了");
         d.show(getFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
@@ -87,14 +89,39 @@ public class MainActivity extends AppCompatActivity
         newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
     }
 
-    @OnClick(R.id.index_home_btn)
-    protected void onClickIndexHomeBtn(){
-        Toast.makeText(this,"首页", Toast.LENGTH_SHORT).show();
+    private void setDrawable(int viewId, int drawableId){
+        ImageView iv = (ImageView)findViewById(viewId);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), drawableId, null);
+        iv.setImageDrawable(drawable);
     }
 
-    @OnClick(R.id.index_personal_btn)
-    protected void onClickIndexPersonalBtn(){
-        Toast.makeText(this,"个人", Toast.LENGTH_SHORT).show();
+    private void indexBtnEvent(MotionEvent event, int id, int drawableId, int pressedDrawableId){
+        int action = event.getAction();
+        switch(action){
+            case 0:{
+                setDrawable(id, pressedDrawableId);
+                break;
+            }
+            case 1:{
+                setDrawable(id, drawableId);
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+    }
+
+    @OnTouch(R.id.index_home_btn)
+    protected boolean onTouchIndexHomeBtn(MotionEvent event){
+        indexBtnEvent(event, R.id.index_home_btn, R.drawable.index_home, R.drawable.index_home_press);
+        return true;
+    }
+
+    @OnTouch(R.id.index_personal_btn)
+    protected boolean onTouchIndexPersonalBtn(MotionEvent event){
+        indexBtnEvent(event, R.id.index_personal_btn, R.drawable.index_personal, R.drawable.index_personal_press);
+        return true;
     }
 
     @Override

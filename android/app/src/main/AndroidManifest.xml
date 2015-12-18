@@ -30,6 +30,13 @@
             android:screenOrientation="portrait"
             />
 
+        <activity
+            android:name="com.malalaoshi.android.TeacherListFilterActivity"
+            android:label="老师筛选列表"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            />
+
         <receiver android:name=".receiver.NetworkStateReceiver" android:label="NetworkConnection">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

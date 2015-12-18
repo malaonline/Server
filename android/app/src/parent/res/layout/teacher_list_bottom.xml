@@ -6,14 +6,22 @@
     android:background="#FFFFFF"
     >
 
-    <ImageView
-        android:id="@+id/index_home_btn"
-        android:layout_height="35dp"
-        android:src="@drawable/index_home"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_weight="1"
-        />
+        >
+
+        <ImageView
+            android:id="@+id/index_home_btn"
+            android:layout_height="wrap_content"
+            android:src="@drawable/index_home"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
 
     <View
         android:layout_width="1dp"
@@ -22,13 +30,23 @@
         android:layout_gravity="center"
         />
 
-    <ImageView
-        android:id="@+id/index_personal_btn"
-        android:layout_height="35dp"
+    <LinearLayout
         android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_weight="1"
-        android:layout_gravity="center"
-        android:src="@drawable/index_personal"
-        />
+        >
+
+        <ImageView
+            android:id="@+id/index_personal_btn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/index_personal"
+            />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

@@ -1,14 +1,13 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +29,8 @@ import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -97,6 +98,16 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onLoadMore(){
         new loadTeachersTask().execute();
+    }
+
+    /**
+     * 根据筛选条件筛选老师
+     * @param gradeId 年级ID
+     * @param subjectId 科目ID
+     * @param tagIds 风格ID数组。null or empty i.e. all
+     */
+    public void doFilter(long gradeId, long subjectId, List<Long> tagIds) {
+        onRefresh();
     }
 
     /**

@@ -9,6 +9,11 @@
 
     <color name="text_color_light">#b3ffffff</color>
     <color name="text_color_dark">#de000000</color>
+    <color name="text_color_darkgray">#333333</color>
+    <color name="text_color_darkgray2">#5d5d5d</color>
+    <color name="text_color_gray">#757575</color>
+    <color name="text_color_gray2">#9c9c9c</color>
+    <color name="text_color_lightgray">#c8c8c8</color>
 
     <color name="color_accent">#ff80bd01</color>
 
