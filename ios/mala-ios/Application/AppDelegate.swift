@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        setupAppearance()
+        setupExterior()
         
         // Setup Widow
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -52,10 +52,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     /// Setup Common Exterior
-    private func setupAppearance() {
-        // Navigation Common Exterior
+    private func setupExterior() {
+        
+        // Setup Appearance
         UINavigationBar.appearance().tintColor = MalaAppearanceTintColor
+        UINavigationBar.appearance().barTintColor = MalaAppearanceTintColor
         UITabBar.appearance().tintColor = MalaAppearanceTintColor
+        
+        // Setup Exterior
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
 
 }
