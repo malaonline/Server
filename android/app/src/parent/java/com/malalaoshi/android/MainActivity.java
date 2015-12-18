@@ -2,7 +2,6 @@ package com.malalaoshi.android;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -19,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
@@ -26,17 +26,20 @@ import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private  List<Teacher> teachersList = new ArrayList<Teacher>();
 
     private NetworkStateReceiver mNetworkStateReceiver;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment(), TeacherListFragment.class.getName());
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList), TeacherListFragment.class.getName());
         ButterKnife.bind(this);
     }
 
@@ -112,13 +115,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @OnTouch(R.id.index_home_btn)
+    @OnTouch(R.id.index_home_btn_view)
     protected boolean onTouchIndexHomeBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_home_btn, R.drawable.index_home, R.drawable.index_home_press);
         return true;
     }
 
-    @OnTouch(R.id.index_personal_btn)
+    @OnTouch(R.id.index_personal_btn_view)
     protected boolean onTouchIndexPersonalBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_personal_btn, R.drawable.index_personal, R.drawable.index_personal_press);
         return true;

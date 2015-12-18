@@ -39,6 +39,7 @@
                     android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
+                    android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -54,6 +55,7 @@
                     android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
+                    android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -69,6 +71,7 @@
                     android:layout_marginLeft="@dimen/page_padding_inner"
                     android:layout_marginRight="@dimen/page_padding_inner"
                     android:layout_marginBottom="13dp"
+                    android:listSelector="@android:color/transparent"
                     android:numColumns="2"/>
             </LinearLayout>
         </ScrollView>
@@ -85,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/page_padding_inner"
                 android:layout_marginRight="@dimen/page_padding_inner"
+                android:listSelector="@android:color/transparent"
                 android:numColumns="2"></GridView>
         </FrameLayout>
         <!--风格-->
@@ -114,6 +118,7 @@
                     android:id="@+id/filter_tags_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:listSelector="@android:color/transparent"
                     android:numColumns="2"></GridView>
             </LinearLayout>
             <LinearLayout
