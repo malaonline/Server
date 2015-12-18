@@ -54,8 +54,6 @@
 		304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
 		304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
-		357E69F11C0FEEC90009AF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
-		357E6A121C0FEF700009AF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */; };
 		357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357E6A131C0FF1FF0009AF9A /* Main.storyboard */; };
 		357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */; };
 		357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */; };
@@ -137,7 +135,6 @@
 		35D7A33A1C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D7A3431C0FE851007D7679 /* parentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentUITests.swift; sourceTree = "<group>"; };
 		35D7A3451C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5927BAB1BEC8BD900E9BDB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5927BAD1BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5927BB61BEC8BD900E9BDB4 /* mala_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mala_iosTests.swift; sourceTree = "<group>"; };
 		A5927BB81BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -383,7 +380,6 @@
 				304135871C23AE6400830C43 /* Resource */,
 				3041358B1C23AE6400830C43 /* TempFile */,
 				304135A31C23AE6400830C43 /* View */,
-				A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */,
 				A5927BAD1BEC8BD900E9BDB4 /* Info.plist */,
 			);
 			path = "mala-ios";
@@ -489,7 +485,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				304135BC1C23AE6400830C43 /* LICENSE in Resources */,
-				357E6A121C0FEF700009AF9A /* LaunchScreen.storyboard in Resources */,
 				304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A61C23AE6400830C43 /* Assets.xcassets in Resources */,
 				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
@@ -505,7 +500,6 @@
 				357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */,
 				304135A91C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
-				357E69F11C0FEEC90009AF9A /* LaunchScreen.storyboard in Resources */,
 				304135AF1C23AE6400830C43 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,14 +605,6 @@
 				35D7A2F61C0FE82E007D7679 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A5927BAA1BEC8BD900E9BDB4 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5927BAB1BEC8BD900E9BDB4 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
