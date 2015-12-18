@@ -18,7 +18,6 @@ import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.Number;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -36,13 +35,14 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     public static final int TEACHER_LIST_PAGE_SIZE = 10;
 
-    public static final List<Teacher> mValues = new ArrayList<Teacher>();
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
     private boolean loading = false;
 
+    private  List<Teacher> teachersList;
+
     public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
-        mValues.addAll(items);
+        teachersList = items;
         mListener = listener;
     }
 
@@ -72,17 +72,17 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     }
 
     public boolean canLoadMore() {
-        return mValues.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && !loading;
+        return teachersList == null ? !loading : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && !loading;
     }
 
     @Override
     public int getItemCount(){
-        return mValues.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? mValues.size() + 1 : mValues.size();
+        return teachersList == null ? 0 : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? teachersList.size() + 1 : teachersList.size();
     }
 
     @Override
     public int getItemViewType(int position){
-        if(mValues.size() >= 9 && position == getItemCount() - 1){
+        if(teachersList != null && teachersList.size() >= 9 && position == getItemCount() - 1){
             return TYPE_LOAD_MORE;
         }else{
             return TYPE_NORMAL;
@@ -148,7 +148,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
-            teacher = mValues.get(position);
+            teacher = teachersList.get(position);
             name.setText(teacher.getName());
             Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
             if(sub != null){
