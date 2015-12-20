@@ -1,11 +1,12 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,48 +21,83 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
+import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
+import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
 
-public class TeacherListFragment extends Fragment {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+
+public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
+    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
-    public TeacherListFragment() {
+    @Bind(R.id.teacher_list_refresh_layout)
+    protected SwipeRefreshLayout refreshLayout;
+
+    private  List<Teacher> teachersList;
+
+    private Long gradeId;
+    private Long subjectId;
+    private Long [] tagIds;
+
+    public TeacherListFragment(){
+    }
+
+    public TeacherListFragment setTeacherList(List<Teacher> teachers){
+        teachersList = teachers;
+        return this;
+    }
+
+    public TeacherListFragment setSearchCondition(Long gradeId, Long subjectId, Long [] tagIds){
+        this.gradeId = gradeId;
+        this.subjectId = subjectId;
+        this.tagIds = tagIds;
+
+        return this;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_teacher_list, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.teacher_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        if(recyclerView != null){
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new TeacherRecyclerViewAdapter(TeacherRecyclerViewAdapter.mValues, mListener);
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            recyclerView.setLayoutManager(layoutManager);
+
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
+            adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
+
             recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
+            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
-        refresh();
+        ButterKnife.bind(this, view);
+        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
+        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
         return view;
     }
 
-
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity){
         super.onAttach(activity);
-//        if (activity instanceof OnListFragmentInteractionListener) {
+//        if (activity instanceof OnListFragmentInteractionListener){
 //            mListener = (OnListFragmentInteractionListener) activity;
 //        } else {
 //            throw new RuntimeException(activity.toString()
@@ -70,9 +106,19 @@ public class TeacherListFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach(){
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRefresh(){
+        new loadTeachersTask().execute();
+    }
+
+    @Override
+    public void onLoadMore(){
+        new loadTeachersTask().execute();
     }
 
     /**
@@ -90,14 +136,41 @@ public class TeacherListFragment extends Fragment {
         void onListFragmentInteraction(Teacher item);
     }
 
-    public void refresh(){
-        new loadTeachersTask().execute();
+    public void setRefreshing(boolean status){
+        refreshLayout.setRefreshing(status);
     }
+
+    private void notifyDataSetChanged(){
+        if(teachersList != null && teachersList.size() < 20){
+            adapter.setLoading(false);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private class loadTeachersTask extends AsyncTask<String, Integer, String>{
         @Override
-        protected String doInBackground(String... params){
+        protected String doInBackground(String ...params){
             try{
                 String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+                boolean hasParam = false;
+                if(gradeId != null && gradeId > 0){
+                    url += "?grade=" + gradeId;
+                    hasParam = true;
+                }
+                if(subjectId != null && subjectId > 0){
+                    url += hasParam ? "&subject=" : "?subject=";
+                    url += subjectId;
+                    hasParam = true;
+                }
+                if(tagIds != null && tagIds.length > 0){
+                    url += hasParam ? "&tags=" : "?tags=";
+                    for(int i=0; i<tagIds.length;){
+                        url += tagIds[i];
+                        if(++i < tagIds.length){
+                            url += "+";
+                        }
+                    }
+                }
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
@@ -111,24 +184,54 @@ public class TeacherListFragment extends Fragment {
                                         Teacher teacher = new Teacher();
                                         teacher.setId(String.valueOf(i+1));
                                         teacher.setName(obj.getString("name"));
-                                        TeacherRecyclerViewAdapter.mValues.add(teacher);
+                                        String degreeStr = obj.optString("degree");
+                                        if(degreeStr != null && degreeStr.length() == 1){
+                                            teacher.setDegree(degreeStr.charAt(0));
+                                        }
+                                        teacher.setMinPrice(obj.optDouble("min_price"));
+                                        teacher.setMaxPrice(obj.optDouble("max_price"));
+                                        teacher.setSubject(obj.optLong("subject"));
+                                        JSONArray gradesAry = obj.optJSONArray("grades");
+                                        if(gradesAry != null && gradesAry.length() > 0){
+                                            Long [] tmp = new Long[gradesAry.length()];
+                                            for(int ind=0; ind < gradesAry.length(); ind++){
+                                                tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
+                                            }
+
+                                            teacher.setGrades(tmp);
+                                        }
+
+                                        JSONArray tagsAry = obj.optJSONArray("tags");
+                                        if(tagsAry != null && tagsAry.length() > 0){
+                                            Long [] tmp = new Long[tagsAry.length()];
+                                            for(int ind=0; ind < tagsAry.length(); ind++){
+                                                tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+                                            }
+
+                                            teacher.setTags(tmp);
+                                        }
+                                        teachersList.add(teacher);
                                     }
                                     if(result.length() > 0){
-                                        adapter.notifyDataSetChanged();
+                                        notifyDataSetChanged();
                                     }
-                                } catch (Exception e) {
+                                } catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
                                 }
+                                setRefreshing(false);
                             }
-                        }, new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                    }
-                });
+                        },
+                        new Response.ErrorListener(){
+                            @Override
+                            public void onErrorResponse(VolleyError error){
+                                setRefreshing(false);
+                                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
+                            }
+                        });
                 requestQueue.add(jsArrayRequest);
                 return "ok";
             }catch(Exception e){
+                setRefreshing(false);
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;

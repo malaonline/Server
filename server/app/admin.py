@@ -3,9 +3,13 @@ from django.contrib import admin
 from .models import *
 
 
-admin.site.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+admin.site.register(Region, RegionAdmin)
 admin.site.register(School)
 admin.site.register(Grade)
+admin.site.register(Tag)
 admin.site.register(Subject)
 admin.site.register(Level)
 admin.site.register(Price)
@@ -21,6 +25,7 @@ admin.site.register(BankCard)
 admin.site.register(BankCodeInfo)
 admin.site.register(AccountHistory)
 admin.site.register(Feedback)
+admin.site.register(Memberservice)
 admin.site.register(Parent)
 admin.site.register(Coupon)
 admin.site.register(WeeklyTimeSlot)

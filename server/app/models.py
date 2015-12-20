@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+
 class BaseModel(models.Model):
     class Meta:
         abstract = True
@@ -24,7 +25,7 @@ class School(BaseModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     thumbnail = models.ImageField(upload_to='schools', null=True, blank=True)
-    region = models.ForeignKey(Region, limit_choices_to={'leaf': True})
+    region = models.ForeignKey(Region, limit_choices_to={'opened': True})
     center = models.BooleanField()
     longitude = models.IntegerField()
     latitude = models.IntegerField()
@@ -38,10 +39,16 @@ class Subject(BaseModel):
     def __str__(self):
         return self.name
 
+class Tag(BaseModel):
+    name = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
-            on_delete=models.SET_NULL)
+            on_delete=models.SET_NULL, related_name='subset')
     leaf = models.BooleanField()
     subjects = models.ManyToManyField(Subject)
 
@@ -54,8 +61,8 @@ class Level(BaseModel):
         return self.name
 
 class Price(BaseModel):
-    region = models.ForeignKey(Region, limit_choices_to={'leaf': True})
-    grade = models.ForeignKey(Grade, limit_choices_to={'leaf': True})
+    region = models.ForeignKey(Region, limit_choices_to={'opened':True})
+    grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
     level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
@@ -117,12 +124,51 @@ class Teacher(BaseModel):
     level = models.ForeignKey(Level, null=True, blank=True,
             on_delete=models.SET_NULL)
 
+    tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
-                'Banned' if not self.active else '')
+                'Private' if not self.public else '')
+
+    def avatar(self):
+        if not hasattr(self.user, 'profile'):
+            return None
+        return self.user.profile.avatar or None
+
+    def gender(self):
+        if not hasattr(self.user, 'profile'):
+            return None
+        return self.user.profile.gender
+
+    def subject(self):
+        abilities = self.ability_set.all()
+        if not abilities:
+            return None
+        return abilities[0].subject.id
+
+    def grades(self):
+        abilities = self.ability_set.all()
+        return (ability.grade.id for ability in abilities)
+
+    def prices(self):
+        regions = [x.region for x in self.schools.all()]
+
+        return Price.objects.filter(subject=self.subject, level=self.level,
+                region__in=regions, grade__in=self.grades)
+
+    def min_price(self):
+        prices = self.prices()
+        if not prices:
+            return None
+        return min(x.price for x in prices)
+
+    def max_price(self):
+        prices = self.prices()
+        if not prices:
+            return None
+        return max(x.price for x in prices)
 
 class Highscore(BaseModel):
     teacher = models.ForeignKey(Teacher)
@@ -231,6 +277,13 @@ class Feedback(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
 
+class Memberservice(BaseModel):
+    name = models.CharField(max_length=30)
+    detail = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return '%s' % self.name
+
 class Parent(BaseModel):
     user = models.ForeignKey(User, null=True, blank=True)
 
@@ -250,6 +303,7 @@ class Coupon(BaseModel):
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                 'D' if self.used else '')
+
 
 class WeeklyTimeSlot(BaseModel):
     weekday = models.PositiveIntegerField() # 1 - 7

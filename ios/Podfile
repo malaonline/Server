@@ -1,0 +1,14 @@
+inhibit_all_warnings!
+# Uncomment this line to define a global platform for your project
+# platform :ios, '7.0'
+# Uncomment this line if you're using Swift
+# use_frameworks!
+
+target 'teacher' do
+
+end
+
+target 'parent' do
+
+end
+

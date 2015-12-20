@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teacher_list_item_body"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/teacher_list_card_corner_radius"
+    card_view:cardElevation="@dimen/teacher_list_card_elevation"
+    android:background="@color/item_background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundGeneral"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@color/item_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/teacher_list_item_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/user_detail_header_bg"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/image_bck_rounded"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="-25dp"
+            android:paddingRight="@dimen/item_content_padding"
+            android:gravity="center|end"
+            android:background="@color/teacher_list_price_background"
+            >
+
+            <TextView
+                android:id="@+id/teacher_list_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|end"
+                android:textSize="@dimen/teacher_list_price_size"
+                android:textColor="@color/teacher_list_price"
+                android:text="150-200"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/teacher_list_price_size"
+                android:textColor="@color/teacher_list_price"
+                android:gravity="center|end"
+                android:text="/课时"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/item_content_padding"
+            android:paddingRight="@dimen/item_content_padding"
+            android:paddingTop="6dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/teacher_list_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/teacher_list_teacher_name"
+                    android:textSize="16sp"
+                    android:singleLine="true"
+                    android:text="老师名" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/teacher_list_item_grade_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小初"
+                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textSize="13sp"
+                    android:singleLine="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="·"
+                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textSize="16sp"
+                    android:singleLine="true" />
+                <TextView
+                    android:id="@+id/teacher_list_item_subject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数学"
+                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textSize="13sp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/teacher_list_item_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="12sp"
+                android:singleLine="false"
+                android:paddingLeft="@dimen/item_content_padding"
+                android:paddingRight="@dimen/item_content_padding"
+                android:maxLines="2"
+                android:text="幽默 | 有责任心 | 正能量" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
