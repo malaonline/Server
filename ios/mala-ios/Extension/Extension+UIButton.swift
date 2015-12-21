@@ -1,0 +1,31 @@
+//
+//  Extension+UIButton.swift
+//  mala-ios
+//
+//  Created by Elors on 12/18/15.
+//  Copyright © 2015 Mala Online. All rights reserved.
+//
+
+import UIKit
+
+extension UIButton {
+    
+    /**
+     Convenience Function to Create UIButton
+     (Usually Use For UIBarButtonItem)
+     
+     - parameter title:     String for Title
+     - parameter imageName: String for ImageName
+     - parameter target:    Object for Event's Target
+     - parameter action:    SEL for Event's Action
+     
+     - returns: UIButton
+     */
+    convenience init(title: String = "", imageName: String?, target: AnyObject?, action:Selector) {
+        self.init()
+        setTitle(title, forState: .Normal)
+        setImage(UIImage(named: imageName ?? ""), forState: .Normal)
+        addTarget(target, action: action, forControlEvents: .TouchUpInside)
+        sizeToFit()
+    }
+}
