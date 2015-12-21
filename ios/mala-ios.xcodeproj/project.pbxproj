@@ -62,6 +62,10 @@
 		30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
 		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
+		30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
+		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
+		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
+		30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -122,6 +126,8 @@
 		30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObjectModel.swift; sourceTree = "<group>"; };
 		30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
+		30E336711C27F41900DCF1C5 /* GradeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeModel.swift; sourceTree = "<group>"; };
+		30E336731C27F61900DCF1C5 /* ResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultModel.swift; sourceTree = "<group>"; };
 		30F9E6C41C23BF6F0022A3BF /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		30F9E6C71C23D23C0022A3BF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -233,7 +239,9 @@
 		304135861C23AE6400830C43 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				30E336711C27F41900DCF1C5 /* GradeModel.swift */,
 				30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */,
+				30E336731C27F61900DCF1C5 /* ResultModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -666,6 +674,7 @@
 				30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				304135B81C23AE6400830C43 /* Upload.swift in Sources */,
 				304135C61C23AE6400830C43 /* FeedbackViewController.swift in Sources */,
+				30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				304135B61C23AE6400830C43 /* StatusCode.swift in Sources */,
 				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
 				304135B41C23AE6400830C43 /* Request.swift in Sources */,
@@ -689,6 +698,7 @@
 				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
 				30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
+				30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +706,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
@@ -713,6 +724,7 @@
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				357E6A3A1C0FF3010009AF9A /* ScreenTeacherViewController.swift in Sources */,
 				357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */,
+				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				304135CB1C23AE6400830C43 /* ModelController.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */,
