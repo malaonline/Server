@@ -27,10 +27,6 @@
 		304135B71C23AE6400830C43 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135941C23AE6400830C43 /* StatusCode.swift */; };
 		304135B81C23AE6400830C43 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135951C23AE6400830C43 /* Upload.swift */; };
 		304135B91C23AE6400830C43 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135951C23AE6400830C43 /* Upload.swift */; };
-		304135BC1C23AE6400830C43 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 304135981C23AE6400830C43 /* LICENSE */; };
-		304135BD1C23AE6400830C43 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 304135981C23AE6400830C43 /* LICENSE */; };
-		304135C01C23AE6400830C43 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359A1C23AE6400830C43 /* SwiftyJSON.swift */; };
-		304135C11C23AE6400830C43 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359A1C23AE6400830C43 /* SwiftyJSON.swift */; };
 		304135C21C23AE6400830C43 /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359B1C23AE6400830C43 /* BackAPI.swift */; };
 		304135C31C23AE6400830C43 /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359B1C23AE6400830C43 /* BackAPI.swift */; };
 		304135C41C23AE6400830C43 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359C1C23AE6400830C43 /* DataViewController.swift */; };
@@ -66,7 +62,6 @@
 		30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
 		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
-		30E336701C27E86200DCF1C5 /* LICENSE in Sources */ = {isa = PBXBuildFile; fileRef = 304135981C23AE6400830C43 /* LICENSE */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -110,10 +105,6 @@
 		304135931C23AE6400830C43 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		304135941C23AE6400830C43 /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCode.swift; sourceTree = "<group>"; };
 		304135951C23AE6400830C43 /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
-		304135971C23AE6400830C43 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		304135981C23AE6400830C43 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		304135991C23AE6400830C43 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		3041359A1C23AE6400830C43 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		3041359B1C23AE6400830C43 /* BackAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAPI.swift; sourceTree = "<group>"; };
 		3041359C1C23AE6400830C43 /* DataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
 		3041359D1C23AE6400830C43 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
@@ -276,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				3041358D1C23AE6400830C43 /* SwiftHTTP */,
-				304135961C23AE6400830C43 /* SwiftyJSON */,
 			);
 			path = 3rdParty;
 			sourceTree = "<group>";
@@ -294,17 +284,6 @@
 				304135951C23AE6400830C43 /* Upload.swift */,
 			);
 			path = SwiftHTTP;
-			sourceTree = "<group>";
-		};
-		304135961C23AE6400830C43 /* SwiftyJSON */ = {
-			isa = PBXGroup;
-			children = (
-				304135971C23AE6400830C43 /* CHANGELOG.md */,
-				304135981C23AE6400830C43 /* LICENSE */,
-				304135991C23AE6400830C43 /* README.md */,
-				3041359A1C23AE6400830C43 /* SwiftyJSON.swift */,
-			);
-			path = SwiftyJSON;
 			sourceTree = "<group>";
 		};
 		304135A31C23AE6400830C43 /* View */ = {
@@ -561,7 +540,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304135BC1C23AE6400830C43 /* LICENSE in Resources */,
 				304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A61C23AE6400830C43 /* Assets.xcassets in Resources */,
 				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
@@ -573,7 +551,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304135BD1C23AE6400830C43 /* LICENSE in Resources */,
 				357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */,
 				304135A91C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
@@ -710,7 +687,6 @@
 				304135C21C23AE6400830C43 /* BackAPI.swift in Sources */,
 				304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
 				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
-				304135C01C23AE6400830C43 /* SwiftyJSON.swift in Sources */,
 				30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
 			);
@@ -720,7 +696,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30E336701C27E86200DCF1C5 /* LICENSE in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
@@ -742,7 +717,6 @@
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */,
 				357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */,
-				304135C11C23AE6400830C43 /* SwiftyJSON.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				304135CD1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
 				304135B11C23AE6400830C43 /* Operation.swift in Sources */,
