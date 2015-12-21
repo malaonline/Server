@@ -6,11 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+
+import com.malalaoshi.android.R;
 
 /**
  * Created by zl on 15/12/10.
@@ -22,6 +26,14 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     private Context mContext;
     //行间距
     private int mSpace = 0;
+
+    //阴影宽度
+    int cardElevation = -1;
+
+    private int mLeftPadding = -1;
+    private int mRightPadding = -1;
+    private int mTopPadding = -1;
+    private int mBottomPadding = -1;
 
     /**
      *构造函数
@@ -130,23 +142,38 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
-        Log.e("TeacherListGridItem","Build.VERSION.SDK_INT:"+Build.VERSION.SDK_INT+" Build.VERSION_CODES.LOLLIPOP:"+Build.VERSION_CODES.LOLLIPOP+" mSpace:"+mSpace);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            outRect.set(0, 0, 0, 0);
+            //outRect.set(0, 0, 0, 0);
+            //获取阴影的宽度
+            if (cardElevation==-1){
+                cardElevation = parent.getContext().getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
+            }
+
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+
+            //是否是最后一行int left, int top, int right, int bottom
+            if(isLastRaw(parent, itemPosition, spanCount, childCount)){
+                outRect.set(0,  mSpace - 2*cardElevation,  mSpace - 2*cardElevation, 0);
+            }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
+                outRect.set( 0,  mSpace- 2*cardElevation, 0, 0);
+            }else{
+                outRect.set(0, mSpace- 2*cardElevation, mSpace - 2*cardElevation, 0);
+            }
         }else{
             int spanCount = getSpanCount(parent);
             int childCount = parent.getAdapter().getItemCount();
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0, mSpace,  mSpace /2, 0);
+                outRect.set(0,  mSpace,  mSpace , 0);
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set( mSpace /2,  mSpace, 0, 0);
+                outRect.set( 0 ,  mSpace, 0, 0);
             }else{
-                outRect.set(0,  mSpace,  mSpace /2, 0);
+                outRect.set(0, mSpace, mSpace , 0);
             }
         }
     }
-
 
 }
