@@ -136,4 +136,7 @@
     <string name="no_data">no data</string>
 
     <string name="do_filter">Search</string>
+
+    <string name="currency_unit">yuan</string>
+
 </resources>

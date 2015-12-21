@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupExterior() {
         
         // Setup Appearance
-        UINavigationBar.appearance().tintColor = MalaAppearanceTintColor
+        UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
         UINavigationBar.appearance().barTintColor = MalaAppearanceTintColor
         UITabBar.appearance().tintColor = MalaAppearanceTintColor
         

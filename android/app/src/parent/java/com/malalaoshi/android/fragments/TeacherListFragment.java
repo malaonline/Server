@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,10 +83,14 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
             recyclerView.setLayoutManager(layoutManager);
 
-            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-
             recyclerView.setAdapter(adapter);
+
+            //处理在5.0以下版本中各个Item 间距过大的问题(解决方式:将要设置的间距减去各个Item的阴影宽度)
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                dealCardElevation(recyclerView);
+            }
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
@@ -92,6 +98,20 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         RefreshLayoutUtils.initOnCreate(refreshLayout, this);
         RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
         return view;
+    }
+
+    //防止在5.0以下版本中出现RecyclerView左右边距距离父窗口间距过大的问题,将RecyclerView的左右padding减去Item的阴影宽度
+    private void dealCardElevation(RecyclerView recyclerView) {
+        //获取阴影的宽度
+        int cardElevation = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
+        //将父窗口左右的padding减去Item阴影的宽度
+        int leftPadding = recyclerView.getPaddingLeft();
+        int rightPadding = recyclerView.getPaddingLeft();
+        int bottomPadding = recyclerView.getPaddingLeft();
+        int topPadding = recyclerView.getPaddingTop();
+        leftPadding -= cardElevation;
+        rightPadding -= cardElevation;
+        recyclerView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
     }
 
     @Override
