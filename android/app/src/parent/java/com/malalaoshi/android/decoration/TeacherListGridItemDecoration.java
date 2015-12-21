@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -129,20 +130,23 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
+        Log.e("TeacherListGridItem","Build.VERSION.SDK_INT:"+Build.VERSION.SDK_INT+" Build.VERSION_CODES.LOLLIPOP:"+Build.VERSION_CODES.LOLLIPOP+" mSpace:"+mSpace);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            outRect.set(0, 0, 0, 0);//int left, int top, int right, int bottom
+            outRect.set(0, 0, 0, 0);
         }else{
             int spanCount = getSpanCount(parent);
             int childCount = parent.getAdapter().getItemCount();
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0, mDivider.getIntrinsicHeight()+ mSpace, mDivider.getIntrinsicWidth()+ mSpace /2, 0);
+                outRect.set(0, mSpace,  mSpace /2, 0);
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set(mDivider.getIntrinsicWidth()+ mSpace /2, mDivider.getIntrinsicHeight()+ mSpace, 0, 0);
+                outRect.set( mSpace /2,  mSpace, 0, 0);
             }else{
-                outRect.set(0, mDivider.getIntrinsicHeight()+ mSpace, mDivider.getIntrinsicWidth()+ mSpace /2, 0);
+                outRect.set(0,  mSpace,  mSpace /2, 0);
             }
         }
     }
+
+
 }
