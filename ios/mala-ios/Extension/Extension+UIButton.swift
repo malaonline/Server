@@ -9,22 +9,22 @@
 import UIKit
 
 extension UIButton {
-    
-    /**
-     Convenience Function to Create UIButton
-     (Usually Use For UIBarButtonItem)
-     
-     - parameter title:     String for Title
-     - parameter imageName: String for ImageName
-     - parameter target:    Object for Event's Target
-     - parameter action:    SEL for Event's Action
-     
-     - returns: UIButton
-     */
-    convenience init(title: String = "", imageName: String?, target: AnyObject?, action:Selector) {
+        
+     ///  Convenience Function to Create UIButton
+     ///  (Usually Use For UIBarButtonItem)
+     ///
+     ///  - parameter title:     String for Title
+     ///  - parameter imageName: String for ImageName
+     ///  - parameter target:    Object for Event's Target
+     ///  - parameter action:    SEL for Event's Action
+     ///
+     ///  - returns: UIButton
+    convenience init(title: String? = nil, imageName: String? = nil, target: AnyObject? = nil, action:Selector) {
         self.init()
         setTitle(title, forState: .Normal)
-        setImage(UIImage(named: imageName ?? ""), forState: .Normal)
+        if imageName != nil {
+            setImage(UIImage(named: imageName!), forState: .Normal)
+        }
         addTarget(target, action: action, forControlEvents: .TouchUpInside)
         sizeToFit()
     }
