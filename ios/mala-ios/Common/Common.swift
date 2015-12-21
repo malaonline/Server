@@ -28,6 +28,7 @@ let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
 
+
 // MARK: - Common TextAttribute
 public func commonTextStyle() -> [String: AnyObject]? {
     let AttributeDictionary = NSMutableDictionary()

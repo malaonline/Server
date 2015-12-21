@@ -41,11 +41,12 @@ class HomeViewController: UICollectionViewController {
     
     // MARK: - Event
     @objc private func locationButtonDidClick() {
-        print("LocationButton DidClick")
+        let alertView = UIAlertView.init(title: nil, message: "目前只支持洛阳地区，其他地区正在拓展中", delegate: nil, cancelButtonTitle: "知道了")
+        alertView.show()
     }
     
     @objc private func screeningButtonDidClick() {
-        print("screeningButton DidClick")
+        navigationController?.pushViewController(FilterViewController(), animated: true)
     }
     
     

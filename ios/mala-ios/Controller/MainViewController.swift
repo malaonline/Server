@@ -31,14 +31,12 @@ class MainViewController: UITabBarController {
         addSubViewController(HomeViewController(), title: MalaCommonString_Profile, imageName: "profile_normal")
     }
     
-    /**
-     Convenience Function to Create SubViewControllers
-     And Add Into TabBarViewController
-     
-     - parameter viewController: ViewController
-     - parameter title:          String for ViewController's Title
-     - parameter imageName:      String for ImageName
-     */
+     ///  Convenience Function to Create SubViewControllers
+     ///  And Add Into TabBarViewController
+     ///
+     ///  - parameter viewController: ViewController
+     ///  - parameter title:          String for ViewController's Title
+     ///  - parameter imageName:      String for ImageName
     private func addSubViewController(viewController: UIViewController, title: String, imageName: String) {
         
         viewController.title = title
