@@ -10,3 +10,4 @@ build
 captures
 gradle-app.setting
 *.iml
+logs/
