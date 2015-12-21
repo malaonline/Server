@@ -167,7 +167,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
             Double maxPrice = teacher.getMaxPrice();
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
-            priceView.setText(minPriceStr + "-" + maxPriceStr);
+            String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
+            priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);
         }
 
         @OnClick(R.id.teacher_list_item_body)
