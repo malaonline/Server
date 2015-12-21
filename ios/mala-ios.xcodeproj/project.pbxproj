@@ -64,6 +64,9 @@
 		30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
 		30E336641C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
 		30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
+		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
+		30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
+		30E336701C27E86200DCF1C5 /* LICENSE in Sources */ = {isa = PBXBuildFile; fileRef = 304135981C23AE6400830C43 /* LICENSE */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -127,6 +130,7 @@
 		30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObjectModel.swift; sourceTree = "<group>"; };
 		30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
 		30F9E6C41C23BF6F0022A3BF /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		30F9E6C71C23D23C0022A3BF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -311,6 +315,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		30E3366C1C27C41800DCF1C5 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
 		35D7A2F01C0FE82E007D7679 /* teacher */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				304135811C23AE6400830C43 /* Application */,
+				30E3366C1C27C41800DCF1C5 /* Tool */,
 				304135831C23AE6400830C43 /* Common */,
 				304135841C23AE6400830C43 /* Controller */,
 				304135851C23AE6400830C43 /* Extension */,
@@ -688,6 +701,7 @@
 				30D4AA071C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
+				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
@@ -706,6 +720,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E336701C27E86200DCF1C5 /* LICENSE in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
@@ -741,6 +756,7 @@
 				357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */,
 				357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */,
 				30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */,
+				30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */,
 				304135AD1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
 				357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */,
