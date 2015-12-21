@@ -14,7 +14,9 @@ class NetworkTool {
     // MARK: - Variable
     private let baseUrl = "http://dev.malalaoshi.com/api/v1"
     private let gradeList = "/grades"
-    private let TagList = "/tags"
+    private let subjectList = "/subjects"
+    private let tagList = "/tags"
+    private let memberServiceList = "/memberservices"
     
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
@@ -33,6 +35,27 @@ extension NetworkTool {
     ///  - parameter finished: Closure for Finished
     func loadGrades(finished: RequestCallBack) {
         request(.GET, URLString: baseUrl+gradeList, parameters: nil, finished: finished)
+    }
+    
+    ///  Request for SubjectList
+    ///
+    ///  - parameter finished: Closure for Finished
+    func loadSubjects(finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+subjectList, parameters: nil, finished: finished)
+    }
+    
+    ///  Request for TagList
+    ///
+    ///  - parameter finished: Closure for Finished
+    func loadTags(finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+tagList, parameters: nil, finished: finished)
+    }
+    
+    ///  Request for MemberserviceList
+    ///
+    ///  - parameter finished: Closure for Finished
+    func loadMemberServices(finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+memberServiceList, parameters: nil, finished: finished)
     }
     
 }
