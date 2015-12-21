@@ -23,8 +23,6 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
-import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,22 +31,25 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 
-public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewLoadMoreListener.OnLoadMoreListener{
+public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
     @Bind(R.id.teacher_list_refresh_layout)
-    protected SwipeRefreshLayout refreshLayout;
+    protected BGARefreshLayout mRefreshLayout;
 
     private  List<Teacher> teachersList;
 
     private Long gradeId;
     private Long subjectId;
     private Long [] tagIds;
+
 
     public TeacherListFragment(){
     }
@@ -83,12 +84,23 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context));
-            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
+//            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
         ButterKnife.bind(this, view);
-        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
-        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
+//        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
+//        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
+
+        init();
+
         return view;
+    }
+
+    private void init(){
+        mRefreshLayout.setDelegate(this);
+        BGAMoocStyleRefreshViewHolder vh = new BGAMoocStyleRefreshViewHolder(this.getActivity(), true);
+        vh.setUltimateColor(R.color.colorPrimary);
+        mRefreshLayout.setRefreshViewHolder(vh);
+        new loadTeachersTask().execute();
     }
 
     @Override
@@ -108,14 +120,25 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         mListener = null;
     }
 
+//    @Override
+//    public void onRefresh(){
+//        new loadTeachersTask().execute();
+//    }
+//
+//    @Override
+//    public void onLoadMore(){
+//        new loadTeachersTask().execute();
+//    }
+
     @Override
-    public void onRefresh(){
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout){
         new loadTeachersTask().execute();
     }
 
     @Override
-    public void onLoadMore(){
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout){
         new loadTeachersTask().execute();
+        return false;
     }
 
     /**
@@ -134,7 +157,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     public void setRefreshing(boolean status){
-        refreshLayout.setRefreshing(status);
+//        refreshLayout.setRefreshing(status);
+        mRefreshLayout.endRefreshing();
     }
 
     private void notifyDataSetChanged(){

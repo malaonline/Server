@@ -50,16 +50,21 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = null;
 
-        switch(viewType){
-            case TYPE_LOAD_MORE:
-                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false));
-            default:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-                    ((CardView)view).setPreventCornerOverlap(false);
-                }
-                return new NormalViewHolder(view);
+//        switch(viewType){
+//            case TYPE_LOAD_MORE:
+//                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false));
+//            default:
+//                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
+//                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+//                    ((CardView)view).setPreventCornerOverlap(false);
+//                }
+//                return new NormalViewHolder(view);
+//        }
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            ((CardView)view).setPreventCornerOverlap(false);
         }
+        return new NormalViewHolder(view);
     }
 
     @Override
@@ -77,16 +82,17 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     @Override
     public int getItemCount(){
-        return teachersList == null ? 0 : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? teachersList.size() + 1 : teachersList.size();
+        return teachersList == null ? 0 : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? teachersList.size() : teachersList.size();
     }
 
     @Override
     public int getItemViewType(int position){
-        if(teachersList != null && teachersList.size() >= 9 && position == getItemCount() - 1){
-            return TYPE_LOAD_MORE;
-        }else{
-            return TYPE_NORMAL;
-        }
+        return TYPE_NORMAL;
+//        if(teachersList != null && teachersList.size() >= 4 && position == getItemCount()){
+//            return TYPE_LOAD_MORE;
+//        }else{
+//            return TYPE_NORMAL;
+//        }
     }
     
     public class ViewHolder extends RecyclerView.ViewHolder {

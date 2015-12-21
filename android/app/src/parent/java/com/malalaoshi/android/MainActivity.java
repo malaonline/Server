@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.malalaoshi.android.entity.Teacher;
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+        ButterKnife.bind(this);
 
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList), TeacherListFragment.class.getName());
-        ButterKnife.bind(this);
     }
 
     private void init() {
