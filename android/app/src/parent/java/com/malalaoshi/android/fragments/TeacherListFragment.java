@@ -51,6 +51,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     private Long subjectId;
     private Long [] tagIds;
 
+    private String next = null;
+
     public TeacherListFragment(){
     }
 
@@ -136,9 +138,11 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onRefresh(){
         if(!adapter.loading){
+            teachersList.clear();
+            next = TEACHERS_PATH_V1;
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(){
+                public void afterTask(JSONObject response){
                     adapter.loading = false;
                     setRefreshing(false);
                 }
@@ -152,8 +156,18 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             adapter.loading = true;
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(){
+                public void afterTask(JSONObject response){
+                    if(response != null){
+                        try{
+                            String nextStr = response.getString("next");
+                            next = nextStr;
+                        }catch(Exception e){
+                        }
+                    }
                     adapter.loading = false;
+                    if(next == null){
+                        adapter.canLoadMore = false;
+                    }
                 }
             }.execute();
         }
@@ -186,12 +200,12 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
-        public void afterTask(){
+        public void afterTask(JSONObject response){
         }
         @Override
         protected String doInBackground(String ...params){
             try{
-                String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+                String url = MalaApplication.getInstance().getMalaHost()+next;
                 boolean hasParam = false;
                 if(gradeId != null && gradeId > 0){
                     url += "?grade=" + gradeId;
@@ -226,21 +240,21 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                                 }catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
                                 }finally{
-                                    afterTask();
+                                    afterTask(response);
                                 }
                             }
                         },
                         new Response.ErrorListener(){
                             @Override
                             public void onErrorResponse(VolleyError error){
-                                afterTask();
+                                afterTask(null);
                                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
                             }
                         });
                 requestQueue.add(jsArrayRequest);
                 return "ok";
             }catch(Exception e){
-                afterTask();
+                afterTask(null);
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;
