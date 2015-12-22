@@ -178,8 +178,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                 public void afterTask(JSONObject response){
                     if(response != null){
                         try{
-                            String nextStr = response.getString("next");
-                            next = nextStr;
+                            next = response.getString("next");
                         }catch(Exception e){
                         }
                     }
