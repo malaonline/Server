@@ -135,13 +135,27 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh(){
-        new loadTeachersTask().execute();
+        if(!adapter.loading){
+            new LoadTeachersTask(){
+                @Override
+                public void afterTask(){
+                    adapter.loading = false;
+                    setRefreshing(false);
+                }
+            }.execute();
+        }
     }
 
     @Override
     public void onLoadMore(){
-        if(adapter != null && adapter.hasLoadMore){
-            new loadTeachersTask().execute();
+        if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
+            adapter.loading = true;
+            new LoadTeachersTask(){
+                @Override
+                public void afterTask(){
+                    adapter.loading = false;
+                }
+            }.execute();
         }
     }
 
@@ -166,12 +180,14 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
     private void notifyDataSetChanged(){
         if(teachersList != null && teachersList.size() < 20){
-            adapter.setLoading(false);
+            adapter.loading = false;
         }
         adapter.notifyDataSetChanged();
     }
 
-    private class loadTeachersTask extends AsyncTask<String, Integer, String>{
+    private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
+        public void afterTask(){
+        }
         @Override
         protected String doInBackground(String ...params){
             try{
@@ -203,59 +219,28 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                             public void onResponse(JSONObject response){
                                 try{
                                     JSONArray result = response.getJSONArray("results");
-                                    for(int i=0;i<result.length();i++){
-                                        JSONObject obj = (JSONObject)result.get(i);
-                                        Teacher teacher = new Teacher();
-                                        teacher.setId(String.valueOf(i+1));
-                                        teacher.setName(obj.getString("name"));
-                                        String degreeStr = obj.optString("degree");
-                                        if(degreeStr != null && degreeStr.length() == 1){
-                                            teacher.setDegree(degreeStr.charAt(0));
-                                        }
-                                        teacher.setMinPrice(obj.optDouble("min_price"));
-                                        teacher.setMaxPrice(obj.optDouble("max_price"));
-                                        teacher.setSubject(obj.optLong("subject"));
-                                        JSONArray gradesAry = obj.optJSONArray("grades");
-                                        if(gradesAry != null && gradesAry.length() > 0){
-                                            Long [] tmp = new Long[gradesAry.length()];
-                                            for(int ind=0; ind < gradesAry.length(); ind++){
-                                                tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
-                                            }
-
-                                            teacher.setGrades(tmp);
-                                        }
-
-                                        JSONArray tagsAry = obj.optJSONArray("tags");
-                                        if(tagsAry != null && tagsAry.length() > 0){
-                                            Long [] tmp = new Long[tagsAry.length()];
-                                            for(int ind=0; ind < tagsAry.length(); ind++){
-                                                tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
-                                            }
-
-                                            teacher.setTags(tmp);
-                                        }
-                                        teachersList.add(teacher);
-                                    }
+                                    dataSet(result);
                                     if(result.length() > 0){
                                         notifyDataSetChanged();
                                     }
-                                } catch (Exception e){
+                                }catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
+                                }finally{
+                                    afterTask();
                                 }
-                                setRefreshing(false);
                             }
                         },
                         new Response.ErrorListener(){
                             @Override
                             public void onErrorResponse(VolleyError error){
-                                setRefreshing(false);
+                                afterTask();
                                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
                             }
                         });
                 requestQueue.add(jsArrayRequest);
                 return "ok";
             }catch(Exception e){
-                setRefreshing(false);
+                afterTask();
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;
@@ -271,11 +256,51 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
         @Override
         public int getSpanSize(int position){
-            if(gridLayoutManager.getItemCount()- 1 == position && adapter.hasLoadMore){
+            if(gridLayoutManager.getItemCount() - 1 == position && adapter.hasLoadMoreView && adapter.canLoadMore){
                 return 2;
             }else{
                 return 1;
             }
+        }
+    }
+
+    private void dataSet(JSONArray result) throws Exception{
+        try{
+            for(int i=0;i<result.length();i++){
+                JSONObject obj = (JSONObject)result.get(i);
+                Teacher teacher = new Teacher();
+                teacher.setId(String.valueOf(i+1));
+                teacher.setName(obj.getString("name"));
+                String degreeStr = obj.optString("degree");
+                if(degreeStr != null && degreeStr.length() == 1){
+                    teacher.setDegree(degreeStr.charAt(0));
+                }
+                teacher.setMinPrice(obj.optDouble("min_price"));
+                teacher.setMaxPrice(obj.optDouble("max_price"));
+                teacher.setSubject(obj.optLong("subject"));
+                JSONArray gradesAry = obj.optJSONArray("grades");
+                if(gradesAry != null && gradesAry.length() > 0){
+                    Long [] tmp = new Long[gradesAry.length()];
+                    for(int ind=0; ind < gradesAry.length(); ind++){
+                        tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
+                    }
+
+                    teacher.setGrades(tmp);
+                }
+
+                JSONArray tagsAry = obj.optJSONArray("tags");
+                if(tagsAry != null && tagsAry.length() > 0){
+                    Long [] tmp = new Long[tagsAry.length()];
+                    for(int ind=0; ind < tagsAry.length(); ind++){
+                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+                    }
+
+                    teacher.setTags(tmp);
+                }
+                teachersList.add(teacher);
+            }
+        }catch(Exception e){
+            throw e;
         }
     }
 }
