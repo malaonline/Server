@@ -27,6 +27,8 @@ let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
 // MARK: - Device
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
+// ScreenHeight Without StatusBar,NavigationBar,TabBar
+let MalaContentHeight = UIScreen.mainScreen().bounds.size.height-20-44-48
 
 
 // MARK: - Common TextAttribute
