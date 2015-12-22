@@ -32,14 +32,17 @@ import butterknife.OnClick;
 public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder>{
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_LOAD_MORE = 1;
+    private static final int TYPE_NONE_VALUE = 2;
 
-    public static final int TEACHER_LIST_PAGE_SIZE = 10;
+    public static final int TEACHER_LIST_PAGE_SIZE = 20;
 
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
     private boolean loading = false;
 
     private  List<Teacher> teachersList;
+
+    public boolean hasLoadMore = false;
 
     public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
         teachersList = items;
@@ -50,21 +53,19 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = null;
 
-//        switch(viewType){
-//            case TYPE_LOAD_MORE:
-//                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false));
-//            default:
-//                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
-//                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-//                    ((CardView)view).setPreventCornerOverlap(false);
-//                }
-//                return new NormalViewHolder(view);
-//        }
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            ((CardView)view).setPreventCornerOverlap(false);
+        switch(viewType){
+            case TYPE_LOAD_MORE:
+                hasLoadMore = true;
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more222, parent, false));
+            case TYPE_NONE_VALUE:
+                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, parent, false));
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+                    ((CardView)view).setPreventCornerOverlap(false);
+                }
+                return new NormalViewHolder(view);
         }
-        return new NormalViewHolder(view);
     }
 
     @Override
@@ -82,25 +83,46 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     @Override
     public int getItemCount(){
-        return teachersList == null ? 0 : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? teachersList.size() : teachersList.size();
+        if(teachersList != null){
+            if(teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
+                if(teachersList.size() % 2 == 0){
+                    return teachersList.size() + 1;
+                }else{
+                    return teachersList.size() + 2;
+                }
+            }else{
+                return teachersList.size();
+            }
+        }else{
+            return 0;
+        }
     }
 
     @Override
     public int getItemViewType(int position){
-        return TYPE_NORMAL;
-//        if(teachersList != null && teachersList.size() >= 4 && position == getItemCount()){
-//            return TYPE_LOAD_MORE;
-//        }else{
-//            return TYPE_NORMAL;
-//        }
+        int type = TYPE_NORMAL;
+        if(teachersList != null && teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
+            if(position == getItemCount() - 1){
+                type = TYPE_LOAD_MORE;
+            }else if(teachersList.size() % 2 != 0 && position == getItemCount() - 2){
+                type = TYPE_NONE_VALUE;
+            }
+        }
+        return type;
     }
-    
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         protected ViewHolder(View itemView){
             super(itemView);
         }
 
         protected void update(int position){}
+    }
+
+    public class NoValueViewHolder extends ViewHolder{
+        protected NoValueViewHolder(View itemView){
+            super(itemView);
+        }
     }
 
     public class LoadMoreViewHolder extends ViewHolder{
@@ -117,8 +139,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
-            iconLoading.setVisibility(loading ? View.VISIBLE : View.GONE);
-            iconFinish.setVisibility(loading ? View.GONE : View.VISIBLE);
         }
 
     }
@@ -154,6 +174,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
+            if(position >= teachersList.size()){
+                return;
+            }
             teacher = teachersList.get(position);
             name.setText(teacher.getName());
             Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
