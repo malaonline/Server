@@ -50,22 +50,22 @@
 		30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */; };
 		30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		30D4AA051C23E07600C5A336 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
-		30D4AA071C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */; };
-		30D4AA081C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */; };
+		30D4AA071C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */; };
+		30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */; };
 		30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
 		30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
 		30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
 		30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
 		30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
 		30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
-		30E336641C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
-		30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */; };
 		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
 		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
+		30E3367B1C28F1D400DCF1C5 /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3367A1C28F1D400DCF1C5 /* TeacherFilterView.swift */; };
+		30E3367C1C28F1DE00DCF1C5 /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3367A1C28F1D400DCF1C5 /* TeacherFilterView.swift */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -120,14 +120,14 @@
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewFlowLayout.swift; sourceTree = "<group>"; };
+		30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommonFlowLayout.swift; path = ../View/CommonFlowLayout.swift; sourceTree = "<group>"; };
 		30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
 		30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObjectModel.swift; sourceTree = "<group>"; };
-		30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
 		30E336711C27F41900DCF1C5 /* GradeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeModel.swift; sourceTree = "<group>"; };
 		30E336731C27F61900DCF1C5 /* ResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultModel.swift; sourceTree = "<group>"; };
+		30E3367A1C28F1D400DCF1C5 /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30F9E6C41C23BF6F0022A3BF /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		30F9E6C71C23D23C0022A3BF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -211,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				30F9E6C41C23BF6F0022A3BF /* Common.swift */,
+				30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -222,7 +223,6 @@
 				30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */,
 				30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */,
 				30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */,
-				30E336631C27A8AE00DCF1C5 /* FilterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -297,7 +297,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				30D4AA061C23F04B00C5A336 /* HomeViewFlowLayout.swift */,
+				30E3367A1C28F1D400DCF1C5 /* TeacherFilterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -684,14 +684,14 @@
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				304135B01C23AE6400830C43 /* Operation.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
-				30D4AA071C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */,
+				30D4AA071C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
-				30E336641C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */,
+				30E3367B1C28F1D400DCF1C5 /* TeacherFilterView.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				304135C21C23AE6400830C43 /* BackAPI.swift in Sources */,
 				304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
@@ -706,6 +706,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30E3367C1C28F1DE00DCF1C5 /* TeacherFilterView.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
@@ -735,13 +736,12 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				304135C91C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */,
-				30D4AA081C23F04B00C5A336 /* HomeViewFlowLayout.swift in Sources */,
+				30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
 				304135B71C23AE6400830C43 /* StatusCode.swift in Sources */,
 				357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */,
 				357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */,
-				30E336651C27A8AE00DCF1C5 /* FilterViewController.swift in Sources */,
 				30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */,
 				304135AD1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,

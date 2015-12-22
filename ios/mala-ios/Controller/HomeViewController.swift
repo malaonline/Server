@@ -12,6 +12,12 @@ private let HomeViewCellReusedId = "HomeViewCellReusedId"
 
 class HomeViewController: UICollectionViewController {
     
+    private lazy var filterView: TeacherFilterView = {
+        let filterView = TeacherFilterView(viewController: self, frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight))
+        return filterView
+    }()
+    
+    
     // MARK: - Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +33,6 @@ class HomeViewController: UICollectionViewController {
     }
     
     
-    // MARK: - private Function
-    private func setupUserInterface() {
-        
-        collectionView?.backgroundColor = UIColor.whiteColor()
-        
-        // leftBarButtonItem
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
-        // rightBarButtonItem
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
-    }
-    
-    
     // MARK: - Event
     @objc private func locationButtonDidClick() {
         let alertView = UIAlertView.init(title: nil, message: "目前只支持洛阳地区，其他地区正在拓展中", delegate: nil, cancelButtonTitle: "知道了")
@@ -46,13 +40,13 @@ class HomeViewController: UICollectionViewController {
     }
     
     @objc private func screeningButtonDidClick() {
-        navigationController?.pushViewController(FilterViewController(), animated: true)
+        filterView.isShow ? filterView.dismiss() : filterView.show()
     }
     
     
     // MARK: - Consturcted
     init() {
-        super.init(collectionViewLayout: HomeViewFlowLayout())
+        super.init(collectionViewLayout: CommonFlowLayout(type: .HomeView))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -77,11 +71,23 @@ class HomeViewController: UICollectionViewController {
     
     // MARK: - Delegate
     override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-    return true
+        return true
     }
 
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-    return true
+        return true
+    }
+    
+    
+    // MARK: - private Function
+    private func setupUserInterface() {
+        
+        collectionView?.backgroundColor = UIColor.whiteColor()
+        
+        // leftBarButtonItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
+        // rightBarButtonItem
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
     }
 
 }
