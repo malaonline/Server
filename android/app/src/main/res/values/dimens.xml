@@ -25,7 +25,7 @@
     <dimen name="title_left_size">16sp</dimen>
     <dimen name="title_size">18sp</dimen>
     <dimen name="dialog_width">280dp</dimen>
-    <dimen name="dialog_title_size">17dp</dimen>
+    <dimen name="dialog_title_size">17sp</dimen>
     <dimen name="body_head_text_size">15dp</dimen>
     <dimen name="body_text_size">14dp</dimen>
 
