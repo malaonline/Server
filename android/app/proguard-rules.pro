@@ -1,3 +1,4 @@
+-verbose
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
 
@@ -12,3 +13,10 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.google.android.gms.**
+-dontwarn com.android.volley.toolbox.**

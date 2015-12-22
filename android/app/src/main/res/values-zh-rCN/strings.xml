@@ -29,27 +29,6 @@
 	<string name="permission_rationale">"联系人权限需要提供电子邮件完成"。</string>
 	<string name="action_settings">设置</string>
 	<string name="title_activity_settings">设置</string>
-	<string name="title_activity_screen_teacher">ScreenTeacherActivity</string>
-	<string name="title_activity_teacher_list">TeacherListActivity</string>
-
-	<string name="title_activity_teacher_detail">TeacherDetailActivity</string>
-	<string name="title_activity_place_order">PlaceOrderActivity</string>
-	<string name="title_activity_payment_method">PaymentMethodActivity</string>
-	<string name="title_activity_payment_result">PaymentResultActivity</string>
-	<string name="title_activity_order_detail">OrderDetailActivity</string>
-	<string name="title_activity_timetable">TimetableActivity</string>
-	<string name="title_activity_renew">RenewActivity</string>
-	<string name="title_activity_member_service_list">MemberServiceListActivity</string>
-	<string name="title_activity_member_service_detail">MemberServiceDetailActivity</string>
-	<string name="title_activity_join">JoinActivity</string>
-	<string name="title_activity_application_state">ApplicationStateActivity</string>
-	<string name="title_activity_income">IncomeActivity</string>
-	<string name="title_activity_transaction_list">TransactionListActivity</string>
-	<string name="title_activity_withdraw">WithdrawActivity</string>
-	<string name="title_activity_bind_card">BindCardActivity</string>
-	<string name="title_activity_feedback">FeedbackActivity</string>
-	<string name="title_activity_teacher_comment_list">TeacherCommentListActivity</string>
-	<string name="title_activity_coupon_list">CouponListActivity</string>
 
 	<string name="title_subject">科目</string>
 	<string name="title_grade">年级</string>
@@ -71,4 +50,6 @@
 	<string name="no_data">暂无数据</string>
 
 	<string name="do_filter">筛选</string>
+	
+	<string name="currency_unit">元</string>
 </resources>
