@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,7 +49,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     private Long subjectId;
     private Long [] tagIds;
 
-
     public TeacherListFragment(){
     }
 
@@ -77,6 +75,9 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         View view = inflater.inflate(R.layout.teacher_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        ButterKnife.bind(this, view);
+
+        init();
         if(recyclerView != null){
             Context context = view.getContext();
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
@@ -87,23 +88,19 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
-//            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
-        ButterKnife.bind(this, view);
-//        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
-//        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
 
-        init();
+        new loadTeachersTask().execute();
 
         return view;
     }
 
     private void init(){
         mRefreshLayout.setDelegate(this);
-        BGAMoocStyleRefreshViewHolder vh = new BGAMoocStyleRefreshViewHolder(this.getActivity(), true);
+        BGAMoocStyleRefreshViewHolder vh = new BGAMoocStyleRefreshViewHolder(MalaApplication.getInstance(), true);
         vh.setUltimateColor(R.color.colorPrimary);
+        vh.setOriginalImage(R.mipmap.bga_refresh_moooc);
         mRefreshLayout.setRefreshViewHolder(vh);
-        new loadTeachersTask().execute();
     }
 
     @Override
@@ -123,16 +120,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         mListener = null;
     }
 
-//    @Override
-//    public void onRefresh(){
-//        new loadTeachersTask().execute();
-//    }
-//
-//    @Override
-//    public void onLoadMore(){
-//        new loadTeachersTask().execute();
-//    }
-
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout){
         new loadTeachersTask().execute();
@@ -140,8 +127,16 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout){
-        new loadTeachersTask().execute();
-        return false;
+//        mLoadMoreFooterView = getLoadMoreFooterView();
+//        if (mLoadMoreFooterView != null) {
+//            // 测量上拉加载更多控件的高度
+//            mLoadMoreFooterView.measure(100, 100);
+//            System.out.println("....................mLoadMoreFooterViewHeight:" + mLoadMoreFooterView.getMeasuredHeight());
+//            mLoadMoreFooterView.setVisibility(View.VISIBLE);
+//        }
+//        new loadTeachersTask().execute();
+
+        return true;
     }
 
     /**
