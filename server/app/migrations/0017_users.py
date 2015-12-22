@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 def add_user(apps, schema_editor):
     for i in range(50):
         username = 'test%d' % i
-        email = '%s@malalaoshi.com'
+        email = '%s@malalaoshi.com' % username
         user, created = User.objects.get_or_create(username=username)
         if created:
             user.email = email
