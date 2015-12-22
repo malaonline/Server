@@ -51,6 +51,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     private Long subjectId;
     private Long [] tagIds;
 
+    private String next = null;
+
     public TeacherListFragment(){
     }
 
@@ -136,9 +138,30 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onRefresh(){
         if(!adapter.loading){
+            teachersList.clear();
+            next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+            boolean hasParam = false;
+            if(gradeId != null && gradeId > 0){
+                next += "?grade=" + gradeId;
+                hasParam = true;
+            }
+            if(subjectId != null && subjectId > 0){
+                next += hasParam ? "&subject=" : "?subject=";
+                next += subjectId;
+                hasParam = true;
+            }
+            if(tagIds != null && tagIds.length > 0){
+                next += hasParam ? "&tags=" : "?tags=";
+                for(int i=0; i<tagIds.length;){
+                    next += tagIds[i];
+                    if(++i < tagIds.length){
+                        next += "+";
+                    }
+                }
+            }
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(){
+                public void afterTask(JSONObject response){
                     adapter.loading = false;
                     setRefreshing(false);
                 }
@@ -152,8 +175,18 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
             adapter.loading = true;
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(){
+                public void afterTask(JSONObject response){
+                    if(response != null){
+                        try{
+                            next = response.getString("next");
+                        }catch(Exception e){
+                            next = null;
+                        }
+                    }
                     adapter.loading = false;
+                    if(next == null){
+                        adapter.canLoadMore = false;
+                    }
                 }
             }.execute();
         }
@@ -186,31 +219,12 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
-        public void afterTask(){
+        public void afterTask(JSONObject response){
         }
         @Override
         protected String doInBackground(String ...params){
             try{
-                String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
-                boolean hasParam = false;
-                if(gradeId != null && gradeId > 0){
-                    url += "?grade=" + gradeId;
-                    hasParam = true;
-                }
-                if(subjectId != null && subjectId > 0){
-                    url += hasParam ? "&subject=" : "?subject=";
-                    url += subjectId;
-                    hasParam = true;
-                }
-                if(tagIds != null && tagIds.length > 0){
-                    url += hasParam ? "&tags=" : "?tags=";
-                    for(int i=0; i<tagIds.length;){
-                        url += tagIds[i];
-                        if(++i < tagIds.length){
-                            url += "+";
-                        }
-                    }
-                }
+                String url = next;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
@@ -226,21 +240,21 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                                 }catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
                                 }finally{
-                                    afterTask();
+                                    afterTask(response);
                                 }
                             }
                         },
                         new Response.ErrorListener(){
                             @Override
                             public void onErrorResponse(VolleyError error){
-                                afterTask();
+                                afterTask(null);
                                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
                             }
                         });
                 requestQueue.add(jsArrayRequest);
                 return "ok";
             }catch(Exception e){
-                afterTask();
+                afterTask(null);
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;
