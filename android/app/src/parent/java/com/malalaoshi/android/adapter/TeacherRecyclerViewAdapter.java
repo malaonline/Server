@@ -38,11 +38,13 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
-    private boolean loading = false;
+    public boolean loading = false;
 
     private  List<Teacher> teachersList;
 
-    public boolean hasLoadMore = false;
+    public boolean hasLoadMoreView = false;
+
+    public boolean canLoadMore = true;
 
     public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
         teachersList = items;
@@ -55,8 +57,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         switch(viewType){
             case TYPE_LOAD_MORE:
-                hasLoadMore = true;
-                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more222, parent, false));
+                hasLoadMoreView = true;
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, parent, false));
             case TYPE_NONE_VALUE:
                 return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, parent, false));
             default:
@@ -73,18 +75,10 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         holder.update(position);
     }
 
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-    }
-
-    public boolean canLoadMore() {
-        return teachersList == null ? !loading : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && !loading;
-    }
-
     @Override
     public int getItemCount(){
         if(teachersList != null){
-            if(teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
+            if(teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && canLoadMore){
                 if(teachersList.size() % 2 == 0){
                     return teachersList.size() + 1;
                 }else{
@@ -101,7 +95,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     @Override
     public int getItemViewType(int position){
         int type = TYPE_NORMAL;
-        if(teachersList != null && teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
+        if(teachersList != null && canLoadMore && teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
             if(position == getItemCount() - 1){
                 type = TYPE_LOAD_MORE;
             }else if(teachersList.size() % 2 != 0 && position == getItemCount() - 2){
@@ -128,9 +122,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     public class LoadMoreViewHolder extends ViewHolder{
         @Bind(R.id.item_load_more_icon_loading)
         protected View iconLoading;
-
-        @Bind(R.id.item_load_more_icon_finish)
-        protected View iconFinish;
 
         protected LoadMoreViewHolder(View itemView){
             super(itemView);
