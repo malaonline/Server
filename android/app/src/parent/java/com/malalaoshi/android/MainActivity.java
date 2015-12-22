@@ -15,8 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.view.MotionEvent;
 
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterDialogFragment;
@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+        ButterKnife.bind(this);
 
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList), TeacherListFragment.class.getName());
-        ButterKnife.bind(this);
     }
 
     private void init() {
@@ -200,5 +200,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             unregisterReceiver(mNetworkStateReceiver);
         }
     }
-
 }

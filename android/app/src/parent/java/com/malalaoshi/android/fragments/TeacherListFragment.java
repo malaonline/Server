@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -78,25 +77,28 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         View view = inflater.inflate(R.layout.teacher_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        ButterKnife.bind(this, view);
+
         if(recyclerView != null){
             Context context = view.getContext();
-            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
-            recyclerView.setLayoutManager(layoutManager);
-
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-            recyclerView.setAdapter(adapter);
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
+            recyclerView.setLayoutManager(layoutManager);
 
             //处理在5.0以下版本中各个Item 间距过大的问题(解决方式:将要设置的间距减去各个Item的阴影宽度)
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
                 dealCardElevation(recyclerView);
             }
             int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
+
+            recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
-        ButterKnife.bind(this, view);
         RefreshLayoutUtils.initOnCreate(refreshLayout, this);
         RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
+
         return view;
     }
 
@@ -138,7 +140,9 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onLoadMore(){
-        new loadTeachersTask().execute();
+        if(adapter != null && adapter.hasLoadMore){
+            new loadTeachersTask().execute();
+        }
     }
 
     /**
@@ -255,6 +259,23 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;
+        }
+    }
+
+    class FooterSpanSizeLookup extends GridLayoutManager.SpanSizeLookup{
+        private final GridLayoutManager gridLayoutManager;
+
+        public FooterSpanSizeLookup(GridLayoutManager gridLayoutManager){
+            this.gridLayoutManager = gridLayoutManager;
+        }
+
+        @Override
+        public int getSpanSize(int position){
+            if(gridLayoutManager.getItemCount()- 1 == position && adapter.hasLoadMore){
+                return 2;
+            }else{
+                return 1;
+            }
         }
     }
 }
