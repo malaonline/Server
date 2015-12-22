@@ -14,7 +14,6 @@ def add_user(apps, schema_editor):
             user.password = '123123'
             user.save()
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
