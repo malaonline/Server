@@ -139,7 +139,26 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     public void onRefresh(){
         if(!adapter.loading){
             teachersList.clear();
-            next = TEACHERS_PATH_V1;
+            next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+            boolean hasParam = false;
+            if(gradeId != null && gradeId > 0){
+                next += "?grade=" + gradeId;
+                hasParam = true;
+            }
+            if(subjectId != null && subjectId > 0){
+                next += hasParam ? "&subject=" : "?subject=";
+                next += subjectId;
+                hasParam = true;
+            }
+            if(tagIds != null && tagIds.length > 0){
+                next += hasParam ? "&tags=" : "?tags=";
+                for(int i=0; i<tagIds.length;){
+                    next += tagIds[i];
+                    if(++i < tagIds.length){
+                        next += "+";
+                    }
+                }
+            }
             new LoadTeachersTask(){
                 @Override
                 public void afterTask(JSONObject response){
@@ -205,26 +224,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         @Override
         protected String doInBackground(String ...params){
             try{
-                String url = MalaApplication.getInstance().getMalaHost()+next;
-                boolean hasParam = false;
-                if(gradeId != null && gradeId > 0){
-                    url += "?grade=" + gradeId;
-                    hasParam = true;
-                }
-                if(subjectId != null && subjectId > 0){
-                    url += hasParam ? "&subject=" : "?subject=";
-                    url += subjectId;
-                    hasParam = true;
-                }
-                if(tagIds != null && tagIds.length > 0){
-                    url += hasParam ? "&tags=" : "?tags=";
-                    for(int i=0; i<tagIds.length;){
-                        url += tagIds[i];
-                        if(++i < tagIds.length){
-                            url += "+";
-                        }
-                    }
-                }
+                String url = next;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
