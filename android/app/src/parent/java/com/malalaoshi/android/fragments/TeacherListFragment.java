@@ -180,6 +180,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                         try{
                             next = response.getString("next");
                         }catch(Exception e){
+                            next = null;
                         }
                     }
                     adapter.loading = false;
