@@ -25,6 +25,7 @@ import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
+import com.malalaoshi.android.util.ImageCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,10 +195,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        ImageCache.getInstance(this).flush();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mNetworkStateReceiver != null) {
             unregisterReceiver(mNetworkStateReceiver);
         }
+        ImageCache.getInstance(this).close();
     }
 }

@@ -1,8 +1,6 @@
 package com.malalaoshi.android.fragments;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +8,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.util.ImageCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +29,7 @@ public class OrderSuccessDialogFragment extends BaseDialogFragment {
 
     private String mAvatarUrl;
     private String mCourseTime;
+    private ImageLoader mImageLoader;
 
     @Bind(R.id.avatar_view)
     protected ImageView mAvatarView;
@@ -56,6 +54,7 @@ public class OrderSuccessDialogFragment extends BaseDialogFragment {
             mAvatarUrl = getArguments().getString(ARG_AVATAR);
             mCourseTime = getArguments().getString(ARG_COURSE_TIME);
         }
+        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(getActivity()));
     }
 
     @Override
@@ -67,20 +66,7 @@ public class OrderSuccessDialogFragment extends BaseDialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         if (mAvatarUrl!=null) {
-            ImageRequest ir = new ImageRequest(mAvatarUrl, new Response.Listener<Bitmap>() {
-                @Override
-                public void onResponse(Bitmap response) {
-                    if (response!=null) {
-                        ((ImageView) mAvatarView).setImageBitmap(response);
-                    }
-                }
-            }, 0, 0, mAvatarView.getScaleType(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "get school image error", error);
-                }
-            });
-            MalaApplication.getHttpRequestQueue().add(ir);
+            mImageLoader.get(mAvatarUrl, ImageLoader.getImageListener(mAvatarView, 0, 0));
         }
         mCourseTimeView.setText(mCourseTime);
     }
