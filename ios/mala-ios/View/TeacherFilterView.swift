@@ -17,7 +17,18 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     // MARK: - Variables
     var isShow: Bool = false
     var originFrame: CGRect = CGRectZero
-    lazy var grades = [[]]
+    var currentSelectedButton = UIButton()
+    
+    // Filter Condition Data
+    lazy var grades: [AnyObject]? = nil
+    // Current Selected Filter Condition, Default is -1
+    lazy var filterObject: ConditionObject = {
+        let object = ConditionObject()
+        object.gradeId = -1
+        object.subjectId = -1
+        object.tagId = -1
+        return object
+    }()
     
     
     // MARK: - Components
@@ -52,11 +63,20 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     
     convenience init(viewController: UIViewController, frame: CGRect? = nil) {
         self.init(frame: frame ?? CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
+        
         // init FilterView
         originFrame = frame ?? CGRectZero
         self.backgroundColor = UIColor.whiteColor()
-        self.alpha = 0.9
         viewController.view.addSubview(self)
+        
+        loadFilterCondition()
+    }
+    
+    
+    // MARK: - Private Function
+    private func loadFilterCondition() {
+        self.grades = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
+        self.reloadData()
     }
     
     
@@ -89,7 +109,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
 
         if kind == UICollectionElementKindSectionHeader {
             let sectionHeaderView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId, forIndexPath: indexPath) as! FilterSectionHeaderView
-            sectionHeaderView.sectionTitleText = "标题"
+            sectionHeaderView.sectionTitleText = GradeModel(dict: (self.grades?[indexPath.section])! as! [String : AnyObject]).name
             reusableView = sectionHeaderView
         }
         
@@ -101,17 +121,43 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        print("第\(section)组 -- Cell数量：\(GradeModel(dict: (self.grades?[section])! as! [String : AnyObject]).subset?.count)")
+        return GradeModel(dict: (self.grades?[section])! as! [String : AnyObject]).subset?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TeacherFilterViewCellReusedId, forIndexPath: indexPath)
-        cell.backgroundColor =  UIColor.redColor()
-        cell.alpha = 0.4
+        
+        let subject = GradeModel(dict: (self.grades?[indexPath.section])! as! [String : AnyObject]).subset?[indexPath.row]
+        print(subject)
+        let button = UIButton(title: subject?.name ?? "", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.whiteColor(), bgColor: UIColor.lightGrayColor(), selectedBgColor: UIColor.redColor())
+        button.tag = (subject?.id) ?? 0
+        button.addTarget(self, action: "cellButtonDidClick:", forControlEvents: .TouchUpInside)
+        button.frame = cell.bounds
+        button.frame.size.width = cell.bounds.width*0.75
+        button.layer.cornerRadius = button.frame.height*0.5
+        button.clipsToBounds = true
+        cell.addSubview(button)
+        if indexPath == (0, 0) {
+            cellButtonDidClick(button)
+        }
+        
         return cell
     }
     
+    
+    // MARK: - Event Response
+    @objc private func cellButtonDidClick(sender: UIButton) {
+        print(sender.tag)
+        currentSelectedButton.selected = false
+        sender.selected = true
+        currentSelectedButton = sender
+        self.filterObject.gradeId = sender.tag
+    }
+
 }
+
+
 
 
 
@@ -166,5 +212,15 @@ class FilterSectionFooterView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
+// MARK: - ConditionObject
+class ConditionObject: NSObject {
+    var gradeId: Int = 0
+    var subjectId: Int = 0
+    var tagId: Int = 0
+}
+
+
 
 
