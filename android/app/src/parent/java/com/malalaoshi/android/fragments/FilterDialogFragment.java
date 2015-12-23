@@ -1,7 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.TeacherListFilterActivity;
+import com.malalaoshi.android.base.BaseDialogFragment;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 
@@ -44,7 +44,7 @@ import butterknife.OnItemClick;
 /**
  * Created by liumengjun on 12/14/15.
  */
-public class FilterDialogFragment extends DialogFragment {
+public class FilterDialogFragment extends BaseDialogFragment {
     private static final String TAG = FilterDialogFragment.class.getSimpleName();
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
@@ -201,13 +201,6 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_filter, container, false);
@@ -217,8 +210,8 @@ public class FilterDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
-        int shownHeight = (int)(window.getWindowManager().getDefaultDisplay().getHeight() * 0.5F);
-        window.setLayout(window.getAttributes().width, shownHeight);//Here!
+        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
+        window.setLayout(width, width);//Here!
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
         mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
@@ -492,7 +485,11 @@ public class FilterDialogFragment extends DialogFragment {
         dismiss();
         Fragment teacherListFragment = getFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
         if (teacherListFragment != null) {
-            ((TeacherListFragment) teacherListFragment).doFilter(mSelectedGradeId, mSelectedSubjectId, mSelectedTagsId);
+            long [] selectedTags = new long[mSelectedTagsId.size()];
+            for(int i=0; i< selectedTags.length; i++){
+                selectedTags[i] = mSelectedTagsId.get(i);
+            }
+            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
         }
     }
 }

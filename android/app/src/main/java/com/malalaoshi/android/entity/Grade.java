@@ -77,6 +77,14 @@ public class Grade{
     public static boolean isSenior(Long id){
         return id == null ? false : (id.compareTo(13L) >= 0 && id.compareTo(16L) <= 0) ? true : false;
     }
+    public static Grade getById(Long id){
+        for(Grade grade: gradeList){
+            if(grade.getId().equals(id)){
+                return grade;
+            }
+        }
+        return null;
+    }
     public static String generateGradeViewString(Long [] gradesAry){
         String str = null;
 

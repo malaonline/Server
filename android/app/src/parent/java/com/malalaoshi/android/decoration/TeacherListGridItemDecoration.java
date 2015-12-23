@@ -10,7 +10,11 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+
+import com.malalaoshi.android.R;
 
 /**
  * Created by zl on 15/12/10.
@@ -19,10 +23,33 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Drawable mDivider;
 
-    public TeacherListGridItemDecoration(Context context){
+    private Context mContext;
+    //行间距
+    private int mSpace = 0;
+
+    //阴影宽度
+    int cardElevation = -1;
+
+    private int mLeftPadding = -1;
+    private int mRightPadding = -1;
+    private int mTopPadding = -1;
+    private int mBottomPadding = -1;
+
+    /**
+     *构造函数
+     * @param context 上下文
+     * @param space   各个Item的行间距
+     */
+    public TeacherListGridItemDecoration(Context context, int space){
+        mContext = context;
+        this.mSpace = space;
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
+    }
+
+    public void setItemSpace(int space) {
+        this.mSpace = space;
     }
 
     @Override
@@ -116,19 +143,37 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            outRect.set(0, 0, 0, 0);
+            //outRect.set(0, 0, 0, 0);
+            //获取阴影的宽度
+            if (cardElevation==-1){
+                cardElevation = parent.getContext().getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
+            }
+
+            int spanCount = getSpanCount(parent);
+            int childCount = parent.getAdapter().getItemCount();
+            int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+
+            //是否是最后一行int left, int top, int right, int bottom
+            if(isLastRaw(parent, itemPosition, spanCount, childCount)){
+                outRect.set(0,  mSpace - 2*cardElevation,  mSpace - 2*cardElevation, 0);
+            }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
+                outRect.set( 0,  mSpace- 2*cardElevation, 0, 0);
+            }else{
+                outRect.set(0, mSpace- 2*cardElevation, mSpace - 2*cardElevation, 0);
+            }
         }else{
             int spanCount = getSpanCount(parent);
             int childCount = parent.getAdapter().getItemCount();
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, 0);
+                outRect.set(0,  mSpace,  mSpace , 0);
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set(mDivider.getIntrinsicWidth()+3, 0, 0, mDivider.getIntrinsicHeight()+8);
+                outRect.set( 0 ,  mSpace, 0, 0);
             }else{
-                outRect.set(0, 0, mDivider.getIntrinsicWidth()+3, mDivider.getIntrinsicHeight()+8);
+                outRect.set(0, mSpace, mSpace , 0);
             }
         }
     }
+
 }
