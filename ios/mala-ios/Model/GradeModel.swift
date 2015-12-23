@@ -16,6 +16,10 @@ class GradeModel: BaseObjectModel {
     
     
     // MARK: - Constructed
+    override init() {
+        super.init()
+    }
+    
     override init(dict: [String: AnyObject]) {
         super.init(dict: dict)
         setValuesForKeysWithDictionary(dict)

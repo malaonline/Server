@@ -16,6 +16,10 @@ class BaseObjectModel: NSObject {
     
     
     // MARK: - Constructed
+    override init() {
+        super.init()
+    }
+    
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)

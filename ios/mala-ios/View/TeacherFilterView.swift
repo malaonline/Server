@@ -17,10 +17,25 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     // MARK: - Variables
     var isShow: Bool = false
     var originFrame: CGRect = CGRectZero
-    var currentSelectedButton = UIButton()
+    var currentSelectedGrade = UIButton()
+    var currentSelectedSubject = UIButton()
+    var currentSelectedTag = UIButton()
     
     // Filter Condition Data
-    lazy var grades: [AnyObject]? = nil
+    lazy var grades: [GradeModel]? = nil
+    
+    private lazy var subjectCondition: GradeModel = {
+        let grade = GradeModel()
+        grade.name = "科目"
+        return grade
+    }()
+    
+    private lazy var tagsCondition: GradeModel = {
+        let tag = GradeModel()
+        tag.name = "风格"
+        return tag
+    }()
+    
     // Current Selected Filter Condition, Default is -1
     lazy var filterObject: ConditionObject = {
         let object = ConditionObject()
@@ -52,9 +67,6 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         // Setup Delegate and DataSource
         delegate = self
         dataSource = self
-        
-        // Setup Style
-        bounces = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,7 +87,30 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Private Function
     private func loadFilterCondition() {
-        self.grades = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
+        
+        // load Grades and Subjects
+        var tempArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
+        var tempDict: [GradeModel]? = []
+        for object in tempArray! {
+            if let dict = object as? [String: AnyObject] {
+                let set = GradeModel(dict: dict)
+                tempDict?.append(set)
+            }
+        }
+        self.grades = tempDict
+        self.grades?.append(self.subjectCondition)
+        
+        // load Tags
+        tempArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Tags.plist", ofType: nil)!) as? [AnyObject]
+        for object in tempArray! {
+            if let dict = object as? [String: AnyObject] {
+                let set = GradeModel(dict: dict)
+                tempDict?.append(set)
+            }
+        }
+        self.tagsCondition.subset = tempDict
+        self.grades?.append(self.tagsCondition)
+        
         self.reloadData()
     }
     
@@ -100,7 +135,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     
     // MARK: - DataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 3
+        return self.grades?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -109,7 +144,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
 
         if kind == UICollectionElementKindSectionHeader {
             let sectionHeaderView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId, forIndexPath: indexPath) as! FilterSectionHeaderView
-            sectionHeaderView.sectionTitleText = GradeModel(dict: (self.grades?[indexPath.section])! as! [String : AnyObject]).name
+            sectionHeaderView.sectionTitleText = gradeModel(indexPath.section)?.name
             reusableView = sectionHeaderView
         }
         
@@ -121,44 +156,81 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("第\(section)组 -- Cell数量：\(GradeModel(dict: (self.grades?[section])! as! [String : AnyObject]).subset?.count)")
-        return GradeModel(dict: (self.grades?[section])! as! [String : AnyObject]).subset?.count ?? 0
+        return gradeModel(section)?.subset?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TeacherFilterViewCellReusedId, forIndexPath: indexPath)
         
-        let subject = GradeModel(dict: (self.grades?[indexPath.section])! as! [String : AnyObject]).subset?[indexPath.row]
-        print(subject)
-        let button = UIButton(title: subject?.name ?? "", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.whiteColor(), bgColor: UIColor.lightGrayColor(), selectedBgColor: UIColor.redColor())
+        let subject = gradeModel(indexPath.section, row: indexPath.row)
+        let button = FilterViewCellButton(title: subject?.name ?? "", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.whiteColor(), bgColor: UIColor.lightGrayColor(), selectedBgColor: UIColor.redColor())
+        button.indexPath = indexPath
         button.tag = (subject?.id) ?? 0
         button.addTarget(self, action: "cellButtonDidClick:", forControlEvents: .TouchUpInside)
         button.frame = cell.bounds
         button.frame.size.width = cell.bounds.width*0.75
         button.layer.cornerRadius = button.frame.height*0.5
         button.clipsToBounds = true
-        cell.addSubview(button)
-        if indexPath == (0, 0) {
-            cellButtonDidClick(button)
-        }
+        cell.contentView.addSubview(button)
         
         return cell
     }
     
     
     // MARK: - Event Response
-    @objc private func cellButtonDidClick(sender: UIButton) {
-        print(sender.tag)
-        currentSelectedButton.selected = false
-        sender.selected = true
-        currentSelectedButton = sender
-        self.filterObject.gradeId = sender.tag
+    @objc private func cellButtonDidClick(sender: FilterViewCellButton) {
+        let indexPath = sender.indexPath
+
+        // grade,subject,tag
+        switch indexPath.section {
+        case 0...2:
+            self.filterObject.gradeId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
+            let grade = gradeModel(indexPath.section, row: indexPath.row)
+            let subjects = grade?.subjects.map({ (i: NSNumber) -> GradeModel in
+                let subject = GradeModel()
+                subject.id = i.integerValue
+                subject.name = MalaSubject[i.integerValue]
+                return subject
+            })
+            self.subjectCondition.subset = subjects
+            reloadSections(NSIndexSet(index: 3))
+
+            currentSelectedGrade.selected = false
+            sender.selected = true
+            currentSelectedGrade = sender
+            self.filterObject.gradeId = sender.tag
+            
+        case 3:
+            self.filterObject.subjectId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
+            
+            
+            currentSelectedSubject.selected = false
+            sender.selected = true
+            currentSelectedSubject = sender
+            self.filterObject.subjectId = sender.tag
+        case 4:
+            self.filterObject.tagId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
+            
+            currentSelectedTag.selected = false
+            sender.selected = true
+            currentSelectedTag = sender
+            self.filterObject.tagId = sender.tag
+        default:
+            break
+        }
+        
     }
-
+    
+    /// convenience to get gradeModel whit section and row
+    private func gradeModel(section: Int, row: Int? = nil) -> GradeModel? {
+        if row == nil {
+            return self.grades?[section]
+        }else {
+            return self.grades?[section].subset?[row!]
+        }
+    }
+    
 }
-
-
-
 
 
 // MARK: - FilterSectionHeaderView
@@ -222,5 +294,28 @@ class ConditionObject: NSObject {
 }
 
 
+class FilterViewCellButton: UIButton {
 
-
+    var indexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+    
+    ///  Convenience Function to Create UIButton With TitleColor and BackgroundColor
+    ///
+    ///  - parameter title:              String for Title
+    ///  - parameter titleColor:         UIColor for TitleColor in NormalState
+    ///  - parameter selectedTitleColor: UIColor for TitleColor in SelectedState
+    ///  - parameter bgColor:            UIColor for BackgroundColor in NormalState
+    ///  - parameter selectedBgColor:    UIColor for BackgroundColor in SelectedState
+    ///
+    ///  - returns: UIButton
+    convenience init(title: String, titleColor: UIColor? = nil, selectedTitleColor: UIColor? = nil, bgColor: UIColor? = nil, selectedBgColor: UIColor? = nil) {
+        self.init()
+        setTitle(title, forState: .Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(14)
+        setTitleColor(titleColor, forState: .Normal)
+        setTitleColor(selectedTitleColor, forState: .Selected)
+        setBackgroundImage(UIImage.withColor(bgColor), forState: .Normal)
+        setBackgroundImage(UIImage.withColor(selectedBgColor), forState: .Selected)
+        sizeToFit()
+    }
+    
+}
