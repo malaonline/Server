@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIButton {
-        
+    
      ///  Convenience Function to Create UIButton
      ///  (Usually Use For UIBarButtonItem)
      ///
@@ -28,4 +28,5 @@ extension UIButton {
         addTarget(target, action: action, forControlEvents: .TouchUpInside)
         sizeToFit()
     }
+    
 }

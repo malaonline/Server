@@ -42,6 +42,14 @@
 		304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
 		304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
+		3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
+		307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
+		307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
+		307788531C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
+		307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
+		307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
+		3077885B1C2A9BCC007AF6B0 /* Tags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3077885A1C2A9BCC007AF6B0 /* Tags.plist */; };
+		3077885C1C2A9BCC007AF6B0 /* Tags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3077885A1C2A9BCC007AF6B0 /* Tags.plist */; };
 		30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */; };
@@ -117,6 +125,10 @@
 		304135A01C23AE6400830C43 /* MyCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentListViewController.swift; sourceTree = "<group>"; };
 		304135A11C23AE6400830C43 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		304135A21C23AE6400830C43 /* TimetableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
+		3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
+		307788511C2A3D7A007AF6B0 /* FilterCondition.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FilterCondition.plist; sourceTree = "<group>"; };
+		307788571C2A58B1007AF6B0 /* OperatorOverload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverload.swift; sourceTree = "<group>"; };
+		3077885A1C2A9BCC007AF6B0 /* Tags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tags.plist; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +244,7 @@
 			children = (
 				30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */,
 				30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */,
+				3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -251,6 +264,8 @@
 			children = (
 				304135881C23AE6400830C43 /* Assets.xcassets */,
 				304135891C23AE6400830C43 /* LaunchScreen.storyboard */,
+				307788511C2A3D7A007AF6B0 /* FilterCondition.plist */,
+				3077885A1C2A9BCC007AF6B0 /* Tags.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -306,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
+				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -549,8 +565,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
+				3077885B1C2A9BCC007AF6B0 /* Tags.plist in Resources */,
 				304135A61C23AE6400830C43 /* Assets.xcassets in Resources */,
 				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
+				307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */,
 				304135AE1C23AE6400830C43 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,8 +578,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */,
+				3077885C1C2A9BCC007AF6B0 /* Tags.plist in Resources */,
 				304135A91C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
+				307788531C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */,
 				304135AF1C23AE6400830C43 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,8 +701,10 @@
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
+				3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				304135B01C23AE6400830C43 /* Operation.swift in Sources */,
+				307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
 				30D4AA071C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
@@ -727,6 +749,7 @@
 				357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				304135CB1C23AE6400830C43 /* ModelController.swift in Sources */,
+				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */,
 				357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */,
@@ -734,6 +757,7 @@
 				304135CD1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
 				304135B11C23AE6400830C43 /* Operation.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				304135C91C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */,
 				30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
