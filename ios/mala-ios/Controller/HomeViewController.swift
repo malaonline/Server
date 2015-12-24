@@ -12,9 +12,10 @@ private let HomeViewCellReusedId = "HomeViewCellReusedId"
 
 class HomeViewController: UICollectionViewController {
     
-    private lazy var filterView: TeacherFilterView = {
-        let filterView = TeacherFilterView(viewController: self, frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight))
-        return filterView
+    private lazy var dropView: DropView = {
+        let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
+        let dropView = DropView(frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight), viewController: self, contentView: filterView)
+        return dropView
     }()
     
     
@@ -40,7 +41,7 @@ class HomeViewController: UICollectionViewController {
     }
     
     @objc private func screeningButtonDidClick() {
-        filterView.isShow ? filterView.dismiss() : filterView.show()
+        dropView.isShow ? dropView.dismiss() : dropView.show()
     }
     
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterViewCell: UICollectionViewCell {
+public class FilterViewCell: UICollectionViewCell {
     
     var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     
@@ -30,7 +30,7 @@ class FilterViewCell: UICollectionViewCell {
         return label
     }()
     
-    override var selected: Bool {
+    override public var selected: Bool {
         didSet {
             if selected {
                 self.titleLabel.backgroundColor = UIColor.redColor()
@@ -49,7 +49,7 @@ class FilterViewCell: UICollectionViewCell {
         addSubview(titleLabel)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
