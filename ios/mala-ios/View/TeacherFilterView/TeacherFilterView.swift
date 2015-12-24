@@ -12,21 +12,9 @@ private let TeacherFilterViewCellReusedId = "TeacherFilterViewCellReusedId"
 private let TeacherFilterViewSectionHeaderReusedId = "TeacherFilterViewSectionHeaderReusedId"
 private let TeacherFilterViewSectionFooterReusedId = "TeacherFilterViewSectionFooterReusedId"
 
-
-// MARK: - TeacherFilterViewDelegate
-public protocol TeacherFilterViewDelegate: class, UICollectionViewDelegate {
-    
-    // DidSelectedItem(Cell)
-    func filterView(filterView: FilterViewCell, didSelectedItem: FilterViewCell)
-}
-
-
 public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Variables
-    // Delegate
-    weak public var filterDelegate: TeacherFilterViewDelegate?
-    
     var currentSelectedGrade: FilterViewCell?
     var currentSelectedSubject: FilterViewCell?
     var currentSelectedTag: FilterViewCell?

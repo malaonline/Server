@@ -10,8 +10,8 @@ import UIKit
 
 public class FilterViewCell: UICollectionViewCell {
     
+    // MARK: - Variables
     var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    
     var model: GradeModel {
         didSet{
             self.titleLabel.text = model.name
@@ -20,16 +20,6 @@ public class FilterViewCell: UICollectionViewCell {
             self.tag = model.id
         }
     }
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(18)
-        label.textColor = UIColor.whiteColor()
-        label.text = "筛选"
-        label.sizeToFit()
-        return label
-    }()
-    
     override public var selected: Bool {
         didSet {
             if selected {
@@ -40,6 +30,19 @@ public class FilterViewCell: UICollectionViewCell {
         }
     }
     
+    
+    // MARK: - Components
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(18)
+        label.textColor = UIColor.whiteColor()
+        label.text = "筛选"
+        label.sizeToFit()
+        return label
+    }()
+    
+    
+    // MARK: - Constructed
     override init(frame: CGRect) {
         self.model = GradeModel()
         super.init(frame: frame)

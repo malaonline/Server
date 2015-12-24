@@ -10,7 +10,7 @@ import UIKit
 
 private let HomeViewCellReusedId = "HomeViewCellReusedId"
 
-class HomeViewController: UICollectionViewController {
+class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     private lazy var dropView: DropView = {
         let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
@@ -27,6 +27,7 @@ class HomeViewController: UICollectionViewController {
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
         
         setupUserInterface()
+        dropView.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,6 +78,10 @@ class HomeViewController: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
+    }
+    
+    func dropViewDidTapButtonForContentView(contentView: UIView) {
+        print("Tap Condition -- \((contentView as! TeacherFilterView).filterObject)")
     }
     
     

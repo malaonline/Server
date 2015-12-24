@@ -9,18 +9,33 @@
 import UIKit
 import SnapKit
 
+// MARK: - DropViewDelegate
+protocol DropViewDelegate: class, NSObjectProtocol {
+    
+    // DidSelectedItem(Cell)
+    func dropViewDidTapButtonForContentView(contentView: UIView)
+}
+
 class DropView: UIView {
 
+    // MARK: - Components
     private lazy var commitButton: UIButton = {
         let button = UIButton(title: "筛选", titleColor: UIColor.whiteColor(), selectedTitleColor: nil, bgColor: UIColor.redColor(), selectedBgColor: UIColor.redColor())
         button.frame = CGRect(x: 0, y: self.frame.size.height - 40, width: self.frame.size.width, height: 40)
+        button.addTarget(self, action: "commitButtonDidTap", forControlEvents: .TouchUpInside)
         return button
     }()
     
+    
+    // MARK: - Variables
+    // Delegate
+    weak var delegate: DropViewDelegate?
     var contentView: UIView?
     var isShow: Bool = false
     var originFrame: CGRect = CGRectZero
     
+    
+    // MARK: - Contructed
     init(frame: CGRect, viewController: UIViewController, contentView: UIView) {
         super.init(frame: frame)
         
@@ -44,6 +59,7 @@ class DropView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    
     // MARK: - API
     func show() {
         UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -59,6 +75,12 @@ class DropView: UIView {
             }) { (isCompletion) -> Void in
                 self.isShow = false
         }
+    }
+    
+    
+    // MARK: - Event Response
+    @objc private func commitButtonDidTap() {
+        delegate?.dropViewDidTapButtonForContentView(self.contentView!)
     }
     
 }
