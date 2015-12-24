@@ -195,7 +195,6 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
     
     
     // MARK: - Delegate
-    
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let sender = collectionView.cellForItemAtIndexPath(indexPath) as! FilterViewCell
@@ -220,17 +219,19 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
             currentSelectedGrade = sender
             self.filterObject.grade = model!
             self.filterObject.gradeIndexPath = indexPath
-        case 3:
             
+        case 3:
             currentSelectedSubject?.selected = false
             currentSelectedSubject = sender
             self.filterObject.subject = model!
             self.filterObject.subjectIndexPath = indexPath
+            
         case 4:
             currentSelectedTag?.selected = false
             currentSelectedTag = sender
             self.filterObject.tag = model!
             self.filterObject.tagIndexPath = indexPath
+            
         default:
             break
         }
