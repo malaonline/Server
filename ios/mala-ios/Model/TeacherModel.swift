@@ -14,11 +14,11 @@ class TeacherModel: BaseObjectModel {
     var avatar: NSURL?
     var gender: String?
     var degree: String?
-    var min_price: Int = 0
-    var max_price: Int = 0
-    var subject: Int = 0
-    var grades: [Int] = []
-    var tags: [Int] = []
+    var min_price: Int?
+    var max_price: Int?
+    var subject: Int?
+    var grades: [Int]?
+    var tags: [Int]?
     
     // MARK: - Constructed
     override init(dict: [String: AnyObject]) {
