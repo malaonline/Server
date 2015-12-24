@@ -17,9 +17,9 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     // MARK: - Variables
     var isShow: Bool = false
     var originFrame: CGRect = CGRectZero
-    var currentSelectedGrade = UIButton()
-    var currentSelectedSubject = UIButton()
-    var currentSelectedTag = UIButton()
+    var currentSelectedGrade: FilterViewCell?
+    var currentSelectedSubject: FilterViewCell?
+    var currentSelectedTag: FilterViewCell?
     
     // Filter Condition Data
     lazy var grades: [GradeModel]? = nil
@@ -39,9 +39,9 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     // Current Selected Filter Condition, Default is -1
     lazy var filterObject: ConditionObject = {
         let object = ConditionObject()
-        object.gradeId = -1
-        object.subjectId = -1
-        object.tagId = -1
+        object.grade = GradeModel()
+        object.subject = GradeModel()
+        object.tag = GradeModel()
         return object
     }()
     
@@ -60,7 +60,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         super.init(frame: frame, collectionViewLayout: layout)
         
         //  Register Class for Cell and Header/Footer View
-        registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: TeacherFilterViewCellReusedId)
+        registerClass(FilterViewCell.self, forCellWithReuseIdentifier: TeacherFilterViewCellReusedId)
         registerClass(FilterSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId)
         registerClass(FilterSectionFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId)
         
@@ -101,19 +101,41 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         self.grades?.append(self.subjectCondition)
         
         // load Tags
-        tempArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Tags.plist", ofType: nil)!) as? [AnyObject]
-        for object in tempArray! {
-            if let dict = object as? [String: AnyObject] {
-                let set = GradeModel(dict: dict)
-                tempDict?.append(set)
+        NetworkTool.sharedTools.loadTags{ [weak self] (result, error) -> () in
+            
+            guard let strongSelf = self else { return }
+            
+            // Error
+            if error != nil {
+                debugPrint("TeacherFilterView - loadTags Request Error")
+                return
             }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("TeacherFilterView - loadTags Format Error")
+                return
+            }
+            
+            tempDict = []
+            tempArray = ResultModel(dict: dict).results
+            for object in tempArray! {
+                if let dict = object as? [String: AnyObject] {
+                    let set = GradeModel(dict: dict)
+                    tempDict?.append(set)
+                }
+            }
+            strongSelf.tagsCondition.subset = tempDict
+            self?.reloadData()
         }
-        self.tagsCondition.subset = tempDict
         self.grades?.append(self.tagsCondition)
-        
         self.reloadData()
     }
     
+    override func reloadData() {
+        super.reloadData()
+        print("reloadData")
+    }
     
     // MARK: - API
     func show() {
@@ -135,7 +157,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     
     // MARK: - DataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return self.grades?.count ?? 0
+        return self.grades?.count ?? 5
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -160,65 +182,26 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TeacherFilterViewCellReusedId, forIndexPath: indexPath)
-        
-        let subject = gradeModel(indexPath.section, row: indexPath.row)
-        let button = FilterViewCellButton(title: subject?.name ?? "", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.whiteColor(), bgColor: UIColor.lightGrayColor(), selectedBgColor: UIColor.redColor())
-        button.indexPath = indexPath
-        button.tag = (subject?.id) ?? 0
-        button.addTarget(self, action: "cellButtonDidClick:", forControlEvents: .TouchUpInside)
-        button.frame = cell.bounds
-        button.frame.size.width = cell.bounds.width*0.75
-        button.layer.cornerRadius = button.frame.height*0.5
-        button.clipsToBounds = true
-        cell.contentView.addSubview(button)
-        
-        return cell
-    }
-    
-    
-    // MARK: - Event Response
-    @objc private func cellButtonDidClick(sender: FilterViewCellButton) {
-        let indexPath = sender.indexPath
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TeacherFilterViewCellReusedId, forIndexPath: indexPath) as! FilterViewCell
+        cell.model = gradeModel(indexPath.section, row: indexPath.row)!
+        cell.indexPath = indexPath
 
-        // grade,subject,tag
-        switch indexPath.section {
-        case 0...2:
-            self.filterObject.gradeId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
-            let grade = gradeModel(indexPath.section, row: indexPath.row)
-            let subjects = grade?.subjects.map({ (i: NSNumber) -> GradeModel in
-                let subject = GradeModel()
-                subject.id = i.integerValue
-                subject.name = MalaSubject[i.integerValue]
-                return subject
-            })
-            self.subjectCondition.subset = subjects
-            reloadSections(NSIndexSet(index: 3))
+        var shouldSelected = true
 
-            currentSelectedGrade.selected = false
-            sender.selected = true
-            currentSelectedGrade = sender
-            self.filterObject.gradeId = sender.tag
-            
-        case 3:
-            self.filterObject.subjectId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
-            
-            
-            currentSelectedSubject.selected = false
-            sender.selected = true
-            currentSelectedSubject = sender
-            self.filterObject.subjectId = sender.tag
-        case 4:
-            self.filterObject.tagId = (gradeModel(indexPath.section, row: indexPath.row)?.id)!
-            
-            currentSelectedTag.selected = false
-            sender.selected = true
-            currentSelectedTag = sender
-            self.filterObject.tagId = sender.tag
-        default:
-            break
+        if indexPath == self.filterObject.gradeIndexPath {
+            self.currentSelectedGrade = cell
+        }else if indexPath == self.filterObject.subjectIndexPath {
+            self.currentSelectedSubject  = cell
+        }else if indexPath == self.filterObject.tagIndexPath {
+            self.currentSelectedTag  = cell
+        }else {
+            shouldSelected = false
         }
         
+        
+
+        cell.selected = shouldSelected
+        return cell
     }
     
     /// convenience to get gradeModel whit section and row
@@ -228,6 +211,50 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         }else {
             return self.grades?[section].subset?[row!]
         }
+    }
+    
+    
+    // MARK: - Delegate
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        let sender = collectionView.cellForItemAtIndexPath(indexPath) as! FilterViewCell
+        let model = gradeModel(indexPath.section, row: indexPath.row)
+        
+        // grade,subject,tag
+        switch indexPath.section {
+        case 0...2:
+            let grade = gradeModel(indexPath.section, row: indexPath.row)
+            let subjects = grade?.subjects.map({ (i: NSNumber) -> GradeModel in
+                let subject = GradeModel()
+                subject.id = i.integerValue
+                subject.name = MalaSubject[i.integerValue]
+                return subject
+            })
+            self.subjectCondition.subset = subjects
+            if model?.subjects.count != self.filterObject.grade.subjects.count  || model?.subjects.count == 0{
+//                reloadSections(NSIndexSet(index: 3))
+                reloadData()
+            }
+            
+            currentSelectedGrade?.selected = false
+            currentSelectedGrade = sender
+            self.filterObject.grade = model!
+            self.filterObject.gradeIndexPath = indexPath
+        case 3:
+            
+            currentSelectedSubject?.selected = false
+            currentSelectedSubject = sender
+            self.filterObject.subject = model!
+            self.filterObject.subjectIndexPath = indexPath
+        case 4:
+            currentSelectedTag?.selected = false
+            currentSelectedTag = sender
+            self.filterObject.tag = model!
+            self.filterObject.tagIndexPath = indexPath
+        default:
+            break
+        }
+        reloadData()
     }
     
 }
@@ -288,34 +315,11 @@ class FilterSectionFooterView: UICollectionReusableView {
 
 // MARK: - ConditionObject
 class ConditionObject: NSObject {
-    var gradeId: Int = 0
-    var subjectId: Int = 0
-    var tagId: Int = 0
-}
-
-
-class FilterViewCellButton: UIButton {
-
-    var indexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+    var grade: GradeModel = GradeModel()
+    var subject: GradeModel = GradeModel()
+    var tag: GradeModel = GradeModel()
     
-    ///  Convenience Function to Create UIButton With TitleColor and BackgroundColor
-    ///
-    ///  - parameter title:              String for Title
-    ///  - parameter titleColor:         UIColor for TitleColor in NormalState
-    ///  - parameter selectedTitleColor: UIColor for TitleColor in SelectedState
-    ///  - parameter bgColor:            UIColor for BackgroundColor in NormalState
-    ///  - parameter selectedBgColor:    UIColor for BackgroundColor in SelectedState
-    ///
-    ///  - returns: UIButton
-    convenience init(title: String, titleColor: UIColor? = nil, selectedTitleColor: UIColor? = nil, bgColor: UIColor? = nil, selectedBgColor: UIColor? = nil) {
-        self.init()
-        setTitle(title, forState: .Normal)
-        titleLabel?.font = UIFont.systemFontOfSize(14)
-        setTitleColor(titleColor, forState: .Normal)
-        setTitleColor(selectedTitleColor, forState: .Selected)
-        setBackgroundImage(UIImage.withColor(bgColor), forState: .Normal)
-        setBackgroundImage(UIImage.withColor(selectedBgColor), forState: .Selected)
-        sizeToFit()
-    }
-    
+    var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+    var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)
+    var tagIndexPath = NSIndexPath(forItem: 0, inSection: 4)
 }
