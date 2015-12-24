@@ -292,6 +292,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                 teacher.setMinPrice(obj.optDouble("min_price"));
                 teacher.setMaxPrice(obj.optDouble("max_price"));
                 teacher.setSubject(obj.optLong("subject"));
+                teacher.setAvatar(obj.optString("avatar"));
                 JSONArray gradesAry = obj.optJSONArray("grades");
                 if(gradesAry != null && gradesAry.length() > 0){
                     Long [] tmp = new Long[gradesAry.length()];

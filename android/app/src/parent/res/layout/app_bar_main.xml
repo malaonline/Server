@@ -48,13 +48,14 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center|right"
-                    android:paddingRight="8dp">
+                    android:gravity="center|right">
 
                     <TextView
                         android:id="@+id/main_bar_filter"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:drawableLeft="@drawable/filter"
                         android:drawablePadding="0dp"
                         android:gravity="center"
