@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
 import com.malalaoshi.android.entity.Grade;
@@ -16,6 +18,7 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 
 import java.util.List;
@@ -46,9 +49,12 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     public boolean canLoadMore = true;
 
+    private ImageLoader mImageLoader;
+
     public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
         teachersList = items;
         mListener = listener;
+        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -181,6 +187,10 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             String tagStr = Tag.generateTagViewString(teacher.getTags(), Tag.tags);
             if(tagStr != null){
                 tagView.setText(tagStr);
+            }
+
+            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
+                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             }
 
             Double minPrice = teacher.getMinPrice();
