@@ -154,12 +154,17 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             //是否是最后一行int left, int top, int right, int bottom
+            int amendSpace = mSpace - 2*cardElevation;
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0,  mSpace - 2*cardElevation,  mSpace - 2*cardElevation, 0);
+                if(isLastColumn(parent, itemPosition, spanCount, childCount)){
+                    outRect.set( amendSpace/2,  amendSpace, 0, amendSpace);
+                }else{
+                    outRect.set(0, amendSpace, amendSpace/2, amendSpace);
+                }
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set( 0,  mSpace- 2*cardElevation, 0, 0);
+                outRect.set( amendSpace/2,  amendSpace, 0, 0);
             }else{
-                outRect.set(0, mSpace- 2*cardElevation, mSpace - 2*cardElevation, 0);
+                outRect.set(0, amendSpace, amendSpace/2, 0);
             }
         }else{
             int spanCount = getSpanCount(parent);
@@ -167,11 +172,15 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
             int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
 
             if(isLastRaw(parent, itemPosition, spanCount, childCount)){
-                outRect.set(0,  mSpace,  mSpace , 0);
+                if(isLastColumn(parent, itemPosition, spanCount, childCount)){
+                    outRect.set( mSpace/2 ,  mSpace, 0, mSpace);
+                }else{
+                    outRect.set(0, mSpace, mSpace/2 , mSpace);
+                }
             }else if(isLastColumn(parent, itemPosition, spanCount, childCount)){
-                outRect.set( 0 ,  mSpace, 0, 0);
+                outRect.set( mSpace/2 ,  mSpace, 0, 0);
             }else{
-                outRect.set(0, mSpace, mSpace , 0);
+                outRect.set(0, mSpace, mSpace/2 , 0);
             }
         }
     }
