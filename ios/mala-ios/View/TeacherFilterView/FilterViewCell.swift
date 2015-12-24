@@ -8,10 +8,10 @@
 
 import UIKit
 
-class FilterViewCell: UICollectionViewCell {
+public class FilterViewCell: UICollectionViewCell {
     
+    // MARK: - Variables
     var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    
     var model: GradeModel {
         didSet{
             self.titleLabel.text = model.name
@@ -20,17 +20,7 @@ class FilterViewCell: UICollectionViewCell {
             self.tag = model.id
         }
     }
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(18)
-        label.textColor = UIColor.whiteColor()
-        label.text = "筛选"
-        label.sizeToFit()
-        return label
-    }()
-    
-    override var selected: Bool {
+    override public var selected: Bool {
         didSet {
             if selected {
                 self.titleLabel.backgroundColor = UIColor.redColor()
@@ -40,6 +30,19 @@ class FilterViewCell: UICollectionViewCell {
         }
     }
     
+    
+    // MARK: - Components
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(18)
+        label.textColor = UIColor.whiteColor()
+        label.text = "筛选"
+        label.sizeToFit()
+        return label
+    }()
+    
+    
+    // MARK: - Constructed
     override init(frame: CGRect) {
         self.model = GradeModel()
         super.init(frame: frame)
@@ -49,7 +52,7 @@ class FilterViewCell: UICollectionViewCell {
         addSubview(titleLabel)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

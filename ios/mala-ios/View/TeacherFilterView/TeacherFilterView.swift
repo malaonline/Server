@@ -12,11 +12,9 @@ private let TeacherFilterViewCellReusedId = "TeacherFilterViewCellReusedId"
 private let TeacherFilterViewSectionHeaderReusedId = "TeacherFilterViewSectionHeaderReusedId"
 private let TeacherFilterViewSectionFooterReusedId = "TeacherFilterViewSectionFooterReusedId"
 
-class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
+public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Variables
-    var isShow: Bool = false
-    var originFrame: CGRect = CGRectZero
     var currentSelectedGrade: FilterViewCell?
     var currentSelectedSubject: FilterViewCell?
     var currentSelectedTag: FilterViewCell?
@@ -67,21 +65,13 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         // Setup Delegate and DataSource
         delegate = self
         dataSource = self
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    convenience init(viewController: UIViewController, frame: CGRect? = nil) {
-        self.init(frame: frame ?? CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
         
-        // init FilterView
-        originFrame = frame ?? CGRectZero
         self.backgroundColor = UIColor.whiteColor()
-        viewController.view.addSubview(self)
-        
         loadFilterCondition()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -132,35 +122,13 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         self.reloadData()
     }
     
-    override func reloadData() {
-        super.reloadData()
-        print("reloadData")
-    }
-    
-    // MARK: - API
-    func show() {
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.frame.origin.y = 64
-            }) { (isCompletion) -> Void in
-                self.isShow = true
-        }
-    }
-    
-    func dismiss() {
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.frame = self.originFrame
-            }) { (isCompletion) -> Void in
-                self.isShow = false
-        }
-    }
-    
     
     // MARK: - DataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.grades?.count ?? 5
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         var reusableView: UICollectionReusableView?
 
@@ -171,17 +139,19 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         }
         
         if kind == UICollectionElementKindSectionFooter {
-            let sectionHeaderView: FilterSectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath) as! FilterSectionFooterView
-            reusableView = sectionHeaderView
+            let sectionFooterView: FilterSectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath) as! FilterSectionFooterView
+            reusableView = sectionFooterView
         }
         return reusableView!
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return gradeModel(section)?.subset?.count ?? 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    
+    
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TeacherFilterViewCellReusedId, forIndexPath: indexPath) as! FilterViewCell
         cell.model = gradeModel(indexPath.section, row: indexPath.row)!
         cell.indexPath = indexPath
@@ -197,8 +167,6 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
         }else {
             shouldSelected = false
         }
-        
-        
 
         cell.selected = shouldSelected
         return cell
@@ -215,7 +183,7 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
     
     
     // MARK: - Delegate
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let sender = collectionView.cellForItemAtIndexPath(indexPath) as! FilterViewCell
         let model = gradeModel(indexPath.section, row: indexPath.row)
@@ -232,25 +200,26 @@ class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICollectio
             })
             self.subjectCondition.subset = subjects
             if model?.subjects.count != self.filterObject.grade.subjects.count  || model?.subjects.count == 0{
-//                reloadSections(NSIndexSet(index: 3))
-                reloadData()
+                reloadSections(NSIndexSet(index: 3))
             }
             
             currentSelectedGrade?.selected = false
             currentSelectedGrade = sender
             self.filterObject.grade = model!
             self.filterObject.gradeIndexPath = indexPath
-        case 3:
             
+        case 3:
             currentSelectedSubject?.selected = false
             currentSelectedSubject = sender
             self.filterObject.subject = model!
             self.filterObject.subjectIndexPath = indexPath
+            
         case 4:
             currentSelectedTag?.selected = false
             currentSelectedTag = sender
             self.filterObject.tag = model!
             self.filterObject.tagIndexPath = indexPath
+            
         default:
             break
         }

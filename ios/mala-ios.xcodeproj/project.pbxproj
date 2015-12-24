@@ -53,6 +53,8 @@
 		30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
+		30AE09361C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
+		30AE09371C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
 		30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */; };
@@ -132,6 +134,7 @@
 		307788571C2A58B1007AF6B0 /* OperatorOverload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverload.swift; sourceTree = "<group>"; };
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
+		30AE09351C2BE56D00FD607D /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +327,7 @@
 			children = (
 				30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
+				30AE09351C2BE56D00FD607D /* DropView.swift */,
 			);
 			path = TeacherFilterView;
 			sourceTree = "<group>";
@@ -699,6 +703,7 @@
 				304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				304135C41C23AE6400830C43 /* DataViewController.swift in Sources */,
 				30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */,
+				30AE09361C2BE56D00FD607D /* DropView.swift in Sources */,
 				304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */,
 				30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				304135B81C23AE6400830C43 /* Upload.swift in Sources */,
@@ -745,6 +750,7 @@
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				357E6A321C0FF3010009AF9A /* MemberServiceDetailViewController.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
+				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
 				304135B91C23AE6400830C43 /* Upload.swift in Sources */,
 				304135C31C23AE6400830C43 /* BackAPI.swift in Sources */,
 				357E6A351C0FF3010009AF9A /* PaymentMethodViewController.swift in Sources */,
