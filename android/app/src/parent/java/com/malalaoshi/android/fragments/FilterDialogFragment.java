@@ -25,6 +25,7 @@ import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 
@@ -124,69 +125,73 @@ public class FilterDialogFragment extends BaseDialogFragment {
     }
 
     private void setGradesList() {
-        long id = 1;
         long[] subjects1 = new long[]{1,2,3};
         long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
-        char[] numWords = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
         // 小学
-        String stage = "小学";
+        Grade primary = Grade.getById(Grade.PRIMARY_ID);
         Map<String, Object> item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", primary.getId());
+        item.put("name", primary.getName());
         item.put("subjects", subjects1);
         item.put("subset", mSubGrages1List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", primary.getId());
+        item.put("name", primary.getName()+"全部");
         item.put("subjects", subjects1);
         mSubGrages1List.add(item);
-        for (int i = 0; i < 6; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects1);
-            mSubGrages1List.add(item);
-        }
         // 初中
-        stage = "初中";
+        Grade middle = Grade.getById(Grade.MIDDLE_ID);
         item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", middle.getId());
+        item.put("name", middle.getName());
         item.put("subjects", subjects2);
         item.put("subset", mSubGrages2List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", middle.getId());
+        item.put("name", middle.getName()+"全部");
         item.put("subjects", subjects2);
         mSubGrages2List.add(item);
-        for (int i = 0; i < 3; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects2);
-            mSubGrages2List.add(item);
-        }
         // 高中
-        stage = "高中";
+        Grade senior = Grade.getById(Grade.SENIOR_ID);
         item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", senior.getId());
+        item.put("name", senior.getName());
         item.put("subjects", subjects2);
         item.put("subset", mSubGrages3List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", senior.getId());
+        item.put("name", senior.getName()+"全部");
         item.put("subjects", subjects2);
         mSubGrages3List.add(item);
-        for (int i = 0; i < 3; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects2);
-            mSubGrages3List.add(item);
+        // collect all grade
+        for (Grade g: Grade.gradeList) {
+            if (g.getSupersetId() == null) {
+                continue;
+            }
+            if (g.getSupersetId() == Grade.PRIMARY_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", primary.getName() + g.getName());
+                item.put("subjects", subjects1);
+                mSubGrages1List.add(item);
+            }
+            if (g.getSupersetId() == Grade.MIDDLE_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", middle.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages2List.add(item);
+            }
+            if (g.getSupersetId() == Grade.SENIOR_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", senior.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages3List.add(item);
+            }
         }
     }
 
