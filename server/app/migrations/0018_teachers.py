@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import requests
 
 from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
-
 from django.db import migrations, models
 
 
