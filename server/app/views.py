@@ -1,13 +1,54 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from rest_framework import serializers, viewsets
+import random
+import urllib
+import httplib2
+from django.views.decorators.csrf import csrf_exempt
 
 from app import models
 
 def index(request):
     return render(request, 'index.html')
+
+def callSendSms(phoneNo, msg):
+    apikey = 'test_key'
+    params = {'apikey': apikey, 'mobile': phoneNo, 'text': msg}
+    print (params)
+    url = "http://yunpian.com/v1/sms/send.json"
+    headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
+    httpClient = httplib2.Http()
+    return httpClient.request(url, "POST", headers=headers, body=urllib.parse.urlencode(params))
+
+def callSendSmsCheckcode(phoneNo, checkCode):
+    SITE_NAME = '麻辣老师'
+    msg = "【"+SITE_NAME+"】您的验证码是"+str(checkCode)
+    return callSendSms(phoneNo, msg)
+
+def generateCheckcode(phoneNo):
+    # TODO: 生成，并保存到数据库或缓存，10分钟后过期
+    return random.randrange(1000, 9999)
+
+# client 提交post 到 django出现403错误
+@csrf_exempt
+def sendSmsCheckcode(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'Error': 'Must use POST method'})
+
+    phoneNo = request.POST.get('phoneNo')
+    if not phoneNo:
+        return JsonResponse({'success': False, 'Error': 'phoneNo is required'})
+    # generate code
+    checkCode = generateCheckcode(phoneNo)
+    print ('验证码：' + str(checkCode))
+    # call send sms api
+    resp, content = callSendSmsCheckcode(phoneNo, checkCode)
+    print (resp)
+    print ( '-' * 20 )
+    print (content)
+    return JsonResponse({'success': True})
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:

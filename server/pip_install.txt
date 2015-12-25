@@ -4,3 +4,4 @@ psycopg2==2.6.1
 django-s3-storage-patched
 Pillow==3.0.0
 -e git://github.com/hwbuluo/django-send-messages.git#egg=django-send-messages
+httplib2==0.9.2

@@ -21,6 +21,7 @@ router.register(r'weeklytimeslots', views.WeeklyTimeSlotViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^send/sms/checkcode/$', views.sendSmsCheckcode, name='sendSmsCheckcode'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/v1/token-auth/', authviews.obtain_auth_token),
     url(r'^api/v1/', include(router.urls)),
