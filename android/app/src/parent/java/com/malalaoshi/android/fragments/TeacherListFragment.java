@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -52,6 +51,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     private Long subjectId;
     private Long [] tagIds;
 
+    private String next = null;
+
     public TeacherListFragment(){
     }
 
@@ -78,25 +79,28 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         View view = inflater.inflate(R.layout.teacher_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        ButterKnife.bind(this, view);
+
         if(recyclerView != null){
             Context context = view.getContext();
-            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
-            recyclerView.setLayoutManager(layoutManager);
-
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-            recyclerView.setAdapter(adapter);
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
+            recyclerView.setLayoutManager(layoutManager);
 
             //处理在5.0以下版本中各个Item 间距过大的问题(解决方式:将要设置的间距减去各个Item的阴影宽度)
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
                 dealCardElevation(recyclerView);
             }
             int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
+
+            recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
-        ButterKnife.bind(this, view);
         RefreshLayoutUtils.initOnCreate(refreshLayout, this);
         RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
+
         return view;
     }
 
@@ -133,12 +137,59 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh(){
-        new loadTeachersTask().execute();
+        if(!adapter.loading){
+            teachersList.clear();
+            next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+            boolean hasParam = false;
+            if(gradeId != null && gradeId > 0){
+                next += "?grade=" + gradeId;
+                hasParam = true;
+            }
+            if(subjectId != null && subjectId > 0){
+                next += hasParam ? "&subject=" : "?subject=";
+                next += subjectId;
+                hasParam = true;
+            }
+            if(tagIds != null && tagIds.length > 0){
+                next += hasParam ? "&tags=" : "?tags=";
+                for(int i=0; i<tagIds.length;){
+                    next += tagIds[i];
+                    if(++i < tagIds.length){
+                        next += "+";
+                    }
+                }
+            }
+            new LoadTeachersTask(){
+                @Override
+                public void afterTask(JSONObject response){
+                    adapter.loading = false;
+                    setRefreshing(false);
+                }
+            }.execute();
+        }
     }
 
     @Override
     public void onLoadMore(){
-        new loadTeachersTask().execute();
+        if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
+            adapter.loading = true;
+            new LoadTeachersTask(){
+                @Override
+                public void afterTask(JSONObject response){
+                    if(response != null){
+                        try{
+                            next = response.getString("next");
+                        }catch(Exception e){
+                            next = null;
+                        }
+                    }
+                    adapter.loading = false;
+                    if(next == null){
+                        adapter.canLoadMore = false;
+                    }
+                }
+            }.execute();
+        }
     }
 
     /**
@@ -162,35 +213,18 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
     private void notifyDataSetChanged(){
         if(teachersList != null && teachersList.size() < 20){
-            adapter.setLoading(false);
+            adapter.loading = false;
         }
         adapter.notifyDataSetChanged();
     }
 
-    private class loadTeachersTask extends AsyncTask<String, Integer, String>{
+    private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
+        public void afterTask(JSONObject response){
+        }
         @Override
         protected String doInBackground(String ...params){
             try{
-                String url = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
-                boolean hasParam = false;
-                if(gradeId != null && gradeId > 0){
-                    url += "?grade=" + gradeId;
-                    hasParam = true;
-                }
-                if(subjectId != null && subjectId > 0){
-                    url += hasParam ? "&subject=" : "?subject=";
-                    url += subjectId;
-                    hasParam = true;
-                }
-                if(tagIds != null && tagIds.length > 0){
-                    url += hasParam ? "&tags=" : "?tags=";
-                    for(int i=0; i<tagIds.length;){
-                        url += tagIds[i];
-                        if(++i < tagIds.length){
-                            url += "+";
-                        }
-                    }
-                }
+                String url = next;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                         Request.Method.GET, url, null,
@@ -199,62 +233,89 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                             public void onResponse(JSONObject response){
                                 try{
                                     JSONArray result = response.getJSONArray("results");
-                                    for(int i=0;i<result.length();i++){
-                                        JSONObject obj = (JSONObject)result.get(i);
-                                        Teacher teacher = new Teacher();
-                                        teacher.setId(String.valueOf(i+1));
-                                        teacher.setName(obj.getString("name"));
-                                        String degreeStr = obj.optString("degree");
-                                        if(degreeStr != null && degreeStr.length() == 1){
-                                            teacher.setDegree(degreeStr.charAt(0));
-                                        }
-                                        teacher.setMinPrice(obj.optDouble("min_price"));
-                                        teacher.setMaxPrice(obj.optDouble("max_price"));
-                                        teacher.setSubject(obj.optLong("subject"));
-                                        JSONArray gradesAry = obj.optJSONArray("grades");
-                                        if(gradesAry != null && gradesAry.length() > 0){
-                                            Long [] tmp = new Long[gradesAry.length()];
-                                            for(int ind=0; ind < gradesAry.length(); ind++){
-                                                tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
-                                            }
-
-                                            teacher.setGrades(tmp);
-                                        }
-
-                                        JSONArray tagsAry = obj.optJSONArray("tags");
-                                        if(tagsAry != null && tagsAry.length() > 0){
-                                            Long [] tmp = new Long[tagsAry.length()];
-                                            for(int ind=0; ind < tagsAry.length(); ind++){
-                                                tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
-                                            }
-
-                                            teacher.setTags(tmp);
-                                        }
-                                        teachersList.add(teacher);
-                                    }
+                                    dataSet(result);
                                     if(result.length() > 0){
                                         notifyDataSetChanged();
                                     }
-                                } catch (Exception e){
+                                }catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
+                                }finally{
+                                    afterTask(response);
                                 }
-                                setRefreshing(false);
                             }
                         },
                         new Response.ErrorListener(){
                             @Override
                             public void onErrorResponse(VolleyError error){
-                                setRefreshing(false);
+                                afterTask(null);
                                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
                             }
                         });
                 requestQueue.add(jsArrayRequest);
                 return "ok";
             }catch(Exception e){
-                setRefreshing(false);
+                afterTask(null);
                 Log.e(LoginFragment.class.getName(), e.getMessage(), e);
             }
             return null;
+        }
+    }
+
+    class FooterSpanSizeLookup extends GridLayoutManager.SpanSizeLookup{
+        private final GridLayoutManager gridLayoutManager;
+
+        public FooterSpanSizeLookup(GridLayoutManager gridLayoutManager){
+            this.gridLayoutManager = gridLayoutManager;
+        }
+
+        @Override
+        public int getSpanSize(int position){
+            if(gridLayoutManager.getItemCount() - 1 == position && adapter.hasLoadMoreView && adapter.canLoadMore){
+                return 2;
+            }else{
+                return 1;
+            }
+        }
+    }
+
+    private void dataSet(JSONArray result) throws Exception{
+        try{
+            for(int i=0;i<result.length();i++){
+                JSONObject obj = (JSONObject)result.get(i);
+                Teacher teacher = new Teacher();
+                teacher.setId(String.valueOf(i+1));
+                teacher.setName(obj.getString("name"));
+                String degreeStr = obj.optString("degree");
+                if(degreeStr != null && degreeStr.length() == 1){
+                    teacher.setDegree(degreeStr.charAt(0));
+                }
+                teacher.setMinPrice(obj.optDouble("min_price"));
+                teacher.setMaxPrice(obj.optDouble("max_price"));
+                teacher.setSubject(obj.optLong("subject"));
+                teacher.setAvatar(obj.optString("avatar"));
+                JSONArray gradesAry = obj.optJSONArray("grades");
+                if(gradesAry != null && gradesAry.length() > 0){
+                    Long [] tmp = new Long[gradesAry.length()];
+                    for(int ind=0; ind < gradesAry.length(); ind++){
+                        tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
+                    }
+
+                    teacher.setGrades(tmp);
+                }
+
+                JSONArray tagsAry = obj.optJSONArray("tags");
+                if(tagsAry != null && tagsAry.length() > 0){
+                    Long [] tmp = new Long[tagsAry.length()];
+                    for(int ind=0; ind < tagsAry.length(); ind++){
+                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+                    }
+
+                    teacher.setTags(tmp);
+                }
+                teachersList.add(teacher);
+            }
+        }catch(Exception e){
+            throw e;
         }
     }
 }

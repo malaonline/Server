@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
 import com.malalaoshi.android.entity.Grade;
@@ -16,6 +18,7 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 
 import java.util.List;
@@ -32,18 +35,26 @@ import butterknife.OnClick;
 public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder>{
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_LOAD_MORE = 1;
+    private static final int TYPE_NONE_VALUE = 2;
 
-    public static final int TEACHER_LIST_PAGE_SIZE = 10;
+    public static final int TEACHER_LIST_PAGE_SIZE = 20;
 
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
-    private boolean loading = false;
+    public boolean loading = false;
 
     private  List<Teacher> teachersList;
+
+    public boolean hasLoadMoreView = false;
+
+    public boolean canLoadMore = true;
+
+    private ImageLoader mImageLoader;
 
     public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
         teachersList = items;
         mListener = listener;
+        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -52,7 +63,10 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         switch(viewType){
             case TYPE_LOAD_MORE:
-                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false));
+                hasLoadMoreView = true;
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, parent, false));
+            case TYPE_NONE_VALUE:
+                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, parent, false));
             default:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
                 if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
@@ -67,28 +81,36 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         holder.update(position);
     }
 
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-    }
-
-    public boolean canLoadMore() {
-        return teachersList == null ? !loading : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && !loading;
-    }
-
     @Override
     public int getItemCount(){
-        return teachersList == null ? 0 : teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE ? teachersList.size() + 1 : teachersList.size();
+        if(teachersList != null){
+            if(teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && canLoadMore){
+                if(teachersList.size() % 2 == 0){
+                    return teachersList.size() + 1;
+                }else{
+                    return teachersList.size() + 2;
+                }
+            }else{
+                return teachersList.size();
+            }
+        }else{
+            return 0;
+        }
     }
 
     @Override
     public int getItemViewType(int position){
-        if(teachersList != null && teachersList.size() >= 9 && position == getItemCount() - 1){
-            return TYPE_LOAD_MORE;
-        }else{
-            return TYPE_NORMAL;
+        int type = TYPE_NORMAL;
+        if(teachersList != null && canLoadMore && teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
+            if(position == getItemCount() - 1){
+                type = TYPE_LOAD_MORE;
+            }else if(teachersList.size() % 2 != 0 && position == getItemCount() - 2){
+                type = TYPE_NONE_VALUE;
+            }
         }
+        return type;
     }
-    
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         protected ViewHolder(View itemView){
             super(itemView);
@@ -97,12 +119,15 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         protected void update(int position){}
     }
 
+    public class NoValueViewHolder extends ViewHolder{
+        protected NoValueViewHolder(View itemView){
+            super(itemView);
+        }
+    }
+
     public class LoadMoreViewHolder extends ViewHolder{
         @Bind(R.id.item_load_more_icon_loading)
         protected View iconLoading;
-
-        @Bind(R.id.item_load_more_icon_finish)
-        protected View iconFinish;
 
         protected LoadMoreViewHolder(View itemView){
             super(itemView);
@@ -111,8 +136,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
-            iconLoading.setVisibility(loading ? View.VISIBLE : View.GONE);
-            iconFinish.setVisibility(loading ? View.GONE : View.VISIBLE);
         }
 
     }
@@ -148,6 +171,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
+            if(position >= teachersList.size()){
+                return;
+            }
             teacher = teachersList.get(position);
             name.setText(teacher.getName());
             Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
@@ -161,6 +187,10 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             String tagStr = Tag.generateTagViewString(teacher.getTags(), Tag.tags);
             if(tagStr != null){
                 tagView.setText(tagStr);
+            }
+
+            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
+                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             }
 
             Double minPrice = teacher.getMinPrice();

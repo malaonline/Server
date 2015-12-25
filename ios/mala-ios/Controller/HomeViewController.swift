@@ -10,7 +10,14 @@ import UIKit
 
 private let HomeViewCellReusedId = "HomeViewCellReusedId"
 
-class HomeViewController: UICollectionViewController {
+class HomeViewController: UICollectionViewController, DropViewDelegate {
+    
+    private lazy var dropView: DropView = {
+        let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
+        let dropView = DropView(frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight), viewController: self, contentView: filterView)
+        return dropView
+    }()
+    
     
     // MARK: - Life Circle
     override func viewDidLoad() {
@@ -20,22 +27,11 @@ class HomeViewController: UICollectionViewController {
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
         
         setupUserInterface()
+        dropView.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    
-    // MARK: - private Function
-    private func setupUserInterface() {
-        
-        collectionView?.backgroundColor = UIColor.whiteColor()
-        
-        // leftBarButtonItem
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
-        // rightBarButtonItem
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
     }
     
     
@@ -46,13 +42,13 @@ class HomeViewController: UICollectionViewController {
     }
     
     @objc private func screeningButtonDidClick() {
-        navigationController?.pushViewController(FilterViewController(), animated: true)
+        dropView.isShow ? dropView.dismiss() : dropView.show()
     }
     
     
     // MARK: - Consturcted
     init() {
-        super.init(collectionViewLayout: HomeViewFlowLayout())
+        super.init(collectionViewLayout: CommonFlowLayout(type: .HomeView))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -77,11 +73,27 @@ class HomeViewController: UICollectionViewController {
     
     // MARK: - Delegate
     override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-    return true
+        return true
     }
 
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-    return true
+        return true
+    }
+    
+    func dropViewDidTapButtonForContentView(contentView: UIView) {
+        print("Tap Condition -- \((contentView as! TeacherFilterView).filterObject)")
+    }
+    
+    
+    // MARK: - private Function
+    private func setupUserInterface() {
+        
+        collectionView?.backgroundColor = UIColor.whiteColor()
+        
+        // leftBarButtonItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
+        // rightBarButtonItem
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
     }
 
 }
