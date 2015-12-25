@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from django.contrib.auth.models import User
 
 def add_user(apps, schema_editor):
+    User = apps.get_model('auth', 'User')
     for i in range(50):
         username = 'test%d' % i
         email = '%s@malalaoshi.com' % username
