@@ -233,6 +233,7 @@ parameters:
 ```
 action=verify
 phone=150123456
+code=1234
 ```
 
 result:
