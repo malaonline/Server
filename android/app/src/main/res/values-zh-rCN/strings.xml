@@ -52,4 +52,6 @@
 	<string name="do_filter">筛选</string>
 	
 	<string name="currency_unit">元</string>
+
+	<string name="user_protocol">《麻辣教户协议》</string>
 </resources>

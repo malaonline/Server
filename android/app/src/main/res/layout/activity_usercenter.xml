@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="#E97777"
+        android:paddingLeft="16dp">
+
+        <ImageView
+            android:id="@+id/iv_quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@android:drawable/ic_delete" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_quit"
+            android:paddingLeft="4dp"
+            android:text="验证" />
+    </RelativeLayout>
+
+    <EditText
+        android:layout_below="@id/rl_title"
+        android:id="@+id/et_Phone"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="手机号" />
+
+    <RelativeLayout
+        android:id="@+id/rl_code"
+        android:layout_below="@id/et_Phone"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="验证码" />
+
+        <TextView
+            android:id="@+id/tv_fetch_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginRight="16dp"
+            android:text="获取验证码"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_below="@id/rl_code"
+        android:id="@+id/btn_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:text="验证" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="#222"
+        android:layout_above="@+id/btn_user_protocal"
+        android:text="轻触上面验证按钮,即表示您同意"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/btn_user_protocal"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="#2244ff"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/user_protocol"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
