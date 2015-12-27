@@ -264,6 +264,7 @@ parameters:
 ```
 action=save_student_same
 student_name=XYZ
+token=abaoeuntaheu
 ```
 
 result:
