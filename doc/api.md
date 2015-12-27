@@ -249,7 +249,35 @@ result:
 ```
 {
     "verified": "false",
-    "reason": "SMS not match'
+    "reason": "SMS not match"
+}
+```
+
+### Save child name
+
+```
+POST /api/v1/parent/(\d+)/
+```
+
+parameters:
+
+```
+action=save_student_same
+student_name=XYZ
+```
+
+result:
+
+```
+{
+    "done": "true"
+}
+```
+
+```
+{
+    "done": "false",
+    "reason": "Student name already exits."
 }
 ```
 
