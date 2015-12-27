@@ -6,9 +6,6 @@ from rest_framework import serializers, viewsets
 
 from app import models
 
-def index(request):
-    return render(request, 'index.html')
-
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Price
