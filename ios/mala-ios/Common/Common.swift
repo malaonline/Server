@@ -27,6 +27,8 @@ let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
 // MARK: - Device
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
+// ScreenHeight Without StatusBar,NavigationBar,TabBar
+let MalaContentHeight = UIScreen.mainScreen().bounds.size.height-20-44-48
 
 
 // MARK: - Common TextAttribute
@@ -35,3 +37,18 @@ public func commonTextStyle() -> [String: AnyObject]? {
     AttributeDictionary[NSForegroundColorAttributeName] = UIColor.whiteColor()
     return AttributeDictionary.copy() as? [String : AnyObject]
 }
+
+
+// MARK: - TitleFilter
+let MalaSubject = [
+    1:"语文",
+    2:"数学",
+    3:"英语",
+    4:"物理",
+    5:"化学",
+    6:"生物",
+    7:"历史",
+    8:"地理",
+    9:"政治"
+]
+

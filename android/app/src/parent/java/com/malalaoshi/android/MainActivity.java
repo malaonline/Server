@@ -15,8 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.view.MotionEvent;
 
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterDialogFragment;
@@ -25,6 +25,7 @@ import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
+import com.malalaoshi.android.util.ImageCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+        ButterKnife.bind(this);
 
         FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList), TeacherListFragment.class.getName());
-        ButterKnife.bind(this);
     }
 
     private void init() {
@@ -194,11 +195,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        ImageCache.getInstance(this).flush();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mNetworkStateReceiver != null) {
             unregisterReceiver(mNetworkStateReceiver);
         }
+        ImageCache.getInstance(this).close();
     }
-
 }

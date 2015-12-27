@@ -12,10 +12,14 @@ class GradeModel: BaseObjectModel {
 
     // MARK: - Variable
     var subset: [GradeModel]? = []
-    var subjects: [Int] = []
+    var subjects: [NSNumber] = []
     
     
     // MARK: - Constructed
+    override init() {
+        super.init()
+    }
+    
     override init(dict: [String: AnyObject]) {
         super.init(dict: dict)
         setValuesForKeysWithDictionary(dict)
@@ -30,10 +34,12 @@ class GradeModel: BaseObjectModel {
     override func setValue(value: AnyObject?, forKey key: String) {
         if key == "subset" {
             if let dicts = value as? [[String: AnyObject]] {
+                var tempDict: [GradeModel]? = []
                 for dict in dicts {
                     let set = GradeModel(dict: dict)
-                    subset?.append(set)
+                    tempDict?.append(set)
                 }
+                subset = tempDict
             }
             return
         }

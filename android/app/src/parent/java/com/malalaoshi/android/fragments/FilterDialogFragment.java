@@ -1,7 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
+import com.malalaoshi.android.base.BaseDialogFragment;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 
@@ -45,7 +44,7 @@ import butterknife.OnItemClick;
 /**
  * Created by liumengjun on 12/14/15.
  */
-public class FilterDialogFragment extends DialogFragment {
+public class FilterDialogFragment extends BaseDialogFragment {
     private static final String TAG = FilterDialogFragment.class.getSimpleName();
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
@@ -199,13 +198,6 @@ public class FilterDialogFragment extends DialogFragment {
             item.put("name", tag.getName());
             mTagsList.add(item);
         }
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
     }
 
     @Override

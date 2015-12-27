@@ -85,9 +85,13 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-teacher/Alamofire.framework"
+  install_framework "Pods-teacher/Kingfisher.framework"
+  install_framework "Pods-teacher/SnapKit.framework"
   install_framework "Pods-teacher/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-teacher/Alamofire.framework"
+  install_framework "Pods-teacher/Kingfisher.framework"
+  install_framework "Pods-teacher/SnapKit.framework"
   install_framework "Pods-teacher/SwiftyJSON.framework"
 fi
