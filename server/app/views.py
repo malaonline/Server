@@ -13,7 +13,7 @@ class Policy(View):
     def get(self, request):
         policy = get_object_or_404(models.Policy, pk=1)
         data = dict(result=policy.content,
-                updated_at=policy.updated_at.timestamp())
+                updated_at=int(policy.updated_at.timestamp()))
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class PriceSerializer(serializers.ModelSerializer):
