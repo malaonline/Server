@@ -281,3 +281,16 @@ result:
 }
 ```
 
+
+### Get user policy
+
+```
+GET /api/v1/policy
+```
+
+```
+{
+    "result": "<html>abc...nhnhsh</html>",
+    "updated_at": 13450887
+}
+```
