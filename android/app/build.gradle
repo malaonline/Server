@@ -26,7 +26,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        def buildID = System.getenv("BUILD_NUMBER") + "_" + System.getenv("JOB_NAME")
+        versionName "1.0" + (buildID == null ? "" : "." + buildID)
         buildConfigField("String", "API_HOST", "\"" + LOCAL_SERVER + "\"")
     }
     buildTypes {

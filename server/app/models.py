@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 class BaseModel(models.Model):
     class Meta:
         abstract = True
+
+class Policy(BaseModel):
+    content = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Region(BaseModel):
     '''
