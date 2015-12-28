@@ -150,6 +150,8 @@ AWS_S3_MAX_AGE_SECONDS_STATIC = 60*60*24*365  # 1 year.
 AWS_S3_PUBLIC_URL_STATIC = ''
 AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
+YUNPIAN_API_KEY = 'f79c************************1569' # yunpian.com sms api key
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -7,12 +7,11 @@ from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from rest_framework import serializers, viewsets
 import random
-import urllib
-import httplib2
+import requests
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.utils import timezone
-from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 from app import models
 
@@ -28,13 +27,12 @@ class Policy(View):
 @csrf_exempt
 def Sms(request):
     def callSendSms(phone, msg):
-        apikey = 'test_key' # TODO: get apikey by global settings
+        apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
         params = {'apikey': apikey, 'mobile': phone, 'text': msg}
         print (params)
         url = "http://yunpian.com/v1/sms/send.json"
         headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
-        httpClient = httplib2.Http()
-        return httpClient.request(url, "POST", headers=headers, body=urllib.parse.urlencode(params))
+        return requests.post(url, headers=headers, data=params)
 
     def callSendSmsCheckcode(phone, checkcode):
         SITE_NAME = '麻辣老师'
@@ -43,18 +41,13 @@ def Sms(request):
 
     def generateCheckcode(phone):
         # 生成，并保存到数据库或缓存，10分钟后过期
-        try:
-            obj = models.Checkcode.objects.get(phone=phone)
+        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': random.randrange(1000, 9999)})
+        if not created:
             now = timezone.now()
-            delta = now-obj.updated_at
+            delta = now - obj.updated_at
             if delta > datetime.timedelta(minutes=10):
                 obj.checkcode = random.randrange(1000, 9999)
-                # obj.updated_at = now;
                 obj.save()
-        except ObjectDoesNotExist:
-            cc = random.randrange(1000, 9999)
-            obj = models.Checkcode.objects.create(phone=phone, checkcode=cc)
-            obj.save()
         return obj.checkcode
 
 
@@ -66,15 +59,17 @@ def Sms(request):
         phone = request.POST.get('phone')
         if not phone:
             return JsonResponse({'sent': False, 'reason': 'phone is required'})
-        # generate code
-        checkcode = generateCheckcode(phone)
-        print ('验证码：' + str(checkcode))
-        # call send sms api
-        resp, content = callSendSmsCheckcode(phone, checkcode)
-        print (resp)
-        print ( '-' * 20 )
-        print (content)
-        return JsonResponse({'sent': True})
+        try:
+            # generate code
+            checkcode = generateCheckcode(phone)
+            print ('验证码：' + str(checkcode))
+            # call send sms api
+            r = callSendSmsCheckcode(phone, checkcode)
+            print (r)
+            return JsonResponse({'sent': True})
+        except Exception as err:  
+            print (err)
+            return JsonResponse({'sent': False, 'reason': 'Unknown'})
     if action == 'verify':
         return HttpResponse('TODO: please wait')
     return HttpResponse("Not supported request.", status=403)
