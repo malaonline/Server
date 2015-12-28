@@ -21,13 +21,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.entity.GTag;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
-import com.malalaoshi.android.entity.Tag;
+import com.malalaoshi.android.result.TagListResult;
+import com.malalaoshi.android.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -111,7 +114,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private void setData() {
         setSubjectsList();
         setGradesList();
-        setTagsList();
+        setTagsList(MalaApplication.getInstance().getTags());
     }
 
     private void setSubjectsList() {
@@ -195,12 +198,16 @@ public class FilterDialogFragment extends BaseDialogFragment {
         }
     }
 
-    private void setTagsList() {
-        for (int i = 0; i < Tag.tags.size(); i++) {
-            Tag tag = Tag.tags.get(i);
+    private void setTagsList(List<GTag> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return;
+        }
+        mTagsList.clear();
+        for (int i = 0; i < tags.size(); i++) {
+            GTag obj = tags.get(i);
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("id", tag.getId());
-            item.put("name", tag.getName());
+            item.put("id", obj.getId());
+            item.put("name", obj.getName());
             mTagsList.add(item);
         }
     }
@@ -239,6 +246,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
                 mSubGrages3List, R.layout.abc_list_item_singlechoice,
                 new String[]{"name"},
                 new int[]{R.id.text1}));
+        getTagsList();
     }
 
     @Deprecated
@@ -346,22 +354,14 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private void getTagsList() {
         String url = MalaApplication.getInstance().getMalaHost() + API_TAGS_URL;
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+        StringRequest jsonRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        mTagsList.clear();
-                        try {
-                            JSONArray results = response.getJSONArray("results");
-                            for (int i = 0; i < results.length(); i++) {
-                                JSONObject obj = results.getJSONObject(i);
-                                Map<String, Object> item = new HashMap<String, Object>();
-                                item.put("id", obj.getLong("id"));
-                                item.put("name", obj.getString("name"));
-                                mTagsList.add(item);
-                            }
-                        }catch (Exception e) {
-                        }
+                    public void onResponse(String response) {
+                        TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
+                        List<GTag> tags = tagsResult.getResults();
+                        MalaApplication.getInstance().setTags(tags);
+                        setTagsList(tags);
                         ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
