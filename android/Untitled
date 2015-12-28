@@ -41,7 +41,8 @@ import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 
-public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
+public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+//public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
@@ -108,15 +109,17 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
             recyclerView.setOnTouchListener(new View.OnTouchListener(){
                 @Override
                 public boolean onTouch(View v, MotionEvent event){
-                    System.out.println("内.......xian...........................");
+                    System.out.println(".......xian...........................");
 //                    if(event.getAction() == 2){
 //                        mRefreshLayout.beginRefreshing();
 //                    }
 //                    mRefreshLayout.onTouchEvent(event);
+                    System.out.println(v.getParent());
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
                     return false;
                 }
             });
-            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
+//            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
 //        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
 //        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
@@ -168,7 +171,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         mListener = null;
     }
 
-    //    @Override
+//    @Override
     public void onRefresh(){
         if(!adapter.loading){
 //            teachersList.clear();
@@ -203,7 +206,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
 
-    @Override
+//    @Override
     public void onLoadMore(){
         if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
             adapter.loading = true;
@@ -228,8 +231,12 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout){
-        System.out.println("内..............................refresh...");
-
+        System.out.println("..............................refresh...");
+        System.out.println("..............................refresh...");
+        System.out.println("..............................refresh...");
+        System.out.println("..............................refresh...");
+//        setRefreshing(false);
+//        if(1 == 1)return;
         if(!adapter.loading){
 //            teachersList.clear();
             next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
@@ -264,6 +271,11 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout){
+        System.out.println("..............................load more");
+        System.out.println("..............................load more");
+        System.out.println("..............................load more");
+
+        mRefreshLayout.endLoadingMore();
         return true;
     }
 
@@ -283,6 +295,8 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
     public void setRefreshing(boolean status){
+        System.out.println("...............................jieShu");
+        System.out.println("...............................jieShu");
         System.out.println("...............................jieShu");
 //        refreshLayout.setRefreshing(status);
         mRefreshLayout.endRefreshing();

@@ -31,4 +31,11 @@ public class RecyclerViewLoadMoreListener extends RecyclerView.OnScrollListener{
         void onLoadMore();
     }
 
+    @Override
+    public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+        System.out.println("..HHHHHHHHHHHHHHHHHH");
+        System.out.println(dx + "   ,   " + dy);
+        System.out.println("..HHHHHHHHHHHHHHHHHH");
+    }
+
 }

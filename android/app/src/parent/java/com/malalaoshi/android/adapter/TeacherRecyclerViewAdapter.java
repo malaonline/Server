@@ -37,7 +37,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     private static final int TYPE_LOAD_MORE = 1;
     private static final int TYPE_NONE_VALUE = 2;
 
-    public static final int TEACHER_LIST_PAGE_SIZE = 20;
+    public static final int TEACHER_LIST_PAGE_SIZE = 4;
 
     private final TeacherListFragment.OnListFragmentInteractionListener mListener;
 
