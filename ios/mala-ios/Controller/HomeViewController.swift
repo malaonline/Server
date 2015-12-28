@@ -12,6 +12,7 @@ private let HomeViewCellReusedId = "HomeViewCellReusedId"
 
 class HomeViewController: UICollectionViewController, DropViewDelegate {
     
+    private lazy var teachers: [TeacherModel]? = nil
     private lazy var dropView: DropView = {
         let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
         let dropView = DropView(frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight), viewController: self, contentView: filterView)
@@ -23,8 +24,10 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadTeachers()
+        
         // Register Cell Class
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
+        self.collectionView!.registerClass(TeacherCollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
         
         setupUserInterface()
         dropView.delegate = self
@@ -58,14 +61,15 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     // MARK: - DataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return self.teachers?.count ?? 0
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HomeViewCellReusedId, forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HomeViewCellReusedId, forIndexPath: indexPath) as! TeacherCollectionViewCell
         
         // Configure the cell
-        cell.backgroundColor = UIColor.lightGrayColor()
+        //cell.backgroundColor = UIColor.lightGrayColor()
+        cell.model = teachers![indexPath.row]
         
         return cell
     }
@@ -97,4 +101,28 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
     }
 
+    private func loadTeachers() {
+        NetworkTool.sharedTools.loadTeachers { result, error in
+            // Error
+            if error != nil {
+                debugPrint("HomeViewController - loadTeachers Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("HomeViewController - loadTeachers Format Error")
+                return
+            }
+            
+            self.teachers = []
+            for object in ResultModel(dict: dict).results! {
+                if let dict = object as? [String: AnyObject] {
+                    self.teachers!.append(TeacherModel(dict: dict))
+                    self.collectionView?.reloadData()
+                }
+            }
+        }
+    }
+    
 }
