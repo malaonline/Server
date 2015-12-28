@@ -13,7 +13,7 @@ let MalaAppearanceTintColor = UIColor.redColor()
 let MalaAppearanceTextColor = UIColor.whiteColor()
 
 
-// MARK: - Common String 
+// MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_Profile = "个人"
 
@@ -52,3 +52,52 @@ let MalaSubject = [
     9:"政治"
 ]
 
+// MARK: - Grades
+class MalaGrades {
+
+    // MARK: - Variable
+    private lazy var grades: [GradeModel] = []
+    // Singleton
+    private init() {
+        let tempArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
+
+        for object in tempArray! {
+            if let dict = object as? [String: AnyObject] {
+                let set = GradeModel(dict: dict)
+                grades.append(set)
+            }
+        }
+    }
+    static let instance = MalaGrades()
+
+    var data: [GradeModel] {
+        return grades
+    }
+}
+
+// MARK: - TeacherTags
+class MalaTeacherTags {
+
+    // MARK: - Variable
+    private lazy var tags: [GradeModel] = []
+    private lazy var tagsDict: [Int: String] = [:]
+    // Singleton
+    private init() {
+
+    }
+    static let instance = MalaTeacherTags()
+
+    func importData(tags: [GradeModel]?) {
+        if tags == nil {
+            return
+        }
+        for tag in tags! {
+            tagsDict[tag.id] = tag.name
+        }
+    }
+    var data: [Int: String] {
+        get {
+            return tagsDict
+        }
+    }
+}
