@@ -63,8 +63,8 @@ extension NetworkTool {
     ///  Request for TeacherList
     ///
     ///  - parameter finished: Closure for Finished
-    func loadTeachers(finished: RequestCallBack) {
-        request(.GET, URLString: baseUrl+teacherList, parameters: nil, finished: finished)
+    func loadTeachers(parameters: [String: AnyObject]?, finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+teacherList, parameters: parameters, finished: finished)
     }
     
 }
