@@ -20,42 +20,48 @@ class Policy(View):
                 updated_at=int(policy.updated_at.timestamp()))
         return HttpResponse(json.dumps(data), content_type='application/json')
 
-def callSendSms(phoneNo, msg):
-    apikey = 'test_key'
-    params = {'apikey': apikey, 'mobile': phoneNo, 'text': msg}
-    print (params)
-    url = "http://yunpian.com/v1/sms/send.json"
-    headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
-    httpClient = httplib2.Http()
-    return httpClient.request(url, "POST", headers=headers, body=urllib.parse.urlencode(params))
-
-def callSendSmsCheckcode(phoneNo, checkCode):
-    SITE_NAME = '麻辣老师'
-    msg = "【"+SITE_NAME+"】您的验证码是"+str(checkCode)
-    return callSendSms(phoneNo, msg)
-
-def generateCheckcode(phoneNo):
-    # TODO: 生成，并保存到数据库或缓存，10分钟后过期
-    return random.randrange(1000, 9999)
-
 # client 提交post 到 django出现403错误
 @csrf_exempt
-def sendSmsCheckcode(request):
-    if request.method != 'POST':
-        return JsonResponse({'success': False, 'Error': 'Must use POST method'})
+def Sms(request):
+    def callSendSms(phone, msg):
+        apikey = 'test_key' # TODO: get apikey by global settings
+        params = {'apikey': apikey, 'mobile': phone, 'text': msg}
+        print (params)
+        url = "http://yunpian.com/v1/sms/send.json"
+        headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
+        httpClient = httplib2.Http()
+        return httpClient.request(url, "POST", headers=headers, body=urllib.parse.urlencode(params))
 
-    phoneNo = request.POST.get('phoneNo')
-    if not phoneNo:
-        return JsonResponse({'success': False, 'Error': 'phoneNo is required'})
-    # generate code
-    checkCode = generateCheckcode(phoneNo)
-    print ('验证码：' + str(checkCode))
-    # call send sms api
-    resp, content = callSendSmsCheckcode(phoneNo, checkCode)
-    print (resp)
-    print ( '-' * 20 )
-    print (content)
-    return JsonResponse({'success': True})
+    def callSendSmsCheckcode(phone, checkCode):
+        SITE_NAME = '麻辣老师'
+        msg = "【"+SITE_NAME+"】您的验证码是"+str(checkCode)
+        return callSendSms(phone, msg)
+
+    def generateCheckcode(phone):
+        # TODO: 生成，并保存到数据库或缓存，10分钟后过期
+        return random.randrange(1000, 9999)
+
+
+    if request.method != 'POST':
+        return HttpResponse('Must use POST method', status=403)
+
+    action = request.POST.get('action')
+    if action == 'send':
+        phone = request.POST.get('phone')
+        if not phone:
+            return JsonResponse({'sent': False, 'reason': 'phone is required'})
+        # generate code
+        checkCode = generateCheckcode(phone)
+        print ('验证码：' + str(checkCode))
+        # call send sms api
+        resp, content = callSendSmsCheckcode(phone, checkCode)
+        print (resp)
+        print ( '-' * 20 )
+        print (content)
+        return JsonResponse({'sent': True})
+    if action == 'verify':
+        return HttpResponse('TODO: please wait')
+    return HttpResponse("Not supported request.", status=403)
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
