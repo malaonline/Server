@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.malalaoshi.android.entity.GTag;
+
+import java.util.List;
 
 /**
  * Created by liumengjun on 11/16/15.
@@ -22,7 +25,7 @@ public class MalaApplication extends Application {
     private String phoneNo;
     private boolean isLogin;
     private String role;
-
+    private List<GTag> mTags;
     // 运行信息
     private boolean isNetworkOk;
 
@@ -117,6 +120,14 @@ public class MalaApplication extends Application {
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putString("role", role).commit();
         this.role = role;
+    }
+
+    public List<GTag> getTags() {
+        return mTags;
+    }
+
+    public void setTags(List<GTag> tags) {
+        this.mTags = tags;
     }
 
     public boolean isNetworkOk() {
