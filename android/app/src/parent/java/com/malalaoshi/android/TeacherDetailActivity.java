@@ -30,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.malalaoshi.android.entity.GCoursePrice;
 import com.malalaoshi.android.entity.GGrade;
+import com.malalaoshi.android.entity.GHighScore;
 import com.malalaoshi.android.entity.GLevel;
 import com.malalaoshi.android.entity.GMemberService;
 import com.malalaoshi.android.entity.GSubject;
@@ -44,12 +45,16 @@ import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zl on 15/11/30.
  */
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem {
+    private static final String TAG = "TeacherDetailActivity";
+
     private static final String EXTRA_TEACHER_ID = "teacherId";
     //
     private String mTeacherId;
@@ -213,7 +218,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void loadTags() {
         //String url = hostUrl +TAGS_PATH_V1;
-        String url = hostUrl +TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl +TAGS_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -239,7 +244,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void loadMemeberServices() {
         //String url = hostUrl +MEMBERSERVICES_PATH_V1;
-        String url = hostUrl +TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl + MEMBERSERVICES_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -266,7 +271,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             StringBuilder stringBuilder = new StringBuilder();
             Long[] tagId = mTeacher.getTags();
             if (tagId!=null){
-                for (int i=0;tagId!=null&&i<tagId.length;i++){
+                for (int i=0;i<tagId.length;i++){
                     GTag tag = GTag.findTagById(tagId[i],mTags);
                     if (tag!=null){
                         stringBuilder.append(tag.getName() + spot);
@@ -304,11 +309,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             }
 
             //性别
-            mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            string = teacher.getAvatar();
+            mImageLoader.get(string!=null?string:"", ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             string = teacher.getGender();
-            if (string!=null&&teacher.getGender().equals("m")){
+            if (string!=null&&string.equals("m")){
                 mTeacherGender.setImageDrawable(getResources().getDrawable(R.drawable.user_detail_header_bg));
-            }else if (string!=null&&teacher.getGender().equals("w")){
+            }else if (string!=null&&string.equals("w")){
                 mTeacherGender.setImageDrawable(getResources().getDrawable(R.drawable.user_detail_header_bg));
             }else{
                 mTeacherGender.setVisibility(View.GONE);
@@ -339,16 +345,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
-            if (mTags!=null){
+           if (mTags!=null){
                 updateUITags();
             }
 
             //提分榜
-            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this,mTeacher.getHighscore_set());
+            List<GHighScore> highScores = mTeacher.getHighscore_set();
+            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this,highScores!=null?highScores:(new ArrayList<GHighScore>()));
             mHighScoreList.setAdapter(highScoreAdapter);
             setListViewHeightBasedOnChildren(mHighScoreList);
             //个人相册
-            loadGallery(mTeacher.getGallery());
+             loadGallery(mTeacher.getGallery());
             //特殊成就
             StringBuilder strCertificate = new StringBuilder();
             if (teacher.getCertificate()!=null){
@@ -361,7 +368,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             mCertificate.setText(strCertificate.toString());
 
             //教龄级别
-            Long age = teacher.getTeaching_age();
+           Long age = teacher.getTeaching_age();
             GLevel level = teacher.getLevel();
             if (age!=null){
                 if (level!=null&&level.getName()!=null){
@@ -380,7 +387,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
             //价格表
             List<GCoursePrice> coursePrices = teacher.getPrices();
-            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this,coursePrices);
+            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this,coursePrices!=null?coursePrices:(new ArrayList<GCoursePrice>()));
             //添加按钮监听事件
             coursePriceAdapter.setOnClickItem(this);
             mCoursePriceList.setAdapter(coursePriceAdapter);
