@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/v1/token-auth/', authviews.obtain_auth_token),
     url(r'^api/v1/policy', views.Policy.as_view(), name='policy'),
-    url(r'^api/v1/sms', views.Sms, name='sms'),
+    url(r'^api/v1/sms', views.Sms.as_view(), name='sms'),
     url(r'^api/v1/', include(router.urls)),
 ]
