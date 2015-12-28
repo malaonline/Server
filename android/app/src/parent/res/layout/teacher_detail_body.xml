@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/parent_teacher_detail_info_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:orientation="horizontal"
+        android:background="?attr/selectableItemBackgroundGeneral">
+        <TextView
+            android:id="@+id/parent_teacher_detail_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="李想"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginLeft="96dp"
+            />
+        <ImageView
+            android:id="@+id/parent_teacher_detail_gender_iv"
+            android:src="@drawable/ic_close"
+            android:layout_toRightOf="@id/parent_teacher_detail_name_tv"
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
 
+    </RelativeLayout>
+    <View style="@style/AppWidget.ShadowGap" />
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_cer"
+        android:id="@+id/parent_teacher_detail_subject_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -16,44 +43,46 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="认证信息"
+            android:text="教授科目"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/parent_teacher_detail_cer2"
+            android:id="@+id/parent_teacher_detail_subject_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:singleLine="true"
-            tools:text="身份证 教师证 学历证" />
+            tools:text="小升初数学 | 初中数学 | 奥数"  />
 
     </LinearLayout>
 
     <View style="@style/AppWidget.DeepLine" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_"
+        android:id="@+id/parent_teacher_detail_tag_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:orientation="vertical"
+        android:visibility="gone"
         android:background="?attr/selectableItemBackgroundGeneral">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="教学成果"
+            android:text="风格标签"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/parent_teacher_detail_tag_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="30年前,当我第一次当乐老师"
+            android:text="幽默 | 更孩子做朋友"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:singleLine="true" />
@@ -63,7 +92,7 @@
     <View style="@style/AppWidget.DeepLine" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_history"
+        android:id="@+id/parent_teacher_detail_highscore_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -73,53 +102,95 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="过往经历"
+            android:text="提分榜"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
-        <TextView
+        <ListView
+            android:id="@+id/parent_teacher_detail_highscore_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="2008年6月至2015年8月"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="14sp"
-            android:singleLine="true" />
+            android:listSelector="#00000000"
+            >
+        </ListView>
 
     </LinearLayout>
 
     <View style="@style/AppWidget.DeepLine" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_go_home_area"
+        android:id="@+id/parent_teacher_detail_gallery_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:orientation="vertical"
         android:background="?attr/selectableItemBackgroundGeneral">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="上门区域"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="16sp" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人相册"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/parent_teacher_detail_gallery_more_tv"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="更多"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp"
+                android:singleLine="true" />
+        </LinearLayout>
+        <com.malalaoshi.android.view.FlowLayout
+            android:id="@+id/parent_teacher_detail_gallery_fl"
+            android:layout_width="match_parent"
+            android:layout_height="79dp" >
 
-        <TextView
+            <ImageView
+                android:id="@+id/parent_teacher_detail_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#ff00ff"
+                android:visibility="gone" />
+        </com.malalaoshi.android.view.FlowLayout>
+        <!--<LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="海淀区 | 朝阳区 | 昌平区"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="14sp"
-            android:singleLine="true" />
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@color/blue_light"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="80dp" />
+            <ImageView
+                android:background="@color/blue_light"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="80dp" />
+            <ImageView
+                android:background="@color/blue_light"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="80dp" />
+        </LinearLayout>-->
 
     </LinearLayout>
 
     <View style="@style/AppWidget.ShadowGap" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_comment"
+        android:id="@+id/parent_teacher_detail_certificate_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -129,15 +200,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="教师评价"
+            android:text="特殊成就"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/parent_teacher_detail_certificate_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="这个老师不错,讲课很好"
+            android:text="特级教师证书 一级教师证书 二级教师证书"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             android:singleLine="true" />
@@ -147,23 +219,121 @@
     <View style="@style/AppWidget.ShadowGap" />
 
     <TextView
-        android:id="@+id/about_btn_open_source_license"
+        android:id="@+id/parent_teacher_detail_training_address_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="照片展示"
+        android:text="教学环境"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
         android:background="?attr/selectableItemBackgroundGeneral" />
 
     <View style="@style/AppWidget.ShadowGap" />
 
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_memberservice_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="会员服务"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/parent_teacher_detail_memberservice_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="问题答疑 | 仔细陪读 | 学习报告 | 心理辅导"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.ShadowGap" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_level_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="教龄 | 级别"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/parent_teacher_detail_level_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="20年 | 麻辣合伙人"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.ShadowGap" />
+
+    <LinearLayout
+        android:id="@+id/parent_teacher_detail_pricelist_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundGeneral">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格表"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/parent_teacher_detail_scholarship_tv"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="新生奖学金已抵扣400元"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp"
+                android:singleLine="true" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/parent_teacher_detail_pricelist_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="#00000000"></ListView>
+
+    </LinearLayout>
+
+    <View style="@style/AppWidget.ShadowGap" />
     <TextView
+        android:id="@+id/parent_teacher_signup_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:padding="8dp"
-        android:text="马上约课"
+        android:text="马上报名"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp"
         android:gravity="center" />
