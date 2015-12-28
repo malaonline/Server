@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('phone', models.CharField(unique=True, max_length=20)),
                 ('checkcode', models.CharField(max_length=30)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
             ],
             options={
                 'abstract': False,

@@ -46,10 +46,10 @@ def Sms(request):
         try:
             obj = models.Checkcode.objects.get(phone=phone)
             now = timezone.now()
-            delta = now-obj.created_at
+            delta = now-obj.updated_at
             if delta > datetime.timedelta(minutes=10):
                 obj.checkcode = random.randrange(1000, 9999)
-                obj.created_at = now;
+                # obj.updated_at = now;
                 obj.save()
         except ObjectDoesNotExist:
             cc = random.randrange(1000, 9999)
