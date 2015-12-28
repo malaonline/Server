@@ -82,6 +82,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     func dropViewDidTapButtonForContentView(contentView: UIView) {
         print("Tap Condition -- \((contentView as! TeacherFilterView).filterObject)")
+        dropView.dismiss()
     }
     
     

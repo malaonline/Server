@@ -1,4 +1,6 @@
 from django.conf.urls import include, url
+from django.views.generic import TemplateView
+
 from rest_framework import routers
 from rest_framework.authtoken import views as authviews
 
@@ -20,9 +22,10 @@ router.register(r'memberservices', views.MemberserviceViewSet)
 router.register(r'weeklytimeslots', views.WeeklyTimeSlotViewSet)
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', TemplateView.as_view(template_name='app/index.html')),
     url(r'^send/sms/checkcode/$', views.sendSmsCheckcode, name='sendSmsCheckcode'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/v1/token-auth/', authviews.obtain_auth_token),
+    url(r'^api/v1/policy', views.Policy.as_view(), name='policy'),
     url(r'^api/v1/', include(router.urls)),
 ]

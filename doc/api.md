@@ -193,3 +193,105 @@ GET /api/v1/memberservices/
 }
 
 ```
+
+### Sending SMS
+
+```
+POST /api/v1/sms
+```
+
+parameters:
+
+```
+action=send
+phone=150123456
+```
+
+result:
+
+```
+{
+    "sent": "true"
+}
+```
+
+```
+{
+    "sent": "false",
+    "reason": "Exceed max retry.'
+}
+```
+
+### Verifying SMS
+
+```
+POST /api/v1/sms
+```
+
+parameters:
+
+```
+action=verify
+phone=150123456
+code=1234
+```
+
+result:
+
+```
+{
+    "verified": "true",
+    "first_login": "true",
+    "token": "189841301....7438741938"
+}
+```
+
+```
+{
+    "verified": "false",
+    "reason": "SMS not match"
+}
+```
+
+### Save child name
+
+```
+POST /api/v1/parent/(\d+)/
+```
+
+parameters:
+
+```
+action=save_student_same
+student_name=XYZ
+token=abaoeuntaheu
+```
+
+result:
+
+```
+{
+    "done": "true"
+}
+```
+
+```
+{
+    "done": "false",
+    "reason": "Student name already exits."
+}
+```
+
+
+### Get user policy
+
+```
+GET /api/v1/policy
+```
+
+```
+{
+    "result": "<html>abc...nhnhsh</html>",
+    "updated_at": 13450887
+}
+```

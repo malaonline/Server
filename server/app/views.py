@@ -1,4 +1,7 @@
+import json
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
@@ -10,8 +13,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from app import models
 
-def index(request):
-    return render(request, 'index.html')
+class Policy(View):
+    def get(self, request):
+        policy = get_object_or_404(models.Policy, pk=1)
+        data = dict(result=policy.content,
+                updated_at=int(policy.updated_at.timestamp()))
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 def callSendSms(phoneNo, msg):
     apikey = 'test_key'
