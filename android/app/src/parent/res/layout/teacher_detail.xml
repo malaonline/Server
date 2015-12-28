@@ -41,19 +41,33 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
         <include layout="@layout/teacher_detail_body" />
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/parent_teacher_detail_fab"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+    <com.malalaoshi.android.view.CircleImageView
+        android:id="@+id/parent_teacher_detail_head_portrait"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_info_black_24dp"
+        app:border_width="2dp"
+        app:border_color="@color/color_accent"
         android:layout_margin="16dp"
         app:layout_anchor="@+id/parent_teacher_detail_appbar"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|left|end"
+        app:borderWidth="0dp"
+        app:backgroundTint="@color/blue_light"
+        />
+    <!-- <android.support.design.widget.FloatingActionButton
+         android:id="@+id/parent_teacher_detail_fab"
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:layout_margin="16dp"
+         app:layout_anchor="@+id/parent_teacher_detail_appbar"
+         app:layout_anchorGravity="bottom|right|end" />-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/parent_teacher_detail_toolbar"

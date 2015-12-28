@@ -203,7 +203,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @OnClick(R.id.teacher_list_item_body)
         protected void onItemClick(){
-            TeacherDetailActivity.open(this.view.getContext(), null);
+            TeacherDetailActivity.open(this.view.getContext(), teacher!=null?teacher.getId():null);
         }
     }
 }
