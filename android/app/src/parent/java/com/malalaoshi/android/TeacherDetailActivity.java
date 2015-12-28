@@ -28,8 +28,10 @@ import com.malalaoshi.android.base.StatusBarActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import com.malalaoshi.android.entity.GCoursePrice;
 import com.malalaoshi.android.entity.GGrade;
+import com.malalaoshi.android.entity.GHighScore;
 import com.malalaoshi.android.entity.GLevel;
 import com.malalaoshi.android.entity.GMemberService;
 import com.malalaoshi.android.entity.GSubject;
@@ -44,12 +46,16 @@ import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zl on 15/11/30.
  */
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem {
+    private static final String TAG = "TeacherDetailActivity";
+
     private static final String EXTRA_TEACHER_ID = "teacherId";
     //
     private String mTeacherId;
@@ -135,7 +141,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected TextView mSignUp;
 
     public static void open(Context context, String teacherId) {
-        if (teacherId!=null){
+        if (teacherId != null) {
             Intent intent = new Intent(context, TeacherDetailActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(EXTRA_TEACHER_ID, teacherId);
@@ -152,10 +158,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this), 0, 0);
-        }else{
-            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this)/2, 0, 5);
+        } else {
+            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this) / 2, 0, 5);
         }
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
@@ -175,11 +181,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         Intent intent = getIntent();
         mTeacherId = intent.getStringExtra(EXTRA_TEACHER_ID);
         requestQueue = MalaApplication.getHttpRequestQueue();
-        hostUrl =  MalaApplication.getInstance().getMalaHost();
+        hostUrl = MalaApplication.getInstance().getMalaHost();
         mTags = MalaApplication.getInstance().getTags();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         //没有标签时去下载标签
-        if (mTags==null){
+        if (mTags == null) {
             loadTags();
         }
         loadTeacherInfo();
@@ -188,7 +194,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
 
     private void loadTeacherInfo() {
-        String url = hostUrl +TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -213,7 +219,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void loadTags() {
         //String url = hostUrl +TAGS_PATH_V1;
-        String url = hostUrl +TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl + TAGS_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -239,13 +245,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void loadMemeberServices() {
         //String url = hostUrl +MEMBERSERVICES_PATH_V1;
-        String url = hostUrl +TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl + MEMBERSERVICES_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Type listType = new TypeToken<ArrayList<GMemberService>>(){}.getType();
                 //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
-                 mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
+                mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
                 updateUIServices(mMemberServicesResult.getResults());
 
             }
@@ -261,18 +267,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void updateUITags() {
-        if (mTags!=null&&mTeacher!=null){
+        if (mTags != null && mTeacher != null) {
             String spot = " | ";
             StringBuilder stringBuilder = new StringBuilder();
             Long[] tagId = mTeacher.getTags();
-            if (tagId!=null){
-                for (int i=0;tagId!=null&&i<tagId.length;i++){
-                    GTag tag = GTag.findTagById(tagId[i],mTags);
-                    if (tag!=null){
+            if (tagId != null) {
+                for (int i = 0; i < tagId.length; i++) {
+                    GTag tag = GTag.findTagById(tagId[i], mTags);
+                    if (tag != null) {
                         stringBuilder.append(tag.getName() + spot);
                     }
                 }
-                stringBuilder.delete(stringBuilder.lastIndexOf(spot),stringBuilder.length()-1);
+                stringBuilder.delete(stringBuilder.lastIndexOf(spot), stringBuilder.length() - 1);
                 mTagLayout.setVisibility(View.VISIBLE);
                 mTeachingTags.setText(stringBuilder.toString());
             }
@@ -282,78 +288,80 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void updateUIServices(List<GMemberService> mMemberServices) {
-        if (mMemberServices!=null&&mMemberServices.size()>0){
+        if (mMemberServices != null && mMemberServices.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();
             String spot = " | ";
-            for(GMemberService service:mMemberServices){
-                stringBuilder.append(service.getName()+ spot);
+            for (GMemberService service : mMemberServices) {
+                stringBuilder.append(service.getName() + spot);
             }
-            stringBuilder.delete(stringBuilder.lastIndexOf(spot),stringBuilder.length()-1);
+            stringBuilder.delete(stringBuilder.lastIndexOf(spot), stringBuilder.length() - 1);
             mMemberServiceLayout.setVisibility(View.VISIBLE);
             mMemberServiceTv.setText(stringBuilder.toString());
         }
     }
 
-    private void updateUI(GTeacher teacher){
-        if (teacher!=null){
+    private void updateUI(GTeacher teacher) {
+        if (teacher != null) {
             String string;
             //姓名
             string = teacher.getName();
-            if (string!=null){
+            if (string != null) {
                 mTeacherName.setText(string);
             }
 
             //性别
-            mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            string = teacher.getAvatar();
+            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             string = teacher.getGender();
-            if (string!=null&&teacher.getGender().equals("m")){
+            if (string != null && string.equals("m")) {
                 mTeacherGender.setImageDrawable(getResources().getDrawable(R.drawable.user_detail_header_bg));
-            }else if (string!=null&&teacher.getGender().equals("w")){
+            } else if (string != null && string.equals("w")) {
                 mTeacherGender.setImageDrawable(getResources().getDrawable(R.drawable.user_detail_header_bg));
-            }else{
+            } else {
                 mTeacherGender.setVisibility(View.GONE);
             }
 
             //教学科目
-            String spot = " | " ;
+            String spot = " | ";
             StringBuilder strSubject = new StringBuilder();
             Long subjectId = mTeacher.getSubject();
             GSubject subject = GSubject.getSubjectById(subjectId);
             String subjectName = "";
-            if (subject!=null){
+            if (subject != null) {
                 subjectName = subject.getName();
             }
 
             //年级
             Long[] grades = teacher.getGrades();
-            if (grades!=null){
-                for (int i=0;i<grades.length;i++){
+            if (grades != null) {
+                for (int i = 0; i < grades.length; i++) {
                     Long gradeId = grades[i];
                     GGrade grade = GGrade.getGradeById(gradeId);
-                    if (grade!=null) {
+                    if (grade != null) {
                         strSubject.append(grade.getName() + subjectName + spot);
                     }
                 }
-                strSubject.delete(strSubject.lastIndexOf(spot),strSubject.length()-1);
+                strSubject.delete(strSubject.lastIndexOf(spot), strSubject.length() - 1);
             }
             mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
-            if (mTags!=null){
+            if (mTags != null) {
                 updateUITags();
             }
 
             //提分榜
-            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this,mTeacher.getHighscore_set());
+            List<GHighScore> highScores = mTeacher.getHighscore_set();
+            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores != null ? highScores : (new ArrayList<GHighScore>()));
             mHighScoreList.setAdapter(highScoreAdapter);
             setListViewHeightBasedOnChildren(mHighScoreList);
             //个人相册
             loadGallery(mTeacher.getGallery());
             //特殊成就
             StringBuilder strCertificate = new StringBuilder();
-            if (teacher.getCertificate()!=null){
-                for (int i=0;i<teacher.getCertificate().length;i++){
-                    strCertificate.append(teacher.getCertificate()[i]+spot);
+            if (teacher.getCertificate() != null) {
+                for (int i = 0; i < teacher.getCertificate().length; i++) {
+                    strCertificate.append(teacher.getCertificate()[i] + spot);
                 }
                 strCertificate.delete(strCertificate.lastIndexOf(spot), strCertificate.length() - 1);
             }
@@ -363,24 +371,24 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //教龄级别
             Long age = teacher.getTeaching_age();
             GLevel level = teacher.getLevel();
-            if (age!=null){
-                if (level!=null&&level.getName()!=null){
-                    mTeacherLevel.setText(age+spot+ teacher.getLevel().getName());
-                }else{
-                    mTeacherLevel.setText(age+"");
+            if (age != null) {
+                if (level != null && level.getName() != null) {
+                    mTeacherLevel.setText(age + spot + teacher.getLevel().getName());
+                } else {
+                    mTeacherLevel.setText(age + "");
                 }
 
-            }else if (age==null&&level!=null&&level.getName()!=null){
-                if (level!=null&&level.getName()!=null){
+            } else if (age == null && level != null && level.getName() != null) {
+                if (level != null && level.getName() != null) {
                     mTeacherLevel.setText(teacher.getLevel().getName());
-                }else{
+                } else {
                     mTeacherLevel.setText("");
                 }
             }
 
             //价格表
             List<GCoursePrice> coursePrices = teacher.getPrices();
-            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this,coursePrices);
+            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this, coursePrices != null ? coursePrices : (new ArrayList<GCoursePrice>()));
             //添加按钮监听事件
             coursePriceAdapter.setOnClickItem(this);
             mCoursePriceList.setAdapter(coursePriceAdapter);
@@ -389,11 +397,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
 
-    void loadGallery(String[] gallery){
+    void loadGallery(String[] gallery) {
 
         mGallery.removeAllViews();
-        int width = mGallery.getWidth()/3;
-        for (int i = 0; gallery!=null&&i < gallery.length; i++) {
+        int width = mGallery.getWidth() / 3;
+        for (int i = 0; gallery != null && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
@@ -404,14 +412,14 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
-    private void dealRequestError(String errorCode){
-        Toast.makeText(this,"网络请求失败!",Toast.LENGTH_SHORT).show();
+    private void dealRequestError(String errorCode) {
+        Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_item_signup:
                 //将界面移动到最底端
                 break;
@@ -449,7 +457,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
