@@ -423,6 +423,6 @@ class Message(BaseModel):
                 self.get_via_display(), self.to, self.title)
 
 class Checkcode(BaseModel):
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, unique=True)
     checkcode = models.CharField(max_length=30)
-    create_time = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)

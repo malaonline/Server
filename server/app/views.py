@@ -10,6 +10,9 @@ import random
 import urllib
 import httplib2
 from django.views.decorators.csrf import csrf_exempt
+import datetime
+from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 from app import models
 
@@ -32,14 +35,26 @@ def Sms(request):
         httpClient = httplib2.Http()
         return httpClient.request(url, "POST", headers=headers, body=urllib.parse.urlencode(params))
 
-    def callSendSmsCheckcode(phone, checkCode):
+    def callSendSmsCheckcode(phone, checkcode):
         SITE_NAME = '麻辣老师'
-        msg = "【"+SITE_NAME+"】您的验证码是"+str(checkCode)
+        msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
         return callSendSms(phone, msg)
 
     def generateCheckcode(phone):
-        # TODO: 生成，并保存到数据库或缓存，10分钟后过期
-        return random.randrange(1000, 9999)
+        # 生成，并保存到数据库或缓存，10分钟后过期
+        try:
+            obj = models.Checkcode.objects.get(phone=phone)
+            now = timezone.now()
+            delta = now-obj.created_at
+            if delta > datetime.timedelta(minutes=10):
+                obj.checkcode = random.randrange(1000, 9999)
+                obj.created_at = now;
+                obj.save()
+        except ObjectDoesNotExist:
+            cc = random.randrange(1000, 9999)
+            obj = models.Checkcode.objects.create(phone=phone, checkcode=cc)
+            obj.save()
+        return obj.checkcode
 
 
     if request.method != 'POST':
@@ -51,10 +66,10 @@ def Sms(request):
         if not phone:
             return JsonResponse({'sent': False, 'reason': 'phone is required'})
         # generate code
-        checkCode = generateCheckcode(phone)
-        print ('验证码：' + str(checkCode))
+        checkcode = generateCheckcode(phone)
+        print ('验证码：' + str(checkcode))
         # call send sms api
-        resp, content = callSendSmsCheckcode(phone, checkCode)
+        resp, content = callSendSmsCheckcode(phone, checkcode)
         print (resp)
         print ( '-' * 20 )
         print (content)
