@@ -2,6 +2,7 @@ import os
 import json
 
 from django.db import migrations
+from django.conf import settings
 
 
 def dfs(apps, root, deep, superset=None, leaf=True):
@@ -22,8 +23,12 @@ def dfs(apps, root, deep, superset=None, leaf=True):
 
 
 def add_region(apps, schema_editor):
+    if settings.UNITTEST is True:
+        data_file = "regions_for_test.json"
+    else:
+        data_file = "regions.txt"
     regions = json.load(open(os.path.join(os.path.dirname(__file__),
-                                          'regions.txt')))
+                                          data_file)))
     print("添加省份")
     dfs(apps, regions, 1)
 

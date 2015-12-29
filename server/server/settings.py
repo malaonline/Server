@@ -194,3 +194,10 @@ try:
     from .local_settings import *
 except:
     pass
+
+# 样本数据的长度
+SAMPLE_DATA_LENGTH = 50
+UNITTEST = False
+
+# 加密的密钥salt
+PASSWORD_SALT = "abc"

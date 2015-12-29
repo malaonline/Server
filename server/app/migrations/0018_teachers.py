@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+from django.conf import settings
 
 from django.core.files import File
 from django.db import migrations, models
@@ -22,7 +23,7 @@ def add_teacher(apps, schema_editor):
     User = apps.get_model('auth', 'User')
     print("添加老师用户")
     role = Role.objects.get(name='老师')
-    for i in range(50):
+    for i in range(settings.SAMPLE_DATA_LENGTH):
         username = 'test%d' % i
         user = User.objects.get(username=username)
         if not hasattr(user, 'profile'):
