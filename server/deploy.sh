@@ -4,9 +4,8 @@ DES=/opt/jenkins/mala/server
 ENV=/opt/jenkins/env
 SET=/opt/keys-pros
 
-rm -rf $DES
 mkdir -p $DES
-cp -Rf * $DES/
+rsync -r * $DES/
 cp -Rf $SET/local_settings.py $DES/server/
 
 . $ENV/bin/activate
