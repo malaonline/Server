@@ -80,7 +80,7 @@ class MalaTeacherTags {
 
     // MARK: - Variable
     private lazy var tags: [GradeModel] = []
-    private lazy var tagsDict: [Int: String] = [:]
+    private lazy var tagsDict: [Int: String]? = [:]
     // Singleton
     private init() {
 
@@ -92,10 +92,10 @@ class MalaTeacherTags {
             return
         }
         for tag in tags! {
-            tagsDict[tag.id] = tag.name
+            tagsDict![tag.id] = tag.name
         }
     }
-    var data: [Int: String] {
+    var data: [Int: String]? {
         get {
             return tagsDict
         }
