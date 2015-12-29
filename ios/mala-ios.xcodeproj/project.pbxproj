@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		03F76CF796D8F7E2B1EBFD7E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */; };
+		2ECF914A1C2ACE7000904C3A /* TeacherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF91491C2ACE7000904C3A /* TeacherModel.swift */; };
+		2ECF91501C30F6C400904C3A /* TeacherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -78,6 +80,8 @@
 		075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		25DA83160369F01018BE7B4A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionCell.swift; sourceTree = "<group>"; };
+		2ECF91491C2ACE7000904C3A /* TeacherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherModel.swift; sourceTree = "<group>"; };
+		2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionViewCell.swift; sourceTree = "<group>"; };
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -228,6 +232,7 @@
 				30E336711C27F41900DCF1C5 /* GradeModel.swift */,
 				30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */,
 				30E336731C27F61900DCF1C5 /* ResultModel.swift */,
+				2ECF91491C2ACE7000904C3A /* TeacherModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				30AE092E1C2AC92000FD607D /* TeacherFilterView */,
+				2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

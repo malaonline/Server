@@ -10,9 +10,11 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="page_padding">24dp</dimen>
+    <dimen name="page_padding_small">10dp</dimen>
     <dimen name="page_padding_inner">13dp</dimen>
     <dimen name="page_padding_all">37dp</dimen>
     <dimen name="dialog_toolbar_height">65dp</dimen>
+    <dimen name="dialog_bottom_bar_height">48dp</dimen>
 
     <dimen name="elevation_editor">2dp</dimen>
     <dimen name="elevation_normal">2dp</dimen>
@@ -20,10 +22,14 @@
 
     <dimen name="item_content_padding">5dp</dimen>
 
-    <dimen name="title_size">18dp</dimen>
-    <dimen name="dialog_title_size">17dp</dimen>
+    <dimen name="title_left_size">16sp</dimen>
+    <dimen name="title_size">18sp</dimen>
+    <dimen name="dialog_width">280dp</dimen>
+    <dimen name="dialog_title_size">17sp</dimen>
     <dimen name="body_head_text_size">15dp</dimen>
     <dimen name="body_text_size">14dp</dimen>
+
+    <dimen name="teacher_list_card_diver">8dp</dimen>
 
     <dimen name="teacher_list_card_corner_radius">4dp</dimen>
     <dimen name="teacher_list_card_elevation">2dp</dimen>

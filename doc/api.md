@@ -121,7 +121,15 @@ tags=1+3+2
             "tags": [1, 3]
         },
         ...
-    ]
+    ],
+    "tags":[
+         {
+             "id":1,
+             "name":"幽默"
+         },
+         ...
+     ]
+
 }
 ```
 
@@ -146,6 +154,10 @@ GET /api/v1/teachers/{teacher id}/
     "subject": 1,
     "grades": [1, 2, 3],
     "tags": [1, 3],
+    "gallery": ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"],
+    "certificate":["特级教师","一级教师","十佳青年"],
     "highscore_set": [
         {
             "name": "123",
@@ -192,4 +204,106 @@ GET /api/v1/memberservices/
     ]
 }
 
+```
+
+### Sending SMS
+
+```
+POST /api/v1/sms
+```
+
+parameters:
+
+```
+action=send
+phone=150123456
+```
+
+result:
+
+```
+{
+    "sent": "true"
+}
+```
+
+```
+{
+    "sent": "false",
+    "reason": "Exceed max retry.'
+}
+```
+
+### Verifying SMS
+
+```
+POST /api/v1/sms
+```
+
+parameters:
+
+```
+action=verify
+phone=150123456
+code=1234
+```
+
+result:
+
+```
+{
+    "verified": "true",
+    "first_login": "true",
+    "token": "189841301....7438741938"
+}
+```
+
+```
+{
+    "verified": "false",
+    "reason": "SMS not match"
+}
+```
+
+### Save child name
+
+```
+POST /api/v1/parent/(\d+)/
+```
+
+parameters:
+
+```
+action=save_student_same
+student_name=XYZ
+token=abaoeuntaheu
+```
+
+result:
+
+```
+{
+    "done": "true"
+}
+```
+
+```
+{
+    "done": "false",
+    "reason": "Student name already exits."
+}
+```
+
+
+### Get user policy
+
+```
+GET /api/v1/policy
+```
+
+```
+{
+    "result": "<html>abc...nhnhsh</html>",
+    "updated_at": 13450887
+}
 ```

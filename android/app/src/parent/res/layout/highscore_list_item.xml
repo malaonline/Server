@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv_highscore_name"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv_highscore_increasedscores"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_highscore_school"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_highscore_admitted_to"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

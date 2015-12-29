@@ -17,11 +17,13 @@ class NetworkTool {
     private let subjectList = "/subjects"
     private let tagList = "/tags"
     private let memberServiceList = "/memberservices"
+    private let teacherList = "/teachers"
     
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
     
     // Singleton
+    private init() {}
     static let sharedTools = NetworkTool()
     
 }
@@ -56,6 +58,13 @@ extension NetworkTool {
     ///  - parameter finished: Closure for Finished
     func loadMemberServices(finished: RequestCallBack) {
         request(.GET, URLString: baseUrl+memberServiceList, parameters: nil, finished: finished)
+    }
+    
+    ///  Request for TeacherList
+    ///
+    ///  - parameter finished: Closure for Finished
+    func loadTeachers(parameters: [String: AnyObject]?, finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+teacherList, parameters: parameters, finished: finished)
     }
     
 }

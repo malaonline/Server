@@ -27,4 +27,16 @@
 username: test
 password: mala-test
 
+### For Android
 
+1. `git submodule update --init --recursive`
+2. Create a file named `gradle.properties` with following content:
+
+```
+KEYSTORE_FILE_PATH=/Users/.../keystore
+KEYSTORE_PASSWORD=123456
+KEY_PASSWORD=123456
+LOCAL_SERVER=https://dev.malalaoshi.com
+```
+
+Modify variables if needed.

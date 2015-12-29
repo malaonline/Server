@@ -1,7 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +23,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.TeacherListFilterActivity;
+import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.Tag;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +44,7 @@ import butterknife.OnItemClick;
 /**
  * Created by liumengjun on 12/14/15.
  */
-public class FilterDialogFragment extends DialogFragment {
+public class FilterDialogFragment extends BaseDialogFragment {
     private static final String TAG = FilterDialogFragment.class.getSimpleName();
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
@@ -75,6 +77,9 @@ public class FilterDialogFragment extends DialogFragment {
     private List<Map<String, Object>> mSubjectsList; // for subjects list adapter
     private List<Map<String, Object>> mGragesList;
     private List<Map<String, Object>> mTagsList;
+    private List<Map<String, Object>> mSubGrages1List; // 小学adapter data
+    private List<Map<String, Object>> mSubGrages2List; // 初中adapter data
+    private List<Map<String, Object>> mSubGrages3List; // 高中adapter data
 
     private View mLastSelectedGradeView;
     private long mSelectedGradeId;
@@ -96,13 +101,103 @@ public class FilterDialogFragment extends DialogFragment {
         mGragesList = new ArrayList<>();
         mTagsList = new ArrayList<>();
         mSelectedTagsId = new ArrayList<>();
+        mSubGrages1List = new ArrayList<>();
+        mSubGrages2List = new ArrayList<>();
+        mSubGrages3List = new ArrayList<>();
+        setData();
     }
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
+    private void setData() {
+        setSubjectsList();
+        setGradesList();
+        setTagsList();
+    }
+
+    private void setSubjectsList() {
+        for (int i = 0; i < Subject.subjectList.size(); i++) {
+            Subject subject = Subject.subjectList.get(i);
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("id", subject.getId());
+            item.put("name", subject.getName());
+            mTotalSubjectsList.add(item);
+        }
+    }
+
+    private void setGradesList() {
+        long id = 1;
+        long[] subjects1 = new long[]{1,2,3};
+        long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
+        char[] numWords = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+        // 小学
+        String stage = "小学";
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("id", id);
+        item.put("name", stage);
+        item.put("subjects", subjects1);
+        item.put("subset", mSubGrages1List);
+        mGragesList.add(item);
+        item = new HashMap<String, Object>();
+        item.put("id", id++);
+        item.put("name", stage+"全部");
+        item.put("subjects", subjects1);
+        mSubGrages1List.add(item);
+        for (int i = 0; i < 6; i++) {
+            item = new HashMap<String, Object>();
+            item.put("id", id++);
+            item.put("name", stage+numWords[i]+"年级");
+            item.put("subjects", subjects1);
+            mSubGrages1List.add(item);
+        }
+        // 初中
+        stage = "初中";
+        item = new HashMap<String, Object>();
+        item.put("id", id);
+        item.put("name", stage);
+        item.put("subjects", subjects2);
+        item.put("subset", mSubGrages2List);
+        mGragesList.add(item);
+        item = new HashMap<String, Object>();
+        item.put("id", id++);
+        item.put("name", stage+"全部");
+        item.put("subjects", subjects2);
+        mSubGrages2List.add(item);
+        for (int i = 0; i < 3; i++) {
+            item = new HashMap<String, Object>();
+            item.put("id", id++);
+            item.put("name", stage+numWords[i]+"年级");
+            item.put("subjects", subjects2);
+            mSubGrages2List.add(item);
+        }
+        // 高中
+        stage = "高中";
+        item = new HashMap<String, Object>();
+        item.put("id", id);
+        item.put("name", stage);
+        item.put("subjects", subjects2);
+        item.put("subset", mSubGrages3List);
+        mGragesList.add(item);
+        item = new HashMap<String, Object>();
+        item.put("id", id++);
+        item.put("name", stage+"全部");
+        item.put("subjects", subjects2);
+        mSubGrages3List.add(item);
+        for (int i = 0; i < 3; i++) {
+            item = new HashMap<String, Object>();
+            item.put("id", id++);
+            item.put("name", stage+numWords[i]+"年级");
+            item.put("subjects", subjects2);
+            mSubGrages3List.add(item);
+        }
+    }
+
+    private void setTagsList() {
+        for (int i = 0; i < Tag.tags.size(); i++) {
+            Tag tag = Tag.tags.get(i);
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("id", tag.getId());
+            item.put("name", tag.getName());
+            mTagsList.add(item);
+        }
     }
 
     @Override
@@ -115,8 +210,8 @@ public class FilterDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
-        int shownHeight = (int)(window.getWindowManager().getDefaultDisplay().getHeight() * 0.5F);
-        window.setLayout(window.getAttributes().width, shownHeight);//Here!
+        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
+        window.setLayout(width, width);//Here!
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
         mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
@@ -127,9 +222,21 @@ public class FilterDialogFragment extends DialogFragment {
                 mTagsList, R.layout.abc_list_item_multichoice,
                 new String[]{"name"},
                 new int[]{R.id.text1}));
-        getData();
+        mGragesViewList1.setAdapter(new SimpleAdapter(getActivity(),
+                mSubGrages1List, R.layout.abc_list_item_singlechoice,
+                new String[]{"name"},
+                new int[]{R.id.text1}));
+        mGragesViewList2.setAdapter(new SimpleAdapter(getActivity(),
+                mSubGrages2List, R.layout.abc_list_item_singlechoice,
+                new String[]{"name"},
+                new int[]{R.id.text1}));
+        mGragesViewList3.setAdapter(new SimpleAdapter(getActivity(),
+                mSubGrages3List, R.layout.abc_list_item_singlechoice,
+                new String[]{"name"},
+                new int[]{R.id.text1}));
     }
 
+    @Deprecated
     private void getData() {
         getSubjectsList();
         getGradesList();
@@ -210,20 +317,17 @@ public class FilterDialogFragment extends DialogFragment {
                         }catch (Exception e) {
                         }
                         List<Map<String,Object>> subGrades1 = (List<Map<String,Object>>)mGragesList.get(0).get("subset");
-                        mGragesViewList1.setAdapter(new SimpleAdapter(getActivity(),
-                                subGrades1, R.layout.abc_list_item_singlechoice,
-                                new String[]{"name"},
-                                new int[]{R.id.text1}));
+                        mSubGrages1List.clear();
+                        mSubGrages1List.addAll(subGrades1);
+                        ((SimpleAdapter)mGragesViewList1.getAdapter()).notifyDataSetChanged();
                         List<Map<String,Object>> subGrades2 = (List<Map<String,Object>>)mGragesList.get(1).get("subset");
-                        mGragesViewList2.setAdapter(new SimpleAdapter(getActivity(),
-                                subGrades2, R.layout.abc_list_item_singlechoice,
-                                new String[]{"name"},
-                                new int[]{R.id.text1}));
+                        mSubGrages2List.clear();
+                        mSubGrages2List.addAll(subGrades1);
+                        ((SimpleAdapter)mGragesViewList2.getAdapter()).notifyDataSetChanged();
                         List<Map<String,Object>> subGrades3 = (List<Map<String,Object>>)mGragesList.get(2).get("subset");
-                        mGragesViewList3.setAdapter(new SimpleAdapter(getActivity(),
-                                subGrades3, R.layout.abc_list_item_singlechoice,
-                                new String[]{"name"},
-                                new int[]{R.id.text1}));
+                        mSubGrages3List.clear();
+                        mSubGrages3List.addAll(subGrades1);
+                        ((SimpleAdapter)mGragesViewList3.getAdapter()).notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -346,22 +450,24 @@ public class FilterDialogFragment extends DialogFragment {
     @OnItemClick(R.id.filter_tags_list)
     protected void onClickTagsList(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG, "OnItemClick{tags}: " + position);
-        if (mTagsAll.isChecked()) {
-            mTagsAll.setChecked(false);
-        }
         CheckedTextView ckt = (CheckedTextView)view;
-        ckt.setChecked(!ckt.isChecked());
+        boolean wasSelected = ckt.isChecked(); // old state
+        ckt.setChecked(!wasSelected);
         long tagId = (long)mTagsList.get(position).get("id");
-        if (ckt.isChecked()) {
+        if (!wasSelected) { // must not use ckt.isChecked()
             mSelectedTagsId.add(tagId);
         } else {
             mSelectedTagsId.remove(tagId);
         }
+        mTagsAll.setChecked(mSelectedTagsId.isEmpty());
     }
 
     @OnClick(R.id.filter_tags_all)
     protected void onClickTagsAll() {
         Log.d(TAG, "OnItemClick{tags}: all");
+        if (mTagsAll.isChecked()) {
+            return;
+        }
         mTagsAll.setChecked(!mTagsAll.isChecked());
         if (mTagsAll.isChecked()) {
             for (int i = 0; i < mTagsViewList.getChildCount(); i++) {
@@ -379,7 +485,11 @@ public class FilterDialogFragment extends DialogFragment {
         dismiss();
         Fragment teacherListFragment = getFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
         if (teacherListFragment != null) {
-            ((TeacherListFragment) teacherListFragment).doFilter(mSelectedGradeId, mSelectedSubjectId, mSelectedTagsId);
+            long [] selectedTags = new long[mSelectedTagsId.size()];
+            for(int i=0; i< selectedTags.length; i++){
+                selectedTags[i] = mSelectedTagsId.get(i);
+            }
+            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
         }
     }
 }
