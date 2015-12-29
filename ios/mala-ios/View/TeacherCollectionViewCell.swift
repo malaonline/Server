@@ -78,14 +78,14 @@ class TeacherCollectionViewCell: UICollectionViewCell {
                 var result = "-"
                 if let tags = model!.tags {
                     result.removeAll()
-                    let test: [String] = tags.map({ (tag) -> String in
+                    let tagsNameArray: [String] = tags.map({ (tag) -> String in
                         if let tagName = MalaTeacherTags.instance.data![tag] {
                             return tagName
                         } else {
                             return "-"
                         }
                     })
-                    result = test.joinWithSeparator("・")
+                    result = tagsNameArray.joinWithSeparator("・")
                 }
                 return result
             }
