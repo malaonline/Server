@@ -1,5 +1,7 @@
 import json
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 # from django.shortcuts import render
@@ -88,12 +90,28 @@ class Sms(View):
             code = request.POST.get('code')
             if not phone or not code:
                 return JsonResponse({'verified': False, 'reason': 'params error'})
-            if not self.verifyCheckcode(phone, code):
-                return JsonResponse({'verified': False, 'reason': 'SMS not match'})
-            # find User
-            first_login = False
-            token = ''
-            return JsonResponse({'verified': True, 'first_login': first_login, 'token': token})
+            try:
+                if not self.verifyCheckcode(phone, code):
+                    return JsonResponse({'verified': False, 'reason': 'SMS not match'})
+                # find User
+                is_found = False
+                try:
+                    profile = models.Profile.objects.get(phone=phone)
+                    is_found = True
+                except:
+                    pass
+                if not is_found:
+                    username = ''.join(random.sample('AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789', 10))
+                    new_user = User.objects.create_user(username)
+                    new_user.save()
+                    profile = models.Profile.objects.create(user=new_user, phone=phone)
+                    profile.save()
+                # login(request, profile.user)
+                token, created = Token.objects.get_or_create(user=profile.user)
+                return JsonResponse({'verified': True, 'first_login': not is_found, 'token': token.key})
+            except Exception as err:
+                print (err)
+                return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
 
 class PriceSerializer(serializers.ModelSerializer):
