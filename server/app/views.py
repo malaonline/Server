@@ -1,5 +1,7 @@
 import json
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 # from django.shortcuts import render
@@ -13,6 +15,7 @@ from django.utils.decorators import method_decorator
 import datetime
 from django.utils import timezone
 from django.conf import settings
+import re
 
 from app import models
 
@@ -25,6 +28,9 @@ class Policy(View):
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class Sms(View):
+    expired_time = 10    # 10 minutes
+    resend_span = 1      # 1 minute
+    max_verify_times = 3
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(Sms, self).dispatch(request, *args, **kwargs)
@@ -42,16 +48,57 @@ class Sms(View):
         msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
         return self.callSendSms(phone, msg)
 
+    def isValidPhone(self, phone):
+        return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
+
+    def isTestPhone(self, phone):
+        return re.match(r'^000\d+$', phone)
+
+    def isValidCode(self, code):
+        return re.match(r'^\d+$', code)
+
     def generateCheckcode(self, phone):
         # 生成，并保存到数据库或缓存，10分钟后过期
-        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': random.randrange(1000, 9999)})
+        is_test = self.isTestPhone(phone)
+        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
         if not created:
             now = timezone.now()
             delta = now - obj.updated_at
-            if delta > datetime.timedelta(minutes=10):
-                obj.checkcode = random.randrange(1000, 9999)
+            if delta > datetime.timedelta(minutes=self.expired_time):
+                # expired, make new one
+                obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
+                obj.updated_at = now
+                obj.verify_times = 0
+                obj.resend_at = now
+                obj.save()
+            else:
+                resend_at = obj.resend_at and obj.resend_at or obj.updated_at
+                delta = now - resend_at
+                if delta < datetime.timedelta(minutes=self.resend_span):
+                    # resend too much times
+                    return False
+                obj.resend_at = now
                 obj.save()
         return obj.checkcode
+
+    def verifyCheckcode(self, phone, code):
+        # return is_valid, err_no
+        try:
+            obj = models.Checkcode.objects.get(phone=phone)
+            delta = timezone.now() - obj.updated_at
+            if delta > datetime.timedelta(minutes=self.expired_time):
+                return False, 2
+            if obj.verify_times >= self.max_verify_times: # meybe someone attack
+                return False, 3
+            is_valid = code == obj.checkcode
+            if is_valid:
+                obj.delete()
+            else:
+                obj.verify_times += 1;
+                obj.save()
+            return is_valid, 0
+        except:
+            return False, 1
 
     # @method_decorator(csrf_exempt) # here it doesn't work
     def post(self, request):
@@ -60,19 +107,54 @@ class Sms(View):
             phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
             if not phone:
                 return JsonResponse({'sent': False, 'reason': 'phone is required'})
+            if not self.isValidPhone(phone):
+                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
             try:
                 # generate code
                 checkcode = self.generateCheckcode(phone)
+                if not checkcode:
+                    return JsonResponse({'sent': False, 'reason': 'resend too much times'})
                 print ('验证码：' + str(checkcode))
-                # call send sms api
-                r = self.callSendSmsCheckcode(phone, checkcode)
-                print (r)
+                if not self.isTestPhone(phone):
+                    # call send sms api
+                    r = self.callSendSmsCheckcode(phone, checkcode)
+                    print (r)
                 return JsonResponse({'sent': True})
             except Exception as err:
                 print (err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
-            return HttpResponse('TODO: please wait')
+            phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
+            code = request.POST.get('code')
+            if not phone or not code:
+                return JsonResponse({'verified': False, 'reason': 'params error'})
+            if not self.isValidPhone(phone):
+                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
+            if not self.isValidCode(code):
+                return JsonResponse({'sent': False, 'reason': 'code is wrong'})
+            try:
+                is_valid, err_no = self.verifyCheckcode(phone, code)
+                if not is_valid:
+                    return JsonResponse({'verified': False, 'reason': err_no == 3 and 'Retry too much times' or 'SMS not match or is expired'})
+                # find User
+                is_found = False
+                try:
+                    profile = models.Profile.objects.get(phone=phone)
+                    is_found = True
+                except:
+                    pass
+                if not is_found:
+                    username = ''.join(random.sample('AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789', 10))
+                    new_user = User.objects.create_user(username)
+                    new_user.save()
+                    profile = models.Profile.objects.create(user=new_user, phone=phone)
+                    profile.save()
+                # login(request, profile.user)
+                token, created = Token.objects.get_or_create(user=profile.user)
+                return JsonResponse({'verified': True, 'first_login': not is_found, 'token': token.key})
+            except Exception as err:
+                print (err)
+                return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
 
 class PriceSerializer(serializers.ModelSerializer):
