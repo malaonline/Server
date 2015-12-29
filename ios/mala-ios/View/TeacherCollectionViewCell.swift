@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 class TeacherCollectionViewCell: UICollectionViewCell {
-    
+
     // MARK: - Variables
     var model: TeacherModel? {
         didSet{
@@ -70,7 +70,7 @@ class TeacherCollectionViewCell: UICollectionViewCell {
             gradeSubjectLabel.text = String(format: "%@・%@", gradesText, subjectText)
             gradeSubjectLabel.sizeToFit()
             print(gradeSubjectLabel.text)
-            
+
             // set tags
             // Todo: these tags data must be saved first that can be displayed on teachers list page
             // the data will retrive directly from "teachers" API later
@@ -78,11 +78,14 @@ class TeacherCollectionViewCell: UICollectionViewCell {
                 var result = "-"
                 if let tags = model!.tags {
                     result.removeAll()
-                    for tag in tags {
-                        if let tagString = MalaTeacherTags.instance.data[tag] {
-                            result += tagString + "・"
+                    let test: [String] = tags.map({ (tag) -> String in
+                        if let tagName = MalaTeacherTags.instance.data![tag] {
+                            return tagName
+                        } else {
+                            return "-"
                         }
-                    }
+                    })
+                    result = test.joinWithSeparator("・")
                 }
                 return result
             }
@@ -92,42 +95,42 @@ class TeacherCollectionViewCell: UICollectionViewCell {
             tagsLabel.sizeToFit()
         }
     }
-    
+
     // MARK: - Components
     private lazy var imageView: UIImageView = UIImageView()
     private lazy var priceLabel: UILabel = UILabel()
     private lazy var nameLabel: UILabel = UILabel()
     private lazy var gradeSubjectLabel: UILabel = UILabel()
     private lazy var tagsLabel: UILabel = UILabel()
-    
+
     // MARK: - Constructed
     override init(frame: CGRect) {
         self.model = nil
         super.init(frame: frame)
-        
+
         setupUI()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Setup Cell UI
     private func setupUI() {
-        
+
         imageView.addSubview(priceLabel)
         self.addSubview(imageView)
         self.addSubview(nameLabel)
         self.addSubview(gradeSubjectLabel)
         self.addSubview(tagsLabel)
-        
+
         imageView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.snp_top)
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
             make.height.equalTo(imageView.snp_width)
         }
-        
+
         priceLabel.backgroundColor = UIColor.blackColor()
         priceLabel.textColor = MalaAppearanceTextColor
         priceLabel.textAlignment = .Right
@@ -137,22 +140,22 @@ class TeacherCollectionViewCell: UICollectionViewCell {
             make.right.equalTo(imageView.snp_right)
             make.bottom.equalTo(imageView.snp_bottom)
         }
-        
+
         nameLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(imageView.snp_bottom)
+            make.top.equalTo(imageView.snp_bottom).offset(10)
         }
-        
+
         gradeSubjectLabel.textColor = UIColor.redColor()
         gradeSubjectLabel.font = UIFont.systemFontOfSize(14)
         gradeSubjectLabel.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(nameLabel.snp_bottom)
             make.right.equalTo(self.snp_right)
         }
-        
+
         tagsLabel.textColor = UIColor.grayColor()
         tagsLabel.font = UIFont.systemFontOfSize(14)
         tagsLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(nameLabel.snp_bottom)
+            make.top.equalTo(nameLabel.snp_bottom).offset(4)
         }
     }
 }
