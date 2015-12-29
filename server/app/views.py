@@ -46,12 +46,24 @@ class Sms(View):
         # 生成，并保存到数据库或缓存，10分钟后过期
         obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': random.randrange(1000, 9999)})
         if not created:
-            now = timezone.now()
-            delta = now - obj.updated_at
+            delta = timezone.now() - obj.updated_at
             if delta > datetime.timedelta(minutes=10):
                 obj.checkcode = random.randrange(1000, 9999)
                 obj.save()
         return obj.checkcode
+
+    def verifyCheckcode(self, phone, code):
+        try:
+            obj = models.Checkcode.objects.get(phone=phone)
+            delta = timezone.now() - obj.updated_at
+            if delta > datetime.timedelta(minutes=10):
+                return False
+            is_valid = code == obj.checkcode
+            if is_valid:
+                obj.delete()
+            return is_valid
+        except:
+            return False
 
     # @method_decorator(csrf_exempt) # here it doesn't work
     def post(self, request):
@@ -72,7 +84,16 @@ class Sms(View):
                 print (err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
-            return HttpResponse('TODO: please wait')
+            phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
+            code = request.POST.get('code')
+            if not phone or not code:
+                return JsonResponse({'verified': False, 'reason': 'params error'})
+            if not self.verifyCheckcode(phone, code):
+                return JsonResponse({'verified': False, 'reason': 'SMS not match'})
+            # find User
+            first_login = False
+            token = ''
+            return JsonResponse({'verified': True, 'first_login': first_login, 'token': token})
         return HttpResponse("Not supported request.", status=403)
 
 class PriceSerializer(serializers.ModelSerializer):
