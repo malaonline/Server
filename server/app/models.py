@@ -448,4 +448,9 @@ class Message(BaseModel):
 
     def __str__(self):
         return '%s, %s, to %s, %s' % (self.get__type_display(),
-                                      self.get_via_display(), self.to, self.title)
+                self.get_via_display(), self.to, self.title)
+
+class Checkcode(BaseModel):
+    phone = models.CharField(max_length=20, unique=True)
+    checkcode = models.CharField(max_length=30)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -3,9 +3,16 @@ import json
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 # from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from rest_framework import serializers, viewsets
+import random
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import datetime
+from django.utils import timezone
+from django.conf import settings
 
 from app import models
 
@@ -17,6 +24,56 @@ class Policy(View):
                     updated_at=int(policy.updated_at.timestamp()))
         return HttpResponse(json.dumps(data), content_type='application/json')
 
+class Sms(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Sms, self).dispatch(request, *args, **kwargs)
+
+    def callSendSms(self, phone, msg):
+        apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
+        params = {'apikey': apikey, 'mobile': phone, 'text': msg}
+        print (params)
+        url = "http://yunpian.com/v1/sms/send.json"
+        headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
+        return requests.post(url, headers=headers, data=params)
+
+    def callSendSmsCheckcode(self, phone, checkcode):
+        SITE_NAME = '麻辣老师'
+        msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
+        return self.callSendSms(phone, msg)
+
+    def generateCheckcode(self, phone):
+        # 生成，并保存到数据库或缓存，10分钟后过期
+        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': random.randrange(1000, 9999)})
+        if not created:
+            now = timezone.now()
+            delta = now - obj.updated_at
+            if delta > datetime.timedelta(minutes=10):
+                obj.checkcode = random.randrange(1000, 9999)
+                obj.save()
+        return obj.checkcode
+
+    # @method_decorator(csrf_exempt) # here it doesn't work
+    def post(self, request):
+        action = request.POST.get('action')
+        if action == 'send':
+            phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
+            if not phone:
+                return JsonResponse({'sent': False, 'reason': 'phone is required'})
+            try:
+                # generate code
+                checkcode = self.generateCheckcode(phone)
+                print ('验证码：' + str(checkcode))
+                # call send sms api
+                r = self.callSendSmsCheckcode(phone, checkcode)
+                print (r)
+                return JsonResponse({'sent': True})
+            except Exception as err:
+                print (err)
+                return JsonResponse({'sent': False, 'reason': 'Unknown'})
+        if action == 'verify':
+            return HttpResponse('TODO: please wait')
+        return HttpResponse("Not supported request.", status=403)
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:

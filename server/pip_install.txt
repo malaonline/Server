@@ -5,3 +5,4 @@ django-s3-storage-patched
 Pillow==3.0.0
 gunicorn
 -e git://github.com/hwbuluo/django-send-messages.git#egg=django-send-messages
+requests==2.9.1
