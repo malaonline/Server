@@ -301,3 +301,26 @@ GET /api/v1/policy
     "updated_at": 13450887
 }
 ```
+
+
+### Get Token
+```
+POST /api/v1/token-auth/
+```
+
+parameters:
+
+```
+username=username
+password=password
+```
+
+result:
+
+```
+{
+    "token":"f8f4a20ce8b6c6e74bb6542933ed79242e9f0658"
+}
+```
+
+Above token's value is just a example not actually value.
