@@ -62,6 +62,10 @@ class DropView: UIView {
     
     // MARK: - API
     func show() {
+        if let view = self.contentView as? TeacherFilterView {
+            view.loadFilterCondition()
+        }
+        
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.frame.origin.y = 64
             }) { (isCompletion) -> Void in
