@@ -209,6 +209,7 @@ class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
 
 class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
+    tags = TagSerializer(many=True)
 
     class Meta:
         model = models.Teacher
@@ -219,6 +220,7 @@ class TeacherListSerializer(serializers.ModelSerializer):
 class TeacherSerializer(serializers.ModelSerializer):
     prices = PriceSerializer(many=True)
     avatar = serializers.ImageField()
+    tags = TagSerializer(many=True)
 
     class Meta:
         model = models.Teacher
