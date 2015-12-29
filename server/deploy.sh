@@ -7,7 +7,7 @@ SET=/opt/keys-pros
 rm -rf $DES
 mkdir -p $DES
 cp -Rf * $DES/
-cp -Rf $SET/local_settings.py $DES/
+cp -Rf $SET/local_settings.py $DES/server/
 
 . $ENV/bin/activate
 
