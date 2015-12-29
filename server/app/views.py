@@ -15,6 +15,7 @@ from django.utils.decorators import method_decorator
 import datetime
 from django.utils import timezone
 from django.conf import settings
+import re
 
 from app import models
 
@@ -44,13 +45,23 @@ class Sms(View):
         msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
         return self.callSendSms(phone, msg)
 
+    def isValidPhone(self, phone):
+        return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
+
+    def isTestPhone(self, phone):
+        return re.match(r'^000\d+$', phone)
+
+    def isValidCode(self, code):
+        return re.match(r'^\d+$', code)
+
     def generateCheckcode(self, phone):
         # 生成，并保存到数据库或缓存，10分钟后过期
-        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': random.randrange(1000, 9999)})
+        is_test = self.isTestPhone(phone)
+        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
         if not created:
             delta = timezone.now() - obj.updated_at
             if delta > datetime.timedelta(minutes=10):
-                obj.checkcode = random.randrange(1000, 9999)
+                obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
                 obj.save()
         return obj.checkcode
 
@@ -74,13 +85,16 @@ class Sms(View):
             phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
             if not phone:
                 return JsonResponse({'sent': False, 'reason': 'phone is required'})
+            if not self.isValidPhone(phone):
+                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
             try:
                 # generate code
                 checkcode = self.generateCheckcode(phone)
                 print ('验证码：' + str(checkcode))
-                # call send sms api
-                r = self.callSendSmsCheckcode(phone, checkcode)
-                print (r)
+                if not self.isTestPhone(phone):
+                    # call send sms api
+                    r = self.callSendSmsCheckcode(phone, checkcode)
+                    print (r)
                 return JsonResponse({'sent': True})
             except Exception as err:
                 print (err)
@@ -90,6 +104,10 @@ class Sms(View):
             code = request.POST.get('code')
             if not phone or not code:
                 return JsonResponse({'verified': False, 'reason': 'params error'})
+            if not self.isValidPhone(phone):
+                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
+            if not self.isValidCode(code):
+                return JsonResponse({'sent': False, 'reason': 'code is wrong'})
             try:
                 if not self.verifyCheckcode(phone, code):
                     return JsonResponse({'verified': False, 'reason': 'SMS not match'})
