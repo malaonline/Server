@@ -335,7 +335,8 @@ class Parent(BaseModel):
     student_name = models.CharField(max_length=50)
 
     def __str__(self):
-        return "%s's parent" % self.student_name
+        return "{child_name}'s parent [{parent_name}]".format(child_name=self.student_name,
+                                                              parent_name=self.user.username)
 
 
 class Coupon(BaseModel):
