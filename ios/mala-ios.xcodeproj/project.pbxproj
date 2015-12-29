@@ -16,40 +16,25 @@
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
 		304135A71C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
 		304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304135891C23AE6400830C43 /* LaunchScreen.storyboard */; };
-		304135A91C23AE6400830C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304135891C23AE6400830C43 /* LaunchScreen.storyboard */; };
 		304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041358F1C23AE6400830C43 /* HTTPSecurity.swift */; };
-		304135AD1C23AE6400830C43 /* HTTPSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041358F1C23AE6400830C43 /* HTTPSecurity.swift */; };
 		304135AE1C23AE6400830C43 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 304135901C23AE6400830C43 /* LICENSE */; };
-		304135AF1C23AE6400830C43 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 304135901C23AE6400830C43 /* LICENSE */; };
 		304135B01C23AE6400830C43 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135911C23AE6400830C43 /* Operation.swift */; };
-		304135B11C23AE6400830C43 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135911C23AE6400830C43 /* Operation.swift */; };
 		304135B41C23AE6400830C43 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135931C23AE6400830C43 /* Request.swift */; };
-		304135B51C23AE6400830C43 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135931C23AE6400830C43 /* Request.swift */; };
 		304135B61C23AE6400830C43 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135941C23AE6400830C43 /* StatusCode.swift */; };
-		304135B71C23AE6400830C43 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135941C23AE6400830C43 /* StatusCode.swift */; };
 		304135B81C23AE6400830C43 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135951C23AE6400830C43 /* Upload.swift */; };
-		304135B91C23AE6400830C43 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135951C23AE6400830C43 /* Upload.swift */; };
 		304135C21C23AE6400830C43 /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359B1C23AE6400830C43 /* BackAPI.swift */; };
-		304135C31C23AE6400830C43 /* BackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359B1C23AE6400830C43 /* BackAPI.swift */; };
 		304135C41C23AE6400830C43 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359C1C23AE6400830C43 /* DataViewController.swift */; };
-		304135C51C23AE6400830C43 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359C1C23AE6400830C43 /* DataViewController.swift */; };
 		304135C61C23AE6400830C43 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359D1C23AE6400830C43 /* FeedbackViewController.swift */; };
-		304135C71C23AE6400830C43 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359D1C23AE6400830C43 /* FeedbackViewController.swift */; };
 		304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359E1C23AE6400830C43 /* LoginViewController.swift */; };
-		304135C91C23AE6400830C43 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359E1C23AE6400830C43 /* LoginViewController.swift */; };
 		304135CA1C23AE6400830C43 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359F1C23AE6400830C43 /* ModelController.swift */; };
-		304135CB1C23AE6400830C43 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359F1C23AE6400830C43 /* ModelController.swift */; };
 		304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A01C23AE6400830C43 /* MyCommentListViewController.swift */; };
-		304135CD1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A01C23AE6400830C43 /* MyCommentListViewController.swift */; };
-		304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
-		304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
 		3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
 		307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
 		307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
-		307788531C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
 		307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
+		307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30AE09301C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
@@ -73,7 +58,6 @@
 		30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
 		30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
 		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
-		30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
 		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
@@ -81,27 +65,13 @@
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
-		357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357E6A131C0FF1FF0009AF9A /* Main.storyboard */; };
 		357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A161C0FF2EE0009AF9A /* BindCardViewController.swift */; };
 		357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A171C0FF2EE0009AF9A /* IncomeViewController.swift */; };
 		357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A181C0FF2EE0009AF9A /* InterviewStatusViewController.swift */; };
 		357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */; };
 		357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */; };
 		357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */; };
-		357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A221C0FF3010009AF9A /* AddressListViewController.swift */; };
-		357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A231C0FF3010009AF9A /* CouponListViewController.swift */; };
-		357E6A321C0FF3010009AF9A /* MemberServiceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A241C0FF3010009AF9A /* MemberServiceDetailViewController.swift */; };
-		357E6A331C0FF3010009AF9A /* MemberServiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A251C0FF3010009AF9A /* MemberServiceListViewController.swift */; };
 		357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A261C0FF3010009AF9A /* OrderDetailViewController.swift */; };
-		357E6A351C0FF3010009AF9A /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A271C0FF3010009AF9A /* PaymentMethodViewController.swift */; };
-		357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A281C0FF3010009AF9A /* PaymentResultViewController.swift */; };
-		357E6A371C0FF3010009AF9A /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A291C0FF3010009AF9A /* PlaceOrderViewController.swift */; };
-		357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2A1C0FF3010009AF9A /* RateCourseViewController.swift */; };
-		357E6A391C0FF3010009AF9A /* RenewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2B1C0FF3010009AF9A /* RenewViewController.swift */; };
-		357E6A3A1C0FF3010009AF9A /* ScreenTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2C1C0FF3010009AF9A /* ScreenTeacherViewController.swift */; };
-		357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */; };
-		357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */; };
-		357E6A3D1C0FF3010009AF9A /* TeacherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */; };
 		35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35D7A2F51C0FE82E007D7679 /* Main.storyboard */; };
 		4B7729A525CC171AFEC029E0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 /* End PBXBuildFile section */
@@ -594,11 +564,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				357E6A151C0FF1FF0009AF9A /* Main.storyboard in Resources */,
-				304135A91C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
-				307788531C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */,
-				304135AF1C23AE6400830C43 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,54 +712,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
-				357E6A321C0FF3010009AF9A /* MemberServiceDetailViewController.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
-				304135B91C23AE6400830C43 /* Upload.swift in Sources */,
-				304135C31C23AE6400830C43 /* BackAPI.swift in Sources */,
-				357E6A351C0FF3010009AF9A /* PaymentMethodViewController.swift in Sources */,
-				304135B51C23AE6400830C43 /* Request.swift in Sources */,
 				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
-				357E6A331C0FF3010009AF9A /* MemberServiceListViewController.swift in Sources */,
-				2ECF91501C30F6C400904C3A /* TeacherCollectionViewCell.swift in Sources */,
-				304135C51C23AE6400830C43 /* DataViewController.swift in Sources */,
-				304135C71C23AE6400830C43 /* FeedbackViewController.swift in Sources */,
-				357E6A3D1C0FF3010009AF9A /* TeacherListViewController.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
-				357E6A3A1C0FF3010009AF9A /* ScreenTeacherViewController.swift in Sources */,
-				357E6A361C0FF3010009AF9A /* PaymentResultViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
-				304135CB1C23AE6400830C43 /* ModelController.swift in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
-				304135CF1C23AE6400830C43 /* RootViewController.swift in Sources */,
-				357E6A381C0FF3010009AF9A /* RateCourseViewController.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
-				304135CD1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
-				304135B11C23AE6400830C43 /* Operation.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
-				2ECF914A1C2ACE7000904C3A /* TeacherModel.swift in Sources */,
-				304135C91C23AE6400830C43 /* LoginViewController.swift in Sources */,
-				304135D11C23AE6400830C43 /* TimetableViewController.swift in Sources */,
 				30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
-				304135B71C23AE6400830C43 /* StatusCode.swift in Sources */,
-				357E6A301C0FF3010009AF9A /* AddressListViewController.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */,
-				357E6A3B1C0FF3010009AF9A /* TeacherCommentListViewController.swift in Sources */,
-				30E3366F1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
-				357E6A3C1C0FF3010009AF9A /* TeacherDetailViewController.swift in Sources */,
-				304135AD1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
-				357E6A311C0FF3010009AF9A /* CouponListViewController.swift in Sources */,
-				357E6A391C0FF3010009AF9A /* RenewViewController.swift in Sources */,
-				357E6A371C0FF3010009AF9A /* PlaceOrderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
