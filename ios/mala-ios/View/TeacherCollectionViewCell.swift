@@ -14,26 +14,77 @@ class TeacherCollectionViewCell: UICollectionViewCell {
     // MARK: - Variables
     var model: TeacherModel? {
         didSet{
+
+            // set avatar
             if model!.avatar != nil {
                 imageView.kf_setImageWithURL(model!.avatar!,
                     placeholderImage: nil)
                 //optionsInfo: [.Options(KingfisherOptions.ForceRefresh)])
             }
-            
+            // set price
             priceLabel.text = String(format: "%d-%d¥/课时", model!.min_price, model!.max_price)
-            
+            // set name
             nameLabel.text = model!.name
             nameLabel.sizeToFit()
-            
-            // Todo: convert grades and subject to what should be displayed
-            gradeSubjectLabel.text = String(format: "年级:%d・科目:%d", model!.grades![0], model!.subject)
+            // set subject
+            let subjectText = MalaSubject[model!.subject] ?? "-"
+            // set grades
+            var gradesText: String {
+                var result = "-"
+                if MalaGrades.instance.data.count != 3 {
+                    print("Error: Grade levels should be 3")
+                    return result
+                }
+                if let grades = model!.grades {
+                    var shortGradeNameArray = [String]()
+                    for grade in grades.sort() {
+                        if grade < MalaGrades.instance.data[1].id {
+                            // 小学
+                            if !shortGradeNameArray.contains("小") {
+                                shortGradeNameArray.append("小")
+                            }
+                            result = MalaGrades.instance.data[0].name!
+                        } else if grade < MalaGrades.instance.data[2].id {
+                            // 初中
+                            if !shortGradeNameArray.contains("初") {
+                                shortGradeNameArray.append("初")
+                            }
+                            result = MalaGrades.instance.data[1].name!
+                        } else {
+                            // 高中
+                            if !shortGradeNameArray.contains("高") {
+                                shortGradeNameArray.append("高")
+                            }
+                            result = MalaGrades.instance.data[2].name!
+                        }
+                    }
+                    if shortGradeNameArray.count > 1 {
+                        result.removeAll()
+                        for shortGradeName in shortGradeNameArray {
+                            result += shortGradeName
+                        }
+                    }
+                }
+                return result
+            }
+            gradeSubjectLabel.text = String(format: "%@・%@", gradesText, subjectText)
             gradeSubjectLabel.sizeToFit()
             print(gradeSubjectLabel.text)
             
-            // Todo: convert tags to what should be displayed
-            var tagsText: String = "风格:"
-            for tag in model!.tags! {
-                tagsText += String(tag) + "・"
+            // set tags
+            // Todo: these tags data must be saved first that can be displayed on teachers list page
+            // the data will retrive directly from "teachers" API later
+            var tagsText: String {
+                var result = "-"
+                if let tags = model!.tags {
+                    result.removeAll()
+                    for tag in tags {
+                        if let tagString = MalaTeacherTags.instance.data[tag] {
+                            result += tagString + "・"
+                        }
+                    }
+                }
+                return result
             }
             print(tagsText)
             //tagsText.removeAtIndex(tagsText.endIndex)
@@ -92,14 +143,14 @@ class TeacherCollectionViewCell: UICollectionViewCell {
         }
         
         gradeSubjectLabel.textColor = UIColor.redColor()
-        gradeSubjectLabel.font = UIFont.systemFontOfSize(16)
+        gradeSubjectLabel.font = UIFont.systemFontOfSize(14)
         gradeSubjectLabel.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(nameLabel.snp_bottom)
             make.right.equalTo(self.snp_right)
         }
         
         tagsLabel.textColor = UIColor.grayColor()
-        tagsLabel.font = UIFont.systemFontOfSize(16)
+        tagsLabel.font = UIFont.systemFontOfSize(14)
         tagsLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(nameLabel.snp_bottom)
         }
