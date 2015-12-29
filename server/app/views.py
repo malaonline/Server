@@ -28,6 +28,9 @@ class Policy(View):
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class Sms(View):
+    expired_time = 10    # 10 minutes
+    resend_span = 1      # 1 minute
+    max_verify_times = 3
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(Sms, self).dispatch(request, *args, **kwargs)
@@ -59,24 +62,43 @@ class Sms(View):
         is_test = self.isTestPhone(phone)
         obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
         if not created:
-            delta = timezone.now() - obj.updated_at
-            if delta > datetime.timedelta(minutes=10):
+            now = timezone.now()
+            delta = now - obj.updated_at
+            if delta > datetime.timedelta(minutes=self.expired_time):
+                # expired, make new one
                 obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
+                obj.updated_at = now
+                obj.verify_times = 0
+                obj.resend_at = now
+                obj.save()
+            else:
+                resend_at = obj.resend_at and obj.resend_at or obj.updated_at
+                delta = now - resend_at
+                if delta < datetime.timedelta(minutes=self.resend_span):
+                    # resend too much times
+                    return False
+                obj.resend_at = now
                 obj.save()
         return obj.checkcode
 
     def verifyCheckcode(self, phone, code):
+        # return is_valid, err_no
         try:
             obj = models.Checkcode.objects.get(phone=phone)
             delta = timezone.now() - obj.updated_at
-            if delta > datetime.timedelta(minutes=10):
-                return False
+            if delta > datetime.timedelta(minutes=self.expired_time):
+                return False, 2
+            if obj.verify_times >= self.max_verify_times: # meybe someone attack
+                return False, 3
             is_valid = code == obj.checkcode
             if is_valid:
                 obj.delete()
-            return is_valid
+            else:
+                obj.verify_times += 1;
+                obj.save()
+            return is_valid, 0
         except:
-            return False
+            return False, 1
 
     # @method_decorator(csrf_exempt) # here it doesn't work
     def post(self, request):
@@ -90,6 +112,8 @@ class Sms(View):
             try:
                 # generate code
                 checkcode = self.generateCheckcode(phone)
+                if not checkcode:
+                    return JsonResponse({'sent': False, 'reason': 'resend too much times'})
                 print ('验证码：' + str(checkcode))
                 if not self.isTestPhone(phone):
                     # call send sms api
@@ -109,8 +133,9 @@ class Sms(View):
             if not self.isValidCode(code):
                 return JsonResponse({'sent': False, 'reason': 'code is wrong'})
             try:
-                if not self.verifyCheckcode(phone, code):
-                    return JsonResponse({'verified': False, 'reason': 'SMS not match'})
+                is_valid, err_no = self.verifyCheckcode(phone, code)
+                if not is_valid:
+                    return JsonResponse({'verified': False, 'reason': err_no == 3 and 'Retry too much times' or 'SMS not match or is expired'})
                 # find User
                 is_found = False
                 try:

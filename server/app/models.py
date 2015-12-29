@@ -453,4 +453,6 @@ class Message(BaseModel):
 class Checkcode(BaseModel):
     phone = models.CharField(max_length=20, unique=True)
     checkcode = models.CharField(max_length=30)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    verify_times = models.PositiveIntegerField(default=0)
+    resend_at = models.DateTimeField(blank=True, null=True, default=None)
