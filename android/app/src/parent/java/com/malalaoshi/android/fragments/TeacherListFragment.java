@@ -303,15 +303,16 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
                     teacher.setGrades(tmp);
                 }
 
-                JSONArray tagsAry = obj.optJSONArray("tags");
-                if(tagsAry != null && tagsAry.length() > 0){
-                    Long [] tmp = new Long[tagsAry.length()];
-                    for(int ind=0; ind < tagsAry.length(); ind++){
-                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
-                    }
-
-                    teacher.setTags(tmp);
-                }
+                // TODO: api is changed
+//                JSONArray tagsAry = obj.optJSONArray("tags");
+//                if(tagsAry != null && tagsAry.length() > 0){
+//                    Long [] tmp = new Long[tagsAry.length()];
+//                    for(int ind=0; ind < tagsAry.length(); ind++){
+//                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+//                    }
+//
+//                    teacher.setTags(tmp);
+//                }
                 teachersList.add(teacher);
             }
         }catch(Exception e){
