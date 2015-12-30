@@ -117,10 +117,6 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
             }
             strongSelf.tagsCondition.subset = tempDict
             self?.reloadData()
-
-            // save the tags
-            // Todo: these tags data must be saved first that can be displayed on teachers list page
-            MalaTeacherTags.instance.importData(tempDict)
         }
         self.grades?.append(self.tagsCondition)
         self.reloadData()
