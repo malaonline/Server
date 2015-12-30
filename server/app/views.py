@@ -257,13 +257,12 @@ class CertificateViewSet(viewsets.ReadOnlyModelViewSet):
 class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
     tags = TagNameSerializer(many=True)
-    grades = GradeNameSerializer(many=True)
     subject = SubjectNameSerializer()
 
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
-                  'max_price', 'subject', 'grades', 'tags',)
+                  'max_price', 'subject', 'grades_shortname', 'tags')
 
 
 class TeacherSerializer(serializers.ModelSerializer):

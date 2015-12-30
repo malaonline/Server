@@ -117,8 +117,8 @@ tags=1+3+2
             "min_price": 90,
             "max_price": 200,
             "subject": "语文",
-            "grades": ["小学", "初一"],
-            "tags": ["幽默", "亲切"]
+            "grades_shortname": "小初"
+            "tags": ["幽默", "亲切"],
         },
         ...
     ]

@@ -168,6 +168,17 @@ class Teacher(BaseModel):
         abilities = self.ability_set.all()
         return [ability.grade for ability in abilities]
 
+    def grades_shortname(self):
+        grades = self.grades()
+        grades = list(set(x.superset if x.superset else x for x in grades))
+        grades = sorted(grades, key=lambda x:{'小学':1, '初中':2, '高中': 3}[x.name])
+        if len(grades) == 0:
+            return ''
+        if len(grades) == 1:
+            return grades[0].name
+        else:
+            return ''.join(x.name[0] for x in grades)
+
     def prices(self):
         regions = [x.region for x in self.schools.all()]
 
