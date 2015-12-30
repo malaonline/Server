@@ -131,7 +131,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
         long[] subjects1 = new long[]{1,2,3};
         long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
         // 小学
-        Grade primary = Grade.getById(Grade.PRIMARY_ID);
+        Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
         Map<String, Object> item = new HashMap<String, Object>();
         item.put("id", primary.getId());
         item.put("name", primary.getName());
@@ -144,7 +144,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
         item.put("subjects", subjects1);
         mSubGrages1List.add(item);
         // 初中
-        Grade middle = Grade.getById(Grade.MIDDLE_ID);
+        Grade middle = Grade.getGradeById(Grade.MIDDLE_ID);
         item = new HashMap<String, Object>();
         item.put("id", middle.getId());
         item.put("name", middle.getName());
@@ -157,7 +157,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
         item.put("subjects", subjects2);
         mSubGrages2List.add(item);
         // 高中
-        Grade senior = Grade.getById(Grade.SENIOR_ID);
+        Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
         item = new HashMap<String, Object>();
         item.put("id", senior.getId());
         item.put("name", senior.getName());

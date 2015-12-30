@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.GCoursePrice;
-import com.malalaoshi.android.entity.GGrade;
+import com.malalaoshi.android.entity.Grade;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class CoursePriceAdapter extends BaseAdapter{
             viewHolder = (ViewHolder)convertView.getTag();
         }
         if (data.getName()==null){
-            GGrade grade = GGrade.getGradeById(data.getGrade());
+            Grade grade = Grade.getGradeById(data.getGrade());
             data.setName(grade.getName());
         }
         viewHolder.tvName.setText(data.getName());
