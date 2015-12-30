@@ -98,67 +98,6 @@
                 android:numColumns="2"/>
         </ScrollView>
         <!--风格-->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ScrollView android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/page_padding"
-                        android:layout_marginRight="@dimen/page_padding_small"
-                        android:layout_marginBottom="@dimen/dialog_bottom_bar_height"
-                        android:fadingEdge="none"
-                        android:overScrollMode="never"
-                        android:scrollbars="vertical" >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/page_padding_inner"
-                    android:orientation="vertical">
-                    <CheckedTextView
-                        android:id="@+id/filter_tags_all"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:drawableLeft="@drawable/selectable_checkbox_round_style"
-                        android:drawableStart="@drawable/selectable_checkbox_round_style"
-                        android:textColor="@color/selectable_color"
-                        android:drawablePadding="4dp"
-                        android:paddingBottom="9dp"
-                        android:textSize="@dimen/body_text_size"
-                        android:height="23dp"
-                        android:includeFontPadding="false"
-                        android:paddingLeft="@dimen/page_padding_inner"
-                        android:ellipsize="marquee"
-                        android:checked="true"
-                        android:text="不限"/>
-                    <com.malalaoshi.android.view.ExpandedHeightGridView
-                        android:id="@+id/filter_tags_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:listSelector="@android:color/transparent"
-                        android:numColumns="2"/>
-                </LinearLayout>
-            </ScrollView>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dialog_bottom_bar_height"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider"
-                    />
-                <Button
-                    android:id="@+id/filter_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@android:color/transparent"
-                    android:text="@string/do_filter"
-                    android:textSize="@dimen/dialog_title_size"/>
-            </LinearLayout>
-        </FrameLayout>
+        <include layout="@layout/dialog_filter_tags" />
     </ViewFlipper>
 </FrameLayout>

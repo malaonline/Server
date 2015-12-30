@@ -76,6 +76,14 @@ public class FilterDialogFragment extends BaseDialogFragment {
     protected GridView mTagsViewList;
     @Bind(R.id.filter_tags_all)
     protected CheckedTextView mTagsAll;
+    @Bind(R.id.tags_loading)
+    protected View mTagsLoading;
+    @Bind(R.id.tags_load_again)
+    protected View mTagsLoadAgain;
+    @Bind(R.id.tags_load_again_msg)
+    protected TextView mTagsLoadAgainMsg;
+    @Bind(R.id.tags_container)
+    protected View mTagsContainer;
 
     private List<Map<String, Object>> mTotalSubjectsList;
     private List<Map<String, Object>> mSubjectsList; // for subjects list adapter
@@ -362,11 +370,20 @@ public class FilterDialogFragment extends BaseDialogFragment {
                         List<Tag> tags = tagsResult.getResults();
                         setTagsList(tags);
                         ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
+
+                        mTagsLoading.setVisibility(View.INVISIBLE);
+                        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+                        mTagsContainer.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "get tags list error", error);
+                if (!MalaApplication.getInstance().isNetworkOk()) {
+                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后，重新加载");
+                }
+                mTagsLoading.setVisibility(View.INVISIBLE);
+                mTagsLoadAgain.setVisibility(View.VISIBLE);
             }
         });
         requestQueue.add(jsonRequest);
@@ -495,5 +512,12 @@ public class FilterDialogFragment extends BaseDialogFragment {
             }
             TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
         }
+    }
+
+    @OnClick(R.id.tags_load_again)
+    protected void onClickTagsLoadAgain() {
+        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+        mTagsLoading.setVisibility(View.VISIBLE);
+        getTagsList();
     }
 }
