@@ -16,7 +16,7 @@
 
 ### To Synchronize with Upstream
 
-1. `git remote add upstream git@bitbucket.org:malalaoshi/mala.git`
+1. `git remote add upstream git@b.malalaoshi.com:mala/mala.git`
 2. `git pull upstream dev`
 
 ### Dev server
