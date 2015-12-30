@@ -20,7 +20,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     }()
     
     
-    // MARK: - Life Circle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,6 +82,16 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
 
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
+    }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let teacherId = (collectionView.cellForItemAtIndexPath(indexPath) as! TeacherCollectionViewCell).model!.id
+        let teacherDetail = TeacherDetailModel() // TODO: Network request
+        let viewController = TeacherDetailController()
+        viewController.model = teacherDetail
+        viewController.view.backgroundColor = UIColor.lightGrayColor()
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func dropViewDidTapButtonForContentView(contentView: UIView) {

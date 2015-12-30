@@ -1,33 +1,29 @@
 //
-//  MainNavigationController.swift
+//  TeacherDetailController.swift
 //  mala-ios
 //
-//  Created by Elors on 12/18/15.
+//  Created by Elors on 12/30/15.
 //  Copyright © 2015 Mala Online. All rights reserved.
 //
 
 import UIKit
 
-class MainNavigationController: UINavigationController {
+class TeacherDetailController: UIViewController {
+
+    // MARK: - Variables
+    var model: TeacherDetailModel?
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupStyle()
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    
-    // MARK: - Private Function
-    private func setupStyle() {
-        
-        // Text Style
-        navigationBar.titleTextAttributes = commonTextStyle()
     }
 
 }
