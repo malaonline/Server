@@ -5,7 +5,7 @@ ENV=/opt/jenkins/env
 SET=/opt/keys-pros
 
 mkdir -p $DES
-rsync -r * $DES/
+rsync -r --delete * $DES/
 cp -Rf $SET/local_settings.py $DES/server/
 
 . $ENV/bin/activate
