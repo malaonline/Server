@@ -17,8 +17,8 @@ class TeacherModel: BaseObjectModel {
     var min_price: Int = 0
     var max_price: Int = 0
     var subject: Int = 0
-    var grades: [Int] = []
-    var tags: [Int] = []
+    var grades: [Int]?
+    var tags: [Int]?
     
     // MARK: - Constructed
     override init(dict: [String: AnyObject]) {
@@ -32,6 +32,9 @@ class TeacherModel: BaseObjectModel {
     }
     
     override func setValue(value: AnyObject?, forKey key: String) {
+        if value == nil {
+            return
+        }
         if key == "avatar" {
             if let urlString = value as? String {
                 avatar = NSURL(string: urlString)

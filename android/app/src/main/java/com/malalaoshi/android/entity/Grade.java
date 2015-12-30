@@ -1,15 +1,22 @@
 package com.malalaoshi.android.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zl on 15/12/14.
  */
 public class Grade{
+    public static final long PRIMARY_ID = 1;
+    public static final long MIDDLE_ID = 8;
+    public static final long SENIOR_ID = 13;
+
     private Long id;
     private String name;
     private Boolean leaf;
+    private Long supersetId;
 
     public Long getId(){
         return id;
@@ -35,6 +42,14 @@ public class Grade{
         this.leaf = leaf;
     }
 
+    public Long getSupersetId() {
+        return supersetId;
+    }
+
+    public void setSupersetId(Long supersetId) {
+        this.supersetId = supersetId;
+    }
+
     public Grade(){
     }
 
@@ -44,28 +59,51 @@ public class Grade{
         this.setLeaf(leaf);
     }
 
+    public Grade(Long id, String name, Boolean leaf, Long supersetId){
+        this.setId(id);
+        this.setName(name);
+        this.setLeaf(leaf);
+        this.setSupersetId(supersetId);
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", leaf=" + leaf +
+                ", supersetId=" + supersetId +
+                '}';
+    }
+
     public static List<Grade> gradeList;
+    public static Map<Long, Grade> gradeMap;
     static{
         gradeList = new ArrayList<Grade>();
 
         gradeList.add(new Grade(1L, "小学", false));
-        gradeList.add(new Grade(2L, "一年级", true));
-        gradeList.add(new Grade(3L, "二年级", true));
-        gradeList.add(new Grade(4L, "三年级", true));
-        gradeList.add(new Grade(5L, "四年级", true));
-        gradeList.add(new Grade(6L, "五年级", true));
-        gradeList.add(new Grade(7L, "六年级", true));
+        gradeList.add(new Grade(2L, "一年级", true, PRIMARY_ID));
+        gradeList.add(new Grade(3L, "二年级", true, PRIMARY_ID));
+        gradeList.add(new Grade(4L, "三年级", true, PRIMARY_ID));
+        gradeList.add(new Grade(5L, "四年级", true, PRIMARY_ID));
+        gradeList.add(new Grade(6L, "五年级", true, PRIMARY_ID));
+        gradeList.add(new Grade(7L, "六年级", true, PRIMARY_ID));
 
         gradeList.add(new Grade(8L, "初中", false));
-        gradeList.add(new Grade(9L, "初一", true));
-        gradeList.add(new Grade(10L, "初二", true));
-        gradeList.add(new Grade(11L, "初三", true));
-        gradeList.add(new Grade(12L, "初四", true));
+        gradeList.add(new Grade(9L, "初一", true, MIDDLE_ID));
+        gradeList.add(new Grade(10L, "初二", true, MIDDLE_ID));
+        gradeList.add(new Grade(11L, "初三", true, MIDDLE_ID));
+        gradeList.add(new Grade(12L, "初四", true, MIDDLE_ID));
 
         gradeList.add(new Grade(13L, "高中", false));
-        gradeList.add(new Grade(14L, "高一", true));
-        gradeList.add(new Grade(15L, "高二", true));
-        gradeList.add(new Grade(16L, "高三", true));
+        gradeList.add(new Grade(14L, "高一", true, SENIOR_ID));
+        gradeList.add(new Grade(15L, "高二", true, SENIOR_ID));
+        gradeList.add(new Grade(16L, "高三", true, SENIOR_ID));
+
+        gradeMap = new HashMap<>(gradeList.size()*2);
+        for(Grade g: gradeList) {
+            gradeMap.put(g.getId(), g);
+        }
     }
 
     public static boolean isPrimary(Long id){
@@ -77,13 +115,8 @@ public class Grade{
     public static boolean isSenior(Long id){
         return id == null ? false : (id.compareTo(13L) >= 0 && id.compareTo(16L) <= 0) ? true : false;
     }
-    public static Grade getById(Long id){
-        for(Grade grade: gradeList){
-            if(grade.getId().equals(id)){
-                return grade;
-            }
-        }
-        return null;
+    public static Grade getGradeById(Long id){
+        return gradeMap.get(id);
     }
     public static String generateGradeViewString(Long [] gradesAry){
         String str = null;

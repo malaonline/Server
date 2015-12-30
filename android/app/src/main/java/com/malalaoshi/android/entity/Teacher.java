@@ -16,6 +16,8 @@ public class Teacher {
     private Long[] grades;
     private Long[] tags;
 
+    private String[] tagsName;
+
     private String avatar;
 
     public String getId() {
@@ -105,5 +107,12 @@ public class Teacher {
 
     public void setSubject(Long subject){
         this.subject = subject;
+    }
+
+    public String[] getTagsName(){
+        return tagsName;
+    }
+    public String[] setTagsName(String[] tagsName){
+        return this.tagsName = tagsName;
     }
 }

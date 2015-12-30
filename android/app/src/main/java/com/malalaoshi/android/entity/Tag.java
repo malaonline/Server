@@ -6,54 +6,64 @@ import java.util.List;
 /**
  * Created by zl on 15/12/14.
  */
-public class Tag{
+public class Tag {
     private Long id;
     private String name;
 
-    public Tag(){
+    public Tag() {
 
     }
-    public Tag(Long id, String name){
+
+    public Tag(Long id, String name) {
         this.setId(id);
         this.setName(name);
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public static List<Tag> tags;
-    static{
-        tags = new ArrayList<Tag>();
-
-        tags.add(new Tag(1L, "不错"));
-        tags.add(new Tag(2L, "幽默"));
-        tags.add(new Tag(3L, "有责任心"));
-        tags.add(new Tag(4L, "正能量"));
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
-    public static String generateTagViewString(Long[] tagsId, List<Tag> tagList){
-        if(tagsId == null || tagList == null || tagsId.length == 0 || tagList.size() == 0){
+    public static List<Tag> tags;
+
+    static {
+        tags = new ArrayList<Tag>();
+
+//        tags.add(new Tag(1L, "不错"));
+//        tags.add(new Tag(2L, "幽默"));
+//        tags.add(new Tag(3L, "有责任心"));
+//        tags.add(new Tag(4L, "正能量"));
+    }
+
+    public static String generateTagViewString(Long[] tagsId, List<Tag> tagList) {
+        if (tagsId == null || tagList == null || tagsId.length == 0 || tagList.size() == 0) {
             return null;
         }
         String str = "";
-        for(int i=0; i < tagsId.length; i++){
-            for(Tag tag: tagList){
-                if(tagsId[i].equals(tag.getId())){
+        for (int i = 0; i < tagsId.length; i++) {
+            for (Tag tag : tagList) {
+                if (tagsId[i].equals(tag.getId())) {
                     str += tag.getName();
-                    if(i < tagsId.length - 1){
+                    if (i < tagsId.length - 1) {
                         str += " | ";
                     }
                 }
@@ -61,5 +71,15 @@ public class Tag{
         }
 
         return str;
+    }
+
+    @Deprecated
+    public static Tag findTagById(Long tagId, List<Tag> allTag) {
+        for (Tag tag : allTag) {
+            if (tag.getId().equals(tagId)) {
+                return tag;
+            }
+        }
+        return null;
     }
 }

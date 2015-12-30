@@ -21,12 +21,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
+import com.malalaoshi.android.result.TagListResult;
+import com.malalaoshi.android.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,6 +76,14 @@ public class FilterDialogFragment extends BaseDialogFragment {
     protected GridView mTagsViewList;
     @Bind(R.id.filter_tags_all)
     protected CheckedTextView mTagsAll;
+    @Bind(R.id.tags_loading)
+    protected View mTagsLoading;
+    @Bind(R.id.tags_load_again)
+    protected View mTagsLoadAgain;
+    @Bind(R.id.tags_load_again_msg)
+    protected TextView mTagsLoadAgainMsg;
+    @Bind(R.id.tags_container)
+    protected View mTagsContainer;
 
     private List<Map<String, Object>> mTotalSubjectsList;
     private List<Map<String, Object>> mSubjectsList; // for subjects list adapter
@@ -110,7 +122,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private void setData() {
         setSubjectsList();
         setGradesList();
-        setTagsList();
+//        setTagsList(Tag.tags);
     }
 
     private void setSubjectsList() {
@@ -124,78 +136,86 @@ public class FilterDialogFragment extends BaseDialogFragment {
     }
 
     private void setGradesList() {
-        long id = 1;
         long[] subjects1 = new long[]{1,2,3};
         long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
-        char[] numWords = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
         // 小学
-        String stage = "小学";
+        Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
         Map<String, Object> item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", primary.getId());
+        item.put("name", primary.getName());
         item.put("subjects", subjects1);
         item.put("subset", mSubGrages1List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", primary.getId());
+        item.put("name", primary.getName()+"全部");
         item.put("subjects", subjects1);
         mSubGrages1List.add(item);
-        for (int i = 0; i < 6; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects1);
-            mSubGrages1List.add(item);
-        }
         // 初中
-        stage = "初中";
+        Grade middle = Grade.getGradeById(Grade.MIDDLE_ID);
         item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", middle.getId());
+        item.put("name", middle.getName());
         item.put("subjects", subjects2);
         item.put("subset", mSubGrages2List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", middle.getId());
+        item.put("name", middle.getName()+"全部");
         item.put("subjects", subjects2);
         mSubGrages2List.add(item);
-        for (int i = 0; i < 3; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects2);
-            mSubGrages2List.add(item);
-        }
         // 高中
-        stage = "高中";
+        Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
         item = new HashMap<String, Object>();
-        item.put("id", id);
-        item.put("name", stage);
+        item.put("id", senior.getId());
+        item.put("name", senior.getName());
         item.put("subjects", subjects2);
         item.put("subset", mSubGrages3List);
         mGragesList.add(item);
         item = new HashMap<String, Object>();
-        item.put("id", id++);
-        item.put("name", stage+"全部");
+        item.put("id", senior.getId());
+        item.put("name", senior.getName()+"全部");
         item.put("subjects", subjects2);
         mSubGrages3List.add(item);
-        for (int i = 0; i < 3; i++) {
-            item = new HashMap<String, Object>();
-            item.put("id", id++);
-            item.put("name", stage+numWords[i]+"年级");
-            item.put("subjects", subjects2);
-            mSubGrages3List.add(item);
+        // collect all grade
+        for (Grade g: Grade.gradeList) {
+            if (g.getSupersetId() == null) {
+                continue;
+            }
+            if (g.getSupersetId() == Grade.PRIMARY_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", primary.getName() + g.getName());
+                item.put("subjects", subjects1);
+                mSubGrages1List.add(item);
+            }
+            if (g.getSupersetId() == Grade.MIDDLE_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", middle.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages2List.add(item);
+            }
+            if (g.getSupersetId() == Grade.SENIOR_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", senior.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages3List.add(item);
+            }
         }
     }
 
-    private void setTagsList() {
-        for (int i = 0; i < Tag.tags.size(); i++) {
-            Tag tag = Tag.tags.get(i);
+    private void setTagsList(List<Tag> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return;
+        }
+        mTagsList.clear();
+        for (int i = 0; i < tags.size(); i++) {
+            Tag obj = tags.get(i);
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("id", tag.getId());
-            item.put("name", tag.getName());
+            item.put("id", obj.getId());
+            item.put("name", obj.getName());
             mTagsList.add(item);
         }
     }
@@ -234,6 +254,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
                 mSubGrages3List, R.layout.abc_list_item_singlechoice,
                 new String[]{"name"},
                 new int[]{R.id.text1}));
+        getTagsList();
     }
 
     @Deprecated
@@ -341,28 +362,28 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private void getTagsList() {
         String url = MalaApplication.getInstance().getMalaHost() + API_TAGS_URL;
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+        StringRequest jsonRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        mTagsList.clear();
-                        try {
-                            JSONArray results = response.getJSONArray("results");
-                            for (int i = 0; i < results.length(); i++) {
-                                JSONObject obj = results.getJSONObject(i);
-                                Map<String, Object> item = new HashMap<String, Object>();
-                                item.put("id", obj.getLong("id"));
-                                item.put("name", obj.getString("name"));
-                                mTagsList.add(item);
-                            }
-                        }catch (Exception e) {
-                        }
+                    public void onResponse(String response) {
+                        TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
+                        List<Tag> tags = tagsResult.getResults();
+                        setTagsList(tags);
                         ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
+
+                        mTagsLoading.setVisibility(View.INVISIBLE);
+                        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+                        mTagsContainer.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "get tags list error", error);
+                if (!MalaApplication.getInstance().isNetworkOk()) {
+                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后，重新加载");
+                }
+                mTagsLoading.setVisibility(View.INVISIBLE);
+                mTagsLoadAgain.setVisibility(View.VISIBLE);
             }
         });
         requestQueue.add(jsonRequest);
@@ -491,5 +512,12 @@ public class FilterDialogFragment extends BaseDialogFragment {
             }
             TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
         }
+    }
+
+    @OnClick(R.id.tags_load_again)
+    protected void onClickTagsLoadAgain() {
+        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+        mTagsLoading.setVisibility(View.VISIBLE);
+        getTagsList();
     }
 }

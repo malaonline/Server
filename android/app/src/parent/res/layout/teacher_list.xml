@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/teacher_list_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,6 +21,6 @@
         android:paddingRight="@dimen/teacher_list_card_diver"
         android:background="#FFFFFF"
         android:scrollbarSize="1dp"
-    />
+        />
 
-</android.support.v4.widget.SwipeRefreshLayout>
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>
