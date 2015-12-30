@@ -225,9 +225,8 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
 class HighscoreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Highscore
-        fields = ('id', 'name', 'increased_scores', 'school_name',
+        fields = ('name', 'increased_scores', 'school_name',
                   'admitted_to')
-
 
 class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Highscore.objects.all()
@@ -264,6 +263,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     grades = GradeNameSerializer(many=True)
     subject = SubjectNameSerializer()
     level = LevelNameSerializer()
+    highscore_set = HighscoreSerializer(many=True)
 
     class Meta:
         model = models.Teacher
