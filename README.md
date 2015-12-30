@@ -38,5 +38,4 @@ KEYSTORE_PASSWORD=123456
 KEY_PASSWORD=123456
 LOCAL_SERVER=https://dev.malalaoshi.com
 ```
-
 Modify variables if needed.
