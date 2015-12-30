@@ -31,13 +31,11 @@ class TeacherCollectionViewCell: UICollectionViewCell {
             let subject: String = model?.subject ?? "N/A"
             gradeSubjectLabel.text = String(format: "%@・%@", grades, subject)
             gradeSubjectLabel.sizeToFit()
-            print(gradeSubjectLabel.text)
 
             // set tags
             let tags = ((model?.tags) != nil) ? model?.tags?.joinWithSeparator("・") : "N/A"
             tagsLabel.text = tags
             tagsLabel.sizeToFit()
-            print(tagsLabel.text)
 
         }
     }

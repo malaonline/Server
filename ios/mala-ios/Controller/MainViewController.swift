@@ -10,7 +10,7 @@ import UIKit
 
 class MainViewController: UITabBarController {
 
-    // MARK: - Life Circle
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
