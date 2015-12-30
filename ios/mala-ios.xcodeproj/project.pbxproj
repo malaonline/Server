@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		03F76CF796D8F7E2B1EBFD7E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
-		2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -72,7 +71,6 @@
 		357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */; };
 		357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */; };
 		357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */; };
-		357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A261C0FF3010009AF9A /* OrderDetailViewController.swift */; };
 		35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35D7A2F51C0FE82E007D7679 /* Main.storyboard */; };
 		4B7729A525CC171AFEC029E0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 /* End PBXBuildFile section */
@@ -719,7 +717,6 @@
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
-				2E65424E1C219BA3007AE628 /* TeacherCollectionCell.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
@@ -734,7 +731,6 @@
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
-				357E6A341C0FF3010009AF9A /* OrderDetailViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,14 +770,14 @@
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -790,14 +786,14 @@
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -806,14 +802,14 @@
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.parent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -822,14 +818,14 @@
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.parent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -873,7 +869,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "f50c483e-976c-4466-8063-9ccf49089e9b";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -913,7 +909,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "2d521e22-fe6d-4564-a7aa-d7fe5851fa7e";
+				PROVISIONING_PROFILE = "f50c483e-976c-4466-8063-9ccf49089e9b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
