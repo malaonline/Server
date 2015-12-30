@@ -26,9 +26,9 @@ import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.base.BaseDialogFragment;
-import com.malalaoshi.android.entity.GTag;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.result.TagListResult;
 import com.malalaoshi.android.util.JsonUtil;
 
@@ -114,7 +114,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private void setData() {
         setSubjectsList();
         setGradesList();
-        setTagsList(MalaApplication.getInstance().getTags());
+//        setTagsList(Tag.tags);
     }
 
     private void setSubjectsList() {
@@ -198,13 +198,13 @@ public class FilterDialogFragment extends BaseDialogFragment {
         }
     }
 
-    private void setTagsList(List<GTag> tags) {
+    private void setTagsList(List<Tag> tags) {
         if (tags == null || tags.isEmpty()) {
             return;
         }
         mTagsList.clear();
         for (int i = 0; i < tags.size(); i++) {
-            GTag obj = tags.get(i);
+            Tag obj = tags.get(i);
             Map<String, Object> item = new HashMap<String, Object>();
             item.put("id", obj.getId());
             item.put("name", obj.getName());
@@ -359,8 +359,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
                     @Override
                     public void onResponse(String response) {
                         TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
-                        List<GTag> tags = tagsResult.getResults();
-                        MalaApplication.getInstance().setTags(tags);
+                        List<Tag> tags = tagsResult.getResults();
                         setTagsList(tags);
                         ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
                     }

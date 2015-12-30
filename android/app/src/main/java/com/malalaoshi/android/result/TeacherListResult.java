@@ -1,7 +1,7 @@
 package com.malalaoshi.android.result;
 
-import com.malalaoshi.android.entity.GTag;
 import com.malalaoshi.android.entity.GTeacher;
+import com.malalaoshi.android.entity.Tag;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  * 教师列表返回结果
  */
 public class TeacherListResult extends BaseResult<List<GTeacher>> {
-    protected List<GTag> tags;
+    protected List<Tag> tags;
 
-    public List<GTag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<GTag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 

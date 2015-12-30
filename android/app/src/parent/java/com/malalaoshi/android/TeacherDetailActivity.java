@@ -25,18 +25,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 import com.malalaoshi.android.entity.GCoursePrice;
 import com.malalaoshi.android.entity.GGrade;
 import com.malalaoshi.android.entity.GHighScore;
 import com.malalaoshi.android.entity.GLevel;
 import com.malalaoshi.android.entity.GMemberService;
 import com.malalaoshi.android.entity.GSubject;
-import com.malalaoshi.android.entity.GTag;
 import com.malalaoshi.android.entity.GTeacher;
+import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
@@ -49,6 +45,9 @@ import com.malalaoshi.android.view.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by zl on 15/11/30.
@@ -65,7 +64,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
     //
-    private List<GTag> mTags;
+    private List<Tag> mTags;
     private MemberServiceListResult mMemberServicesResult;
     private GTeacher mTeacher;
 
@@ -182,12 +181,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         mTeacherId = intent.getStringExtra(EXTRA_TEACHER_ID);
         requestQueue = MalaApplication.getHttpRequestQueue();
         hostUrl = MalaApplication.getInstance().getMalaHost();
-        mTags = MalaApplication.getInstance().getTags();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         //没有标签时去下载标签
-        if (mTags == null) {
-            loadTags();
-        }
+//        if (mTags == null) {
+//            loadTags();
+//        }
         loadTeacherInfo();
         loadMemeberServices();
     }
@@ -216,7 +214,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue.add(jstringRequest);
     }
 
-
+    /**
+     * @deprecated for Tags' info is in teachers list too
+     */
+    @Deprecated
     private void loadTags() {
         //String url = hostUrl +TAGS_PATH_V1;
         String url = hostUrl + TAGS_PATH_V1;
@@ -228,7 +229,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 //tagsResult = JsonUtil.parseData(R.raw.tags, TagListResult.class, TeacherDetailActivity.this);
                 tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
                 mTags = tagsResult.getResults();
-                MalaApplication.getInstance().setTags(mTags);
                 updateUITags();
             }
         }, new Response.ErrorListener() {
@@ -266,6 +266,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue.add(jstringRequest);
     }
 
+    /**
+     * @deprecated for Tags' info is in teachers list too
+     */
+    @Deprecated
     private void updateUITags() {
         if (mTags != null && mTeacher != null) {
             String spot = " | ";
@@ -273,7 +277,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             Long[] tagId = mTeacher.getTags();
             if (tagId != null) {
                 for (int i = 0; i < tagId.length; i++) {
-                    GTag tag = GTag.findTagById(tagId[i], mTags);
+                    Tag tag = Tag.findTagById(tagId[i], mTags);
                     if (tag != null) {
                         stringBuilder.append(tag.getName() + spot);
                     }
