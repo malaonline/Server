@@ -237,6 +237,12 @@ class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Highscore.objects.all()
     serializer_class = HighscoreSerializer
 
+class PhotoUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Photo
+
+    def to_representation(self, instance):
+        return self.fields['img'].get_attribute(instance).url
 
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -269,6 +275,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     subject = SubjectNameSerializer()
     level = LevelNameSerializer()
     highscore_set = HighscoreSerializer(many=True)
+    photo_set = PhotoUrlSerializer(many=True)
 
     class Meta:
         model = models.Teacher
