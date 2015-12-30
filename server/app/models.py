@@ -162,11 +162,11 @@ class Teacher(BaseModel):
         abilities = self.ability_set.all()
         if not abilities:
             return None
-        return abilities[0].subject.id
+        return abilities[0].subject
 
     def grades(self):
         abilities = self.ability_set.all()
-        return (ability.grade.id for ability in abilities)
+        return [ability.grade for ability in abilities]
 
     def prices(self):
         regions = [x.region for x in self.schools.all()]
