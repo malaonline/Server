@@ -35,6 +35,14 @@
 		307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF91491C2ACE7000904C3A /* TeacherModel.swift */; };
 		307AB8611C323BDF00D8397F /* TeacherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */; };
 		307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
+		307AB8981C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
+		307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
+		307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89A1C33CDD200D8397F /* GradePriceModel.swift */; };
+		307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89A1C33CDD200D8397F /* GradePriceModel.swift */; };
+		307AB89F1C33CDD200D8397F /* HighScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89B1C33CDD200D8397F /* HighScoreModel.swift */; };
+		307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89B1C33CDD200D8397F /* HighScoreModel.swift */; };
+		307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */; };
+		307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */; };
 		30AE09301C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
@@ -49,8 +57,6 @@
 		30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */; };
 		30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		30D4AA051C23E07600C5A336 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
-		30D4AA071C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */; };
-		30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */; };
 		30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
 		30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
 		30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
@@ -103,13 +109,16 @@
 		3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		307788511C2A3D7A007AF6B0 /* FilterCondition.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FilterCondition.plist; sourceTree = "<group>"; };
 		307788571C2A58B1007AF6B0 /* OperatorOverload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverload.swift; sourceTree = "<group>"; };
+		307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonFlowLayout.swift; sourceTree = "<group>"; };
+		307AB89A1C33CDD200D8397F /* GradePriceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradePriceModel.swift; sourceTree = "<group>"; };
+		307AB89B1C33CDD200D8397F /* HighScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScoreModel.swift; sourceTree = "<group>"; };
+		307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailModel.swift; sourceTree = "<group>"; };
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		30AE09351C2BE56D00FD607D /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommonFlowLayout.swift; path = ../View/CommonFlowLayout.swift; sourceTree = "<group>"; };
 		30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
 		30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObjectModel.swift; sourceTree = "<group>"; };
@@ -199,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				30F9E6C41C23BF6F0022A3BF /* Common.swift */,
-				30D4AA061C23F04B00C5A336 /* CommonFlowLayout.swift */,
+				307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -232,6 +241,9 @@
 				30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */,
 				30E336731C27F61900DCF1C5 /* ResultModel.swift */,
 				2ECF91491C2ACE7000904C3A /* TeacherModel.swift */,
+				307AB89A1C33CDD200D8397F /* GradePriceModel.swift */,
+				307AB89B1C33CDD200D8397F /* HighScoreModel.swift */,
+				307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -683,14 +695,17 @@
 				304135B41C23AE6400830C43 /* Request.swift in Sources */,
 				30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
+				307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
 				3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
+				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
+				307AB89F1C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				304135B01C23AE6400830C43 /* Operation.swift in Sources */,
 				307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
-				30D4AA071C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
+				307AB8981C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
@@ -716,6 +731,7 @@
 				307AB8611C323BDF00D8397F /* TeacherCollectionViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
+				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
@@ -723,13 +739,15 @@
 				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
 				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
+				307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
+				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
-				30D4AA081C23F04B00C5A336 /* CommonFlowLayout.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 			);
