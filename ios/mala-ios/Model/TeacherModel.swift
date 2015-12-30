@@ -16,9 +16,9 @@ class TeacherModel: BaseObjectModel {
     var degree: String?
     var min_price: Int = 0
     var max_price: Int = 0
-    var subject: Int = 0
-    var grades: [Int]?
-    var tags: [Int]?
+    var subject: String?
+    var grades_shortname: String?
+    var tags: [String]?
     
     // MARK: - Constructed
     override init(dict: [String: AnyObject]) {
@@ -32,7 +32,8 @@ class TeacherModel: BaseObjectModel {
     }
     
     override func setValue(value: AnyObject?, forKey key: String) {
-        if value == nil {
+        // keep the price's value to 0(Int), if the value is null
+        if (key == "min_price" || key == "max_price") && value == nil {
             return
         }
         if key == "avatar" {
@@ -46,7 +47,7 @@ class TeacherModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["id", "name", "avatar", "gender", "degree", "min_price", "max_price", "subject", "grades", "tags"]
+        let keys = ["id", "name", "avatar", "gender", "degree", "min_price", "max_price", "subject", "grades_shortname", "tags"]
         return dictionaryWithValuesForKeys(keys).description
     }
 }
