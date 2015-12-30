@@ -3,7 +3,7 @@ package com.malalaoshi.android.entity;
 /**
  * Created by kang on 15/12/24.
  */
-public class GLevel {
+public class Level {
     Long id;
     String name;
 

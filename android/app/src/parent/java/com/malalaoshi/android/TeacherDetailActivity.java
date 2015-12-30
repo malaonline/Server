@@ -25,10 +25,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
-import com.malalaoshi.android.entity.GCoursePrice;
-import com.malalaoshi.android.entity.GHighScore;
-import com.malalaoshi.android.entity.GLevel;
-import com.malalaoshi.android.entity.GMemberService;
+import com.malalaoshi.android.entity.CoursePrice;
+import com.malalaoshi.android.entity.HighScore;
+import com.malalaoshi.android.entity.Level;
+import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.GTeacher;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
@@ -36,7 +36,6 @@ import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
-import com.malalaoshi.android.result.TagListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.ThemeUtils;
@@ -64,7 +63,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
     //
-    private List<Tag> mTags;
     private MemberServiceListResult mMemberServicesResult;
     private GTeacher mTeacher;
 
@@ -182,10 +180,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue = MalaApplication.getHttpRequestQueue();
         hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        //没有标签时去下载标签
-//        if (mTags == null) {
-//            loadTags();
-//        }
         loadTeacherInfo();
         loadMemeberServices();
     }
@@ -214,34 +208,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue.add(jstringRequest);
     }
 
-    /**
-     * @deprecated for Tags' info is in teachers list too
-     */
-    @Deprecated
-    private void loadTags() {
-        //String url = hostUrl +TAGS_PATH_V1;
-        String url = hostUrl + TAGS_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<GTag>>(){}.getType();
-                TagListResult tagsResult;
-                //tagsResult = JsonUtil.parseData(R.raw.tags, TagListResult.class, TeacherDetailActivity.this);
-                tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
-                mTags = tagsResult.getResults();
-                updateUITags();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dealRequestError(error.getMessage());
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-            }
-        });
-
-        jstringRequest.setTag(TAGS_PATH_V1);
-        requestQueue.add(jstringRequest);
-    }
 
     private void loadMemeberServices() {
         //String url = hostUrl +MEMBERSERVICES_PATH_V1;
@@ -249,7 +215,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<GMemberService>>(){}.getType();
+                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
                 //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
                 mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
                 updateUIServices(mMemberServicesResult.getResults());
@@ -266,36 +232,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue.add(jstringRequest);
     }
 
-    /**
-     * @deprecated for Tags' info is in teachers list too
-     */
-    @Deprecated
-    private void updateUITags() {
-        if (mTags != null && mTeacher != null) {
-            String spot = " | ";
-            StringBuilder stringBuilder = new StringBuilder();
-            Long[] tagId = mTeacher.getTags();
-            if (tagId != null) {
-                for (int i = 0; i < tagId.length; i++) {
-                    Tag tag = Tag.findTagById(tagId[i], mTags);
-                    if (tag != null) {
-                        stringBuilder.append(tag.getName() + spot);
-                    }
-                }
-                stringBuilder.delete(stringBuilder.lastIndexOf(spot), stringBuilder.length() - 1);
-                mTagLayout.setVisibility(View.VISIBLE);
-                mTeachingTags.setText(stringBuilder.toString());
-            }
-
-
-        }
-    }
-
-    private void updateUIServices(List<GMemberService> mMemberServices) {
+    private void updateUIServices(List<MemberService> mMemberServices) {
         if (mMemberServices != null && mMemberServices.size() > 0) {
             StringBuilder stringBuilder = new StringBuilder();
             String spot = " | ";
-            for (GMemberService service : mMemberServices) {
+            for (MemberService service : mMemberServices) {
                 stringBuilder.append(service.getName() + spot);
             }
             stringBuilder.delete(stringBuilder.lastIndexOf(spot), stringBuilder.length() - 1);
@@ -328,71 +269,73 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //教学科目
             String spot = " | ";
             StringBuilder strSubject = new StringBuilder();
-            Long subjectId = mTeacher.getSubject();
-            Subject subject = Subject.getSubjectById(subjectId);
-            String subjectName = "";
-            if (subject != null) {
-                subjectName = subject.getName();
+            string = mTeacher.getSubject();
+            if (string == null) {
+                string = "";
             }
 
             //年级
-            Long[] grades = teacher.getGrades();
+            String[] grades = teacher.getGrades();
             if (grades != null) {
                 for (int i = 0; i < grades.length; i++) {
-                    Long gradeId = grades[i];
-                    Grade grade = Grade.getGradeById(gradeId);
-                    if (grade != null) {
-                        strSubject.append(grade.getName() + subjectName + spot);
-                    }
+                    strSubject.append(grades[i] + string + spot);
                 }
                 strSubject.delete(strSubject.lastIndexOf(spot), strSubject.length() - 1);
             }
             mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
-            if (mTags != null) {
-                updateUITags();
+            StringBuilder strTag = new StringBuilder();
+            String[] tags = mTeacher.getTags();
+            if (tags != null) {
+                for (int i = 0; i < tags.length; i++) {
+
+                    strTag.append(tags[i] + spot);
+                }
+                strTag.delete(strTag.lastIndexOf(spot), strTag.length() - 1);
+                mTagLayout.setVisibility(View.VISIBLE);
+                mTeachingTags.setText(strTag.toString());
             }
 
             //提分榜
-            List<GHighScore> highScores = mTeacher.getHighscore_set();
-            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores != null ? highScores : (new ArrayList<GHighScore>()));
+            List<HighScore> highScores = mTeacher.getHighscore_set();
+            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores != null ? highScores : (new ArrayList<HighScore>()));
             mHighScoreList.setAdapter(highScoreAdapter);
             setListViewHeightBasedOnChildren(mHighScoreList);
             //个人相册
             loadGallery(mTeacher.getGallery());
             //特殊成就
             StringBuilder strCertificate = new StringBuilder();
-            if (teacher.getCertificate() != null) {
-                for (int i = 0; i < teacher.getCertificate().length; i++) {
-                    strCertificate.append(teacher.getCertificate()[i] + spot);
+            String[] strCers = teacher.getCertificate();
+            if ( strCers!= null) {
+                for (int i = 0; i < strCers.length; i++) {
+                    strCertificate.append(strCers[i] + spot);
                 }
                 strCertificate.delete(strCertificate.lastIndexOf(spot), strCertificate.length() - 1);
             }
-
             mCertificate.setText(strCertificate.toString());
 
             //教龄级别
             Long age = teacher.getTeaching_age();
-            GLevel level = teacher.getLevel();
+            String level = teacher.getLevel();
             if (age != null) {
-                if (level != null && level.getName() != null) {
-                    mTeacherLevel.setText(age + spot + teacher.getLevel().getName());
+                if (level != null && level != null) {
+                    mTeacherLevel.setText(age + spot + level);
                 } else {
                     mTeacherLevel.setText(age + "");
                 }
 
-            } else if (age == null && level != null && level.getName() != null) {
-                if (level != null && level.getName() != null) {
-                    mTeacherLevel.setText(teacher.getLevel().getName());
+            } else if (age == null && level != null && level != null) {
+                if (level != null && level != null) {
+                    mTeacherLevel.setText(level);
                 } else {
                     mTeacherLevel.setText("");
                 }
             }
 
             //价格表
-            List<GCoursePrice> coursePrices = teacher.getPrices();
-            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this, coursePrices != null ? coursePrices : (new ArrayList<GCoursePrice>()));
+            List<CoursePrice> coursePrices = teacher.getPrices();
+            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this, coursePrices != null ? coursePrices : (new ArrayList<CoursePrice>()));
             //添加按钮监听事件
             coursePriceAdapter.setOnClickItem(this);
             mCoursePriceList.setAdapter(coursePriceAdapter);

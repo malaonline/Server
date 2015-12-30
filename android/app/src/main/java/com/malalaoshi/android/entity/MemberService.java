@@ -3,7 +3,7 @@ package com.malalaoshi.android.entity;
 /**
  * Created by kang on 15/12/24.
  */
-public class GMemberService {
+public class MemberService {
 
     private Long id;
     private String name;
@@ -44,7 +44,7 @@ public class GMemberService {
 
     @Override
     public String toString() {
-        return "GMemberService{" +
+        return "MemberService{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", detail='" + detail + '\'' +
