@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +24,6 @@ import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
-import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,16 +32,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
-public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerViewLoadMoreListener.OnLoadMoreListener{
+public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
     @Bind(R.id.teacher_list_refresh_layout)
-    protected SwipeRefreshLayout refreshLayout;
+    protected BGARefreshLayout mRefreshLayout;
 
     private  List<Teacher> teachersList;
 
@@ -81,10 +82,11 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
         ButterKnife.bind(this, view);
 
+        setListener();
         if(recyclerView != null){
             Context context = view.getContext();
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-            GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+            GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 2);
             layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
             recyclerView.setLayoutManager(layoutManager);
 
@@ -96,12 +98,24 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
+
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
-        RefreshLayoutUtils.initOnCreate(refreshLayout, this);
-        RefreshLayoutUtils.refreshOnCreate(refreshLayout, this);
+
+        processLogic(savedInstanceState);
 
         return view;
+    }
+
+
+    protected void setListener(){
+        mRefreshLayout.setDelegate(this);
+    }
+    protected void processLogic(Bundle savedInstanceState) {
+        BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
+        moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
+        moocStyleRefreshViewHolder.setUltimateColor(R.color.colorPrimary);
+        mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
     //防止在5.0以下版本中出现RecyclerView左右边距距离父窗口间距过大的问题,将RecyclerView的左右padding减去Item的阴影宽度
@@ -136,7 +150,30 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onRefresh(){
+    public void onLoadMore(){
+        if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
+            adapter.loading = true;
+            new LoadTeachersTask(){
+                @Override
+                public void afterTask(JSONObject response){
+                    if(response != null){
+                        try{
+                            next = response.getString("next");
+                        }catch(Exception e){
+                            next = null;
+                        }
+                    }
+                    adapter.loading = false;
+                    if(next == null){
+                        adapter.canLoadMore = false;
+                    }
+                }
+            }.execute();
+        }
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout){
         if(!adapter.loading){
             teachersList.clear();
             next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
@@ -170,26 +207,8 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onLoadMore(){
-        if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
-            adapter.loading = true;
-            new LoadTeachersTask(){
-                @Override
-                public void afterTask(JSONObject response){
-                    if(response != null){
-                        try{
-                            next = response.getString("next");
-                        }catch(Exception e){
-                            next = null;
-                        }
-                    }
-                    adapter.loading = false;
-                    if(next == null){
-                        adapter.canLoadMore = false;
-                    }
-                }
-            }.execute();
-        }
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout){
+        return true;
     }
 
     /**
@@ -208,7 +227,7 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     public void setRefreshing(boolean status){
-        refreshLayout.setRefreshing(status);
+        mRefreshLayout.endRefreshing();
     }
 
     private void notifyDataSetChanged(){
@@ -305,12 +324,12 @@ public class TeacherListFragment extends Fragment implements SwipeRefreshLayout.
 
                 JSONArray tagsAry = obj.optJSONArray("tags");
                 if(tagsAry != null && tagsAry.length() > 0){
-                    Long [] tmp = new Long[tagsAry.length()];
+                    String [] tmp = new String[tagsAry.length()];
                     for(int ind=0; ind < tagsAry.length(); ind++){
-                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+                        tmp[ind] = tagsAry.get(ind).toString();
                     }
 
-                    teacher.setTags(tmp);
+                    teacher.setTagsName(tmp);
                 }
                 teachersList.add(teacher);
             }
