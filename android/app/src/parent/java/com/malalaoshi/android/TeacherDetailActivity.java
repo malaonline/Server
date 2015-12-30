@@ -30,8 +30,8 @@ import com.malalaoshi.android.entity.GGrade;
 import com.malalaoshi.android.entity.GHighScore;
 import com.malalaoshi.android.entity.GLevel;
 import com.malalaoshi.android.entity.GMemberService;
-import com.malalaoshi.android.entity.GSubject;
 import com.malalaoshi.android.entity.GTeacher;
+import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
@@ -329,7 +329,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             String spot = " | ";
             StringBuilder strSubject = new StringBuilder();
             Long subjectId = mTeacher.getSubject();
-            GSubject subject = GSubject.getSubjectById(subjectId);
+            Subject subject = Subject.getSubjectById(subjectId);
             String subjectName = "";
             if (subject != null) {
                 subjectName = subject.getName();
