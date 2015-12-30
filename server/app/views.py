@@ -157,16 +157,6 @@ class Sms(View):
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
 
-class PriceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Price
-        fields = ('grade', 'price')
-
-
-class PriceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Price.objects.all()
-    serializer_class = PriceSerializer
-
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -235,6 +225,13 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = models.Subject
         fields = ('id', 'name')
 
+class SubjectNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subject
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
+
 
 class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Subject.objects.all()
@@ -245,6 +242,13 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Tag
         fields = ('id', 'name')
+
+class TagNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Tag
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -260,16 +264,44 @@ class GradeSerializer(serializers.ModelSerializer):
 
 GradeSerializer._declared_fields['subset'] = GradeSerializer(many=True)
 
+class GradeSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Grade
+        fields = ('id', 'name')
+
+class GradeNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Grade
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
 
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Grade.objects.all().filter(superset=None)
     serializer_class = GradeSerializer
 
+class PriceSerializer(serializers.ModelSerializer):
+    grade = GradeSimpleSerializer()
+
+    class Meta:
+        model = models.Price
+        fields = ('grade', 'price')
+
+class PriceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Price.objects.all()
+    serializer_class = PriceSerializer
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Level
         fields = ('id', 'name')
+
+class LevelNameSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Level
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
 
 
 class LevelViewSet(viewsets.ReadOnlyModelViewSet):
@@ -280,32 +312,57 @@ class LevelViewSet(viewsets.ReadOnlyModelViewSet):
 class HighscoreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Highscore
-        fields = ('id', 'name', 'increased_scores', 'school_name',
+        fields = ('name', 'increased_scores', 'school_name',
                   'admitted_to')
-
 
 class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Highscore.objects.all()
     serializer_class = HighscoreSerializer
 
+class PhotoUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Photo
+
+    def to_representation(self, instance):
+        return self.fields['img'].get_attribute(instance).url
+
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Certificate
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
+
+class CertificateViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Certificate.objects.all()
+    serializer_class = CertificateSerializer
 
 class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
+    tags = TagNameSerializer(many=True)
+    subject = SubjectNameSerializer()
 
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
-                  'max_price', 'subject', 'grades', 'tags',)
+                  'max_price', 'subject', 'grades_shortname', 'tags')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     prices = PriceSerializer(many=True)
     avatar = serializers.ImageField()
+    tags = TagNameSerializer(many=True)
+    certificate_set = CertificateSerializer(many=True)
+    grades = GradeNameSerializer(many=True)
+    subject = SubjectNameSerializer()
+    level = LevelNameSerializer()
+    highscore_set = HighscoreSerializer(many=True)
+    photo_set = PhotoUrlSerializer(many=True)
 
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
-                  'level', 'subject', 'grades', 'tags', 'highscore_set', 'prices')
+                  'level', 'subject', 'grades', 'tags', 'certificate_set',
+                  'photo_set', 'highscore_set', 'prices')
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):

@@ -162,11 +162,22 @@ class Teacher(BaseModel):
         abilities = self.ability_set.all()
         if not abilities:
             return None
-        return abilities[0].subject.id
+        return abilities[0].subject
 
     def grades(self):
         abilities = self.ability_set.all()
-        return (ability.grade.id for ability in abilities)
+        return [ability.grade for ability in abilities]
+
+    def grades_shortname(self):
+        grades = self.grades()
+        grades = list(set(x.superset if x.superset else x for x in grades))
+        grades = sorted(grades, key=lambda x:{'小学':1, '初中':2, '高中': 3}[x.name])
+        if len(grades) == 0:
+            return ''
+        if len(grades) == 1:
+            return grades[0].name
+        else:
+            return ''.join(x.name[0] for x in grades)
 
     def prices(self):
         regions = [x.region for x in self.schools.all()]
@@ -198,6 +209,14 @@ class Highscore(BaseModel):
         return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
                                      self.admitted_to)
 
+class Photo(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    img = models.ImageField(null=True, blank=True, upload_to='photos')
+    order = models.PositiveIntegerField(default=0)
+    public = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '%s img (%s)' % (self.teacher, 'public' if self.public else 'private')
 
 class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)
