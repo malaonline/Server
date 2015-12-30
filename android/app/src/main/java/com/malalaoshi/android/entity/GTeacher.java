@@ -13,17 +13,19 @@ public class GTeacher {
     private String gender;
     private String name;
     private String degree;
-    private Double minPrice;
-    private Double maxPrice;
+    private Double min_price;
+    private Double max_price;
     private Long teaching_age;
-    private GLevel level;
-    private Long subject;
-    private Long[] grades;
-    private Long[] tags;
+    private String level;
+    private String subject;
+    private String grades_shortname;
+    private String[] grades;
+    private String[] tags;
     private String[] gallery;
     private String[] certificate;
-    private List<GHighScore> highscore_set;
-    private List<GCoursePrice> prices;
+    private List<HighScore> highscore_set;
+    private List<CoursePrice> prices;
+
     public Long getId() {
         return id;
     }
@@ -64,20 +66,20 @@ public class GTeacher {
         this.degree = degree;
     }
 
-    public Double getMaxPrice() {
-        return maxPrice;
+    public Double getMin_price() {
+        return min_price;
     }
 
-    public void setMaxPrice(Double maxPrice) {
-        this.maxPrice = maxPrice;
+    public void setMin_price(Double min_price) {
+        this.min_price = min_price;
     }
 
-    public Double getMinPrice() {
-        return minPrice;
+    public Double getMax_price() {
+        return max_price;
     }
 
-    public void setMinPrice(Double minPrice) {
-        this.minPrice = minPrice;
+    public void setMax_price(Double max_price) {
+        this.max_price = max_price;
     }
 
     public Long getTeaching_age() {
@@ -88,35 +90,43 @@ public class GTeacher {
         this.teaching_age = teaching_age;
     }
 
-    public GLevel getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(GLevel level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
-    public Long getSubject() {
+    public String getSubject() {
         return subject;
     }
 
-    public void setSubject(Long subject) {
+    public void setSubject(String subject) {
         this.subject = subject;
     }
 
-    public Long[] getGrades() {
+    public String getGrades_shortname() {
+        return grades_shortname;
+    }
+
+    public void setGrades_shortname(String grades_shortname) {
+        this.grades_shortname = grades_shortname;
+    }
+
+    public String[] getGrades() {
         return grades;
     }
 
-    public void setGrades(Long[] grades) {
+    public void setGrades(String[] grades) {
         this.grades = grades;
     }
 
-    public Long[] getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    public void setTags(Long[] tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
@@ -136,19 +146,19 @@ public class GTeacher {
         this.certificate = certificate;
     }
 
-    public List<GHighScore> getHighscore_set() {
+    public List<HighScore> getHighscore_set() {
         return highscore_set;
     }
 
-    public void setHighscore_set(List<GHighScore> highscore_set) {
+    public void setHighscore_set(List<HighScore> highscore_set) {
         this.highscore_set = highscore_set;
     }
 
-    public List<GCoursePrice> getPrices() {
+    public List<CoursePrice> getPrices() {
         return prices;
     }
 
-    public void setPrices(List<GCoursePrice> prices) {
+    public void setPrices(List<CoursePrice> prices) {
         this.prices = prices;
     }
 
@@ -160,11 +170,12 @@ public class GTeacher {
                 ", gender='" + gender + '\'' +
                 ", name='" + name + '\'' +
                 ", degree='" + degree + '\'' +
-                ", minPrice=" + minPrice +
-                ", maxPrice=" + maxPrice +
+                ", min_price=" + min_price +
+                ", max_price=" + max_price +
                 ", teaching_age=" + teaching_age +
-                ", level=" + level +
-                ", subject=" + subject +
+                ", level='" + level + '\'' +
+                ", subject='" + subject + '\'' +
+                ", grades_shortname='" + grades_shortname + '\'' +
                 ", grades=" + Arrays.toString(grades) +
                 ", tags=" + Arrays.toString(tags) +
                 ", gallery=" + Arrays.toString(gallery) +
@@ -173,6 +184,5 @@ public class GTeacher {
                 ", prices=" + prices +
                 '}';
     }
-
 
 }

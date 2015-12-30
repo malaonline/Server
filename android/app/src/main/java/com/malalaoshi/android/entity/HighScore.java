@@ -3,9 +3,9 @@ package com.malalaoshi.android.entity;
 /**
  * Created by kang on 15/12/24.
  */
-public class GHighScore {
+public class HighScore {
     String name;
-    int increased_scores;
+    Long increased_scores;
     String school_name;
     String admitted_to;
 
@@ -25,11 +25,11 @@ public class GHighScore {
         this.name = name;
     }
 
-    public int getIncreased_scores() {
+    public Long getIncreased_scores() {
         return increased_scores;
     }
 
-    public void setIncreased_scores(int increased_scores) {
+    public void setIncreased_scores(Long increased_scores) {
         this.increased_scores = increased_scores;
     }
 
@@ -40,6 +40,7 @@ public class GHighScore {
     public void setSchool_name(String school_name) {
         this.school_name = school_name;
     }
+
 
     @Override
     public String toString() {

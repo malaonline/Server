@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.entity.GCoursePrice;
+import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.Grade;
 
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class CoursePriceAdapter extends BaseAdapter{
 
-    private List<GCoursePrice> coursePrices;
+    private List<CoursePrice> coursePrices;
     LayoutInflater layoutInflater;
     private OnClickItem onClickItem = null;
-    public CoursePriceAdapter(Context context, List<GCoursePrice> list){
+    public CoursePriceAdapter(Context context, List<CoursePrice> list){
         layoutInflater = LayoutInflater.from(context);
         coursePrices = list;
     }
@@ -49,7 +49,8 @@ public class CoursePriceAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final GCoursePrice data = coursePrices.get(position);
+        final CoursePrice data = coursePrices.get(position);
+        final Grade grade = data.getGrade();
         if (convertView==null){
             convertView = layoutInflater.inflate(R.layout.course_price_list_item,null);
             viewHolder = new ViewHolder();
@@ -61,7 +62,7 @@ public class CoursePriceAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     if (onClickItem!=null){
-                        onClickItem.onClickItem(position, data.getGrade());
+                        onClickItem.onClickItem(position, grade!=null?null:grade.getId());
                     }
                 }
             });
@@ -69,13 +70,9 @@ public class CoursePriceAdapter extends BaseAdapter{
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        if (data.getName()==null){
-            Grade grade = Grade.getGradeById(data.getGrade());
-            data.setName(grade.getName());
-        }
-        viewHolder.tvName.setText(data.getName());
+        viewHolder.tvName.setText(grade!=null?grade.getName():"");
         viewHolder.tvPrice.setText(data.getPrice()+"");
-        viewHolder.tvRebate.setText(data.getRebate()+"");
+        viewHolder.tvRebate.setText("");
         return convertView;
     }
     class ViewHolder{
