@@ -116,9 +116,9 @@ tags=1+3+2
             "degree": "s",
             "min_price": 90,
             "max_price": 200,
-            "subject": 1,
-            "grades": [1, 2, 3],
-            "tags": [1, 3]
+            "subject": "语文",
+            "grades_shortname": "小初"
+            "tags": ["幽默", "亲切"],
         },
         ...
     ]
@@ -139,13 +139,14 @@ GET /api/v1/teachers/{teacher id}/
     "name": "lll",
     "degree": "s",
     "teaching_age": 0,
-    "level": {
-        "id": 3,
-        "name": "麻辣合伙人"
-    },
-    "subject": 1,
-    "grades": [1, 2, 3],
-    "tags": [1, 3],
+    "level": "麻辣合伙人",
+    "subject": "语文",
+    "grades": ["小学", "初一"],
+    "tags": ["幽默", "亲切"]
+    "photo_set": ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"],
+    "certificate":["特级教师","一级教师","十佳青年"],
     "highscore_set": [
         {
             "name": "123",
@@ -157,14 +158,19 @@ GET /api/v1/teachers/{teacher id}/
     ],
     "prices": [
         {
-            "grade": 1,
-            "price": 200
+            "grade": {
+                "id": 1,
+                "name": "小学"
+            },
+            "price": 89
         },
         {
-            "grade": 2,
-            "price": 300
-        },
-        ...
+            "grade": {
+                "id": 8,
+                "name": "初中"
+            },
+            "price": 99
+        }
     ]
 }
 ```

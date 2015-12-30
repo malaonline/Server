@@ -322,15 +322,16 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
                     teacher.setGrades(tmp);
                 }
 
-                JSONArray tagsAry = obj.optJSONArray("tags");
-                if(tagsAry != null && tagsAry.length() > 0){
-                    String [] tmp = new String[tagsAry.length()];
-                    for(int ind=0; ind < tagsAry.length(); ind++){
-                        tmp[ind] = tagsAry.get(ind).toString();
-                    }
-
-                    teacher.setTagsName(tmp);
-                }
+                // TODO: api is changed
+//                JSONArray tagsAry = obj.optJSONArray("tags");
+//                if(tagsAry != null && tagsAry.length() > 0){
+//                    Long [] tmp = new Long[tagsAry.length()];
+//                    for(int ind=0; ind < tagsAry.length(); ind++){
+//                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
+//                    }
+//
+//                    teacher.setTags(tmp);
+//                }
                 teachersList.add(teacher);
             }
         }catch(Exception e){

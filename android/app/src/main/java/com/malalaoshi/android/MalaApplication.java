@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.malalaoshi.android.entity.Tag;
+
+import java.util.List;
 
 /**
  * Created by liumengjun on 11/16/15.
@@ -22,7 +25,6 @@ public class MalaApplication extends Application {
     private String phoneNo;
     private boolean isLogin;
     private String role;
-
     // 运行信息
     private boolean isNetworkOk;
 

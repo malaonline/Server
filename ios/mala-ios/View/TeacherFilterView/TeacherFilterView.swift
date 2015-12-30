@@ -67,7 +67,7 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         dataSource = self
         
         self.backgroundColor = UIColor.whiteColor()
-        loadFilterCondition()
+        
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -76,7 +76,7 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
     
     
     // MARK: - Private Function
-    private func loadFilterCondition() {
+    func loadFilterCondition() {
         
         // load Grades and Subjects
         var tempArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
@@ -117,6 +117,10 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
             }
             strongSelf.tagsCondition.subset = tempDict
             self?.reloadData()
+
+            // save the tags
+            // Todo: these tags data must be saved first that can be displayed on teachers list page
+            MalaTeacherTags.instance.importData(tempDict)
         }
         self.grades?.append(self.tagsCondition)
         self.reloadData()

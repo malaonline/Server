@@ -1,21 +1,24 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+
 class BaseModel(models.Model):
     class Meta:
         abstract = True
+
 
 class Policy(BaseModel):
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class Region(BaseModel):
-    '''
-    Provice, City & Distric
-    '''
+    """
+    Province, City & District
+    """
     name = models.CharField(max_length=50)
     superset = models.ForeignKey('Region', blank=True, null=True, default=None,
-            on_delete=models.SET_NULL)
+                                 on_delete=models.SET_NULL)
     admin_level = models.PositiveIntegerField()
     leaf = models.BooleanField()
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
@@ -23,6 +26,7 @@ class Region(BaseModel):
 
     def __str__(self):
         return '%s (%d)' % (self.name, self.admin_level)
+
 
 class School(BaseModel):
     name = models.CharField(max_length=100)
@@ -36,11 +40,13 @@ class School(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.region, self.name, 'C' if self.center else '')
 
+
 class Subject(BaseModel):
     name = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
         return self.name
+
 
 class Tag(BaseModel):
     name = models.CharField(max_length=20, unique=True)
@@ -48,23 +54,27 @@ class Tag(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
-            on_delete=models.SET_NULL, related_name='subset')
+                                 on_delete=models.SET_NULL, related_name='subset')
     leaf = models.BooleanField()
     subjects = models.ManyToManyField(Subject)
 
     def __str__(self):
         return self.name
 
+
 class Level(BaseModel):
     name = models.CharField(max_length=20, unique=True)
+
     def __str__(self):
         return self.name
 
+
 class Price(BaseModel):
-    region = models.ForeignKey(Region, limit_choices_to={'opened':True})
+    region = models.ForeignKey(Region, limit_choices_to={'opened': True})
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
     level = models.ForeignKey(Level)
@@ -75,7 +85,8 @@ class Price(BaseModel):
 
     def __str__(self):
         return '%s,%s,%s,%s => %d' % (self.region, self.grade, self.subject,
-                self.level, self.price)
+                                      self.level, self.price)
+
 
 class Role(BaseModel):
     name = models.CharField(max_length=20, unique=True)
@@ -83,10 +94,11 @@ class Role(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Profile(BaseModel):
-    '''
+    """
     For extending the system class: User
-    '''
+    """
     MALE = 'm'
     FEMALE = 'f'
     UNKNOWN = 'u'
@@ -99,15 +111,16 @@ class Profile(BaseModel):
     user = models.OneToOneField(User)
     phone = models.CharField(max_length=20, default='')
     role = models.ForeignKey(Role, null=True, blank=True,
-            on_delete=models.SET_NULL)
+                             on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
-            choices=GENDER_CHOICES,
-            default=UNKNOWN,
-    )
+                              choices=GENDER_CHOICES,
+                              default=UNKNOWN,
+                              )
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
 
     def __str__(self):
         return '%s (%s, %s)' % (self.user, self.role, self.gender)
+
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
@@ -119,13 +132,13 @@ class Teacher(BaseModel):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     degree = models.CharField(max_length=2,
-        choices=DEGREE_CHOICES,
-    )
+                              choices=DEGREE_CHOICES,
+                              )
     public = models.BooleanField(default=False)
     fulltime = models.BooleanField(default=True)
     teaching_age = models.PositiveIntegerField(default=0)
     level = models.ForeignKey(Level, null=True, blank=True,
-            on_delete=models.SET_NULL)
+                              on_delete=models.SET_NULL)
 
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
@@ -133,7 +146,7 @@ class Teacher(BaseModel):
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
-                'Private' if not self.public else '')
+                             'Private' if not self.public else '')
 
     def avatar(self):
         if not hasattr(self.user, 'profile'):
@@ -149,17 +162,28 @@ class Teacher(BaseModel):
         abilities = self.ability_set.all()
         if not abilities:
             return None
-        return abilities[0].subject.id
+        return abilities[0].subject
 
     def grades(self):
         abilities = self.ability_set.all()
-        return (ability.grade.id for ability in abilities)
+        return [ability.grade for ability in abilities]
+
+    def grades_shortname(self):
+        grades = self.grades()
+        grades = list(set(x.superset if x.superset else x for x in grades))
+        grades = sorted(grades, key=lambda x:{'小学':1, '初中':2, '高中': 3}[x.name])
+        if len(grades) == 0:
+            return ''
+        if len(grades) == 1:
+            return grades[0].name
+        else:
+            return ''.join(x.name[0] for x in grades)
 
     def prices(self):
         regions = [x.region for x in self.schools.all()]
 
         return Price.objects.filter(subject=self.subject, level=self.level,
-                region__in=regions, grade__in=self.grades)
+                                    region__in=regions, grade__in=self.grades)
 
     def min_price(self):
         prices = self.prices()
@@ -173,6 +197,7 @@ class Teacher(BaseModel):
             return None
         return max(x.price for x in prices)
 
+
 class Highscore(BaseModel):
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=200)
@@ -181,8 +206,17 @@ class Highscore(BaseModel):
     admitted_to = models.CharField(max_length=300)
 
     def __str__(self):
-        return '%s %s (%s => %s)' % (name, increased_scores, school_name,
-                admitted_to)
+        return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
+                                     self.admitted_to)
+
+class Photo(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    img = models.ImageField(null=True, blank=True, upload_to='photos')
+    order = models.PositiveIntegerField(default=0)
+    public = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '%s img (%s)' % (self.teacher, 'public' if self.public else 'private')
 
 class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)
@@ -195,6 +229,7 @@ class Ability(BaseModel):
     def __str__(self):
         return '%s <%s, %s>' % (self.teacher, self.grade, self.subject)
 
+
 class Certificate(BaseModel):
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=100)
@@ -203,7 +238,8 @@ class Certificate(BaseModel):
 
     def __str__(self):
         return '%s, %s : %s' % (self.teacher, self.name,
-                'V' if self.verified else '')
+                                'V' if self.verified else '')
+
 
 class InterviewRecord(BaseModel):
     PENDING = 'p'
@@ -221,11 +257,12 @@ class InterviewRecord(BaseModel):
     reviewed_by = models.ForeignKey(User, null=True, blank=True)
     review_msg = models.CharField(max_length=1000)
     status = models.CharField(max_length=1,
-            choices=STATUS_CHOICES,
-            default=PENDING)
+                              choices=STATUS_CHOICES,
+                              default=PENDING)
 
     def __str__(self):
         return '%s by %s' % (self.teacher, self.reviewed_by)
+
 
 class Account(BaseModel):
     teacher = models.OneToOneField(Teacher)
@@ -234,6 +271,7 @@ class Account(BaseModel):
     def __str__(self):
         return '%s : %d' % (self.teacher, self.balance)
 
+
 class BankCard(BaseModel):
     bank_name = models.CharField(max_length=100)
     card_number = models.CharField(max_length=100, unique=True)
@@ -241,7 +279,8 @@ class BankCard(BaseModel):
 
     def __str__(self):
         return '%s %s (%s)' % (self.bank_name, self.card_number,
-                self.account.teacher)
+                               self.account.teacher)
+
 
 class BankCodeInfo(BaseModel):
     org_code = models.CharField(max_length=30)
@@ -254,7 +293,7 @@ class BankCodeInfo(BaseModel):
 
     def __str__(self):
         return '%s, %s, %s (%s)' % (self.bank_name, self.card_name,
-                self.card_type, self.bin_code)
+                                    self.card_type, self.bin_code)
 
 
 class AccountHistory(BaseModel):
@@ -264,12 +303,13 @@ class AccountHistory(BaseModel):
     submit_time = models.DateTimeField()
     done = models.BooleanField()
     done_by = models.ForeignKey(User, related_name='processed_withdraws',
-            null=True, blank=True)
+                                null=True, blank=True)
     done_at = models.DateTimeField()
 
     def __str__(self):
         return '%s %s : %s' % (self.account.teacher, self.amount,
-                'D' if self.done else '')
+                               'D' if self.done else '')
+
 
 class Feedback(BaseModel):
     user = models.ForeignKey(User, null=True, blank=True)
@@ -280,12 +320,14 @@ class Feedback(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
 
+
 class Memberservice(BaseModel):
     name = models.CharField(max_length=30)
     detail = models.CharField(max_length=1000)
 
     def __str__(self):
         return '%s' % self.name
+
 
 class Parent(BaseModel):
     user = models.ForeignKey(User, null=True, blank=True)
@@ -294,6 +336,7 @@ class Parent(BaseModel):
 
     def __str__(self):
         return "%s's parent" % self.student_name
+
 
 class Coupon(BaseModel):
     parent = models.ForeignKey(Parent)
@@ -305,12 +348,12 @@ class Coupon(BaseModel):
 
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
-                'D' if self.used else '')
+                                   'D' if self.used else '')
 
 
 class WeeklyTimeSlot(BaseModel):
     weekday = models.PositiveIntegerField() # 1 - 7
-    start = models.TimeField() # [0:00 - 24:00)
+    start = models.TimeField()  # [0:00 - 24:00)
     end = models.TimeField()
 
     class Meta:
@@ -318,6 +361,7 @@ class WeeklyTimeSlot(BaseModel):
 
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
+
 
 class Order(BaseModel):
     PENDING = 'u'
@@ -343,19 +387,20 @@ class Order(BaseModel):
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
-    charge_id = models.CharField(max_length=100) # For Ping++ use
+    charge_id = models.CharField(max_length=100)  # For Ping++ use
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField()
 
     status = models.CharField(max_length=2,
-        choices=STATUS_CHOICES,
-    )
+                              choices=STATUS_CHOICES,
+                              )
 
     def __str__(self):
         return '%s %s %s %s : %s' % (self.school, self.parent, self.teacher,
-                self.grade_subect, self.total)
+                                     self.grade_subect, self.total)
+
 
 class TimeSlot(BaseModel):
     order = models.ForeignKey(Order)
@@ -372,6 +417,7 @@ class TimeSlot(BaseModel):
     def __str__(self):
         return '%s %s' % (self.date, self.last_updated_by)
 
+
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
     ma_degree = models.PositiveIntegerField()
@@ -381,6 +427,7 @@ class Comment(BaseModel):
 
     def __str__(self):
         return '%s : %d, %d' % (self.time_slot, self.ma_degree, self.la_degree)
+
 
 class Message(BaseModel):
     SYSTEM = 's'
@@ -411,13 +458,20 @@ class Message(BaseModel):
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=1000)
     _type = models.CharField(max_length=1,
-        choices=TYPE_CHOICES,
-    )
+                             choices=TYPE_CHOICES,
+                             )
     via = models.CharField(max_length=1,
-        choices=VIA_CHOICES,
-    )
+                           choices=VIA_CHOICES,
+                           )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '%s, %s, to %s, %s' % (self.get__type_display(),
                 self.get_via_display(), self.to, self.title)
+
+class Checkcode(BaseModel):
+    phone = models.CharField(max_length=20, unique=True)
+    checkcode = models.CharField(max_length=30)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    verify_times = models.PositiveIntegerField(default=0)
+    resend_at = models.DateTimeField(blank=True, null=True, default=None)

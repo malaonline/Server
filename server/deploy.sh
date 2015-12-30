@@ -1,7 +1,16 @@
 #!/bin/sh
 
-. /opt/jenkins/env/bin/activate
-cp -f /opt/keys-pros/local_settings.py server/
+DES=/opt/jenkins/mala/server
+ENV=/opt/jenkins/env
+SET=/opt/keys-pros
+
+mkdir -p $DES
+rsync -r --delete * $DES/
+cp -Rf $SET/local_settings.py $DES/server/
+
+. $ENV/bin/activate
+
+cd $DES
 pip install -r pip_install.txt
 python manage.py migrate
 if [ -n "`ps aux | grep gunicorn | grep server.wsgi| awk '{ print $2 }'`" ]
