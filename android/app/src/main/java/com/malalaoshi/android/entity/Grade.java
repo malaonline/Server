@@ -66,6 +66,16 @@ public class Grade{
         this.setSupersetId(supersetId);
     }
 
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", leaf=" + leaf +
+                ", supersetId=" + supersetId +
+                '}';
+    }
+
     public static List<Grade> gradeList;
     public static Map<Long, Grade> gradeMap;
     static{
@@ -105,7 +115,7 @@ public class Grade{
     public static boolean isSenior(Long id){
         return id == null ? false : (id.compareTo(13L) >= 0 && id.compareTo(16L) <= 0) ? true : false;
     }
-    public static Grade getById(Long id){
+    public static Grade getGradeById(Long id){
         return gradeMap.get(id);
     }
     public static String generateGradeViewString(Long [] gradesAry){

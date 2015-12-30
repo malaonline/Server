@@ -56,7 +56,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
         Subject sub = Subject.getSubjectFromListById(subjectId, Subject.subjectList);
-        Grade grade = Grade.getById(gradeId);
+        Grade grade = Grade.getGradeById(gradeId);
         String title = "";
         title += grade != null ? grade.getName() : "";
         title += sub != null ? sub.getName() : "";

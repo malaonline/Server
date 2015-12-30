@@ -26,11 +26,11 @@ import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
 import com.malalaoshi.android.entity.GCoursePrice;
-import com.malalaoshi.android.entity.GGrade;
 import com.malalaoshi.android.entity.GHighScore;
 import com.malalaoshi.android.entity.GLevel;
 import com.malalaoshi.android.entity.GMemberService;
 import com.malalaoshi.android.entity.GTeacher;
+import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.LoginFragment;
@@ -340,7 +340,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             if (grades != null) {
                 for (int i = 0; i < grades.length; i++) {
                     Long gradeId = grades[i];
-                    GGrade grade = GGrade.getGradeById(gradeId);
+                    Grade grade = Grade.getGradeById(gradeId);
                     if (grade != null) {
                         strSubject.append(grade.getName() + subjectName + spot);
                     }
