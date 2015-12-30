@@ -6,13 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.malalaoshi.android.R;
 
@@ -143,7 +140,6 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-            //outRect.set(0, 0, 0, 0);
             //获取阴影的宽度
             if (cardElevation==-1){
                 cardElevation = parent.getContext().getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
