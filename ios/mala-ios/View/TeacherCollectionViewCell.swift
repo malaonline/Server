@@ -16,83 +16,29 @@ class TeacherCollectionViewCell: UICollectionViewCell {
         didSet{
 
             // set avatar
-            if model!.avatar != nil {
-                imageView.kf_setImageWithURL(model!.avatar!,
+            if let avatarUrl = model?.avatar {
+                imageView.kf_setImageWithURL(avatarUrl,
                     placeholderImage: nil)
                 //optionsInfo: [.Options(KingfisherOptions.ForceRefresh)])
             }
             // set price
             priceLabel.text = String(format: "%d-%d¥/课时", model!.min_price, model!.max_price)
             // set name
-            nameLabel.text = model!.name
+            nameLabel.text = model?.name
             nameLabel.sizeToFit()
-            // set subject
-            let subjectText = MalaSubject[model!.subject] ?? "-"
-            // set grades
-            var gradesText: String {
-                var result = "-"
-                if MalaGrades.instance.data.count != 3 {
-                    print("Error: Grade levels should be 3")
-                    return result
-                }
-                if let grades = model!.grades {
-                    var shortGradeNameArray = [String]()
-                    for grade in grades.sort() {
-                        if grade < MalaGrades.instance.data[1].id {
-                            // 小学
-                            if !shortGradeNameArray.contains("小") {
-                                shortGradeNameArray.append("小")
-                            }
-                            result = MalaGrades.instance.data[0].name!
-                        } else if grade < MalaGrades.instance.data[2].id {
-                            // 初中
-                            if !shortGradeNameArray.contains("初") {
-                                shortGradeNameArray.append("初")
-                            }
-                            result = MalaGrades.instance.data[1].name!
-                        } else {
-                            // 高中
-                            if !shortGradeNameArray.contains("高") {
-                                shortGradeNameArray.append("高")
-                            }
-                            result = MalaGrades.instance.data[2].name!
-                        }
-                    }
-                    if shortGradeNameArray.count > 1 {
-                        result.removeAll()
-                        for shortGradeName in shortGradeNameArray {
-                            result += shortGradeName
-                        }
-                    }
-                }
-                return result
-            }
-            gradeSubjectLabel.text = String(format: "%@・%@", gradesText, subjectText)
+            // set grades and subject
+            let grades: String = model?.grades_shortname ?? "N/A"
+            let subject: String = model?.subject ?? "N/A"
+            gradeSubjectLabel.text = String(format: "%@・%@", grades, subject)
             gradeSubjectLabel.sizeToFit()
             print(gradeSubjectLabel.text)
 
             // set tags
-            // Todo: these tags data must be saved first that can be displayed on teachers list page
-            // the data will retrive directly from "teachers" API later
-            var tagsText: String {
-                var result = "-"
-                if let tags = model!.tags {
-                    result.removeAll()
-                    let tagsNameArray: [String] = tags.map({ (tag) -> String in
-                        if let tagName = MalaTeacherTags.instance.data![tag] {
-                            return tagName
-                        } else {
-                            return "-"
-                        }
-                    })
-                    result = tagsNameArray.joinWithSeparator("・")
-                }
-                return result
-            }
-            print(tagsText)
-            //tagsText.removeAtIndex(tagsText.endIndex)
-            tagsLabel.text = tagsText
+            let tags = ((model?.tags) != nil) ? model?.tags?.joinWithSeparator("・") : "N/A"
+            tagsLabel.text = tags
             tagsLabel.sizeToFit()
+            print(tagsLabel.text)
+
         }
     }
 
