@@ -104,6 +104,8 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
         processLogic(savedInstanceState);
 
+        mRefreshLayout.beginRefreshing();
+
         return view;
     }
 
