@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0021_checkcode'),
+        ('app', '0023_checkcode_resend_at'),
     ]
 
     operations = [
