@@ -198,6 +198,14 @@ class Highscore(BaseModel):
         return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
                                      self.admitted_to)
 
+class Photo(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    img = models.ImageField(null=True, blank=True, upload_to='photos')
+    order = models.PositiveIntegerField(default=0)
+    public = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '%s img (%s)' % (self.teacher, 'public' if self.public else 'private')
 
 class Ability(BaseModel):
     teacher = models.ForeignKey(Teacher)

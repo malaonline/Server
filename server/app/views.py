@@ -182,6 +182,11 @@ class GradeSerializer(serializers.ModelSerializer):
 
 GradeSerializer._declared_fields['subset'] = GradeSerializer(many=True)
 
+class GradeSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Grade
+        fields = ('id', 'name')
+
 class GradeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Grade
@@ -194,7 +199,7 @@ class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GradeSerializer
 
 class PriceSerializer(serializers.ModelSerializer):
-    grade = GradeNameSerializer()
+    grade = GradeSimpleSerializer()
 
     class Meta:
         model = models.Price
@@ -269,7 +274,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
                   'level', 'subject', 'grades', 'tags', 'certificate_set',
-                  'highscore_set', 'prices')
+                  'photo_set', 'highscore_set', 'prices')
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):

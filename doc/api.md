@@ -143,7 +143,7 @@ GET /api/v1/teachers/{teacher id}/
     "subject": "语文",
     "grades": ["小学", "初一"],
     "tags": ["幽默", "亲切"]
-    "gallery": ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
+    "photo_set": ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
                 "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
                 "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"],
     "certificate":["特级教师","一级教师","十佳青年"],
@@ -158,14 +158,19 @@ GET /api/v1/teachers/{teacher id}/
     ],
     "prices": [
         {
-            "grade": "小学",
-            "price": 200
+            "grade": {
+                "id": 1,
+                "name": "小学"
+            },
+            "price": 89
         },
         {
-            "grade": "初一",
-            "price": 300
-        },
-        ...
+            "grade": {
+                "id": 8,
+                "name": "初中"
+            },
+            "price": 99
+        }
     ]
 }
 ```
