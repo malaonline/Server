@@ -109,7 +109,7 @@ class Profile(BaseModel):
     )
 
     user = models.OneToOneField(User)
-    phone = models.CharField(max_length=20, default='')
+    phone = models.CharField(max_length=20, default='', db_index=True)
     role = models.ForeignKey(Role, null=True, blank=True,
                              on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
@@ -129,7 +129,7 @@ class Teacher(BaseModel):
         ('b', '本科'),
         ('p', '研究生'),
     )
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     name = models.CharField(max_length=200)
     degree = models.CharField(max_length=2,
                               choices=DEGREE_CHOICES,
@@ -330,7 +330,7 @@ class Memberservice(BaseModel):
 
 
 class Parent(BaseModel):
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.OneToOneField(User)
 
     student_name = models.CharField(max_length=50)
 

@@ -6,9 +6,7 @@ import java.util.List;
 /**
  * Created by zl on 15/11/26.
  */
-public class Teacher {
-    private Long id;
-    private String name;
+public class Teacher extends BaseEntity {
     private String avatar;
     private Character gender;
     private Character degree;
@@ -28,22 +26,6 @@ public class Teacher {
     private String[] certificate_set;
     private List<HighScore> highscore_set;
     private List<CoursePrice> prices;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getAvatar() {
         return avatar;
