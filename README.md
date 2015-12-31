@@ -23,6 +23,7 @@ Your forked repo auto synchronizes with upstream, so you just need `git pull ori
 <https://dev.malalaoshi.com/admin>
 
 username: test
+
 password: mala-test
 
 ### For Android
@@ -36,5 +37,4 @@ KEYSTORE_PASSWORD=123456
 KEY_PASSWORD=123456
 LOCAL_SERVER=https://dev.malalaoshi.com
 ```
-
 Modify variables if needed.

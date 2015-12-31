@@ -64,8 +64,8 @@ public class ImageCache implements ImageLoader.ImageCache {
 
     // Constants to easily toggle various caches
     private static final boolean DEFAULT_MEM_CACHE_ENABLED = true;
-    private static final boolean DEFAULT_DISK_CACHE_ENABLED = true;
-    private static final boolean DEFAULT_INIT_DISK_CACHE_ON_CREATE = true;
+    private static final boolean DEFAULT_DISK_CACHE_ENABLED = false;
+    private static final boolean DEFAULT_INIT_DISK_CACHE_ON_CREATE = false;
 
     private static final String DEFAULT_IMAGE_CACHE_DIR = "images";
 
@@ -215,10 +215,12 @@ public class ImageCache implements ImageLoader.ImageCache {
         if (bitmap != null && !bitmap.isRecycled()) {
             return bitmap;
         }
-        if (bitmap == null && url != null && mDiskLruCache != null && !mDiskLruCache.isClosed()) {
-            bitmap = getBitmapFromDiskCache(url);
-        }
-        return bitmap;
+        return null;
+        // do not use disk cache @2015-12-30
+//        if (bitmap == null && url != null && mDiskLruCache != null && !mDiskLruCache.isClosed()) {
+//            bitmap = getBitmapFromDiskCache(url);
+//        }
+//        return bitmap;
     }
 
     public void putBitmap(String url, Bitmap bitmap) {
@@ -241,38 +243,39 @@ public class ImageCache implements ImageLoader.ImageCache {
             mMemoryCache.put(data, value);
         }
 
-        synchronized (mDiskCacheLock) {
-            // Add to disk cache
-            if (mDiskLruCache != null) {
-                final String key = hashKeyForDisk(data);
-                OutputStream out = null;
-                try {
-                    DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
-                    if (snapshot == null) {
-                        final DiskLruCache.Editor editor = mDiskLruCache.edit(key);
-                        if (editor != null) {
-                            out = editor.newOutputStream(DISK_CACHE_INDEX);
-                            value.compress(
-                                    mCacheParams.compressFormat, mCacheParams.compressQuality, out);
-                            editor.commit();
-                            out.close();
-                        }
-                    } else {
-                        snapshot.getInputStream(DISK_CACHE_INDEX).close();
-                    }
-                } catch (final IOException e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
-                } catch (Exception e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
-                } finally {
-                    try {
-                        if (out != null) {
-                            out.close();
-                        }
-                    } catch (IOException e) {}
-                }
-            }
-        }
+        // do not use disk cache @2015-12-30
+//        synchronized (mDiskCacheLock) {
+//            // Add to disk cache
+//            if (mDiskLruCache != null) {
+//                final String key = hashKeyForDisk(data);
+//                OutputStream out = null;
+//                try {
+//                    DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
+//                    if (snapshot == null) {
+//                        final DiskLruCache.Editor editor = mDiskLruCache.edit(key);
+//                        if (editor != null) {
+//                            out = editor.newOutputStream(DISK_CACHE_INDEX);
+//                            value.compress(
+//                                    mCacheParams.compressFormat, mCacheParams.compressQuality, out);
+//                            editor.commit();
+//                            out.close();
+//                        }
+//                    } else {
+//                        snapshot.getInputStream(DISK_CACHE_INDEX).close();
+//                    }
+//                } catch (final IOException e) {
+//                    Log.e(TAG, "addBitmapToCache - " + e);
+//                } catch (Exception e) {
+//                    Log.e(TAG, "addBitmapToCache - " + e);
+//                } finally {
+//                    try {
+//                        if (out != null) {
+//                            out.close();
+//                        }
+//                    } catch (IOException e) {}
+//                }
+//            }
+//        }
         //END_INCLUDE(add_bitmap_to_cache)
     }
 
