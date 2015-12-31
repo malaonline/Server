@@ -187,6 +187,10 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
         },
+        'django.db.backends':{
+            'handlers': ['file'],
+            'level': 'DEBUG'
+        }
     }
 }
 
@@ -195,9 +199,12 @@ try:
 except:
     pass
 
-# 样本数据的长度
-SAMPLE_DATA_LENGTH = 50
+# 样本数据配置
+SAMPLE_DATA_LENGTH = 50  # 长度
+SAMPLE_PARENT_USER_FORMULA = "parent{id}"
 UNITTEST = False
 
 # 加密的密钥salt
 PASSWORD_SALT = "abc"
+
+#
