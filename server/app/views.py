@@ -21,6 +21,9 @@ import re
 
 from app import models
 
+from .restful_exception import AlreadyCreated
+from django.utils.translation import ugettext_lazy as _
+
 
 class Policy(View):
     def get(self, request):
@@ -426,10 +429,28 @@ class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Parent
         fields = ('student_name', )
     # TODO: limit update time. Only one time
-    # def is_valid(self, raise_exception=False):
-    #     print(self)
+
+    def is_valid(self, raise_exception=False):
+        super().is_valid(raise_exception=raise_exception)
+        if self.context["request"]._request.method.lower() =="patch":
+            # 只有Patch的情况才要检查
+            if self.instance.student_name != "":
+                if raise_exception:
+                    raise AlreadyCreated(detail='{"done": "false", "reason": "Student name already exits."}')
+        # print(self.instance.student_name)
+        # print(self.instance)
+        # print(self.initial_data)
 
 
 class ParentViewSet(ModelViewSet):
     queryset = models.Parent.objects.all()
     serializer_class = ParentViewSetSerializer
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        if response.status_code == 200:
+            response.data = {"done": "true"}
+        return response
+    # def __init__(self, **kwargs):
+    #     super().__init__(**kwargs)
+    #     print(self.settings)

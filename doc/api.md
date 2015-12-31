@@ -264,15 +264,21 @@ result:
 ```
 PATCH /api/v1/parent/(\d+)/
 ```
+
 header data:
+
 ```
 HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+```
 content_type: application/json
 ```
 
 body data:
 
 ```
+
 {
     student_name=XYZ
 }
@@ -281,12 +287,33 @@ body data:
 
 result:
 
+ok
+
 ```
-header status_code 200 -> ok
+header status_code 200
 ```
+
 ```
-other -> error
+body
+{
+    "done": "true"
+}
 ```
+
+already create
+
+```
+header status_code 201
+```
+
+```
+body
+{
+    "done": "false",
+    "reason": "Student name already exits."
+}
+```
+
 
 ### Get user policy
 
