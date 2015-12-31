@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.entity.GHighScore;
+import com.malalaoshi.android.entity.HighScore;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
  * 高分榜adapter
  */
 public class HighScoreAdapter extends BaseAdapter {
-    private List<GHighScore> highScores;
+    private List<HighScore> highScores;
     LayoutInflater layoutInflater;
-    public HighScoreAdapter(Context context, List<GHighScore> list){
+    public HighScoreAdapter(Context context, List<HighScore> list){
         layoutInflater = LayoutInflater.from(context);
         highScores = list;
     }
@@ -40,7 +40,7 @@ public class HighScoreAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        GHighScore data = highScores.get(position);
+        HighScore data = highScores.get(position);
         if (convertView==null){
             convertView = layoutInflater.inflate(R.layout.highscore_list_item,null);
             viewHolder = new ViewHolder();
@@ -53,7 +53,7 @@ public class HighScoreAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
         viewHolder.tvName.setText(data.getName());
-        viewHolder.tvIncreasedScores.setText(data.getIncreased_scores()+"");
+        viewHolder.tvIncreasedScores.setText(data.getIncreased_scores().toString()+"");
         viewHolder.tvSchool.setText(data.getSchool_name());
         viewHolder.tvAdmitted_to.setText(data.getAdmitted_to());
         return convertView;

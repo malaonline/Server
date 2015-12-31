@@ -20,6 +20,7 @@ import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
+import com.malalaoshi.android.util.StringUtil;
 
 import java.util.List;
 
@@ -176,15 +177,15 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             }
             teacher = teachersList.get(position);
             name.setText(teacher.getName());
-            Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
+            String sub = teacher.getSubject();
             if(sub != null){
-                subject.setText(sub.getName());
+                subject.setText(sub);
             }
-            String gradeStr = Grade.generateGradeViewString(teacher.getGrades());
+            String gradeStr = teacher.getGrades_shortname();
             if(gradeStr != null){
                 gradeView.setText(gradeStr);
             }
-            String tagStr = Tag.generateTagViewString(teacher.getTags(), Tag.tags);
+            String tagStr = StringUtil.join(teacher.getTags());
             if(tagStr != null){
                 tagView.setText(tagStr);
             }
@@ -193,9 +194,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             }
 
-            Double minPrice = teacher.getMinPrice();
+            Double minPrice = teacher.getMin_price();
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
-            Double maxPrice = teacher.getMaxPrice();
+            Double maxPrice = teacher.getMax_price();
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
             String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
             priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);

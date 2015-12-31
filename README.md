@@ -16,15 +16,14 @@
 
 ### To Synchronize with Upstream
 
-1. `git remote add upstream git@bitbucket.org:malalaoshi/mala.git`
-2. `git pull upstream dev`
+Your forked repo auto synchronizes with upstream, so you just need `git pull origin dev`.
 
 ### Dev server
-
 
 <https://dev.malalaoshi.com/admin>
 
 username: test
+
 password: mala-test
 
 ### For Android
@@ -38,5 +37,4 @@ KEYSTORE_PASSWORD=123456
 KEY_PASSWORD=123456
 LOCAL_SERVER=https://dev.malalaoshi.com
 ```
-
 Modify variables if needed.

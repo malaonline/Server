@@ -85,13 +85,33 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let teacherId = (collectionView.cellForItemAtIndexPath(indexPath) as! TeacherCollectionViewCell).model!.id
-        let teacherDetail = TeacherDetailModel() // TODO: Network request
-        let viewController = TeacherDetailController()
-        viewController.model = teacherDetail
-        viewController.view.backgroundColor = UIColor.lightGrayColor()
         
-        self.navigationController?.pushViewController(viewController, animated: true)
+        let teacherId = (collectionView.cellForItemAtIndexPath(indexPath) as! TeacherCollectionViewCell).model!.id
+        
+        // Request Teacher Info
+        NetworkTool.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
+            
+            guard let strongSelf = self else { return }
+
+            // Error
+            if error != nil {
+                debugPrint("HomeViewController - loadTeacherDetail Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("HomeViewController - loadTeacherDetail Format Error")
+                return
+            }
+            
+            let viewController = TeacherDetailController()
+            viewController.model = TeacherDetailModel(dict: dict)
+            viewController.view.backgroundColor = UIColor.lightGrayColor()
+            
+            strongSelf.navigationController?.pushViewController(viewController, animated: true)
+        })
+        
     }
     
     func dropViewDidTapButtonForContentView(contentView: UIView) {
