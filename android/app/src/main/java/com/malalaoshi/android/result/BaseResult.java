@@ -7,8 +7,8 @@ package com.malalaoshi.android.result;
 
 public class BaseResult<T> {
 	private int count;
-	private int next;
-	private int previous;
+	private String next;
+	private String previous;
 	private T results;
 
 	public int getCount() {
@@ -19,19 +19,19 @@ public class BaseResult<T> {
 		this.count = count;
 	}
 
-	public int getNext() {
+	public String getNext() {
 		return next;
 	}
 
-	public void setNext(int next) {
+	public void setNext(String next) {
 		this.next = next;
 	}
 
-	public int getPrevious() {
+	public String getPrevious() {
 		return previous;
 	}
 
-	public void setPrevious(int previous) {
+	public void setPrevious(String previous) {
 		this.previous = previous;
 	}
 
