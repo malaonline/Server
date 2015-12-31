@@ -28,6 +28,7 @@ password: mala-test
 
 ### For Android
 
+
 1. `git submodule update --init --recursive`
 2. Create a file named `gradle.properties` with following content:
 
