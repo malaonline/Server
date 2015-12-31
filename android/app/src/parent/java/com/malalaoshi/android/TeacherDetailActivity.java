@@ -234,14 +234,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void updateUIServices(List<MemberService> mMemberServices) {
         if (mMemberServices != null && mMemberServices.size() > 0) {
-            StringBuilder stringBuilder = new StringBuilder();
-            String spot = " | ";
-            for (MemberService service : mMemberServices) {
-                stringBuilder.append(service.getName() + spot);
-            }
-            stringBuilder.delete(stringBuilder.lastIndexOf(spot), stringBuilder.length() - 1);
             mMemberServiceLayout.setVisibility(View.VISIBLE);
-            mMemberServiceTv.setText(stringBuilder.toString());
+            mMemberServiceTv.setText(StringUtil.joinEntityName(mMemberServices));
         }
     }
 
