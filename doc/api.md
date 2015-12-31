@@ -262,32 +262,31 @@ result:
 ### Save child name
 
 ```
-POST /api/v1/parent/(\d+)/
+PATCH /api/v1/parent/(\d+)/
+```
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+content_type: application/json
 ```
 
-parameters:
+body data:
 
 ```
-action=save_student_same
-student_name=XYZ
-token=abaoeuntaheu
+{
+    student_name=XYZ
+}
+
 ```
 
 result:
 
 ```
-{
-    "done": "true"
-}
+header status_code 200 -> ok
 ```
-
 ```
-{
-    "done": "false",
-    "reason": "Student name already exits."
-}
+other -> error
 ```
-
 
 ### Get user policy
 

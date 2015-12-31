@@ -7,6 +7,8 @@ from django.views.generic import View
 # from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
+from rest_framework import serializers, viewsets, mixins
+from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers, viewsets
 import random
 import requests
@@ -415,3 +417,16 @@ class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.WeeklyTimeSlot.objects.all()
     serializer_class = WeeklyTimeSlotSerializer
 
+
+class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Parent
+        fields = ('student_name', )
+    # TODO: limit update time. Only one time
+    # def is_valid(self, raise_exception=False):
+    #     print(self)
+
+
+class ParentViewSet(ModelViewSet):
+    queryset = models.Parent.objects.all()
+    serializer_class = ParentViewSetSerializer
