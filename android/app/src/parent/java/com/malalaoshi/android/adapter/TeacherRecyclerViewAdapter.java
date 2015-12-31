@@ -20,6 +20,7 @@ import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
+import com.malalaoshi.android.util.StringUtil;
 
 import java.util.List;
 
@@ -184,7 +185,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             if(gradeStr != null){
                 gradeView.setText(gradeStr);
             }
-            String tagStr = Tag.generateTagViewString(teacher.getTags());
+            String tagStr = StringUtil.join(teacher.getTags());
             if(tagStr != null){
                 tagView.setText(tagStr);
             }

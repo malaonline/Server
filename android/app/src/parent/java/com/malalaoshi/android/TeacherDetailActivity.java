@@ -38,6 +38,7 @@ import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
@@ -285,15 +286,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
-            StringBuilder strTag = new StringBuilder();
             String[] tags = mTeacher.getTags();
-            if (tags != null && tags.length > 0) {
-                for (int i = 0; i < tags.length; i++) {
-                    strTag.append(tags[i] + spot);
-                }
-                strTag.setLength(strTag.length() - spot.length());
+            String tagsStr = StringUtil.join(tags, spot);
+            if (tagsStr != null && tagsStr.length() > 0) {
                 mTagLayout.setVisibility(View.VISIBLE);
-                mTeachingTags.setText(strTag.toString());
+                mTeachingTags.setText(tagsStr);
             }
 
             //提分榜
@@ -304,15 +301,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //个人相册
             loadGallery(mTeacher.getPhoto_set());
             //特殊成就
-            StringBuilder strCertificate = new StringBuilder();
             String[] strCers = teacher.getCertificate_set();
-            if ( strCers!= null && strCers.length > 0) {
-                for (int i = 0; i < strCers.length; i++) {
-                    strCertificate.append(strCers[i] + spot);
-                }
-                strCertificate.setLength(strCertificate.length() - spot.length());
-            }
-            mCertificate.setText(strCertificate.toString());
+            mCertificate.setText(StringUtil.join(strCers, spot));
 
             //教龄级别
             Integer age = teacher.getTeaching_age();
