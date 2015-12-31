@@ -18,12 +18,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
+import com.malalaoshi.android.result.TeacherListResult;
+import com.malalaoshi.android.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -157,10 +160,10 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
             adapter.loading = true;
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(JSONObject response){
+                public void afterTask(TeacherListResult response){
                     if(response != null){
                         try{
-                            next = response.getString("next");
+                            next = response.getNext();
                         }catch(Exception e){
                             next = null;
                         }
@@ -200,7 +203,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
             }
             new LoadTeachersTask(){
                 @Override
-                public void afterTask(JSONObject response){
+                public void afterTask(TeacherListResult response){
                     adapter.loading = false;
                     setRefreshing(false);
                 }
@@ -240,28 +243,30 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
     private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
-        public void afterTask(JSONObject response){
+        public void afterTask(TeacherListResult response){
         }
         @Override
         protected String doInBackground(String ...params){
             try{
                 String url = next;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-                JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                        Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>(){
+                StringRequest jsArrayRequest = new StringRequest(
+                        Request.Method.GET, url,
+                        new Response.Listener<String>(){
                             @Override
-                            public void onResponse(JSONObject response){
+                            public void onResponse(String response){
+                                TeacherListResult teacherResult = null;
                                 try{
-                                    JSONArray result = response.getJSONArray("results");
-                                    dataSet(result);
-                                    if(result.length() > 0){
+                                    teacherResult = JsonUtil.parseStringData(response, TeacherListResult.class);
+                                    List<Teacher> teachers = teacherResult.getResults();
+                                    if(teachers != null && teachers.size() > 0){
+                                        teachersList.addAll(teachers);
                                         notifyDataSetChanged();
                                     }
                                 }catch (Exception e){
                                     Log.e(LoginFragment.class.getName(), e.getMessage(), e);
                                 }finally{
-                                    afterTask(response);
+                                    afterTask(teacherResult);
                                 }
                             }
                         },
@@ -299,45 +304,4 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         }
     }
 
-    private void dataSet(JSONArray result) throws Exception{
-        try{
-            for(int i=0;i<result.length();i++){
-                JSONObject obj = (JSONObject)result.get(i);
-                Teacher teacher = new Teacher();
-                teacher.setId(Long.valueOf(i+1));
-                teacher.setName(obj.getString("name"));
-                String degreeStr = obj.optString("degree");
-                if(degreeStr != null && degreeStr.length() == 1){
-                    teacher.setDegree(degreeStr.charAt(0));
-                }
-                teacher.setMinPrice(obj.optDouble("min_price"));
-                teacher.setMaxPrice(obj.optDouble("max_price"));
-                teacher.setSubject(obj.optString("subject"));
-                teacher.setAvatar(obj.optString("avatar"));
-                JSONArray gradesAry = obj.optJSONArray("grades");
-                if(gradesAry != null && gradesAry.length() > 0){
-                    String [] tmp = new String[gradesAry.length()];
-                    for(int ind=0; ind < gradesAry.length(); ind++){
-                        tmp[ind] = gradesAry.optString(ind);
-                    }
-
-                    teacher.setGrades(tmp);
-                }
-
-                // TODO: api is changed
-//                JSONArray tagsAry = obj.optJSONArray("tags");
-//                if(tagsAry != null && tagsAry.length() > 0){
-//                    Long [] tmp = new Long[tagsAry.length()];
-//                    for(int ind=0; ind < tagsAry.length(); ind++){
-//                        tmp[ind] = Long.parseLong(tagsAry.get(ind).toString());
-//                    }
-//
-//                    teacher.setTags(tmp);
-//                }
-                teachersList.add(teacher);
-            }
-        }catch(Exception e){
-            throw e;
-        }
-    }
 }

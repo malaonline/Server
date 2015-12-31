@@ -276,26 +276,22 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
             //年级
             String[] grades = teacher.getGrades();
-            if (grades != null) {
+            if (grades != null && grades.length > 0) {
                 for (int i = 0; i < grades.length; i++) {
                     strSubject.append(grades[i] + string + spot);
                 }
-                if (strSubject.length() >= spot.length()) {
-                    strSubject.setLength(strSubject.length() - spot.length());
-                }
+                strSubject.setLength(strSubject.length() - spot.length());
             }
             mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
             StringBuilder strTag = new StringBuilder();
             String[] tags = mTeacher.getTags();
-            if (tags != null) {
+            if (tags != null && tags.length > 0) {
                 for (int i = 0; i < tags.length; i++) {
                     strTag.append(tags[i] + spot);
                 }
-                if (strTag.length() >= spot.length()) {
-                    strTag.setLength(strTag.length() - spot.length());
-                }
+                strTag.setLength(strTag.length() - spot.length());
                 mTagLayout.setVisibility(View.VISIBLE);
                 mTeachingTags.setText(strTag.toString());
             }
@@ -310,13 +306,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //特殊成就
             StringBuilder strCertificate = new StringBuilder();
             String[] strCers = teacher.getCertificate_set();
-            if ( strCers!= null) {
+            if ( strCers!= null && strCers.length > 0) {
                 for (int i = 0; i < strCers.length; i++) {
                     strCertificate.append(strCers[i] + spot);
                 }
-                if (strCertificate.length() >= spot.length()) {
-                    strCertificate.setLength(strCertificate.length() - spot.length());
-                }
+                strCertificate.setLength(strCertificate.length() - spot.length());
             }
             mCertificate.setText(strCertificate.toString());
 

@@ -193,9 +193,9 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
             }
 
-            Double minPrice = teacher.getMinPrice();
+            Double minPrice = teacher.getMin_price();
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
-            Double maxPrice = teacher.getMaxPrice();
+            Double maxPrice = teacher.getMax_price();
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
             String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
             priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);

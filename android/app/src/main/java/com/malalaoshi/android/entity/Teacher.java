@@ -14,8 +14,8 @@ public class Teacher {
     private Character degree;
     private User user;
 
-    private Double minPrice;
-    private Double maxPrice;
+    private Double min_price;
+    private Double max_price;
 
     private Integer teaching_age;
     private String level;
@@ -157,27 +157,27 @@ public class Teacher {
         this.prices = prices;
     }
 
-    public Double getMinPrice() {
-        return minPrice;
+    public Double getMin_price() {
+        return min_price;
     }
 
-    public void setMinPrice(Double minPrice) {
+    public void setMin_price(Double minPrice) {
         if (Double.isNaN(minPrice)) {
-            this.minPrice = null;
+            this.min_price = null;
         } else {
-            this.minPrice = minPrice;
+            this.min_price = minPrice;
         }
     }
 
-    public Double getMaxPrice() {
-        return maxPrice;
+    public Double getMax_price() {
+        return max_price;
     }
 
-    public void setMaxPrice(Double maxPrice) {
+    public void setMax_price(Double maxPrice) {
         if (Double.isNaN(maxPrice)) {
-            this.maxPrice = null;
+            this.max_price = null;
         } else {
-            this.maxPrice = maxPrice;
+            this.max_price = maxPrice;
         }
     }
 
@@ -190,8 +190,8 @@ public class Teacher {
                 ", gender=" + gender +
                 ", degree=" + degree +
                 ", user=" + user +
-                ", minPrice=" + minPrice +
-                ", maxPrice=" + maxPrice +
+                ", min_price=" + min_price +
+                ", max_price=" + max_price +
                 ", teaching_age=" + teaching_age +
                 ", level='" + level + '\'' +
                 ", subject='" + subject + '\'' +

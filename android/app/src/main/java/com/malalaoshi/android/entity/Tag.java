@@ -79,11 +79,9 @@ public class Tag {
         }
         StringBuilder sb = new StringBuilder(tags.length * 8);
         for (int i = 0; i < tags.length; i++) {
-            for (String s : tags) {
-                sb.append(s);
-                if (i < tags.length - 1) {
-                    sb.append(" | ");
-                }
+            sb.append(tags[i]);
+            if (i < tags.length - 1) {
+                sb.append(" | ");
             }
         }
 
