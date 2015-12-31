@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="@dimen/teacher_list_card_corner_radius"
+    card_view:cardElevation="@dimen/teacher_list_card_elevation"
+    android:background="@color/item_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+       <!-- <ImageView
+            android:id="@+id/iv_teacher_avatar"
+            android:src="@drawable/ic_sync_black_24dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />-->
+
+        <RelativeLayout
+            android:layout_width="52dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="8dp" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/iv_teacher_avatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:adjustViewBounds="true"
+                android:background="#DFE4F4"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/ic_close"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="上课时间:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="2015/12/12 10:30-12:30"
+                    android:id="@+id/tv_class_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="地址:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="建国路"
+                    android:id="@+id/tv_class_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_confirm_time"
+            android:paddingLeft="8dp"
+            android:text="时间确认"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/black_line"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="2dp" />
+        <TextView
+            android:id="@+id/tv_course_start"
+            android:text="课程开始"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/black_line"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="2dp" />
+        <TextView
+            android:paddingRight="8dp"
+            android:id="@+id/tv_course_end"
+            android:text="课程结束"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>
