@@ -8,31 +8,13 @@ import java.util.Map;
 /**
  * Created by zl on 15/12/14.
  */
-public class Grade{
+public class Grade extends BaseEntity {
     public static final long PRIMARY_ID = 1;
     public static final long MIDDLE_ID = 8;
     public static final long SENIOR_ID = 13;
 
-    private Long id;
-    private String name;
     private Boolean leaf;
     private Long supersetId;
-
-    public Long getId(){
-        return id;
-    }
-
-    public void setId(Long id){
-        this.id = id;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
 
     public Boolean getLeaf(){
         return leaf;
@@ -54,14 +36,12 @@ public class Grade{
     }
 
     public Grade(Long id, String name, Boolean leaf){
-        this.setId(id);
-        this.setName(name);
+        super(id, name);
         this.setLeaf(leaf);
     }
 
     public Grade(Long id, String name, Boolean leaf, Long supersetId){
-        this.setId(id);
-        this.setName(name);
+        super(id, name);
         this.setLeaf(leaf);
         this.setSupersetId(supersetId);
     }
