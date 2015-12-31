@@ -149,9 +149,12 @@ class Sms(View):
                     new_user.save()
                     profile = models.Profile.objects.create(user=new_user, phone=phone)
                     profile.save()
+                # 家长角色: 创建parent
+                parent, created = models.Parent.objects.get_or_create(user=profile.user)
+                first_login = not parent.student_name
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
-                return JsonResponse({'verified': True, 'first_login': not is_found, 'token': token.key})
+                return JsonResponse({'verified': True, 'first_login': first_login, 'token': token.key})
             except Exception as err:
                 print (err)
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
