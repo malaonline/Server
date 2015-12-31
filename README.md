@@ -16,11 +16,9 @@
 
 ### To Synchronize with Upstream
 
-1. `git remote add upstream git@bitbucket.org:malalaoshi/mala.git`
-2. `git pull upstream dev`
+Your forked repo auto synchronizes with upstream, so you just need `git pull origin dev`.
 
 ### Dev server
-
 
 <https://dev.malalaoshi.com/admin>
 
