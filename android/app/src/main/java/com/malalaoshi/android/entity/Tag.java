@@ -73,6 +73,23 @@ public class Tag {
         return str;
     }
 
+    public static String generateTagViewString(String[] tags) {
+        if (tags == null || tags.length == 0) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder(tags.length * 8);
+        for (int i = 0; i < tags.length; i++) {
+            for (String s : tags) {
+                sb.append(s);
+                if (i < tags.length - 1) {
+                    sb.append(" | ");
+                }
+            }
+        }
+
+        return sb.toString();
+    }
+
     @Deprecated
     public static Tag findTagById(Long tagId, List<Tag> allTag) {
         for (Tag tag : allTag) {

@@ -304,7 +304,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
             for(int i=0;i<result.length();i++){
                 JSONObject obj = (JSONObject)result.get(i);
                 Teacher teacher = new Teacher();
-                teacher.setId(String.valueOf(i+1));
+                teacher.setId(Long.valueOf(i+1));
                 teacher.setName(obj.getString("name"));
                 String degreeStr = obj.optString("degree");
                 if(degreeStr != null && degreeStr.length() == 1){
@@ -312,13 +312,13 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
                 }
                 teacher.setMinPrice(obj.optDouble("min_price"));
                 teacher.setMaxPrice(obj.optDouble("max_price"));
-                teacher.setSubject(obj.optLong("subject"));
+                teacher.setSubject(obj.optString("subject"));
                 teacher.setAvatar(obj.optString("avatar"));
                 JSONArray gradesAry = obj.optJSONArray("grades");
                 if(gradesAry != null && gradesAry.length() > 0){
-                    Long [] tmp = new Long[gradesAry.length()];
+                    String [] tmp = new String[gradesAry.length()];
                     for(int ind=0; ind < gradesAry.length(); ind++){
-                        tmp[ind] = Long.parseLong(gradesAry.get(ind).toString());
+                        tmp[ind] = gradesAry.optString(ind);
                     }
 
                     teacher.setGrades(tmp);

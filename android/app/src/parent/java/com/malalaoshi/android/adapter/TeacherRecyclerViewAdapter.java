@@ -176,15 +176,15 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             }
             teacher = teachersList.get(position);
             name.setText(teacher.getName());
-            Subject sub = Subject.getSubjectFromListById(teacher.getSubject(), Subject.subjectList);
+            String sub = teacher.getSubject();
             if(sub != null){
-                subject.setText(sub.getName());
+                subject.setText(sub);
             }
-            String gradeStr = Grade.generateGradeViewString(teacher.getGrades());
+            String gradeStr = teacher.getGrades_shortname();
             if(gradeStr != null){
                 gradeView.setText(gradeStr);
             }
-            String tagStr = Tag.generateTagViewString(teacher.getTags(), Tag.tags);
+            String tagStr = Tag.generateTagViewString(teacher.getTags());
             if(tagStr != null){
                 tagView.setText(tagStr);
             }
