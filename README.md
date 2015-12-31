@@ -2,8 +2,8 @@
 
 ### Getting Started
 
-1. Fork this repository with Permissions `Inherit repository user/group permissions`.
-2. Follow [this link](https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-302811853.html) to add an SSH key to your bitbucket account.
+1. Fork this repository.
+2. Add an SSH key to your bitbucket account.
 3. Utilize `git clone` to download forked repo to local machine
 
 ### To Create a Pull Request
