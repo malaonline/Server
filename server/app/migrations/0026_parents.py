@@ -75,7 +75,7 @@ def add_parents(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0024_merge'),
+        ('app', '0025_auto_20151231_1616'),
     ]
 
     operations = [
