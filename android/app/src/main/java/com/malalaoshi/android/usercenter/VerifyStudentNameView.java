@@ -1,19 +1,23 @@
 package com.malalaoshi.android.usercenter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.MiscUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,52 +32,79 @@ import butterknife.OnClick;
  */
 public class VerifyStudentNameView extends LinearLayout {
 
-    private Context context;
+    private static final String TAG = "VerifyStudentNameView";
     @Bind(R.id.et_name)
     protected EditText nameEditView;
+    @Bind(R.id.btn_submit)
+    protected TextView submitView;
+
+    private boolean isSubmitViewEnable;
 
     public VerifyStudentNameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        initLayout();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View rootView = inflater.inflate(R.layout.view_verify_student_name, this);
+        setOrientation(VERTICAL);
+        ButterKnife.bind(this, rootView);
+        nameEditView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                setSendButtonStatus(!TextUtils.isEmpty(charSequence));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
-    private void initLayout() {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View rootView = inflater.inflate(R.layout.view_verify_student_name, null);
-        ButterKnife.bind(rootView);
+    private void setSendButtonStatus(boolean enable) {
+        if (enable != isSubmitViewEnable) {
+            isSubmitViewEnable = !isSubmitViewEnable;
+            submitView.setEnabled(isSubmitViewEnable);
+        }
     }
 
     @OnClick(R.id.btn_submit)
     protected void onSubmitClick() {
-        syncStudentName();
-    }
-
-    /**
-     * TODO Waiting for API reading
-     */
-    private void syncStudentName() {
-        String url = MalaApplication.getInstance().getMalaHost() + "";//TODO Waiting API
-        RequestQueue queue = MalaApplication.getHttpRequestQueue();
         JSONObject json = new JSONObject();
         try {
-            json.put("student", nameEditView.getText().toString());
+            json.put(Constants.STUDENT_NAME, nameEditView.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST, url, json,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
+        NetworkSender.saveChildName(json, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    JSONObject jo = new JSONObject(json.toString());
+                    if (jo.optBoolean(Constants.DONE, false)) {
+                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        MiscUtil.toast(R.string.usercenter_set_student_succeed);
+                        return;
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                    }
-                });
-        queue.add(request);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setStudentNameFailed();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                setStudentNameFailed();
+            }
+        });
+    }
+
+    private void setStudentNameFailed() {
+        Log.i(TAG, "Set student's name failed.");
+        MiscUtil.toast(R.string.usercenter_set_student_failed);
     }
 }

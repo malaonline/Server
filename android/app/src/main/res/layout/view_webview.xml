@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#abcdef"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#E97777"
-        android:paddingLeft="16dp">
+        android:paddingLeft="12dp">
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_quit"
-            android:paddingLeft="4dp"
-            android:text="User protocol" />
+            android:visibility="gone"
+            android:src="@drawable/ic_user_close" />
 
-        <WebView
-            android:id="@+id/webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></WebView>
+        <TextView
+            style="@style/mala.widget.usercenter.title.text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="麻辣老师用户协议" />
     </RelativeLayout>
-</LinearLayout>
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:background="@color/blue_light"
+        android:layout_height="match_parent"></WebView>
+</merge>

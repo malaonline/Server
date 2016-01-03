@@ -1,75 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">麻辣老师</string>
-	<string name="find_teacher">找个老师</string>
-	<string name="teacher_list">老师列表</string>
-	<string name="navigation_drawer_open">打开导航抽屉</string>
-	<string name="navigation_drawer_close">关闭导航抽屉</string>
+    <string name="app_name">麻辣老师</string>
+    <string name="find_teacher">找个老师</string>
+    <string name="teacher_list">老师列表</string>
+    <string name="navigation_drawer_open">打开导航抽屉</string>
+    <string name="navigation_drawer_close">关闭导航抽屉</string>
 
-	<string name="signin">登录</string>
-	<string name="signout">退出账号</string>
-	<string name="register">注册</string>
-	<string name="login_phone_no">手机号</string>
-	<string name="login_password">密码</string>
-	<string name="login_password_confirm">确认密码</string>
-	<string name="input_hint_phone_no">请输入手机号</string>
-	<string name="input_hint_password">请输入密码</string>
+    <string name="signin">登录</string>
+    <string name="signout">退出账号</string>
+    <string name="register">注册</string>
+    <string name="login_phone_no">手机号</string>
+    <string name="login_password">密码</string>
+    <string name="login_password_confirm">确认密码</string>
+    <string name="input_hint_phone_no">请输入手机号</string>
+    <string name="input_hint_password">请输入密码</string>
 
-	<string name="hint_login_processing">正在登录...</string>
-	<string name="hint_login_success">登录成功</string>
-	<string name="hint_login_fail">登录失败</string>
-	<string name="prompt_email">电子邮件</string>
-	<string name="prompt_password">密码 (可选)</string>
-	<string name="action_sign_in">登录或注册</string>
+    <string name="hint_login_processing">正在登录...</string>
+    <string name="hint_login_success">登录成功</string>
+    <string name="hint_login_fail">登录失败</string>
+    <string name="prompt_email">电子邮件</string>
+    <string name="prompt_password">密码 (可选)</string>
+    <string name="action_sign_in">登录或注册</string>
 
-	<string name="error_invalid_email">此电子邮件地址无效</string>
-	<string name="error_invalid_password">此密码是太短</string>
-	<string name="error_incorrect_password">此密码不正确</string>
-	<string name="error_field_required">此字段是必需的</string>
-	<string name="permission_rationale">"联系人权限需要提供电子邮件完成"。</string>
-	<string name="action_settings">设置</string>
-	<string name="title_activity_settings">设置</string>
+    <string name="error_invalid_email">此电子邮件地址无效</string>
+    <string name="error_invalid_password">此密码是太短</string>
+    <string name="error_incorrect_password">此密码不正确</string>
+    <string name="error_field_required">此字段是必需的</string>
+    <string name="permission_rationale">"联系人权限需要提供电子邮件完成"。</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_settings">设置</string>
 
-	<string name="title_subject">科目</string>
-	<string name="title_grade">年级</string>
-	<string name="title_choose_course_address">预约上课地点</string>
-	<string name="title_choose_address_type">选择上课方式</string>
-	<string name="title_address_type_go_home">老师上门</string>
-	<string name="title_address_type_school">学习中心</string>
-	<string name="title_choose_school">选择学习中心</string>
+    <string name="title_subject">科目</string>
+    <string name="title_grade">年级</string>
+    <string name="title_choose_course_address">预约上课地点</string>
+    <string name="title_choose_address_type">选择上课方式</string>
+    <string name="title_address_type_go_home">老师上门</string>
+    <string name="title_address_type_school">学习中心</string>
+    <string name="title_choose_school">选择学习中心</string>
 
-	<string name="nav_bar_back">返回</string>
+    <string name="nav_bar_back">返回</string>
 
-	<string name="networt_connected">网络已连接</string>
-	<string name="networt_disconnected">网络断开了</string>
+    <string name="networt_connected">网络已连接</string>
+    <string name="networt_disconnected">网络断开了</string>
 
-	<string name="teacher_list_title">麻辣老师</string>
+    <string name="teacher_list_title">麻辣老师</string>
 
-	<string name="load_more">加载更多</string>
+    <string name="load_more">加载更多</string>
 
-	<string name="no_data">暂无数据</string>
+    <string name="no_data">暂无数据</string>
 
-	<string name="do_filter">筛选</string>
-	
-	<string name="currency_unit">元</string>
+    <string name="do_filter">筛选</string>
 
-	<!-- 教师详情 -->
-	<string name="sign_up">马上报名</string>
-	<string name="teacher_teaching_subject">教学科目</string>
-	<string name="teacher_teaching_tag">风格标签</string>
-	<string name="teaching_environment">教学环境</string>
-	<string name="teacher_highscore">提分榜</string>
-	<string name="teacher_gallery">个人相册</string>
-	<string name="teacher_more_gallery">更多</string>
-	<string name="teacher_certificate">特殊成就</string>
-	<string name="member_services">会员服务</string>
-	<string name="teacher_level">教龄 | 级别</string>
-	<string name="class_pricelist">价格表</string>
-	<string name="highscore_name">姓名</string>
-	<string name="highscore_increasedscores">辅导提分区间</string>
-	<string name="highscore_school">所在学校</string>
-	<string name="highscore_admittedto">考入学校</string>
+    <string name="currency_unit">元</string>
 
-	<string name="user_protocol">《麻辣教户协议》</string>
-	
+    <!-- 教师详情 -->
+    <string name="sign_up">马上报名</string>
+    <string name="teacher_teaching_subject">教学科目</string>
+    <string name="teacher_teaching_tag">风格标签</string>
+    <string name="teaching_environment">教学环境</string>
+    <string name="teacher_highscore">提分榜</string>
+    <string name="teacher_gallery">个人相册</string>
+    <string name="teacher_more_gallery">更多</string>
+    <string name="teacher_certificate">特殊成就</string>
+    <string name="member_services">会员服务</string>
+    <string name="teacher_level">教龄 | 级别</string>
+    <string name="class_pricelist">价格表</string>
+    <string name="highscore_name">姓名</string>
+    <string name="highscore_increasedscores">辅导提分区间</string>
+    <string name="highscore_school">所在学校</string>
+    <string name="highscore_admittedto">考入学校</string>
+    <string name="usercenter_touch_protocol">轻触上面验证按钮,即表示您同意</string>
+    <string name="usercenter_user_agreement">麻辣教师用户协议</string>
+    <string name="usercenter_set_student_succeed">设置学生姓名成功</string>
+    <string name="usercenter_set_student_failed">设置学生姓名失败</string>
+    <string name="usercenter_verify_code_sent">验证码已发送</string>
+    <string name="seconds_count_down">%ds后获取</string>
+    <string name="usercenter_fetch_verify_code">获取验证码</string>
+    <string name="usercenter_fetch_code_failed">验验证码发送失败，请稍候重试！</string>
+    <string name="usercenter_verify">验证</string>
+
 </resources>

@@ -2,58 +2,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/usercenter_main_bk"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#E97777"
-        android:paddingLeft="16dp">
-
-        <ImageView
-            android:id="@+id/iv_quit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@android:drawable/ic_delete" />
+        android:background="@android:color/white"
+        android:paddingLeft="12dp">
 
         <TextView
+            style="@style/mala.widget.usercenter.title.text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_quit"
-            android:paddingLeft="4dp"
-            android:text="验证成功" />
+            android:layout_centerInParent="true"
+            android:text="填写姓名" />
     </RelativeLayout>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="1px"
+        android:background="#e5e5e5" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="16dp"
+        android:background="#e5e5e5" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="学生姓名" />
+    <EditText
+        android:id="@+id/et_name"
+        style="@style/mala.widget.usercenter.edit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff"
+        android:hint="请输入学生姓名"
+        android:maxLength="4"
+        android:paddingLeft="12dp" />
 
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_toRightOf="@id/tv_name" />
-        </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:gravity="left"
+        android:text="请认真填写姓名，不得超过4个汉字"
+        android:textColor="#939393"
+        android:textSize="12dp" />
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:text="完成"
-            android:layout_height="wrap_content"></Button>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/btn_submit"
+        style="@style/mala.widget.usercenter.button"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/usercenter_blue_btn_bk"
+        android:enabled="false"
+        android:text="验证" />
 </LinearLayout>
