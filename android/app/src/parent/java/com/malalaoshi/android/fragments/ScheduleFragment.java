@@ -136,8 +136,8 @@ public class ScheduleFragment extends Fragment implements BGARefreshLayout.BGARe
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ScheduleListResult result = JsonUtil.parseData(R.raw.schedule, ScheduleListResult.class, getActivity());
-                //ScheduleListResult result = JsonUtil.parseStringData(response, ScheduleListResult.class);
+                //ScheduleListResult result = JsonUtil.parseData(R.raw.schedule, ScheduleListResult.class, getActivity());
+                ScheduleListResult result = JsonUtil.parseStringData(response, ScheduleListResult.class);
 
                 dealData(result);
                 mRefreshLayout.endRefreshing();
@@ -162,8 +162,8 @@ public class ScheduleFragment extends Fragment implements BGARefreshLayout.BGARe
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ScheduleListResult result = JsonUtil.parseData(R.raw.schedule, ScheduleListResult.class, getActivity());
-               // ScheduleListResult result = JsonUtil.parseStringData(response, ScheduleListResult.class);
+                //ScheduleListResult result = JsonUtil.parseData(R.raw.schedule, ScheduleListResult.class, getActivity());
+                ScheduleListResult result = JsonUtil.parseStringData(response, ScheduleListResult.class);
                 dealMoreData(result);
                 mRefreshLayout.endRefreshing();
             }
