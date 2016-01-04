@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		03F76CF796D8F7E2B1EBFD7E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32A3001C34E15000890BF9 /* LoginViewController.swift */; };
+		3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
+		3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -95,6 +97,7 @@
 		2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionCell.swift; sourceTree = "<group>"; };
 		2ECF91491C2ACE7000904C3A /* TeacherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherModel.swift; sourceTree = "<group>"; };
 		2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionViewCell.swift; sourceTree = "<group>"; };
+		3037B5821C3A84C2005672D9 /* SMSResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSResultModel.swift; sourceTree = "<group>"; };
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -259,6 +262,7 @@
 				307AB89A1C33CDD200D8397F /* GradePriceModel.swift */,
 				307AB89B1C33CDD200D8397F /* HighScoreModel.swift */,
 				307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */,
+				3037B5821C3A84C2005672D9 /* SMSResultModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -709,6 +713,7 @@
 				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
 				304135B41C23AE6400830C43 /* Request.swift in Sources */,
 				30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
+				3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
@@ -771,6 +776,7 @@
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
+				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

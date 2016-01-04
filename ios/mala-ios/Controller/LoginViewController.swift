@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(UIColor.redColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Disabled)
         button.addTarget(self, action: "verifyCodeGetButtonDidTap", forControlEvents: .TouchUpInside)
-        button.titleLabel?.textAlignment = .Right
+        button.enabled = false
         return button
     }()
     private lazy var verifyButton: UIButton = {
@@ -156,23 +156,13 @@ class LoginViewController: UIViewController {
         return mobileTest.evaluateWithObject(mobile)
     }
     
-    
-    // MARK: - Event Response
-    @objc private func textDidChange(textField: UITextField) {
-        // when number is validated and verifycode not empty, commit button will show
-        self.verifyButton.enabled = validateMobile(self.numberTextField.text ?? "") && (self.checkTextField.text != "")
-    }
-    
-    @objc private func verifyCodeGetButtonDidTap() {
-        //TODO: request verify code 
-        
-        // count down
+    private func countDown() {
         var timeout = 60.0 // 60s
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
         dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), UInt64(NSTimeInterval(NSEC_PER_SEC)), 0)
         dispatch_source_set_event_handler(timer) {[weak self] () -> Void in
-                        
+            
             if timeout <= 0 { // count down finished
                 dispatch_source_cancel(timer)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -181,7 +171,6 @@ class LoginViewController: UIViewController {
                 })
             }else { // countinue count down
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    print("\(timeout)")
                     self?.verifyCodeGetButton.setTitle(String(format: "%02d秒后重新发送", Int(timeout)), forState: .Normal)
                     self?.verifyCodeGetButton.enabled = false
                 })
@@ -189,12 +178,65 @@ class LoginViewController: UIViewController {
             }
         }
         dispatch_resume(timer)
+    }
+    
+    
+    // MARK: - Event Response
+    @objc private func textDidChange(textField: UITextField) {
+        // when number is validated and verifycode not empty, commit button will enable
+        self.verifyButton.enabled = validateMobile(self.numberTextField.text ?? "") && (self.checkTextField.text != "")
+        
+        // when number is validated, code get button will enable
+        self.verifyCodeGetButton.enabled = validateMobile(self.numberTextField.text ?? "")
+    }
+    
+    @objc private func verifyCodeGetButtonDidTap() {
+        // sending SMS
+        NetworkTool.sharedTools.sendSMS(self.numberTextField.text!) { [weak self] (result, error) -> () in
+            // Error
+            if error != nil {
+                debugPrint("LoginViewController - sendSMS Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("LoginViewController - sendSMS Format Error")
+                return
+            }
+            
+            if dict["sent"]?.intValue == 1 {
+                print(true)
+            }else {
+                print(false)
+            }
+            self?.countDown()
+        }
         
     }
     
     @objc private func verifyButtonDidTap() {
-        print("phone: \(self.numberTextField.text)")
-        print("code : \(self.checkTextField.text)")
+        // verify SMS
+        NetworkTool.sharedTools.verifySMS(self.numberTextField.text!, code: self.checkTextField.text!) { (result, error) -> () in
+            // Error
+            if error != nil {
+                debugPrint("LoginViewController - verifySMS Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("LoginViewController - verifySMS Format Error")
+                return
+            }
+            print(dict)
+            let smsResult = SMSResultModel(dict: dict)
+            if smsResult.verified && smsResult.token != "" {
+                Mala_UserToken = smsResult.token
+            }else {
+                print("验证失败")
+            }
+        }
     }
     
     @objc private func dismiss() {

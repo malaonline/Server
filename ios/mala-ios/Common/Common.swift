@@ -8,6 +8,11 @@
 
 import UIKit
 
+// MARK: - Identifier
+var Mala_AppKey: String = "0"
+var Mala_UserToken: String = "0"
+
+
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.redColor()
 let MalaAppearanceTextColor = UIColor.whiteColor()
