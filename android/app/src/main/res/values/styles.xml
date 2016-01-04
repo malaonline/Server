@@ -11,6 +11,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="selectableItemBackgroundGeneral">@drawable/selectable_item_background_general_light</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
+        <item name="android:listDivider">@drawable/dividerdecoration</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

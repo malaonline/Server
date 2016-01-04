@@ -15,12 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.view.MotionEvent;
 
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
+import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
@@ -30,6 +32,7 @@ import com.malalaoshi.android.util.ImageCache;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
@@ -38,6 +41,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private  List<Teacher> teachersList = new ArrayList<Teacher>();
 
     private NetworkStateReceiver mNetworkStateReceiver;
+
+    @Bind(R.id.index_home_btn)
+    protected ImageView mImageViewHome;
+
+    @Bind(R.id.index_personal_btn)
+    protected ImageView mImageViewSchedule;
+
+    private int selectIndex  = R.id.index_home_btn_view;
+
+    private TeacherListFragment teacherListFragment = null;
+    private ScheduleFragment scheduleFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -69,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
         ButterKnife.bind(this);
-
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList), TeacherListFragment.class.getName());
+        teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment , TeacherListFragment.class.getName());
     }
 
     private void init() {
@@ -93,13 +107,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
     }
 
-    private void setDrawable(int viewId, int drawableId){
+  /*  private void setDrawable(int viewId, int drawableId){
         ImageView iv = (ImageView)findViewById(viewId);
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), drawableId, null);
         iv.setImageDrawable(drawable);
     }
 
-    private void indexBtnEvent(MotionEvent event, int id, int drawableId, int pressedDrawableId){
+     private void indexBtnEvent(MotionEvent event, int id, int drawableId, int pressedDrawableId){
         int action = event.getAction();
         switch(action){
             case 0:{
@@ -116,17 +130,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @OnTouch(R.id.index_home_btn_view)
+   @OnTouch(R.id.index_home_btn_view)
     protected boolean onTouchIndexHomeBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_home_btn, R.drawable.index_home, R.drawable.index_home_press);
+        if (teacherListFragment==null){
+            teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
+        }
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, teacherListFragment, ScheduleFragment.class.getName());
         return true;
     }
 
     @OnTouch(R.id.index_personal_btn_view)
     protected boolean onTouchIndexPersonalBtn(MotionEvent event){
         indexBtnEvent(event, R.id.index_personal_btn, R.drawable.index_personal, R.drawable.index_personal_press);
+        if (scheduleFragment==null){
+            scheduleFragment = new ScheduleFragment();
+        }
+
+        FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, scheduleFragment, ScheduleFragment.class.getName());
         return true;
+    }*/
+
+    @OnClick(R.id.index_home_btn_view)
+    protected void onClickHome(View v){
+        if (selectIndex!=R.id.index_home_btn_view){
+            selectIndex = R.id.index_home_btn_view;
+            mImageViewHome.setImageDrawable(getResources().getDrawable(R.drawable.index_home));
+            mImageViewSchedule.setImageDrawable(getResources().getDrawable(R.drawable.index_personal_press));
+            changeFragment(selectIndex);
+        }
     }
+
+    @OnClick(R.id.index_personal_btn_view)
+    protected void onClickSchSchedule(View v){
+        if (selectIndex!=R.id.index_personal_btn_view) {
+            selectIndex = R.id.index_personal_btn_view;
+            mImageViewHome.setImageDrawable(getResources().getDrawable(R.drawable.index_home_press));
+            mImageViewSchedule.setImageDrawable(getResources().getDrawable(R.drawable.index_personal));
+            changeFragment(selectIndex);
+        }
+    }
+
+    private void changeFragment(int selectIndex) {
+        switch (selectIndex){
+            case R.id.index_home_btn_view:
+                if (teacherListFragment==null){
+                    teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
+                }
+                FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment, ScheduleFragment.class.getName());
+                break;
+            case R.id.index_personal_btn_view:
+                if (scheduleFragment==null){
+                    scheduleFragment = new ScheduleFragment();
+                }
+                FragmentUtil.opFragmentMainActivity(getFragmentManager(), teacherListFragment, scheduleFragment, ScheduleFragment.class.getName());
+                break;
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
