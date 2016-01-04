@@ -59,6 +59,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    'EXCEPTION_HANDLER': 'app.restful_exception.exception_handler',
     'PAGE_SIZE': 10,
 }
 
@@ -187,6 +188,10 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
         },
+        'django.db.backends':{
+            'handlers': ['file'],
+            'level': 'DEBUG'
+        }
     }
 }
 
@@ -194,3 +199,13 @@ try:
     from .local_settings import *
 except:
     pass
+
+# 样本数据配置
+SAMPLE_DATA_LENGTH = 50  # 长度
+SAMPLE_PARENT_USER_FORMULA = "parent{id}"
+UNITTEST = False
+
+# 加密的密钥salt
+PASSWORD_SALT = "abc"
+
+#

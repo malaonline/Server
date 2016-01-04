@@ -2,6 +2,8 @@ import os
 import json
 
 from django.db import migrations
+from django.conf import settings
+
 
 def dfs(apps, root, deep, superset=None, leaf=True):
     Region = apps.get_model('app', 'Region')
@@ -16,12 +18,18 @@ def dfs(apps, root, deep, superset=None, leaf=True):
     else:
         region = Region(name=root, superset=superset, admin_level=deep, leaf=leaf)
         region.save()
-        print(region.name)
+        print("{tab}{name}".format(tab="".join([" " for tab in range(deep-1)]), name=region.name))
         return region
 
+
 def add_region(apps, schema_editor):
+    if settings.UNITTEST is True:
+        data_file = "regions_for_test.json"
+    else:
+        data_file = "regions.txt"
     regions = json.load(open(os.path.join(os.path.dirname(__file__),
-        'regions.txt')))
+                                          data_file)))
+    print("添加省份")
     dfs(apps, regions, 1)
 
 

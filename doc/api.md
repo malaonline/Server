@@ -262,26 +262,52 @@ result:
 ### Save child name
 
 ```
-POST /api/v1/parent/(\d+)/
+PATCH /api/v1/parent/(\d+)/
 ```
 
-parameters:
+header data:
 
 ```
-action=save_student_same
-student_name=XYZ
-token=abaoeuntaheu
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+```
+content_type: application/json
+```
+
+body data:
+
+```
+
+{
+    student_name=XYZ
+}
+
 ```
 
 result:
 
+ok
+
 ```
+header status_code 200
+```
+
+```
+body
 {
     "done": "true"
 }
 ```
 
+already create
+
 ```
+header status_code 201
+```
+
+```
+body
 {
     "done": "false",
     "reason": "Student name already exits."
@@ -301,3 +327,26 @@ GET /api/v1/policy
     "updated_at": 13450887
 }
 ```
+
+
+### Get Token
+```
+POST /api/v1/token-auth/
+```
+
+parameters:
+
+```
+username=username
+password=password
+```
+
+result:
+
+```
+{
+    "token":"f8f4a20ce8b6c6e74bb6542933ed79242e9f0658"
+}
+```
+
+Above token's value is just a example not actually value.
