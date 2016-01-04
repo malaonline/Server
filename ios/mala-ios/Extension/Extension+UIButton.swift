@@ -38,7 +38,7 @@ extension UIButton {
     ///  - parameter selectedBgColor:    UIColor for BackgroundColor in SelectedState
     ///
     ///  - returns: UIButton
-    convenience init(title: String, titleColor: UIColor? = nil, selectedTitleColor: UIColor? = nil, bgColor: UIColor? = nil, selectedBgColor: UIColor? = nil) {
+    convenience init(title: String, titleColor: UIColor? = nil, selectedTitleColor: UIColor? = nil, bgColor: UIColor = UIColor.whiteColor(), selectedBgColor: UIColor = UIColor.whiteColor()) {
         self.init()
         setTitle(title, forState: .Normal)
         titleLabel?.font = UIFont.systemFontOfSize(14)

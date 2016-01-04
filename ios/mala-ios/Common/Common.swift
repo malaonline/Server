@@ -8,6 +8,11 @@
 
 import UIKit
 
+// MARK: - Identifier
+var Mala_AppKey: String = "0"
+var Mala_UserToken: String = "0"
+
+
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.redColor()
 let MalaAppearanceTextColor = UIColor.whiteColor()
@@ -16,6 +21,10 @@ let MalaAppearanceTextColor = UIColor.whiteColor()
 // MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_Profile = "个人"
+let MalaCommonString_PhoneNumber = "手机号"
+let MalaCommonString_Cancel = "取消"
+let MalaCommonString_VerifyCode = "验证码"
+let MalaCommonString_GetVerifyCode = "获取验证码"
 
 
 // MARK: - Common Proportion

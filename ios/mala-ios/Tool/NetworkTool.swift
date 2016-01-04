@@ -12,12 +12,13 @@ import Alamofire
 class NetworkTool {
 
     // MARK: - Variable
-    private let baseUrl = "http://dev.malalaoshi.com/api/v1"
+    private let baseUrl = "https://dev.malalaoshi.com/api/v1"
     private let gradeList = "/grades/"
     private let subjectList = "/subjects/"
     private let tagList = "/tags/"
     private let memberServiceList = "/memberservices/"
     private let teacherList = "/teachers/"
+    private let sms = "/sms"
     
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
@@ -72,8 +73,31 @@ extension NetworkTool {
     ///  - parameter id:       id of teacher
     ///  - parameter finished: Closure for Finished
     func loadTeacherDetail(id: Int, finished: RequestCallBack) {
-        print("\(baseUrl+teacherList+String(id))")
         request(.GET, URLString: baseUrl+teacherList+String(id), parameters: nil, finished: finished)
+    }
+    
+    ///  Request for send SMS
+    ///
+    ///  - parameter number:   string for phone number
+    ///  - parameter finished: Closure for Finished
+    func sendSMS(number: String, finished: RequestCallBack) {
+        var params = [String: AnyObject]()
+        params["action"] = "send"
+        params["phone"] = "0001" //TODO: Delete Test Param
+        request(.POST, URLString: baseUrl+sms, parameters: params, finished: finished)
+    }
+    
+    ///  Request for verify SMS
+    ///
+    ///  - parameter number:   string for phone number
+    ///  - parameter code:     string for verify code
+    ///  - parameter finished: Closure for Finished
+    func verifySMS(number: String, code: String, finished: RequestCallBack) {
+        var params = [String: AnyObject]()
+        params["action"] = "verify"
+        params["phone"] = "0001" //TODO: Delete Test Param
+        params["code"] = "1111" //TODO: Delete Test Param
+        request(.POST, URLString: baseUrl+sms, parameters: params, finished: finished)
     }
     
 }

@@ -34,7 +34,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     }
     
     
-    // MARK: - Private Function
+    // MARK: - Private Method
     private func homeViewFlowLayout() {
         scrollDirection = .Vertical
         let itemWidth: CGFloat = MalaScreenWidth * MalaProportion_HomeCellWidthWithScreenWidth
