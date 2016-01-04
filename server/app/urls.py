@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^api/v1/policy', views.Policy.as_view(), name='policy'),
     url(r'^api/v1/sms', views.Sms.as_view(), name='sms'),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^web/teacher/', include('teacher.urls', namespace='teacher')),
 ]

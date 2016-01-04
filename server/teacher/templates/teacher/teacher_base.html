@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles%}
+    <link href="{% static 'teacher/css/bootstrap.css' %}">
+    <script sr="{% static 'teacher/js/bootstrap.js' %}"></script>
+</head>
+<body>
+{% block body %}
+{% endblock %}
+</body>
+</html>
