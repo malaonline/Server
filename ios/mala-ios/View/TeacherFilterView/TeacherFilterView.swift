@@ -92,9 +92,7 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         
         // load Tags
         NetworkTool.sharedTools.loadTags{ [weak self] (result, error) -> () in
-            
-            guard let strongSelf = self else { return }
-            
+                        
             // Error
             if error != nil {
                 debugPrint("TeacherFilterView - loadTags Request Error")
@@ -115,7 +113,7 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
                     tempDict?.append(set)
                 }
             }
-            strongSelf.tagsCondition.subset = tempDict
+            self?.tagsCondition.subset = tempDict
             self?.reloadData()
         }
         self.grades?.append(self.tagsCondition)

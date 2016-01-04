@@ -24,6 +24,8 @@ class LoginViewController: UIViewController {
     private lazy var numberTextField: UITextField = {
         let textfield = UITextField()
         textfield.keyboardType = .NumberPad
+        textfield.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
+        textfield.clearButtonMode = .Always
         return textfield
     }()
     private lazy var numberSeparator: UIView = UIView.separator()
@@ -31,20 +33,25 @@ class LoginViewController: UIViewController {
     private lazy var checkTextField: UITextField = {
         let textfield = UITextField()
         textfield.keyboardType = .NumberPad
+        textfield.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
         return textfield
     }()
+    private lazy var checkSeparator: UIView = UIView.separator()
     private lazy var verifyCodeGetButton: UIButton = {
         let button = UIButton()
-        button.setTitle("获取验证码", forState: .Normal)
+        button.setTitle(MalaCommonString_GetVerifyCode, forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(16)
-        button.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        button.setTitleColor(UIColor.redColor(), forState: .Normal)
+        button.setTitleColor(UIColor.grayColor(), forState: .Disabled)
         button.addTarget(self, action: "verifyCodeGetButtonDidTap", forControlEvents: .TouchUpInside)
+        button.titleLabel?.textAlignment = .Right
         return button
     }()
-    private lazy var checkSeparator: UIView = UIView.separator()
     private lazy var verifyButton: UIButton = {
         let button = UIButton(title: "验证", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.lightGrayColor(), bgColor: UIColor.redColor(), selectedBgColor: UIColor.whiteColor())
+        button.setBackgroundImage(UIImage.withColor(UIColor.lightGrayColor()), forState: .Disabled)
         button.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
+        button.enabled = false
         return button
     }()
     
@@ -59,6 +66,7 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    
     // MARK: - Private Method
     private func setupUI() {
         
@@ -121,7 +129,7 @@ class LoginViewController: UIViewController {
         }
         
         verifyCodeGetButton.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(100)
+            make.width.equalTo(140)
             make.right.equalTo(self.view.snp_right).offset(-margin)
             make.centerY.equalTo(self.checkTextField.snp_centerY)
         }
@@ -142,12 +150,51 @@ class LoginViewController: UIViewController {
 
     }
     
+    private func validateMobile(mobile: String) -> Bool {
+        let mobileRegex = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$"
+        let mobileTest = NSPredicate(format: "SELF MATCHES %@", mobileRegex)
+        return mobileTest.evaluateWithObject(mobile)
+    }
+    
+    
+    // MARK: - Event Response
+    @objc private func textDidChange(textField: UITextField) {
+        // when number is validated and verifycode not empty, commit button will show
+        self.verifyButton.enabled = validateMobile(self.numberTextField.text ?? "") && (self.checkTextField.text != "")
+    }
+    
     @objc private func verifyCodeGetButtonDidTap() {
-        print("verifyCodeGetButton DidTao")
+        //TODO: request verify code 
+        
+        // count down
+        var timeout = 60.0 // 60s
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
+        dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), UInt64(NSTimeInterval(NSEC_PER_SEC)), 0)
+        dispatch_source_set_event_handler(timer) {[weak self] () -> Void in
+                        
+            if timeout <= 0 { // count down finished
+                dispatch_source_cancel(timer)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self?.verifyCodeGetButton.setTitle(MalaCommonString_GetVerifyCode, forState: .Normal)
+                    self?.verifyCodeGetButton.enabled = true
+                })
+            }else { // countinue count down
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    print("\(timeout)")
+                    self?.verifyCodeGetButton.setTitle(String(format: "%02d秒后重新发送", Int(timeout)), forState: .Normal)
+                    self?.verifyCodeGetButton.enabled = false
+                })
+                timeout--
+            }
+        }
+        dispatch_resume(timer)
+        
     }
     
     @objc private func verifyButtonDidTap() {
-        print("verifyButton DidTap")
+        print("phone: \(self.numberTextField.text)")
+        print("code : \(self.checkTextField.text)")
     }
     
     @objc private func dismiss() {
