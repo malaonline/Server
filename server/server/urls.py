@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('app.urls')),
     url(r'^', include('django.contrib.auth.urls')),
+    url(r'^teacher/', include('teacher.urls', namespace='teacher')),
 ]

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles%}
+{#    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/bootstrap.css' %}">#}
+    {% block addition_header %}{% endblock %}
+    <script src="{% static 'teacher/js/jquery-2.1.4.js' %}"></script>
+    <script src="{% static 'teacher/js/bootstrap.js' %}"></script>
+</head>
+<body>
+{% block body %}
+{% endblock %}
+</body>
+</html>
