@@ -120,6 +120,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
         moocStyleRefreshViewHolder.setUltimateColor(R.color.colorPrimary);
+        moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.colorWhite);
         mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
