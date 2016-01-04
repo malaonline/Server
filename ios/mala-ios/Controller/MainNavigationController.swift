@@ -23,7 +23,7 @@ class MainNavigationController: UINavigationController {
     }
     
     
-    // MARK: - Private Function
+    // MARK: - Private Method
     private func setupStyle() {
         
         // Text Style

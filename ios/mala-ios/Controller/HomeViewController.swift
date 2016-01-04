@@ -40,8 +40,11 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     // MARK: - Event
     @objc private func locationButtonDidClick() {
-        let alertView = UIAlertView.init(title: nil, message: "目前只支持洛阳地区，其他地区正在拓展中", delegate: nil, cancelButtonTitle: "知道了")
-        alertView.show()
+//        let alertView = UIAlertView.init(title: nil, message: "目前只支持洛阳地区，其他地区正在拓展中", delegate: nil, cancelButtonTitle: "知道了")
+//        alertView.show()
+        self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: { () -> Void in
+            
+        })
     }
     
     @objc private func screeningButtonDidClick() {
@@ -126,7 +129,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     }
     
     
-    // MARK: - private Function
+    // MARK: - private Method
     private func setupUserInterface() {
         
         collectionView?.backgroundColor = UIColor.whiteColor()

@@ -16,6 +16,9 @@ let MalaAppearanceTextColor = UIColor.whiteColor()
 // MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_Profile = "个人"
+let MalaCommonString_PhoneNumber = "手机号"
+let MalaCommonString_Cancel = "取消"
+let MalaCommonString_VerifyCode = "验证码"
 
 
 // MARK: - Common Proportion

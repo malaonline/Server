@@ -75,7 +75,7 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
     }
     
     
-    // MARK: - Private Function
+    // MARK: - Private Method
     func loadFilterCondition() {
         
         // load Grades and Subjects

@@ -24,7 +24,7 @@ class MainViewController: UITabBarController {
     }
     
     
-    // MARK: - Private Function
+    // MARK: - Private Method
     private func setupTabBar() {
         
         addSubViewController(HomeViewController(), title: MalaCommonString_Malalaoshi, imageName: "home_normal")
