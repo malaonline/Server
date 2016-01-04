@@ -16,7 +16,6 @@ class Command(BaseCommand):
         # create group and permission
         for group_name, permission_list in group_and_permission.items():
             new_group, group_create = Group.objects.get_or_create(name=group_name)
-            permission_list = permission_list
 
             for permission_name in permission_list:
                 permission = Permission.objects.get(name=permission_name)
