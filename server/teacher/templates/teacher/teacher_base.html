@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles%}
-    <link href="{% static 'teacher/css/bootstrap.css' %}">
-    <script sr="{% static 'teacher/js/bootstrap.js' %}"></script>
+{#    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/bootstrap.css' %}">#}
+    {% block addition_header %}{% endblock %}
+    <script src="{% static 'teacher/js/jquery-2.1.4.js' %}"></script>
+    <script src="{% static 'teacher/js/bootstrap.js' %}"></script>
 </head>
 <body>
 {% block body %}
