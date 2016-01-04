@@ -5,7 +5,7 @@ from django.db import migrations
 
 def add_grade(apps, schema_editor):
     Grade = apps.get_model('app', 'Grade')
-    print("添加年纪")
+    print("添加年级")
     p = Grade(name='小学',leaf=False)
     p.save()
     for g in ('一', '二', '三', '四', '五', '六'):
