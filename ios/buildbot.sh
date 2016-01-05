@@ -13,4 +13,4 @@ mkdir -p AutoBuild/IPA
 
 xctool -workspace mala-ios.xcworkspace -scheme parent -configuration Release clean
 xctool -workspace mala-ios.xcworkspace -scheme parent -configuration Release archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile ${profile}
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${profile}"
