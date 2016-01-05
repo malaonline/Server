@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupExterior()
         
+        setupUmengConfig()
+        
         // Setup Widow
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
@@ -64,6 +66,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+// MARK: - SDK Configutarion
+extension AppDelegate {
+
+    private func setupUmengConfig() {
+        
+        // Start report (channelId is default to "App Store")
+        MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
+    }
+}
+
 
 // MARK: - RootViewController Switch
 extension AppDelegate {
