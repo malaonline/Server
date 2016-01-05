@@ -16,7 +16,7 @@ def add_grade(apps, schema_editor):
 
     p = Grade(name='初中',leaf=False)
     p.save()
-    for g in ('一', '二', '三', '四'):
+    for g in ('一', '二', '三'):
         name = '初%s' % g
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
