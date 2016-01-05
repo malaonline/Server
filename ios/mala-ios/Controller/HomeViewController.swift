@@ -108,9 +108,8 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                 return
             }
             
-            let viewController = TeacherDetailsController()
+            let viewController = TeacherDetailsController(style: .Grouped)
             viewController.model = TeacherDetailModel(dict: dict)
-            viewController.view.backgroundColor = UIColor.lightGrayColor()
             
             strongSelf.navigationController?.pushViewController(viewController, animated: true)
         })

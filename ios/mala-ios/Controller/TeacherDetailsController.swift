@@ -23,12 +23,23 @@ class TeacherDetailsController: UITableViewController {
         // Do any additional setup after loading the view.
         
         print("Data: ==== \(self.model)")
+        
+        setupUserInterface()
+        
         tableView.registerClass(TeacherDetailsBaseCell.self, forCellReuseIdentifier: TeacherDetailCellReusedId)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
+        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
+        navigationController?.navigationBar
     }
     
     
@@ -43,13 +54,21 @@ class TeacherDetailsController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailCellReusedId, forIndexPath: indexPath) as! TeacherDetailsBaseCell
-        cell.title = "风格标签好"
+        cell.title = MalaTeacherDetailsCellTitle[indexPath.row+1]
         return cell
     }
 
     
     // MARK: - Deleagte
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 300.0
+        return 100.0
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 5.0
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 5.0
     }
 }
