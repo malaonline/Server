@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django_s3_storage',
     'app',
     'teacher',
+    'staff',
 )
 
 REST_FRAMEWORK = {
