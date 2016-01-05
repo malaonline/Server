@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Identifier
-var Mala_AppKey: String = "0"
+let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 var Mala_UserToken: String = "0"
 
 
