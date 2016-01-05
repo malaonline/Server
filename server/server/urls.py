@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^', include('app.urls')),
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^teacher/', include('teacher.urls', namespace='teacher')),
+    url(r'^staff/', include('staff.urls', namespace='staff')),
 ]
