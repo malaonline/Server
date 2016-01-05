@@ -108,7 +108,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                 return
             }
             
-            let viewController = TeacherDetailController()
+            let viewController = TeacherDetailsController()
             viewController.model = TeacherDetailModel(dict: dict)
             viewController.view.backgroundColor = UIColor.lightGrayColor()
             
@@ -118,13 +118,10 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     }
     
     func dropViewDidTapButtonForContentView(contentView: UIView) {
+        // get condition
         let filterObj: ConditionObject = (contentView as! TeacherFilterView).filterObject
-        print("Tap Condition -- \(filterObj)")
-
-        //let filters: [String: AnyObject] = ["grade": 1, "subject": 1, "tag": 1]
         let filters: [String: AnyObject] = ["grade": filterObj.grade.id, "subject": filterObj.subject.id, "tags": filterObj.tag.id]
         loadTeachers(filters)
-
         dropView.dismiss()
     }
     
