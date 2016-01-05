@@ -216,7 +216,7 @@ class RegionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = RegionSerializer
 
 
-class SchoolSerializer(serializers.HyperlinkedModelSerializer):
+class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
         fields = ('id', 'name', 'address', 'thumbnail', 'region', 'center',
@@ -227,6 +227,15 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.School.objects.all()
     serializer_class = SchoolSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset
+
+        region = self.request.query_params.get('region', None) or None
+        if region is not None:
+            queryset = queryset.filter(region__id=region)
+
+        queryset = queryset.extra(order_by=['-center'])
+        return queryset
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -374,7 +383,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Teacher.objects.all()
+    queryset = models.Teacher.objects.filter(public=True)
 
     def get_queryset(self):
         queryset = self.queryset
