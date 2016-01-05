@@ -61,6 +61,12 @@ android {
             applicationId "com.malalaoshi.android.parent"
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {

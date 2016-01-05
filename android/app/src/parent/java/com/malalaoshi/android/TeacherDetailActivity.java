@@ -27,6 +27,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.Poi;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
@@ -53,7 +59,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener {
+public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, BDLocationListener {
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
@@ -188,6 +194,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private Drawable mUpIcon;
     private Drawable mDownIcon;
 
+    //定位相关对象
+    public LocationClient mLocationClient = null;
+    //定位结果标识
+    private final int LOCATION_NOT = 0;   //未定位或正在定位
+    private final int LOCATION_OK = 1;    //定位成功
+    private final int LOCATION_ERROR = 2; //定位失败
+    private int mLocationFlag = LOCATION_NOT;
+    //当前经纬度
+    private double longitude = 0.0f;
+    private double latitude = 0.0f;
+
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
             Intent intent = new Intent(context, TeacherDetailActivity.class);
@@ -214,6 +231,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
 
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener(this);    //注册监听函数
+
         //初始化定位
         initLocation();
         //初始化数据
@@ -238,6 +258,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         super.onStop();
         //volley联动,取消请求
         cancelAllRequestQueue();
+        //停止定位sdk
+        mLocationClient.stop();
     }
 
     private void setEvent() {
@@ -248,7 +270,22 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //初始化定位
     private void initLocation() {
-        //定位
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
+        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+        int span=1000;
+        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);//可选，默认false，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认杀死
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+        loadLocation();
     }
 
     //定位后请求教学环境信息
@@ -306,7 +343,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 //停止进度条
             }
         });
-        addRequestQueue(jstringRequest,TEACHERS_PATH_V1);
+        addRequestQueue(jstringRequest, TEACHERS_PATH_V1);
     }
 
     //向请求队列添加请求
@@ -323,6 +360,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
+    //启动定位
+    void loadLocation(){
+        mLocationFlag = LOCATION_NOT;
+        mLocationClient.start();
+    }
 
     private void loadMemeberServices() {
         //String url = hostUrl +MEMBERSERVICES_PATH_V1;
@@ -570,5 +612,32 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             mHeadPortrait.setAlpha(1.0f);
         }
 
+    }
+
+    //定位
+    @Override
+    public void onReceiveLocation(BDLocation location) {
+        //关闭sdk定位
+        mLocationClient.stop();
+        //定位失败
+        if (location == null) {
+            mLocationFlag = LOCATION_ERROR;
+            Log.i(TAG,"Baidu sdk positioning failure!");
+            return;
+        }else{
+            if (location.getLocType() == BDLocation.TypeGpsLocation||         // GPS定位结果
+                    location.getLocType() == BDLocation.TypeNetWorkLocation||     // 网络定位结果
+                    location.getLocType() == BDLocation.TypeOffLineLocation       // 离线定位结果
+                    ){
+                mLocationFlag = LOCATION_OK;
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                Log.i(TAG,"Baidu sdk positioning success,\naddress:"+ location.getAddrStr()+ ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude +",\nLocType:"+location.getLocType());
+            } else {
+                mLocationFlag = LOCATION_ERROR;
+                Log.i(TAG,"Baidu sdk positioning failure,error code:"+location.getLocType());
+            }
+        }
+        //updateUITeachingEnvironment();
     }
 }
