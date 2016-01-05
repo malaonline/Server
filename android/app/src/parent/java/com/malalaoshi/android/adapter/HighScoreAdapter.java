@@ -17,10 +17,13 @@ import java.util.List;
  */
 public class HighScoreAdapter extends BaseAdapter {
     private List<HighScore> highScores;
-    LayoutInflater layoutInflater;
+    private LayoutInflater layoutInflater;
+    private Context mContext;
+
     public HighScoreAdapter(Context context, List<HighScore> list){
         layoutInflater = LayoutInflater.from(context);
         highScores = list;
+        mContext = context;
     }
     @Override
     public int getCount() {
@@ -40,7 +43,6 @@ public class HighScoreAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        HighScore data = highScores.get(position);
         if (convertView==null){
             convertView = layoutInflater.inflate(R.layout.highscore_list_item,null);
             viewHolder = new ViewHolder();
@@ -52,10 +54,18 @@ public class HighScoreAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        viewHolder.tvName.setText(data.getName());
-        viewHolder.tvIncreasedScores.setText(data.getIncreased_scores().toString()+"");
-        viewHolder.tvSchool.setText(data.getSchool_name());
-        viewHolder.tvAdmitted_to.setText(data.getAdmitted_to());
+        if (position==0){
+            viewHolder.tvName.setText(mContext.getResources().getString(R.string.highscore_name));
+            viewHolder.tvIncreasedScores.setText(mContext.getResources().getString(R.string.highscore_increasedscores));
+            viewHolder.tvSchool.setText(mContext.getResources().getString(R.string.highscore_school));
+            viewHolder.tvAdmitted_to.setText(mContext.getResources().getString(R.string.highscore_admittedto));
+        }else{
+            HighScore data = highScores.get(position);
+            viewHolder.tvName.setText(data.getName());
+            viewHolder.tvIncreasedScores.setText(data.getIncreased_scores().toString()+"");
+            viewHolder.tvSchool.setText(data.getSchool_name());
+            viewHolder.tvAdmitted_to.setText(data.getAdmitted_to());
+        }
         return convertView;
     }
     class ViewHolder{

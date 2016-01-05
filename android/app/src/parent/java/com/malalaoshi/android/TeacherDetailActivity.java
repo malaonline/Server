@@ -3,16 +3,21 @@ package com.malalaoshi.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +32,7 @@ import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
 import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.HighScore;
-import com.malalaoshi.android.entity.Level;
 import com.malalaoshi.android.entity.MemberService;
-import com.malalaoshi.android.entity.Grade;
-import com.malalaoshi.android.entity.Subject;
-import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
@@ -52,28 +53,42 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem {
+public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
-    //
+    //教师id
     private Long mTeacherId;
 
-    private static final String TAGS_PATH_V1 = "/api/v1/tags/";
+    //接口地址
+    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/teahingenvironment/";
     private static final String MEMBERSERVICES_PATH_V1 = "/api/v1/memberservices/";
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
-    //
+
+    //会员服务请求结果
     private MemberServiceListResult mMemberServicesResult;
+
+    //教师信息请求结果
     private Teacher mTeacher;
 
+    //图片缓存
     private ImageLoader mImageLoader;
 
+    //网络请求消息队列
     private RequestQueue requestQueue;
     private String hostUrl;
+    private List<String> requestQueueTags;
+
+
+    @Bind(R.id.parent_teacher_detail_appbar)
+    protected AppBarLayout mAppBarLayout;
 
     @Bind(R.id.parent_teacher_detail_toolbar)
     protected Toolbar toolbar;
+
+    @Bind(R.id.nestedscrollview_content)
+    protected NestedScrollView mNestedScrollViewContent;
 
     //头像
     @Bind(R.id.parent_teacher_detail_head_portrait)
@@ -135,8 +150,43 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected ListView mCoursePriceList;
 
     //马上报名
-    @Bind(R.id.parent_teacher_signup_tv)
-    protected TextView mSignUp;
+    @Bind(R.id.parent_teacher_signup_btn)
+    protected Button mSignUp;
+
+    //教学环境
+    @Bind(R.id.ll_teaching_environment)
+    protected LinearLayout llTeachingEnviroment;
+
+    //教学环境照片
+    @Bind(R.id.iv_teaching_environment)
+    protected ImageView ivTeachingEnvironment;
+
+    //体验中心名称
+    @Bind(R.id.tv_experience_center)
+    protected TextView tvExperienceCenterName;
+
+    //体验中心地址
+    @Bind(R.id.tv_experience_center_address)
+    protected TextView tvExperienceCenterAddress;
+
+    //距离体验中心的距离
+    @Bind(R.id.tv_experience_center_distance)
+    protected TextView tvExperienceCenterDistance;
+
+    //其它学习中心
+    @Bind(R.id.ll_training_center)
+    protected LinearLayout llTrainingCenter;
+
+    @Bind(R.id.tv_training_center)
+    protected TextView tvTrainingCenter;
+
+    //其它学习中列表
+    @Bind(R.id.lv_training_center)
+    protected ListView trainingCenterList;
+
+    //
+    private Drawable mUpIcon;
+    private Drawable mDownIcon;
 
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
@@ -164,23 +214,76 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
 
+        //初始化定位
+        initLocation();
         //初始化数据
         initData();
         setEvent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAppBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mAppBarLayout.removeOnOffsetChangedListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //volley联动,取消请求
+        cancelAllRequestQueue();
+    }
 
     private void setEvent() {
         mMoreGallery.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
+        llTrainingCenter.setOnClickListener(this);
+    }
+
+    //初始化定位
+    private void initLocation() {
+        //定位
+    }
+
+    //定位后请求教学环境信息
+    void loadTeachingEnvironment(){
+        String url = hostUrl + TEACHING_ENVIRONMENT_PATH_V1;
+        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
+                //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
+                //mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
+                updateUITeachingEnvironment();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
+            }
+        });
+        addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
     private void initData() {
         Intent intent = getIntent();
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
+        requestQueueTags = new ArrayList<String>();
         requestQueue = MalaApplication.getHttpRequestQueue();
         hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
+        mUpIcon = getResources().getDrawable(R.drawable.ic_close);
+        mUpIcon.setBounds(0, 0, mUpIcon.getMinimumWidth(), mUpIcon.getMinimumHeight());
+        mDownIcon = getResources().getDrawable(R.drawable.back);
+        mDownIcon.setBounds(0, 0, mDownIcon.getMinimumWidth(), mDownIcon.getMinimumHeight());
+
         loadTeacherInfo();
         loadMemeberServices();
     }
@@ -203,9 +306,21 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 //停止进度条
             }
         });
+        addRequestQueue(jstringRequest,TEACHERS_PATH_V1);
+    }
 
-        jstringRequest.setTag(TEACHERS_PATH_V1);
-        requestQueue.add(jstringRequest);
+    //向请求队列添加请求
+    public void addRequestQueue(StringRequest stringRequest, String requestTag){
+        requestQueueTags.add(requestTag);
+        stringRequest.setTag(requestTag);
+        requestQueue.add(stringRequest);
+    }
+
+    //取消说有网络请求
+    public void cancelAllRequestQueue(){
+        for (int i=0; requestQueue!=null&&i< requestQueueTags.size();i++){
+            requestQueue.cancelAll(requestQueueTags.get(i));
+        }
     }
 
 
@@ -228,10 +343,33 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             }
         });
 
-        jstringRequest.setTag(MEMBERSERVICES_PATH_V1);
-        requestQueue.add(jstringRequest);
+        addRequestQueue(jstringRequest,MEMBERSERVICES_PATH_V1);
     }
 
+    //更新教学环境UI
+    private void updateUITeachingEnvironment() {
+        //
+        //教学环境
+        llTeachingEnviroment.setVisibility(View.VISIBLE);
+        //教学环境照片
+        String string = "";
+        mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivTeachingEnvironment, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+        //体验中心名称
+        tvExperienceCenterName.setText(string);
+        //体验中心地址
+        tvExperienceCenterAddress.setText(string);
+        //距离体验中心的距离
+        tvExperienceCenterDistance.setText(string);
+
+        //其它学习中心
+        llTrainingCenter.setVisibility(View.VISIBLE);
+        tvTrainingCenter.setText(string);
+        //其它学习中列表
+        //trainingCenterList.setAdapter("");
+        //trainingCenterList.setVisibility(View.GONE);
+    }
+
+    //跟新会员服务接口
     private void updateUIServices(List<MemberService> mMemberServices) {
         if (mMemberServices != null && mMemberServices.size() > 0) {
             mMemberServiceLayout.setVisibility(View.VISIBLE);
@@ -239,6 +377,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
+    //跟新教师详情
     private void updateUI(Teacher teacher) {
         if (teacher != null) {
             String string;
@@ -288,8 +427,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             }
 
             //提分榜
-            List<HighScore> highScores = mTeacher.getHighscore_set();
-            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores != null ? highScores : (new ArrayList<HighScore>()));
+            List<HighScore> highScores = new ArrayList<HighScore>();
+            //第一个为空,listview第一行为标题
+            highScores.add(new HighScore());
+            highScores.addAll(mTeacher.getHighscore_set());
+            HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores);
             mHighScoreList.setAdapter(highScoreAdapter);
             setListViewHeightBasedOnChildren(mHighScoreList);
             //个人相册
@@ -350,22 +492,27 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_item_signup:
+            case R.id.parent_teacher_signup_btn:
                 //将界面移动到最底端
+                mAppBarLayout.setExpanded(false);
+                mNestedScrollViewContent.fullScroll(ScrollView.FOCUS_DOWN);
                 break;
             case R.id.parent_teacher_detail_gallery_more_tv:
                 //查看更多照片
                 break;
-        }
-    }
+            case R.id.ll_training_center:
+                //显示/隐藏其它学习中心列表
+                int visible = trainingCenterList.getVisibility();
+                if (visible==View.GONE){
+                    tvTrainingCenter.setCompoundDrawables(null, null, mDownIcon, null);
+                    trainingCenterList.setVisibility(View.VISIBLE);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //volley联动,取消请求
-        requestQueue.cancelAll(TAGS_PATH_V1);
-        requestQueue.cancelAll(MEMBERSERVICES_PATH_V1);
-        requestQueue.cancelAll(TEACHERS_PATH_V1);
+                }else {
+                    tvTrainingCenter.setCompoundDrawables(null, null, mUpIcon, null);
+                    trainingCenterList.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 
     //设置listview的高度
@@ -393,9 +540,35 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         listView.setLayoutParams(params);
     }
 
+    //报名
     @Override
     public void onClickItem(int position, Long gradeId) {
 
+
+    }
+
+    //设置上滑头像消失
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        //设置上滑头像消失
+        int toolbarHeight = toolbar.getHeight();
+        int headPortraitHeight = mHeadPortrait.getHeight();
+        //最大上滑距离
+        int maxOffset = mAppBarLayout.getHeight()-toolbarHeight;
+        //头像彻底消失临界点
+        int criticalPoint = toolbarHeight>(headPortraitHeight/2)?toolbarHeight:headPortraitHeight/2-50;
+        int len = (maxOffset+verticalOffset)-criticalPoint;
+        if (len<=0){
+            mHeadPortrait.setVisibility(View.GONE);
+        }else if (len>0&&len<50){
+            float ratio = (float) (len) / (float) 50;
+            mHeadPortrait.setVisibility(View.VISIBLE);
+            mHeadPortrait.setAlpha(ratio);
+
+        }else{
+            mHeadPortrait.setVisibility(View.VISIBLE);
+            mHeadPortrait.setAlpha(1.0f);
+        }
 
     }
 }
