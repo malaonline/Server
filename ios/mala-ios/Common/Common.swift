@@ -16,11 +16,13 @@ var Mala_UserToken: String = "0"
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.redColor()
 let MalaAppearanceTextColor = UIColor.whiteColor()
+let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x6e6e6e, alpha: 1.0)
 
 
 // MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_Profile = "个人"
+let MalaCommonString_Title = "标题"
 let MalaCommonString_PhoneNumber = "手机号"
 let MalaCommonString_Cancel = "取消"
 let MalaCommonString_VerifyCode = "验证码"
@@ -31,6 +33,13 @@ let MalaCommonString_GetVerifyCode = "获取验证码"
 let MalaProportion_HomeCellWidthWithScreenWidth: CGFloat = 0.47
 let MalaProportion_HomeCellMarginWithScreenWidth: CGFloat = 0.02
 let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
+
+
+// MARK: - Common layout
+let MalaLayout_Margin_6: CGFloat = 6.0
+let MalaLayout_Margin_8: CGFloat = 8.0
+let MalaLayout_Margin_10: CGFloat = 10.0
+let MalaLayout_FontSize_21: CGFloat = 21.0
 
 
 // MARK: - Device

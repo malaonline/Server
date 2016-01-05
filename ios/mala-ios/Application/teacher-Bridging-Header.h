@@ -1,0 +1,10 @@
+//
+//  teacher-Bridging-Header.h
+//  mala-ios
+//
+//  Created by Elors on 1/5/16.
+//  Copyright © 2016 Mala Online. All rights reserved.
+//
+
+
+#import "MobClick.h"

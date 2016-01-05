@@ -11,6 +11,26 @@
 		2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32A3001C34E15000890BF9 /* LoginViewController.swift */; };
 		3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
+		3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */; };
+		3037B5961C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */; };
+		3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */; };
+		3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */; };
+		3037B59B1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */; };
+		3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */; };
+		3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */; };
+		3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */; };
+		3037B5A11C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */; };
+		3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */; };
+		3037B5A41C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
+		3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
+		3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */; };
+		3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */; };
+		3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
+		3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
+		3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
+		3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
+		3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
+		3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -46,8 +66,8 @@
 		307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89B1C33CDD200D8397F /* HighScoreModel.swift */; };
 		307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */; };
 		307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */; };
-		307AB8A41C33D6EC00D8397F /* TeacherDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailController.swift */; };
-		307AB8A51C33D6EC00D8397F /* TeacherDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailController.swift */; };
+		307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */; };
+		307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */; };
 		308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		308063971C3A271C00729832 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
@@ -98,6 +118,18 @@
 		2ECF91491C2ACE7000904C3A /* TeacherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherModel.swift; sourceTree = "<group>"; };
 		2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionViewCell.swift; sourceTree = "<group>"; };
 		3037B5821C3A84C2005672D9 /* SMSResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSResultModel.swift; sourceTree = "<group>"; };
+		3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "teacher-Bridging-Header.h"; sourceTree = "<group>"; };
+		3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "parent-Bridging-Header.h"; sourceTree = "<group>"; };
+		3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsBaseCell.swift; sourceTree = "<group>"; };
+		3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsSubjectCell.swift; sourceTree = "<group>"; };
+		3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsTagsCell.swift; sourceTree = "<group>"; };
+		3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsHighScoreCell.swift; sourceTree = "<group>"; };
+		3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPhotosCell.swift; sourceTree = "<group>"; };
+		3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsCertificateCell.swift; sourceTree = "<group>"; };
+		3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPlaceCell.swift; sourceTree = "<group>"; };
+		3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsVipServiceCell.swift; sourceTree = "<group>"; };
+		3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsLevelCell.swift; sourceTree = "<group>"; };
+		3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceCell.swift; sourceTree = "<group>"; };
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -124,7 +156,7 @@
 		307AB89A1C33CDD200D8397F /* GradePriceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradePriceModel.swift; sourceTree = "<group>"; };
 		307AB89B1C33CDD200D8397F /* HighScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScoreModel.swift; sourceTree = "<group>"; };
 		307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailModel.swift; sourceTree = "<group>"; };
-		307AB8A31C33D6EC00D8397F /* TeacherDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailController.swift; sourceTree = "<group>"; };
+		307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsController.swift; sourceTree = "<group>"; };
 		308063931C3A1AF100729832 /* Extension+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UILabel.swift"; sourceTree = "<group>"; };
 		308063961C3A271C00729832 /* Extension+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
@@ -210,10 +242,29 @@
 			name = TeacherListView;
 			sourceTree = "<group>";
 		};
+		3037B58D1C3B9C83005672D9 /* TeacherDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */,
+				3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */,
+				3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */,
+				3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */,
+				3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */,
+				3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */,
+				3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */,
+				3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */,
+				3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */,
+				3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */,
+			);
+			path = TeacherDetail;
+			sourceTree = "<group>";
+		};
 		304135811C23AE6400830C43 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				304135821C23AE6400830C43 /* AppDelegate.swift */,
+				3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */,
+				3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -234,7 +285,7 @@
 				30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */,
 				30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */,
 				30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */,
-				307AB8A31C33D6EC00D8397F /* TeacherDetailController.swift */,
+				307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */,
 				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
 			);
 			path = Controller;
@@ -319,6 +370,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3037B58D1C3B9C83005672D9 /* TeacherDetail */,
 				30AE092E1C2AC92000FD607D /* TeacherFilterView */,
 				2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */,
 			);
@@ -544,7 +596,7 @@
 		A5927B921BEC8BD900E9BDB4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Mala Online";
 				TargetAttributes = {
@@ -702,6 +754,7 @@
 				30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */,
 				304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				304135C41C23AE6400830C43 /* DataViewController.swift in Sources */,
+				3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */,
 				30AE09361C2BE56D00FD607D /* DropView.swift in Sources */,
 				304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */,
@@ -726,17 +779,26 @@
 				307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
 				307AB8981C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
+				3037B5A41C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
+				3037B59B1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
+				3037B5A11C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				308063971C3A271C00729832 /* Extension+UIView.swift in Sources */,
+				3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
+				3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
-				307AB8A41C33D6EC00D8397F /* TeacherDetailController.swift in Sources */,
+				3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
+				307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
+				3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				304135C21C23AE6400830C43 /* BackAPI.swift in Sources */,
+				3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
 				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
 				30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */,
@@ -751,33 +813,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
+				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				307AB8611C323BDF00D8397F /* TeacherCollectionViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
+				3037B5961C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
+				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
+				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
+				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
+				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
+				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
-				307AB8A51C33D6EC00D8397F /* TeacherDetailController.swift in Sources */,
+				307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
+				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
+				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
+				3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,6 +888,7 @@
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
@@ -824,6 +897,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -832,6 +907,7 @@
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
@@ -840,6 +916,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -848,6 +925,7 @@
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
@@ -856,6 +934,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -864,6 +944,7 @@
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
@@ -872,6 +953,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 			};
 			name = Release;
 		};

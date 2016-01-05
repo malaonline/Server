@@ -6,17 +6,27 @@
 @getSMSButtonWidth: 2;
 //出错提示宽度
 @errorOutputWidth: 2;
-//次级按钮颜色
+//文字颜色
+@fontColor: white;
+//次级按钮背景颜色
 @buttonBackground: #8c8c8c;
+//次级按钮字体颜色
+@buttonTextColor: @fontColor;
 //主要按钮颜色
-@primeButtonBackground: #414141;
+@primaryButtonBackground: #414141;
+//主要按钮字体颜色
+@primaryButtonTextColor: @fontColor;
 //禁用按钮颜色
 @disableButtonBackground: #cdcdcd;
+//禁用按钮颜色
+@disableButtonTextColor: @fontColor;
+//边角
+@borderRadius: 2px;
 
 //左边栏宽度
-@leftBlankWidth: 1;
+@leftBlankWidth: 0;
 //右边栏宽度
-@rightBlankWidth: 1;
+@rightBlankWidth: 0;
 
 .page-left{
   .make-xs-column(@leftBlankWidth);
@@ -28,37 +38,132 @@
   .make-xs-column(12 - @leftBlankWidth - @rightBlankWidth);
 }
 
+.borderRadius{
+  -webkit-border-radius:@borderRadius;
+  -moz-border-radius:@borderRadius;
+  border-radius:@borderRadius;
+}
+
 .form-horizontal{
+  //控制label的最小宽度
+  @minLabelWidth: 110px;
+  //控制input的整体宽度
+  @inputWidthPX:200px;
+  padding-left:10px;
+  .form-row{
+    .row;
+    margin-top: 9px;
+  }
   .register-phone-label, .register-sms-label{
-    .make-xs-column(@labelWidth);
+    //.make-xs-column(@labelWidth);
+    min-width:@minLabelWidth;
+    float:left;
+    text-align: right;
+    padding-right: 17px;
+    padding-top:7px;
   }
   .register-phone-input{
-    .make-xs-column(12-@labelWidth - @errorOutputWidth);
+    //.make-xs-column(12-@labelWidth);
+    float:left;
     padding-left:0;
+    input{
+      width: @inputWidthPX;
+      .borderRadius;
+      float:left;
+    }
+    span{
+      @spanFontColor: #8c8c8c;
+      @spanBorderColor: #e2dfdf;
+      float:left;
+      height:27px;
+      background: #faeded;
+      color: @spanFontColor;
+      border: 1px @spanBorderColor solid;
+      border-radius: 0;
+      margin-left:3px;
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: normal;
+      line-height: 22px;
+      padding-left: 12px;
+      padding-right: 12px;
+      i{
+        font-size: 14px;
+        top:2px;
+      }
+    }
+    span[attrHidden=true]{
+      display: none;
+      //visibility: hidden;
+    }
   }
   .register-phone-output{
     .make-xs-column(@errorOutputWidth);
   }
   .register-sms-input{
-    .make-xs-column(12- @labelWidth - @getSMSButtonWidth - @errorOutputWidth);
+    @getButtonWidth: 71px;
+    //.make-xs-column(12- @labelWidth);
+    //.make-xs-column(12- @labelWidth - @getSMSButtonWidth - @errorOutputWidth);
     padding-left:0;
     padding-right:5px;
+    input{
+      width: @inputWidthPX - @getButtonWidth - 5px;
+      float: left;
+      .borderRadius;
+    }
+    button{
+      //padding-left:5px;
+      margin-left:5px;
+      width:@getButtonWidth;
+      float: left;
+      .borderRadius;
+    }
   }
   .register-sms-get-button{
-    .make-xs-column(@getSMSButtonWidth);
+    //.make-xs-column(@getSMSButtonWidth);
     padding-left:0;
+    button{
+      width:71px;
+    }
   }
   .register-sms-right-blank{
     .make-xs-column(@errorOutputWidth);
   }
-  .register-aggree{
-    .make-xs-column-offset(@labelWidth);
-    .make-xs-column(12-@labelWidth);
-    padding-left:20px;
+  .register-agree{
+    //.make-xs-column-offset(@labelWidth);
+    //.make-xs-column(12-@labelWidth);
+    padding-left:130px;
+    font-size: 12px;
+    a{
+      color: #625a55;
+      text-decoration: underline;
+    }
+    input{
+      margin-top: 1px;
+    }
   }
   .register-next{
-    .make-xs-column-offset(@labelWidth);
-    .make-xs-column(12-@labelWidth);
+    //.make-xs-column-offset(@labelWidth);
+    //.make-xs-column(12-@labelWidth);
+    padding-left:110px;
+  }
+  .register-next-button{
+    width: 200px;
+    //.borderRadius;
+  }
+  .normal-button{
+    .btn;
+    .btn-default;
+    background: @buttonBackground;
+    color: @buttonTextColor;
+    .borderRadius;
+  }
+  .primary-button{
+    .btn;
+    .btn-primary;
+    background: @primaryButtonBackground;
+    color: @primaryButtonTextColor;
+    .borderRadius;
   }
 }
 
