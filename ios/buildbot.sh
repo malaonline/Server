@@ -13,4 +13,4 @@ security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 
 xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release clean
 xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "For jenkins"
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "For test"
