@@ -9,4 +9,4 @@ def index(request):
     return render(request, 'staff/index.html')
 
 def login(request):
-    return HttpResponse('todo login')
+    return render(request, 'staff/login.html')
