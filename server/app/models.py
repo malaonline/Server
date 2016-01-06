@@ -88,11 +88,11 @@ class Price(BaseModel):
                                       self.level, self.price)
 
 # deprecated: use django group instead
-class Role(BaseModel):
-    name = models.CharField(max_length=20, unique=True)
+# class Role(BaseModel):
+#     name = models.CharField(max_length=20, unique=True)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
 class Profile(BaseModel):
@@ -111,8 +111,8 @@ class Profile(BaseModel):
     user = models.OneToOneField(User)
     phone = models.CharField(max_length=20, default='', db_index=True)
     # deprecated: use django group instead
-    role = models.ForeignKey(Role, null=True, blank=True,
-                             on_delete=models.SET_NULL)
+    # role = models.ForeignKey(Role, null=True, blank=True,
+    #                          on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
                               choices=GENDER_CHOICES,
                               default=UNKNOWN,
@@ -120,7 +120,7 @@ class Profile(BaseModel):
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
 
     def __str__(self):
-        return '%s (%s, %s)' % (self.user, self.role, self.gender)
+        return '%s (%s)' % (self.user, self.gender)
 
 
 class Teacher(BaseModel):
