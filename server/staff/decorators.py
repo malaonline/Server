@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import user_passes_test
 from app import models
 
 def is_manager(u):
+    # TODO: 把Role转换为group
+    # TODO: except块明确错误类型, 并记录日志
     if u.is_active:
         try:
             profile = models.Profile.objects.get(user=u)

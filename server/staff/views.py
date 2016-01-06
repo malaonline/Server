@@ -8,7 +8,7 @@ from django.contrib import auth
 
 # local modules
 from app import models
-from .decorators import *
+from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
 
@@ -27,6 +27,7 @@ def login_auth(request):
     password = request.POST.get('password')
     goto_page = request.POST.get('next')
     logger.debug('try to login, username: '+username+', password: '+password+', goto_page: '+str(goto_page))
+    # TODO: 错误信息包含‘错误码’，错误描述可能会变
     if not username or not password:
         return login(request, {'errors': '请输入用户名和密码'})
     #登录前需要先验证
