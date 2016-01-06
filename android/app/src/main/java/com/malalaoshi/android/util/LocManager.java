@@ -174,7 +174,7 @@ public class LocManager {
         // 设置对手机的耗电量，定位要求越高，越耗电
         criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
         //设置对速度变化是否敏感
-        criteria.setSpeedRequired(true);
+        criteria.setSpeedRequired(false);
         //设置在定位时，是否允许产生与运营商交换数据的开销
         criteria.setCostAllowed(true);
         //这个方法是用来得到最好的定位方式，它有两个参数
