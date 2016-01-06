@@ -166,23 +166,23 @@ class Sms(View):
         return HttpResponse("Not supported request.", status=403)
 
 
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Role
-        fields = ('id', 'name')
+# class RoleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.Role
+#         fields = ('id', 'name')
 
 
-class RoleViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Role.objects.all()
-    serializer_class = RoleSerializer
+# class RoleViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = models.Role.objects.all()
+#     serializer_class = RoleSerializer
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    role = RoleSerializer()
+    # role = RoleSerializer()
 
     class Meta:
         model = models.Profile
-        fields = ('id', 'role', 'gender', 'avatar',)
+        fields = ('id', 'gender', 'avatar',)
 
 
 class ProfileViewSet(viewsets.ReadOnlyModelViewSet):

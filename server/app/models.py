@@ -87,7 +87,7 @@ class Price(BaseModel):
         return '%s,%s,%s,%s => %d' % (self.region, self.grade, self.subject,
                                       self.level, self.price)
 
-
+# deprecated: use django group instead
 class Role(BaseModel):
     name = models.CharField(max_length=20, unique=True)
 
@@ -110,6 +110,7 @@ class Profile(BaseModel):
 
     user = models.OneToOneField(User)
     phone = models.CharField(max_length=20, default='', db_index=True)
+    # deprecated: use django group instead
     role = models.ForeignKey(Role, null=True, blank=True,
                              on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
