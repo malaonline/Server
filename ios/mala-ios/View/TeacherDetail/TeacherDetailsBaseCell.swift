@@ -9,24 +9,30 @@
 import UIKit
 
 class TeacherDetailsBaseCell: UITableViewCell {
-
-    // MARK: - Variables
-    var title: String? {
-        set {
-            cellTitle.text = title
-        }
-        get {
-            return cellTitle.text
-        }
-    }
     
     // MARK: - Components
-    private lazy var cellTitle: UILabel = {
+    /// label for title
+    lazy var title: UILabel = {
         let label = UILabel(title: MalaCommonString_Title)
         label.textColor = MalaDetailsCellTitleColor
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_21)
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         return label
     }()
+    
+    /// custom accessoryView at the right corner
+    weak var accessory: UIView?
+    
+    /// the truely container
+    lazy var content: UIView = UIView()
+    
+    /// Strings like tags and certificates
+    var labels: [String]? {
+        didSet {
+            let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 40))
+            self.content.addSubview(tagsView)
+            tagsView.setTags(labels)
+        }
+    }
     
     
     // MARK: - Life Cycle
@@ -43,15 +49,38 @@ class TeacherDetailsBaseCell: UITableViewCell {
     // MARK: - Private
     private func setupUserInterface() {
         
+        // Style
+//        title.backgroundColor = UIColor.grayColor()
+        content.backgroundColor = UIColor.lightGrayColor()
+        
+        
         // SubViews
-        addSubview(cellTitle)
+        contentView.addSubview(title)
+        contentView.addSubview(content)
         
         // Autolayout
-        cellTitle.snp_makeConstraints { (make) -> Void in
+        title.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_8)
-            make.height.equalTo(MalaLayout_FontSize_21)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.height.equalTo(MalaLayout_FontSize_14)
             make.width.equalTo(100)
+        }
+        content.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.title.snp_bottom).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_15)
+            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+        }
+        
+        
+        if accessory != nil {
+            addSubview(accessory!)
+            accessory!.snp_makeConstraints(closure: { (make) -> Void in
+                make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
+                make.left.equalTo(self.title.snp_right).offset(MalaLayout_Margin_10)
+                make.height.equalTo(MalaLayout_FontSize_14)
+                make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            })
         }
         
         

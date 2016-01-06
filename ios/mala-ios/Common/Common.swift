@@ -39,7 +39,10 @@ let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
 let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
-let MalaLayout_FontSize_21: CGFloat = 21.0
+let MalaLayout_Margin_12: CGFloat = 12.0
+let MalaLayout_Margin_15: CGFloat = 15.0
+let MalaLayout_FontSize_12: CGFloat = 12.0
+let MalaLayout_FontSize_14: CGFloat = 14.0
 
 
 // MARK: - Device
