@@ -48,11 +48,7 @@ import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
-<<<<<<< HEAD
 import com.malalaoshi.android.util.LocManager;
-=======
-import com.malalaoshi.android.util.LocationUtil;
->>>>>>> schools
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
@@ -375,31 +371,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
-    private void dealSchools() {
-
-        //无数据
-        if (mSchools.size()<=0&&mOtherSchools.size()<=0){
-            return;
-        }
-
-        //定位成功
-        if (locManager.getLocationStatus()==LocManager.OK_LOCATION){
-            //排序
-            LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
-            //没有体验中心,取最近的教学中心展示
-            if (mSchools.size()<=0){
-                mSchools.add(mOtherSchools.get(0));
-                mOtherSchools.remove(0);
-            }
-        }else{
-            if (mSchools.size()<=0){
-                mSchools.add(mOtherSchools.get(0));
-                mOtherSchools.remove(0);
-            }
-        }
-        updateUISchools();
-    }
-
     private void loadTeacherInfo() {
         String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -677,7 +648,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     }
 
-<<<<<<< HEAD
     @Override
     public void onReceiveLocation(Location location) {
 =======
@@ -698,6 +668,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //定位成功后更新school列表,定位失败则不做处理
             dealSchools();
         }
+       // updateUITeachingEnvironment();
     }
 
 }
