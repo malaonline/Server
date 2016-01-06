@@ -67,7 +67,7 @@ class DropView: UIView {
         }
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.frame.origin.y = 64
+            self.frame.origin.y = 0
             }) { (isCompletion) -> Void in
                 self.isShow = true
         }
@@ -75,7 +75,7 @@ class DropView: UIView {
     
     func dismiss() {
         UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.frame = self.originFrame
+            self.frame.origin.y = self.originFrame.origin.y - 64
             }) { (isCompletion) -> Void in
                 self.isShow = false
         }

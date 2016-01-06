@@ -39,7 +39,10 @@ let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
 let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
-let MalaLayout_FontSize_21: CGFloat = 21.0
+let MalaLayout_Margin_12: CGFloat = 12.0
+let MalaLayout_Margin_15: CGFloat = 15.0
+let MalaLayout_FontSize_12: CGFloat = 12.0
+let MalaLayout_FontSize_14: CGFloat = 14.0
 
 
 // MARK: - Device
@@ -68,4 +71,15 @@ let MalaSubject = [
     7:"历史",
     8:"地理",
     9:"政治"
+]
+let MalaTeacherDetailsCellTitle = [
+    1:"教授科目",
+    2:"风格标签",
+    3:"提分榜",
+    4:"个人相册",
+    5:"特殊成就",
+    6:"教学环境",
+    7:"会员服务",
+    8:"级别",
+    9:"价格表"
 ]

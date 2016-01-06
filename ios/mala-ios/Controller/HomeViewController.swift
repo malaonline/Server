@@ -16,6 +16,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     private lazy var dropView: DropView = {
         let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
         let dropView = DropView(frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight), viewController: self, contentView: filterView)
+        dropView.delegate = self
         return dropView
     }()
     
@@ -30,7 +31,11 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
         self.collectionView!.registerClass(TeacherCollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
         
         setupUserInterface()
-        dropView.delegate = self
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.redColor()), forBarMetrics: .Default)
     }
     
     override func didReceiveMemoryWarning() {
@@ -94,8 +99,6 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
         // Request Teacher Info
         NetworkTool.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
             
-            guard let strongSelf = self else { return }
-
             // Error
             if error != nil {
                 debugPrint("HomeViewController - loadTeacherDetail Request Error")
@@ -108,11 +111,11 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                 return
             }
             
-            let viewController = TeacherDetailsController()
+            let viewController = TeacherDetailsController(style: .Grouped)
             viewController.model = TeacherDetailModel(dict: dict)
-            viewController.view.backgroundColor = UIColor.lightGrayColor()
             
-            strongSelf.navigationController?.pushViewController(viewController, animated: true)
+            self?.navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+            self?.navigationController?.pushViewController(viewController, animated: true)
         })
         
     }

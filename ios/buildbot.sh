@@ -3,16 +3,14 @@
 # I am AutoBuildBot!
 
 buildTime=$(date +%Y%m%d%H%M)
+schema="parent"
 
-profile="iOS Team Provisioning Profile: *"
-
-buildConfiguration="QA"
-buildPath="AutoBuild/ArchiveProduction/QA_${buildTime}.xcarchive"
-ipaName="AutoBuild/IPA/Auto_QA_${buildTime}.ipa"
+buildPath="AutoBuild/ArchiveProduction/${schema}_${buildTime}.xcarchive"
+ipaName="AutoBuild/IPA/${schema}_${buildTime}.ipa"
 mkdir -p AutoBuild/IPA
 
-security show-keychain-info ${HOME}/Library/Keychains/login.keychain
+security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 
-xctool -workspace mala-ios.xcworkspace -scheme parent -configuration Release clean
-xctool -workspace mala-ios.xcworkspace -scheme parent -configuration Release archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "iOS Team Provisioning Profile: *"
+xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release clean
+xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release archive -archivePath ${buildPath}
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "For test"

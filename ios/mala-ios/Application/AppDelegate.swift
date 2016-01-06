@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup Appearance
         UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
-        UINavigationBar.appearance().barTintColor = MalaAppearanceTintColor
+        UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.redColor()), forBarMetrics: .Default)
         UITabBar.appearance().tintColor = MalaAppearanceTintColor
         
         // Setup Exterior

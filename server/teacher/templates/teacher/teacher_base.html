@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles%}
-{#    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/bootstrap.css' %}">#}
     {% block addition_header %}{% endblock %}
     <script src="{% static 'teacher/js/jquery-2.1.4.js' %}"></script>
     <script src="{% static 'teacher/js/bootstrap.js' %}"></script>
+    {% block addition_js %}{% endblock %}
 </head>
 <body>
 {% block body %}

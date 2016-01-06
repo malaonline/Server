@@ -97,6 +97,9 @@
 		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
+		30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
+		30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
+		30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30F9E6C81C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
 		30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C71C23D23C0022A3BF /* MainViewController.swift */; };
@@ -171,6 +174,7 @@
 		30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
 		30E336711C27F41900DCF1C5 /* GradeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeModel.swift; sourceTree = "<group>"; };
 		30E336731C27F61900DCF1C5 /* ResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultModel.swift; sourceTree = "<group>"; };
+		30EB98B61C3CEBD6003977FF /* MATabListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MATabListView.swift; path = "mala-ios/Tool/MATabListView.swift"; sourceTree = SOURCE_ROOT; };
 		30F9E6C41C23BF6F0022A3BF /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		30F9E6C71C23D23C0022A3BF /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		357E6A141C0FF1FF0009AF9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -390,6 +394,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
 				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
 			);
@@ -768,6 +773,7 @@
 				30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 				3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
+				30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
@@ -812,8 +818,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
+				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				307AB8611C323BDF00D8397F /* TeacherCollectionViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
@@ -891,12 +899,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -910,12 +918,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
 			};
 			name = Release;
@@ -933,7 +941,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -952,7 +959,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 			};
 			name = Release;
@@ -997,7 +1003,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "f50c483e-976c-4466-8063-9ccf49089e9b";
+				PROVISIONING_PROFILE = "$(APP_PROVISIONING)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1037,7 +1043,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "f50c483e-976c-4466-8063-9ccf49089e9b";
+				PROVISIONING_PROFILE = "$(APP_PROVISIONING)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

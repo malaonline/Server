@@ -118,6 +118,14 @@
       float: left;
       .borderRadius;
     }
+    button:disabled{
+      background: @disableButtonBackground;
+      color: @disableButtonTextColor;
+      &:hover{
+        background: @disableButtonBackground;
+        color: @disableButtonTextColor;
+      }
+    }
   }
   .register-sms-get-button{
     //.make-xs-column(@getSMSButtonWidth);
@@ -134,7 +142,10 @@
     //.make-xs-column(12-@labelWidth);
     padding-left:130px;
     font-size: 12px;
-    a{
+    button{
+      margin:0;
+      padding:0;
+      font-size: 12px;
       color: #625a55;
       text-decoration: underline;
     }
@@ -164,6 +175,47 @@
     background: @primaryButtonBackground;
     color: @primaryButtonTextColor;
     .borderRadius;
+    &:disabled{
+      background: @disableButtonBackground;
+      color: @disableButtonTextColor;
+      border:0;
+      &:hover{
+        background: @disableButtonBackground;
+        color: @disableButtonTextColor;
+      }
+    }
   }
+}
+
+.agree{
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  .doc-header{
+    h4{
+      margin-left: 190px;
+    }
+    background: #e4e4e4;
+    color: #716769;
+    //border-radius: 5px 5px 0 0;
+  }
+  .continue-button{
+    margin-right: 230px;
+    background: #8e8e8e;
+    color: white;
+  }
+  .doc{
+    iframe{
+      border:None;
+      width: 100%;
+      height: 500px;
+    }
+  }
+}
+
+.agree-and-continue-button{
+  margin-right: 230px;
+  background: #8e8e8e;
+  color: white;
 }
 
