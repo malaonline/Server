@@ -7,7 +7,7 @@ buildPath="build/archive/${schema}_${buildTime}.xcarchive"
 ipaDir="build/ipa/"
 ipaName="${ipaDir}${schema}_${buildTime}.ipa"
 
-mkdir -p ipaDir
+mkdir -p ${ipaDir}
 
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
