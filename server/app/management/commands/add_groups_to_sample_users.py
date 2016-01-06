@@ -14,18 +14,21 @@ class Command(BaseCommand):
         write("run {command_name}".format(command_name=build_group_command))
         call_command(build_group_command,)
 
-        write("add parent group to parent users")
-        parent_name_formula = settings.SAMPLE_PARENT_USER_FORMULA
-        group_name = "Parents Group"
-        parent_group = Group.objects.get(name=group_name)
-        for i in range(settings.SAMPLE_DATA_LENGTH):
-            username = parent_name_formula.format(id=i)
-            try:
-                parent_user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                write("{user} not exist".format(parent_name_formula))
-                continue
-            parent_user.groups.add(parent_group)
-            parent_user.save()
-            print("{user} added {group}".format(user=parent_user, group=parent_group))
+        self.add_test_user_into_group(settings.SAMPLE_PARENT_USER_FORMULA, settings.SAMPLE_DATA_LENGTH, '家长')
 
+        self.add_test_user_into_group(settings.SAMPLE_TEACHER_USER_FORMULA, settings.SAMPLE_DATA_LENGTH, '老师')
+
+    def add_test_user_into_group(self, test_user_format, count, group_name):
+        print("add "+group_name+"测试用户 into Group of "+group_name+"...")
+        user_group = Group.objects.get(name=group_name)
+        for i in range(count):
+            username = test_user_format.format(id=i)
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                print("{user} not exist".format(test_user_format))
+                continue
+            user.groups.add(user_group)
+            user.save()
+            print("{user} added {group}".format(user=user, group=user_group))
+        print("add "+group_name+"测试用户 into Group of "+group_name+" end.")

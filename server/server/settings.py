@@ -205,6 +205,7 @@ except:
 # 样本数据配置
 SAMPLE_DATA_LENGTH = 50  # 长度
 SAMPLE_PARENT_USER_FORMULA = "parent{id}"
+SAMPLE_TEACHER_USER_FORMULA = "test{id}"
 UNITTEST = False
 
 # 加密的密钥salt
