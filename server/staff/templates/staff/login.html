@@ -1,7 +1,7 @@
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+{% if errors %}
+<p>{{ errors }}</p>
 {% endif %}
 
 {% if next %}
@@ -13,7 +13,7 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form method="post" action="{% url 'staff:login_auth' %}">
 {% csrf_token %}
 <table>
 <tr>
