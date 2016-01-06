@@ -8,6 +8,7 @@ from django.contrib import auth
 
 # local modules
 from app import models
+from app.models import Parent
 from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
@@ -22,7 +23,8 @@ def login(request, context={}):
     return render(request, 'staff/login.html', context)
 
 def students(request):
-    return render(request, 'staff/students.html')
+    context = {'parents': Parent.objects.filter()}
+    return render(request, 'staff/students.html', context)
 
 @require_POST
 def login_auth(request):

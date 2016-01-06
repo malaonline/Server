@@ -1,7 +1,12 @@
-{% extends "staff/base.html" %}
+{% extends "staff/staff_base.html" %}
+
+{% block title %}学生信息{% endblock %}
 
 {% block content %}
-
 <p>学生信息页面</p>
-
+    {% for parent in parents %}
+        <p>name: {{ parent.user.username }}</p>
+        <p>grades: {{ parent.student_name }}</p>
+        <br/>
+    {% endfor %}
 {% endblock %}
