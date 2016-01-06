@@ -1,12 +1,18 @@
 package com.malalaoshi.android;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,12 +33,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
@@ -45,6 +45,7 @@ import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
@@ -59,7 +60,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, BDLocationListener {
+public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
@@ -195,15 +196,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private Drawable mDownIcon;
 
     //定位相关对象
-    public LocationClient mLocationClient = null;
-    //定位结果标识
-    private final int LOCATION_NOT = 0;   //未定位或正在定位
-    private final int LOCATION_OK = 1;    //定位成功
-    private final int LOCATION_ERROR = 2; //定位失败
-    private int mLocationFlag = LOCATION_NOT;
+    private LocManager locManager;
     //当前经纬度
     private double longitude = 0.0f;
     private double latitude = 0.0f;
+
 
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
@@ -231,9 +228,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
 
-        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener(this);    //注册监听函数
-
+        //得到LocationManager
+        locManager = LocManager.getInstance(this);
         //初始化定位
         initLocation();
         //初始化数据
@@ -259,7 +255,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //volley联动,取消请求
         cancelAllRequestQueue();
         //停止定位sdk
-        mLocationClient.stop();
+        locManager.unregisterLocationListener(this);
     }
 
     private void setEvent() {
@@ -270,21 +266,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //初始化定位
     private void initLocation() {
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
-        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span=1000;
-        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-        option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIgnoreKillProcess(false);//可选，默认false，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认杀死
-        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
-        mLocationClient.setLocOption(option);
+        locManager.initLocation();
+        //注册定位结果回调
+        locManager.registerLocationListener(this);
         loadLocation();
     }
 
@@ -362,8 +346,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //启动定位
     void loadLocation(){
-        mLocationFlag = LOCATION_NOT;
-        mLocationClient.start();
+        locManager.start();
     }
 
     private void loadMemeberServices() {
@@ -614,30 +597,16 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     }
 
-    //定位
     @Override
-    public void onReceiveLocation(BDLocation location) {
-        //关闭sdk定位
-        mLocationClient.stop();
-        //定位失败
+    public void onReceiveLocation(Location location) {
         if (location == null) {
-            mLocationFlag = LOCATION_ERROR;
-            Log.i(TAG,"Baidu sdk positioning failure!");
             return;
         }else{
-            if (location.getLocType() == BDLocation.TypeGpsLocation||         // GPS定位结果
-                    location.getLocType() == BDLocation.TypeNetWorkLocation||     // 网络定位结果
-                    location.getLocType() == BDLocation.TypeOffLineLocation       // 离线定位结果
-                    ){
-                mLocationFlag = LOCATION_OK;
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Log.i(TAG,"Baidu sdk positioning success,\naddress:"+ location.getAddrStr()+ ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude +",\nLocType:"+location.getLocType());
-            } else {
-                mLocationFlag = LOCATION_ERROR;
-                Log.i(TAG,"Baidu sdk positioning failure,error code:"+location.getLocType());
-            }
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            Log.e(TAG,"latitude:"+latitude+" longitude:"+longitude);
         }
-        //updateUITeachingEnvironment();
+       // updateUITeachingEnvironment();
     }
+
 }
