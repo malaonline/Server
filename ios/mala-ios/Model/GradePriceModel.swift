@@ -20,6 +20,13 @@ class GradePriceModel: NSObject {
         super.init()
     }
     
+    convenience init(name: String, id: Int, price: Int) {
+        self.init()
+        self.grade?.name = name
+        self.grade?.id = id
+        self.price = price
+    }
+    
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)

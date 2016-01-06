@@ -70,6 +70,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_15)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.height.equalTo(MalaLayout_FontSize_12)
         }
         
         
