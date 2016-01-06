@@ -25,12 +25,27 @@ class TeacherDetailsBaseCell: UITableViewCell {
     /// the truely container
     lazy var content: UIView = UIView()
     
+    private lazy var tagsView: MATabListView = {
+        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: MalaLayout_FontSize_12))
+        self.content.addSubview(tagsView)
+        tagsView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.content.snp_top)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.left.equalTo(self.content.snp_left)
+            make.right.equalTo(self.content.snp_right)
+//            make.height.equalTo(MalaLayout_FontSize_12)
+        }
+        return tagsView
+    }()
+    
+    
     /// Strings like tags and certificates
     var labels: [String]? {
         didSet {
-            let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 40))
-            self.content.addSubview(tagsView)
-            tagsView.setTags(labels)
+            for view in self.tagsView.subviews {
+                view.removeFromSuperview()
+            }
+            self.tagsView.setTags(labels)
         }
     }
     
@@ -51,7 +66,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
         
         // Style
 //        title.backgroundColor = UIColor.grayColor()
-        content.backgroundColor = UIColor.lightGrayColor()
+//        content.backgroundColor = UIColor.lightGrayColor()
         
         
         // SubViews
@@ -70,7 +85,6 @@ class TeacherDetailsBaseCell: UITableViewCell {
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_15)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_12)
         }
         
         

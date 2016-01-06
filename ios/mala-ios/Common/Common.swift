@@ -33,9 +33,11 @@ let MalaCommonString_GetVerifyCode = "获取验证码"
 let MalaProportion_HomeCellWidthWithScreenWidth: CGFloat = 0.47
 let MalaProportion_HomeCellMarginWithScreenWidth: CGFloat = 0.02
 let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
+let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
 
 
 // MARK: - Common layout
+let MalaLayout_Margin_5: CGFloat = 5.0
 let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
@@ -43,6 +45,8 @@ let MalaLayout_Margin_12: CGFloat = 12.0
 let MalaLayout_Margin_15: CGFloat = 15.0
 let MalaLayout_FontSize_12: CGFloat = 12.0
 let MalaLayout_FontSize_14: CGFloat = 14.0
+let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
+let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 
 
 // MARK: - Device

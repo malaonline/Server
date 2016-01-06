@@ -32,7 +32,7 @@ class TeacherDetailsController: UITableViewController {
 
         // Do any additional setup after loading the view.
         
-        print("Data: ==== \(self.model)")
+//        print("Data: ==== \(self.model)")
         
         setupConfig()
         
@@ -95,7 +95,6 @@ class TeacherDetailsController: UITableViewController {
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            print(set)
             (cell as! TeacherDetailsSubjectCell).labels = set
         case 1:
             (cell as! TeacherDetailsTagsCell).labels = self.model?.tags

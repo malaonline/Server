@@ -16,6 +16,7 @@ class MATabListView: UIView {
     // MARK: - Variables
     private var previousFrame: CGRect = CGRectZero
     private var totalHeight: CGFloat = 0
+    var layoutHeight: CGFloat = 0
     
     
     // MARK: - Constructed
@@ -55,14 +56,16 @@ class MATabListView: UIView {
             newRect.size = size
             label.frame = newRect
             previousFrame = label.frame
-            self.setHeight(totalHeight + size.height + BottomMargin)
+            self.setHeight(totalHeight + size.height)
             self.addSubview(label)
-            self.backgroundColor = UIColor.whiteColor()
         }
     }
     
     private func setHeight(height: CGFloat) {
-        self.frame.size.height = height
+        self.layoutHeight = height
+        self.snp_updateConstraints { (make) -> Void in
+            make.height.equalTo(self.layoutHeight)
+        }
     }
     
 }
