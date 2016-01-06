@@ -1,0 +1,4 @@
+注意纯文本到html的转换用下面这个地址,其中要去掉Encode characters with accents and similar的勾
+http://www.textfixer.com/html/convert-text-html.php
+
+teacher/doc/policy.html <-> 麻辣老师服务协议.doc
