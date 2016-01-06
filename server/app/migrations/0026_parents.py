@@ -28,7 +28,7 @@ def add_parents(apps, schema_editor):
     # Permission = apps.get_model('auth', "Permission")
     Parent = apps.get_model('app', 'Parent')
     #
-    # parent_group, group_create = Group.objects.get_or_create(name="Parents Group")
+    # parent_group, group_create = Group.objects.get_or_create(name="家长")
     #
     # try:
     #     change_parent = Permission.objects.get(name="Can change parent")

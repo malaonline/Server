@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         write("add parent group to parent users")
         parent_name_formula = settings.SAMPLE_PARENT_USER_FORMULA
-        group_name = "Parents Group"
+        group_name = "家长"
         parent_group = Group.objects.get(name=group_name)
         for i in range(settings.SAMPLE_DATA_LENGTH):
             username = parent_name_formula.format(id=i)
