@@ -21,6 +21,9 @@ def index(request):
 def login(request, context={}):
     return render(request, 'staff/login.html', context)
 
+def students(request):
+    return render(request, 'staff/students.html')
+
 @require_POST
 def login_auth(request):
     username = request.POST.get('username')
