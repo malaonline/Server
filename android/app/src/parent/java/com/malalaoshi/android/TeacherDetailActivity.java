@@ -1,12 +1,18 @@
 package com.malalaoshi.android;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +45,7 @@ import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
@@ -53,7 +60,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener {
+public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
@@ -188,6 +195,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private Drawable mUpIcon;
     private Drawable mDownIcon;
 
+    //定位相关对象
+    private LocManager locManager;
+    //当前经纬度
+    private double longitude = 0.0f;
+    private double latitude = 0.0f;
+
+
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
             Intent intent = new Intent(context, TeacherDetailActivity.class);
@@ -214,6 +228,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
 
+        //得到LocationManager
+        locManager = LocManager.getInstance(this);
         //初始化定位
         initLocation();
         //初始化数据
@@ -238,6 +254,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         super.onStop();
         //volley联动,取消请求
         cancelAllRequestQueue();
+        //停止定位sdk
+        locManager.unregisterLocationListener(this);
     }
 
     private void setEvent() {
@@ -248,7 +266,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //初始化定位
     private void initLocation() {
-        //定位
+        locManager.initLocation();
+        //注册定位结果回调
+        locManager.registerLocationListener(this);
+        loadLocation();
     }
 
     //定位后请求教学环境信息
@@ -306,7 +327,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 //停止进度条
             }
         });
-        addRequestQueue(jstringRequest,TEACHERS_PATH_V1);
+        addRequestQueue(jstringRequest, TEACHERS_PATH_V1);
     }
 
     //向请求队列添加请求
@@ -323,6 +344,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
+    //启动定位
+    void loadLocation(){
+        locManager.start();
+    }
 
     private void loadMemeberServices() {
         //String url = hostUrl +MEMBERSERVICES_PATH_V1;
@@ -571,4 +596,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
 
     }
+
+    @Override
+    public void onReceiveLocation(Location location) {
+        if (location == null) {
+            return;
+        }else{
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            Log.e(TAG,"latitude:"+latitude+" longitude:"+longitude);
+        }
+       // updateUITeachingEnvironment();
+    }
+
 }
