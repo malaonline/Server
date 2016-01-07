@@ -1,9 +1,27 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles%}
+    {% block addition_header %}{% endblock %}
+    <link href="{% static 'teacher/css/custom/less/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static 'teacher/js/jquery-2.1.4.js' %}"></script>
+    <script src="{% static 'teacher/js/bootstrap.js' %}"></script>
+    {% block addition_js %}{% endblock %}
 </head>
 <body>
     <h1 align="center">麻辣老师后台管理系统</h1>
-    {% block content %}{% endblock %}
+    <div class="row">
+        <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
+            {% include "staff/menu.html" %}
+        </div>
+        <div class="col-md-9 col-lg-10 col-sm-8 col-xs-8">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 </body>
 </html>
