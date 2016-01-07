@@ -28,16 +28,9 @@ public class SchoolAdapter extends BaseAdapter {
     LayoutInflater layoutInflater;
     private ImageLoader imageLoader;
 
-    private double longitude = 0.0f;
-    private double latitude = 0.0f;
-    private int locationFlag;
-
-    public SchoolAdapter(Context context, List<School> list ,int locationFlag, double longitude, double latitude){
+    public SchoolAdapter(Context context, List<School> list){
         this.layoutInflater = LayoutInflater.from(context);
         this.schools = list;
-        this.locationFlag = locationFlag;
-        this.longitude = longitude;
-        this.latitude = latitude;
         this.imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
@@ -90,22 +83,17 @@ public class SchoolAdapter extends BaseAdapter {
         }
         viewHolder.tvSchoolName.setText(data.getName());
         viewHolder.tvSchoolAddress.setText(data.getAddress());
-        if (locationFlag== TeacherDetailActivity.LOCATION_OK
-                &&data.getLatitude()!=null
-                &&data.getLongitude()!=null){
-            double distance = data.getRegion();
-            if (distance!=-1.0D){
-                String dis;
-                if (distance<=100){
-                    dis = String.format("%.2f", distance);
-                    viewHolder.tvSchoolDistance.setText(dis+"m");
-                }else{
-                    dis = String.format("%.2f", distance/1000);
-                    viewHolder.tvSchoolDistance.setText(dis+"km");
-                }
+        double distance = data.getRegion();
+        if (distance>=0.0D){
+            String dis;
+            if (distance<=100){
+                dis = String.format("%.2f", distance);
+                viewHolder.tvSchoolDistance.setText(dis+"m");
+            }else{
+                dis = String.format("%.2f", distance/1000);
+                viewHolder.tvSchoolDistance.setText(dis+"km");
             }
         }
-
         return convertView;
     }
     class ViewHolder {

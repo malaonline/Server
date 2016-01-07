@@ -190,7 +190,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private SchoolAdapter mSchoolAdapter;
 
     //定位相关对象
-<<<<<<< HEAD
     private LocManager locManager;
 
     //当前经纬度
@@ -252,10 +251,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //volley联动,取消请求
         cancelAllRequestQueue();
         //停止定位sdk
-<<<<<<< HEAD
         locManager.unregisterLocationListener(this);
-=======
->>>>>>> schools
     }
 
     private void setEvent() {
@@ -266,7 +262,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //初始化定位
     private void initLocation() {
-<<<<<<< HEAD
         locManager.initLocation();
         //注册定位结果回调
         locManager.registerLocationListener(this);
@@ -381,12 +376,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //启动定位
     void loadLocation(){
-<<<<<<< HEAD
         locManager.start();
-=======
-        mLocationFlag = LOCATION_NOT;
-
->>>>>>> schools
     }
 
     private void loadMemeberServices() {
@@ -634,14 +624,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     @Override
     public void onReceiveLocation(Location location) {
-=======
-    //定位
-
-    public void onReceiveLocation() {
-        //关闭sdk定位
-
-       /* //定位失败
->>>>>>> schools
         if (location == null) {
             return;
         }else{

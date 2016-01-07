@@ -1,6 +1,8 @@
 package com.malalaoshi.android.util;
 
 
+import android.location.Location;
+
 import com.malalaoshi.android.entity.School;
 
 import java.util.Collections;
@@ -11,10 +13,13 @@ import java.util.List;
  */
 public class LocationUtil {
     public static double getDistance(double latitude1, double longitude1,double latitude2, double longitude2){
-        /*LatLng latLng1 = new LatLng(latitude1,longitude1);
-        LatLng latLng2 = new LatLng(latitude2,longitude2);
-        return DistanceUtil.getDistance(latLng1,latLng2);*/
-        return -1.0D;
+        try{
+            float[] results=new float[1];
+            Location.distanceBetween(latitude1, longitude1, latitude2, longitude2, results);
+            return results[0];
+        }catch (Exception e){
+            return -1.0D;
+        }
     }
 
     public static void sortByRegion(List<School> list,double latitude, double longitude ){
