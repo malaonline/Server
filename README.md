@@ -2,21 +2,17 @@
 
 ### Getting Started
 
-1. Fork this repository.
-2. Add an SSH key to your bitbucket account.
-3. Utilize `git clone` to download forked repo to local machine
+1. Add an SSH key to your bitbucket account.
+2. `git clone` to local machine.
 
 ### To Create a Pull Request
 
-1. Do needed modifications
+0. `git checkout -b BRANCH-NAME`. BRANCH-NAME should match regular expression `(AN|IOS|SERVER|WEC|BE|PM|OW|TWEB)-\d+`.
+1. Do modifications
 2. Utilize `git add` to add modified files
 3. `git commit -m 'Your commit messages.'`
-4. `git push -u origin dev`
-5. On bitbucket, create a pull request
-
-### To Synchronize with Upstream
-
-Your forked repo auto synchronizes with upstream, so you just need `git pull origin dev`.
+4. `git push -u origin BRANCH-NAME`
+5. On bitbucket website (or with bitbucket cli), create a pull request
 
 ### Dev server
 
