@@ -1,4 +1,13 @@
 添加数据库
 sudo -u $USER createdb -O malauser maladb
+createdb --username=dev --owner=dev --host=postgres1.cfnazcjcqque.rds.cn-north-1.amazonaws.com.cn dev
+
 删除数据库
 sudo -u $USER dropdb maladb
+dropdb --username=dev --host=postgres1.cfnazcjcqque.rds.cn-north-1.amazonaws.com.cn dev
+
+确保没有用户连上
+http://dba.stackexchange.com/questions/11893/force-drop-db-while-others-may-be-connected
+
+服务器上的代码目录
+/opt/jenkins/mala/server/server
