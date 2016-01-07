@@ -20,6 +20,7 @@ import java.util.List;
  * Created by kang on 16/1/6.
  */
 public class LocManager {
+    private static final String TAG = "LocManager";
     //定位相关对象
     private LocationManager locationManager;
 
@@ -126,7 +127,7 @@ public class LocManager {
                 ReceiveLocationListener listener = listenerList.get(i);
                 listener.onReceiveLocation(location);
             }
-            Log.e("LocManager","latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
+            Log.e(TAG,"latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
             //停止定位
             stop();
             //Location.distanceBetween();
@@ -136,7 +137,7 @@ public class LocManager {
          */
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.e("LocManager","onStatusChanged, status:"+status+",provider"+provider);
+            Log.e(TAG,"onStatusChanged, status:"+status+",provider"+provider);
         }
 
         @Override
@@ -145,7 +146,7 @@ public class LocManager {
          */
         public void onProviderDisabled(String provider) {
             // TODO Auto-generated method stub
-            Log.e("LocManager","onProviderDisabled"+provider);
+            Log.e(TAG,"onProviderDisabled"+provider);
 
         }
 
@@ -155,7 +156,7 @@ public class LocManager {
          */
         public void onProviderEnabled(String provider) {
             // TODO Auto-generated method stub
-            Log.e("LocManager", "onProviderEnabled"+provider);
+            Log.e(TAG, "onProviderEnabled"+provider);
         }
 
     }
