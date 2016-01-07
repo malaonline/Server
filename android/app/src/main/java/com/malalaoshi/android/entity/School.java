@@ -59,6 +59,7 @@ public class School extends BaseEntity implements Comparable<School>{
         this.latitude = latitude;
     }
 
+
     @Override
     public int compareTo(School another) {
         Double d = another.getRegion();
