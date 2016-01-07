@@ -18,13 +18,18 @@ class Command(BaseCommand):
 
         self.add_test_user_into_group(settings.SAMPLE_TEACHER_USER_FORMULA, settings.SAMPLE_DATA_LENGTH, '老师')
 
-    def add_test_user_into_group(self, test_user_format, count, group_name):
+        self.add_test_user_into_group('t_manager{id}', 10, '师资管理员', {'password': '123'})
+
+    def add_test_user_into_group(self, test_user_format, count, group_name, newUserData=None):
         print("add "+group_name+"测试用户 into Group of "+group_name+"...")
         user_group = Group.objects.get(name=group_name)
         for i in range(count):
             username = test_user_format.format(id=i)
             try:
-                user = User.objects.get(username=username)
+                if newUserData:
+                    user, created = User.objects.get_or_create(username=username, defaults=newUserData)
+                else:
+                    user = User.objects.get(username=username)
             except User.DoesNotExist:
                 print("{user} not exist".format(test_user_format))
                 continue
