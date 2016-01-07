@@ -8,6 +8,8 @@ logger = logging.getLogger('app')
 
 def is_manager(u):
     if u.is_active:
+        if u.is_superuser:
+            return True
         try:
             all_group = u.groups.all()
             group = Group.objects.get(name='师资管理员')
