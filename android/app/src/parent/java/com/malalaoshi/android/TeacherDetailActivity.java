@@ -375,6 +375,31 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
+    private void dealSchools() {
+
+        //无数据
+        if (mSchools.size()<=0&&mOtherSchools.size()<=0){
+            return;
+        }
+
+        //定位成功
+        if (locManager.getLocationStatus()==LocManager.OK_LOCATION){
+            //排序
+            LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
+            //没有体验中心,取最近的教学中心展示
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }else{
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }
+        updateUISchools();
+    }
+
     private void loadTeacherInfo() {
         String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -669,25 +694,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 <<<<<<< HEAD
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            Log.e(TAG,"latitude:"+latitude+" longitude:"+longitude);
+            Log.i(TAG,"positioning success," + ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude);
+            //定位成功后更新school列表,定位失败则不做处理
+            dealSchools();
         }
-       // updateUITeachingEnvironment();
-=======
-            if (location.getLocType() == BDLocation.TypeGpsLocation||             // GPS定位结果
-                    location.getLocType() == BDLocation.TypeNetWorkLocation||     // 网络定位结果
-                    location.getLocType() == BDLocation.TypeOffLineLocation       // 离线定位结果
-                    ){
-                mLocationFlag = LOCATION_OK;
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Log.i(TAG,"Baidu sdk positioning success,\naddress:"+ location.getAddrStr()+ ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude +",\nLocType:"+location.getLocType());
-            } else {
-                mLocationFlag = LOCATION_ERROR;
-                Log.i(TAG,"Baidu sdk positioning failure,error code:"+location.getLocType());
-            }
-        }*/
-        updateUISchools();
->>>>>>> schools
     }
 
 }
