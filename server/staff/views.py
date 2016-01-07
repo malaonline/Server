@@ -8,7 +8,6 @@ from django.contrib import auth
 
 # local modules
 from app import models
-from app.models import Parent
 from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
@@ -30,7 +29,11 @@ def logout(request):
 
 @mala_staff_required
 def students(request):
-    context = {'parents': Parent.objects.filter()}
+    context = {'parents': models.Parent.objects.all,
+               'centers': models.School.objects.filter(center=True),
+               'grades': models.Grade.objects.all,
+               'subjects': models.Subject.objects.all,
+               }
     return render(request, 'staff/students.html', context)
 
 @require_POST
