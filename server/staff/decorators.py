@@ -1,19 +1,21 @@
+import logging
+
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
-from app import models
+from django.contrib.auth.models import Group
+
+logger = logging.getLogger('app')
 
 def is_manager(u):
-    # TODO: 把Role转换为group
-    # TODO: except块明确错误类型, 并记录日志
     if u.is_active:
         try:
-            profile = models.Profile.objects.get(user=u)
-            if not profile.role:
-                return False
-            role = models.Role.objects.get(name='师资管理员')
-            return profile.role.id == role.id
-        except:
-            pass
+            all_group = u.groups.all()
+            group = Group.objects.get(name='师资管理员')
+            return group in all_group
+        except Group.DoesNotExist as ex:
+            logger.error("Group DoesNotExist: {0}".format(ex))
+        except Exception as err:
+            logger.error(err)
     return False
 
 def mala_staff_required(view_func, redirect_field_name=REDIRECT_FIELD_NAME, login_url='staff:login'):
