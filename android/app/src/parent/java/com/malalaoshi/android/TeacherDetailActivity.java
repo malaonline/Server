@@ -48,6 +48,7 @@ import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
@@ -63,11 +64,9 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-<<<<<<< HEAD
+
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
-=======
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener {
->>>>>>> schools
+
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
@@ -83,10 +82,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //会员服务请求结果
     private MemberServiceListResult mMemberServicesResult;
 
-    //教学环境请求结果
+    //教学中心列表
     private List<School> mSchools = null;
 
-    //其它教学中心
+    //除体验中心剩余教学中心列表
     private List<School> mOtherSchools = null;
 
     //教师信息请求结果
@@ -190,21 +189,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private SchoolAdapter mSchoolAdapter;
 
-    //
-    private Drawable mUpIcon;
-    private Drawable mDownIcon;
-
     //定位相关对象
 <<<<<<< HEAD
     private LocManager locManager;
-=======
-    //public LocationClient mLocationClient = null;
-    //定位结果标识
-    public static final int LOCATION_NOT = 0;   //未定位或正在定位
-    public static final int LOCATION_OK = 1;    //定位成功
-    public static final int LOCATION_ERROR = 2; //定位失败
-    private int mLocationFlag = LOCATION_NOT;
->>>>>>> schools
+
     //当前经纬度
     private double longitude = 0.0f;
     private double latitude = 0.0f;
@@ -236,13 +224,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
-
-<<<<<<< HEAD
         //得到LocationManager
         locManager = LocManager.getInstance(this);
-=======
 
->>>>>>> schools
         //初始化定位
         initLocation();
         //初始化数据
@@ -289,22 +273,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         loadLocation();
     }
 
-    //定位后请求教学环境信息
-    void loadTeachingEnvironment(){
-        String url = hostUrl + TEACHING_ENVIRONMENT_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
-                //mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
-                updateUITeachingEnvironment();
-=======
->>>>>>> schools
-
-        loadLocation();
-    }
-
     //
     private void initData() {
         Intent intent = getIntent();
@@ -313,12 +281,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue = MalaApplication.getHttpRequestQueue();
         hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        mUpIcon = getResources().getDrawable(R.drawable.ic_close);
-        mUpIcon.setBounds(0, 0, mUpIcon.getMinimumWidth(), mUpIcon.getMinimumHeight());
-        mDownIcon = getResources().getDrawable(R.drawable.back);
-        mDownIcon.setBounds(0, 0, mDownIcon.getMinimumWidth(), mDownIcon.getMinimumHeight());
         mSchools = new ArrayList<School>();
         mOtherSchools = new ArrayList<>();
+        mSchoolAdapter = new SchoolAdapter(this ,mSchools);
+        listviewSchool.setAdapter(mSchoolAdapter);
         loadTeacherInfo();
         loadMemeberServices();
         loadSchools();
@@ -336,9 +302,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     Log.e(LoginFragment.class.getName(), "school list request failed!");
                     return;
                 }
-                //获取数据
+                //获取体验中心
                 School school = null;
-                mOtherSchools = schoolListResult.getResults();
+                mOtherSchools.addAll(schoolListResult.getResults());
                 if (mOtherSchools.size()>0){
                     for (int i =0;i<mOtherSchools.size();i++){
                         if (true==mOtherSchools.get(i).isCenter()){
@@ -347,20 +313,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                             break;
                         }
                     }
-                    //如果没有查询到体验中心,则取离当前位置最近的
-                    if (school==null){
-                        LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
-                        school = mOtherSchools.get(0);
-                        mOtherSchools.remove(0);
-                    }else{
-                        //根据距离排序
-                        LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
+                    if (school!=null){
+                        mSchools.add(school);
                     }
-                    mSchools.add(school);
-                    updateUISchools();
+                    dealSchools();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -371,13 +328,43 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
+    private void dealSchools() {
+
+        //无数据
+        if (mSchools.size()<=0&&mOtherSchools.size()<=0){
+            return;
+        }
+
+        //定位成功
+        if (locManager.getLocationStatus()==LocManager.OK_LOCATION){
+            //排序
+            LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
+            //没有体验中心,取最近的教学中心展示
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }else{
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }
+        updateUISchools();
+    }
+
     private void loadTeacherInfo() {
         String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 mTeacher = JsonUtil.parseStringData(response, Teacher.class);
-                updateUI(mTeacher);
+                if (mTeacher!=null){
+                    updateUI(mTeacher);
+                }else{
+                    //数据请求失败
+
+                }
                 //停止进度条
             }
         }, new Response.ErrorListener() {
@@ -385,7 +372,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             public void onErrorResponse(VolleyError error) {
                 dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                //停止进度条
+                //停止进度条,数据请求失败
+
             }
         });
         addRequestQueue(jstringRequest, TEACHERS_PATH_V1);
@@ -407,11 +395,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
                 mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
-                updateUIServices(mMemberServicesResult.getResults());
-
+                if (mMemberServicesResult!=null&&mMemberServicesResult.getResults()!=null&&mMemberServicesResult.getResults().size()>0){
+                    updateUIServices(mMemberServicesResult.getResults());
+                }else{
+                    Log.e(LoginFragment.class.getName(), "member services request failed!");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -425,16 +414,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //更新教学环境UI
     private void updateUISchools() {
-        //未定位或者教学环境数据未请求到
-        if (mLocationFlag==LOCATION_NOT||(mSchools.size()<=0)){
-            return;
-        }
         //教学环境
         llSchoolEnviroment.setVisibility(View.VISIBLE);
-        mSchoolAdapter = new SchoolAdapter(this ,mSchools ,mLocationFlag, latitude, longitude);
-        listviewSchool.setAdapter(mSchoolAdapter);
+        mSchoolAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listviewSchool);
-
     }
 
     //跟新会员服务接口
@@ -648,6 +631,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     }
 
+
     @Override
     public void onReceiveLocation(Location location) {
 =======
@@ -661,14 +645,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         if (location == null) {
             return;
         }else{
-<<<<<<< HEAD
+
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             Log.i(TAG,"positioning success," + ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude);
             //定位成功后更新school列表,定位失败则不做处理
             dealSchools();
         }
-       // updateUITeachingEnvironment();
     }
 
 }
