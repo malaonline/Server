@@ -16,29 +16,26 @@
 
     授课中心
     <select>
-        <option>东方银座中心</option>
+        {% for center in centers %}
+            <option>{{ center.name }}</option>
+        {% endfor %}
     </select>
 
     年级
     <select>
-        <option>小一</option>
-        <option>小二</option>
-        <option>小三</option>
-        <option>小四</option>
-        <option>小五</option>
-        <option>小六</option>
-        <option>初一</option>
-        <option>初二</option>
-        <option>初三</option>
-        <option>高一</option>
-        <option>高二</option>
-        <option>高三</option>
+        {% for grade in grades %}
+            {# 不显示: 小学 初中 高中 #}
+            {% if grade.superset %}
+                <option>{{ grade.name }}</option>
+            {% endif %}
+        {% endfor %}
     </select>
 
     科目
     <select>
-        <option>数学</option>
-        <option>语文</option>
+        {% for subject in subjects %}
+            <option>{{ subject.name }}</option>
+        {% endfor %}
     </select>
 
     剩余课时
