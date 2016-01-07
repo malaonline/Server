@@ -16,7 +16,9 @@ var Mala_UserToken: String = "0"
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.redColor()
 let MalaAppearanceTextColor = UIColor.whiteColor()
-let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x6e6e6e, alpha: 1.0)
+let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x333333, alpha: 1.0)
+let MalaDetailsCellLabelColor = UIColor(rgbHexValue: 0x636363, alpha: 1.0)
+let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -43,8 +45,10 @@ let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
 let MalaLayout_Margin_12: CGFloat = 12.0
 let MalaLayout_Margin_15: CGFloat = 15.0
+let MalaLayout_FontSize_10: CGFloat = 10.0
 let MalaLayout_FontSize_12: CGFloat = 12.0
 let MalaLayout_FontSize_14: CGFloat = 14.0
+let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 

@@ -7,19 +7,24 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
 
     // MARK: - Components
     var photos: [String] {
         didSet {
-            
+            leftPhoto.kf_setImageWithURL(NSURL(string: photos[0])!,
+                placeholderImage: nil)
+            centerPhoto.kf_setImageWithURL(NSURL(string: photos[1])!,
+                placeholderImage: nil)
+            rightPhoto.kf_setImageWithURL(NSURL(string: photos[2])!,
+                placeholderImage: nil)
         }
     }
     var leftPhoto: UIImageView = UIImageView()
     var centerPhoto: UIImageView = UIImageView()
     var rightPhoto: UIImageView = UIImageView()
-    
     
     // MARK: - Life Cycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -37,9 +42,9 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         
-        leftPhoto.backgroundColor = UIColor.blueColor()
-        centerPhoto.backgroundColor = UIColor.orangeColor()
-        rightPhoto.backgroundColor = UIColor.redColor()
+//        leftPhoto.backgroundColor = UIColor.blueColor()
+//        centerPhoto.backgroundColor = UIColor.orangeColor()
+//        rightPhoto.backgroundColor = UIColor.redColor()
         
         // SubViews
         content.addSubview(leftPhoto)

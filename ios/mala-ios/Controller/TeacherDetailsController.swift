@@ -29,10 +29,6 @@ class TeacherDetailsController: UITableViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-//        print("Data: ==== \(self.model)")
         
         setupConfig()
         
@@ -86,40 +82,63 @@ class TeacherDetailsController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
-        (cell as? TeacherDetailsBaseCell)!.title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
+        
+        let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
+        (reuseCell as! TeacherDetailsBaseCell).title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:
+            
+            let cell = reuseCell as! TeacherDetailsSubjectCell
             var set: [String] = []
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            (cell as! TeacherDetailsSubjectCell).labels = set
+            cell.labels = []//set
+            return cell
+            
         case 1:
-            (cell as! TeacherDetailsTagsCell).labels = self.model?.tags
+            let cell = reuseCell as! TeacherDetailsTagsCell
+            cell.labels = []//self.model?.tags
+            return cell
+            
         case 2:
-            (cell as! TeacherDetailsHighScoreCell)
+            let cell = reuseCell as! TeacherDetailsHighScoreCell
+            return cell
+            
         case 3:
-            (cell as! TeacherDetailsPhotosCell)
+            let cell = reuseCell as! TeacherDetailsPhotosCell
+            cell.photos = self.model?.photo_set ?? []
+            cell.accessory = .RightArrow
+            return cell
+            
         case 4:
-            (cell as! TeacherDetailsCertificateCell).labels = self.model?.certificate_set
+            let cell = reuseCell as! TeacherDetailsCertificateCell
+            cell.labels = []//self.model?.certificate_set
+            return cell
+            
         case 5:
-            (cell as! TeacherDetailsPlaceCell)
+            let cell = reuseCell as! TeacherDetailsPlaceCell
+            return cell
+            
         case 6:
-            (cell as! TeacherDetailsVipServiceCell)
+            let cell = reuseCell as! TeacherDetailsVipServiceCell
+            return cell
+            
         case 7:
-            (cell as! TeacherDetailsLevelCell).labels = [(self.model?.level)!]
+            let cell = reuseCell as! TeacherDetailsLevelCell
+            cell.labels = [(self.model?.level)!]
+            return cell
+            
         case 8:
-            (cell as! TeacherDetailsPriceCell)
+            let cell = reuseCell as! TeacherDetailsPriceCell
+            return cell
+            
         default:
             break
         }
-        
-        
-        
-        
-        return cell
+
+        return reuseCell
     }
 
     
