@@ -20,8 +20,15 @@ def index(request):
     return render(request, 'staff/index.html')
 
 def login(request, context={}):
+    if is_manager(request.user):
+        return redirect('staff:index')
     return render(request, 'staff/login.html', context)
 
+def logout(request):
+    auth.logout(request)
+    return redirect('staff:login')
+
+@mala_staff_required
 def students(request):
     context = {'parents': Parent.objects.filter()}
     return render(request, 'staff/students.html', context)
