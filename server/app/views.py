@@ -1,28 +1,29 @@
 import json
-from django.contrib.auth.models import User
+import random
+import requests
+import datetime
+import re
+
+from django.conf import settings
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
-from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
+from django.views.decorators.csrf import csrf_exempt
 # from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
+from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, mixins
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers, viewsets
-import random
-import requests
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-import datetime
-from django.utils import timezone
-from django.conf import settings
-import re
 
 from app import models
-
 from .restful_exception import AlreadyCreated
-from django.utils.translation import ugettext_lazy as _
 
 
 class Policy(View):
@@ -109,7 +110,7 @@ class Sms(View):
     def post(self, request):
         action = request.POST.get('action')
         if action == 'send':
-            phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
+            phone = request.POST.get('phone')
             if not phone:
                 return JsonResponse({'sent': False, 'reason': 'phone is required'})
             if not self.isValidPhone(phone):
@@ -129,7 +130,7 @@ class Sms(View):
                 print (err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
-            phone = request.POST.get('phone') # TODO: valid phone NO. && add test phone NO.
+            phone = request.POST.get('phone')
             code = request.POST.get('code')
             if not phone or not code:
                 return JsonResponse({'verified': False, 'reason': 'params error'})
@@ -154,6 +155,10 @@ class Sms(View):
                     new_user.save()
                     profile = models.Profile.objects.create(user=new_user, phone=phone)
                     profile.save()
+                # 把用户添加到'家长'Group
+                group = Group.objects.get(name='家长')
+                profile.user.groups.add(group)
+                profile.user.save()
                 # 家长角色: 创建parent
                 parent, created = models.Parent.objects.get_or_create(user=profile.user)
                 first_login = not parent.student_name
