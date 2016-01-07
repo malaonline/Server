@@ -76,7 +76,6 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HomeViewCellReusedId, forIndexPath: indexPath) as! TeacherCollectionViewCell
         
         // Configure the cell
-        //cell.backgroundColor = UIColor.lightGrayColor()
         cell.model = teachers![indexPath.row]
         
         return cell
@@ -144,8 +143,6 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
             
             
             viewController.model = model   // TeacherDetailModel(dict: dict)
-            
-            self?.navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
             self?.navigationController?.pushViewController(viewController, animated: true)
         })
         

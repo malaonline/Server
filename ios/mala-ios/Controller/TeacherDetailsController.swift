@@ -20,18 +20,22 @@ private let TeacherDetailsCellReuseId = [
     8: "TeacherDetailsPriceCellReuseId"
 ]
 
-class TeacherDetailsController: UITableViewController {
+class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelegate {
 
     // MARK: - Variables
     var model: TeacherDetailModel?
+    
+    private lazy var headerBackground: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "headerBackground"))
+        image.contentMode = .ScaleAspectFill
+        return image
+    }()
     
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupConfig()
-        
+
         tableView.registerClass(TeacherDetailsSubjectCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[0]!)
         tableView.registerClass(TeacherDetailsTagsCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[1]!)
         tableView.registerClass(TeacherDetailsHighScoreCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[2]!)
@@ -46,6 +50,9 @@ class TeacherDetailsController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setupConfig()
+        setupTableHeaderView()
+        
         // setup style
         tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
         tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
@@ -53,6 +60,16 @@ class TeacherDetailsController: UITableViewController {
         // make clear color
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        
+        // setup headerImage
+        tableView.insertSubview(headerBackground, atIndex: 0)
+        headerBackground.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(0).offset(-64)
+            make.left.equalTo(0)
+            make.width.equalTo(MalaScreenWidth)
+            make.height.equalTo(200)
+        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -69,6 +86,22 @@ class TeacherDetailsController: UITableViewController {
     // MARK: - Private Method
     private func setupConfig() {
         tableView.estimatedRowHeight = 240
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"), style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
+        
+        // Active Pop GestureRecognizer
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+    }
+    
+    private func setupTableHeaderView() {
+        
+        let headerView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
+        headerView.avatar = (model?.avatar) ?? ""
+        headerView.name = (model?.name) ?? "---"
+        headerView.gender = (model?.gender) ?? "m"
+        headerView.teachingAge = (model?.teaching_age) ?? 0
+        
+        tableView.tableHeaderView = headerView
     }
     
     
@@ -127,7 +160,7 @@ class TeacherDetailsController: UITableViewController {
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [(self.model?.level)!]
+            cell.labels = []//[(self.model?.level)!]
             return cell
             
         case 8:
@@ -140,15 +173,19 @@ class TeacherDetailsController: UITableViewController {
 
         return reuseCell
     }
+    
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
 
     
     // MARK: - Deleagte
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 5.0
+        return section == 0 ? 8.0 : 4.0
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 5.0
+        return 4.0
     }
     
     

@@ -22,9 +22,9 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
                 placeholderImage: nil)
         }
     }
-    var leftPhoto: UIImageView = UIImageView()
-    var centerPhoto: UIImageView = UIImageView()
-    var rightPhoto: UIImageView = UIImageView()
+    private lazy var leftPhoto: UIImageView = UIImageView.placeHolder()
+    var centerPhoto: UIImageView = UIImageView.placeHolder()
+    var rightPhoto: UIImageView = UIImageView.placeHolder()
     
     // MARK: - Life Cycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -41,10 +41,6 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
-//        leftPhoto.backgroundColor = UIColor.blueColor()
-//        centerPhoto.backgroundColor = UIColor.orangeColor()
-//        rightPhoto.backgroundColor = UIColor.redColor()
         
         // SubViews
         content.addSubview(leftPhoto)

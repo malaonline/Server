@@ -39,8 +39,10 @@ let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
 
 
 // MARK: - Common layout
+let MalaLayout_Margin_3: CGFloat = 3.0
 let MalaLayout_Margin_5: CGFloat = 5.0
 let MalaLayout_Margin_6: CGFloat = 6.0
+let MalaLayout_Margin_7: CGFloat = 7.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
 let MalaLayout_Margin_12: CGFloat = 12.0
@@ -49,6 +51,11 @@ let MalaLayout_FontSize_10: CGFloat = 10.0
 let MalaLayout_FontSize_12: CGFloat = 12.0
 let MalaLayout_FontSize_14: CGFloat = 14.0
 let MalaLayout_FontSize_15: CGFloat = 15.0
+let MalaLayout_FontSize_16: CGFloat = 16.0
+let MalaLayout_AvatarSize: CGFloat = 70.0
+let MalaLayout_VipIconSize: CGFloat = 15.0
+let MalaLayout_DetailHeaderHeight: CGFloat = 166.0
+let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 

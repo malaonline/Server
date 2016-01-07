@@ -49,6 +49,10 @@
 		304135CA1C23AE6400830C43 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359F1C23AE6400830C43 /* ModelController.swift */; };
 		304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A01C23AE6400830C43 /* MyCommentListViewController.swift */; };
 		304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A21C23AE6400830C43 /* TimetableViewController.swift */; };
+		304D6D341C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */; };
+		304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */; };
+		304D6D371C3E92D500282925 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
+		304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
 		3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
 		307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
 		307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
@@ -152,6 +156,8 @@
 		304135A01C23AE6400830C43 /* MyCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentListViewController.swift; sourceTree = "<group>"; };
 		304135A11C23AE6400830C43 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		304135A21C23AE6400830C43 /* TimetableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableViewController.swift; sourceTree = "<group>"; };
+		304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsHeaderView.swift; sourceTree = "<group>"; };
+		304D6D361C3E92D500282925 /* Extension+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImageView.swift"; sourceTree = "<group>"; };
 		3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIImage.swift"; sourceTree = "<group>"; };
 		307788511C2A3D7A007AF6B0 /* FilterCondition.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FilterCondition.plist; sourceTree = "<group>"; };
 		307788571C2A58B1007AF6B0 /* OperatorOverload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverload.swift; sourceTree = "<group>"; };
@@ -259,6 +265,7 @@
 				3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */,
 				3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */,
 				3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */,
+				304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */,
 			);
 			path = TeacherDetail;
 			sourceTree = "<group>";
@@ -303,6 +310,7 @@
 				3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */,
 				308063931C3A1AF100729832 /* Extension+UILabel.swift */,
 				308063961C3A271C00729832 /* Extension+UIView.swift */,
+				304D6D361C3E92D500282925 /* Extension+UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -781,6 +789,7 @@
 				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				307AB89F1C33CDD200D8397F /* HighScoreModel.swift in Sources */,
+				304D6D371C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				304135B01C23AE6400830C43 /* Operation.swift in Sources */,
 				307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				304135AC1C23AE6400830C43 /* HTTPSecurity.swift in Sources */,
@@ -802,6 +811,7 @@
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				304D6D341C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				304135C21C23AE6400830C43 /* BackAPI.swift in Sources */,
 				3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
@@ -840,6 +850,7 @@
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
+				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
@@ -854,6 +865,7 @@
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
+				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
