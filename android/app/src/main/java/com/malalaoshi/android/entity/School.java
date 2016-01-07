@@ -3,27 +3,13 @@ package com.malalaoshi.android.entity;
 /**
  * Created by kang on 16/1/5.
  */
-public class School implements Comparable<School>{
-    private Long id;
+public class School extends BaseEntity implements Comparable<School>{
     private String address;
-    private String name;
     private String thumbnail;
     private Double region;
     private boolean center;
     private Double longitude;
     private Double latitude;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public String getAddress() {
         return address;
@@ -31,10 +17,6 @@ public class School implements Comparable<School>{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getThumbnail() {
