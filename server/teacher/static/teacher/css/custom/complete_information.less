@@ -1,0 +1,157 @@
+@import "register.less";
+
+//左边栏宽度
+@leftBlankWidth: 2;
+//右边栏宽度
+@rightBlankWidth: 2;
+
+.mala_header{
+  font-size: 16px;
+  span{
+    margin-top: 10px;
+  }
+}
+
+.header_right{
+  float:right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.header_right_text{
+    padding-top:7px;
+}
+
+.information_header{
+  font-size:20px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.form-horizontal{
+  @labelMinWidth: 110px;
+  @labelAndInputSpace: 26px;
+  margin-top: 44px;
+  .form-row{
+    margin-top: 20px;
+  }
+  .real_name_label, .gender_label, .city_label, .subclass_label, .grand_label{
+    float:left;
+    padding-top:8px;
+    text-align: right;
+    min-width: @labelMinWidth;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  @borderWidth: 1px;
+  @borderColor: #d3d3d3;
+
+  .real_name_input, .gender_input, .city_input, .subclass_input, .grand_input {
+    float: left;
+    margin-left: @labelAndInputSpace;
+    width: 318px;
+    border-radius: 2px;
+    height: 44px;
+    border-width: @borderWidth;
+    border-color: @borderColor;
+  }
+
+  .real_name_input, .gender_input, .city_input, .subclass_input{
+    input{
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+      height: 44px;
+      width: 267px;
+      border-width: @borderWidth;
+      border-color: @borderColor;
+    }
+    button{
+      height: 44px;
+      width: 52px;
+      border-width: @borderWidth;
+      border-color: @borderColor;
+      background: #eaebec;
+      color: @borderColor;
+    }
+    ul{
+      width: 267px;
+    }
+  }
+  .real_name_label{
+  //  真实姓名标签
+  //  float:left;
+  //  padding-top:8px;
+  //  text-align: right;
+  //  min-width: @labelMinWidth;
+  }
+  .real_name_input{
+  //  真实姓名输入
+  //  float:left;
+  //  width: 320px;
+  //  margin-left: @labelAndInputSpace;
+
+  }
+  .gender_label{
+  //  性别标签
+  //  float:left;
+  //  text-align: right;
+  //  min-width: @labelMinWidth;
+  }
+  .gender_input{
+  //  性别输入
+  //  float:left;
+  //  margin-left: @labelAndInputSpace;
+  }
+  .city_label{
+  //  所在城市标签
+  }
+  .city_input{
+  //  所在城市输入
+  }
+  .subclass_label{
+  //  授课科目标签
+  }
+  .subclass_input{
+  //  授课科目输入
+  }
+  .grand_label{
+  //  年级标签
+  }
+  .grand_input{
+  //  年级输入
+    .grand_button, .grand_add{
+      height: 51px;
+      border-radius: @borderRadius;
+      color: #898a8b;
+    }
+    .grand_button{
+      border-width: @borderWidth;
+      border-color: @borderColor;
+      width: 144px;
+      i{
+        visibility: hidden;
+      }
+      &:hover{
+        background: white;
+        border-width: 1px;
+        border-color: black;
+        i{
+          visibility: visible;
+        }
+      }
+    }
+    .grand_add{
+      width: 51px;
+      border-style: dashed;
+    }
+  }
+  .submit_button{
+  //  提交按钮
+    margin-top: 30px;
+    margin-left: 200px;
+    width: 256px;
+    height: 50px;
+    background: #8c8c8e;
+    color: white;
+    font-size: 24px;
+  }
+}
