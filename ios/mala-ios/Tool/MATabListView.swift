@@ -38,8 +38,8 @@ class MATabListView: UIView {
         for string in tags ?? [] {
             let label = UILabel(frame: CGRectZero)
             label.textAlignment = .Left
-            label.textColor = UIColor.blackColor()
-            label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+            label.textColor = MalaDetailsCellLabelColor
+            label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
             label.text = string
             var size = (string as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(MalaLayout_FontSize_12)])
             size.width += LabelMargin

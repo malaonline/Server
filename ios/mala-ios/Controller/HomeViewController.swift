@@ -76,7 +76,6 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HomeViewCellReusedId, forIndexPath: indexPath) as! TeacherCollectionViewCell
         
         // Configure the cell
-        //cell.backgroundColor = UIColor.lightGrayColor()
         cell.model = teachers![indexPath.row]
         
         return cell
@@ -116,7 +115,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
             // TODO: set Test Model
             let model = TeacherDetailModel()
             model.id = 1
-            model.avatar = "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg?X-Amz-Expires=3600&X-Amz-Signature=156e575392ae9089afc1ec135bffd67fc3d8a152d5af2cd41815743ca31aeb53&X-Amz-SignedHeaders=host&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20151211%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20151211T022237Z"
+            model.avatar = "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/img0_68YMpeT.jpg?X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160107%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=27a93b2d31f80809c5c1f54ff3f4b9855dea3bfd3593921a1fdcab571ef969cd&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20160107T025154Z"
             model.gender = "fm"
             model.name = "丁思甜"
             model.degree = "s"
@@ -125,9 +124,10 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
             model.subject = "数学"
             model.grades = ["小升初", "初中"]
             model.tags = ["幽默", "亲切", "专治厌学"]
-            model.photo_set = ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
-                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
-                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"]
+            model.photo_set = [
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/img0_68YMpeT.jpg?X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160107%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=27a93b2d31f80809c5c1f54ff3f4b9855dea3bfd3593921a1fdcab571ef969cd&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20160107T025154Z",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/img1_YHYtvWX.jpg?X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160107%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=b0001bc1133bb6229d60b9b99a413bb2bfbf15537215ff30a141ddbcce3b614e&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20160107T025154Z",
+                "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/img2_mOkzmQw.jpg?X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160107%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=7bb0761fa15a491ed437588f81557938ba29d0b49b35f31d61f063f37c24c866&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20160107T025154Z"]
             model.certificate_set = ["特级教师","一级教师","十佳青年"]
             model.highscore_set = [
                 HighScoreModel(name: "高明", score: 122, school: "洛阳一中", admitted: "河北大学"),
@@ -143,8 +143,6 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
             
             
             viewController.model = model   // TeacherDetailModel(dict: dict)
-            
-            self?.navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
             self?.navigationController?.pushViewController(viewController, animated: true)
         })
         
