@@ -30,10 +30,10 @@ public class LocManager {
     private List<ReceiveLocationListener> listenerList;
 
     //定位状态
-    private final int NOT_LOCATION = 0;   //未开始定位
-    private final int BEING_LOCATION = 1; //正在定位
-    private final int OK_LOCATION = 2;    //定位成功
-    private final int ERROR_LOCATION = 3; //定位失败
+    public final static int NOT_LOCATION = 0;   //未开始定位
+    public final static int BEING_LOCATION = 1; //正在定位
+    public final static int OK_LOCATION = 2;    //定位成功
+    public final static int ERROR_LOCATION = 3; //定位失败
     private int locationStatus = NOT_LOCATION;
 
     public int getLocationStatus() {

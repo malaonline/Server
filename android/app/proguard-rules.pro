@@ -31,3 +31,4 @@
 #entity和result
 -keep class com.malalaoshi.android.entity.** {*;}
 -keep class com.malalaoshi.android.result.** {*;}
+

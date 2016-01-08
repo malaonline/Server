@@ -193,7 +193,7 @@
 
     <View style="@style/AppWidget.ShadowGap" />
 
-    <include layout="@layout/teaching_environment"></include>
+    <include layout="@layout/school_environment"></include>
 
     <View style="@style/AppWidget.ShadowGap" />
 

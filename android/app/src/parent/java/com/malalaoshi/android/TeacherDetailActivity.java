@@ -35,16 +35,20 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
+import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
 import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.MemberService;
+import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
+import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
@@ -60,7 +64,9 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
+
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
+
     private static final String TAG = "TeacherDetailActivity";
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
@@ -68,13 +74,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private Long mTeacherId;
 
     //接口地址
-    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/teahingenvironment/";
+    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/schools/";
     private static final String MEMBERSERVICES_PATH_V1 = "/api/v1/memberservices/";
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
 
 
     //会员服务请求结果
     private MemberServiceListResult mMemberServicesResult;
+
+    //教学中心列表
+    private List<School> mSchools = null;
+
+    //除体验中心剩余教学中心列表
+    private List<School> mOtherSchools = null;
 
     //教师信息请求结果
     private Teacher mTeacher;
@@ -161,42 +173,25 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected Button mSignUp;
 
     //教学环境
-    @Bind(R.id.ll_teaching_environment)
-    protected LinearLayout llTeachingEnviroment;
+    @Bind(R.id.ll_school_environment)
+    protected LinearLayout llSchoolEnviroment;
 
-    //教学环境照片
-    @Bind(R.id.iv_teaching_environment)
-    protected ImageView ivTeachingEnvironment;
+    //学习中心列表
+    @Bind(R.id.listview_school)
+    protected ListView listviewSchool;
 
-    //体验中心名称
-    @Bind(R.id.tv_experience_center)
-    protected TextView tvExperienceCenterName;
+    //更多学习中心
+    @Bind(R.id.ll_school_more)
+    protected LinearLayout llSchoolMore;
 
-    //体验中心地址
-    @Bind(R.id.tv_experience_center_address)
-    protected TextView tvExperienceCenterAddress;
+    @Bind(R.id.tv_school_more)
+    protected TextView tvSchoolMore;
 
-    //距离体验中心的距离
-    @Bind(R.id.tv_experience_center_distance)
-    protected TextView tvExperienceCenterDistance;
-
-    //其它学习中心
-    @Bind(R.id.ll_training_center)
-    protected LinearLayout llTrainingCenter;
-
-    @Bind(R.id.tv_training_center)
-    protected TextView tvTrainingCenter;
-
-    //其它学习中列表
-    @Bind(R.id.lv_training_center)
-    protected ListView trainingCenterList;
-
-    //
-    private Drawable mUpIcon;
-    private Drawable mDownIcon;
+    private SchoolAdapter mSchoolAdapter;
 
     //定位相关对象
     private LocManager locManager;
+
     //当前经纬度
     private double longitude = 0.0f;
     private double latitude = 0.0f;
@@ -214,6 +209,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.teacher_detail);
         ButterKnife.bind(this);
 
@@ -227,9 +223,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
 
         toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
-
         //得到LocationManager
         locManager = LocManager.getInstance(this);
+
         //初始化定位
         initLocation();
         //初始化数据
@@ -261,7 +257,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private void setEvent() {
         mMoreGallery.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
-        llTrainingCenter.setOnClickListener(this);
+        llSchoolMore.setOnClickListener(this);
     }
 
     //初始化定位
@@ -272,17 +268,51 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         loadLocation();
     }
 
-    //定位后请求教学环境信息
-    void loadTeachingEnvironment(){
-        String url = hostUrl + TEACHING_ENVIRONMENT_PATH_V1;
+    //
+    private void initData() {
+        Intent intent = getIntent();
+        mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
+        requestQueueTags = new ArrayList<String>();
+        requestQueue = MalaApplication.getHttpRequestQueue();
+        hostUrl = MalaApplication.getInstance().getMalaHost();
+        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
+        mSchools = new ArrayList<School>();
+        mOtherSchools = new ArrayList<>();
+        mSchoolAdapter = new SchoolAdapter(this ,mSchools);
+        listviewSchool.setAdapter(mSchoolAdapter);
+        loadTeacherInfo();
+        loadMemeberServices();
+        loadSchools();
+    }
+
+    //请求教学环境信息
+    void loadSchools(){
+        String url = hostUrl + "/" + TEACHING_ENVIRONMENT_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
-                //mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
-                updateUITeachingEnvironment();
-
+                SchoolListResult schoolListResult = JsonUtil.parseStringData(response, SchoolListResult.class);
+                if (schoolListResult==null||schoolListResult.getResults()==null){
+                    Log.e(LoginFragment.class.getName(), "school list request failed!");
+                    return;
+                }
+                //获取体验中心
+                School school = null;
+                mOtherSchools.addAll(schoolListResult.getResults());
+                if (mOtherSchools.size()>0){
+                    for (int i =0;i<mOtherSchools.size();i++){
+                        if (true==mOtherSchools.get(i).isCenter()){
+                            school = mOtherSchools.get(i);
+                            mOtherSchools.remove(i);
+                            break;
+                        }
+                    }
+                    if (school!=null){
+                        mSchools.add(school);
+                    }
+                    dealSchools();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -293,22 +323,30 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
-    private void initData() {
-        Intent intent = getIntent();
-        mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
-        requestQueueTags = new ArrayList<String>();
-        requestQueue = MalaApplication.getHttpRequestQueue();
-        hostUrl = MalaApplication.getInstance().getMalaHost();
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        mUpIcon = getResources().getDrawable(R.drawable.ic_close);
-        mUpIcon.setBounds(0, 0, mUpIcon.getMinimumWidth(), mUpIcon.getMinimumHeight());
-        mDownIcon = getResources().getDrawable(R.drawable.back);
-        mDownIcon.setBounds(0, 0, mDownIcon.getMinimumWidth(), mDownIcon.getMinimumHeight());
+    private void dealSchools() {
 
-        loadTeacherInfo();
-        loadMemeberServices();
+        //无数据
+        if (mSchools.size()<=0&&mOtherSchools.size()<=0){
+            return;
+        }
+
+        //定位成功
+        if (locManager.getLocationStatus()==LocManager.OK_LOCATION){
+            //排序
+            LocationUtil.sortByRegion(mOtherSchools,latitude,longitude);
+            //没有体验中心,取最近的教学中心展示
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }else{
+            if (mSchools.size()<=0){
+                mSchools.add(mOtherSchools.get(0));
+                mOtherSchools.remove(0);
+            }
+        }
+        updateUISchools();
     }
-
 
     private void loadTeacherInfo() {
         String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
@@ -316,7 +354,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             @Override
             public void onResponse(String response) {
                 mTeacher = JsonUtil.parseStringData(response, Teacher.class);
-                updateUI(mTeacher);
+                if (mTeacher!=null){
+                    updateUI(mTeacher);
+                }else{
+                    //数据请求失败
+
+                }
                 //停止进度条
             }
         }, new Response.ErrorListener() {
@@ -324,24 +367,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             public void onErrorResponse(VolleyError error) {
                 dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                //停止进度条
+                //停止进度条,数据请求失败
+
             }
         });
         addRequestQueue(jstringRequest, TEACHERS_PATH_V1);
-    }
-
-    //向请求队列添加请求
-    public void addRequestQueue(StringRequest stringRequest, String requestTag){
-        requestQueueTags.add(requestTag);
-        stringRequest.setTag(requestTag);
-        requestQueue.add(stringRequest);
-    }
-
-    //取消说有网络请求
-    public void cancelAllRequestQueue(){
-        for (int i=0; requestQueue!=null&&i< requestQueueTags.size();i++){
-            requestQueue.cancelAll(requestQueueTags.get(i));
-        }
     }
 
     //启动定位
@@ -355,11 +385,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.membersiver, MemberServiceListResult.class, TeacherDetailActivity.this);
                 mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
-                updateUIServices(mMemberServicesResult.getResults());
-
+                if (mMemberServicesResult!=null&&mMemberServicesResult.getResults()!=null&&mMemberServicesResult.getResults().size()>0){
+                    updateUIServices(mMemberServicesResult.getResults());
+                }else{
+                    Log.e(LoginFragment.class.getName(), "member services request failed!");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -372,26 +403,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     //更新教学环境UI
-    private void updateUITeachingEnvironment() {
-        //
+    private void updateUISchools() {
         //教学环境
-        llTeachingEnviroment.setVisibility(View.VISIBLE);
-        //教学环境照片
-        String string = "";
-        mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivTeachingEnvironment, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
-        //体验中心名称
-        tvExperienceCenterName.setText(string);
-        //体验中心地址
-        tvExperienceCenterAddress.setText(string);
-        //距离体验中心的距离
-        tvExperienceCenterDistance.setText(string);
-
-        //其它学习中心
-        llTrainingCenter.setVisibility(View.VISIBLE);
-        tvTrainingCenter.setText(string);
-        //其它学习中列表
-        //trainingCenterList.setAdapter("");
-        //trainingCenterList.setVisibility(View.GONE);
+        llSchoolEnviroment.setVisibility(View.VISIBLE);
+        mSchoolAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(listviewSchool);
     }
 
     //跟新会员服务接口
@@ -513,6 +529,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
     }
 
+    //向请求队列添加请求
+    public void addRequestQueue(StringRequest stringRequest, String requestTag){
+        requestQueueTags.add(requestTag);
+        stringRequest.setTag(requestTag);
+        requestQueue.add(stringRequest);
+    }
+
+    //取消说有网络请求
+    public void cancelAllRequestQueue(){
+        for (int i=0; requestQueue!=null&&i< requestQueueTags.size();i++){
+            requestQueue.cancelAll(requestQueueTags.get(i));
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -525,17 +554,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             case R.id.parent_teacher_detail_gallery_more_tv:
                 //查看更多照片
                 break;
-            case R.id.ll_training_center:
-                //显示/隐藏其它学习中心列表
-                int visible = trainingCenterList.getVisibility();
-                if (visible==View.GONE){
-                    tvTrainingCenter.setCompoundDrawables(null, null, mDownIcon, null);
-                    trainingCenterList.setVisibility(View.VISIBLE);
-
-                }else {
-                    tvTrainingCenter.setCompoundDrawables(null, null, mUpIcon, null);
-                    trainingCenterList.setVisibility(View.GONE);
-                }
+            case R.id.ll_school_more:
+                //显示更多教学中心
+                llSchoolMore.setVisibility(View.GONE);
+                mSchools.addAll(mOtherSchools);
+                setListViewHeightBasedOnChildren(listviewSchool);
+                mSchoolAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -597,16 +621,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     }
 
+
     @Override
     public void onReceiveLocation(Location location) {
         if (location == null) {
             return;
         }else{
+
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            Log.e(TAG,"latitude:"+latitude+" longitude:"+longitude);
+            Log.i(TAG,"positioning success," + ",\nlatitude:"+latitude + ",\nlongitude:"+ longitude);
+            //定位成功后更新school列表,定位失败则不做处理
+            dealSchools();
         }
-       // updateUITeachingEnvironment();
     }
 
 }

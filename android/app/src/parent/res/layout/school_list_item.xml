@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_experience_center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/iv_school_pic"
+        android:padding="10dp"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_sync_black_24dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_school_name"
+            android:text="麻辣体验中心 (洛阳店)"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_below="@id/tv_school_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/tv_school_address"
+                android:text="洞西区 长江路"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_school_distance"
+                android:text="10km"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
