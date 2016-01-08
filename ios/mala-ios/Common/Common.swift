@@ -22,6 +22,7 @@ let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
 let MalaDetailsButtonBlueColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
 let MalaDetailsButtonBorderColor = UIColor(rgbHexValue: 0xE5E5E5, alpha: 1.0)
 let MalaDetailsBottomViewColor = UIColor(rgbHexValue: 0xF6F6F6, alpha: 0.96)
+let MalaDetailsPriceRedColor = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -43,13 +44,17 @@ let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
 
 // MARK: - Common layout
 let MalaLayout_Margin_3: CGFloat = 3.0
+let MalaLayout_Margin_4: CGFloat = 4.0
 let MalaLayout_Margin_5: CGFloat = 5.0
 let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_7: CGFloat = 7.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
 let MalaLayout_Margin_12: CGFloat = 12.0
+let MalaLayout_Margin_13: CGFloat = 13.0
+let MalaLayout_Margin_14: CGFloat = 14.0
 let MalaLayout_Margin_15: CGFloat = 15.0
+let MalaLayout_Margin_16: CGFloat = 16.0
 
 let MalaLayout_FontSize_10: CGFloat = 10.0
 let MalaLayout_FontSize_12: CGFloat = 12.0
@@ -68,6 +73,7 @@ let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
 
 
 // MARK: - Device
+let malaScreenNaviHeight: CGFloat = 64.0
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
 // ScreenHeight Without StatusBar,NavigationBar,TabBar

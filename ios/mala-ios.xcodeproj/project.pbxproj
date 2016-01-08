@@ -33,6 +33,8 @@
 		3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
 		3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
+		303BCFE81C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */; };
+		303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -140,6 +142,7 @@
 		3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsVipServiceCell.swift; sourceTree = "<group>"; };
 		3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsLevelCell.swift; sourceTree = "<group>"; };
 		3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceCell.swift; sourceTree = "<group>"; };
+		303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceTableView.swift; sourceTree = "<group>"; };
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -270,6 +273,7 @@
 				3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */,
 				304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */,
 				3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */,
+				303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */,
 			);
 			path = TeacherDetail;
 			sourceTree = "<group>";
@@ -777,6 +781,7 @@
 				304135D01C23AE6400830C43 /* TimetableViewController.swift in Sources */,
 				30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				304135B81C23AE6400830C43 /* Upload.swift in Sources */,
+				303BCFE81C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				304135C61C23AE6400830C43 /* FeedbackViewController.swift in Sources */,
 				30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				304135B61C23AE6400830C43 /* StatusCode.swift in Sources */,
@@ -862,6 +867,7 @@
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
+				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,

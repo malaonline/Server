@@ -74,7 +74,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         // setup headerImage
         tableView.insertSubview(headerBackground, atIndex: 0)
         headerBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(0).offset(-64)
+            make.top.equalTo(0).offset(-malaScreenNaviHeight)
             make.centerX.equalTo(self.tableView.snp_centerX)
             make.width.equalTo(MalaScreenWidth)
             make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
@@ -162,12 +162,12 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            cell.labels = []//set
+            cell.labels = set
             return cell
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = []//self.model?.tags
+            cell.labels = self.model?.tags
             return cell
             
         case 2:
@@ -182,7 +182,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = []//self.model?.certificate_set
+            cell.labels = self.model?.certificate_set
             return cell
             
         case 5:
@@ -195,7 +195,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = []//[(self.model?.level)!]
+            cell.labels = [(self.model?.level)!]
             return cell
             
         case 8:
@@ -221,22 +221,23 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let displacement = scrollView.contentOffset.y
-        if displacement < -64.0 {
+        
+        if displacement < -malaScreenNaviHeight {
             headerBackground.snp_updateConstraints(closure: { (make) -> Void in
                 make.top.equalTo(0).offset(displacement)
                 // 1.1 for variety rate
-                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+64)*1.1)
+                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+malaScreenNaviHeight)*1.1)
             })
         }
     }
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 8.0 : 4.0
+        return section == 0 ? MalaLayout_Margin_4*2 : MalaLayout_Margin_4
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 4.0
+        return MalaLayout_Margin_4
     }
     
 }
