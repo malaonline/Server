@@ -19,7 +19,7 @@ class TeacherDetailsHeaderView: UIView {
                 debugPrint("TeacherDetailsHeaderView - AvatarURL Format Error")
                 return
             }
-            self.avatarView.kf_setImageWithURL(url, placeholderImage: nil)
+            self.avatarView.kf_setImageWithURL(url, placeholderImage: UIImage.withColor(UIColor.lightGrayColor()))
         }
     }
     

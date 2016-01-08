@@ -65,9 +65,9 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
         tableView.insertSubview(headerBackground, atIndex: 0)
         headerBackground.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(0).offset(-64)
-            make.left.equalTo(0)
+            make.centerX.equalTo(self.tableView.snp_centerX)
             make.width.equalTo(MalaScreenWidth)
-            make.height.equalTo(200)
+            make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
         }
         
     }
@@ -180,6 +180,18 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
 
     
     // MARK: - Deleagte
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let displacement = scrollView.contentOffset.y
+        if displacement < -64.0 {
+            headerBackground.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(0).offset(displacement)
+                // 1.1 for variety rate
+                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+64)*1.1)
+            })
+        }
+    }
+    
+    
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 8.0 : 4.0
     }
