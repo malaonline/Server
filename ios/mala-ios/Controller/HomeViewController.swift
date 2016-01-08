@@ -110,7 +110,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                 return
             }
             
-            let viewController = TeacherDetailsController(style: .Grouped)
+            let viewController = TeacherDetailsController()
             
             // TODO: set Test Model
             let model = TeacherDetailModel()
