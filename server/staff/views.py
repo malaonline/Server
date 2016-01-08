@@ -4,6 +4,8 @@ import logging
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
 from django.contrib import auth
 
 # local modules
@@ -56,3 +58,18 @@ def login_auth(request):
         else:
             return redirect('staff:index')
     return login(request, {'errors': '用户名或密码错误'})
+
+class BaseStaffView(TemplateView):
+    """
+    Base view for staff management page views.
+    """
+    @method_decorator(mala_staff_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
+
+class TeacherView(BaseStaffView):
+    template_name = 'staff/teacher/teachers.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['teachers'] = models.Teacher.objects.all
+        return super(TeacherView, self).get_context_data(**kwargs)
