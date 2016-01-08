@@ -1,0 +1,63 @@
+{% extends "staff/staff_base.html" %}
+
+{% block title %}所有老师列表{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        姓名 <input type="text" name="name" />
+        手机号 <input type="number" name="phone" />
+        状态
+        <select name="status">
+            <option selected="" value="全部">全部</option>
+            <option value="待处理">待处理</option>
+            <option value="初选淘汰">初选淘汰</option>
+            <option value="邀约面试">邀约面试</option>
+            <option value="面试通过">面试通过</option>
+            <option value="面试失败">面试失败</option>
+        </select>
+
+        注册日期
+        <select name="reg_date_from">
+            <option>2015-09-01</option>
+        </select>
+         -
+        <select name="reg_date_to">
+            <option>2016-01-01</option>
+        </select>
+
+        所在地区
+        <select name="area">
+            <option>洛阳</option>
+            <option>其他</option>
+        </select>
+
+        <input type="submit" value="查询"/>
+    </form>
+
+    <table align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th>注册日期</th>
+            <th>老师姓名</th>
+            <th>手机号</th>
+            <th>性别</th>
+            <th>教龄（年）</th>
+            <th>年级科目</th>
+            <th>所在地区</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td>{# 注册日期 #} {{ teacher.user.date_joined }}</td>
+                <td>{# 老师姓名 #} {{ teacher.name }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 性别 #} {{ teacher.gender }}</td>
+                <td>{# 教龄（年）#} {{ teacher.teaching_age }}</td>
+                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }}</td>
+                <td>{# 所在地区 #} TODO</td>
+                <td>{# 状态 #} TODO</td>
+                <td>{# 操作 #} TODO</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
