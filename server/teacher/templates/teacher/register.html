@@ -15,7 +15,9 @@
             <div class="page-left">
             </div>
             <div class="page-center">
-                <div><img src="{% static 'teacher/icons/mala_icon.png' %}">注册或登录</div>
+                {% load teacher_page %}
+                <div>{% mala_page_header "注册或登录"%}</div>
+{#                <div><img src="{% static 'teacher/icons/mala_icon.png' %}">注册或登录</div>#}
                 <form class="form-horizontal">
                     <div class="form-row">
                         <label for="phoneNumber" class="register-phone-label ">*手机号码</label>

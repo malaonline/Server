@@ -12,3 +12,12 @@ def register(request):
     context = {}
     return render(request, 'teacher/register.html', context)
 
+
+def complete_information(request):
+    """
+    完善老师的个人信息 TW-2-1
+    :param request:
+    :return:
+    """
+    context = {}
+    return render(request, 'teacher/complete_information.html', context)

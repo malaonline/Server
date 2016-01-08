@@ -1,1 +1,3 @@
-TW-1-1 <-> /teacher-login/  :  登录页面
+TW-1-1 <-> login/  :  登录页面
+TW-2-1 <-> information/complete/ : 完善老师信息
+

@@ -1,0 +1,89 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    信息完善
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/custom/complete_information.css' %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/complete_information.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% load teacher_page %}
+                <div class="mala_header">
+                    {% mala_page_header "个人中心" %}
+                    <button class="btn btn-default header_right">退出</button>
+                    <span class="header_right header_right_text">您好, 186****1234</span>
+                </div>
+                <p class="information_header">恭喜您注册成功!</p>
+                <p class="information_header">为了能够与您及时取得联系,请您尽快完善个人资料.</p>
+                <form class="form-horizontal">
+                    <div class="form-row">
+                        <label for="realName" class="real_name_label">您的姓名</label>
+                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名">
+                    </div>
+                    <div class="form-row">
+                        <label for="gender" class="gender_label">性别</label>
+                        <div class="input-group gender_input" id="gender">
+                          <div class="input-group-btn">
+                            <input type="text" class="form-control" aria-label="..." id="class">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                              <li><a href="#">男</a></li>
+                              <li><a href="#">女</a></li>
+                            </ul>
+                          </div><!-- /btn-group -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="city" class="city_label">所在城市</label>
+                        <div class="input-group city_input">
+                          <div class="input-group-btn">
+                            <input type="text" class="form-control" aria-label="..." id="class">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+{#                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>#}
+                            <ul class="dropdown-menu dropdown-menu-left">
+                              <li><a href="#">北京</a></li>
+                              <li><a href="#">上海</a></li>
+                              <li><a href="#">广州</a></li>
+                            </ul>
+                          </div><!-- /btn-group -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="class" class="subclass_label">授课科目</label>
+                        <div class="input-group subclass_input">
+                          <div class="input-group-btn">
+                            <input type="text" class="form-control" aria-label="..." id="class">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                              <li><a href="#">数学</a></li>
+                              <li><a href="#">语文</a></li>
+                              <li><a href="#">自然</a></li>
+                              <li role="separator" class="divider"></li>
+                              <li><a href="#">地理</a></li>
+                            </ul>
+                          </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </div>
+
+                    <div class="form-row">
+                        <label for="class" class="grand_label">授课年级</label>
+                        <div class="grand_input">
+                            <button class="btn btn-default grand_button">小学二年级 <i class="glyphicon glyphicon-remove-sign"></i></button>
+                            <button class="btn btn-default grand_add"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-default submit_button">提交</button>
+                </form>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}
