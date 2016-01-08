@@ -49,4 +49,21 @@ extension UIButton {
         sizeToFit()
     }
     
+    ///  Convenience to Create UIButton With Title, TitleColor and BackgroundColor
+    ///  FontSize is Default to 16
+    ///  
+    ///  - parameter title:           String for Title
+    ///  - parameter titleColor:      UIColor for TitleColor
+    ///  - parameter backgroundColor: UIColor for BackgroundColor
+    ///
+    ///  - returns: UIButton
+    convenience init(title: String, titleColor: UIColor? = nil, backgroundColor: UIColor? = nil) {
+        self.init()
+        setTitle(title, forState: .Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(16)
+        setTitleColor(titleColor, forState: .Normal)
+        self.backgroundColor = backgroundColor
+        sizeToFit()
+    }
+    
 }

@@ -20,10 +20,17 @@ private let TeacherDetailsCellReuseId = [
     8: "TeacherDetailsPriceCellReuseId"
 ]
 
-class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelegate {
+class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
 
     // MARK: - Variables
     var model: TeacherDetailModel?
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth,
+            height: MalaScreenHeight - MalaLayout_DetailBottomViewHeight), style: .Grouped)
+        tableView.contentInset = UIEdgeInsets(top: MalaLayout_DetailBottomViewHeight, left: 0, bottom: -20, right: 0)
+        return tableView
+    }()
     
     private lazy var headerBackground: UIImageView = {
         let image = UIImageView(image: UIImage(named: "headerBackground"))
@@ -31,27 +38,30 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
         return image
     }()
     
+    private lazy var signupView: TeacherDetailsSignupView = {
+        let signupView = TeacherDetailsSignupView(frame: CGRect(x: 0, y: 0,
+            width: MalaScreenWidth, height: MalaLayout_DetailBottomViewHeight))
+        return signupView
+    }()
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.registerClass(TeacherDetailsSubjectCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[0]!)
-        tableView.registerClass(TeacherDetailsTagsCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[1]!)
-        tableView.registerClass(TeacherDetailsHighScoreCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[2]!)
-        tableView.registerClass(TeacherDetailsPhotosCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[3]!)
-        tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
-        tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
-        tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
-        tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
-        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
+        setupTableHeaderView()
+        setupSignupView()
+        setupTableView()
+        
+        // Active Pop GestureRecognizer
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         setupConfig()
-        setupTableHeaderView()
         
         // setup style
         tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
@@ -64,10 +74,10 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
         // setup headerImage
         tableView.insertSubview(headerBackground, atIndex: 0)
         headerBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(0).offset(-64)
-            make.left.equalTo(0)
+            make.top.equalTo(0).offset(-malaScreenNaviHeight)
+            make.centerX.equalTo(self.tableView.snp_centerX)
             make.width.equalTo(MalaScreenWidth)
-            make.height.equalTo(200)
+            make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
         }
         
     }
@@ -86,35 +96,60 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
     // MARK: - Private Method
     private func setupConfig() {
         tableView.estimatedRowHeight = 240
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"), style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
-        
-        // Active Pop GestureRecognizer
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"),
+            style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
     }
     
     private func setupTableHeaderView() {
         
-        let headerView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
+        let headerView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0,
+            width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
         headerView.avatar = (model?.avatar) ?? ""
         headerView.name = (model?.name) ?? "---"
         headerView.gender = (model?.gender) ?? "m"
         headerView.teachingAge = (model?.teaching_age) ?? 0
-        
         tableView.tableHeaderView = headerView
+    }
+    
+    private func setupSignupView() {
+        view.addSubview(signupView)
+        signupView.delegate = self
+        signupView.snp_makeConstraints(closure: { (make) -> Void in
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
+            make.bottom.equalTo(self.view.snp_bottom)
+            make.height.equalTo(MalaLayout_DetailBottomViewHeight)
+        })
+    }
+    
+    private func setupTableView() {
+        view.addSubview(tableView)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.registerClass(TeacherDetailsSubjectCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[0]!)
+        tableView.registerClass(TeacherDetailsTagsCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[1]!)
+        tableView.registerClass(TeacherDetailsHighScoreCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[2]!)
+        tableView.registerClass(TeacherDetailsPhotosCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[3]!)
+        tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
+        tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
+        tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
+        tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
+        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
     }
     
     
     // MARK: - DataSource
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 9
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
         (reuseCell as! TeacherDetailsBaseCell).title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
@@ -127,12 +162,12 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            cell.labels = []//set
+            cell.labels = set
             return cell
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = []//self.model?.tags
+            cell.labels = self.model?.tags
             return cell
             
         case 2:
@@ -147,7 +182,7 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = []//self.model?.certificate_set
+            cell.labels = self.model?.certificate_set
             return cell
             
         case 5:
@@ -160,7 +195,7 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = []//[(self.model?.level)!]
+            cell.labels = [(self.model?.level)!]
             return cell
             
         case 8:
@@ -174,19 +209,35 @@ class TeacherDetailsController: UITableViewController, UIGestureRecognizerDelega
         return reuseCell
     }
     
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
     }
 
     
     // MARK: - Deleagte
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 8.0 : 4.0
+    func signupButtonDidTap(sender: UIButton) {
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
     }
     
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 4.0
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let displacement = scrollView.contentOffset.y
+        
+        if displacement < -malaScreenNaviHeight {
+            headerBackground.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(0).offset(displacement)
+                // 1.1 for variety rate
+                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+malaScreenNaviHeight)*1.1)
+            })
+        }
     }
     
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? MalaLayout_Margin_4*2 : MalaLayout_Margin_4
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return MalaLayout_Margin_4
+    }
     
 }

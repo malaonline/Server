@@ -112,7 +112,7 @@ class LoginViewController: UIViewController {
             make.left.equalTo(self.view.snp_left).offset(margin)
             make.right.equalTo(self.view.snp_right).offset(-margin)
             make.top.equalTo(self.numberTextField.snp_bottom).offset(5)
-            make.height.equalTo(1/UIScreen.mainScreen().scale)
+            make.height.equalTo(MalaScreenOnePixel)
         }
         
         checkLabel.snp_makeConstraints { (make) -> Void in
@@ -138,7 +138,7 @@ class LoginViewController: UIViewController {
             make.left.equalTo(self.view.snp_left).offset(margin)
             make.right.equalTo(self.view.snp_right).offset(-margin)
             make.top.equalTo(self.checkTextField.snp_bottom).offset(5)
-            make.height.equalTo(1/UIScreen.mainScreen().scale)
+            make.height.equalTo(MalaScreenOnePixel)
         }
         
         verifyButton.snp_makeConstraints { (make) -> Void in

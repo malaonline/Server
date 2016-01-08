@@ -41,16 +41,16 @@ class MATabListView: UIView {
             label.textColor = MalaDetailsCellLabelColor
             label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
             label.text = string
-            var size = (string as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(MalaLayout_FontSize_12)])
+            var size = (string as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(MalaLayout_FontSize_14)])
             size.width += LabelMargin
             
             var newRect = CGRectZero
             // the new label can't added to this line
-            if previousFrame.origin.x + previousFrame.size.width + size.width + LabelMargin > self.bounds.size.width {
+            if CGRectGetMaxX(previousFrame) + size.width > self.bounds.size.width {
                 newRect.origin = CGPoint(x: 0, y: previousFrame.origin.y + size.height + BottomMargin)
                 totalHeight += size.height + BottomMargin
             }else {
-                newRect.origin = CGPoint(x: previousFrame.origin.x + previousFrame.size.width, y: previousFrame.origin.y)
+                newRect.origin = CGPoint(x: CGRectGetMaxX(previousFrame), y: previousFrame.origin.y)
             }
             
             newRect.size = size

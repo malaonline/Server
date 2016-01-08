@@ -22,9 +22,10 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
                 placeholderImage: nil)
         }
     }
+    
     private lazy var leftPhoto: UIImageView = UIImageView.placeHolder()
-    var centerPhoto: UIImageView = UIImageView.placeHolder()
-    var rightPhoto: UIImageView = UIImageView.placeHolder()
+    private lazy var centerPhoto: UIImageView = UIImageView.placeHolder()
+    private lazy var rightPhoto: UIImageView = UIImageView.placeHolder()
     
     // MARK: - Life Cycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -41,12 +42,12 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
+
         // SubViews
         content.addSubview(leftPhoto)
         content.addSubview(centerPhoto)
         content.addSubview(rightPhoto)
-        
+
         // Autolayout
         leftPhoto.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)
@@ -67,7 +68,6 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
             make.height.equalTo(self.centerPhoto.snp_height)
             make.right.equalTo(self.content.snp_right)
         }
-        
     }
 
 }

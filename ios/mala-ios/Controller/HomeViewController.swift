@@ -110,7 +110,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                 return
             }
             
-            let viewController = TeacherDetailsController(style: .Grouped)
+            let viewController = TeacherDetailsController()
             
             // TODO: set Test Model
             let model = TeacherDetailModel()
@@ -143,6 +143,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
             
             
             viewController.model = model   // TeacherDetailModel(dict: dict)
+            viewController.hidesBottomBarWhenPushed = true
             self?.navigationController?.pushViewController(viewController, animated: true)
         })
         
