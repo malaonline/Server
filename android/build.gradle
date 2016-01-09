@@ -15,6 +15,9 @@ allprojects {
     repositories {
         jcenter()
     }
+    repositories {
+        mavenCentral()
+    }
 }
 
 task clean(type: Delete) {
