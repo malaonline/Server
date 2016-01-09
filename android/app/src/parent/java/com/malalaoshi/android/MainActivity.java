@@ -3,22 +3,19 @@ package com.malalaoshi.android;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.view.MotionEvent;
 
+import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterDialogFragment;
 import com.malalaoshi.android.fragments.LoginFragment;
@@ -35,9 +32,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private  List<Teacher> teachersList = new ArrayList<Teacher>();
 
     private NetworkStateReceiver mNetworkStateReceiver;
