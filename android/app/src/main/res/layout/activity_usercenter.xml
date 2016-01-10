@@ -1,98 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="#E97777"
-        android:paddingLeft="16dp">
+        android:paddingLeft="12dp">
 
         <ImageView
             android:id="@+id/iv_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@android:drawable/ic_delete" />
+            android:src="@drawable/ic_user_close" />
 
         <TextView
+            style="@style/mala.widget.usercenter.title.text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_quit"
-            android:paddingLeft="4dp"
+            android:layout_centerInParent="true"
             android:text="验证" />
     </RelativeLayout>
 
-    <EditText
-        android:layout_below="@id/rl_title"
-        android:id="@+id/et_Phone"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:hint="手机号" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
+        android:background="@color/usercenter_main_bk"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_code"
-        android:layout_below="@id/et_Phone"
-        android:layout_width="match_parent"
-        android:layout_height="70dp">
-
-        <EditText
-            android:id="@+id/et_code"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:hint="验证码" />
+            android:layout_height="1px"
+            android:background="#e5e5e5" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#fff"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp">
+
+            <EditText
+                android:id="@+id/et_Phone"
+                style="@style/mala.widget.usercenter.edit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_toLeftOf="@+id/tv_warn_phone"
+                android:drawableLeft="@drawable/ic_user_phone"
+                android:drawablePadding="10dp"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11" />
+
+            <TextView
+                android:id="@+id/tv_warn_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="4dp"
+                android:layout_toLeftOf="@+id/btn_fetch_code"
+                android:drawableLeft="@drawable/ic_user_warn"
+                android:drawablePadding="2dp"
+                android:text="手机号不正确"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/btn_fetch_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_fetch_verify_code_bk"
+                android:padding="8dp"
+                android:text="获取验证码"
+                android:textColor="@drawable/btn_fetch_verify_code_bk"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e5e5e5" />
+
+        <RelativeLayout
+            android:id="@+id/rl_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_Phone"
+            android:background="#fff"
+            android:paddingLeft="14dp"
+            android:paddingRight="12dp">
+
+            <EditText
+                android:id="@+id/et_code"
+                style="@style/mala.widget.usercenter.edit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_toLeftOf="@+id/tv_warn"
+                android:drawableLeft="@drawable/ic_user_code"
+                android:drawablePadding="10dp"
+                android:inputType="number"
+                android:hint="验证码" />
+
+            <TextView
+                android:id="@+id/tv_warn"
+                style="@style/mala.widget.usercenter.warn.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_user_warn"
+                android:drawablePadding="2dp"
+                android:gravity="center"
+                android:text="验证码错误"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e5e5e5" />
 
         <TextView
-            android:id="@+id/tv_fetch_code"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_verify"
+            style="@style/mala.widget.usercenter.button"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/usercenter_blue_btn_bk"
+            android:enabled="false"
+            android:text="@string/usercenter_verify" />
+
+        <TextView
+            android:id="@+id/tv_user_agree"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="18dp"
-            android:layout_marginRight="16dp"
-            android:text="获取验证码"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textColor="#939393"
             android:textSize="12sp" />
-    </RelativeLayout>
 
-    <Button
-        android:layout_below="@id/rl_code"
-        android:id="@+id/btn_verify"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
-        android:text="验证" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="14dp"
-        android:textColor="#222"
-        android:layout_above="@+id/btn_user_protocal"
-        android:text="轻触上面验证按钮,即表示您同意"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/btn_user_protocal"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:textSize="12dp"
-        android:textColor="#2244ff"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/user_protocol"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+    </LinearLayout>
+</merge>

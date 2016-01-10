@@ -88,8 +88,6 @@
     <string name="do_filter">Search</string>
 
     <string name="currency_unit">yuan</string>
-
-    <string name="user_protocol">Mala teacher user protocal</string>
     <string name="class_pricelist">Price List</string>
     <string name="member_services">Member service</string>
     <string name="sign_up">Sign up</string>
@@ -105,5 +103,13 @@
     <string name="highscore_school">school</string>
     <string name="highscore_increasedscores">section</string>
     <string name="highscore_admittedto">target</string>
-
+    <string name="usercenter_touch_protocol">Tap the above verify button means you are agreeing to the</string>
+    <string name="usercenter_user_agreement">Mala teachers user agreement</string>
+    <string name="usercenter_set_student_succeed">Set name succeed</string>
+    <string name="usercenter_set_student_failed">Set name failed</string>
+    <string name="usercenter_verify_code_sent">Verify code has sent</string>
+    <string name="seconds_count_down">%ds seconds</string>
+    <string name="usercenter_fetch_verify_code">Fetch verify code</string>
+    <string name="usercenter_fetch_code_failed">Fetch verify code failed</string>
+    <string name="usercenter_verify">Verify</string>
 </resources>

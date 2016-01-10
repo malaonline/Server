@@ -1,0 +1,105 @@
+package com.malalaoshi.android.net;
+
+import android.util.Log;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.malalaoshi.android.MalaApplication;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Network sender
+ * Created by tianwei on 1/3/16.
+ */
+public class NetworkSender {
+    private static final String URL_FETCH_VERIFY_CODE = "/api/v1/sms/";
+    private static final String URL_GET_USER_POLICY = "/api/v1/policy/";
+    private static final String URL_SAVE_CHILD_NAME = "/api/v1/parent/";
+
+    public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
+        postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
+    }
+
+    private static void postStringRequest(String url, final Map<String, String> params, final NetworkListener listener) {
+        stringRequest(Request.Method.POST, url, params, listener);
+    }
+
+    private static void stringRequest(int method, String url,
+                                      final Map<String, String> params, final NetworkListener listener) {
+        url = MalaApplication.getInstance().getMalaHost() + url;
+        RequestQueue queue = MalaApplication.getHttpRequestQueue();
+        StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (listener != null) {
+                    listener.onSucceed(s);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (listener != null) {
+                    listener.onFailed(volleyError);
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
+        queue.add(request);
+    }
+
+    private static void jsonRequest(int method, String url, final Map<String, String> headers,
+                                    JSONObject json, final NetworkListener listener) {
+        Log.i("AABB", json.toString());
+        url = MalaApplication.getInstance().getMalaHost() + url;
+        RequestQueue queue = MalaApplication.getHttpRequestQueue();
+        JsonObjectRequest request = new JsonObjectRequest(method, url, json, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                listener.onSucceed(jsonObject);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                listener.onFailed(volleyError);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Log.i("AABB", headers.toString());
+                return headers;
+            }
+        };
+        queue.add(request);
+    }
+
+    private static void getStringRequest(String url, final Map<String, String> params, final NetworkListener listener) {
+        stringRequest(Request.Method.GET, url, params, listener);
+    }
+
+    public static void getUserProtocol(NetworkListener listener) {
+        getStringRequest(URL_GET_USER_POLICY, new HashMap<String, String>(), listener);
+    }
+
+    public static void saveChildName(JSONObject params, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
+        //TODO tianwei Waiting for sms verification api to get parentId
+        String parentId = "22/";
+        jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME + parentId, headers, params, listener);
+    }
+}

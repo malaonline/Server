@@ -37,4 +37,9 @@
     <color name="teacher_list_price">#dcffffff</color>
     <color name="teacher_list_teacher_name">#dc000000</color>
     <color name="teacher_list_teacher_subject">#e8413e</color>
+
+    <color name="usercenter_btn_disable">#eee0e0e0</color>
+    <color name="usercenter_main_bk">#ededed</color>
+    <color name="usercenter_main_blue">#8dbedf</color>
+    <color name="usercenter_main_blue_press">#6badbc</color>
 </resources>
