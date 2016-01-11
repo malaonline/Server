@@ -4,31 +4,27 @@
 
 {% block content %}
     <form name="query_form">
-        姓名 <input type="text" name="name" />
-        手机号 <input type="number" name="phone" />
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
         状态
         <select name="status">
-            <option selected="" value="全部">全部</option>
-            <option value="待处理">待处理</option>
-            <option value="初选淘汰">初选淘汰</option>
-            <option value="邀约面试">邀约面试</option>
-            <option value="面试通过">面试通过</option>
-            <option value="面试失败">面试失败</option>
+            <option value="">全部</option>
+            {% for val,text in status_choices %}
+                <option value="{{ val }}" {% if val|stringformat:"i" == query_data.status %} selected="selected"{% endif %}>{{ text }}</option>
+            {% endfor %}
         </select>
 
         注册日期
-        <select name="reg_date_from">
-            <option>2015-09-01</option>
-        </select>
+        <input type="text" name="reg_date_from" value="{{ query_data.reg_date_from }}" />
          -
-        <select name="reg_date_to">
-            <option>2016-01-01</option>
-        </select>
+        <input type="text"  name="reg_date_to" value="{{ query_data.reg_date_to }}" />
 
         所在地区
-        <select name="area">
-            <option>洛阳</option>
-            <option>其他</option>
+        <select name="region">
+            <option value="">全部</option>
+            {% for region in region_list %}
+                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
+            {% endfor %}
         </select>
 
         <input type="submit" value="查询"/>
