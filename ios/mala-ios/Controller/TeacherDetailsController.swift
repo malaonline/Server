@@ -162,16 +162,17 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            cell.labels = set
+            cell.labels = [] // set
             return cell
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = self.model?.tags
+            cell.labels = [] // self.model?.tags
             return cell
             
         case 2:
             let cell = reuseCell as! TeacherDetailsHighScoreCell
+            cell.model = self.model!.highscore_set!
             return cell
             
         case 3:
@@ -182,7 +183,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = self.model?.certificate_set
+            cell.labels = [] // self.model?.certificate_set
             return cell
             
         case 5:
@@ -195,11 +196,13 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [(self.model?.level)!]
+            cell.labels = [] // [(self.model?.level)!]
             return cell
             
         case 8:
             let cell = reuseCell as! TeacherDetailsPriceCell
+            cell.accessory = .SubTitle
+            cell.prices = self.model!.prices
             return cell
             
         default:

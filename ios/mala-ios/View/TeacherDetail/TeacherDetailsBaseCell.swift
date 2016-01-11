@@ -20,7 +20,11 @@ class TeacherDetailsBaseCell: UITableViewCell {
     }()
     
     /// String for subTitle
-    var subTitle: String?
+    var subTitle: String? {
+        didSet {
+            subTitleLabel.text = subTitle
+        }
+    }
     
     /// Custom accessoryView at the right corner
     var accessory: TeacherDetailsCellAccessoryType {
@@ -41,7 +45,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
             case .SubTitle:
                 contentView.addSubview(subTitleLabel)
                 subTitleLabel.snp_makeConstraints(closure: { (make) -> Void in
-                    make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
+                    make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_16)
                     make.left.equalTo(self.title.snp_right).offset(MalaLayout_Margin_10)
                     make.height.equalTo(self.title.snp_height)
                     make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
@@ -100,7 +104,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
         label.textColor = MalaDetailsCellSubTitleColor
-        label.textAlignment = .Left
+        label.textAlignment = .Right
         return label
     }()
     

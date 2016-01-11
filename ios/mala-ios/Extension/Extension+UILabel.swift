@@ -21,4 +21,15 @@ extension UILabel {
         self.sizeToFit()
     }
     
+    ///  convenience to create a UILabel With textColor:#939393 and FontSize: 12
+    ///
+    ///  - returns: UILabel
+    class func subTitleLabel() -> UILabel {
+        let label = UILabel()
+        label.textColor = MalaDetailsCellSubTitleColor
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.textAlignment = .Center
+        return label
+    }
+    
 }

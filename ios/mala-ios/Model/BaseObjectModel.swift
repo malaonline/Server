@@ -14,6 +14,11 @@ class BaseObjectModel: NSObject {
     var id: Int = 0
     var name: String?
     
+    convenience init(id: Int, name: String) {
+        self.init()
+        self.id = id
+        self.name = name
+    }
     
     // MARK: - Constructed
     override init() {

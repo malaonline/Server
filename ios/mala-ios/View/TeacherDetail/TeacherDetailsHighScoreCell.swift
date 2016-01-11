@@ -10,13 +10,50 @@ import UIKit
 
 class TeacherDetailsHighScoreCell: TeacherDetailsBaseCell {
 
+    // MARK: - Variables
+    var model: [HighScoreModel] {
+        didSet {
+            tableView.model = model
+            tableView.snp_updateConstraints { (make) -> Void in
+                make.height.equalTo(Int(MalaLayout_DeatilHighScoreTableViewCellHeight) * (model.count+1))
+            }
+        }
+    }
+    
+    
+    // MARK: - Components
+    private lazy var tableView: TeacherDetailsHighScoreTableView = {
+        let tableView = TeacherDetailsHighScoreTableView(frame: CGRectZero, style: .Plain)
+        return tableView
+    }()
+    
+    
     // MARK: - Life Cycle
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        self.model = []
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUserInterface()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    
+    // MARK: - Private Methodí
+    private func setupUserInterface() {
+        
+        // SubViews
+        content.addSubview(tableView)
+        
+        // Autolayout
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.content.snp_top)
+            make.left.equalTo(self.content.snp_left)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.right.equalTo(self.content.snp_right)
+        }
+        
+    }
+    
 }
