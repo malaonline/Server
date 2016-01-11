@@ -164,7 +164,10 @@ class Sms(View):
                 first_login = not parent.student_name
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
-                return JsonResponse({'verified': True, 'first_login': first_login, 'token': token.key})
+                return JsonResponse({'verified': True,
+                    'first_login': first_login, 'token': token.key,
+                    'parent_id': parent.id})
+
             except Exception as err:
                 print (err)
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
