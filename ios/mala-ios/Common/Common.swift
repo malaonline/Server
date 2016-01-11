@@ -67,6 +67,7 @@ let MalaLayout_VipIconSize: CGFloat = 15.0
 let MalaLayout_DetailHeaderLayerHeight: CGFloat = 100.0
 let MalaLayout_DetailHeaderHeight: CGFloat = 106.0
 let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
+let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0

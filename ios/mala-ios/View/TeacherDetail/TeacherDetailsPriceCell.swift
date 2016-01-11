@@ -20,7 +20,6 @@ class TeacherDetailsPriceCell: TeacherDetailsBaseCell {
     // MARK: - Components
     private lazy var tableView: TeacherDetailsPriceTableView = {
         let tableView = TeacherDetailsPriceTableView(frame: CGRectZero, style: .Plain)
-        
         return tableView
     }()
     

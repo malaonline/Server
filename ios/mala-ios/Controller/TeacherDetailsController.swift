@@ -172,6 +172,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 2:
             let cell = reuseCell as! TeacherDetailsHighScoreCell
+            cell.model = self.model!.highscore_set!
             return cell
             
         case 3:
