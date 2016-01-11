@@ -29,15 +29,6 @@ def logout(request):
     auth.logout(request)
     return redirect('staff:login')
 
-@mala_staff_required
-def students(request):
-    context = {'parents': models.Parent.objects.all,
-               'centers': models.School.objects.filter(center=True),
-               'grades': models.Grade.objects.all,
-               'subjects': models.Subject.objects.all,
-               }
-    return render(request, 'staff/students.html', context)
-
 @require_POST
 def login_auth(request):
     username = request.POST.get('username')
@@ -73,3 +64,13 @@ class TeacherView(BaseStaffView):
     def get_context_data(self, **kwargs):
         kwargs['teachers'] = models.Teacher.objects.all
         return super(TeacherView, self).get_context_data(**kwargs)
+
+class StudentView(BaseStaffView):
+    template_name = 'staff/student/students.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['parents'] = models.Parent.objects.all
+        kwargs['centers'] = models.School.objects.filter(center=True)
+        kwargs['grades'] = models.Grade.objects.all
+        kwargs['subjects'] = models.Subject.objects.all
+        return super(StudentView, self).get_context_data(**kwargs)
