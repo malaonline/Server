@@ -10,12 +10,12 @@ import UIKit
 
 private let TeacherDetailsPriceTableViewCellReuseId = "TeacherDetailsPriceTableViewCellReuseId"
 
-class TeacherDetailsPriceTableView: UITableView {
+class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Variables
     var prices: [GradePriceModel] {
         didSet {
-            
+            reloadData()
         }
     }
     
@@ -24,7 +24,15 @@ class TeacherDetailsPriceTableView: UITableView {
     override init(frame: CGRect, style: UITableViewStyle) {
         self.prices = []
         super.init(frame: frame, style: style)
+        
+        delegate = self
+        dataSource = self
         registerClass(TeacherDetailsPriceTableViewCell.self, forCellReuseIdentifier: TeacherDetailsPriceTableViewCellReuseId)
+        
+        // Style
+        estimatedRowHeight = 60
+        scrollEnabled = false
+        separatorColor = MalaDetailsButtonBorderColor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,6 +47,10 @@ class TeacherDetailsPriceTableView: UITableView {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsPriceTableViewCellReuseId, forIndexPath: indexPath)
+        (cell as! TeacherDetailsPriceTableViewCell).price = prices[indexPath.row]
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
     
@@ -55,7 +67,8 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     // MARK: - Variables
     var price: GradePriceModel? {
         didSet {
-            
+            subjectLabel.text = price!.grade!.name
+            priceLabel.text = String(format: "¥%d/课时", price!.price!)
         }
     }
     
@@ -63,7 +76,8 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     // MARK: - Components
     private lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
-        
+        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        subjectLabel.textColor = MalaDetailsCellLabelColor
         return subjectLabel
     }()
     
@@ -83,7 +97,8 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     private lazy var signupButton: UIButton = {
         let signupButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 22))
         signupButton.setTitle("报名", forState: .Normal)
-        signupButton.titleLabel?.textColor = MalaDetailsButtonBlueColor
+        signupButton.setTitleColor(MalaDetailsButtonBlueColor, forState: .Normal)
+        signupButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         signupButton.layer.cornerRadius = 3.0
         signupButton.layer.masksToBounds = true
         signupButton.layer.borderWidth = MalaScreenOnePixel
@@ -105,7 +120,7 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-    
+        
         // SubView
         contentView.addSubview(subjectLabel)
         contentView.addSubview(priceLabel)
@@ -114,14 +129,14 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
         
         // Autolayout
         subjectLabel.snp_makeConstraints(closure: { (make) -> Void in
+            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_14)
             make.left.equalTo(self.contentView.snp_left)
             make.right.equalTo(self.contentView.snp_right)
-            make.top.equalTo(self.contentView.snp_top)
             make.height.equalTo(MalaLayout_FontSize_14)
         })
         priceLabel.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(self.subjectLabel.snp_bottom).offset(MalaLayout_Margin_13)
-            make.left.equalTo(self.contentView.snp_left)
+            make.left.equalTo(self.subjectLabel.snp_left)
             make.height.equalTo(MalaLayout_FontSize_14)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
         })
@@ -132,11 +147,10 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
         })
         signupButton.snp_makeConstraints(closure: { (make) -> Void in
             make.width.equalTo(40)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.height.equalTo(22)
             make.right.equalTo(self.contentView.snp_right)
             make.bottom.equalTo(self.priceLabel.snp_bottom)
         })
-        
     }
     
 }

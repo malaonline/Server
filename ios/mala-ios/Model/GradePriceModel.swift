@@ -22,8 +22,8 @@ class GradePriceModel: NSObject {
     
     convenience init(name: String, id: Int, price: Int) {
         self.init()
-        self.grade?.name = name
-        self.grade?.id = id
+        let grade = BaseObjectModel(id: id, name: name)
+        self.grade = grade
         self.price = price
     }
     
