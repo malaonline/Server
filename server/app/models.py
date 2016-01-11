@@ -130,6 +130,13 @@ class Teacher(BaseModel):
         ('b', '本科'),
         ('p', '研究生'),
     )
+    STATUS_CHOICES = (
+        (1, '待处理'),
+        (2, '初选淘汰'),
+        (3, '邀约面试'),
+        (4, '面试通过'),
+        (5, '面试失败'),
+    )
     user = models.OneToOneField(User)
     name = models.CharField(max_length=200)
     degree = models.CharField(max_length=2,
@@ -144,6 +151,9 @@ class Teacher(BaseModel):
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
+
+    region = models.ForeignKey(Region, null=True, blank=True, limit_choices_to={'opened': True})
+    status = models.IntegerField(default=1, choices=STATUS_CHOICES)
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
