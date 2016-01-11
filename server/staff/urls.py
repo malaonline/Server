@@ -7,6 +7,6 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^login/auth/$', views.login_auth, name="login_auth"),
     url(r'^logout/$', views.logout, name="logout"),
-    url(r'^students/$', views.students, name="students"),
+    url(r'^students/$', views.StudentView.as_view(), name="students"),
     url(r'^teachers/$', views.TeacherView.as_view(), name="teachers"),
 ]
