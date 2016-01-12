@@ -57,9 +57,6 @@ class TeacherDetailsHighScoreTableView: UITableView, UITableViewDelegate, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsHighScoreTableViewCellReuseId, forIndexPath: indexPath)
         (cell as! TeacherDetailsHighScoreTableViewCell).model = model[indexPath.row]
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
     
@@ -153,11 +150,7 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
             make.height.equalTo(MalaScreenOnePixel)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
-        
-//        nameLabel.backgroundColor = UIColor.redColor()
-//        scoresLabel.backgroundColor = UIColor.blueColor()
-//        schoolLabel.backgroundColor = UIColor.brownColor()
-//        admittedLabel.backgroundColor = UIColor.orangeColor()
+
     }
     
     
