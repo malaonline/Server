@@ -190,10 +190,10 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
         },
-        'django.db.backends':{
-            'handlers': ['file'],
-            'level': 'DEBUG'
-        }
+        # 'django.db.backends':{
+        #     'handlers': ['file'],
+        #     'level': 'DEBUG'
+        # }
     }
 }
 

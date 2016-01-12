@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 # django modules
 from django.shortcuts import render, redirect
@@ -62,9 +63,41 @@ class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['teachers'] = models.Teacher.objects.all
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        #
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        status = self.request.GET.get('status')
+        reg_date_from = self.request.GET.get('reg_date_from')
+        reg_date_to = self.request.GET.get('reg_date_to')
+        region = ''#self.request.GET.get('region')
+        query_set = models.Teacher.objects.filter()
+        if name:
+            query_set = query_set.filter(name__icontains = name)
+        if phone:
+            query_set = query_set.filter(user__profile__phone__contains = phone)
+        if status and status.isdigit():
+            query_set = query_set.filter(status = status)
+        if reg_date_from:
+            try:
+                date_from = datetime.datetime.strptime(reg_date_from, '%Y-%m-%d')
+                query_set = query_set.filter(user__date_joined__gte = date_from)
+            except:
+                pass
+        if reg_date_to:
+            try:
+                date_to = datetime.datetime.strptime(reg_date_to, '%Y-%m-%d')
+                query_set = query_set.filter(user__date_joined__lte = date_to)
+            except:
+                pass
+        if region and region.isdigit():
+            query_set = query_set.filter(region_id = region)
+        kwargs['teachers'] = query_set
+        # 一些固定数据
+        kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
+        kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
-
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 
