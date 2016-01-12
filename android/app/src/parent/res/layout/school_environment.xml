@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="gone"
-    android:id="@+id/ll_school_environment"
-    >
+    style="@style/AppWidget.listLayout">
+
     <TextView
-        android:text="@string/teaching_environment"
-        android:padding="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ListView
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/teacher_body_prices_padding_bottom"
+        android:text="@string/teaching_environment"
+        android:textColor="@color/teacher_title_text_color"
+        android:textSize="@dimen/text_size_large_x" />
+
+    <com.malalaoshi.android.view.ScrollListView
         android:id="@+id/listview_school"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:divider="@color/backgrounp"
+        android:dividerHeight="@dimen/list_divider"
+        android:listSelector="#00000000">
 
-    </ListView>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp" />
+    </com.malalaoshi.android.view.ScrollListView>
 
     <LinearLayout
         android:id="@+id/ll_school_more"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_school_more"
+        <View
+            style="@style/AppWidget.ItemDivider"
+            android:layout_height="@dimen/list_divider" />
+
+        <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
-            android:drawableRight="@drawable/ic_sync_black_24dp"
-            android:padding="10dp"
-            android:text="离你最近的学习中心的距离是10km"
-            android:layout_marginBottom="1dp"/>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/teacher_body_padding_bottom_normal"
+            android:paddingTop="@dimen/teacher_body_padding_top_normal">
+
+            <TextView
+                android:id="@+id/tv_school_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_divider_margin_normal"
+                android:text="离你最近的学习中心的距离是10km"
+                android:textColor="@color/item_text_color_normal"
+                android:textSize="@dimen/text_size_large" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_drop_down" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

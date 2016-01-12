@@ -88,12 +88,14 @@
     <string name="do_filter">Search</string>
 
     <string name="currency_unit">yuan</string>
+
+    <string name="user_protocol">Mala teacher user protocal</string>
     <string name="class_pricelist">Price List</string>
     <string name="member_services">Member service</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up_immediately">Sign up</string>
     <string name="teacher_gallery">gallery</string>
     <string name="teacher_highscore">High score list</string>
-    <string name="teacher_level">Age and level</string>
+    <string name="teacher_level">Level</string>
     <string name="teacher_more_gallery">more</string>
     <string name="teacher_teaching_tag">tag</string>
     <string name="teaching_environment">Teaching environment</string>
@@ -112,4 +114,6 @@
     <string name="usercenter_fetch_verify_code">Fetch verify code</string>
     <string name="usercenter_fetch_code_failed">Fetch verify code failed</string>
     <string name="usercenter_verify">Verify</string>
+    <string name="sign_up">Sign up</string>
+
 </resources>

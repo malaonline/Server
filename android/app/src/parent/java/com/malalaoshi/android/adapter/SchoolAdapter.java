@@ -76,8 +76,8 @@ public class SchoolAdapter extends BaseAdapter {
         String imgUrl = data.getThumbnail();
         if (imgUrl != null && !imgUrl.equals("")) {
 
-            viewHolder.ivSchoolPic.setDefaultImageResId(R.drawable.ic_back);
-            viewHolder.ivSchoolPic.setErrorImageResId(R.drawable.ic_close);
+            viewHolder.ivSchoolPic.setDefaultImageResId(R.mipmap.ic_launcher);
+            viewHolder.ivSchoolPic.setErrorImageResId(R.mipmap.ic_launcher);
             viewHolder.ivSchoolPic.setImageUrl(imgUrl, imageLoader);
 
         }

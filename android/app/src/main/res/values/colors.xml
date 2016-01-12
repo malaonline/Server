@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
 
     <color name="item_background">#ece6e6</color>
 
@@ -38,8 +39,19 @@
     <color name="teacher_list_teacher_name">#dc000000</color>
     <color name="teacher_list_teacher_subject">#e8413e</color>
 
+
     <color name="usercenter_btn_disable">#eee0e0e0</color>
     <color name="usercenter_main_bk">#ededed</color>
     <color name="usercenter_main_blue">#8dbedf</color>
     <color name="usercenter_main_blue_press">#6badbc</color>
+
+    <color name="button_border">#82B4D9</color>
+    <color name="prices_name_text_color">#939393</color>
+    <color name="prices_price_text_color">#e26254</color>
+    <color name="teacher_title_text_color">#333333</color>
+    <color name="item_text_color_normal">#636363</color>
+    <color name="toolbar_color">#88ffffff</color>
+
+    <color name="backgrounp">#F6F6F6</color>
+
 </resources>

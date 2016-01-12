@@ -49,26 +49,29 @@
 
     <string name="no_data">暂无数据</string>
 
-    <string name="do_filter">筛选</string>
+	<string name="do_filter">筛选</string>
+	
+	<string name="currency_unit">元</string>
 
-    <string name="currency_unit">元</string>
+	<!-- 教师详情 -->
+	<string name="sign_up_immediately">马上报名</string>
+	<string name="teacher_teaching_subject">教授科目</string>
+	<string name="teacher_teaching_tag">风格标签</string>
+	<string name="teaching_environment">教学环境</string>
+	<string name="teacher_highscore">提分榜</string>
+	<string name="teacher_gallery">个人相册</string>
+	<string name="teacher_more_gallery">更多</string>
+	<string name="teacher_certificate">特殊成就</string>
+	<string name="member_services">会员服务</string>
+	<string name="teacher_level">级别</string>
+	<string name="class_pricelist">价格表</string>
+	<string name="highscore_name">姓 名</string>
+	<string name="highscore_increasedscores">提分区间</string>
+	<string name="highscore_school">所在学校</string>
+	<string name="highscore_admittedto">考入学校</string>
+	<string name="sign_up">报名</string>
 
-    <!-- 教师详情 -->
-    <string name="sign_up">马上报名</string>
-    <string name="teacher_teaching_subject">教学科目</string>
-    <string name="teacher_teaching_tag">风格标签</string>
-    <string name="teaching_environment">教学环境</string>
-    <string name="teacher_highscore">提分榜</string>
-    <string name="teacher_gallery">个人相册</string>
-    <string name="teacher_more_gallery">更多</string>
-    <string name="teacher_certificate">特殊成就</string>
-    <string name="member_services">会员服务</string>
-    <string name="teacher_level">教龄 | 级别</string>
-    <string name="class_pricelist">价格表</string>
-    <string name="highscore_name">姓名</string>
-    <string name="highscore_increasedscores">辅导提分区间</string>
-    <string name="highscore_school">所在学校</string>
-    <string name="highscore_admittedto">考入学校</string>
+    
     <string name="usercenter_touch_protocol">轻触上面验证按钮,即表示您同意</string>
     <string name="usercenter_user_agreement">麻辣教师用户协议</string>
     <string name="usercenter_set_student_succeed">设置学生姓名成功</string>
@@ -79,4 +82,5 @@
     <string name="usercenter_fetch_code_failed">验验证码发送失败，请稍候重试！</string>
     <string name="usercenter_verify">验证</string>
 
+	<string name="user_protocol">《麻辣教户协议》</string>
 </resources>

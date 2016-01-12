@@ -20,11 +20,28 @@ public class HighScoreAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private Context mContext;
 
+    private final int LIST_TITLE = 0;
+    private final int LIST_ITEM  = 1;
     public HighScoreAdapter(Context context, List<HighScore> list){
         layoutInflater = LayoutInflater.from(context);
         highScores = list;
         mContext = context;
     }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position==0){
+            return LIST_TITLE;
+        }else{
+            return LIST_ITEM;
+        }
+    }
+
     @Override
     public int getCount() {
         return highScores.size();
@@ -42,23 +59,28 @@ public class HighScoreAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        int type = getItemViewType(position);
         ViewHolder viewHolder = null;
         if (convertView==null){
-            convertView = layoutInflater.inflate(R.layout.highscore_list_item,null);
-            viewHolder = new ViewHolder();
-            viewHolder.tvName = (TextView)convertView.findViewById(R.id.tv_highscore_name);
-            viewHolder.tvIncreasedScores = (TextView)convertView.findViewById(R.id.tv_highscore_increasedscores);
-            viewHolder.tvSchool = (TextView)convertView.findViewById(R.id.tv_highscore_school);
-            viewHolder.tvAdmitted_to = (TextView)convertView.findViewById(R.id.tv_highscore_admitted_to);
-            convertView.setTag(viewHolder);
+            if (type==LIST_TITLE){
+                convertView = layoutInflater.inflate(R.layout.highscore_list_title,null);
+                viewHolder = new ViewHolder();
+                convertView.setTag(viewHolder);
+            }else{
+                convertView = layoutInflater.inflate(R.layout.highscore_list_item,null);
+                viewHolder = new ViewHolder();
+                viewHolder.tvName = (TextView)convertView.findViewById(R.id.tv_highscore_name);
+                viewHolder.tvIncreasedScores = (TextView)convertView.findViewById(R.id.tv_highscore_increasedscores);
+                viewHolder.tvSchool = (TextView)convertView.findViewById(R.id.tv_highscore_school);
+                viewHolder.tvAdmitted_to = (TextView)convertView.findViewById(R.id.tv_highscore_admitted_to);
+                convertView.setTag(viewHolder);
+            }
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        if (position==0){
-            viewHolder.tvName.setText(mContext.getResources().getString(R.string.highscore_name));
-            viewHolder.tvIncreasedScores.setText(mContext.getResources().getString(R.string.highscore_increasedscores));
-            viewHolder.tvSchool.setText(mContext.getResources().getString(R.string.highscore_school));
-            viewHolder.tvAdmitted_to.setText(mContext.getResources().getString(R.string.highscore_admittedto));
+
+        if (type==LIST_TITLE){
+            return convertView;
         }else{
             HighScore data = highScores.get(position);
             viewHolder.tvName.setText(data.getName());

@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="60dp">
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tv_highscore_name"
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tv_highscore_increasedscores"
-        android:layout_weight="3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tv_highscore_school"
-        android:layout_weight="3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightscore_item_height"
+        android:orientation="horizontal">
 
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tv_highscore_admitted_to"
-        android:layout_weight="3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_highscore_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal" />
 
+        <TextView
+            android:id="@+id/tv_highscore_increasedscores"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal" />
 
+        <TextView
+            android:id="@+id/tv_highscore_school"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/tv_highscore_admitted_to"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal" />
+    </LinearLayout>
 </LinearLayout>
