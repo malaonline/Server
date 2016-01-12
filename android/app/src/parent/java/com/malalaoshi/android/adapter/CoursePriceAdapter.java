@@ -1,6 +1,7 @@
 package com.malalaoshi.android.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,8 @@ public class CoursePriceAdapter extends BaseAdapter{
         }
         viewHolder.tvName.setText(grade!=null?grade.getName():"");
         viewHolder.tvPrice.setText(data.getPrice()+"");
-        viewHolder.tvRebate.setText("");
+        viewHolder.tvRebate.setText("100");
+        viewHolder.tvRebate.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中间横线
         return convertView;
     }
     class ViewHolder{

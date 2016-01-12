@@ -2,40 +2,48 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_experience_center"
+    android:paddingTop="@dimen/layout_margin_top"
+    android:paddingBottom="@dimen/layout_margin_top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/iv_school_pic"
-        android:padding="10dp"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_sync_black_24dp"/>
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_school_name"
             android:text="麻辣体验中心 (洛阳店)"
-            android:padding="10dp"
+            android:textColor="@color/item_text_color_normal"
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginTop="@dimen/school_margin_normal"
+            android:layout_marginLeft="@dimen/school_margin_normal"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_below="@id/tv_school_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:id="@+id/tv_school_address"
-                android:text="洞西区 长江路"
-                android:padding="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:id="@+id/tv_school_distance"
-                android:text="10km"
-                android:padding="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_school_address"
+            android:text="洞西区 长江路"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_marginBottom="@dimen/school_margin_normal"
+            android:layout_marginLeft="@dimen/school_margin_normal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_school_distance"
+            android:text="10km"
+            android:textColor="@color/prices_name_text_color"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_marginBottom="@dimen/school_margin_normal"
+            android:layout_marginRight="@dimen/school_margin_normal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </LinearLayout>

@@ -9,9 +9,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="selectableItemBackgroundGeneral">
-            @drawable/selectable_item_background_general_light
-        </item>
+        <item name="selectableItemBackgroundGeneral">@drawable/selectable_item_background_general_light</item>
         <item name="toolbarStyle">@style/ClubToolbar</item>
         <item name="android:listDivider">@drawable/dividerdecoration</item>
     </style>
@@ -65,6 +63,50 @@
         <item name="android:background">@null</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColorHint">#cecece</item>
+    </style>
+
+    <style name="AppWidget.ItemDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_divider_height</item>
+        <item name="android:background">@color/backgrounp</item>
+    </style>
+
+    <style name="AppWidget.ItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:paddingBottom">@dimen/teacher_body_padding_top_normal</item>
+        <item name="android:paddingLeft">@dimen/teacher_body_padding_normal</item>
+        <item name="android:paddingRight">@dimen/teacher_body_padding_normal</item>
+        <item name="android:paddingTop">@dimen/teacher_body_padding_top_normal</item>
+    </style>
+
+    <style name="AppWidget.LinearItemStyle" parent="AppWidget.ItemStyle">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="AppWidget.listLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">@dimen/teacher_body_prices_padding_bottom</item>
+        <item name="android:paddingLeft">@dimen/teacher_body_padding_normal</item>
+        <item name="android:paddingRight">@dimen/teacher_body_padding_normal</item>
+        <item name="android:paddingTop">@dimen/teacher_body_padding_top_normal</item>
+    </style>
+
+
+    <!-- activity进入退出动画 -->
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_push_left_out</item>
+    </style>
+    <style name="ThemeOutInActivity">
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

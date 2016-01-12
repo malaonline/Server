@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrounp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/heightscore_item_height">
+        <TextView
+            android:text="@string/highscore_name"
+            android:textColor="@color/item_text_color_normal"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"
+            android:id="@+id/tv_highscore_name"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="@string/highscore_increasedscores"
+            android:textColor="@color/item_text_color_normal"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"
+            android:id="@+id/tv_highscore_increasedscores"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="@string/highscore_school"
+            android:textColor="@color/item_text_color_normal"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"
+            android:id="@+id/tv_highscore_school"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:text="@string/highscore_admittedto"
+            android:textColor="@color/item_text_color_normal"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"
+            android:id="@+id/tv_highscore_admitted_to"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>
