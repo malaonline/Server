@@ -4,8 +4,9 @@ import datetime
 # django modules
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 
@@ -59,6 +60,16 @@ class BaseStaffView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
+class BaseStaffActionView(View):
+    """
+    Base view for staff management action views.
+    """
+    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问,加上后可用客户端调用
+    @method_decorator(require_POST)
+    @method_decorator(mala_staff_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
+
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
 
@@ -98,6 +109,11 @@ class TeacherView(BaseStaffView):
         kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
+
+class TeacherActionView(BaseStaffActionView):
+    def post(self, request):
+        return JsonResponse({'success': True, 'msg': 'TODO', 'code': 0})
+
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 

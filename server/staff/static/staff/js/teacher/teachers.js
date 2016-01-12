@@ -7,6 +7,12 @@ $(function(){
         $row = $(this).closest('tr');
         teacherId = $row.attr('teacherId');
         alert("这个老师不行吗?"+teacherId);
+        params = {'action': "donot-choose", 'teacherId': teacherId};
+        $.post( "/staff/teachers/action/", function( result ) {
+            alert(JSON.stringify(result));
+        }, 'json').fail(function() {
+            alert( "请求失败,请稍后重试,或联系管理员!" );
+        });
     });
     $('[data-action=invite-interview]').click(function(e){
         alert("你邀请了这个老师");
