@@ -1,8 +1,12 @@
+import re
 import json
 import random
 import requests
 import datetime
-import re
+import itertools
+from collections import OrderedDict
+
+from segmenttree import SegmentTree
 
 from django.conf import settings
 from django.contrib.auth.models import User, Group
@@ -14,8 +18,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, mixins
@@ -31,6 +35,49 @@ class Policy(View):
         policy = get_object_or_404(models.Policy, pk=1)
         data = dict(result=policy.content,
                     updated_at=int(policy.updated_at.timestamp()))
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+class TeacherWeeklyTimeSlot(View):
+    def get(self, request, teacher_id):
+        renew_time = datetime.timedelta(hours=2)
+        traffic_time = 60 # 1 hour
+        utcoffset = datetime.timedelta(hours=8)
+
+        school_id = request.GET.get('school_id')
+        school = get_object_or_404(models.School, pk=school_id)
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+        region = school.region
+        weekly_time_slots = list(region.weekly_time_slots.all())
+        slots = itertools.groupby(weekly_time_slots, key=lambda x: x.weekday)
+
+        date = timezone.now() - renew_time
+        occupied = models.TimeSlot.objects.filter(
+                order__teacher__id=teacher_id, start__gte=date)
+
+        segtree = SegmentTree(0, 7 * 24 * 60 - 1)
+        for occ in occupied:
+            cur_school = occ.order.school
+            occ.start = timezone.localtime(occ.start)
+            occ.end = timezone.localtime(occ.end)
+            print('weekday:%s, hour:%s, minute:%s' % (occ.start.weekday(), occ.start.hour, occ.start.minute))
+            print(occ.start.tzinfo)
+            start = occ.start.weekday() * 24 * 60 + occ.start.hour * 60 + occ.start.minute
+            end = occ.end.weekday() * 24 * 60 + occ.end.hour * 60 + occ.end.minute - 1
+            if cur_school.id != school.id:
+                start, end = start - traffic_time, end + traffic_time
+            print('segtree add %s-%s' % (start, end))
+            segtree.add(start, end)
+
+        data = [(str(day), [OrderedDict([('start', s.start.strftime('%H:%M')),
+            ('end', s.end.strftime('%H:%M')),
+            ('available', segtree.query_len(
+                (day - 1) * 24 * 60 + s.start.hour * 60 + s.start.minute,
+                (day - 1) * 24 * 60 + s.end.hour * 60 + s.end.minute - 1
+                ) == 0)]) for s in ss]) for day, ss in slots]
+
+        weekday = datetime.datetime.today().weekday() + 1
+        data = OrderedDict(sorted(data, key=lambda x: (int(x[0]) + 7 - weekday) % 7))
+
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 class Sms(View):
@@ -172,17 +219,6 @@ class Sms(View):
                 print (err)
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
-
-
-# class RoleSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.Role
-#         fields = ('id', 'name')
-
-
-# class RoleViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = models.Role.objects.all()
-#     serializer_class = RoleSerializer
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):

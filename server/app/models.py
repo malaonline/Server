@@ -87,13 +87,6 @@ class Price(BaseModel):
         return '%s,%s,%s,%s => %d' % (self.region, self.grade, self.subject,
                                       self.level, self.price)
 
-# deprecated: use django group instead
-# class Role(BaseModel):
-#     name = models.CharField(max_length=20, unique=True)
-
-#     def __str__(self):
-#         return self.name
-
 
 class Profile(BaseModel):
     """
@@ -219,6 +212,7 @@ class Highscore(BaseModel):
     def __str__(self):
         return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
                                      self.admitted_to)
+
 
 class Photo(BaseModel):
     teacher = models.ForeignKey(Teacher)
@@ -389,12 +383,12 @@ class Order(BaseModel):
         (CONFIRMED, '已确认'),
     )
 
-    parent = models.ForeignKey(Parent, null=True)
+    parent = models.ForeignKey(Parent, null=True, blank=True)
     teacher = models.ForeignKey(Teacher)
     school = models.ForeignKey(School)
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
-    coupon = models.ForeignKey(Coupon)
+    coupon = models.ForeignKey(Coupon, null=True, blank=True)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
 
     price = models.PositiveIntegerField()
@@ -410,8 +404,8 @@ class Order(BaseModel):
                               )
 
     def __str__(self):
-        return '%s %s %s %s : %s' % (self.school, self.parent, self.teacher,
-                                     self.grade_subect, self.total)
+        return '%s %s %s %s %s : %s' % (self.school, self.parent, self.teacher,
+                                     self.grade, self.subject, self.total)
 
 
 class TimeSlot(BaseModel):
@@ -427,7 +421,7 @@ class TimeSlot(BaseModel):
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
-        return '%s %s' % (self.date, self.last_updated_by)
+        return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
 
 
 class Comment(BaseModel):
