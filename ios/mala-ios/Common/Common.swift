@@ -12,6 +12,9 @@ import UIKit
 let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 var Mala_UserToken: String = "0"
 
+// MARK: - NotificationName
+let MalaNotification_OpenSchoolsCell = "MalaNotification_OpenSchoolsCell"
+
 
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.redColor()
@@ -71,6 +74,7 @@ let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 let MalaLayout_DetailPriceTableViewCellHeight: CGFloat = 71.0
+let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 110.0
 let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
 
 

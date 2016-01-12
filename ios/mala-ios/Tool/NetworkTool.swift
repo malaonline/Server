@@ -18,7 +18,8 @@ class NetworkTool {
     private let tagList = "/tags/"
     private let memberServiceList = "/memberservices/"
     private let teacherList = "/teachers/"
-    private let sms = "/sms"
+    private let sms = "/sms/"
+    private let schools = "/schools/"
     
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
@@ -98,6 +99,13 @@ extension NetworkTool {
         params["phone"] = "0001" //TODO: Delete Test Param
         params["code"] = "1111" //TODO: Delete Test Param
         request(.POST, URLString: baseUrl+sms, parameters: params, finished: finished)
+    }
+    
+    ///  Request for SchoolList
+    ///
+    ///  - parameter finished: Closure for Finished
+    func loadSchools(finished: RequestCallBack) {
+        request(.GET, URLString: baseUrl+schools, parameters: nil, finished: finished)
     }
     
 }

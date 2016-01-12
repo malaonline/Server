@@ -24,6 +24,14 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
 
     // MARK: - Variables
     var model: TeacherDetailModel?
+    var isOpenSchoolsCell: Bool = false
+    
+    var schoolArray: [SchoolModel] = [] {
+        didSet {
+            // reload the PlaceCell
+            self.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
+        }
+    }
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth,
@@ -48,10 +56,12 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableHeaderView()
         setupSignupView()
         setupTableView()
+        loadSchoolsData()
+        setupNotification()
         
         // Active Pop GestureRecognizer
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -139,6 +149,45 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
     }
     
+    private func loadSchoolsData() {
+        
+        // load schools Data
+        NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
+            
+            // Error
+            if error != nil {
+                debugPrint("TeacherDetailsController - loadSchools Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("TeacherDetailsController - loadSchools Format Error")
+                return
+            }
+            
+            // Transfer results to [SchoolModel]
+            let resultArray = ResultModel(dict: dict).results
+            var tempArray: [SchoolModel] = []
+            for object in resultArray ?? [] {
+                if let dict = object as? [String: AnyObject] {
+                    let set = SchoolModel(dict: dict)
+                    tempArray.append(set)
+                }
+            }
+            self?.schoolArray = tempArray
+        }
+    }
+    
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(MalaNotification_OpenSchoolsCell, object: nil, queue: nil) { [weak self] (notification) -> Void in
+            
+            // reload and Open SchoolsCell
+            self?.isOpenSchoolsCell = true
+            self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+        }
+    }
+    
     
     // MARK: - DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -188,6 +237,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 5:
             let cell = reuseCell as! TeacherDetailsPlaceCell
+            cell.schools = self.schoolArray
+            cell.isOpen = self.isOpenSchoolsCell
             return cell
             
         case 6:
@@ -241,6 +292,11 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return MalaLayout_Margin_4
+    }
+    
+    deinit {
+        // Remove Observer
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
     }
     
 }

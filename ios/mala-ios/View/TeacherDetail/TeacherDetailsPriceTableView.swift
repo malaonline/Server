@@ -13,7 +13,7 @@ private let TeacherDetailsPriceTableViewCellReuseId = "TeacherDetailsPriceTableV
 class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Variables
-    var prices: [GradePriceModel] {
+    var prices: [GradePriceModel] = [] {
         didSet {
             reloadData()
         }
@@ -22,7 +22,6 @@ class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableVie
     
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
-        self.prices = []
         super.init(frame: frame, style: style)
         
         delegate = self

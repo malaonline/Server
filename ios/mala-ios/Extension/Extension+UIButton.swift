@@ -66,4 +66,9 @@ extension UIButton {
         sizeToFit()
     }
     
+    func exchangeImageAndLabel(padding: CGFloat) {
+        self.imageEdgeInsets = UIEdgeInsets(top: 0, left: titleLabel!.frame.width + padding, bottom: 0, right: -titleLabel!.frame.width + padding)
+        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: -imageView!.frame.width, bottom: 0, right: imageView!.frame.width)
+    }
+    
 }

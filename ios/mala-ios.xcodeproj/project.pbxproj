@@ -37,6 +37,12 @@
 		303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */; };
 		303BCFEB1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */; };
 		303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */; };
+		303BCFEE1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */; };
+		303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */; };
+		303BCFF11C44A86200B37DD9 /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF01C44A86200B37DD9 /* SchoolModel.swift */; };
+		303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF01C44A86200B37DD9 /* SchoolModel.swift */; };
+		303BCFF41C44ABC900B37DD9 /* TestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF31C44ABC900B37DD9 /* TestFactory.swift */; };
+		303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF31C44ABC900B37DD9 /* TestFactory.swift */; };
 		304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
@@ -146,6 +152,9 @@
 		3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceCell.swift; sourceTree = "<group>"; };
 		303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceTableView.swift; sourceTree = "<group>"; };
 		303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsHighScoreTableView.swift; sourceTree = "<group>"; };
+		303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPlaceTableView.swift; sourceTree = "<group>"; };
+		303BCFF01C44A86200B37DD9 /* SchoolModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolModel.swift; sourceTree = "<group>"; };
+		303BCFF31C44ABC900B37DD9 /* TestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestFactory.swift; sourceTree = "<group>"; };
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -278,6 +287,7 @@
 				3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */,
 				303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */,
 				303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */,
+				303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */,
 			);
 			path = TeacherDetail;
 			sourceTree = "<group>";
@@ -338,6 +348,7 @@
 				307AB89B1C33CDD200D8397F /* HighScoreModel.swift */,
 				307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */,
 				3037B5821C3A84C2005672D9 /* SMSResultModel.swift */,
+				303BCFF01C44A86200B37DD9 /* SchoolModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -417,6 +428,7 @@
 				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
 				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
+				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -812,6 +824,7 @@
 				3037B5A41C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				3037B59B1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				3037B5A11C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
+				303BCFF41C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				308063971C3A271C00729832 /* Extension+UIView.swift in Sources */,
 				3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
@@ -822,12 +835,14 @@
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
+				303BCFEE1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				304D6D341C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
+				303BCFF11C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				304135C21C23AE6400830C43 /* BackAPI.swift in Sources */,
 				3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				304135CC1C23AE6400830C43 /* MyCommentListViewController.swift in Sources */,
@@ -856,6 +871,7 @@
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
+				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
@@ -876,7 +892,9 @@
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
+				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
