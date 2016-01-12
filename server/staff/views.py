@@ -107,3 +107,16 @@ class StudentView(BaseStaffView):
         kwargs['grades'] = models.Grade.objects.all
         kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
+
+class SchoolView(BaseStaffView):
+    template_name = 'staff/school/schools.html'
+
+    def get_context_data(self, **kwargs):
+        region = ''
+        query_set = models.School.objects.filter()
+        if region and region.isdigit():
+            query_set = query_set.filter(region_id = region)
+
+        kwargs['schools'] = query_set
+        kwargs['region_list'] = models.Region.objects.filter(opened=True)
+        return super(SchoolView, self).get_context_data(**kwargs)
