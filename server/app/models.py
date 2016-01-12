@@ -123,12 +123,17 @@ class Teacher(BaseModel):
         ('b', '本科'),
         ('p', '研究生'),
     )
+    TO_CHOOSE = 1
+    NOT_CHOSEN = 2
+    TO_INTERVIEW = 3
+    INTERVIEW_OK = 4
+    INTERVIEW_FAIL = 5
     STATUS_CHOICES = (
-        (1, '待处理'),
-        (2, '初选淘汰'),
-        (3, '邀约面试'),
-        (4, '面试通过'),
-        (5, '面试失败'),
+        (TO_CHOOSE, '待处理'),
+        (NOT_CHOSEN, '初选淘汰'),
+        (TO_INTERVIEW, '邀约面试'),
+        (INTERVIEW_OK, '面试通过'),
+        (INTERVIEW_FAIL, '面试失败'),
     )
     user = models.OneToOneField(User)
     name = models.CharField(max_length=200)
