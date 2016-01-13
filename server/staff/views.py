@@ -112,7 +112,27 @@ class TeacherView(BaseStaffView):
 
 class TeacherActionView(BaseStaffActionView):
     def post(self, request):
-        return JsonResponse({'success': True, 'msg': 'TODO', 'code': 0})
+        action = self.request.POST.get('action')
+        logger.debug("try to modify teacher, action = " + action)
+        if action == 'donot-choose':
+            return self.donotChoose(request)
+        return HttpResponse("Not supported request.", status=403)
+
+    def donotChoose(self, request):
+        teacherId = request.POST.get('teacherId')
+        try:
+            teacher = models.Teacher.objects.get(id=teacherId)
+            teacher.status = models.Teacher.NOT_CHOSEN
+            teacher.save()
+            # TODO: send notice (sms, email .etc) to teacher
+        except models.Teacher.DoesNotExist as e:
+            msg = "老师不存在id={id}".format(id=teacherId)
+            logger.error(msg)
+            return JsonResponse({'success': False, 'msg': msg, 'code': 1})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'success': False, 'msg': "操作失败,请稍后重试或联系管理员", 'code': -1})
+        return JsonResponse({'success': True, 'msg': 'OK', 'code': 0})
 
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'

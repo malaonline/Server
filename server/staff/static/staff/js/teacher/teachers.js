@@ -8,7 +8,7 @@ $(function(){
         teacherId = $row.attr('teacherId');
         alert("这个老师不行吗?"+teacherId);
         params = {'action': "donot-choose", 'teacherId': teacherId};
-        $.post( "/staff/teachers/action/", function( result ) {
+        $.post( "/staff/teachers/action/", params, function( result ) {
             alert(JSON.stringify(result));
         }, 'json').fail(function() {
             alert( "请求失败,请稍后重试,或联系管理员!" );
