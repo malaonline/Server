@@ -86,14 +86,12 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-parent/Alamofire.framework"
   install_framework "Pods-parent/Kingfisher.framework"
-  install_framework "Pods-parent/PageMenu.framework"
   install_framework "Pods-parent/SnapKit.framework"
   install_framework "Pods-parent/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-parent/Alamofire.framework"
   install_framework "Pods-parent/Kingfisher.framework"
-  install_framework "Pods-parent/PageMenu.framework"
   install_framework "Pods-parent/SnapKit.framework"
   install_framework "Pods-parent/SwiftyJSON.framework"
 fi
