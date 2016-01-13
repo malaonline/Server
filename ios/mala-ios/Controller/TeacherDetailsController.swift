@@ -33,6 +33,14 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
+    var memberServiceArray: [MemberServiceModel] = [] {
+        didSet {
+            // reload the memberService
+            self.tableView.reloadSections(NSIndexSet(index: 6), withRowAnimation: .None)
+        }
+    }
+    
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth,
             height: MalaScreenHeight - MalaLayout_DetailBottomViewHeight), style: .Grouped)
@@ -61,6 +69,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         setupSignupView()
         setupTableView()
         loadSchoolsData()
+        loadMemberServices()
         setupNotification()
         
         // Active Pop GestureRecognizer
@@ -179,6 +188,36 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
+    private func loadMemberServices() {
+        
+        // load member services Data
+        NetworkTool.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
+            
+            // Error
+            if error != nil {
+                debugPrint("TeacherDetailsController - loadMemberServices Request Error")
+                return
+            }
+            
+            // Make sure Dict not nil
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("TeacherDetailsController - loadMemberServices Format Error")
+                return
+            }
+            
+            // Transfer results to [MemberServiceModel]
+            let resultArray = ResultModel(dict: dict).results
+            var tempArray: [MemberServiceModel] = []
+            for object in resultArray ?? [] {
+                if let dict = object as? [String: AnyObject] {
+                    let set = MemberServiceModel(dict: dict)
+                    tempArray.append(set)
+                }
+            }
+            self?.memberServiceArray = tempArray
+        }
+    }
+    
     private func setupNotification() {
         NSNotificationCenter.defaultCenter().addObserverForName(MalaNotification_OpenSchoolsCell, object: nil, queue: nil) { [weak self] (notification) -> Void in
             
@@ -211,12 +250,12 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             for string in self.model!.grades {
                 set.append(string + (self.model!.subject ?? ""))
             }
-            cell.labels = [] // set
+            cell.labels = set
             return cell
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = [] // self.model?.tags
+            cell.labels = self.model?.tags
             return cell
             
         case 2:
@@ -232,7 +271,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = [] // self.model?.certificate_set
+            cell.labels = self.model?.certificate_set
             return cell
             
         case 5:
@@ -243,11 +282,14 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 6:
             let cell = reuseCell as! TeacherDetailsVipServiceCell
+            cell.labels = self.memberServiceArray.map({ (model) -> String in
+                return model.detail ?? ""
+            })
             return cell
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [] // [(self.model?.level)!]
+            cell.labels = [(self.model?.level)!]
             return cell
             
         case 8:
