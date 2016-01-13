@@ -70,4 +70,26 @@
             </tr>
         {% endfor %}
     </table>
+    {% load custom_tags %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li class="{% if page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
+            </li>
+            {% for i in total_page|num_range %}
+                <li class="{% if page == i %}active{% endif %}">
+                    <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="{% if page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
+            </li>
+            <li class="{% if page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Last" data-pageto="{{ total_page }}"> <span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

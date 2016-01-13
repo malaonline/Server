@@ -66,4 +66,46 @@ $(function(){
         });
     };
     bindAction();
+
+    var updateLocationByParam = function(key, val) {
+        var key_val = key+'='+val;
+        var old_href = location.href, href_tmp;
+        var key_index = old_href.indexOf(key);
+        if (key_index<0) { // 原来没有page参数
+            var hash_index = old_href.indexOf('#');
+            if (hash_index>0) {
+                href_tmp = old_href.substring(0, hash_index);
+            } else {
+                href_tmp = old_href;
+            }
+            var param_index = old_href.indexOf('?');
+            if (param_index>0) {
+                location.href = href_tmp + '&'+key_val + location.hash;
+                return;
+            }
+            location.href = href_tmp+'?&'+key_val+location.hash;
+            return;
+        }
+        // 有旧的page参数
+        var end_index = old_href.indexOf('&', key_index);
+        if (end_index<0) {
+            end_index = old_href.indexOf('#', key_index)
+        }
+        if (end_index<0) {
+            href_tmp = old_href.substring(0, key_index);
+            location.href = href_tmp+key_val;
+            return;
+        } else {
+            href_tmp = old_href.substring(0, end_index);
+            location.href = href_tmp+key_val+old_href.substring(end_index);
+            return;
+        }
+    };
+
+    $('.pagination a').click(function(e){
+        var $this = $(this), $li = $this.closest('li');
+        if ($li.hasClass('disabled') || $li.hasClass('active')) return;
+        var page_to = $this.data('pageto');
+        updateLocationByParam('page', page_to);
+    })
 });
