@@ -75,7 +75,7 @@ class DropView: UIView {
     
     func dismiss() {
         UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.frame.origin.y = self.originFrame.origin.y - malaScreenNaviHeight
+            self.frame.origin.y = self.originFrame.origin.y - MalaScreenNaviHeight
             }) { (isCompletion) -> Void in
                 self.isShow = false
         }

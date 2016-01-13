@@ -17,8 +17,8 @@ let MalaNotification_OpenSchoolsCell = "MalaNotification_OpenSchoolsCell"
 
 
 // MARK: - Appearance TintColor
-let MalaAppearanceTintColor = UIColor.redColor()
-let MalaAppearanceTextColor = UIColor.whiteColor()
+let MalaAppearanceTintColor = UIColor.whiteColor()
+let MalaAppearanceTextColor = UIColor(rgbHexValue: 0x6C6C6C, alpha: 1.0)
 let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x333333, alpha: 1.0)
 let MalaDetailsCellLabelColor = UIColor(rgbHexValue: 0x636363, alpha: 1.0)
 let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
@@ -67,8 +67,8 @@ let MalaLayout_FontSize_16: CGFloat = 16.0
 
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
-let MalaLayout_DetailHeaderLayerHeight: CGFloat = 100.0
-let MalaLayout_DetailHeaderHeight: CGFloat = 106.0
+let MalaLayout_DetailHeaderLayerHeight: CGFloat = MalaLayout_DetailHeaderHeight - 6.0
+let MalaLayout_DetailHeaderHeight: CGFloat = 146.0
 let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
 let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
@@ -79,7 +79,7 @@ let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
 
 
 // MARK: - Device
-let malaScreenNaviHeight: CGFloat = 64.0
+let MalaScreenNaviHeight: CGFloat = 64.0
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
 // ScreenHeight Without StatusBar,NavigationBar,TabBar
@@ -90,8 +90,17 @@ let MalaScreenOnePixel = 1/UIScreen.mainScreen().scale
 // MARK: - Common TextAttribute
 public func commonTextStyle() -> [String: AnyObject]? {
     let AttributeDictionary = NSMutableDictionary()
-    AttributeDictionary[NSForegroundColorAttributeName] = UIColor.whiteColor()
+    AttributeDictionary[NSForegroundColorAttributeName] = MalaAppearanceTextColor
     return AttributeDictionary.copy() as? [String : AnyObject]
+}
+
+
+// MARK: - Method
+public func makeStatusBarBlack() {
+    UIApplication.sharedApplication().statusBarStyle = .Default
+}
+public func makeStatusBarWhite() {
+    UIApplication.sharedApplication().statusBarStyle = .LightContent
 }
 
 
