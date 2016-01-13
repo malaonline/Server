@@ -10,6 +10,8 @@
   span{
     margin-top: 10px;
   }
+  //border-bottom-width: 1px;
+  border: 1px black;
 }
 
 .header_right{
@@ -45,14 +47,19 @@
   @borderWidth: 1px;
   @borderColor: #d3d3d3;
 
+  .real_name_input, .gender_input, .city_input, .subclass_input{
+    height: 44px;
+  }
   .real_name_input, .gender_input, .city_input, .subclass_input, .grand_input {
     float: left;
     margin-left: @labelAndInputSpace;
     width: 318px;
     border-radius: 2px;
-    height: 44px;
     border-width: @borderWidth;
     border-color: @borderColor;
+    input[readonly=readonly]{
+      background: white;
+    }
   }
 
   .real_name_input, .gender_input, .city_input, .subclass_input{
@@ -126,7 +133,7 @@
     .grand_button{
       border-width: @borderWidth;
       border-color: @borderColor;
-      width: 144px;
+      width: 130px;
       i{
         visibility: hidden;
       }
@@ -140,18 +147,55 @@
       }
     }
     .grand_add{
-      width: 51px;
+      width: 50px;
       border-style: dashed;
+      //margin-left:-2px;
     }
   }
-  .submit_button{
-  //  提交按钮
-    margin-top: 30px;
-    margin-left: 200px;
-    width: 256px;
-    height: 50px;
-    background: #8c8c8e;
-    color: white;
-    font-size: 24px;
+  //授课年级警告
+  .grand_warning{
+    height: 51px;
+    line-height: 51px;
+    color: #898a8b;
+    padding-left: 26px;
+  }
+  .grand_warning[attrHidden=true]{
+    display: none;
+  }
+}
+.submit_button{
+//  提交按钮
+  margin-top: 30px;
+  margin-left: 200px;
+  width: 256px;
+  height: 50px;
+  background: #8c8c8e;
+  color: white;
+  font-size: 24px;
+}
+
+.agree{
+  .doc{
+    h4 {
+      margin-bottom: 0;
+      font-size: 16px;
+      color: #5f6064;
+    }
+  }
+  button{
+    border-radius: 2px;
+    margin-top: 15px;
+    margin-right: 7px;
+    border-color: #d7d9da;
+    color: #929594;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  button[attrSelection=true]{
+    border-color: black;
+  }
+  .continue-button{
+    width:165px;
+    height:35px;
   }
 }
