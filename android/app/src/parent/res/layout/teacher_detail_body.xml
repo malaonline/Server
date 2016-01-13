@@ -136,8 +136,8 @@
 
         <ImageView
             android:id="@+id/parent_teacher_detail_gallery_more_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignBottom="@id/grallery_title"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_more" />
@@ -153,7 +153,7 @@
                 android:id="@+id/parent_teacher_detail_photo"
                 android:layout_width="96dp"
                 android:layout_height="match_parent"
-                android:background="#ff00ff"
+                android:src="@drawable/user_detail_header_bg"
                 android:visibility="visible" />
         </com.malalaoshi.android.view.FlowLayout>
 

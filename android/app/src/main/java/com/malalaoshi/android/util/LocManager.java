@@ -40,11 +40,11 @@ public class LocManager {
         return locationStatus;
     }
     public void unregisterLocationListener(ReceiveLocationListener listener) {
-        listenerList.add(listener);
+        listenerList.remove(listener);
     }
 
     public void registerLocationListener(ReceiveLocationListener listener) {
-        listenerList.remove(listener);
+        listenerList.add(listener);
     }
 
 

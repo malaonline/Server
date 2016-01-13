@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/text_divider_margin_normal"
-                android:text="离你最近的学习中心的距离是10km"
+                android:text="其他社区中心"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_large" />
 

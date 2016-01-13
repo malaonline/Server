@@ -54,7 +54,7 @@
     <dimen name="teacher_body_padding_normal">12dp</dimen>
     
     <dimen name="teacher_body_prices_padding_bottom">2dp</dimen>
-    <dimen name="list_divider">1px</dimen>
+    <dimen name="list_divider">1dp</dimen>
     <dimen name="teacher_body_padding_top_normal">16dp</dimen>
     <dimen name="teacher_body_padding_bottom_normal">14dp</dimen>
     <dimen name="teacher_body_margin_bottom">49dp</dimen>
@@ -97,4 +97,5 @@
     <dimen name="text_size_xxlarge">18sp</dimen>
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
+    <dimen name="gallery_padding">54dp</dimen>
 </resources>

@@ -98,15 +98,16 @@
 
 
     <!-- activity进入退出动画 -->
-    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/activity_push_left_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/activity_push_left_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/activity_push_left_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/activity_push_left_out</item>
+    <style name="AppTheme.Animation" parent="AppTheme.NoActionBar">
+        <item name="android:activityOpenEnterAnimation">@anim/push_left_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/push_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/push_right_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
     </style>
-    <style name="ThemeOutInActivity">
-        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppTheme.AnimationFullscreen" parent="AppTheme.Animation">
+
+        <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
+        <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
     </style>
 
 </resources>
