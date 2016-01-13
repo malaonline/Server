@@ -65,45 +65,52 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUserInterface()
         setupTableHeaderView()
         setupSignupView()
         setupTableView()
+        setupNotification()
         loadSchoolsData()
         loadMemberServices()
-        setupNotification()
         
         // Active Pop GestureRecognizer
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    private func setupUserInterface() {
         
-        setupConfig()
-        
-        // setup style
-        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
-        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
-        
-        // make clear color
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        tableView.estimatedRowHeight = 240
         
         // setup headerImage
         tableView.insertSubview(headerBackground, atIndex: 0)
         headerBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(0).offset(-malaScreenNaviHeight)
+            make.top.equalTo(0).offset(-MalaScreenNaviHeight)
             make.centerX.equalTo(self.tableView.snp_centerX)
             make.width.equalTo(MalaScreenWidth)
             make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
         }
         
+        // setup style
+        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
+        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"),
+            style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // make clear color
+        makeStatusBarWhite()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.redColor()), forBarMetrics: .Default)
+        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
     }
 
     override func didReceiveMemoryWarning() {
@@ -113,12 +120,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     
     // MARK: - Private Method
-    private func setupConfig() {
-        tableView.estimatedRowHeight = 240
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"),
-            style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
-    }
-    
     private func setupTableHeaderView() {
         
         let headerView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0,
@@ -156,6 +157,15 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
         tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
         tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
+    }
+    
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(MalaNotification_OpenSchoolsCell, object: nil, queue: nil) { [weak self] (notification) -> Void in
+            
+            // reload and Open SchoolsCell
+            self?.isOpenSchoolsCell = true
+            self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+        }
     }
     
     private func loadSchoolsData() {
@@ -215,15 +225,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
                 }
             }
             self?.memberServiceArray = tempArray
-        }
-    }
-    
-    private func setupNotification() {
-        NSNotificationCenter.defaultCenter().addObserverForName(MalaNotification_OpenSchoolsCell, object: nil, queue: nil) { [weak self] (notification) -> Void in
-            
-            // reload and Open SchoolsCell
-            self?.isOpenSchoolsCell = true
-            self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
         }
     }
     
@@ -318,12 +319,35 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let displacement = scrollView.contentOffset.y
         
-        if displacement < -malaScreenNaviHeight {
+        if displacement < -MalaScreenNaviHeight {
             headerBackground.snp_updateConstraints(closure: { (make) -> Void in
                 make.top.equalTo(0).offset(displacement)
                 // 1.1 for variety rate
-                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+malaScreenNaviHeight)*1.1)
+                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+MalaScreenNaviHeight)*1.1)
             })
+        }
+        
+        if displacement > 0 {
+            showBackground()
+        }else {
+            hideBackground()
+        }
+        
+    }
+    
+    private func showBackground() {
+        makeStatusBarBlack()
+        
+        UIView.animateWithDuration(10) { [weak self] () -> Void in
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+        }
+    }
+    
+    private func hideBackground() {
+        makeStatusBarWhite()
+        
+        UIView.animateWithDuration(10) { [weak self] () -> Void in
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
         }
     }
     

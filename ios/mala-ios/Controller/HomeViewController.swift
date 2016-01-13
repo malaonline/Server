@@ -35,7 +35,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.redColor()), forBarMetrics: .Default)
+        makeStatusBarBlack()
     }
     
     override func didReceiveMemoryWarning() {

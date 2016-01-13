@@ -58,11 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Setup Appearance
         UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
-        UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.redColor()), forBarMetrics: .Default)
+        UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+        UINavigationBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().tintColor = MalaAppearanceTintColor
         
         // Setup Exterior
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        makeStatusBarBlack()
     }
 
 }
