@@ -2,6 +2,7 @@ import logging
 import datetime
 
 # django modules
+from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -64,6 +65,9 @@ class BaseStaffActionView(View):
     """
     Base view for staff management action views.
     """
+
+    defaultErrMeg = "操作失败,请稍后重试或联系管理员"
+
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问,加上后可用客户端调用
     @method_decorator(require_POST)
     @method_decorator(mala_staff_required)
@@ -72,6 +76,8 @@ class BaseStaffActionView(View):
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
+
+    PAGE_SIZE = 20
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
@@ -82,7 +88,8 @@ class TeacherView(BaseStaffView):
         status = self.request.GET.get('status')
         reg_date_from = self.request.GET.get('reg_date_from')
         reg_date_to = self.request.GET.get('reg_date_to')
-        region = ''#self.request.GET.get('region')
+        region = self.request.GET.get('region')
+        page = self.request.GET.get('page')
         query_set = models.Teacher.objects.filter()
         if name:
             query_set = query_set.filter(name__icontains = name)
@@ -104,15 +111,67 @@ class TeacherView(BaseStaffView):
                 pass
         if region and region.isdigit():
             query_set = query_set.filter(region_id = region)
+        query_set = query_set.order_by('-user__date_joined')
+        # paginate
+        query_set, page, total_page, total_count = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
+        kwargs['page'] = page
+        kwargs['total_page'] = total_page
+        kwargs['total_count'] = total_count
         # 一些固定数据
         kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
 
+    def paginate(self, query_set, page, page_size=0):
+        if not page_size:
+            page_size = self.PAGE_SIZE
+        total_count = query_set.count()
+        total_page = (total_count + page_size -1) // page_size
+        if not isinstance(page, int):
+            if page and isinstance(page, str) and page.isdigit():
+                page_to = int(page)
+            else:
+                page_to = 1
+        if page_to > total_page:
+            page_to = total_page
+        if page_to < 1:
+            page_to = 1
+        query_set = query_set[(page_to-1)*page_size:page_to*page_size]
+        return query_set, page_to, total_page, total_count
+
 class TeacherActionView(BaseStaffActionView):
+
+    NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
+
     def post(self, request):
-        return JsonResponse({'success': True, 'msg': 'TODO', 'code': 0})
+        action = self.request.POST.get('action')
+        logger.debug("try to modify teacher, action = " + action)
+        if action == 'donot-choose':
+            return self.updateTeacherStatus(request, models.Teacher.NOT_CHOSEN)
+        if action == 'invite-interview':
+            return self.updateTeacherStatus(request, models.Teacher.TO_INTERVIEW)
+        if action == 'set-interview-ok':
+            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_OK)
+        if action == 'set-interview-fail':
+            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
+        return HttpResponse("Not supported request.", status=403)
+
+    def updateTeacherStatus(self, request, new_status):
+        teacherId = request.POST.get('teacherId')
+        try:
+            teacher = models.Teacher.objects.get(id=teacherId)
+            teacher.status = new_status
+            teacher.save()
+            # TODO: send notice (sms, email .etc) to teacher
+            return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
+        except models.Teacher.DoesNotExist as e:
+            msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
+            logger.error(msg)
+            return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
 
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'

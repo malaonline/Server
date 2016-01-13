@@ -3,24 +3,109 @@
  */
 
 $(function(){
-    $('[data-action=donot-choose]').click(function(e){
-        $row = $(this).closest('tr');
-        teacherId = $row.attr('teacherId');
-        alert("这个老师不行吗?"+teacherId);
-        params = {'action': "donot-choose", 'teacherId': teacherId};
-        $.post( "/staff/teachers/action/", function( result ) {
-            alert(JSON.stringify(result));
+    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+    var TO_CHOOSE = 1,
+        NOT_CHOSEN = 2,
+        TO_INTERVIEW = 3,
+        INTERVIEW_OK = 4,
+        INTERVIEW_FAIL = 5,
+        statusDict = {
+            1: '待处理',
+            2: '初选淘汰',
+            3: '邀约面试',
+            4: '面试通过',
+            5: '面试失败'
+        };
+    var updateRowByStatus = function($row, status) {
+        $row.find('td[field=status]').text(statusDict[status]);
+        var actionHtml = '无';
+         if (status == TO_CHOOSE) {
+             actionHtml = ('<a class="" data-action="donot-choose">初选淘汰</a>'
+                 + ' | <a class="" data-action="invite-interview">邀约面试</a>');
+         } else if(status == TO_INTERVIEW) {
+             actionHtml = ('<a class="" data-action="set-interview-ok">面试通过</a>'
+                 + ' | <a class="" data-action="set-interview-fail">面试失败</a>');
+         }
+        $row.find('td[field=action]').html(actionHtml);
+        bindAction($row);
+    };
+    var doUpdateStatusRequest = function(ele, action, newStatus) {
+        var $row = $(ele).closest('tr');
+        var teacherId = $row.attr('teacherId');
+        var name = $.trim($row.find('td[field=name]').text());
+        var decided = confirm('确定要修改"'+name+'"的状态为"'+statusDict[newStatus]+'"吗?');
+        if (!decided) return;
+        // do request server
+        var params = {'action': action, 'teacherId': teacherId};
+        $.post( "/staff/teachers/action/", params, function( result ) {
+            if (result) {
+                if (result.ok) {
+                    updateRowByStatus($row, newStatus);
+                } else {
+                    alert(result.msg);
+                }
+                return;
+            }
+            alert(defaultErrMsg);
         }, 'json').fail(function() {
-            alert( "请求失败,请稍后重试,或联系管理员!" );
+            alert(defaultErrMsg);
         });
-    });
-    $('[data-action=invite-interview]').click(function(e){
-        alert("你邀请了这个老师");
-    });
-    $('[data-action=set-interview-ok]').click(function(e){
-        alert("欢迎这位老师的加入");
-    });
-    $('[data-action=set-interview-fail]').click(function(e){
-        alert("哎哟,这个老师被pass掉了");
-    });
+    };
+    var bindAction = function($ctx) {
+        $('[data-action=donot-choose]', $ctx).click(function (e) {
+            doUpdateStatusRequest(this, 'donot-choose', NOT_CHOSEN);
+        });
+        $('[data-action=invite-interview]', $ctx).click(function (e) {
+            doUpdateStatusRequest(this, 'invite-interview', TO_INTERVIEW);
+        });
+        $('[data-action=set-interview-ok]', $ctx).click(function (e) {
+            doUpdateStatusRequest(this, 'set-interview-ok', INTERVIEW_OK);
+        });
+        $('[data-action=set-interview-fail]', $ctx).click(function (e) {
+            doUpdateStatusRequest(this, 'set-interview-fail', INTERVIEW_FAIL);
+        });
+    };
+    bindAction();
+
+    var updateLocationByParam = function(key, val) {
+        var key_val = key+'='+val;
+        var old_href = location.href, href_tmp;
+        var key_index = old_href.indexOf(key);
+        if (key_index<0) { // 原来没有page参数
+            var hash_index = old_href.indexOf('#');
+            if (hash_index>0) {
+                href_tmp = old_href.substring(0, hash_index);
+            } else {
+                href_tmp = old_href;
+            }
+            var param_index = old_href.indexOf('?');
+            if (param_index>0) {
+                location.href = href_tmp + '&'+key_val + location.hash;
+                return;
+            }
+            location.href = href_tmp+'?&'+key_val+location.hash;
+            return;
+        }
+        // 有旧的page参数
+        var end_index = old_href.indexOf('&', key_index);
+        if (end_index<0) {
+            end_index = old_href.indexOf('#', key_index)
+        }
+        if (end_index<0) {
+            href_tmp = old_href.substring(0, key_index);
+            location.href = href_tmp+key_val;
+            return;
+        } else {
+            href_tmp = old_href.substring(0, end_index);
+            location.href = href_tmp+key_val+old_href.substring(end_index);
+            return;
+        }
+    };
+
+    $('.pagination a').click(function(e){
+        var $this = $(this), $li = $this.closest('li');
+        if ($li.hasClass('disabled') || $li.hasClass('active')) return;
+        var page_to = $this.data('pageto');
+        updateLocationByParam('page', page_to);
+    })
 });
