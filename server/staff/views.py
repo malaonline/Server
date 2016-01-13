@@ -121,14 +121,20 @@ class TeacherActionView(BaseStaffActionView):
         action = self.request.POST.get('action')
         logger.debug("try to modify teacher, action = " + action)
         if action == 'donot-choose':
-            return self.donotChoose(request)
+            return self.updateTeacherStatus(request, models.Teacher.NOT_CHOSEN)
+        if action == 'invite-interview':
+            return self.updateTeacherStatus(request, models.Teacher.TO_INTERVIEW)
+        if action == 'set-interview-ok':
+            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_OK)
+        if action == 'set-interview-fail':
+            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
         return HttpResponse("Not supported request.", status=403)
 
-    def donotChoose(self, request):
+    def updateTeacherStatus(self, request, new_status):
         teacherId = request.POST.get('teacherId')
         try:
             teacher = models.Teacher.objects.get(id=teacherId)
-            teacher.status = models.Teacher.NOT_CHOSEN
+            teacher.status = new_status
             teacher.save()
             # TODO: send notice (sms, email .etc) to teacher
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
