@@ -1,6 +1,10 @@
 {% extends "staff/staff_base.html" %}
 
+{% load staticfiles %}
 {% block title %}所有老师列表{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teachers.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <form name="query_form">
@@ -30,17 +34,17 @@
         <input type="submit" value="查询"/>
     </form>
 
-    <table align="center" border="1" cellspacing="0" width="100%">
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
         <tr>
-            <th>注册日期</th>
-            <th>老师姓名</th>
-            <th>手机号</th>
-            <th>性别</th>
-            <th>教龄（年）</th>
-            <th>年级科目</th>
-            <th>所在地区</th>
-            <th>状态</th>
-            <th>操作</th>
+            <th class="text-center">注册日期</th>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">教龄（年）</th>
+            <th class="text-center">年级科目</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">操作</th>
         </tr>
         {% for teacher in teachers %}
             <tr teacherId="{{ teacher.id }}">
@@ -52,7 +56,17 @@
                 <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }}</td>
                 <td>{# 所在地区 #} {{ teacher.region }}</td>
                 <td>{# 状态 #} {{ teacher.get_status_display }}</td>
-                <td>{# 操作 #} TODO</td>
+                <td>{# 操作 #}
+                    {% if teacher.status == teacher.TO_CHOOSE %}
+                        <a class="" data-action="donot-choose">初选淘汰</a>
+                        | <a class="" data-action="invite-interview">邀约面试</a>
+                    {% elif teacher.status == teacher.TO_INTERVIEW %}
+                        <a class="" data-action="set-interview-ok">面试通过</a>
+                        | <a class="" data-action="set-interview-fail">面试失败</a>
+                    {% else %}
+                        无
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
