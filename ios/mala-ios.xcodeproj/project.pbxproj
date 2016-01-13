@@ -94,6 +94,8 @@
 		30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		30AE09361C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
 		30AE09371C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
+		30B5980E1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
+		30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */; };
@@ -189,6 +191,7 @@
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		30AE09351C2BE56D00FD607D /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
+		30B5980D1C451A8900169390 /* MemberServiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceModel.swift; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -349,6 +352,7 @@
 				307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */,
 				3037B5821C3A84C2005672D9 /* SMSResultModel.swift */,
 				303BCFF01C44A86200B37DD9 /* SchoolModel.swift */,
+				30B5980D1C451A8900169390 /* MemberServiceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -801,6 +805,7 @@
 				304135C61C23AE6400830C43 /* FeedbackViewController.swift in Sources */,
 				30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				304135B61C23AE6400830C43 /* StatusCode.swift in Sources */,
+				30B5980E1C451A8900169390 /* MemberServiceModel.swift in Sources */,
 				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
 				303BCFEB1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				304135B41C23AE6400830C43 /* Request.swift in Sources */,
@@ -895,6 +900,7 @@
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
+				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
 				307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
