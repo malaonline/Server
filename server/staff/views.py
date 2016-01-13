@@ -64,6 +64,9 @@ class BaseStaffActionView(View):
     """
     Base view for staff management action views.
     """
+
+    defaultErrMeg = "操作失败,请稍后重试或联系管理员"
+
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问,加上后可用客户端调用
     @method_decorator(require_POST)
     @method_decorator(mala_staff_required)
@@ -111,6 +114,9 @@ class TeacherView(BaseStaffView):
         return super(TeacherView, self).get_context_data(**kwargs)
 
 class TeacherActionView(BaseStaffActionView):
+
+    NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
+
     def post(self, request):
         action = self.request.POST.get('action')
         logger.debug("try to modify teacher, action = " + action)
@@ -125,14 +131,14 @@ class TeacherActionView(BaseStaffActionView):
             teacher.status = models.Teacher.NOT_CHOSEN
             teacher.save()
             # TODO: send notice (sms, email .etc) to teacher
+            return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
-            msg = "老师不存在id={id}".format(id=teacherId)
+            msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
             logger.error(msg)
-            return JsonResponse({'success': False, 'msg': msg, 'code': 1})
+            return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
         except Exception as err:
             logger.error(err)
-            return JsonResponse({'success': False, 'msg': "操作失败,请稍后重试或联系管理员", 'code': -1})
-        return JsonResponse({'success': True, 'msg': 'OK', 'code': 0})
+            return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
 
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'

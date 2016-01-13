@@ -49,14 +49,14 @@
         {% for teacher in teachers %}
             <tr teacherId="{{ teacher.id }}">
                 <td>{# 注册日期 #} {{ teacher.user.date_joined|date:"Y-m-d" }}</td>
-                <td>{# 老师姓名 #} {{ teacher.name }}</td>
+                <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
                 <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
                 <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
                 <td>{# 教龄（年）#} {{ teacher.teaching_age }}</td>
                 <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }}</td>
                 <td>{# 所在地区 #} {{ teacher.region }}</td>
-                <td>{# 状态 #} {{ teacher.get_status_display }}</td>
-                <td>{# 操作 #}
+                <td field="status">{# 状态 #} {{ teacher.get_status_display }}</td>
+                <td field="action">{# 操作 #}
                     {% if teacher.status == teacher.TO_CHOOSE %}
                         <a class="" data-action="donot-choose">初选淘汰</a>
                         | <a class="" data-action="invite-interview">邀约面试</a>
