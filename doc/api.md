@@ -392,3 +392,44 @@ result:
 ```
 
 Above token's value is just a example not actually value.
+
+
+### Get teacher's available time
+
+```
+GET /api/v1/teachers/TEACHER_ID/weeklytimeslots
+```
+
+parameters:
+
+```
+school_id=1
+```
+evaluation
+
+result:
+```
+{
+    "3": [
+    {
+        "start": "08:00",
+        "end": "10:00",
+        "available": true
+    },
+    {
+        "start": "10:10",
+        "end": "12:10",
+        "available": false
+    },
+    ...
+    ],
+    "4": [{
+        "start": "08:00",
+        "end": "10:00",
+        "available": true
+    },
+    ...
+    ],
+    ...
+}
+```
