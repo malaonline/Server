@@ -35,7 +35,7 @@ class Policy(View):
         policy = get_object_or_404(models.Policy, pk=1)
         data = dict(result=policy.content,
                     updated_at=int(policy.updated_at.timestamp()))
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
 
 class TeacherWeeklyTimeSlot(View):
     def get(self, request, teacher_id):
@@ -78,7 +78,7 @@ class TeacherWeeklyTimeSlot(View):
         weekday = datetime.datetime.today().weekday() + 1
         data = OrderedDict(sorted(data, key=lambda x: (int(x[0]) + 7 - weekday) % 7))
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
 
 class Sms(View):
     expired_time = 10    # 10 minutes
