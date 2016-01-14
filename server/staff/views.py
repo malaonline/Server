@@ -187,11 +187,27 @@ class SchoolView(BaseStaffView):
     template_name = 'staff/school/schools.html'
 
     def get_context_data(self, **kwargs):
-        region = ''
-        query_set = models.School.objects.filter()
-        if region and region.isdigit():
-            query_set = query_set.filter(region_id = region)
+        context = super(SchoolView, self).get_context_data(**kwargs)
+        schoolId = self.request.GET.get('schoolId')
+        center = self.request.GET.get('center')
 
-        kwargs['schools'] = query_set
-        kwargs['region_list'] = models.Region.objects.filter(opened=True)
-        return super(SchoolView, self).get_context_data(**kwargs)
+        query_set = models.School.objects.filter()
+        if schoolId:
+            query_set = query_set.filter(id = schoolId)
+
+        if center == 1:
+            query_set = query_set.filter(center = True)
+        elif center == 2:
+            query_set = query_set.filter(center = False)
+
+        context['schools'] = query_set
+        context['schoolId'] = schoolId
+        context['center'] = center
+        context['allSchools'] = models.School.objects.filter()
+        return context
+
+class BackCostView(BaseStaffView):
+    template_name = 'staff/order/backcost.html'
+
+    def get_context_data(self, **kwargs):
+        return super(BackCostView, self).get_context_data(**kwargs)

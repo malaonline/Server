@@ -4,7 +4,7 @@
     信息完善
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/complete_information.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/custom/complete_information.css' %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/custom/complete_information.js' %}"></script>
@@ -13,15 +13,14 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            {% load teacher_page %}
-            {% mala_page_header "个人中心" "186****1234" %}
             <div class="page-left"></div>
             <div class="page-center">
-{#                <div class="mala_header">#}
-{#                    {% mala_page_header "个人中心" "186****1234" %}#}
-{#                    <button class="btn btn-default header_right">退出</button>#}
-{#                    <span class="header_right header_right_text">您好, 186****1234</span>#}
-{#                </div>#}
+                {% load teacher_page %}
+                <div class="mala_header">
+                    {% mala_page_header "个人中心" %}
+                    <button class="btn btn-default header_right">退出</button>
+                    <span class="header_right header_right_text">您好, 186****1234</span>
+                </div>
                 <p class="information_header">恭喜您注册成功!</p>
                 <p class="information_header">为了能够与您及时取得联系,请您尽快完善个人资料.</p>
                 <form class="form-horizontal">

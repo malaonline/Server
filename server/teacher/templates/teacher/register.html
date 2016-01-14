@@ -4,7 +4,7 @@
     老师-注册
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/register.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/custom/register.css' %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/custom/register.js' %}"></script>
@@ -12,13 +12,11 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            {% load teacher_page %}
-            {% mala_page_header "注册或登录" %}
             <div class="page-left">
             </div>
             <div class="page-center">
-{#                {% load teacher_page %}#}
-{#                <div>{% mala_page_header "注册或登录"%}</div>#}
+                {% load teacher_page %}
+                <div>{% mala_page_header "注册或登录"%}</div>
 {#                <div><img src="{% static 'teacher/icons/mala_icon.png' %}">注册或登录</div>#}
                 <form class="form-horizontal">
                     <div class="form-row">

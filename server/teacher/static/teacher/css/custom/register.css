@@ -254,8 +254,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../../common/fonts/glyphicons-halflings-regular.eot');
-  src: url('../../common/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../common/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../common/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../common/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../common/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -6770,7 +6770,7 @@ button.close {
 .page-left {
   position: relative;
   float: left;
-  width: 16.66666667%;
+  width: 0%;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
@@ -6778,7 +6778,7 @@ button.close {
 .page-right {
   position: relative;
   float: left;
-  width: 16.66666667%;
+  width: 0%;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
@@ -6786,7 +6786,7 @@ button.close {
 .page-center {
   position: relative;
   float: left;
-  width: 66.66666667%;
+  width: 100%;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
@@ -7199,160 +7199,4 @@ fieldset[disabled] .form-horizontal .primary-button.active {
   margin-right: 230px;
   background: #8e8e8e;
   color: white;
-}
-.mala_header {
-  font-size: 16px;
-  border: 1px black;
-}
-.mala_header span {
-  margin-top: 10px;
-}
-.header_right {
-  float: right;
-  margin-top: 10px;
-  margin-right: 10px;
-}
-.header_right_text {
-  padding-top: 7px;
-}
-.information_header {
-  font-size: 20px;
-  text-align: center;
-  margin-top: 24px;
-}
-.form-horizontal {
-  margin-top: 44px;
-}
-.form-horizontal .form-row {
-  margin-top: 20px;
-}
-.form-horizontal .real_name_label,
-.form-horizontal .gender_label,
-.form-horizontal .city_label,
-.form-horizontal .subclass_label,
-.form-horizontal .grand_label {
-  float: left;
-  padding-top: 8px;
-  text-align: right;
-  min-width: 110px;
-  font-size: 16px;
-  font-weight: normal;
-}
-.form-horizontal .real_name_input,
-.form-horizontal .gender_input,
-.form-horizontal .city_input,
-.form-horizontal .subclass_input {
-  height: 44px;
-}
-.form-horizontal .real_name_input,
-.form-horizontal .gender_input,
-.form-horizontal .city_input,
-.form-horizontal .subclass_input,
-.form-horizontal .grand_input {
-  float: left;
-  margin-left: 26px;
-  width: 318px;
-  border-radius: 2px;
-  border-width: 1px;
-  border-color: #d3d3d3;
-}
-.form-horizontal .real_name_input input[readonly=readonly],
-.form-horizontal .gender_input input[readonly=readonly],
-.form-horizontal .city_input input[readonly=readonly],
-.form-horizontal .subclass_input input[readonly=readonly],
-.form-horizontal .grand_input input[readonly=readonly] {
-  background: white;
-}
-.form-horizontal .real_name_input input,
-.form-horizontal .gender_input input,
-.form-horizontal .city_input input,
-.form-horizontal .subclass_input input {
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-  height: 44px;
-  width: 267px;
-  border-width: 1px;
-  border-color: #d3d3d3;
-}
-.form-horizontal .real_name_input button,
-.form-horizontal .gender_input button,
-.form-horizontal .city_input button,
-.form-horizontal .subclass_input button {
-  height: 44px;
-  width: 52px;
-  border-width: 1px;
-  border-color: #d3d3d3;
-  background: #eaebec;
-  color: #d3d3d3;
-}
-.form-horizontal .real_name_input ul,
-.form-horizontal .gender_input ul,
-.form-horizontal .city_input ul,
-.form-horizontal .subclass_input ul {
-  width: 267px;
-}
-.form-horizontal .grand_input .grand_button,
-.form-horizontal .grand_input .grand_add {
-  height: 51px;
-  border-radius: 2px;
-  color: #898a8b;
-}
-.form-horizontal .grand_input .grand_button {
-  border-width: 1px;
-  border-color: #d3d3d3;
-  width: 130px;
-}
-.form-horizontal .grand_input .grand_button i {
-  visibility: hidden;
-}
-.form-horizontal .grand_input .grand_button:hover {
-  background: white;
-  border-width: 1px;
-  border-color: black;
-}
-.form-horizontal .grand_input .grand_button:hover i {
-  visibility: visible;
-}
-.form-horizontal .grand_input .grand_add {
-  width: 50px;
-  border-style: dashed;
-}
-.form-horizontal .grand_warning {
-  height: 51px;
-  line-height: 51px;
-  color: #898a8b;
-  padding-left: 26px;
-}
-.form-horizontal .grand_warning[attrHidden=true] {
-  display: none;
-}
-.submit_button {
-  margin-top: 30px;
-  margin-left: 200px;
-  width: 256px;
-  height: 50px;
-  background: #8c8c8e;
-  color: white;
-  font-size: 24px;
-}
-.agree .doc h4 {
-  margin-bottom: 0;
-  font-size: 16px;
-  color: #5f6064;
-}
-.agree button {
-  border-radius: 2px;
-  margin-top: 15px;
-  margin-right: 7px;
-  border-color: #d7d9da;
-  color: #929594;
-  font-size: 14px;
-  font-weight: bold;
-}
-.agree button[attrSelection=true] {
-  border-color: black;
-}
-.agree .continue-button {
-  width: 165px;
-  height: 35px;
 }
