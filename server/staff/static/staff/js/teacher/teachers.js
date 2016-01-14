@@ -67,6 +67,16 @@ $(function(){
     };
     bindAction();
 
+    $('input[name=reg_date_from]').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'zh-cn'
+    });
+
+    $('input[name=reg_date_to]').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'zh-cn'
+    });
+
     var updateLocationByParam = function(key, val) {
         var key_val = key+'='+val;
         var old_search = location.search;

@@ -3,9 +3,13 @@
 {% load staticfiles %}
 {% block title %}所有老师列表{% endblock %}
 {% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'common/css/bootstrap-datetimepicker.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'staff/css/teacher/teachers.css' %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
     <script src="{% static 'staff/js/teacher/teachers.js' %}"></script>
 {% endblock %}
 
@@ -22,9 +26,9 @@
         </select>
 
         注册日期
-        <input type="date" name="reg_date_from" value="{{ query_data.reg_date_from }}" />
+        <input type="text" name="reg_date_from" value="{{ query_data.reg_date_from }}" />
          -
-        <input type="date"  name="reg_date_to" value="{{ query_data.reg_date_to }}" />
+        <input type="text"  name="reg_date_to" value="{{ query_data.reg_date_to }}" />
 
         所在地区
         <select name="region">
