@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
+    android:background="#000000" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/myVp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/gallery_padding"
+        android:layout_marginBottom="@dimen/gallery_padding"
+        />
+    <TextView
+        android:id="@+id/tv_gallery_number"
+        android:text="0/0"
+        android:textColor="@color/item_text_color_normal"
+        android:textSize="@dimen/text_size_large"
+        android:layout_marginBottom="@dimen/gallery_bottom_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
