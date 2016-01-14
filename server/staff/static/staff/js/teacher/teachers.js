@@ -67,38 +67,34 @@ $(function(){
     };
     bindAction();
 
+    $('input[name=reg_date_from]').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'zh-cn'
+    });
+
+    $('input[name=reg_date_to]').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: 'zh-cn'
+    });
+
     var updateLocationByParam = function(key, val) {
         var key_val = key+'='+val;
-        var old_href = location.href, href_tmp;
-        var key_index = old_href.indexOf(key);
+        var old_search = location.search;
+        if (!old_search) {
+            location.search = "?" + key_val;
+            return;
+        }
+        var key_index = old_search.indexOf(key+"=");
         if (key_index<0) { // 原来没有page参数
-            var hash_index = old_href.indexOf('#');
-            if (hash_index>0) {
-                href_tmp = old_href.substring(0, hash_index);
-            } else {
-                href_tmp = old_href;
-            }
-            var param_index = old_href.indexOf('?');
-            if (param_index>0) {
-                location.href = href_tmp + '&'+key_val + location.hash;
-                return;
-            }
-            location.href = href_tmp+'?&'+key_val+location.hash;
+            location.search = old_search + '&' + key_val;
             return;
         }
-        // 有旧的page参数
-        var end_index = old_href.indexOf('&', key_index);
-        if (end_index<0) {
-            end_index = old_href.indexOf('#', key_index)
-        }
-        if (end_index<0) {
-            href_tmp = old_href.substring(0, key_index);
-            location.href = href_tmp+key_val;
-            return;
-        } else {
-            href_tmp = old_href.substring(0, end_index);
-            location.href = href_tmp+key_val+old_href.substring(end_index);
-            return;
+        // 有旧的key参数
+        var end_index = old_search.indexOf('&', key_index + key.length + 1); // 加"{key}="的长度
+        if (end_index<0) { // 无后续参数
+            location.search = old_search.substring(0, key_index) + key_val;
+        } else { // 有后续参数
+            location.search = old_search.substring(0, end_index) + key_val + old_search.substring(end_index);
         }
     };
 

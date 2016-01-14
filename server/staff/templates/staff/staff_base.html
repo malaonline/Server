@@ -7,18 +7,18 @@
 
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles%}
+    <link href="{% static 'common/less/bootstrap.css' %}" rel="stylesheet">
     {% block addition_header %}{% endblock %}
-    <link href="{% static 'teacher/css/custom/less/bootstrap.css' %}" rel="stylesheet">
-    <script src="{% static 'teacher/js/jquery-2.1.4.js' %}"></script>
-    <script src="{% static 'teacher/js/bootstrap.js' %}"></script>
-    <script src="{% static 'staff/js/django-ajax-amend.js' %}"></script>
+    <script src="{% static 'common/js/jquery-2.1.4.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'common/js/django-ajax-amend.js' %}"></script>
     {% block addition_js %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <img src="{% static 'teacher/icons/mala_icon.png' %}" height="50">
+                <img src="{% static 'common/icons/mala_icon.png' %}" height="50">
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
