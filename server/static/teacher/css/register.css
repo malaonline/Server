@@ -6774,6 +6774,14 @@ button.close {
 .mala_header span {
   margin-top: 10px;
 }
+.mala_header .header_right {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.mala_header .header_right_text {
+  padding-top: 7px;
+}
 .page-left {
   position: relative;
   float: left;
