@@ -10,7 +10,7 @@ import UIKit
 
 class TeacherDetailModel: BaseObjectModel {
     
-    // MARK: - Variables
+    // MARK: - Property
     var avatar: String?
     var gender: String?
     var degree: String?

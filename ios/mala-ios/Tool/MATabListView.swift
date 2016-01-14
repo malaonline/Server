@@ -8,15 +8,15 @@
 
 import UIKit
 
-private let LabelMargin: CGFloat = 12.0
+private let RightPadding: CGFloat = 12.0
 private let BottomMargin: CGFloat = 5.0
 
 class MATabListView: UIView {
 
-    // MARK: - Variables
-    private var previousFrame: CGRect = CGRectZero
-    private var totalHeight: CGFloat = 0
+    // MARK: - Property
     var layoutHeight: CGFloat = 0
+    private var previousFrame = CGRectZero
+    private var totalHeight: CGFloat = 0
     
     
     // MARK: - Constructed
@@ -42,10 +42,11 @@ class MATabListView: UIView {
             label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
             label.text = string
             var size = (string as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(MalaLayout_FontSize_14)])
-            size.width += LabelMargin
+            size.width += RightPadding
             
             var newRect = CGRectZero
-            // the new label can't added to this line
+            
+            // 如果当前行宽度不足够加入新的label
             if CGRectGetMaxX(previousFrame) + size.width > self.bounds.size.width {
                 newRect.origin = CGPoint(x: 0, y: previousFrame.origin.y + size.height + BottomMargin)
                 totalHeight += size.height + BottomMargin
@@ -61,12 +62,13 @@ class MATabListView: UIView {
         }
     }
     
+    
+    // MARK: - Private Method
     private func setHeight(height: CGFloat) {
         self.layoutHeight = height
         self.snp_updateConstraints { (make) -> Void in
             make.height.equalTo(self.layoutHeight)
         }
     }
-    
 }
 

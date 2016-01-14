@@ -18,5 +18,4 @@ extension UIView{
         separatorLine.backgroundColor = UIColor(rgbHexValue: 0xc8c8c8, alpha: 0.75)
         return separatorLine
     }
-    
 }

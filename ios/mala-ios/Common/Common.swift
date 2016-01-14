@@ -12,8 +12,9 @@ import UIKit
 let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 var Mala_UserToken: String = "0"
 
+
 // MARK: - NotificationName
-let MalaNotification_OpenSchoolsCell = "MalaNotification_OpenSchoolsCell"
+let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 
 
 // MARK: - Appearance TintColor

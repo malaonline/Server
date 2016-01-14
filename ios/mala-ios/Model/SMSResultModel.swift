@@ -10,7 +10,7 @@ import UIKit
 
 class SMSResultModel: NSObject {
 
-    // MARK: - Variables
+    // MARK: - Property
     var sent: Bool = false
     var verified: Bool = false
     var first_login: Bool = false
@@ -36,5 +36,4 @@ class SMSResultModel: NSObject {
         let keys = ["sent", "verified", "first_login", "token", "reason"]
         return dictionaryWithValuesForKeys(keys).description
     }
-    
 }

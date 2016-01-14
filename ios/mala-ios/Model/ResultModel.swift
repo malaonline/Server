@@ -10,7 +10,7 @@ import UIKit
 
 class ResultModel: NSObject {
 
-    // MARK: - Variable
+    // MARK: - Property
     var count: NSNumber?
     var previous: NSNumber?
     var next: NSNumber?

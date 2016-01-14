@@ -22,38 +22,54 @@ private let TeacherDetailsCellReuseId = [
 
 class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
 
-    // MARK: - Variables
-    var model: TeacherDetailModel?
-    var isOpenSchoolsCell: Bool = false
-    
+    // MARK: - Property
+    var model: TeacherDetailModel? {
+        didSet {
+            self.tableHeaderView.avatar = model!.avatar ?? ""
+            self.tableHeaderView.name = model!.name ?? "----"
+            self.tableHeaderView.gender = model!.gender ?? "m"
+            self.tableHeaderView.teachingAge = model!.teaching_age ?? 0
+            self.tableView.reloadData()
+        }
+    }
     var schoolArray: [SchoolModel] = [] {
         didSet {
-            // reload the PlaceCell
+            // 刷新 [教学环境] Cell
             self.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
         }
     }
-    
     var memberServiceArray: [MemberServiceModel] = [] {
         didSet {
-            // reload the memberService
+            // 刷新 [会员服务] Cell
             self.tableView.reloadSections(NSIndexSet(index: 6), withRowAnimation: .None)
         }
     }
+    var isOpenSchoolsCell: Bool = false
+
     
-    
+    // MARK: - Components
+    /// 主体TableView
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth,
-            height: MalaScreenHeight - MalaLayout_DetailBottomViewHeight), style: .Grouped)
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaScreenHeight - MalaLayout_DetailBottomViewHeight), style: .Grouped)
         tableView.contentInset = UIEdgeInsets(top: MalaLayout_DetailBottomViewHeight, left: 0, bottom: -20, right: 0)
         return tableView
     }()
-    
+    /// TableView头部视图
+    private lazy var tableHeaderView: TeacherDetailsHeaderView = {
+        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
+        tableHeaderView.avatar = ""
+        tableHeaderView.name = "----"
+        tableHeaderView.gender = "m"
+        tableHeaderView.teachingAge = 0
+        return tableHeaderView
+    }()
+    /// 顶部背景图
     private lazy var headerBackground: UIImageView = {
         let image = UIImageView(image: UIImage(named: "headerBackground"))
         image.contentMode = .ScaleAspectFill
         return image
     }()
-    
+    /// 底部 [立即报名] 按钮
     private lazy var signupView: TeacherDetailsSignupView = {
         let signupView = TeacherDetailsSignupView(frame: CGRect(x: 0, y: 0,
             width: MalaScreenWidth, height: MalaLayout_DetailBottomViewHeight))
@@ -66,44 +82,18 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         super.viewDidLoad()
         
         setupUserInterface()
-        setupTableHeaderView()
-        setupSignupView()
-        setupTableView()
         setupNotification()
         loadSchoolsData()
         loadMemberServices()
         
-        // Active Pop GestureRecognizer
+        // 激活Pop手势识别
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
-    
-    private func setupUserInterface() {
-        
-        tableView.estimatedRowHeight = 240
-        
-        // setup headerImage
-        tableView.insertSubview(headerBackground, atIndex: 0)
-        headerBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(0).offset(-MalaScreenNaviHeight)
-            make.centerX.equalTo(self.tableView.snp_centerX)
-            make.width.equalTo(MalaScreenWidth)
-            make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
-        }
-        
-        // setup style
-        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
-        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "leftArrow"),
-            style: .Done, target: self.navigationController, action: "popViewControllerAnimated:")
-    }
-    
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // make clear color
+        // 设置 NavigationBar 透明色
         makeStatusBarWhite()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     }
@@ -120,34 +110,22 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     
     // MARK: - Private Method
-    private func setupTableHeaderView() {
+    private func setupUserInterface() {
+        // Style
+        tableView.estimatedRowHeight = 240
+        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
+        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "leftArrow"),
+            style: .Done,
+            target: self.navigationController,
+            action: "popViewControllerAnimated:"
+        )
         
-        let headerView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0,
-            width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
-        headerView.avatar = (model?.avatar) ?? ""
-        headerView.name = (model?.name) ?? "---"
-        headerView.gender = (model?.gender) ?? "m"
-        headerView.teachingAge = (model?.teaching_age) ?? 0
-        tableView.tableHeaderView = headerView
-    }
-    
-    private func setupSignupView() {
-        view.addSubview(signupView)
-        signupView.delegate = self
-        signupView.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.equalTo(self.view.snp_left)
-            make.right.equalTo(self.view.snp_right)
-            make.bottom.equalTo(self.view.snp_bottom)
-            make.height.equalTo(MalaLayout_DetailBottomViewHeight)
-        })
-    }
-    
-    private func setupTableView() {
+        // TableView
         view.addSubview(tableView)
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.registerClass(TeacherDetailsSubjectCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[0]!)
         tableView.registerClass(TeacherDetailsTagsCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[1]!)
         tableView.registerClass(TeacherDetailsHighScoreCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[2]!)
@@ -157,35 +135,53 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
         tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
         tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
+        
+        // SubViews
+        view.addSubview(signupView)
+        signupView.delegate = self
+        tableView.tableHeaderView = tableHeaderView
+        tableView.insertSubview(headerBackground, atIndex: 0)
+        
+        // Autolayout
+        signupView.snp_makeConstraints(closure: { (make) -> Void in
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
+            make.bottom.equalTo(self.view.snp_bottom)
+            make.height.equalTo(MalaLayout_DetailBottomViewHeight)
+        })
+        headerBackground.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(0).offset(-MalaScreenNaviHeight)
+            make.centerX.equalTo(self.tableView.snp_centerX)
+            make.width.equalTo(MalaScreenWidth)
+            make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
+        }
     }
     
     private func setupNotification() {
-        NSNotificationCenter.defaultCenter().addObserverForName(MalaNotification_OpenSchoolsCell, object: nil, queue: nil) { [weak self] (notification) -> Void in
-            
-            // reload and Open SchoolsCell
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_OpenSchoolsCell,
+            object: nil,
+            queue: nil
+            ) { [weak self] (notification) -> Void in
+            // 展开 [教学环境] Cell
             self?.isOpenSchoolsCell = true
             self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
         }
     }
     
     private func loadSchoolsData() {
-        
-        // load schools Data
+        // // 获取 [教学环境] 数据
         NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
-            
-            // Error
             if error != nil {
                 debugPrint("TeacherDetailsController - loadSchools Request Error")
                 return
             }
-            
-            // Make sure Dict not nil
             guard let dict = result as? [String: AnyObject] else {
                 debugPrint("TeacherDetailsController - loadSchools Format Error")
                 return
             }
             
-            // Transfer results to [SchoolModel]
+            // result 字典转 [SchoolModel] 模型数组
             let resultArray = ResultModel(dict: dict).results
             var tempArray: [SchoolModel] = []
             for object in resultArray ?? [] {
@@ -199,17 +195,12 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func loadMemberServices() {
-        
-        // load member services Data
+        // 获取 [会员服务] 数据
         NetworkTool.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
-            
-            // Error
             if error != nil {
                 debugPrint("TeacherDetailsController - loadMemberServices Request Error")
                 return
             }
-            
-            // Make sure Dict not nil
             guard let dict = result as? [String: AnyObject] else {
                 debugPrint("TeacherDetailsController - loadMemberServices Format Error")
                 return
@@ -226,6 +217,60 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             }
             self?.memberServiceArray = tempArray
         }
+    }
+    
+    private func showBackground() {
+        makeStatusBarBlack()
+        self.title = model?.name
+        UIView.animateWithDuration(1) { [weak self] () -> Void in
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+        }
+    }
+    
+    private func hideBackground() {
+        makeStatusBarWhite()
+        self.title = ""
+        UIView.animateWithDuration(1) { [weak self] () -> Void in
+            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
+        }
+    }
+    
+    
+    // MARK: - Deleagte
+    func signupButtonDidTap(sender: UIButton) {
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let displacement = scrollView.contentOffset.y
+        
+        // 向下滑动页面时，使顶部图片跟随放大
+        if displacement < -MalaScreenNaviHeight {
+            headerBackground.snp_updateConstraints(closure: { (make) -> Void in
+                make.top.equalTo(0).offset(displacement)
+                // 1.1为放大速率
+                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+MalaScreenNaviHeight)*1.1)
+            })
+        }
+        
+        // 上下滑动页面到一定程度时，渲染NavigationBar样式
+        if displacement > 0 {
+            showBackground()
+        }else {
+            hideBackground()
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? MalaLayout_Margin_4*2 : MalaLayout_Margin_4
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return MalaLayout_Margin_4
+    }
+    
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
     
     
@@ -305,63 +350,10 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
 
         return reuseCell
     }
-    
-    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
 
-    
-    // MARK: - Deleagte
-    func signupButtonDidTap(sender: UIButton) {
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let displacement = scrollView.contentOffset.y
-        
-        if displacement < -MalaScreenNaviHeight {
-            headerBackground.snp_updateConstraints(closure: { (make) -> Void in
-                make.top.equalTo(0).offset(displacement)
-                // 1.1 for variety rate
-                make.height.equalTo(MalaLayout_DetailHeaderLayerHeight + abs(displacement+MalaScreenNaviHeight)*1.1)
-            })
-        }
-        
-        if displacement > 0 {
-            showBackground()
-        }else {
-            hideBackground()
-        }
-        
-    }
-    
-    private func showBackground() {
-        makeStatusBarBlack()
-        
-        UIView.animateWithDuration(10) { [weak self] () -> Void in
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        }
-    }
-    
-    private func hideBackground() {
-        makeStatusBarWhite()
-        
-        UIView.animateWithDuration(10) { [weak self] () -> Void in
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
-        }
-    }
-    
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? MalaLayout_Margin_4*2 : MalaLayout_Margin_4
-    }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return MalaLayout_Margin_4
-    }
-    
+
     deinit {
-        // Remove Observer
+        // 移除观察者
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
     }
     

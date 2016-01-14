@@ -10,7 +10,7 @@ import UIKit
 
 class GradePriceModel: NSObject {
 
-    // MARK: - Variables
+    // MARK: - Property
     var grade: BaseObjectModel?
     var price: Int?
     
@@ -20,16 +20,16 @@ class GradePriceModel: NSObject {
         super.init()
     }
     
+    init(dict: [String: AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
     convenience init(name: String, id: Int, price: Int) {
         self.init()
         let grade = BaseObjectModel(id: id, name: name)
         self.grade = grade
         self.price = price
-    }
-    
-    init(dict: [String: AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
     }
     
     

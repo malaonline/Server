@@ -10,17 +10,18 @@ import UIKit
 
 class CommonFlowLayout: UICollectionViewFlowLayout {
     
-    // MARK: - FlowLayoutType
+    // MARK: - Property
     enum FlowLayoutType {
         case HomeView
         case FilterView
     }
     
+    
     // MARK: - Constructed
     init(type layoutType: FlowLayoutType) {
         super.init()
         
-        // Layout for Setup 
+        // 根据Type来应用对应的布局样式
         switch layoutType {
         case .HomeView:
             homeViewFlowLayout()
@@ -47,7 +48,6 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     }
     
     private func filterViewFlowLayout() {
-        
         scrollDirection = .Vertical
         let itemWidth: CGFloat = 130.0
         let itemHeight: CGFloat = 20.0
@@ -56,7 +56,6 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         minimumInteritemSpacing = itemMargin
         minimumLineSpacing = itemMargin
         sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
-        
         headerReferenceSize = CGSize(width: 100, height: 40)
         footerReferenceSize = CGSize(width: 300.0, height: 10)
     }

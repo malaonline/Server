@@ -10,7 +10,7 @@ import UIKit
 
 class TeacherDetailsTagsCell: TeacherDetailsBaseCell {
 
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }

@@ -10,8 +10,8 @@ import UIKit
 
 class TeacherDetailsPriceCell: TeacherDetailsBaseCell {
 
-    // MARK: - Variables
-    var prices: [GradePriceModel] {
+    // MARK: - Property
+    var prices: [GradePriceModel] = [] {
         didSet {
             tableView.prices = prices
             tableView.snp_updateConstraints { (make) -> Void in
@@ -27,10 +27,8 @@ class TeacherDetailsPriceCell: TeacherDetailsBaseCell {
     }()
     
     
-    
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        prices = []
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         subTitle = "新生奖学金抵扣400元"
         setupUserInterface()
@@ -42,24 +40,20 @@ class TeacherDetailsPriceCell: TeacherDetailsBaseCell {
 
     
     private func setupUserInterface() {
-        
         // SubViews
         content.addSubview(tableView)
         
         // Autolayout
-        // Remove margin
+        // 移除content的上下Margin值，上下间隔效果由TableViewCell内部间隔实现
         content.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(self.title.snp_bottom)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
-        
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)
             make.left.equalTo(self.content.snp_left)
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
         }
-        
     }
-    
 }

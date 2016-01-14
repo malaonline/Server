@@ -8,25 +8,21 @@
 
 import UIKit
 
-// MARK: - AppDelegate
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
         setupExterior()
+        configureUmeng()
         
-        setupUmengConfig()
-        
-        // Setup Widow
+        // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
         window?.rootViewController = defaultRootViewController
         window?.makeKeyAndVisible()
-        
         return true
     }
 
@@ -52,27 +48,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    /// Setup Common Exterior
+    /// 设置公共外观样式
     private func setupExterior() {
+        // 设置外观
+        makeStatusBarBlack()
         
-        // Setup Appearance
+        // 设置公共样式
         UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().tintColor = MalaAppearanceTintColor
-        
-        // Setup Exterior
-        makeStatusBarBlack()
     }
-
 }
 
-// MARK: - SDK Configutarion
+
+// MARK: - SDK Configuration
 extension AppDelegate {
 
-    private func setupUmengConfig() {
-        
-        // Start report (channelId is default to "App Store")
+    private func configureUmeng() {
+        // 发送启动通知(channelId 默认为 "App Store")
         MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
     }
 }
@@ -83,7 +77,6 @@ extension AppDelegate {
     
     // Setup RootViewController
     private var defaultRootViewController: UIViewController {
-        
         // 1. Has Logged
         //        if HasLogged {
         //            return isNewVersion ? NewFeatureViewController() : WelcomeViewController()
@@ -93,6 +86,5 @@ extension AppDelegate {
         //        return loginViewController()
         return MainViewController()
     }
-    
 }
 

@@ -10,7 +10,7 @@ import UIKit
 
 class TeacherDetailsLevelCell: TeacherDetailsBaseCell {
 
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
@@ -18,5 +18,4 @@ class TeacherDetailsLevelCell: TeacherDetailsBaseCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

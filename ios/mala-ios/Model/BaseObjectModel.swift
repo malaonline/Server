@@ -10,16 +10,11 @@ import UIKit
 
 class BaseObjectModel: NSObject {
 
-    // MARK: - Variable
+    // MARK: - Property
     var id: Int = 0
     var name: String?
     
-    convenience init(id: Int, name: String) {
-        self.init()
-        self.id = id
-        self.name = name
-    }
-    
+
     // MARK: - Constructed
     override init() {
         super.init()
@@ -30,6 +25,11 @@ class BaseObjectModel: NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
+    convenience init(id: Int, name: String) {
+        self.init()
+        self.id = id
+        self.name = name
+    }
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
@@ -42,5 +42,4 @@ class BaseObjectModel: NSObject {
         let keys = ["id", "name"]
         return dictionaryWithValuesForKeys(keys).description
     }
-    
 }

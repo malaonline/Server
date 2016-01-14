@@ -12,8 +12,9 @@ import Kingfisher
 
 class TeacherDetailsHeaderView: UIView {
 
-    // MARK: - Variables
-    var avatar: String {
+    // MARK: - Property
+    /// 教师头像URL
+    var avatar: String = "" {
         didSet{
             guard let url = NSURL(string: avatar) else {
                 debugPrint("TeacherDetailsHeaderView - AvatarURL Format Error")
@@ -22,14 +23,14 @@ class TeacherDetailsHeaderView: UIView {
             self.avatarView.kf_setImageWithURL(url, placeholderImage: UIImage.withColor(UIColor.lightGrayColor()))
         }
     }
-    
-    var name: String {
+    /// 教师姓名
+    var name: String = "----" {
         didSet{
             self.nameLabel.text = name
         }
     }
-    
-    var gender: String {
+    /// 教师性别
+    var gender: String = ""{
         didSet{
             switch gender {
             case "m": genderLabel.text = "男"
@@ -38,8 +39,8 @@ class TeacherDetailsHeaderView: UIView {
             }
         }
     }
-    
-    var teachingAge: Int {
+    /// 教师教龄
+    var teachingAge: Int = 0 {
         didSet{
             self.teachingAgeLabel.text = String(format: "教龄%d年", teachingAge)
         }
@@ -47,12 +48,13 @@ class TeacherDetailsHeaderView: UIView {
     
     
     // MARK: - Components
+    /// 内部控件容器（注意本类继承于 UIView 而非 UITableViewCell）
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.whiteColor()
         return view
     }()
-    
+    /// 头像显示控件
     private lazy var avatarView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.withColor(UIColor.lightGrayColor())
@@ -62,7 +64,7 @@ class TeacherDetailsHeaderView: UIView {
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
         return imageView
     }()
-    
+    /// 会员图标显示控件
     private lazy var vipIconView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "vip"))
         imageView.layer.cornerRadius = MalaLayout_VipIconSize*0.5
@@ -71,20 +73,20 @@ class TeacherDetailsHeaderView: UIView {
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
         return imageView
     }()
-
+    /// 老师姓名label
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         return label
     }()
-    
+    /// 老师性别label
     private lazy var genderLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaDetailsCellSubTitleColor
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return label
     }()
-    
+    /// 老师教龄label
     private lazy var teachingAgeLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaDetailsCellSubTitleColor
@@ -95,15 +97,7 @@ class TeacherDetailsHeaderView: UIView {
     
     // MARK: - Constructed
     override init(frame: CGRect) {
-        
-        // Set default value
-        self.avatar = ""
-        self.name = "教师姓名"
-        self.gender = "男"
-        self.teachingAge = 10
-        
         super.init(frame: frame)
-        
         setupUserInterface()
     }
     
@@ -114,7 +108,6 @@ class TeacherDetailsHeaderView: UIView {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
         // Style
         self.backgroundColor = UIColor.clearColor()
         
@@ -164,5 +157,4 @@ class TeacherDetailsHeaderView: UIView {
             make.height.equalTo(MalaLayout_FontSize_12)
         })
     }
-    
 }

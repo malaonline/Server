@@ -111,7 +111,6 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
         // SubView
         contentView.addSubview(nameLabel)
         contentView.addSubview(scoresLabel)
@@ -150,21 +149,21 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
             make.height.equalTo(MalaScreenOnePixel)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
-
     }
     
     
     // MARK: - API
+    ///  根据传入的表头字符串数组，生成对应的表头
+    ///
+    ///  - parameter titles: 表头字符串数组
     func setTableTitles(titles: [String]) {
         nameLabel.text = titles[0]
         scoresLabel.text = titles[1]
         schoolLabel.text = titles[2]
         admittedLabel.text = titles[3]
-        
         for view in self.contentView.subviews {
             (view as? UILabel)?.textColor = MalaDetailsCellTitleColor
         }
         self.contentView.backgroundColor = MalaDetailsBottomViewColor
     }
-    
 }

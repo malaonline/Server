@@ -18,5 +18,4 @@ extension UIImageView {
         placeHolder.backgroundColor = UIColor.lightGrayColor()
         return placeHolder
     }
-    
 }

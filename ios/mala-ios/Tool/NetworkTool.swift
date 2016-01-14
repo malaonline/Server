@@ -11,7 +11,7 @@ import Alamofire
 
 class NetworkTool {
 
-    // MARK: - Variable
+    // MARK: - Property
     private let baseUrl = "https://dev.malalaoshi.com/api/v1"
     private let gradeList = "/grades/"
     private let subjectList = "/subjects/"
@@ -20,18 +20,15 @@ class NetworkTool {
     private let teacherList = "/teachers/"
     private let sms = "/sms/"
     private let schools = "/schools/"
-    
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
-    
     // Singleton
     private init() {}
     static let sharedTools = NetworkTool()
-    
 }
 
 
-// MARK: - Request Function
+// MARK: - Request Method
 extension NetworkTool {
     
     ///  Request for GradeList
@@ -107,7 +104,6 @@ extension NetworkTool {
     func loadSchools(finished: RequestCallBack) {
         request(.GET, URLString: baseUrl+schools, parameters: nil, finished: finished)
     }
-    
 }
 
 
@@ -121,7 +117,6 @@ extension NetworkTool {
     ///  - parameter parameters: Dictionary for Parameters
     ///  - parameter finished:   Closure for Finished
     private func request(method: Alamofire.Method, URLString: String, parameters: [String: AnyObject]?, finished: RequestCallBack) {
-        
         // Show Networking Symbol
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
@@ -138,7 +133,6 @@ extension NetworkTool {
             finished(result: response.result.value, error: response.result.error)
         }
     }
-
 }
 
 

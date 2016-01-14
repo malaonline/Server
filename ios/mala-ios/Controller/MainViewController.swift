@@ -26,7 +26,6 @@ class MainViewController: UITabBarController {
     
     // MARK: - Private Method
     private func setupTabBar() {
-        
         addSubViewController(HomeViewController(), title: MalaCommonString_Malalaoshi, imageName: "home_normal")
         addSubViewController(HomeViewController(), title: MalaCommonString_Profile, imageName: "profile_normal")
     }
@@ -38,11 +37,9 @@ class MainViewController: UITabBarController {
      ///  - parameter title:          String for ViewController's Title
      ///  - parameter imageName:      String for ImageName
     private func addSubViewController(viewController: UIViewController, title: String, imageName: String) {
-        
         viewController.title = title
         viewController.tabBarItem.image = UIImage(named: imageName)
         let navigationController = MainNavigationController(rootViewController: viewController)
         addChildViewController(navigationController)
     }
-
 }
