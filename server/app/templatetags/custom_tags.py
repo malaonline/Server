@@ -5,6 +5,6 @@ register = template.Library()
 
 
 @register.filter('num_range')
-def num_range(value):
-    return range(1, value+1)
+def num_range(value, offset=1):
+    return range(offset, value+offset)
 

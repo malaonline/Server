@@ -254,8 +254,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../../common/fonts/glyphicons-halflings-regular.eot');
+  src: url('../../common/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../common/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../common/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../common/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../common/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -6500,7 +6500,9 @@ button.close {
 .panel-body:before,
 .panel-body:after,
 .modal-footer:before,
-.modal-footer:after {
+.modal-footer:after,
+.form-horizontal .form-row:before,
+.form-horizontal .form-row:after {
   content: " ";
   display: table;
 }
@@ -6518,7 +6520,8 @@ button.close {
 .navbar-collapse:after,
 .pager:after,
 .panel-body:after,
-.modal-footer:after {
+.modal-footer:after,
+.form-horizontal .form-row:after {
   clear: both;
 }
 .center-block {
@@ -6763,4 +6766,593 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+.page-left {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.page-right {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.page-center {
+  position: relative;
+  float: left;
+  width: 66.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.borderRadius {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal {
+  padding-left: 10px;
+}
+.form-horizontal .form-row {
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: 9px;
+}
+.form-horizontal .register-phone-label,
+.form-horizontal .register-sms-label {
+  min-width: 110px;
+  float: left;
+  text-align: right;
+  padding-right: 17px;
+  padding-top: 7px;
+}
+.form-horizontal .register-phone-input {
+  float: left;
+  padding-left: 0;
+}
+.form-horizontal .register-phone-input input {
+  width: 200px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  float: left;
+}
+.form-horizontal .register-phone-input span {
+  float: left;
+  height: 27px;
+  background: #faeded;
+  color: #8c8c8c;
+  border: 1px #e2dfdf solid;
+  border-radius: 0;
+  margin-left: 3px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 22px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.form-horizontal .register-phone-input span i {
+  font-size: 14px;
+  top: 2px;
+}
+.form-horizontal .register-phone-input span[attrHidden=true] {
+  display: none;
+}
+.form-horizontal .register-phone-output {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.form-horizontal .register-sms-input {
+  padding-left: 0;
+  padding-right: 5px;
+}
+.form-horizontal .register-sms-input input {
+  width: 124px;
+  float: left;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .register-sms-input button {
+  margin-left: 5px;
+  width: 71px;
+  float: left;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .register-sms-input button:disabled {
+  background: #cdcdcd;
+  color: white;
+}
+.form-horizontal .register-sms-input button:disabled:hover {
+  background: #cdcdcd;
+  color: white;
+}
+.form-horizontal .register-sms-get-button {
+  padding-left: 0;
+}
+.form-horizontal .register-sms-get-button button {
+  width: 71px;
+}
+.form-horizontal .register-sms-right-blank {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.form-horizontal .register-agree {
+  padding-left: 130px;
+  font-size: 12px;
+}
+.form-horizontal .register-agree button {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #625a55;
+  text-decoration: underline;
+}
+.form-horizontal .register-agree input {
+  margin-top: 1px;
+}
+.form-horizontal .register-next {
+  padding-left: 110px;
+}
+.form-horizontal .register-next-button {
+  width: 200px;
+}
+.form-horizontal .normal-button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+  background: #8c8c8c;
+  color: white;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button:active:focus,
+.form-horizontal .normal-button.active:focus,
+.form-horizontal .normal-button.focus,
+.form-horizontal .normal-button:active.focus,
+.form-horizontal .normal-button.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.form-horizontal .normal-button:hover,
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.focus {
+  color: #333333;
+  text-decoration: none;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.form-horizontal .normal-button.disabled,
+.form-horizontal .normal-button[disabled],
+fieldset[disabled] .form-horizontal .normal-button {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+a.form-horizontal .normal-button.disabled,
+fieldset[disabled] a.form-horizontal .normal-button {
+  pointer-events: none;
+}
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.focus {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+.form-horizontal .normal-button:hover {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active,
+.open > .dropdown-toggle.form-horizontal .normal-button {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.form-horizontal .normal-button:active:hover,
+.form-horizontal .normal-button.active:hover,
+.open > .dropdown-toggle.form-horizontal .normal-button:hover,
+.form-horizontal .normal-button:active:focus,
+.form-horizontal .normal-button.active:focus,
+.open > .dropdown-toggle.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button:active.focus,
+.form-horizontal .normal-button.active.focus,
+.open > .dropdown-toggle.form-horizontal .normal-button.focus {
+  color: #333333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active,
+.open > .dropdown-toggle.form-horizontal .normal-button {
+  background-image: none;
+}
+.form-horizontal .normal-button.disabled,
+.form-horizontal .normal-button[disabled],
+fieldset[disabled] .form-horizontal .normal-button,
+.form-horizontal .normal-button.disabled:hover,
+.form-horizontal .normal-button[disabled]:hover,
+fieldset[disabled] .form-horizontal .normal-button:hover,
+.form-horizontal .normal-button.disabled:focus,
+.form-horizontal .normal-button[disabled]:focus,
+fieldset[disabled] .form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.disabled.focus,
+.form-horizontal .normal-button[disabled].focus,
+fieldset[disabled] .form-horizontal .normal-button.focus,
+.form-horizontal .normal-button.disabled:active,
+.form-horizontal .normal-button[disabled]:active,
+fieldset[disabled] .form-horizontal .normal-button:active,
+.form-horizontal .normal-button.disabled.active,
+.form-horizontal .normal-button[disabled].active,
+fieldset[disabled] .form-horizontal .normal-button.active {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+.form-horizontal .normal-button .badge {
+  color: #ffffff;
+  background-color: #333333;
+}
+.form-horizontal .primary-button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #ffffff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  background: #414141;
+  color: white;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button:active:focus,
+.form-horizontal .primary-button.active:focus,
+.form-horizontal .primary-button.focus,
+.form-horizontal .primary-button:active.focus,
+.form-horizontal .primary-button.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.form-horizontal .primary-button:hover,
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.focus {
+  color: #333333;
+  text-decoration: none;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.form-horizontal .primary-button.disabled,
+.form-horizontal .primary-button[disabled],
+fieldset[disabled] .form-horizontal .primary-button {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+a.form-horizontal .primary-button.disabled,
+fieldset[disabled] a.form-horizontal .primary-button {
+  pointer-events: none;
+}
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.focus {
+  color: #ffffff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.form-horizontal .primary-button:hover {
+  color: #ffffff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active,
+.open > .dropdown-toggle.form-horizontal .primary-button {
+  color: #ffffff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.form-horizontal .primary-button:active:hover,
+.form-horizontal .primary-button.active:hover,
+.open > .dropdown-toggle.form-horizontal .primary-button:hover,
+.form-horizontal .primary-button:active:focus,
+.form-horizontal .primary-button.active:focus,
+.open > .dropdown-toggle.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button:active.focus,
+.form-horizontal .primary-button.active.focus,
+.open > .dropdown-toggle.form-horizontal .primary-button.focus {
+  color: #ffffff;
+  background-color: #204d74;
+  border-color: #122b40;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active,
+.open > .dropdown-toggle.form-horizontal .primary-button {
+  background-image: none;
+}
+.form-horizontal .primary-button.disabled,
+.form-horizontal .primary-button[disabled],
+fieldset[disabled] .form-horizontal .primary-button,
+.form-horizontal .primary-button.disabled:hover,
+.form-horizontal .primary-button[disabled]:hover,
+fieldset[disabled] .form-horizontal .primary-button:hover,
+.form-horizontal .primary-button.disabled:focus,
+.form-horizontal .primary-button[disabled]:focus,
+fieldset[disabled] .form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.disabled.focus,
+.form-horizontal .primary-button[disabled].focus,
+fieldset[disabled] .form-horizontal .primary-button.focus,
+.form-horizontal .primary-button.disabled:active,
+.form-horizontal .primary-button[disabled]:active,
+fieldset[disabled] .form-horizontal .primary-button:active,
+.form-horizontal .primary-button.disabled.active,
+.form-horizontal .primary-button[disabled].active,
+fieldset[disabled] .form-horizontal .primary-button.active {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.form-horizontal .primary-button .badge {
+  color: #337ab7;
+  background-color: #ffffff;
+}
+.form-horizontal .primary-button:disabled {
+  background: #cdcdcd;
+  color: white;
+  border: 0;
+}
+.form-horizontal .primary-button:disabled:hover {
+  background: #cdcdcd;
+  color: white;
+}
+.agree {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.agree .doc-header {
+  background: #e4e4e4;
+  color: #716769;
+}
+.agree .doc-header h4 {
+  margin-left: 190px;
+}
+.agree .continue-button {
+  margin-right: 230px;
+  background: #8e8e8e;
+  color: white;
+}
+.agree .doc iframe {
+  border: None;
+  width: 100%;
+  height: 500px;
+}
+.agree-and-continue-button {
+  margin-right: 230px;
+  background: #8e8e8e;
+  color: white;
+}
+.header_right {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.header_right_text {
+  padding-top: 7px;
+}
+.information_header {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 24px;
+}
+.form-horizontal {
+  margin-top: 44px;
+}
+.form-horizontal .form-row {
+  margin-top: 20px;
+}
+.form-horizontal .real_name_label,
+.form-horizontal .gender_label,
+.form-horizontal .city_label,
+.form-horizontal .subclass_label,
+.form-horizontal .grand_label {
+  float: left;
+  padding-top: 8px;
+  text-align: right;
+  min-width: 110px;
+  font-size: 16px;
+  font-weight: normal;
+}
+.form-horizontal .real_name_input,
+.form-horizontal .gender_input,
+.form-horizontal .city_input,
+.form-horizontal .subclass_input {
+  height: 44px;
+}
+.form-horizontal .real_name_input,
+.form-horizontal .gender_input,
+.form-horizontal .city_input,
+.form-horizontal .subclass_input,
+.form-horizontal .grand_input {
+  float: left;
+  margin-left: 26px;
+  width: 318px;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #d3d3d3;
+}
+.form-horizontal .real_name_input input[readonly=readonly],
+.form-horizontal .gender_input input[readonly=readonly],
+.form-horizontal .city_input input[readonly=readonly],
+.form-horizontal .subclass_input input[readonly=readonly],
+.form-horizontal .grand_input input[readonly=readonly] {
+  background: white;
+}
+.form-horizontal .real_name_input input,
+.form-horizontal .gender_input input,
+.form-horizontal .city_input input,
+.form-horizontal .subclass_input input {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  height: 44px;
+  width: 267px;
+  border-width: 1px;
+  border-color: #d3d3d3;
+}
+.form-horizontal .real_name_input button,
+.form-horizontal .gender_input button,
+.form-horizontal .city_input button,
+.form-horizontal .subclass_input button {
+  height: 44px;
+  width: 52px;
+  border-width: 1px;
+  border-color: #d3d3d3;
+  background: #eaebec;
+  color: #d3d3d3;
+}
+.form-horizontal .real_name_input ul,
+.form-horizontal .gender_input ul,
+.form-horizontal .city_input ul,
+.form-horizontal .subclass_input ul {
+  width: 267px;
+}
+.form-horizontal .grand_input .grand_button,
+.form-horizontal .grand_input .grand_add {
+  height: 51px;
+  border-radius: 2px;
+  color: #898a8b;
+}
+.form-horizontal .grand_input .grand_button {
+  border-width: 1px;
+  border-color: #d3d3d3;
+  width: 130px;
+}
+.form-horizontal .grand_input .grand_button i {
+  visibility: hidden;
+}
+.form-horizontal .grand_input .grand_button:hover {
+  background: white;
+  border-width: 1px;
+  border-color: black;
+}
+.form-horizontal .grand_input .grand_button:hover i {
+  visibility: visible;
+}
+.form-horizontal .grand_input .grand_add {
+  width: 50px;
+  border-style: dashed;
+}
+.form-horizontal .grand_warning {
+  height: 51px;
+  line-height: 51px;
+  color: #898a8b;
+  padding-left: 26px;
+}
+.form-horizontal .grand_warning[attrHidden=true] {
+  display: none;
+}
+.submit_button {
+  margin-top: 30px;
+  margin-left: 200px;
+  width: 256px;
+  height: 50px;
+  background: #8c8c8e;
+  color: white;
+  font-size: 24px;
+}
+.agree .doc h4 {
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #5f6064;
+}
+.agree button {
+  border-radius: 2px;
+  margin-top: 15px;
+  margin-right: 7px;
+  border-color: #d7d9da;
+  color: #929594;
+  font-size: 14px;
+  font-weight: bold;
+}
+.agree button[attrSelection=true] {
+  border-color: black;
+}
+.agree .continue-button {
+  width: 165px;
+  height: 35px;
+}
+.mala_header {
+  font-size: 16px;
+  border: 1px black;
+}
+.mala_header span {
+  margin-top: 10px;
 }
