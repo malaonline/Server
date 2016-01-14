@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # local modules
 from app import models
@@ -73,5 +73,11 @@ class CertificationView(BaseTeacherView):
     certifications overview
     """
     def get(self, request):
-        return HttpResponse('TODO')
+        context = {}
+        user = request.user
+        teacher = get_object_or_404(models.Teacher, user=user)
+        certifications = models.Certificate.objects.filter(teacher=teacher)
+        context['teacherName'] = teacher.name
+        context['certifications'] = certifications
+        return render(request, 'teacher/certificate/overview.html', context)
 
