@@ -21,3 +21,14 @@ def complete_information(request):
     """
     context = {}
     return render(request, 'teacher/complete_information.html', context)
+
+
+def register_progress(request):
+    """
+    显示注册进度
+    :param request:
+    :return:
+    """
+    context = {}
+    return render(request, "teacher/register_progress.html", context)
+
