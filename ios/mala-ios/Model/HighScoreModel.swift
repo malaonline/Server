@@ -10,7 +10,7 @@ import UIKit
 
 class HighScoreModel: NSObject {
 
-    // MARK: - Variables
+    // MARK: - Property
     var name: String?
     var increased_scores: Int?
     var school_name: String?
@@ -21,6 +21,11 @@ class HighScoreModel: NSObject {
     override init() {
         super.init()
     }
+
+    init(dict: [String: AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
     
     convenience init(name: String, score: Int, school: String, admitted: String) {
         self.init()
@@ -28,11 +33,6 @@ class HighScoreModel: NSObject {
         self.increased_scores = score
         self.school_name = school
         self.admitted_to = admitted
-    }
-    
-    init(dict: [String: AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
     }
     
     
@@ -47,5 +47,4 @@ class HighScoreModel: NSObject {
         let keys = ["name", "increased_scores", "school_name", "admitted_to"]
         return dictionaryWithValuesForKeys(keys).description
     }
-    
 }

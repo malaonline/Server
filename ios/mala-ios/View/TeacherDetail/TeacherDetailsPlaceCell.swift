@@ -10,7 +10,7 @@ import UIKit
 
 class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
 
-    // MARK: - Variables
+    // MARK: - Property
     var schools: [SchoolModel]? {
         didSet {
             tableView.model = schools!
@@ -30,6 +30,7 @@ class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
         }
     }
     
+    
     // MARK: - Components
     private lazy var tableView: TeacherDetailsSchoolsTableView = {
         let tableView = TeacherDetailsSchoolsTableView(frame: CGRectZero, style: .Plain)
@@ -37,7 +38,7 @@ class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
     }()
     
     
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
@@ -50,7 +51,6 @@ class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
         // SubViews
         content.addSubview(tableView)
         
@@ -67,7 +67,5 @@ class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
         }
-        
     }
-
 }

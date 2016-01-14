@@ -10,9 +10,10 @@ import UIKit
 
 class TeacherDetailsHighScoreCell: TeacherDetailsBaseCell {
 
-    // MARK: - Variables
-    var model: [HighScoreModel] {
+    // MARK: - Property
+    var model: [HighScoreModel] = [] {
         didSet {
+            // 设置数据模型后，刷新TableView高度
             tableView.model = model
             tableView.snp_updateConstraints { (make) -> Void in
                 make.height.equalTo(Int(MalaLayout_DeatilHighScoreTableViewCellHeight) * (model.count+1))
@@ -28,9 +29,8 @@ class TeacherDetailsHighScoreCell: TeacherDetailsBaseCell {
     }()
     
     
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.model = []
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
     }
@@ -40,9 +40,8 @@ class TeacherDetailsHighScoreCell: TeacherDetailsBaseCell {
     }
     
     
-    // MARK: - Private Methodí
+    // MARK: - Private Method
     private func setupUserInterface() {
-        
         // SubViews
         content.addSubview(tableView)
         
@@ -53,7 +52,5 @@ class TeacherDetailsHighScoreCell: TeacherDetailsBaseCell {
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
         }
-        
     }
-    
 }

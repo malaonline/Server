@@ -25,9 +25,7 @@ class MainNavigationController: UINavigationController {
     
     // MARK: - Private Method
     private func setupStyle() {
-        
         // Text Style
         navigationBar.titleTextAttributes = commonTextStyle()
     }
-
 }

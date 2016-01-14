@@ -11,7 +11,6 @@ import SnapKit
 
 // MARK: - DropViewDelegate
 protocol DropViewDelegate: class, NSObjectProtocol {
-    
     // DidSelectedItem(Cell)
     func dropViewDidTapButtonForContentView(contentView: UIView)
 }

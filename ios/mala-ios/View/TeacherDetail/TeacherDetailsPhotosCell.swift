@@ -11,8 +11,8 @@ import Kingfisher
 
 class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
 
-    // MARK: - Components
-    var photos: [String] {
+    // MARK: - Property
+    var photos: [String] = [] {
         didSet {
             leftPhoto.kf_setImageWithURL(NSURL(string: photos[0])!,
                 placeholderImage: nil)
@@ -23,15 +23,16 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
         }
     }
     
+    
+    // MARK: - Components
     private lazy var leftPhoto: UIImageView = UIImageView.placeHolder()
     private lazy var centerPhoto: UIImageView = UIImageView.placeHolder()
     private lazy var rightPhoto: UIImageView = UIImageView.placeHolder()
     
-    // MARK: - Life Cycle
+    
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.photos = []
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupUserInterface()
     }
     
@@ -42,7 +43,6 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-
         // SubViews
         content.addSubview(leftPhoto)
         content.addSubview(centerPhoto)
@@ -69,5 +69,4 @@ class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
             make.right.equalTo(self.content.snp_right)
         }
     }
-
 }

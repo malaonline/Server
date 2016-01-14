@@ -10,7 +10,7 @@ import UIKit
 
 class MemberServiceModel: BaseObjectModel {
 
-    // MARK: - Variables
+    // MARK: - Property
     var detail: String?
     var enbaled: Bool = false
     

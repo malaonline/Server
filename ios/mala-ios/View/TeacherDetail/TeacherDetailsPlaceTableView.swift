@@ -12,7 +12,7 @@ private let TeacherDetailsSchoolsTableViewCellReuseId = "TeacherDetailsSchoolsTa
 
 class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
-    // MARK: - Variables
+    // MARK: - Property
     var model: [SchoolModel] = [] {
         didSet {
             reloadData()
@@ -44,28 +44,17 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
-        
-        delegate = self
-        dataSource = self
-        registerClass(TeacherDetailsSchoolsTableViewCell.self, forCellReuseIdentifier: TeacherDetailsSchoolsTableViewCellReuseId)
-        
-        // Style
-        estimatedRowHeight = 107
-        scrollEnabled = false
-        separatorColor = MalaDetailsButtonBorderColor
-        
-        if !isOpen {
-            addSubview(button)
-            button.snp_makeConstraints { (make) -> Void in
-                make.height.equalTo(40)
-                make.width.equalTo(MalaScreenWidth - (MalaLayout_Margin_6*2))
-                make.top.equalTo(self.snp_top).offset(108)
-            }
-        }
+        configuraTableView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Delegate
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
     
     
@@ -83,14 +72,31 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
         return cell
     }
     
-    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
+    
+    // MARK: - Private Method
+    private func configuraTableView() {
+        delegate = self
+        dataSource = self
+        scrollEnabled = false
+        estimatedRowHeight = 107
+        separatorColor = MalaDetailsButtonBorderColor
+        registerClass(TeacherDetailsSchoolsTableViewCell.self, forCellReuseIdentifier: TeacherDetailsSchoolsTableViewCellReuseId)
+        
+        // 若Cell尚未展开，则显示展开按钮
+        if !isOpen {
+            addSubview(button)
+            button.snp_makeConstraints { (make) -> Void in
+                make.height.equalTo(40)
+                make.width.equalTo(MalaScreenWidth - (MalaLayout_Margin_6*2))
+                make.top.equalTo(self.snp_top).offset(108)
+            }
+        }
     }
     
     
-    // MARK: - Private Method
+    // MARK: - Event Response
     @objc private func buttonDidTap() {
-        // Post Notification to Refresh TeacherDetailsTableView
+        // 发送通知，刷新 [教师详情页面] 并展开Cell
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenSchoolsCell, object: nil)
     }
 }
@@ -99,7 +105,7 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
 // MARK: - TeacherDetailsSchoolsTableViewCell
 class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     
-    // MARK: - Variables
+    // MARK: - Property
     var model: SchoolModel? {
         didSet {
             photoView.kf_setImageWithURL(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: nil)
@@ -150,7 +156,6 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
         // SubView
         contentView.addSubview(photoView)
         contentView.addSubview(titleLabel)
@@ -182,5 +187,4 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
             make.height.equalTo(MalaLayout_FontSize_12)
         }   
     }
-    
 }

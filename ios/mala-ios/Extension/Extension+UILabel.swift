@@ -31,5 +31,4 @@ extension UILabel {
         label.textAlignment = .Center
         return label
     }
-    
 }

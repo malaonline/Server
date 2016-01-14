@@ -10,7 +10,7 @@ import UIKit
 
 class GradeModel: BaseObjectModel {
 
-    // MARK: - Variable
+    // MARK: - Property
     var subset: [GradeModel]? = []
     var subjects: [NSNumber] = []
     
@@ -52,5 +52,4 @@ class GradeModel: BaseObjectModel {
         let keys = ["id", "name", "subset", "subjects"]
         return dictionaryWithValuesForKeys(keys).description
     }
-    
 }

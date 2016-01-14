@@ -10,7 +10,7 @@ import UIKit
 
 class TeacherModel: BaseObjectModel {
     
-    // MARK: - Variable
+    // MARK: - Property
     var avatar: NSURL?
     var gender: String?
     var degree: String?
@@ -20,11 +20,13 @@ class TeacherModel: BaseObjectModel {
     var grades_shortname: String?
     var tags: [String]?
     
+    
     // MARK: - Constructed
     override init(dict: [String: AnyObject]) {
         super.init(dict: dict)
         setValuesForKeysWithDictionary(dict)
     }
+    
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
@@ -44,6 +46,7 @@ class TeacherModel: BaseObjectModel {
         }
         super.setValue(value, forKey: key)
     }
+    
     
     // MARK: - Description
     override var description: String {

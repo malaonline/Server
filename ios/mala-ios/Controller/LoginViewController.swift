@@ -10,8 +10,6 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    // MARK: - Variables
-
     // MARK: - Components
     private lazy var dismissButton: UIButton = {
         let button = UIButton()
@@ -69,7 +67,6 @@ class LoginViewController: UIViewController {
     
     // MARK: - Private Method
     private func setupUI() {
-        
         // setup style
         self.view.backgroundColor = UIColor.whiteColor()
         
@@ -147,7 +144,6 @@ class LoginViewController: UIViewController {
             make.top.equalTo(self.checkSeparator.snp_bottom).offset(15)
             make.height.equalTo(50)
         }
-
     }
     
     private func validateMobile(mobile: String) -> Bool {
@@ -242,5 +238,4 @@ class LoginViewController: UIViewController {
     @objc private func dismiss() {
         dismissViewControllerAnimated(true, completion: nil)
     }
-
 }

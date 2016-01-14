@@ -10,7 +10,7 @@ import UIKit
 
 class SchoolModel: BaseObjectModel {
 
-    // MARK: - Variables
+    // MARK: - Property
     var address: String?
     var thumbnail: String?
     var region: Int = 0

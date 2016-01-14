@@ -8,25 +8,25 @@
 
 import UIKit
 
+/// 自定义附加组件
+enum TeacherDetailsCellAccessoryType : Int {
+    
+    case None       // don't show any thing
+    case RightArrow // info button
+    case DropArrow  // detail button
+    case SubTitle   // label view, you need to set titleString first for use this
+}
+
 class TeacherDetailsBaseCell: UITableViewCell {
     
-    // MARK: - Components
-    /// Label for title
-    lazy var title: UILabel = {
-        let label = UILabel(title: MalaCommonString_Title)
-        label.textColor = MalaDetailsCellTitleColor
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        return label
-    }()
-    
-    /// String for subTitle
+    // MARK: - Property
+    /// 副标题文字
     var subTitle: String? {
         didSet {
             subTitleLabel.text = subTitle
         }
     }
-    
-    /// Custom accessoryView at the right corner
+    /// 自定义附加组件类型
     var accessory: TeacherDetailsCellAccessoryType {
         didSet {
             switch accessory {
@@ -56,26 +56,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
             }
         }
     }
-    
-    /// The truely container
-    lazy var content: UIView = UIView()
-    
-    /// View use to put tags
-    private lazy var tagsView: MATabListView = {
-        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0,
-            width: UIScreen.mainScreen().bounds.size.width, height: MalaLayout_FontSize_12))
-        self.content.addSubview(tagsView)
-        
-        tagsView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.bottom.equalTo(self.content.snp_bottom)
-            make.left.equalTo(self.content.snp_left)
-            make.right.equalTo(self.content.snp_right)
-        }
-        return tagsView
-    }()
-    
-    /// Strings (like tags and certificates)
+    /// 标签字符串数组
     var labels: [String]? {
         didSet {
             for view in self.tagsView.subviews {
@@ -85,21 +66,28 @@ class TeacherDetailsBaseCell: UITableViewCell {
         }
     }
     
-    /// Style for display AccessoryType
-    enum TeacherDetailsCellAccessoryType : Int {
-        
-        case None       // don't show any thing
-        case RightArrow // info button
-        case DropArrow  // detail button
-        case SubTitle   // label view, you need to set titleString first for use this
-    }
     
+    // MARK: - Components
+    /// 标题label
+    lazy var title: UILabel = {
+        let label = UILabel(title: MalaCommonString_Title)
+        label.textColor = MalaDetailsCellTitleColor
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        return label
+    }()
+    /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
+    lazy var content: UIView = UIView()
+    /// 标签容器
+    private lazy var tagsView: MATabListView = {
+        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: MalaLayout_FontSize_12))
+        return tagsView
+    }()
+    /// 详情箭头指示器——附加组件类型之一
     private lazy var rightArrow: UIImageView = {
         let rightArrowView = UIImageView(image: UIImage(named: "rightArrow"))
         return rightArrowView
     }()
-    
-    /// Label use to display subTitle in custom accessoryView
+    /// 副标题label——附加组件类型之一
     private lazy var subTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
@@ -109,7 +97,7 @@ class TeacherDetailsBaseCell: UITableViewCell {
     }()
     
     
-    // MARK: - Life Cycle
+    // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         self.accessory = .None
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -123,10 +111,10 @@ class TeacherDetailsBaseCell: UITableViewCell {
     
     // MARK: - Private
     private func setupUserInterface() {
-        
         // SubViews
         contentView.addSubview(title)
         contentView.addSubview(content)
+        content.addSubview(tagsView)
         
         // Autolayout
         title.snp_makeConstraints { (make) -> Void in
@@ -141,7 +129,11 @@ class TeacherDetailsBaseCell: UITableViewCell {
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
         }
- 
+        tagsView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.content.snp_top)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.left.equalTo(self.content.snp_left)
+            make.right.equalTo(self.content.snp_right)
+        }
     }
-    
 }

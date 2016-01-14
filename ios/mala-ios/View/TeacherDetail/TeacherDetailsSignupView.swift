@@ -10,21 +10,23 @@ import UIKit
 
 // MARK: - SignupButtonDelegate
 protocol SignupButtonDelegate: class, NSObjectProtocol {
-    
     func signupButtonDidTap(sender: UIButton)
 }
 
+// MARK: - TeacherDetailsSignupView
 class TeacherDetailsSignupView: UIView {
     
-    // MARK: - Components
+    // MARK: - Property
     weak var delegate: SignupButtonDelegate?
+    
+    
+    // MARK: - Components
     private lazy var topLine: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0.25
         return view
     }()
-    
     private lazy var button: UIButton = {
         let button = UIButton(
             title: "马上报名",
@@ -43,7 +45,6 @@ class TeacherDetailsSignupView: UIView {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupUserInterface()
     }
 
@@ -54,7 +55,6 @@ class TeacherDetailsSignupView: UIView {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-    
         // Style
         self.backgroundColor = MalaDetailsBottomViewColor
 
@@ -77,9 +77,9 @@ class TeacherDetailsSignupView: UIView {
         })
     }
     
+    
     // MARK: - Event Response
     @objc private func buttonDidTap() {
         delegate?.signupButtonDidTap(self.button)
     }
-    
 }

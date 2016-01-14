@@ -12,7 +12,7 @@ private let TeacherDetailsPriceTableViewCellReuseId = "TeacherDetailsPriceTableV
 
 class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
-    // MARK: - Variables
+    // MARK: - Property
     var prices: [GradePriceModel] = [] {
         didSet {
             reloadData()
@@ -23,19 +23,17 @@ class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableVie
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
-        
-        delegate = self
-        dataSource = self
-        registerClass(TeacherDetailsPriceTableViewCell.self, forCellReuseIdentifier: TeacherDetailsPriceTableViewCellReuseId)
-        
-        // Style
-        estimatedRowHeight = 60
-        scrollEnabled = false
-        separatorColor = MalaDetailsButtonBorderColor
+        configureTableView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Delegate
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
     
     
@@ -53,17 +51,24 @@ class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableVie
         return cell
     }
     
-    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
     
+    // MARK: - Private Method
+    private func configureTableView() {
+        // settings
+        delegate = self
+        dataSource = self
+        scrollEnabled = false
+        estimatedRowHeight = 60
+        separatorColor = MalaDetailsButtonBorderColor
+        registerClass(TeacherDetailsPriceTableViewCell.self, forCellReuseIdentifier: TeacherDetailsPriceTableViewCellReuseId)
+    }
 }
 
 
 // MARK: - TeacherDetailsPriceTableViewCell
 class TeacherDetailsPriceTableViewCell: UITableViewCell {
     
-    // MARK: - Variables
+    // MARK: - Property
     var price: GradePriceModel? {
         didSet {
             subjectLabel.text = price!.grade!.name
@@ -73,26 +78,26 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     
     
     // MARK: - Components
+    /// 课程名称label
     private lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
         subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         subjectLabel.textColor = MalaDetailsCellLabelColor
         return subjectLabel
     }()
-    
+    /// 价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.textColor = MalaDetailsPriceRedColor
         return priceLabel
     }()
-    
+    /// 折扣label
     private lazy var discountLabel: UILabel = {
         let discountLabel = UILabel()
-        
         return discountLabel
     }()
-    
+    /// 报名按钮
     private lazy var signupButton: UIButton = {
         let signupButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 22))
         signupButton.setTitle("报名", forState: .Normal)
@@ -119,7 +124,6 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        
         // SubView
         contentView.addSubview(subjectLabel)
         contentView.addSubview(priceLabel)
@@ -151,5 +155,4 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.priceLabel.snp_bottom)
         })
     }
-    
 }
