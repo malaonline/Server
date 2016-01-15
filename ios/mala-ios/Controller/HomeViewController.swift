@@ -39,13 +39,17 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        loadTeachers()
+        // loadTeachers() //TODO:恢复真实网络数据请求
         setupUserInterface()
         tableView.registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         makeStatusBarBlack()
     }
     
@@ -56,9 +60,9 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     
     // MARK: - Delegate
     override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
+        return true
     }
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let teacherId = (tableView.cellForRowAtIndexPath(indexPath) as! TeacherTableViewCell).model!.id
         
@@ -98,6 +102,7 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherTableViewCellReusedId, forIndexPath: indexPath) as! TeacherTableViewCell
+        cell.selectionStyle = .None
         cell.model = teachers![indexPath.row]
         return cell
     }
@@ -105,7 +110,6 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     
     // MARK: - private Method
     private func setupUserInterface() {
-        makeStatusBarBlack()
         tableView.backgroundColor = MalaTeacherCellBackgroundColor
         tableView.estimatedRowHeight = 200
         tableView.separatorStyle = .None
