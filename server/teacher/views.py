@@ -77,7 +77,22 @@ class CertificationView(BaseTeacherView):
         user = request.user
         teacher = get_object_or_404(models.Teacher, user=user)
         certifications = models.Certificate.objects.filter(teacher=teacher)
+        tmp_other_cert = None
+        for cert in certifications:
+            if cert.type == models.Certificate.ID_HELD:
+                context['cert_id'] = cert
+            elif cert.type == models.Certificate.ID_FRONT:
+                continue
+            elif cert.type == models.Certificate.ACADEMIC:
+                context['cert_academic'] = cert
+            elif cert.type == models.Certificate.TEACHING:
+                context['cert_teaching'] = cert
+            elif cert.type == models.Certificate.ENGLISH:
+                context['cert_english'] = cert
+            else:
+                if not tmp_other_cert or not tmp_other_cert.verified and cert.verified:
+                    tmp_other_cert = cert
+        context['cert_other'] = tmp_other_cert
         context['teacherName'] = teacher.name
-        context['certifications'] = certifications
         return render(request, 'teacher/certificate/overview.html', context)
 

@@ -23,7 +23,97 @@
                     <span>资质认证</span>
                 </div>
                 <div class="list-group" id="certificationsList">
-
+                    <div class="row list-group-item">
+                        <div class="col-md-1">
+                            {% if cert_id and cert_id.verified %}
+                                <span>已认证</span>
+                            {% else %}
+                                <span>未认证</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">身份认证</div>
+                        <div class="col-md-7">麻辣老师必须通过身份认证</div>
+                        <div class="col-md-2">
+                            {% if cert_id and cert_id.verified %}
+                                <button class="btn btn-default">查看</button>
+                            {% else %}
+                                <button class="btn btn-success">认证</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row list-group-item">
+                        <div class="col-md-1">
+                            {% if cert_academic and cert_academic.verified %}
+                                <span>已认证</span>
+                            {% else %}
+                                <span>未认证</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">学历认证</div>
+                        <div class="col-md-7">学历认证可以提升学生对老师的信任度和认可度</div>
+                        <div class="col-md-2">
+                            {% if cert_academic and cert_academic.verified %}
+                                <button class="btn btn-default">查看</button>
+                            {% else %}
+                                <button class="btn btn-success">认证</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row list-group-item">
+                        <div class="col-md-1">
+                            {% if cert_teaching and cert_teaching.verified %}
+                                <span>已认证</span>
+                            {% else %}
+                                <span>未认证</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">教师资格认证</div>
+                        <div class="col-md-7">教师资格认证可以提升学生对老师的信任度和认可度</div>
+                        <div class="col-md-2">
+                            {% if cert_teaching and cert_teaching.verified %}
+                                <button class="btn btn-default">查看</button>
+                            {% else %}
+                                <button class="btn btn-success">认证</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row list-group-item">
+                        <div class="col-md-1">
+                            {% if cert_other and cert_other.verified %}
+                                <span>已认证</span>
+                            {% else %}
+                                <span>未认证</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">其他认证</div>
+                        <div class="col-md-7">其他认证可以提升学生对老师的认可度</div>
+                        <div class="col-md-2">
+                            {% if cert_other and cert_other.verified %}
+                                <button class="btn btn-default">查看</button>
+                            {% else %}
+                                <button class="btn btn-success">认证</button>
+                            {% endif %}
+                        </div>
+                    </div>
+{#                    TODO: 只有英语老师才有#}
+                    <div class="row list-group-item">
+                        <div class="col-md-1">
+                            {% if cert_english and cert_english.verified %}
+                                <span>已认证</span>
+                            {% else %}
+                                <span>未认证</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">英语水平认证</div>
+                        <div class="col-md-7">英语水平认证可以提升学生对老师的认可度</div>
+                        <div class="col-md-2">
+                            {% if cert_english and cert_english.verified %}
+                                <button class="btn btn-default">查看</button>
+                            {% else %}
+                                <button class="btn btn-success">认证</button>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
