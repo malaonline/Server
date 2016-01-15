@@ -8,12 +8,12 @@
 
 import UIKit
 
-private let HomeViewCellReusedId = "HomeViewCellReusedId"
+private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 
-class HomeViewController: UICollectionViewController, DropViewDelegate {
+class HomeViewController: UITableViewController, DropViewDelegate {
     
     // MARK: - Property
-    private lazy var teachers: [TeacherModel]? = nil
+    private lazy var teachers: [TeacherModel]? = TestFactory.TeacherList()
     
     
     // MARK: - Components
@@ -26,10 +26,10 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     
     // MARK: - Consturcted
-    init() {
-        super.init(collectionViewLayout: CommonFlowLayout(type: .HomeView))
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,9 +39,9 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadTeachers()
-        self.collectionView!.registerClass(TeacherCollectionViewCell.self, forCellWithReuseIdentifier: HomeViewCellReusedId)
+//        loadTeachers()
         setupUserInterface()
+        tableView.registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,16 +55,12 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     
     // MARK: - Delegate
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
     
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let teacherId = (collectionView.cellForItemAtIndexPath(indexPath) as! TeacherCollectionViewCell).model!.id
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let teacherId = (tableView.cellForRowAtIndexPath(indexPath) as! TeacherTableViewCell).model!.id
         
         // Request Teacher Info
         NetworkTool.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
@@ -87,7 +83,7 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     }
     
     func dropViewDidTapButtonForContentView(contentView: UIView) {
-        // get condition
+        // 获取筛选条件
         let filterObj: ConditionObject = (contentView as! TeacherFilterView).filterObject
         let filters: [String: AnyObject] = ["grade": filterObj.grade.id, "subject": filterObj.subject.id, "tags": filterObj.tag.id]
         loadTeachers(filters)
@@ -96,12 +92,12 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     
     // MARK: - DataSource
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.teachers?.count ?? 0
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HomeViewCellReusedId, forIndexPath: indexPath) as! TeacherCollectionViewCell
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TeacherTableViewCellReusedId, forIndexPath: indexPath) as! TeacherTableViewCell
         cell.model = teachers![indexPath.row]
         return cell
     }
@@ -109,22 +105,45 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
     
     // MARK: - private Method
     private func setupUserInterface() {
-        collectionView?.backgroundColor = UIColor.whiteColor()
+        makeStatusBarBlack()
+        tableView.backgroundColor = MalaTeacherCellBackgroundColor
+        tableView.estimatedRowHeight = 200
+        tableView.separatorStyle = .None
+        
+        // 设置BarButtomItem间隔
+        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer.width = -MalaLayout_Margin_5*2.3
         
         // leftBarButtonItem
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIButton(title: "洛阳", imageName: "location_normal", target: self, action: "locationButtonDidClick"))
+        let leftBarButtonItem = UIBarButtonItem(customView:
+            UIButton(
+                title: "洛阳",
+                imageName: "location_normal",
+                selectImageName: "location_press",
+                target: self,
+                action: "locationButtonDidClick"
+            )
+        )
+        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
+        
         // rightBarButtonItem
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIButton(imageName: "screening_normal", target: self, action: "screeningButtonDidClick"))
+        let rightBarButtonItem = UIBarButtonItem(customView:
+            UIButton(
+                imageName: "profile_normal",
+                selectImageName: "location_press",
+                target: self,
+                action: "profileButtonDidClick"
+            )
+        )
+        navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
     }
     
     private func loadTeachers(filters: [String: AnyObject]? = nil) {
         NetworkTool.sharedTools.loadTeachers(filters) { result, error in
-            // Error
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
                 return
             }
-            // Make sure Dict not nil
             guard let dict = result as? [String: AnyObject] else {
                 debugPrint("HomeViewController - loadTeachers Format Error")
                 return
@@ -139,21 +158,19 @@ class HomeViewController: UICollectionViewController, DropViewDelegate {
                     }
                 }
             }
-            self.collectionView?.reloadData()
+            self.tableView.reloadData()
         }
     }
     
     
     // MARK: - Event Response
     @objc private func locationButtonDidClick() {
-        // let alertView = UIAlertView.init(title: nil, message: "目前只支持洛阳地区，其他地区正在拓展中", delegate: nil, cancelButtonTitle: "知道了")
-        // alertView.show()
         self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: { () -> Void in
             
         })
     }
     
-    @objc private func screeningButtonDidClick() {
+    @objc private func profileButtonDidClick() {
         dropView.isShow ? dropView.dismiss() : dropView.show()
     }
 }

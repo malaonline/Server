@@ -40,4 +40,59 @@ class TestFactory {
         ]
         return model
     }
+    
+    
+    class func TeacherList() -> [TeacherModel] {
+        let teacher1 = TeacherModel(
+            name: "顾思源",
+            avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
+            degree: "麻辣金牌教师",
+            minPrice: 100,
+            maxPrice: 200,
+            subject: "数学",
+            shortname: "小初",
+            tags: ["幽默", "有责任心", "正能量"]
+        )
+        let teacher2 = TeacherModel(
+            name: "Winston Lee",
+            avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
+            degree: "权威奥数教练",
+            minPrice: 150,
+            maxPrice: 300,
+            subject: "政治",
+            shortname: "小初高",
+            tags: ["幽默", "有责任心", "正能量"]
+        )
+        let teacher3 = TeacherModel(
+            name: "顾思源",
+            avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
+            degree: "麻辣金牌教师",
+            minPrice: 100,
+            maxPrice: 200,
+            subject: "数学",
+            shortname: "小初",
+            tags: ["幽默", "有责任心", "正能量"]
+        )
+        let teacher4 = TeacherModel(
+            name: "顾思源",
+            avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
+            degree: "麻辣金牌教师",
+            minPrice: 100,
+            maxPrice: 200,
+            subject: "数学",
+            shortname: "小初",
+            tags: ["幽默", "有责任心", "正能量"]
+        )
+        let teacher5 = TeacherModel(
+            name: "顾思源",
+            avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
+            degree: "麻辣金牌教师",
+            minPrice: 100,
+            maxPrice: 200,
+            subject: "数学",
+            shortname: "小初",
+            tags: ["幽默", "有责任心", "正能量"]
+        )
+        return [teacher1, teacher2, teacher3, teacher4, teacher5]
+    }
 }

@@ -85,6 +85,8 @@
 		30AE09371C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
 		30B5980E1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
+		30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */; };
+		30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */; };
 		30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */; };
 		30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */; };
@@ -168,6 +170,7 @@
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		30AE09351C2BE56D00FD607D /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		30B5980D1C451A8900169390 /* MemberServiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceModel.swift; sourceTree = "<group>"; };
+		30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableViewCell.swift; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -356,6 +359,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				30B598131C47AC0500169390 /* TeacherTableView */,
 				3037B58D1C3B9C83005672D9 /* TeacherDetail */,
 				30AE092E1C2AC92000FD607D /* TeacherFilterView */,
 				2ECF914F1C30F6C400904C3A /* TeacherCollectionViewCell.swift */,
@@ -371,6 +375,14 @@
 				30AE09351C2BE56D00FD607D /* DropView.swift */,
 			);
 			path = TeacherFilterView;
+			sourceTree = "<group>";
+		};
+		30B598131C47AC0500169390 /* TeacherTableView */ = {
+			isa = PBXGroup;
+			children = (
+				30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */,
+			);
+			path = TeacherTableView;
 			sourceTree = "<group>";
 		};
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
@@ -774,6 +786,7 @@
 				3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
+				30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */,
@@ -805,6 +818,7 @@
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				307AB8611C323BDF00D8397F /* TeacherCollectionViewCell.swift in Sources */,
+				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,

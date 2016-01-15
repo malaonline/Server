@@ -19,11 +19,14 @@ extension UIButton {
      ///  - parameter action:    SEL for Event's Action
      ///
      ///  - returns: UIButton
-    convenience init(title: String? = nil, imageName: String? = nil, target: AnyObject? = nil, action:Selector) {
+    convenience init(title: String? = nil, imageName: String? = nil, selectImageName: String? = nil, target: AnyObject? = nil, action:Selector) {
         self.init()
+        titleLabel?.font = UIFont.systemFontOfSize(15)
         setTitle(title, forState: .Normal)
+        setTitleColor(MalaAppearanceTextColor, forState: .Normal)
         if imageName != nil {
             setImage(UIImage(named: imageName!), forState: .Normal)
+            setImage(UIImage(named: selectImageName!), forState: .Selected)
         }
         addTarget(target, action: action, forControlEvents: .TouchUpInside)
         sizeToFit()

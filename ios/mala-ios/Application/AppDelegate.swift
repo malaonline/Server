@@ -50,14 +50,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /// 设置公共外观样式
     private func setupExterior() {
-        // 设置外观
-        makeStatusBarBlack()
-        
         // 设置公共样式
         UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().tintColor = MalaAppearanceTintColor
+//        UINavigationBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().tintColor = MalaAppearanceTextColor
     }
 }
 
