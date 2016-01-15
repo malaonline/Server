@@ -1,6 +1,113 @@
 @import "public.less";
 
 //左边栏宽度
-@leftBlankWidth: 2;
+@leftBlankWidth: 1;
 //右边栏宽度
-@rightBlankWidth: 2;
+@rightBlankWidth: 1;
+
+.page-center{
+  min-width: 945px;
+}
+
+.confirm_button{
+  width: 190px;
+  font-size: 16px;
+  margin:0 auto;
+  display:block;
+}
+
+.custom_alert{
+  background: #e6e7e9;
+  border-radius: 0;
+  color: black;
+  .alert_container{
+    overflow: auto;
+    .alert_left_part{
+      float: left;
+      width: 50px;
+    }
+    .alert_right_part{
+      float: left;
+      width: 800px;
+    }
+  }
+}
+
+.confirm_row{
+
+}
+
+.progress_border{
+  overflow:auto;
+  //min-width: 945px;
+  .border_left, .border_right{
+    float:left;
+    //height: 200px;
+  }
+  .border_left{
+    @border_left_width: 200px;
+    width: @border_left_width;
+    //background: yellow;
+    .undo, .complete{
+      font-weight: bold;
+      i{
+        margin-right: 10px;
+      }
+    }
+    .undo{
+      color: #8d8e8f;
+      i{
+        .glyphicon;
+        .glyphicon-unchecked;
+      }
+    }
+    .complete{
+      i{
+        .glyphicon;
+        .glyphicon-check;
+      }
+    }
+  }
+  .border_right{
+    @border_right_width : 700px;
+    width: @border_right_width;
+    .notify_list{
+      border-width: 0 0 1px 0;
+      border-color: black;
+      border-style: dashed;
+    }
+    .notify_list, .notify_end{
+      padding: 10px;
+      @left_part_width: 180px;
+      .left_part{
+        float: left;
+        width: @left_part_width;
+      }
+      .right_part{
+        width: @border_right_width - @left_part_width - 20px;
+        float: left;
+        p{}
+      }
+      .line_icon{
+        .glyphicon;
+        .glyphicon-record;
+        color: #8d8e8f;
+      }
+      .time_span{
+        padding-left: 10px;
+        padding-right: 21px;
+        width: 115px;
+      }
+      .action{
+        //margin-left: 161px;
+      }
+      .message_container{
+        overflow: auto;
+
+      }
+      .reject_msg{
+        font-weight: bold;
+      }
+    }
+  }
+}
