@@ -241,8 +241,28 @@ class Ability(BaseModel):
 
 
 class Certificate(BaseModel):
+    """
+    资质认证,身份认证用了两个记录(因为身份认证有手持照),判断是否通过认证用
+    """
+    ID_HELD = 1
+    ID_FRONT = 2
+    ACADEMIC = 3
+    TEACHING = 4
+    ENGLISH = 5
+    OTHER = 6
+
+    TYPE_CHOICES = (
+        (ID_HELD, '身份证手持照'),
+        (ID_FRONT, '身份证正面'),
+        (ACADEMIC, '学历认证'),
+        (TEACHING, '教师资格证'),
+        (ENGLISH, '英语水平证书'),
+        (OTHER, '其他资质认证'),
+    )
+
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=100)
+    type = models.IntegerField(null=True, blank=True, choices=TYPE_CHOICES)
     img = models.ImageField(null=True, blank=True, upload_to='certs')
     verified = models.BooleanField()
 
