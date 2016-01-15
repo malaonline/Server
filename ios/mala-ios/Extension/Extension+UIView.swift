@@ -8,14 +8,20 @@
 
 import UIKit
 
-extension UIView{
+extension UIView {
 
     ///  convenience to create a separator line view
     ///
     ///  - returns: UIView
-    class func separator() -> UIView {
+    class func separator(color: UIColor = UIColor.blackColor()) -> UIView {
         let separatorLine = UIView()
-        separatorLine.backgroundColor = UIColor(rgbHexValue: 0xc8c8c8, alpha: 0.75)
+        separatorLine.backgroundColor = color
         return separatorLine
+    }
+    
+    class func line(color: UIColor = UIColor.blackColor()) -> UIView {
+        let line = UIView()
+        line.backgroundColor = color
+        return line
     }
 }

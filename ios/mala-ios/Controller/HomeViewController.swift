@@ -169,12 +169,16 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     
     // MARK: - Event Response
     @objc private func locationButtonDidClick() {
-        self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: { () -> Void in
-            
-        })
+        dropView.isShow ? dropView.dismiss() : dropView.show()
+        
     }
     
     @objc private func profileButtonDidClick() {
-        dropView.isShow ? dropView.dismiss() : dropView.show()
+        self.navigationController?.presentViewController(
+            UINavigationController(rootViewController: LoginViewController()),
+            animated: true,
+            completion: { () -> Void in
+            
+        })
     }
 }

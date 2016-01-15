@@ -360,5 +360,4 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         // 移除观察者
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
     }
-    
 }

@@ -26,6 +26,8 @@ extension UIButton {
         setTitleColor(MalaAppearanceTextColor, forState: .Normal)
         if imageName != nil {
             setImage(UIImage(named: imageName!), forState: .Normal)
+        }
+        if selectImageName != nil {
             setImage(UIImage(named: selectImageName!), forState: .Selected)
         }
         addTarget(target, action: action, forControlEvents: .TouchUpInside)
