@@ -20,6 +20,9 @@ let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.whiteColor()
 let MalaAppearanceTextColor = UIColor(rgbHexValue: 0x6C6C6C, alpha: 1.0)
+let MalaTeacherCellBackgroundColor = UIColor(rgbHexValue: 0xEDEDED, alpha: 1.0)
+let MalaTeacherCellSeparatorColor = UIColor(rgbHexValue: 0xDADADA, alpha: 1.0)
+let MalaTeacherCellLevelColor = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
 let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x333333, alpha: 1.0)
 let MalaDetailsCellLabelColor = UIColor(rgbHexValue: 0x636363, alpha: 1.0)
 let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
@@ -54,6 +57,7 @@ let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_7: CGFloat = 7.0
 let MalaLayout_Margin_8: CGFloat = 8.0
 let MalaLayout_Margin_10: CGFloat = 10.0
+let MalaLayout_Margin_11: CGFloat = 11.0
 let MalaLayout_Margin_12: CGFloat = 12.0
 let MalaLayout_Margin_13: CGFloat = 13.0
 let MalaLayout_Margin_14: CGFloat = 14.0
@@ -61,10 +65,13 @@ let MalaLayout_Margin_15: CGFloat = 15.0
 let MalaLayout_Margin_16: CGFloat = 16.0
 
 let MalaLayout_FontSize_10: CGFloat = 10.0
+let MalaLayout_FontSize_11: CGFloat = 11.0
 let MalaLayout_FontSize_12: CGFloat = 12.0
+let MalaLayout_FontSize_13: CGFloat = 13.0
 let MalaLayout_FontSize_14: CGFloat = 14.0
 let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_FontSize_16: CGFloat = 16.0
+let MalaLayout_FontSize_17: CGFloat = 17.0
 
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0

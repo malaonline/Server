@@ -22,11 +22,26 @@ class TeacherModel: BaseObjectModel {
     
     
     // MARK: - Constructed
+    override init() {
+        super.init()
+    }
+    
     override init(dict: [String: AnyObject]) {
         super.init(dict: dict)
         setValuesForKeysWithDictionary(dict)
     }
     
+    convenience init(name: String, avatar: String, degree: String, minPrice: Int, maxPrice: Int, subject: String, shortname: String, tags: [String]) {
+        self.init()
+        self.name = name
+        self.avatar = NSURL(string: avatar)
+        self.degree = degree
+        self.min_price = minPrice
+        self.max_price = maxPrice
+        self.subject = subject
+        self.grades_shortname = shortname
+        self.tags = tags
+    }
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

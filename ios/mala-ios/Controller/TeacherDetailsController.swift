@@ -45,6 +45,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     var isOpenSchoolsCell: Bool = false
+    var isNavigationBarShow: Bool = false
 
     
     // MARK: - Components
@@ -253,11 +254,14 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             })
         }
         
-        // 上下滑动页面到一定程度时，渲染NavigationBar样式
-        if displacement > 0 {
+        // 上下滑动页面到一定程度且 NavigationBar 尚未显示，渲染NavigationBar样式
+        if displacement > 0 && !isNavigationBarShow {
             showBackground()
-        }else {
+            isNavigationBarShow = true
+        }
+        if displacement < 0 && isNavigationBarShow {
             hideBackground()
+            isNavigationBarShow = false
         }
     }
     

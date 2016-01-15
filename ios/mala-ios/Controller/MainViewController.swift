@@ -26,8 +26,8 @@ class MainViewController: UITabBarController {
     
     // MARK: - Private Method
     private func setupTabBar() {
-        addSubViewController(HomeViewController(), title: MalaCommonString_Malalaoshi, imageName: "home_normal")
-        addSubViewController(HomeViewController(), title: MalaCommonString_Profile, imageName: "profile_normal")
+        addSubViewController(HomeViewController(style: .Plain), title: MalaCommonString_Malalaoshi, imageName: "home_normal")
+//        addSubViewController(HomeViewController(style: .Plain), title: MalaCommonString_Profile, imageName: "profile_normal")
     }
     
      ///  Convenience Function to Create SubViewControllers
