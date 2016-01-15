@@ -16,4 +16,4 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 python manage.py build_groups_and_permissions
 python manage.py add_groups_to_sample_users
-python manage.py test
+python manage.py test --noinput
