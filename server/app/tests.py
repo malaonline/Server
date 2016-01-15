@@ -66,7 +66,7 @@ class TestApi(TestCase):
 
         # test 201
         client = Client()
-        request_url = "/api/v1/parent/%d/" % (parent.pk, )
+        request_url = "/api/v1/parents/%d/" % (parent.pk, )
         print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
