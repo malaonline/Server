@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (3.0.1)
   - Kingfisher (1.8.5)
+  - MBProgressHUD (0.9.2)
   - SnapKit (0.18.0)
   - SwiftyJSON (2.3.2)
   - UMengAnalytics-NO-IDFA (3.6.7)
@@ -8,6 +9,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.0.0)
   - Kingfisher (~> 1.8.5)
+  - MBProgressHUD (~> 0.9.2)
   - SnapKit (~> 0.18.0)
   - SwiftyJSON (~> 2.3.2)
   - UMengAnalytics-NO-IDFA
@@ -15,6 +17,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
   Kingfisher: 780fed0fa82692a3bd59d53329ae2b85cdd354a5
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
