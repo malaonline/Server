@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # local modules
 from app import models
@@ -68,10 +68,39 @@ class BaseTeacherView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseTeacherView, self).dispatch(request, *args, **kwargs)
 
-class CertificationView(BaseTeacherView):
+class CertificateView(BaseTeacherView):
     """
     certifications overview
     """
     def get(self, request):
-        return HttpResponse('TODO')
+        context = {}
+        teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacherName'] = teacher.name
+        certifications = models.Certificate.objects.filter(teacher=teacher)
+        tmp_other_cert = None
+        for cert in certifications:
+            if cert.type == models.Certificate.ID_HELD:
+                context['cert_id'] = cert
+            elif cert.type == models.Certificate.ID_FRONT:
+                continue
+            elif cert.type == models.Certificate.ACADEMIC:
+                context['cert_academic'] = cert
+            elif cert.type == models.Certificate.TEACHING:
+                context['cert_teaching'] = cert
+            elif cert.type == models.Certificate.ENGLISH:
+                context['cert_english'] = cert
+            else:
+                if not tmp_other_cert or not tmp_other_cert.verified and cert.verified:
+                    tmp_other_cert = cert
+        context['cert_other'] = tmp_other_cert
+        return render(request, 'teacher/certificate/overview.html', context)
 
+class CertificateIDView(BaseTeacherView):
+    """
+    page of certificate id
+    """
+    def get(self, request):
+        context = {}
+        teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacherName'] = teacher.name
+        return render(request, 'teacher/certificate/certificate_id.html', context)
