@@ -1,10 +1,46 @@
+@import "../../common/less/bootstrap.less";
+
 .mala_header{
   font-size: 16px;
   span{
     margin-top: 10px;
   }
   //border-bottom-width: 1px;
-  border: 1px black;
+  padding : 1px;
+  border-width: 0 0 1px 0;
+  border-color: #cdcecf;
+  border-style: solid;
+  margin-bottom: 20px;
+  .header_right{
+    float:right;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  .header_right_text{
+    padding-top:7px;
+  }
+}
+
+//左边栏宽度
+@leftBlankWidth: 0;
+//右边栏宽度
+@rightBlankWidth: 0;
+
+.page-left{
+  .make-xs-column(@leftBlankWidth);
+}
+.page-right{
+  .make-xs-column(@rightBlankWidth);
+}
+.page-center{
+  .make-xs-column(12 - @leftBlankWidth - @rightBlankWidth);
 }
 
 @icon-font-path: "../../common/fonts/";
+
+.confirm_button{
+  .btn;
+  .btn-primary;
+  background: #898a8b;
+  border-radius: 2px;
+}

@@ -6769,10 +6769,22 @@ button.close {
 }
 .mala_header {
   font-size: 16px;
-  border: 1px black;
+  padding: 1px;
+  border-width: 0 0 1px 0;
+  border-color: #cdcecf;
+  border-style: solid;
+  margin-bottom: 20px;
 }
 .mala_header span {
   margin-top: 10px;
+}
+.mala_header .header_right {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.mala_header .header_right_text {
+  padding-top: 7px;
 }
 .page-left {
   position: relative;
@@ -6797,6 +6809,128 @@ button.close {
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
+}
+.confirm_button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  background: #898a8b;
+  border-radius: 2px;
+}
+.confirm_button:focus,
+.confirm_button:active:focus,
+.confirm_button.active:focus,
+.confirm_button.focus,
+.confirm_button:active.focus,
+.confirm_button.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.confirm_button:hover,
+.confirm_button:focus,
+.confirm_button.focus {
+  color: #333;
+  text-decoration: none;
+}
+.confirm_button:active,
+.confirm_button.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.confirm_button.disabled,
+.confirm_button[disabled],
+fieldset[disabled] .confirm_button {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+a.confirm_button.disabled,
+fieldset[disabled] a.confirm_button {
+  pointer-events: none;
+}
+.confirm_button:focus,
+.confirm_button.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.confirm_button:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.confirm_button:active,
+.confirm_button.active,
+.open > .dropdown-toggle.confirm_button {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.confirm_button:active:hover,
+.confirm_button.active:hover,
+.open > .dropdown-toggle.confirm_button:hover,
+.confirm_button:active:focus,
+.confirm_button.active:focus,
+.open > .dropdown-toggle.confirm_button:focus,
+.confirm_button:active.focus,
+.confirm_button.active.focus,
+.open > .dropdown-toggle.confirm_button.focus {
+  color: #fff;
+  background-color: #204d74;
+  border-color: #122b40;
+}
+.confirm_button:active,
+.confirm_button.active,
+.open > .dropdown-toggle.confirm_button {
+  background-image: none;
+}
+.confirm_button.disabled,
+.confirm_button[disabled],
+fieldset[disabled] .confirm_button,
+.confirm_button.disabled:hover,
+.confirm_button[disabled]:hover,
+fieldset[disabled] .confirm_button:hover,
+.confirm_button.disabled:focus,
+.confirm_button[disabled]:focus,
+fieldset[disabled] .confirm_button:focus,
+.confirm_button.disabled.focus,
+.confirm_button[disabled].focus,
+fieldset[disabled] .confirm_button.focus,
+.confirm_button.disabled:active,
+.confirm_button[disabled]:active,
+fieldset[disabled] .confirm_button:active,
+.confirm_button.disabled.active,
+.confirm_button[disabled].active,
+fieldset[disabled] .confirm_button.active {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.confirm_button .badge {
+  color: #337ab7;
+  background-color: #fff;
 }
 .borderRadius {
   -webkit-border-radius: 2px;
