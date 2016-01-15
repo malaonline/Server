@@ -11,53 +11,122 @@ import UIKit
 class LoginViewController: UIViewController {
     
     // MARK: - Components
-    private lazy var dismissButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(MalaCommonString_Cancel, forState: .Normal)
-        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
-        return button
+    /// 主要布局容器
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.backgroundColor = UIColor.whiteColor()
+        return contentView
     }()
-    private lazy var numberLabel: UILabel = UILabel(title: MalaCommonString_PhoneNumber)
-    private lazy var numberTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.keyboardType = .NumberPad
-        textfield.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
-        textfield.clearButtonMode = .Always
-        return textfield
+    /// 容器顶部装饰线
+    private lazy var topSeparator: UIView = {
+        let topSeparator = UIView()
+        topSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        return topSeparator
     }()
-    private lazy var numberSeparator: UIView = UIView.separator()
-    private lazy var checkLabel: UILabel = UILabel(title: MalaCommonString_VerifyCode)
-    private lazy var checkTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.keyboardType = .NumberPad
-        textfield.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
-        return textfield
+    /// 容器中部装饰线
+    private lazy var middleSeparator: UIView = {
+        let middleSeparator = UIView()
+        middleSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        return middleSeparator
     }()
-    private lazy var checkSeparator: UIView = UIView.separator()
-    private lazy var verifyCodeGetButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(MalaCommonString_GetVerifyCode, forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(16)
-        button.setTitleColor(UIColor.redColor(), forState: .Normal)
-        button.setTitleColor(UIColor.grayColor(), forState: .Disabled)
-        button.addTarget(self, action: "verifyCodeGetButtonDidTap", forControlEvents: .TouchUpInside)
-        button.enabled = false
-        return button
+    /// 容器底部装饰线
+    private lazy var bottomSeparator: UIView = {
+        let bottomSeparator = UIView()
+        bottomSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        return bottomSeparator
     }()
+    /// 手机图标
+    private lazy var phoneIcon: UIImageView = {
+        let phoneIcon = UIImageView(image: UIImage(named: "phone"))
+        return phoneIcon
+    }()
+    /// [获取验证码] 按钮
+    private lazy var codeGetButton: UIButton = {
+        let codeGetButton = UIButton()
+        codeGetButton.layer.borderColor = MalaLoginCodeGetButtonColor.CGColor
+        codeGetButton.layer.borderWidth = 1.0
+        codeGetButton.layer.cornerRadius = 3.0
+        codeGetButton.layer.masksToBounds = true
+        codeGetButton.setTitle(" 获取验证码 ", forState: .Normal)
+        codeGetButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        codeGetButton.setTitleColor(MalaLoginCodeGetButtonColor, forState: .Disabled)
+        codeGetButton.setBackgroundImage(UIImage.withColor(MalaLoginCodeGetButtonColor), forState: .Normal)
+        codeGetButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Disabled)
+        codeGetButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        codeGetButton.addTarget(self, action: "codeGetButtonDidTap", forControlEvents: .TouchUpInside)
+        return codeGetButton
+    }()
+    /// [手机号错误] 提示
+    private lazy var phoneError: UIButton = {
+        let phoneError = UIButton()
+        phoneError.setImage(UIImage(named: "error"), forState: .Normal)
+        phoneError.setTitleColor(MalaDetailsPriceRedColor, forState: .Normal)
+        phoneError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        phoneError.setTitle("手机号错误", forState: .Normal)
+        phoneError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
+        phoneError.hidden = true
+        return phoneError
+    }()
+    /// 手机号码输入框
+    private lazy var phoneTextField: UITextField = {
+        let phoneTextField = UITextField()
+        phoneTextField.keyboardType = .NumberPad
+        phoneTextField.placeholder = "请输入手机号"
+        phoneTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        phoneTextField.textColor = MalaAppearanceTextColor
+        phoneTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
+        phoneTextField.clearButtonMode = .Never
+        return phoneTextField
+    }()
+    /// 验证码图标
+    private lazy var codeIcon: UIImageView = {
+        let codeIcon = UIImageView(image: UIImage(named: "verifyCode"))
+        return codeIcon
+    }()
+    /// [验证码错误] 提示
+    private lazy var codeError: UIButton = {
+        let codeError = UIButton()
+        codeError.setImage(UIImage(named: "error"), forState: .Normal)
+        codeError.setTitleColor(MalaDetailsPriceRedColor, forState: .Normal)
+        codeError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        codeError.setTitle("验证码错误", forState: .Normal)
+        codeError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
+        codeError.hidden = true
+        return codeError
+    }()
+    /// 验证码输入框
+    private lazy var codeTextField: UITextField = {
+        let codeTextField = UITextField()
+        codeTextField.keyboardType = .NumberPad
+        codeTextField.textColor = MalaAppearanceTextColor
+        codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        codeTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
+        return codeTextField
+    }()
+    /// [验证] 按钮
     private lazy var verifyButton: UIButton = {
-        let button = UIButton(title: "验证", titleColor: UIColor.whiteColor(), selectedTitleColor: UIColor.lightGrayColor(), bgColor: UIColor.redColor(), selectedBgColor: UIColor.whiteColor())
-        button.setBackgroundImage(UIImage.withColor(UIColor.lightGrayColor()), forState: .Disabled)
-        button.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
-        button.enabled = false
-        return button
+        let verifyButton = UIButton()
+        verifyButton.layer.cornerRadius = 5
+        verifyButton.layer.masksToBounds = true
+        verifyButton.setTitle("验证", forState: .Normal)
+        verifyButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        verifyButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonDisableColor), forState: .Disabled)
+        verifyButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonNormalColor), forState: .Normal)
+        verifyButton.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
+        return verifyButton
+    }()
+    // 协议文字
+    private lazy var protocolLabel: UILabel = {
+        let protocolLabel = UILabel()
+        protocolLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        return protocolLabel
     }()
     
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setupUserInterface()
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,83 +135,104 @@ class LoginViewController: UIViewController {
 
     
     // MARK: - Private Method
-    private func setupUI() {
-        // setup style
-        self.view.backgroundColor = UIColor.whiteColor()
+    private func setupUserInterface() {
+        // Style
+        self.title = "验证"
+        self.navigationController!.navigationBar.shadowImage = UIImage()
+        self.view.backgroundColor = MalaTeacherCellBackgroundColor
+        let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: "closeButtonDidClick"))
+        navigationItem.leftBarButtonItem = leftBarButtonItem
         
-        // setup SubView
-        view.addSubview(dismissButton)
-        view.addSubview(numberLabel)
-        view.addSubview(numberTextField)
-        view.addSubview(numberSeparator)
-        view.addSubview(checkLabel)
-        view.addSubview(checkTextField)
-        view.addSubview(verifyCodeGetButton)
-        view.addSubview(checkSeparator)
+        // SubView
+        view.addSubview(contentView)
+        contentView.addSubview(topSeparator)
+        contentView.addSubview(middleSeparator)
+        contentView.addSubview(bottomSeparator)
+        contentView.addSubview(phoneIcon)
+        contentView.addSubview(codeGetButton)
+        contentView.addSubview(phoneError)
+        contentView.addSubview(phoneTextField)
+        contentView.addSubview(codeIcon)
+        contentView.addSubview(codeError)
+        contentView.addSubview(codeTextField)
         view.addSubview(verifyButton)
-
-        // setup Autolayout
-        let margin: CGFloat = 10.0
+        view.addSubview(protocolLabel)
         
-        dismissButton.snp_makeConstraints { (make) -> Void in
-            //make.height.equalTo(30)
-            //make.width.equalTo(100)
-            make.left.equalTo(self.view.snp_left)//.offset(20)
-            make.top.equalTo(self.view.snp_top)//.offset(20)
+        // Autolayout
+        contentView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.view.snp_top).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
+            make.height.equalTo(93)
         }
-        
-        numberLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(self.dismissButton.snp_width)
-            make.width.equalTo(self.dismissButton.snp_height)
-            make.left.equalTo(self.view.snp_left).offset(margin)
-            make.centerY.equalTo(self.view.snp_centerY).offset(-200)
-        }
-        
-        numberTextField.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(35)
-            make.left.equalTo(self.numberLabel.snp_right).offset(margin)
-            make.right.equalTo(self.view.snp_right).offset(-margin)
-            make.centerY.equalTo(self.numberLabel.snp_centerY)
-        }
-        
-        numberSeparator.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.view.snp_left).offset(margin)
-            make.right.equalTo(self.view.snp_right).offset(-margin)
-            make.top.equalTo(self.numberTextField.snp_bottom).offset(5)
+        topSeparator.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.contentView.snp_top)
             make.height.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(self.contentView.snp_left)
+            make.right.equalTo(self.contentView.snp_right)
         }
-        
-        checkLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(self.numberLabel.snp_width)
-            make.width.equalTo(self.numberLabel.snp_height)
-            make.centerX.equalTo(self.numberLabel.snp_centerX)
-            make.top.equalTo(self.numberLabel.snp_bottom).offset(margin)
-        }
-        
-        checkTextField.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.checkLabel.snp_right).offset(margin)
-            make.right.equalTo(self.verifyCodeGetButton.snp_left).offset(-margin)
-            make.centerY.equalTo(self.checkLabel.snp_centerY)
-        }
-        
-        verifyCodeGetButton.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(140)
-            make.right.equalTo(self.view.snp_right).offset(-margin)
-            make.centerY.equalTo(self.checkTextField.snp_centerY)
-        }
-    
-        checkSeparator.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.view.snp_left).offset(margin)
-            make.right.equalTo(self.view.snp_right).offset(-margin)
-            make.top.equalTo(self.checkTextField.snp_bottom).offset(5)
+        middleSeparator.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self.contentView.snp_centerY)
             make.height.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(self.contentView.snp_left)
+            make.right.equalTo(self.contentView.snp_right)
         }
-        
+        bottomSeparator.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp_bottom)
+            make.height.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(self.contentView.snp_left)
+            make.right.equalTo(self.contentView.snp_right)
+        }
+        phoneIcon.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_15)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_14)
+            make.width.equalTo(10)
+            make.height.equalTo(15)
+        }
+        codeGetButton.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_9)
+            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.width.equalTo(67)
+            make.height.equalTo(27)
+        }
+        phoneError.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self.codeGetButton)
+            make.right.equalTo(self.codeGetButton.snp_left).offset(-MalaLayout_Margin_4)
+            make.width.equalTo(67)
+            make.height.equalTo(15)
+        }
+        phoneTextField.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(self.phoneIcon.snp_right).offset(MalaLayout_Margin_10)
+            make.right.equalTo(self.phoneError.snp_left).offset(-MalaLayout_Margin_5)
+            make.centerY.equalTo(self.phoneIcon.snp_centerY)
+            make.height.equalTo(25)
+        }
+        codeIcon.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_15)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_14)
+        }
+        codeError.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_9)
+            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.width.equalTo(67)
+            make.height.equalTo(27)
+        }
+        codeTextField.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(self.codeIcon.snp_right).offset(MalaLayout_Margin_7)
+            make.right.equalTo(self.codeError.snp_left).offset(-MalaLayout_Margin_5)
+            make.centerY.equalTo(self.codeIcon.snp_centerY)
+            make.height.equalTo(25)
+        }
         verifyButton.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.view.snp_left).offset(margin)
-            make.right.equalTo(self.view.snp_right).offset(-margin)
-            make.top.equalTo(self.checkSeparator.snp_bottom).offset(15)
-            make.height.equalTo(50)
+            make.top.equalTo(self.contentView.snp_bottom).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.view.snp_left).offset(MalaLayout_Margin_12)
+            make.right.equalTo(self.view.snp_right).offset(-MalaLayout_Margin_12)
+            make.height.equalTo(37)
+        }
+        protocolLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.verifyButton.snp_bottom).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.view.snp_left).offset(MalaLayout_Margin_12)
+            make.right.equalTo(self.view.snp_right).offset(MalaLayout_Margin_12)
         }
     }
     
@@ -153,22 +243,22 @@ class LoginViewController: UIViewController {
     }
     
     private func countDown() {
-        var timeout = 60.0 // 60s
+        var timeout = 3.0 // 60s
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
         dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), UInt64(NSTimeInterval(NSEC_PER_SEC)), 0)
         dispatch_source_set_event_handler(timer) {[weak self] () -> Void in
             
-            if timeout <= 0 { // count down finished
+            if timeout <= 0 { // 倒计时完成
                 dispatch_source_cancel(timer)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self?.verifyCodeGetButton.setTitle(MalaCommonString_GetVerifyCode, forState: .Normal)
-                    self?.verifyCodeGetButton.enabled = true
+                    self?.codeGetButton.setTitle(" 获取验证码 ", forState: .Normal)
+                    self?.codeGetButton.enabled = true
                 })
-            }else { // countinue count down
+            }else { // 继续倒计时
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self?.verifyCodeGetButton.setTitle(String(format: "%02d秒后重新发送", Int(timeout)), forState: .Normal)
-                    self?.verifyCodeGetButton.enabled = false
+                    self?.codeGetButton.setTitle(String(format: " %02ds后获取 ", Int(timeout)), forState: .Normal)
+                    self?.codeGetButton.enabled = false
                 })
                 timeout--
             }
@@ -179,63 +269,83 @@ class LoginViewController: UIViewController {
     
     // MARK: - Event Response
     @objc private func textDidChange(textField: UITextField) {
-        // when number is validated and verifycode not empty, commit button will enable
-        self.verifyButton.enabled = validateMobile(self.numberTextField.text ?? "") && (self.checkTextField.text != "")
-        
-        // when number is validated, code get button will enable
-        self.verifyCodeGetButton.enabled = validateMobile(self.numberTextField.text ?? "")
+        // 若当前有错误信息出现，用户开始编辑时移除错误显示
+        if !phoneError.hidden {
+            phoneError.hidden = true
+        }else if !codeError.hidden {
+            codeError.hidden = true
+        }
     }
     
-    @objc private func verifyCodeGetButtonDidTap() {
-        // sending SMS
-        NetworkTool.sharedTools.sendSMS(self.numberTextField.text!) { [weak self] (result, error) -> () in
-            // Error
+    @objc private func codeGetButtonDidTap() {
+        // 验证手机号
+        if !validateMobile(phoneTextField.text ?? "") {
+            self.phoneError.hidden = false
+            self.phoneTextField.text = ""
+            self.phoneTextField.becomeFirstResponder()
+            return
+        }
+        
+        // 发送SMS
+        NetworkTool.sharedTools.sendSMS(self.phoneTextField.text!) { [weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("LoginViewController - sendSMS Request Error")
                 return
             }
-            
-            // Make sure Dict not nil
             guard let dict = result as? [String: AnyObject] else {
                 debugPrint("LoginViewController - sendSMS Format Error")
                 return
             }
             
+            // 处理SMS发送结果
             if dict["sent"]?.intValue == 1 {
-                print(true)
+                print("SMS发送成功")
             }else {
-                print(false)
+                print("SMS发送失败")
             }
             self?.countDown()
         }
-        
     }
-    
+
     @objc private func verifyButtonDidTap() {
-        // verify SMS
-        NetworkTool.sharedTools.verifySMS(self.numberTextField.text!, code: self.checkTextField.text!) { (result, error) -> () in
-            // Error
+        // 验证信息
+        if !validateMobile(phoneTextField.text ?? "") {
+            self.phoneError.hidden = false
+            self.phoneTextField.text = ""
+            self.phoneTextField.becomeFirstResponder()
+            return
+        }
+        if (codeTextField.text ?? "") == "" {
+            self.codeError.hidden = false
+            self.codeTextField.text = ""
+            self.codeTextField.becomeFirstResponder()
+            return
+        }
+        
+        // 验证SMS
+        NetworkTool.sharedTools.verifySMS(self.phoneTextField.text!, code: self.codeTextField.text!) { (result, error) -> () in
             if error != nil {
                 debugPrint("LoginViewController - verifySMS Request Error")
                 return
             }
-            
-            // Make sure Dict not nil
             guard let dict = result as? [String: AnyObject] else {
                 debugPrint("LoginViewController - verifySMS Format Error")
                 return
             }
-            print(dict)
+
+            // 处理SMS验证结果
             let smsResult = SMSResultModel(dict: dict)
             if smsResult.verified && smsResult.token != "" {
                 Mala_UserToken = smsResult.token
+                print("SMS验证成功，用户Token：\(smsResult.token)")
             }else {
-                print("验证失败")
+                self.codeError.hidden = false
+                self.codeTextField.text = ""
             }
         }
     }
     
-    @objc private func dismiss() {
+    @objc private func closeButtonDidClick() {
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

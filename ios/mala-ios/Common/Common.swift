@@ -30,6 +30,10 @@ let MalaDetailsButtonBlueColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
 let MalaDetailsButtonBorderColor = UIColor(rgbHexValue: 0xE5E5E5, alpha: 1.0)
 let MalaDetailsBottomViewColor = UIColor(rgbHexValue: 0xF6F6F6, alpha: 0.96)
 let MalaDetailsPriceRedColor = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
+let MalaLoginPhonePlaceHolderColor = UIColor(rgbHexValue: 0xCECECE, alpha: 1.0)
+let MalaLoginCodeGetButtonColor = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
+let MalaLoginVerifyButtonDisableColor = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
+let MalaLoginVerifyButtonNormalColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.95)
 
 
 // MARK: - Common String
@@ -39,7 +43,6 @@ let MalaCommonString_Title = "标题"
 let MalaCommonString_PhoneNumber = "手机号"
 let MalaCommonString_Cancel = "取消"
 let MalaCommonString_VerifyCode = "验证码"
-let MalaCommonString_GetVerifyCode = "获取验证码"
 
 
 // MARK: - Common Proportion
@@ -56,6 +59,7 @@ let MalaLayout_Margin_5: CGFloat = 5.0
 let MalaLayout_Margin_6: CGFloat = 6.0
 let MalaLayout_Margin_7: CGFloat = 7.0
 let MalaLayout_Margin_8: CGFloat = 8.0
+let MalaLayout_Margin_9: CGFloat = 9.0
 let MalaLayout_Margin_10: CGFloat = 10.0
 let MalaLayout_Margin_11: CGFloat = 11.0
 let MalaLayout_Margin_12: CGFloat = 12.0
