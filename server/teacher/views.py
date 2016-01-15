@@ -68,14 +68,14 @@ class BaseTeacherView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseTeacherView, self).dispatch(request, *args, **kwargs)
 
-class CertificationView(BaseTeacherView):
+class CertificateView(BaseTeacherView):
     """
     certifications overview
     """
     def get(self, request):
         context = {}
-        user = request.user
-        teacher = get_object_or_404(models.Teacher, user=user)
+        teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacherName'] = teacher.name
         certifications = models.Certificate.objects.filter(teacher=teacher)
         tmp_other_cert = None
         for cert in certifications:
@@ -93,6 +93,14 @@ class CertificationView(BaseTeacherView):
                 if not tmp_other_cert or not tmp_other_cert.verified and cert.verified:
                     tmp_other_cert = cert
         context['cert_other'] = tmp_other_cert
-        context['teacherName'] = teacher.name
         return render(request, 'teacher/certificate/overview.html', context)
 
+class CertificateIDView(BaseTeacherView):
+    """
+    page of certificate id
+    """
+    def get(self, request):
+        context = {}
+        teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacherName'] = teacher.name
+        return render(request, 'teacher/certificate/certificate_id.html', context)

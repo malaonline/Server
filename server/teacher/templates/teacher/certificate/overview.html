@@ -35,9 +35,9 @@
                         <div class="col-md-7">麻辣老师必须通过身份认证</div>
                         <div class="col-md-2">
                             {% if cert_id and cert_id.verified %}
-                                <button class="btn btn-default">查看</button>
+                                <a class="btn btn-default" href="{% url 'teacher:certificate-id' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-id' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>
