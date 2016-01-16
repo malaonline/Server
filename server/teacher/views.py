@@ -8,8 +8,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 
-from PIL import Image
-
 # local modules
 from app import models
 
