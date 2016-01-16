@@ -1,0 +1,92 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    首页
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/first_page.css' %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/first_page.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "张三 老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                <div class="side_bar">
+                    <p class="section-title">首页</p>
+                    <p class="section-title">我的课程</p>
+                    <p class="section-link"><a href="#">我的课表 <span class="badge_number">(99)</span></a></p>
+                    <p class="section-link"><a href="#">我的学生 <span class="badge_number">(99)</span></a></p>
+                    <p class="section-link"><a href="#">我的评价 <span class="badge_number">(3)</span></a></p>
+                    <p class="section-title">我的钱包</p>
+                    <p class="section-title">个人设置</p>
+                    <p class="section-link"><a href="#">基本资料</a> <i class="info_icon"></i></p>
+                    <p class="section-link"><a href="#">资质认证</a></p>
+                    <p class="section-link"><a href="#">特殊成果</a></p>
+                    <p class="section-link"><a href="#">提分榜设置</a></p>
+                    <p class="section-link"><a href="#">我的级别</a></p>
+                </div>
+                <div class="the_content">
+                    <div class="teacher_info_pan">
+                        <div class="avatar"><img src="{% static 'common/icons/none_body_profile.png' %}"></div>
+                        <div class="info">
+                            <p class="edit_button"><a href="#">编辑</a></p>
+                            <p class="name">张楚瑜</p>
+                            <p class="details">
+                                <span class="title">麻辣中级教师</span>
+                                <span class="state">资料待完善</span>
+                                <span class="percent">90%</span>
+                                <span class="link"><a href="#">马上完善</a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="data_table">
+                        <div class="first_part">
+                            <p class="title">课程</p>
+                            <p class="first_row"><span class="part_label">已完成</span> <span class="part_data">201</span></p>
+                            <p class="second_row"><span class="part_label">待上课</span> <span class="part_data">3</span></p>
+                        </div>
+                        <div class="one_part">
+                            <p class="title">学生</p>
+                            <p class="first_row"><span class="part_label">上课中</span> <span class="part_data">155</span></p>
+                            <p class="second_row"><span class="part_label">已结课</span> <span class="part_data">11</span></p>
+                        </div>
+                        <div class="one_part">
+                            <p class="title">评价</p>
+                            <p class="first_row"><span class="part_label">综合评分</span> <span class="part_data">4.6</span></p>
+                            <p class="second_row"><span class="part_label">差评数</span> <span class="part_data">0</span></p>
+                        </div>
+                        <div class="one_part">
+                            <p class="title">余额</p>
+                            <p class="first_row"><span class="part_label">账户余额</span> <span class="part_data">¥1920.00</span></p>
+                            <p class="second_row"><span class="part_label">累计收入</span> <span class="part_data">¥2.4万</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-right"></div>
+            <div class="complete-table-bar" role="alert">
+                <div class="percent_complete">
+                    <p class="percent_title">个人资料完成度 <span>60%</span></p>
+                    <div class="custom_progress">
+                      <div class="custom_progress_bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <span class="sr-only">60% Complete (success)</span>
+                      </div>
+                    </div>
+                </div>
+                <div class="information">
+                    <p class="title">你目前无法被学生搜索到!</p>
+                    <p class="details">完善详细的资料有助于帮助学生快速找到您</p>
+                </div>
+                <div class="complete_information">
+                    <button>立刻完善资料</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

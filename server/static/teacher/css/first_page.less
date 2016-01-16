@@ -1,0 +1,229 @@
+@import "register.less";
+@import "public.less";
+
+@page_min_width: 980px;
+@page_height: 600px;
+
+.mala_header_dark{
+  min-width: @page_min_width;
+}
+
+.page-center{
+  height: @page_height;
+}
+
+.side_bar{
+  width: 146px;
+  float: left;
+  background: #eaebec;
+  padding-left: 35px;
+  padding-top: 25px;
+  //padding-right: 35px;
+  padding-bottom: 25px;
+  height: 100%;
+  .section-title{
+    //font-weight:bold;
+  }
+  .section-link{
+    a{
+      font-size: 12px;
+      color: #85898a;
+    }
+    .info_icon{
+      .glyphicon;
+      .glyphicon-info-sign;
+      margin-left: 4px;
+      top: 3px;
+      color: #df3a45;
+    }
+    .badge_number{
+      color: #df3a44;
+    }
+  }
+}
+
+.page-center{
+  padding-left: 0;
+  padding-right: 0;
+  min-width: @page_min_width;
+}
+
+.the_content{
+  float: left;
+  padding: 5px;
+  min-width: 750px;
+  width: auto;
+  margin-top: 5px;
+  margin-left: 9px;
+  .teacher_info_pan{
+    overflow: auto;
+    width: 100%;
+    border-width: 1px;
+    border-color: #c9cacb;
+    border-style: solid;
+    padding: 2px;
+    .avatar{
+      float: left;
+    }
+    .info{
+      float: left;
+      padding-left: 42px;
+      min-width: 700px;
+      .edit_button{
+        text-align: right;
+        margin-bottom: 0;
+        a{
+          color: #a08b88;
+          font-size: 12px;
+        }
+      }
+      .name{
+        font-size: 18px;
+        margin-bottom: 0;
+      }
+      .details{
+        .title, .state, .link{
+          font-size: 12px;
+        }
+        .title{
+        }
+        .state{
+          margin-left: 35px;
+          color: #b7b3b3;
+        }
+        .percent{
+          font-size: 18px;
+          top: 5px;
+          margin-left: 24px;
+        }
+        .link{
+          margin-left: 22px;
+        }
+      }
+    }
+  }
+  .data_table{
+    overflow: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cfd0d1;
+    margin-top: 15px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+    .one_part{
+      border-width: 0 0 0 1px;
+      border-color: #c6c7c8;
+      border-style: solid;
+    }
+
+    .one_part, .first_part{
+      overflow: auto;
+      float: left;
+      width: 200px;
+      //height: 103px;
+      padding-left: 30px;
+      //padding-top: 20px;
+
+      .title{
+        text-align: center;
+        font-weight: bold;
+        margin-left: -30px;
+      }
+      .part_label, .part_data{
+        font-size: 12px;
+        float: left;
+      }
+      .part_label{
+        width: 62px;
+      }
+      .part_data{
+        //margin-left: 25px;
+        color: #769de6;
+      }
+      .first_row{
+        overflow: auto;
+        margin-bottom: 3px;
+        //clear: both;
+        //height: 34px;
+      }
+      .second_row{
+        overflow: auto;
+        margin-bottom: 0;
+        //clear: both;
+      }
+    }
+  }
+}
+
+.complete-table-bar{
+  .make-xs-column(12);
+  .alert;
+  .alert-warning;
+  border-radius: 0;
+  background: #848485;
+  min-width: @page_min_width;
+  height: 117px;
+  .percent_complete, .information, .complete_information{
+    float: left;
+    color: white;
+  }
+  .percent_complete{
+    width: 206px;
+    margin-left: 100px;
+    padding-top: 16px;
+    .percent_title{
+      font-size: 14px;
+      span{
+        font-size: 20px;
+        margin-left: 14px;
+      }
+    }
+    .custom_progress{
+      .progress;
+      @progress_height: 15px;
+      height: @progress_height;
+      @border_radius: 7px;
+      @border_radius_inner: @border_radius;
+      -webkit-border-radius:@border_radius;
+      -moz-border-radius:@border_radius;
+      border-radius:@border_radius;
+      border-width: 1px;
+      border-color: white;
+      border-style: solid;
+      .custom_progress_bar{
+        .progress-bar;
+        //.progress-bar-success;
+        //.progress-bar-striped;
+        height: @progress_height - 2px;
+        background: #3c3d3e;
+        -webkit-border-radius:@border_radius_inner;
+        -moz-border-radius:@border_radius_inner;
+        border-radius:@border_radius_inner;
+      }
+    }
+  }
+  .information{
+    width: 250px;
+    margin-left: 80px;
+    padding-top: 16px;
+    .title{
+      font-size: 18px;
+    }
+    .details{
+      font-size: 12px;
+    }
+  }
+  .complete_information{
+    margin-left: 53px;
+    padding-top:26px;
+    button{
+      .btn;
+      .btn-default;
+      color: black;
+      width: 195px;
+      font-size: 12px;
+      height: 37px;
+    }
+  }
+}

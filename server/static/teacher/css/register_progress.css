@@ -6764,7 +6764,8 @@ button.close {
     display: none !important;
   }
 }
-.mala_header {
+.mala_header,
+.mala_header_dark {
   font-size: 16px;
   padding: 1px;
   border-width: 0 0 1px 0;
@@ -6772,16 +6773,36 @@ button.close {
   border-style: solid;
   margin-bottom: 20px;
 }
-.mala_header span {
+.mala_header span,
+.mala_header_dark span {
   margin-top: 10px;
 }
-.mala_header .header_right {
+.mala_header .header_right,
+.mala_header_dark .header_right {
   float: right;
   margin-top: 10px;
   margin-right: 10px;
 }
-.mala_header .header_right_text {
+.mala_header .header_right_text,
+.mala_header_dark .header_right_text {
   padding-top: 7px;
+}
+.mala_header_dark {
+  height: 70px;
+  background: #404141;
+  margin-bottom: 0;
+}
+.mala_header_dark .header_right_text {
+  color: white;
+}
+.mala_header_dark img {
+  margin-top: 7px;
+  margin-left: 27px;
+}
+.mala_header_dark .header_right {
+  color: white;
+  font-size: 14px;
+  margin-top: 15px;
 }
 .page-left {
   position: relative;

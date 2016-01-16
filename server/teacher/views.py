@@ -44,6 +44,17 @@ def register_progress(request):
     context = {}
     return render(request, "teacher/register_progress.html", context)
 
+
+def first_page(request):
+    """
+    TW-4-1,通过面试的老师见到的第一个页面
+    :param request:
+    :return:
+    """
+    context = {}
+    return render(request, "teacher/first_page.html", context)
+
+
 # 判断是否是已登录老师
 def is_teacher_logined(u):
     if not u:

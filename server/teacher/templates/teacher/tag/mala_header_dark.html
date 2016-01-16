@@ -1,0 +1,8 @@
+{% load staticfiles %}
+<div class="mala_header_dark">
+    <img src="{% static 'common/icons/mala_dark_icon.png' %}">
+    {% if user_name %}
+        <button class="btn btn-link header_right">退出</button>
+        <span class="header_right header_right_text">您好, {{ user_name }}</span>
+    {% endif %}
+</div>
