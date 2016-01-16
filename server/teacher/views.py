@@ -127,8 +127,8 @@ class CertificateIDView(BaseTeacherView):
 
     def buildContextData(self, context, certIdHeld, certIdFront):
         context['id_num'] = certIdHeld.name
-        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or None
-        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or None
+        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or ''
+        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or ''
         return context
 
     def post(self, request):
@@ -139,12 +139,12 @@ class CertificateIDView(BaseTeacherView):
                                                               defaults={'name':"",'verified':False})
         if certIdHeld.verified:
             context['error_msg'] = '已通过认证的不能更改'
-            return render(request, self.template_path, context)
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
 
         id_num = request.POST.get('id_num')
         if not id_num:
             context['error_msg'] = '身份证号不能为空'
-            return render(request, self.template_path, context)
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
         if request.FILES and len(request.FILES):
@@ -181,10 +181,40 @@ class CertificateForOnePicView(BaseTeacherView):
         context, teacher = self.getContextTeacher(request)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
                                                               defaults={'name':"",'verified':False})
+        context = self.buildContextData(context, cert)
+        return render(request, self.template_path, context)
+
+    def buildContextData(self, context, cert):
         context['cert_title'] = self.cert_title
         context['cert_name'] = self.cert_name
         context['name_val'] = cert.name
         context['certImgUrl'] = cert.img and cert.img.url or ''
+        return context
+
+    def post(self, request):
+        context, teacher = self.getContextTeacher(request)
+        cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
+                                                              defaults={'name':"",'verified':False})
+        if cert.verified:
+            context['error_msg'] = '已通过认证的不能更改'
+            return render(request, self.template_path, self.buildContextData(context, cert))
+
+        name = request.POST.get('name')
+        if not name:
+            context['error_msg'] = '证书名称不能为空'
+            return render(request, self.template_path, self.buildContextData(context, cert))
+        cert.name = name
+
+        if request.FILES and len(request.FILES):
+            idHeldImgFile = request.FILES.get('certImg')
+            if idHeldImgFile:
+                held_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(self.cert_type)+str(cert.id), held_img_content)
+
+        cert.save()
+
+        context = self.buildContextData(context, cert)
+
         return render(request, self.template_path, context)
 
 class CertificateAcademicView(CertificateForOnePicView):
