@@ -133,10 +133,10 @@ class HomeViewController: UITableViewController, DropViewDelegate {
         // rightBarButtonItem
         let rightBarButtonItem = UIBarButtonItem(customView:
             UIButton(
-                imageName: "profile_normal",
-                selectImageName: "location_press",
+                imageName: "filter_normal",
+                selectImageName: "filter_press",
                 target: self,
-                action: "profileButtonDidClick"
+                action: "filterButtonDidClick"
             )
         )
         navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
@@ -172,13 +172,19 @@ class HomeViewController: UITableViewController, DropViewDelegate {
         dropView.isShow ? dropView.dismiss() : dropView.show()
         
     }
-    
-    @objc private func profileButtonDidClick() {
-        self.navigationController?.presentViewController(
-            UINavigationController(rootViewController: LoginViewController()),
-            animated: true,
-            completion: { () -> Void in
-            
-        })
+
+    @objc private func filterButtonDidClick() {
+//        let view = UIView(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
+        let view = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
+        ThemeAlert().show("grade", contentView: view)
     }
+    
+//    @objc private func profileButtonDidClick() {
+//        self.navigationController?.presentViewController(
+//            UINavigationController(rootViewController: LoginViewController()),
+//            animated: true,
+//            completion: { () -> Void in
+//            
+//        })
+//    }
 }

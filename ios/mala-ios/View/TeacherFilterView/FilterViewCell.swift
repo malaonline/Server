@@ -10,50 +10,62 @@ import UIKit
 
 public class FilterViewCell: UICollectionViewCell {
     
-    // MARK: - Variables
+    // MARK: - Property
+    /// Cell所属indexPath
     var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    var model: GradeModel {
+    /// 筛选条件数据模型
+    var model: GradeModel = GradeModel() {
         didSet{
-            self.titleLabel.text = model.name
-            self.titleLabel.textAlignment = .Center
-            self.titleLabel.center = self.contentView.center
+            self.button.setTitle(model.name, forState: .Normal)
             self.tag = model.id
         }
     }
+    /// 选中状态
     override public var selected: Bool {
         didSet {
-            if selected {
-                self.titleLabel.backgroundColor = UIColor.redColor()
-            }else {
-                self.titleLabel.backgroundColor = UIColor.lightGrayColor()
-            }
+            self.button.selected = !self.button.selected
         }
     }
     
     
     // MARK: - Components
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(18)
-        label.textColor = UIColor.whiteColor()
-        label.text = "筛选"
-        label.sizeToFit()
-        return label
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        button.titleLabel?.textAlignment = .Center
+        button.setTitleColor(MalaDetailsCellSubTitleColor, forState: .Normal)
+        button.setTitle("小学一年级", forState: .Normal)
+        button.setImage(UIImage(named: "radioButton_normal"), forState: .Normal)
+        button.setImage(UIImage(named: "radioButton_selected"), forState: .Selected)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: -12)
+//        button.backgroundColor = UIColor.lightGrayColor()
+        button.sizeToFit()
+        // 冻结按钮交互功能，其只作为视觉显示效果使用
+        button.userInteractionEnabled = false
+        return button
     }()
-    
+
     
     // MARK: - Constructed
     override init(frame: CGRect) {
-        self.model = GradeModel()
         super.init(frame: frame)
-        titleLabel.frame.size.width = self.bounds.size.width*0.75
-        titleLabel.layer.cornerRadius = titleLabel.frame.height*0.5
-        titleLabel.clipsToBounds = true
-        addSubview(titleLabel)
+        setupUserInterface()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // SubViews
+        contentView.addSubview(button)
+        
+        // AutoLayout
+        button.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self.contentView.snp_centerY)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_4)
+        }
+    }
 }

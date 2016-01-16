@@ -60,14 +60,14 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         //  Register Class for Cell and Header/Footer View
         registerClass(FilterViewCell.self, forCellWithReuseIdentifier: TeacherFilterViewCellReusedId)
         registerClass(FilterSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId)
-        registerClass(FilterSectionFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId)
+        registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId)
         
         // Setup Delegate and DataSource
         delegate = self
         dataSource = self
         
         self.backgroundColor = UIColor.whiteColor()
-        
+        loadFilterCondition()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -132,12 +132,12 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
 
         if kind == UICollectionElementKindSectionHeader {
             let sectionHeaderView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId, forIndexPath: indexPath) as! FilterSectionHeaderView
-            sectionHeaderView.sectionTitleText = gradeModel(indexPath.section)?.name
+            sectionHeaderView.sectionTitleText = (gradeModel(indexPath.section)?.name)!
             reusableView = sectionHeaderView
         }
         
         if kind == UICollectionElementKindSectionFooter {
-            let sectionFooterView: FilterSectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath) as! FilterSectionFooterView
+            let sectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath)
             reusableView = sectionFooterView
         }
         return reusableView!
@@ -223,59 +223,74 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         }
         reloadData()
     }
-    
 }
 
 
 // MARK: - FilterSectionHeaderView
 class FilterSectionHeaderView: UICollectionReusableView {
     
-    private lazy var sectionTitle: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(18)
-        label.textColor = UIColor(rgbHexValue: 0x333333, alpha: 0.75)
-        label.text = "筛选"
-        label.sizeToFit()
-        return label
-    }()
-    
-    var sectionTitleText: String? {
+    // MARK: - property
+    var sectionTitleText: String = "标题" {
         didSet {
-            sectionTitle.text = sectionTitleText
+            titleLabel.text = sectionTitleText
+            switch sectionTitleText {
+            case "小学":
+                iconView.image = UIImage(named: "primarySchool")
+            case "初中":
+                iconView.image = UIImage(named: "juniorHigh")
+            case "高中":
+                iconView.image = UIImage(named: "seniorHigh")
+            default:
+                break
+            }
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        let labelY = frame.size.height - sectionTitle.frame.size.height
-        sectionTitle.frame = CGRect(x: 20, y: labelY, width: sectionTitle.frame.size.width, height: sectionTitle.frame.size.height)
-        addSubview(sectionTitle)
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-// MARK: - FilterSectionFooterView
-class FilterSectionFooterView: UICollectionReusableView {
-    
-    private lazy var separator: UIView = {
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = UIColor(rgbHexValue: 0xc8c8c8, alpha: 0.75)
-        return separatorLine
+    // MARK: - Components
+    private lazy var iconView: UIImageView = {
+        let iconView = UIImageView()
+        iconView.image = UIImage(named: "primarySchool")
+        return iconView
+    }()
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        titleLabel.textColor = MalaDetailsCellSubTitleColor
+        titleLabel.text = "小学"
+        titleLabel.sizeToFit()
+        return titleLabel
     }()
     
+    
+    // MARK: - Contructed
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let lineWidth = frame.width*0.9
-        separator.frame = CGRect(x: (frame.width-lineWidth)/2, y: frame.size.height, width: lineWidth, height: 1 / UIScreen.mainScreen().scale)
-        addSubview(separator)
+        setupUserInterface()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // SubViews
+        self.addSubview(iconView)
+        self.addSubview(titleLabel)
+        
+        // AutoLayout
+        iconView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_4)
+            make.left.equalTo(self.snp_left)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+        }
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self.iconView.snp_centerY)
+            make.left.equalTo(self.iconView.snp_right).offset(MalaLayout_Margin_9)
+        }
     }
 }
 

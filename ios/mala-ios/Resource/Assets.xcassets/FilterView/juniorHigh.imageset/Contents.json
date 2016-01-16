@@ -2,16 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "profile_normal-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "profile_normal.png",
+      "filename" : "juniorHigh@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "juniorHigh@3x.png",
       "scale" : "3x"
     }
   ],
