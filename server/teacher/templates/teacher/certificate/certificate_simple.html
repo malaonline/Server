@@ -24,7 +24,7 @@
                 <div class="breadcrumbs">
                     <span class="title">个人设置</span>
                     &gt;
-                    <span>资质认证</span>
+                    <a href="{% url 'teacher:certificate' %}"><span>资质认证</span></a>
                     &gt;
                     <span>{{ cert_title }}</span>
                 </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
-                                      title="{{ hint_content }}"></span>
+                                      title="<div class='text-left'>{{ hint_content }}</div>"></span>
                             </div>
                         </div>
                         <div class="form-group {% if error_msg %}has-error{% endif %}">

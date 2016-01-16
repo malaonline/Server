@@ -176,6 +176,7 @@ class CertificateForOnePicView(BaseTeacherView):
     cert_type = 0
     cert_title = '证书标题'
     cert_name = '证书名字'
+    hint_content = "提示内容"
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
@@ -189,6 +190,7 @@ class CertificateForOnePicView(BaseTeacherView):
         context['cert_name'] = self.cert_name
         context['name_val'] = cert.name
         context['certImgUrl'] = cert.img and cert.img.url or ''
+        context['hint_content'] = self.hint_content
         return context
 
     def post(self, request):
@@ -221,13 +223,16 @@ class CertificateAcademicView(CertificateForOnePicView):
     cert_type = models.Certificate.ACADEMIC
     cert_title = '学历认证'
     cert_name = '毕业院校'
+    hint_content = "请上传最新的毕业证或学位证书照片"
 
 class CertificateTeachingView(CertificateForOnePicView):
     cert_type = models.Certificate.TEACHING
     cert_title = '教师资质认证'
     cert_name = '证书名称'
+    hint_content = "请上传有效期内的教师资格证书或同等资格证明"
 
 class CertificateEnglishView(CertificateForOnePicView):
     cert_type = models.Certificate.ENGLISH
     cert_title = '英语水平认证'
     cert_name = '证书名称'
+    hint_content = "请上传你最具代表性的英语水平证书"
