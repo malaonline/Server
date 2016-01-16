@@ -1,6 +1,6 @@
 @import "../../common/less/bootstrap.less";
 
-.mala_header{
+.mala_header, .mala_header_dark{
   font-size: 16px;
   span{
     margin-top: 10px;
@@ -20,6 +20,26 @@
     padding-top:7px;
   }
 }
+
+.mala_header_dark{
+  height: 70px;
+  background: #404141;
+  margin-bottom:0;
+  .header_right_text{
+    color: white;
+    //font-size: 14px;
+  }
+  img{
+    margin-top: 7px;
+    margin-left: 27px;
+  }
+  .header_right{
+    color: white;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+}
+
 
 //左边栏宽度
 @leftBlankWidth: 0;

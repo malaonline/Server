@@ -1,3 +1,412 @@
+.borderRadius {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal {
+  padding-left: 10px;
+}
+.form-horizontal .form-row {
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: 9px;
+}
+.form-horizontal .register-phone-label,
+.form-horizontal .register-sms-label {
+  min-width: 110px;
+  float: left;
+  text-align: right;
+  padding-right: 17px;
+  padding-top: 7px;
+}
+.form-horizontal .register-phone-input {
+  float: left;
+  padding-left: 0;
+}
+.form-horizontal .register-phone-input input {
+  width: 200px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  float: left;
+}
+.form-horizontal .register-phone-input span {
+  float: left;
+  height: 27px;
+  background: #faeded;
+  color: #8c8c8c;
+  border: 1px #e2dfdf solid;
+  border-radius: 0;
+  margin-left: 3px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 22px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.form-horizontal .register-phone-input span i {
+  font-size: 14px;
+  top: 2px;
+}
+.form-horizontal .register-phone-input span[attrHidden=true] {
+  display: none;
+}
+.form-horizontal .register-phone-output {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.form-horizontal .register-sms-input {
+  padding-left: 0;
+  padding-right: 5px;
+}
+.form-horizontal .register-sms-input input {
+  width: 124px;
+  float: left;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .register-sms-input button {
+  margin-left: 5px;
+  width: 71px;
+  float: left;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .register-sms-input button:disabled {
+  background: #cdcdcd;
+  color: white;
+}
+.form-horizontal .register-sms-input button:disabled:hover {
+  background: #cdcdcd;
+  color: white;
+}
+.form-horizontal .register-sms-get-button {
+  padding-left: 0;
+}
+.form-horizontal .register-sms-get-button button {
+  width: 71px;
+}
+.form-horizontal .register-sms-right-blank {
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.form-horizontal .register-agree {
+  padding-left: 130px;
+  font-size: 12px;
+}
+.form-horizontal .register-agree button {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #625a55;
+  text-decoration: underline;
+}
+.form-horizontal .register-agree input {
+  margin-top: 1px;
+}
+.form-horizontal .register-next {
+  padding-left: 110px;
+}
+.form-horizontal .register-next-button {
+  width: 200px;
+}
+.form-horizontal .normal-button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  background: #8c8c8c;
+  color: white;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button:active:focus,
+.form-horizontal .normal-button.active:focus,
+.form-horizontal .normal-button.focus,
+.form-horizontal .normal-button:active.focus,
+.form-horizontal .normal-button.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.form-horizontal .normal-button:hover,
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.focus {
+  color: #333;
+  text-decoration: none;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.form-horizontal .normal-button.disabled,
+.form-horizontal .normal-button[disabled],
+fieldset[disabled] .form-horizontal .normal-button {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+a.form-horizontal .normal-button.disabled,
+fieldset[disabled] a.form-horizontal .normal-button {
+  pointer-events: none;
+}
+.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.focus {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+.form-horizontal .normal-button:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active,
+.open > .dropdown-toggle.form-horizontal .normal-button {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.form-horizontal .normal-button:active:hover,
+.form-horizontal .normal-button.active:hover,
+.open > .dropdown-toggle.form-horizontal .normal-button:hover,
+.form-horizontal .normal-button:active:focus,
+.form-horizontal .normal-button.active:focus,
+.open > .dropdown-toggle.form-horizontal .normal-button:focus,
+.form-horizontal .normal-button:active.focus,
+.form-horizontal .normal-button.active.focus,
+.open > .dropdown-toggle.form-horizontal .normal-button.focus {
+  color: #333;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+.form-horizontal .normal-button:active,
+.form-horizontal .normal-button.active,
+.open > .dropdown-toggle.form-horizontal .normal-button {
+  background-image: none;
+}
+.form-horizontal .normal-button.disabled,
+.form-horizontal .normal-button[disabled],
+fieldset[disabled] .form-horizontal .normal-button,
+.form-horizontal .normal-button.disabled:hover,
+.form-horizontal .normal-button[disabled]:hover,
+fieldset[disabled] .form-horizontal .normal-button:hover,
+.form-horizontal .normal-button.disabled:focus,
+.form-horizontal .normal-button[disabled]:focus,
+fieldset[disabled] .form-horizontal .normal-button:focus,
+.form-horizontal .normal-button.disabled.focus,
+.form-horizontal .normal-button[disabled].focus,
+fieldset[disabled] .form-horizontal .normal-button.focus,
+.form-horizontal .normal-button.disabled:active,
+.form-horizontal .normal-button[disabled]:active,
+fieldset[disabled] .form-horizontal .normal-button:active,
+.form-horizontal .normal-button.disabled.active,
+.form-horizontal .normal-button[disabled].active,
+fieldset[disabled] .form-horizontal .normal-button.active {
+  background-color: #fff;
+  border-color: #ccc;
+}
+.form-horizontal .normal-button .badge {
+  color: #fff;
+  background-color: #333;
+}
+.form-horizontal .primary-button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  background: #414141;
+  color: white;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button:active:focus,
+.form-horizontal .primary-button.active:focus,
+.form-horizontal .primary-button.focus,
+.form-horizontal .primary-button:active.focus,
+.form-horizontal .primary-button.active.focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.form-horizontal .primary-button:hover,
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.focus {
+  color: #333;
+  text-decoration: none;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.form-horizontal .primary-button.disabled,
+.form-horizontal .primary-button[disabled],
+fieldset[disabled] .form-horizontal .primary-button {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+a.form-horizontal .primary-button.disabled,
+fieldset[disabled] a.form-horizontal .primary-button {
+  pointer-events: none;
+}
+.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.form-horizontal .primary-button:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active,
+.open > .dropdown-toggle.form-horizontal .primary-button {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.form-horizontal .primary-button:active:hover,
+.form-horizontal .primary-button.active:hover,
+.open > .dropdown-toggle.form-horizontal .primary-button:hover,
+.form-horizontal .primary-button:active:focus,
+.form-horizontal .primary-button.active:focus,
+.open > .dropdown-toggle.form-horizontal .primary-button:focus,
+.form-horizontal .primary-button:active.focus,
+.form-horizontal .primary-button.active.focus,
+.open > .dropdown-toggle.form-horizontal .primary-button.focus {
+  color: #fff;
+  background-color: #204d74;
+  border-color: #122b40;
+}
+.form-horizontal .primary-button:active,
+.form-horizontal .primary-button.active,
+.open > .dropdown-toggle.form-horizontal .primary-button {
+  background-image: none;
+}
+.form-horizontal .primary-button.disabled,
+.form-horizontal .primary-button[disabled],
+fieldset[disabled] .form-horizontal .primary-button,
+.form-horizontal .primary-button.disabled:hover,
+.form-horizontal .primary-button[disabled]:hover,
+fieldset[disabled] .form-horizontal .primary-button:hover,
+.form-horizontal .primary-button.disabled:focus,
+.form-horizontal .primary-button[disabled]:focus,
+fieldset[disabled] .form-horizontal .primary-button:focus,
+.form-horizontal .primary-button.disabled.focus,
+.form-horizontal .primary-button[disabled].focus,
+fieldset[disabled] .form-horizontal .primary-button.focus,
+.form-horizontal .primary-button.disabled:active,
+.form-horizontal .primary-button[disabled]:active,
+fieldset[disabled] .form-horizontal .primary-button:active,
+.form-horizontal .primary-button.disabled.active,
+.form-horizontal .primary-button[disabled].active,
+fieldset[disabled] .form-horizontal .primary-button.active {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.form-horizontal .primary-button .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.form-horizontal .primary-button:disabled {
+  background: #cdcdcd;
+  color: white;
+  border: 0;
+}
+.form-horizontal .primary-button:disabled:hover {
+  background: #cdcdcd;
+  color: white;
+}
+.agree {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.agree .doc-header {
+  background: #e4e4e4;
+  color: #716769;
+}
+.agree .doc-header h4 {
+  margin-left: 190px;
+}
+.agree .continue-button {
+  margin-right: 230px;
+  background: #8e8e8e;
+  color: white;
+}
+.agree .doc iframe {
+  border: None;
+  width: 100%;
+  height: 500px;
+}
+.agree-and-continue-button {
+  margin-right: 230px;
+  background: #8e8e8e;
+  color: white;
+}
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -6473,6 +6882,8 @@ button.close {
 }
 .clearfix:before,
 .clearfix:after,
+.form-horizontal .form-row:before,
+.form-horizontal .form-row:after,
 .dl-horizontal dd:before,
 .dl-horizontal dd:after,
 .container:before,
@@ -6500,13 +6911,12 @@ button.close {
 .panel-body:before,
 .panel-body:after,
 .modal-footer:before,
-.modal-footer:after,
-.form-horizontal .form-row:before,
-.form-horizontal .form-row:after {
+.modal-footer:after {
   content: " ";
   display: table;
 }
 .clearfix:after,
+.form-horizontal .form-row:after,
 .dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,
@@ -6520,8 +6930,7 @@ button.close {
 .navbar-collapse:after,
 .pager:after,
 .panel-body:after,
-.modal-footer:after,
-.form-horizontal .form-row:after {
+.modal-footer:after {
   clear: both;
 }
 .center-block {
@@ -6953,130 +7362,264 @@ fieldset[disabled] .confirm_button.active {
   color: #337ab7;
   background-color: #fff;
 }
-.borderRadius {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+.mala_header_dark {
+  min-width: 980px;
 }
-.form-horizontal {
-  padding-left: 10px;
+.page-center {
+  height: 600px;
 }
-.form-horizontal .form-row {
-  margin-left: -15px;
-  margin-right: -15px;
-  margin-top: 9px;
-}
-.form-horizontal .register-phone-label,
-.form-horizontal .register-sms-label {
-  min-width: 110px;
+.side_bar {
+  width: 146px;
   float: left;
-  text-align: right;
-  padding-right: 17px;
-  padding-top: 7px;
+  background: #eaebec;
+  padding-left: 35px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  height: 100%;
 }
-.form-horizontal .register-phone-input {
-  float: left;
-  padding-left: 0;
-}
-.form-horizontal .register-phone-input input {
-  width: 200px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  float: left;
-}
-.form-horizontal .register-phone-input span {
-  float: left;
-  height: 27px;
-  background: #faeded;
-  color: #8c8c8c;
-  border: 1px #e2dfdf solid;
-  border-radius: 0;
-  margin-left: 3px;
-  margin-top: 4px;
+.side_bar .section-link a {
   font-size: 12px;
+  color: #85898a;
+}
+.side_bar .section-link .info_icon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
   font-weight: normal;
-  line-height: 22px;
-  padding-left: 12px;
-  padding-right: 12px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-left: 4px;
+  top: 3px;
+  color: #df3a45;
 }
-.form-horizontal .register-phone-input span i {
-  font-size: 14px;
-  top: 2px;
+.side_bar .section-link .info_icon:before {
+  content: "\e086";
 }
-.form-horizontal .register-phone-input span[attrHidden=true] {
-  display: none;
+.side_bar .section-link .badge_number {
+  color: #df3a44;
 }
-.form-horizontal .register-phone-output {
-  position: relative;
-  float: left;
-  width: 16.66666667%;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.form-horizontal .register-sms-input {
+.page-center {
   padding-left: 0;
-  padding-right: 5px;
+  padding-right: 0;
+  min-width: 980px;
 }
-.form-horizontal .register-sms-input input {
-  width: 124px;
+.the_content {
   float: left;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  padding: 5px;
+  min-width: 750px;
+  width: auto;
+  margin-top: 5px;
+  margin-left: 9px;
 }
-.form-horizontal .register-sms-input button {
-  margin-left: 5px;
-  width: 71px;
+.the_content .teacher_info_pan {
+  overflow: auto;
+  width: 100%;
+  border-width: 1px;
+  border-color: #c9cacb;
+  border-style: solid;
+  padding: 2px;
+}
+.the_content .teacher_info_pan .avatar {
   float: left;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
 }
-.form-horizontal .register-sms-input button:disabled {
-  background: #cdcdcd;
-  color: white;
-}
-.form-horizontal .register-sms-input button:disabled:hover {
-  background: #cdcdcd;
-  color: white;
-}
-.form-horizontal .register-sms-get-button {
-  padding-left: 0;
-}
-.form-horizontal .register-sms-get-button button {
-  width: 71px;
-}
-.form-horizontal .register-sms-right-blank {
-  position: relative;
+.the_content .teacher_info_pan .info {
   float: left;
-  width: 16.66666667%;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 42px;
+  min-width: 700px;
 }
-.form-horizontal .register-agree {
-  padding-left: 130px;
+.the_content .teacher_info_pan .info .edit_button {
+  text-align: right;
+  margin-bottom: 0;
+}
+.the_content .teacher_info_pan .info .edit_button a {
+  color: #a08b88;
   font-size: 12px;
 }
-.form-horizontal .register-agree button {
-  margin: 0;
-  padding: 0;
+.the_content .teacher_info_pan .info .name {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+.the_content .teacher_info_pan .info .details .title,
+.the_content .teacher_info_pan .info .details .state,
+.the_content .teacher_info_pan .info .details .link {
   font-size: 12px;
-  color: #625a55;
-  text-decoration: underline;
 }
-.form-horizontal .register-agree input {
-  margin-top: 1px;
+.the_content .teacher_info_pan .info .details .state {
+  margin-left: 35px;
+  color: #b7b3b3;
 }
-.form-horizontal .register-next {
-  padding-left: 110px;
+.the_content .teacher_info_pan .info .details .percent {
+  font-size: 18px;
+  top: 5px;
+  margin-left: 24px;
 }
-.form-horizontal .register-next-button {
+.the_content .teacher_info_pan .info .details .link {
+  margin-left: 22px;
+}
+.the_content .data_table {
+  overflow: auto;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cfd0d1;
+  margin-top: 15px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.the_content .data_table .one_part {
+  border-width: 0 0 0 1px;
+  border-color: #c6c7c8;
+  border-style: solid;
+}
+.the_content .data_table .one_part,
+.the_content .data_table .first_part {
+  overflow: auto;
+  float: left;
   width: 200px;
+  padding-left: 30px;
 }
-.form-horizontal .normal-button {
+.the_content .data_table .one_part .title,
+.the_content .data_table .first_part .title {
+  text-align: center;
+  font-weight: bold;
+  margin-left: -30px;
+}
+.the_content .data_table .one_part .part_label,
+.the_content .data_table .first_part .part_label,
+.the_content .data_table .one_part .part_data,
+.the_content .data_table .first_part .part_data {
+  font-size: 12px;
+  float: left;
+}
+.the_content .data_table .one_part .part_label,
+.the_content .data_table .first_part .part_label {
+  width: 62px;
+}
+.the_content .data_table .one_part .part_data,
+.the_content .data_table .first_part .part_data {
+  color: #769de6;
+}
+.the_content .data_table .one_part .first_row,
+.the_content .data_table .first_part .first_row {
+  overflow: auto;
+  margin-bottom: 3px;
+}
+.the_content .data_table .one_part .second_row,
+.the_content .data_table .first_part .second_row {
+  overflow: auto;
+  margin-bottom: 0;
+}
+.complete-table-bar {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+  border-radius: 0;
+  background: #848485;
+  min-width: 980px;
+  height: 117px;
+}
+.complete-table-bar h4 {
+  margin-top: 0;
+  color: inherit;
+}
+.complete-table-bar .alert-link {
+  font-weight: bold;
+}
+.complete-table-bar > p,
+.complete-table-bar > ul {
+  margin-bottom: 0;
+}
+.complete-table-bar > p + p {
+  margin-top: 5px;
+}
+.complete-table-bar hr {
+  border-top-color: #f7e1b5;
+}
+.complete-table-bar .alert-link {
+  color: #66512c;
+}
+.complete-table-bar .percent_complete,
+.complete-table-bar .information,
+.complete-table-bar .complete_information {
+  float: left;
+  color: white;
+}
+.complete-table-bar .percent_complete {
+  width: 206px;
+  margin-left: 100px;
+  padding-top: 16px;
+}
+.complete-table-bar .percent_complete .percent_title {
+  font-size: 14px;
+}
+.complete-table-bar .percent_complete .percent_title span {
+  font-size: 20px;
+  margin-left: 14px;
+}
+.complete-table-bar .percent_complete .custom_progress {
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  height: 15px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  border-width: 1px;
+  border-color: white;
+  border-style: solid;
+}
+.complete-table-bar .percent_complete .custom_progress .custom_progress_bar {
+  float: left;
+  width: 0%;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #337ab7;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: width 0.6s ease;
+  -o-transition: width 0.6s ease;
+  transition: width 0.6s ease;
+  height: 13px;
+  background: #3c3d3e;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
+.complete-table-bar .information {
+  width: 250px;
+  margin-left: 80px;
+  padding-top: 16px;
+}
+.complete-table-bar .information .title {
+  font-size: 18px;
+}
+.complete-table-bar .information .details {
+  font-size: 12px;
+}
+.complete-table-bar .complete_information {
+  margin-left: 53px;
+  padding-top: 26px;
+}
+.complete-table-bar .complete_information button {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -7098,267 +7641,105 @@ fieldset[disabled] .confirm_button.active {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
-  background: #8c8c8c;
-  color: white;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  color: black;
+  width: 195px;
+  font-size: 12px;
+  height: 37px;
 }
-.form-horizontal .normal-button:focus,
-.form-horizontal .normal-button:active:focus,
-.form-horizontal .normal-button.active:focus,
-.form-horizontal .normal-button.focus,
-.form-horizontal .normal-button:active.focus,
-.form-horizontal .normal-button.active.focus {
+.complete-table-bar .complete_information button:focus,
+.complete-table-bar .complete_information button:active:focus,
+.complete-table-bar .complete_information button.active:focus,
+.complete-table-bar .complete_information button.focus,
+.complete-table-bar .complete_information button:active.focus,
+.complete-table-bar .complete_information button.active.focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-.form-horizontal .normal-button:hover,
-.form-horizontal .normal-button:focus,
-.form-horizontal .normal-button.focus {
+.complete-table-bar .complete_information button:hover,
+.complete-table-bar .complete_information button:focus,
+.complete-table-bar .complete_information button.focus {
   color: #333;
   text-decoration: none;
 }
-.form-horizontal .normal-button:active,
-.form-horizontal .normal-button.active {
+.complete-table-bar .complete_information button:active,
+.complete-table-bar .complete_information button.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-.form-horizontal .normal-button.disabled,
-.form-horizontal .normal-button[disabled],
-fieldset[disabled] .form-horizontal .normal-button {
+.complete-table-bar .complete_information button.disabled,
+.complete-table-bar .complete_information button[disabled],
+fieldset[disabled] .complete-table-bar .complete_information button {
   cursor: not-allowed;
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-a.form-horizontal .normal-button.disabled,
-fieldset[disabled] a.form-horizontal .normal-button {
+a.complete-table-bar .complete_information button.disabled,
+fieldset[disabled] a.complete-table-bar .complete_information button {
   pointer-events: none;
 }
-.form-horizontal .normal-button:focus,
-.form-horizontal .normal-button.focus {
+.complete-table-bar .complete_information button:focus,
+.complete-table-bar .complete_information button.focus {
   color: #333;
   background-color: #e6e6e6;
   border-color: #8c8c8c;
 }
-.form-horizontal .normal-button:hover {
+.complete-table-bar .complete_information button:hover {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
-.form-horizontal .normal-button:active,
-.form-horizontal .normal-button.active,
-.open > .dropdown-toggle.form-horizontal .normal-button {
+.complete-table-bar .complete_information button:active,
+.complete-table-bar .complete_information button.active,
+.open > .dropdown-toggle.complete-table-bar .complete_information button {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
 }
-.form-horizontal .normal-button:active:hover,
-.form-horizontal .normal-button.active:hover,
-.open > .dropdown-toggle.form-horizontal .normal-button:hover,
-.form-horizontal .normal-button:active:focus,
-.form-horizontal .normal-button.active:focus,
-.open > .dropdown-toggle.form-horizontal .normal-button:focus,
-.form-horizontal .normal-button:active.focus,
-.form-horizontal .normal-button.active.focus,
-.open > .dropdown-toggle.form-horizontal .normal-button.focus {
+.complete-table-bar .complete_information button:active:hover,
+.complete-table-bar .complete_information button.active:hover,
+.open > .dropdown-toggle.complete-table-bar .complete_information button:hover,
+.complete-table-bar .complete_information button:active:focus,
+.complete-table-bar .complete_information button.active:focus,
+.open > .dropdown-toggle.complete-table-bar .complete_information button:focus,
+.complete-table-bar .complete_information button:active.focus,
+.complete-table-bar .complete_information button.active.focus,
+.open > .dropdown-toggle.complete-table-bar .complete_information button.focus {
   color: #333;
   background-color: #d4d4d4;
   border-color: #8c8c8c;
 }
-.form-horizontal .normal-button:active,
-.form-horizontal .normal-button.active,
-.open > .dropdown-toggle.form-horizontal .normal-button {
+.complete-table-bar .complete_information button:active,
+.complete-table-bar .complete_information button.active,
+.open > .dropdown-toggle.complete-table-bar .complete_information button {
   background-image: none;
 }
-.form-horizontal .normal-button.disabled,
-.form-horizontal .normal-button[disabled],
-fieldset[disabled] .form-horizontal .normal-button,
-.form-horizontal .normal-button.disabled:hover,
-.form-horizontal .normal-button[disabled]:hover,
-fieldset[disabled] .form-horizontal .normal-button:hover,
-.form-horizontal .normal-button.disabled:focus,
-.form-horizontal .normal-button[disabled]:focus,
-fieldset[disabled] .form-horizontal .normal-button:focus,
-.form-horizontal .normal-button.disabled.focus,
-.form-horizontal .normal-button[disabled].focus,
-fieldset[disabled] .form-horizontal .normal-button.focus,
-.form-horizontal .normal-button.disabled:active,
-.form-horizontal .normal-button[disabled]:active,
-fieldset[disabled] .form-horizontal .normal-button:active,
-.form-horizontal .normal-button.disabled.active,
-.form-horizontal .normal-button[disabled].active,
-fieldset[disabled] .form-horizontal .normal-button.active {
+.complete-table-bar .complete_information button.disabled,
+.complete-table-bar .complete_information button[disabled],
+fieldset[disabled] .complete-table-bar .complete_information button,
+.complete-table-bar .complete_information button.disabled:hover,
+.complete-table-bar .complete_information button[disabled]:hover,
+fieldset[disabled] .complete-table-bar .complete_information button:hover,
+.complete-table-bar .complete_information button.disabled:focus,
+.complete-table-bar .complete_information button[disabled]:focus,
+fieldset[disabled] .complete-table-bar .complete_information button:focus,
+.complete-table-bar .complete_information button.disabled.focus,
+.complete-table-bar .complete_information button[disabled].focus,
+fieldset[disabled] .complete-table-bar .complete_information button.focus,
+.complete-table-bar .complete_information button.disabled:active,
+.complete-table-bar .complete_information button[disabled]:active,
+fieldset[disabled] .complete-table-bar .complete_information button:active,
+.complete-table-bar .complete_information button.disabled.active,
+.complete-table-bar .complete_information button[disabled].active,
+fieldset[disabled] .complete-table-bar .complete_information button.active {
   background-color: #fff;
   border-color: #ccc;
 }
-.form-horizontal .normal-button .badge {
+.complete-table-bar .complete_information button .badge {
   color: #fff;
   background-color: #333;
-}
-.form-horizontal .primary-button {
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  background: #414141;
-  color: white;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-}
-.form-horizontal .primary-button:focus,
-.form-horizontal .primary-button:active:focus,
-.form-horizontal .primary-button.active:focus,
-.form-horizontal .primary-button.focus,
-.form-horizontal .primary-button:active.focus,
-.form-horizontal .primary-button.active.focus {
-  outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.form-horizontal .primary-button:hover,
-.form-horizontal .primary-button:focus,
-.form-horizontal .primary-button.focus {
-  color: #333;
-  text-decoration: none;
-}
-.form-horizontal .primary-button:active,
-.form-horizontal .primary-button.active {
-  outline: 0;
-  background-image: none;
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.form-horizontal .primary-button.disabled,
-.form-horizontal .primary-button[disabled],
-fieldset[disabled] .form-horizontal .primary-button {
-  cursor: not-allowed;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-a.form-horizontal .primary-button.disabled,
-fieldset[disabled] a.form-horizontal .primary-button {
-  pointer-events: none;
-}
-.form-horizontal .primary-button:focus,
-.form-horizontal .primary-button.focus {
-  color: #fff;
-  background-color: #286090;
-  border-color: #122b40;
-}
-.form-horizontal .primary-button:hover {
-  color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
-}
-.form-horizontal .primary-button:active,
-.form-horizontal .primary-button.active,
-.open > .dropdown-toggle.form-horizontal .primary-button {
-  color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
-}
-.form-horizontal .primary-button:active:hover,
-.form-horizontal .primary-button.active:hover,
-.open > .dropdown-toggle.form-horizontal .primary-button:hover,
-.form-horizontal .primary-button:active:focus,
-.form-horizontal .primary-button.active:focus,
-.open > .dropdown-toggle.form-horizontal .primary-button:focus,
-.form-horizontal .primary-button:active.focus,
-.form-horizontal .primary-button.active.focus,
-.open > .dropdown-toggle.form-horizontal .primary-button.focus {
-  color: #fff;
-  background-color: #204d74;
-  border-color: #122b40;
-}
-.form-horizontal .primary-button:active,
-.form-horizontal .primary-button.active,
-.open > .dropdown-toggle.form-horizontal .primary-button {
-  background-image: none;
-}
-.form-horizontal .primary-button.disabled,
-.form-horizontal .primary-button[disabled],
-fieldset[disabled] .form-horizontal .primary-button,
-.form-horizontal .primary-button.disabled:hover,
-.form-horizontal .primary-button[disabled]:hover,
-fieldset[disabled] .form-horizontal .primary-button:hover,
-.form-horizontal .primary-button.disabled:focus,
-.form-horizontal .primary-button[disabled]:focus,
-fieldset[disabled] .form-horizontal .primary-button:focus,
-.form-horizontal .primary-button.disabled.focus,
-.form-horizontal .primary-button[disabled].focus,
-fieldset[disabled] .form-horizontal .primary-button.focus,
-.form-horizontal .primary-button.disabled:active,
-.form-horizontal .primary-button[disabled]:active,
-fieldset[disabled] .form-horizontal .primary-button:active,
-.form-horizontal .primary-button.disabled.active,
-.form-horizontal .primary-button[disabled].active,
-fieldset[disabled] .form-horizontal .primary-button.active {
-  background-color: #337ab7;
-  border-color: #2e6da4;
-}
-.form-horizontal .primary-button .badge {
-  color: #337ab7;
-  background-color: #fff;
-}
-.form-horizontal .primary-button:disabled {
-  background: #cdcdcd;
-  color: white;
-  border: 0;
-}
-.form-horizontal .primary-button:disabled:hover {
-  background: #cdcdcd;
-  color: white;
-}
-.agree {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-.agree .doc-header {
-  background: #e4e4e4;
-  color: #716769;
-}
-.agree .doc-header h4 {
-  margin-left: 190px;
-}
-.agree .continue-button {
-  margin-right: 230px;
-  background: #8e8e8e;
-  color: white;
-}
-.agree .doc iframe {
-  border: None;
-  width: 100%;
-  height: 500px;
-}
-.agree-and-continue-button {
-  margin-right: 230px;
-  background: #8e8e8e;
-  color: white;
 }

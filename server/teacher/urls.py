@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^register/progress/$', views.register_progress, name="register-progress"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
+    url(r'^first_page/$', views.first_page, name="first-page"),
 ]
