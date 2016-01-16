@@ -29,7 +29,8 @@
                     <span>身份认证</span>
                 </div>
                 <div class="certificate-box">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-5">
@@ -37,9 +38,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="id_num" class="col-sm-2 control-label">省份证号</label>
+                            <label for="id_num" class="col-sm-2 control-label">身份证号</label>
                             <div class="col-sm-5">
-                                <input type="email" class="form-control" id="id_num" placeholder="Email">
+                                <input type="text" class="form-control" id="id_num" name="id_num" value="{{ id_num }}" placeholder="身份证号">
                             </div>
                         </div>
                         <div class="form-group">
@@ -47,8 +48,8 @@
                             <div class="col-sm-3">
                                 <div class="img-upload-box">
                                     <div class="img-text">手持身份证照片</div>
-                                    <div class="img-box">
-                                        <img src={% static 'common/icons/mala_icon.png' %}>
+                                    <div class="img-box" {% if not idHeldUrl %} style="display: none" {% endif %}>
+                                        <img src={{ idHeldUrl }}>
                                     </div>
                                     <div class="img-preview-box"><img src=""></div>
                                     <div class="uploading-hint-box"></div>
@@ -90,11 +91,12 @@
                                       title="<div class='text-left'>1.证件与手持证件一致<br>2.证件文字清晰, 无更改</div>"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group {% if error_msg %}has-error{% endif %}">
                             <div class="col-sm-2">{# empty #}</div>
                             <div class="col-sm-10">
-                                <button class="btn btn-success">保存</button>
-                                <button class="btn btn-default">取消</button>
+                                <span class="help-block">{{ error_msg }}</span>
+                                <button type="submit" class="btn btn-success">保存</button>
+                                <button type="button" class="btn btn-default">取消</button>
                             </div>
                         </div>
                     </form>

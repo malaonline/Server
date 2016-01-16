@@ -1,5 +1,6 @@
 @imgUploadBoxWidth: 141px;
 @imgUploadBoxHeight: 119px;
+@imgUploadBtnHeight: 30px;
 .img-upload-box {
   position: relative;
   min-width: @imgUploadBoxWidth;
@@ -8,8 +9,8 @@
   .img-text {
     position: absolute;
     width: 100%;
-    height: @imgUploadBoxHeight;
-    line-height: @imgUploadBoxHeight;
+    height: @imgUploadBoxHeight - @imgUploadBtnHeight;
+    line-height: @imgUploadBoxHeight - @imgUploadBtnHeight;
     overflow: hidden;
     background: #ddd;
     text-align: center;
@@ -51,9 +52,10 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 7px 0;
+    height: @imgUploadBtnHeight;
+    line-height: @imgUploadBtnHeight;
     overflow: hidden;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.07);
     border-radius: 0;
     border: 0;
     input {
