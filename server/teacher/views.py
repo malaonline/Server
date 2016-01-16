@@ -165,3 +165,39 @@ class CertificateIDView(BaseTeacherView):
         context = self.buildContextData(context, certIdHeld, certIdFront)
 
         return render(request, self.template_path, context)
+
+
+class CertificateForOnePicView(BaseTeacherView):
+    """
+    page of certificate for only one pic is needed
+    """
+    template_path = 'teacher/certificate/certificate_simple.html'
+    # cert_types = ['academic', 'teaching', 'english']
+    cert_type = 0
+    cert_title = '证书标题'
+    cert_name = '证书名字'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
+                                                              defaults={'name':"",'verified':False})
+        context['cert_title'] = self.cert_title
+        context['cert_name'] = self.cert_name
+        context['name_val'] = cert.name
+        context['certImgUrl'] = cert.img and cert.img.url or ''
+        return render(request, self.template_path, context)
+
+class CertificateAcademicView(CertificateForOnePicView):
+    cert_type = models.Certificate.ACADEMIC
+    cert_title = '学历认证'
+    cert_name = '毕业院校'
+
+class CertificateTeachingView(CertificateForOnePicView):
+    cert_type = models.Certificate.TEACHING
+    cert_title = '教师资质认证'
+    cert_name = '证书名称'
+
+class CertificateEnglishView(CertificateForOnePicView):
+    cert_type = models.Certificate.ENGLISH
+    cert_title = '英语水平认证'
+    cert_name = '证书名称'
