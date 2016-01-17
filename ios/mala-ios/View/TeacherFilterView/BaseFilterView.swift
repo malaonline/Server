@@ -122,7 +122,7 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
                     dataDict?.append(set)
                 }
             }
-            // self?.tagsCondition.subset = dataDict //TODO: 风格标签数据待处理
+             self?.tagsCondition.subset = dataDict //TODO: 风格标签数据待处理
             self?.reloadData()
         }
         self.reloadData()

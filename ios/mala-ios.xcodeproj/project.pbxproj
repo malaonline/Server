@@ -389,13 +389,13 @@
 			isa = PBXGroup;
 			children = (
 				30445B151C4A3959002CD290 /* FilterView.swift */,
+				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 				30445B181C4A3AC8002CD290 /* GradeFilterView.swift */,
 				30445B1B1C4A3B3D002CD290 /* SubjectFilterView.swift */,
 				30445B1E1C4A3B96002CD290 /* StyleFilterView.swift */,
 				30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
 				30AE09351C2BE56D00FD607D /* DropView.swift */,
-				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 			);
 			path = TeacherFilterView;
 			sourceTree = "<group>";
