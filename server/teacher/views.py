@@ -1,6 +1,7 @@
 import logging
 
 # django modules
+from django.core.files.base import ContentFile
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, JsonResponse
@@ -79,14 +80,18 @@ class BaseTeacherView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseTeacherView, self).dispatch(request, *args, **kwargs)
 
+    def getContextTeacher(self, request):
+        context = {}
+        teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacherName'] = teacher.name
+        return context, teacher
+
 class CertificateView(BaseTeacherView):
     """
     certifications overview
     """
     def get(self, request):
-        context = {}
-        teacher = get_object_or_404(models.Teacher, user=request.user)
-        context['teacherName'] = teacher.name
+        context, teacher = self.getContextTeacher(request)
         certifications = models.Certificate.objects.filter(teacher=teacher)
         tmp_other_cert = None
         for cert in certifications:
@@ -110,8 +115,53 @@ class CertificateIDView(BaseTeacherView):
     """
     page of certificate id
     """
+    template_path = 'teacher/certificate/certificate_id.html'
     def get(self, request):
-        context = {}
-        teacher = get_object_or_404(models.Teacher, user=request.user)
-        context['teacherName'] = teacher.name
-        return render(request, 'teacher/certificate/certificate_id.html', context)
+        context, teacher = self.getContextTeacher(request)
+        certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                              defaults={'name':"",'verified':False})
+        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
+                                                              defaults={'name':"",'verified':False})
+        context = self.buildContextData(context, certIdHeld, certIdFront)
+        return render(request, self.template_path, context)
+
+    def buildContextData(self, context, certIdHeld, certIdFront):
+        context['id_num'] = certIdHeld.name
+        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or None
+        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or None
+        return context
+
+    def post(self, request):
+        context, teacher = self.getContextTeacher(request)
+        certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                              defaults={'name':"",'verified':False})
+        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
+                                                              defaults={'name':"",'verified':False})
+        if certIdHeld.verified:
+            context['error_msg'] = '已通过认证的不能更改'
+            return render(request, self.template_path, context)
+
+        id_num = request.POST.get('id_num')
+        if not id_num:
+            context['error_msg'] = '身份证号不能为空'
+            return render(request, self.template_path, context)
+        certIdHeld.name = id_num
+
+        if request.FILES and len(request.FILES):
+            idHeldImgFile = request.FILES.get('idHeldImg')
+            if idHeldImgFile:
+                held_img_content = ContentFile(request.FILES['idHeldImg'].read())
+                # idHeldImg = Image.open(idHeldImgFile)
+                certIdHeld.img.save("idHeld", held_img_content)
+            idFrontImgFile = request.FILES.get('idFrontImg')
+            if idFrontImgFile:
+                front_img_content = ContentFile(request.FILES['idFrontImg'].read())
+                # idHeldImg = Image.open(idHeldImgFile)
+                certIdFront.img.save("idFrontImg", front_img_content)
+
+        certIdHeld.save()
+        certIdFront.save()
+
+        context = self.buildContextData(context, certIdHeld, certIdFront)
+
+        return render(request, self.template_path, context)
