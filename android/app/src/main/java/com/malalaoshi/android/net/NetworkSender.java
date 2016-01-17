@@ -99,7 +99,7 @@ public class NetworkSender {
         headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
         //TODO tianwei Waiting for sms verification api to get parentId
-        String parentId = "22/";
+        String parentId = MalaApplication.getInstance().getParentId();
         jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME + parentId, headers, params, listener);
     }
 }
