@@ -10,6 +10,8 @@ import UIKit
 
 class FilterView: UIScrollView {
     
+    // MARK: - Property
+    var grades: [GradeModel]? = []
     
     // MARK: - Constructed
     override init(frame: CGRect) {
@@ -31,4 +33,16 @@ class FilterView: UIScrollView {
     private func setupUserInterface() {
         
     }
+}
+
+
+// MARK: - Condition Object
+class ConditionObject: NSObject {
+    var grade: GradeModel = GradeModel()
+    var subject: GradeModel = GradeModel()
+    var tag: GradeModel = GradeModel()
+    
+    var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+    var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)
+    var tagIndexPath = NSIndexPath(forItem: 0, inSection: 4)
 }

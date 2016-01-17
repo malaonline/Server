@@ -8,14 +8,9 @@
 
 import UIKit
 
-class GradeFilterView: UICollectionView {
+private let TeacherFilterViewCellReusedId = "TeacherFilterViewCellReusedId"
 
-    // MARK: - Constructed
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-    }
+class GradeFilterView: BaseFilterView {
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    
 }

@@ -83,6 +83,8 @@
 		307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */; };
 		307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */; };
 		307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */; };
+		307DA2041C4A59CD00891F22 /* BaseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DA2031C4A59CD00891F22 /* BaseFilterView.swift */; };
+		307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DA2031C4A59CD00891F22 /* BaseFilterView.swift */; };
 		308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		308063971C3A271C00729832 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
@@ -179,6 +181,7 @@
 		307AB89B1C33CDD200D8397F /* HighScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScoreModel.swift; sourceTree = "<group>"; };
 		307AB89C1C33CDD200D8397F /* TeacherDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailModel.swift; sourceTree = "<group>"; };
 		307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsController.swift; sourceTree = "<group>"; };
+		307DA2031C4A59CD00891F22 /* BaseFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFilterView.swift; sourceTree = "<group>"; };
 		308063931C3A1AF100729832 /* Extension+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UILabel.swift"; sourceTree = "<group>"; };
 		308063961C3A271C00729832 /* Extension+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
@@ -392,6 +395,7 @@
 				30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
 				30AE09351C2BE56D00FD607D /* DropView.swift */,
+				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 			);
 			path = TeacherFilterView;
 			sourceTree = "<group>";
@@ -820,6 +824,7 @@
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				307DA2041C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				304D6D341C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				303BCFF11C44A86200B37DD9 /* SchoolModel.swift in Sources */,
@@ -856,6 +861,7 @@
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
+				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,

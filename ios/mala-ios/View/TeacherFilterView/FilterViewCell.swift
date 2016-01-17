@@ -23,7 +23,7 @@ public class FilterViewCell: UICollectionViewCell {
     /// 选中状态
     override public var selected: Bool {
         didSet {
-            self.button.selected = !self.button.selected
+            
         }
     }
     
@@ -38,7 +38,6 @@ public class FilterViewCell: UICollectionViewCell {
         button.setImage(UIImage(named: "radioButton_normal"), forState: .Normal)
         button.setImage(UIImage(named: "radioButton_selected"), forState: .Selected)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: -12)
-//        button.backgroundColor = UIColor.lightGrayColor()
         button.sizeToFit()
         // 冻结按钮交互功能，其只作为视觉显示效果使用
         button.userInteractionEnabled = false

@@ -80,11 +80,6 @@ public class ThemeAlert: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Override
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        closeAlert(0)
-    }
-    
     
     // MARK: - Private Method
     private func setupUserInterface() {
@@ -208,7 +203,7 @@ public class ThemeAlert: UIViewController {
         self.closeAlert(sender.tag)
     }
     
-    public func closeAlert(buttonIndex: Int) {
+    private func closeAlert(buttonIndex: Int) {
         UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
             self.view.alpha = 0.0
             }) { (Bool) -> Void in

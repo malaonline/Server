@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SubjectFilterView: UICollectionView {
+class SubjectFilterView: BaseFilterView {
 
     // MARK: - Constructed
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
