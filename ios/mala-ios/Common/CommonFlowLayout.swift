@@ -49,14 +49,14 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     private func filterViewFlowLayout() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = 130.0
-        let itemHeight: CGFloat = 20.0
-        let itemMargin: CGFloat = 20.0
+        let itemWidth: CGFloat = 120.0
+        let itemHeight: CGFloat = 38.0
+        let itemMargin: CGFloat = 0.0
         itemSize = CGSizeMake(itemWidth, itemHeight)
         minimumInteritemSpacing = itemMargin
         minimumLineSpacing = itemMargin
         sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
-        headerReferenceSize = CGSize(width: 100, height: 40)
-        footerReferenceSize = CGSize(width: 300.0, height: 10)
+        headerReferenceSize = CGSize(width: 100, height: 34)
+        footerReferenceSize = CGSize(width: 100, height: 30)
     }
 }

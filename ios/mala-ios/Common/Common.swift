@@ -76,6 +76,8 @@ let MalaLayout_FontSize_14: CGFloat = 14.0
 let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
+let MalaLayout_FontSize_20: CGFloat = 20.0
+let MalaLayout_FontSize_26: CGFloat = 26.0
 
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
@@ -88,6 +90,8 @@ let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaPr
 let MalaLayout_DetailPriceTableViewCellHeight: CGFloat = 71.0
 let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 110.0
 let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
+let MalaLayout_FilterWindowWidth: CGFloat = MalaScreenWidth*0.85
+let MalaLayout_FilterWindowHeight: CGFloat = MalaLayout_FilterWindowWidth*1.14
 
 
 // MARK: - Device

@@ -60,14 +60,14 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         //  Register Class for Cell and Header/Footer View
         registerClass(FilterViewCell.self, forCellWithReuseIdentifier: TeacherFilterViewCellReusedId)
         registerClass(FilterSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId)
-        registerClass(FilterSectionFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId)
+        registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId)
         
         // Setup Delegate and DataSource
         delegate = self
         dataSource = self
         
         self.backgroundColor = UIColor.whiteColor()
-        
+        loadFilterCondition()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -132,12 +132,12 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
 
         if kind == UICollectionElementKindSectionHeader {
             let sectionHeaderView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: TeacherFilterViewSectionHeaderReusedId, forIndexPath: indexPath) as! FilterSectionHeaderView
-            sectionHeaderView.sectionTitleText = gradeModel(indexPath.section)?.name
+            sectionHeaderView.sectionTitleText = (gradeModel(indexPath.section)?.name)!
             reusableView = sectionHeaderView
         }
         
         if kind == UICollectionElementKindSectionFooter {
-            let sectionFooterView: FilterSectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath) as! FilterSectionFooterView
+            let sectionFooterView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: TeacherFilterViewSectionFooterReusedId, forIndexPath: indexPath)
             reusableView = sectionFooterView
         }
         return reusableView!
@@ -223,70 +223,4 @@ public class TeacherFilterView: UICollectionView, UICollectionViewDelegate, UICo
         }
         reloadData()
     }
-    
-}
-
-
-// MARK: - FilterSectionHeaderView
-class FilterSectionHeaderView: UICollectionReusableView {
-    
-    private lazy var sectionTitle: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(18)
-        label.textColor = UIColor(rgbHexValue: 0x333333, alpha: 0.75)
-        label.text = "筛选"
-        label.sizeToFit()
-        return label
-    }()
-    
-    var sectionTitleText: String? {
-        didSet {
-            sectionTitle.text = sectionTitleText
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        let labelY = frame.size.height - sectionTitle.frame.size.height
-        sectionTitle.frame = CGRect(x: 20, y: labelY, width: sectionTitle.frame.size.width, height: sectionTitle.frame.size.height)
-        addSubview(sectionTitle)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-// MARK: - FilterSectionFooterView
-class FilterSectionFooterView: UICollectionReusableView {
-    
-    private lazy var separator: UIView = {
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = UIColor(rgbHexValue: 0xc8c8c8, alpha: 0.75)
-        return separatorLine
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        let lineWidth = frame.width*0.9
-        separator.frame = CGRect(x: (frame.width-lineWidth)/2, y: frame.size.height, width: lineWidth, height: 1 / UIScreen.mainScreen().scale)
-        addSubview(separator)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-
-// MARK: - ConditionObject
-class ConditionObject: NSObject {
-    var grade: GradeModel = GradeModel()
-    var subject: GradeModel = GradeModel()
-    var tag: GradeModel = GradeModel()
-    
-    var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-    var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)
-    var tagIndexPath = NSIndexPath(forItem: 0, inSection: 4)
 }
