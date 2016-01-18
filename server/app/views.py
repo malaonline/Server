@@ -101,13 +101,15 @@ class Sms(View):
     def generateCheckcode(self, phone):
         # 生成，并保存到数据库或缓存，10分钟后过期
         is_test = self.isTestPhone(phone)
-        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
+        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': "1111"})
+        # obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
         if not created:
             now = timezone.now()
             delta = now - obj.updated_at
             if delta > datetime.timedelta(minutes=self.expired_time):
                 # expired, make new one
-                obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
+                obj.checkcode = "1111"
+                # obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
                 obj.updated_at = now
                 obj.verify_times = 0
                 obj.resend_at = now

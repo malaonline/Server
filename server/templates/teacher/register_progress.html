@@ -34,9 +34,21 @@
                 </div>
                 <div class="progress_border">
                     <div class="border_left">
-                        <p class="complete"><i></i>资料审核</p>
-                        <p class="complete"><i></i>面试</p>
-                        <p class="undo"><i></i>申请成功</p>
+                        {% if progress >= 1 %}
+                            <p class="complete"><i></i>资料审核</p>
+                        {% else %}
+                            <p class="undo"><i></i>资料审核</p>
+                        {% endif %}
+                        {% if progress >= 2 %}
+                            <p class="complete"><i></i>面试</p>
+                        {% else %}
+                            <p class="undo"><i></i>面试</p>
+                        {% endif %}
+                        {% if progress >= 3 %}
+                            <p class="complete"><i></i>申请成功</p>
+                        {% else %}
+                            <p class="undo"><i></i>申请成功</p>
+                        {% endif %}
                     </div>
                     <div class="border_right">
                         <div class="notify_list">
@@ -93,7 +105,11 @@
                     </div>
                 </div>
                 <div class="confirm_row">
-                    <button class="confirm_button">马上体验</button>
+                    {% if progress >= 3 %}
+                        <a class="confirm_button" href="{% url 'teacher:first-page' %}">马上体验</a>
+                    {% else %}
+                        <button class="confirm_button" disabled="disabled">马上体验</button>
+                    {% endif %}
                 </div>
             </div>
             <div class="page-right"></div>

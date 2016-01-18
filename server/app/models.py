@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+import uuid
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate
 
 class BaseModel(models.Model):
     class Meta:
@@ -205,6 +208,43 @@ class Teacher(BaseModel):
         if not prices:
             return None
         return max(x.price for x in prices)
+
+    def get_progress(self):
+        if self.status in [self.TO_CHOOSE, self.NOT_CHOSEN]:
+            return 1
+        if self.status in [self.TO_INTERVIEW, self.INTERVIEW_FAIL]:
+            return 2
+        if self.status in [self.INTERVIEW_OK]:
+            return 3
+
+    # 新建一个空白老师用户
+    @staticmethod
+    def new_teacher()->User:
+        # 新建用户
+        username = random_string()[:30]
+        salt = random_string()[:5]
+        password = "malalaoshi"
+        user = User(username=username)
+        user.email = ""
+        user.password = make_password(password, salt)
+        user.save()
+        # 创建老师身份
+        profile = Profile(user=user, phone="")
+        profile.save()
+        teacher = Teacher(user=user)
+        teacher.save()
+        teacher_group = Group.objects.get(name="老师")
+        user.groups.add(teacher_group)
+        # 集体保存
+        user.save()
+        profile.save()
+        teacher.save()
+        ret_user = authenticate(username=username, password=password)
+        return ret_user
+
+
+def random_string():
+    return str(uuid.uuid4())
 
 
 class Highscore(BaseModel):
@@ -509,3 +549,11 @@ class Checkcode(BaseModel):
     updated_at = models.DateTimeField(auto_now_add=True)
     verify_times = models.PositiveIntegerField(default=0)
     resend_at = models.DateTimeField(blank=True, null=True, default=None)
+
+    @staticmethod
+    def verify_sms(phone, code):
+        try:
+            Checkcode.objects.get(phone=phone, checkcode=code)
+            return True
+        except Checkcode.DoesNotExist:
+            return False

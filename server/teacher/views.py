@@ -3,10 +3,15 @@ import logging
 # django modules
 from django.core.files.base import ContentFile
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth import login, authenticate, _get_backends, logout
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+
 
 # local modules
 from app import models
@@ -14,6 +19,9 @@ from app import models
 logger = logging.getLogger('app')
 
 # Create your views here.
+
+# 目前老师端的公共登录url,这里不能用reverse,不然会发生循环引用
+LOGIN_URL = "/teacher/login"
 
 
 def register(request):
@@ -26,16 +34,106 @@ def register(request):
     return render(request, 'teacher/register.html', context)
 
 
+def verify_sms_code(request):
+    if request.method == "POST":
+        phone = request.POST.get("phone", None)
+        code = request.POST.get("code", None)
+        Profile = models.Profile
+        CheckCode = models.Checkcode
+        Teacher = models.Teacher
+        new_user = True
+        try:
+            profile = Profile.objects.get(phone=phone)
+            user = profile.user
+            for backend, backend_path in _get_backends(return_tuples=True):
+                user.backend = backend_path
+                break
+            # user = authenticate(username=profile.user.username,
+            #                     password=profile.user.password)
+            new_user = False
+        except Profile.DoesNotExist:
+            # new user
+            user = Teacher.new_teacher()
+            teacher = user.teacher
+            profile = teacher.user.profile
+            profile.phone = phone
+            profile.save()
+        if CheckCode.verify_sms(phone, code) is True:
+            # 验证通过
+            percent = information_complete_percent(user)
+            login(request, user)
+
+            if percent < 1:
+                return JsonResponse({
+                    "result": True,
+                    "url": reverse("teacher:register-progress")
+                })
+            else:
+                return JsonResponse({
+                    "result": True,
+                    "url": reverse("teacher:first-page")
+                })
+        else:
+            # 验证失败
+            return JsonResponse({
+                "result": False
+            })
+    else:
+        return
+
+
+def information_complete_percent(user: User):
+    total = 4
+    unfinished = 0
+    Teacher = models.Teacher
+    Profile = models.Profile
+    teacher = Teacher.objects.get(user=user)
+    profile = Profile.objects.get(user=user)
+    if teacher.name == "":
+        unfinished += 1
+    else:
+        print("teacher.name is {name}".format(name=teacher.name))
+    if profile.gender == "u":
+        unfinished += 1
+    else:
+        print("profile.gender is {gender}".format(gender=user.profile.gender))
+    if teacher.region == None:
+        unfinished += 1
+    else:
+        print("teacher.region is {region}".format(region=teacher.region))\
+
+    if len(teacher.ability_set.all()) == 0:
+        unfinished += 1
+    else:
+        print("teacher.ability_set.all() is {all}".format(all=len(teacher.ability_set.all())))
+    return (total-unfinished)/total
+
+
+@login_required(login_url=LOGIN_URL)
 def complete_information(request):
     """
     完善老师的个人信息 TW-2-1
     :param request:
     :return:
     """
-    context = {}
+    teacher = models.Teacher.objects.get(user=request.user)
+
+    name = ""
+    gender = ""
+    region = ""
+    subclass = ""
+    grade = ""
+    context = {
+        "name": name,
+        "gender": gender,
+        "region": region,
+        "subclass": subclass,
+        "grade": grade
+    }
     return render(request, 'teacher/complete_information.html', context)
 
 
+@login_required(login_url=LOGIN_URL)
 def register_progress(request):
     """
     显示注册进度
@@ -43,9 +141,16 @@ def register_progress(request):
     :return:
     """
     context = {}
+    try:
+        teacher = models.Teacher.objects.get(user=request.user)
+    except models.Teacher.DoesNotExist:
+        return HttpResponseRedirect(reverse("teacher:register"))
+    context["progress"] = teacher.get_progress()
+
     return render(request, "teacher/register_progress.html", context)
 
 
+@login_required(login_url=LOGIN_URL)
 def first_page(request):
     """
     TW-4-1,通过面试的老师见到的第一个页面
@@ -54,6 +159,12 @@ def first_page(request):
     """
     context = {}
     return render(request, "teacher/first_page.html", context)
+
+
+@login_required(login_url=LOGIN_URL)
+def teacher_logout(request):
+    logout(request)
+    return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
 
 
 # 判断是否是已登录老师

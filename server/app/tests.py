@@ -7,7 +7,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group, Permission
 from django.core.management import call_command
 import json
-from app.models import Parent
+from app.models import Parent, Teacher, Checkcode, Profile
+from app.views import Sms
+from teacher.views import information_complete_percent
 
 
 # Create your tests here.
@@ -66,7 +68,7 @@ class TestApi(TestCase):
 
         # test 201
         client = Client()
-        request_url = "/api/v1/parents/%d/" % (parent.pk, )
+        request_url = "/api/v1/parents/%d/" % (parent.pk,)
         print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
@@ -99,4 +101,61 @@ class TestApi(TestCase):
         self.assertEqual(json_ret["done"], "true")
         # print(response.status_code)
         # print(response.content)
+
+
+class TestModels(TestCase):
+    def setUp(self):
+        call_command("build_groups_and_permissions")
+
+    def tearDown(self):
+        pass
+
+    def test_new_teacher(self):
+        new_teacher = Teacher.new_teacher()
+        self.assertTrue(isinstance(new_teacher, User))
+
+    def test_sms_verify(self):
+        phone = "18922405996"
+        sms_code = Sms().generateCheckcode(phone)
+        self.assertTrue(Checkcode.verify_sms(phone, sms_code))
+        self.assertFalse(Checkcode.verify_sms(phone, "error_code"))
+
+
+class TestTeacherWeb(TestCase):
+    def setUp(self):
+        call_command("build_groups_and_permissions")
+
+    def tearDown(self):
+        pass
+
+    def test_verify_sms_code(self):
+        phone = "18922405996"
+        sms_code = Sms().generateCheckcode(phone)
+        client = Client()
+        # 第一次
+        response = client.post(reverse("teacher:verify-sms-code"),
+                               {
+                                   "phone": phone,
+                                   "code": sms_code
+                               })
+        self.assertEqual(response.status_code, 200)
+        # response.render()
+        print(response.content)
+        self.assertEqual(json.loads(response.content.decode()),
+                         {"result": True, "url": "/teacher/register/progress/"})
+        # 第二次
+        second_client = Client()
+        response = second_client.post(reverse("teacher:verify-sms-code"),
+                                      {
+                                          "phone": phone,
+                                          "code": sms_code
+                                      })
+        self.assertEqual(json.loads(response.content.decode()),
+                         {"url": "/teacher/first_page/", "result": True})
+        print(response.content)
+
+        # 测试information_compelte_percent
+        profile = Profile.objects.get(phone=phone)
+        percent = information_complete_percent(profile.user)
+        print(percent)
 
