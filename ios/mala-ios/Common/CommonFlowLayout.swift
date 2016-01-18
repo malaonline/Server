@@ -14,6 +14,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     enum FlowLayoutType {
         case HomeView
         case FilterView
+        case SubjectView
     }
     
     
@@ -25,8 +26,10 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         switch layoutType {
         case .HomeView:
             homeViewFlowLayout()
-        case.FilterView:
+        case .FilterView:
             filterViewFlowLayout()
+        case .SubjectView:
+            subjectViewFlowLayout()
         }
     }
 
@@ -58,5 +61,18 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
         headerReferenceSize = CGSize(width: 100, height: 34)
         footerReferenceSize = CGSize(width: 100, height: 30)
+    }
+    
+    private func subjectViewFlowLayout() {
+        scrollDirection = .Vertical
+        let itemWidth: CGFloat = 120.0
+        let itemHeight: CGFloat = 38.0
+        let itemMargin: CGFloat = 0.0
+        itemSize = CGSizeMake(itemWidth, itemHeight)
+        minimumInteritemSpacing = itemMargin
+        minimumLineSpacing = 0
+        sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
+        headerReferenceSize = CGSize(width: 100, height: 0)
+        footerReferenceSize = CGSize(width: 100, height: 0)
     }
 }

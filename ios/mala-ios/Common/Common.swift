@@ -15,7 +15,7 @@ var Mala_UserToken: String = "0"
 
 // MARK: - NotificationName
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
-
+let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
 
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.whiteColor()
@@ -67,6 +67,7 @@ let MalaLayout_Margin_13: CGFloat = 13.0
 let MalaLayout_Margin_14: CGFloat = 14.0
 let MalaLayout_Margin_15: CGFloat = 15.0
 let MalaLayout_Margin_16: CGFloat = 16.0
+let MalaLayout_Margin_26: CGFloat = 26.0
 
 let MalaLayout_FontSize_10: CGFloat = 10.0
 let MalaLayout_FontSize_11: CGFloat = 11.0
@@ -77,7 +78,6 @@ let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
-let MalaLayout_FontSize_26: CGFloat = 26.0
 
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
@@ -92,6 +92,7 @@ let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 110.0
 let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
 let MalaLayout_FilterWindowWidth: CGFloat = MalaScreenWidth*0.85
 let MalaLayout_FilterWindowHeight: CGFloat = MalaLayout_FilterWindowWidth*1.14
+let MalaLayout_FilterContentWidth: CGFloat = MalaLayout_FilterWindowWidth - MalaLayout_Margin_26*2
 
 
 // MARK: - Device
@@ -122,15 +123,15 @@ public func makeStatusBarWhite() {
 
 // MARK: - TitleFilter
 let MalaSubject = [
-    1:"语文",
-    2:"数学",
-    3:"英语",
-    4:"物理",
-    5:"化学",
-    6:"生物",
-    7:"历史",
-    8:"地理",
-    9:"政治"
+    1:"语    文",
+    2:"数    学",
+    3:"英    语",
+    4:"物    理",
+    5:"化    学",
+    6:"生    物",
+    7:"历    史",
+    8:"地    理",
+    9:"政    治"
 ]
 let MalaTeacherDetailsCellTitle = [
     1:"教授科目",

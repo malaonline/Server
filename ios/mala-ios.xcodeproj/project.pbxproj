@@ -93,8 +93,6 @@
 		30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
-		30AE09361C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
-		30AE09371C2BE56D00FD607D /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09351C2BE56D00FD607D /* DropView.swift */; };
 		30B5980E1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */; };
@@ -186,7 +184,6 @@
 		308063961C3A271C00729832 /* Extension+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
 		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
-		30AE09351C2BE56D00FD607D /* DropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		30B5980D1C451A8900169390 /* MemberServiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceModel.swift; sourceTree = "<group>"; };
 		30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableViewCell.swift; sourceTree = "<group>"; };
 		30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -389,13 +386,12 @@
 			isa = PBXGroup;
 			children = (
 				30445B151C4A3959002CD290 /* FilterView.swift */,
+				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 				30445B181C4A3AC8002CD290 /* GradeFilterView.swift */,
 				30445B1B1C4A3B3D002CD290 /* SubjectFilterView.swift */,
 				30445B1E1C4A3B96002CD290 /* StyleFilterView.swift */,
 				30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
-				30AE09351C2BE56D00FD607D /* DropView.swift */,
-				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 			);
 			path = TeacherFilterView;
 			sourceTree = "<group>";
@@ -778,7 +774,6 @@
 				304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */,
-				30AE09361C2BE56D00FD607D /* DropView.swift in Sources */,
 				30445B161C4A3959002CD290 /* FilterView.swift in Sources */,
 				30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				30445B131C49EEA2002CD290 /* ThemeAlert.swift in Sources */,
@@ -859,7 +854,6 @@
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
-				30AE09371C2BE56D00FD607D /* DropView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,

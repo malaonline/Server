@@ -10,19 +10,10 @@ import UIKit
 
 private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 
-class HomeViewController: UITableViewController, DropViewDelegate {
+class HomeViewController: UITableViewController {
     
     // MARK: - Property
     private lazy var teachers: [TeacherModel]? = TestFactory.TeacherList()
-    
-    
-    // MARK: - Components
-    private lazy var dropView: DropView = {
-        let filterView = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
-        let dropView = DropView(frame: CGRect(x: 0, y: 64-MalaContentHeight, width: MalaScreenWidth, height: MalaContentHeight), viewController: self, contentView: filterView)
-        dropView.delegate = self
-        return dropView
-    }()
     
     
     // MARK: - Consturcted
@@ -91,7 +82,6 @@ class HomeViewController: UITableViewController, DropViewDelegate {
         let filterObj: ConditionObject = (contentView as! TeacherFilterView).filterObject
         let filters: [String: AnyObject] = ["grade": filterObj.grade.id, "subject": filterObj.subject.id, "tags": filterObj.tag.id]
         loadTeachers(filters)
-        dropView.dismiss()
     }
     
     
@@ -169,13 +159,11 @@ class HomeViewController: UITableViewController, DropViewDelegate {
     
     // MARK: - Event Response
     @objc private func locationButtonDidClick() {
-        dropView.isShow ? dropView.dismiss() : dropView.show()
-        
+        //TODO:定位功能代码
     }
 
     @objc private func filterButtonDidClick() {
-//        let view = UIView(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
-        let view = TeacherFilterView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .FilterView))
+        let view = FilterView(frame: CGRectZero)
         ThemeAlert().show("grade", contentView: view)
     }
     

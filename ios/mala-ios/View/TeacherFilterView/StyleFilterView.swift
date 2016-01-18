@@ -8,11 +8,19 @@
 
 import UIKit
 
-class StyleFilterView: UICollectionView {
+class StyleFilterView: BaseFilterView {
 
+    // MARK: - Property
+    var tags: [BaseObjectModel]? = nil {
+        didSet {
+            self.reloadData()
+        }
+    }
+    
+    
     // MARK: - Constructed
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, didTapCallBack: FilterDidTapCallBack) {
+        super.init(frame: frame, collectionViewLayout: layout, didTapCallBack: didTapCallBack)
     }
     
     required init?(coder aDecoder: NSCoder) {

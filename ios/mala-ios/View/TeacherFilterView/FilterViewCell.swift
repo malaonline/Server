@@ -23,7 +23,7 @@ public class FilterViewCell: UICollectionViewCell {
     /// 选中状态
     override public var selected: Bool {
         didSet {
-            
+            button.selected = selected
         }
     }
     
