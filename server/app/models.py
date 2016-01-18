@@ -270,6 +270,9 @@ class Certificate(BaseModel):
         return '%s, %s : %s' % (self.teacher, self.name,
                                 'V' if self.verified else '')
 
+    def imgUrl(self):
+        return self.img and self.img.url or ''
+
 
 class InterviewRecord(BaseModel):
     PENDING = 'p'

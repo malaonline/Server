@@ -8,7 +8,7 @@
 {% block addition_header %}
     {% compress css %}
     <link rel="stylesheet" type="text/less" href="{% static 'common/less/bootstrap.less' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/first_page.less' %}">
+    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/first_page.less' %}">
     {% endcompress %}
 {% endblock %}
 
@@ -93,9 +93,9 @@
                         <div class="col-md-7">其他认证可以提升学生对老师的认可度</div>
                         <div class="col-md-2">
                             {% if cert_other and cert_other.verified %}
-                                <button class="btn btn-default">查看</button>
+                                <a class="btn btn-default" href="{% url 'teacher:certificate-others' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-others' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>
