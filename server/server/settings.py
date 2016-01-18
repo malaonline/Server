@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'django_s3_storage',
+    'compressor',
     'app',
     'teacher',
     'staff',
@@ -96,9 +97,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
 
 DATABASES = {
     'default': {
@@ -136,11 +144,15 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/login/'
 
-#STATIC_ROOT = '/var/www/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+COMPRESS_OFFLINE = True
+COMPRESS_URL = 'https://s3.cn-north-1.amazonaws.com.cn:443/dev-static/'
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
 STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+COMPRESS_STORAGE = STATICFILES_STORAGE
 
 AWS_REGION = 'cn-north-1'
 AWS_ACCESS_KEY_ID = 'AKIAP22CWKUZDOMHLFGA'
@@ -213,5 +225,3 @@ UNITTEST = False
 
 # 加密的密钥salt
 PASSWORD_SALT = "abc"
-
-#

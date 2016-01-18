@@ -1,0 +1,189 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compress %}
+{% block title %}
+    信息完善
+{% endblock %}
+{% block addition_header %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/complete_information.less' %}">
+    {% endcompress %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/complete_information.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header "个人中心" "186****1234" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+{#                <div class="mala_header">#}
+{#                    {% mala_page_header "个人中心" "186****1234" %}#}
+{#                    <button class="btn btn-default header_right">退出</button>#}
+{#                    <span class="header_right header_right_text">您好, 186****1234</span>#}
+{#                </div>#}
+                <p class="information_header">恭喜您注册成功!</p>
+                <p class="information_header">为了能够与您及时取得联系,请您尽快完善个人资料.</p>
+                <form class="form-horizontal">
+                    <div class="form-row">
+                        <label for="realName" class="real_name_label">您的姓名</label>
+                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名">
+                    </div>
+                    <div class="form-row">
+                        <label for="gender" class="gender_label">性别</label>
+                        <div class="input-group gender_input" id="gender">
+                            <div class="input-group-btn">
+                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"><img
+                                        src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li><a href="#" onclick="set_value('gender-input', '男')">男</a></li>
+                                    <li><a href="#" onclick="set_value('gender-input', '女')">女</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="city" class="city_label">所在城市</label>
+                        <div class="input-group city_input">
+                            <div class="input-group-btn">
+                                <input type="text" class="form-control" aria-label="..." id="city_input" readonly="readonly" placeholder="请选择城市">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"><img
+                                        src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+                                {#                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>#}
+                                <script id="city_template" type="text/template">
+                                    <% _.each(datas, function(city_name) { %>
+                                        <li><a href="#" onclick="set_value('city_input', '<%= city_name %>')"><%= city_name %></a></li>
+                                    <% }); %>
+                                </script>
+                                <ul class="dropdown-menu dropdown-menu-left" id="city_down_list">
+                                    <li><a href="#">北京</a></li>
+                                    <li><a href="#">上海</a></li>
+                                    <li><a href="#">广州</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="class" class="subclass_label">授课科目</label>
+                        <div class="input-group subclass_input">
+                            <div class="input-group-btn">
+                                <input type="text" class="form-control" aria-label="..." id="subclass_input" readonly="readonly" placeholder="请选择授课科目">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"><img
+                                        src="{% static 'teacher/icons/down_arraow.png' %}"></button>
+                                <script id="subclass_template" type="text/template">
+                                    <% _.each(datas, function(subclass_name) { %>
+                                        <li><a href="#" onclick="set_subclass_value('subclass_input', '<%= subclass_name %>')"><%= subclass_name %></a></li>
+                                    <% }); %>
+                                </script>
+                                <ul class="dropdown-menu dropdown-menu-left" id="subclass_down_list">
+                                    <li><a href="#">数学</a></li>
+                                    <li><a href="#">语文</a></li>
+                                    <li><a href="#">自然</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">地理</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </div>
+                    <script id="grand_button_group" type="text/template">
+                        <% console.log("datas is " + datas); %>
+                        <% _.each(datas, function(item) { %>
+                        <button class="btn btn-default grand_button" onclick="remove_button('<%= item %>')"><%= item %> <i
+                                class="glyphicon glyphicon-remove-sign"></i></button>
+                        <%});%>
+                        <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
+                                data-target="#grand_select" disabled="disabled">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </script>
+
+                    <div class="form-row">
+                        <label for="class" class="grand_label">授课年级</label>
+                        <div class="grand_input" id="grand_input">
+{#                            <button class="btn btn-default grand_button" onclick="remove_button('小学二年级')">小学二年级 <i#}
+{#                                    class="glyphicon glyphicon-remove-sign"></i></button>#}
+{#                            <button class="btn btn-default grand_button">小学二年级 <i#}
+{#                                    class="glyphicon glyphicon-remove-sign"></i></button>#}
+                            <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
+                                    data-target="#grand_select">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                        </div>
+                        <span class="grand_warning" id="need-subclass">
+{#                            <i class="glyphicon glyphicon-remove-sign"></i>#}
+                            请选择科目
+                        </span>
+                        <span class="grand_warning" attrHidden="true" id="select-grand">
+{#                            <i class="glyphicon glyphicon-remove-sign"></i>#}
+                            请至少选择一个年级
+                        </span>
+                    </div>
+                    <div class="form-row">
+                        <button class="btn btn-default submit_button">提交</button>
+                    </div>
+                </form>
+
+                <script id="grand_select_button" type="text/template">
+                    <% _.each(datas, function(item) { %>
+                    <% if (item[3] == true){ %>
+                    <% if (item[2] == true){ %>
+                        <button id="<%= item[0] %>" class="btn btn-default" onclick="add_button('<%= item[1] %>')" attrSelection="true"><%= item[1] %></button>
+                    <% }else{ %>
+                        <button id="<%= item[0] %>" class="btn btn-default" onclick="add_button('<%= item[1] %>')"><%= item[1] %></button>
+                    <% } %>
+                    <% } %>
+                    <% }); %>
+                </script>
+                <div class="modal fade" id="grand_select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content agree">
+                            <div class="modal-header doc-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">选择年级</h4>
+                            </div>
+                            <div class="modal-body doc">
+                                <h4>小学</h4>
+                                <div id="primary_select">
+                                    <button id="primary_one" class="btn btn-default">小学一年级</button>
+                                    <button class="btn btn-default">小学二年级</button>
+                                    <button class="btn btn-default">小学三年级</button>
+                                    <button class="btn btn-default">小学四年级</button>
+                                    <button class="btn btn-default">小学五年级</button>
+                                    <button class="btn btn-default">小学六年级</button>
+                                </div>
+                                <h4>初中</h4>
+                                <div id="junior_select">
+                                    <button class="btn btn-default" attrSelection="true">初一</button>
+                                    <button class="btn btn-default">初二</button>
+                                    <button class="btn btn-default">初三</button>
+                                </div>
+                                <h4>高中</h4>
+                                <div id="high_select">
+                                    <button class="btn btn-default">高一</button>
+                                    <button class="btn btn-default">高二</button>
+                                    <button class="btn btn-default">高三</button>
+                                </div>
+                                {#                            <iframe src="{% url 'teacher:doc-agree' %}">#}
+                                {#                            </iframe>#}
+                            </div>
+                            <div class="modal-footer">
+                                <button id="agree-and-continue" type="button" class="btn btn-default continue-button"
+                                        data-dismiss="modal">确定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}

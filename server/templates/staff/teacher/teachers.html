@@ -1,0 +1,105 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compress %}
+{% block title %}所有老师列表{% endblock %}
+{% block addition_header %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'common/less/bootstrap-datetimepicker.less' %}">
+    <link rel="stylesheet" type="text/less" href="{% static 'staff/less/teacher/teachers.less' %}">
+    {% endcompress %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+    <script src="{% static 'staff/js/teacher/teachers.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        状态
+        <select name="status">
+            <option value="">全部</option>
+            {% for val,text in status_choices %}
+                <option value="{{ val }}" {% if val|stringformat:"i" == query_data.status %} selected="selected"{% endif %}>{{ text }}</option>
+            {% endfor %}
+        </select>
+
+        注册日期
+        <input type="text" name="reg_date_from" value="{{ query_data.reg_date_from }}" />
+         -
+        <input type="text"  name="reg_date_to" value="{{ query_data.reg_date_to }}" />
+
+        所在地区
+        <select name="region">
+            <option value="">全部</option>
+            {% for region in region_list %}
+                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="查询"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">注册日期</th>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">教龄（年）</th>
+            <th class="text-center">年级科目</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td>{# 注册日期 #} {{ teacher.user.date_joined|date:"Y-m-d" }}</td>
+                <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
+                <td>{# 教龄（年）#} {{ teacher.teaching_age }}</td>
+                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }}</td>
+                <td>{# 所在地区 #} {{ teacher.region }}</td>
+                <td field="status">{# 状态 #} {{ teacher.get_status_display }}</td>
+                <td field="action">{# 操作 #}
+                    {% if teacher.status == teacher.TO_CHOOSE %}
+                        <a class="" data-action="donot-choose">初选淘汰</a>
+                        | <a class="" data-action="invite-interview">邀约面试</a>
+                    {% elif teacher.status == teacher.TO_INTERVIEW %}
+                        <a class="" data-action="set-interview-ok">面试通过</a>
+                        | <a class="" data-action="set-interview-fail">面试失败</a>
+                    {% else %}
+                        无
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% load custom_tags %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li class="{% if page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
+            </li>
+            {% for i in total_page|num_range %}
+                <li class="{% if page == i %}active{% endif %}">
+                    <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="{% if page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
+            </li>
+            <li class="{% if page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Last" data-pageto="{{ total_page }}"> <span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
