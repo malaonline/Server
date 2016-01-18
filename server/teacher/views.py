@@ -151,13 +151,11 @@ class CertificateIDView(BaseTeacherView):
             idHeldImgFile = request.FILES.get('idHeldImg')
             if idHeldImgFile:
                 held_img_content = ContentFile(request.FILES['idHeldImg'].read())
-                # idHeldImg = Image.open(idHeldImgFile)
-                certIdHeld.img.save("idHeld", held_img_content)
+                certIdHeld.img.save("idHeld"+str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
             if idFrontImgFile:
                 front_img_content = ContentFile(request.FILES['idFrontImg'].read())
-                # idHeldImg = Image.open(idHeldImgFile)
-                certIdFront.img.save("idFrontImg", front_img_content)
+                certIdFront.img.save("idFrontImg"+str(teacher.id), front_img_content)
 
         certIdHeld.save()
         certIdFront.save()
@@ -208,10 +206,10 @@ class CertificateForOnePicView(BaseTeacherView):
         cert.name = name
 
         if request.FILES and len(request.FILES):
-            idHeldImgFile = request.FILES.get('certImg')
-            if idHeldImgFile:
-                held_img_content = ContentFile(request.FILES['certImg'].read())
-                cert.img.save("certImg"+str(self.cert_type)+str(cert.id), held_img_content)
+            certImgFile = request.FILES.get('certImg')
+            if certImgFile:
+                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(self.cert_type)+str(teacher.id), cert_img_content)
 
         cert.save()
 
@@ -269,10 +267,10 @@ class CertificateOthersView(BaseTeacherView):
         cert.name = name
 
         if request.FILES and len(request.FILES):
-            idHeldImgFile = request.FILES.get('certImg')
-            if idHeldImgFile:
-                held_img_content = ContentFile(request.FILES['certImg'].read())
-                cert.img.save("certImg"+str(cert.type)+str(cert.id), held_img_content)
+            certImgFile = request.FILES.get('certImg')
+            if certImgFile:
+                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(cert.type)+str(teacher.id)+'_'+str(cert_img_content.size), cert_img_content)
 
         cert.save()
 
