@@ -11,11 +11,18 @@ import UIKit
 class FilterView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: - Property
-    /// 年级及科目数据源
+    /// 父容器
     weak var container: ThemeAlert?
+    /// 年级及下属科目数据源
     var grades: [GradeModel]? = nil {
         didSet {
             self.gradeView.grades = grades
+        }
+    }
+    /// 当前显示科目数据源
+    var subjects: [GradeModel]? = nil {
+        didSet {
+            self.subjectView.subjects = subjects
         }
     }
     /// 风格数据源
@@ -27,7 +34,6 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     /// 当前筛选条件记录模型
     lazy var filterObject: ConditionObject = {
         let object = ConditionObject()
-        object.grade = GradeModel()
         object.subject = GradeModel()
         object.tag = GradeModel()
         return object
@@ -44,6 +50,13 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             didTapCallBack: { (model) -> () in
                 self.filterObject.grade = model! //TODO: 注意测试此处（包括下方两处）强行解包，目前个人认为此处强行解包不会出现问题
                 self.scrollToPanel(2)
+                // 根据所选年级，加载对应的科目
+                self.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
+                    let subject = GradeModel()
+                    subject.id = i.integerValue
+                    subject.name = MalaSubject[i.integerValue]
+                    return subject
+                })
         })
         return gradeView
     }()
