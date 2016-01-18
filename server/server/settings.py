@@ -144,15 +144,17 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/login/'
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+STATIC_ROOT = '/var/www/static/'
+MEDIA_ROOT = '/var/www/upload/'
+MEDIA_URL = '/upload/'
+
 COMPRESS_OFFLINE = True
-COMPRESS_URL = 'https://s3.cn-north-1.amazonaws.com.cn:443/dev-static/'
+COMPRESS_URL = '/static/'
 COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
 
-DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
-STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
-COMPRESS_STORAGE = STATICFILES_STORAGE
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+COMPRESS_STORAGE = 'compressor.storage.CompressorFileStorage'
 
 AWS_REGION = 'cn-north-1'
 AWS_ACCESS_KEY_ID = 'AKIAP22CWKUZDOMHLFGA'
@@ -212,11 +214,6 @@ LOGGING = {
     }
 }
 
-try:
-    from .local_settings import *
-except:
-    pass
-
 # 样本数据配置
 SAMPLE_DATA_LENGTH = 50  # 长度
 SAMPLE_PARENT_USER_FORMULA = "parent{id}"
@@ -225,3 +222,9 @@ UNITTEST = False
 
 # 加密的密钥salt
 PASSWORD_SALT = "abc"
+
+
+try:
+    from .local_settings import *
+except:
+    pass
