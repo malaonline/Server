@@ -34,3 +34,11 @@ KEY_PASSWORD=123456
 LOCAL_SERVER=https://dev.malalaoshi.com
 ```
 Modify variables if needed.
+
+### For Server
+
+Install less compiler:
+
+```
+npm install -g less
+```

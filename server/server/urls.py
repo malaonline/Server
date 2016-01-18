@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -22,4 +23,5 @@ urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^teacher/', include('teacher.urls', namespace='teacher')),
     url(r'^staff/', include('staff.urls', namespace='staff')),
+    url(r'^upload/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
 ]
