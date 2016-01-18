@@ -16,8 +16,6 @@ class SubjectFilterView: BaseFilterView {
             self.reloadData()
         }
     }
-    var currentSelected: GradeModel?
-    var shouldDisplayAll: Bool = true
     
     
     // MARK: - Constructed
@@ -43,7 +41,7 @@ class SubjectFilterView: BaseFilterView {
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return shouldDisplayAll ? 9 : 3
+        return self.subjects?.count ?? 0
     }
     
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {

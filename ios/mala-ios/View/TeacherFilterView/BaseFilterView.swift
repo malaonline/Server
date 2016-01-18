@@ -22,7 +22,7 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     /// Cell点击回调闭包
     var didTapCallBack: FilterDidTapCallBack?
     /// 当前选中项下标标记
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: NSIndexPath? 
     
     
     // MARK: - Constructed
@@ -47,7 +47,7 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     
     // MARK: - DataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        // 默认情况为 [小学], [初中], [高中] 三项
+        // 默认情况为 小学, 初中, 高中 三项
         return self.grades?.count ?? 3
     }
     
@@ -116,7 +116,8 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
 // MARK: - FilterSectionHeaderView
 class FilterSectionHeaderView: UICollectionReusableView {
     
-    // MARK: - property
+    // MARK: - Property
+    /// Section标题
     var sectionTitleText: String = "标题" {
         didSet {
             titleLabel.text = sectionTitleText

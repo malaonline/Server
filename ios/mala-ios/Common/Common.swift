@@ -123,15 +123,15 @@ public func makeStatusBarWhite() {
 
 // MARK: - TitleFilter
 let MalaSubject = [
-    1:"语    文",
-    2:"数    学",
-    3:"英    语",
+    1:"数    学",
+    2:"英    语",
+    3:"语    文",
     4:"物    理",
     5:"化    学",
-    6:"生    物",
+    6:"地    理",
     7:"历    史",
-    8:"地    理",
-    9:"政    治"
+    8:"政    治",
+    9:"生    物"
 ]
 let MalaTeacherDetailsCellTitle = [
     1:"教授科目",

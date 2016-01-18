@@ -16,7 +16,6 @@ class GradeFilterView: BaseFilterView {
             reloadData()
         }
     }
-    var currentSelected: GradeModel?
     
     
     // MARK: - Constructed
@@ -32,7 +31,6 @@ class GradeFilterView: BaseFilterView {
     // MARK: - Override
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-        
         return cell
     }
     
