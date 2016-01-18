@@ -28,7 +28,7 @@ from rest_framework import serializers, viewsets
 
 from app import models
 from .restful_exception import AlreadyCreated
-from .utils.SmsUtil import sendCheckcode
+from .utils.smsUtil import sendCheckcode
 
 
 class Policy(View):

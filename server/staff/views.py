@@ -13,7 +13,7 @@ from django.contrib import auth
 
 # local modules
 from app import models
-from app.utils import SmsUtil
+from app.utils import smsUtil
 from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
@@ -169,13 +169,13 @@ class TeacherActionView(BaseStaffActionView):
             phone = profile.phone
             if phone:
                 if new_status == models.Teacher.NOT_CHOSEN:
-                    SmsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师初选。')
+                    smsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师初选。')
                 elif new_status == models.Teacher.TO_INTERVIEW:
-                    SmsUtil.sendSms(phone, '【麻辣老师】您已通过初步筛选，请按照约定时间参加面试。')
+                    smsUtil.sendSms(phone, '【麻辣老师】您已通过初步筛选，请按照约定时间参加面试。')
                 elif new_status == models.Teacher.INTERVIEW_OK:
-                    SmsUtil.sendSms(phone, '【麻辣老师】恭喜您，已通过老师面试，稍后会有工作人员跟您联系。')
+                    smsUtil.sendSms(phone, '【麻辣老师】恭喜您，已通过老师面试，稍后会有工作人员跟您联系。')
                 elif new_status == models.Teacher.INTERVIEW_FAIL:
-                    SmsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师面试。')
+                    smsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师面试。')
                 else:
                     pass
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
