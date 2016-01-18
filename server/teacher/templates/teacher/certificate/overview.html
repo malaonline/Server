@@ -53,9 +53,9 @@
                         <div class="col-md-7">学历认证可以提升学生对老师的信任度和认可度</div>
                         <div class="col-md-2">
                             {% if cert_academic and cert_academic.verified %}
-                                <button class="btn btn-default">查看</button>
+                               <a class="btn btn-default" href="{% url 'teacher:certificate-academic' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-academic' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>
@@ -71,9 +71,9 @@
                         <div class="col-md-7">教师资格认证可以提升学生对老师的信任度和认可度</div>
                         <div class="col-md-2">
                             {% if cert_teaching and cert_teaching.verified %}
-                                <button class="btn btn-default">查看</button>
+                                <a class="btn btn-default" href="{% url 'teacher:certificate-teaching' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-teaching' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>
@@ -108,9 +108,9 @@
                         <div class="col-md-7">英语水平认证可以提升学生对老师的认可度</div>
                         <div class="col-md-2">
                             {% if cert_english and cert_english.verified %}
-                                <button class="btn btn-default">查看</button>
+                                <a class="btn btn-default" href="{% url 'teacher:certificate-english' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-english' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>

@@ -127,8 +127,8 @@ class CertificateIDView(BaseTeacherView):
 
     def buildContextData(self, context, certIdHeld, certIdFront):
         context['id_num'] = certIdHeld.name
-        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or None
-        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or None
+        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or ''
+        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or ''
         return context
 
     def post(self, request):
@@ -139,12 +139,12 @@ class CertificateIDView(BaseTeacherView):
                                                               defaults={'name':"",'verified':False})
         if certIdHeld.verified:
             context['error_msg'] = '已通过认证的不能更改'
-            return render(request, self.template_path, context)
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
 
         id_num = request.POST.get('id_num')
         if not id_num:
             context['error_msg'] = '身份证号不能为空'
-            return render(request, self.template_path, context)
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
         if request.FILES and len(request.FILES):
@@ -165,3 +165,74 @@ class CertificateIDView(BaseTeacherView):
         context = self.buildContextData(context, certIdHeld, certIdFront)
 
         return render(request, self.template_path, context)
+
+
+class CertificateForOnePicView(BaseTeacherView):
+    """
+    page of certificate for only one pic is needed
+    """
+    template_path = 'teacher/certificate/certificate_simple.html'
+    # cert_types = ['academic', 'teaching', 'english']
+    cert_type = 0
+    cert_title = '证书标题'
+    cert_name = '证书名字'
+    hint_content = "提示内容"
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
+                                                              defaults={'name':"",'verified':False})
+        context = self.buildContextData(context, cert)
+        return render(request, self.template_path, context)
+
+    def buildContextData(self, context, cert):
+        context['cert_title'] = self.cert_title
+        context['cert_name'] = self.cert_name
+        context['name_val'] = cert.name
+        context['certImgUrl'] = cert.img and cert.img.url or ''
+        context['hint_content'] = self.hint_content
+        return context
+
+    def post(self, request):
+        context, teacher = self.getContextTeacher(request)
+        cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
+                                                              defaults={'name':"",'verified':False})
+        if cert.verified:
+            context['error_msg'] = '已通过认证的不能更改'
+            return render(request, self.template_path, self.buildContextData(context, cert))
+
+        name = request.POST.get('name')
+        if not name:
+            context['error_msg'] = '证书名称不能为空'
+            return render(request, self.template_path, self.buildContextData(context, cert))
+        cert.name = name
+
+        if request.FILES and len(request.FILES):
+            idHeldImgFile = request.FILES.get('certImg')
+            if idHeldImgFile:
+                held_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(self.cert_type)+str(cert.id), held_img_content)
+
+        cert.save()
+
+        context = self.buildContextData(context, cert)
+
+        return render(request, self.template_path, context)
+
+class CertificateAcademicView(CertificateForOnePicView):
+    cert_type = models.Certificate.ACADEMIC
+    cert_title = '学历认证'
+    cert_name = '毕业院校'
+    hint_content = "请上传最新的毕业证或学位证书照片"
+
+class CertificateTeachingView(CertificateForOnePicView):
+    cert_type = models.Certificate.TEACHING
+    cert_title = '教师资质认证'
+    cert_name = '证书名称'
+    hint_content = "请上传有效期内的教师资格证书或同等资格证明"
+
+class CertificateEnglishView(CertificateForOnePicView):
+    cert_type = models.Certificate.ENGLISH
+    cert_title = '英语水平认证'
+    cert_name = '证书名称'
+    hint_content = "请上传你最具代表性的英语水平证书"
