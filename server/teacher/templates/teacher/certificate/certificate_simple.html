@@ -6,6 +6,7 @@
 {% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/first_page.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'teacher/css/certificate/certificate.css' %}">
 {% endblock %}
 {% block addition_js %}
@@ -15,10 +16,10 @@
 {% block body %}
     <div class="container">
         {% load teacher_page %}
-        {% mala_page_header "资质认证" teacherName %}
+        {% mala_page_header_dark "资质认证" teacherName %}
         <div class="row">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
-                菜单 todo
+                {% include 'teacher/side_bar.html' %}
             </div>
             <div class="col-md-9 col-lg-10 col-sm-8 col-xs-8">
                 <div class="breadcrumbs">
