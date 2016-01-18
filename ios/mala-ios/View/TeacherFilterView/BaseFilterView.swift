@@ -8,22 +8,28 @@
 
 import UIKit
 
-private let FilterViewCellReusedId = "FilterViewCellReusedId"
-private let FilterViewSectionHeaderReusedId = "FilterViewSectionHeaderReusedId"
-private let FilterViewSectionFooterReusedId = "FilterViewSectionFooterReusedId"
+internal let FilterViewCellReusedId = "FilterViewCellReusedId"
+internal let FilterViewSectionHeaderReusedId = "FilterViewSectionHeaderReusedId"
+internal let FilterViewSectionFooterReusedId = "FilterViewSectionFooterReusedId"
+/// 结果返回值闭包
+typealias FilterDidTapCallBack = (model: GradeModel?)->()
 
 class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Property
     /// 年级及科目数据模型
     var grades: [GradeModel]? = nil
+    /// Cell点击回调闭包
+    var didTapCallBack: FilterDidTapCallBack?
+    /// 当前选中项下标标记
+    var selectedIndexPath: NSIndexPath?
     
     
     // MARK: - Constructed
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, didTapCallBack: FilterDidTapCallBack) {
         super.init(frame: frame, collectionViewLayout: layout)
+        self.didTapCallBack = didTapCallBack
         configration()
-        loadFilterCondition()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,7 +38,11 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     
     
     // MARK: - Deleagte
-    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+        cell?.selected = true
+        self.selectedIndexPath = indexPath
+    }
     
     
     // MARK: - DataSource
@@ -46,9 +56,7 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        
         var reusableView: UICollectionReusableView?
-        
         // Section 头部视图
         if kind == UICollectionElementKindSectionHeader {
             let sectionHeaderView = collectionView.dequeueReusableSupplementaryViewOfKind(
@@ -73,63 +81,29 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(FilterViewCellReusedId, forIndexPath: indexPath) as! FilterViewCell
+        cell.model = gradeModel(indexPath.section, row: indexPath.row)!
+        cell.indexPath = indexPath
         return cell
     }
     
     
     // MARK: - Private Method
     private func configration() {
-        //  Register Class for Cell and Header/Footer View
-        registerClass(FilterViewCell.self, forCellWithReuseIdentifier: FilterViewCellReusedId)
-        registerClass(FilterSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: FilterViewSectionHeaderReusedId)
-        registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: FilterViewSectionFooterReusedId)
-        
-        // Setup Delegate and DataSource
         delegate = self
         dataSource = self
-        
+        registerClass(FilterViewCell.self,
+            forCellWithReuseIdentifier: FilterViewCellReusedId)
+        registerClass(FilterSectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+            withReuseIdentifier: FilterViewSectionHeaderReusedId)
+        registerClass(UICollectionReusableView.self,
+            forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+            withReuseIdentifier: FilterViewSectionFooterReusedId)
         self.backgroundColor = UIColor.whiteColor()
     }
     
-    func loadFilterCondition() {
-        // 读取年级和科目数据
-        var dataArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
-        var dataDict: [GradeModel]? = []
-        for object in dataArray! {
-            if let dict = object as? [String: AnyObject] {
-                let set = GradeModel(dict: dict)
-                dataDict?.append(set)
-            }
-        }
-        self.grades = dataDict
-        
-        // 获取风格标签
-        NetworkTool.sharedTools.loadTags{ [weak self] (result, error) -> () in
-            if error != nil {
-                debugPrint("TeacherFilterView - loadTags Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherFilterView - loadTags Format Error")
-                return
-            }
-            
-            dataDict = []
-            dataArray = ResultModel(dict: dict).results
-            for object in dataArray! {
-                if let dict = object as? [String: AnyObject] {
-                    let set = GradeModel(dict: dict)
-                    dataDict?.append(set)
-                }
-            }
-             self?.tagsCondition.subset = dataDict //TODO: 风格标签数据待处理
-            self?.reloadData()
-        }
-        self.reloadData()
-    }
-    
     /// 便利方法——通过 Section 或 Row 获取对应数据模型
-    private func gradeModel(section: Int, row: Int? = nil) -> GradeModel? {
+    internal func gradeModel(section: Int, row: Int? = nil) -> GradeModel? {
         if row == nil {
             return self.grades?[section]
         }else {

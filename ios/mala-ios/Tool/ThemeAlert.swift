@@ -18,9 +18,17 @@ public class ThemeAlert: UIViewController {
     /// 布局容器（窗口）
     var window = UIView()
     /// 标题文字
-    var tTitle: String = " 默认标题 "
+    var tTitle: String = "  筛选年级  " {
+        didSet {
+            self.themeTitle.text = "  "+tTitle+"  "
+        }
+    }
     /// 图标名称
-    var tIcon: String = "grade"
+    var tIcon: String = "grade" {
+        didSet {
+            self.themeIcon.image = UIImage(named: tIcon)
+        }
+    }
     var contentView: UIView?
     
     // MARK: - Components
@@ -40,10 +48,20 @@ public class ThemeAlert: UIViewController {
         closeButton.addTarget(self, action: "pressed:", forControlEvents: .TouchUpInside)
         return closeButton
     }()
+    private lazy var cancelButton: UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.setBackgroundImage(UIImage(named: "leftArrow_normal"), forState: .Normal)
+        cancelButton.setBackgroundImage(UIImage(named: "leftArrow_press"), forState: .Selected)
+        cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        cancelButton.hidden = true
+        return cancelButton
+    }()
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
         confirmButton.setBackgroundImage(UIImage(named: "confirm_normal"), forState: .Normal)
         confirmButton.setBackgroundImage(UIImage(named: "confirm_press"), forState: .Selected)
+        confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
+        confirmButton.hidden = true
         return confirmButton
     }()
     private lazy var themeTitle: UILabel = {
@@ -81,6 +99,40 @@ public class ThemeAlert: UIViewController {
     }
     
     
+    // MARK: - Life Cycle
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override public func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+    // MARK: - API
+    public func show(icon: String, contentView: UIView) {
+        // 显示Window
+        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
+        window.addSubview(view)
+        window.bringSubviewToFront(view)
+        view.frame = window.bounds
+        // 设置属性
+        self.tIcon = icon
+        self.contentView = contentView
+        if let view = contentView as? FilterView {
+            view.container = self
+        }
+        updateUserInterface()
+    }
+    
+    public func setButtonStatus(showClose showClose: Bool, showCancel: Bool, showConfirm: Bool) {
+        closeButton.hidden = !showClose
+        cancelButton.hidden = !showCancel
+        confirmButton.hidden = !showConfirm
+    }
+    
+   
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
@@ -91,6 +143,7 @@ public class ThemeAlert: UIViewController {
         view.addSubview(window)
         window.addSubview(themeIcon)
         window.addSubview(closeButton)
+        window.addSubview(cancelButton)
         window.addSubview(confirmButton)
         window.addSubview(themeTitle)
         window.insertSubview(separator, belowSubview: themeTitle)
@@ -112,6 +165,10 @@ public class ThemeAlert: UIViewController {
             make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
         }
+        cancelButton.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
+        }
         confirmButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_5)
@@ -123,14 +180,14 @@ public class ThemeAlert: UIViewController {
         }
         separator.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.themeTitle.snp_centerY)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_FontSize_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_FontSize_26)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
             make.height.equalTo(MalaScreenOnePixel)
         }
         contentContainer.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.themeTitle.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_FontSize_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_FontSize_26)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
             make.bottom.equalTo(self.window.snp_bottom).offset(-MalaLayout_Margin_12)
         }
     }
@@ -148,38 +205,7 @@ public class ThemeAlert: UIViewController {
         }
     }
     
-    
-    // MARK: - Life Cycle
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    // MARK: - API
-    public func show(icon: String, contentView: UIView) {
-        
-        // 显示Window
-        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
-        window.addSubview(view)
-        window.bringSubviewToFront(view)
-        view.frame = window.bounds
-        
-        // 设置属性
-        self.tIcon = icon
-        self.contentView = contentView
-        
-        // 更新UI
-        updateUserInterface()
-    }
-    
-    public func animateAlert() {
+    private func animateAlert() {
         view.alpha = 0;
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             self.view.alpha = 1.0;
@@ -190,17 +216,13 @@ public class ThemeAlert: UIViewController {
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.window.layer.transform = CATransform3DMakeScale(1.1, 1.1, 0.0);
             }) { (Bool) -> Void in
-
+                
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
                     self.window.layer.transform = CATransform3DMakeScale(0.9, 0.9, 0.0);
-                    })
+                })
                 
                 
         }
-    }
-    
-    public func pressed(sender: UIButton!) {
-        self.closeAlert(sender.tag)
     }
     
     private func closeAlert(buttonIndex: Int) {
@@ -214,4 +236,17 @@ public class ThemeAlert: UIViewController {
         }
     }
     
+    
+    // MARK: - Event Response
+    @objc private func pressed(sender: UIButton!) {
+        self.closeAlert(sender.tag)
+    }
+    
+    @objc private func cancelButtonDidTap() {
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PopFilterView, object: nil)
+    }
+    
+    @objc private func confirmButtonDidTap() {
+        
+    }
 }
