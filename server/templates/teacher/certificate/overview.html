@@ -8,16 +8,17 @@
 {% block addition_header %}
     {% compress css %}
     <link rel="stylesheet" type="text/less" href="{% static 'common/less/bootstrap.less' %}">
+    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/first_page.less' %}">
     {% endcompress %}
 {% endblock %}
 
 {% block body %}
     <div class="container">
         {% load teacher_page %}
-        {% mala_page_header "资质认证" teacherName %}
+        {% mala_page_header_dark "资质认证" teacherName %}
         <div class="row">
             <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
-                菜单 todo
+                {% include 'teacher/side_bar.html' %}
             </div>
             <div class="col-md-9 col-lg-10 col-sm-8 col-xs-8">
                 <div class="breadcrumbs">
@@ -92,9 +93,9 @@
                         <div class="col-md-7">其他认证可以提升学生对老师的认可度</div>
                         <div class="col-md-2">
                             {% if cert_other and cert_other.verified %}
-                                <button class="btn btn-default">查看</button>
+                                <a class="btn btn-default" href="{% url 'teacher:certificate-others' %}">查看</a>
                             {% else %}
-                                <button class="btn btn-success">认证</button>
+                                <a class="btn btn-success" href="{% url 'teacher:certificate-others' %}">认证</a>
                             {% endif %}
                         </div>
                     </div>

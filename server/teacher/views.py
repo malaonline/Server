@@ -151,13 +151,11 @@ class CertificateIDView(BaseTeacherView):
             idHeldImgFile = request.FILES.get('idHeldImg')
             if idHeldImgFile:
                 held_img_content = ContentFile(request.FILES['idHeldImg'].read())
-                # idHeldImg = Image.open(idHeldImgFile)
-                certIdHeld.img.save("idHeld", held_img_content)
+                certIdHeld.img.save("idHeld"+str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
             if idFrontImgFile:
                 front_img_content = ContentFile(request.FILES['idFrontImg'].read())
-                # idHeldImg = Image.open(idHeldImgFile)
-                certIdFront.img.save("idFrontImg", front_img_content)
+                certIdFront.img.save("idFrontImg"+str(teacher.id), front_img_content)
 
         certIdHeld.save()
         certIdFront.save()
@@ -208,10 +206,10 @@ class CertificateForOnePicView(BaseTeacherView):
         cert.name = name
 
         if request.FILES and len(request.FILES):
-            idHeldImgFile = request.FILES.get('certImg')
-            if idHeldImgFile:
-                held_img_content = ContentFile(request.FILES['certImg'].read())
-                cert.img.save("certImg"+str(self.cert_type)+str(cert.id), held_img_content)
+            certImgFile = request.FILES.get('certImg')
+            if certImgFile:
+                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(self.cert_type)+str(teacher.id), cert_img_content)
 
         cert.save()
 
@@ -236,3 +234,45 @@ class CertificateEnglishView(CertificateForOnePicView):
     cert_title = '英语水平认证'
     cert_name = '证书名称'
     hint_content = "请上传你最具代表性的英语水平证书"
+
+class CertificateOthersView(BaseTeacherView):
+    """
+    page of others certifications
+    """
+    template_path = 'teacher/certificate/certificate_others.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        context = self.buildContextData(context, teacher)
+        return render(request, self.template_path, context)
+
+    def buildContextData(self, context, teacher):
+        otherCerts = models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER)
+        context['otherCerts'] = otherCerts
+        return context
+
+    def post(self, request):
+        context, teacher = self.getContextTeacher(request)
+
+        cert = None
+        id = request.POST.get('id')
+        if id:
+            cert = models.Certificate.get(id=id)
+        else:
+            cert = models.Certificate(teacher=teacher, type=models.Certificate.OTHER, verified=False)
+        name = request.POST.get('name')
+        if not name:
+            context['error_msg'] = '证书名称不能为空'
+            return render(request, self.template_path, self.buildContextData(context, teacher))
+        cert.name = name
+
+        if request.FILES and len(request.FILES):
+            certImgFile = request.FILES.get('certImg')
+            if certImgFile:
+                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert.img.save("certImg"+str(cert.type)+str(teacher.id)+'_'+str(cert_img_content.size), cert_img_content)
+
+        cert.save()
+
+        context = self.buildContextData(context, teacher)
+        return render(request, self.template_path, context)

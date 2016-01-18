@@ -19,20 +19,7 @@
             {% mala_page_header_dark "" "张三 老师" %}
             <div class="page-left"></div>
             <div class="page-center">
-                <div class="side_bar">
-                    <p class="section-title">首页</p>
-                    <p class="section-title">我的课程</p>
-                    <p class="section-link"><a href="#">我的课表 <span class="badge_number">(99)</span></a></p>
-                    <p class="section-link"><a href="#">我的学生 <span class="badge_number">(99)</span></a></p>
-                    <p class="section-link"><a href="#">我的评价 <span class="badge_number">(3)</span></a></p>
-                    <p class="section-title">我的钱包</p>
-                    <p class="section-title">个人设置</p>
-                    <p class="section-link"><a href="#">基本资料</a> <i class="info_icon"></i></p>
-                    <p class="section-link"><a href="#">资质认证</a></p>
-                    <p class="section-link"><a href="#">特殊成果</a></p>
-                    <p class="section-link"><a href="#">提分榜设置</a></p>
-                    <p class="section-link"><a href="#">我的级别</a></p>
-                </div>
+                {% include 'teacher/side_bar.html' %}
                 <div class="the_content">
                     <div class="teacher_info_pan">
                         <div class="avatar"><img src="{% static 'common/icons/none_body_profile.png' %}"></div>

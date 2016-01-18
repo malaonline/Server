@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),
     url(r'^certificate/teaching/$', views.CertificateTeachingView.as_view(), name="certificate-teaching"),
     url(r'^certificate/english/$', views.CertificateEnglishView.as_view(), name="certificate-english"),
+    url(r'^certificate/others/$', views.CertificateOthersView.as_view(), name="certificate-others"),
 ]
