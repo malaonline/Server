@@ -4,6 +4,7 @@ psycopg2==2.6.1
 django-s3-storage-patched
 Pillow==3.0.0
 segmenttree
+django_compressor
 gunicorn
 -e git://github.com/hwbuluo/django-send-messages.git#egg=django-send-messages
 requests==2.9.1

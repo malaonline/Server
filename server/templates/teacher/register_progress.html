@@ -1,0 +1,102 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compress %}
+{% block title %}
+    注册进度查看
+{% endblock %}
+{% block addition_header %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/register_progress.less' %}">
+    {% endcompress %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/register_progress.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header "个人中心" "张三 老师" %}
+
+            <div class="page-left"></div>
+            <div class="page-center">
+                <div class="alert alert-info alert-dismissable custom_alert" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="alert_container">
+                        <div class="alert_left_part">
+                            <img src="{% static 'teacher/icons/shield_ok.png' %}">
+                        </div>
+                        <div class="alert_right_part">
+                            <p>亲爱的老师您好，感谢您注册麻辣老师。麻辣老师致力于为学生及家长提供便捷的服务，不断提升学员的学习效率并保障学习效果。因此我们对老师的筛选和考核相对严格，一旦您提交申请，我们的工作人员会对您的资料进行审核并在2个工作日内与您取得联系。感谢您的理解和支持！让我们一起做得更好！</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress_border">
+                    <div class="border_left">
+                        <p class="complete"><i></i>资料审核</p>
+                        <p class="complete"><i></i>面试</p>
+                        <p class="undo"><i></i>申请成功</p>
+                    </div>
+                    <div class="border_right">
+                        <div class="notify_list">
+{#                            一般情况#}
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
+                                <div class="right_part"><span class="detail_span">您已经注册并提交资料成功!</span></div>
+                            </div>
+{#                            重新提交#}
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
+                                <div class="right_part">
+                                    <p>抱歉,您提交的资料未审核通过,请重新提交!</p>
+                                    <p><a class="action" href="#">重新提交资料</a></p>
+                                </div>
+                            </div>
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
+                                <div class="right_part"><span class="detail_span">您的资料已经审核通过</span></div>
+                            </div>
+                        </div>
+                        <div class="notify_list">
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-14 18:10</span></div>
+                                <div class="right_part">
+                                    <p>很高兴通知您,请您于2016年1月17日(周三 16:00-18:00),携带毕业证,教师证及相关证件参加麻辣老师面试.</p>
+                                    <p>如有疑问或其他需要我们帮助的地方,请致电0371-2988222, 李老师.</p>
+                                    <p>面试地址:洛阳市西工区北京西路29号万达广场一层</p>
+                                </div>
+                            </div>
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2016-01-17 16:00</span></div>
+                                <div class="right_part">
+                                    <p class="reject_msg">很抱歉地通知您,您未能通过麻辣老师的面试,感谢您对麻辣老师的关注!</p>
+                                </div>
+                            </div>
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2016-01-22 18:00</span></div>
+                                <div class="right_part">
+                                    <p>恭喜!您已经通过麻辣老师面试.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notify_end">
+                            <div class="message_container">
+                                <div class="message_container">
+                                    <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>
+                                    <div class="right_part">
+                                        <p>恭喜您成为麻辣老师!请点击马上体验,并提交相关个人资料.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="confirm_row">
+                    <button class="confirm_button">马上体验</button>
+                </div>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}

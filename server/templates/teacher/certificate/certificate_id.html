@@ -1,0 +1,110 @@
+{% extends "teacher/teacher_base.html" %}
+
+{% load staticfiles %}
+{% load compress %}
+{% block title %}
+    资质认证
+{% endblock %}
+{% block addition_header %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'common/less/bootstrap.less' %}">
+    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/certificate/certificate.less' %}">
+    {% endcompress %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/certificate/certificate.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% load teacher_page %}
+        {% mala_page_header "资质认证" teacherName %}
+        <div class="row">
+            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
+                菜单 todo
+            </div>
+            <div class="col-md-9 col-lg-10 col-sm-8 col-xs-8">
+                <div class="breadcrumbs">
+                    <span class="title">个人设置</span>
+                    &gt;
+                    <a href="{% url 'teacher:certificate' %}"><span>资质认证</span></a>
+                    &gt;
+                    <span>身份认证</span>
+                </div>
+                <div class="certificate-box">
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-5">
+                                <p class="form-control-static">{{ teacherName }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_num" class="col-sm-2 control-label">身份证号</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="id_num" name="id_num" value="{{ id_num }}" placeholder="身份证号">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">{# empty #}</div>
+                            <div class="col-sm-3">
+                                <div class="img-upload-box">
+                                    <div class="img-text">手持身份证照片</div>
+                                    <div class="img-box" {% if not idHeldUrl %} style="display: none" {% endif %}>
+                                        <img src={{ idHeldUrl }}>
+                                    </div>
+                                    <div class="img-preview-box"><img src=""></div>
+                                    <div class="uploading-hint-box"></div>
+                                    <span class="file-input-mask text-center">
+                                        <span>上传图片</span>
+                                        <input title="请选择图片" type="file" name="idHeldImg" multiple=""/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="{% static 'teacher/images/cert/eg_id_held.png' %}"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+                                      title="<div class='text-left'>1.免冠, 保持五官清晰<br>2.手持证件, 请勿遮挡证件信息</div>"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">{# empty #}</div>
+                            <div class="col-sm-3">
+                                <div class="img-upload-box">
+                                    <div class="img-text">身份证正面</div>
+                                    <div class="img-box" {% if not idFrontUrl %} style="display: none" {% endif %}>
+                                        <img src={{idFrontUrl}}>
+                                    </div>
+                                    <div class="img-preview-box"><img src=""></div>
+                                    <div class="uploading-hint-box"></div>
+                                    <span class="file-input-mask text-center">
+                                        <span>上传图片</span>
+                                        <input title="请选择图片" type="file" name="idFrontImg" multiple=""/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="{% static 'teacher/images/cert/eg_id_front.png' %}"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+                                      title="<div class='text-left'>1.证件与手持证件一致<br>2.证件文字清晰, 无更改</div>"></span>
+                            </div>
+                        </div>
+                        <div class="form-group {% if error_msg %}has-error{% endif %}">
+                            <div class="col-sm-2">{# empty #}</div>
+                            <div class="col-sm-10">
+                                <span class="help-block">{{ error_msg }}</span>
+                                <button type="submit" class="btn btn-success">保存</button>
+                                <button type="button" class="btn btn-default">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

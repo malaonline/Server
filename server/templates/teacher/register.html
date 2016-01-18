@@ -1,0 +1,87 @@
+{% extends 'teacher/teacher_base.html' %}
+{% load staticfiles %}
+{% load compress %}
+{% block title %}
+    老师-注册
+{% endblock %}
+{% block addition_header %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" media="all" href="{% static 'teacher/less/register.less' %}" />
+    {% endcompress %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/register.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header "注册或登录" %}
+            <div class="page-left">
+            </div>
+            <div class="page-center">
+{#                {% load teacher_page %}#}
+{#                <div>{% mala_page_header "注册或登录"%}</div>#}
+{#                <div><img src="{% static 'teacher/icons/mala_icon.png' %}">注册或登录</div>#}
+                <form class="form-horizontal">
+                    <div class="form-row">
+                        <label for="phoneNumber" class="register-phone-label ">*手机号码</label>
+                        <div class="register-phone-input">
+                            <input type="text" class="form-control" id="phoneNumber" placeholder="手机号码">
+                            {#                        这里用 attrHidden="true" 来控制span的出现和消失#}
+                        <span class="label label-warning" id="need-phone-number">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            请输入手机号
+                        </span>
+                        <span class="label label-warning" attrHidden="true" id="invalid-phone-number">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            请填写正确的手机号
+                        </span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="smsCode" class="register-sms-label">*短信验证码</label>
+                        <div class="register-sms-input">
+                            <input type="text" class="form-control" id="smsCode" placeholder="短信验证码">
+                            <button class="normal-button" id="get-sms-code">
+                                获取
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="register-agree">
+                            <div class="checkbox">
+                                <input type="checkbox" id="agree"> 阅读并同意<button type="button" class="btn btn-link" href="#" data-toggle="modal" data-target="#myModal">麻辣老师服务协议</button>
+{#                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">阅读</button>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="register-next">
+                            <button class="primary-button register-next-button" id="next-button">下一步</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="page-right">
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content agree">
+                  <div class="modal-header doc-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">麻辣老师平台服务协议</h4>
+                  </div>
+                  <div class="modal-body doc">
+                    <iframe src="{% url 'teacher:doc-agree' %}">
+                    </iframe>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="agree-and-continue" type="button" class="btn btn-default continue-button" data-dismiss="modal">同意并继续</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
