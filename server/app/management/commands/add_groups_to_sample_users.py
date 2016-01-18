@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 else:
                     user = User.objects.get(username=username)
             except User.DoesNotExist:
-                print("{user} not exist".format(test_user_format))
+                print("{user} not exist".format(user=test_user_format))
                 continue
             user.groups.add(user_group)
             user.save()

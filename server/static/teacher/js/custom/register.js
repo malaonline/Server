@@ -28,6 +28,7 @@ $(
             DisableGetSMSButton(true);
             TimeEvent.start();
             SetSMSButtonText(TimeEvent.rest_time() + "秒");
+            getSMSFromServer();
         });
 
         var agree_and_continue_button = $("#agree-and-continue");
@@ -45,7 +46,9 @@ $(
 
         $("#next-button").click(function(eventObject){
             eventObject.preventDefault();
+            checkSMS();
         });
+
     }
 );
 
@@ -173,3 +176,42 @@ function IsSMSCodeValid(){
         return true;
     }
 }
+
+function getPhoneCode(){
+    return $("#phoneNumber").val();
+}
+
+//得到sms
+function getSMSFromServer(){
+    var phone_code = getPhoneCode();
+    $.post("/api/v1/sms", {action:"send", phone:phone_code},
+    function(data){
+        console.log(data);
+    });
+}
+
+function getSMSVal(){
+    return $("#smsCode").val();
+}
+
+//验证sms
+function checkSMS(){
+    var phone_code = getPhoneCode();
+    var sms_code = getSMSVal();
+
+    $.post("/teacher/verify_sms_code/", {phone:phone_code, code:sms_code},
+        function(data){
+            console.log(data);
+            if(data.result == false){
+            //    验证码错误
+                console.log("验证码错误")
+            }else{
+            //    验证码正确
+                var jump_url = data.url;
+
+                window.location.href = data.url;
+            }
+        }
+    );
+}
+

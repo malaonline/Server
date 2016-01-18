@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^login/$', views.register, name="register"),
+    url(r'^logout/$', views.teacher_logout, name="logout"),
     url(r'^doc/agree/$', TemplateView.as_view(template_name="teacher/doc/policy.html"), name="doc-agree"),
     url(r'^information/complete/$', views.complete_information, name="complete-information"),
     url(r'^register/progress/$', views.register_progress, name="register-progress"),
@@ -15,4 +16,5 @@ urlpatterns = [
     url(r'^certificate/teaching/$', views.CertificateTeachingView.as_view(), name="certificate-teaching"),
     url(r'^certificate/english/$', views.CertificateEnglishView.as_view(), name="certificate-english"),
     url(r'^certificate/others/$', views.CertificateOthersView.as_view(), name="certificate-others"),
+    url(r'^verify_sms_code/$', views.verify_sms_code, name="verify-sms-code"),
 ]
