@@ -28,6 +28,7 @@ from rest_framework import serializers, viewsets
 
 from app import models
 from .restful_exception import AlreadyCreated
+from .utils.smsUtil import sendCheckcode
 
 
 class Policy(View):
@@ -87,19 +88,6 @@ class Sms(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(Sms, self).dispatch(request, *args, **kwargs)
-
-    def callSendSms(self, phone, msg):
-        apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
-        params = {'apikey': apikey, 'mobile': phone, 'text': msg}
-        print (params)
-        url = "http://yunpian.com/v1/sms/send.json"
-        headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
-        return requests.post(url, headers=headers, data=params)
-
-    def callSendSmsCheckcode(self, phone, checkcode):
-        SITE_NAME = '麻辣老师'
-        msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
-        return self.callSendSms(phone, msg)
 
     def isValidPhone(self, phone):
         return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
@@ -170,7 +158,7 @@ class Sms(View):
                 print ('验证码：' + str(checkcode))
                 if not self.isTestPhone(phone):
                     # call send sms api
-                    r = self.callSendSmsCheckcode(phone, checkcode)
+                    r = sendCheckcode(phone, checkcode)
                     print (r)
                 return JsonResponse({'sent': True})
             except Exception as err:
