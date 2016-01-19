@@ -1,0 +1,76 @@
+@import "register.less";
+@import "public.less";
+
+@border_color: #d6d6d6;
+@text_gray_color: #979797;
+@text_light_gray_color: #d3d3d3;
+
+@btn-success-bg: #4a4a4a;
+
+@page_min_width: 980px;
+@page_height: 600px;
+
+.mala_header_dark{
+  min-width: @page_min_width;
+}
+
+.page-center{
+  height: @page_height;
+}
+
+.side_bar{
+  width: 146px;
+  float: left;
+  background: #eaebec;
+  padding-left: 35px;
+  padding-top: 25px;
+  //padding-right: 35px;
+  padding-bottom: 25px;
+  height: 100%;
+  .section-title{
+    //font-weight:bold;
+  }
+  .section-link{
+    a{
+      font-size: 12px;
+      color: #85898a;
+    }
+    .info_icon{
+      .glyphicon;
+      .glyphicon-info-sign;
+      margin-left: 4px;
+      top: 3px;
+      color: #df3a45;
+    }
+    .badge_number{
+      color: #df3a44;
+    }
+  }
+}
+
+.page-center{
+  padding-left: 0;
+  padding-right: 0;
+  min-width: @page_min_width;
+}
+
+.the_content{
+  float: left;
+  padding: 0;
+  width: 1024px;
+}
+
+.breadcrumbs{
+  height: 58px;
+  line-height: 58px;
+  padding-left: 25px;
+  border-bottom: 1px @border_color solid;
+  span {
+    margin-right: 12px;
+    font-size: 12px;
+    &.title{
+      font-size: 16px;
+      color: #333;
+    }
+  }
+}

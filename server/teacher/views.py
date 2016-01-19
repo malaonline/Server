@@ -203,6 +203,7 @@ class CertificateView(BaseTeacherView):
     """
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        context['isEnglishTeacher'] = teacher.subject() and (teacher.subject().id==2)
         certifications = models.Certificate.objects.filter(teacher=teacher)
         tmp_other_cert = None
         for cert in certifications:
