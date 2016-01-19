@@ -1,3 +1,43 @@
+@import "../teacher_page";
+@icon-font-path: "../../../common/fonts/";
+
+// 认证列表
+.list-group {
+  padding-top: 3px;
+  padding-left: 25px;
+  padding-right: 60px;
+  .row.list-group-item {
+    margin:0;
+    padding: 0;
+    height: 58px;
+    line-height: 58px;
+    border: 0;
+    border-bottom: 1px dashed @border_color;
+    .col-flag {
+      float: left;
+      width: 50px;
+      text-align: center;
+    }
+    .not-verified{
+      font-size:12px;
+      color: @text_light_gray_color;
+      border: 1px solid @text_light_gray_color;
+      border-radius: 2px;
+    }
+    .note{
+      font-size:12px;
+      color: @text_gray_color;
+    }
+    .btn{
+      width: 100px;
+      height: 36px;
+      line-height: 20px;
+      font-size: 12px;
+    }
+  }
+}
+
+// 上传组件
 @imgUploadBoxWidth: 141px;
 @imgUploadBoxHeight: 119px;
 @imgUploadBtnHeight: 30px;
