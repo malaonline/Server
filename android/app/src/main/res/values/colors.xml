@@ -9,6 +9,9 @@
 
     <color name="item_background">#ece6e6</color>
 
+    <!-- filter dialog -->
+    <color name="text_color_dlg">#939393</color>
+
 
     <color name="text_color_light">#b3ffffff</color>
     <color name="text_color_dark">#de000000</color>
@@ -53,5 +56,10 @@
     <color name="toolbar_color">#88ffffff</color>
 
     <color name="backgrounp">#F6F6F6</color>
+
+    <!-- 指示器 -->
+    <color name="smallCircleColor">#c7deee</color>
+    <color name="largeCircleColor">#8fbcdd</color>
+    <color name="outerCircleColor">#FF533456</color>
 
 </resources>

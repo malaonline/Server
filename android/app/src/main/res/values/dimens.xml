@@ -25,6 +25,8 @@
     <dimen name="title_left_size">16sp</dimen>
     <dimen name="title_size">18sp</dimen>
     <dimen name="dialog_width">280dp</dimen>
+    <dimen name="filter_dialog_width">272dp</dimen>
+    <dimen name="filter_dialog_height">332dp</dimen>
     <dimen name="dialog_title_size">17sp</dimen>
     <dimen name="body_head_text_size">15dp</dimen>
     <dimen name="body_text_size">14dp</dimen>
@@ -91,6 +93,7 @@
 
     <dimen name="text_size_small">10sp</dimen>
     <dimen name="text_size_normal">12sp</dimen>
+    <dimen name="text_size_normal_x">13sp</dimen>
     <dimen name="text_size_large">14sp</dimen>
     <dimen name="text_size_large_x">15sp</dimen>
     <dimen name="text_size_xlarge">16sp</dimen>

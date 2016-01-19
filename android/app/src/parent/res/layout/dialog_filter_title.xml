@@ -1,35 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
-android:layout_height="@dimen/dialog_toolbar_height"
-android:layout_gravity="center"
+android:layout_height="wrap_content"
     >
     <ImageView
         android:id="@+id/filter_bar_left"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_back"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close_btn"
         android:layout_alignParentLeft="true"
-        android:paddingLeft="@dimen/page_padding"
-        android:paddingRight="@dimen/page_padding"
-        android:layout_centerVertical="true"
-        android:visibility="invisible"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:visibility="visible"
         />
-    <TextView
-        android:id="@+id/filter_bar_title"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/filter_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/do_filter"
+            android:textSize="@dimen/text_size_large_x"
+            android:textColor="@color/text_color_dlg"
+            />
+        <TextView
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="26dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/filter_bar_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/do_filter"
-        android:textSize="@dimen/dialog_title_size"
-        android:textColor="@color/text_color_darkgray"
-        android:layout_centerInParent="true"/>
-    <ImageView
-        android:id="@+id/filter_bar_close"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ok_btn"
         android:layout_alignParentRight="true"
-        android:paddingLeft="@dimen/page_padding"
-        android:paddingRight="@dimen/page_padding"
-        android:layout_centerVertical="true"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="5dp"
+        android:visibility="gone"
+       />
 </RelativeLayout>

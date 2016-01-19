@@ -1,6 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
@@ -25,12 +23,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
+import com.malalaoshi.android.adapter.FilterAdapter;
 import com.malalaoshi.android.base.BaseDialogFragment;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.result.TagListResult;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.view.FlowLayout;
+import com.malalaoshi.android.view.Indicator.RubberIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,42 +49,76 @@ import butterknife.OnItemClick;
 /**
  * Created by liumengjun on 12/14/15.
  */
-public class FilterDialogFragment extends BaseDialogFragment {
+public class FilterDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String TAG = FilterDialogFragment.class.getSimpleName();
     private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
     private static final String API_GRADES_URL = "/api/v1/grades/";
     private static final String API_TAGS_URL = "/api/v1/tags/";
-    private static final String[] FILTER_VIEW_TITLES = new String[]{"年级", "科目", "风格"};
+    private static final String[] FILTER_VIEW_TITLES = new String[]{"筛选年级", "筛选科目", "筛选风格"};
 
     @Bind(R.id.filter_bar_left)
     protected ImageView mLeftIcon;
     @Bind(R.id.filter_bar_title)
     protected TextView mTitleView;
-    @Bind(R.id.filter_bar_close)
-    protected ImageView mCloseIcon;
+
+    @Bind(R.id.filter_bar_right)
+    protected ImageView mRightIcon;
+
+    @Bind(R.id.iv_dialog_ic)
+    protected ImageView mIvDialogIcon;
 
     @Bind(R.id.filter_views)
     protected ViewFlipper mFilterViews;
+
     @Bind(R.id.filter_grages_list1)
     protected GridView mGragesViewList1;
+
     @Bind(R.id.filter_grages_list2)
     protected GridView mGragesViewList2;
+
     @Bind(R.id.filter_grages_list3)
     protected GridView mGragesViewList3;
+
     @Bind(R.id.filter_subjects_list)
     protected GridView mSubjectsViewList;
-    @Bind(R.id.filter_tags_list)
+
+  /*  @Bind(R.id.filter_tags_list)
     protected GridView mTagsViewList;
+
     @Bind(R.id.filter_tags_all)
-    protected CheckedTextView mTagsAll;
+    protected CheckedTextView mTagsAll;*/
+
     @Bind(R.id.tags_loading)
     protected View mTagsLoading;
+
     @Bind(R.id.tags_load_again)
     protected View mTagsLoadAgain;
+
     @Bind(R.id.tags_load_again_msg)
     protected TextView mTagsLoadAgainMsg;
+
     @Bind(R.id.tags_container)
     protected View mTagsContainer;
+
+    @Bind(R.id.flowlayout_tags)
+    protected FlowLayout mTagFlow;
+
+    @Bind(R.id.filter_rubber)
+    protected RubberIndicator mRubberIndicator;
+
+    //tag样式
+    private int mTagStyles[] = {
+            R.drawable.tag1_textview_bg,
+            R.drawable.tag2_textview_bg,
+            R.drawable.tag3_textview_bg,
+            R.drawable.tag4_textview_bg,
+            R.drawable.tag5_textview_bg,
+            R.drawable.tag6_textview_bg,
+            R.drawable.tag7_textview_bg,
+            R.drawable.tag8_textview_bg,
+            R.drawable.tag9_textview_bg};
+
+    private List<TextView> mTagViews = new ArrayList<>();
 
     private List<Map<String, Object>> mTotalSubjectsList;
     private List<Map<String, Object>> mSubjectsList; // for subjects list adapter
@@ -99,7 +134,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
     private View mLastSelectedSubjectView;
     private long mSelectedSubjectId;
 
-    private List<Long> mSelectedTagsId;
+    private View mAllTag;
 
     public static FilterDialogFragment newInstance() {
         return new FilterDialogFragment();
@@ -107,12 +142,13 @@ public class FilterDialogFragment extends BaseDialogFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        this.setCancelable(false);          // 设置点击屏幕Dialog不消失
         mTotalSubjectsList = new ArrayList<>();
         mSubjectsList = new ArrayList<>();
         mGragesList = new ArrayList<>();
         mTagsList = new ArrayList<>();
-        mSelectedTagsId = new ArrayList<>();
         mSubGrages1List = new ArrayList<>();
         mSubGrages2List = new ArrayList<>();
         mSubGrages3List = new ArrayList<>();
@@ -121,7 +157,8 @@ public class FilterDialogFragment extends BaseDialogFragment {
 
     private void setData() {
         setSubjectsList();
-        setGradesList();
+        setGradeDatas();
+       // setGradesList();
 //        setTagsList(Tag.tags);
     }
 
@@ -132,6 +169,63 @@ public class FilterDialogFragment extends BaseDialogFragment {
             item.put("id", subject.getId());
             item.put("name", subject.getName());
             mTotalSubjectsList.add(item);
+        }
+    }
+
+    private void setGradeDatas(){
+        long[] subjects1 = new long[]{1,2,3};
+        long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
+        // 小学
+        Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("id", primary.getId());
+        item.put("name", primary.getName());
+        item.put("subjects", subjects1);
+        item.put("subset", mSubGrages1List);
+        mGragesList.add(item);
+        // 初中
+        Grade middle = Grade.getGradeById(Grade.MIDDLE_ID);
+        item = new HashMap<String, Object>();
+        item.put("id", middle.getId());
+        item.put("name", middle.getName());
+        item.put("subjects", subjects2);
+        item.put("subset", mSubGrages2List);
+        mGragesList.add(item);
+        // 高中
+        Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
+        item = new HashMap<String, Object>();
+        item.put("id", senior.getId());
+        item.put("name", senior.getName());
+        item.put("subjects", subjects2);
+        item.put("subset", mSubGrages3List);
+        mGragesList.add(item);
+
+        // collect all grade
+        for (Grade g: Grade.gradeList) {
+            if (g.getSupersetId() == null) {
+                continue;
+            }
+            if (g.getSupersetId() == Grade.PRIMARY_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", primary.getName() + g.getName());
+                item.put("subjects", subjects1);
+                mSubGrages1List.add(item);
+            }
+            if (g.getSupersetId() == Grade.MIDDLE_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", middle.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages2List.add(item);
+            }
+            if (g.getSupersetId() == Grade.SENIOR_ID) {
+                item = new HashMap<String, Object>();
+                item.put("id", g.getId());
+                item.put("name", senior.getName() + g.getName());
+                item.put("subjects", subjects2);
+                mSubGrages3List.add(item);
+            }
         }
     }
 
@@ -230,31 +324,132 @@ public class FilterDialogFragment extends BaseDialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Window window = getDialog().getWindow();
-        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
-        window.setLayout(width, width);//Here!
+        int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
+        window.setLayout(width, height);//Here!
         ButterKnife.bind(this, getDialog());
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
-        mSubjectsViewList.setAdapter(new SimpleAdapter(getActivity(),
-                mSubjectsList, R.layout.abc_list_item_singlechoice,
-                new String[]{"name"},
-                new int[]{R.id.text1}));
-        mTagsViewList.setAdapter(new SimpleAdapter(getActivity(),
-                mTagsList, R.layout.abc_list_item_multichoice,
-                new String[]{"name"},
-                new int[]{R.id.text1}));
-        mGragesViewList1.setAdapter(new SimpleAdapter(getActivity(),
-                mSubGrages1List, R.layout.abc_list_item_singlechoice,
-                new String[]{"name"},
-                new int[]{R.id.text1}));
-        mGragesViewList2.setAdapter(new SimpleAdapter(getActivity(),
-                mSubGrages2List, R.layout.abc_list_item_singlechoice,
-                new String[]{"name"},
-                new int[]{R.id.text1}));
-        mGragesViewList3.setAdapter(new SimpleAdapter(getActivity(),
-                mSubGrages3List, R.layout.abc_list_item_singlechoice,
-                new String[]{"name"},
-                new int[]{R.id.text1}));
+        mSubjectsViewList.setAdapter(new FilterAdapter(getActivity(),
+                mSubjectsList, R.layout.filter_subject_item));
+        mGragesViewList1.setAdapter(new FilterAdapter(getActivity(),
+                mSubGrages1List, R.layout.filter_grade_item));
+        mGragesViewList2.setAdapter(new FilterAdapter(getActivity(),
+                mSubGrages2List, R.layout.filter_grade_item));
+        mGragesViewList3.setAdapter(new FilterAdapter(getActivity(),
+                mSubGrages3List, R.layout.filter_grade_item));
         getTagsList();
+
+        mRubberIndicator.setCount(3, 0);
+    }
+
+
+    public void initTagView(){
+        List<Map<String, Object>> smallTags = new ArrayList<>();
+        List<Map<String, Object>> bigTags = new ArrayList<>();
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("id", -1L);
+        item.put("name", "不限");
+        smallTags.add(item);
+        for (int i=0;i<mTagsList.size();i++){
+            Map<String, Object> tag = mTagsList.get(i);
+            String name = (String) tag.get("name");
+            if (name.length()<=4){
+                smallTags.add(tag);
+            }else{
+                bigTags.add(tag);
+            }
+        }
+        //
+
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        int index = 0;
+        //三列
+        int len = smallTags.size()/3;
+        int remainderSmall = smallTags.size()%3;
+        for (int i=0;i<len;i++){
+            View view = layoutInflater.inflate(R.layout.tag_three_item, mTagFlow,false);
+            TextView textView1 = (TextView)view.findViewById(R.id.text1);
+            if(i==0){  //第一个标签:"不限"
+                mAllTag = textView1;
+                textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+            }
+            TextView textView2 = (TextView)view.findViewById(R.id.text2);
+            TextView textView3 = (TextView)view.findViewById(R.id.text3);
+            if (index>mTagStyles.length) index = 0;
+            textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            if (index>mTagStyles.length) index = 0;
+            textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            if (index>mTagStyles.length) index = 0;
+            textView3.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            textView1.setText((String) smallTags.get(3 * i).get("name"));
+            textView1.setTag(smallTags.get(3 * i));
+            textView1.setOnClickListener(this);
+            textView2.setText((String) smallTags.get(3 * i + 1).get("name"));
+            textView2.setOnClickListener(this);
+            textView2.setTag(smallTags.get(3 * i + 1));
+            textView3.setText((String) smallTags.get(3 * i + 2).get("name"));
+            textView3.setOnClickListener(this);
+            textView3.setTag(smallTags.get(3 * i + 2));
+            mTagViews.add(textView1);
+            mTagViews.add(textView2);
+            mTagViews.add(textView3);
+            mTagFlow.addView(view);
+        }
+        len = bigTags.size()/2;
+        int remainderBig = bigTags.size()%2;
+        for (int i=0;i<len;i++){
+            View view = layoutInflater.inflate(R.layout.tag_two_items, mTagFlow,false);
+            TextView textView1 = (TextView)view.findViewById(R.id.text1);
+            TextView textView2 = (TextView)view.findViewById(R.id.text2);
+            if (index>mTagStyles.length) index = 0;
+            textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            if (index>mTagStyles.length) index = 0;
+            textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            textView1.setOnClickListener(this);
+            textView2.setOnClickListener(this);
+            textView1.setText((String) bigTags.get(2 * i).get("name"));
+            textView1.setTag(smallTags.get(2 * i));
+            textView2.setText((String) bigTags.get(2 * i + 1).get("name"));
+            textView2.setTag(smallTags.get(2 * i + 1));
+            mTagViews.add(textView1);
+            mTagViews.add(textView2);
+            mTagFlow.addView(view);
+        }
+
+        if (remainderSmall>0){
+            for (int i=0;i<remainderSmall;i++){
+                TextView textView1 = (TextView)layoutInflater.inflate(R.layout.tag_textview, mTagFlow,false);
+                ViewGroup.LayoutParams layoutParams = textView1.getLayoutParams();
+                layoutParams.width = (mTagFlow.getMeasuredWidth()-mTagFlow.getPaddingLeft()*4)/3;
+                textView1.setLayoutParams(layoutParams);
+                textView1.setText((String) smallTags.get(smallTags.size() - remainderSmall + i - 1).get("name"));
+                if (index>mTagStyles.length) index = 0;
+                textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+                index++;
+                textView1.setOnClickListener(this);
+                textView1.setTag(smallTags.get(smallTags.size() - remainderSmall + i - 1));
+                mTagFlow.addView(textView1);
+                mTagViews.add(textView1);
+            }
+        }
+        if (remainderBig>0){
+            TextView textView1 = (TextView)layoutInflater.inflate(R.layout.tag_textview, mTagFlow,false);
+            ViewGroup.LayoutParams layoutParams = textView1.getLayoutParams();
+            layoutParams.width = (mTagFlow.getMeasuredWidth()-mTagFlow.getPaddingLeft()*3)/2;
+            textView1.setLayoutParams(layoutParams);
+            textView1.setText((String) bigTags.get(bigTags.size() - 2).get("name"));
+            if (index>mTagStyles.length) index = 0;
+            textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
+            index++;
+            textView1.setTag(bigTags.get(bigTags.size() - 2));
+            mTagFlow.addView(textView1);
+            mTagViews.add(textView1);
+        }
     }
 
     @Deprecated
@@ -369,10 +564,9 @@ public class FilterDialogFragment extends BaseDialogFragment {
                         TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
                         List<Tag> tags = tagsResult.getResults();
                         setTagsList(tags);
-                        ((SimpleAdapter)mTagsViewList.getAdapter()).notifyDataSetChanged();
-
-                        mTagsLoading.setVisibility(View.INVISIBLE);
-                        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+                        initTagView();
+                        mTagsLoading.setVisibility(View.GONE);
+                        mTagsLoadAgain.setVisibility(View.GONE);
                         mTagsContainer.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {
@@ -382,7 +576,7 @@ public class FilterDialogFragment extends BaseDialogFragment {
                 if (!MalaApplication.getInstance().isNetworkOk()) {
                     mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后，重新加载");
                 }
-                mTagsLoading.setVisibility(View.INVISIBLE);
+                mTagsLoading.setVisibility(View.GONE);
                 mTagsLoadAgain.setVisibility(View.VISIBLE);
             }
         });
@@ -391,18 +585,25 @@ public class FilterDialogFragment extends BaseDialogFragment {
 
     @OnClick(R.id.filter_bar_left)
     protected void onClickLeftIcon() {
-        mFilterViews.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_in));
-        mFilterViews.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_out));
-        mFilterViews.showPrevious();
-        mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
-        if (mFilterViews.getDisplayedChild()==0) {
-            mLeftIcon.setVisibility(View.INVISIBLE);
+        //关闭
+        if (mFilterViews.getDisplayedChild()==0){
+            dismiss();
+        }else {
+            mRubberIndicator.moveToLeft();
+            mFilterViews.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_in));
+            mFilterViews.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_right_out));
+            mFilterViews.showPrevious();
+            mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
+            if (mFilterViews.getDisplayedChild()==0) {
+                mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.close_btn));
+                mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_grade_dialog));
+            }else if (mFilterViews.getDisplayedChild()==1){
+                mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
+            }else{
+                mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));
+            }
         }
-    }
-
-    @OnClick(R.id.filter_bar_close)
-    protected void onClickCloseIcon() {
-        dismiss();
+        mRightIcon.setVisibility(View.GONE);
     }
 
     @OnItemClick(R.id.filter_grages_list1)
@@ -421,13 +622,18 @@ public class FilterDialogFragment extends BaseDialogFragment {
     }
 
     private void selectGrade(int stage, int position, View view) {
+        mRubberIndicator.moveToRight();
+        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
+        mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
         Log.d(TAG, "OnItemClick{" + stage + "}: " + position);
-        CheckedTextView ckt = (CheckedTextView)view;
+
+        ImageView imageView = (ImageView)view.findViewById(R.id.tv_filter_icon);
         if (mLastSelectedGradeView!=null) {
-            ((CheckedTextView)mLastSelectedGradeView).setChecked(false);
+            mLastSelectedGradeView.setSelected(false);
         }
-        ckt.setChecked(true);
-        mLastSelectedGradeView = ckt;
+        imageView.setSelected(true);
+
+        mLastSelectedGradeView = imageView;
         List<Map<String,Object>> subGrades = (List<Map<String,Object>>)mGragesList.get(stage-1).get("subset");
         Map grade = subGrades.get(position);
         mSelectedGradeId = (long)grade.get("id");
@@ -443,19 +649,23 @@ public class FilterDialogFragment extends BaseDialogFragment {
                 }
             }
         }
-        ((SimpleAdapter)mSubjectsViewList.getAdapter()).notifyDataSetChanged();
+        ((FilterAdapter)mSubjectsViewList.getAdapter()).notifyDataSetChanged();
         gotoNextFilterView();
     }
 
     @OnItemClick(R.id.filter_subjects_list)
     protected void onClickSubjectsList(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "OnItemClick{subject}: " + position);
-        CheckedTextView ckt = (CheckedTextView)view;
+        mRubberIndicator.moveToRight();
+        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
+        mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));
+        mRightIcon.setVisibility(View.VISIBLE);
+
+        ImageView imageView = (ImageView)view.findViewById(R.id.tv_filter_icon);
         if (mLastSelectedSubjectView!=null) {
-            ((CheckedTextView)mLastSelectedSubjectView).setChecked(false);
+            mLastSelectedSubjectView.setSelected(false);
         }
-        ckt.setChecked(true);
-        mLastSelectedSubjectView = ckt;
+        imageView.setSelected(true);
+        mLastSelectedSubjectView = imageView;
         mSelectedSubjectId = (long)mSubjectsList.get(position).get("id");
         gotoNextFilterView();
     }
@@ -464,60 +674,64 @@ public class FilterDialogFragment extends BaseDialogFragment {
         mFilterViews.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_in));
         mFilterViews.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_out));
         mFilterViews.showNext();
-        mLeftIcon.setVisibility(View.VISIBLE);
         mTitleView.setText(FILTER_VIEW_TITLES[mFilterViews.getDisplayedChild()]);
     }
 
-    @OnItemClick(R.id.filter_tags_list)
-    protected void onClickTagsList(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "OnItemClick{tags}: " + position);
-        CheckedTextView ckt = (CheckedTextView)view;
-        boolean wasSelected = ckt.isChecked(); // old state
-        ckt.setChecked(!wasSelected);
-        long tagId = (long)mTagsList.get(position).get("id");
-        if (!wasSelected) { // must not use ckt.isChecked()
-            mSelectedTagsId.add(tagId);
-        } else {
-            mSelectedTagsId.remove(tagId);
-        }
-        mTagsAll.setChecked(mSelectedTagsId.isEmpty());
-    }
-
-    @OnClick(R.id.filter_tags_all)
-    protected void onClickTagsAll() {
-        Log.d(TAG, "OnItemClick{tags}: all");
-        if (mTagsAll.isChecked()) {
-            return;
-        }
-        mTagsAll.setChecked(!mTagsAll.isChecked());
-        if (mTagsAll.isChecked()) {
-            for (int i = 0; i < mTagsViewList.getChildCount(); i++) {
-                CheckedTextView v = (CheckedTextView)mTagsViewList.getChildAt(i);
-                if (v.isChecked()) {
-                    v.setChecked(false);
-                }
-            }
-
-        }
-    }
-
-    @OnClick(R.id.filter_search)
+    //筛选
+    @OnClick(R.id.filter_bar_right)
     protected void onClickBtnSearch() {
         dismiss();
-        Fragment teacherListFragment = getFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
-        if (teacherListFragment != null) {
-            long [] selectedTags = new long[mSelectedTagsId.size()];
-            for(int i=0; i< selectedTags.length; i++){
-                selectedTags[i] = mSelectedTagsId.get(i);
-            }
-            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, selectedTags);
+        if (mAllTag.isSelected()){
+            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, null);
+            return;
         }
+        //
+        long[] selectedTags = new long[mTagViews.size()];
+        int index = 0;
+        for (int i = 0; i < mTagViews.size(); i++) {
+            View view = mTagViews.get(i);
+            if (view.isSelected()) {
+                Map<String, Object> tag = (Map<String, Object>) view.getTag();
+                selectedTags[index] = ((long) tag.get("id"));
+                index++;
+            }
+        }
+        long[] tag = new long[index];
+        for (int i=0;i<tag.length;i++){
+            tag[i] = selectedTags[i];
+        }
+        TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, tag);
     }
 
     @OnClick(R.id.tags_load_again)
     protected void onClickTagsLoadAgain() {
-        mTagsLoadAgain.setVisibility(View.INVISIBLE);
+        mTagsLoadAgain.setVisibility(View.GONE);
         mTagsLoading.setVisibility(View.VISIBLE);
-        getTagsList();
+        //getTagsList();
+    }
+
+    @Override
+    public void onClick(View v) {
+            TextView text = (TextView)v;
+        if (mAllTag==text){
+            if (!mAllTag.isSelected()){
+                for (int i=0;i<mTagViews.size();i++){
+                    if (mTagViews.get(i).isSelected()){
+                        mTagViews.get(i).setSelected(false);
+                        mTagViews.get(i).setTextColor(getResources().getColor(R.color.text_color_dlg));
+                    }
+                }
+            }
+        }else{
+            if (text.isSelected()){
+                text.setTextColor(getResources().getColor(R.color.text_color_dlg));
+            }else{
+                text.setTextColor(getResources().getColor(R.color.colorWhite));
+                if (mAllTag.isSelected()){
+                    mAllTag.setSelected(false);
+                }
+            }
+        }
+        v.setSelected(!v.isSelected());
     }
 }
