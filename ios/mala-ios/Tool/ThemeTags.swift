@@ -27,20 +27,19 @@ class ThemeTags: UIView {
     var critical: Int = 4
     /// [不限] 按钮
     var allButton: UIButton?
-    /// 字数小于临界值 字符串数组
+    /// 字数小于临界值-字符串数组
     private var lowerArray: [String] = []
-    /// 字数较少标签，每行最大个数
+    /// 字数较少标签--每行最大个数
     var numbersForLowerInRow: Int = 3
-    /// 字数大于临界值 字符串数组
+    /// 字数大于临界值-字符串数组
     private var higherArray: [String] = []
-    /// 字数较多标签，每行最大个数
+    /// 字数较多标签--每行最大个数
     var numbersForHigherInRow: Int = 2
     /// 标签字符串数组
     var tags: [String]? {
         didSet {
             // 遍历数组，过滤出高、低临界值数组
             tags?.insert("不限", atIndex: 0)
-            print("风格标签：\(tags)")
             for string in tags ?? [] {
                 string.characters.count <= critical ? lowerArray.append(string) : higherArray.append(string)
             }
@@ -83,20 +82,27 @@ class ThemeTags: UIView {
         print("low 标签：\(lowerArray)")
         print("high标签：\(higherArray)")
         
-        // 低临界值 整行字符串
+        // 将两数组可整行显示的标签，进行排列布局显示
         layoutFillRowWithArray(.LowerArray)
-
-        // 高临界值 整行字符串
         layoutFillRowWithArray(.HigherArray)
         
-        // 低临界值 剩余字符串
+        // 排列显示低于临界值数组 剩余标签
+        // 若两数组均剩余一字符串，则同行显示，否则分行显示。
+        if lowerArray.count == 1 {
+            layoutRemainder(.LowerArray)
+        }else {
+            layoutRemainder(.LowerArray)
+            currentHeight += horizontalMargin + itemHeight
+            currentWidth = 0
+        }
         
-        
-        // 高临界值 剩余字符串
-        
+        // 排列显示高于临界值数组 剩余标签
+        layoutRemainder(.HigherArray)
     }
     
-    
+    ///  将指定数组的可整行排列的标签，进行显示
+    ///
+    ///  - parameter arrayType: 数组类型
     private func layoutFillRowWithArray(arrayType: TagsArray) {
         let numbers = arrayType == .HigherArray ? numbersForHigherInRow : numbersForLowerInRow
         repeat {
@@ -108,7 +114,18 @@ class ThemeTags: UIView {
         } while (arrayType == .HigherArray ? higherArray : lowerArray).count >= numbers
     }
     
+    ///  排列指定数组余下的标签
+    ///
+    ///  - parameter array: 标签数组
+    private func layoutRemainder(arrayType: TagsArray) {
+        for _ in (arrayType == .HigherArray ? higherArray : lowerArray) {
+            setupItem(arrayType)
+        }
+    }
     
+    ///  排列指定数组中的第一个标签
+    ///
+    ///  - parameter arrayType: 数组类型
     private func setupItem(arrayType: TagsArray) {
         let buttonWidth = arrayType == .HigherArray ? highWidth : lowWidth
         // 创建一个标签并布局、设置变量之后，从数组中remove这个标签文字
