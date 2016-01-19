@@ -1,13 +1,11 @@
 {% extends "teacher/teacher_base.html" %}
 {% load staticfiles %}
-{% load compress %}
+{% load compile_static %}
 {% block title %}
     信息完善
 {% endblock %}
 {% block addition_header %}
-    {% compress css %}
-    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/complete_information.less' %}">
-    {% endcompress %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/complete_information.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/custom/complete_information.js' %}"></script>
