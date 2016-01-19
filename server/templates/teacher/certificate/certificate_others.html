@@ -1,4 +1,4 @@
-{% extends "teacher/teacher_base.html" %}
+{% extends "teacher/teacher_frame.html" %}
 
 {% load staticfiles %}
 {% load compile_static %}
@@ -6,86 +6,74 @@
     资质认证
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap.less'|compile %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/first_page.less'|compile %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/certificate/certificate.js' %}"></script>
 {% endblock %}
 
-{% block body %}
-    <div class="container">
-        {% load teacher_page %}
-        {% mala_page_header_dark "资质认证" teacherName %}
-        <div class="row">
-            <div class="col-md-3 col-lg-2 col-sm-4 col-xs-4">
-                {% include 'teacher/side_bar.html' %}
-            </div>
-            <div class="col-md-9 col-lg-10 col-sm-8 col-xs-8">
-                <div class="breadcrumbs">
-                    <span class="title">个人设置</span>
-                    &gt;
-                    <a href="{% url 'teacher:certificate' %}"><span>资质认证</span></a>
-                    &gt;
-                    <span>其他资质认证</span>
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <a href="{% url 'teacher:certificate' %}"><span>资质认证</span></a>
+    &gt;
+    <span>其他资质认证</span>
+{% endblock %}
+
+{% block maincontent %}
+    <div class="list-group" id="otherCertsList">
+        {% for cert in otherCerts %}
+            <div class="row list-group-item" certId="{{ cert.id }}">
+                <div class="col-md-3">
+                    <div>{{ cert.name }}</div>
+                    <div class="cert-img-view"><img src="{{ cert.imgUrl }}"></div>
                 </div>
-                <div class="list-group" id="certificationsList">
-                    {% for cert in otherCerts %}
-                        <div class="row list-group-item" certId="{{ cert.id }}">
-                            <div class="col-md-3">
-                                <div>{{ cert.name }}</div>
-                                <div><img src="{{ cert.imgUrl }}"></div>
-                            </div>
-                            <div class="col-md-7">支持添加多个</div>
-                            <div class="col-md-2">
-                                <a class="btn btn-default" href="javascript:void(0)" data-action="edit-cert">编辑</a>
-                                <a class="btn btn-success" href="javascript:void(0)" data-action="delete-cert">删除</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="certificate-box">
-                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="hidden" id="id" name="id">
-                        <div class="form-group">
-                            <label for="id_num" class="col-sm-2 control-label">证书名称</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" id="name" name="name" value="" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-2">{# empty #}</div>
-                            <div class="col-sm-3">
-                                <div class="img-upload-box">
-                                    <div class="img-box">
-                                        <img src="">
-                                    </div>
-                                    <div class="img-preview-box"><img src=""></div>
-                                    <div class="uploading-hint-box"></div>
-                                    <span class="file-input-mask text-center">
-                                        <span>上传图片</span>
-                                        <input title="请选择图片" type="file" name="certImg" multiple=""/>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
-                                      title="<div class='text-left'>请上传您的证书照片</div>"></span>
-                            </div>
-                        </div>
-                        <div class="form-group {% if error_msg %}has-error{% endif %}">
-                            <div class="col-sm-2">{# empty #}</div>
-                            <div class="col-sm-10">
-                                <span class="help-block">{{ error_msg }}</span>
-                                <button type="submit" class="btn btn-success">保存</button>
-                                <button type="button" class="btn btn-default">取消</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 col-btns">
+                    <a class="btn btn-default" href="javascript:void(0)" data-action="edit-cert">编辑</a>
+                    <a class="btn btn-default" href="javascript:void(0)" data-action="delete-cert">删除</a>
                 </div>
             </div>
-        </div>
+        {% endfor %}
+    </div>
+    <div class="certificate-box">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="id" name="id">
+            <div class="form-group">
+                <label for="id_num" class="col-sm-2 control-label">证书名称</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="name" name="name" value="" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">{# empty #}</div>
+                <div class="col-sm-3">
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                        <span class="file-input-mask text-center">
+                            <span>上传图片</span>
+                            <input title="请选择图片" type="file" name="certImg" multiple=""/>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+                          title="<div class='text-left'>请上传您的证书照片</div>"></span>
+                </div>
+            </div>
+            <div class="form-group {% if error_msg %}has-error{% endif %}">
+                <div class="col-sm-2">{# empty #}</div>
+                <div class="col-sm-10">
+                    <span class="help-block">{{ error_msg }}</span>
+                    <button type="submit" class="btn btn-success">保存</button>
+                    <button type="button" class="btn btn-default">取消</button>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}

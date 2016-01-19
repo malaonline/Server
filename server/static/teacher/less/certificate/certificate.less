@@ -2,7 +2,7 @@
 @icon-font-path: "../../../common/fonts/";
 
 // 认证列表
-.list-group {
+#certificationsList.list-group {
   padding-top: 3px;
   padding-left: 25px;
   padding-right: 60px;
@@ -111,5 +111,39 @@
       cursor: pointer;
       color: transparent;
     }
+  }
+}
+
+// 其他认证页面列表
+#otherCertsList.list-group {
+  padding-top: 3px;
+  padding-left: 60px;
+  padding-right: 60px;
+  .row.list-group-item {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid @border_color;
+  }
+  .cert-img-view {
+    width: 100%;
+    height: @imgUploadBoxHeight;
+    line-height: @imgUploadBoxHeight;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid @border_color;
+    img{
+      max-width: 100%;
+      max-height: 100%;
+      vertical-align: middle;
+    }
+  }
+  .btn {
+    width: 38px;
+    height: 22px;
+    padding: 0;
+    background-color: @text_gray_color;
+    font-size: 12px;
+    color: white;
   }
 }
