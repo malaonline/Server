@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'django_s3_storage',
-    'compressor',
+    'static_precompiler',
     'app',
     'teacher',
     'staff',
@@ -97,15 +97,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-COMPRESS_PRECOMPILERS = (
-    ('text/less', 'lessc {infile} {outfile}'),
-)
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
 DATABASES = {
@@ -147,14 +144,10 @@ LOGIN_URL = '/login/'
 STATIC_ROOT = '/var/www/static/'
 MEDIA_ROOT = '/var/www/upload/'
 MEDIA_URL = '/upload/'
-
-COMPRESS_OFFLINE = True
-COMPRESS_URL = '/static/'
-COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_PRECOMPILER_OUTPUT_DIR = 'compiled'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-COMPRESS_STORAGE = 'compressor.storage.CompressorFileStorage'
 
 AWS_REGION = 'cn-north-1'
 AWS_ACCESS_KEY_ID = 'AKIAP22CWKUZDOMHLFGA'

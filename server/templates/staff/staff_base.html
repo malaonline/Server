@@ -7,10 +7,8 @@
 
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles%}
-    {% load compress %}
-    {% compress css %}
-    <link href="{% static 'common/less/bootstrap.less' %}" rel="stylesheet" type="text/less">
-    {% endcompress %}
+    {% load compile_static %}
+    <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet" type="text/css">
     {% block addition_header %}{% endblock %}
     <script src="{% static 'common/js/jquery-2.1.4.js' %}"></script>
     <script src="{% static 'common/js/bootstrap.min.js' %}"></script>

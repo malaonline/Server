@@ -1,13 +1,11 @@
 {% extends 'teacher/teacher_base.html' %}
 {% load staticfiles %}
-{% load compress %}
+{% load compile_static %}
 {% block title %}
     老师-注册
 {% endblock %}
 {% block addition_header %}
-    {% compress css %}
-    <link rel="stylesheet" type="text/less" media="all" href="{% static 'teacher/less/register.less' %}" />
-    {% endcompress %}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'teacher/less/register.less'|compile %}" />
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/custom/register.js' %}"></script>

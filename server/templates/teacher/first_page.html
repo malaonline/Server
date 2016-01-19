@@ -1,13 +1,11 @@
 {% extends "teacher/teacher_base.html" %}
 {% load staticfiles %}
-{% load compress %}
+{% load compile_static %}
 {% block title %}
     首页
 {% endblock %}
 {% block addition_header %}
-    {% compress css %}
-    <link rel="stylesheet" type="text/less" href="{% static 'teacher/less/first_page.less' %}">
-    {% endcompress %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/first_page.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/underscore.js' %}"></script>
