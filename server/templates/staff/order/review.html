@@ -52,6 +52,66 @@
     </form>
 
     <table align="center" border="1" cellspacing="0" width="100%">
-
+        <tr>
+            <th>订单号</th>
+            <th>下单时间</th>
+            <th>支付平台</th>
+            <th>订单状态</th>
+            <th>家长姓名</th>
+            <th>家长手机号</th>
+            <th>学生姓名</th>
+            <th>老师姓名</th>
+            <th>老师手机号</th>
+            <th>报课年级</th>
+            <th>报课科目</th>
+            <th>上课地点</th>
+            <th>上课时间</th>
+            <th>小时单价</th>
+            <th>购买小时</th>
+            <th>订单金额</th>
+            <th>奖学金</th>
+            <th>消耗小时</th>
+            <th>消耗订单金额</th>
+            <th>剩余小时</th>
+            <th>剩余订单金额</th>
+            <th>退费小时</th>
+            <th>退费金额</th>
+            <th>实际上课小时</th>
+            <th>实际订单金额</th>
+            <th>操作</th>
+        </tr>
+        {% for order in orders %}
+            <tr align="center">
+{# 订单号码 #}    <td>{{ order.id }}</td>
+{# 下单时间 #}    <td>{{ order.created_at }}</td>
+{# 支付平台 #}    <td>N/A</td>
+{# 订单状态 #}    <td>{{ order.get_status_display }}</td>
+{# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
+{# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
+{# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
+{# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
+{# 老师手机 #}    <td>{{ order.teacher.user.profile.phone }}</td>
+{# 报课年级 #}    <td>{{ order.grade }}</td>
+{# 报课科目 #}    <td>{{ order.subject }}</td>
+{# 上课地点 #}    <td>{{ order.school }}</td>
+{# 上课时间 #}    <td>
+                    {% for slot in order.weekly_time_slots.all %}
+                        {{ slot }}<br/>
+                    {% endfor %}</td>
+{# 小时单价 #}    <td>{{ order.price }}</td>
+{# 购买小时 #}    <td>{{ order.hours }}</td>
+{# 订单金额 #}    <td>{{ order.total }}</td>
+{# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
+{# 消耗小时 #}    <td>N/A</td>
+{# 消耗订单金额 #} <td>N/A</td>
+{# 剩余小时 #}    <td>N/A</td>
+{# 剩余订单金额 #} <td>N/A</td>
+{# 退费小时 #}    <td>N/A</td>
+{# 退费金额 #}    <td>N/A</td>
+{# 实际上课小时 #} <td>N/A</td>
+{# 实际订单金额 #} <td>N/A</td>
+{# 操作 #}        <td>N/A</td>
+            </tr>
+        {% endfor %}
     </table>
 {% endblock %}

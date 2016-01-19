@@ -232,6 +232,7 @@ class OrderReviewView(BaseStaffView):
     def get_context_data(self, **kwargs):
         kwargs['status'] = models.Order.STATUS_CHOICES
         kwargs['centers'] = models.School.objects.filter(center=True)
-        kwargs['grades'] = models.Grade.objects.all
-        kwargs['subjects'] = models.Subject.objects.all
+        kwargs['grades'] = models.Grade.objects.all()
+        kwargs['subjects'] = models.Subject.objects.all()
+        kwargs['orders'] = models.Order.objects.all()
         return super(OrderReviewView, self).get_context_data(**kwargs)
