@@ -1,0 +1,57 @@
+{% extends "staff/staff_base.html" %}
+
+{% block title %}购买订单{% endblock %}
+
+{% block content %}
+    <form>
+        姓名
+        <input type="text">
+
+        手机号
+        <input type="number">
+
+        订单号
+        <input type="number">
+
+        订单状态
+        <select>
+            {% for val,text in status %}
+                <option value={{ val }}>{{ text }}</option>
+            {% endfor %}
+        </select>
+
+        年级
+        <select>
+            {% for grade in grades %}
+                {# 不显示: 小学 初中 高中 #}
+                {% if grade.superset %}
+                    <option>{{ grade.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        科目
+        <select>
+            {% for subject in subjects %}
+                <option>{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+
+        授课中心
+        <select>
+            {% for center in centers %}
+                <option>{{ center.name }}</option>
+            {% endfor %}
+        </select>
+
+        下单日期
+        <input type="date"> - <input type="date">
+
+        <input type="submit" value="查询"/>
+        <input type="button" value="导出"/>
+    </form>
+
+    <table align="center" border="1" cellspacing="0" width="100%">
+
+    </table>
+{% endblock %}

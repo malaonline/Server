@@ -225,3 +225,13 @@ class BackCostView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         return super(BackCostView, self).get_context_data(**kwargs)
+
+class OrderReviewView(BaseStaffView):
+    template_name = 'staff/order/review.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['status'] = models.Order.STATUS_CHOICES
+        kwargs['centers'] = models.School.objects.filter(center=True)
+        kwargs['grades'] = models.Grade.objects.all
+        kwargs['subjects'] = models.Subject.objects.all
+        return super(OrderReviewView, self).get_context_data(**kwargs)

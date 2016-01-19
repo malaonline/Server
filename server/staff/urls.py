@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^teachers/action/$', views.TeacherActionView.as_view(), name="teachers_action"),
     url(r'^schools/$', views.SchoolView.as_view(), name="schools"),
     url(r'^backcost/$', views.BackCostView.as_view(), name="backcost"),
+    url(r'^orders/review/$', views.OrderReviewView.as_view(), name="orders_review"),
 ]
