@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.malalaoshi.android.R;
@@ -139,7 +140,7 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+       /* if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             //获取阴影的宽度
             if (cardElevation==-1){
                 cardElevation = parent.getContext().getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
@@ -178,6 +179,17 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
             }else{
                 outRect.set(0, mSpace, mSpace/2 , 0);
             }
+        }*/
+        int spanCount = getSpanCount(parent);
+        int childCount = parent.getAdapter().getItemCount();
+        int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+        int top = 0;
+        Log.e("aaaaaaaa",""+itemPosition);
+        if (itemPosition==0){
+            top += mSpace/2;
+            outRect.set( mSpace/2 ,  mSpace, top, mSpace);
+        }else{
+
         }
     }
 

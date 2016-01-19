@@ -1,9 +1,9 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,14 +20,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
-import com.malalaoshi.android.decoration.TeacherListGridItemDecoration;
+import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.result.TeacherListResult;
 import com.malalaoshi.android.util.JsonUtil;
+
+
 import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
@@ -82,18 +85,17 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         if(recyclerView != null){
             Context context = view.getContext();
             adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-            GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 2);
+            GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
             layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
             recyclerView.setLayoutManager(layoutManager);
 
             //处理在5.0以下版本中各个Item 间距过大的问题(解决方式:将要设置的间距减去各个Item的阴影宽度)
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            /*if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
                 dealCardElevation(recyclerView);
-            }
-            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_diver);
+            }*/
 
             recyclerView.setAdapter(adapter);
-            recyclerView.addItemDecoration(new TeacherListGridItemDecoration(context,spacingInPixels));
+            recyclerView.addItemDecoration(new TeacherItemDecoration(context, TeacherItemDecoration.VERTICAL_LIST, getResources().getDimensionPixelSize(R.dimen.teacher_list_top_diver)));
 
             recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         }
@@ -113,7 +115,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
         moocStyleRefreshViewHolder.setUltimateColor(R.color.colorPrimary);
-        moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.colorWhite);
+        moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.teacher_main_bg);
         mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
@@ -296,6 +298,14 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
                 return 1;
             }
         }
+    }
+
+    //筛选
+    @OnClick(R.id.teacher_filter_btn)
+    public void onClickTeacherFilter(View view){
+        DialogFragment newFragment = FilterDialogFragment.newInstance();
+        newFragment.show(getActivity().getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+
     }
 
 }

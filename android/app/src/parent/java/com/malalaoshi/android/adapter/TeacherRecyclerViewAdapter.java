@@ -21,6 +21,7 @@ import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
+import com.malalaoshi.android.view.CircleImageView;
 
 import java.util.List;
 
@@ -65,14 +66,11 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         switch(viewType){
             case TYPE_LOAD_MORE:
                 hasLoadMoreView = true;
-                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, parent, false));
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, null));
             case TYPE_NONE_VALUE:
-                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, parent, false));
+                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, null));
             default:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-                    ((CardView)view).setPreventCornerOverlap(false);
-                }
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_item, null);
                 return new NormalViewHolder(view);
         }
     }
@@ -142,6 +140,24 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     }
 
     public class NormalViewHolder extends ViewHolder{
+        @Bind(R.id.teacher_list_item_name)
+        protected TextView name;
+
+        @Bind(R.id.teacher_list_item_level)
+        protected TextView level;
+
+        @Bind(R.id.teacher_list_item_avater)
+        protected CircleImageView avater;
+
+        @Bind(R.id.teacher_list_item_price)
+        protected TextView price;
+
+        @Bind(R.id.teacher_list_item_tags)
+        protected TextView tags;
+
+        @Bind(R.id.teacher_list_item_subjects)
+        protected TextView subjects;
+/*
         @Bind(R.id.teacher_list_item_avatar)
         protected ImageView avatar;
 
@@ -158,7 +174,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         protected TextView subject;
 
         @Bind(R.id.teacher_list_item_tags)
-        protected TextView tagView;
+        protected TextView tagView;*/
 
         protected com.malalaoshi.android.entity.Teacher teacher;
 
@@ -176,7 +192,35 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 return;
             }
             teacher = teachersList.get(position);
+            level.setText("金牌讲师");
             name.setText(teacher.getName());
+            String sub = teacher.getSubject();
+            String gradeStr = teacher.getGrades_shortname();
+            if(gradeStr != null&&!gradeStr.equals("")&&sub!=null&&!sub.equals("")){
+                subjects.setText(gradeStr+" · "+ sub);
+            }else {
+                if (gradeStr == null||gradeStr.equals("")){
+                    subjects.setText(sub);
+                }else if (sub==null||sub.equals("")){
+                    subjects.setText(gradeStr);
+                }
+            }
+            String tagStr = StringUtil.join(teacher.getTags());
+            if(tagStr != null){
+                tags.setText(tagStr);
+            }
+
+            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
+                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avater, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            }
+
+            Double minPrice = teacher.getMin_price();
+            String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
+            Double maxPrice = teacher.getMax_price();
+            String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
+            price.setText(minPriceStr + "-" + maxPriceStr);
+
+            /*name.setText(teacher.getName());
             String sub = teacher.getSubject();
             if(sub != null){
                 subject.setText(sub);
@@ -199,7 +243,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             Double maxPrice = teacher.getMax_price();
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
             String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
-            priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);
+            priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);*/
         }
 
         @OnClick(R.id.teacher_list_item_body)

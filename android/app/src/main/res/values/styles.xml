@@ -109,6 +109,22 @@
         <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
         <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
     </style>
+ 
+    <style name="AppWidget.CardViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/teacher_main_bg</item>
+    </style>
+
+    <style name="CardView.LinearStyle">
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:layout_marginLeft">@dimen/item_margin_normal</item>
+        <item name="android:layout_marginRight">@dimen/item_margin_normal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 
     <!-- 用户中心 -->
     <style name="mala.widget.usercenter.item.text" parent="android:Widget.TextView">

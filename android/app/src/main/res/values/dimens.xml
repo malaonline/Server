@@ -32,6 +32,7 @@
     <dimen name="body_text_size">14dp</dimen>
 
     <dimen name="teacher_list_card_diver">8dp</dimen>
+    <dimen name="teacher_list_top_diver">12dp</dimen>
 
     <dimen name="teacher_list_card_corner_radius">4dp</dimen>
     <dimen name="teacher_list_card_elevation">2dp</dimen>
@@ -71,6 +72,8 @@
     <dimen name="gallery_height_small">72dp</dimen>
     <dimen name="gallery_divider_small">5dp</dimen>
 
+    <dimen name="item_margin_normal">12dp</dimen>
+
     <dimen name="teacher_name_margin_left">82dp</dimen>
 
     <dimen name="text_divider_margin_normal">5dp</dimen>
@@ -91,12 +94,26 @@
     <dimen name="school_margin_normal">10dp</dimen>
     <dimen name="toolbar_height">44dp</dimen>
 
+
+    <!-- 首页 教师列表 -->
+    <dimen name="home_list_divider_height">8dp</dimen>
+    <dimen name="home_margin_top_normal">10dp</dimen>
+    <dimen name="home_margin_top_large">11dp</dimen>
+    <dimen name="home_margin_top_xlarge">12dp</dimen>
+    <dimen name="home_margin_xxlarge">15dp</dimen>
+    <dimen name="home_avater_height">70dp</dimen>
+    <dimen name="home_avater_width">70dp</dimen>
+    <dimen name="home_subject_height">22dp</dimen>
+
+
     <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_small_x">11sp</dimen>
     <dimen name="text_size_normal">12sp</dimen>
     <dimen name="text_size_normal_x">13sp</dimen>
     <dimen name="text_size_large">14sp</dimen>
     <dimen name="text_size_large_x">15sp</dimen>
     <dimen name="text_size_xlarge">16sp</dimen>
+    <dimen name="text_size_xlarge_x">17sp</dimen>
     <dimen name="text_size_xxlarge">18sp</dimen>
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
