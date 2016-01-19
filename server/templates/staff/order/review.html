@@ -3,49 +3,56 @@
 {% block title %}购买订单{% endblock %}
 
 {% block content %}
-    <form>
-        姓名
-        <input type="text">
+    <form name="query_form">
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
 
-        手机号
-        <input type="number">
+        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
 
-        订单号
-        <input type="number">
+        订单号 <input type="text" name="order_id" value="{{ query_data.order_id }}" />
 
         订单状态
-        <select>
+        <select name="status">
+            <option value="">全部</option>
             {% for val,text in status %}
-                <option value={{ val }}>{{ text }}</option>
+                <option value="{{ val }}" {% if val == query_data.status %}
+                        selected="selected"{% endif %}>{{ text }}</option>
             {% endfor %}
         </select>
 
         年级
-        <select>
+        <select name="grade">
+            <option value="">全部</option>
             {% for grade in grades %}
                 {# 不显示: 小学 初中 高中 #}
                 {% if grade.superset %}
-                    <option>{{ grade.name }}</option>
+                    <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %}
+                            selected="selected" {% endif %}>{{ grade.name }}</option>
                 {% endif %}
             {% endfor %}
         </select>
 
         科目
-        <select>
+        <select name="subject">
+            <option value="">全部</option>
             {% for subject in subjects %}
-                <option>{{ subject.name }}</option>
+                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}
+                        selected="selected"{% endif %}>{{ subject.name }}</option>
             {% endfor %}
         </select>
 
         授课中心
-        <select>
-            {% for center in centers %}
-                <option>{{ center.name }}</option>
+        <select name="school">
+            <option value="">全部</option>
+            {% for school in schools %}
+                <option value="{{ school.id }}" {% if school.id|stringformat:"i" == query_data.school %}
+                        selected="selected"{% endif %}>{{ school.name }}</option>
             {% endfor %}
         </select>
 
         下单日期
-        <input type="date"> - <input type="date">
+        <input type="date" name="order_date_from" value="{{ query_data.order_date_from }}" />
+         -
+        <input type="date" name="order_date_to" value="{{ query_data.order_date_to }}" />
 
         <input type="submit" value="查询"/>
         <input type="button" value="导出"/>
@@ -82,7 +89,7 @@
         </tr>
         {% for order in orders %}
             <tr align="center">
-{# 订单号码 #}    <td>{{ order.id }}</td>
+{# 订单号码 #}    <td>{{ order.order_id }}</td>
 {# 下单时间 #}    <td>{{ order.created_at }}</td>
 {# 支付平台 #}    <td>N/A</td>
 {# 订单状态 #}    <td>{{ order.get_status_display }}</td>
@@ -97,7 +104,8 @@
 {# 上课时间 #}    <td>
                     {% for slot in order.weekly_time_slots.all %}
                         {{ slot }}<br/>
-                    {% endfor %}</td>
+                    {% endfor %}
+                </td>
 {# 小时单价 #}    <td>{{ order.price }}</td>
 {# 购买小时 #}    <td>{{ order.hours }}</td>
 {# 订单金额 #}    <td>{{ order.total }}</td>

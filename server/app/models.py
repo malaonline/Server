@@ -462,6 +462,7 @@ class Order(BaseModel):
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
     charge_id = models.CharField(max_length=100)  # For Ping++ use
+    order_id = models.CharField(max_length=64, default=uuid.uuid1)  # For backend use
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)

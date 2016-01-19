@@ -10,6 +10,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
+from django.db.models import Q
 
 # local modules
 from app import models
@@ -107,6 +108,7 @@ class TeacherView(BaseStaffView):
         if reg_date_to:
             try:
                 date_to = datetime.datetime.strptime(reg_date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
                 query_set = query_set.filter(user__date_joined__lte = date_to)
             except:
                 pass
@@ -230,9 +232,69 @@ class OrderReviewView(BaseStaffView):
     template_name = 'staff/order/review.html'
 
     def get_context_data(self, **kwargs):
+
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        print(kwargs['query_data'])
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        order_id = self.request.GET.get('order_id')
+        status = self.request.GET.get('status')
+        grade = self.request.GET.get('grade')
+        subject = self.request.GET.get('subject')
+        school = self.request.GET.get('school')
+        order_date_from = self.request.GET.get('order_date_from')
+        order_date_to = self.request.GET.get('order_date_to')
+
+        query_set = models.Order.objects.filter()
+        # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
+        if name:
+            query_set = query_set.filter(
+                Q(parent__user__username__icontains=name) |
+                Q(parent__student_name__icontains=name) |
+                Q(teacher__name__icontains=name)
+            )
+        # 家长手机 or 老师手机, 模糊匹配
+        if phone:
+            query_set = query_set.filter(
+                Q(parent__user__profile__phone__contains=phone) |
+                Q(teacher__user__profile__phone__contains=phone)
+            )
+        # 后台系统订单号, 模糊匹配
+        if order_id:
+            query_set = query_set.filter(order_id__icontains=order_id)
+        # 订单状态
+        if status:
+            query_set = query_set.filter(status=status)
+        # 年级
+        if grade:
+            query_set = query_set.filter(grade=grade)
+        # 科目
+        if subject:
+            query_set = query_set.filter(subject=subject)
+        # 授课中心
+        if school:
+            query_set = query_set.filter(school=school)
+        # 下单日期区间
+        if order_date_from:
+            try:
+                date_from = datetime.datetime.strptime(order_date_from, '%Y-%m-%d')
+                query_set = query_set.filter(created_at__gte=date_from)
+            except:
+                pass
+        if order_date_to:
+            try:
+                date_to = datetime.datetime.strptime(order_date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                query_set = query_set.filter(created_at__lte=date_to)
+            except:
+                pass
+
+        # 可用筛选条件数据集
         kwargs['status'] = models.Order.STATUS_CHOICES
-        kwargs['centers'] = models.School.objects.filter(center=True)
+        kwargs['schools'] = models.School.objects.filter(center=True)
         kwargs['grades'] = models.Grade.objects.all()
         kwargs['subjects'] = models.Subject.objects.all()
-        kwargs['orders'] = models.Order.objects.all()
+        # 查询结果数据集
+        kwargs['orders'] = query_set
         return super(OrderReviewView, self).get_context_data(**kwargs)
