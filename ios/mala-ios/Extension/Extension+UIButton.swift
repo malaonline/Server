@@ -19,7 +19,7 @@ extension UIButton {
      ///  - parameter action:    SEL for Event's Action
      ///
      ///  - returns: UIButton
-    convenience init(title: String? = nil, imageName: String? = nil, selectImageName: String? = nil, target: AnyObject? = nil, action:Selector) {
+    convenience init(title: String? = nil, imageName: String? = nil, highlightImageName: String? = nil, target: AnyObject? = nil, action:Selector) {
         self.init()
         titleLabel?.font = UIFont.systemFontOfSize(15)
         setTitle(title, forState: .Normal)
@@ -27,8 +27,8 @@ extension UIButton {
         if imageName != nil {
             setImage(UIImage(named: imageName!), forState: .Normal)
         }
-        if selectImageName != nil {
-            setImage(UIImage(named: selectImageName!), forState: .Selected)
+        if highlightImageName != nil {
+            setImage(UIImage(named: highlightImageName!), forState: .Highlighted)
         }
         addTarget(target, action: action, forControlEvents: .TouchUpInside)
         sizeToFit()
