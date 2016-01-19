@@ -100,6 +100,7 @@ class HomeViewController: UITableViewController {
     
     // MARK: - private Method
     private func setupUserInterface() {
+        self.title = MalaCommonString_Malalaoshi
         tableView.backgroundColor = MalaTeacherCellBackgroundColor
         tableView.estimatedRowHeight = 200
         tableView.separatorStyle = .None
@@ -113,7 +114,7 @@ class HomeViewController: UITableViewController {
             UIButton(
                 title: "洛阳",
                 imageName: "location_normal",
-                selectImageName: "location_press",
+                highlightImageName: "location_press",
                 target: self,
                 action: "locationButtonDidClick"
             )
@@ -124,7 +125,7 @@ class HomeViewController: UITableViewController {
         let rightBarButtonItem = UIBarButtonItem(customView:
             UIButton(
                 imageName: "filter_normal",
-                selectImageName: "filter_press",
+                highlightImageName: "filter_press",
                 target: self,
                 action: "filterButtonDidClick"
             )
