@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    &lt;!&ndash; Disabled &ndash;&gt;
+    <item android:state_enabled="false"
+        android:state_pressed="false"
+        android:drawable="@drawable/ic_close" />
+    &lt;!&ndash; Pressed &ndash;&gt;
+    <item android:state_enabled="true"
+        android:state_pressed="true"
+        android:textColor="@android:color/white"
+        android:drawable="@drawable/ic_radiobutton_selected" />
+    &lt;!&ndash; Focused &ndash;&gt;
+    &lt;!&ndash;     <item android:state_enabled="true"
+              android:state_focused="true"
+              android:textColor="@android:color/white"
+              android:drawable="@drawable/list_item_focused" /> &ndash;&gt;
+    &lt;!&ndash; Default &ndash;&gt;
+    <item android:state_enabled="true"
+        android:state_pressed="false"
+        android:drawable="@drawable/ic_radiobutton_tap"/>
+</selector>-->
+
+<selector  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_radiobutton_normal" android:state_checked="true"></item>
+    <item android:drawable="@drawable/ic_radiobutton_selected" android:state_selected="true"></item>
+    <item android:drawable="@drawable/ic_radiobutton_foucs" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/ic_radiobutton_normal"></item>
+</selector>

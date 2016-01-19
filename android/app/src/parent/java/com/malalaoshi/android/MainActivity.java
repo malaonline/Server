@@ -1,5 +1,6 @@
 package com.malalaoshi.android;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.IntentFilter;
@@ -99,8 +100,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @OnClick(R.id.main_bar_filter)
     protected void onClickBarBtnFilter() {
+       // Dialog dialog = new Dialog(this,R.style.FilterDialog);
+        //dialog.setContentView(R.layout.dialog_filter);
+       // dialog.show();
+
         DialogFragment newFragment = FilterDialogFragment.newInstance();
+        //newFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.FilterDialog);
         newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+
     }
 
   /*  private void setDrawable(int viewId, int drawableId){
