@@ -130,11 +130,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/dev-static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")    # same level with apps
 ]
@@ -144,10 +142,15 @@ LOGIN_URL = '/login/'
 STATIC_ROOT = '/var/www/static/'
 MEDIA_ROOT = '/var/www/upload/'
 MEDIA_URL = '/upload/'
-STATIC_PRECOMPILER_OUTPUT_DIR = 'compiled'
+
+#DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+#STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+STATIC_PRECOMPILER_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_PRECOMPILER_OUTPUT_DIR = 'compiled'
 
 AWS_REGION = 'cn-north-1'
 AWS_ACCESS_KEY_ID = 'AKIAP22CWKUZDOMHLFGA'
