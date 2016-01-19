@@ -121,9 +121,12 @@
   padding-right: 60px;
   .row.list-group-item {
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
     border: 0;
-    border-bottom: 1px solid @border_color;
+    border-bottom: 1px inset @text_light_gray_color;
+  }
+  .cert-name {
+    padding-bottom: 5px;
   }
   .cert-img-view {
     width: 125px;
@@ -137,6 +140,9 @@
       max-height: 100%;
       vertical-align: middle;
     }
+  }
+  .col-btns {
+    padding-top: 10px;
   }
   .btn {
     width: 38px;

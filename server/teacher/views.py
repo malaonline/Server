@@ -364,12 +364,15 @@ class CertificateOthersView(BaseTeacherView):
         return context
 
     def post(self, request):
+        if request.POST.get('action') == 'delete':
+            return self.doDeleteCert(request)
+
         context, teacher = self.getContextTeacher(request)
 
         cert = None
         id = request.POST.get('id')
         if id:
-            cert = models.Certificate.get(id=id)
+            cert = models.Certificate.objects.get(id=id)
         else:
             cert = models.Certificate(teacher=teacher, type=models.Certificate.OTHER, verified=False)
         name = request.POST.get('name')
@@ -388,3 +391,26 @@ class CertificateOthersView(BaseTeacherView):
 
         context = self.buildContextData(context, teacher)
         return render(request, self.template_path, context)
+
+    """
+    return message format: {'ok': False, 'msg': msg, 'code': 1}
+    """
+    def doDeleteCert(self, request):
+        context, teacher = self.getContextTeacher(request)
+        certId = request.POST.get('certId')
+        if not certId:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        try:
+            cert = models.Certificate.objects.get(id=certId)
+            if cert.teacher.id != teacher.id:
+                return JsonResponse({'ok': False, 'msg': '非法操作', 'code': 3})
+            if cert.type and cert.type != models.Certificate.OTHER:
+                return JsonResponse({'ok': False, 'msg': '不支持删除该类型的证书', 'code': 4})
+            cert.delete()
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+        except models.Teacher.DoesNotExist as e:
+            logger.warning(e)
+            return JsonResponse({'ok': False, 'msg': '没有找到相应的记录', 'code': 2})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
