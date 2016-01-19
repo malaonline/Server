@@ -17,3 +17,13 @@ import UIKit
 func ==(FirIndexPath: NSIndexPath, SecIndexPath: (section: Int, row: Int)) -> Bool {
     return FirIndexPath.section == SecIndexPath.section && FirIndexPath.row == SecIndexPath.row
 }
+
+///  Random Number
+///
+///  - parameter range: range
+///
+///  - returns: Int
+func randomInRange(range: Range<Int>) -> Int {
+    let count = UInt32(range.endIndex - range.startIndex)
+    return  Int(arc4random_uniform(count)) + range.startIndex
+}

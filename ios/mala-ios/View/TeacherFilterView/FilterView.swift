@@ -28,14 +28,14 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     /// 风格数据源
     var tags: [BaseObjectModel]? = nil {
         didSet {
-            self.styleView.tags = tags
+            self.styleView.tagsModel = tags
         }
     }
     /// 当前筛选条件记录模型
     lazy var filterObject: ConditionObject = {
         let object = ConditionObject()
         object.subject = GradeModel()
-        object.tag = GradeModel()
+        object.tags = []
         return object
     }()
     /// 当前显示面板下标标记
@@ -72,11 +72,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     }()
     /// 风格筛选面板
     private lazy var styleView: StyleFilterView = {
-        let styleView = StyleFilterView(frame: CGRectZero,
-            collectionViewLayout: CommonFlowLayout(type: .FilterView),
-            didTapCallBack: { (model) -> () in
-            self.filterObject.tag = model!
-        })
+        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth-3), tags: [])
         return styleView
     }()
     
@@ -225,7 +221,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
 class ConditionObject: NSObject {
     var grade: GradeModel = GradeModel()
     var subject: GradeModel = GradeModel()
-    var tag: GradeModel = GradeModel()
+    var tags: [GradeModel] = []
     
     var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
     var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)

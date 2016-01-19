@@ -34,6 +34,7 @@ let MalaLoginPhonePlaceHolderColor = UIColor(rgbHexValue: 0xCECECE, alpha: 1.0)
 let MalaLoginCodeGetButtonColor = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
 let MalaLoginVerifyButtonDisableColor = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
 let MalaLoginVerifyButtonNormalColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.95)
+let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -123,26 +124,51 @@ public func makeStatusBarWhite() {
 }
 
 
-// MARK: - TitleFilter
+// MARK: - Dictionary
 let MalaSubject = [
-    1:"数    学",
-    2:"英    语",
-    3:"语    文",
-    4:"物    理",
-    5:"化    学",
-    6:"地    理",
-    7:"历    史",
-    8:"政    治",
-    9:"生    物"
+    1: "数    学",
+    2: "英    语",
+    3: "语    文",
+    4: "物    理",
+    5: "化    学",
+    6: "地    理",
+    7: "历    史",
+    8: "政    治",
+    9: "生    物"
 ]
 let MalaTeacherDetailsCellTitle = [
-    1:"教授科目",
-    2:"风格标签",
-    3:"提分榜",
-    4:"个人相册",
-    5:"特殊成就",
-    6:"教学环境",
-    7:"会员服务",
-    8:"级别",
-    9:"价格表"
+    1: "教授科目",
+    2: "风格标签",
+    3: "提分榜",
+    4: "个人相册",
+    5: "特殊成就",
+    6: "教学环境",
+    7: "会员服务",
+    8: "级别",
+    9: "价格表"
 ]
+
+
+// MARK: - Array
+let MalaColorArray = [
+    UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0),
+    UIColor(rgbHexValue: 0xF6A466, alpha: 1.0),
+    UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
+    UIColor(rgbHexValue: 0xAC7BD8, alpha: 1.0),
+    UIColor(rgbHexValue: 0xA5B2E4, alpha: 1.0),
+    UIColor(rgbHexValue: 0xF4BB5B, alpha: 1.0),
+    UIColor(rgbHexValue: 0xA4C87F, alpha: 1.0),
+    UIColor(rgbHexValue: 0xEDADD0, alpha: 1.0),
+    UIColor(rgbHexValue: 0xABCB71, alpha: 1.0),
+    UIColor(rgbHexValue: 0x67CFC8, alpha: 1.0),
+    UIColor(rgbHexValue: 0xF58F8F, alpha: 1.0),
+    UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
+    UIColor(rgbHexValue: 0xE5BEED, alpha: 1.0)
+]
+
+public func MalaRandomColor() -> UIColor {
+    return MalaColorArray[randomInRange(0...MalaColorArray.count-1)]
+}
+
+
+

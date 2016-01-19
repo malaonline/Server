@@ -95,4 +95,21 @@ class TestFactory {
         )
         return [teacher1, teacher2, teacher3, teacher4, teacher5]
     }
+    
+    class func tags() -> [String] {
+        return [
+            "幽默",
+            "常识教育",
+            "100%进步率",
+            "学员过千",
+            "押题达人",
+            "幽默风趣",
+            "心理专家",
+            "公立学校老师",
+            "最受学生欢迎",
+            "80后名师",
+            "英语演讲冠军",
+            "麻辣金牌教师"
+        ]
+    }
 }
