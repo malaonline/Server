@@ -25,7 +25,7 @@
         {% for cert in otherCerts %}
             <div class="row list-group-item" certId="{{ cert.id }}">
                 <div class="col-md-3">
-                    <div>{{ cert.name }}</div>
+                    <div class="cert-name">{{ cert.name }}</div>
                     <div class="cert-img-view"><img src="{{ cert.imgUrl }}"></div>
                 </div>
                 <div class="col-md-7"></div>
@@ -37,7 +37,7 @@
         {% endfor %}
     </div>
     <div class="certificate-box">
-        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" id="certEditForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" id="id" name="id">
             <div class="form-group">
@@ -70,8 +70,8 @@
                 <div class="col-sm-2">{# empty #}</div>
                 <div class="col-sm-10">
                     <span class="help-block">{{ error_msg }}</span>
-                    <button type="submit" class="btn btn-success">保存</button>
-                    <button type="button" class="btn btn-default">取消</button>
+                    <button type="submit" class="btn btn-success btn-save">保存</button>
+                    <button type="reset" class="btn btn-default btn-cancel">取消</button>
                 </div>
             </div>
         </form>
