@@ -72,7 +72,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     }()
     /// 风格筛选面板
     private lazy var styleView: StyleFilterView = {
-        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth-3), tags: [])
+        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth), tags: [])
         return styleView
     }()
     
@@ -95,7 +95,6 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private func configuration() {
         self.contentSize = CGSize(width: 0, height: MalaLayout_FilterContentWidth-3)
         self.delegate = self
-        self.pagingEnabled = true
         self.bounces = false
         self.showsHorizontalScrollIndicator = false
     }

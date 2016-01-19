@@ -77,7 +77,7 @@ class ThemeTags: UIView {
 
     
     // MARK: - Private Method
-    func layoutTags() {
+    private func layoutTags() {
         
         print("low 标签：\(lowerArray)")
         print("high标签：\(higherArray)")
@@ -151,6 +151,7 @@ class ThemeTags: UIView {
     
     // MARK: - Event Response
     @objc private func buttonDidTap(sender: UIButton) {
+        sender.highlighted = !sender.highlighted
         sender.selected = !sender.selected
         print(sender.titleLabel?.text)
     }
@@ -161,7 +162,7 @@ extension UIButton {
     ///  便利构造函数
     ///
     ///  - parameter title:       标题
-    ///  - parameter borderColor: Normal状态边框颜色，Selected状态背景颜色
+    ///  - parameter borderColor: Normal状态边框颜色，Highlighted状态背景颜色
     ///
     ///  - returns: UIButton对象
     convenience init(title: String, borderColor: UIColor, target: AnyObject?, action: Selector) {
@@ -170,9 +171,11 @@ extension UIButton {
         self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         self.setTitle(title, forState: .Normal)
         self.setTitleColor(MalaFilterViewTagsTextColor, forState: .Normal)
+        self.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         // 背景状态颜色
         self.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+        self.setBackgroundImage(UIImage.withColor(borderColor), forState: .Highlighted)
         self.setBackgroundImage(UIImage.withColor(borderColor), forState: .Selected)
         // 圆角和边框
         self.layer.cornerRadius = 5
