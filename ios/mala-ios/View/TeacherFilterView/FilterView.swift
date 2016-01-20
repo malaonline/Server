@@ -28,14 +28,14 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     /// 风格数据源
     var tags: [BaseObjectModel]? = nil {
         didSet {
-            self.styleView.tags = tags
+            self.styleView.tagsModel = tags
         }
     }
     /// 当前筛选条件记录模型
     lazy var filterObject: ConditionObject = {
         let object = ConditionObject()
         object.subject = GradeModel()
-        object.tag = GradeModel()
+        object.tags = []
         return object
     }()
     /// 当前显示面板下标标记
@@ -72,11 +72,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     }()
     /// 风格筛选面板
     private lazy var styleView: StyleFilterView = {
-        let styleView = StyleFilterView(frame: CGRectZero,
-            collectionViewLayout: CommonFlowLayout(type: .FilterView),
-            didTapCallBack: { (model) -> () in
-            self.filterObject.tag = model!
-        })
+        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth), tags: [])
         return styleView
     }()
     
@@ -99,7 +95,6 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private func configuration() {
         self.contentSize = CGSize(width: 0, height: MalaLayout_FilterContentWidth-3)
         self.delegate = self
-        self.pagingEnabled = true
         self.bounces = false
         self.showsHorizontalScrollIndicator = false
     }
@@ -113,6 +108,25 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             ) { [weak self] (notification) -> Void in
                 // pop当前面板
                 self?.scrollToPanel((self?.currentIndex ?? 2) - 1)
+        }
+        
+        // 确认按钮点击通知处理
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ConfirmFilterView,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                // 提交筛选条件
+                // 将选中字符串数组遍历为对象数组
+                let tagsCondition = self?.styleView.selectedItems.map({ (string: String) -> BaseObjectModel in
+                    var tagObject = BaseObjectModel()
+                    for object in self?.tags ?? [] {
+                        if object.name == string {
+                            tagObject = object
+                        }
+                    }
+                    return tagObject
+                })
+                self?.filterObject.tags = tagsCondition ?? []
         }
     }
     
@@ -215,8 +229,14 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     tagsDict?.append(set)
                 }
             }
-            self?.tags = tagsDict //TODO: 风格标签数据待处理
+            self?.tags = tagsDict
         }
+    }
+    
+    deinit {
+        // 移除观察者
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PopFilterView, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ConfirmFilterView, object: nil)
     }
 }
 
@@ -225,9 +245,5 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
 class ConditionObject: NSObject {
     var grade: GradeModel = GradeModel()
     var subject: GradeModel = GradeModel()
-    var tag: GradeModel = GradeModel()
-    
-    var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-    var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)
-    var tagIndexPath = NSIndexPath(forItem: 0, inSection: 4)
+    var tags: [BaseObjectModel] = []
 }

@@ -88,8 +88,6 @@
 		308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		308063971C3A271C00729832 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
 		308063981C3A271C00729832 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		30AE09301C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
-		30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */; };
 		30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		30B5980E1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
@@ -131,6 +129,8 @@
 		4B7729A525CC171AFEC029E0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		F41B8A5F1C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
+		F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
+		F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -182,7 +182,6 @@
 		307DA2031C4A59CD00891F22 /* BaseFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFilterView.swift; sourceTree = "<group>"; };
 		308063931C3A1AF100729832 /* Extension+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UILabel.swift"; sourceTree = "<group>"; };
 		308063961C3A271C00729832 /* Extension+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIView.swift"; sourceTree = "<group>"; };
-		30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterView.swift; sourceTree = "<group>"; };
 		30AE09321C2AC94F00FD607D /* FilterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		30B5980D1C451A8900169390 /* MemberServiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberServiceModel.swift; sourceTree = "<group>"; };
 		30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableViewCell.swift; sourceTree = "<group>"; };
@@ -236,6 +235,7 @@
 		A5927BC31BEC8BD900E9BDB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,10 +292,10 @@
 		304135811C23AE6400830C43 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				F41B8A5E1C4DDCCA00A842E9 /* Info.plist */,
 				304135821C23AE6400830C43 /* AppDelegate.swift */,
 				3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */,
 				3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */,
+				F41B8A5E1C4DDCCA00A842E9 /* Info.plist */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -390,7 +390,6 @@
 				30445B181C4A3AC8002CD290 /* GradeFilterView.swift */,
 				30445B1B1C4A3B3D002CD290 /* SubjectFilterView.swift */,
 				30445B1E1C4A3B96002CD290 /* StyleFilterView.swift */,
-				30AE092F1C2AC92000FD607D /* TeacherFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
 			);
 			path = TeacherFilterView;
@@ -412,6 +411,7 @@
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
 				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 				30445B121C49EEA2002CD290 /* ThemeAlert.swift */,
+				F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -815,6 +815,7 @@
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
+				F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				303BCFEE1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
@@ -830,7 +831,6 @@
 				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
 				30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */,
 				30445B1F1C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
-				30AE09301C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,6 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
@@ -856,7 +857,6 @@
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
-				30AE09311C2AC92000FD607D /* TeacherFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,

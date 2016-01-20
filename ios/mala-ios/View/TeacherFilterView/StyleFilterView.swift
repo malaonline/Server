@@ -8,21 +8,24 @@
 
 import UIKit
 
-class StyleFilterView: BaseFilterView {
+class StyleFilterView: ThemeTags {
 
     // MARK: - Property
-    var tags: [BaseObjectModel]? = nil {
+    var tagsModel: [BaseObjectModel]? = nil {
         didSet {
-            self.reloadData()
+            let array: [String]? = tagsModel?.map({ (model: BaseObjectModel) -> String in
+                return model.name ?? ""
+            })
+            self.tags = array
         }
     }
     
     
     // MARK: - Constructed
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, didTapCallBack: FilterDidTapCallBack) {
-        super.init(frame: frame, collectionViewLayout: layout, didTapCallBack: didTapCallBack)
+    override init(frame: CGRect, tags: [String]) {
+        super.init(frame: frame, tags: tags)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

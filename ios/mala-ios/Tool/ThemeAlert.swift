@@ -247,6 +247,6 @@ public class ThemeAlert: UIViewController {
     }
     
     @objc private func confirmButtonDidTap() {
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ConfirmFilterView, object: nil)
     }
 }

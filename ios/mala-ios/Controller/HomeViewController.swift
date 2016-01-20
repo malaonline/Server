@@ -77,13 +77,6 @@ class HomeViewController: UITableViewController {
             })
     }
     
-    func dropViewDidTapButtonForContentView(contentView: UIView) {
-        // 获取筛选条件
-        let filterObj: ConditionObject = (contentView as! TeacherFilterView).filterObject
-        let filters: [String: AnyObject] = ["grade": filterObj.grade.id, "subject": filterObj.subject.id, "tags": filterObj.tag.id]
-        loadTeachers(filters)
-    }
-    
     
     // MARK: - DataSource
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
