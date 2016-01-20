@@ -37,6 +37,11 @@ class FilterResultController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        makeStatusBarBlack()
+    }
+    
     
     // MARK: - Private Method
     private func setupUserInterface() {
@@ -56,7 +61,7 @@ class FilterResultController: UIViewController {
         
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_5 // *2.3
+        spacer.width = -MalaLayout_Margin_5*2.3
         
         // leftBarButtonItem
         let leftBarButtonItem = UIBarButtonItem(customView:
@@ -71,15 +76,6 @@ class FilterResultController: UIViewController {
     }
     
     private func filterTeacher() {
-
-        
-        
         
     }
-    
-    
-    
-    
-    
-    
 }

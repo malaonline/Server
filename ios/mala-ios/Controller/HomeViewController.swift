@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Property
     private var condition: ConditionObject?
+    private var filterResultDidShow: Bool = false
     
     
     // MARK: - Components
@@ -40,6 +41,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         makeStatusBarBlack()
+        filterResultDidShow = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,8 +55,11 @@ class HomeViewController: UIViewController {
             MalaNotification_CommitCondition,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
-            self?.condition = notification.object as? ConditionObject
-            self?.resolveFilterCondition()
+                if !(self?.filterResultDidShow ?? false) {
+                    self?.filterResultDidShow = true
+                    self?.condition = notification.object as? ConditionObject
+                    self?.resolveFilterCondition()
+                }
         }
     }
     
