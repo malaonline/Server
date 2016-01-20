@@ -79,12 +79,54 @@ $(function(){
         }
     });
     //form取消操作
-    $("#certEditForm .btn-cancel").click(function(e){
+    $("#certEditForm [data-action=cancel]").click(function(e){
         var $form = $('#certEditForm');
         $form[0].reset();
-        $form.find('.img-preview-box img')[0].src = '';
-        if ($form.find('input[name=id]')[0]) { // 其他认证页面,需要清空图片
-            $form.find('.img-box img')[0].src = '';
+        $form.find('.img-preview-box img').attr('src', '');
+        $form.find('.img-preview-box').hide();
+        var isOtherCertPage = $form.find('input[name=id]')[0];
+        if (isOtherCertPage) { // 其他认证页面,需要清空图片
+            $form.find('.img-box img').attr('src', '');
         }
+    });
+    //form保存操作
+    $("#certEditForm [data-action=save]").click(function(e){
+        var $form = $('#certEditForm');
+        var isOtherCertPage = $form.find('input[name=id]')[0]; // 是否是其他认证页面
+        var isIdCertPage = $form.find('input[name=id_num]')[0]; // 是否是身份证认证页面
+        $form.ajaxSubmit({
+            data: {'format': 'json'},
+            dataType: 'json',
+            success: function(result){
+                if (result) {
+                    if (result.ok) {
+                        if (isOtherCertPage) {
+                            location.reload();
+                        } else {
+                            alert('保存成功');
+                            if (isIdCertPage) {
+                                var $idHeldImgBox = $form.find('.img-upload-box[imgName=idHeldImg] .img-box'),
+                                    $idFrontImgBox = $form.find('.img-upload-box[imgName=idFrontImg] .img-box');
+                                $idHeldImgBox.find('img').attr('src', result.idHeldUrl);
+                                $idHeldImgBox.show();
+                                $idFrontImgBox.find('img').attr('src', result.idFrontUrl);
+                                $idFrontImgBox.show();
+                            } else {
+                                $form.find('.img-box img').attr('src', result.certImgUrl);
+                                $form.find('.img-box').show();
+                            }
+                            $form.find('.img-preview-box').hide();
+                        }
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(defaultErrMsg);
+            },
+            error: function(e){
+                alert(defaultErrMsg);
+            }
+        });
     });
 });

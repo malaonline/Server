@@ -239,8 +239,8 @@ class CertificateIDView(BaseTeacherView):
 
     def buildContextData(self, context, certIdHeld, certIdFront):
         context['id_num'] = certIdHeld.name
-        context['idHeldUrl'] = certIdHeld.img and certIdHeld.img.url or ''
-        context['idFrontUrl'] = certIdFront.img and certIdFront.img.url or ''
+        context['idHeldUrl'] = certIdHeld.imgUrl()
+        context['idFrontUrl'] = certIdFront.imgUrl()
         return context
 
     def post(self, request):
@@ -249,13 +249,20 @@ class CertificateIDView(BaseTeacherView):
                                                               defaults={'name':"",'verified':False})
         certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
                                                               defaults={'name':"",'verified':False})
+        isJsonReq = request.POST.get('format') == 'json'
         if certIdHeld.verified:
-            context['error_msg'] = '已通过认证的不能更改'
+            error_msg = '已通过认证的不能更改'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
+            context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
 
         id_num = request.POST.get('id_num')
         if not id_num:
-            context['error_msg'] = '身份证号不能为空'
+            error_msg = '身份证号不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
+            context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
@@ -272,8 +279,9 @@ class CertificateIDView(BaseTeacherView):
         certIdHeld.save()
         certIdFront.save()
 
+        if isJsonReq:
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'idHeldUrl': certIdHeld.imgUrl(), 'idFrontUrl': certIdFront.imgUrl()})
         context = self.buildContextData(context, certIdHeld, certIdFront)
-
         return render(request, self.template_path, context)
 
 
@@ -299,7 +307,7 @@ class CertificateForOnePicView(BaseTeacherView):
         context['cert_title'] = self.cert_title
         context['cert_name'] = self.cert_name
         context['name_val'] = cert.name
-        context['certImgUrl'] = cert.img and cert.img.url or ''
+        context['certImgUrl'] = cert.imgUrl()
         context['hint_content'] = self.hint_content
         return context
 
@@ -307,13 +315,20 @@ class CertificateForOnePicView(BaseTeacherView):
         context, teacher = self.getContextTeacher(request)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
                                                               defaults={'name':"",'verified':False})
+        isJsonReq = request.POST.get('format') == 'json'
         if cert.verified:
-            context['error_msg'] = '已通过认证的不能更改'
+            error_msg = '已通过认证的不能更改'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
+            context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, cert))
 
         name = request.POST.get('name')
         if not name:
-            context['error_msg'] = '证书名称不能为空'
+            error_msg = '证书名称不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+            context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, cert))
         cert.name = name
 
@@ -325,8 +340,9 @@ class CertificateForOnePicView(BaseTeacherView):
 
         cert.save()
 
+        if isJsonReq:
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'certImgUrl': cert.imgUrl()})
         context = self.buildContextData(context, cert)
-
         return render(request, self.template_path, context)
 
 class CertificateAcademicView(CertificateForOnePicView):
@@ -368,7 +384,7 @@ class CertificateOthersView(BaseTeacherView):
             return self.doDeleteCert(request)
 
         context, teacher = self.getContextTeacher(request)
-
+        isJsonReq = request.POST.get('format') == 'json'
         cert = None
         id = request.POST.get('id')
         if id:
@@ -377,7 +393,10 @@ class CertificateOthersView(BaseTeacherView):
             cert = models.Certificate(teacher=teacher, type=models.Certificate.OTHER, verified=False)
         name = request.POST.get('name')
         if not name:
-            context['error_msg'] = '证书名称不能为空'
+            error_msg = '证书名称不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+            context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, teacher))
         cert.name = name
 
@@ -389,6 +408,8 @@ class CertificateOthersView(BaseTeacherView):
 
         cert.save()
 
+        if isJsonReq:
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
         context = self.buildContextData(context, teacher)
         return render(request, self.template_path, context)
 
