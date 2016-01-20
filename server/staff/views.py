@@ -143,6 +143,12 @@ class TeacherView(BaseStaffView):
         query_set = query_set[(page_to-1)*page_size:page_to*page_size]
         return query_set, page_to, total_page, total_count
 
+class TeacherOfflineView(BaseStaffView):
+    """
+    待上架老师列表view
+    """
+    template_name = 'staff/teacher/teachers_offline.html'
+
 class TeacherActionView(BaseStaffActionView):
 
     NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
