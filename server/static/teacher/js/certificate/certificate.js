@@ -47,4 +47,44 @@ $(function(){
     $(function () {
         $('[data-toggle="tooltip"]').tooltip({'html':true})
     });
+    // 其他认证列表,[编辑][删除]按钮
+    $("#otherCertsList [data-action=edit-cert]").click(function (e){
+        var $row = $(this).closest('.row');
+        var certId = $row.attr('certId'), certName = $row.find('.cert-name').text(), certImgUrl = $row.find('.cert-img-view img')[0].src;
+        var $form = $('#certEditForm');
+        $form.find('input[name=id]').val(certId);
+        $form.find('input[name=name]').val(certName);
+        $form.find('.img-box img')[0].src = certImgUrl;
+    });
+    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+    $("#otherCertsList [data-action=delete-cert]").click(function (e){
+        var decided = confirm('确定要删除这个证书吗?');
+        if (!decided) return false;
+        var $row = $(this).closest('.row'), certId = $row.attr('certId');
+        if (certId) {
+            var params = {'action': 'delete', 'certId': certId};
+            $.post( "/teacher/certificate/others/", params, function( result ) {
+                if (result) {
+                    if (result.ok) {
+                        $row.remove();
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(defaultErrMsg);
+            }, 'json').fail(function() {
+                alert(defaultErrMsg);
+            });
+        }
+    });
+    //form取消操作
+    $("#certEditForm .btn-cancel").click(function(e){
+        var $form = $('#certEditForm');
+        $form[0].reset();
+        $form.find('.img-preview-box img')[0].src = '';
+        if ($form.find('input[name=id]')[0]) { // 其他认证页面,需要清空图片
+            $form.find('.img-box img')[0].src = '';
+        }
+    });
 });
