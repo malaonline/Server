@@ -127,6 +127,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     return tagObject
                 })
                 self?.filterObject.tags = tagsCondition ?? []
+                NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self?.filterObject)
         }
     }
     

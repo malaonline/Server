@@ -17,6 +17,8 @@ var Mala_UserToken: String = "0"
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
 let MalaNotification_ConfirmFilterView = "com.malalaoshi.app.ConfirmFilterView"
+let MalaNotification_CommitCondition = "com.malalaoshi.app.CommitCondition"
+
 
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.whiteColor()
