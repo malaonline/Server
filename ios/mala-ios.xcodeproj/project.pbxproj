@@ -133,6 +133,8 @@
 		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
 		F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
+		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
+		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -239,6 +241,7 @@
 		F402C9941C4F69C100E229FA /* TeacherTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableView.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
+		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +324,7 @@
 				30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */,
 				307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */,
 				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
+				F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -815,6 +819,7 @@
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
+				F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				30445B191C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
 				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
@@ -851,6 +856,7 @@
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
+				F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,

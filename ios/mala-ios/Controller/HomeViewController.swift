@@ -126,7 +126,9 @@ class HomeViewController: UIViewController {
     }
     
     private func resolveFilterCondition() {
-        
+        let viewController = FilterResultController()
+        viewController.filterCondition = self.condition
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     
