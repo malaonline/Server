@@ -163,6 +163,11 @@ def complete_information(request):
                       "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
                       "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
                       "高二": "高二", "高三": "高三"}
+        # clear ability_set
+        for one_ability in teacher.ability_set.all():
+            one_ability.delete()
+            one_ability.save()
+
         for one_grade in grade_list:
             the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
             ability = models.Ability(teacher=teacher, grade=the_grade, subject=the_subject)
@@ -174,6 +179,77 @@ def complete_information(request):
 
         return JsonResponse({"url": reverse("teacher:register-progress")})
         # return HttpResponseRedirect(reverse("teacher:register-progress"))
+
+
+# 完善老师的个人信息 TW-2-1
+class CompleteInformation(View):
+    # @login_required(login_url=LOGIN_URL)
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        profile = models.Profile.objects.get(user=user)
+
+        name = teacher.name
+        gender = profile.gender
+        region = teacher.region or ""
+        ability_set_all = teacher.ability_set.all()
+        if len(ability_set_all) > 0:
+            subclass = ability_set_all[0].subject.name
+        else:
+            subclass = ""
+        grade = [item.grade.name for item in list(teacher.ability_set.all())]
+        context = {
+            "name": name,
+            "gender": gender,
+            "region": region,
+            "subclass": subclass,
+            "grade": grade
+        }
+        print(context)
+        return render(request, 'teacher/complete_information.html', context)
+
+    # @login_required(login_url=LOGIN_URL)
+    def post(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        profile = models.Profile.objects.get(user=user)
+
+        name = request.POST.get("name", "")
+        gender = request.POST.get("gender", "")
+        region = request.POST.get("region")
+        subject = request.POST.get("subclass")
+        grade = request.POST.get("grade")
+
+        print("name => {name}".format(name=name))
+        print("gender => {gender}".format(gender=gender))
+        print("region => {region}".format(region=region))
+        print("subclass => {subclass}".format(subclass=subject))
+        grade_list = json.loads(grade)
+        print("grade => {grade}".format(grade=grade_list))
+
+        teacher.name = name
+        gender_dict = {"男":"m", "女":"f"}
+        profile.gender = gender_dict.get(gender, "u")
+        teacher.region = models.Region.objects.get(name=region)
+
+        the_subject = models.Subject.objects.get(name=subject)
+        grade_dict = {"小学一年级": "一年级", "小学二年级": "二年级", "小学三年级": "三年级",
+                      "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
+                      "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
+                      "高二": "高二", "高三": "高三"}
+        # clear ability_set
+        teacher.ability_set = []
+
+        for one_grade in grade_list:
+            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
+            ability, _ = models.Ability.objects.get_or_create(teacher=teacher, grade=the_grade, subject=the_subject)
+            teacher.ability_set.add(ability)
+            ability.save()
+
+        teacher.save()
+        profile.save()
+
+        return JsonResponse({"url": reverse("teacher:register-progress")})
 
 
 @login_required(login_url=LOGIN_URL)

@@ -205,6 +205,8 @@ function checkSMS(){
             if(data.result == false){
             //    验证码错误
                 console.log("验证码错误")
+                var invalidPhoneNumber = $("#invalid-sms-code");
+                invalidPhoneNumber.attr("attrHidden", false);
             }else{
             //    验证码正确
                 var jump_url = data.url;
