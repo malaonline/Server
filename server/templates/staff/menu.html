@@ -14,26 +14,26 @@
                 <span>待上架老师</span>
             </div>
             <div>
-                <span>投诉与考勤</span>
+                <span>已上架老师</span>
             </div>
             <div>
-                <span>教师级别设置</span>
+                <span>教师级别调整记录</span>
             </div>
             <div>
-                <span>老师银行卡管理</span>
+                <span>老师银行卡查询</span>
             </div>
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="heading_school">
+        <div class="panel-heading" role="tab" id="heading_pretest">
             <a role="button" data-toggle="{# collapse #}" data-parent="#staff_menu"
-               href="#collapse_school" aria-controls="collapse_school">
-                中心管理
+               href="#collapse_pretest" aria-controls="collapse_pretest">
+                课前测评
             </a>
         </div>
-        <div id="collapse_school" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_school">
+        <div id="collapse_pretest" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_pretest">
             <div>
-                <a href="{% url 'staff:schools' %}"><span>中心设置</span></a>
+                <span>测评建档列表</span>
             </div>
         </div>
     </div>
@@ -46,38 +46,32 @@
         </div>
         <div id="collapse_student" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_student">
             <div>
-                <a href="{% url 'staff:students' %}"><span>学生信息</span></a>
+                <a href="{% url 'staff:students' %}"><span>调课与停课管理</span></a>
             </div>
             <div>
                 <span>调课停课记录</span>
             </div>
-            <div>
-                <span>退费记录</span>
-            </div>
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="heading_school_course">
+        <div class="panel-heading" role="tab" id="heading_school">
             <a role="button" data-toggle="{# collapse #}" data-parent="#staff_menu"
-               href="#collapse_school_course" aria-controls="collapse_school_course">
-                中心课程管理
+               href="#collapse_school" aria-controls="collapse_school">
+                中心管理
             </a>
         </div>
-        <div id="collapse_school_course" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_school_course">
+        <div id="collapse_school" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_school">
             <div>
                 <span>中心课程列表</span>
             </div>
             <div>
-                <span>调停课设置</span>
+                <span>投诉记录</span>
             </div>
             <div>
-                <span>调停课记录</span>
+                <span>考勤记录</span>
             </div>
             <div>
-                <a href="{% url 'staff:backcost' %}"><span>退费管理</span></a>
-            </div>
-            <div>
-                <span>退费记录</span>
+                <a href="{% url 'staff:schools' %}"><span>中心设置</span></a>
             </div>
         </div>
     </div>
@@ -93,7 +87,39 @@
                 <a href="{% url 'staff:orders_review' %}"><span>购买订单</span></a>
             </div>
             <div>
-                <span>退费订单</span>
+                <a href="{% url 'staff:backcost' %}"><span>退费审核</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading_account">
+            <a role="button" data-toggle="{# collapse #}" data-parent="#staff_menu"
+               href="#collapse_account" aria-controls="collapse_account">
+                老师资产
+            </a>
+        </div>
+        <div id="collapse_account" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_account">
+            <div>
+                <span>老师收入</span>
+            </div>
+            <div>
+                <span>提现审核</span>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading_coupon">
+            <a role="button" data-toggle="{# collapse #}" data-parent="#staff_menu"
+               href="#collapse_coupon" aria-controls="collapse_coupon">
+                奖学金
+            </a>
+        </div>
+        <div id="collapse_coupon" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_coupon">
+            <div>
+                <span>奖学金设置</span>
+            </div>
+            <div>
+                <span>奖学金使用列表</span>
             </div>
         </div>
     </div>
