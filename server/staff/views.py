@@ -199,11 +199,11 @@ class StudentView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
 
-class SchoolView(BaseStaffView):
+class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'
 
     def get_context_data(self, **kwargs):
-        context = super(SchoolView, self).get_context_data(**kwargs)
+        context = super(SchoolsView, self).get_context_data(**kwargs)
         schoolId = self.request.GET.get('schoolId')
         center = self.request.GET.get('center')
 
@@ -220,6 +220,21 @@ class SchoolView(BaseStaffView):
         context['schoolId'] = schoolId
         context['center'] = center
         context['allSchools'] = models.School.objects.filter()
+        return context
+
+class SchoolView(BaseStaffView):
+    template_name = 'staff/school/edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SchoolView, self).get_context_data(**kwargs)
+        schoolId = self.request.GET.get('schoolId')
+
+        school = None
+        if schoolId:
+            school = models.School.objects.get(id=schoolId)
+
+        context['school'] = school
+        context['schoolId'] = schoolId
         return context
 
 class BackCostView(BaseStaffView):

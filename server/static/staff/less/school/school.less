@@ -1,0 +1,58 @@
+@import "../../../common/less/bootstrap.less";
+
+
+.information_header{
+  font-size:20px;
+  text-align: center;
+  margin-top: 24px;
+
+}
+
+.form-horizontal{
+  margin-top: 44px;
+  .form-row{
+    margin-top: 20px;
+    input{
+      width: 300px;
+    }
+  }
+  label+div{
+    width: 300px;
+    display: inline-block;
+  }
+
+  .school-place{
+    select{
+      display: inline;
+      width: 95px;
+    }
+  }
+  .member-service{
+    > label{
+      vertical-align: top;
+    }
+    input{
+      display: inline;
+    }
+    input:nth-child(n+2){
+      margin-top: 5px;
+    }
+  }
+  .form-head{
+    width: 482px;
+    margin: auto;
+    > div:first-child{
+      float: right;
+    }
+  }
+}
+.submit_button{
+//  提交按钮
+  margin-top: 30px;
+  margin-bottom: 200px;
+  width: 256px;
+  height: 50px;
+  background: #8c8c8e;
+  color: white;
+  font-size: 24px;
+}

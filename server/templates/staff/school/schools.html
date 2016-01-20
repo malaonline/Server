@@ -1,56 +1,41 @@
 {% extends "staff/staff_base.html" %}
 
+{% load staticfiles %}
 {% block title %}学习中心管理{% endblock %}
+
 
 {% block content %}
     <form name="query_form">
-        中心名称 <input type="text" name="name" />
-
-        所在地区
-        <select name="region">
-            <option value="">全部</option>
-            {% for region in region_list %}
-                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
-            {% endfor %}
-        </select>
-
-        类型
-        <select name="type">
-            <option value="">全部</option>
-            <option value="">体验中心</option>
-            <option value="">社区中心</option>
-        </select>
-
-        <input type="button" value="查询"/>
-
         <input type="button" value="新增中心"/>
     </form>
 
-    <table align="center" border="1" cellspacing="0" width="100%">
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
         <tr>
-            <th>中心名称</th>
-            <th>类型</th>
-            <th>所在地区</th>
-            <th>详细地址</th>
-            <th>电话</th>
-            <th>环境图片</th>
-            <th>上课座位</th>
-            <th>自习座位</th>
-            <th>会员服务</th>
-            <th>操作</th>
+            <th class="text-center">中心名称</th>
+            <th class="text-center">是否开放</th>
+            <th class="text-center">类型</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">详细地址</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">环境图片</th>
+            <th class="text-center">上课座位</th>
+            <th class="text-center">自习座位</th>
+            <th class="text-center">会员服务</th>
+            <th class="text-center">操作</th>
         </tr>
         {% for school in schools %}
             <tr schoolId="{{ school.id }}">
                 <td>{{school.name }}</td>
+                <td></td>
                 <td>{%if school.center%}体验中心{%else%}社区中心{%endif%}</td>
                 <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
                 <td>{{school.address }}</td>
                 <td></td>
-                <td>{{school.thumbnail }}</td>
+                <td><a href="{{ school.thumbnail.url }}" target="_blank">查看</a></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>TODO</td>
+                <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
             </tr>
         {% endfor %}
     </table>
