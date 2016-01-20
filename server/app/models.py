@@ -39,6 +39,7 @@ class School(BaseModel):
     center = models.BooleanField()
     longitude = models.IntegerField()
     latitude = models.IntegerField()
+    opened = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s %s %s' % (self.region, self.name, 'C' if self.center else '')

@@ -1,0 +1,103 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}学习中心编辑{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/less" href="{% static 'staff/less/school/school.less' | compile %}">
+{% endblock %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <form class="form-horizontal">
+            <div class="form-head">
+                <h3>
+                {%if school.id%}
+                    中心编辑
+                {%else%}
+                    新增中心
+                {%endif%}
+                </h3>
+            </div>
+            <div class="form-row">
+                <label>中心名称</label>
+                <input type="text" class="form-control" id="" name="" placeholder="请输入中心名称" value="{{school.name }}" style="display: inline;">
+            </div>
+            <div class="form-row">
+                <label>中心类别</label>
+                <div>
+                    <select class="form-control">
+                      <option {%if school.center%}selected{%else%}{%endif%}>体验中心</option>
+                      <option {%if school.center%}{%else%}selected{%endif%}>社区中心</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>是否开放</label>
+                <div>
+                    <select class="form-control">
+                      <option {%if school.opened%}selected{%else%}{%endif%}>是</option>
+                      <option {%if school.opened%}{%else%}selected{%endif%}>否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>所属地区</label>
+                <div class="school-place">
+                    <select class="form-control">
+                      <option>河南</option>
+                    </select>
+                    <select class="form-control">
+                      <option>洛阳</option>
+                    </select>
+                    <select class="form-control">
+                      <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>上课座位</label>
+                <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+            </div>
+            <div class="form-row">
+                <label>自习座位</label>
+                <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+            </div>
+            <div class="form-row member-service">
+                <label>会员服务</label>
+                <div>
+                    <input type="text" class="form-control" id="" name="" value="问题答疑" readonly>
+                    <input type="text" class="form-control" id="" name="" value="心里辅导" readonly>
+                    <input type="text" class="form-control" id="" name="" value="实时答疑" readonly>
+                    <input type="text" class="form-control" id="" name="" value="自习陪读" readonly>
+                    <input type="text" class="form-control" id="" name="" value="考前串讲" readonly>
+                    <input type="text" class="form-control" id="" name="" value="茶水饮料" readonly>
+                    <input type="text" class="form-control" id="" name="" value="实习报告" readonly>
+                    <input type="text" class="form-control" id="" name="" value="作业辅导" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>环境图片</label>
+                {%if school.thumbnail%}
+                    <div style="">
+                        <img src="{{ school.thumbnail.url }}" />
+                    </div>
+                {%else%}
+                    <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+                {%endif%}
+            </div>
+            <div class="form-row">
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度</label>
+                <input type="text" class="form-control" id="" name="" value="{{school.longitude }}" style="display: inline;">
+            </div>
+            <div class="form-row">
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纬度</label>
+                <input type="text" class="form-control" id="" name="" value="{{school.latitude }}" style="display: inline;">
+            </div>
+            <div class="form-row">
+                <button class="btn btn-default submit_button">提交</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
