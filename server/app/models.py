@@ -489,6 +489,7 @@ class TimeSlot(BaseModel):
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
+    deleted = models.BooleanField(default=False)
     def __str__(self):
         return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
 
