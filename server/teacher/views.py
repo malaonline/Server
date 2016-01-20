@@ -11,6 +11,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+import json
 
 
 # local modules
@@ -66,7 +67,7 @@ def verify_sms_code(request):
             if percent < 1:
                 return JsonResponse({
                     "result": True,
-                    "url": reverse("teacher:register-progress")
+                    "url": reverse("teacher:complete-information")
                 })
             else:
                 return JsonResponse({
@@ -116,21 +117,63 @@ def complete_information(request):
     :param request:
     :return:
     """
-    teacher = models.Teacher.objects.get(user=request.user)
+    user = request.user
+    teacher = models.Teacher.objects.get(user=user)
+    profile = models.Profile.objects.get(user=user)
+    if request.method == "GET":
+        name = teacher.name
+        gender = profile.gender
+        region = teacher.region or ""
+        ability_set_all = teacher.ability_set.all()
+        if len(ability_set_all) > 0:
+            subclass = ability_set_all[0].subject.name
+        else:
+            subclass = ""
+        grade = [item.grade.name for item in list(teacher.ability_set.all())]
+        context = {
+            "name": name,
+            "gender": gender,
+            "region": region,
+            "subclass": subclass,
+            "grade": grade
+        }
+        print(context)
+        return render(request, 'teacher/complete_information.html', context)
+    if request.method == "POST":
+        name = request.POST.get("name", "")
+        gender = request.POST.get("gender", "")
+        region = request.POST.get("region")
+        subject = request.POST.get("subclass")
+        grade = request.POST.get("grade")
 
-    name = ""
-    gender = ""
-    region = ""
-    subclass = ""
-    grade = ""
-    context = {
-        "name": name,
-        "gender": gender,
-        "region": region,
-        "subclass": subclass,
-        "grade": grade
-    }
-    return render(request, 'teacher/complete_information.html', context)
+        print("name => {name}".format(name=name))
+        print("gender => {gender}".format(gender=gender))
+        print("region => {region}".format(region=region))
+        print("subclass => {subclass}".format(subclass=subject))
+        grade_list = json.loads(grade)
+        print("grade => {grade}".format(grade=grade_list))
+
+        teacher.name = name
+        gender_dict = {"男":"m", "女":"f"}
+        profile.gender = gender_dict.get(gender, "u")
+        teacher.region = models.Region.objects.get(name=region)
+
+        the_subject = models.Subject.objects.get(name=subject)
+        grade_dict = {"小学一年级": "一年级", "小学二年级": "二年级", "小学三年级": "三年级",
+                      "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
+                      "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
+                      "高二": "高二", "高三": "高三"}
+        for one_grade in grade_list:
+            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
+            ability = models.Ability(teacher=teacher, grade=the_grade, subject=the_subject)
+            teacher.ability_set.add(ability)
+            ability.save()
+
+        teacher.save()
+        profile.save()
+
+        return JsonResponse({"url": reverse("teacher:register-progress")})
+        # return HttpResponseRedirect(reverse("teacher:register-progress"))
 
 
 @login_required(login_url=LOGIN_URL)

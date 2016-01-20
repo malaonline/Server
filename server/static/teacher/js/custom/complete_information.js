@@ -52,6 +52,37 @@ $(
         ["洛阳", "其它"]);
         render_grand_button_list();
         render_grand_select_button_group();
+
+        $("#submit_page").click(function(eventObject){
+            console.log("submit_page");
+            eventObject.preventDefault();
+            var name = $("#realName").val();
+            var gender = $("#gender-input").val();
+            var region = $("#city_input").val();
+            var subclass = $("#subclass_input").val();
+            var grade = selected_grand();
+            console.log(grade);
+            //$.ajax({
+            //    url: "/teacher/information/complete/",
+            //    type: 'POST',
+            //    contentType: 'application/json',
+            //    data: JSON.stringify(
+            //    {
+            //        name:name, gender:gender, region:region, subclass:subclass, grade:grade
+            //    }),
+            //    success: function(data){
+            //        console.log(data);
+            //    }
+            //});
+            $.post("/teacher/information/complete/",
+                {
+                    name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
+                },
+            function(data){
+                console.log(data);
+            });
+
+        });
     }
 );
 

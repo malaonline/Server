@@ -142,7 +142,7 @@ class TestTeacherWeb(TestCase):
         # response.render()
         print(response.content)
         self.assertEqual(json.loads(response.content.decode()),
-                         {"result": True, "url": "/teacher/register/progress/"})
+                         {"result": True, "url": "/teacher/information/complete/"})
         # 第二次
         second_client = Client()
         response = second_client.post(reverse("teacher:verify-sms-code"),
@@ -151,7 +151,7 @@ class TestTeacherWeb(TestCase):
                                           "code": sms_code
                                       })
         self.assertEqual(json.loads(response.content.decode()),
-                         {"url": "/teacher/register/progress/", "result": True})
+                         {"url": "/teacher/information/complete/", "result": True})
         print(response.content)
 
         # 测试information_compelte_percent

@@ -28,7 +28,7 @@
                 <form class="form-horizontal">
                     <div class="form-row">
                         <label for="realName" class="real_name_label">您的姓名</label>
-                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名">
+                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名" value="{{ name }}">
                     </div>
                     <div class="form-row">
                         <label for="gender" class="gender_label">性别</label>
@@ -124,7 +124,7 @@
                         </span>
                     </div>
                     <div class="form-row">
-                        <button class="btn btn-default submit_button">提交</button>
+                        <button class="btn btn-default submit_button" id="submit_page">提交</button>
                     </div>
                 </form>
 
