@@ -17,6 +17,8 @@ var Mala_UserToken: String = "0"
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
 let MalaNotification_ConfirmFilterView = "com.malalaoshi.app.ConfirmFilterView"
+let MalaNotification_CommitCondition = "com.malalaoshi.app.CommitCondition"
+
 
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.whiteColor()
@@ -47,6 +49,7 @@ let MalaCommonString_Title = "标题"
 let MalaCommonString_PhoneNumber = "手机号"
 let MalaCommonString_Cancel = "取消"
 let MalaCommonString_VerifyCode = "验证码"
+let MalaCommonString_FilterResult = "筛选结果"
 
 
 // MARK: - Common Proportion

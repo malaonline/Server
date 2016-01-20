@@ -10,29 +10,28 @@ import UIKit
 
 private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 
-class HomeViewController: UITableViewController {
+class HomeViewController: UIViewController {
     
     // MARK: - Property
-    private lazy var teachers: [TeacherModel]? = TestFactory.TeacherList()
+    private var condition: ConditionObject?
+    private var filterResultDidShow: Bool = false
     
     
-    // MARK: - Consturcted
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Components
+    private lazy var tableView: TeacherTableView = {
+        let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
+        tableView.controller = self
+        return tableView
+    }()
     
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // loadTeachers() //TODO:恢复真实网络数据请求
+        setupNotification()
         setupUserInterface()
-        tableView.registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
+        loadTeachers()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -42,6 +41,7 @@ class HomeViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         makeStatusBarBlack()
+        filterResultDidShow = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,54 +49,34 @@ class HomeViewController: UITableViewController {
     }
     
     
-    // MARK: - Delegate
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let teacherId = (tableView.cellForRowAtIndexPath(indexPath) as! TeacherTableViewCell).model!.id
-        
-        // Request Teacher Info
-        NetworkTool.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
-            if error != nil {
-                debugPrint("HomeViewController - loadTeacherDetail Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("HomeViewController - loadTeacherDetail Format Error")
-                return
-            }
-            
-            let viewController = TeacherDetailsController()
-            let model = TestFactory.TeacherDetailsModel() //TODO: Remove TestModel
-            
-            viewController.model = model   // TeacherDetailModel(dict: dict)
-            viewController.hidesBottomBarWhenPushed = true
-            self?.navigationController?.pushViewController(viewController, animated: true)
-            })
+    // MARK: - Private Method
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_CommitCondition,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                if !(self?.filterResultDidShow ?? false) {
+                    self?.filterResultDidShow = true
+                    self?.condition = notification.object as? ConditionObject
+                    self?.resolveFilterCondition()
+                }
+        }
     }
     
-    
-    // MARK: - DataSource
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.teachers?.count ?? 0
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TeacherTableViewCellReusedId, forIndexPath: indexPath) as! TeacherTableViewCell
-        cell.selectionStyle = .None
-        cell.model = teachers![indexPath.row]
-        return cell
-    }
-    
-    
-    // MARK: - private Method
     private func setupUserInterface() {
+        // Style
         self.title = MalaCommonString_Malalaoshi
-        tableView.backgroundColor = MalaTeacherCellBackgroundColor
-        tableView.estimatedRowHeight = 200
-        tableView.separatorStyle = .None
+        
+        // SubViews
+        self.view.addSubview(tableView)
+        
+        // Autolayout
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.view.snp_top)
+            make.left.equalTo(self.view.snp_left)
+            make.bottom.equalTo(self.view.snp_bottom)
+            make.right.equalTo(self.view.snp_right)
+        }
         
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
@@ -127,7 +107,7 @@ class HomeViewController: UITableViewController {
     }
     
     private func loadTeachers(filters: [String: AnyObject]? = nil) {
-        NetworkTool.sharedTools.loadTeachers(filters) { result, error in
+        NetworkTool.sharedTools.loadTeachers(filters) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
                 return
@@ -137,17 +117,23 @@ class HomeViewController: UITableViewController {
                 return
             }
             
-            self.teachers = []
+            self?.tableView.teachers = []
             let resultModel = ResultModel(dict: dict)
             if resultModel.results != nil {
                 for object in ResultModel(dict: dict).results! {
                     if let dict = object as? [String: AnyObject] {
-                        self.teachers!.append(TeacherModel(dict: dict))
+                        self?.tableView.teachers!.append(TeacherModel(dict: dict))
                     }
                 }
             }
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
+    }
+    
+    private func resolveFilterCondition() {
+        let viewController = FilterResultController()
+        viewController.filterCondition = self.condition
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     
@@ -157,8 +143,7 @@ class HomeViewController: UITableViewController {
     }
 
     @objc private func filterButtonDidClick() {
-        let view = FilterView(frame: CGRectZero)
-        ThemeAlert().show("grade", contentView: view)
+        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
     }
     
 //    @objc private func profileButtonDidClick() {

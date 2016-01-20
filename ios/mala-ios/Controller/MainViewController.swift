@@ -26,7 +26,7 @@ class MainViewController: UITabBarController {
     
     // MARK: - Private Method
     private func setupTabBar() {
-        addSubViewController(HomeViewController(style: .Plain), title: MalaCommonString_FindTeacher, imageName: "verifyCode")
+        addSubViewController(HomeViewController(), title: MalaCommonString_FindTeacher, imageName: "verifyCode")
         addSubViewController(UITableViewController(style: .Plain), title: MalaCommonString_ClassSchedule, imageName: "schedule_normal")
         addSubViewController(UITableViewController(style: .Plain), title: MalaCommonString_Profile, imageName: "profile_normal")
     }

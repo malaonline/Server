@@ -29,6 +29,7 @@ public class ThemeAlert: UIViewController {
             self.themeIcon.image = UIImage(named: tIcon)
         }
     }
+    // 内容视图
     var contentView: UIView?
     
     // MARK: - Components
@@ -124,6 +125,7 @@ public class ThemeAlert: UIViewController {
             view.container = self
         }
         updateUserInterface()
+        animateAlert()
     }
     
     public func setButtonStatus(showClose showClose: Bool, showCancel: Bool, showConfirm: Bool) {
@@ -207,26 +209,17 @@ public class ThemeAlert: UIViewController {
     
     private func animateAlert() {
         view.alpha = 0;
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.view.alpha = 1.0;
-        })
+        let originTransform = self.window.transform
+        self.window.layer.transform = CATransform3DMakeScale(0.7, 0.7, 0.0);
         
-        self.window.layer.transform = CATransform3DMakeScale(0.9, 0.9, 0.0);
-        
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.window.layer.transform = CATransform3DMakeScale(1.1, 1.1, 0.0);
-            }) { (Bool) -> Void in
-                
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
-                    self.window.layer.transform = CATransform3DMakeScale(0.9, 0.9, 0.0);
-                })
-                
-                
+        UIView.animateWithDuration(0.35) { () -> Void in
+            self.view.alpha = 1.0
+            self.window.transform = originTransform
         }
     }
     
     private func closeAlert(buttonIndex: Int) {
-        UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
             self.view.alpha = 0.0
             }) { (Bool) -> Void in
                 self.view.removeFromSuperview()
@@ -247,6 +240,8 @@ public class ThemeAlert: UIViewController {
     }
     
     @objc private func confirmButtonDidTap() {
+        confirmButton.userInteractionEnabled = false
+        closeAlert(0)
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ConfirmFilterView, object: nil)
     }
 }
