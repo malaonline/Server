@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'teacher/js/certificate/certificate.js' %}"></script>
 {% endblock %}
 
@@ -23,10 +24,10 @@
 
 {% block maincontent %}
     <div class="certificate-box">
-        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" id="certEditForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                <label for="id_num" class="col-sm-2 control-label">{{ cert_name }}</label>
+                <label for="name" class="col-sm-2 control-label">{{ cert_name }}</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control" id="name" name="name" value="{{ name_val }}" placeholder="{{ name_val_hint }}">
                 </div>
@@ -55,8 +56,8 @@
                 <div class="col-sm-2">{# empty #}</div>
                 <div class="col-sm-10">
                     <span class="help-block">{{ error_msg }}</span>
-                    <button type="submit" class="btn btn-success">保存</button>
-                    <button type="button" class="btn btn-default">取消</button>
+                    <button type="button" class="btn btn-success" data-action="save">保存</button>
+                    <button type="button" class="btn btn-default" data-action="cancel">取消</button>
                 </div>
             </div>
         </form>
