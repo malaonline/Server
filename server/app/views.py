@@ -53,7 +53,7 @@ class TeacherWeeklyTimeSlot(View):
 
         date = timezone.now() - renew_time
         occupied = models.TimeSlot.objects.filter(
-                order__teacher__id=teacher_id, start__gte=date)
+                order__teacher__id=teacher_id, start__gte=date, deleted=False)
 
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
         for occ in occupied:
