@@ -26,7 +26,11 @@ class ThemeTags: UIView {
     /// 折行字数临界值
     var critical: Int = 4
     /// [不限] 按钮
-    var allButton: UIButton?
+    var allButton: UIButton? {
+        get {
+            return self.subviews[0] as? UIButton
+        }
+    }
     /// 字数小于临界值-字符串数组
     private var lowerArray: [String] = []
     /// 字数较少标签--每行最大个数
@@ -46,6 +50,8 @@ class ThemeTags: UIView {
             self.layoutTags()
         }
     }
+    // 当前选中项字符串数组
+    private(set) var selectedItems: [String] = []
     // 当前布局高度
     private var currentHeight: CGFloat = 0
     // 当前布局宽度
@@ -78,10 +84,6 @@ class ThemeTags: UIView {
     
     // MARK: - Private Method
     private func layoutTags() {
-        
-        print("low 标签：\(lowerArray)")
-        print("high标签：\(higherArray)")
-        
         // 将两数组可整行显示的标签，进行排列布局显示
         layoutFillRowWithArray(.LowerArray)
         layoutFillRowWithArray(.HigherArray)
@@ -153,7 +155,26 @@ class ThemeTags: UIView {
     @objc private func buttonDidTap(sender: UIButton) {
         sender.highlighted = !sender.highlighted
         sender.selected = !sender.selected
-        print(sender.titleLabel?.text)
+        
+        if sender == allButton {
+            // 点击[不限]按钮
+            for button in self.subviews {
+                (button as? UIButton)?.selected = false
+            }
+            allButton?.selected = true
+            selectedItems = []
+        }else {
+            // 点击其他按钮
+            allButton?.selected = false
+            // 处理选中字符串
+            let string = sender.titleLabel!.text!
+            let stringIndex = selectedItems.indexOf(string)
+            if stringIndex == nil {
+                selectedItems.append(string)
+            }else {
+                selectedItems.removeAtIndex(stringIndex!)
+            }
+        }
     }
 }
 

@@ -109,6 +109,25 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                 // pop当前面板
                 self?.scrollToPanel((self?.currentIndex ?? 2) - 1)
         }
+        
+        // 确认按钮点击通知处理
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ConfirmFilterView,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                // 提交筛选条件
+                // 将选中字符串数组遍历为对象数组
+                let tagsCondition = self?.styleView.selectedItems.map({ (string: String) -> BaseObjectModel in
+                    var tagObject = BaseObjectModel()
+                    for object in self?.tags ?? [] {
+                        if object.name == string {
+                            tagObject = object
+                        }
+                    }
+                    return tagObject
+                })
+                self?.filterObject.tags = tagsCondition ?? []
+        }
     }
     
     private func setupUserInterface() {
@@ -210,8 +229,14 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     tagsDict?.append(set)
                 }
             }
-            self?.tags = tagsDict //TODO: 风格标签数据待处理
+            self?.tags = tagsDict
         }
+    }
+    
+    deinit {
+        // 移除观察者
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PopFilterView, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ConfirmFilterView, object: nil)
     }
 }
 
@@ -220,9 +245,5 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
 class ConditionObject: NSObject {
     var grade: GradeModel = GradeModel()
     var subject: GradeModel = GradeModel()
-    var tags: [GradeModel] = []
-    
-    var gradeIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-    var subjectIndexPath = NSIndexPath(forItem: 0, inSection: 3)
-    var tagIndexPath = NSIndexPath(forItem: 0, inSection: 4)
+    var tags: [BaseObjectModel] = []
 }

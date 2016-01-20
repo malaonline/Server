@@ -16,7 +16,7 @@ class StyleFilterView: ThemeTags {
             let array: [String]? = tagsModel?.map({ (model: BaseObjectModel) -> String in
                 return model.name ?? ""
             })
-            self.tags = TestFactory.tags() //array //TODO: 风格标签待处理
+            self.tags = array
         }
     }
     
