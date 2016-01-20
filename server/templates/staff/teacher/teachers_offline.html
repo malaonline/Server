@@ -50,7 +50,7 @@
             <th class="text-center">手机号</th>
             <th class="text-center">照片</th>
             <th class="text-center">性别</th>
-            <th class="text-center">教龄（年）</th>
+            <th class="text-center">教龄</th>
             <th class="text-center">所在地区</th>
             <th class="text-center">授课中心</th>
             <th class="text-center">授课时间</th>
@@ -71,6 +71,33 @@
             <th class="text-center">操作</th>
         </tr>
         {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 照片 #} TODO </td>
+                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
+                <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
+                <td>{# 所在地区 #} {{ teacher.region }}</td>
+                <td>{# 授课中心 #} TODO </td>
+                <td>{# 授课时间 #} TODO </td>
+                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }} </td>
+                <td>{# 星级 #} {{ teacher.level }}</td>
+                <td>{# 课时单价 #} TODO </td>
+                <td>{# 教学经验 #} TODO </td>
+                <td>{# 专业技能 #} TODO </td>
+                <td>{# 互动能力 #} TODO </td>
+                <td>{# 专长 #} TODO </td>
+                <td>{# 风格 #} TODO </td>
+                <td>{# 提分榜 #} TODO </td>
+                <td>{# 视频 #} TODO </td>
+                <td>{# 证书 #} TODO </td>
+                <td>{# 介绍语音 #} TODO </td>
+                <td>{# 实力展示 #} TODO </td>
+                <td>{# 证书内容 #} TODO </td>
+                <td field="action">{# 操作 #}
+                    TODO
+                </td>
+            </tr>
         {% endfor %}
     </table>
     {% load custom_tags %}
