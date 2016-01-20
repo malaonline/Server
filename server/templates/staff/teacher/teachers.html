@@ -61,7 +61,15 @@
                 <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
                 <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
                 <td>{# 教龄（年）#} {{ teacher.teaching_age }}</td>
-                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }}</td>
+                <td>{# 年级科目 #} <a href="javascript:void(0)" data-action="showGradeSubjectModal">
+                        {{ teacher.subject }} {{ teacher.grades_shortname }}
+                        <div class="hidden">
+                        {% for ability in teacher.ability_set.all %}
+                            <p>{{ ability.grade}},{{ ability.subject }}</p>
+                        {% endfor %}
+                        </div>
+                    </a>
+                </td>
                 <td>{# 所在地区 #} {{ teacher.region }}</td>
                 <td field="status">{# 状态 #} {{ teacher.get_status_display }}</td>
                 <td field="action">{# 操作 #}
@@ -100,4 +108,24 @@
             </li>
         </ul>
     </nav>
+
+{#    年级科目显示框#}
+    <div class="modal fade" id="gradeSubjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="myModalLabel">年级科目</h4>
+              </div>
+              <div class="modal-body">
+                <table class="text-center" border="1" width="100%">
+                    <tr><td><b>年级</b></td><td><b>科目</b></td></tr>
+                    <tr><td>..</td><td>..</td></tr>
+                    <tr><td>..</td><td>..</td></tr>
+                    <tr><td>..</td><td>..</td></tr>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

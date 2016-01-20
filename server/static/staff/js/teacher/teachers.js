@@ -103,5 +103,20 @@ $(function(){
         if ($li.hasClass('disabled') || $li.hasClass('active')) return;
         var page_to = $this.data('pageto');
         updateLocationByParam('page', page_to);
-    })
+    });
+
+    $("[data-action=showGradeSubjectModal]").click(function(e){
+        var gsArr = [];
+        $(this).find('div p').each(function(){
+            var _gs = this.innerHTML;
+            var a = _gs.split(',');
+            gsArr.push({'grade':a[0], 'subject':a[1]});
+        });
+        var $gsTabel = $("#gradeSubjectModal table");
+        $gsTabel.find('tr:gt(0)').remove();
+        for (var i=0; i<gsArr.length; i++) {
+            $gsTabel.append('<tr><td>'+gsArr[i].grade+'</td><td>'+gsArr[i].subject+'</td></tr>');
+        }
+        $("#gradeSubjectModal").modal();
+    });
 });
