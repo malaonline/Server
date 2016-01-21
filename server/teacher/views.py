@@ -101,7 +101,7 @@ def information_complete_percent(user: User):
         unfinished += 1
     else:
         print("teacher.region is {region}".format(region=teacher.region))
-    if len(teacher.ability_set.all()) == 0:
+    if len(teacher.abilities.all()) == 0:
         unfinished += 1
     else:
         print("teacher.ability_set.all() is {all}".format(all=len(teacher.ability_set.all())))
@@ -120,7 +120,7 @@ class CompleteInformation(View):
         gender_dict = {"f": "女", "m": "男", "u": ""}
         gender = gender_dict.get(profile.gender, "")
         region = teacher.region.name or ""
-        ability_set_all = teacher.ability_set.all()
+        ability_set_all = teacher.abilities.all()
         if len(ability_set_all) > 0:
             subclass = ability_set_all[0].subject.name
         else:
@@ -143,7 +143,7 @@ class CompleteInformation(View):
             "高二": (2, 1),
             "高三": (2, 2)}
 
-        grade_list = [item.grade.name for item in list(teacher.ability_set.all())]
+        grade_list = [item.grade.name for item in list(teacher.abilities.all())]
         for one_grade in grade_list:
             x, y = grade_slot.get(one_grade, (0, 0))
             grade[x][y] = True
