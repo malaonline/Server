@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name="logout"),
     url(r'^students/$', views.StudentView.as_view(), name="students"),
     url(r'^teachers/$', views.TeacherView.as_view(), name="teachers"),
+    url(r'^teachers/offline/$', views.TeacherOfflineView.as_view(), name="teachers_offline"),
     url(r'^teachers/action/$', views.TeacherActionView.as_view(), name="teachers_action"),
     url(r'^schools/$', views.SchoolsView.as_view(), name="schools"),
     url(r'^school/$', views.SchoolView.as_view(), name='staff_school'),

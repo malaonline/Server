@@ -1,0 +1,125 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}待上架老师列表{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teachers_offline.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        所在地区
+        <select name="province">
+            <option value="">全部省</option>
+        </select>
+        <select name="city">
+            <option value="">全部市</option>
+        </select>
+        <select name="district">
+            <option value="">全部区</option>
+        </select>
+        课程名称
+        <select name="course">
+            <option value="">全部</option>
+        </select>
+        年级
+        <select name="grade">
+            <option value="">全部</option>
+        </select>
+        科目
+        <select name="subject">
+            <option value="">全部</option>
+        </select>
+        级别
+        <select name="level">
+            <option value="">全部</option>
+        </select>
+
+        <input type="submit" value="查询"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">照片</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">教龄</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">授课中心</th>
+            <th class="text-center">授课时间</th>
+            <th class="text-center">年级科目</th>
+            <th class="text-center">星级</th>
+            <th class="text-center">课时单价</th>
+            <th class="text-center">教学经验</th>
+            <th class="text-center">专业技能</th>
+            <th class="text-center">互动能力</th>
+            <th class="text-center">专长</th>
+            <th class="text-center">风格</th>
+            <th class="text-center">提分榜</th>
+            <th class="text-center">视频</th>
+            <th class="text-center">证书</th>
+            <th class="text-center">介绍语音</th>
+            <th class="text-center">实力展示</th>
+            <th class="text-center">证书内容</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 照片 #} TODO </td>
+                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
+                <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
+                <td>{# 所在地区 #} {{ teacher.region }}</td>
+                <td>{# 授课中心 #} TODO </td>
+                <td>{# 授课时间 #} TODO </td>
+                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }} </td>
+                <td>{# 星级 #} {{ teacher.level }}</td>
+                <td>{# 课时单价 #} TODO </td>
+                <td>{# 教学经验 #} TODO </td>
+                <td>{# 专业技能 #} TODO </td>
+                <td>{# 互动能力 #} TODO </td>
+                <td>{# 专长 #} TODO </td>
+                <td>{# 风格 #} TODO </td>
+                <td>{# 提分榜 #} TODO </td>
+                <td>{# 视频 #} TODO </td>
+                <td>{# 证书 #} TODO </td>
+                <td>{# 介绍语音 #} TODO </td>
+                <td>{# 实力展示 #} TODO </td>
+                <td>{# 证书内容 #} TODO </td>
+                <td field="action">{# 操作 #}
+                    TODO
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% load custom_tags %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
+            </li>
+            {% for i in total_page|num_range %}
+                <li class="{% if page == i %}active{% endif %}">
+                    <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
+            </li>
+            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
+                <a href="javascript:void(0)" aria-label="Last" data-pageto="{{ total_page }}"> <span aria-hidden="true">&raquo;</span></a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

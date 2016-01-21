@@ -59,9 +59,28 @@ class BaseStaffView(TemplateView):
     """
     Base view for staff management page views.
     """
+    PAGE_SIZE = 20
+
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
+
+    def paginate(self, query_set, page, page_size=0):
+        if not page_size:
+            page_size = self.PAGE_SIZE
+        total_count = query_set.count()
+        total_page = (total_count + page_size -1) // page_size
+        if not isinstance(page, int):
+            if page and isinstance(page, str) and page.isdigit():
+                page_to = int(page)
+            else:
+                page_to = 1
+        if page_to > total_page:
+            page_to = total_page
+        if page_to < 1:
+            page_to = 1
+        query_set = query_set[(page_to-1)*page_size:page_to*page_size]
+        return query_set, page_to, total_page, total_count
 
 class BaseStaffActionView(View):
     """
@@ -78,8 +97,6 @@ class BaseStaffActionView(View):
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
-
-    PAGE_SIZE = 20
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
@@ -126,22 +143,34 @@ class TeacherView(BaseStaffView):
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
 
-    def paginate(self, query_set, page, page_size=0):
-        if not page_size:
-            page_size = self.PAGE_SIZE
-        total_count = query_set.count()
-        total_page = (total_count + page_size -1) // page_size
-        if not isinstance(page, int):
-            if page and isinstance(page, str) and page.isdigit():
-                page_to = int(page)
-            else:
-                page_to = 1
-        if page_to > total_page:
-            page_to = total_page
-        if page_to < 1:
-            page_to = 1
-        query_set = query_set[(page_to-1)*page_size:page_to*page_size]
-        return query_set, page_to, total_page, total_count
+class TeacherOfflineView(BaseStaffView):
+    """
+    待上架老师列表view
+    """
+    template_name = 'staff/teacher/teachers_offline.html'
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        #
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        page = self.request.GET.get('page')
+        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK)
+        if name:
+            query_set = query_set.filter(name__icontains = name)
+        if phone:
+            query_set = query_set.filter(user__profile__phone__contains = phone)
+        query_set = query_set.order_by('id')
+        # paginate
+        query_set, page, total_page, total_count = self.paginate(query_set, page)
+        kwargs['teachers'] = query_set
+        kwargs['page'] = page
+        kwargs['total_page'] = total_page
+        kwargs['total_count'] = total_count
+        # 一些固定数据
+        # TODO: 省份列表
+        return super(TeacherOfflineView, self).get_context_data(**kwargs)
 
 class TeacherActionView(BaseStaffActionView):
 
