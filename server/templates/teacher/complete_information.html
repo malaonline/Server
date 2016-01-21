@@ -12,6 +12,10 @@
     <script src="{% static 'common/js/underscore.js' %}"></script>
 {% endblock %}
 {% block body %}
+{#    从python渲染的javascript数据 #}
+    <script lang="javascript">
+        window.grade_select_by_html = {{ grade }}
+    </script>
     <div class="container">
         <div class="row">
             {% load teacher_page %}
@@ -28,13 +32,13 @@
                 <form class="form-horizontal">
                     <div class="form-row">
                         <label for="realName" class="real_name_label">您的姓名</label>
-                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名">
+                        <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名" value="{{ name }}">
                     </div>
                     <div class="form-row">
                         <label for="gender" class="gender_label">性别</label>
                         <div class="input-group gender_input" id="gender">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别">
+                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别" value="{{ gender }}">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -49,7 +53,7 @@
                         <label for="city" class="city_label">所在城市</label>
                         <div class="input-group city_input">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="city_input" readonly="readonly" placeholder="请选择城市">
+                                <input type="text" class="form-control" aria-label="..." id="city_input" readonly="readonly" placeholder="请选择城市" value="{{ region }}">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -71,7 +75,7 @@
                         <label for="class" class="subclass_label">授课科目</label>
                         <div class="input-group subclass_input">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="subclass_input" readonly="readonly" placeholder="请选择授课科目">
+                                <input type="text" class="form-control" aria-label="..." id="subclass_input" readonly="readonly" placeholder="请选择授课科目" value="{{ subclass }}">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -124,7 +128,7 @@
                         </span>
                     </div>
                     <div class="form-row">
-                        <button class="btn btn-default submit_button">提交</button>
+                        <button class="btn btn-default submit_button" id="submit_page">提交</button>
                     </div>
                 </form>
 

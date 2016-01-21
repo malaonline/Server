@@ -27,14 +27,14 @@
                         <div class="register-phone-input">
                             <input type="text" class="form-control" id="phoneNumber" placeholder="手机号码" value="18922405996">
                             {#                        这里用 attrHidden="true" 来控制span的出现和消失#}
-                        <span class="label label-warning" id="need-phone-number">
-                            <i class="glyphicon glyphicon-remove-sign"></i>
-                            请输入手机号
-                        </span>
-                        <span class="label label-warning" attrHidden="true" id="invalid-phone-number">
-                            <i class="glyphicon glyphicon-remove-sign"></i>
-                            请填写正确的手机号
-                        </span>
+                            <span class="label label-warning" id="need-phone-number">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                请输入手机号
+                            </span>
+                            <span class="label label-warning" attrHidden="true" id="invalid-phone-number">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                请填写正确的手机号
+                            </span>
                         </div>
                     </div>
                     <div class="form-row">
@@ -44,6 +44,10 @@
                             <button class="normal-button" id="get-sms-code">
                                 获取
                             </button>
+                            <span class="label label-warning" attrHidden="true" id="invalid-sms-code">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                测试期间,短信验证码默认为 1111
+                            </span>
                         </div>
                     </div>
                     <div class="form-row">

@@ -2,7 +2,7 @@
 <div class="mala_header">
     <img src="{% static 'common/icons/mala_icon.png' %}"><span>{{ title }}</span>
     {% if user_name %}
-        <button class="btn btn-default header_right">退出</button>
+        <a class="btn btn-default header_right" href="{% url 'teacher:logout' %}">退出</a>
         <span class="header_right header_right_text">您好, {{ user_name }}</span>
     {% endif %}
 </div>

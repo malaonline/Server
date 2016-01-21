@@ -47,15 +47,7 @@
     padding-right: 17px;
     padding-top:7px;
   }
-  .register-phone-input{
-    //.make-xs-column(12-@labelWidth);
-    float:left;
-    padding-left:0;
-    input{
-      width: @inputWidthPX;
-      .borderRadius;
-      float:left;
-    }
+  .register-phone-input, .register-sms-input{
     span{
       @spanFontColor: #8c8c8c;
       @spanBorderColor: #e2dfdf;
@@ -80,6 +72,16 @@
     span[attrHidden=true]{
       display: none;
       //visibility: hidden;
+    }
+  }
+  .register-phone-input{
+    //.make-xs-column(12-@labelWidth);
+    float:left;
+    padding-left:0;
+    input{
+      width: @inputWidthPX;
+      .borderRadius;
+      float:left;
     }
   }
   .register-phone-output{
