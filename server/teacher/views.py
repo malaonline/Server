@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
 
-
 # local modules
 from app import models
 
@@ -101,84 +100,12 @@ def information_complete_percent(user: User):
     if teacher.region == None:
         unfinished += 1
     else:
-        print("teacher.region is {region}".format(region=teacher.region))\
-
-    if len(teacher.abilities.all()) == 0:
+        print("teacher.region is {region}".format(region=teacher.region))
+    if len(teacher.ability_set.all()) == 0:
         unfinished += 1
     else:
-        print("teacher.abilities.all() is {all}".format(all=len(teacher.abilities.all())))
-    return (total-unfinished)/total
-
-
-@login_required(login_url=LOGIN_URL)
-def complete_information(request):
-    """
-    完善老师的个人信息 TW-2-1
-    :param request:
-    :return:
-    """
-    user = request.user
-    teacher = models.Teacher.objects.get(user=user)
-    profile = models.Profile.objects.get(user=user)
-    if request.method == "GET":
-        name = teacher.name
-        gender = profile.gender
-        region = teacher.region or ""
-        ability_set_all = teacher.ability_set.all()
-        if len(ability_set_all) > 0:
-            subclass = ability_set_all[0].subject.name
-        else:
-            subclass = ""
-        grade = [item.grade.name for item in list(teacher.ability_set.all())]
-        context = {
-            "name": name,
-            "gender": gender,
-            "region": region,
-            "subclass": subclass,
-            "grade": grade
-        }
-        print(context)
-        return render(request, 'teacher/complete_information.html', context)
-    if request.method == "POST":
-        name = request.POST.get("name", "")
-        gender = request.POST.get("gender", "")
-        region = request.POST.get("region")
-        subject = request.POST.get("subclass")
-        grade = request.POST.get("grade")
-
-        print("name => {name}".format(name=name))
-        print("gender => {gender}".format(gender=gender))
-        print("region => {region}".format(region=region))
-        print("subclass => {subclass}".format(subclass=subject))
-        grade_list = json.loads(grade)
-        print("grade => {grade}".format(grade=grade_list))
-
-        teacher.name = name
-        gender_dict = {"男":"m", "女":"f"}
-        profile.gender = gender_dict.get(gender, "u")
-        teacher.region = models.Region.objects.get(name=region)
-
-        the_subject = models.Subject.objects.get(name=subject)
-        grade_dict = {"小学一年级": "一年级", "小学二年级": "二年级", "小学三年级": "三年级",
-                      "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
-                      "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
-                      "高二": "高二", "高三": "高三"}
-        # clear ability_set
-        for one_ability in teacher.ability_set.all():
-            one_ability.delete()
-            one_ability.save()
-
-        for one_grade in grade_list:
-            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
-            ability = models.Ability(teacher=teacher, grade=the_grade, subject=the_subject)
-            teacher.ability_set.add(ability)
-            ability.save()
-
-        teacher.save()
-        profile.save()
-
-        return JsonResponse({"url": reverse("teacher:register-progress")})
-        # return HttpResponseRedirect(reverse("teacher:register-progress"))
+        print("teacher.ability_set.all() is {all}".format(all=len(teacher.ability_set.all())))
+    return (total - unfinished) / total
 
 
 # 完善老师的个人信息 TW-2-1
@@ -190,20 +117,43 @@ class CompleteInformation(View):
         profile = models.Profile.objects.get(user=user)
 
         name = teacher.name
-        gender = profile.gender
-        region = teacher.region or ""
+        gender_dict = {"f": "女", "m": "男", "u": ""}
+        gender = gender_dict.get(profile.gender, "")
+        region = teacher.region.name or ""
         ability_set_all = teacher.ability_set.all()
         if len(ability_set_all) > 0:
             subclass = ability_set_all[0].subject.name
         else:
             subclass = ""
-        grade = [item.grade.name for item in list(teacher.ability_set.all())]
+        # 初始化年级
+        grade = [[False for i in range(6)],
+                 [False for i in range(3)],
+                 [False for i in range(3)]]
+        grade_slot = {
+            "一年级": (0, 0),
+            "二年级": (0, 1),
+            "三年级": (0, 2),
+            "四年级": (0, 3),
+            "五年级": (0, 4),
+            "六年级": (0, 5),
+            "初一": (1, 0),
+            "初二": (1, 1),
+            "初三": (1, 2),
+            "高一": (2, 0),
+            "高二": (2, 1),
+            "高三": (2, 2)}
+
+        grade_list = [item.grade.name for item in list(teacher.ability_set.all())]
+        for one_grade in grade_list:
+            x, y = grade_slot.get(one_grade, (0, 0))
+            grade[x][y] = True
+
         context = {
             "name": name,
             "gender": gender,
             "region": region,
             "subclass": subclass,
-            "grade": grade
+            "grade": json.dumps(grade)
         }
         print(context)
         return render(request, 'teacher/complete_information.html', context)
@@ -228,7 +178,7 @@ class CompleteInformation(View):
         print("grade => {grade}".format(grade=grade_list))
 
         teacher.name = name
-        gender_dict = {"男":"m", "女":"f"}
+        gender_dict = {"男": "m", "女": "f"}
         profile.gender = gender_dict.get(gender, "u")
         teacher.region = models.Region.objects.get(name=region)
 
@@ -238,7 +188,7 @@ class CompleteInformation(View):
                       "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
                       "高二": "高二", "高三": "高三"}
         # clear ability_set
-        teacher.ability_set = []
+        teacher.ability_set.all().delete()
 
         for one_grade in grade_list:
             the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))

@@ -13,7 +13,7 @@ $(
         //视图数据定义区
         window.primary_list = [
             // button的id名,button名称,是否被选中,是否可以显示
-            ["primary_one", "小学一年级", false, false],
+            ["primary_one", "小学一年级", false, true],
             ["primary_two", "小学二年级", false, true],
             ["primary_three", "小学三年级", false, true],
             ["primary_four", "小学四年级", false, true],
@@ -28,6 +28,17 @@ $(
             ["high_two", "高二", false, true],
             ["high_three", "高三", false, true]
         ];
+        var set_grade_select_by_html = function(grade_select_in_html, grade_list){
+            for(i = 0; i < grade_select_in_html.length; i++){
+                grade_list[i][2] = grade_select_in_html[i];
+            }
+        };
+        if (window.grade_select_by_html != undefined){
+            set_grade_select_by_html(window.grade_select_by_html[0], window.primary_list);
+            set_grade_select_by_html(window.grade_select_by_html[1], window.junior_list);
+            set_grade_select_by_html(window.grade_select_by_html[2], window.high_list);
+        }
+
         //过滤看看哪些科目有哪些年级[名称, [小学], [初中], [高中]]
         window.subclass_mask_list = [
             ["数学", [[1,1,1,1,1,1], [1,1,1], [1,1,1]]],
@@ -41,7 +52,12 @@ $(
             ["生物", [[0,0,0,0,0,0], [1,1,1], [1,1,1]]]
         ];
         window.grand_mask = [];
-        window.need_select_subclass = true;
+        if ($("#subclass_input").val() == ""){
+            window.need_select_subclass = true;
+        }else{
+            window.need_select_subclass = false;
+        }
+
 
         //视图绘制区
         render_with_template_and_data("subclass_down_list",
@@ -61,19 +77,7 @@ $(
             var region = $("#city_input").val();
             var subclass = $("#subclass_input").val();
             var grade = selected_grand();
-            console.log(grade);
-            //$.ajax({
-            //    url: "/teacher/information/complete/",
-            //    type: 'POST',
-            //    contentType: 'application/json',
-            //    data: JSON.stringify(
-            //    {
-            //        name:name, gender:gender, region:region, subclass:subclass, grade:grade
-            //    }),
-            //    success: function(data){
-            //        console.log(data);
-            //    }
-            //});
+            //console.log(grade);
             $.post("/teacher/information/complete/",
                 {
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
