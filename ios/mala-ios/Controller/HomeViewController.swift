@@ -144,7 +144,12 @@ class HomeViewController: UIViewController {
     }
 
     @objc private func filterButtonDidClick() {
-        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
+        ThemeAlert(contentView: FilterView(frame: CGRectZero)).show()
+    }
+    
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }
     
 //    @objc private func profileButtonDidClick() {

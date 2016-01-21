@@ -29,8 +29,10 @@ public class ThemeAlert: UIViewController {
             self.themeIcon.image = UIImage(named: tIcon)
         }
     }
-    // 内容视图
+    /// 内容视图
     var contentView: UIView?
+    /// 单击背景close窗口
+    var closeWhenTap: Bool = false
     
     // MARK: - Components
     private lazy var themeIcon: UIImageView = {
@@ -95,6 +97,23 @@ public class ThemeAlert: UIViewController {
         strongSelf = self
     }
     
+    convenience init(contentView: UIView) {
+        self.init()
+        self.view.alpha = 0
+        
+        // 显示Window
+        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
+        window.addSubview(view)
+        window.bringSubviewToFront(view)
+        view.frame = window.bounds
+        // 设置属性
+        self.contentView = contentView
+        if let view = contentView as? FilterView {
+            view.container = self
+        }
+        updateUserInterface()
+    }
+    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -110,21 +129,17 @@ public class ThemeAlert: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: - Override
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if closeWhenTap {
+            closeAlert(0)
+        }
+    }
+    
 
     // MARK: - API
-    public func show(icon: String, contentView: UIView) {
-        // 显示Window
-        let window: UIWindow = UIApplication.sharedApplication().keyWindow!
-        window.addSubview(view)
-        window.bringSubviewToFront(view)
-        view.frame = window.bounds
-        // 设置属性
-        self.tIcon = icon
-        self.contentView = contentView
-        if let view = contentView as? FilterView {
-            view.container = self
-        }
-        updateUserInterface()
+    public func show() {
         animateAlert()
     }
     

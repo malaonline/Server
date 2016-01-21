@@ -105,7 +105,8 @@ class FilterBar: UIView {
             let tags = filterCondition?.tags.map({ (object: BaseObjectModel) -> String in
                 return object.name ?? ""
             })
-            self.styleButton.setTitle(tags!.joinWithSeparator(" • "), forState: .Normal)
+            let tagsButtonTitle = (tags ?? ["不限"]).joinWithSeparator(" • ")
+            self.styleButton.setTitle(tagsButtonTitle == "" ? "不限" : tagsButtonTitle, forState: .Normal)
         }
     }
     
@@ -116,8 +117,9 @@ class FilterBar: UIView {
             title: "小学一年级",
             borderColor: MalaFilterHeaderBorderColor,
             target: self,
-            action: "gradeButtonDidTap"
+            action: "buttonDidTap:"
         )
+        gradeButton.tag = 1
         return gradeButton
     }()
     private lazy var subjectButton: UIButton = {
@@ -125,8 +127,9 @@ class FilterBar: UIView {
             title: "科  目",
             borderColor: MalaFilterHeaderBorderColor,
             target: self,
-            action: "subjectButtonDidTap"
+            action: "buttonDidTap:"
         )
+        subjectButton.tag = 2
         return subjectButton
     }()
     private lazy var styleButton: UIButton = {
@@ -134,10 +137,11 @@ class FilterBar: UIView {
             title: "不  限",
             borderColor: MalaFilterHeaderBorderColor,
             target: self,
-            action: "styleButtonDidTap"
+            action: "buttonDidTap:"
         )
         styleButton.titleLabel?.lineBreakMode = .ByTruncatingTail
         styleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 13)
+        styleButton.tag = 3
         return styleButton
     }()
     
@@ -146,6 +150,7 @@ class FilterBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
+        setupNotification()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -182,17 +187,44 @@ class FilterBar: UIView {
         }
     }
     
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_CommitCondition,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                self?.filterCondition = notification.object as? ConditionObject
+        }
+    }
+    
     
     // MARK: - Event Response
-    @objc private func gradeButtonDidTap() {
-        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
+    @objc private func buttonDidTap(sender: UIButton) {
+        
+        let filterView = FilterView(frame: CGRectZero)
+        filterView.filterObject = self.filterCondition ?? ConditionObject()
+        filterView.isSecondaryFilter = true
+        
+        let alertView = ThemeAlert(contentView: filterView)
+        alertView.closeWhenTap = true
+        
+        switch sender.tag {
+        case 1:
+            filterView.scrollToPanel(1, animated: false)
+            filterView.container?.setButtonStatus(showClose: false, showCancel: false, showConfirm: false)
+        case 2:
+            filterView.scrollToPanel(2, animated: false)
+            filterView.container?.setButtonStatus(showClose: false, showCancel: false, showConfirm: false)
+        case 3:
+            filterView.scrollToPanel(3, animated: false)
+            filterView.container?.setButtonStatus(showClose: false, showCancel: false, showConfirm: true)
+        default:
+            break
+        }
+        
+        alertView.show()
     }
     
-    @objc private func subjectButtonDidTap() {
-        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
-    }
-    
-    @objc private func styleButtonDidTap() {
-        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }
 }
