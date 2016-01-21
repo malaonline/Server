@@ -18,6 +18,7 @@ router.register(r'levels', views.LevelViewSet)
 router.register(r'profiles', views.ProfileViewSet)
 router.register(r'teachers', views.TeacherViewSet)
 router.register(r'memberservices', views.MemberserviceViewSet)
+router.register(r'coupons', views.CouponViewSet)
 router.register(r'weeklytimeslots', views.WeeklyTimeSlotViewSet)
 router.register(r'parents', views.ParentViewSet)
 
