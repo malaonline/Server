@@ -33,6 +33,14 @@ class Region(BaseModel):
     def __str__(self):
         return '%s (%d)' % (self.name, self.admin_level)
 
+    def full_name(self, sep='-'):
+        full_name = self.name
+        upper = self.superset
+        while upper:
+            full_name = upper.name + sep + full_name
+            upper = upper.superset
+        return full_name
+
 
 class School(BaseModel):
     name = models.CharField(max_length=100)
@@ -49,10 +57,17 @@ class School(BaseModel):
 
 
 class Subject(BaseModel):
+    ENGLISH = None
     name = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_english(cls):
+        if not cls.ENGLISH:
+            cls.ENGLISH = Subject.objects.get(name='英语')
+        return cls.ENGLISH
 
 
 class Tag(BaseModel):
@@ -237,6 +252,19 @@ class Teacher(BaseModel):
         if not prices:
             return None
         return max(x.price for x in prices)
+
+    def is_english_teacher(self):
+        subject = self.subject()
+        ENGLISH = Subject.get_english()
+        return subject and (subject.id==ENGLISH.id)
+
+    def cert_verified_count(self):
+        Certificate = get_model('app', 'Certificate')
+        if self.is_english_teacher():
+            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC, Certificate.TEACHING, Certificate.OTHER]
+        else:
+            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC, Certificate.TEACHING, Certificate.ENGLISH, Certificate.OTHER]
+        return Certificate.objects.filter(teacher=self,verified=True,type__in=cert_types).distinct('type').count()
 
     # 获得当前审核进度
     def get_progress(self):

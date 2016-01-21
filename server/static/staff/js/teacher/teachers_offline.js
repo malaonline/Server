@@ -31,6 +31,13 @@ $(function(){
         });
     });
 
+    $('a[data-action=show-avatar]').click(function(e){
+        var url = $(this).attr('url');
+        var $modal = $("#avatarModal");
+        $modal.find('img').attr('src', url);
+        $modal.modal();
+    });
+
     var updateLocationByParam = function(key, val) {
         var key_val = key+'='+val;
         var old_search = location.search;
