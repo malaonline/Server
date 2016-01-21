@@ -150,6 +150,12 @@ class Teacher(BaseModel):
     level = models.ForeignKey(Level, null=True, blank=True,
                               on_delete=models.SET_NULL)
 
+    experience = models.PositiveSmallIntegerField(null=True, blank=True)  # 教学经验
+    profession = models.PositiveSmallIntegerField(null=True, blank=True)  # 专业技能
+    interaction = models.PositiveSmallIntegerField(null=True, blank=True) # 互动能力
+    video = models.FileField(null=True, blank=True, upload_to='video') # 介绍视频
+    audio = models.FileField(null=True, blank=True, upload_to='audio') # 介绍语音
+
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
@@ -249,6 +255,9 @@ def random_string():
 
 
 class Highscore(BaseModel):
+    """
+    提分榜
+    """
     teacher = models.ForeignKey(Teacher)
     name = models.CharField(max_length=200)
     increased_scores = models.IntegerField(default=0)
@@ -258,6 +267,15 @@ class Highscore(BaseModel):
     def __str__(self):
         return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
                                      self.admitted_to)
+
+
+class Achievement(BaseModel):
+    """
+    特殊成果
+    """
+    teacher = models.ForeignKey(Teacher)
+    title = models.CharField(max_length=30)
+    img = models.ImageField(null=True, blank=True, upload_to='achievements')
 
 
 class Photo(BaseModel):
