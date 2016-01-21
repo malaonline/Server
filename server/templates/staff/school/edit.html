@@ -5,7 +5,7 @@
 {% block title %}学习中心编辑{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" type="text/less" href="{% static 'staff/less/school/school.less' | compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/school.less'|compile %}">
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,9 @@
             </div>
             <div class="form-row">
                 <label>中心名称</label>
-                <input type="text" class="form-control" id="" name="" placeholder="请输入中心名称" value="{{school.name }}" style="display: inline;">
+                <div>
+                    <input type="text" class="form-control" id="" name="" placeholder="请输入中心名称" value="{{school.name }}" style="display: inline;">
+                </div>
             </div>
             <div class="form-row">
                 <label>中心类别</label>
@@ -58,11 +60,15 @@
             </div>
             <div class="form-row">
                 <label>上课座位</label>
-                <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+                <div>
+                    <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+                </div>
             </div>
             <div class="form-row">
                 <label>自习座位</label>
-                <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+                <div>
+                    <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
+                </div>
             </div>
             <div class="form-row member-service">
                 <label>会员服务</label>
@@ -79,21 +85,25 @@
             </div>
             <div class="form-row">
                 <label>环境图片</label>
+                <div style="">
                 {%if school.thumbnail%}
-                    <div style="">
                         <img src="{{ school.thumbnail.url }}" />
-                    </div>
                 {%else%}
                     <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
                 {%endif%}
+                </div>
             </div>
             <div class="form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度</label>
-                <input type="text" class="form-control" id="" name="" value="{{school.longitude }}" style="display: inline;">
+                <div>
+                    <input type="text" class="form-control" id="" name="" value="{{school.longitude }}" style="display: inline;">
+                </div>
             </div>
             <div class="form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纬度</label>
-                <input type="text" class="form-control" id="" name="" value="{{school.latitude }}" style="display: inline;">
+                <div>
+                    <input type="text" class="form-control" id="" name="" value="{{school.latitude }}" style="display: inline;">
+                </div>
             </div>
             <div class="form-row">
                 <button class="btn btn-default submit_button">提交</button>
