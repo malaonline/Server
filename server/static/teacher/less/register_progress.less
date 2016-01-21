@@ -72,13 +72,19 @@
     @border_right_width : 700px;
     width: @border_right_width;
     .notify_list{
-      border-width: 0 0 1px 0;
-      border-color: black;
-      border-style: dashed;
+      //border-width: 0 0 1px 0;
+      //border-color: black;
+      //border-style: dashed;
     }
     .notify_list, .notify_end{
       padding: 10px;
       @left_part_width: 180px;
+      .separate_line{
+        border-width: 0 0 1px 0;
+        border-color: black;
+        border-style: dashed;
+        margin-top: 5px;
+      }
       .left_part{
         float: left;
         width: @left_part_width;
