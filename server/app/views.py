@@ -24,7 +24,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, mixins
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
 
 from app import models
 from .restful_exception import AlreadyCreated
@@ -456,6 +456,22 @@ class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MemberserviceSerializer
 
 
+class CouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Coupon
+        fields = ('name', 'amount', 'expired_at', 'used')
+
+
+class CouponViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Coupon.objects.filter()
+    def get_queryset(self):
+        user = self.request.user;
+        queryset = user.parent.coupon_set.all()
+        return queryset
+    serializer_class = CouponSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
 class WeeklyTimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.WeeklyTimeSlot
@@ -480,9 +496,6 @@ class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
             if self.instance.student_name != "":
                 if raise_exception:
                     raise AlreadyCreated(detail='{"done": "false", "reason": "Student name already exits."}')
-        # print(self.instance.student_name)
-        # print(self.instance)
-        # print(self.initial_data)
 
 
 class ParentViewSet(ModelViewSet):
@@ -494,6 +507,3 @@ class ParentViewSet(ModelViewSet):
         if response.status_code == 200:
             response.data = {"done": "true"}
         return response
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
-    #     print(self.settings)
