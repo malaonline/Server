@@ -266,12 +266,6 @@ class SchoolView(BaseStaffView):
         context['schoolId'] = schoolId
         return context
 
-class BackCostView(BaseStaffView):
-    template_name = 'staff/order/backcost.html'
-
-    def get_context_data(self, **kwargs):
-        return super(BackCostView, self).get_context_data(**kwargs)
-
 class OrderReviewView(BaseStaffView):
     template_name = 'staff/order/review.html'
 
@@ -279,7 +273,6 @@ class OrderReviewView(BaseStaffView):
 
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
-        print(kwargs['query_data'])
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         order_id = self.request.GET.get('order_id')
@@ -342,3 +335,66 @@ class OrderReviewView(BaseStaffView):
         # 查询结果数据集
         kwargs['orders'] = query_set
         return super(OrderReviewView, self).get_context_data(**kwargs)
+
+class OrderRefundView(BaseStaffView):
+    template_name = 'staff/order/refund.html'
+
+    def get_context_data(self, **kwargs):
+
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        refund_date_from = self.request.GET.get('refund_date_from')
+        refund_date_to = self.request.GET.get('refund_date_to')
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        order_id = self.request.GET.get('order_id')
+        subject = self.request.GET.get('subject')
+        status = self.request.GET.get('status')
+
+        query_set = models.Order.objects.filter()
+        # 退费申请区间
+        # todo: 需要增加 model 的字段, refund_at, 用于申请退费操作
+        if refund_date_from:
+            try:
+                date_from = datetime.datetime.strptime(refund_date_from, '%Y-%m-%d')
+                query_set = query_set.filter(created_at__gte=date_from)
+            except:
+                pass
+        if refund_date_to:
+            try:
+                date_to = datetime.datetime.strptime(refund_date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                query_set = query_set.filter(created_at__lte=date_to)
+            except:
+                pass
+        # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
+        if name:
+            query_set = query_set.filter(
+                Q(parent__user__username__icontains=name) |
+                Q(parent__student_name__icontains=name) |
+                Q(teacher__name__icontains=name)
+            )
+        # 家长手机 or 老师手机, 模糊匹配
+        if phone:
+            query_set = query_set.filter(
+                Q(parent__user__profile__phone__contains=phone) |
+                Q(teacher__user__profile__phone__contains=phone)
+            )
+        # 后台系统订单号, 模糊匹配
+        if order_id:
+            query_set = query_set.filter(order_id__icontains=order_id)
+        # 科目
+        if subject:
+            query_set = query_set.filter(subject=subject)
+        # 订单状态
+        # todo: 应该只查询某些状态的订单(待处理: 退费审核中, 已退费: 退费成功, 已驳回: 退费被驳回)
+        if status:
+            query_set = query_set.filter(status=status)
+
+        # 可用筛选条件数据集
+        kwargs['status'] = models.Order.STATUS_CHOICES
+        kwargs['subjects'] = models.Subject.objects.all()
+        # 查询结果数据集
+        # todo: 应该只显示某些状态的订单(待处理: 退费审核中, 已退费: 退费成功, 已驳回: 退费被驳回)
+        kwargs['orders'] = query_set
+        return super(OrderRefundView, self).get_context_data(**kwargs)

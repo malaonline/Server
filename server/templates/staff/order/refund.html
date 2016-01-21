@@ -1,0 +1,87 @@
+{% extends "staff/staff_base.html" %}
+
+{% block title %}退费审核{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        申请退费时间
+        <input type="date" name="refund_date_from" value="{{ query_data.refund_date_from }}" />
+         -
+        <input type="date" name="refund_date_to" value="{{ query_data.refund_date_to }}" />
+
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+
+        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+
+        订单号 <input type="text" name="order_id" value="{{ query_data.order_id }}" />
+
+        科目
+        <select name="subject">
+            <option value="">全部</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}
+                        selected="selected"{% endif %}>{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+
+        状态
+        <select name="status">
+            <option value="">全部</option>
+            {% for val,text in status %}
+                <option value="{{ val }}" {% if val == query_data.status %}
+                        selected="selected"{% endif %}>{{ text }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="查询"/>
+        <input type="button" value="导出"/>
+    </form>
+
+    <table align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th>申请退费时间</th>
+            <th>订单号</th>
+            <th>家长姓名</th>
+            <th>家长手机号</th>
+            <th>学生姓名</th>
+            <th>老师姓名</th>
+            <th>老师手机号</th>
+            <th>报课年级</th>
+            <th>报课科目</th>
+            <th>上课地址</th>
+            <th>购买小时</th>
+            <th>小时单价</th>
+            <th>剩余小时</th>
+            <th>退费小时</th>
+            <th>奖学金</th>
+            <th>退费金额</th>
+            <th>状态</th>
+            <th>退费原因</th>
+            <th>操作</th>
+        </tr>
+        {% for order in orders %}
+            <tr align="center">
+            <!-- todo: 部分字段需要修改, 暂时显示替代数据 -->
+{# 申请时间 #}    <td>{{ order.created_at }}</td>
+{# 订单号码 #}    <td>{{ order.order_id }}</td>
+{# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
+{# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
+{# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
+{# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
+{# 老师手机 #}    <td>{{ order.teacher.user.profile.phone }}</td>
+{# 报课年级 #}    <td>{{ order.grade }}</td>
+{# 报课科目 #}    <td>{{ order.subject }}</td>
+{# 上课地址 #}    <td>{{ order.school }}</td>
+{# 购买小时 #}    <td>{{ order.hours }}</td>
+{# 小时单价 #}    <td>{{ order.price }}</td>
+{# 剩余小时 #}    <td>N/A</td>
+{# 退费小时 #}    <td>N/A</td>
+{# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
+{# 退费金额 #}    <td>N/A</td>
+{# 退费状态 #}    <td>N/A</td>
+{# 退费原因 #}    <td>N/A</td>
+{# 操作 #}       <td>N/A</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
