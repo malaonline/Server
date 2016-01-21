@@ -64,7 +64,7 @@
                 <td>{# 年级科目 #} <a href="javascript:void(0)" data-action="showGradeSubjectModal">
                         {{ teacher.subject }} {{ teacher.grades_shortname }}
                         <div class="hidden">
-                        {% for ability in teacher.ability_set.all %}
+                        {% for ability in teacher.abilities.all %}
                             <p>{{ ability.grade}},{{ ability.subject }}</p>
                         {% endfor %}
                         </div>
