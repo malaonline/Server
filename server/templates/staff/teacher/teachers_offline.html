@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'staff/js/pagination.js' %}"></script>
     <script src="{% static 'staff/js/teacher/teachers_offline.js' %}"></script>
 {% endblock %}
 
@@ -106,28 +107,8 @@
             </tr>
         {% endfor %}
     </table>
-    {% load custom_tags %}
-    <nav>
-        <ul class="pagination">
-            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>
-            </li>
-            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
-            </li>
-            {% for i in total_page|num_range %}
-                <li class="{% if page == i %}active{% endif %}">
-                    <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
-                </li>
-            {% endfor %}
-            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
-            </li>
-            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Last" data-pageto="{{ total_page }}"> <span aria-hidden="true">&raquo;</span></a>
-            </li>
-        </ul>
-    </nav>
+    {% include 'pagination_nav.html' %}
+
 {#    头像显示modal#}
     <div class="modal fade" id="avatarModal" tabindex="-1" role="dialog" aria-labelledby="avatarLabel">
         <div class="modal-dialog modal-lg" role="document">

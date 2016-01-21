@@ -78,7 +78,7 @@ class BaseStaffView(TemplateView):
         if page_to < 1:
             page_to = 1
         query_set = query_set[(page_to-1)*page_size:page_to*page_size]
-        return query_set, page_to, total_page, total_count
+        return query_set, {'page': page_to, 'total_page': total_page, 'total_count': total_count}
 
 class BaseStaffActionView(View):
     """
@@ -130,11 +130,9 @@ class TeacherView(BaseStaffView):
             query_set = query_set.filter(region_id = region)
         query_set = query_set.order_by('-user__date_joined')
         # paginate
-        query_set, page, total_page, total_count = self.paginate(query_set, page)
+        query_set, pager = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
-        kwargs['page'] = page
-        kwargs['total_page'] = total_page
-        kwargs['total_count'] = total_count
+        kwargs['pager'] = pager
         # 一些固定数据
         kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
@@ -160,11 +158,9 @@ class TeacherOfflineView(BaseStaffView):
             query_set = query_set.filter(user__profile__phone__contains = phone)
         query_set = query_set.order_by('id')
         # paginate
-        query_set, page, total_page, total_count = self.paginate(query_set, page)
+        query_set, pager = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
-        kwargs['page'] = page
-        kwargs['total_page'] = total_page
-        kwargs['total_count'] = total_count
+        kwargs['pager'] = pager
         # 一些固定数据
         # 省份列表
         kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
