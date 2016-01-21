@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
     private func setupUserInterface() {
         // Style
         self.title = MalaCommonString_Malalaoshi
+        // self.tableView.tableHeaderView = FilterHeaderView(frame: CGRect(x: 0, y: 0, width: 0, height: 26))
         
         // SubViews
         self.view.addSubview(tableView)

@@ -47,11 +47,11 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private lazy var gradeView: GradeFilterView = {
         let gradeView = GradeFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .FilterView),
-            didTapCallBack: { (model) -> () in
-                self.filterObject.grade = model! //TODO: 注意测试此处（包括下方两处）强行解包，目前个人认为此处强行解包不会出现问题
-                self.scrollToPanel(2)
+            didTapCallBack: { [weak self] (model) -> () in
+                self?.filterObject.grade = model! //TODO: 注意测试此处（包括下方两处）强行解包，目前个人认为此处强行解包不会出现问题
+                self?.scrollToPanel(2)
                 // 根据所选年级，加载对应的科目
-                self.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
+                self?.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
                     let subject = GradeModel()
                     subject.id = i.integerValue
                     subject.name = MalaSubject[i.integerValue]
@@ -64,15 +64,18 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private lazy var subjectView: SubjectFilterView = {
         let subjectView = SubjectFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .SubjectView),
-            didTapCallBack: { (model) -> () in
-                self.filterObject.subject = model!
-                self.scrollToPanel(3)
+            didTapCallBack: { [weak self] (model) -> () in
+                self?.filterObject.subject = model!
+                self?.scrollToPanel(3)
         })
         return subjectView
     }()
     /// 风格筛选面板
     private lazy var styleView: StyleFilterView = {
-        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth), tags: [])
+        let styleView = StyleFilterView(
+            frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth),
+            tags: []
+        )
         return styleView
     }()
     
@@ -127,7 +130,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     return tagObject
                 })
                 self?.filterObject.tags = tagsCondition ?? []
-                NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self?.filterObject)
+                self?.commitCondition()
         }
     }
     
@@ -190,6 +193,11 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
+    private func commitCondition() {
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self.filterObject)
+        self.container?.close()
+    }
+    
     private func loadFilterCondition() {
         // 读取年级和科目数据
         var dataArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("FilterCondition.plist", ofType: nil)!) as? [AnyObject]
@@ -232,6 +240,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             }
             self?.tags = tagsDict
         }
+        dataArray = nil
     }
     
     deinit {
@@ -247,4 +256,17 @@ class ConditionObject: NSObject {
     var grade: GradeModel = GradeModel()
     var subject: GradeModel = GradeModel()
     var tags: [BaseObjectModel] = []
+    
+    override var description: String {
+        let tagsString = self.tags.map({ (object: BaseObjectModel) -> String in
+            return object.name ?? ""
+        })
+        let string = String(
+            format: "grade: %@, subject: %@ , tags: %@",
+            self.grade.name ?? "",
+            self.subject.name ?? "",
+            tagsString.joinWithSeparator(" • ")
+        )
+        return string
+    }
 }

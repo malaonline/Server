@@ -134,6 +134,10 @@ public class ThemeAlert: UIViewController {
         confirmButton.hidden = !showConfirm
     }
     
+    public func close() {
+        closeAlert(0)
+    }
+    
    
     // MARK: - Private Method
     private func setupUserInterface() {
@@ -219,14 +223,9 @@ public class ThemeAlert: UIViewController {
     }
     
     private func closeAlert(buttonIndex: Int) {
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.view.alpha = 0.0
-            }) { (Bool) -> Void in
-                self.view.removeFromSuperview()
-                
-                // 释放自身强引用
-                self.strongSelf = nil
-        }
+        self.view.removeFromSuperview()
+        // 释放自身强引用
+        self.strongSelf = nil
     }
     
     
@@ -241,7 +240,6 @@ public class ThemeAlert: UIViewController {
     
     @objc private func confirmButtonDidTap() {
         confirmButton.userInteractionEnabled = false
-        closeAlert(0)
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ConfirmFilterView, object: nil)
     }
 }
