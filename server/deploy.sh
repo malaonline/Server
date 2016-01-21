@@ -7,6 +7,11 @@ ENV=/opt/jenkins/env
 
 cd $DES
 
+python manage.py migrate
+python manage.py compilestatic
+python manage.py collectstatic --noinput
+python manage.py build_groups_and_permissions
+python manage.py add_groups_to_sample_users
 if [ -n "`ps aux | grep gunicorn | grep server.wsgi| awk '{ print $2 }'`" ]
 then
     echo 'Restarting gunicorn...'
