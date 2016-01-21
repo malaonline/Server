@@ -54,19 +54,18 @@
             <th class="text-center">所在地区</th>
             <th class="text-center">授课中心</th>
             <th class="text-center">授课时间</th>
-            <th class="text-center">年级科目</th>
+            <th class="text-center">授课科目</th>
             <th class="text-center">星级</th>
+            <th class="text-center">授课年级</th>
             <th class="text-center">课时单价</th>
             <th class="text-center">教学经验</th>
             <th class="text-center">专业技能</th>
             <th class="text-center">互动能力</th>
-            <th class="text-center">专长</th>
-            <th class="text-center">风格</th>
+            <th class="text-center">风格标记</th>
             <th class="text-center">提分榜</th>
             <th class="text-center">视频</th>
-            <th class="text-center">证书</th>
             <th class="text-center">介绍语音</th>
-            <th class="text-center">实力展示</th>
+            <th class="text-center">教学成果</th>
             <th class="text-center">证书内容</th>
             <th class="text-center">操作</th>
         </tr>
@@ -80,22 +79,21 @@
                 <td>{# 所在地区 #} {{ teacher.region }}</td>
                 <td>{# 授课中心 #} TODO </td>
                 <td>{# 授课时间 #} TODO </td>
-                <td>{# 年级科目 #} {{ teacher.subject }} {{ teacher.grades_shortname }} </td>
+                <td>{# 授课科目 #} {{ teacher.subject }} </td>
                 <td>{# 星级 #} {{ teacher.level }}</td>
+                <td>{# 授课年级 #} {{ teacher.grades_shortname }} </td>
                 <td>{# 课时单价 #} TODO </td>
                 <td>{# 教学经验 #} TODO </td>
                 <td>{# 专业技能 #} TODO </td>
                 <td>{# 互动能力 #} TODO </td>
-                <td>{# 专长 #} TODO </td>
                 <td>{# 风格 #} TODO </td>
                 <td>{# 提分榜 #} TODO </td>
                 <td>{# 视频 #} TODO </td>
-                <td>{# 证书 #} TODO </td>
                 <td>{# 介绍语音 #} TODO </td>
-                <td>{# 实力展示 #} TODO </td>
+                <td>{# 教学成果 #} TODO </td>
                 <td>{# 证书内容 #} TODO </td>
                 <td field="action">{# 操作 #}
-                    TODO
+                    <a data-action="to-edit">编辑</a> | <a data-action="set-online">上架</a>
                 </td>
             </tr>
         {% endfor %}
