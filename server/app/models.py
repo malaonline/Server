@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
+from django.db.models import get_model
 
 class BaseModel(models.Model):
     class Meta:
@@ -64,11 +65,16 @@ class Grade(BaseModel):
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
                                  on_delete=models.SET_NULL, related_name='subset')
     leaf = models.BooleanField()
-    subjects = models.ManyToManyField(Subject)
 
     def __str__(self):
         return self.name
 
+    @property
+    def subjects(self):
+        Ability = get_model('app', 'Ability')
+        ans = Ability.objects.filter(grade=self)
+        for one in ans:
+            yield one.subject
 
 class Level(BaseModel):
     name = models.CharField(max_length=20, unique=True)
@@ -119,6 +125,16 @@ class Profile(BaseModel):
     def __str__(self):
         return '%s (%s)' % (self.user, self.gender)
 
+class Ability(BaseModel):
+    grade = models.ForeignKey(Grade)
+    subject = models.ForeignKey(Subject)
+
+    class Meta:
+        unique_together = ('grade', 'subject')
+
+    def __str__(self):
+        return '%s, %s' % (self.grade, self.subject)
+
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
@@ -159,6 +175,7 @@ class Teacher(BaseModel):
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
+    abilities = models.ManyToManyField('Ability')
 
     region = models.ForeignKey(Region, null=True, blank=True, limit_choices_to={'opened': True})
     status = models.IntegerField(default=1, choices=STATUS_CHOICES)
@@ -178,13 +195,13 @@ class Teacher(BaseModel):
         return self.user.profile.gender
 
     def subject(self):
-        abilities = self.ability_set.all()
+        abilities = self.abilities.all()
         if not abilities:
             return None
         return abilities[0].subject
 
     def grades(self):
-        abilities = self.ability_set.all()
+        abilities = self.abilities.all()
         return [ability.grade for ability in abilities]
 
     def grades_shortname(self):
@@ -286,17 +303,6 @@ class Photo(BaseModel):
 
     def __str__(self):
         return '%s img (%s)' % (self.teacher, 'public' if self.public else 'private')
-
-class Ability(BaseModel):
-    teacher = models.ForeignKey(Teacher)
-    grade = models.ForeignKey(Grade)
-    subject = models.ForeignKey(Subject)
-
-    class Meta:
-        unique_together = ('teacher', 'grade', 'subject')
-
-    def __str__(self):
-        return '%s <%s, %s>' % (self.teacher, self.grade, self.subject)
 
 
 class Certificate(BaseModel):

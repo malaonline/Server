@@ -102,10 +102,10 @@ def information_complete_percent(user: User):
     else:
         print("teacher.region is {region}".format(region=teacher.region))\
 
-    if len(teacher.ability_set.all()) == 0:
+    if len(teacher.abilities.all()) == 0:
         unfinished += 1
     else:
-        print("teacher.ability_set.all() is {all}".format(all=len(teacher.ability_set.all())))
+        print("teacher.abilities.all() is {all}".format(all=len(teacher.abilities.all())))
     return (total-unfinished)/total
 
 
