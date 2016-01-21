@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
     private func setupUserInterface() {
         // Style
         self.title = MalaCommonString_Malalaoshi
+        // self.tableView.tableHeaderView = FilterHeaderView(frame: CGRect(x: 0, y: 0, width: 0, height: 26))
         
         // SubViews
         self.view.addSubview(tableView)
@@ -143,7 +144,12 @@ class HomeViewController: UIViewController {
     }
 
     @objc private func filterButtonDidClick() {
-        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
+        ThemeAlert(contentView: FilterView(frame: CGRectZero)).show()
+    }
+    
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }
     
 //    @objc private func profileButtonDidClick() {

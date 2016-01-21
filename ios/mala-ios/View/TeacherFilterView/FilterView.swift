@@ -32,14 +32,20 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         }
     }
     /// 当前筛选条件记录模型
-    lazy var filterObject: ConditionObject = {
+    var filterObject: ConditionObject = {
         let object = ConditionObject()
         object.subject = GradeModel()
         object.tags = []
         return object
-    }()
+    }() {
+        didSet {
+            
+        }
+    }
     /// 当前显示面板下标标记
     var currentIndex: Int = 1
+    /// 二级选择标识
+    var isSecondaryFilter: Bool = false
     
     
     // MARK: - Components
@@ -47,16 +53,23 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private lazy var gradeView: GradeFilterView = {
         let gradeView = GradeFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .FilterView),
-            didTapCallBack: { (model) -> () in
-                self.filterObject.grade = model! //TODO: 注意测试此处（包括下方两处）强行解包，目前个人认为此处强行解包不会出现问题
-                self.scrollToPanel(2)
-                // 根据所选年级，加载对应的科目
-                self.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
-                    let subject = GradeModel()
-                    subject.id = i.integerValue
-                    subject.name = MalaSubject[i.integerValue]
-                    return subject
-                })
+            didTapCallBack: { [weak self] (model) -> () in
+                self?.filterObject.grade = model!
+                
+                // 如果为一次筛选
+                if !(self?.isSecondaryFilter ?? false) {
+                    self?.scrollToPanel(2, animated: true)
+                    
+                    // 根据所选年级，加载对应的科目
+                    self?.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
+                        let subject = GradeModel()
+                        subject.id = i.integerValue
+                        subject.name = MalaSubject[i.integerValue]
+                        return subject
+                    })
+                }else {
+                    self?.commitCondition()
+                }
         })
         return gradeView
     }()
@@ -64,15 +77,24 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     private lazy var subjectView: SubjectFilterView = {
         let subjectView = SubjectFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .SubjectView),
-            didTapCallBack: { (model) -> () in
-                self.filterObject.subject = model!
-                self.scrollToPanel(3)
+            didTapCallBack: { [weak self] (model) -> () in
+                self?.filterObject.subject = model!
+                
+                // 如果为一次筛选
+                if !(self?.isSecondaryFilter ?? false) {
+                    self?.scrollToPanel(3, animated: true)
+                }else {
+                    self?.commitCondition()
+                }
         })
         return subjectView
     }()
     /// 风格筛选面板
     private lazy var styleView: StyleFilterView = {
-        let styleView = StyleFilterView(frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth), tags: [])
+        let styleView = StyleFilterView(
+            frame: CGRect(x: 0, y: 0, width: MalaLayout_FilterContentWidth, height: MalaLayout_FilterContentWidth),
+            tags: []
+        )
         return styleView
     }()
     
@@ -90,10 +112,42 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    ///  滚动到指定面板
+    ///
+    ///  - parameter page: 面板下标，起始为1	
+    func scrollToPanel(page: Int, animated: Bool) {
+        switch page {
+        case 1:
+            // 当前显示View为 年级筛选
+            currentIndex = 1
+            container?.tTitle = "筛选年级"
+            container?.tIcon = "grade"
+            container?.setButtonStatus(showClose: true, showCancel: false, showConfirm: false)
+            setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
+        case 2:
+            // 当前显示View为 科目筛选
+            currentIndex = 2
+            container?.tTitle = "筛选科目"
+            container?.tIcon = "subject"
+            container?.setButtonStatus(showClose: false, showCancel: true, showConfirm: false)
+            setContentOffset(CGPoint(x: MalaLayout_FilterContentWidth, y: 0), animated: animated)
+        case 3:
+            // 当前显示View为 风格筛选
+            currentIndex = 3
+            container?.tTitle = "筛选风格"
+            container?.tIcon = "style"
+            container?.setButtonStatus(showClose: false, showCancel: true, showConfirm: true)
+            setContentOffset(CGPoint(x: MalaLayout_FilterContentWidth*2, y: 0), animated: animated)
+        default:
+            break
+        }
+    }
+    
     
     // MARK: - Private Method
     private func configuration() {
-        self.contentSize = CGSize(width: 0, height: MalaLayout_FilterContentWidth-3)
+        self.contentSize = CGSize(width: MalaLayout_FilterContentWidth*3, height: MalaLayout_FilterContentWidth-3)
+        self.scrollEnabled = false
         self.delegate = self
         self.bounces = false
         self.showsHorizontalScrollIndicator = false
@@ -107,7 +161,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             queue: nil
             ) { [weak self] (notification) -> Void in
                 // pop当前面板
-                self?.scrollToPanel((self?.currentIndex ?? 2) - 1)
+                self?.scrollToPanel((self?.currentIndex ?? 2) - 1, animated: true)
         }
         
         // 确认按钮点击通知处理
@@ -127,7 +181,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     return tagObject
                 })
                 self?.filterObject.tags = tagsCondition ?? []
-                NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self?.filterObject)
+                self?.commitCondition()
         }
     }
     
@@ -159,35 +213,9 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         self.backgroundColor = UIColor.lightGrayColor()
     }
     
-    ///  滚动到指定面板
-    ///
-    ///  - parameter page: 面板下标，起始为1
-    private func scrollToPanel(page: Int) {
-        switch page {
-        case 1:
-            // 当前显示View为 年级筛选
-            currentIndex = 1
-            container?.tTitle = "筛选年级"
-            container?.tIcon = "grade"
-            container?.setButtonStatus(showClose: true, showCancel: false, showConfirm: false)
-            setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        case 2:
-            // 当前显示View为 科目筛选
-            currentIndex = 2
-            container?.tTitle = "筛选科目"
-            container?.tIcon = "subject"
-            container?.setButtonStatus(showClose: false, showCancel: true, showConfirm: false)
-            setContentOffset(CGPoint(x: MalaLayout_FilterContentWidth, y: 0), animated: true)
-        case 3:
-            // 当前显示View为 风格筛选
-            currentIndex = 3
-            container?.tTitle = "筛选风格"
-            container?.tIcon = "style"
-            container?.setButtonStatus(showClose: false, showCancel: true, showConfirm: true)
-            setContentOffset(CGPoint(x: MalaLayout_FilterContentWidth*2, y: 0), animated: true)
-        default:
-            break
-        }
+    private func commitCondition() {
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self.filterObject)
+        self.container?.close()
     }
     
     private func loadFilterCondition() {
@@ -232,6 +260,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             }
             self?.tags = tagsDict
         }
+        dataArray = nil
     }
     
     deinit {
@@ -247,4 +276,17 @@ class ConditionObject: NSObject {
     var grade: GradeModel = GradeModel()
     var subject: GradeModel = GradeModel()
     var tags: [BaseObjectModel] = []
+    
+    override var description: String {
+        let tagsString = self.tags.map({ (object: BaseObjectModel) -> String in
+            return object.name ?? ""
+        })
+        let string = String(
+            format: "grade: %@, subject: %@ , tags: %@",
+            self.grade.name ?? "",
+            self.subject.name ?? "",
+            tagsString.joinWithSeparator(" • ")
+        )
+        return string
+    }
 }

@@ -323,8 +323,8 @@
 				30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */,
 				30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */,
 				307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */,
-				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
 				F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */,
+				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

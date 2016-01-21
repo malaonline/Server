@@ -38,6 +38,8 @@ let MalaLoginCodeGetButtonColor = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
 let MalaLoginVerifyButtonDisableColor = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
 let MalaLoginVerifyButtonNormalColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.95)
 let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
+let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
+let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -86,13 +88,14 @@ let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
 
+let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
 let MalaLayout_DetailHeaderLayerHeight: CGFloat = MalaLayout_DetailHeaderHeight - 6.0
 let MalaLayout_DetailHeaderHeight: CGFloat = 146.0
 let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
 let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
-let MalaLayout_DetailPhotoWidth: CGFloat = (MalaScreenWidth - (MalaLayout_Margin_12*2) - (MalaLayout_Margin_5*3))/3
+let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - (MalaLayout_Margin_5*3))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 let MalaLayout_DetailPriceTableViewCellHeight: CGFloat = 71.0
 let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 110.0
@@ -100,6 +103,7 @@ let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
 let MalaLayout_FilterWindowWidth: CGFloat = MalaScreenWidth*0.85
 let MalaLayout_FilterWindowHeight: CGFloat = MalaLayout_FilterWindowWidth*1.14
 let MalaLayout_FilterContentWidth: CGFloat = MalaLayout_FilterWindowWidth - MalaLayout_Margin_26*2
+let MalaLayout_FilterBarHeight: CGFloat = 40
 
 
 // MARK: - Device
@@ -130,15 +134,15 @@ public func makeStatusBarWhite() {
 
 // MARK: - Dictionary
 let MalaSubject = [
-    1: "数    学",
-    2: "英    语",
-    3: "语    文",
-    4: "物    理",
-    5: "化    学",
-    6: "地    理",
-    7: "历    史",
-    8: "政    治",
-    9: "生    物"
+    1: "数  学",
+    2: "英  语",
+    3: "语  文",
+    4: "物  理",
+    5: "化  学",
+    6: "地  理",
+    7: "历  史",
+    8: "政  治",
+    9: "生  物"
 ]
 let MalaTeacherDetailsCellTitle = [
     1: "教授科目",
