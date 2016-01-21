@@ -4,11 +4,6 @@
 $(
     function(){
         console.log("TW-2-1");
-        $("#add_grand").click(function(eventObject){
-            console.log("click add_grand");
-            //render_grand_select_button_group();
-            eventObject.preventDefault();
-        });
 
         //视图数据定义区
         window.primary_list = [
@@ -84,6 +79,7 @@ $(
                 },
             function(data){
                 console.log(data);
+                window.location.href =  data.url;
             });
 
         });
@@ -182,7 +178,7 @@ Array.prototype.remove = function() {
 
 //渲染年级选择面板
 function render_grand_select_button_group(){
-    console.log("render_grand_select_button_group");
+    //console.log("render_grand_select_button_group");
     var select_button_template = $("#grand_select_button").html();
 
     var primary_contnet = _.template(select_button_template, {variable: 'datas'})(window.primary_list);

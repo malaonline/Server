@@ -10,6 +10,7 @@ import json
 from app.models import Parent, Teacher, Checkcode, Profile
 from app.views import Sms
 from teacher.views import information_complete_percent
+from app.utils.algorithm import Tree, Node
 
 
 # Create your tests here.
@@ -158,4 +159,19 @@ class TestTeacherWeb(TestCase):
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
         print(percent)
+
+
+class TestAlgorithm(TestCase):
+    def test_tree_insert(self):
+        tree = Tree()
+        tree.root = Node("a")
+        tree.insert_val("a", "b", "c")
+        tree.insert_val("b", "d", "e")
+        self.assertEqual(tree.get_val("d").val, "d")
+        print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
+        print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
+        self.assertEqual(tree.get_path("d"), ["a", "b", "d"])
+        self.assertEqual(tree.get_path("e"), ["a", "b", "e"])
+        self.assertEqual(tree.get_path("c"), ["a", "c"])
+        self.assertEqual(tree.get_path("b"), ["a", "b"])
 

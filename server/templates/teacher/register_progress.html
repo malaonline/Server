@@ -52,24 +52,35 @@
                     <div class="border_right">
                         <div class="notify_list">
 {#                            一般情况#}
+                            {% if 1 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
                                 <div class="right_part"><span class="detail_span">您已经注册并提交资料成功!</span></div>
                             </div>
+                            {% endif %}
 {#                            重新提交#}
+                            {% if 2 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
                                 <div class="right_part">
                                     <p>抱歉,您提交的资料未审核通过,请重新提交!</p>
-                                    <p><a class="action" href="#">重新提交资料</a></p>
+                                    <p><a class="action" href="{% url 'teacher:complete-information' %}">重新提交资料</a></p>
                                 </div>
                             </div>
+                            {% endif %}
+                            {% if 3 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
                                 <div class="right_part"><span class="detail_span">您的资料已经审核通过</span></div>
                             </div>
+                            {% endif %}
+                            {% if 4 in text_list %}
+                            <div class="separate_line">
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="notify_list">
+                            {% if 5 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-14 18:10</span></div>
                                 <div class="right_part">
@@ -78,28 +89,37 @@
                                     <p>面试地址:洛阳市西工区北京西路29号万达广场一层</p>
                                 </div>
                             </div>
+                            {% endif %}
+                            {% if 6 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2016-01-17 16:00</span></div>
                                 <div class="right_part">
                                     <p class="reject_msg">很抱歉地通知您,您未能通过麻辣老师的面试,感谢您对麻辣老师的关注!</p>
                                 </div>
                             </div>
+                            {% endif %}
+                            {% if 7 in text_list %}
                             <div class="message_container">
                                 <div class="left_part"><i class="line_icon"></i> <span class="time_span">2016-01-22 18:00</span></div>
                                 <div class="right_part">
                                     <p>恭喜!您已经通过麻辣老师面试.</p>
                                 </div>
                             </div>
+                            {% endif %}
+                            {% if 8 in text_list %}
+                            <div class="separate_line">
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="notify_end">
+                            {% if 9 in text_list %}
                             <div class="message_container">
-                                <div class="message_container">
-                                    <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>
-                                    <div class="right_part">
-                                        <p>恭喜您成为麻辣老师!请点击马上体验,并提交相关个人资料.</p>
-                                    </div>
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>
+                                <div class="right_part">
+                                    <p>恭喜您成为麻辣老师!请点击马上体验,并提交相关个人资料.</p>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

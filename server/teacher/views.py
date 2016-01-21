@@ -11,6 +11,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.conf import settings
 import json
 
 # local modules
@@ -48,8 +49,7 @@ def verify_sms_code(request):
             for backend, backend_path in _get_backends(return_tuples=True):
                 user.backend = backend_path
                 break
-            # user = authenticate(username=profile.user.username,
-            #                     password=profile.user.password)
+            teacher = Teacher.objects.get(user=user)
             new_user = False
         except Profile.DoesNotExist:
             # new user
@@ -64,15 +64,22 @@ def verify_sms_code(request):
             login(request, user)
 
             if percent < 1:
+                # 如果老师信息没有完成,就填写老师信息
                 return JsonResponse({
                     "result": True,
                     "url": reverse("teacher:complete-information")
                 })
             else:
-                return JsonResponse({
-                    "result": True,
-                    "url": reverse("teacher:first-page")
-                })
+                if teacher.status != Teacher.INTERVIEW_OK:
+                    return JsonResponse({
+                        "result": True,
+                        "url": reverse("teacher:register-progress")
+                    })
+                else:
+                    return JsonResponse({
+                        "result": True,
+                        "url": reverse("teacher:first-page")
+                    })
         else:
             # 验证失败
             return JsonResponse({
@@ -110,7 +117,6 @@ def information_complete_percent(user: User):
 
 # 完善老师的个人信息 TW-2-1
 class CompleteInformation(View):
-    # @login_required(login_url=LOGIN_URL)
     def get(self, request):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
@@ -121,6 +127,7 @@ class CompleteInformation(View):
         gender = gender_dict.get(profile.gender, "")
         region = teacher.region.name or ""
         ability_set_all = teacher.abilities.all()
+        phone = profile.mask_phone()
         if len(ability_set_all) > 0:
             subclass = ability_set_all[0].subject.name
         else:
@@ -153,12 +160,12 @@ class CompleteInformation(View):
             "gender": gender,
             "region": region,
             "subclass": subclass,
-            "grade": json.dumps(grade)
+            "grade": json.dumps(grade),
+            "phone_name": phone
         }
         print(context)
         return render(request, 'teacher/complete_information.html', context)
 
-    # @login_required(login_url=LOGIN_URL)
     def post(self, request):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
@@ -188,7 +195,7 @@ class CompleteInformation(View):
                       "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
                       "高二": "高二", "高三": "高三"}
         # clear ability_set
-        teacher.ability_set.all().delete()
+        teacher.abilities.clear()
 
         for one_grade in grade_list:
             the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
@@ -214,8 +221,12 @@ def register_progress(request):
         teacher = models.Teacher.objects.get(user=request.user)
     except models.Teacher.DoesNotExist:
         return HttpResponseRedirect(reverse("teacher:register"))
-    context["progress"] = teacher.get_progress()
 
+    if settings.FIX_TEACHER_STATUS:
+        teacher.status = teacher.INTERVIEW_OK
+    context["progress"] = teacher.get_progress()
+    context["text_list"] = teacher.build_progress_info()
+    context["user_name"] = "{name} 老师".format(name=teacher.name)
     return render(request, "teacher/register_progress.html", context)
 
 
@@ -226,7 +237,11 @@ def first_page(request):
     :param request:
     :return:
     """
-    context = {}
+    teacher = models.Teacher.objects.get(user=request.user)
+
+    context = {
+        "user_name": "{name} 老师".format(name=teacher.name)
+    }
     return render(request, "teacher/first_page.html", context)
 
 

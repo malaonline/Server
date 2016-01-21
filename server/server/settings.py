@@ -219,6 +219,11 @@ UNITTEST = False
 # 加密的密钥salt
 PASSWORD_SALT = "abc"
 
+# 内部测试配置
+# 固定的sms
+FIX_SMS_CODE = True
+# 固定的审核进度
+FIX_TEACHER_STATUS = True
 
 try:
     from .local_settings import *

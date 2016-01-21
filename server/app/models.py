@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.db.models import get_model
+from app.utils.algorithm import Tree, Node
+
 
 class BaseModel(models.Model):
     class Meta:
@@ -125,6 +127,9 @@ class Profile(BaseModel):
     def __str__(self):
         return '%s (%s)' % (self.user, self.gender)
 
+    def mask_phone(self):
+        return "{before}****{after}".format(before=self.phone[:3], after=self.phone[-4:])
+
 class Ability(BaseModel):
     grade = models.ForeignKey(Grade)
     subject = models.ForeignKey(Subject)
@@ -233,6 +238,7 @@ class Teacher(BaseModel):
             return None
         return max(x.price for x in prices)
 
+    # 获得当前审核进度
     def get_progress(self):
         if self.status in [self.TO_CHOOSE, self.NOT_CHOSEN]:
             return 1
@@ -240,6 +246,27 @@ class Teacher(BaseModel):
             return 2
         if self.status in [self.INTERVIEW_OK]:
             return 3
+
+    # 建立审核信息
+    def build_progress_info(self):
+        tree = Tree()
+        tree.root = Node(1)
+        tree.insert_val(1,3,2)
+        tree.insert_val(3,4)
+        tree.insert_val(4,5)
+        tree.insert_val(5,7,6)
+        tree.insert_val(7,8)
+        tree.insert_val(8,9)
+        status_2_node = {
+            self.TO_CHOOSE: 1,
+            self.NOT_CHOSEN: 2,
+            self.TO_INTERVIEW: 5,
+            self.INTERVIEW_FAIL: 6,
+            self.INTERVIEW_OK: 9
+        }
+        # return tree.get_path(status_2_node.get(self.INTERVIEW_OK, 1))
+        # return range(1,10)
+        return tree.get_path(status_2_node.get(self.status, 1))
 
     # 新建一个空白老师用户
     @staticmethod

@@ -19,14 +19,9 @@
     <div class="container">
         <div class="row">
             {% load teacher_page %}
-            {% mala_page_header "个人中心" "186****1234" %}
+            {% mala_page_header "个人中心" "18922405996啊" %}
             <div class="page-left"></div>
             <div class="page-center">
-{#                <div class="mala_header">#}
-{#                    {% mala_page_header "个人中心" "186****1234" %}#}
-{#                    <button class="btn btn-default header_right">退出</button>#}
-{#                    <span class="header_right header_right_text">您好, 186****1234</span>#}
-{#                </div>#}
                 <p class="information_header">恭喜您注册成功!</p>
                 <p class="information_header">为了能够与您及时取得联系,请您尽快完善个人资料.</p>
                 <form class="form-horizontal">
@@ -38,7 +33,8 @@
                         <label for="gender" class="gender_label">性别</label>
                         <div class="input-group gender_input" id="gender">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别" value="{{ gender }}">
+                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别" value="{{ gender }}" data-toggle="dropdown" >
+{#                                <input type="text" class="form-control" aria-label="..." id="gender-input" readonly="readonly" placeholder="请选择性别" value="{{ gender }}">#}
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -53,7 +49,7 @@
                         <label for="city" class="city_label">所在城市</label>
                         <div class="input-group city_input">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="city_input" readonly="readonly" placeholder="请选择城市" value="{{ region }}">
+                                <input type="text" class="form-control" aria-label="..." id="city_input" readonly="readonly" placeholder="请选择城市" value="{{ region }}" data-toggle="dropdown" >
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -75,7 +71,7 @@
                         <label for="class" class="subclass_label">授课科目</label>
                         <div class="input-group subclass_input">
                             <div class="input-group-btn">
-                                <input type="text" class="form-control" aria-label="..." id="subclass_input" readonly="readonly" placeholder="请选择授课科目" value="{{ subclass }}">
+                                <input type="text" class="form-control" aria-label="..." id="subclass_input" readonly="readonly" placeholder="请选择授课科目" value="{{ subclass }}" data-toggle="dropdown" >
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><img
                                         src="{% static 'teacher/icons/down_arraow.png' %}"></button>
@@ -101,7 +97,7 @@
                                 class="glyphicon glyphicon-remove-sign"></i></button>
                         <%});%>
                         <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
-                                data-target="#grand_select" disabled="disabled">
+                                data-target="#grand_select" disabled="disabled" type="button">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
                     </script>
@@ -109,14 +105,6 @@
                     <div class="form-row">
                         <label for="class" class="grand_label">授课年级</label>
                         <div class="grand_input" id="grand_input">
-{#                            <button class="btn btn-default grand_button" onclick="remove_button('小学二年级')">小学二年级 <i#}
-{#                                    class="glyphicon glyphicon-remove-sign"></i></button>#}
-{#                            <button class="btn btn-default grand_button">小学二年级 <i#}
-{#                                    class="glyphicon glyphicon-remove-sign"></i></button>#}
-                            <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
-                                    data-target="#grand_select">
-                                <i class="glyphicon glyphicon-plus"></i>
-                            </button>
                         </div>
                         <span class="grand_warning" id="need-subclass">
 {#                            <i class="glyphicon glyphicon-remove-sign"></i>#}
