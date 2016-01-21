@@ -53,6 +53,7 @@ class FilterResultController: UIViewController {
         // style
         self.title = MalaCommonString_FilterResult
         self.view.backgroundColor = MalaTeacherCellBackgroundColor
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
         
         // SubViews
         self.view.addSubview(filterBar)
@@ -165,7 +166,7 @@ class FilterBar: UIView {
             make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_9)
             make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
             make.width.equalTo(88)
-            make.bottom.equalTo(self.snp_bottom)
+            make.bottom.equalTo(self.snp_bottom).offset(-MalaLayout_Margin_5)
         }
         subjectButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.gradeButton.snp_top)
@@ -184,14 +185,14 @@ class FilterBar: UIView {
     
     // MARK: - Event Response
     @objc private func gradeButtonDidTap() {
-        
+        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
     }
     
     @objc private func subjectButtonDidTap() {
-        
+        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
     }
     
     @objc private func styleButtonDidTap() {
-        
+        ThemeAlert().show("grade", contentView: FilterView(frame: CGRectZero))
     }
 }
