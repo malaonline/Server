@@ -20,6 +20,7 @@ def add_item(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ('app', '0038_auto_20160121_1709'),
+        ('app', '0038_merge'),
     ]
 
     operations = [
