@@ -1,0 +1,66 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    提分榜
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/highscore/highscore.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
+    <script src="{% static 'teacher/js/highscore/hiscore.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <span>提分榜</span>
+{% endblock %}
+
+{% block maincontent %}
+    <table class="table table-bordered table-hover" style="margin-left:5px; margin-right: 5px;">
+        <tr>
+            <th>
+                <input type="checkbox" name="checkboxSelectAll" id="checkboxSelectAll">
+            </th>
+            <th>
+                学生姓名
+            </th>
+            <th>
+                辅导期间提分
+            </th>
+            <th>
+                所在学校
+            </th>
+            <th>
+                考入学校
+            </th>
+        </tr>
+        {% for highscore in highscores %}
+        <tr>
+            <td>
+                <input type="checkbox" name="checkboxSelect">
+            </td>
+            <td>
+                {{highscore.name}}
+            </td>
+            <td>
+                {{highscore.increased_scores}}
+            </td>
+            <td>
+                {{highscore.school_name}}
+            </td>
+            <td>
+                {{highscore.admitted_to}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="bottom-btn">
+        <input type="button" name="addHighscore" value="添加" class="btn btn-primary">
+        <input type="button" name="delHighscore" value="删除" class="btn btn-default">
+    </div>
+{% endblock %}
