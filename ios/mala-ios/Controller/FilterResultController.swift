@@ -203,6 +203,12 @@ class FilterBar: UIView {
         let filterView = FilterView(frame: CGRectZero)
         filterView.filterObject = self.filterCondition ?? ConditionObject()
         filterView.isSecondaryFilter = true
+        filterView.subjects = self.filterCondition?.grade.subjects.map({ (i: NSNumber) -> GradeModel in
+                let subject = GradeModel()
+                subject.id = i.integerValue
+                subject.name = MalaSubject[i.integerValue]
+                return subject
+            })
         
         let alertView = ThemeAlert(contentView: filterView)
         alertView.closeWhenTap = true

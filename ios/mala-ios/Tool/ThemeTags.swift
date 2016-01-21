@@ -100,6 +100,7 @@ class ThemeTags: UIView {
         
         // 排列显示高于临界值数组 剩余标签
         layoutRemainder(.HigherArray)
+        self.allButton?.selected = true
     }
     
     ///  将指定数组的可整行排列的标签，进行显示

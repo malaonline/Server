@@ -87,7 +87,7 @@ extension UIButton {
         // 文字及其状态颜色
         self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         self.setTitle(title, forState: .Normal)
-        self.setTitleColor(MalaFilterViewTagsTextColor, forState: .Normal)
+        self.setTitleColor(borderColor, forState: .Normal)
         self.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         // 背景状态颜色
