@@ -283,6 +283,13 @@ class SubjectNameSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
 
+class SubjectIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subject
+
+    def to_representation(self, instance):
+        return self.fields['id'].get_attribute(instance)
+
 
 class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Subject.objects.all()
@@ -308,6 +315,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class GradeSerializer(serializers.ModelSerializer):
+    subjects = SubjectIdSerializer(many=True)
     class Meta:
         model = models.Grade
         fields = ('id', 'name', 'subset', 'subjects')
