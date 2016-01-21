@@ -169,7 +169,11 @@ class TeacherOfflineView(BaseStaffView):
         kwargs['total_page'] = total_page
         kwargs['total_count'] = total_count
         # 一些固定数据
-        # TODO: 省份列表
+        # 省份列表
+        kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        kwargs['grades'] = models.Grade.objects.filter(superset_id__isnull=True)
+        kwargs['subjects'] = models.Subject.objects.all
+        kwargs['levels'] = models.Level.objects.all
         return super(TeacherOfflineView, self).get_context_data(**kwargs)
 
 class TeacherActionView(BaseStaffActionView):

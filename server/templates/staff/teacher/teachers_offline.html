@@ -13,10 +13,13 @@
 {% block content %}
     <form name="query_form">
         姓名 <input type="text" name="name" value="{{ query_data.name }}" />
-        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
         所在地区
         <select name="province">
             <option value="">全部省</option>
+            {% for province in provinces %}
+                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>
+            {% endfor %}
         </select>
         <select name="city">
             <option value="">全部市</option>
@@ -24,21 +27,26 @@
         <select name="district">
             <option value="">全部区</option>
         </select>
-        课程名称
-        <select name="course">
-            <option value="">全部</option>
-        </select>
         年级
         <select name="grade">
             <option value="">全部</option>
+            {% for grade in grades %}
+                <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %} selected="selected"{% endif %}>{{ grade.name }}</option>
+            {% endfor %}
         </select>
         科目
         <select name="subject">
             <option value="">全部</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %} selected="selected"{% endif %}>{{ subject.name }}</option>
+            {% endfor %}
         </select>
         级别
         <select name="level">
             <option value="">全部</option>
+            {% for level in levels %}
+                <option value="{{ level.id }}" {% if level.id|stringformat:"i" == query_data.level %} selected="selected"{% endif %}>{{ level.name }}</option>
+            {% endfor %}
         </select>
 
         <input type="submit" value="查询"/>
