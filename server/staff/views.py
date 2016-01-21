@@ -2,10 +2,8 @@ import logging
 import datetime
 
 # django modules
-from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
@@ -89,8 +87,7 @@ class BaseStaffActionView(View):
 
     defaultErrMeg = "操作失败,请稍后重试或联系管理员"
 
-    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问,加上后可用客户端调用
-    @method_decorator(require_POST)
+    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
@@ -180,6 +177,12 @@ class TeacherActionView(BaseStaffActionView):
 
     NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
 
+    def get(self, request):
+        action = self.request.GET.get('action')
+        if action == 'list-region':
+            return self.listSubRegions(request)
+        return HttpResponse("", status=404)
+
     def post(self, request):
         action = self.request.POST.get('action')
         logger.debug("try to modify teacher, action = " + action)
@@ -193,7 +196,30 @@ class TeacherActionView(BaseStaffActionView):
             return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
         return HttpResponse("Not supported request.", status=403)
 
+    def listSubRegions(self, request):
+        """
+        获取下级地区列表
+        :param request:
+        :return:
+        """
+        sid = request.GET.get('sid')
+        query_set = models.Region.objects.filter()
+        if not sid:
+            query_set = query_set.filter(superset_id__isnull=True)
+        else:
+            query_set = query_set.filter(superset_id=sid)
+        regions = []
+        for region in query_set:
+            regions.append({'id': region.id, 'name': region.name})
+        return JsonResponse({'list': regions})
+
     def updateTeacherStatus(self, request, new_status):
+        """
+        新注册老师修改老师状态
+        :param request:
+        :param new_status:
+        :return:
+        """
         teacherId = request.POST.get('teacherId')
         try:
             teacher = models.Teacher.objects.get(id=teacherId)
