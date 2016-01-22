@@ -5,6 +5,34 @@
   padding: 20px;
 }
 
+@listItemImgBoxHeight: 160px;
+#achievementsList {
+  width: 500px;
+  .list-group-item{
+    margin-bottom: 20px;
+    height: 200px;
+  }
+  .img-box {
+    width: 100%;
+    height: @listItemImgBoxHeight;
+    line-height: @listItemImgBoxHeight;
+    overflow: hidden;
+    background: #ddd;
+    img{
+      padding: 5px;
+      max-width: 100%;
+      max-height: 100%;
+      vertical-align: middle;
+    }
+  }
+}
+
+.btn.btn-small, .btn-small{
+  width: 38px;
+  height: 22px;
+  padding: 0;
+  font-size: 12px;
+}
 
 // 上传组件
 @imgUploadBoxWidth: 141px;
