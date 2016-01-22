@@ -31,6 +31,8 @@ $(function(){
         });
     });
 
+    paginationInit();
+
     $('a[data-action=show-avatar]').click(function(e){
         var url = $(this).attr('url');
         var $modal = $("#avatarModal");

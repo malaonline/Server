@@ -1,7 +1,11 @@
 /**
  * Created by liumengjun on 1/21/16.
  */
-
+/**
+ * 更新当前网页url的查询参数key=val
+ * @param key
+ * @param val
+ */
 var updateLocationByParam = function(key, val) {
     var key_val = key+'='+val;
     var old_search = location.search;
@@ -23,11 +27,14 @@ var updateLocationByParam = function(key, val) {
     }
 };
 
-$(function(){
-    $('.pagination a').click(function(e){
-        var $this = $(this), $li = $this.closest('li');
-        if ($li.hasClass('disabled') || $li.hasClass('active')) return;
-        var page_to = $this.data('pageto');
-        updateLocationByParam('page', page_to);
-    });
-});
+var paginationInit = function($ctx, fn) {
+    if (!fn) { // 导航点击事件: 默认取pageto属性值,更新url查询参数,可以自定义
+        fn = function(e){
+            var $this = $(this), $li = $this.closest('li');
+            if ($li.hasClass('disabled') || $li.hasClass('active')) return;
+            var page_to = $this.data('pageto');
+            updateLocationByParam('page', page_to);
+        }
+    }
+    $('.pagination a', $ctx).click(fn);
+};

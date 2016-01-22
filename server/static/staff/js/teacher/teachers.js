@@ -77,6 +77,8 @@ $(function(){
         locale: 'zh-cn'
     });
 
+    paginationInit();
+
     $("[data-action=showGradeSubjectModal]").click(function(e){
         var gsArr = [];
         $(this).find('div p').each(function(){
