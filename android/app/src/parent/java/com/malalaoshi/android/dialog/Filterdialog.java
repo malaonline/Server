@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by kang on 16/1/20.
  */
-public class Filterdialog extends DialogFragment implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener {
+public class FilterDialog extends DialogFragment implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener {
     public static String ARGMENTS_DIALOG_WIDTH = "dialog width";
     private int width;
     public static String ARGMENTS_DIALOG_HEIGHT = "dialog height";
@@ -61,7 +61,7 @@ public class Filterdialog extends DialogFragment implements FragmentGroupAdapter
     private OnLeftClickListener  leftClickListener;
     private OnRightClickListener rightClickListener;
 
-    public Filterdialog() {
+    public FilterDialog() {
     }
 
     public void setFragments(List<Fragment> fragments) {

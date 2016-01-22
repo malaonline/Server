@@ -1,19 +1,16 @@
 package com.malalaoshi.android;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 
-import com.malalaoshi.android.dialog.Filterdialog;
+import com.malalaoshi.android.dialog.FilterDialog;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
@@ -22,14 +19,11 @@ import com.malalaoshi.android.fragments.FilterGradeFragment;
 import com.malalaoshi.android.fragments.FilterSubjectFragment;
 import com.malalaoshi.android.fragments.FilterTagFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
-import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -144,11 +138,11 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         //fragments.add(new FilterSubjectFragment());
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog();
+        final FilterDialog filterdialog = new FilterDialog();
         Bundle filterBundle = new Bundle();
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
         filterdialog.setArguments(filterBundle);
         filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.GONE);
@@ -180,11 +174,11 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         fragments.add(subjectFragment);
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog();
+        final FilterDialog filterdialog = new FilterDialog();
         Bundle filterBundle = new Bundle();
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
         filterdialog.setArguments(filterBundle);
         filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.GONE);
@@ -227,18 +221,18 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         fragments.add(tagFragment);
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog();
+        final FilterDialog filterdialog = new FilterDialog();
         Bundle filterBundle = new Bundle();
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
         filterdialog.setArguments(filterBundle);
         filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.VISIBLE);
         filterdialog.setLeftBtnVisable(View.GONE);
         filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));
         filterdialog.setTitleText("筛选标签");
-        filterdialog.setOnRightClickListener(new Filterdialog.OnRightClickListener() {
+        filterdialog.setOnRightClickListener(new FilterDialog.OnRightClickListener() {
             @Override
             public void OnRightClick(View v) {
                 //开始筛选
