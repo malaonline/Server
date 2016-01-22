@@ -20,7 +20,6 @@ class TestWebPage(TestCase):
     def setUp(self):
         if self.first_init is False:
             call_command("build_groups_and_permissions")
-            call_command("update_regions")
             self.first_init = True
 
         new_user = User.objects.create(username=self.name)
