@@ -75,7 +75,7 @@ class TestApi(TestCase):
         response = client.patch(request_url, content_type="application/json",
                                 data=json_data,
                                 **{"HTTP_AUTHORIZATION": " Token %s" % token})
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(200, response.status_code)
         # print(response.status_code)
         response.render()
         # print(response.content)
@@ -83,11 +83,11 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         # print(json_ret)
         # print(json_ret["done"])
-        self.assertEqual(json_ret["done"], "false")
+        self.assertEqual(json_ret["done"], "true")
         # self.assertEqual(response.content.decode(), "{'done': 'false', 'reason': 'Student name already exits.'}")
         print(response._headers)
         parent_after = Parent.objects.get(user=user)
-        self.assertEqual(parent_after.student_name, "student1")
+        self.assertEqual(parent_after.student_name, "StudentNewName")
 
         # test 200
         parent_after.student_name = ""
@@ -100,8 +100,6 @@ class TestApi(TestCase):
         self.assertEqual(response.content.decode(), '{"done":"true"}')
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
-        # print(response.status_code)
-        # print(response.content)
 
 
 class TestModels(TestCase):
