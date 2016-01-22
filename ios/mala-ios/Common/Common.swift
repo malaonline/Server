@@ -52,6 +52,7 @@ let MalaCommonString_PhoneNumber = "手机号"
 let MalaCommonString_Cancel = "取消"
 let MalaCommonString_VerifyCode = "验证码"
 let MalaCommonString_FilterResult = "筛选结果"
+let MalaCommonString_CourseChoosing = "课程选择"
 
 
 // MARK: - Common Proportion

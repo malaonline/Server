@@ -99,6 +99,15 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if isNavigationBarShow {
+            showBackground()
+        }else {
+            hideBackground()
+        }
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
@@ -239,7 +248,10 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     // MARK: - Deleagte
     func signupButtonDidTap(sender: UIButton) {
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
+        //TODO: 点击“立即报名” 滚动到底部
+        // tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
+        let viewController = CourseChoosingViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
