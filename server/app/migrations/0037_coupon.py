@@ -1,5 +1,5 @@
 import os
-from datetime import time
+import datetime
 
 from django.utils import timezone
 from django.db import migrations
@@ -10,13 +10,15 @@ def add_item(apps, schema_editor):
 
     parents = Parent.objects.all()
 
+    one_month = datetime.timedelta(days=30)
+
     for i, parent in enumerate(parents):
         coupon = Coupon(parent=parent, name='新生奖学金', amount=120,
-                expired_at=timezone.now(), used=i % 7 == 0)
+                expired_at=timezone.now() + one_month, used=i % 7 == 0)
         coupon.save()
         if i % 2 == 0:
             coupon = Coupon(parent=parent, name='优惠奖学金', amount=100,
-                    expired_at=timezone.now(), used=i % 3 == 0)
+                    expired_at=timezone.now() + one_month, used=i % 3 == 0)
             coupon.save()
 
 class Migration(migrations.Migration):

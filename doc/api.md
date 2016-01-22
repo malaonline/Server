@@ -329,30 +329,10 @@ body data:
 
 result:
 
-ok
-
-```
-header status_code 200
-```
-
 ```
 body
 {
     "done": "true"
-}
-```
-
-already create
-
-```
-header status_code 201
-```
-
-```
-body
-{
-    "done": "false",
-    "reason": "Student name already exits."
 }
 ```
 
@@ -431,5 +411,34 @@ result:
     ...
     ],
     ...
+}
+```
+
+### Get Coupon List
+
+```
+GET /api/v1/coupons/
+```
+
+result:
+```
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "name": "新生奖学金",
+            "amount": 120,
+            "expired_at": 1453343547,
+            "used": false
+        },
+        {
+            "name": "优惠奖学金",
+            "amount": 100,
+            "expired_at": 1453343547,
+            "used": true
+        }
+    ]
 }
 ```

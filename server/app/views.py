@@ -1,4 +1,5 @@
 import re
+import time
 import json
 import random
 import requests
@@ -14,7 +15,6 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
-# from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -30,13 +30,12 @@ from rest_framework.exceptions import PermissionDenied
 from app import models
 from .utils.smsUtil import sendCheckcode
 
-
 class Policy(View):
     def get(self, request):
         policy = get_object_or_404(models.Policy, pk=1)
         data = dict(result=policy.content,
                     updated_at=int(policy.updated_at.timestamp()))
-        return JsonResponse(data)
+        return HttpResponse(json.dumps(data, ensure_ascii=False))
 
 class TeacherWeeklyTimeSlot(View):
     def get(self, request, teacher_id):
@@ -60,13 +59,10 @@ class TeacherWeeklyTimeSlot(View):
             cur_school = occ.order.school
             occ.start = timezone.localtime(occ.start)
             occ.end = timezone.localtime(occ.end)
-            print('weekday:%s, hour:%s, minute:%s' % (occ.start.weekday(), occ.start.hour, occ.start.minute))
-            print(occ.start.tzinfo)
             start = occ.start.weekday() * 24 * 60 + occ.start.hour * 60 + occ.start.minute
             end = occ.end.weekday() * 24 * 60 + occ.end.hour * 60 + occ.end.minute - 1
             if cur_school.id != school.id:
                 start, end = start - traffic_time, end + traffic_time
-            print('segtree add %s-%s' % (start, end))
             segtree.add(start, end)
 
         data = [(str(day), [OrderedDict([('start', s.start.strftime('%H:%M')),
@@ -465,9 +461,13 @@ class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CouponSerializer(serializers.ModelSerializer):
+    expired_at = serializers.SerializerMethodField()
     class Meta:
         model = models.Coupon
         fields = ('name', 'amount', 'expired_at', 'used')
+
+    def get_expired_at(self, obj):
+        return int(obj.expired_at.timestamp())
 
 
 class CouponViewSet(viewsets.ReadOnlyModelViewSet):
