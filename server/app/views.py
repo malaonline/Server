@@ -15,7 +15,6 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
-# from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -31,13 +30,12 @@ from rest_framework.exceptions import PermissionDenied
 from app import models
 from .utils.smsUtil import sendCheckcode
 
-
 class Policy(View):
     def get(self, request):
         policy = get_object_or_404(models.Policy, pk=1)
         data = dict(result=policy.content,
                     updated_at=int(policy.updated_at.timestamp()))
-        return JsonResponse(data)
+        return HttpResponse(json.dumps(data, ensure_ascii=False))
 
 class TeacherWeeklyTimeSlot(View):
     def get(self, request, teacher_id):
