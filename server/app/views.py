@@ -73,7 +73,7 @@ class TeacherWeeklyTimeSlot(View):
                 ) == 0)]) for s in ss]) for day, ss in slots]
 
         weekday = datetime.datetime.today().weekday() + 1
-        data = OrderedDict(sorted(data, key=lambda x: (int(x[0]) + 7 - weekday) % 7))
+        data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
 
         return JsonResponse(data)
 
