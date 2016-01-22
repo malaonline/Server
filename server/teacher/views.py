@@ -281,6 +281,7 @@ class BaseTeacherView(View):
     def getContextTeacher(self, request):
         context = {}
         teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacher'] = teacher
         context['teacherName'] = teacher.name
         return context, teacher
 
@@ -540,7 +541,6 @@ class HighscoreView(BaseTeacherView):
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
-        context["teacher"] = teacher
         return context
 
     def post(self, request):
@@ -597,3 +597,20 @@ class BasicDocument(BaseTeacherView):
     def buildContextData(self, context, teacher):
         context["teacher"] = teacher
         return context
+
+
+class AchievementView(BaseTeacherView):
+    """
+    特殊成果
+    """
+    template_path = 'teacher/achievement/achievement.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        achievements = models.Achievement.objects.filter(teacher=teacher)
+        context["achievements"] = achievements
+        return render(request, self.template_path, context)
+
+    def post(self, request):
+        pass
+

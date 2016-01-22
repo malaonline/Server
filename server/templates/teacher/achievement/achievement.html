@@ -1,0 +1,40 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    特殊成果
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/achievement/achievement.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <span>特殊成果</span>
+{% endblock %}
+
+{% block maincontent %}
+    <div class="list-group" id="achievementsList">
+        {% for achievement in achievements %}
+            <div class="list-group-item">
+                <div class="pull-right">
+                    <button class="btn btn-default" data-action="edit-achievement">编辑</button>
+                    <button class="btn btn-default" data-action="delete-achievement">删除</button>
+                </div>
+                <div class="title">
+                    {{ achievement.title }}
+                </div>
+                <div class="img-box">
+                    <img style="max-width:100%;max-height: 100%;vertical-align: middle;">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <button class="btn btn-success" data-action="add-achievement">添加</button>
+    </div>
+{% endblock %}
