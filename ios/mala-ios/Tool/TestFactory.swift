@@ -14,7 +14,7 @@ class TestFactory {
     class func TeacherDetailsModel() -> TeacherDetailModel {
         let model = TeacherDetailModel()
         model.id = 1
-        model.avatar = "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-003.jpg     "
+        model.avatar = "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-003.jpg"
         model.gender = "fm"
         model.name = "丁思甜"
         model.degree = "s"

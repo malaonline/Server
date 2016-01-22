@@ -133,6 +133,24 @@
 		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
 		F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
+		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
+		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
+		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
+		F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
+		F45871ED1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */; };
+		F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */; };
+		F45871F01C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EF1C51DFD00048D93F /* CourseChoosingPlaceCell.swift */; };
+		F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EF1C51DFD00048D93F /* CourseChoosingPlaceCell.swift */; };
+		F45871F31C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F21C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift */; };
+		F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F21C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift */; };
+		F45871F61C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F51C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift */; };
+		F45871F71C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F51C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift */; };
+		F45871F91C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */; };
+		F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */; };
+		F45871FC1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */; };
+		F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */; };
+		F45871FF1C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
+		F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
 		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 /* End PBXBuildFile section */
@@ -241,6 +259,15 @@
 		F402C9941C4F69C100E229FA /* TeacherTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableView.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
+		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
+		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
+		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
+		F45871EF1C51DFD00048D93F /* CourseChoosingPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceCell.swift; sourceTree = "<group>"; };
+		F45871F21C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingClassScheduleCell.swift; sourceTree = "<group>"; };
+		F45871F51C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingClassPeriodCell.swift; sourceTree = "<group>"; };
+		F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTimeScheduleCell.swift; sourceTree = "<group>"; };
+		F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingOtherServiceCell.swift; sourceTree = "<group>"; };
+		F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingConfirmView.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -325,6 +352,7 @@
 				307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */,
 				F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */,
 				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
+				F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -382,6 +410,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F45871E81C51D5CE0048D93F /* CourseChoosingView */,
 				30B598131C47AC0500169390 /* TeacherTableView */,
 				3037B58D1C3B9C83005672D9 /* TeacherDetail */,
 				30AE092E1C2AC92000FD607D /* TeacherFilterView */,
@@ -572,6 +601,21 @@
 				25DA83160369F01018BE7B4A /* Pods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F45871E81C51D5CE0048D93F /* CourseChoosingView */ = {
+			isa = PBXGroup;
+			children = (
+				F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */,
+				F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */,
+				F45871EF1C51DFD00048D93F /* CourseChoosingPlaceCell.swift */,
+				F45871F21C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift */,
+				F45871F51C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift */,
+				F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */,
+				F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */,
+				F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */,
+			);
+			path = CourseChoosingView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -793,13 +837,17 @@
 				357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */,
 				303BCFEB1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
+				F45871F01C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */,
+				F45871F61C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
 				307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
 				3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
+				F45871F91C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
+				F45871ED1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				307AB89F1C33CDD200D8397F /* HighScoreModel.swift in Sources */,
@@ -809,14 +857,18 @@
 				307AB8981C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				3037B5A41C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				30445B1C1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
+				F45871FF1C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */,
 				3037B59B1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
+				F45871FC1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				3037B5A11C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				303BCFF41C44ABC900B37DD9 /* TestFactory.swift in Sources */,
+				F45871F31C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				308063971C3A271C00729832 /* Extension+UIView.swift in Sources */,
 				3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
+				F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
@@ -829,6 +881,7 @@
 				303BCFEE1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
+				F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
 				304135A41C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				307DA2041C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
@@ -861,7 +914,9 @@
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				3037B5961C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
+				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
+				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
@@ -873,7 +928,9 @@
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
+				F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
+				F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */,
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
@@ -886,21 +943,26 @@
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
+				F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
+				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
 				30445B1A1C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
 				307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
+				F45871F71C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
 				30445B171C4A3959002CD290 /* FilterView.swift in Sources */,
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
+				F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				30445B141C49EEA2002CD290 /* ThemeAlert.swift in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
+				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
 				3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
