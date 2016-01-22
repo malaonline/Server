@@ -1,5 +1,8 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.Map;
 /**
  * Created by zl on 15/12/14.
  */
-public class Grade extends BaseEntity {
+public class Grade extends BaseEntity{
     public static final long PRIMARY_ID = 1;
     public static final long MIDDLE_ID = 8;
     public static final long SENIOR_ID = 13;
@@ -73,7 +76,6 @@ public class Grade extends BaseEntity {
         gradeList.add(new Grade(9L, "初一", true, MIDDLE_ID));
         gradeList.add(new Grade(10L, "初二", true, MIDDLE_ID));
         gradeList.add(new Grade(11L, "初三", true, MIDDLE_ID));
-        gradeList.add(new Grade(12L, "初四", true, MIDDLE_ID));
 
         gradeList.add(new Grade(13L, "高中", false));
         gradeList.add(new Grade(14L, "高一", true, SENIOR_ID));
@@ -151,7 +153,34 @@ public class Grade extends BaseEntity {
                 }
             }
         }
-
         return str;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.leaf);
+        dest.writeValue(this.supersetId);
+    }
+
+    protected Grade(Parcel in) {
+        super(in);
+        this.leaf = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.supersetId = (Long) in.readValue(Long.class.getClassLoader());
+    }
+
+    public static final Creator<Grade> CREATOR = new Creator<Grade>() {
+        public Grade createFromParcel(Parcel source) {
+            return new Grade(source);
+        }
+
+        public Grade[] newArray(int size) {
+            return new Grade[size];
+        }
+    };
 }

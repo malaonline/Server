@@ -1,5 +1,8 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +11,10 @@ import java.util.Map;
 /**
  * Created by zl on 15/12/14.
  */
-public class Subject extends BaseEntity {
+public class Subject extends BaseEntity{
+
+    public Subject(){
+    }
 
     public Subject(Long id, String name) {
         super(id, name);
@@ -74,4 +80,27 @@ public class Subject extends BaseEntity {
         return null;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
+
+    protected Subject(Parcel in) {
+        super(in);
+    }
+
+    public static final Creator<Subject> CREATOR = new Creator<Subject>() {
+        public Subject createFromParcel(Parcel source) {
+            return new Subject(source);
+        }
+
+        public Subject[] newArray(int size) {
+            return new Subject[size];
+        }
+    };
 }

@@ -1,12 +1,19 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zl on 15/12/14.
  */
-public class Tag extends BaseEntity {
+public class Tag extends BaseEntity{
+
+    public Tag(){
+
+    }
 
     public Tag(Long id, String name) {
         super(id, name);
@@ -59,4 +66,28 @@ public class Tag extends BaseEntity {
         }
         return null;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
+
+    protected Tag(Parcel in) {
+        super(in);
+    }
+
+    public static final Creator<Tag> CREATOR = new Creator<Tag>() {
+        public Tag createFromParcel(Parcel source) {
+            return new Tag(source);
+        }
+
+        public Tag[] newArray(int size) {
+            return new Tag[size];
+        }
+    };
 }

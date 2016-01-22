@@ -54,8 +54,11 @@
     <color name="teacher_title_text_color">#333333</color>
     <color name="item_text_color_normal">#636363</color>
     <color name="toolbar_color">#88ffffff</color>
+    <color name="title_bar_text_color">#333333</color>
 
     <color name="backgrounp">#F6F6F6</color>
+
+    <color name="filter_btn_text_color">#8BBADC</color>
 
     <!-- 指示器 -->
     <color name="smallCircleColor">#c7deee</color>

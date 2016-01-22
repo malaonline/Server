@@ -134,6 +134,10 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     private View mLastSelectedSubjectView;
     private long mSelectedSubjectId;
 
+    private Grade mSelectedGrade = new Grade();
+    private Subject mSelectedSubject = new Subject();
+    private ArrayList<Tag> mSelectedTags = new ArrayList<>();
+
     private View mAllTag;
 
     public static FilterDialogFragment newInstance() {
@@ -413,9 +417,9 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             textView1.setOnClickListener(this);
             textView2.setOnClickListener(this);
             textView1.setText((String) bigTags.get(2 * i).get("name"));
-            textView1.setTag(smallTags.get(2 * i));
+            textView1.setTag(bigTags.get(2 * i));
             textView2.setText((String) bigTags.get(2 * i + 1).get("name"));
-            textView2.setTag(smallTags.get(2 * i + 1));
+            textView2.setTag(bigTags.get(2 * i + 1));
             mTagViews.add(textView1);
             mTagViews.add(textView2);
             mTagFlow.addView(view);
@@ -637,16 +641,19 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
         List<Map<String,Object>> subGrades = (List<Map<String,Object>>)mGragesList.get(stage-1).get("subset");
         Map grade = subGrades.get(position);
         mSelectedGradeId = (long)grade.get("id");
+        mSelectedGrade.setId((long)grade.get("id"));
+        mSelectedGrade.setName((String)grade.get("name"));
+
         long[] subjectIds = (long[])grade.get("subjects");
         mSubjectsList.clear();
         for (int s = 0; s < subjectIds.length; s++) {
             long sId = subjectIds[s];
             for (int i = 0; i < mTotalSubjectsList.size(); i++) {
-                Map subj = mTotalSubjectsList.get(i);
-                if ((long)subj.get("id") == sId) {
-                    mSubjectsList.add(subj);
-                    break;
-                }
+                    Map subj = mTotalSubjectsList.get(i);
+                    if ((long)subj.get("id") == sId) {
+                        mSubjectsList.add(subj);
+                        break;
+                    }
             }
         }
         ((FilterAdapter)mSubjectsViewList.getAdapter()).notifyDataSetChanged();
@@ -667,6 +674,9 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
         imageView.setSelected(true);
         mLastSelectedSubjectView = imageView;
         mSelectedSubjectId = (long)mSubjectsList.get(position).get("id");
+        mSelectedSubject.setId((long)mSubjectsList.get(position).get("id"));
+        mSelectedSubject.setName((String)mSubjectsList.get(position).get("name"));
+
         gotoNextFilterView();
     }
 
@@ -682,25 +692,22 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     protected void onClickBtnSearch() {
         dismiss();
         if (mAllTag.isSelected()){
-            TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, null);
+            TeacherListFilterActivity.open(this.getActivity(), mSelectedGrade, mSelectedSubject, null);
             return;
         }
         //
-        long[] selectedTags = new long[mTagViews.size()];
         int index = 0;
         for (int i = 0; i < mTagViews.size(); i++) {
             View view = mTagViews.get(i);
             if (view.isSelected()) {
                 Map<String, Object> tag = (Map<String, Object>) view.getTag();
-                selectedTags[index] = ((long) tag.get("id"));
+                Tag tag1 = new Tag((Long)tag.get("id"),(String)tag.get("name"));
+                mSelectedTags.add(tag1);
                 index++;
             }
         }
-        long[] tag = new long[index];
-        for (int i=0;i<tag.length;i++){
-            tag[i] = selectedTags[i];
-        }
-        TeacherListFilterActivity.open(this.getActivity(), mSelectedGradeId, mSelectedSubjectId, tag);
+       // Context context, Grade grade, Subject subject, ArrayList<Tag> tags
+        TeacherListFilterActivity.open(this.getActivity(), mSelectedGrade, mSelectedSubject, mSelectedTags);
     }
 
     @OnClick(R.id.tags_load_again)
