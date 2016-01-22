@@ -36,6 +36,5 @@ class Command(BaseCommand):
     help = "Update Region Infomation"
 
     def handle(self, *args, **options):
-        Region.objects.all().delete()
         add_region()
         # TODO 移除已经没有的省市,并做老师关联检查
