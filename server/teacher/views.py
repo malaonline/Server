@@ -111,7 +111,7 @@ def information_complete_percent(user: User):
     if len(teacher.abilities.all()) == 0:
         unfinished += 1
     else:
-        print("teacher.ability_set.all() is {all}".format(all=len(teacher.ability_set.all())))
+        print("teacher.abilities.all() is {all}".format(all=len(teacher.abilities.all())))
     return (total - unfinished) / total
 
 
@@ -125,7 +125,10 @@ class CompleteInformation(View):
         name = teacher.name
         gender_dict = {"f": "女", "m": "男", "u": ""}
         gender = gender_dict.get(profile.gender, "")
-        region = teacher.region.name or ""
+        if teacher.region:
+            region = teacher.region.name or ""
+        else:
+            region = ""
         ability_set_all = teacher.abilities.all()
         phone = profile.mask_phone()
         if len(ability_set_all) > 0:
@@ -199,8 +202,8 @@ class CompleteInformation(View):
 
         for one_grade in grade_list:
             the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
-            ability, _ = models.Ability.objects.get_or_create(teacher=teacher, grade=the_grade, subject=the_subject)
-            teacher.ability_set.add(ability)
+            ability, _ = models.Ability.objects.get_or_create(grade=the_grade, subject=the_subject)
+            teacher.abilities.add(ability)
             ability.save()
 
         teacher.save()
