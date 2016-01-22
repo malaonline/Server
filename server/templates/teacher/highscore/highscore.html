@@ -42,7 +42,7 @@
         {% for highscore in highscores %}
         <tr>
             <td>
-                <input type="checkbox" name="checkboxSelect">
+                <input type="checkbox" name="checkboxSelect" value="{{highscore.id}}">
             </td>
             <td>
                 {{highscore.name}}
@@ -61,6 +61,6 @@
     </table>
     <div class="bottom-btn">
         <input type="button" name="addHighscore" value="添加" class="btn btn-primary">
-        <input type="button" name="delHighscore" value="删除" class="btn btn-default">
+        <input type="button" name="delHighscore" id="delHighscore" value="删除" class="btn btn-default">
     </div>
 {% endblock %}

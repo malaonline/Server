@@ -542,10 +542,55 @@ class HighscoreView(BaseTeacherView):
 
     def post(self, request):
         if request.POST.get('action') == 'delete':
-            return self.doDeleteCert(request)
+            return self.doDelHighscore(request)
 
         context, teacher = self.getContextTeacher(request)
         highscore = None
 
         context = self.buildContextData(context, teacher)
         return render(request, self.template_path, context)
+
+    """
+    return message format: {'ok': False, 'msg': msg, 'code': 1}
+    """
+    def doDelHighscore(self, request):
+        context, teacher = self.getContextTeacher(request)
+        delIds = request.POST.get('ids')
+        if not delIds:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        delIds = delIds.split(",");
+        delIds = list(map(int, filter(lambda x:x, delIds)))
+        try:
+            delObjs = models.Highscore.objects.filter(id__in = delIds)
+            allIsSelf = True
+            for p in delObjs:
+                if p.teacher.id != teacher.id:
+                    allIsSelf = False
+            if not allIsSelf:
+                return JsonResponse({'ok': False, 'msg': '只能删除自己的记录', 'code': -1})
+
+            ret = models.Highscore.objects.filter(id__in = delIds).delete()
+
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
+
+class BasicDocument(BaseTeacherView):
+    """
+    基本资料
+    """
+    template_path = 'teacher/doc/basic.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        highscore = None
+        if teacher:
+            highscores = models.Highscore.objects.filter(teacher=teacher)
+        context = self.buildContextData(context, teacher)
+        context["highscores"] = highscores
+        return render(request, self.template_path, context)
+        
+    def buildContextData(self, context, teacher):
+        context["teacher"] = teacher
+        return context
