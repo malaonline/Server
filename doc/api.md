@@ -329,30 +329,10 @@ body data:
 
 result:
 
-ok
-
-```
-header status_code 200
-```
-
 ```
 body
 {
     "done": "true"
-}
-```
-
-already create
-
-```
-header status_code 201
-```
-
-```
-body
-{
-    "done": "false",
-    "reason": "Student name already exits."
 }
 ```
 
