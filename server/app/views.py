@@ -25,9 +25,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, mixins
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers, viewsets, permissions
+from rest_framework.exceptions import PermissionDenied
 
 from app import models
-from .restful_exception import AlreadyCreated
 from .utils.smsUtil import sendCheckcode
 
 
@@ -474,7 +474,10 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Coupon.objects.filter()
     def get_queryset(self):
         user = self.request.user;
-        queryset = user.parent.coupon_set.all()
+        try:
+            queryset = user.parent.coupon_set.all()
+        except:
+            raise PermissionDenied(detail='Role incorrect')
         return queryset
     serializer_class = CouponSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -495,16 +498,9 @@ class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Parent
         fields = ('student_name', )
-    # TODO: limit update time. Only one time
 
     def is_valid(self, raise_exception=False):
         super().is_valid(raise_exception=raise_exception)
-        if self.context["request"]._request.method.lower() =="patch":
-            # 只有Patch的情况才要检查
-            if self.instance.student_name != "":
-                if raise_exception:
-                    raise AlreadyCreated(detail='{"done": "false", "reason": "Student name already exits."}')
-
 
 class ParentViewSet(ModelViewSet):
     queryset = models.Parent.objects.all()
