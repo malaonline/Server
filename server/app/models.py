@@ -357,6 +357,9 @@ class Achievement(BaseModel):
     title = models.CharField(max_length=30)
     img = models.ImageField(null=True, blank=True, upload_to='achievements')
 
+    def imgUrl(self):
+        return self.img and self.img.url or ''
+
 
 class Photo(BaseModel):
     teacher = models.ForeignKey(Teacher)

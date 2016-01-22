@@ -1,0 +1,59 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    特殊成果
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/achievement/achievement.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
+    <script src="{% static 'teacher/js/achievement/achievement.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <a href="{% url 'teacher:achievement' %}"><span>特殊成果</span></a>
+    &gt;
+    <span>{{ achieve_title }}</span>
+{% endblock %}
+
+{% block maincontent %}
+    <form class="form-horizontal" id="achieveEditForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" id="id" name="id" value="{{ achieve.id }}">
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">成果名称</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="title" name="title" value="{{ achieve.title }}" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2">{# empty #}</div>
+            <div class="col-sm-3">
+                <div class="img-upload-box">
+                    <div class="img-box">
+                        <img src="{{ achieve.imgUrl }}">
+                    </div>
+                    <div class="img-preview-box"><img src=""></div>
+                    <div class="uploading-hint-box"></div>
+                    <span class="file-input-mask text-center">
+                        <span>上传图片</span>
+                        <input title="请选择图片" type="file" name="achieveImg" multiple=""/>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group {% if error_msg %}has-error{% endif %}">
+            <div class="col-sm-2">{# empty #}</div>
+            <div class="col-sm-10">
+                <span class="help-block">{{ error_msg }}</span>
+                <button type="button" class="btn btn-success" data-action="save">保存</button>
+                <button type="button" class="btn btn-default" data-action="cancel">取消</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

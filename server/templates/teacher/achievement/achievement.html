@@ -1,0 +1,41 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    特殊成果
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/achievement/achievement.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/achievement/achievement.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <span>特殊成果</span>
+{% endblock %}
+
+{% block maincontent %}
+    <div class="list-group" id="achievementsList">
+        {% for achievement in achievements %}
+            <div class="list-group-item" achieveId="{{ achievement.id }}">
+                <div class="pull-right">
+                    <a class="btn btn-default btn-small" href="{% url 'teacher:achievement-edit' action='edit' id=achievement.id %}" data-action="edit-achievement">编辑</a>
+                    <button class="btn btn-default btn-small" data-action="delete-achievement">删除</button>
+                </div>
+                <div class="title">
+                    {{ achievement.title }}
+                </div>
+                <div class="img-box">
+                    <img src="{{ achievement.imgUrl }}">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <a class="btn btn-success" href="{% url 'teacher:achievement-add' action='add' %}" data-action="add-achievement">添加</a>
+    </div>
+{% endblock %}

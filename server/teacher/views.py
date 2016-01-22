@@ -281,6 +281,7 @@ class BaseTeacherView(View):
     def getContextTeacher(self, request):
         context = {}
         teacher = get_object_or_404(models.Teacher, user=request.user)
+        context['teacher'] = teacher
         context['teacherName'] = teacher.name
         return context, teacher
 
@@ -353,14 +354,14 @@ class CertificateIDView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             idHeldImgFile = request.FILES.get('idHeldImg')
             if idHeldImgFile:
-                held_img_content = ContentFile(request.FILES['idHeldImg'].read())
+                held_img_content = ContentFile(idHeldImgFile.read())
                 certIdHeld.img.save("idHeld"+str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
             if idFrontImgFile:
-                front_img_content = ContentFile(request.FILES['idFrontImg'].read())
+                front_img_content = ContentFile(idFrontImgFile.read())
                 certIdFront.img.save("idFrontImg"+str(teacher.id), front_img_content)
 
         certIdHeld.save()
@@ -419,10 +420,10 @@ class CertificateForOnePicView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, cert))
         cert.name = name
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
-                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert_img_content = ContentFile(certImgFile.read())
                 cert.img.save("certImg"+str(self.cert_type)+str(teacher.id), cert_img_content)
 
         cert.save()
@@ -475,7 +476,7 @@ class CertificateOthersView(BaseTeacherView):
         cert = None
         id = request.POST.get('id')
         if id:
-            cert = models.Certificate.objects.get(id=id)
+            cert = models.Certificate.objects.get(id=id, teacher=teacher)
         else:
             cert = models.Certificate(teacher=teacher, type=models.Certificate.OTHER, verified=False)
         name = request.POST.get('name')
@@ -487,10 +488,10 @@ class CertificateOthersView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, teacher))
         cert.name = name
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
-                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert_img_content = ContentFile(certImgFile.read())
                 cert.img.save("certImg"+str(cert.type)+str(teacher.id)+'_'+str(cert_img_content.size), cert_img_content)
 
         cert.save()
@@ -509,14 +510,12 @@ class CertificateOthersView(BaseTeacherView):
         if not certId:
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         try:
-            cert = models.Certificate.objects.get(id=certId)
-            if cert.teacher.id != teacher.id:
-                return JsonResponse({'ok': False, 'msg': '非法操作', 'code': 3})
+            cert = models.Certificate.objects.get(id=certId, teacher=teacher)
             if cert.type and cert.type != models.Certificate.OTHER:
                 return JsonResponse({'ok': False, 'msg': '不支持删除该类型的证书', 'code': 4})
             cert.delete()
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
-        except models.Teacher.DoesNotExist as e:
+        except models.Certificate.DoesNotExist as e:
             logger.warning(e)
             return JsonResponse({'ok': False, 'msg': '没有找到相应的记录', 'code': 2})
         except Exception as err:
@@ -540,7 +539,6 @@ class HighscoreView(BaseTeacherView):
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
-        context["teacher"] = teacher
         return context
 
     def post(self, request):
@@ -597,3 +595,82 @@ class BasicDocument(BaseTeacherView):
     def buildContextData(self, context, teacher):
         context["teacher"] = teacher
         return context
+
+
+class AchievementView(BaseTeacherView):
+    """
+    特殊成果
+    """
+    template_path = 'teacher/achievement/achievement.html'
+    edit_template_path = 'teacher/achievement/achievement_edit.html'
+
+    def get(self, request, action=None, id=None):
+        context, teacher = self.getContextTeacher(request)
+        if action == 'add':
+            context['achieve_title'] = '新建'
+            return render(request, self.edit_template_path, context)
+        if action == 'edit' and id:
+            achievement = models.Achievement.objects.get(id=id, teacher=teacher)
+            context['achieve_title'] = '修改'
+            context['achieve'] = achievement
+            return render(request, self.edit_template_path, context)
+        # 返回列表页
+        achievements = models.Achievement.objects.filter(teacher=teacher)
+        context["achievements"] = achievements
+        return render(request, self.template_path, context)
+
+    def post(self, request, action=None, id=None):
+        if action == 'add':
+            return self.doSave(request, None)
+        if action == 'edit':
+            return self.doSave(request, id)
+        if action == 'delete':
+            return self.doDelete(request, id)
+        return HttpResponse('', status=403)
+
+    def doDelete(self, request, achieveId):
+        context, teacher = self.getContextTeacher(request)
+        if not achieveId:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        try:
+            achievement = models.Achievement.objects.get(id=achieveId, teacher=teacher)
+            achievement.delete()
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+        except models.Achievement.DoesNotExist as e:
+            logger.warning(e)
+            return JsonResponse({'ok': False, 'msg': '没有找到相应的记录', 'code': 2})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
+
+    def doSave(self, request, id):
+        title = request.POST.get('title')
+        if not title:
+            error_msg = '名称不能为空'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+        if len(title) > 10:
+            error_msg = '名称不能超过10个字'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 2})
+
+        context, teacher = self.getContextTeacher(request)
+        achievement = None
+        if id:
+            achievement = models.Achievement.objects.get(id=id, teacher=teacher)
+        else:
+            achievement = models.Achievement(teacher=teacher)
+
+        achieveImgFile = None
+        if request.FILES:
+            achieveImgFile = request.FILES.get('achieveImg')
+        if not achievement.img and not achieveImgFile:
+                error_msg = '请选择图片'
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
+
+        achievement.title = title
+        if achieveImgFile:
+            img_content = ContentFile(achieveImgFile.read())
+            achievement.img.save("achievement"+str(teacher.id)+'_'+str(img_content.size), img_content)
+
+        achievement.save()
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
