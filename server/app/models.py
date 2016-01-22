@@ -113,7 +113,7 @@ class Level(BaseModel):
 
 class Price(BaseModel):
     region = models.ForeignKey(Region, limit_choices_to={'opened': True})
-    ability = models.ForeignKey(Ability)
+    ability = models.ForeignKey(Ability, default=1)
     level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
 
