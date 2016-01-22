@@ -29,7 +29,7 @@ def add_teacher(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0041_policy'),
+        ('app', '0042_add_other_region'),
     ]
 
     operations = [
