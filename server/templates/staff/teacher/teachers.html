@@ -11,13 +11,14 @@
     <script src="{% static 'common/js/moment.min.js' %}"></script>
     <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+    <script src="{% static 'common/js/pagination.js' %}"></script>
     <script src="{% static 'staff/js/teacher/teachers.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <form name="query_form">
         姓名 <input type="text" name="name" value="{{ query_data.name }}" />
-        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
         状态
         <select name="status">
             <option value="">全部</option>
@@ -86,28 +87,7 @@
             </tr>
         {% endfor %}
     </table>
-    {% load custom_tags %}
-    <nav>
-        <ul class="pagination">
-            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>
-            </li>
-            <li class="{% if not page or page <= 1 %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
-            </li>
-            {% for i in total_page|num_range %}
-                <li class="{% if page == i %}active{% endif %}">
-                    <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
-                </li>
-            {% endfor %}
-            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
-            </li>
-            <li class="{% if not page or page >= total_page %}disabled{% endif %}">
-                <a href="javascript:void(0)" aria-label="Last" data-pageto="{{ total_page }}"> <span aria-hidden="true">&raquo;</span></a>
-            </li>
-        </ul>
-    </nav>
+    {% include 'pagination_nav.html' %}
 
 {#    年级科目显示框#}
     <div class="modal fade" id="gradeSubjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

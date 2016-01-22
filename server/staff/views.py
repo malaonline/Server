@@ -2,10 +2,8 @@ import logging
 import datetime
 
 # django modules
-from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
@@ -80,7 +78,7 @@ class BaseStaffView(TemplateView):
         if page_to < 1:
             page_to = 1
         query_set = query_set[(page_to-1)*page_size:page_to*page_size]
-        return query_set, page_to, total_page, total_count
+        return query_set, {'page': page_to, 'total_page': total_page, 'total_count': total_count}
 
 class BaseStaffActionView(View):
     """
@@ -89,8 +87,7 @@ class BaseStaffActionView(View):
 
     defaultErrMeg = "操作失败,请稍后重试或联系管理员"
 
-    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问,加上后可用客户端调用
-    @method_decorator(require_POST)
+    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
@@ -133,21 +130,19 @@ class TeacherView(BaseStaffView):
             query_set = query_set.filter(region_id = region)
         query_set = query_set.order_by('-user__date_joined')
         # paginate
-        query_set, page, total_page, total_count = self.paginate(query_set, page)
+        query_set, pager = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
-        kwargs['page'] = page
-        kwargs['total_page'] = total_page
-        kwargs['total_count'] = total_count
+        kwargs['pager'] = pager
         # 一些固定数据
         kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
 
-class TeacherOfflineView(BaseStaffView):
+class TeacherUnpublishedView(BaseStaffView):
     """
     待上架老师列表view
     """
-    template_name = 'staff/teacher/teachers_offline.html'
+    template_name = 'staff/teacher/teachers_unpublished.html'
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
@@ -163,18 +158,26 @@ class TeacherOfflineView(BaseStaffView):
             query_set = query_set.filter(user__profile__phone__contains = phone)
         query_set = query_set.order_by('id')
         # paginate
-        query_set, page, total_page, total_count = self.paginate(query_set, page)
+        query_set, pager = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
-        kwargs['page'] = page
-        kwargs['total_page'] = total_page
-        kwargs['total_count'] = total_count
+        kwargs['pager'] = pager
         # 一些固定数据
-        # TODO: 省份列表
-        return super(TeacherOfflineView, self).get_context_data(**kwargs)
+        # 省份列表
+        kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        kwargs['grades'] = models.Grade.objects.filter(superset_id__isnull=True)
+        kwargs['subjects'] = models.Subject.objects.all
+        kwargs['levels'] = models.Level.objects.all
+        return super(TeacherUnpublishedView, self).get_context_data(**kwargs)
 
 class TeacherActionView(BaseStaffActionView):
 
     NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
+
+    def get(self, request):
+        action = self.request.GET.get('action')
+        if action == 'list-region':
+            return self.listSubRegions(request)
+        return HttpResponse("", status=404)
 
     def post(self, request):
         action = self.request.POST.get('action')
@@ -189,7 +192,30 @@ class TeacherActionView(BaseStaffActionView):
             return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
         return HttpResponse("Not supported request.", status=403)
 
+    def listSubRegions(self, request):
+        """
+        获取下级地区列表
+        :param request:
+        :return:
+        """
+        sid = request.GET.get('sid')
+        query_set = models.Region.objects.filter()
+        if not sid:
+            query_set = query_set.filter(superset_id__isnull=True)
+        else:
+            query_set = query_set.filter(superset_id=sid)
+        regions = []
+        for region in query_set:
+            regions.append({'id': region.id, 'name': region.name})
+        return JsonResponse({'list': regions})
+
     def updateTeacherStatus(self, request, new_status):
+        """
+        新注册老师修改老师状态
+        :param request:
+        :param new_status:
+        :return:
+        """
         teacherId = request.POST.get('teacherId')
         try:
             teacher = models.Teacher.objects.get(id=teacherId)

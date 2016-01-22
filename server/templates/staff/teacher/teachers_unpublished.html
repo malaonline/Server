@@ -1,0 +1,128 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}待上架老师列表{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'common/js/pagination.js' %}"></script>
+    <script src="{% static 'staff/js/teacher/teachers_unpublished.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
+        所在地区
+        <select name="province">
+            <option value="">全部省</option>
+            {% for province in provinces %}
+                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="city">
+            <option value="">全部市</option>
+        </select>
+        <select name="district">
+            <option value="">全部区</option>
+        </select>
+        年级
+        <select name="grade">
+            <option value="">全部</option>
+            {% for grade in grades %}
+                <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %} selected="selected"{% endif %}>{{ grade.name }}</option>
+            {% endfor %}
+        </select>
+        科目
+        <select name="subject">
+            <option value="">全部</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %} selected="selected"{% endif %}>{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+        级别
+        <select name="level">
+            <option value="">全部</option>
+            {% for level in levels %}
+                <option value="{{ level.id }}" {% if level.id|stringformat:"i" == query_data.level %} selected="selected"{% endif %}>{{ level.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="查询"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">照片</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">教龄</th>
+            <th class="text-center">所在地区</th>
+            <th class="text-center">授课中心</th>
+            <th class="text-center">授课时间</th>
+            <th class="text-center">授课科目</th>
+            <th class="text-center">星级</th>
+            <th class="text-center">授课年级</th>
+            <th class="text-center">课时单价</th>
+            <th class="text-center">教学经验</th>
+            <th class="text-center">专业技能</th>
+            <th class="text-center">互动能力</th>
+            <th class="text-center">风格标记</th>
+            <th class="text-center">提分榜</th>
+            <th class="text-center">视频</th>
+            <th class="text-center">介绍语音</th>
+            <th class="text-center">教学成果</th>
+            <th class="text-center">证书内容</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 照片 #} {% if teacher.user.profile.avatar %}<a data-action="show-avatar" url="{{ teacher.user.profile.avatar.url }}" href="javascript:void(0)">查看</a>{% else %}未填{% endif %} </td>
+                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
+                <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
+                <td>{# 所在地区 #} {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>
+                <td>{# 授课中心 #} TODO </td>
+                <td>{# 授课时间 #} TODO </td>
+                <td>{# 授课科目 #} {% if teacher.subject %}{{ teacher.subject }}{% else %}未填{% endif %} </td>
+                <td>{# 星级 #} {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>
+                <td>{# 授课年级 #} {% if teacher.grades %} {% for g in teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
+                <td>{# 课时单价 #} {% if teacher.min_price %}{{ teacher.min_price }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price }}{% endif %}</td>
+                <td>{# 教学经验 #} {% if teacher.experience %} {{ teacher.experience }}分{% else %}未填{% endif %} </td>
+                <td>{# 专业技能 #} {% if teacher.profession %} {{ teacher.profession }}分{% else %}未填{% endif %} </td>
+                <td>{# 互动能力 #} {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>
+                <td>{# 风格 #} {% if teacher.tags.all %}{% for t in teacher.tags.all %} {{ t.name }}<br>{% endfor %} {% else %}未填{% endif %} </td>
+                <td>{# 提分榜 #} TODO </td>
+                <td>{# 视频 #} TODO </td>
+                <td>{# 介绍语音 #} TODO </td>
+                <td>{# 教学成果 #} TODO </td>
+                <td>{# 证书内容 #} {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>
+                <td field="action">{# 操作 #}
+                    <a data-action="to-edit">编辑</a> | <a data-action="set-online">上架</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+
+{#    头像显示modal#}
+    <div class="modal fade" id="avatarModal" tabindex="-1" role="dialog" aria-labelledby="avatarLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="avatarLabel">头像</h4>
+              </div>
+              <div class="modal-body">
+                <div class="text-center">
+                    <img style="max-width:100%;max-height: 100%;vertical-align: middle;">
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
