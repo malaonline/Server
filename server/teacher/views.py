@@ -354,14 +354,14 @@ class CertificateIDView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             idHeldImgFile = request.FILES.get('idHeldImg')
             if idHeldImgFile:
-                held_img_content = ContentFile(request.FILES['idHeldImg'].read())
+                held_img_content = ContentFile(idHeldImgFile.read())
                 certIdHeld.img.save("idHeld"+str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
             if idFrontImgFile:
-                front_img_content = ContentFile(request.FILES['idFrontImg'].read())
+                front_img_content = ContentFile(idFrontImgFile.read())
                 certIdFront.img.save("idFrontImg"+str(teacher.id), front_img_content)
 
         certIdHeld.save()
@@ -420,10 +420,10 @@ class CertificateForOnePicView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, cert))
         cert.name = name
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
-                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert_img_content = ContentFile(certImgFile.read())
                 cert.img.save("certImg"+str(self.cert_type)+str(teacher.id), cert_img_content)
 
         cert.save()
@@ -488,10 +488,10 @@ class CertificateOthersView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, teacher))
         cert.name = name
 
-        if request.FILES and len(request.FILES):
+        if request.FILES:
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
-                cert_img_content = ContentFile(request.FILES['certImg'].read())
+                cert_img_content = ContentFile(certImgFile.read())
                 cert.img.save("certImg"+str(cert.type)+str(teacher.id)+'_'+str(cert_img_content.size), cert_img_content)
 
         cert.save()
@@ -609,6 +609,12 @@ class AchievementView(BaseTeacherView):
         if action == 'add':
             context['achieve_title'] = '新建'
             return render(request, self.edit_template_path, context)
+        if action == 'edit' and id:
+            achievement = models.Achievement.objects.get(id=id, teacher=teacher)
+            context['achieve_title'] = '修改'
+            context['achieve'] = achievement
+            return render(request, self.edit_template_path, context)
+        # 返回列表页
         achievements = models.Achievement.objects.filter(teacher=teacher)
         context["achievements"] = achievements
         return render(request, self.template_path, context)
@@ -646,24 +652,24 @@ class AchievementView(BaseTeacherView):
             error_msg = '名称不能超过10个字'
             return JsonResponse({'ok': False, 'msg': error_msg, 'code': 2})
 
-        if not request.FILES or len(request.FILES)==0:
-            error_msg = '请选择图片'
-            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 3})
-        achieveImgFile = request.FILES.get('achieveImg')
-        if not achieveImgFile:
-            error_msg = '请选择图片'
-            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
-
         context, teacher = self.getContextTeacher(request)
         achievement = None
         if id:
             achievement = models.Achievement.objects.get(id=id, teacher=teacher)
         else:
             achievement = models.Achievement(teacher=teacher)
-        achievement.title = title
 
-        img_content = ContentFile(achieveImgFile.read())
-        achievement.img.save("achievement"+str(teacher.id)+'_'+str(img_content.size), img_content)
+        achieveImgFile = None
+        if request.FILES:
+            achieveImgFile = request.FILES.get('achieveImg')
+        if not achievement.img and not achieveImgFile:
+                error_msg = '请选择图片'
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
+
+        achievement.title = title
+        if achieveImgFile:
+            img_content = ContentFile(achieveImgFile.read())
+            achievement.img.save("achievement"+str(teacher.id)+'_'+str(img_content.size), img_content)
 
         achievement.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
