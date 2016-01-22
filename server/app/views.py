@@ -467,7 +467,7 @@ class CouponSerializer(serializers.ModelSerializer):
         fields = ('name', 'amount', 'expired_at', 'used')
 
     def get_expired_at(self, obj):
-        return int(time.mktime(obj.expired_at.timetuple()))
+        return int(obj.expired_at.timestamp())
 
 
 class CouponViewSet(viewsets.ReadOnlyModelViewSet):
