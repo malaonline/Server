@@ -1,0 +1,38 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    基本资料
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/highscore/highscore.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
+    <script src="{% static 'teacher/js/highscore/hiscore.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">个人设置</span>
+    &gt;
+    <span>基本资料</span>
+{% endblock %}
+
+{% block maincontent %}
+    <div>基本信息</div>
+    <div>
+        <div class="form-row">
+            <label>姓名</label>
+            <label for="">张三</label>
+        </div>
+        <div class="form-row">
+            <label>手机号</label>
+            <label>138...</label>
+        </div>
+    </div>
+    <div class="bottom-btn">
+        <input type="button" name="addHighscore" value="提交" class="btn btn-primary">
+    </div>
+{% endblock %}

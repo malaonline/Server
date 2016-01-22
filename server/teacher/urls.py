@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^certificate/others/$', views.CertificateOthersView.as_view(), name="certificate-others"),
     url(r'^verify_sms_code/$', views.verify_sms_code, name="verify-sms-code"),
     url(r'^highscore/$', views.HighscoreView.as_view(), name="highscore"),
+    url(r'^basic_doc/$', views.BasicDocument.as_view(), name="basic_doc"),
 ]

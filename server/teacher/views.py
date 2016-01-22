@@ -575,3 +575,22 @@ class HighscoreView(BaseTeacherView):
         except Exception as err:
             logger.error(err)
             return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
+
+class BasicDocument(BaseTeacherView):
+    """
+    基本资料
+    """
+    template_path = 'teacher/doc/basic.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        highscore = None
+        if teacher:
+            highscores = models.Highscore.objects.filter(teacher=teacher)
+        context = self.buildContextData(context, teacher)
+        context["highscores"] = highscores
+        return render(request, self.template_path, context)
+        
+    def buildContextData(self, context, teacher):
+        context["teacher"] = teacher
+        return context
