@@ -2,6 +2,29 @@
  * Created by liumengjun on 1/15/16.
  */
 $(function(){
+    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+
+    $("#achievementsList [data-action=delete-achievement]").click(function (e){
+        var decided = confirm('确定要删除这个记录吗?');
+        if (!decided) return false;
+        var $item = $(this).closest('.list-group-item'), achieveId = $item.attr('achieveId');
+        if (achieveId) {
+            $.post( "/teacher/achievement/delete/"+achieveId, function( result ) {
+                if (result) {
+                    if (result.ok) {
+                        $item.remove();
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(defaultErrMsg);
+            }, 'json').fail(function() {
+                alert(defaultErrMsg);
+            });
+        }
+    });
+
     var getObjectURL = function(file) {
       var url = null;
       if (window.createObjectURL != undefined) {
@@ -50,7 +73,6 @@ $(function(){
         $form.find('.img-preview-box img').attr('src', '');
         $form.find('.img-preview-box').hide();
     });
-    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
     //form保存操作
     $("#achieveEditForm [data-action=save]").click(function(e){
         var $form = $('#achieveEditForm');

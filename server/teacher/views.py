@@ -510,14 +510,12 @@ class CertificateOthersView(BaseTeacherView):
         if not certId:
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         try:
-            cert = models.Certificate.objects.get(id=certId)
-            if cert.teacher.id != teacher.id:
-                return JsonResponse({'ok': False, 'msg': '非法操作', 'code': 3})
+            cert = models.Certificate.objects.get(id=certId, teacher=teacher)
             if cert.type and cert.type != models.Certificate.OTHER:
                 return JsonResponse({'ok': False, 'msg': '不支持删除该类型的证书', 'code': 4})
             cert.delete()
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
-        except models.Teacher.DoesNotExist as e:
+        except models.Certificate.DoesNotExist as e:
             logger.warning(e)
             return JsonResponse({'ok': False, 'msg': '没有找到相应的记录', 'code': 2})
         except Exception as err:
@@ -624,8 +622,20 @@ class AchievementView(BaseTeacherView):
             return self.doDelete(request, id)
         return HttpResponse('', status=403)
 
-    def doDelete(self, request, id):
-        pass
+    def doDelete(self, request, achieveId):
+        context, teacher = self.getContextTeacher(request)
+        if not achieveId:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        try:
+            achievement = models.Achievement.objects.get(id=achieveId, teacher=teacher)
+            achievement.delete()
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+        except models.Achievement.DoesNotExist as e:
+            logger.warning(e)
+            return JsonResponse({'ok': False, 'msg': '没有找到相应的记录', 'code': 2})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
 
     def doSave(self, request, id):
         title = request.POST.get('title')

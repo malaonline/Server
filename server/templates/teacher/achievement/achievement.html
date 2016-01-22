@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'teacher/less/achievement/achievement.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'teacher/js/achievement/achievement.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -20,7 +21,7 @@
 {% block maincontent %}
     <div class="list-group" id="achievementsList">
         {% for achievement in achievements %}
-            <div class="list-group-item">
+            <div class="list-group-item" achieveId="{{ achievement.id }}">
                 <div class="pull-right">
                     <button class="btn btn-default btn-small" data-action="edit-achievement">编辑</button>
                     <button class="btn btn-default btn-small" data-action="delete-achievement">删除</button>
