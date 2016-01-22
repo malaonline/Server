@@ -56,7 +56,10 @@ public class FilterAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
-
+        Object object = data.get("selected");
+        if (object!=null){
+            viewHolder.imageView.setSelected((boolean) object);
+        }
         viewHolder.textView.setText((String) data.get("name"));
         return convertView;
     }

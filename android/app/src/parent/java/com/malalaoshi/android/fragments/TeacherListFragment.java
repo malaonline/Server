@@ -12,12 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
@@ -27,12 +25,7 @@ import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.result.TeacherListResult;
 import com.malalaoshi.android.util.JsonUtil;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;

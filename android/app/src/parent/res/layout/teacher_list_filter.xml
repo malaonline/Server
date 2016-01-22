@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/teacer_list_filter_layout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/item_background"
     android:fitsSystemWindows="true">
+    <include layout="@layout/app_title_bar"></include>
+    <LinearLayout
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical|bottom"
+        android:layout_height="35dp">
+        <TextView
+            android:id="@+id/tv_filter_grade"
+            android:text="小学三年级"
+            android:background="@drawable/filter_btn_bg"
+            android:layout_marginRight="7dp"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_normal_x"
+            android:textColor="@color/filter_btn_text_color"
+            android:singleLine="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp" />
+        <TextView
+            android:id="@+id/tv_filter_subject"
+            android:gravity="center"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/filter_btn_bg"
+            android:textSize="@dimen/text_size_normal_x"
+            android:textColor="@color/filter_btn_text_color"
+            android:singleLine="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp" />
+        <TextView
+            android:id="@+id/tv_filter_tag"
+            android:gravity="center"
+            android:background="@drawable/filter_btn_bg"
+            android:textSize="@dimen/text_size_normal_x"
+            android:textColor="@color/filter_btn_text_color"
+            android:singleLine="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/teacher_list_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
-    <include layout="@layout/teacher_list_filter_bar_main"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />
 
 </LinearLayout>
