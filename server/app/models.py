@@ -93,26 +93,44 @@ class Grade(BaseModel):
         for one in ans:
             yield one.subject
 
+
+class Ability(BaseModel):
+    grade = models.ForeignKey(Grade)
+    subject = models.ForeignKey(Subject)
+
+    class Meta:
+        unique_together = ('grade', 'subject')
+
+    def __str__(self):
+        return '%s, %s' % (self.grade, self.subject)
+
+
 class Level(BaseModel):
     name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return self.name
 
-
 class Price(BaseModel):
     region = models.ForeignKey(Region, limit_choices_to={'opened': True})
-    grade = models.ForeignKey(Grade)
-    subject = models.ForeignKey(Subject)
+    ability = models.ForeignKey(Ability)
     level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
 
     class Meta:
-        unique_together = ('region', 'grade', 'subject', 'level')
+        unique_together = ('region', 'ability', 'level')
 
     def __str__(self):
-        return '%s,%s,%s,%s => %d' % (self.region, self.grade, self.subject,
-                                      self.level, self.price)
+        return '%s,%s,%s => %d' % (self.region, self.ability, self.level,
+                self.price)
+
+    @property
+    def grade(self):
+        return self.ability.grade
+
+    @property
+    def subject(self):
+        return self.ability.subject
 
 
 class Profile(BaseModel):
@@ -144,16 +162,6 @@ class Profile(BaseModel):
 
     def mask_phone(self):
         return "{before}****{after}".format(before=self.phone[:3], after=self.phone[-4:])
-
-class Ability(BaseModel):
-    grade = models.ForeignKey(Grade)
-    subject = models.ForeignKey(Subject)
-
-    class Meta:
-        unique_together = ('grade', 'subject')
-
-    def __str__(self):
-        return '%s, %s' % (self.grade, self.subject)
 
 
 class Teacher(BaseModel):
