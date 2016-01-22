@@ -290,7 +290,7 @@ class Teacher(BaseModel):
             self.NOT_CHOSEN: 2,
             self.TO_INTERVIEW: 5,
             self.INTERVIEW_FAIL: 6,
-            self.INTERVIEW_OK: 9
+            selabilityf.INTERVIEW_OK: 9
         }
         # return tree.get_path(status_2_node.get(self.INTERVIEW_OK, 1))
         # return range(1,10)
