@@ -1,4 +1,5 @@
 import re
+import time
 import json
 import random
 import requests
@@ -60,13 +61,10 @@ class TeacherWeeklyTimeSlot(View):
             cur_school = occ.order.school
             occ.start = timezone.localtime(occ.start)
             occ.end = timezone.localtime(occ.end)
-            print('weekday:%s, hour:%s, minute:%s' % (occ.start.weekday(), occ.start.hour, occ.start.minute))
-            print(occ.start.tzinfo)
             start = occ.start.weekday() * 24 * 60 + occ.start.hour * 60 + occ.start.minute
             end = occ.end.weekday() * 24 * 60 + occ.end.hour * 60 + occ.end.minute - 1
             if cur_school.id != school.id:
                 start, end = start - traffic_time, end + traffic_time
-            print('segtree add %s-%s' % (start, end))
             segtree.add(start, end)
 
         data = [(str(day), [OrderedDict([('start', s.start.strftime('%H:%M')),
@@ -465,9 +463,13 @@ class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CouponSerializer(serializers.ModelSerializer):
+    expired_at = serializers.SerializerMethodField()
     class Meta:
         model = models.Coupon
         fields = ('name', 'amount', 'expired_at', 'used')
+
+    def get_expired_at(self, obj):
+        return int(time.mktime(obj.expired_at.timetuple()))
 
 
 class CouponViewSet(viewsets.ReadOnlyModelViewSet):
