@@ -476,7 +476,7 @@ class CertificateOthersView(BaseTeacherView):
         cert = None
         id = request.POST.get('id')
         if id:
-            cert = models.Certificate.objects.get(id=id)
+            cert = models.Certificate.objects.get(id=id, teacher=teacher)
         else:
             cert = models.Certificate(teacher=teacher, type=models.Certificate.OTHER, verified=False)
         name = request.POST.get('name')
@@ -604,13 +604,57 @@ class AchievementView(BaseTeacherView):
     特殊成果
     """
     template_path = 'teacher/achievement/achievement.html'
+    edit_template_path = 'teacher/achievement/achievement_edit.html'
 
-    def get(self, request):
+    def get(self, request, action=None, id=None):
         context, teacher = self.getContextTeacher(request)
+        if action == 'add':
+            context['achieve_title'] = '新建'
+            return render(request, self.edit_template_path, context)
         achievements = models.Achievement.objects.filter(teacher=teacher)
         context["achievements"] = achievements
         return render(request, self.template_path, context)
 
-    def post(self, request):
+    def post(self, request, action=None, id=None):
+        if action == 'add':
+            return self.doSave(request, None)
+        if action == 'edit':
+            return self.doSave(request, id)
+        if action == 'delete':
+            return self.doDelete(request, id)
+        return HttpResponse('', status=403)
+
+    def doDelete(self, request, id):
         pass
+
+    def doSave(self, request, id):
+        title = request.POST.get('title')
+        if not title:
+            error_msg = '名称不能为空'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+        if len(title) > 10:
+            error_msg = '名称不能超过10个字'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 2})
+
+        if not request.FILES or len(request.FILES)==0:
+            error_msg = '请选择图片'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 3})
+        achieveImgFile = request.FILES.get('achieveImg')
+        if not achieveImgFile:
+            error_msg = '请选择图片'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
+
+        context, teacher = self.getContextTeacher(request)
+        achievement = None
+        if id:
+            achievement = models.Achievement.objects.get(id=id, teacher=teacher)
+        else:
+            achievement = models.Achievement(teacher=teacher)
+        achievement.title = title
+
+        img_content = ContentFile(achieveImgFile.read())
+        achievement.img.save("achievement"+str(teacher.id)+'_'+str(img_content.size), img_content)
+
+        achievement.save()
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 

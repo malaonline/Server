@@ -35,6 +35,6 @@
         {% endfor %}
     </div>
     <div>
-        <button class="btn btn-success" data-action="add-achievement">添加</button>
+        <a class="btn btn-success" href="{% url 'teacher:achievement-add' action='add' %}" data-action="add-achievement">添加</a>
     </div>
 {% endblock %}

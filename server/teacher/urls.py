@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^highscore/$', views.HighscoreView.as_view(), name="highscore"),
     url(r'^basic_doc/$', views.BasicDocument.as_view(), name="basic_doc"),
     url(r'^achievement$', views.AchievementView.as_view(), name="achievement"),
+    url(r'^achievement/(?P<action>\w+)$', views.AchievementView.as_view(), name="achievement-add"),
+    url(r'^achievement/(?P<action>\w+)/(?P<id>\d+)$', views.AchievementView.as_view(), name="achievement-edit"),
 ]
