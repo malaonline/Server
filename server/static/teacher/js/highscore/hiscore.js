@@ -30,7 +30,7 @@ $(function(){
     if(ids.length > 0){
       var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
       var params = {'action': 'delete', 'ids': ids.join(',')};
-      $.post( "/teacher/highscore/", params, function(result){
+      $.post("/teacher/highscore/", params, function(result){
           if(result){
               if(result.ok){
                   var allItems = $('[name="checkboxSelect"]');
