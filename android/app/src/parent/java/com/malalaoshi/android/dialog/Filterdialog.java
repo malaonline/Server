@@ -24,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by kang on 16/1/20.
+ * Created by kang on 16/1/22.
  */
 public class FilterDialog extends DialogFragment implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener {
     public static String ARGMENTS_DIALOG_WIDTH = "dialog width";
@@ -127,16 +127,16 @@ public class FilterDialog extends DialogFragment implements FragmentGroupAdapter
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-        case R.id.filter_bar_left:
-            if (leftClickListener!=null){
-                leftClickListener.OnLeftClick(v);
-            }
-            break;
-        case R.id.filter_bar_right:
-            if (rightClickListener!=null){
-                rightClickListener.OnRightClick(v);
-            }
-            break;
+            case R.id.filter_bar_left:
+                if (leftClickListener!=null){
+                    leftClickListener.OnLeftClick(v);
+                }
+                break;
+            case R.id.filter_bar_right:
+                if (rightClickListener!=null){
+                    rightClickListener.OnRightClick(v);
+                }
+                break;
         }
 
     }
