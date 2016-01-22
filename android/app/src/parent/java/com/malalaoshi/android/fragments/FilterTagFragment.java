@@ -30,6 +30,9 @@ import butterknife.ButterKnife;
  * Created by kang on 16/1/21.
  */
 public class FilterTagFragment extends Fragment implements View.OnClickListener {
+    public static String ARGMENTS_TAGS_ID = "tagsId";
+    private  long[] extraTagIds;
+
     private static final String API_TAGS_URL = "/api/v1/tags/";
     private List<Map<String, Object>> mTags = new ArrayList<>();
 
@@ -50,8 +53,6 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
 
     private List<TextView> mTagViews = new ArrayList<>();
 
-    private List<Long> extraTagIds;
-
     //tag样式
     private int mTagStyles[] = {
             R.drawable.tag1_textview_bg,
@@ -70,8 +71,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
     private OnTagClickListener tagsClickListener;
 
 
-    public FilterTagFragment(List<Long> selectedTagIds){
-        extraTagIds = selectedTagIds;
+    public FilterTagFragment() {
     }
 
     public void setOnTagClickListener(OnTagClickListener tagsClickListener){
@@ -83,6 +83,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tag_filter, container, false);
         ButterKnife.bind(this, view);
+        extraTagIds = getArguments().getLongArray(ARGMENTS_TAGS_ID);
         initDatas();
         return view;
     }
@@ -305,8 +306,8 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             item.put("id", obj.getId());
             item.put("name", obj.getName());
             item.put("selected", false);
-            for (int j=0;j<extraTagIds.size();j++){
-                Long tagId = extraTagIds.get(j);
+            for (int j=0;j<extraTagIds.length;j++){
+                Long tagId = extraTagIds[j];
                 if (tagId.equals(obj.getId())){
                     item.put("selected", true);
                     break;

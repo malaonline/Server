@@ -26,22 +26,24 @@ import butterknife.OnItemClick;
  * Created by kang on 16/1/21.
  */
 public class FilterSubjectFragment extends Fragment {
+    //参数
+    public static String ARGMENTS_GRADE_ID = "grade id";
+    private Long extraGradeId;
+    //参数
+    public static String ARGMENTS_SUBJECT_ID = "subject id";
+    private Long extraSubjectId;
+
     private List<Map<String, Object>> mSubjects = new ArrayList<>();
 
     @Bind(R.id.filter_subjects_list)
     protected ExpandedHeightGridView mGridViewSubject;
     private FilterAdapter nSubjectFilterAdapter;
 
-    private Long extraGradeId;
-    private Long extraSubjectId;
-
     private Map<String, Object> selectedObj;
 
     private OnSubjectClickListener subjectClickListener;
 
-    public FilterSubjectFragment(Long subjectId, Long gradeId){
-        extraGradeId = gradeId;
-        extraSubjectId = subjectId;
+    public FilterSubjectFragment(){
     }
 
     public void setOnSubjectClickListener(OnSubjectClickListener subjectClickListener){
@@ -53,6 +55,8 @@ public class FilterSubjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subject_filter, container, false);
         ButterKnife.bind(this, view);
+        extraGradeId = getArguments().getLong(ARGMENTS_GRADE_ID);
+        extraSubjectId = getArguments().getLong(ARGMENTS_SUBJECT_ID);
         initDatas();
         initViews();
         return view;

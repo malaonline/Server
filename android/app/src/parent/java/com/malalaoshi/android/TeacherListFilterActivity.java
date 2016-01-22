@@ -136,12 +136,21 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     @OnClick(R.id.tv_filter_grade)
     public void onClickGradeFilter(View v){//int width, int height, List<Fragment> fragments, int pageIndex,FragmentManager fragmentManager
         List<Fragment> fragments = new ArrayList<>();
-        FilterGradeFragment gradeFragment = new FilterGradeFragment(grade.getId());
+        FilterGradeFragment gradeFragment = new FilterGradeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(FilterGradeFragment.ARGMENTS_GRADE_ID, grade.getId());
+        gradeFragment.setArguments(bundle);
         fragments.add(gradeFragment);
         //fragments.add(new FilterSubjectFragment());
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog(width,height,fragments,0);
+        final Filterdialog filterdialog = new Filterdialog();
+        Bundle filterBundle = new Bundle();
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterdialog.setArguments(filterBundle);
+        filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.GONE);
         filterdialog.setLeftBtnVisable(View.GONE);
         filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_grade_dialog));
@@ -163,12 +172,21 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     @OnClick(R.id.tv_filter_subject)
     public void onClickSubjectFilter(View v){
         List<Fragment> fragments = new ArrayList<>();
-        FilterSubjectFragment subjectFragment = new FilterSubjectFragment(subject.getId(),grade.getId());
-
+        FilterSubjectFragment subjectFragment = new FilterSubjectFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(FilterSubjectFragment.ARGMENTS_GRADE_ID, grade.getId());
+        bundle.putLong(FilterSubjectFragment.ARGMENTS_SUBJECT_ID, subject.getId());
+        subjectFragment.setArguments(bundle);
         fragments.add(subjectFragment);
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog(width,height,fragments,0);
+        final Filterdialog filterdialog = new Filterdialog();
+        Bundle filterBundle = new Bundle();
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterdialog.setArguments(filterBundle);
+        filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.GONE);
         filterdialog.setLeftBtnVisable(View.GONE);
         filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
@@ -190,11 +208,16 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     @OnClick(R.id.tv_filter_tag)
     public void onClickTagFilter(View v){
         List<Fragment> fragments = new ArrayList<>();
-        List<Long> tagsId = new ArrayList<>();
+        long[] tagsId = new long[tags==null?0:tags.size()];
         for (int i=0;tags!=null&&i<tags.size();i++){
-            tagsId.add(tags.get(i).getId());
+            tagsId[i] = tags.get(i).getId();
         }
-        FilterTagFragment tagFragment = new FilterTagFragment(tagsId);
+
+        FilterTagFragment tagFragment = new FilterTagFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLongArray(FilterTagFragment.ARGMENTS_TAGS_ID, tagsId);
+        tagFragment.setArguments(bundle);
+
         tagFragment.setOnTagClickListener(new FilterTagFragment.OnTagClickListener() {
             @Override
             public void onTagClick(ArrayList<Tag> tags) {
@@ -204,7 +227,13 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         fragments.add(tagFragment);
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final Filterdialog filterdialog = new Filterdialog(width,height,fragments,0);
+        final Filterdialog filterdialog = new Filterdialog();
+        Bundle filterBundle = new Bundle();
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_WIDTH, width);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_HEIGHT, height);
+        filterBundle.putInt(Filterdialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
+        filterdialog.setArguments(filterBundle);
+        filterdialog.setFragments(fragments);
         filterdialog.setRightBtnVisable(View.VISIBLE);
         filterdialog.setLeftBtnVisable(View.GONE);
         filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));

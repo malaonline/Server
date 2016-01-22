@@ -26,6 +26,9 @@ import butterknife.OnItemClick;
  * Created by kang on 16/1/21.
  */
 public class FilterGradeFragment extends Fragment {
+    //参数
+    public static String ARGMENTS_GRADE_ID = "grade id";
+    private Long extraGradeId;
 
     private List<Map<String, Object>> mPrimaryGrages = new ArrayList<>();   // 小学adapter data
     private List<Map<String, Object>> mMiddleGrages = new ArrayList<>();    // 初中adapter data
@@ -44,14 +47,12 @@ public class FilterGradeFragment extends Fragment {
     private FilterAdapter mMiddleFilterAdapter;
     private FilterAdapter mSeniorFilterAdapter;
 
-    private Long extraGradeId;
-
     private Map<String, Object> selectedObj;
 
     private OnGradeClickListener gradeClickListener;
 
-    public FilterGradeFragment(Long gradeId){
-        extraGradeId = gradeId;
+    public FilterGradeFragment(){
+
     }
 
     public void setOnGradeClickListener(OnGradeClickListener gradeClickListener){
@@ -63,6 +64,7 @@ public class FilterGradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grade_filter, container, false);
         ButterKnife.bind(this, view);
+        extraGradeId = getArguments().getLong(ARGMENTS_GRADE_ID);
         initDatas();
         initViews();
         return view;

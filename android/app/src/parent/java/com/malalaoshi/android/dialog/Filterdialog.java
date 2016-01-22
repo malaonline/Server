@@ -27,10 +27,12 @@ import butterknife.ButterKnife;
  * Created by kang on 16/1/20.
  */
 public class Filterdialog extends DialogFragment implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener {
-    private FragmentManager fragmentManager;
+    public static String ARGMENTS_DIALOG_WIDTH = "dialog width";
     private int width;
+    public static String ARGMENTS_DIALOG_HEIGHT = "dialog height";
     private int height;
     private List<Fragment> fragments;
+    public static String ARGMENTS_DIALOG_PAGEINDEX = "pageIndex";
     private int pageIndex;
 
     @Bind(R.id.filter_viewpager)
@@ -59,11 +61,12 @@ public class Filterdialog extends DialogFragment implements FragmentGroupAdapter
     private OnLeftClickListener  leftClickListener;
     private OnRightClickListener rightClickListener;
 
-    public Filterdialog(int width, int height, List<Fragment> fragments, int pageIndex) {
-        this.width = width;
-        this.height = height;
+    public Filterdialog() {
+    }
+
+    public void setFragments(List<Fragment> fragments) {
+        if (fragments==null) throw new NullPointerException("fragments is null");
         this.fragments = fragments;
-        this.pageIndex = pageIndex;
     }
 
     @Override
@@ -78,6 +81,9 @@ public class Filterdialog extends DialogFragment implements FragmentGroupAdapter
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_rounded_corners);
         View view = inflater.inflate(R.layout.dialog_filter_layout, container, false);
         ButterKnife.bind(this, view);
+        width = getArguments().getInt(ARGMENTS_DIALOG_WIDTH,400);
+        height = getArguments().getInt(ARGMENTS_DIALOG_HEIGHT, 500);
+        pageIndex = getArguments().getInt(ARGMENTS_DIALOG_PAGEINDEX,0);
 
         if (initLeftVisibleChange){
             ivLeft.setVisibility(initLeftVisiable);
