@@ -138,11 +138,11 @@ class TeacherView(BaseStaffView):
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
 
-class TeacherOfflineView(BaseStaffView):
+class TeacherUnpublishedView(BaseStaffView):
     """
     待上架老师列表view
     """
-    template_name = 'staff/teacher/teachers_offline.html'
+    template_name = 'staff/teacher/teachers_unpublished.html'
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
@@ -167,7 +167,7 @@ class TeacherOfflineView(BaseStaffView):
         kwargs['grades'] = models.Grade.objects.filter(superset_id__isnull=True)
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
-        return super(TeacherOfflineView, self).get_context_data(**kwargs)
+        return super(TeacherUnpublishedView, self).get_context_data(**kwargs)
 
 class TeacherActionView(BaseStaffActionView):
 
