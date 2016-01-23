@@ -244,10 +244,10 @@ class Teacher(BaseModel):
             return ''.join(x.name[0] for x in grades)
 
     def prices(self):
-        regions = [x.region for x in self.schools.all()]
+        abilities = self.abilities.all()
 
-        return Price.objects.filter(subject=self.subject, level=self.level,
-                                    region__in=regions, grade__in=self.grades)
+        return Price.objects.filter(level=self.level, region=self.region,
+                ability__in=abilities)
 
     def min_price(self):
         prices = self.prices()
