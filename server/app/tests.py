@@ -28,6 +28,48 @@ class TestApi(TestCase):
         # print(token.key)
         self.assertTrue(isinstance(token.key, str))
 
+    def test_teacher_list(self):
+        client = Client()
+        url = "/api/v1/teachers/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_teacher_detail(self):
+        client = Client()
+        url = "/api/v1/teachers/1/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_tag_list(self):
+        client = Client()
+        url = "/api/v1/tags/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_grade_list(self):
+        client = Client()
+        url = "/api/v1/grades/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_memberservice_list(self):
+        client = Client()
+        url = "/api/v1/memberservices/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_weeklytimeslot_list(self):
+        client = Client()
+        url = "/api/v1/weeklytimeslots/"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_policy(self):
+        client = Client()
+        url = "/api/v1/policy"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
     def test_get_token_key(self):
         client = Client()
         request_url = "/api/v1/token-auth/"
