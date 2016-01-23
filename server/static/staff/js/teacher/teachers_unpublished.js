@@ -43,58 +43,85 @@ $(function(){
     // 查看学习中心
     $('[data-action=show-schools').click(function(e){
         var $schoolsModal = $("#schoolsModal");
+        var $this = $(this), schools = $this.data('schools');
+        var fillTableAndShow = function(schools) {
+            var $schoolsTable = $schoolsModal.find("table");
+            $schoolsTable.find('tr:gt(0)').remove();
+            for (var i=0; i<schools.length; i++) {
+                var school = schools[i];
+                $schoolsTable.append('<tr schoolId="'+school.id+'">' +
+                    '<td>'+school.name+'</td>' +
+                    '<td><img src="'+school.thumbnail+'" height="66" style="max-height: 100%; max-width: 100%; vertical-align: middle"></td>' +
+                    '<td>'+school.address+'</td>' +
+                    '<td>TODO</td></tr>');
+            }
+            $schoolsModal.modal();
+        };
+        if (schools) {
+            fillTableAndShow(schools);
+            return;
+        }
         $.getJSON('/api/v1/schools/',function(data){
             if (data && data.results)  {
-                var $schoolsTable = $schoolsModal.find("table");
-                $schoolsTable.find('tr:gt(0)').remove();
-                for (var i=0; i<data.results.length; i++) {
-                    var school = data.results[i];
-                    $schoolsTable.append('<tr schoolId="'+school.id+'">' +
-                        '<td>'+school.name+'</td>' +
-                        '<td><img src="'+school.thumbnail+'" height="66" style="max-height: 100%; max-width: 100%; vertical-align: middle"></td>' +
-                        '<td>'+school.address+'</td>' +
-                        '<td>TODO</td></tr>');
-                }
-                $schoolsModal.modal();
+                $this.data('schools', data.results);
+                fillTableAndShow(data.results);
             }
         });
     });
     // 查看提分榜
     $('[data-action=show-highscores]').click(function(e){
         var $highscoresModal = $("#highscoresModal");
+        var $this = $(this), highscores = $this.data('highscores');
+        var fillTableAndShow = function(highscores) {
+            var $highscoresTable = $highscoresModal.find("table");
+            $highscoresTable.find('tr:gt(0)').remove();
+            for (var i=0; i<highscores.length; i++) {
+                var highscore = highscores[i];
+                $highscoresTable.append('<tr>' +
+                    '<td>'+highscore.name+'</td>' +
+                    '<td>'+highscore.scores+'</td>' +
+                    '<td>'+highscore.from+'</td>' +
+                    '<td>'+highscore.to+'</td></tr>');
+            }
+            $highscoresModal.modal();
+        };
+        if (highscores) {
+            fillTableAndShow(highscores);
+            return;
+        }
         var teacherId = $(this).closest('tr').attr('teacherId');
         $.getJSON('/staff/teachers/action/',{'action': 'list-highscore', 'tid': teacherId},function(data){
             if (data && data.list)  {
-                var $highscoresTable = $highscoresModal.find("table");
-                $highscoresTable.find('tr:gt(0)').remove();
-                for (var i=0; i<data.list.length; i++) {
-                    var highscore = data.list[i];
-                    $highscoresTable.append('<tr>' +
-                        '<td>'+highscore.name+'</td>' +
-                        '<td>'+highscore.scores+'</td>' +
-                        '<td>'+highscore.from+'</td>' +
-                        '<td>'+highscore.to+'</td></tr>');
-                }
-                $highscoresModal.modal();
+                $this.data('highscores', data.list);
+                fillTableAndShow(data.list);
             }
         });
     });
     // 查看特殊成果
     $('[data-action=show-achievements]').click(function(e){
         var $achievementsModal = $("#achievementsModal");
+        var $this = $(this), achievements = $this.data('achievements');
+        var fillTableAndShow = function(achievements) {
+            var $achievementsTable = $achievementsModal.find("table");
+            $achievementsTable.find('tr:gt(0)').remove();
+            for (var i=0; i<achievements.length; i++) {
+                var achievement = achievements[i];
+                $achievementsTable.append('<tr>' +
+                    '<td>'+achievement.title+'</td>' +
+                    '<td><img src="'+achievement.img+'" height="66" style="max-height: 100%; max-width: 100%; vertical-align: middle"></td>' +
+                    '</tr>');
+            }
+            $achievementsModal.modal();
+        };
+        if (achievements) {
+            fillTableAndShow(achievements);
+            return;
+        }
         var teacherId = $(this).closest('tr').attr('teacherId');
         $.getJSON('/staff/teachers/action/',{'action': 'list-achievement', 'tid': teacherId},function(data){
             if (data && data.list)  {
-                var $achievementsTable = $achievementsModal.find("table");
-                $achievementsTable.find('tr:gt(0)').remove();
-                for (var i=0; i<data.list.length; i++) {
-                    var achievement = data.list[i];
-                    $achievementsTable.append('<tr>' +
-                        '<td>'+achievement.title+'</td>' +
-                        '<td><img src="'+achievement.img+'" height="66" style="max-height: 100%; max-width: 100%; vertical-align: middle"></td>' +
-                        '</tr>');
-                }
-                $achievementsModal.modal();
+                $this.data('achievements', data.list);
+                fillTableAndShow(data.list);
             }
         });
     });
