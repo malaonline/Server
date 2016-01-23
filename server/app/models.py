@@ -245,9 +245,8 @@ class Teacher(BaseModel):
 
     def prices(self):
         abilities = self.abilities.all()
-
         return Price.objects.filter(level=self.level, region=self.region,
-                ability__in=abilities)
+                ability=abilities)
 
     def min_price(self):
         prices = self.prices()
