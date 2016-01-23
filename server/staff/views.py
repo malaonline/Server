@@ -200,6 +200,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.getTeacherHighscore(request)
         if action == 'list-achievement':
             return self.getTeacherAchievement(request)
+        if action == 'get-weekly-schedule':
+            return self.getTeacherWeeklySchedule(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
@@ -261,6 +263,21 @@ class TeacherActionView(BaseStaffActionView):
         for ac in query_set:
             achievements.append({'title': ac.title, 'img': ac.imgUrl()})
         return JsonResponse({'list': achievements})
+
+    def getTeacherWeeklySchedule(self, request):
+        """
+        获取某个老师的周时间表
+        :param request:
+        :return:
+        """
+        tid = request.GET.get('tid')
+        if not tid:
+            return HttpResponse("")
+        teacher = get_object_or_404(models.Teacher, id=tid)
+        weekly_time_slots = []
+        for wts in teacher.weekly_time_slots.all():
+            weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
+        return JsonResponse({'list': weekly_time_slots})
 
     def updateTeacherStatus(self, request, new_status):
         """

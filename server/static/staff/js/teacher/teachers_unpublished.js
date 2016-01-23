@@ -68,6 +68,54 @@ $(function(){
             }
         });
     });
+    // 查看周上课时间表
+    $('[data-action=show-weeklySchedule]').click(function(e){
+        var $weeklyScheduleModal = $("#weeklyScheduleModal");
+        var $this = $(this), weeklySchedule = $this.data('weeklySchedule');
+        var fillTableAndShow = function(weeklySchedule) {
+            var heap = [];
+            for (var k=0; k<weeklySchedule.length; k++) {
+                var wsh = weeklySchedule[k];
+                heap[""+wsh.weekday+wsh.start+wsh.end] = true;
+            }
+            var $weeklyScheduleTable = $weeklyScheduleModal.find("table");
+            $weeklyScheduleTable.find('tr:gt(0)').remove();
+            var metaTimeSlots = [{'start': '08:00:00', 'end': '10:00:00'},
+                    {'start': '08:00:00', 'end': '10:00:00'},
+                    {'start': '10:00:00', 'end': '12:00:00'},
+                    {'start': '13:00:00', 'end': '15:00:00'},
+                    {'start': '15:00:00', 'end': '17:00:00'},
+                    {'start': '17:00:00', 'end': '19:00:00'},
+                    {'start': '19:00:00', 'end': '21:00:00'},
+                ];
+            var buf = [];
+            for (var i=0; i<metaTimeSlots.length; i++) {
+                var timeSlot = metaTimeSlots[i];
+                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                for (var d=1; d<=7; d++) {
+                    if (heap[""+d+timeSlot.start+timeSlot.end]) {
+                        buf.push('<td><span class="glyphicon glyphicon-ok"></span></td>');
+                    } else {
+                        buf.push('<td></td>');
+                    }
+                }
+                buf.push('</tr>');
+            }
+            $weeklyScheduleTable.append(buf.join(''));
+            $weeklyScheduleModal.modal();
+        };
+        if (weeklySchedule) {
+            fillTableAndShow(weeklySchedule);
+            return;
+        }
+        var teacherId = $(this).closest('tr').attr('teacherId');
+        $.getJSON('/staff/teachers/action/',{'action': 'get-weekly-schedule', 'tid': teacherId},function(data){
+            if (data && data.list)  {
+                $this.data('weeklySchedule', data.list);
+                fillTableAndShow(data.list);
+            }
+        });
+    });
     // 查看提分榜
     $('[data-action=show-highscores]').click(function(e){
         var $highscoresModal = $("#highscoresModal");
