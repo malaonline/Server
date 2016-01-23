@@ -21,7 +21,7 @@ def add_item(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('app', '0044_auto_20160122_1903'),
+        ('app', '0045_price'),
     ]
 
     operations = [
