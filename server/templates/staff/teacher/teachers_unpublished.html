@@ -86,7 +86,7 @@
                 <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
                 <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
                 <td>{# 所在地区 #} {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>
-                <td>{# 授课中心 #} TODO </td>
+                <td>{# 授课中心 #} <a data-action="show-schools" href="javascript:void(0)">查看</a> </td>
                 <td>{# 授课时间 #} TODO </td>
                 <td>{# 授课科目 #} {% if teacher.subject %}{{ teacher.subject }}{% else %}未填{% endif %} </td>
                 <td>{# 星级 #} {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>
@@ -121,6 +121,23 @@
                 <div class="text-center">
                     <img style="max-width:100%;max-height: 100%;vertical-align: middle;">
                 </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{#    显示授课中心#}
+    <div class="modal fade" id="schoolsModal" tabindex="-1" role="dialog" aria-labelledby="schoolsLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="schoolsLabel">授课中心</h4>
+              </div>
+              <div class="modal-body">
+                <table class="text-center" border="1" width="100%">
+                    <tr><td><b>名称</b></td><td><b>图片</b></td><td><b>地址</b></td><td><b>其他(TODO)</b></td></tr>
+                </table>
               </div>
             </div>
         </div>
