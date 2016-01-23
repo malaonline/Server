@@ -102,7 +102,7 @@
                 <td>{# 教学成果 #} <a data-action="show-achievements" href="javascript:void(0)">查看</a> </td>
                 <td>{# 证书内容 #} {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>
                 <td field="action">{# 操作 #}
-                    <a data-action="to-edit">编辑</a> | <a data-action="set-online">上架</a>
+                    <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a> | <a data-action="set-online">上架</a>
                 </td>
             </tr>
         {% endfor %}

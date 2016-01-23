@@ -2,7 +2,7 @@ import logging
 import datetime
 
 # django modules
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.generic import View, TemplateView
@@ -53,6 +53,8 @@ def login_auth(request):
             return redirect('staff:index')
     return login(request, {'errors': '用户名或密码错误'})
 
+
+
 class BaseStaffView(TemplateView):
     """
     Base view for staff management page views.
@@ -80,6 +82,7 @@ class BaseStaffView(TemplateView):
         query_set = query_set[(page_to-1)*page_size:page_to*page_size]
         return query_set, {'page': page_to, 'total_page': total_page, 'total_count': total_count}
 
+
 class BaseStaffActionView(View):
     """
     Base view for staff management action views.
@@ -91,6 +94,7 @@ class BaseStaffActionView(View):
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
+
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
@@ -138,6 +142,7 @@ class TeacherView(BaseStaffView):
         kwargs['region_list'] = models.Region.objects.filter(opened=True)
         return super(TeacherView, self).get_context_data(**kwargs)
 
+
 class TeacherUnpublishedView(BaseStaffView):
     """
     待上架老师列表view
@@ -168,6 +173,20 @@ class TeacherUnpublishedView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
         return super(TeacherUnpublishedView, self).get_context_data(**kwargs)
+
+
+class TeacherUnpublishedEditView(BaseStaffView):
+    """
+    待上架老师编辑页面view
+    """
+    template_name = 'staff/teacher/teachers_unpublished_edit.html'
+
+    def get_context_data(self, **kwargs):
+        teacherId = kwargs['tid']
+        teacher = get_object_or_404(models.Teacher, id=teacherId)
+        kwargs['teacher'] = teacher
+        return super(TeacherUnpublishedEditView, self).get_context_data(**kwargs)
+
 
 class TeacherActionView(BaseStaffActionView):
 
@@ -278,6 +297,7 @@ class TeacherActionView(BaseStaffActionView):
             logger.error(err)
             return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
 
+
 class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 
@@ -287,6 +307,7 @@ class StudentView(BaseStaffView):
         kwargs['grades'] = models.Grade.objects.all
         kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
+
 
 class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'
@@ -311,6 +332,7 @@ class SchoolsView(BaseStaffView):
         context['allSchools'] = models.School.objects.filter()
         return context
 
+
 class SchoolView(BaseStaffView):
     template_name = 'staff/school/edit.html'
 
@@ -325,6 +347,7 @@ class SchoolView(BaseStaffView):
         context['school'] = school
         context['schoolId'] = schoolId
         return context
+
 
 class OrderReviewView(BaseStaffView):
     template_name = 'staff/order/review.html'
@@ -395,6 +418,7 @@ class OrderReviewView(BaseStaffView):
         # 查询结果数据集
         kwargs['orders'] = query_set
         return super(OrderReviewView, self).get_context_data(**kwargs)
+
 
 class OrderRefundView(BaseStaffView):
     template_name = 'staff/order/refund.html'

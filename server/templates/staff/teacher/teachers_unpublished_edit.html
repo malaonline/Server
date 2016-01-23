@@ -1,0 +1,15 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}待上架老师列表{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+
+{% block content %}
+    TODO
+    <p>{{ teacher }}
+{% endblock %}
