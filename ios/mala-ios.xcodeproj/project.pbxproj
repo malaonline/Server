@@ -13,8 +13,6 @@
 		3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
-		3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */; };
-		3037B5961C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */; };
 		3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */; };
 		3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */; };
 		3037B59B1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */; };
@@ -133,6 +131,8 @@
 		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
 		F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
+		F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
+		F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -165,7 +165,6 @@
 		3037B5821C3A84C2005672D9 /* SMSResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSResultModel.swift; sourceTree = "<group>"; };
 		3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "teacher-Bridging-Header.h"; sourceTree = "<group>"; };
 		3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "parent-Bridging-Header.h"; sourceTree = "<group>"; };
-		3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsBaseCell.swift; sourceTree = "<group>"; };
 		3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsSubjectCell.swift; sourceTree = "<group>"; };
 		3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsTagsCell.swift; sourceTree = "<group>"; };
 		3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsHighScoreCell.swift; sourceTree = "<group>"; };
@@ -259,6 +258,7 @@
 		F402C9941C4F69C100E229FA /* TeacherTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableView.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
+		F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
 		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
@@ -303,7 +303,6 @@
 		3037B58D1C3B9C83005672D9 /* TeacherDetail */ = {
 			isa = PBXGroup;
 			children = (
-				3037B5941C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift */,
 				3037B5971C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift */,
 				3037B59A1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift */,
 				3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */,
@@ -410,6 +409,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */,
 				F45871E81C51D5CE0048D93F /* CourseChoosingView */,
 				30B598131C47AC0500169390 /* TeacherTableView */,
 				3037B58D1C3B9C83005672D9 /* TeacherDetail */,
@@ -694,8 +694,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				35D7A2EE1C0FE82E007D7679 /* teacher */,
 				35D7A3201C0FE851007D7679 /* parent */,
+				35D7A2EE1C0FE82E007D7679 /* teacher */,
 			);
 		};
 /* End PBXProject section */
@@ -847,6 +847,7 @@
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
 				3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				F45871F91C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
+				F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
 				F45871ED1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
@@ -879,7 +880,6 @@
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				303BCFEE1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
-				3037B5951C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				30D4A9FF1C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */,
 				357E6A1E1C0FF2EE0009AF9A /* InterviewStatusViewController.swift in Sources */,
@@ -909,11 +909,11 @@
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
+				F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
 				F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
-				3037B5961C3B9D7C005672D9 /* TeacherDetailsBaseCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,

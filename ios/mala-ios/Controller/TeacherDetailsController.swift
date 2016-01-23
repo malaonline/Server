@@ -251,6 +251,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         //TODO: 点击“立即报名” 滚动到底部
         // tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
         let viewController = CourseChoosingViewController()
+        viewController.teacherModel = model
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -302,7 +303,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
-        (reuseCell as! TeacherDetailsBaseCell).title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
+        (reuseCell as! MalaBaseCell).title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:

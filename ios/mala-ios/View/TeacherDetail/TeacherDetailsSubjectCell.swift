@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsSubjectCell: TeacherDetailsBaseCell {
+class TeacherDetailsSubjectCell: MalaBaseCell {
 
     // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

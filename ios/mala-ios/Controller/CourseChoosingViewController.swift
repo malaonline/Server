@@ -11,6 +11,19 @@ import UIKit
 class CourseChoosingViewController: UIViewController {
 
     // MARK: - Property
+    /// 教师详情数据模型
+    var teacherModel: TeacherDetailModel? {
+        didSet {
+            self.tableView.teacherModel = teacherModel
+        }
+    }
+    /// 上课地点数据模型
+    var schoolArray: [SchoolModel] = [] {
+        didSet {
+            // 刷新 [选择上课地点] Cell
+//             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+        }
+    }
     
     
     
@@ -30,17 +43,21 @@ class CourseChoosingViewController: UIViewController {
         super.viewDidLoad()
         
         setupUserInterface()
+        loadSchoolsData()
+        setupNotification()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     
     // MARK: - Private method
     private func setupUserInterface() {
         // Style
+        makeStatusBarBlack()
+        
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         spacer.width = -MalaLayout_Margin_5*2.3
@@ -74,5 +91,45 @@ class CourseChoosingViewController: UIViewController {
             make.right.equalTo(self.view.snp_right)
             make.bottom.equalTo(confirmView.snp_top)
         }
+    }
+    
+    private func loadSchoolsData() {
+        // // 获取 [教学环境] 数据
+        NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
+            if error != nil {
+                debugPrint("TeacherDetailsController - loadSchools Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("TeacherDetailsController - loadSchools Format Error")
+                return
+            }
+            
+            // result 字典转 [SchoolModel] 模型数组
+            let resultArray = ResultModel(dict: dict).results
+            var tempArray: [SchoolModel] = []
+            for object in resultArray ?? [] {
+                if let dict = object as? [String: AnyObject] {
+                    let set = SchoolModel(dict: dict)
+                    tempArray.append(set)
+                }
+            }
+            self?.schoolArray = tempArray
+        }
+    }
+    
+    private func setupNotification() {
+        // 授课年级选择
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ChoosingGrade,
+            object: nil,
+            queue: nil) { (notification) -> Void in
+//                print("choosing Grade : \(notification.object)")
+        }
+    }
+    
+    deinit {
+        print("choosing Controller deinit")
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
     }
 }

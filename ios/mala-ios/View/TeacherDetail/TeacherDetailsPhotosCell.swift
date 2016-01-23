@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class TeacherDetailsPhotosCell: TeacherDetailsBaseCell {
+class TeacherDetailsPhotosCell: MalaBaseCell {
 
     // MARK: - Property
     var photos: [String] = [] {
