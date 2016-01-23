@@ -79,4 +79,23 @@ $(function(){
             }
         });
     });
+    // 查看特殊成果
+    $('[data-action=show-achievements]').click(function(e){
+        var $achievementsModal = $("#achievementsModal");
+        var teacherId = $(this).closest('tr').attr('teacherId');
+        $.getJSON('/staff/teachers/action/',{'action': 'list-achievement', 'tid': teacherId},function(data){
+            if (data && data.list)  {
+                var $achievementsTable = $achievementsModal.find("table");
+                $achievementsTable.find('tr:gt(0)').remove();
+                for (var i=0; i<data.list.length; i++) {
+                    var achievement = data.list[i];
+                    $achievementsTable.append('<tr>' +
+                        '<td>'+achievement.title+'</td>' +
+                        '<td><img src="'+achievement.img+'" height="66" style="max-height: 100%; max-width: 100%; vertical-align: middle"></td>' +
+                        '</tr>');
+                }
+                $achievementsModal.modal();
+            }
+        });
+    });
 });

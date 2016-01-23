@@ -179,6 +179,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.listSubRegions(request)
         if action == 'list-highscore':
             return self.getTeacherHighscore(request)
+        if action == 'list-achievement':
+            return self.getTeacherAchievement(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
@@ -225,6 +227,21 @@ class TeacherActionView(BaseStaffActionView):
         for hs in query_set:
             highscores.append({'name': hs.name, 'scores': hs.increased_scores, 'from': hs.school_name, 'to': hs.admitted_to})
         return JsonResponse({'list': highscores})
+
+    def getTeacherAchievement(self, request):
+        """
+        获取某个老师的特殊成果
+        :param request:
+        :return:
+        """
+        tid = request.GET.get('tid')
+        if not tid:
+            return HttpResponse("")
+        query_set = models.Achievement.objects.filter(teacher_id=tid)
+        achievements = []
+        for ac in query_set:
+            achievements.append({'title': ac.title, 'img': ac.imgUrl()})
+        return JsonResponse({'list': achievements})
 
     def updateTeacherStatus(self, request, new_status):
         """

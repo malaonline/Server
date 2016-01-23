@@ -99,7 +99,7 @@
                 <td>{# 提分榜 #} <a data-action="show-highscores" href="javascript:void(0)">查看</a> </td>
                 <td>{# 视频 #} TODO </td>
                 <td>{# 介绍语音 #} TODO </td>
-                <td>{# 教学成果 #} TODO </td>
+                <td>{# 教学成果 #} <a data-action="show-achievements" href="javascript:void(0)">查看</a> </td>
                 <td>{# 证书内容 #} {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>
                 <td field="action">{# 操作 #}
                     <a data-action="to-edit">编辑</a> | <a data-action="set-online">上架</a>
@@ -154,6 +154,23 @@
               <div class="modal-body">
                 <table class="text-center" border="1" width="100%">
                     <tr><td><b>姓名</b></td><td><b>辅导提分</b></td><td><b>所在学校</b></td><td><b>考入学校</b></td></tr>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{#    显示特殊成果列表#}
+    <div class="modal fade" id="achievementsModal" tabindex="-1" role="dialog" aria-labelledby="achievementsLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="achievementsLabel">特殊成果</h4>
+              </div>
+              <div class="modal-body">
+                <table class="text-center" border="1" width="100%">
+                    <tr><td><b>名称</b></td><td><b>照片</b></td></tr>
                 </table>
               </div>
             </div>
