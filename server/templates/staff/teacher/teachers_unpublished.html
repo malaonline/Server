@@ -96,7 +96,7 @@
                 <td>{# 专业技能 #} {% if teacher.profession %} {{ teacher.profession }}分{% else %}未填{% endif %} </td>
                 <td>{# 互动能力 #} {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>
                 <td>{# 风格 #} {% if teacher.tags.all %}{% for t in teacher.tags.all %} {{ t.name }}<br>{% endfor %} {% else %}未填{% endif %} </td>
-                <td>{# 提分榜 #} TODO </td>
+                <td>{# 提分榜 #} <a data-action="show-highscores" href="javascript:void(0)">查看</a> </td>
                 <td>{# 视频 #} TODO </td>
                 <td>{# 介绍语音 #} TODO </td>
                 <td>{# 教学成果 #} TODO </td>
@@ -137,6 +137,23 @@
               <div class="modal-body">
                 <table class="text-center" border="1" width="100%">
                     <tr><td><b>名称</b></td><td><b>图片</b></td><td><b>地址</b></td><td><b>其他(TODO)</b></td></tr>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{#    显示高分榜列表#}
+    <div class="modal fade" id="highscoresModal" tabindex="-1" role="dialog" aria-labelledby="highscoresLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="highscoresLabel">提分榜</h4>
+              </div>
+              <div class="modal-body">
+                <table class="text-center" border="1" width="100%">
+                    <tr><td><b>姓名</b></td><td><b>辅导提分</b></td><td><b>所在学校</b></td><td><b>考入学校</b></td></tr>
                 </table>
               </div>
             </div>

@@ -177,6 +177,8 @@ class TeacherActionView(BaseStaffActionView):
         action = self.request.GET.get('action')
         if action == 'list-region':
             return self.listSubRegions(request)
+        if action == 'list-highscore':
+            return self.getTeacherHighscore(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
@@ -208,6 +210,21 @@ class TeacherActionView(BaseStaffActionView):
         for region in query_set:
             regions.append({'id': region.id, 'name': region.name})
         return JsonResponse({'list': regions})
+
+    def getTeacherHighscore(self, request):
+        """
+        获取某个老师的提分榜列表
+        :param request:
+        :return:
+        """
+        tid = request.GET.get('tid')
+        if not tid:
+            return HttpResponse("")
+        query_set = models.Highscore.objects.filter(teacher_id=tid)
+        highscores = []
+        for hs in query_set:
+            highscores.append({'name': hs.name, 'scores': hs.increased_scores, 'from': hs.school_name, 'to': hs.admitted_to})
+        return JsonResponse({'list': highscores})
 
     def updateTeacherStatus(self, request, new_status):
         """

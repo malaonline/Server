@@ -59,4 +59,24 @@ $(function(){
             }
         });
     });
+    // 查看提分榜
+    $('[data-action=show-highscores]').click(function(e){
+        var $highscoresModal = $("#highscoresModal");
+        var teacherId = $(this).closest('tr').attr('teacherId');
+        $.getJSON('/staff/teachers/action/',{'action': 'list-highscore', 'tid': teacherId},function(data){
+            if (data && data.list)  {
+                var $highscoresTable = $highscoresModal.find("table");
+                $highscoresTable.find('tr:gt(0)').remove();
+                for (var i=0; i<data.list.length; i++) {
+                    var highscore = data.list[i];
+                    $highscoresTable.append('<tr>' +
+                        '<td>'+highscore.name+'</td>' +
+                        '<td>'+highscore.scores+'</td>' +
+                        '<td>'+highscore.from+'</td>' +
+                        '<td>'+highscore.to+'</td></tr>');
+                }
+                $highscoresModal.modal();
+            }
+        });
+    });
 });
