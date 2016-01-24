@@ -1,4 +1,4 @@
-package com.malalaoshi.android.fragments;
+package com.malalaoshi.android.pay;
 
 import android.app.Fragment;
 import android.content.Context;

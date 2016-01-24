@@ -7,7 +7,6 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.event.ChoiceCouponEvent;
-import com.malalaoshi.android.fragments.CouponListFragment;
 import com.malalaoshi.android.util.EventDispatcher;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.view.TitleBarView;
