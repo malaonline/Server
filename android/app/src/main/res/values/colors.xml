@@ -66,9 +66,7 @@
 
     <color name="backgrounp">#F6F6F6</color>
     <color name="teacher_main_bg">#ededed</color>
-
     <color name="filter_btn_text_color">#8BBADC</color>
-
     <color name="line_color">#dadada</color>
     <color name="text_color_home_price">#82B4D9</color>
     <color name="text_color_home_price_unit">#6c6c6c</color>

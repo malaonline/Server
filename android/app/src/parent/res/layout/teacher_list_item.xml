@@ -51,7 +51,7 @@
         </LinearLayout>
 
 
-        <com.malalaoshi.android.view.CircleImageView
+        <com.malalaoshi.android.view.CircleNetworkImage
             android:id="@+id/teacher_list_item_avater"
             android:layout_width="@dimen/home_avater_height"
             android:layout_height="@dimen/home_avater_width"

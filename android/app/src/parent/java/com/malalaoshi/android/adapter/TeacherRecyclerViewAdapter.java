@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
@@ -22,6 +23,7 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.view.CircleImageView;
+import com.malalaoshi.android.view.CircleNetworkImage;
 
 import java.util.List;
 
@@ -147,7 +149,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         protected TextView level;
 
         @Bind(R.id.teacher_list_item_avater)
-        protected CircleImageView avater;
+        protected CircleNetworkImage avater;
 
         @Bind(R.id.teacher_list_item_price)
         protected TextView price;
@@ -209,10 +211,17 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             if(tagStr != null){
                 tags.setText(tagStr);
             }
+            String imgUrl = teacher.getAvatar();
+            if (imgUrl != null && !imgUrl.equals("")) {
 
-            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
-                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avater, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+                avater.setDefaultImageResId(R.mipmap.ic_launcher);
+                avater.setErrorImageResId(R.mipmap.ic_launcher);
+                avater.setImageUrl(imgUrl, mImageLoader);
+
             }
+            /*if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
+                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avater, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            }*/
 
             Double minPrice = teacher.getMin_price();
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);

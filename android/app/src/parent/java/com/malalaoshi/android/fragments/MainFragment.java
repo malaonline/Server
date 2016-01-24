@@ -83,6 +83,6 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.main_find_teacher_btn)
     protected void onBtnFindTeacherClick(){
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new FindTeacherFragment(), FindTeacherFragment.class.getName());
+        //FragmentUtil.opFragmentMainActivity(getFragmentManager(), this, new FindTeacherFragment(), FindTeacherFragment.class.getName());
     }
 }
