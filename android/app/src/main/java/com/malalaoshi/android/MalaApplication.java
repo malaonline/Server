@@ -15,7 +15,7 @@ public class MalaApplication extends Application {
     private static MalaApplication instance;
 
     private RequestQueue mRequestQueue;
-    private String mMalaHost = BuildConfig.API_HOST;;
+    private String mMalaHost = BuildConfig.API_HOST;
 
     // 用户信息
     private String token;
@@ -25,6 +25,7 @@ public class MalaApplication extends Application {
     private String role;
     // 运行信息
     private boolean isNetworkOk;
+    private String parentId;
 
     @Override
     public void onCreate() {
@@ -127,5 +128,13 @@ public class MalaApplication extends Application {
 
     public void setIsNetworkOk(boolean isNetworkOk) {
         this.isNetworkOk = isNetworkOk;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentId() {
+        return this.parentId;
     }
 }

@@ -54,7 +54,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".usercenter.SmsAuthActivity"
+            android:name="com.malalaoshi.android.usercenter.SmsAuthActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -78,5 +78,4 @@
             android:value="5680e9b3e0f55a72ce00358f"></meta-data>
 
     </application>
-
 </manifest>

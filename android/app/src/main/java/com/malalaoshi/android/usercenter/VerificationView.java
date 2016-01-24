@@ -268,12 +268,19 @@ public class VerificationView extends RelativeLayout implements MaClickableSpan.
             return;
         }
         updateLoginToken(json.optString(Constants.TOKEN));
+        updateParentId(json.optString(Constants.PARENT_ID));
         if (json.optBoolean(Constants.FIRST_LOGIN, false)) {
             if (controller != null) {
                 controller.onChangeView(this, false, VerifyStudentNameView.class);
             }
         } else {
             ((SmsAuthActivity) context).finish();
+        }
+    }
+
+    private void updateParentId(String parentId) {
+        if (!TextUtils.isEmpty(parentId)) {
+            MalaApplication.getInstance().setParentId(parentId);
         }
     }
 
