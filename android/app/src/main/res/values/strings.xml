@@ -115,5 +115,8 @@
     <string name="usercenter_fetch_code_failed">Fetch verify code failed</string>
     <string name="usercenter_verify">Verify</string>
     <string name="sign_up">Sign up</string>
+    <string name="scholarship">Scholarship</string>
+    <string name="coupon_expired">Expired</string>
+    <string name="coupon_not_use">Usable</string>
 
 </resources>

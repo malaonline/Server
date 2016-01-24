@@ -19,6 +19,7 @@
     <color name="text_color_darkgray2">#5d5d5d</color>
     <color name="text_color_gray">#757575</color>
     <color name="text_color_gray2">#9c9c9c</color>
+    <color name="text_color_gray_db">#dbdbdb</color>
     <color name="text_color_lightgray">#c8c8c8</color>
 
     <color name="color_accent">#ff80bd01</color>
@@ -65,4 +66,7 @@
     <color name="largeCircleColor">#8fbcdd</color>
     <color name="outerCircleColor">#FF533456</color>
 
+    <color name="coupon_red">#e26254</color>
+    <color name="coupon_title">#333</color>
+    <color name="coupon_sub_title">#6c6c6c</color>
 </resources>
