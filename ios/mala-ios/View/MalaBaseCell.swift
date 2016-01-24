@@ -1,5 +1,5 @@
 //
-//  TeacherDetailsBaseCell.swift
+//  MalaBaseCell.swift
 //  mala-ios
 //
 //  Created by Elors on 1/5/16.
@@ -17,7 +17,7 @@ enum TeacherDetailsCellAccessoryType : Int {
     case SubTitle   // label view, you need to set titleString first for use this
 }
 
-class TeacherDetailsBaseCell: UITableViewCell {
+class MalaBaseCell: UITableViewCell {
     
     // MARK: - Property
     /// 副标题文字

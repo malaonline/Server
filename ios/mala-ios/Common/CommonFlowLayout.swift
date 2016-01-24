@@ -15,6 +15,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         case HomeView
         case FilterView
         case SubjectView
+        case GradeSelection
     }
     
     
@@ -30,6 +31,8 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
             filterViewFlowLayout()
         case .SubjectView:
             subjectViewFlowLayout()
+        case .GradeSelection:
+            gradeSelectionFlowLayout()
         }
     }
 
@@ -74,5 +77,15 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
         headerReferenceSize = CGSize(width: 100, height: 0)
         footerReferenceSize = CGSize(width: 100, height: 0)
+    }
+    
+    private func gradeSelectionFlowLayout() {
+        scrollDirection = .Vertical
+        let itemWidth = MalaLayout_GradeSelectionWidth
+        let itemHeight: CGFloat = MalaLayout_GradeSelectionWidth*0.19
+        itemSize = CGSizeMake(itemWidth, itemHeight)
+        sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        minimumInteritemSpacing = 12
+        minimumLineSpacing = 14
     }
 }

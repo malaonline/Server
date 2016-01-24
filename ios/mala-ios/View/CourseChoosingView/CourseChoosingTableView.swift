@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let CourseChoosingCellReuseId = [
+let CourseChoosingCellReuseId = [
     0: "CourseChoosingGradeCellReuseId",            // 选择授课年级
     1: "CourseChoosingPlaceCellReuseId",            // 选择上课地点
     2: "CourseChoosingClassScheduleCellReuseId",    // 选择上课时间（课程表）
@@ -17,19 +17,110 @@ private let CourseChoosingCellReuseId = [
     5: "CourseChoosingOtherServiceCellReuseId"      // 其他服务
 ]
 
-class CourseChoosingTableView: UITableView {
+
+class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Property
-    
+    var teacherModel: TeacherDetailModel? {
+        didSet {
+            
+        }
+    }
     
     
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
+        configration()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private Method
+    private func configration() {
+        delegate = self
+        dataSource = self
+        backgroundColor = MalaTeacherCellBackgroundColor
+        estimatedRowHeight = 400
+        separatorStyle = .None
+        bounces = false
+        contentInset = UIEdgeInsets(top: -40, left: 0, bottom: 4, right: 0)
+        
+        
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[0]!)
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[1]!)
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[2]!)
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[3]!)
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[4]!)
+        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[5]!)
+    }
+    
+    // MARK: - Delegate
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    
+    // MARK: - DataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let reuseCell = tableView.dequeueReusableCellWithIdentifier(CourseChoosingCellReuseId[indexPath.section]!, forIndexPath: indexPath)
+        reuseCell.selectionStyle = .None
+        (reuseCell as! MalaBaseCell).title.text = MalaCourseChoosingCellTitle[indexPath.section+1]
+        
+        switch indexPath.section {
+        case 0:
+            
+            let cell = reuseCell as! CourseChoosingGradeCell
+            cell.prices = teacherModel?.prices
+            return cell
+            
+        case 1:
+            let cell = reuseCell as! CourseChoosingPlaceCell
+
+            return cell
+            
+        case 2:
+            let cell = reuseCell as! CourseChoosingClassScheduleCell
+ 
+            return cell
+            
+        case 3:
+            let cell = reuseCell as! CourseChoosingClassPeriodCell
+
+            return cell
+            
+        case 4:
+            let cell = reuseCell as! CourseChoosingTimeScheduleCell
+
+            return cell
+            
+        case 5:
+            let cell = reuseCell as! CourseChoosingOtherServiceCell
+
+            return cell
+            
+        default:
+            break
+        }
+        
+        return reuseCell
+    }
+    
+    deinit {
+        print("choosing TableView deinit")
+    }
 }

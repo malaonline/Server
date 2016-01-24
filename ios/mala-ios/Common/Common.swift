@@ -18,6 +18,8 @@ let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
 let MalaNotification_ConfirmFilterView = "com.malalaoshi.app.ConfirmFilterView"
 let MalaNotification_CommitCondition = "com.malalaoshi.app.CommitCondition"
+let MalaNotification_ChoosingGrade = "com.malalaoshi.app.ChoosingGrade"
+let MalaNotification_ChoosingSchool = "com.malalaoshi.app.ChoosingSchool"
 
 
 // MARK: - Appearance TintColor
@@ -90,6 +92,7 @@ let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
 
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
+let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - MalaLayout_Margin_12)/2
 let MalaLayout_AvatarSize: CGFloat = 70.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
 let MalaLayout_DetailHeaderLayerHeight: CGFloat = MalaLayout_DetailHeaderHeight - 6.0
@@ -155,6 +158,14 @@ let MalaTeacherDetailsCellTitle = [
     7: "会员服务",
     8: "级别",
     9: "价格表"
+]
+let MalaCourseChoosingCellTitle = [
+    1: "选择授课年级",
+    2: "选择上课地点",
+    3: "选择上课时间",
+    4: "选择小时",
+    5: "上课时间",
+    6: "",
 ]
 
 

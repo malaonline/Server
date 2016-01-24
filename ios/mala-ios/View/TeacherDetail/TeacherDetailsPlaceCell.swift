@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsPlaceCell: TeacherDetailsBaseCell {
+class TeacherDetailsPlaceCell: MalaBaseCell {
 
     // MARK: - Property
     var schools: [SchoolModel]? {
