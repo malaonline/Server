@@ -21,6 +21,7 @@
     </div>
     <hr>
 
+{#基本信息#}
     <div class="row">
         <div class="col-sm-6 border-right">
             <div class="form-group">
@@ -120,6 +121,7 @@
     </div>
     <hr>
 
+{#科目年级,风格标签#}
     <div class="row">
         <div class="col-sm-6 border-right">
             <div class="form-group">
@@ -153,6 +155,7 @@
     </div>
     <hr>
 
+{#头像,照片#}
     <div class="clearfix photos">
         <div class="pull-left img-edit" for="avatar">
             <div class="title">
@@ -224,5 +227,31 @@
         </div>
     </div>
     <hr>
+
+{#提分榜#}
+    <div class="clearfix high-score">
+        <div class="clearfix">
+            <div class="pull-left">提分榜 (最少填写6条)</div>
+            <div class="pull-right">
+                <a class="btn btn-default" data-action="delete-hs">删除</a>
+                <a class="btn btn-default" data-action="add-hs">添加</a>
+            </div>
+        </div>
+        <table class="text-center" border="1" width="100%">
+            <tr>
+                <td><input type="checkbox" name="high_scores"></td>
+                <td>姓名</td><td>辅导提分</td><td>所在学校</td><td>考入学校</td>
+            </tr>
+            {% for hs in teacher.highscore_set.all %}
+                <tr>
+                    <td><input type="checkbox" name="highscore" value="{{ hs.id }}"></td>
+                    <td>{{ hs.name }}</td>
+                    <td>{{ hs.increased_scores }}</td>
+                    <td>{{ hs.school_name }}</td>
+                    <td>{{ hs.admitted_to }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 </form>
 {% endblock %}
