@@ -1,34 +1,28 @@
 import re
-import time
 import json
 import random
-import requests
 import datetime
 import itertools
 from collections import OrderedDict
 
 from segmenttree import SegmentTree
 
-from django.conf import settings
 from django.contrib.auth.models import User, Group
-from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
-from rest_framework import serializers, viewsets, mixins
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers, viewsets, permissions
 from rest_framework.exceptions import PermissionDenied
 
 from app import models
 from .utils.smsUtil import sendCheckcode
+
 
 class Policy(View):
     def get(self, request):
@@ -37,11 +31,11 @@ class Policy(View):
                     updated_at=int(policy.updated_at.timestamp()))
         return HttpResponse(json.dumps(data, ensure_ascii=False))
 
+
 class TeacherWeeklyTimeSlot(View):
     def get(self, request, teacher_id):
         renew_time = datetime.timedelta(hours=2)
-        traffic_time = 60 # 1 hour
-        utcoffset = datetime.timedelta(hours=8)
+        traffic_time = 60  # 1 hour
 
         school_id = request.GET.get('school_id')
         school = get_object_or_404(models.School, pk=school_id)
@@ -52,15 +46,19 @@ class TeacherWeeklyTimeSlot(View):
 
         date = timezone.now() - renew_time
         occupied = models.TimeSlot.objects.filter(
-                order__teacher__id=teacher_id, start__gte=date, deleted=False)
+                order__teacher__id=teacher.id, start__gte=date, deleted=False)
 
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
         for occ in occupied:
             cur_school = occ.order.school
             occ.start = timezone.localtime(occ.start)
             occ.end = timezone.localtime(occ.end)
-            start = occ.start.weekday() * 24 * 60 + occ.start.hour * 60 + occ.start.minute
-            end = occ.end.weekday() * 24 * 60 + occ.end.hour * 60 + occ.end.minute - 1
+            start = (occ.start.weekday() * 24 * 60 + occ.start.hour * 60 +
+                     occ.start.minute)
+
+            end = (occ.end.weekday() * 24 * 60 + occ.end.hour * 60 +
+                   occ.end.minute - 1)
+
             if cur_school.id != school.id:
                 start, end = start - traffic_time, end + traffic_time
             segtree.add(start, end)
@@ -74,15 +72,17 @@ class TeacherWeeklyTimeSlot(View):
                 (day - 1) * 24 * 60 + s.end.hour * 60 + s.end.minute - 1
                 ) == 0)]) for s in ss]) for day, ss in slots]
 
-        weekday = datetime.datetime.today().weekday() + 1
+        # weekday = datetime.datetime.today().weekday() + 1
         data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
 
         return JsonResponse(data)
+
 
 class Sms(View):
     expired_time = 10    # 10 minutes
     resend_span = 1      # 1 minute
     max_verify_times = 3
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(Sms, self).dispatch(request, *args, **kwargs)
@@ -98,16 +98,20 @@ class Sms(View):
 
     def generateCheckcode(self, phone):
         # 生成，并保存到数据库或缓存，10分钟后过期
-        is_test = self.isTestPhone(phone)
-        obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': "1111"})
-        # obj, created = models.Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': is_test and '1111' or random.randrange(1000, 9999)})
+        # is_test = self.isTestPhone(phone)
+        obj, created = models.Checkcode.objects.get_or_create(
+                phone=phone,
+                defaults={'checkcode': "1111"})
+        # obj, created = models.Checkcode.objects.get_or_create(phone=phone,
+        # defaults={'checkcode': is_test and '1111' or random.randrange(1000,
+        # 9999)})
         if not created:
             now = timezone.now()
             delta = now - obj.updated_at
             if delta > datetime.timedelta(minutes=self.expired_time):
                 # expired, make new one
                 obj.checkcode = "1111"
-                # obj.checkcode = is_test and '1111' or random.randrange(1000, 9999)
+                # obj.checkcode = is_test and '1111' or random.randrange(0, 99)
                 obj.updated_at = now
                 obj.verify_times = 0
                 obj.resend_at = now
@@ -129,13 +133,13 @@ class Sms(View):
             delta = timezone.now() - obj.updated_at
             if delta > datetime.timedelta(minutes=self.expired_time):
                 return False, 2
-            if obj.verify_times >= self.max_verify_times: # meybe someone attack
+            if obj.verify_times >= self.max_verify_times:  # meybe got attack
                 return False, 3
             is_valid = code == obj.checkcode
             if is_valid:
                 obj.delete()
             else:
-                obj.verify_times += 1;
+                obj.verify_times += 1
                 obj.save()
             return is_valid, 0
         except:
@@ -147,36 +151,44 @@ class Sms(View):
         if action == 'send':
             phone = request.POST.get('phone')
             if not phone:
-                return JsonResponse({'sent': False, 'reason': 'phone is required'})
+                return JsonResponse({'sent': False,
+                                     'reason': 'phone is required'})
             if not self.isValidPhone(phone):
-                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
+                return JsonResponse({'sent': False,
+                                     'reason': 'phone is wrong'})
             try:
                 # generate code
                 checkcode = self.generateCheckcode(phone)
                 if not checkcode:
-                    return JsonResponse({'sent': False, 'reason': 'resend too much times'})
-                print ('验证码：' + str(checkcode))
+                    return JsonResponse({'sent': False,
+                                         'reason': 'resend too much times'})
+                print('验证码：' + str(checkcode))
                 if not self.isTestPhone(phone):
                     # call send sms api
                     r = sendCheckcode(phone, checkcode)
-                    print (r)
+                    print(r)
                 return JsonResponse({'sent': True})
             except Exception as err:
-                print (err)
+                print(err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
             phone = request.POST.get('phone')
             code = request.POST.get('code')
             if not phone or not code:
-                return JsonResponse({'verified': False, 'reason': 'params error'})
+                return JsonResponse({'verified': False,
+                                     'reason': 'params error'})
             if not self.isValidPhone(phone):
-                return JsonResponse({'sent': False, 'reason': 'phone is wrong'})
+                return JsonResponse({'sent': False,
+                                     'reason': 'phone is wrong'})
             if not self.isValidCode(code):
                 return JsonResponse({'sent': False, 'reason': 'code is wrong'})
             try:
                 is_valid, err_no = self.verifyCheckcode(phone, code)
                 if not is_valid:
-                    return JsonResponse({'verified': False, 'reason': err_no == 3 and 'Retry too much times' or 'SMS not match or is expired'})
+                    return JsonResponse({
+                        'verified': False,
+                        'reason': err_no == 3 and 'Retry too much times' or
+                        'SMS not match or is expired'})
                 # find User
                 is_found = False
                 try:
@@ -185,26 +197,31 @@ class Sms(View):
                 except:
                     pass
                 if not is_found:
-                    username = ''.join(random.sample('AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789', 10))
+                    chars = ('AaBbCcDdEeFfGgHhIiJjKkLlMmNnOo' +
+                             'PpQqRrSsTtUuVvWwXxYyZz0123456789')
+                    username = ''.join(random.sample(chars, 10))
                     new_user = User.objects.create_user(username)
                     new_user.save()
-                    profile = models.Profile.objects.create(user=new_user, phone=phone)
+                    profile = models.Profile.objects.create(user=new_user,
+                                                            phone=phone)
                     profile.save()
                 # 把用户添加到'家长'Group
                 group = Group.objects.get(name='家长')
                 profile.user.groups.add(group)
                 profile.user.save()
                 # 家长角色: 创建parent
-                parent, created = models.Parent.objects.get_or_create(user=profile.user)
+                parent, created = models.Parent.objects.get_or_create(
+                        user=profile.user)
                 first_login = not parent.student_name
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
-                return JsonResponse({'verified': True,
+                return JsonResponse({
+                    'verified': True,
                     'first_login': first_login, 'token': token.key,
                     'parent_id': parent.id})
 
             except Exception as err:
-                print (err)
+                print(err)
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
 
@@ -240,7 +257,8 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class RegionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Region
-        fields = ('id', 'name', 'superset', 'admin_level', 'leaf', 'weekly_time_slots')
+        fields = ('id', 'name', 'superset', 'admin_level', 'leaf',
+                  'weekly_time_slots')
 
 
 class RegionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -269,10 +287,12 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = queryset.extra(order_by=['-center'])
         return queryset
 
+
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
         fields = ('id', 'name')
+
 
 class SubjectNameSerializer(serializers.ModelSerializer):
     class Meta:
@@ -280,6 +300,7 @@ class SubjectNameSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
+
 
 class SubjectIdSerializer(serializers.ModelSerializer):
     class Meta:
@@ -299,6 +320,7 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Tag
         fields = ('id', 'name')
 
+
 class TagNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
@@ -314,6 +336,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 class GradeSerializer(serializers.ModelSerializer):
     subjects = SubjectIdSerializer(many=True)
+
     class Meta:
         model = models.Grade
         fields = ('id', 'name', 'subset', 'subjects')
@@ -321,10 +344,12 @@ class GradeSerializer(serializers.ModelSerializer):
 
 GradeSerializer._declared_fields['subset'] = GradeSerializer(many=True)
 
+
 class GradeSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Grade
         fields = ('id', 'name')
+
 
 class GradeNameSerializer(serializers.ModelSerializer):
     class Meta:
@@ -333,9 +358,11 @@ class GradeNameSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
 
+
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Grade.objects.all().filter(superset=None)
     serializer_class = GradeSerializer
+
 
 class PriceSerializer(serializers.ModelSerializer):
     grade = GradeSimpleSerializer()
@@ -344,14 +371,17 @@ class PriceSerializer(serializers.ModelSerializer):
         model = models.Price
         fields = ('grade', 'price')
 
+
 class PriceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Price.objects.all()
     serializer_class = PriceSerializer
+
 
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Level
         fields = ('id', 'name')
+
 
 class LevelNameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -372,9 +402,11 @@ class HighscoreSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', 'increased_scores', 'school_name',
                   'admitted_to')
 
+
 class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Highscore.objects.all()
     serializer_class = HighscoreSerializer
+
 
 class PhotoUrlSerializer(serializers.ModelSerializer):
     class Meta:
@@ -383,14 +415,17 @@ class PhotoUrlSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return self.fields['img'].get_attribute(instance).url
 
+
 class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Achievement
         fields = ('title', 'img')
 
+
 class AchievementViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Achievement.objects.all()
     serializer_class = AchievementSerializer
+
 
 class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
@@ -430,7 +465,8 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
 
         grade = self.request.query_params.get('grade', None) or None
         if grade is not None:
-            queryset = queryset.filter(Q(ability__grade__id__contains=grade) |
+            queryset = queryset.filter(
+                    Q(ability__grade__id__contains=grade) |
                     Q(ability__grade__subset__id__contains=grade)).distinct()
 
         subject = self.request.query_params.get('subject', None) or None
@@ -438,7 +474,7 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(ability__subject__id__contains=subject)
 
         tags = self.request.query_params.get('tags', '').split()
-        tags = list(map(int, filter(lambda x:x, tags)))
+        tags = list(map(int, filter(lambda x: x, tags)))
         if tags:
             queryset = queryset.filter(tags__id__in=tags)
 
@@ -464,6 +500,7 @@ class MemberserviceViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CouponSerializer(serializers.ModelSerializer):
     expired_at = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Coupon
         fields = ('id', 'name', 'amount', 'expired_at', 'used')
@@ -474,8 +511,9 @@ class CouponSerializer(serializers.ModelSerializer):
 
 class CouponViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Coupon.objects.filter()
+
     def get_queryset(self):
-        user = self.request.user;
+        user = self.request.user
         try:
             queryset = user.parent.coupon_set.all()
         except:
@@ -496,7 +534,7 @@ class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WeeklyTimeSlotSerializer
 
 
-class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
+class ParentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Parent
         fields = ('student_name', )
@@ -504,12 +542,37 @@ class ParentViewSetSerializer(serializers.HyperlinkedModelSerializer):
     def is_valid(self, raise_exception=False):
         super().is_valid(raise_exception=raise_exception)
 
-class ParentViewSet(ModelViewSet):
+
+class ParentViewSet(viewsets.ModelViewSet):
     queryset = models.Parent.objects.all()
-    serializer_class = ParentViewSetSerializer
+    serializer_class = ParentSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            queryset = models.Parent.objects.filter(id=user.parent.id)
+        except Exception as e:
+            raise PermissionDenied(detail=e)
+        return queryset
 
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         if response.status_code == 200:
             response.data = {"done": "true"}
+        return response
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class OrderSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = ('id', 'teacher', 'parent')
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = models.Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
         return response
