@@ -77,6 +77,14 @@ $(function(){
         locale: 'zh-cn'
     });
 
+    $('form[name=query_form]').submit(function(){
+        var dateFrom = $('input[name=reg_date_from]').val(), dateTo = $('input[name=reg_date_to]').val();
+        if (dateFrom && dateTo && dateFrom>dateTo) {
+            alert("请确保截止查询日期大于开始日期");
+            return false;
+        }
+    });
+
     paginationInit();
 
     $("[data-action=showGradeSubjectModal]").click(function(e){
