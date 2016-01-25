@@ -74,20 +74,13 @@ $(function(){
         var $this = $(this), weeklySchedule = $this.data('weeklySchedule');
         var fillTableAndShow = function(weeklySchedule) {
             var heap = [];
-            for (var k=0; k<weeklySchedule.length; k++) {
-                var wsh = weeklySchedule[k];
+            for (var k=0; k<weeklySchedule.list.length; k++) {
+                var wsh = weeklySchedule.list[k];
                 heap[""+wsh.weekday+wsh.start+wsh.end] = true;
             }
             var $weeklyScheduleTable = $weeklyScheduleModal.find("table");
             $weeklyScheduleTable.find('tr:gt(0)').remove();
-            var metaTimeSlots = [{'start': '08:00:00', 'end': '10:00:00'},
-                    {'start': '08:00:00', 'end': '10:00:00'},
-                    {'start': '10:00:00', 'end': '12:00:00'},
-                    {'start': '13:00:00', 'end': '15:00:00'},
-                    {'start': '15:00:00', 'end': '17:00:00'},
-                    {'start': '17:00:00', 'end': '19:00:00'},
-                    {'start': '19:00:00', 'end': '21:00:00'},
-                ];
+            var metaTimeSlots = weeklySchedule.dailyTimeSlots;
             var buf = [];
             for (var i=0; i<metaTimeSlots.length; i++) {
                 var timeSlot = metaTimeSlots[i];
@@ -111,8 +104,8 @@ $(function(){
         var teacherId = $(this).closest('tr').attr('teacherId');
         $.getJSON('/staff/teachers/action/',{'action': 'get-weekly-schedule', 'tid': teacherId},function(data){
             if (data && data.list)  {
-                $this.data('weeklySchedule', data.list);
-                fillTableAndShow(data.list);
+                $this.data('weeklySchedule', data);
+                fillTableAndShow(data);
             }
         });
     });

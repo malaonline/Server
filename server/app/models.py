@@ -1,6 +1,7 @@
+import datetime
+import uuid
 from django.contrib.auth.models import User
 from django.db import models
-import uuid
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
@@ -516,6 +517,15 @@ class Coupon(BaseModel):
 
 
 class WeeklyTimeSlot(BaseModel):
+    DAILY_TIME_SLOTS = [
+        {'start': datetime.time(8), 'end': datetime.time(10)},
+        {'start': datetime.time(10), 'end': datetime.time(12)},
+        {'start': datetime.time(13), 'end': datetime.time(15)},
+        {'start': datetime.time(15), 'end': datetime.time(17)},
+        {'start': datetime.time(17), 'end': datetime.time(19)},
+        {'start': datetime.time(19), 'end': datetime.time(21)},
+    ]
+
     weekday = models.PositiveIntegerField() # 1 - 7
     start = models.TimeField()  # [0:00 - 24:00)
     end = models.TimeField()
