@@ -420,6 +420,12 @@ result:
 GET /api/v1/coupons/
 ```
 
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+
+```
 result:
 ```
 {
@@ -428,12 +434,14 @@ result:
     "previous": null,
     "results": [
         {
+            "id": 1,
             "name": "新生奖学金",
             "amount": 120,
             "expired_at": 1453343547,
             "used": false
         },
         {
+            "id": 2,
             "name": "优惠奖学金",
             "amount": 100,
             "expired_at": 1453343547,

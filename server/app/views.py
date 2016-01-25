@@ -464,7 +464,7 @@ class CouponSerializer(serializers.ModelSerializer):
     expired_at = serializers.SerializerMethodField()
     class Meta:
         model = models.Coupon
-        fields = ('name', 'amount', 'expired_at', 'used')
+        fields = ('id', 'name', 'amount', 'expired_at', 'used')
 
     def get_expired_at(self, obj):
         return int(obj.expired_at.timestamp())
