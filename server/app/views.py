@@ -381,15 +381,14 @@ class PhotoUrlSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return self.fields['img'].get_attribute(instance).url
 
-class CertificateSerializer(serializers.ModelSerializer):
+class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Certificate
-    def to_representation(self, instance):
-        return self.fields['name'].get_attribute(instance)
+        model = models.Achievement
+        fields = ('title', 'img')
 
-class CertificateViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Certificate.objects.all()
-    serializer_class = CertificateSerializer
+class AchievementViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Achievement.objects.all()
+    serializer_class = AchievementSerializer
 
 class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
@@ -406,7 +405,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     prices = PriceSerializer(many=True)
     avatar = serializers.ImageField()
     tags = TagNameSerializer(many=True)
-    certificate_set = CertificateSerializer(many=True)
+    achievement_set = AchievementSerializer(many=True)
     grades = GradeNameSerializer(many=True)
     subject = SubjectNameSerializer()
     level = LevelNameSerializer()
@@ -416,7 +415,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
-                  'level', 'subject', 'grades', 'tags', 'certificate_set',
+                  'level', 'subject', 'grades', 'tags', 'achievement_set',
                   'photo_set', 'highscore_set', 'prices')
 
 
