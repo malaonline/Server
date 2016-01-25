@@ -13,6 +13,7 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
+from django.core import exceptions
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 
@@ -516,7 +517,7 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
         user = self.request.user
         try:
             queryset = user.parent.coupon_set.all()
-        except:
+        except exceptions.ObjectDoesNotExist:
             raise PermissionDenied(detail='Role incorrect')
         return queryset
     serializer_class = CouponSerializer
@@ -551,8 +552,8 @@ class ParentViewSet(viewsets.ModelViewSet):
         user = self.request.user
         try:
             queryset = models.Parent.objects.filter(id=user.parent.id)
-        except Exception as e:
-            raise PermissionDenied(detail=e)
+        except exceptions.ObjectDoesNotExist:
+            raise PermissionDenied(detail='Role incorrect')
         return queryset
 
     def update(self, request, *args, **kwargs):
