@@ -1,4 +1,5 @@
 $(function(){
+  var hiscorepageDefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
   $('#checkboxSelectAll').change(function(e){
     var ck = false;
     if($('#checkboxSelectAll').is(':checked')){
@@ -27,7 +28,6 @@ $(function(){
       }
     }
     if(ids.length > 0){
-      var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
       var params = {'action': 'delete', 'ids': ids.join(',')};
       $.post("/teacher/highscore/", params, function(result){
           if(result){
@@ -44,9 +44,9 @@ $(function(){
               }
               return;
           }
-          alert(defaultErrMsg);
+          alert(hiscorepageDefaultErrMsg);
       }, 'json').fail(function(){
-          alert(defaultErrMsg);
+          alert(hiscorepageDefaultErrMsg);
       });
     }
   });
@@ -74,7 +74,6 @@ $(function(){
       'school_name': schoolname,
       'admitted_to': admittedTo,
     };
-    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
     $.post("/teacher/highscore/", params, function(result){
         if(result){
           if(result.ok){
@@ -84,11 +83,11 @@ $(function(){
             alert(result.msg);
           }
         }else{
-          alert(defaultErrMsg);
+          alert(hiscorepageDefaultErrMsg);
         }
     }, 'json').fail(function(){
       $('#addItemsModal').modal('hide');
-      alert(defaultErrMsg);
+      alert(hiscorepageDefaultErrMsg);
     });
   });
   $('#addHighscore').click(function(e){
