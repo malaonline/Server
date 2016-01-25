@@ -559,11 +559,31 @@ class HighscoreView(BaseTeacherView):
         if request.POST.get('action') == 'delete':
             return self.doDelHighscore(request)
 
+        if request.POST.get('action') == 'add':
+            return self.addNewHighscore(request)
+
         context, teacher = self.getContextTeacher(request)
         highscore = None
 
-        context = self.buildContextData(context, teacher)
         return render(request, self.template_path, context)
+
+    """
+    增加一行
+    """
+    def addNewHighscore(self, request):
+        context, teacher = self.getContextTeacher(request)
+        name = request.POST.get('name')
+        increased_scores = request.POST.get('increased_scores')
+        school_name = request.POST.get('school_name')
+        admitted_to = request.POST.get('admitted_to')
+        highscore = models.Highscore()
+        highscore.teacher_id = teacher.id
+        highscore.name = name
+        highscore.increased_scores = increased_scores
+        highscore.school_name = school_name
+        highscore.admitted_to = admitted_to
+        highscore.save()
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
     """
     return message format: {'ok': False, 'msg': msg, 'code': 1}
@@ -605,7 +625,7 @@ class BasicDocument(BaseTeacherView):
         context = self.buildContextData(context, teacher)
         context["highscores"] = highscores
         return render(request, self.template_path, context)
-        
+
     def buildContextData(self, context, teacher):
         context["teacher"] = teacher
         return context
@@ -687,4 +707,3 @@ class AchievementView(BaseTeacherView):
 
         achievement.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
-

@@ -17,7 +17,6 @@ $(function(){
     }
     return false;
   }
-
   $('#delHighscore').click(function(e){
     var ids = [];
     var allItems = $('[name="checkboxSelect"]');
@@ -51,5 +50,48 @@ $(function(){
       });
     }
   });
+  $('#saveNewItem').click(function(e){
+    var teacherId = $('#teacherId').val();
+    var stname = $('#stname').val();
+    var inscore = $('#inscore').val();
+    var schoolname = $('#schoolname').val();
+    var admittedTo = $('#admittedTo').val();
 
+    if(stname == '' ||
+      inscore == '' ||
+      schoolname == '' ||
+      admittedTo == ''
+    ){
+      alert("必须填写所有内容！");
+      return false;
+    }
+
+    var params = {
+      'action': 'add',
+      'id': teacherId,
+      'name': stname,
+      'increased_scores': inscore,
+      'school_name': schoolname,
+      'admitted_to': admittedTo,
+    };
+    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+    $.post("/teacher/highscore/", params, function(result){
+        if(result){
+          if(result.ok){
+            $('#addItemsModal').modal('hide');
+            location.reload();
+          }else{
+            alert(result.msg);
+          }
+        }else{
+          alert(defaultErrMsg);
+        }
+    }, 'json').fail(function(){
+      $('#addItemsModal').modal('hide');
+      alert(defaultErrMsg);
+    });
+  });
+  $('#addHighscore').click(function(e){
+    $('#addItemsModal').modal({backdrop: 'static', keyboard: false});
+  });
 });

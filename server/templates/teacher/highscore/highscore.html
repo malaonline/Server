@@ -60,7 +60,46 @@
         {% endfor %}
     </table>
     <div class="bottom-btn">
-        <input type="button" name="addHighscore" value="添加" class="btn btn-primary">
+        <input type="button"  data-toggle="modal" id="addHighscore" value="添加" class="btn btn-primary">
         <input type="button" name="delHighscore" id="delHighscore" value="删除" class="btn btn-default">
+    </div>
+
+    <div id="addItemsModal" class="modal fade in add-item-modal">
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <input type="hidden" id="teacherId" value="{{teacher.id}}" />
+              <fieldset>
+                <legend>添加新内容</legend>
+                <div class="control-group">
+                  <label class="control-label" for="stname">学生姓名</label>
+                  <div class="controls">
+                    <input type="text" class="input-xlarge" id="stname">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inscore">辅导期间提分</label>
+                  <div class="controls">
+                    <input type="number" class="input-xlarge" id="inscore">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="schoolname">所在学校</label>
+                  <div class="controls">
+                    <input type="text" class="input-xlarge" id="schoolname">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="admittedTo">考入学校</label>
+                  <div class="controls">
+                    <input type="text" class="input-xlarge" id="admittedTo">
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer" style="text-align: center;">
+            <input type="button" id="saveNewItem" value="保存" class="btn btn-primary">
+            <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+        </div>
     </div>
 {% endblock %}
