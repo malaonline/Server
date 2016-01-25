@@ -82,3 +82,9 @@ class TestWebPage(TestCase):
         response = client.get(reverse("teacher:first-page"))
         self.assertEqual(response.status_code, 200)
 
+    def test_my_school_timetable(self):
+        client = Client()
+        client.login(username=self.name, password=self.password)
+        response = client.get(reverse("teacher:my-school-timetable"))
+        self.assertEqual(response.status_code, 200)
+

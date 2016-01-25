@@ -25,18 +25,20 @@ logger = logging.getLogger('app')
 LOGIN_URL = "/teacher/login"
 
 
-def register(request):
+class TeacherLogin(View):
     """
     老师用户注册页面 TW-1-1
-    :param request:
-    :return:
     """
-    context = {}
-    return render(request, 'teacher/register.html', context)
+    def get(self, request):
+        context = {}
+        return render(request, 'teacher/register.html', context)
 
 
-def verify_sms_code(request):
-    if request.method == "POST":
+class VerifySmsCode(View):
+    """
+    检查短信验证码是否正确
+    """
+    def post(self, request):
         phone = request.POST.get("phone", None)
         code = request.POST.get("code", None)
         Profile = models.Profile
@@ -85,11 +87,14 @@ def verify_sms_code(request):
             return JsonResponse({
                 "result": False
             })
-    else:
-        return
 
 
 def information_complete_percent(user: User):
+    """
+    计算用户信息完成度
+    :param user:
+    :return:
+    """
     total = 4
     unfinished = 0
     Teacher = models.Teacher
@@ -131,19 +136,11 @@ class CompleteInformation(View):
         grade = [[False for i in range(6)],
                  [False for i in range(3)],
                  [False for i in range(3)]]
-        grade_slot = {
-            "一年级": (0, 0),
-            "二年级": (0, 1),
-            "三年级": (0, 2),
-            "四年级": (0, 3),
-            "五年级": (0, 4),
-            "六年级": (0, 5),
-            "初一": (1, 0),
-            "初二": (1, 1),
-            "初三": (1, 2),
-            "高一": (2, 0),
-            "高二": (2, 1),
-            "高三": (2, 2)}
+        grade_name = models.Grade.get_all_grades()
+        grade_slot = {}
+        for x, one_level in enumerate(grade_name):
+            for y, one_grade in enumerate(one_level):
+                grade_slot[one_grade] = (x, y)
 
         grade_list = [item.grade.name for item in list(teacher.abilities.all())]
         for one_grade in grade_list:
@@ -158,7 +155,6 @@ class CompleteInformation(View):
             "grade": json.dumps(grade),
             "phone_name": phone
         }
-        #print(context)
         return render(request, 'teacher/complete_information.html', context)
 
     def post(self, request):
@@ -172,12 +168,7 @@ class CompleteInformation(View):
         subject = request.POST.get("subclass")
         grade = request.POST.get("grade")
 
-        #print("name => {name}".format(name=name))
-        #print("gender => {gender}".format(gender=gender))
-        #print("region => {region}".format(region=region))
-        #print("subclass => {subclass}".format(subclass=subject))
         grade_list = json.loads(grade)
-        #print("grade => {grade}".format(grade=grade_list))
 
         teacher.name = name
         gender_dict = {"男": "m", "女": "f"}
@@ -185,10 +176,15 @@ class CompleteInformation(View):
         teacher.region = models.Region.objects.get(name=region)
 
         the_subject = models.Subject.objects.get(name=subject)
-        grade_dict = {"小学一年级": "一年级", "小学二年级": "二年级", "小学三年级": "三年级",
-                      "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
-                      "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
-                      "高二": "高二", "高三": "高三"}
+        grade_name_list = models.Grade.get_all_grades()
+        page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],
+                           ["初一", "初二", "初三"],
+                           ["高一", "高二", "高三"]]
+        grade_dict = {}
+        for page_level, database_level in list(zip(page_grade_list, grade_name_list)):
+            for page_grade, database_grade in list(zip(page_level, database_level)):
+                grade_dict[page_grade] = database_grade
+
         # clear ability_set
         teacher.abilities.clear()
 
@@ -204,46 +200,72 @@ class CompleteInformation(View):
         return JsonResponse({"url": reverse("teacher:register-progress")})
 
 
-@login_required(login_url=LOGIN_URL)
-def register_progress(request):
+class RegisterProgress(View):
     """
     显示注册进度
-    :param request:
-    :return:
     """
-    context = {}
-    try:
-        teacher = models.Teacher.objects.get(user=request.user)
-    except models.Teacher.DoesNotExist:
-        return HttpResponseRedirect(reverse("teacher:register"))
+    def get(self, request):
+        context = {}
+        try:
+            teacher = models.Teacher.objects.get(user=request.user)
+        except models.Teacher.DoesNotExist:
+            return HttpResponseRedirect(reverse("teacher:register"))
 
-    if settings.FIX_TEACHER_STATUS:
-        teacher.status = teacher.INTERVIEW_OK
-    context["progress"] = teacher.get_progress()
-    context["text_list"] = teacher.build_progress_info()
+        if settings.FIX_TEACHER_STATUS:
+            teacher.status = teacher.INTERVIEW_OK
+        context["progress"] = teacher.get_progress()
+        context["text_list"] = teacher.build_progress_info()
+        context["user_name"] = "{name} 老师".format(name=teacher.name)
+        return render(request, "teacher/register_progress.html", context)
+
+
+# 设置老师页面的通用上下文
+def set_teacher_page_general_context(teacher, context):
     context["user_name"] = "{name} 老师".format(name=teacher.name)
-    return render(request, "teacher/register_progress.html", context)
 
 
-@login_required(login_url=LOGIN_URL)
-def first_page(request):
+class FirstPage(View):
     """
-    TW-4-1,通过面试的老师见到的第一个页面
-    :param request:
-    :return:
+    通过面试的老师见到的第一个页面
     """
-    teacher = models.Teacher.objects.get(user=request.user)
+    def get(self, request):
+        teacher = models.Teacher.objects.get(user=request.user)
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/first_page.html", context)
 
-    context = {
-        "user_name": "{name} 老师".format(name=teacher.name)
-    }
-    return render(request, "teacher/first_page.html", context)
+
+class MySchoolTimetable(View):
+    """
+    TW-5-1, 查看课表上的内容
+    """
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/my_school_timetable.html", context)
 
 
-@login_required(login_url=LOGIN_URL)
-def teacher_logout(request):
-    logout(request)
-    return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
+class MyStudents(View):
+    """
+    TW-5-2, 我的学生
+    """
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/my_students.html", context)
+
+
+class TeacherLogout(View):
+    """
+    登出
+    """
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
 
 
 # 判断是否是已登录老师

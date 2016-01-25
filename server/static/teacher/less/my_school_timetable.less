@@ -1,0 +1,300 @@
+@import "register.less";
+@import "public.less";
+@import "public_login.less";
+
+@border_gray: #cdcecf;
+@page_min_width: 1170px;
+
+
+
+.my_timetable {
+  font-size: 18px;
+  padding-left: 15px;
+  padding-top: 12px;
+  padding-bottom: 5px;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: @border_gray;
+}
+
+@padPaddingBottom: 20px;
+
+.pad{
+  overflow: auto;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: @border_gray;
+}
+
+.left-pad, .right-pad{
+  padding-bottom: 20px;
+}
+
+.left-pad {
+  float: left;
+  min-width: 410px;
+  padding-left: 27px;
+  padding-top: 33px;
+  padding-right: 27px;
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color: @border_gray;
+
+  .complete-icon, .working-icon, .waiting-icon{
+    .glyphicon;
+    .glyphicon-stop;
+  }
+  .complete-icon{
+    color: @border_gray;
+  }
+  .working-icon{
+    color: red;
+    .glyphicon;
+    .glyphicon-unchecked;
+  }
+  .waiting-icon{
+    color: #414142;
+  }
+
+  .calander {
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: @border_gray;
+
+    .year-and-month {
+      padding-top: 10px;
+      padding-left: 12px;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: @border_gray;
+      .year-and-month-title {
+        font-weight: lighter;
+        margin-left: 138px;
+        margin-right: 138px;
+      }
+      .left-arraow {
+        .glyphicon;
+        .glyphicon-chevron-left;
+        color: @border_gray;
+      }
+      .right-arrow {
+        .glyphicon;
+        .glyphicon-chevron-right;
+        color: @border_gray;
+      }
+    }
+    .week-title {
+      padding-left: 3px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      .one-week-block{
+        margin-left: 13px;
+        margin-right: 14px;
+      }
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: @border_gray;
+      //border: solid 0 0 1px 0 @border_gray;
+    }
+    .day-cell {
+      overflow: auto;
+      .pass {
+
+      }
+      .day-row{
+        overflow: auto;
+      }
+      .normal, .normal-last {
+        @normal_space: 20px;
+        float:left;
+        padding-right: @normal_space + 2px;
+        padding-left: @normal_space;
+        border-width: 0 1px 1px 0;
+        border-style: solid;
+        border-color: @border_gray;
+        min-height: 46px;
+        .date{
+          margin-top: 5px;
+          margin-bottom: 0;
+        }
+        .tag{
+          font-size: 12px;
+          margin-bottom: 3px;
+          i[attrStatue="complete"]{
+            .complete-icon;
+          }
+          i[attrStatue="blank"]{
+
+          }
+          i[attrStatue="waiting"]{
+            .waiting-icon;
+          }
+          i[attrStatue="working"]{
+            .working-icon;
+          }
+        }
+      }
+      .normal-last{
+        border-width: 0 0 1px 0;
+      }
+      .normal[attrStatue="pass"], .normal-last[attrStatue="pass"]{
+        color: @border_gray;
+      }
+      .today {
+
+      }
+      .waiting {
+
+      }
+      .complete {
+
+      }
+      .working {
+
+      }
+      .waiting {
+
+      }
+    }
+  }
+  .caleder-annotation{
+    padding-top: 9px;
+    span{
+      font-size: 12px;
+      margin-left: 7px;
+    }
+    i[attrType="secondIcon"], i[attrType="thirdIcon"]{
+      margin-left: 23px;
+    }
+  }
+}
+
+.right-pad {
+  float: left;
+  min-width: 410px;
+  padding-top: 23px;
+  padding-left: 35px;
+  .details {
+    .title{
+      border-width: 0 0 2px 0;
+      border-style: solid;
+      border-color: #88898a;
+      .date{
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+      .week-day{
+
+      }
+    }
+    .details-list{
+      width: 375px;
+      overflow: auto;
+      .one-detail{
+        padding-top: 25px;
+        padding-bottom: 16px;
+        overflow: auto;
+        border-width: 0 0 1px 0;
+        border-style: dashed;
+        border-color: @border_gray;
+        .icon-area{
+          float: left;
+          width: 20px;
+          padding-top: 5px;
+        }
+        .info-area{
+          float: left;
+          width: 350px;
+          margin-left: 11px;
+          .first-row{
+
+          }
+          .second-row{
+            margin-top: 5px;
+          }
+        }
+        .details-icon{
+          .glyphicon;
+          .glyphicon-record;
+          top: 4px;
+          float: left;
+        }
+        .duration{
+          margin-right: 4px;
+          font-weight: bold;
+        }
+        .subclass{
+          margin-left: 4px;
+          margin-right: 4px;
+          font-weight: bold;
+        }
+        .teacher {
+          margin-left: 4px;
+          margin-right: 4px;
+          font-weight: bold;
+        }
+        .classroom{
+          margin-left: 4px;
+          font-weight: bold;
+        }
+        .class-progress{
+
+        }
+        @tagPaddingSpace: 2px;
+        .complete-tag, .evaluated, .to-evaluate, .working, .waiting{
+          float: right;
+          margin-left: 4px;
+          margin-right: 4px;
+        }
+        .complete-tag[attrShow="false"], .evaluated[attrShow="false"],
+        .to-evaluate[attrShow="false"], .working[attrShow="false"],
+        .waiting[attrShow="false"]{
+          display: none;
+        }
+
+        .complete-tag{
+          .label;
+          .label-default;
+          background: @border_gray;
+          padding-left : @tagPaddingSpace;
+          padding-right: @tagPaddingSpace;
+          border-width: 1px;
+          border-style: solid;
+          border-color: @border_gray;
+        }
+        .evaluated, .to-evaluate{
+          .label;
+          .label-default;
+          background: white;
+          border-width: 1px;
+          border-style: solid;
+          padding-left: @tagPaddingSpace;
+          padding-right:@tagPaddingSpace;
+        }
+        .evaluated{
+          border-color: #37c36e;
+          color: #37c36e;
+        }
+        .to-evaluate{
+          border-color: #ea9925;
+          color: #ea9925;
+        }
+        .working, .waiting{
+          .label;
+          .label-default;
+          border-width: 1px;
+          border-style: solid;
+          padding-left: @tagPaddingSpace;
+          padding-right:@tagPaddingSpace;
+          color: white;
+        }
+        .working{
+          background: #37c26e;
+        }
+        .waiting{
+          background: #ed9a28;
+        }
+      }
+    }
+  }
+}

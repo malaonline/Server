@@ -9,6 +9,7 @@
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'teacher/js/custom/first_page.js' %}"></script>
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -57,7 +58,10 @@
                 </div>
             </div>
             <div class="page-right"></div>
-            <div class="complete-table-bar" role="alert">
+            <div class="complete-table-bar" role="alert" attrHidden="false" id="complete-table-bar">
+                <div class="close_row">
+                    <button id="close-complete-table-bar"><i></i></button>
+                </div>
                 <div class="percent_complete">
                     <p class="percent_title">个人资料完成度 <span>60%</span></p>
                     <div class="custom_progress">
