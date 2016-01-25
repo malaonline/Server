@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^information/complete/$', login_required(views.CompleteInformation.as_view(), login_url=LOGIN_URL), name="complete-information"),
     url(r'^register/progress/$', views.register_progress, name="register-progress"),
     url(r'^first_page/$', views.first_page, name="first-page"),
+    url(r'^my_school_timetable/$', views.my_school_timetable, name="my-school-timetable"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),

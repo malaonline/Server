@@ -1,0 +1,181 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的课表
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_school_timetable.less'|compile %}">
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "张三 老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% include 'teacher/side_bar.html' %}
+                <div class="the_content">
+                    <div class="my_timetable">
+                        <p>我的课表</p>
+                    </div>
+                    <div class="pad">
+                        <div class="left-pad">
+                            <div class="calander">
+                                <div class="year-and-month">
+                                    <p>
+                                        <i class="left-arraow"></i>
+                                        <span class="year-and-month-title">2015年12月</span>
+                                        <i class="right-arrow"></i>
+                                    </p>
+                                </div>
+                                <div class="week-title">
+                                    <span class="one-week-block">
+                                        周一
+                                    </span>
+                                    <span class="one-week-block">
+                                        周二
+                                    </span>
+                                    <span class="one-week-block">
+                                        周三
+                                    </span>
+                                    <span class="one-week-block">
+                                        周四
+                                    </span>
+                                    <span class="one-week-block">
+                                        周五
+                                    </span>
+                                    <span class="one-week-block">
+                                        周六
+                                    </span>
+                                    <span class="one-week-block">
+                                        周日
+                                    </span>
+                                </div>
+                                <div class="day-cell">
+                                    <div class="day-row">
+                                        <div class="normal" attrStatue="pass">
+                                            <p class="date">29</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">30</p>
+                                            <p class="tag"><i attrStatue="working"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">01</p>
+                                            <p class="tag"><i attrStatue="waiting"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">02</p>
+                                            <p class="tag"><i attrStatue="blank"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">03</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">04</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal-last">
+                                            <p class="date">05</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="day-row">
+                                        <div class="normal">
+                                            <p class="date">06</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">07</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">08</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">09</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">10</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal">
+                                            <p class="date">11</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                        <div class="normal-last">
+                                            <p class="date">12</p>
+                                            <p class="tag"><i attrStatue="complete"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="caleder-annotation">
+                                <i class="complete-icon"></i><span>已完成</span>
+                                <i class="waiting-icon" attrType="secondIcon"></i><span>待上课</span>
+                                <i class="working-icon" attrType="thirdIcon"></i><span>上课中</span>
+                            </div>
+                        </div>
+                        <div class="right-pad">
+                            <div class="details">
+                                <div class="title">
+                                    <p class="date">2015年12月25日</p>
+                                    <p class="week-day">星期六</p>
+                                </div>
+                                <div class="details-list">
+                                    <div class="one-detail">
+                                        <i class="details-icon"></i>
+                                        <div class="info-area">
+                                            <div class="first-row">
+                                                <span class="duration">08:00-10:00</span>
+                                                <span class="subclass">初二数学</span>
+                                                <span class="teacher">胡晓路</span>
+                                                <span class="classroom">五一路社区学习中心</span>
+                                            </div>
+                                            <div class="second-row">
+                                                <span class="class-progress">第06/20次课</span>
+                                                <span class="waiting" attrShow="false">待上课</span>
+                                                <span class="working" attrShow="false">上课中</span>
+                                                <span class="to-evaluate" attrShow="true">未评价</span>
+                                                <span class="evaluated" attrShow="false">已评价</span>
+                                                <span class="complete-tag" attrShow="true">已完成</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="one-detail">
+                                        <i class="details-icon"></i>
+                                        <div class="info-area">
+                                            <div class="first-row">
+                                                <span class="duration">08:00-10:00</span>
+                                                <span class="subclass">初二数学</span>
+                                                <span class="teacher">胡晓路</span>
+                                                <span class="classroom">五一路社区学习中心五一路社区学习中心五一路社区学习中心</span>
+                                            </div>
+                                            <div class="second-row">
+                                                <span class="class-progress">第06/20次课</span>
+                                                <span class="waiting" attrShow="false">待上课</span>
+                                                <span class="working" attrShow="false">上课中</span>
+                                                <span class="to-evaluate" attrShow="true">未评价</span>
+                                                <span class="evaluated" attrShow="false">已评价</span>
+                                                <span class="complete-tag" attrShow="true">已完成</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>今天暂无课程</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}

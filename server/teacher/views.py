@@ -228,7 +228,7 @@ def register_progress(request):
 @login_required(login_url=LOGIN_URL)
 def first_page(request):
     """
-    TW-4-1,通过面试的老师见到的第一个页面
+    TW-4-1, 通过面试的老师见到的第一个页面
     :param request:
     :return:
     """
@@ -238,6 +238,35 @@ def first_page(request):
         "user_name": "{name} 老师".format(name=teacher.name)
     }
     return render(request, "teacher/first_page.html", context)
+
+
+@login_required(login_url=LOGIN_URL)
+def my_school_timetable(request):
+    """
+    TW-5-1, 查看课表上的内容
+    :param request:
+    :return:
+    """
+    user = request.user
+    teacher = models.Teacher(user=user)
+    context = {
+        "user_name": "{name} 老师".format(name=teacher.name)
+    }
+    return render(request, "teacher/my_school_timetable.html", context)
+
+
+@login_required(login_url=LOGIN_URL)
+def my_students(request):
+    """
+    TW-5-1, 查看学生状态
+    :param request:
+    :return:
+    """
+    user = request.user
+    teacher = models.Teacher(user=user)
+    context = {
+        "user_name": ""
+    }
 
 
 @login_required(login_url=LOGIN_URL)
