@@ -136,19 +136,11 @@ class CompleteInformation(View):
         grade = [[False for i in range(6)],
                  [False for i in range(3)],
                  [False for i in range(3)]]
-        grade_slot = {
-            "一年级": (0, 0),
-            "二年级": (0, 1),
-            "三年级": (0, 2),
-            "四年级": (0, 3),
-            "五年级": (0, 4),
-            "六年级": (0, 5),
-            "初一": (1, 0),
-            "初二": (1, 1),
-            "初三": (1, 2),
-            "高一": (2, 0),
-            "高二": (2, 1),
-            "高三": (2, 2)}
+        grade_name = models.Grade.get_all_grades()
+        grade_slot = {}
+        for x, one_level in enumerate(grade_name):
+            for y, one_grade in enumerate(one_level):
+                grade_slot[one_grade] = (x, y)
 
         grade_list = [item.grade.name for item in list(teacher.abilities.all())]
         for one_grade in grade_list:
@@ -163,7 +155,6 @@ class CompleteInformation(View):
             "grade": json.dumps(grade),
             "phone_name": phone
         }
-        #print(context)
         return render(request, 'teacher/complete_information.html', context)
 
     def post(self, request):
@@ -177,12 +168,7 @@ class CompleteInformation(View):
         subject = request.POST.get("subclass")
         grade = request.POST.get("grade")
 
-        #print("name => {name}".format(name=name))
-        #print("gender => {gender}".format(gender=gender))
-        #print("region => {region}".format(region=region))
-        #print("subclass => {subclass}".format(subclass=subject))
         grade_list = json.loads(grade)
-        #print("grade => {grade}".format(grade=grade_list))
 
         teacher.name = name
         gender_dict = {"男": "m", "女": "f"}
@@ -190,10 +176,15 @@ class CompleteInformation(View):
         teacher.region = models.Region.objects.get(name=region)
 
         the_subject = models.Subject.objects.get(name=subject)
-        grade_dict = {"小学一年级": "一年级", "小学二年级": "二年级", "小学三年级": "三年级",
-                      "小学四年级": "四年级", "小学五年级": "五年级", "小学六年级": "六年级",
-                      "初一": "初一", "初二": "初二", "初三": "初三", "高一": "高一",
-                      "高二": "高二", "高三": "高三"}
+        grade_name_list = models.Grade.get_all_grades()
+        page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],
+                           ["初一", "初二", "初三"],
+                           ["高一", "高二", "高三"]]
+        grade_dict = {}
+        for page_level, database_level in list(zip(page_grade_list, grade_name_list)):
+            for page_grade, database_grade in list(zip(page_level, database_level)):
+                grade_dict[page_grade] = database_grade
+
         # clear ability_set
         teacher.abilities.clear()
 

@@ -94,6 +94,13 @@ class Grade(BaseModel):
         for one in ans:
             yield one.subject
 
+    @staticmethod
+    def get_all_grades():
+        """
+        获得所有的grade名称
+        """
+        return [[item.name for item in item.subset.all()] for item in Grade.objects.filter(superset=None)]
+
 
 class Ability(BaseModel):
     grade = models.ForeignKey(Grade)
