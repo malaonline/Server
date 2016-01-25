@@ -576,12 +576,7 @@ class HighscoreView(BaseTeacherView):
         increased_scores = request.POST.get('increased_scores')
         school_name = request.POST.get('school_name')
         admitted_to = request.POST.get('admitted_to')
-        highscore = models.Highscore()
-        highscore.teacher_id = teacher.id
-        highscore.name = name
-        highscore.increased_scores = increased_scores
-        highscore.school_name = school_name
-        highscore.admitted_to = admitted_to
+        highscore = models.Highscore(teacher=teacher, name = name, increased_scores = increased_scores, school_name = school_name, admitted_to = admitted_to)
         highscore.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
