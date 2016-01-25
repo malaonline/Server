@@ -139,7 +139,7 @@ class TeacherView(BaseStaffView):
         kwargs['pager'] = pager
         # 一些固定数据
         kwargs['status_choices'] = models.Teacher.STATUS_CHOICES
-        kwargs['region_list'] = models.Region.objects.filter(opened=True)
+        kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其它'))
         return super(TeacherView, self).get_context_data(**kwargs)
 
 
