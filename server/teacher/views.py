@@ -25,18 +25,20 @@ logger = logging.getLogger('app')
 LOGIN_URL = "/teacher/login"
 
 
-def register(request):
+class TeacherLogin(View):
     """
     老师用户注册页面 TW-1-1
-    :param request:
-    :return:
     """
-    context = {}
-    return render(request, 'teacher/register.html', context)
+    def get(self, request):
+        context = {}
+        return render(request, 'teacher/register.html', context)
 
 
-def verify_sms_code(request):
-    if request.method == "POST":
+class VerifySmsCode(View):
+    """
+    检查短信验证码是否正确
+    """
+    def post(self, request):
         phone = request.POST.get("phone", None)
         code = request.POST.get("code", None)
         Profile = models.Profile
@@ -85,11 +87,14 @@ def verify_sms_code(request):
             return JsonResponse({
                 "result": False
             })
-    else:
-        return
 
 
 def information_complete_percent(user: User):
+    """
+    计算用户信息完成度
+    :param user:
+    :return:
+    """
     total = 4
     unfinished = 0
     Teacher = models.Teacher
@@ -204,75 +209,76 @@ class CompleteInformation(View):
         return JsonResponse({"url": reverse("teacher:register-progress")})
 
 
-@login_required(login_url=LOGIN_URL)
-def register_progress(request):
+class RegisterProgress(View):
     """
     显示注册进度
-    :param request:
-    :return:
     """
-    context = {}
-    try:
-        teacher = models.Teacher.objects.get(user=request.user)
-    except models.Teacher.DoesNotExist:
-        return HttpResponseRedirect(reverse("teacher:register"))
+    def get(self, request):
+        context = {}
+        try:
+            teacher = models.Teacher.objects.get(user=request.user)
+        except models.Teacher.DoesNotExist:
+            return HttpResponseRedirect(reverse("teacher:register"))
 
-    if settings.FIX_TEACHER_STATUS:
-        teacher.status = teacher.INTERVIEW_OK
-    context["progress"] = teacher.get_progress()
-    context["text_list"] = teacher.build_progress_info()
+        if settings.FIX_TEACHER_STATUS:
+            teacher.status = teacher.INTERVIEW_OK
+        context["progress"] = teacher.get_progress()
+        context["text_list"] = teacher.build_progress_info()
+        context["user_name"] = "{name} 老师".format(name=teacher.name)
+        return render(request, "teacher/register_progress.html", context)
+
+
+# 设置老师页面的通用上下文
+def set_teacher_page_general_context(teacher, context):
     context["user_name"] = "{name} 老师".format(name=teacher.name)
-    return render(request, "teacher/register_progress.html", context)
 
 
-@login_required(login_url=LOGIN_URL)
-def first_page(request):
+class FirstPage(View):
     """
-    TW-4-1, 通过面试的老师见到的第一个页面
-    :param request:
-    :return:
+    通过面试的老师见到的第一个页面
     """
-    teacher = models.Teacher.objects.get(user=request.user)
+    def get(self, request):
+        teacher = models.Teacher.objects.get(user=request.user)
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/first_page.html", context)
 
-    context = {
-        "user_name": "{name} 老师".format(name=teacher.name)
-    }
-    return render(request, "teacher/first_page.html", context)
 
-
-@login_required(login_url=LOGIN_URL)
-def my_school_timetable(request):
+class MySchoolTimetable(View):
     """
     TW-5-1, 查看课表上的内容
-    :param request:
-    :return:
     """
-    user = request.user
-    teacher = models.Teacher(user=user)
-    context = {
-        "user_name": "{name} 老师".format(name=teacher.name)
-    }
-    return render(request, "teacher/my_school_timetable.html", context)
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        print("user's pk is {pk}".format(pk=user.pk))
+        print(teacher.id)
+        print("teacher is {inst}".format(inst=teacher))
+        print("teacher {id}'s name is: {name}".format(id=teacher.pk, name=teacher.name))
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/my_school_timetable.html", context)
 
 
-@login_required(login_url=LOGIN_URL)
-def my_students(request):
+class MyStudents(View):
     """
-    TW-5-1, 查看学生状态
-    :param request:
-    :return:
+    TW-5-2, 我的学生
     """
-    user = request.user
-    teacher = models.Teacher(user=user)
-    context = {
-        "user_name": ""
-    }
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        context = {}
+        set_teacher_page_general_context(teacher, context)
+        return render(request, "teacher/my_students.html", context)
 
 
-@login_required(login_url=LOGIN_URL)
-def teacher_logout(request):
-    logout(request)
-    return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
+class TeacherLogout(View):
+    """
+    登出
+    """
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
 
 
 # 判断是否是已登录老师
