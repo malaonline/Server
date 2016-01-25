@@ -1,4 +1,3 @@
-import datetime
 import uuid
 from django.contrib.auth.models import User
 from django.db import models
@@ -536,15 +535,6 @@ class Coupon(BaseModel):
 
 
 class WeeklyTimeSlot(BaseModel):
-    DAILY_TIME_SLOTS = [
-        {'start': datetime.time(8), 'end': datetime.time(10)},
-        {'start': datetime.time(10), 'end': datetime.time(12)},
-        {'start': datetime.time(13), 'end': datetime.time(15)},
-        {'start': datetime.time(15), 'end': datetime.time(17)},
-        {'start': datetime.time(17), 'end': datetime.time(19)},
-        {'start': datetime.time(19), 'end': datetime.time(21)},
-    ]
-
     weekday = models.PositiveIntegerField()  # 1 - 7
     start = models.TimeField()  # [0:00 - 24:00)
     end = models.TimeField()
@@ -554,6 +544,10 @@ class WeeklyTimeSlot(BaseModel):
 
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
+
+DAILY_TIME_SLOTS = [
+        dict(start=item.start, end=item.end) for item in
+        WeeklyTimeSlot.objects.filter(weekday=1)]
 
 
 class Order(BaseModel):
