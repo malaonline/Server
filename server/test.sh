@@ -1,15 +1,11 @@
 #!/bin/sh
 
-DES=/opt/jenkins/mala/server
 ENV=/opt/jenkins/env
 SET=/opt/keys-pros
 
-mkdir -p $DES
-rsync -r --delete * $DES/
-cp -Rf $SET/local_settings.py $DES/server/
+cp -Rf $SET/local_settings.py ./server/
 
 . $ENV/bin/activate
-
-cd $DES
 pip install -r pip_install.txt
+
 python manage.py test --noinput
