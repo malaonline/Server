@@ -5,3 +5,86 @@ a {
 .border-right {
   border-right: 1px solid gray;
 }
+
+// 图片编辑组件
+@imgUploadBoxWidth: 141px;
+@imgUploadBoxHeight: 70px;
+@imgUploadBtnHeight: 30px;
+.img-edit {
+  .img-upload-box {
+    position: relative;
+    min-width: @imgUploadBoxWidth;
+    width: @imgUploadBoxWidth;
+    height: @imgUploadBoxHeight;
+    margin: 5px 0;
+    .img-box {
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      background: #ddd;
+      text-align: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .img-preview-box {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      background: #ddd;
+      text-align: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .uploading-hint-box {
+      position: absolute;
+      display: none;
+    }
+  }
+
+  .help-block {
+    display: none;
+  }
+
+  .actions{
+    a {
+      display: inline-block;
+      padding: 0;
+      height: @imgUploadBtnHeight;
+      line-height: @imgUploadBtnHeight;
+      width: 70px;
+    }
+  }
+  .file-input-mask {
+    position: relative;
+    height: @imgUploadBtnHeight;
+    line-height: @imgUploadBtnHeight;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.07);
+    input {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      margin: 0;
+      width: 100%;
+      height: 200px;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      transform: scale(4);
+      font-size: 16px;
+      direction: ltr;
+      cursor: pointer;
+      color: transparent;
+    }
+  }
+}

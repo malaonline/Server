@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teacher_edit.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -147,6 +148,78 @@
                 {% for tag in tags_all %}
                     <button class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" onclick="$(this).toggleClass('btn-success')">{{ tag.name }}</button>
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="clearfix photos">
+        <div class="pull-left img-edit" for="avatar">
+            <div class="title">
+                头像
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ teacher.user.profile.avatarUrl }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="avatarImg" multiple=""/>
+                </a>
+                <a class="btn btn-default" data-action="delete-photo">删除</a>
+            </div>
+        </div>
+
+        <div class="pull-left">
+            <div class="title">
+                照片
+            </div>
+            {% if not teacher.photo_set.all %}
+                <div class="pull-left img-edit" for="photo">
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                    </div>
+                    <div class="help-block"></div>
+                    <div class="actions">
+                        <a class="btn btn-default file-input-mask text-center">
+                            <span>上传/重传</span>
+                            <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                        </a>
+                        <a class="btn btn-default" data-action="delete-photo">删除</a>
+                    </div>
+                </div>
+            {% else %}
+                {% for photo in teacher.photo_set.all %}
+                    <div class="pull-left img-edit" for="photo">
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ photo.imgUrl }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-photo">删除</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="pull-left">
+                <a class="btn btn-default" data-action="add-more-photo">+</a>
             </div>
         </div>
     </div>

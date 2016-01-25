@@ -173,6 +173,9 @@ class Profile(BaseModel):
         return "{before}****{after}".format(
                 before=self.phone[:3], after=self.phone[-4:])
 
+    def avatarUrl(self):
+        return self.avatar and self.avatar.url or ''
+
 
 class Teacher(BaseModel):
     DEGREE_CHOICES = (
@@ -387,6 +390,9 @@ class Photo(BaseModel):
     def __str__(self):
         return '%s img (%s)' % (
                 self.teacher, 'public' if self.public else 'private')
+
+    def imgUrl(self):
+        return self.img and self.img.url or ''
 
 
 class Certificate(BaseModel):
