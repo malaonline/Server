@@ -83,4 +83,7 @@
     <string name="usercenter_verify">验证</string>
 
 	<string name="user_protocol">《麻辣教户协议》</string>
+    <string name="scholarship">奖学金</string>
+    <string name="coupon_expired">已过期</string>
+    <string name="coupon_not_use">未使用</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.malalaoshi.android.net;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,10 +8,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.entity.CouponEntity;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +24,8 @@ public class NetworkSender {
     private static final String URL_FETCH_VERIFY_CODE = "/api/v1/sms/";
     private static final String URL_GET_USER_POLICY = "/api/v1/policy/";
     private static final String URL_SAVE_CHILD_NAME = "/api/v1/parent/";
+    private static final String URL_COUPON_LIST = "/api/v1/coupons/";
+    private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -62,7 +64,6 @@ public class NetworkSender {
 
     private static void jsonRequest(int method, String url, final Map<String, String> headers,
                                     JSONObject json, final NetworkListener listener) {
-        Log.i("AABB", json.toString());
         url = MalaApplication.getInstance().getMalaHost() + url;
         RequestQueue queue = MalaApplication.getHttpRequestQueue();
         JsonObjectRequest request = new JsonObjectRequest(method, url, json, new Response.Listener<JSONObject>() {
@@ -79,7 +80,6 @@ public class NetworkSender {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Log.i("AABB", headers.toString());
                 return headers;
             }
         };
@@ -101,5 +101,10 @@ public class NetworkSender {
         //TODO tianwei Waiting for sms verification api to get parentId
         String parentId = MalaApplication.getInstance().getParentId();
         jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME + parentId, headers, params, listener);
+    }
+
+    public static void getCouponList(NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, URL_COUPON_LIST, headers, listener);
     }
 }

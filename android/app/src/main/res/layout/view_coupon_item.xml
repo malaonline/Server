@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/rl_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_coupon_used" />
+
+    <TextView
+        android:id="@+id/iv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_amount"
+        android:layout_marginLeft="20dp"
+        android:text="￥"
+        android:textColor="@color/coupon_red"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_currency"
+        android:text="10000"
+        android:paddingTop="20dp"
+        android:textColor="@color/coupon_red"
+        android:textSize="27sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_amount"
+        android:orientation="vertical"
+        android:paddingTop="18dp"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新生注册奖学金"
+            android:textColor="#333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="满20课时使用"
+            android:textColor="#6c6c6c"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingRight="20dp"
+        android:text="未使用"
+        android:paddingTop="28dp"
+        android:textColor="@color/coupon_red"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/iv_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_coupon_choice" />
+
+    <TextView
+        android:id="@+id/tv_expire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:text="有效期 2015.10.19"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_use_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="仅在线使用"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+</RelativeLayout>
