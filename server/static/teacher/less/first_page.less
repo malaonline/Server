@@ -119,6 +119,18 @@
   background: #848485;
   min-width: @page_min_width;
   height: 117px;
+  .close_row{
+    button{
+      float: right;
+      background: transparent;
+      border-width: 0;
+      i{
+        .glyphicon;
+        .glyphicon-remove;
+        color: white;
+      }
+    }
+  }
   .percent_complete, .information, .complete_information{
     float: left;
     color: white;
@@ -181,4 +193,8 @@
       height: 37px;
     }
   }
+}
+
+.complete-table-bar[attrHidden="true"]{
+  display: none;
 }
