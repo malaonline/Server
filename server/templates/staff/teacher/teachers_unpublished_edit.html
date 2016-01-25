@@ -1,8 +1,9 @@
 {% extends "staff/staff_base.html" %}
 
+{% load custom_tags %}
 {% load staticfiles %}
 {% load compile_static %}
-{% block title %}待上架老师列表{% endblock %}
+{% block title %}老师资料 - {{ teacher.name }}{% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
@@ -10,6 +11,145 @@
 {% endblock %}
 
 {% block content %}
-    TODO
-    <p>{{ teacher }}
+<form name="teacher-edit-form" class="form-horizontal">
+    <div class="text-center">
+        <b>老师资料 - {{ teacher.name }}</b>
+        <div class="pull-right">
+            <a class="btn btn-success">保存</a>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-6 border-right">
+            <div class="form-group">
+                <label for="name" class="col-sm-3 col-md-3 col-lg-2 control-label">老师姓名</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ teacher.name }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_num" class="col-sm-3 col-md-3 col-lg-2 control-label">身份证号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_num" name="id_num" value="{{ teacher.id_num }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-3 col-md-3 col-lg-2 control-label">手机号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ teacher.user.profile.phone }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gender" class="col-sm-3 col-md-3 col-lg-2 control-label">性别</label>
+                <div class="col-sm-9">
+                    <select name="gender">
+                        {% for val,text in gender_choices %}
+                            <option value="{{ val }}" {% if val == teacher.user.profile.gender %} selected="selected"{% endif %}>{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在地区</label>
+                <div class="col-sm-9">
+                    <select name="province">
+                        <option value="">全部省</option>
+                        {% for province in provinces %}
+                            <option value="{{ province.id }}">{{ province.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="city">
+                        <option value="">全部市</option>
+                    </select>
+                    <select name="district">
+                        <option value="">全部区</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="teaching_age" class="col-sm-3 col-md-3 col-lg-2 control-label">教龄</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="teaching_age" name="teaching_age" value="{{ teacher.teaching_age }}年">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="level" class="col-sm-3 col-md-3 col-lg-2 control-label">教师级别</label>
+                <div class="col-sm-9">
+                    <select name="level">
+                        {% for level in levels %}
+                            <option value="{{ level.id }}" {% if level.id == teacher.level %} selected="selected"{% endif %}>{{ level.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="experience" class="col-sm-3 col-md-3 col-lg-2 control-label">教学经验</label>
+                <div class="col-sm-9">
+                    <select name="experience">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.experience %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profession" class="col-sm-3 col-md-3 col-lg-2 control-label">专业技能</label>
+                <div class="col-sm-9">
+                    <select name="profession">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.profession %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="interaction" class="col-sm-3 col-md-3 col-lg-2 control-label">互动能力</label>
+                <div class="col-sm-9">
+                    <select name="interaction">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.interaction %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-6 border-right">
+            <div class="form-group">
+                <label for="subject" class="col-sm-3 col-md-3 col-lg-2">教授科目</label>
+                <div class="col-sm-9">
+                    <select name="subject">
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}" {% if subject.id == teacher.subject.id %} selected="selected"{% endif %}>{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% for grade in grades_tree %}
+                <hr>
+                <input type="checkbox" name="grade" value="{{ grade.id }}">{{ grade.name }}<br>
+                {% for sub_grade in grade.children %}
+                    <input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}">{{ sub_grade.name }}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-6">
+            <div>
+                风格标记  (最少选一个，最多选3个)
+            </div>
+            <div>
+                {% for tag in tags_all %}
+                    <button class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" onclick="$(this).toggleClass('btn-success')">{{ tag.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+</form>
 {% endblock %}

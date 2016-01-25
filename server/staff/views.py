@@ -185,6 +185,25 @@ class TeacherUnpublishedEditView(BaseStaffView):
         teacherId = kwargs['tid']
         teacher = get_object_or_404(models.Teacher, id=teacherId)
         kwargs['teacher'] = teacher
+        # 一些固定数据
+        # 省份列表
+        kwargs['gender_choices'] = models.Profile.GENDER_CHOICES
+        kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        kwargs['subjects'] = models.Subject.objects.all
+        kwargs['levels'] = models.Level.objects.all
+        grades_all = models.Grade.objects.all()
+        _heap = {}
+        grades_tree = []
+        for grade in grades_all:
+            if not grade.superset_id:
+                _temp = {'id':grade.id, 'name':grade.name, 'children':[]}
+                _heap[grade.id] = _temp
+                grades_tree.append(_temp)
+            else:
+                _temp = _heap[grade.superset_id]
+                _temp['children'].append({'id':grade.id, 'name':grade.name})
+        kwargs['grades_tree'] = grades_tree
+        kwargs['tags_all'] = models.Tag.objects.all
         return super(TeacherUnpublishedEditView, self).get_context_data(**kwargs)
 
 
