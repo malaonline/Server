@@ -11,7 +11,7 @@ def add_subject(apps, schema_editor):
     for name in subjects:
         subject = Subject(name=name)
         subject.save()
-        print(" {name}".format(name=subject.name))
+        #print(" {name}".format(name=subject.name))
 
 
 class Migration(migrations.Migration):

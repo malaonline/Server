@@ -81,7 +81,7 @@ def add_teacher(apps, schema_editor):
                     level = level)
 
             teacher.save()
-            print(" {name}".format(name=username))
+            #print(" {name}".format(name=username))
 
             teacher.tags.add(tags[i % len(tags)])
             teacher.tags.add(tags[(i + 3) % len(tags)])

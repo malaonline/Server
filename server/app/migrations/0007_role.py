@@ -10,7 +10,7 @@ def add_role(apps, schema_editor):
             '老师', '家长', '学生', '师资管理员'):
         role = Role(name=name)
         role.save()
-        print(" {role_name}".format(role_name=role.name))
+        #print(" {role_name}".format(role_name=role.name))
 
 
 class Migration(migrations.Migration):
