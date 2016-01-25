@@ -399,20 +399,23 @@ evaluation
 result:
 ```
 {
-    "3": [
+    "1": [
     {
+        "id": 1,
         "start": "08:00",
         "end": "10:00",
         "available": true
     },
     {
+        "id": 2,
         "start": "10:10",
         "end": "12:10",
         "available": false
     },
     ...
     ],
-    "4": [{
+    "2": [{
+        "id": 6,
         "start": "08:00",
         "end": "10:00",
         "available": true

@@ -65,7 +65,9 @@ class TeacherWeeklyTimeSlot(View):
                 start, end = start - traffic_time, end + traffic_time
             segtree.add(start, end)
 
-        data = [(str(day), [OrderedDict([('start', s.start.strftime('%H:%M')),
+        data = [(str(day), [OrderedDict([
+            ('id', s.id),
+            ('start', s.start.strftime('%H:%M')),
             ('end', s.end.strftime('%H:%M')),
             ('available', segtree.query_len(
                 (day - 1) * 24 * 60 + s.start.hour * 60 + s.start.minute,
