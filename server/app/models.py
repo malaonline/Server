@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
-from django.db.models import get_model
+from django.apps import apps
 from app.utils.algorithm import Tree, Node
 
 
@@ -89,7 +89,7 @@ class Grade(BaseModel):
 
     @property
     def subjects(self):
-        Ability = get_model('app', 'Ability')
+        Ability = apps.get_model('app', 'Ability')
         ans = Ability.objects.filter(grade=self)
         for one in ans:
             yield one.subject
@@ -267,7 +267,7 @@ class Teacher(BaseModel):
         return subject and (subject.id==ENGLISH.id)
 
     def cert_verified_count(self):
-        Certificate = get_model('app', 'Certificate')
+        Certificate = apps.get_model('app', 'Certificate')
         if self.is_english_teacher():
             cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC, Certificate.TEACHING, Certificate.OTHER]
         else:

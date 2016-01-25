@@ -12,7 +12,7 @@ def add_grade(apps, schema_editor):
         name = '%s年级' % g
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
-        print(" {name}".format(name=t.name))
+        #print(" {name}".format(name=t.name))
 
     p = Grade(name='初中',leaf=False)
     p.save()
@@ -20,7 +20,7 @@ def add_grade(apps, schema_editor):
         name = '初%s' % g
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
-        print(" {name}".format(name=t.name))
+        #print(" {name}".format(name=t.name))
 
     p = Grade(name='高中',leaf=False)
     p.save()
@@ -28,7 +28,7 @@ def add_grade(apps, schema_editor):
         name = '高%s' % g
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
-        print(" {name}".format(name=t.name))
+        #print(" {name}".format(name=t.name))
 
 
 class Migration(migrations.Migration):

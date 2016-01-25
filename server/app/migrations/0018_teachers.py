@@ -33,7 +33,7 @@ def add_teacher(apps, schema_editor):
             name = 'img%d.jpg' % (i % 8)
             save_image_from_file(profile.avatar, name)
             profile.save()
-            print(" {name}".format(name=username))
+            #print(" {name}".format(name=username))
 
 
 class Migration(migrations.Migration):

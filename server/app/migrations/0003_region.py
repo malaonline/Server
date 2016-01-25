@@ -18,7 +18,7 @@ def dfs(apps, root, deep, superset=None, leaf=True):
     else:
         region = Region(name=root, superset=superset, admin_level=deep, leaf=leaf)
         region.save()
-        print("{tab}{name}".format(tab="".join([" " * (deep-1)]), name=region.name))
+        #print("{tab}{name}".format(tab="".join([" " * (deep-1)]), name=region.name))
         return region
 
 

@@ -394,10 +394,11 @@ class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
     tags = TagNameSerializer(many=True)
     subject = SubjectNameSerializer()
+    level = LevelNameSerializer()
 
     class Meta:
         model = models.Teacher
-        fields = ('id', 'avatar', 'gender', 'name', 'degree', 'min_price',
+        fields = ('id', 'avatar', 'gender', 'name', 'level', 'min_price',
                   'max_price', 'subject', 'grades_shortname', 'tags')
 
 

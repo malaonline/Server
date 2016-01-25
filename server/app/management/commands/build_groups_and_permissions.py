@@ -32,8 +32,10 @@ class Command(BaseCommand):
             new_group.save()
 
         # print exist group
+        '''
         for exist_group in Group.objects.all():
             write("{group} now has below permissions:".format(group=exist_group))
             for permission in exist_group.permissions.all():
                 write(" {permission}".format(permission=permission))
             write("")
+        '''
