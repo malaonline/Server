@@ -21,6 +21,7 @@ router.register(r'memberservices', views.MemberserviceViewSet)
 router.register(r'coupons', views.CouponViewSet)
 router.register(r'weeklytimeslots', views.WeeklyTimeSlotViewSet)
 router.register(r'parents', views.ParentViewSet)
+router.register(r'orders', views.OrderViewSet)
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='app/index.html')),

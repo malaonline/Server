@@ -1,4 +1,3 @@
-import datetime
 import uuid
 from django.contrib.auth.models import User
 from django.db import models
@@ -54,7 +53,7 @@ class School(BaseModel):
     opened = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s %s %s' % (self.region, self.name, 'C' if self.center else '')
+        return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
 
 class Subject(BaseModel):
@@ -81,7 +80,8 @@ class Tag(BaseModel):
 class Grade(BaseModel):
     name = models.CharField(max_length=10, unique=True)
     superset = models.ForeignKey('Grade', blank=True, null=True, default=None,
-                                 on_delete=models.SET_NULL, related_name='subset')
+                                 on_delete=models.SET_NULL,
+                                 related_name='subset')
     leaf = models.BooleanField()
 
     def __str__(self):
@@ -119,6 +119,7 @@ class Level(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Price(BaseModel):
     region = models.ForeignKey(Region, limit_choices_to={'opened': True})
     ability = models.ForeignKey(Ability, default=1)
@@ -129,8 +130,8 @@ class Price(BaseModel):
         unique_together = ('region', 'ability', 'level')
 
     def __str__(self):
-        return '%s,%s,%s => %d' % (self.region, self.ability, self.level,
-                self.price)
+        return '%s,%s,%s => %d' % (
+                self.region, self.ability, self.level, self.price)
 
     @property
     def grade(self):
@@ -169,7 +170,8 @@ class Profile(BaseModel):
         return '%s (%s)' % (self.user, self.gender)
 
     def mask_phone(self):
-        return "{before}****{after}".format(before=self.phone[:3], after=self.phone[-4:])
+        return "{before}****{after}".format(
+                before=self.phone[:3], after=self.phone[-4:])
 
 
 class Teacher(BaseModel):
@@ -202,18 +204,19 @@ class Teacher(BaseModel):
     level = models.ForeignKey(Level, null=True, blank=True,
                               on_delete=models.SET_NULL)
 
-    experience = models.PositiveSmallIntegerField(null=True, blank=True)  # 教学经验
-    profession = models.PositiveSmallIntegerField(null=True, blank=True)  # 专业技能
-    interaction = models.PositiveSmallIntegerField(null=True, blank=True) # 互动能力
-    video = models.FileField(null=True, blank=True, upload_to='video') # 介绍视频
-    audio = models.FileField(null=True, blank=True, upload_to='audio') # 介绍语音
+    experience = models.PositiveSmallIntegerField(null=True, blank=True)
+    profession = models.PositiveSmallIntegerField(null=True, blank=True)
+    interaction = models.PositiveSmallIntegerField(null=True, blank=True)
+    video = models.FileField(null=True, blank=True, upload_to='video')
+    audio = models.FileField(null=True, blank=True, upload_to='audio')
 
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
     abilities = models.ManyToManyField('Ability')
 
-    region = models.ForeignKey(Region, null=True, blank=True, limit_choices_to={'opened': True})
+    region = models.ForeignKey(Region, null=True, blank=True,
+                               limit_choices_to={'opened': True})
     status = models.IntegerField(default=1, choices=STATUS_CHOICES)
 
     def __str__(self):
@@ -243,7 +246,8 @@ class Teacher(BaseModel):
     def grades_shortname(self):
         grades = self.grades()
         grades = list(set(x.superset if x.superset else x for x in grades))
-        grades = sorted(grades, key=lambda x:{'小学':1, '初中':2, '高中': 3}[x.name])
+        sort_dict = {'小学': 1, '初中': 2, '高中': 3}
+        grades = sorted(grades, key=lambda x: sort_dict.get(x.name, 4))
         if len(grades) == 0:
             return ''
         if len(grades) == 1:
@@ -253,8 +257,8 @@ class Teacher(BaseModel):
 
     def prices(self):
         abilities = self.abilities.all()
-        return Price.objects.filter(level=self.level, region=self.region,
-                ability=abilities)
+        return Price.objects.filter(
+                level=self.level, region=self.region, ability=abilities)
 
     def min_price(self):
         prices = self.prices()
@@ -271,15 +275,20 @@ class Teacher(BaseModel):
     def is_english_teacher(self):
         subject = self.subject()
         ENGLISH = Subject.get_english()
-        return subject and (subject.id==ENGLISH.id)
+        return subject and (subject.id == ENGLISH.id)
 
     def cert_verified_count(self):
         Certificate = apps.get_model('app', 'Certificate')
         if self.is_english_teacher():
-            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC, Certificate.TEACHING, Certificate.OTHER]
+            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC,
+                          Certificate.TEACHING, Certificate.OTHER]
         else:
-            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC, Certificate.TEACHING, Certificate.ENGLISH, Certificate.OTHER]
-        return Certificate.objects.filter(teacher=self,verified=True,type__in=cert_types).distinct('type').count()
+            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC,
+                          Certificate.TEACHING, Certificate.ENGLISH,
+                          Certificate.OTHER]
+        return Certificate.objects.filter(
+                teacher=self, verified=True, type__in=cert_types).distinct(
+                        'type').count()
 
     # 获得当前审核进度
     def get_progress(self):
@@ -294,12 +303,12 @@ class Teacher(BaseModel):
     def build_progress_info(self):
         tree = Tree()
         tree.root = Node(1)
-        tree.insert_val(1,3,2)
-        tree.insert_val(3,4)
-        tree.insert_val(4,5)
-        tree.insert_val(5,7,6)
-        tree.insert_val(7,8)
-        tree.insert_val(8,9)
+        tree.insert_val(1, 3, 2)
+        tree.insert_val(3, 4)
+        tree.insert_val(4, 5)
+        tree.insert_val(5, 7, 6)
+        tree.insert_val(7, 8)
+        tree.insert_val(8, 9)
         status_2_node = {
             self.TO_CHOOSE: 1,
             self.NOT_CHOSEN: 2,
@@ -352,8 +361,9 @@ class Highscore(BaseModel):
     admitted_to = models.CharField(max_length=300)
 
     def __str__(self):
-        return '%s %s (%s => %s)' % (self.name, self.increased_scores, self.school_name,
-                                     self.admitted_to)
+        return '%s %s (%s => %s)' % (
+                self.name, self.increased_scores, self.school_name,
+                self.admitted_to)
 
 
 class Achievement(BaseModel):
@@ -375,7 +385,8 @@ class Photo(BaseModel):
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s img (%s)' % (self.teacher, 'public' if self.public else 'private')
+        return '%s img (%s)' % (
+                self.teacher, 'public' if self.public else 'private')
 
 
 class Certificate(BaseModel):
@@ -506,8 +517,8 @@ class Parent(BaseModel):
     student_name = models.CharField(max_length=50)
 
     def __str__(self):
-        return "{child_name}'s parent [{parent_name}]".format(child_name=self.student_name,
-                                                              parent_name=self.user.username)
+        return "{child_name}'s parent [{parent_name}]".format(
+                child_name=self.student_name, parent_name=self.user.username)
 
 
 class Coupon(BaseModel):
@@ -524,16 +535,7 @@ class Coupon(BaseModel):
 
 
 class WeeklyTimeSlot(BaseModel):
-    DAILY_TIME_SLOTS = [
-        {'start': datetime.time(8), 'end': datetime.time(10)},
-        {'start': datetime.time(10), 'end': datetime.time(12)},
-        {'start': datetime.time(13), 'end': datetime.time(15)},
-        {'start': datetime.time(15), 'end': datetime.time(17)},
-        {'start': datetime.time(17), 'end': datetime.time(19)},
-        {'start': datetime.time(19), 'end': datetime.time(21)},
-    ]
-
-    weekday = models.PositiveIntegerField() # 1 - 7
+    weekday = models.PositiveIntegerField()  # 1 - 7
     start = models.TimeField()  # [0:00 - 24:00)
     end = models.TimeField()
 
@@ -542,6 +544,10 @@ class WeeklyTimeSlot(BaseModel):
 
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
+
+DAILY_TIME_SLOTS = [
+        dict(start=item.start, end=item.end) for item in
+        WeeklyTimeSlot.objects.filter(weekday=1)]
 
 
 class Order(BaseModel):
@@ -569,7 +575,7 @@ class Order(BaseModel):
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
     charge_id = models.CharField(max_length=100)  # For Ping++ use
-    order_id = models.CharField(max_length=64, default=uuid.uuid1)  # For backend use
+    order_id = models.CharField(max_length=64, default=uuid.uuid1)
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -580,8 +586,28 @@ class Order(BaseModel):
                               )
 
     def __str__(self):
-        return '%s %s %s %s %s : %s' % (self.school, self.parent, self.teacher,
-                                     self.grade, self.subject, self.total)
+        return '%s %s %s %s %s : %s' % (
+                self.school, self.parent, self.teacher, self.grade,
+                self.subject, self.total)
+
+    @classmethod
+    def create(cls, parent, teacher, school, grade, subject, hours,
+               weekly_time_slots, coupon=None):
+        ability = Ability.objects.get(subject=subject, grade=grade)
+        price = teacher.region.price_set.get(
+                ability=ability, level=teacher.level).price
+
+        discount_amount = coupon.amount if coupon is not None else 0
+
+        total = price * hours - discount_amount
+
+        ans = cls(parent=parent, teacher=teacher, school=school, grade=grade,
+                  subject=subject, price=price, hours=hours, total=total,
+                  status=cls.PENDING, coupon=coupon)
+        ans.save()
+        for slot in weekly_time_slots:
+            ans.weekly_time_slots.add(slot)
+        return ans
 
 
 class TimeSlot(BaseModel):
@@ -597,6 +623,7 @@ class TimeSlot(BaseModel):
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     deleted = models.BooleanField(default=False)
+
     def __str__(self):
         return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
 
@@ -649,8 +676,10 @@ class Message(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s, %s, to %s, %s' % (self.get__type_display(),
-                self.get_via_display(), self.to, self.title)
+        return '%s, %s, to %s, %s' % (
+                self.get__type_display(), self.get_via_display(),
+                self.to, self.title)
+
 
 class Checkcode(BaseModel):
     phone = models.CharField(max_length=20, unique=True)

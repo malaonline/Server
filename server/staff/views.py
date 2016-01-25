@@ -277,7 +277,7 @@ class TeacherActionView(BaseStaffActionView):
         weekly_time_slots = []
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
-        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.DAILY_TIME_SLOTS})
 
     def updateTeacherStatus(self, request, new_status):
         """
