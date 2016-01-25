@@ -146,7 +146,16 @@ GET /api/v1/teachers/{teacher id}/
     "photo_set": ["https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
                 "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg",
                 "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"],
-    "certificate":["特级教师","一级教师","十佳青年"],
+    "achievement_set": [
+        {
+            "title": "特级教师",
+            "img": "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"
+        },
+        {
+            "title": "全国奥数总冠军",
+            "img": "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/avatars/DSC_2134_l27BkVs.jpg"
+        }
+    ],
     "highscore_set": [
         {
             "name": "123",
