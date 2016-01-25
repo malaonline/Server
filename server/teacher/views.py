@@ -242,10 +242,6 @@ class MySchoolTimetable(View):
     def get(self, request):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
-        print("user's pk is {pk}".format(pk=user.pk))
-        print(teacher.id)
-        print("teacher is {inst}".format(inst=teacher))
-        print("teacher {id}'s name is: {name}".format(id=teacher.pk, name=teacher.name))
         context = {}
         set_teacher_page_general_context(teacher, context)
         return render(request, "teacher/my_school_timetable.html", context)
