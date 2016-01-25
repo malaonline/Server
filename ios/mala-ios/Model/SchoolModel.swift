@@ -29,6 +29,25 @@ class SchoolModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
+    convenience init(id: Int, name: String, address: String) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.address = address
+    }
+    
+    convenience init(id: Int, name: String, address: String, thumbnail: String?, region: Int?, center: Bool?, longitude: Int?, latitude: Int?) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.address = address
+        self.thumbnail = thumbnail
+        self.region = region ?? 0
+        self.center = center ?? false
+        self.longitude = longitude
+        self.latitude = latitude
+    }
+    
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

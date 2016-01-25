@@ -13,7 +13,7 @@ class TeacherModel: BaseObjectModel {
     // MARK: - Property
     var avatar: NSURL?
     var gender: String?
-    var degree: String?
+    var level: String?
     var min_price: Int = 0
     var max_price: Int = 0
     var subject: String?
@@ -35,7 +35,7 @@ class TeacherModel: BaseObjectModel {
         self.init()
         self.name = name
         self.avatar = NSURL(string: avatar)
-        self.degree = degree
+        self.level = degree
         self.min_price = minPrice
         self.max_price = maxPrice
         self.subject = subject

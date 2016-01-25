@@ -21,11 +21,28 @@ let CourseChoosingCellReuseId = [
 class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Property
+    /// 教师详情模型
     var teacherModel: TeacherDetailModel? {
         didSet {
             
         }
     }
+    /// 上课地点数据模型
+    var schoolModel: [SchoolModel] = [] {
+        didSet {
+            // 刷新 [选择上课地点] Cell
+            reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+        }
+    }
+    /// 上课地点Cell展开标识
+    var isOpenSchoolsCell: Bool = false {
+        didSet {
+            if isOpenSchoolsCell != oldValue {
+                reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            }
+        }
+    }
+    var selectedIndexPath: NSIndexPath?
     
     
     // MARK: - Constructed
@@ -50,11 +67,11 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         
         
         registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[0]!)
-        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[1]!)
-        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[2]!)
-        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[3]!)
-        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[4]!)
-        registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[5]!)
+        registerClass(CourseChoosingPlaceCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[1]!)
+        registerClass(CourseChoosingClassScheduleCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[2]!)
+        registerClass(CourseChoosingClassPeriodCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[3]!)
+        registerClass(CourseChoosingTimeScheduleCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[4]!)
+        registerClass(CourseChoosingOtherServiceCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[5]!)
     }
     
     // MARK: - Delegate
@@ -73,7 +90,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -90,7 +107,10 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             
         case 1:
             let cell = reuseCell as! CourseChoosingPlaceCell
-
+            cell.schools = schoolModel
+            cell.isOpen = self.isOpenSchoolsCell
+            cell.selectedIndexPath = self.selectedIndexPath
+            cell.tableViewReloadData()
             return cell
             
         case 2:

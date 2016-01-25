@@ -15,7 +15,7 @@ class TeacherTableViewCell: UITableViewCell {
         didSet{
             tagsTitle.setTitle((model!.grades_shortname ?? "")+"•"+(model!.subject ?? ""), forState: .Normal)
             nameLabel.text = model!.name
-            levelLabel.text = "  "+(model!.degree ?? "麻辣讲师")+"  "
+            levelLabel.text = "  "+(model!.level ?? "麻辣讲师")+"  "
             avatarView.kf_setImageWithURL(model!.avatar!, placeholderImage: nil)
             
             let attrString: NSMutableAttributedString = NSMutableAttributedString(string: String(format: "%d-%d元/课时", model!.min_price, model!.max_price))
