@@ -84,7 +84,7 @@ class TestApi(TestCase):
         response = client.post(request_url, {"username": username, "password": password})
         # print(response.status_code)
         response.render()
-        print(response.content.decode())
+        #print(response.content.decode())
         self.assertEqual(response.status_code, 200)
 
         client2 = Client()
@@ -101,7 +101,7 @@ class TestApi(TestCase):
         response = token_client.post(token_request_url, {"username": username, "password": password})
         response.render()
         token = json.loads(response.content.decode())["token"]
-        print("get token:{token}".format(token=token))
+        #print("get token:{token}".format(token=token))
         user = User.objects.get(username=username)
         parent = Parent.objects.get(user=user)
         user_token = Token.objects.get(user=user)
@@ -112,7 +112,7 @@ class TestApi(TestCase):
         # test 201
         client = Client()
         request_url = "/api/v1/parents/%d/" % (parent.pk,)
-        print("the request_url is {request_url}".format(request_url=request_url))
+        #print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
                                 data=json_data,
@@ -127,7 +127,7 @@ class TestApi(TestCase):
         # print(json_ret["done"])
         self.assertEqual(json_ret["done"], "true")
         # self.assertEqual(response.content.decode(), "{'done': 'false', 'reason': 'Student name already exits.'}")
-        print(response._headers)
+        #print(response._headers)
         parent_after = Parent.objects.get(user=user)
         self.assertEqual(parent_after.student_name, "StudentNewName")
 
@@ -181,7 +181,7 @@ class TestTeacherWeb(TestCase):
                                })
         self.assertEqual(response.status_code, 200)
         # response.render()
-        print(response.content)
+        #print(response.content)
         self.assertEqual(json.loads(response.content.decode()),
                          {"result": True, "url": "/teacher/information/complete/"})
         # 第二次
@@ -193,12 +193,12 @@ class TestTeacherWeb(TestCase):
                                       })
         self.assertEqual(json.loads(response.content.decode()),
                          {"url": "/teacher/information/complete/", "result": True})
-        print(response.content)
+        #print(response.content)
 
         # 测试information_compelte_percent
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
-        print(percent)
+        #print(percent)
 
 
 class TestAlgorithm(TestCase):
@@ -208,8 +208,8 @@ class TestAlgorithm(TestCase):
         tree.insert_val("a", "b", "c")
         tree.insert_val("b", "d", "e")
         self.assertEqual(tree.get_val("d").val, "d")
-        print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
-        print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
+        #print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
+        #print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
         self.assertEqual(tree.get_path("d"), ["a", "b", "d"])
         self.assertEqual(tree.get_path("e"), ["a", "b", "e"])
         self.assertEqual(tree.get_path("c"), ["a", "c"])

@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         write = print
         build_group_command = "build_groups_and_permissions"
-        write("run {command_name}".format(command_name=build_group_command))
+        #write("run {command_name}".format(command_name=build_group_command))
         call_command(build_group_command,)
 
         self.add_test_user_into_group(settings.SAMPLE_PARENT_USER_FORMULA, settings.SAMPLE_DATA_LENGTH, '家长')

@@ -98,20 +98,12 @@ def information_complete_percent(user: User):
     profile = Profile.objects.get(user=user)
     if teacher.name == "":
         unfinished += 1
-    else:
-        print("teacher.name is {name}".format(name=teacher.name))
     if profile.gender == "u":
         unfinished += 1
-    else:
-        print("profile.gender is {gender}".format(gender=user.profile.gender))
     if teacher.region == None:
         unfinished += 1
-    else:
-        print("teacher.region is {region}".format(region=teacher.region))
     if len(teacher.abilities.all()) == 0:
         unfinished += 1
-    else:
-        print("teacher.abilities.all() is {all}".format(all=len(teacher.abilities.all())))
     return (total - unfinished) / total
 
 
@@ -166,7 +158,7 @@ class CompleteInformation(View):
             "grade": json.dumps(grade),
             "phone_name": phone
         }
-        print(context)
+        #print(context)
         return render(request, 'teacher/complete_information.html', context)
 
     def post(self, request):
@@ -180,12 +172,12 @@ class CompleteInformation(View):
         subject = request.POST.get("subclass")
         grade = request.POST.get("grade")
 
-        print("name => {name}".format(name=name))
-        print("gender => {gender}".format(gender=gender))
-        print("region => {region}".format(region=region))
-        print("subclass => {subclass}".format(subclass=subject))
+        #print("name => {name}".format(name=name))
+        #print("gender => {gender}".format(gender=gender))
+        #print("region => {region}".format(region=region))
+        #print("subclass => {subclass}".format(subclass=subject))
         grade_list = json.loads(grade)
-        print("grade => {grade}".format(grade=grade_list))
+        #print("grade => {grade}".format(grade=grade_list))
 
         teacher.name = name
         gender_dict = {"男": "m", "女": "f"}
