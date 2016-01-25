@@ -1045,10 +1045,11 @@ class HighscoreView(BaseTeacherView):
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         highscore = None
+        profile = None
         if teacher:
-            highscores = models.Highscore.objects.filter(teacher=teacher)
+            profile = models.Profile.objects.get(user=teacher.user)
         context = self.buildContextData(context, teacher)
-        context["highscores"] = highscores
+        context["profile"] = profile
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
