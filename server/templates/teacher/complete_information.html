@@ -13,6 +13,7 @@
 {% endblock %}
 {% block body %}
 {#    从python渲染的javascript数据 #}
+    {% csrf_token %}
     <script lang="javascript">
         window.grade_select_by_html = {{ grade }}
     </script>

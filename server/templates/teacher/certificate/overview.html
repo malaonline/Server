@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block maincontent %}
+    {% csrf_token %}
     <div class="list-group" id="certificationsList">
         <div class="row list-group-item">
             <div class="col-flag">

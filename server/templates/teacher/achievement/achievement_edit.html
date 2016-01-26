@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+    {% csrf_token %}
     <span class="title">个人设置</span>
     &gt;
     <a href="{% url 'teacher:achievement' %}"><span>特殊成果</span></a>
