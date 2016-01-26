@@ -6,7 +6,7 @@ $(
         console.log("TW-1-1");
         var input_phone = $("#phoneNumber");
         //console.log(input_phone);
-        input_phone.keyup(function(){
+        var check_phone_function = function(){
             var phone_code = $("#phoneNumber").val();
             if (phone_code == ""){
                 BlankPhone();
@@ -18,8 +18,10 @@ $(
                 }
             }
             checkPageStatus();
-        });
-
+        };
+        input_phone.keyup(check_phone_function);
+        //自动填充是一个大坑,不同浏览器事件不同,甚至没有事件触发,比如chrome,所以周期查询是目前最好的解决办法
+        window.setInterval(check_phone_function, 500);
         BlankPhone();
 
         var get_sms_code_button = $("#get-sms-code");

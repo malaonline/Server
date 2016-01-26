@@ -4,3 +4,75 @@
 {% block title %}
     我的学生
 {% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_students.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "张三 老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% include 'teacher/side_bar.html' %}
+                <div class="the_content">
+                    <div class="nav_bar">
+                        <p>我的学生</p>
+                    </div>
+                    <div class="tag-tab">
+                        <span class="student-type" attrState="selected">当前学生</span>
+                        <span class="number-count" attrState="empty"> </span>
+                        <span class="student-type">结课学生</span>
+                        <span class="number-count" attrState="empty"> </span>
+                        <span class="student-type">退费学生</span>
+                        <span class="number-count" attrState="full">(10+)</span>
+                    </div>
+                    <div class="student-list">
+                        <div class="list-header">
+                            <span class="header-name">学生姓名</span>
+                            <span class="header-grade">年级</span>
+                            <span class="header-subclass-progress">已完成课时/总课时</span>
+                            <span class="header-subclass-price">课时单价</span>
+                            <span class="header-student-status">学生状态</span>
+                            <span class="header-operation">操作</span>
+                        </div>
+                        {% for one_student in student_list %}
+                        <div class="list-body">
+                            <span class="name">{{ one_student.0 }}</span>
+                            <span class="grade">{{ one_student.1 }}</span>
+                            <span class="subclass-progress">{{ one_student.2 }}</span>
+                            <span class="subclass-price">{{ one_student.3 }}</span>
+                            <span class="student-state">
+                            {% if one_student.4 == "新生" %}
+                                <span class="state-new">新生</span>
+                            {% endif %}
+                            {% if one_student.4 == "续费" %}
+                                <span class="state-renewal">续费</span>
+                            {% endif %}
+                            {% if one_student.4 == "正常" %}
+                                <span class="state-normal">正常</span>
+                            {% endif %}
+                            {% if one_student.4 == "退费" %}
+                                <span class="state-refund">退费</span>
+                            {% endif %}
+                            {% if one_student.4 == "结课" %}
+                                <span class="state-session">结课</span>
+                            {% endif %}
+                            </span>
+                            {% if one_student.5 == True %}
+                                <i class="operation" attrState="to-send"></i>
+                            {% endif %}
+                            {% if one_student.5 == False %}
+                                <i class="operation" attrState="sent"></i>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}
