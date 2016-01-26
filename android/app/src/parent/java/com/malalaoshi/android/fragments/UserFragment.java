@@ -280,7 +280,7 @@ public class UserFragment extends Fragment {
         {
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 100, 100, ImageCache.getInstance(MalaApplication.getInstance()));
+            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2*width, 2*height, ImageCache.getInstance(MalaApplication.getInstance()));
             ivAvatar.setImageBitmap(bitmap);
         }
     }
