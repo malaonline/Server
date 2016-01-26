@@ -128,8 +128,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(named: "leftArrow"),
             style: .Done,
-            target: self.navigationController,
-            action: "popViewControllerAnimated:"
+            target: self,
+            action: "popSelf"
         )
         
         // TableView
@@ -368,6 +368,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         return reuseCell
     }
 
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 
     deinit {
         // 移除观察者

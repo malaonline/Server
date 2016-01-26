@@ -83,8 +83,8 @@ class CourseChoosingViewController: UIViewController {
             UIButton(
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
-                target: self.navigationController,
-                action: "popViewControllerAnimated:"
+                target: self,
+                action: "popSelf"
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -203,6 +203,10 @@ class CourseChoosingViewController: UIViewController {
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!
                 }
         }
+    }
+    
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     deinit {
