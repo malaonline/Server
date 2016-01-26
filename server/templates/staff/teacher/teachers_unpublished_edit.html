@@ -134,19 +134,21 @@
                     </select>
                 </div>
             </div>
-            {% for grade in grades_tree %}
-                <hr>
-                <input type="checkbox" name="grade" value="{{ grade.id }}">{{ grade.name }}<br>
-                {% for sub_grade in grade.children %}
-                    <input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}">{{ sub_grade.name }}
+            <div id="gradesBox">
+                {% for grade in grades_tree %}
+                    <hr>
+                    <span><input type="checkbox" name="grade" value="{{ grade.id }}">{{ grade.name }}</span><br>
+                    {% for sub_grade in grade.children %}
+                        <span><input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}">{{ sub_grade.name }}</span>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+            </div>
         </div>
         <div class="col-sm-6">
-            <div>
+            <div class="title">
                 风格标记  (最少选一个，最多选3个)
             </div>
-            <div>
+            <div id="tagsBox">
                 {% for tag in tags_all %}
                     <button class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" onclick="$(this).toggleClass('btn-success')">{{ tag.name }}</button>
                 {% endfor %}
@@ -258,7 +260,7 @@
 {#证书#}
     <div class="clearfix certification">
         <div class="pull-left img-edit" for="idHeld">
-            <div>
+            <div class="title">
                 身份证手持照
             </div>
             <div class="img-upload-box">
@@ -280,7 +282,7 @@
             </div>
         </div>
         <div class="pull-left img-edit" for="idFront">
-            <div>
+            <div class="title">
                 身份证正面
             </div>
             <div class="img-upload-box">
@@ -300,7 +302,7 @@
             </div>
         </div>
         <div class="pull-left img-edit" for="academic">
-            <div>
+            <div class="title">
                 学历证书
             </div>
             <div class="img-upload-box">
@@ -322,7 +324,7 @@
             </div>
         </div>
         <div class="pull-left img-edit" for="teaching">
-            <div>
+            <div class="title">
                 教师资格证
             </div>
             <div class="img-upload-box">
@@ -345,7 +347,7 @@
         </div>
         {% if teacher.is_english_teacher %}
             <div class="pull-left img-edit" for="english">
-                <div>
+                <div class="title">
                     英语水平证书
                 </div>
                 <div class="img-upload-box">
@@ -430,7 +432,7 @@
 {#介绍音频#}
     <div class="clearfix">
         <div class="pull-left media-edit audio-edit">
-            <div>
+            <div class="title">
                 介绍语音（选填）
             </div>
             <div class="audio-upload-box">
@@ -453,8 +455,8 @@
 {#介绍视频#}
     <div class="clearfix">
         <div class="pull-left media-edit video-edit">
-            <div>
-                介绍语音（选填）
+            <div class="title">
+                介绍视频（选填）
             </div>
             <div class="video-upload-box">
                 <video class="view" src="" controls="controls">您的浏览器不支持 video 标签。</video>
