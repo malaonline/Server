@@ -7,11 +7,17 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
+    <color name="main_color_bg">#f2f2f2</color>
+    <color name="item_line_bg">#dadada</color>
+
     <color name="item_background">#ece6e6</color>
+
+    <color name="title_right_color">#82B4D9</color>
 
     <!-- filter dialog -->
     <color name="text_color_dlg">#939393</color>
 
+    <color name="dialog_title_color">#8fbcdd</color>
 
     <color name="text_color_light">#b3ffffff</color>
     <color name="text_color_dark">#de000000</color>
@@ -54,6 +60,7 @@
     <color name="prices_price_text_color">#e26254</color>
     <color name="teacher_title_text_color">#333333</color>
     <color name="item_text_color_normal">#636363</color>
+    <color name="item_text_color_light">#d4d4d4</color>
     <color name="toolbar_color">#88ffffff</color>
     <color name="title_bar_text_color">#333333</color>
 
@@ -69,4 +76,9 @@
     <color name="coupon_red">#e26254</color>
     <color name="coupon_title">#333</color>
     <color name="coupon_sub_title">#6c6c6c</color>
+
+    <color name="text_color_logout_btn">#82b4d9</color>
+
+
+
 </resources>

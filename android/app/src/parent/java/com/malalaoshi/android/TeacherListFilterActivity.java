@@ -88,7 +88,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     private void initViews() {
         updateCtrls();
         filterFragment = new TeacherListFragment().setTeacherList(teachersList);
-        FragmentUtil.openFragment(R.id.teacher_list_fragment, getFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
+        FragmentUtil.openFragment(R.id.teacher_list_fragment, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
     }
 
     private void initDatas() {

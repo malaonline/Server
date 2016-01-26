@@ -23,6 +23,7 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
+import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.ImageCache;
@@ -48,7 +49,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int selectIndex  = R.id.index_home_btn_view;
 
     private TeacherListFragment teacherListFragment = null;
-    private ScheduleFragment scheduleFragment = null;
+    private UserFragment userFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        navigationView.setNavigationItemSelectedListener(this);
         ButterKnife.bind(this);
         teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment , TeacherListFragment.class.getName());
+        FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), userFragment, teacherListFragment , TeacherListFragment.class.getName());
     }
 
     private void init() {
@@ -180,13 +181,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (teacherListFragment==null){
                     teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
                 }
-                FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment, ScheduleFragment.class.getName());
+                FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), userFragment, teacherListFragment, ScheduleFragment.class.getName());
                 break;
             case R.id.index_personal_btn_view:
-                if (scheduleFragment==null){
-                    scheduleFragment = new ScheduleFragment();
+                if (userFragment==null){
+                    userFragment = new UserFragment();
                 }
-                FragmentUtil.opFragmentMainActivity(getFragmentManager(), teacherListFragment, scheduleFragment, ScheduleFragment.class.getName());
+                FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), teacherListFragment, userFragment, UserFragment.class.getName());
                 break;
         }
     }

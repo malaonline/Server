@@ -19,4 +19,17 @@
         <attr name="cv_color" format="color" />
         <attr name="cv_radius" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CustomTitleBar">
+        <attr name="cusTitleText" format="string"></attr>
+        <attr name="cusTitleTextSize" format="dimension"></attr>
+        <attr name="cusTitleTextColor" format="color"></attr>
+        <attr name="cusLeftBackgroud" format="reference|color"></attr>
+        <attr name="cusRightTextColor" format="reference|color"></attr>
+        <attr name="cusRightTextSize" format="dimension" ></attr>
+        <attr name="cusRightBackgroud" format="reference|color"></attr>
+        <attr name="cusRightText" format="string"></attr>
+        <attr name="cusLeftShow" format="boolean" ></attr>
+        <attr name="cusRightShow" format="boolean"></attr>
+    </declare-styleable>
 </resources>

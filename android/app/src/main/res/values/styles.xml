@@ -110,4 +110,28 @@
         <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
     </style>
 
+    <!-- 用户中心 -->
+    <style name="mala.widget.usercenter.item.text" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/item_text_color_normal</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+    <style name="mala.widget.usercenter.item.text2" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/item_text_color_light</item>
+        <item name="android:textSize">@dimen/text_size_normal_x</item>
+    </style>
+
+    <!-- item间分割线 -->
+    <style name="mala.widget.item.line" parent="android:Widget.TextView">
+        <item name="android:background">@color/item_line_bg</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+    <!-- item风格 -->
+    <style name="mala.widget.user.item" parent="android:Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
 </resources>
