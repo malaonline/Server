@@ -114,4 +114,58 @@ class TestFactory {
             "权威奥数教练"
         ]
     }
-}
+    
+    class func classSchedule() -> [[ClassScheduleDayModel]] {
+        let classData1 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: false),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: true),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        let classData2 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: false),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: true),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        let classData3 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: false),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        let classData4 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: false),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        let classData5 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: true),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: false),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        let classData6 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: true),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: false),
+        ]
+        let classData7 = [
+            ClassScheduleDayModel(start: "08:00", end: "10:00", available: true),
+            ClassScheduleDayModel(start: "10:00", end: "12:00", available: true),
+            ClassScheduleDayModel(start: "13:00", end: "15:00", available: true),
+            ClassScheduleDayModel(start: "15:00", end: "17:00", available: true),
+            ClassScheduleDayModel(start: "17:00", end: "19:00", available: true),
+        ]
+        
+        return [classData1, classData2, classData3, classData4, classData5, classData6, classData7]
+    }
+ }

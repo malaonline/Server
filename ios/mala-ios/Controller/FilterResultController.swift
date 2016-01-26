@@ -82,15 +82,15 @@ class FilterResultController: UIViewController {
             UIButton(
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
-                target: self.navigationController,
-                action: "popViewControllerAnimated:"
+                target: self,
+                action: "popSelf"
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
     }
     
-    private func filterTeacher() {
-        
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
 

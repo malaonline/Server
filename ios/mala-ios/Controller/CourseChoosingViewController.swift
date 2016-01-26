@@ -23,8 +23,14 @@ class CourseChoosingViewController: UIViewController {
             self.tableView.schoolModel = schoolArray
         }
     }
+    /// 课程表数据模型
+    var classScheduleModel: [[ClassScheduleDayModel]] = [] {
+        didSet {
+            self.tableView.classScheduleModel = classScheduleModel
+        }
+    }
     /// 当前课程选择对象
-    var choosingObject: CourseChoosingObject?
+    var choosingObject: CourseChoosingObject? = CourseChoosingObject()
     /// 上课地点Cell打开标识
     var isOpenSchoolsCell: Bool = false
     /// 当前上课地点记录下标
@@ -48,7 +54,13 @@ class CourseChoosingViewController: UIViewController {
         
         setupUserInterface()
         loadSchoolsData()
+        loadClassSchedule()
         setupNotification()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        makeStatusBarBlack()
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,8 +83,8 @@ class CourseChoosingViewController: UIViewController {
             UIButton(
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
-                target: self.navigationController,
-                action: "popViewControllerAnimated:"
+                target: self,
+                action: "popSelf"
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -101,11 +113,11 @@ class CourseChoosingViewController: UIViewController {
         // // 获取 [教学环境] 数据
         NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
-                debugPrint("TeacherDetailsController - loadSchools Request Error")
+                debugPrint("CourseChoosingViewController - loadSchools Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherDetailsController - loadSchools Format Error")
+                debugPrint("CourseChoosingViewController - loadSchools Format Error")
                 return
             }
             
@@ -119,6 +131,45 @@ class CourseChoosingViewController: UIViewController {
                 }
             }
             self?.schoolArray = tempArray 
+        }
+    }
+    
+    private func loadClassSchedule() {
+        print("refresh")
+        
+        NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
+            [weak self] (result, error) -> () in
+            if error != nil {
+                debugPrint("CourseChoosingViewController - loadClassSchedule Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("CourseChoosingViewController - loadClassSchedule Format Error")
+                return
+            }
+            
+            // result字典转模型
+            var modelArray: [[ClassScheduleDayModel]] = []
+            
+            // 遍历服务器返回字典
+            for (_, value) in dict {
+                // 若当前项为数组（每天的课时数组），执行遍历
+                if let array = value as? [AnyObject] {
+                    // 遍历课时数组
+                    var tempArray: [ClassScheduleDayModel] = []
+                    for dictJson in array {
+                        // 验证为字典，字典转模型并放入模型数组中
+                        if let dict = dictJson as? [String: AnyObject] {
+                            let object = ClassScheduleDayModel(dict: dict)
+                            tempArray.append(object)
+                        }
+                        
+                    }
+                    // 将课时模型数组，添加到结果数组中
+                    modelArray.append(tempArray)
+                }
+            }
+            self?.classScheduleModel = modelArray
         }
     }
     
@@ -147,13 +198,23 @@ class CourseChoosingViewController: UIViewController {
                     self?.tableView.selectedIndexPath = self?.selectedSchoolIndexPath
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
+                    // 当户用选择不同的上课地点时，更新课程表视图
+                    if school.schoolModel?.id != self?.choosingObject?.school?.id {
+                        self?.loadClassSchedule()
+                    }
+                    
                     // 保存用户所选上课地点
                     self?.choosingObject?.school = school.schoolModel
+                    
                     // 设置tableView 的数据源和选中项
                     self?.tableView.schoolModel = [school.schoolModel!]
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!
                 }
         }
+    }
+    
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     deinit {
