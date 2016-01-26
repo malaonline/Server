@@ -23,6 +23,12 @@ class CourseChoosingViewController: UIViewController {
             self.tableView.schoolModel = schoolArray
         }
     }
+    /// 课程表数据模型
+    var classScheduleModel: [[ClassScheduleDayModel]] = [] {
+        didSet {
+            self.tableView.classScheduleModel = classScheduleModel
+        }
+    }
     /// 当前课程选择对象
     var choosingObject: CourseChoosingObject?
     /// 上课地点Cell打开标识
@@ -48,6 +54,7 @@ class CourseChoosingViewController: UIViewController {
         
         setupUserInterface()
         loadSchoolsData()
+        loadClassSchedule()
         setupNotification()
     }
 
@@ -101,11 +108,11 @@ class CourseChoosingViewController: UIViewController {
         // // 获取 [教学环境] 数据
         NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
-                debugPrint("TeacherDetailsController - loadSchools Request Error")
+                debugPrint("CourseChoosingViewController - loadSchools Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherDetailsController - loadSchools Format Error")
+                debugPrint("CourseChoosingViewController - loadSchools Format Error")
                 return
             }
             
@@ -119,6 +126,45 @@ class CourseChoosingViewController: UIViewController {
                 }
             }
             self?.schoolArray = tempArray 
+        }
+    }
+    
+    private func loadClassSchedule() {
+        NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
+            [weak self] (result, error) -> () in
+            if error != nil {
+                debugPrint("CourseChoosingViewController - loadClassSchedule Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("CourseChoosingViewController - loadClassSchedule Format Error")
+                return
+            }
+            
+            // result字典转模型
+            var modelArray: [[ClassScheduleDayModel]] = []
+            
+            // 遍历服务器返回字典
+            for (_, value) in dict {
+                // 若当前项为数组（每天的课时数组），执行遍历
+                if let array = value as? [AnyObject] {
+                    // 遍历课时数组
+                    var tempArray: [ClassScheduleDayModel] = []
+                    for dictJson in array {
+                        // 验证为字典，字典转模型并放入模型数组中
+                        if let dict = dictJson as? [String: AnyObject] {
+                            let object = ClassScheduleDayModel(dict: dict)
+                            tempArray.append(object)
+                        }
+                        
+                    }
+                    // 将课时模型数组，添加到结果数组中
+                    modelArray.append(tempArray)
+                }
+                
+            }
+            self?.classScheduleModel = TestFactory.classSchedule() //modelArray
+            print("课程表数据：\(modelArray)")
         }
     }
     

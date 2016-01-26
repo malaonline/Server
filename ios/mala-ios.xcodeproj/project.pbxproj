@@ -135,6 +135,10 @@
 		F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
+		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
+		F4402D861C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
+		F4402D881C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */; };
+		F4402D891C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -262,6 +266,8 @@
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
 		F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
+		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
+		F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeClassSchedule.swift; sourceTree = "<group>"; };
 		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
 		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
@@ -385,6 +391,7 @@
 				3037B5821C3A84C2005672D9 /* SMSResultModel.swift */,
 				303BCFF01C44A86200B37DD9 /* SchoolModel.swift */,
 				30B5980D1C451A8900169390 /* MemberServiceModel.swift */,
+				F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -452,6 +459,7 @@
 				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 				30445B121C49EEA2002CD290 /* ThemeAlert.swift */,
 				F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */,
+				F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -846,6 +854,7 @@
 				F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */,
+				F4402D891C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */,
 				F45871F61C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
 				307AB89D1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				30D4AA021C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
@@ -875,6 +884,7 @@
 				3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
+				F4402D861C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				3037B5981C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
@@ -923,6 +933,7 @@
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
+				F4402D881C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */,
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
@@ -952,6 +963,7 @@
 				F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
+				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
 				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
