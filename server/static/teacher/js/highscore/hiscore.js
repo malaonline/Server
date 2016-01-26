@@ -1,4 +1,5 @@
 $(function(){
+  var hiscorepageDefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
   $('#checkboxSelectAll').change(function(e){
     var ck = false;
     if($('#checkboxSelectAll').is(':checked')){
@@ -17,7 +18,6 @@ $(function(){
     }
     return false;
   }
-
   $('#delHighscore').click(function(e){
     var ids = [];
     var allItems = $('[name="checkboxSelect"]');
@@ -28,7 +28,6 @@ $(function(){
       }
     }
     if(ids.length > 0){
-      var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
       var params = {'action': 'delete', 'ids': ids.join(',')};
       $.post("/teacher/highscore/", params, function(result){
           if(result){
@@ -45,11 +44,53 @@ $(function(){
               }
               return;
           }
-          alert(defaultErrMsg);
+          alert(hiscorepageDefaultErrMsg);
       }, 'json').fail(function(){
-          alert(defaultErrMsg);
+          alert(hiscorepageDefaultErrMsg);
       });
     }
   });
+  $('#saveNewItem').click(function(e){
+    var teacherId = $('#teacherId').val();
+    var stname = $('#stname').val();
+    var inscore = $('#inscore').val();
+    var schoolname = $('#schoolname').val();
+    var admittedTo = $('#admittedTo').val();
 
+    if(stname == '' ||
+      inscore == '' ||
+      schoolname == '' ||
+      admittedTo == ''
+    ){
+      alert("必须填写所有内容！");
+      return false;
+    }
+
+    var params = {
+      'action': 'add',
+      'id': teacherId,
+      'name': stname,
+      'increased_scores': inscore,
+      'school_name': schoolname,
+      'admitted_to': admittedTo,
+    };
+    $.post("/teacher/highscore/", params, function(result){
+        if(result){
+          if(result.ok){
+            $('#addItemsModal').modal('hide');
+            location.reload();
+          }else{
+            alert(result.msg);
+          }
+        }else{
+          alert(hiscorepageDefaultErrMsg);
+        }
+    }, 'json').fail(function(){
+      $('#addItemsModal').modal('hide');
+      alert(hiscorepageDefaultErrMsg);
+    });
+  });
+  $('#addHighscore').click(function(e){
+    $('#addItemsModal').modal({backdrop: 'static', keyboard: false});
+  });
 });
