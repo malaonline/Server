@@ -341,8 +341,8 @@ class CertificateIDView(BaseTeacherView):
 
     def buildContextData(self, context, certIdHeld, certIdFront):
         context['id_num'] = certIdHeld.name
-        context['idHeldUrl'] = certIdHeld.imgUrl()
-        context['idFrontUrl'] = certIdFront.imgUrl()
+        context['idHeldUrl'] = certIdHeld.img_url()
+        context['idFrontUrl'] = certIdFront.img_url()
         return context
 
     def post(self, request):
@@ -382,7 +382,7 @@ class CertificateIDView(BaseTeacherView):
         certIdFront.save()
 
         if isJsonReq:
-            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'idHeldUrl': certIdHeld.imgUrl(), 'idFrontUrl': certIdFront.imgUrl()})
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'idHeldUrl': certIdHeld.img_url(), 'idFrontUrl': certIdFront.img_url()})
         context = self.buildContextData(context, certIdHeld, certIdFront)
         return render(request, self.template_path, context)
 
@@ -409,7 +409,7 @@ class CertificateForOnePicView(BaseTeacherView):
         context['cert_title'] = self.cert_title
         context['cert_name'] = self.cert_name
         context['name_val'] = cert.name
-        context['certImgUrl'] = cert.imgUrl()
+        context['cert_img_url'] = cert.img_url()
         context['hint_content'] = self.hint_content
         return context
 
@@ -443,7 +443,7 @@ class CertificateForOnePicView(BaseTeacherView):
         cert.save()
 
         if isJsonReq:
-            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'certImgUrl': cert.imgUrl()})
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'cert_img_url': cert.img_url()})
         context = self.buildContextData(context, cert)
         return render(request, self.template_path, context)
 

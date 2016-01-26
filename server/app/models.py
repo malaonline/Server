@@ -173,7 +173,7 @@ class Profile(BaseModel):
         return "{before}****{after}".format(
                 before=self.phone[:3], after=self.phone[-4:])
 
-    def avatarUrl(self):
+    def avatar_url(self):
         return self.avatar and self.avatar.url or ''
 
 
@@ -377,7 +377,7 @@ class Achievement(BaseModel):
     title = models.CharField(max_length=30)
     img = models.ImageField(null=True, blank=True, upload_to='achievements')
 
-    def imgUrl(self):
+    def img_url(self):
         return self.img and self.img.url or ''
 
 
@@ -391,7 +391,7 @@ class Photo(BaseModel):
         return '%s img (%s)' % (
                 self.teacher, 'public' if self.public else 'private')
 
-    def imgUrl(self):
+    def img_url(self):
         return self.img and self.img.url or ''
 
 
@@ -425,7 +425,7 @@ class Certificate(BaseModel):
         return '%s, %s : %s' % (self.teacher, self.name,
                                 'V' if self.verified else '')
 
-    def imgUrl(self):
+    def img_url(self):
         return self.img and self.img.url or ''
 
 

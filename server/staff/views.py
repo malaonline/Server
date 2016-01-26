@@ -296,7 +296,7 @@ class TeacherActionView(BaseStaffActionView):
         query_set = models.Achievement.objects.filter(teacher_id=tid)
         achievements = []
         for ac in query_set:
-            achievements.append({'title': ac.title, 'img': ac.imgUrl()})
+            achievements.append({'title': ac.title, 'img': ac.img_url()})
         return JsonResponse({'list': achievements})
 
     def getTeacherWeeklySchedule(self, request):
