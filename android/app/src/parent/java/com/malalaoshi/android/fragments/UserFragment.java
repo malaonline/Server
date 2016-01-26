@@ -278,7 +278,9 @@ public class UserFragment extends Fragment {
     private void postUserAvator(String path) {
         if (path!=null&&!path.isEmpty())
         {
-            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromPath(path, 100, 100);
+            int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
+            int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
+            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 100, 100, ImageCache.getInstance(MalaApplication.getInstance()));
             ivAvatar.setImageBitmap(bitmap);
         }
     }

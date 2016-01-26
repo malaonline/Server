@@ -36,7 +36,6 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.SoftReference;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -332,7 +331,7 @@ public class ImageCache implements ImageLoader.ImageCache {
 
                             // Decode bitmap, but we don't want to sample so give
                             // MAX_VALUE as the target dimensions
-                            bitmap = ImageResizer.decodeSampledBitmapFromDescriptor(
+                            bitmap = ImageUtil.decodeSampledBitmapFromDescriptor(
                                     fd, Integer.MAX_VALUE, Integer.MAX_VALUE, this);
                         }
                     }
