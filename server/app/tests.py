@@ -30,37 +30,37 @@ class TestApi(TestCase):
 
     def test_teacher_list(self):
         client = Client()
-        url = "/api/v1/teachers/"
+        url = "/api/v1/teachers"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_teacher_detail(self):
         client = Client()
-        url = "/api/v1/teachers/1/"
+        url = "/api/v1/teachers/1"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_tag_list(self):
         client = Client()
-        url = "/api/v1/tags/"
+        url = "/api/v1/tags"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_grade_list(self):
         client = Client()
-        url = "/api/v1/grades/"
+        url = "/api/v1/grades"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_memberservice_list(self):
         client = Client()
-        url = "/api/v1/memberservices/"
+        url = "/api/v1/memberservices"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_weeklytimeslot_list(self):
         client = Client()
-        url = "/api/v1/weeklytimeslots/"
+        url = "/api/v1/weeklytimeslots"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -72,7 +72,7 @@ class TestApi(TestCase):
 
     def test_get_token_key(self):
         client = Client()
-        request_url = "/api/v1/token-auth/"
+        request_url = "/api/v1/token-auth"
         # request_url = "/api/v1/subjects/"
         username = "parent1"
         password = "123123"
@@ -95,7 +95,7 @@ class TestApi(TestCase):
 
     def test_modify_student_name(self):
         token_client = Client()
-        token_request_url = "/api/v1/token-auth/"
+        token_request_url = "/api/v1/token-auth"
         username = "parent1"
         password = "123123"
         response = token_client.post(token_request_url, {"username": username, "password": password})
@@ -111,7 +111,7 @@ class TestApi(TestCase):
 
         # test 201
         client = Client()
-        request_url = "/api/v1/parents/%d/" % (parent.pk,)
+        request_url = "/api/v1/parents/%d" % (parent.pk,)
         #print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
