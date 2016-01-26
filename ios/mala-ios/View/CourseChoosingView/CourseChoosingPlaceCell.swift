@@ -8,17 +8,75 @@
 
 import UIKit
 
-class CourseChoosingPlaceCell: UITableViewCell {
+class CourseChoosingPlaceCell: MalaBaseCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Property
+    var schools: [SchoolModel]? {
+        didSet {
+            tableView.schools = schools!
+        }
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    var isOpen: Bool = false {
+        didSet {
+            tableView.isOpen = isOpen
+            if isOpen {
+                tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(Int(64) * schools!.count)
+                }
+            }else {
+                tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(64+38)
+                }
+            }
+        }
     }
-
+    var selectedIndexPath: NSIndexPath? {
+        didSet {
+            if selectedIndexPath != nil {
+                tableView.selectedIndexPath = selectedIndexPath!
+            }
+        }
+    }
+    
+    
+    // MARK: - Components
+    private lazy var tableView: CourseChoosingPlaceTableView = {
+        let tableView = CourseChoosingPlaceTableView(frame: CGRectZero, style: .Plain)
+        return tableView
+    }()
+    
+    // MARK: - Contructed
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUserInterface()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // SubViews
+        content.addSubview(tableView)
+        
+        // Autolayout
+        // Remove margin
+        content.snp_updateConstraints { (make) -> Void in
+            make.top.equalTo(self.title.snp_bottom)
+            make.bottom.equalTo(self.contentView.snp_bottom)
+        }
+        
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.content.snp_top)
+            make.left.equalTo(self.content.snp_left)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.right.equalTo(self.content.snp_right)
+        }
+    }
+    
+    func tableViewReloadData() {
+        self.tableView.reloadData()
+    }
 }

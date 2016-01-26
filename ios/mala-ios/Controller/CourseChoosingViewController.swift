@@ -20,11 +20,15 @@ class CourseChoosingViewController: UIViewController {
     /// 上课地点数据模型
     var schoolArray: [SchoolModel] = [] {
         didSet {
-            // 刷新 [选择上课地点] Cell
-//             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            self.tableView.schoolModel = schoolArray
         }
     }
-    
+    /// 当前课程选择对象
+    var choosingObject: CourseChoosingObject?
+    /// 上课地点Cell打开标识
+    var isOpenSchoolsCell: Bool = false
+    /// 当前上课地点记录下标
+    var selectedSchoolIndexPath: NSIndexPath  = NSIndexPath(forRow: 0, inSection: 0)
     
     
     // MARK: - Compontents
@@ -114,7 +118,7 @@ class CourseChoosingViewController: UIViewController {
                     tempArray.append(set)
                 }
             }
-            self?.schoolArray = tempArray
+            self?.schoolArray = tempArray 
         }
     }
     
@@ -123,13 +127,48 @@ class CourseChoosingViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ChoosingGrade,
             object: nil,
-            queue: nil) { (notification) -> Void in
-//                print("choosing Grade : \(notification.object)")
+            queue: nil) { [weak self] (notification) -> Void in
+                // 保存用户所选课程
+                let price = notification.object as! GradePriceModel
+                self?.choosingObject?.price = price
+        }
+        // 选择上课地点
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ChoosingSchool,
+            object: nil,
+            queue: nil
+            ) { [weak self] (notification) -> Void in
+                let school = notification.object as! schoolChoosingObject
+
+                self?.tableView.isOpenSchoolsCell = school.isOpenCell
+                
+                if school.isOpenCell {
+                    // 设置所有上课地点数据，设置选中样式
+                    self?.tableView.selectedIndexPath = self?.selectedSchoolIndexPath
+                    self?.tableView.schoolModel = self?.schoolArray ?? []
+                }else if school.schoolModel != nil {
+                    // 保存用户所选上课地点
+                    self?.choosingObject?.school = school.schoolModel
+                    // 设置tableView 的数据源和选中项
+                    self?.tableView.schoolModel = [school.schoolModel!]
+                    self?.selectedSchoolIndexPath = school.selectedIndexPath!
+                }
         }
     }
     
     deinit {
         print("choosing Controller deinit")
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
     }
+}
+
+
+
+
+class CourseChoosingObject: NSObject {
+    
+    var price: GradePriceModel?
+    var school: SchoolModel?
+    
 }

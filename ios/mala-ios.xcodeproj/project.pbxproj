@@ -133,6 +133,8 @@
 		F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
 		F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
+		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
+		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -259,6 +261,7 @@
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
 		F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
+		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
 		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
@@ -614,6 +617,7 @@
 				F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */,
 				F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */,
 				F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */,
+				F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */,
 			);
 			path = CourseChoosingView;
 			sourceTree = "<group>";
@@ -839,6 +843,7 @@
 				30AE09331C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 				F45871F01C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
+				F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				357E6A1D1C0FF2EE0009AF9A /* IncomeViewController.swift in Sources */,
 				30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				F45871F61C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
@@ -941,6 +946,7 @@
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
+				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,

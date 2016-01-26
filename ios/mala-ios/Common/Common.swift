@@ -79,7 +79,9 @@ let MalaLayout_Margin_13: CGFloat = 13.0
 let MalaLayout_Margin_14: CGFloat = 14.0
 let MalaLayout_Margin_15: CGFloat = 15.0
 let MalaLayout_Margin_16: CGFloat = 16.0
+let MalaLayout_Margin_18: CGFloat = 18.0
 let MalaLayout_Margin_26: CGFloat = 26.0
+let MalaLayout_Margin_27: CGFloat = 27.0
 
 let MalaLayout_FontSize_10: CGFloat = 10.0
 let MalaLayout_FontSize_11: CGFloat = 11.0
