@@ -18,19 +18,31 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
-from rest_framework import serializers, viewsets, permissions
+from rest_framework import serializers, viewsets, permissions, generics
 from rest_framework.exceptions import PermissionDenied
 
 from app import models
 from .utils.smsUtil import sendCheckcode
 
 
-class Policy(View):
-    def get(self, request):
-        policy = get_object_or_404(models.Policy, pk=1)
-        data = dict(result=policy.content,
-                    updated_at=int(policy.updated_at.timestamp()))
-        return HttpResponse(json.dumps(data, ensure_ascii=False))
+class PolicySerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Policy
+        fields = ('content', 'updated_at',)
+
+    def get_updated_at(self, obj):
+        return int(obj.updated_at.timestamp())
+
+
+class Policy(generics.RetrieveAPIView):
+    queryset = models.Policy.objects.all()
+    serializer_class = PolicySerializer
+
+    def get_object(self):
+        obj = get_object_or_404(models.Policy, pk=1)
+        return obj
 
 
 class TeacherWeeklyTimeSlot(View):
@@ -547,6 +559,7 @@ class ParentSerializer(serializers.HyperlinkedModelSerializer):
 class ParentViewSet(viewsets.ModelViewSet):
     queryset = models.Parent.objects.all()
     serializer_class = ParentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         user = self.request.user
@@ -561,19 +574,32 @@ class ParentViewSet(viewsets.ModelViewSet):
         if response.status_code == 200:
             response.data = {"done": "true"}
         return response
-    permission_classes = (permissions.IsAuthenticated,)
 
 
-class OrderSerializer(serializers.HyperlinkedModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
-        fields = ('id', 'teacher', 'parent')
+        fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
+                  'coupon', 'hours', )
 
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = models.Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            parent = user.parent
+        except exceptions.ObjectDoesNotExist:
+            raise PermissionDenied(detail='Role incorrect')
+
+        queryset = models.Order.objects.filter(parent=parent)
+        return queryset
+
+    '''
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         return response
+    '''

@@ -589,7 +589,7 @@ class Order(BaseModel):
 
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
-                              )
+                              default=PENDING, )
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
@@ -609,7 +609,7 @@ class Order(BaseModel):
 
         ans = cls(parent=parent, teacher=teacher, school=school, grade=grade,
                   subject=subject, price=price, hours=hours, total=total,
-                  status=cls.PENDING, coupon=coupon)
+                  coupon=coupon)
         ans.save()
         for slot in weekly_time_slots:
             ans.weekly_time_slots.add(slot)
