@@ -3,7 +3,12 @@ a {
 }
 
 .border-right {
-  border-right: 1px solid gray;
+  border-right: 1px solid darkgray;
+}
+
+hr {
+  margin: 30px 0;
+  border-color: black;
 }
 
 // 图片编辑组件
@@ -14,17 +19,16 @@ a {
   width: @imgUploadBoxWidth+10;
   .img-upload-box {
     position: relative;
-    min-width: @imgUploadBoxWidth;
     width: @imgUploadBoxWidth;
     height: @imgUploadBoxHeight;
     margin: 5px 0;
+    background: #ddd;
     .img-box {
       position: absolute;
       width: 100%;
       height: @imgUploadBoxHeight;
       line-height: @imgUploadBoxHeight;
       overflow: hidden;
-      background: #ddd;
       text-align: center;
       img {
         max-width: 100%;
@@ -39,7 +43,6 @@ a {
       height: @imgUploadBoxHeight;
       line-height: @imgUploadBoxHeight;
       overflow: hidden;
-      background: #ddd;
       text-align: center;
       img {
         max-width: 100%;
@@ -52,41 +55,91 @@ a {
       display: none;
     }
   }
+}
 
-  .help-block {
-    display: none;
-  }
+.help-block {
+  display: none;
+}
 
-  .actions{
-    a {
-      display: inline-block;
-      margin: 2px 0;
-      padding: 0;
-      height: @imgUploadBtnHeight;
-      line-height: @imgUploadBtnHeight;
-      width: 70px;
-    }
-  }
-  .file-input-mask {
-    position: relative;
+.actions{
+  a {
+    display: inline-block;
+    margin: 2px 0;
+    padding: 0;
     height: @imgUploadBtnHeight;
     line-height: @imgUploadBtnHeight;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.07);
-    input {
+    width: 70px;
+  }
+}
+.file-input-mask {
+  position: relative;
+  height: @imgUploadBtnHeight;
+  line-height: @imgUploadBtnHeight;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.07);
+  input {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    margin: 0;
+    width: 100%;
+    height: 200px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    transform: scale(4);
+    font-size: 16px;
+    direction: ltr;
+    cursor: pointer;
+    color: transparent;
+  }
+}
+
+@audioUploadBoxWidth: 360px;
+@audioUploadBoxHeight: 26px;
+.audio-edit {
+  width: @audioUploadBoxWidth+10;
+  .audio-upload-box {
+    position: relative;
+    width: @audioUploadBoxWidth;
+    height: @audioUploadBoxHeight;
+    margin: 5px 0;
+    border: 1px solid lightgrey;
+    audio{
       position: absolute;
-      top: -16px;
-      right: -16px;
-      margin: 0;
       width: 100%;
-      height: 200px;
-      opacity: 0;
-      filter: alpha(opacity=0);
-      transform: scale(4);
-      font-size: 16px;
-      direction: ltr;
-      cursor: pointer;
-      color: transparent;
+      height: @audioUploadBoxHeight;
+      .preview {
+        display: none;
+      }
+    }
+    .uploading-hint-box {
+      position: absolute;
+      display: none;
+    }
+  }
+}
+
+@videoUploadBoxWidth: 360px;
+@videoUploadBoxHeight: 206px;
+.video-edit {
+  width: @videoUploadBoxWidth+10;
+  .video-upload-box {
+    position: relative;
+    width: @videoUploadBoxWidth;
+    height: @videoUploadBoxHeight;
+    margin: 5px 0;
+    border: 1px solid lightgrey;
+    video{
+      position: absolute;
+      width: 100%;
+      height: @videoUploadBoxHeight;
+      .preview {
+        display: none;
+      }
+    }
+    .uploading-hint-box {
+      position: absolute;
+      display: none;
     }
   }
 }

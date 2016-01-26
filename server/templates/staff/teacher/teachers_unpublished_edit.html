@@ -172,7 +172,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="avatarImg" multiple=""/>
+                    <input title="请选择图片" type="file" name="avatarImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-photo">删除</a>
             </div>
@@ -195,7 +195,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-photo">删除</a>
                     </div>
@@ -214,7 +214,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-photo">删除</a>
                         </div>
@@ -272,7 +272,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-photo">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -294,7 +294,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-photo">删除</a>
             </div>
@@ -314,7 +314,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-photo">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -336,7 +336,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-photo">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -359,7 +359,7 @@
                 <div class="actions">
                     <a class="btn btn-default file-input-mask text-center">
                         <span>上传/重传</span>
-                        <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                        <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                     </a>
                     <a class="btn btn-default" data-action="delete-photo">删除</a>
                     <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -387,7 +387,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-photo">删除</a>
                         <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -411,7 +411,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="photoImg" multiple=""/>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-photo">删除</a>
                             <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -425,5 +425,53 @@
             </div>
         </div>
     </div>
+    <hr>
+
+{#介绍音频#}
+    <div class="clearfix">
+        <div class="pull-left media-edit audio-edit">
+            <div>
+                介绍语音（选填）
+            </div>
+            <div class="audio-upload-box">
+                <audio class="view" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
+                <audio class="preview" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择音频" type="file" name="introAudio" multiple="" accept="audio/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-audio">删除</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#介绍视频#}
+    <div class="clearfix">
+        <div class="pull-left media-edit video-edit">
+            <div>
+                介绍语音（选填）
+            </div>
+            <div class="video-upload-box">
+                <video class="view" src="" controls="controls">您的浏览器不支持 video 标签。</video>
+                <video class="preview" src="" controls="controls">您的浏览器不支持 video 标签。</video>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择视频" type="file" name="introVideo" multiple="" accept="video/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-video">删除</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
 </form>
 {% endblock %}
