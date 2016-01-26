@@ -32,7 +32,7 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupon);
         ButterKnife.bind(this);
-        FragmentUtil.openFragment(R.id.container, getFragmentManager(), null, CouponListFragment.newInstance(), "couponfragment");
+        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null, CouponListFragment.newInstance(), "couponfragment");
         titleBarView.setTitle(R.string.scholarship);
         titleBarView.setOnTitleBarClickListener(this);
         EventDispatcher.getInstance().register(this);

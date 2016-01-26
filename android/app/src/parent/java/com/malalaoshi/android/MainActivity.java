@@ -1,13 +1,12 @@
 package com.malalaoshi.android;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +22,7 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
+import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.ImageCache;
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int selectIndex  = R.id.index_home_btn_view;
 
     private TeacherListFragment teacherListFragment = null;
-    private ScheduleFragment scheduleFragment = null;
+    private UserFragment userFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 //        navigationView.setNavigationItemSelectedListener(this);
         ButterKnife.bind(this);
         teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
-        FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment , TeacherListFragment.class.getName());
+        FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), userFragment, teacherListFragment , TeacherListFragment.class.getName());
     }
 
     private void init() {
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
         SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "知道了");
-        d.show(getFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
+        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.main_bar_filter)
@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         DialogFragment newFragment = FilterDialogFragment.newInstance();
         //newFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.FilterDialog);
-        newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+        newFragment.show(getSupportFragmentManager(), FilterDialogFragment.class.getSimpleName());
 
     }
 
@@ -180,13 +180,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (teacherListFragment==null){
                     teacherListFragment = new TeacherListFragment().setTeacherList(teachersList);
                 }
-                FragmentUtil.opFragmentMainActivity(getFragmentManager(), scheduleFragment, teacherListFragment, ScheduleFragment.class.getName());
+                FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), userFragment, teacherListFragment, ScheduleFragment.class.getName());
                 break;
             case R.id.index_personal_btn_view:
-                if (scheduleFragment==null){
-                    scheduleFragment = new ScheduleFragment();
+                if (userFragment==null){
+                    userFragment = new UserFragment();
                 }
-                FragmentUtil.opFragmentMainActivity(getFragmentManager(), teacherListFragment, scheduleFragment, ScheduleFragment.class.getName());
+                FragmentUtil.opFragmentMainActivity(getSupportFragmentManager(), teacherListFragment, userFragment, UserFragment.class.getName());
                 break;
         }
     }
@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         if (id == R.id.action_logout) {
             MalaApplication.getInstance().logout();
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             LoginFragment loginFragment = new LoginFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, loginFragment).commit();
             return true;

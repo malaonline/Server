@@ -28,8 +28,8 @@ import java.io.FileDescriptor;
  * Useful for when the input images might be too large to simply load directly into
  * memory.
  */
-public class ImageResizer {
-    private static final String TAG = "ImageResizer";
+public class ImageUtil {
+    private static final String TAG = "ImageUtil";
 
     /**
      * Decode and sample down a bitmap from resources to the requested width and height.

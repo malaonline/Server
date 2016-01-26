@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:background="@drawable/ic_user_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.malalaoshi.android.view.CircleImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="@dimen/avatar_width"
+            android:layout_height="@dimen/avatar_width"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/user_detail_header_bg"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="@dimen/avatar_border_width" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="欧阳娜娜"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
+
+        <RelativeLayout
+            android:id="@+id/rl_user_name"
+            style="@style/mala.widget.user.item">
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="学生姓名" />
+            <ImageView
+                android:id="@+id/iv_name_more_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_more_info" />
+            <TextView
+                android:id="@+id/tv_stu_name"
+                style="@style/mala.widget.usercenter.item.text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@id/iv_name_more_info"
+                android:text="欧阳娜娜" />
+        </RelativeLayout>
+
+               <TextView
+            style="@style/mala.widget.item.line"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_user_school"
+            style="@style/mala.widget.user.item">
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="学校信息" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_more_info" />
+        </RelativeLayout>
+        <TextView
+            style="@style/mala.widget.item.line"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_user_city"
+            style="@style/mala.widget.user.item">
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="所在城市" />
+
+            <TextView
+                android:id="@+id/tv_user_city"
+                style="@style/mala.widget.usercenter.item.text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:text="洛阳/其它" />
+        </RelativeLayout>
+        <TextView
+            style="@style/mala.widget.item.line"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_user_schoolship"
+            style="@style/mala.widget.user.item">
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="我的奖学金" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_more_info" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_about_mala"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorWhite"
+        style="@style/mala.widget.user.item">
+        <TextView
+            style="@style/mala.widget.usercenter.item.text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="关于麻辣老师" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_more_info" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:text="退出登录"
+        android:textColor="@color/text_color_logout_btn"
+        android:textSize="@dimen/text_size_xlarge"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/logout_btn"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="37dp" />
+</LinearLayout>

@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:listSelector="@android:color/transparent"
-            android:numColumns="2" />
+            android:numColumns="1" />
         <LinearLayout
             android:layout_marginTop="16dp"
             android:layout_marginLeft="12dp"

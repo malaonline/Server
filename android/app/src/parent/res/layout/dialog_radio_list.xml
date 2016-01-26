@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_dialog_title"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textColor="@color/dialog_title_color"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+        <View
+            android:layout_below="@id/tv_dialog_title"
+            android:background="@color/dialog_title_color"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_below="@id/ll_dialog_title"
+        android:layout_marginBottom="45dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:scrollbars="vertical">
+        <com.malalaoshi.android.view.ExpandedHeightGridView
+            android:id="@+id/listview_dialog"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.malalaoshi.android.view.ExpandedHeightGridView>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_ok"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:background="@color/dialog_title_color"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"></View>
+        <TextView
+            android:id="@+id/tv_ok"
+            android:text="确 认"
+            android:background="@drawable/dialog_ok_btn"
+            android:textSize="@dimen/text_size_large_x"
+            android:textColor="@color/dialog_title_color"
+            android:gravity="center"
+            android:layout_gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+    </LinearLayout>
+</RelativeLayout>

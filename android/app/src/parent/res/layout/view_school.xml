@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main_color_bg"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.malalaoshi.android.view.TitleBarView
+        android:id="@+id/titleBar"
+        app:cusTitleText="学校信息"
+        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusLeftShow="true"
+        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusRightShow="true"
+        app:cusRightText="保存"
+        app:cusRightTextSize="@dimen/text_size_normal"
+        app:cusRightTextColor="@color/title_right_color"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"></com.malalaoshi.android.view.TitleBarView>
+
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_user_grade"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical">
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="年级" />
+
+            <ImageView
+                android:id="@+id/iv_modify_grade_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/edittext_info" />
+            <TextView
+                android:id="@+id/tv_user_grade"
+                style="@style/mala.widget.usercenter.item.text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@id/iv_modify_grade_info"
+                android:text="小学三年级" />
+        </RelativeLayout>
+        <TextView
+            style="@style/mala.widget.item.line"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp" />
+        <RelativeLayout
+            android:id="@+id/rl_user_school"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                style="@style/mala.widget.usercenter.item.text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="所在学校" />
+
+            <ImageView
+                android:id="@+id/iv_school_modify_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/edittext_info" />
+            <TextView
+                android:id="@+id/tv_user_school"
+                style="@style/mala.widget.usercenter.item.text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@id/iv_school_modify_info"
+                android:text="洛阳一中" />
+        </RelativeLayout>
+     </LinearLayout>
+</LinearLayout>

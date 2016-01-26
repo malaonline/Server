@@ -102,5 +102,5 @@
     <dimen name="text_size_xxxxlarge">22sp</dimen>
     <dimen name="gallery_padding">54dp</dimen>
 
-    <dimen name="title_bar_height">50dp</dimen>
+    <dimen name="title_bar_height">44dp</dimen>
 </resources>
