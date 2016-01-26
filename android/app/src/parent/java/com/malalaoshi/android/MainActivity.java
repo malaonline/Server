@@ -1,11 +1,11 @@
 package com.malalaoshi.android;
 
-import android.app.DialogFragment;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
         SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "知道了");
-        d.show(getFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
+        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.main_bar_filter)
@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         DialogFragment newFragment = FilterDialogFragment.newInstance();
         //newFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.FilterDialog);
-        newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+        newFragment.show(getSupportFragmentManager(), FilterDialogFragment.class.getSimpleName());
 
     }
 
