@@ -139,6 +139,9 @@
 		F4402D861C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
 		F4402D881C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */; };
 		F4402D891C5729D000E7D3DB /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */; };
+		F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA21C5768F600E7D3DB /* KMSwizzle.m */; };
+		F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
+		F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -268,6 +271,12 @@
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeClassSchedule.swift; sourceTree = "<group>"; };
+		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
+		F4402DA21C5768F600E7D3DB /* KMSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMSwizzle.m; sourceTree = "<group>"; };
+		F4402DA31C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+KMNavigationBarTransition.h"; sourceTree = "<group>"; };
+		F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+KMNavigationBarTransition.m"; sourceTree = "<group>"; };
+		F4402DA51C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KMNavigationBarTransition.h"; sourceTree = "<group>"; };
+		F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KMNavigationBarTransition.m"; sourceTree = "<group>"; };
 		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
 		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
@@ -453,6 +462,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
 				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
 				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
@@ -612,6 +622,19 @@
 				25DA83160369F01018BE7B4A /* Pods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */ = {
+			isa = PBXGroup;
+			children = (
+				F4402DA11C5768F600E7D3DB /* KMSwizzle.h */,
+				F4402DA21C5768F600E7D3DB /* KMSwizzle.m */,
+				F4402DA31C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.h */,
+				F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */,
+				F4402DA51C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.h */,
+				F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */,
+			);
+			path = KMNavigationBarTransition;
 			sourceTree = "<group>";
 		};
 		F45871E81C51D5CE0048D93F /* CourseChoosingView */ = {
@@ -950,12 +973,15 @@
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				2E32A3011C34E15000890BF9 /* LoginViewController.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
+				F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
+				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
+				F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				30D4A9FD1C23D81100C5A336 /* MainNavigationController.swift in Sources */,

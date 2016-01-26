@@ -57,6 +57,11 @@ class CourseChoosingViewController: UIViewController {
         loadClassSchedule()
         setupNotification()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        makeStatusBarBlack()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -161,10 +166,8 @@ class CourseChoosingViewController: UIViewController {
                     // 将课时模型数组，添加到结果数组中
                     modelArray.append(tempArray)
                 }
-                
             }
-            self?.classScheduleModel = TestFactory.classSchedule() //modelArray
-            print("课程表数据：\(modelArray)")
+            self?.classScheduleModel = modelArray
         }
     }
     
