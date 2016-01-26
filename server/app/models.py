@@ -41,6 +41,19 @@ class Region(BaseModel):
             upper = upper.superset
         return full_name
 
+    def make_dict(self):
+        _dict = {}
+        _region = self
+        while _region:
+            if _region.admin_level == 1:
+                _dict['province'] = _region
+            elif _region.admin_level == 2:
+                _dict['city'] = _region
+            elif _region.admin_level == 3:
+                _dict['district'] = _region
+            _region = _region.superset
+        return _dict
+
 
 class School(BaseModel):
     name = models.CharField(max_length=100)

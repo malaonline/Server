@@ -8,15 +8,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'staff/js/teacher/teacher_edit.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<form name="teacher-edit-form" class="form-horizontal">
+<form id="teacherEditForm" class="form-horizontal" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     <div class="text-center">
         <b>老师资料 - {{ teacher.name }}</b>
         <div class="pull-right">
-            <a class="btn btn-success">保存</a>
+            <a class="btn btn-success" data-action="submit">保存</a>
         </div>
     </div>
     <hr>
@@ -33,7 +35,7 @@
             <div class="form-group">
                 <label for="id_num" class="col-sm-3 col-md-3 col-lg-2 control-label">身份证号</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_num" name="id_num" value="{{ teacher.id_num }}">
+                    <input type="text" class="form-control" id="id_num" name="id_num" value="{{ cert_id_held.name }}">
                 </div>
             </div>
             <div class="form-group">
@@ -56,16 +58,22 @@
                 <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在地区</label>
                 <div class="col-sm-9">
                     <select name="province">
-                        <option value="">全部省</option>
+                        <option value="">请选择省</option>
                         {% for province in provinces %}
-                            <option value="{{ province.id }}">{{ province.name }}</option>
+                            <option value="{{ province.id }}" {% if province.id == region_dict.province.id %} selected="selected"{% endif %}>{{ province.name }}</option>
                         {% endfor %}
                     </select>
                     <select name="city">
-                        <option value="">全部市</option>
+                        <option value="">请选择市</option>
+                        {% for city in cities %}
+                            <option value="{{ city.id }}" {% if city.id == region_dict.city.id %} selected="selected"{% endif %}>{{ city.name }}</option>
+                        {% endfor %}
                     </select>
                     <select name="district">
-                        <option value="">全部区</option>
+                        <option value="">请选择区</option>
+                        {% for district in districts %}
+                            <option value="{{ district.id }}" {% if district.id == region_dict.district.id %} selected="selected"{% endif %}>{{ district.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
