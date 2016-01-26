@@ -30,7 +30,7 @@ class CourseChoosingViewController: UIViewController {
         }
     }
     /// 当前课程选择对象
-    var choosingObject: CourseChoosingObject?
+    var choosingObject: CourseChoosingObject? = CourseChoosingObject()
     /// 上课地点Cell打开标识
     var isOpenSchoolsCell: Bool = false
     /// 当前上课地点记录下标
@@ -135,6 +135,8 @@ class CourseChoosingViewController: UIViewController {
     }
     
     private func loadClassSchedule() {
+        print("refresh")
+        
         NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
             [weak self] (result, error) -> () in
             if error != nil {
@@ -196,8 +198,14 @@ class CourseChoosingViewController: UIViewController {
                     self?.tableView.selectedIndexPath = self?.selectedSchoolIndexPath
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
+                    // 当户用选择不同的上课地点时，更新课程表视图
+                    if school.schoolModel?.id != self?.choosingObject?.school?.id {
+                        self?.loadClassSchedule()
+                    }
+                    
                     // 保存用户所选上课地点
                     self?.choosingObject?.school = school.schoolModel
+                    
                     // 设置tableView 的数据源和选中项
                     self?.tableView.schoolModel = [school.schoolModel!]
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!

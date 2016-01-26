@@ -55,11 +55,19 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ThemeClassScheduleCellReuseId, forIndexPath: indexPath) as! ThemeClassScheduleCell
+        // 移除重用Cell中的临时label,样式
+        for view in cell.contentView.subviews {
+            if !(view is UIButton) {
+                view.removeFromSuperview()
+            }
+        }
+        cell.button.highlighted = false
+        cell.button.selected = false
         
         // 设置Cell样式
         cell.contentView.layer.borderColor = MalaLoginVerifyButtonNormalColor.CGColor
         cell.contentView.layer.borderWidth = MalaScreenOnePixel
-        cell.button.selected = false
+        
         
         // 在Cell中标注IndexPath
         let label = UILabel()
@@ -119,7 +127,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     
     // MARK: - Delegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print(indexPath)
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ThemeClassScheduleCell
         cell.button.selected = !cell.button.selected
     }
@@ -128,7 +135,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         // 不可点击表头、行头
         if indexPath.section > 0 && indexPath.row > 0 {
             let itemModel = model?[indexPath.row-1][indexPath.section-1]
-            print("should Select \(itemModel?.available)")
             return itemModel?.available ?? false
         }
         return false
