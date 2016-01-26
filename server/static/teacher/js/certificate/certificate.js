@@ -112,7 +112,7 @@ $(function(){
                                 $idFrontImgBox.find('img').attr('src', result.idFrontUrl);
                                 $idFrontImgBox.show();
                             } else {
-                                $form.find('.img-box img').attr('src', result.certImgUrl);
+                                $form.find('.img-box img').attr('src', result.cert_img_url);
                                 $form.find('.img-box').show();
                             }
                             $form.find('.img-preview-box').hide();

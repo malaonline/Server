@@ -1,15 +1,535 @@
 {% extends "staff/staff_base.html" %}
 
+{% load custom_tags %}
 {% load staticfiles %}
 {% load compile_static %}
-{% block title %}待上架老师列表{% endblock %}
+{% block title %}老师资料 - {{ teacher.name }}{% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teacher_edit.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    TODO
-    <p>{{ teacher }}
+<form name="teacher-edit-form" class="form-horizontal">
+    <div class="text-center">
+        <b>老师资料 - {{ teacher.name }}</b>
+        <div class="pull-right">
+            <a class="btn btn-success">保存</a>
+        </div>
+    </div>
+    <hr>
+
+{#基本信息#}
+    <div class="row">
+        <div class="col-sm-6 border-right">
+            <div class="form-group">
+                <label for="name" class="col-sm-3 col-md-3 col-lg-2 control-label">老师姓名</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ teacher.name }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_num" class="col-sm-3 col-md-3 col-lg-2 control-label">身份证号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_num" name="id_num" value="{{ teacher.id_num }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-3 col-md-3 col-lg-2 control-label">手机号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ teacher.user.profile.phone }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gender" class="col-sm-3 col-md-3 col-lg-2 control-label">性别</label>
+                <div class="col-sm-9">
+                    <select name="gender">
+                        {% for val,text in gender_choices %}
+                            <option value="{{ val }}" {% if val == teacher.user.profile.gender %} selected="selected"{% endif %}>{{ text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在地区</label>
+                <div class="col-sm-9">
+                    <select name="province">
+                        <option value="">全部省</option>
+                        {% for province in provinces %}
+                            <option value="{{ province.id }}">{{ province.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="city">
+                        <option value="">全部市</option>
+                    </select>
+                    <select name="district">
+                        <option value="">全部区</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="teaching_age" class="col-sm-3 col-md-3 col-lg-2 control-label">教龄</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="teaching_age" name="teaching_age" value="{{ teacher.teaching_age }}年">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="level" class="col-sm-3 col-md-3 col-lg-2 control-label">教师级别</label>
+                <div class="col-sm-9">
+                    <select name="level">
+                        {% for level in levels %}
+                            <option value="{{ level.id }}" {% if level.id == teacher.level %} selected="selected"{% endif %}>{{ level.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="experience" class="col-sm-3 col-md-3 col-lg-2 control-label">教学经验</label>
+                <div class="col-sm-9">
+                    <select name="experience">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.experience %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profession" class="col-sm-3 col-md-3 col-lg-2 control-label">专业技能</label>
+                <div class="col-sm-9">
+                    <select name="profession">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.profession %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="interaction" class="col-sm-3 col-md-3 col-lg-2 control-label">互动能力</label>
+                <div class="col-sm-9">
+                    <select name="interaction">
+                        {% for i in 3|num_range:3 %}
+                            <option value="{{ i }}" {% if i == teacher.interaction %} selected="selected"{% endif %}>{{ i }}分</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#科目年级,风格标签#}
+    <div class="row">
+        <div class="col-sm-6 border-right">
+            <div class="form-group">
+                <label for="subject" class="col-sm-3 col-md-3 col-lg-2">教授科目</label>
+                <div class="col-sm-9">
+                    <select name="subject">
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}" {% if subject.id == teacher.subject.id %} selected="selected"{% endif %}>{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div id="gradesBox">
+                {% for grade in grades_tree %}
+                    <hr>
+                    <span><input type="checkbox" name="grade" value="{{ grade.id }}">{{ grade.name }}</span><br>
+                    {% for sub_grade in grade.children %}
+                        <span><input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}">{{ sub_grade.name }}</span>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="title">
+                风格标记  (最少选一个，最多选3个)
+            </div>
+            <div id="tagsBox">
+                {% for tag in tags_all %}
+                    <button class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" onclick="$(this).toggleClass('btn-success')">{{ tag.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#头像,照片#}
+    <div class="clearfix photos">
+        <div class="pull-left img-edit" for="avatar">
+            <div class="title">
+                头像
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ teacher.user.profile.avatar_url }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="avatarImg" multiple="" accept="image/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-photo">删除</a>
+            </div>
+        </div>
+
+        <div class="pull-left">
+            <div class="title">
+                照片
+            </div>
+            {% if not teacher.photo_set.all %}
+                <div class="pull-left img-edit" for="photo">
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                    </div>
+                    <div class="help-block"></div>
+                    <div class="actions">
+                        <a class="btn btn-default file-input-mask text-center">
+                            <span>上传/重传</span>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                        </a>
+                        <a class="btn btn-default" data-action="delete-photo">删除</a>
+                    </div>
+                </div>
+            {% else %}
+                {% for photo in teacher.photo_set.all %}
+                    <div class="pull-left img-edit" for="photo">
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ photo.img_url }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-photo">删除</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="pull-left">
+                <a class="btn btn-default" data-action="add-more-photo">+</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#提分榜#}
+    <div class="clearfix high-score">
+        <div class="clearfix">
+            <div class="pull-left">提分榜 (最少填写6条)</div>
+            <div class="pull-right">
+                <a class="btn btn-default" data-action="delete-hs">删除</a>
+                <a class="btn btn-default" data-action="add-hs">添加</a>
+            </div>
+        </div>
+        <table class="text-center" border="1" width="100%">
+            <tr>
+                <td><input type="checkbox" name="high_scores"></td>
+                <td>姓名</td><td>辅导提分</td><td>所在学校</td><td>考入学校</td>
+            </tr>
+            {% for hs in teacher.highscore_set.all %}
+                <tr>
+                    <td><input type="checkbox" name="highscore" value="{{ hs.id }}"></td>
+                    <td>{{ hs.name }}</td>
+                    <td>{{ hs.increased_scores }}</td>
+                    <td>{{ hs.school_name }}</td>
+                    <td>{{ hs.admitted_to }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <hr>
+
+{#证书#}
+    <div class="clearfix certification">
+        <div class="pull-left img-edit" for="idHeld">
+            <div class="title">
+                身份证手持照
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ cert_id_held.img_url }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
+                <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+            </div>
+        </div>
+        <div class="pull-left img-edit" for="idFront">
+            <div class="title">
+                身份证正面
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ cert_id_front.img_url }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-photo">删除</a>
+            </div>
+        </div>
+        <div class="pull-left img-edit" for="academic">
+            <div class="title">
+                学历证书
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ cert_academic.img_url }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
+                <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+            </div>
+        </div>
+        <div class="pull-left img-edit" for="teaching">
+            <div class="title">
+                教师资格证
+            </div>
+            <div class="img-upload-box">
+                <div class="img-box">
+                    <img src={{ cert_teaching.img_url }}>
+                </div>
+                <div class="img-preview-box"><img src=""></div>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
+                <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+            </div>
+        </div>
+        {% if teacher.is_english_teacher %}
+            <div class="pull-left img-edit" for="english">
+                <div class="title">
+                    英语水平证书
+                </div>
+                <div class="img-upload-box">
+                    <div class="img-box">
+                        <img src={{ cert_english.img_url }}>
+                    </div>
+                    <div class="img-preview-box"><img src=""></div>
+                    <div class="uploading-hint-box"></div>
+                </div>
+                <div class="help-block"></div>
+                <div class="actions">
+                    <a class="btn btn-default file-input-mask text-center">
+                        <span>上传/重传</span>
+                        <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                    </a>
+                    <a class="btn btn-default" data-action="delete-cert">删除</a>
+                    <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                    <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="pull-left">
+            <div class="title">
+                其他
+            </div>
+            {% if not cert_others %}
+                <div class="pull-left img-edit" for="otherCert">
+                    <div>
+                        <input type="text" name="cert_name" placeholder="证书标题">
+                    </div>
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                    </div>
+                    <div class="help-block"></div>
+                    <div class="actions">
+                        <a class="btn btn-default file-input-mask text-center">
+                            <span>上传/重传</span>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                        </a>
+                        <a class="btn btn-default" data-action="delete-cert">删除</a>
+                        <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                        <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+                    </div>
+                </div>
+            {% else %}
+                {% for cert in cert_others %}
+                    <div class="pull-left img-edit" for="otherCert">
+                        <div>
+                            <input type="text" name="cert_name" value="{{ cert.name }}" placeholder="证书标题">
+                        </div>
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ cert.img_url }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-cert">删除</a>
+                            <a class="btn btn-success" data-action="approve-cert">认证通过</a>
+                            <a class="btn btn-default" data-action="decline-cert">认证失败</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="pull-left">
+                <a class="btn btn-default" data-action="add-more-cert">+</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#介绍音频#}
+    <div class="clearfix">
+        <div class="pull-left media-edit audio-edit">
+            <div class="title">
+                介绍语音（选填）
+            </div>
+            <div class="audio-upload-box">
+                <audio class="view" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
+                <audio class="preview" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择音频" type="file" name="introAudio" multiple="" accept="audio/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-audio">删除</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#介绍视频#}
+    <div class="clearfix">
+        <div class="pull-left media-edit video-edit">
+            <div class="title">
+                介绍视频（选填）
+            </div>
+            <div class="video-upload-box">
+                <video class="view" src="" controls="controls">您的浏览器不支持 video 标签。</video>
+                <video class="preview" src="" controls="controls">您的浏览器不支持 video 标签。</video>
+                <div class="uploading-hint-box"></div>
+            </div>
+            <div class="help-block"></div>
+            <div class="actions">
+                <a class="btn btn-default file-input-mask text-center">
+                    <span>上传/重传</span>
+                    <input title="请选择视频" type="file" name="introVideo" multiple="" accept="video/*"/>
+                </a>
+                <a class="btn btn-default" data-action="delete-video">删除</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+{#教学成果#}
+    <div class="achievement">
+        <div class="title">
+            教学成果 (选填)
+        </div>
+        <div>
+            {% if not teacher.achievement_set.all %}
+                <div class="pull-left img-edit" for="achieve">
+                    <div>
+                        <input type="text" name="achieve_name" placeholder="成果标题">
+                    </div>
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                    </div>
+                    <div class="help-block"></div>
+                    <div class="actions">
+                        <a class="btn btn-default file-input-mask text-center">
+                            <span>上传/重传</span>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                        </a>
+                        <a class="btn btn-default" data-action="delete-achieve">删除</a>
+                    </div>
+                </div>
+            {% else %}
+                {% for achieve in teacher.achievement_set.all %}
+                    <div class="pull-left img-edit" for="achieve">
+                        <div>
+                            <input type="text" name="achieve_name" value="{{ achieve.title }}" placeholder="成果标题">
+                        </div>
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ achieve.img_url }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-achieve">删除</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="pull-left">
+                <a class="btn btn-default" data-action="add-more-achieve">+</a>
+            </div>
+        </div>
+    </div>
+</form>
 {% endblock %}
