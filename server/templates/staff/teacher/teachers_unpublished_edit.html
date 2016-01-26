@@ -274,7 +274,7 @@
                     <span>上传/重传</span>
                     <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-photo">删除</a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                 <a class="btn btn-default" data-action="decline-cert">认证失败</a>
             </div>
@@ -316,7 +316,7 @@
                     <span>上传/重传</span>
                     <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-photo">删除</a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                 <a class="btn btn-default" data-action="decline-cert">认证失败</a>
             </div>
@@ -338,7 +338,7 @@
                     <span>上传/重传</span>
                     <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-photo">删除</a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                 <a class="btn btn-default" data-action="decline-cert">认证失败</a>
             </div>
@@ -361,7 +361,7 @@
                         <span>上传/重传</span>
                         <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                     </a>
-                    <a class="btn btn-default" data-action="delete-photo">删除</a>
+                    <a class="btn btn-default" data-action="delete-cert">删除</a>
                     <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                     <a class="btn btn-default" data-action="decline-cert">认证失败</a>
                 </div>
@@ -389,7 +389,7 @@
                             <span>上传/重传</span>
                             <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                         </a>
-                        <a class="btn btn-default" data-action="delete-photo">删除</a>
+                        <a class="btn btn-default" data-action="delete-cert">删除</a>
                         <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                         <a class="btn btn-default" data-action="decline-cert">认证失败</a>
                     </div>
@@ -413,7 +413,7 @@
                                 <span>上传/重传</span>
                                 <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
                             </a>
-                            <a class="btn btn-default" data-action="delete-photo">删除</a>
+                            <a class="btn btn-default" data-action="delete-cert">删除</a>
                             <a class="btn btn-success" data-action="approve-cert">认证通过</a>
                             <a class="btn btn-default" data-action="decline-cert">认证失败</a>
                         </div>
@@ -473,5 +473,61 @@
     </div>
     <hr>
 
+{#教学成果#}
+    <div class="achievement">
+        <div class="title">
+            教学成果 (选填)
+        </div>
+        <div>
+            {% if not teacher.achievement_set.all %}
+                <div class="pull-left img-edit" for="achieve">
+                    <div>
+                        <input type="text" name="achieve_name" placeholder="成果标题">
+                    </div>
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src="">
+                        </div>
+                        <div class="img-preview-box"><img src=""></div>
+                        <div class="uploading-hint-box"></div>
+                    </div>
+                    <div class="help-block"></div>
+                    <div class="actions">
+                        <a class="btn btn-default file-input-mask text-center">
+                            <span>上传/重传</span>
+                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                        </a>
+                        <a class="btn btn-default" data-action="delete-achieve">删除</a>
+                    </div>
+                </div>
+            {% else %}
+                {% for achieve in teacher.achievement_set.all %}
+                    <div class="pull-left img-edit" for="achieve">
+                        <div>
+                            <input type="text" name="achieve_name" value="{{ achieve.title }}" placeholder="成果标题">
+                        </div>
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ achieve.imgUrl }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-achieve">删除</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="pull-left">
+                <a class="btn btn-default" data-action="add-more-achieve">+</a>
+            </div>
+        </div>
+    </div>
 </form>
 {% endblock %}

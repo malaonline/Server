@@ -65,4 +65,14 @@ $(function(){
         requestAnimationFrame(g);
         return true;
     });
+
+    $('[data-action=add-more-achieve]').click(function(){
+        var $imgEdit = $('.img-edit[for=achieve]:last');
+        var $newImgEdit = $imgEdit.clone(true);
+        $newImgEdit.find('input[name=achieve_name]').val('');
+        $newImgEdit.find('.img-box img').attr('src','');
+        $newImgEdit.find('.img-preview-box img').attr('src','');
+        $newImgEdit.find('.img-preview-box').hide();
+        $imgEdit.after($newImgEdit);
+    });
 });
