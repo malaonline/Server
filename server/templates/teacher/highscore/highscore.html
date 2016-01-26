@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block maincontent %}
+    {% csrf_token %}
     <table class="table table-bordered table-hover">
         <tr>
             <th>

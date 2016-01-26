@@ -12,6 +12,7 @@
     <script src="{% static 'teacher/js/custom/first_page.js' %}"></script>
 {% endblock %}
 {% block body %}
+    {% csrf_token %}
     <div class="container">
         <div class="row">
             {% load teacher_page %}

@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block maincontent %}
+    {% csrf_token %}
     <div class="list-group" id="achievementsList">
         {% for achievement in achievements %}
             <div class="list-group-item" achieveId="{{ achievement.id }}">
