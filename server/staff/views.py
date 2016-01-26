@@ -185,6 +185,22 @@ class TeacherUnpublishedEditView(BaseStaffView):
         teacherId = kwargs['tid']
         teacher = get_object_or_404(models.Teacher, id=teacherId)
         kwargs['teacher'] = teacher
+        certification_all = models.Certificate.objects.filter(teacher=teacher)
+        cert_others = []
+        for cert in certification_all:
+            if cert.type == models.Certificate.ID_HELD:
+                kwargs['cert_id_held'] = cert
+            elif cert.type == models.Certificate.ID_FRONT:
+                kwargs['cert_id_front'] = cert
+            elif cert.type == models.Certificate.ACADEMIC:
+                kwargs['cert_academic'] = cert
+            elif cert.type == models.Certificate.TEACHING:
+                kwargs['cert_teaching'] = cert
+            elif cert.type == models.Certificate.ENGLISH:
+                kwargs['cert_english'] = cert
+            else:
+                cert_others.append(cert)
+        kwargs['cert_others'] = cert_others
         # 一些固定数据
         # 省份列表
         kwargs['gender_choices'] = models.Profile.GENDER_CHOICES

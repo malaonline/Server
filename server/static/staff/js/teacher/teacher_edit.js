@@ -54,4 +54,14 @@ $(function(){
         $photoEdit.after($newPhotoEdit);
     });
 
+    $('[data-action=add-more-cert]').click(function(){
+        var $certEdit = $('.img-edit[for=otherCert]:last');
+        var $newCertEdit = $certEdit.clone(true);
+        $newCertEdit.find('input[name=cert_name]').val('');
+        $newCertEdit.find('.img-box img').attr('src','');
+        $newCertEdit.find('.img-preview-box img').attr('src','');
+        $newCertEdit.find('.img-preview-box').hide();
+        $certEdit.after($newCertEdit);
+    });
+
 });
