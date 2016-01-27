@@ -5,6 +5,7 @@ $(
     function(){
         console.log("TW-1-1");
         var input_phone = $("#phoneNumber");
+        window.can_check_phone_empty = false;
         //console.log(input_phone);
         var check_phone_function = function(){
             var phone_code = $("#phoneNumber").val();
@@ -20,6 +21,9 @@ $(
             checkPageStatus();
         };
         input_phone.keyup(check_phone_function);
+        input_phone.blur(function(){
+            window.can_check_phone_empty = true;
+        });
         //自动填充是一个大坑,不同浏览器事件不同,甚至没有事件触发,比如chrome,所以周期查询是目前最好的解决办法
         window.setInterval(check_phone_function, 500);
         BlankPhone();
@@ -99,11 +103,13 @@ function InvalidPhone(){
 
 //手机号码为空
 function BlankPhone(){
-    var invalid_phone_number = $("#invalid-phone-number");
-    invalid_phone_number.attr("attrHidden", "true");
-    var need_phone_number = $("#need-phone-number");
-    need_phone_number.attr("attrHidden", "false");
-    window.phone_ok = false;
+    if (window.can_check_phone_empty == true) {
+        var invalid_phone_number = $("#invalid-phone-number");
+        invalid_phone_number.attr("attrHidden", "true");
+        var need_phone_number = $("#need-phone-number");
+        need_phone_number.attr("attrHidden", "false");
+        window.phone_ok = false;
+    }
 }
 
 //手机号码正常

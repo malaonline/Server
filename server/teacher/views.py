@@ -255,8 +255,13 @@ class MyStudents(View):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
 
+        total_page = self.total_page()
+        current_page = self.current_page()
+        default_page_list = [[item, False] for item in range(total_page)]
+        default_page_list[current_page][1] = True
         context = {
             "student_list": self.current_student(),
+            "page_list": default_page_list
         }
         set_teacher_page_general_context(teacher, context)
         return render(request, "teacher/my_students.html", context)
@@ -276,6 +281,12 @@ class MyStudents(View):
             ["赵一曼", "高三", "15/15", "￥190/小时", "结课", False],
         ]
         return student_list
+
+    def total_page(self):
+        return 5
+
+    def current_page(self):
+        return 3
 
 
 class TeacherLogout(View):
