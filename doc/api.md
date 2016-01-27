@@ -105,7 +105,7 @@ tags=1+3+2
 ```
 {
     "count": 2,
-    "next": "http://127.0.0.1:8000/api/v1/teachers/?page=2",
+    "next": "http://127.0.0.1:8000/api/v1/teachers?page=2",
     "previous": null,
     "results": [
         {

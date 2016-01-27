@@ -49,7 +49,7 @@ public class UserFragment extends Fragment {
     public static final int REQUEST_CODE_PICK_IMAGE = 0x03;
     public static final int REQUEST_CODE_CAPTURE_CAMEIA = 0x04;
 
-    private static final String USER_INFO_PATH_V1 = "/api/v1/user/";
+    private static final String USER_INFO_PATH_V1 = "/api/v1/user";
 
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;

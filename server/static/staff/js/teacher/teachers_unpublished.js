@@ -61,7 +61,7 @@ $(function(){
             fillTableAndShow(schools);
             return;
         }
-        $.getJSON('/api/v1/schools/',function(data){
+        $.getJSON('/api/v1/schools',function(data){
             if (data && data.results)  {
                 $this.data('schools', data.results);
                 fillTableAndShow(data.results);

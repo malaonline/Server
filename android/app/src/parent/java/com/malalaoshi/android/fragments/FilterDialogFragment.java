@@ -51,9 +51,9 @@ import butterknife.OnItemClick;
  */
 public class FilterDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String TAG = FilterDialogFragment.class.getSimpleName();
-    private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
-    private static final String API_GRADES_URL = "/api/v1/grades/";
-    private static final String API_TAGS_URL = "/api/v1/tags/";
+    private static final String API_SUBJECTS_URL = "/api/v1/subjects";
+    private static final String API_GRADES_URL = "/api/v1/grades";
+    private static final String API_TAGS_URL = "/api/v1/tags";
     private static final String[] FILTER_VIEW_TITLES = new String[]{"筛选年级", "筛选科目", "筛选风格"};
 
     @Bind(R.id.filter_bar_left)

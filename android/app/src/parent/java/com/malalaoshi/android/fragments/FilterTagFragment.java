@@ -33,7 +33,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
     public static String ARGMENTS_TAGS_ID = "tagsId";
     private  long[] extraTagIds;
 
-    private static final String API_TAGS_URL = "/api/v1/tags/";
+    private static final String API_TAGS_URL = "/api/v1/tags";
     private List<Map<String, Object>> mTags = new ArrayList<>();
 
     @Bind(R.id.tags_loading)

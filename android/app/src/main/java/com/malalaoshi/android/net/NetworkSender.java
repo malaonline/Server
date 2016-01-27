@@ -21,10 +21,10 @@ import java.util.Map;
  * Created by tianwei on 1/3/16.
  */
 public class NetworkSender {
-    private static final String URL_FETCH_VERIFY_CODE = "/api/v1/sms/";
-    private static final String URL_GET_USER_POLICY = "/api/v1/policy/";
-    private static final String URL_SAVE_CHILD_NAME = "/api/v1/parent/";
-    private static final String URL_COUPON_LIST = "/api/v1/coupons/";
+    private static final String URL_FETCH_VERIFY_CODE = "/api/v1/sms";
+    private static final String URL_GET_USER_POLICY = "/api/v1/policy";
+    private static final String URL_SAVE_CHILD_NAME = "/api/v1/parent";
+    private static final String URL_COUPON_LIST = "/api/v1/coupons";
     private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {

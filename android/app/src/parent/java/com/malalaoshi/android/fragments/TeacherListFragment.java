@@ -37,7 +37,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter adapter;
 
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
+    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
     @Bind(R.id.teacher_list_refresh_layout)
     protected BGARefreshLayout mRefreshLayout;
