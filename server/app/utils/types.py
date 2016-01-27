@@ -1,7 +1,8 @@
+import re
 
-def parseInt(nums):
+def parseInt(nums, default='NaN'):
     """
-    (parseInt('') == 0)
+    (parseInt('') == 'NaN')
     (parseInt(123) == 123)
     (parseInt(-123) == -123)
     (parseInt('123') == 123)
@@ -12,27 +13,12 @@ def parseInt(nums):
     (parseInt(-234.234) == -234)
     (parseInt('234.234') == 234)
     (parseInt('-234.234') == -234)
-    (parseInt('asd') == 0)
-    (parseInt('-asd') == 0)
+    (parseInt('asd') == 'NaN')
+    (parseInt('-asd') == 'NaN')
     """
-    if not nums:
-        return 0
-    try:
+    if isinstance(nums, int):
+        return nums
+    if isinstance(nums, float):
         return int(nums)
-    except ValueError:
-        pass
-    idx = -1
-    minus = False
-    for i,c in enumerate(nums):
-        if i == 0 and c == '-':
-            minus = True
-            continue
-        if '0' <= c <= '9':
-            continue
-        idx = i
-        break
-    if idx == -1:
-        return int(nums)
-    if idx == 0 or (idx == 1 and minus):
-        return 0
-    return int(nums[:idx])
+    d = re.search(r'^-?\d+', nums)
+    return int(d.group(0)) if d else default
