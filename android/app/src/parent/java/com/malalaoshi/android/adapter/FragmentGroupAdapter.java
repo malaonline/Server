@@ -33,15 +33,9 @@ public class FragmentGroupAdapter extends FragmentPagerAdapter{
         return fragment.getFragmentCount();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return fragment.getPageTitle(position);
-    }
-
     public interface IFragmentGroup{
         Fragment createFragment(int position);
         int getFragmentCount();
-        CharSequence getPageTitle(int position);
     }
 
 

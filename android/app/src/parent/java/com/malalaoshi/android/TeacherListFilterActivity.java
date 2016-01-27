@@ -85,7 +85,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     private void setEvent() {
     }
 
-<<<<<<< HEAD
+
     private void initViews() {
         updateCtrls();
         filterFragment = new TeacherListFragment().setTeacherList(teachersList);
@@ -118,9 +118,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         }else{
             tvFilterTag.setText("不限");
         }
-=======
         //FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList).setSearchCondition(gradeId, subjectId, tagIds), TeacherListFragment.class.getName());
->>>>>>> AN-74 modify the teacher list
     }
 
     @Override

@@ -104,8 +104,36 @@
     <dimen name="home_avater_height">70dp</dimen>
     <dimen name="home_avater_width">70dp</dimen>
     <dimen name="home_subject_height">22dp</dimen>
+    <dimen name="gallery_padding">54dp</dimen>
 
+    <dimen name="title_bar_height">44dp</dimen>
 
+    <!-- 标题文字渐隐区域-->
+    <dimen name="title_text_disappear_boundary_top">20dp</dimen>
+    <dimen name="title_text_appear_boundary_bottom">15dp</dimen>
+    <!-- 标题tab渐隐区域-->
+    <dimen name="title_tab_appear_boundary_top">80dp</dimen>
+    <dimen name="title_tab_disappear_boundary_bottom">45dp</dimen>
+    <!-- tabbar文字渐隐区域-->
+    <dimen name="tab_bar_disappear_boundary_top">42dp</dimen>
+    <dimen name="tab_bar_appear_boundary_bottom">30dp</dimen>
+    <!-- tabbar文字缩放区域-->
+    <dimen name="tab_bar_scale_boundary_top">30dp</dimen>
+    <dimen name="tab_bar_scale_boundary_bottom">1dp</dimen>
+    <!-- tabbar开始上移边界值-->
+    <dimen name="tab_bar_move_boundary_top">56dp</dimen>
+    <dimen name="tab_bar_move_boundary_bottom">12dp</dimen>
+    <!-- tab开始左移区域-->
+    <dimen name="tab_move_left_boundary_top">30dp</dimen>
+    <dimen name="tab_move_left_boundary_bottom">1dp</dimen>
+    <dimen name="tab_divider">7dp</dimen>
+    <dimen name="tab_text_padding">5dp</dimen>
+
+    <!-- 指示器渐隐区域-->
+    <dimen name="indicator_move_boundary_top">12dp</dimen>
+    <dimen name="indicator_move_boundary_bottom">0dp</dimen>
+
+    <!-- 字体大小 -->
     <dimen name="text_size_small">10sp</dimen>
     <dimen name="text_size_small_x">11sp</dimen>
     <dimen name="text_size_normal">12sp</dimen>
@@ -117,7 +145,5 @@
     <dimen name="text_size_xxlarge">18sp</dimen>
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
-    <dimen name="gallery_padding">54dp</dimen>
 
-    <dimen name="title_bar_height">44dp</dimen>
 </resources>

@@ -83,6 +83,8 @@
 
     <color name="text_color_logout_btn">#82b4d9</color>
 
-
+    <!-- tab文字颜色 -->
+    <color name="tab_text_normal_color">#6c6c6c</color>
+    <color name="tab_text_press_color">#82b4d9</color>
 
 </resources>

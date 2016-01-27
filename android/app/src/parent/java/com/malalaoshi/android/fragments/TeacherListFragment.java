@@ -1,10 +1,10 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -304,7 +304,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     @OnClick(R.id.teacher_filter_btn)
     public void onClickTeacherFilter(View view){
         DialogFragment newFragment = FilterDialogFragment.newInstance();
-        newFragment.show(getActivity().getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+        newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
 
     }
 
