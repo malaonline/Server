@@ -145,7 +145,9 @@ class PeriodStepper: UIView, UITextFieldDelegate {
     
     // MARK: - Delegate
     func textFieldDidEndEditing(textField: UITextField) {
-        print("文本框编辑完成 %d", Int(textField.text ?? "") ?? 0)
-        self.stepper.value = Double(Int(textField.text ?? "") ?? 0)
+        var value = Int(textField.text ?? "") ?? 0
+        let num = value%2
+        value = num == 0 ? value : value+1
+        self.stepper.value = Double(value)
     }
 }

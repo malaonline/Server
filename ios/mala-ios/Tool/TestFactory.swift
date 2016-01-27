@@ -44,6 +44,7 @@ class TestFactory {
     
     class func TeacherList() -> [TeacherModel] {
         let teacher1 = TeacherModel(
+            id: 1,
             name: "顾思源",
             avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
             degree: "麻辣金牌教师",
@@ -54,6 +55,7 @@ class TestFactory {
             tags: ["幽默", "有责任心", "正能量"]
         )
         let teacher2 = TeacherModel(
+            id: 2,
             name: "Winston Lee",
             avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
             degree: "权威奥数教练",
@@ -64,6 +66,7 @@ class TestFactory {
             tags: ["幽默", "有责任心", "正能量"]
         )
         let teacher3 = TeacherModel(
+            id: 1,
             name: "顾思源",
             avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
             degree: "麻辣金牌教师",
@@ -74,6 +77,7 @@ class TestFactory {
             tags: ["幽默", "有责任心", "正能量"]
         )
         let teacher4 = TeacherModel(
+            id: 1,
             name: "顾思源",
             avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
             degree: "麻辣金牌教师",
@@ -84,6 +88,7 @@ class TestFactory {
             tags: ["幽默", "有责任心", "正能量"]
         )
         let teacher5 = TeacherModel(
+            id: 1,
             name: "顾思源",
             avatar: "http://img.ivsky.com/img/tupian/img/201103/25/jiaoshi_texie-027.jpg",
             degree: "麻辣金牌教师",
