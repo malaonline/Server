@@ -13,6 +13,11 @@ let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 var Mala_UserToken: String = "0"
 
 
+// MARK: - Variables
+let MalaClassPeriod_StepValue = 2
+
+
+
 // MARK: - NotificationName
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
@@ -43,6 +48,7 @@ let MalaClassScheduleSelectedColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.50)
 let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
 let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
 let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
+//let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)s
 
 
 // MARK: - Common String

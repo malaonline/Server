@@ -142,6 +142,8 @@
 		F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA21C5768F600E7D3DB /* KMSwizzle.m */; };
 		F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
 		F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
+		F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
+		F4402DD81C58C46200E7D3DB /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4402DC71C58C46200E7D3DB /* IQKeyboardManager.bundle */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -277,6 +279,8 @@
 		F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+KMNavigationBarTransition.m"; sourceTree = "<group>"; };
 		F4402DA51C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KMNavigationBarTransition.h"; sourceTree = "<group>"; };
 		F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KMNavigationBarTransition.m"; sourceTree = "<group>"; };
+		F4402DAD1C58A64200E7D3DB /* KWStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KWStepper.swift; sourceTree = "<group>"; };
+		F4402DC71C58C46200E7D3DB /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = IQKeyboardManager.bundle; path = "/Users/Elors/mala/ios/mala-ios/Tool/IQKeyboardManagerSwift/Resources/IQKeyboardManager.bundle"; sourceTree = "<absolute>"; };
 		F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
 		F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingGradeCell.swift; sourceTree = "<group>"; };
@@ -463,6 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
+				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
 				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
 				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
@@ -752,6 +757,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4402DD81C58C46200E7D3DB /* IQKeyboardManager.bundle in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
 				F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */,
@@ -978,6 +984,7 @@
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
+				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
