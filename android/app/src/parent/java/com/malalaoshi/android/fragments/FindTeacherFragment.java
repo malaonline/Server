@@ -56,9 +56,9 @@ public class FindTeacherFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String API_SUBJECTS_URL = "/api/v1/subjects/";
-    private static final String API_GRADES_URL = "/api/v1/grades/";
-    private static final String API_SCHOOLS_URL = "/api/v1/schools/";
+    private static final String API_SUBJECTS_URL = "/api/v1/subjects";
+    private static final String API_GRADES_URL = "/api/v1/grades";
+    private static final String API_SCHOOLS_URL = "/api/v1/schools";
 
     // TODO: Rename and change types of parameters
     private String mParam1;

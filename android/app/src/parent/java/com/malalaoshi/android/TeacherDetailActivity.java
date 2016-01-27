@@ -70,9 +70,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private Long mTeacherId;
 
     //接口地址
-    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/schools/";
-    private static final String MEMBERSERVICES_PATH_V1 = "/api/v1/memberservices/";
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers/";
+    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/schools";
+    private static final String MEMBERSERVICES_PATH_V1 = "/api/v1/memberservices";
+    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
 
     //会员服务请求结果

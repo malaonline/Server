@@ -13,14 +13,14 @@ class NetworkTool {
 
     // MARK: - Property
     private let baseUrl = "https://dev.malalaoshi.com/api/v1"
-    private let gradeList = "/grades/"
-    private let subjectList = "/subjects/"
-    private let tagList = "/tags/"
-    private let memberServiceList = "/memberservices/"
-    private let teacherList = "/teachers/"
-    private let sms = "/sms/"
-    private let schools = "/schools/"
-    private let weeklytimeslots = "/weeklytimeslots/"
+    private let gradeList = "/grades"
+    private let subjectList = "/subjects"
+    private let tagList = "/tags"
+    private let memberServiceList = "/memberservices"
+    private let teacherList = "/teachers"
+    private let sms = "/sms"
+    private let schools = "/schools"
+    private let weeklytimeslots = "/weeklytimeslots"
     // Result Closure
     typealias RequestCallBack = (result: AnyObject?, error: NSError?)->()
     // Singleton

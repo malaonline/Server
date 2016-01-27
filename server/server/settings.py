@@ -63,6 +63,14 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER': 'app.restful_exception.exception_handler',
     'PAGE_SIZE': 10,
+    'DEFAULT_THROTTLE_CLASSES': (
+        'app.throttles.BurstRateThrottle',
+        'app.throttles.SustainedRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'burst': '60/min',
+        'sustained': '1000/day'
+    },
 }
 
 MIDDLEWARE_CLASSES = (
@@ -142,8 +150,8 @@ STATIC_ROOT = '/var/www/static/'
 MEDIA_ROOT = '/var/www/upload/'
 MEDIA_URL = '/upload/'
 
-#DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
-#STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
+# DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+# STATICFILES_STORAGE = 'django_s3_storage.storage.StaticS3Storage'
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
@@ -170,15 +178,16 @@ AWS_S3_MAX_AGE_SECONDS_STATIC = 60*60*24*365  # 1 year.
 AWS_S3_PUBLIC_URL_STATIC = ''
 AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
-YUNPIAN_API_KEY = 'f79c************************1569' # yunpian.com sms api key
+YUNPIAN_API_KEY = 'f79c************************1569'  # yunpian.com sms api key
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': ("[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] " +
+                       "%(message)s"),
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -194,9 +203,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['file'],
+            'handlers': ['file'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
         'app': {
             'handlers': ['file'],

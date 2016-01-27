@@ -3,7 +3,7 @@
 ### Subject List
 
 ```
-GET /api/v1/subjects/
+GET /api/v1/subjects
 ```
 
 ```
@@ -28,7 +28,7 @@ GET /api/v1/subjects/
 ### Grade List
 
 ```
-GET /api/v1/grades/
+GET /api/v1/grades
 ```
 
 ```
@@ -68,7 +68,7 @@ GET /api/v1/grades/
 ### Tag List
 
 ```
-GET /api/v1/tags/
+GET /api/v1/tags
 
 ```
 
@@ -91,7 +91,7 @@ GET /api/v1/tags/
 ### Teacher list
 
 ```
-GET /api/v1/teachers/
+GET /api/v1/teachers
 ```
 
 parameters:
@@ -105,7 +105,7 @@ tags=1+3+2
 ```
 {
     "count": 2,
-    "next": "http://127.0.0.1:8000/api/v1/teachers/?page=2",
+    "next": "http://127.0.0.1:8000/api/v1/teachers?page=2",
     "previous": null,
     "results": [
         {
@@ -128,7 +128,7 @@ tags=1+3+2
 ### Teacher Instance
 
 ```
-GET /api/v1/teachers/{teacher id}/
+GET /api/v1/teachers/{teacher id}
 ```
 
 ```
@@ -187,7 +187,7 @@ GET /api/v1/teachers/{teacher id}/
 ### School list
 
 ```
-GET /api/v1/schools/
+GET /api/v1/schools
 ```
 
 parameters:
@@ -229,7 +229,7 @@ region=266
 ### Member service list
 
 ```
-GET /api/v1/memberservices/
+GET /api/v1/memberservices
 ```
 
 ```
@@ -313,7 +313,7 @@ result:
 ### Save child name
 
 ```
-PATCH /api/v1/parent/(\d+)/
+PATCH /api/v1/parent/(\d+)
 ```
 
 header data:
@@ -362,7 +362,7 @@ GET /api/v1/policy
 
 ### Get Token
 ```
-POST /api/v1/token-auth/
+POST /api/v1/token-auth
 ```
 
 parameters:
@@ -429,7 +429,7 @@ result:
 ### Get Coupon List
 
 ```
-GET /api/v1/coupons/
+GET /api/v1/coupons
 ```
 
 header data:
