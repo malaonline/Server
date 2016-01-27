@@ -5,21 +5,15 @@ $(
     function(){
         console.log("TW-1-1");
         var input_phone = $("#phoneNumber");
+        window.can_check_phone_empty = false;
         //console.log(input_phone);
-        input_phone.keyup(function(){
-            var phone_code = $("#phoneNumber").val();
-            if (phone_code == ""){
-                BlankPhone();
-            }else{
-                if (checkMobile(phone_code) == true){
-                    PhoneOK();
-                }else{
-                    InvalidPhone();
-                }
-            }
+
+        //input_phone.keyup(check_phone_function);
+        input_phone.blur(function(){
+            window.can_check_phone_empty = true;
             checkPageStatus();
         });
-
+        //自动填充是一个大坑,不同浏览器事件不同,甚至没有事件触发,比如chrome,所以周期查询是目前最好的解决办法
         BlankPhone();
 
         var get_sms_code_button = $("#get-sms-code");
@@ -34,6 +28,7 @@ $(
         var agree_and_continue_button = $("#agree-and-continue");
         agree_and_continue_button.click(function(){
             setAgreeCheck(true);
+            checkPageStatus();
         });
 
         $("#agree").change(checkPageStatus);
@@ -51,6 +46,20 @@ $(
 
     }
 );
+
+function CheckPhoneFunction(){
+    var phone_code = $("#phoneNumber").val();
+    if (phone_code == ""){
+        BlankPhone();
+    }else{
+        if (checkMobile(phone_code) == true){
+            PhoneOK();
+        }else{
+            InvalidPhone();
+        }
+    }
+}
+
 
 var TimeEvent = {
     duration: 60,
@@ -97,11 +106,13 @@ function InvalidPhone(){
 
 //手机号码为空
 function BlankPhone(){
-    var invalid_phone_number = $("#invalid-phone-number");
-    invalid_phone_number.attr("attrHidden", "true");
-    var need_phone_number = $("#need-phone-number");
-    need_phone_number.attr("attrHidden", "false");
-    window.phone_ok = false;
+    if (window.can_check_phone_empty == true) {
+        var invalid_phone_number = $("#invalid-phone-number");
+        invalid_phone_number.attr("attrHidden", "true");
+        var need_phone_number = $("#need-phone-number");
+        need_phone_number.attr("attrHidden", "false");
+        window.phone_ok = false;
+    }
 }
 
 //手机号码正常
@@ -139,11 +150,15 @@ function setNextButtonDisable(disable){
 }
 
 function checkPageStatus(){
+    var ret_val = false;
+    CheckPhoneFunction();
     // 检查nextbutton
     if (IsPhoneCodeValid() == false || IsSMSCodeValid() == false || IsAgree() == false){
         setNextButtonDisable(true);
+        ret_val = false;
     }else{
         setNextButtonDisable(false);
+        ret_val = true;
     }
     // 检查获取按钮
     if (TimeEvent.interval == undefined){
@@ -154,6 +169,7 @@ function checkPageStatus(){
             DisableGetSMSButton(false);
         }
     }
+    return ret_val;
 }
 
 function IsAgree(){
@@ -196,6 +212,11 @@ function getSMSVal(){
 
 //验证sms
 function checkSMS(){
+    //先做一次全页面检查
+    if(checkPageStatus() == false){
+        return false;
+    }
+
     var phone_code = getPhoneCode();
     var sms_code = getSMSVal();
 

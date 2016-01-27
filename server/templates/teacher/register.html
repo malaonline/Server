@@ -28,7 +28,7 @@
                         <div class="register-phone-input">
                             <input type="text" class="form-control" id="phoneNumber" placeholder="手机号码">
                             {#                        这里用 attrHidden="true" 来控制span的出现和消失#}
-                            <span class="label label-warning" id="need-phone-number">
+                            <span class="label label-warning" id="need-phone-number" attrHidden="true">
                                 <i class="glyphicon glyphicon-remove-sign"></i>
                                 请输入手机号
                             </span>
@@ -54,7 +54,7 @@
                     <div class="form-row">
                         <div class="register-agree">
                             <div class="checkbox">
-                                <input type="checkbox" id="agree"> 阅读并同意
+                                <input type="checkbox" id="agree" checked="checked"> <span class="read-and-agree">阅读并同意</span>
                                 <button type="button" class="btn btn-link" href="#" data-toggle="modal" data-target="#myModal">麻辣老师服务协议</button>
 {#                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">阅读</button>#}
                             </div>

@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^register/progress/$', login_required(views.RegisterProgress.as_view(), login_url=LOGIN_URL), name="register-progress"),
     url(r'^first_page/$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="first-page"),
     url(r'^my_school_timetable/$', login_required(views.MySchoolTimetable.as_view(), login_url=LOGIN_URL), name="my-school-timetable"),
+    url(r'^my_students/$', login_required(views.MyStudents.as_view(), login_url=LOGIN_URL), name="my-students"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),
