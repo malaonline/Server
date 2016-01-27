@@ -1,0 +1,48 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}中心课程列表{% endblock %}
+
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
+{% endblock %}
+
+
+{% block content %}
+    <form name="query_form" class="query_form">
+        时间 <input type="text" name="name" value="">
+        姓名 <input type="text" name="name" value="">
+        手机号 <input type="text" name="name" value="">
+        授课中心 <input type="text" name="name" value="">
+        <input type="button" value="查询"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">周一（9.13）</th>
+            <th class="text-center">家长姓名</th>
+            <th class="text-center">家长电话</th>
+            <th class="text-center">学生姓名</th>
+            <th class="text-center">报课年级</th>
+            <th class="text-center">报课科目</th>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">老师电话</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for school in schools %}
+            <tr schoolId="{{ school.id }}">
+                <td>{{school.name }}</td>
+                <td></td>
+                <td>{%if school.center%}体验中心{%else%}社区中心{%endif%}</td>
+                <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
+                <td>{{school.address }}</td>
+                <td></td>
+                <td><a href="{{ school.thumbnail.url }}" target="_blank">查看</a></td>
+                <td></td>
+                <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

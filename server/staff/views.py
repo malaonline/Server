@@ -868,3 +868,21 @@ class OrderRefundView(BaseStaffView):
         # todo: 应该只显示某些状态的订单(待处理: 退费审核中, 已退费: 退费成功, 已驳回: 退费被驳回)
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
+
+class SchoolTimeslotView(BaseStaffView):
+    template_name = 'staff/school/timeslot.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SchoolTimeslotView, self).get_context_data(**kwargs)
+        schoolId = self.request.GET.get('schoolId', None)
+        searchTime = self.request.GET.get('time', None)
+        parentName = self.request.GET.get('name', None)
+        phone = self.request.GET.get('phone', None)
+
+        school = None
+        if schoolId:
+            school = models.School.objects.get(id=schoolId)
+
+        context['school'] = school
+        context['schoolId'] = schoolId
+        return context
