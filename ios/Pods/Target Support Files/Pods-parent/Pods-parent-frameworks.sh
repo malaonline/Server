@@ -85,6 +85,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-parent/Alamofire.framework"
+  install_framework "Pods-parent/IQKeyboardManagerSwift.framework"
   install_framework "Pods-parent/Kingfisher.framework"
   install_framework "Pods-parent/MBProgressHUD.framework"
   install_framework "Pods-parent/SnapKit.framework"
@@ -92,6 +93,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-parent/Alamofire.framework"
+  install_framework "Pods-parent/IQKeyboardManagerSwift.framework"
   install_framework "Pods-parent/Kingfisher.framework"
   install_framework "Pods-parent/MBProgressHUD.framework"
   install_framework "Pods-parent/SnapKit.framework"

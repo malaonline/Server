@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = UIColor.whiteColor()
         window?.rootViewController = defaultRootViewController
         window?.makeKeyAndVisible()
+        
+        IQKeyboardManager.sharedManager().enable = true
+        
         return true
     }
 
