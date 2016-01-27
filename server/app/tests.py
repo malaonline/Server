@@ -11,7 +11,7 @@ from app.models import Parent, Teacher, Checkcode, Profile
 from app.views import Sms
 from teacher.views import information_complete_percent
 from app.utils.algorithm import Tree, Node
-from app.utils.mala import parseInt
+from app.utils.types import parseInt
 
 
 # Create your tests here.

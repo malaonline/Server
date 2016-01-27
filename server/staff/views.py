@@ -13,7 +13,7 @@ from django.db.models import Q
 # local modules
 from app import models
 from app.utils import smsUtil
-from app.utils.mala import parseInt
+from app.utils.types import parseInt
 from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
