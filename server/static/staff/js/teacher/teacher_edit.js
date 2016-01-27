@@ -27,6 +27,71 @@ $(function(){
             }
         });
     });
+    $('select[name=subject]').change(function(e){
+        var subjectId = $(this).val();
+        // 首先禁用所有grades
+        var $allGrades = $('input[type=checkbox][name=grade]');
+        $allGrades.each(function(){
+            this.disabled = true;
+        });
+        $.getJSON('/staff/teachers/action/', {'action': 'get-subject-grades-range', 'sid': subjectId}, function(json){
+            if (json && json.list) {
+                $allGrades.each(function(){
+                    var curGradeVal = this.value;
+                    var found = _.find(json.list, function(obj){return obj==curGradeVal;});
+                    this.disabled = !found;
+                    if (found) {
+                        $(this).closest('label').removeClass('disabled');
+                    } else {
+                        $(this).closest('label').addClass('disabled');
+                    }
+                });
+            }
+        });
+    });
+    $('input[type=checkbox][name=grade]').click(function(e){
+        var $this = $(this);
+        if ($this.attr('super')) {
+            var superId = $this.attr('super');
+            var isAllChecked = true;
+            $('input[type=checkbox][name=grade][super='+superId+']').each(function(){
+                isAllChecked = isAllChecked && this.checked;
+            });
+            $('input[type=checkbox][name=grade][value='+superId+']')[0].checked = isAllChecked;
+        } else {
+            var isChecked = $this.is(':checked');
+            $('input[type=checkbox][name=grade][super='+$this.val()+']').each(function(){
+                this.checked = isChecked;
+            });
+        }
+    });
+    $('[data-action=choose-tag]').click(function(e){
+        var CHOSEN_FLAG = 'btn-success', MAX_TAGS_COUNT = 3;
+        var $this = $(this), inInput = $this.find('input')[0], wasChosen = inInput.checked;
+        if (wasChosen) {
+            inInput.checked = false;
+            $this.removeClass(CHOSEN_FLAG);
+            return true;
+        }
+        var count = 0;
+        $('input[type=checkbox][name=tag]').each(function(){
+            if (this.checked) {
+                count++;
+            }
+        });
+        if (count >= MAX_TAGS_COUNT) {
+            var $tagsBox = $this.closest('div[for=tags]').addClass('has-error'),
+                $helpBlock = $tagsBox.find('.help-block').show();
+            setTimeout(function(){
+                $helpBlock.fadeOut();
+                $tagsBox.removeClass('has-error');
+            }, 800);
+            return false;
+        }
+        inInput.checked = true;
+        $this.addClass(CHOSEN_FLAG);
+        return true;
+    });
     var getObjectURL = function(file) {
       var url = null;
       if (window.createObjectURL != undefined) {

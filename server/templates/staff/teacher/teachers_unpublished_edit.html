@@ -9,6 +9,7 @@
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
     <script src="{% static 'staff/js/teacher/teacher_edit.js' %}"></script>
 {% endblock %}
 
@@ -145,22 +146,35 @@
             <div id="gradesBox">
                 {% for grade in grades_tree %}
                     <hr>
-                    <span><input type="checkbox" name="grade" value="{{ grade.id }}">{{ grade.name }}</span><br>
+                    <label class="{% if grade.id not in grade_ids_range %}disabled{% endif %}">
+                        <input type="checkbox" name="grade" value="{{ grade.id }}"
+                               {% if grade.id in teacher_grade_ids %}checked="checked"{% endif %}
+                               {% if grade.id not in grade_ids_range %}disabled="disabled"{% endif %}
+                            />
+                        {{ grade.name }}({{ grade.id }})</label><br>
                     {% for sub_grade in grade.children %}
-                        <span><input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}">{{ sub_grade.name }}</span>
+                        <label class="{% if sub_grade.id not in grade_ids_range %}disabled{% endif %}">
+                            <input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}"
+                                   {% if sub_grade.id in teacher_grade_ids %}checked="checked"{% endif %}
+                                   {% if sub_grade.id not in grade_ids_range %}disabled="disabled"{% endif %}
+                                />{{ sub_grade.name }}({{ sub_grade.id }})</label>
                     {% endfor %}
                 {% endfor %}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6" for="tags">
             <div class="title">
                 风格标记  (最少选一个，最多选3个)
             </div>
             <div id="tagsBox">
                 {% for tag in tags_all %}
-                    <button class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" onclick="$(this).toggleClass('btn-success')">{{ tag.name }}</button>
+                    <a class="btn btn-default {% if tag in teacher.tags.all %}btn-success{% endif %}" data-action="choose-tag">
+                        <input class="hidden" type="checkbox" name="tag" value="{{ tag.id }}" {% if tag in teacher.tags.all %}checked="checked"{% endif %}"/>
+                        {{ tag.name }}
+                    </a>
                 {% endfor %}
             </div>
+            <div class="help-block text-warning">最多选3个</div>
         </div>
     </div>
     <hr>

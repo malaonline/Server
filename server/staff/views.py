@@ -186,6 +186,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
         teacherId = kwargs['tid']
         teacher = get_object_or_404(models.Teacher, id=teacherId)
         kwargs['teacher'] = teacher
+        # 老师科目年级
+        curSubject = teacher.subject()
+        if curSubject:
+            kwargs['grade_ids_range'] = models.Ability.objects.filter(subject=curSubject).values_list('grade_id', flat=True)
+        kwargs['teacher_grade_ids'] = [grade.id for grade in teacher.grades()]
         # 证书数据
         certification_all = models.Certificate.objects.filter(teacher=teacher)
         cert_others = []
@@ -233,6 +238,16 @@ class TeacherUnpublishedEditView(BaseStaffView):
     def post(self, request, tid):
         teacher = get_object_or_404(models.Teacher, id=tid)
         try:
+            # 获取参数, 并检验
+            newSubjectId = parseInt(request.POST.get('subject'), False)
+            if not newSubjectId:
+                return JsonResponse({'ok': False, 'msg': '请选择科目', 'code': 1})
+            newGradeIds = request.POST.getlist('grade')
+            if not newGradeIds:
+                return JsonResponse({'ok': False, 'msg': '请选择年级', 'code': -1})
+            newTagIds  = request.POST.getlist('tag')
+            if not newTagIds or len(newTagIds)>3:
+                return JsonResponse({'ok': False, 'msg': '风格标记 (最少选一个，最多选3个)', 'code': -1})
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
             profile = teacher.user.profile
@@ -250,16 +265,23 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 teacher.region = None
             else:
                 teacher.region_id = region
-            teacher.teaching_age = parseInt(request.POST.get('teaching_age'))
+            teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
             teacher.level_id = parseInt(request.POST.get('level'))
             teacher.experience = parseInt(request.POST.get('experience'))
             teacher.profession = parseInt(request.POST.get('profession'))
             teacher.interaction = parseInt(request.POST.get('interaction'))
             certIdHeld.save()
             profile.save()
-            teacher.save()
             # 科目年级 & 风格标签
-            # TODO
+            teacher.abilities.clear()
+            ability_set = models.Ability.objects.filter(subject_id=newSubjectId, grade_id__in=newGradeIds)
+            for ability in ability_set:
+                teacher.abilities.add(ability)
+            teacher.tags.clear()
+            tag_set = models.Tag.objects.filter(id__in=newTagIds)
+            for tag in tag_set:
+                teacher.tags.add(tag)
+            teacher.save()
             # 头像 & 照片
             # TODO
             # 提分榜
@@ -289,6 +311,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.getTeacherAchievement(request)
         if action == 'get-weekly-schedule':
             return self.getTeacherWeeklySchedule(request)
+        if action == 'get-subject-grades-range':
+            return self.getGradesRangeOfSubject(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
@@ -365,6 +389,18 @@ class TeacherActionView(BaseStaffActionView):
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+
+    def getGradesRangeOfSubject(self, request):
+        """
+        获取subject所属的的年级范围
+        :param request:
+        :return:
+        """
+        sid = request.GET.get('sid')  # subject id
+        if not sid:
+            return HttpResponse("")
+        grade_ids = list(models.Ability.objects.filter(subject_id=sid).values_list('grade_id', flat=True))
+        return JsonResponse({'list': grade_ids})
 
     def updateTeacherStatus(self, request, new_status):
         """
