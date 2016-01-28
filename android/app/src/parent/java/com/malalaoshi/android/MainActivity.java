@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private boolean initOnce = true;
 
-    protected ScrollViewPager vpHome;
+    protected ViewPager vpHome;
 
     private NetworkStateReceiver mNetworkStateReceiver;
 
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         tabUserCenterIndicator = (View)findViewById(R.id.view_tab_indicator_usercenter);
 
         homeScrollView = (HomeScrollView)findViewById(R.id.home_pager);
-        vpHome = (ScrollViewPager) findViewById(R.id.viewpage);
+        vpHome = (ViewPager) findViewById(R.id.viewpage);
     }
 
     private void setEvent() {

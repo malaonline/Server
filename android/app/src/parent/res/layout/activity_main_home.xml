@@ -28,12 +28,12 @@
     <include
         android:id="@+id/rl_home_tabs"
         layout="@layout/home_tab_layout" />
-    <com.malalaoshi.android.view.ScrollViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/viewpage"
         android:paddingTop="88dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"></com.malalaoshi.android.view.ScrollViewPager>
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>
 
