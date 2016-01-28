@@ -52,10 +52,7 @@ class CourseChoosingClassPeriodCell: MalaBaseCell {
 
 
 class PeriodStepper: UIView, UITextFieldDelegate {
-    
-    // MARK: - Property
-    
-    
+  
     // MARK: - Compontents
     /// 计数器
     var stepper: KWStepper!
@@ -98,15 +95,15 @@ class PeriodStepper: UIView, UITextFieldDelegate {
     // MARK: - Private Method
     private func configura() {
         stepper = KWStepper(decrementButton: decrementButton, incrementButton: incrementButton)
-        
+        // 设置计数器属性
         stepper.autoRepeat = true
         stepper.wraps = false
         stepper.minimumValue = 2
-        stepper.maximumValue = 10000
+        stepper.maximumValue = 998
         stepper.value = 2
         stepper.incrementStepValue = 2
         stepper.decrementStepValue = 2
-        
+        // 计数器数值changed回调闭包
         stepper.valueChangedCallback = {
             self.textField.text = String(format: "%d", Int(self.stepper.value))
         }
@@ -145,9 +142,13 @@ class PeriodStepper: UIView, UITextFieldDelegate {
     
     // MARK: - Delegate
     func textFieldDidEndEditing(textField: UITextField) {
+        // 限制输入值最大为998
         var value = Int(textField.text ?? "") ?? 0
+        value = value > 998 ? 998 : value
+        // 限制输入值为偶数
         let num = value%2
         value = num == 0 ? value : value+1
+        // 赋值给计数器
         self.stepper.value = Double(value)
     }
 }

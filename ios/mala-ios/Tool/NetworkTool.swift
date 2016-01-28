@@ -72,7 +72,7 @@ extension NetworkTool {
     ///  - parameter id:       id of teacher
     ///  - parameter finished: Closure for Finished
     func loadTeacherDetail(id: Int, finished: RequestCallBack) {
-        request(.GET, URLString: baseUrl+teacherList+"/"+String(id)+".json", parameters: nil, finished: finished)
+        request(.GET, URLString: baseUrl+teacherList+"/"+String(id), parameters: nil, finished: finished)
     }
     
     ///  Request for send SMS
