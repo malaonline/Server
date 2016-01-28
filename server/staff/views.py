@@ -876,7 +876,7 @@ class SchoolTimeslotView(BaseStaffView):
         context = super(SchoolTimeslotView, self).get_context_data(**kwargs)
         schoolId = self.request.GET.get('schoolId', None)
         searchTime = self.request.GET.get('searchDate', None)
-        name = self.request.GET.get('name', None)
+        searchName = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
         timeslots = None
@@ -885,19 +885,27 @@ class SchoolTimeslotView(BaseStaffView):
         if not searchTime:
             searchTime = datetime.datetime.now()
             stTime = datetime.datetime(searchTime.year, searchTime.month, searchTime.day)
-            edTime = stTime + datetime.timedelta(days=1)
         else:
             stTime = datetime.datetime.strptime(searchTime, '%Y-%m-%d')
-            edTime = stTime + datetime.timedelta(days=1)
+
+        edTime = stTime + datetime.timedelta(days=1)
 
         timeslots = models.TimeSlot.objects.filter(start__gte=stTime, end__lt=edTime, deleted=False)
+        if searchName:
+            timeslots = timeslots.filter(Q(order__parent__user__username__icontains=searchName)|Q(order__teacher__user__username__icontains=searchName))
+        if phone:
+            timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
+        if not schoolId:
+            schoolId = 1
+        timeslots = timeslots.filter(order__school__id=schoolId)
+
         schools = models.School.objects.all();
 
         context['schools'] = schools
         context['timeslots'] = timeslots
         context['searchTime'] = stTime
         context['schoolId'] = schoolId
-        context['name'] = name
+        context['name'] = searchName
         context['phone'] = phone
         context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
         return context
