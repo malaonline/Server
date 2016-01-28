@@ -479,12 +479,12 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
         grade = self.request.query_params.get('grade', None) or None
         if grade is not None:
             queryset = queryset.filter(
-                    Q(ability__grade__id__contains=grade) |
-                    Q(ability__grade__subset__id__contains=grade)).distinct()
+                    Q(abilities__grade__id__contains=grade) |
+                    Q(abilities__grade__subset__id__contains=grade)).distinct()
 
         subject = self.request.query_params.get('subject', None) or None
         if subject is not None:
-            queryset = queryset.filter(ability__subject__id__contains=subject)
+            queryset = queryset.filter(abilities__subject__id__contains=subject)
 
         tags = self.request.query_params.get('tags', '').split()
         tags = list(map(int, filter(lambda x: x, tags)))
