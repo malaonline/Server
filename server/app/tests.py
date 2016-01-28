@@ -8,9 +8,11 @@ from django.core.management import call_command
 import json
 from app.models import Parent, Teacher, Checkcode, Profile
 from app.views import Sms
-from teacher.views import information_complete_percent
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
+
+from teacher.views import information_complete_percent
+from app.models import Region
 
 
 # Create your tests here.
@@ -188,6 +190,14 @@ class TestModels(TestCase):
         sms_code = Sms().generateCheckcode(phone)
         self.assertTrue(Checkcode.verify_sms(phone, sms_code))
         self.assertFalse(Checkcode.verify_sms(phone, "error_code"))
+
+    def test_other_region(self):
+        """
+        检查其它是否已经从数据库中移除
+        """
+        region = Region.objects.get(name="其他")
+        with self.assertRaises(Region.DoesNotExist):
+            not_exist_region = Region.objects.get(name="其它")
 
 
 class TestTeacherWeb(TestCase):

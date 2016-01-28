@@ -9,3 +9,4 @@ COMPRESS_URL = '/static/'
 
 STATIC_ROOT = '/tmp/var/www/static/'
 MEDIA_ROOT = '/tmp/var/www/upload/'
+

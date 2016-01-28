@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.apps import apps
+from django.conf import settings
+
 from app.utils.algorithm import Tree, Node
 
 
@@ -336,6 +338,16 @@ class Teacher(BaseModel):
         # return range(1,10)
         return tree.get_path(status_2_node.get(self.status, 1))
 
+    def safe_get_account(self):
+        # 获得账户,如果没有账户就创建一个
+        try:
+            account = self.account
+        except AttributeError:
+            # 新建一个账户
+            account = Account(teacher=self, balance=0)
+            account.save()
+        return account
+
     # 新建一个空白老师用户
     @staticmethod
     def new_teacher()->User:
@@ -466,6 +478,9 @@ class InterviewRecord(BaseModel):
 
 
 class Account(BaseModel):
+    """
+    老师账户
+    """
     teacher = models.OneToOneField(Teacher)
     balance = models.PositiveIntegerField(default=0)
 
@@ -630,6 +645,13 @@ class Order(BaseModel):
                 self.school, self.parent, self.teacher, self.grade,
                 self.subject, self.total)
 
+    def fit_statistical(self):
+        return self.status == self.PAID
+
+    def enum_timeslot(self, handler):
+        for one_timeslot in self.timeslot_set.all():
+            handler(one_timeslot)
+
 class TimeSlotComplaint(BaseModel):
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -684,16 +706,39 @@ class TimeSlot(BaseModel):
     def __str__(self):
         return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
 
+    def is_complete(self, given_time):
+        # 对于给定的时间,课程是否结束
+        if self.end < given_time:
+            return True
+        return False
+
+    def is_waiting(self, given_time):
+        # 对于给定时间,课程是否处于等待
+        if given_time < self.start:
+            return True
+        return False
+
+    def is_running(self, given_time):
+        # 对于给定时间,课程是否处于上课中
+        if self.start < given_time < self.end:
+            return True
+        return False
+
 
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
-    ma_degree = models.PositiveIntegerField()
-    la_degree = models.PositiveIntegerField()
+    # 评分, 评分低于3分是差评
+    score = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '%s : %d, %d' % (self.time_slot, self.ma_degree, self.la_degree)
+
+    def is_bad_comment(self):
+        if self.score < 3:
+            return True
+        return False
 
 
 class Message(BaseModel):
