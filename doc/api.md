@@ -345,6 +345,42 @@ body
 }
 ```
 
+### Save child school name
+
+```
+PATCH /api/v1/parent/(\d+)
+```
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+```
+content_type: application/json
+```
+
+body data:
+
+```
+
+{
+    student_school_name=XYZ
+}
+
+```
+
+result:
+
+```
+body
+{
+    "done": "true"
+}
+```
+
+
 
 ### Get user policy
 
