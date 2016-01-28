@@ -19,7 +19,6 @@
     <script src="{% static 'staff/js/school/timeslot.js' %}"></script>
 {% endblock %}
 
-
 {% block content %}
     <form name="query_form" class="query_form" method="get" action="{% url 'staff:school_timeslot' %}">
         时间 <input type="text" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}">
