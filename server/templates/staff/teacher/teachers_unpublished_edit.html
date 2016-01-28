@@ -182,6 +182,7 @@
 {#头像,照片#}
     <div class="clearfix photos">
         <div class="pull-left img-edit" for="avatar">
+            <input type="hidden" name="toDeleteAvatar">
             <div class="title">
                 头像
             </div>
@@ -226,7 +227,8 @@
                 </div>
             {% else %}
                 {% for photo in teacher.photo_set.all %}
-                    <div class="pull-left img-edit" for="photo">
+                    <div class="pull-left img-edit" for="photo" photoId="{{ photo.id }}">
+                        <input type="hidden" name="photoId" value="{{ photo.id }}"/>
                         <div class="img-upload-box">
                             <div class="img-box">
                                 <img src={{ photo.img_url }}>
@@ -296,7 +298,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                    <input title="请选择图片" type="file" name="certIdHeldImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -318,9 +320,9 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                    <input title="请选择图片" type="file" name="certIdFrontImg" multiple="" accept="image/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-photo">删除</a>
+                <a class="btn btn-default" data-action="delete-cert">删除</a>
             </div>
         </div>
         <div class="pull-left img-edit" for="academic">
@@ -338,7 +340,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                    <input title="请选择图片" type="file" name="certAcademicImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -360,7 +362,7 @@
             <div class="actions">
                 <a class="btn btn-default file-input-mask text-center">
                     <span>上传/重传</span>
-                    <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                    <input title="请选择图片" type="file" name="certTeachingImg" multiple="" accept="image/*"/>
                 </a>
                 <a class="btn btn-default" data-action="delete-cert">删除</a>
                 <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -383,7 +385,7 @@
                 <div class="actions">
                     <a class="btn btn-default file-input-mask text-center">
                         <span>上传/重传</span>
-                        <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                        <input title="请选择图片" type="file" name="certEnglishImg" multiple="" accept="image/*"/>
                     </a>
                     <a class="btn btn-default" data-action="delete-cert">删除</a>
                     <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -411,7 +413,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            <input title="请选择图片" type="file" name="certOtherImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-cert">删除</a>
                         <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -435,7 +437,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                                <input title="请选择图片" type="file" name="certOtherImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-cert">删除</a>
                             <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -519,7 +521,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                            <input title="请选择图片" type="file" name="achievementImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-achieve">删除</a>
                     </div>
@@ -541,7 +543,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="photoImg" multiple="" accept="image/*"/>
+                                <input title="请选择图片" type="file" name="achievementImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-achieve">删除</a>
                         </div>

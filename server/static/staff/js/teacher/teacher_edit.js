@@ -112,15 +112,42 @@ $(function(){
         var $previewBox = $uploadBox.find(".img-preview-box");
         $previewBox.find('img').attr("src", imtUrl);
         $previewBox.show();
+        var type = $editBox.attr('for');
+        if (type=='photo') {
+            $editBox.find('input[name=photoId]').val('');
+        }
         return true;
+    });
+
+    var clearImgEditBox = function($editBox) {
+        $editBox.find('.img-box img').attr('src', '');
+        $editBox.find('.img-preview-box img').attr('src', '');
+        $editBox.find('.img-preview-box').hide();
+        $editBox.find('input[type=file]').val('');
+    };
+
+    $('[data-action=delete-photo]').click(function(e){
+        var $this = $(this), $editBox = $this.closest('.img-edit');
+        var type = $editBox.attr('for');
+        if (type=='avatar') {
+            $editBox.find('input[name=toDeleteAvatar]').val('1');
+            clearImgEditBox($editBox);
+        } else if (type=='photo') {
+            var count = $('.img-edit[for=photo]').length;
+            if (count > 1) {
+                $editBox.remove();
+            } else {
+                $editBox.find('input[name=photoId]').val('');
+                clearImgEditBox($editBox);
+            }
+        }
     });
 
     $('[data-action=add-more-photo]').click(function(){
         var $photoEdit = $('.img-edit[for=photo]:last');
         var $newPhotoEdit = $photoEdit.clone(true);
-        $newPhotoEdit.find('.img-box img').attr('src','');
-        $newPhotoEdit.find('.img-preview-box img').attr('src','');
-        $newPhotoEdit.find('.img-preview-box').hide();
+        $newPhotoEdit.find('input[name=photoId]').val('');
+        clearImgEditBox($newPhotoEdit);
         $photoEdit.after($newPhotoEdit);
     });
 
@@ -128,9 +155,7 @@ $(function(){
         var $certEdit = $('.img-edit[for=otherCert]:last');
         var $newCertEdit = $certEdit.clone(true);
         $newCertEdit.find('input[name=cert_name]').val('');
-        $newCertEdit.find('.img-box img').attr('src','');
-        $newCertEdit.find('.img-preview-box img').attr('src','');
-        $newCertEdit.find('.img-preview-box').hide();
+        clearImgEditBox($newCertEdit);
         $certEdit.after($newCertEdit);
     });
 
@@ -160,9 +185,7 @@ $(function(){
         var $imgEdit = $('.img-edit[for=achieve]:last');
         var $newImgEdit = $imgEdit.clone(true);
         $newImgEdit.find('input[name=achieve_name]').val('');
-        $newImgEdit.find('.img-box img').attr('src','');
-        $newImgEdit.find('.img-preview-box img').attr('src','');
-        $newImgEdit.find('.img-preview-box').hide();
+        clearImgEditBox($newImgEdit);
         $imgEdit.after($newImgEdit);
     });
 

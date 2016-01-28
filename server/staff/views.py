@@ -2,6 +2,7 @@ import logging
 import datetime
 
 # django modules
+from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
@@ -271,7 +272,6 @@ class TeacherUnpublishedEditView(BaseStaffView):
             teacher.profession = parseInt(request.POST.get('profession'))
             teacher.interaction = parseInt(request.POST.get('interaction'))
             certIdHeld.save()
-            profile.save()
             # 科目年级 & 风格标签
             teacher.abilities.clear()
             ability_set = models.Ability.objects.filter(subject_id=newSubjectId, grade_id__in=newGradeIds)
@@ -283,7 +283,25 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 teacher.tags.add(tag)
             teacher.save()
             # 头像 & 照片
-            # TODO
+            avatarImg = None
+            if request.FILES:
+                avatarImg = request.FILES.get('avatarImg')
+            if avatarImg:
+                _img_content = ContentFile(avatarImg.read())
+                profile.avatar.save("avatar"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteAvatar'):
+                    profile.avatar.delete()
+            profile.save()
+            stayPhotoIds = request.POST.getlist('photoId')
+            stayPhotoIds = [i for i in stayPhotoIds if i]
+            newPhotoImgs = request.FILES.getlist('photoImg')
+            models.Photo.objects.filter(teacher_id=teacher.id).exclude(id__in=stayPhotoIds).delete()
+            for photoImg in newPhotoImgs:
+                photo = models.Photo(teacher=teacher, public=True)
+                _img_content = ContentFile(photoImg.read())
+                photo.img.save("photo"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                photo.save()
             # 提分榜
             # TODO
             # 认证
