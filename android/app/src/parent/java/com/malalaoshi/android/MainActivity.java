@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
+    private long lastBackPressedTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -463,4 +466,13 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         return 3;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - lastBackPressedTime < 1000) {
+            finish();
+        } else {
+            lastBackPressedTime = System.currentTimeMillis();
+            Toast.makeText(this,"再按一次退出",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

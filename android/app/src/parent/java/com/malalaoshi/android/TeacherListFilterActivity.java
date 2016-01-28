@@ -96,6 +96,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     private void initViews() {
         filterFragment = new TeacherListFragment().setSearchCondition(gradeId, subjectId, tagIds);
         FragmentUtil.openFragment(R.id.teacher_list_fragment, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
+        filterFragment.setFiltertBtnVisiable(View.GONE);
     }
 
     private void updateConditions() {
@@ -156,6 +157,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
                 TeacherListFilterActivity.this.grade = grade;
                 filterdialog.dismiss();
                 updateConditions();
+                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
                 filterFragment.loadDatas();
             }
@@ -192,6 +194,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
                 TeacherListFilterActivity.this.subject = subject;
                 filterdialog.dismiss();
                 updateConditions();
+                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
                 filterFragment.loadDatas();
             }
@@ -239,6 +242,7 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
                 //开始筛选
                 filterdialog.dismiss();
                 updateConditions();
+                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
                 filterFragment.loadDatas();
             }

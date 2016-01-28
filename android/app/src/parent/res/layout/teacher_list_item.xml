@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="元/课时"
+                android:text="元/小时"
                 android:textColor="@color/text_color_home_price_unit"
                 android:textSize="@dimen/text_size_xlarge" />
         </LinearLayout>

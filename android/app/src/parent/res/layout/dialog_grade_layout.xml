@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_primary"
+                android:src="@drawable/ic_senior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -28,20 +28,18 @@
                 android:layout_marginLeft="9dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小学"
+                android:text="高中"
                 android:textColor="@color/text_color_dlg"
                 android:textSize="@dimen/text_size_normal_x" />
         </LinearLayout>
 
-
         <com.malalaoshi.android.view.ExpandedHeightGridView
-            android:id="@+id/filter_grages_list1"
-            android:layout_marginTop="10dp"
+            android:id="@+id/filter_grages_list3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:listSelector="@android:color/transparent"
             android:numColumns="2" />
-
         <LinearLayout
             android:layout_marginTop="16dp"
             android:layout_marginLeft="12dp"
@@ -68,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:listSelector="@android:color/transparent"
-            android:numColumns="1" />
+            android:numColumns="2" />
         <LinearLayout
             android:layout_marginTop="16dp"
             android:layout_marginLeft="12dp"
@@ -76,7 +74,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_senior"
+                android:src="@drawable/ic_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -84,16 +82,15 @@
                 android:layout_marginLeft="9dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="高中"
+                android:text="小学"
                 android:textColor="@color/text_color_dlg"
                 android:textSize="@dimen/text_size_normal_x" />
         </LinearLayout>
-
         <com.malalaoshi.android.view.ExpandedHeightGridView
-            android:id="@+id/filter_grages_list3"
+            android:id="@+id/filter_grages_list1"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:listSelector="@android:color/transparent"
             android:numColumns="2" />
     </LinearLayout>

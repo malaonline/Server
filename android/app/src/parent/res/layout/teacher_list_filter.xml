@@ -8,12 +8,18 @@
     android:background="@color/teacher_main_bg"
     android:fitsSystemWindows="true">
     <include layout="@layout/app_title_bar"></include>
-    <LinearLayout
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+    <View
         android:layout_width="match_parent"
-        android:gravity="center_vertical|bottom"
-        android:layout_height="35dp">
+        android:layout_height="1px"
+        android:background="@color/line_bg"
+         />
+    <LinearLayout
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:background="#ccffffff"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="44dp">
         <TextView
             android:id="@+id/tv_filter_grade"
             android:text="小学三年级"
