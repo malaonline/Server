@@ -190,7 +190,11 @@ class CompleteInformation(View):
 
         for one_grade in grade_list:
             the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
-            ability, _ = models.Ability.objects.get_or_create(grade=the_grade, subject=the_subject)
+            try:
+                ability = models.Ability.objects.get(grade=the_grade, subject=the_subject)
+            except models.Ability.DoesNotExist:
+                # 如果这个年级不存在就跳过
+                continue
             teacher.abilities.add(ability)
             ability.save()
 
