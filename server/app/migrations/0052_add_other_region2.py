@@ -5,9 +5,10 @@ def add_other_region(apps, schema_editor):
     Region = apps.get_model('app', 'Region')
     # 这是一个省级的对象
     # 相当于 "其他": {}
-    region = Region(name="其他", superset=None, admin_level=1, leaf=True)
+    region = Region.objects.get(name="其它")
+    region.name = "其他"
     region.save()
-    print("添加地区-其他")
+    print("改名其它->其他")
 
 
 class Migration(migrations.Migration):

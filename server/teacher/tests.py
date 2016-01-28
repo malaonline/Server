@@ -108,7 +108,7 @@ class TestWebPage(TestCase):
                                          {
                                              "name": "曹亚文",
                                              "gender": "m",
-                                             "region": "其它",
+                                             "region": "其他",
                                              "subclass": "数学",
                                              "grade": '["小学一年级", "小学二年级"]'
                                          })
