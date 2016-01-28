@@ -66,7 +66,7 @@ class TestWebPage(TestCase):
         parent.save()
         # 创建订单
         school = School(name="逗比中学",
-                        address="逗比路", region=Region.objects.get(name="其它"),
+                        address="逗比路", region=Region.objects.get(name="其他"),
                         center=True, longitude=0, latitude=0, opened=False)
         school.save()
         order = Order(parent=parent, teacher=teacher, school=school,
