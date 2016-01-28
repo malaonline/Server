@@ -143,6 +143,42 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
 
+    def test_create_order(self):
+        token_client = Client()
+        url = '/api/v1/orders'
+        token_request_url = "/api/v1/token-auth"
+        username = "parent1"
+        password = "123123"
+        response = token_client.post(token_request_url, {"username": username, "password": password})
+        response.render()
+        token = json.loads(response.content.decode())["token"]
+        #print("get token:{token}".format(token=token))
+        user = User.objects.get(username=username)
+        parent = Parent.objects.get(user=user)
+        user_token = Token.objects.get(user=user)
+        self.assertEqual(user_token.key, token)
+
+        client = Client()
+        request_url = "/api/v1/orders"
+        #print("the request_url is {request_url}".format(request_url=request_url))
+        json_data = json.dumps({
+            'teacher': 1, 'school': 1, 'grade': 1, 'subject': 1,
+            'coupon': 2, 'hours': 14, 'weekly_time_slots': [3, 8],
+            })
+        response = client.post(request_url, content_type="application/json",
+                                data=json_data,
+                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(201, response.status_code)
+
+        request_url = "/api/v1/orders/1"
+        response = client.get(request_url, content_type='application/json',
+                              **{'HTTP_AUTHORIZATION': ' Token %s' % token})
+        self.assertEqual(200, response.status_code)
+
+        response.render()
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(json_ret['status'], 'u')
+
 
 class TestModels(TestCase):
     def setUp(self):

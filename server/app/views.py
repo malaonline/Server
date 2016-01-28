@@ -580,7 +580,23 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
-                  'coupon', 'hours', )
+                  'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
+                  'status', 'order_id',)
+        read_only_fields = ('parent', 'price', 'total', 'status', 'order_id',)
+
+    def validate_hours(self, value):
+        value = int(value)
+        if value <= 0:
+            raise serializers.ValidationError('hours should be positive.')
+        if value % 2 != 0:
+            raise serializers.ValidationError('hours should be even.')
+        return value
+
+    def validate_parent(self, value):
+        parent = self.request.user.parent
+        if value != parent:
+            raise serializers.ValidationError('only create ones own order.')
+        return value
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -588,18 +604,24 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get_queryset(self):
-        user = self.request.user
+    def _get_parent(self):
         try:
-            parent = user.parent
+            parent = self.request.user.parent
         except exceptions.ObjectDoesNotExist:
             raise PermissionDenied(detail='Role incorrect')
+        return parent
 
-        queryset = models.Order.objects.filter(parent=parent)
+    def get_queryset(self):
+        parent = self._get_parent()
+        queryset = models.Order.objects.filter(parent=parent).order_by('id')
         return queryset
 
-    '''
-    def update(self, request, *args, **kwargs):
-        response = super().update(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        parent = self._get_parent()
+        serializer.save(parent=parent)
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        if response.status_code == 201:
+            print(response.data)
         return response
-    '''

@@ -556,6 +556,25 @@ DAILY_TIME_SLOTS = [
         WeeklyTimeSlot.objects.filter(weekday=1)]
 
 
+class OrderManager(models.Manager):
+    def create(self, parent, teacher, school, grade, subject, hours, coupon):
+        ability = Ability.objects.get(subject=subject, grade=grade)
+        price = teacher.region.price_set.get(
+                ability=ability, level=teacher.level).price
+
+        discount_amount = coupon.amount if coupon is not None else 0
+
+        total = price * hours - discount_amount
+
+        order = super(OrderManager, self).create(
+                parent=parent, teacher=teacher, school=school, grade=grade,
+                subject=subject, price=price, hours=hours, total=total,
+                coupon=coupon,)
+
+        order.save()
+        return order
+
+
 class Order(BaseModel):
     PENDING = 'u'
     PAID = 'p'
@@ -585,35 +604,17 @@ class Order(BaseModel):
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
-    paid_at = models.DateTimeField()
+    paid_at = models.DateTimeField(null=True, blank=True)
 
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
                               default=PENDING, )
+    objects = OrderManager()
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
                 self.school, self.parent, self.teacher, self.grade,
                 self.subject, self.total)
-
-    @classmethod
-    def create(cls, parent, teacher, school, grade, subject, hours,
-               weekly_time_slots, coupon=None):
-        ability = Ability.objects.get(subject=subject, grade=grade)
-        price = teacher.region.price_set.get(
-                ability=ability, level=teacher.level).price
-
-        discount_amount = coupon.amount if coupon is not None else 0
-
-        total = price * hours - discount_amount
-
-        ans = cls(parent=parent, teacher=teacher, school=school, grade=grade,
-                  subject=subject, price=price, hours=hours, total=total,
-                  coupon=coupon)
-        ans.save()
-        for slot in weekly_time_slots:
-            ans.weekly_time_slots.add(slot)
-        return ans
 
 
 class TimeSlot(BaseModel):

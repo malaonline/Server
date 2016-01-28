@@ -436,8 +436,8 @@ header data:
 
 ```
 HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
-
 ```
+
 result:
 ```
 {
@@ -460,5 +460,51 @@ result:
             "used": true
         }
     ]
+}
+```
+
+### Create Order
+
+```
+POST /api/v1/orders
+```
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+data:
+```
+{
+    'teacher': 1,
+    'school': 1,
+    'grade': 1,
+    'subject': 1,
+    'coupon': 2,
+    'hours': 14,
+    'weekly_time_slots': [3, 8],
+}
+```
+
+result:
+
+HTTP Status Code 201
+```
+{
+    'teacher': 1,
+    'order_id': 'ad5fc5d8-c4f8-11e5-96e0-985aebcf12ee',
+    'parent': 1,
+    'grade': 1,
+    'id': 15,
+    'total': 360,
+    'price': 180,
+    'hours': 14,
+    'coupon': None,
+    'status': 'u',
+    'weekly_time_slots': [3, 8],
+    'subject': 1,
+    'school': 1
 }
 ```
