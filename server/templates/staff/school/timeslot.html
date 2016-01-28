@@ -6,22 +6,41 @@
 
 
 {% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}">
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+    <script src="{% static 'common/js/pagination.js' %}"></script>
+
+    <script src="{% static 'staff/js/school/timeslot.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
-    <form name="query_form" class="query_form">
-        时间 <input type="text" name="name" value="">
-        姓名 <input type="text" name="name" value="">
-        手机号 <input type="text" name="name" value="">
-        授课中心 <input type="text" name="name" value="">
-        <input type="button" value="查询"/>
+    <form name="query_form" class="query_form" method="get" action="{% url 'staff:school_timeslot' %}">
+        时间 <input type="text" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}">
+        姓名 <input type="text" name="name" value="{{name | default_if_none:''}}">
+        手机号 <input type="text" name="phone" value="{{phone | default_if_none:''}}">
+        授课中心
+        <select class="form-control" name="schoolId">
+            {% for school in schools %}
+            <option value="{{school.id}}" {%if school.id == schoolId%}selected="true"{%endif%}>{{school.name}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="查询"/>
     </form>
-
+    {% if error %}
+        <div class="error-msg">
+            {{error.msg}}
+        </div>
+    {% endif %}
     <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
         <tr>
-            <th class="text-center">周一（9.13）</th>
+            <th class="text-center">{{weekday}}（{{ searchTime | date:"m-d" }}）</th>
             <th class="text-center">家长姓名</th>
             <th class="text-center">家长电话</th>
             <th class="text-center">学生姓名</th>
@@ -31,17 +50,17 @@
             <th class="text-center">老师电话</th>
             <th class="text-center">操作</th>
         </tr>
-        {% for school in schools %}
-            <tr schoolId="{{ school.id }}">
-                <td>{{school.name }}</td>
-                <td></td>
-                <td>{%if school.center%}体验中心{%else%}社区中心{%endif%}</td>
-                <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
-                <td>{{school.address }}</td>
-                <td></td>
-                <td><a href="{{ school.thumbnail.url }}" target="_blank">查看</a></td>
-                <td></td>
-                <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
+        {% for timeslot in timeslots %}
+            <tr schoolId="{{ timeslot.id }}">
+                <td>{{timeslot.start | date:"H:i" }} - {{timeslot.end | date:"H:i" }}</td>
+                <td>{{timeslot.order.parent.user.username}}</td>
+                <td>{{timeslot.order.parent.user.profile.phone}}</td>
+                <td>{{timeslot.order.parent.student_name}}</td>
+                <td>{{timeslot.order.grade.name }}</td>
+                <td>{{timeslot.order.subject.name }}</td>
+                <td>{{timeslot.order.teacher.user.username}}</td>
+                <td>{{timeslot.order.teacher.user.profile.phone}}</td>
+                <td><a href="{% url 'staff:staff_school' %}?schoolId={{timeslot.id}}">查看投诉</a>/<a>投诉</a> <a>考勤</a></td>
             </tr>
         {% endfor %}
     </table>

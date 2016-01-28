@@ -875,14 +875,29 @@ class SchoolTimeslotView(BaseStaffView):
     def get_context_data(self, **kwargs):
         context = super(SchoolTimeslotView, self).get_context_data(**kwargs)
         schoolId = self.request.GET.get('schoolId', None)
-        searchTime = self.request.GET.get('time', None)
-        parentName = self.request.GET.get('name', None)
+        searchTime = self.request.GET.get('searchDate', None)
+        name = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
-        school = None
-        if schoolId:
-            school = models.School.objects.get(id=schoolId)
+        timeslots = None
+        stTime = None
+        edTime = None
+        if not searchTime:
+            searchTime = datetime.datetime.now()
+            stTime = datetime.datetime(searchTime.year, searchTime.month, searchTime.day)
+            edTime = stTime + datetime.timedelta(days=1)
+        else:
+            stTime = datetime.datetime.strptime(searchTime, '%Y-%m-%d')
+            edTime = stTime + datetime.timedelta(days=1)
 
-        context['school'] = school
+        timeslots = models.TimeSlot.objects.filter(start__gte=stTime, end__lt=edTime, deleted=False)
+        schools = models.School.objects.all();
+
+        context['schools'] = schools
+        context['timeslots'] = timeslots
+        context['searchTime'] = stTime
         context['schoolId'] = schoolId
+        context['name'] = name
+        context['phone'] = phone
+        context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
         return context
