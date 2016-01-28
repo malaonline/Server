@@ -60,7 +60,7 @@ $(
             '物理', '化学', '地理',
             '历史', '政治', '生物']);
         render_with_template_and_data("city_down_list", "city_template",
-        ["洛阳市", "其它"]);
+        ["洛阳市", "其他"]);
         render_grand_button_list();
         render_grand_select_button_group();
 

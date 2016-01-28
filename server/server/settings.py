@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from dateutil.tz import tzoffset
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -232,6 +233,11 @@ PASSWORD_SALT = "abc"
 FIX_SMS_CODE = True
 # 固定的审核进度
 FIX_TEACHER_STATUS = True
+
+
+# 时区
+custom_time_zone = tzoffset("北京时间", +28800)
+
 
 try:
     from .local_settings import *
