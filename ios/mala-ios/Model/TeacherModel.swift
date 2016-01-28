@@ -31,8 +31,9 @@ class TeacherModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(name: String, avatar: String, degree: String, minPrice: Int, maxPrice: Int, subject: String, shortname: String, tags: [String]) {
+    convenience init(id: Int, name: String, avatar: String, degree: String, minPrice: Int, maxPrice: Int, subject: String, shortname: String, tags: [String]) {
         self.init()
+        self.id = id
         self.name = name
         self.avatar = NSURL(string: avatar)
         self.level = degree

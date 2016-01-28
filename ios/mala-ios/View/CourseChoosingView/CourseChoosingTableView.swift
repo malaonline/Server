@@ -90,6 +90,14 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         
     }
     
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : MalaLayout_Margin_4
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return MalaLayout_Margin_4
+    }
+    
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,7 +105,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -127,7 +135,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             
         case 3:
             let cell = reuseCell as! CourseChoosingClassPeriodCell
-
+            
             return cell
             
         case 4:
