@@ -21,6 +21,7 @@ router.register(r'memberservices', views.MemberserviceViewSet)
 router.register(r'coupons', views.CouponViewSet)
 router.register(r'weeklytimeslots', views.WeeklyTimeSlotViewSet)
 router.register(r'parents', views.ParentViewSet)
+router.register(r'timeslots', views.TimeSlotViewSet)
 router.register(r'orders', views.OrderViewSet)
 
 
