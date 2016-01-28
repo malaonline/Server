@@ -681,7 +681,7 @@ class TimeSlotAttendance(BaseModel):
                               default=NORMAL)
 
     def __str__(slef):
-        return '%s' % (self.record_type)
+        return '%s' % (self.get_record_type_display)
 
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
