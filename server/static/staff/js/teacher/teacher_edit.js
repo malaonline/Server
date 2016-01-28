@@ -151,6 +151,78 @@ $(function(){
         $photoEdit.after($newPhotoEdit);
     });
 
+    // 提分榜
+    $('#addHighscore').click(function(e){
+        $('#addItemsModal').modal({backdrop: 'static', keyboard: false});
+    });
+    $('#ckHighScoreAll').change(function(e){
+        var ck = this.checked;
+        $('[name="highscore"]').each(function(){
+            this.checked = ck;
+        });
+    });
+    var validIsAllHsChk = function() {
+        var $chkHS = $('input[name=highscore]');
+        if ($chkHS.length==0){
+            $('#ckHighScoreAll')[0].checked = false;
+            return;
+        }
+        var allCk = true;
+        $chkHS.each(function(){
+            allCk = allCk && this.checked;
+        });
+        $('#ckHighScoreAll')[0].checked = allCk;
+    };
+    $('input[name=highscore]').click(function(e){
+        validIsAllHsChk();
+    });
+    $('#doAddHighScore').click(function(e){
+        var stname = $('#stname').val();
+        var inscore = $('#inscore').val();
+        var schoolname = $('#schoolname').val();
+        var admittedTo = $('#admittedTo').val();
+
+        if (stname == '' || inscore == '' || !/^\d+$/.test(inscore) || schoolname == '' || admittedTo == '') {
+            alert("必须填写所有内容, 并确保辅导提分格式正确！");
+            return false;
+        }
+        var $highScoreTable = $('#highScoreTable'), newSeq = $highScoreTable.data('newSeq');
+        if (!newSeq) {
+            newSeq = 1;
+        }
+        var newHsSeq = "newHS"+newSeq;
+        var $newHsRow = $('<tr>'
+                + '<td><input type="checkbox" name="highscore"/>'
+                + '    <input type="hidden" name="highscoreId" value="'+newHsSeq+'"/>'
+                + '</td>'
+                + '<td>'+stname+'<input type="hidden" name="'+newHsSeq+'name" value="'+stname+'"/></td>'
+                + '<td>'+inscore+'<input type="hidden" name="'+newHsSeq+'scores" value="'+inscore+'"/></td>'
+                + '<td>'+schoolname+'<input type="hidden" name="'+newHsSeq+'from" value="'+schoolname+'"/></td>'
+                + '<td>'+admittedTo+'<input type="hidden" name="'+newHsSeq+'to" value="'+admittedTo+'"/></td>'
+            + '</tr>');
+        $newHsRow.find('input[name=highscore]').click(function(e){
+            validIsAllHsChk();
+        });
+        $highScoreTable.append($newHsRow);
+        newSeq++;
+        $highScoreTable.data('newSeq', newSeq);
+        validIsAllHsChk();
+        $("#addItemsModal input").val('');
+        $("#addItemsModal").modal('hide');
+    });
+    $('#delHighscore').click(function(e){
+        var $chkHS = $('input[name=highscore]:checked');
+        if ($chkHS.length==0) {
+            alert("请选择要删除的提分榜记录");
+            return true;
+        }
+        $chkHS.each(function(){
+            var $row = $(this).closest('tr');
+            $row.remove();
+        });
+        validIsAllHsChk();
+    });
+
     $('[data-action=add-more-cert]').click(function(){
         var $certEdit = $('.img-edit[for=otherCert]:last');
         var $newCertEdit = $certEdit.clone(true);

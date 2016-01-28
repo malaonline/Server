@@ -259,18 +259,20 @@
         <div class="clearfix">
             <div class="pull-left">提分榜 (最少填写6条)</div>
             <div class="pull-right">
-                <a class="btn btn-default" data-action="delete-hs">删除</a>
-                <a class="btn btn-default" data-action="add-hs">添加</a>
+                <a class="btn btn-default" id="delHighscore">删除</a>
+                <a class="btn btn-default" id="addHighscore">添加</a>
             </div>
         </div>
-        <table class="text-center" border="1" width="100%">
+        <table class="text-center" id="highScoreTable" border="1" width="100%">
             <tr>
-                <td><input type="checkbox" name="high_scores"></td>
-                <td>姓名</td><td>辅导提分</td><td>所在学校</td><td>考入学校</td>
+                <td><input id="ckHighScoreAll" type="checkbox"></td>
+                <td>学生姓名</td><td>辅导提分</td><td>所在学校</td><td>考入学校</td>
             </tr>
             {% for hs in teacher.highscore_set.all %}
                 <tr>
-                    <td><input type="checkbox" name="highscore" value="{{ hs.id }}"></td>
+                    <td><input type="checkbox" name="highscore"/>
+                        <input type="hidden" name="highscoreId" value="{{ hs.id }}"/>
+                    </td>
                     <td>{{ hs.name }}</td>
                     <td>{{ hs.increased_scores }}</td>
                     <td>{{ hs.school_name }}</td>
@@ -278,6 +280,48 @@
                 </tr>
             {% endfor %}
         </table>
+        <div id="addItemsModal" class="modal fade in" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" id="teacherId" value="{{teacher.id}}" />
+                          <fieldset>
+                            <legend>添加新内容</legend>
+                            <div class="control-group">
+                              <label class="control-label" for="stname">学生姓名</label>
+                              <div class="controls">
+                                <input type="text" class="input-xlarge" id="stname">
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="inscore">辅导提分</label>
+                              <div class="controls">
+                                <input type="text" class="input-xlarge" id="inscore">
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="schoolname">所在学校</label>
+                              <div class="controls">
+                                <input type="text" class="input-xlarge" id="schoolname">
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="admittedTo">考入学校</label>
+                              <div class="controls">
+                                <input type="text" class="input-xlarge" id="admittedTo">
+                              </div>
+                            </div>
+                          </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="doAddHighScore" class="btn btn-primary">确定</a>
+                        <a data-dismiss="modal" class="btn btn-default">关闭</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <hr>
 

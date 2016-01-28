@@ -303,7 +303,18 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 photo.img.save("photo"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 photo.save()
             # 提分榜
-            # TODO
+            allHsIds = request.POST.getlist('highscoreId')
+            stayHsIds = [s for s in allHsIds if s and (not s.startswith('new'))]
+            newHsIds = [s for s in allHsIds if s.startswith('new')]
+            models.Highscore.objects.filter(teacher_id=teacher.id).exclude(id__in=stayHsIds).delete()
+            for hsId in newHsIds:
+                name = request.POST.get(hsId+'name')
+                scores = request.POST.get(hsId+'scores')
+                school_from = request.POST.get(hsId+'from')
+                school_to = request.POST.get(hsId+'to')
+                highscore = models.Highscore(teacher=teacher, name=name, increased_scores=scores,
+                                             school_name=school_from, admitted_to=school_to)
+                highscore.save()
             # 认证
             # TODO
             # 介绍语音, 介绍视频
