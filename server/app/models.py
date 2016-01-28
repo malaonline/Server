@@ -630,27 +630,8 @@ class Order(BaseModel):
                 self.school, self.parent, self.teacher, self.grade,
                 self.subject, self.total)
 
-
-class TimeSlot(BaseModel):
-    order = models.ForeignKey(Order)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-
-    confirmed_by = models.ForeignKey(Parent, null=True, blank=True)
-    transferred_from = models.ForeignKey('TimeSlot', null=True, blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_updated_at = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(User, null=True, blank=True)
-
-    deleted = models.BooleanField(default=False)
-
-    def __str__(self):
-        return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
-
 class TimeSlotComplaint(BaseModel):
     content = models.CharField(max_length=500)
-    time_slot = models.ForeignKey(TimeSlot)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
@@ -672,7 +653,6 @@ class TimeSlotAttendance(BaseModel):
         (NORMAL, '正常出勤'),
     )
 
-    time_slot = models.ForeignKey(TimeSlot)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
@@ -682,6 +662,28 @@ class TimeSlotAttendance(BaseModel):
 
     def __str__(slef):
         return '%s' % (self.get_record_type_display())
+
+
+class TimeSlot(BaseModel):
+    order = models.ForeignKey(Order)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+
+    confirmed_by = models.ForeignKey(Parent, null=True, blank=True)
+    transferred_from = models.ForeignKey('TimeSlot', null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+
+    complaint = models.ForeignKey(TimeSlotComplaint, null=True, blank=True)
+    attendance = models.ForeignKey(TimeSlotAttendance, null=True, blank=True)
+
+    deleted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
+
 
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
