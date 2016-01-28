@@ -11,6 +11,7 @@ from app.models import Parent, Teacher, Checkcode, Profile
 from app.views import Sms
 from teacher.views import information_complete_percent
 from app.utils.algorithm import Tree, Node
+from app.utils.types import parseInt
 
 
 # Create your tests here.
@@ -254,4 +255,19 @@ class TestAlgorithm(TestCase):
         self.assertEqual(tree.get_path("e"), ["a", "b", "e"])
         self.assertEqual(tree.get_path("c"), ["a", "c"])
         self.assertEqual(tree.get_path("b"), ["a", "b"])
+
+    def testParseInt(self):
+        self.assertTrue(parseInt('') == 'NaN')
+        self.assertTrue(parseInt(123) == 123)
+        self.assertTrue(parseInt(-123) == -123)
+        self.assertTrue(parseInt('123') == 123)
+        self.assertTrue(parseInt('-123') == -123)
+        self.assertTrue(parseInt('123asd') == 123)
+        self.assertTrue(parseInt('-123asd') == -123)
+        self.assertTrue(parseInt(234.234) == 234)
+        self.assertTrue(parseInt(-234.234) == -234)
+        self.assertTrue(parseInt('234.234') == 234)
+        self.assertTrue(parseInt('-234.234') == -234)
+        self.assertTrue(parseInt('asd') == 'NaN')
+        self.assertTrue(parseInt('-asd') == 'NaN')
 

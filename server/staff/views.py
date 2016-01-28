@@ -13,6 +13,7 @@ from django.db.models import Q
 # local modules
 from app import models
 from app.utils import smsUtil
+from app.utils.types import parseInt
 from .decorators import mala_staff_required, is_manager
 
 logger = logging.getLogger('app')
@@ -185,6 +186,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
         teacherId = kwargs['tid']
         teacher = get_object_or_404(models.Teacher, id=teacherId)
         kwargs['teacher'] = teacher
+        # 证书数据
         certification_all = models.Certificate.objects.filter(teacher=teacher)
         cert_others = []
         for cert in certification_all:
@@ -201,10 +203,16 @@ class TeacherUnpublishedEditView(BaseStaffView):
             else:
                 cert_others.append(cert)
         kwargs['cert_others'] = cert_others
-        # 一些固定数据
-        # 省份列表
-        kwargs['gender_choices'] = models.Profile.GENDER_CHOICES
+        # 地区数据
+        region_dict = teacher.region and teacher.region.make_dict() or None
+        kwargs['region_dict'] = region_dict
         kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        if region_dict and region_dict.get('city'):
+            kwargs['cities'] = models.Region.objects.filter(superset_id=region_dict.get('city').superset_id)
+        if region_dict and region_dict.get('district'):
+            kwargs['districts'] = models.Region.objects.filter(superset_id=region_dict.get('district').superset_id)
+        # 一些固定数据
+        kwargs['gender_choices'] = models.Profile.GENDER_CHOICES
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
         grades_all = models.Grade.objects.all()
@@ -222,6 +230,50 @@ class TeacherUnpublishedEditView(BaseStaffView):
         kwargs['tags_all'] = models.Tag.objects.all
         return super(TeacherUnpublishedEditView, self).get_context_data(**kwargs)
 
+    def post(self, request, tid):
+        teacher = get_object_or_404(models.Teacher, id=tid)
+        try:
+            certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                                  defaults={'name':"",'verified':False})
+            profile = teacher.user.profile
+            # 基本信息
+            teacher.name = request.POST.get('name')
+            certIdHeld.name = request.POST.get('id_num')
+            profile.phone = request.POST.get('phone')
+            profile.gender = request.POST.get('gender')
+            province = request.POST.get('province')
+            city = request.POST.get('city')
+            district = request.POST.get('district')
+            region = district and district or city and city or province
+            region = parseInt(region)
+            if not region:
+                teacher.region = None
+            else:
+                teacher.region_id = region
+            teacher.teaching_age = parseInt(request.POST.get('teaching_age'))
+            teacher.level_id = parseInt(request.POST.get('level'))
+            teacher.experience = parseInt(request.POST.get('experience'))
+            teacher.profession = parseInt(request.POST.get('profession'))
+            teacher.interaction = parseInt(request.POST.get('interaction'))
+            certIdHeld.save()
+            profile.save()
+            teacher.save()
+            # 科目年级 & 风格标签
+            # TODO
+            # 头像 & 照片
+            # TODO
+            # 提分榜
+            # TODO
+            # 认证
+            # TODO
+            # 介绍语音, 介绍视频
+            # TODO
+            # 教学成果
+            # TODO
+        except Exception as ex:
+            logger.error(ex)
+            return JsonResponse({'ok': False, 'msg': BaseStaffActionView.defaultErrMeg, 'code': -1})
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
 class TeacherActionView(BaseStaffActionView):
 
