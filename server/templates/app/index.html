@@ -1,37 +1,46 @@
-
-{% block content %}
-
-Join us
-<br>
------------------------------------------------------
-<table>
-    <tr>
-        <td>Full Stack Software Engineer</td>
-        <td>Beijing</td>
-    </tr>
-    <tr>
-        <td>Web Back-end Software Engineer &nbsp;</td>
-        <td>Beijing</td>
-    </tr>
-    <tr>
-        <td>Android Software Engineer</td>
-        <td>Beijing</td>
-    </tr>
-    <tr>
-        <td>iOS Software Engineer</td>
-        <td>Beijing</td>
-    </tr>
-    <tr>
-        <td>Testing Software Engineer</td>
-        <td>Beijing</td>
-    </tr>
-    <tr>
-        <td>System Administrator</td>
-        <td>Beijing</td>
-    </tr>
-</table>
------------------------------------------------------
-<br>
-Contact: hr@malalaoshi.com
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load staticfiles %}
+        {% load compile_static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet">
+    </head>
+    <body>
+        <img class="img-responsive" src="{% static 'common/img/frontpage.jpg' %}" />
+        <!--
+            Join us
+            <br>
+            -----------------------------------------------------
+            <table>
+            <tr>
+            <td>Full Stack Software Engineer</td>
+            <td>Beijing</td>
+            </tr>
+            <tr>
+            <td>Web Back-end Software Engineer &nbsp;</td>
+            <td>Beijing</td>
+            </tr>
+            <tr>
+            <td>Android Software Engineer</td>
+            <td>Beijing</td>
+            </tr>
+            <tr>
+            <td>iOS Software Engineer</td>
+            <td>Beijing</td>
+            </tr>
+            <tr>
+            <td>Testing Software Engineer</td>
+            <td>Beijing</td>
+            </tr>
+            <tr>
+            <td>System Administrator</td>
+            <td>Beijing</td>
+            </tr>
+            </table>
+            -----------------------------------------------------
+            <br>
+            Contact: hr@malalaoshi.com
+        -->
+    </body>
+</html>
