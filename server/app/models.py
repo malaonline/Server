@@ -648,6 +648,40 @@ class TimeSlot(BaseModel):
     def __str__(self):
         return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
 
+class TimeSlotComplaint(BaseModel):
+    content = models.CharField(max_length=500)
+    time_slot = models.ForeignKey(TimeSlot)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+
+    def __str__(self):
+        return '%s' % (self.content)
+
+class TimeSlotAttendance(BaseModel):
+    NORMAL = 'a'
+    ABSENT = 'b'
+    LATE10 = 'c'
+    LATE10_30 = 'd'
+    LATE30 = 'e'
+    TYPE_CHOICES = (
+        (LATE10, '10分钟内'),
+        (LATE10_30, '10-30分钟'),
+        (LATE30, '30分钟以上'),
+        (ABSENT, '缺勤'),
+        (NORMAL, '正常出勤'),
+    )
+
+    time_slot = models.ForeignKey(TimeSlot)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+    record_type = models.CharField(max_length=1,
+                              choices=TYPE_CHOICES,
+                              default=NORMAL)
+
+    def __str__(slef):
+        return '%s' % (self.record_type)
 
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
