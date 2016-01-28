@@ -34,15 +34,15 @@ public class Subject extends BaseEntity{
     static {
         subjectList = new ArrayList<Subject>();
 
-        subjectList.add(new Subject(1L, "语文"));
-        subjectList.add(new Subject(2L, "数学"));
-        subjectList.add(new Subject(3L, "英语"));
+        subjectList.add(new Subject(1L, "数学"));
+        subjectList.add(new Subject(2L, "英语"));
+        subjectList.add(new Subject(3L, "语文"));
         subjectList.add(new Subject(4L, "物理"));
         subjectList.add(new Subject(5L, "化学"));
-        subjectList.add(new Subject(6L, "生物"));
+        subjectList.add(new Subject(6L, "地理"));
         subjectList.add(new Subject(7L, "历史"));
-        subjectList.add(new Subject(8L, "地理"));
-        subjectList.add(new Subject(9L, "政治"));
+        subjectList.add(new Subject(8L, "政治"));
+        subjectList.add(new Subject(9L, "生物"));
 
         updateSubjectDict();
     }

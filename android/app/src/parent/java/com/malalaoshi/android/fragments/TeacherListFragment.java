@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,12 +47,17 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     @Bind(R.id.teacher_list_refresh_layout)
     protected BGARefreshLayout mRefreshLayout;
 
+    @Bind(R.id.teacher_filter_btn)
+    protected Button teacherFilterBtn;
+    private int teacherFilterBtnVisiable = View.VISIBLE;
+
     private  List<Teacher> teachersList = new ArrayList<>();
 
     //筛选条件
     private Long gradeId;
     private Long subjectId;
     private Long [] tagIds;
+    private int viewType= 0;
 
     private String nextUrl = null;
 
@@ -78,6 +85,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.teacher_list, container, false);
         ButterKnife.bind(this, view);
+        teacherFilterBtn.setVisibility(teacherFilterBtnVisiable);
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
         setEvent();
         Context context = view.getContext();
@@ -97,6 +105,14 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     protected void setEvent(){
         mRefreshLayout.setDelegate(this);
+    }
+
+    public void setFiltertBtnVisiable(int visiable){
+        if (teacherFilterBtn==null){
+            teacherFilterBtnVisiable = visiable;
+        }else{
+            teacherFilterBtn.setVisibility(visiable);
+        }
     }
 
     protected void initReshLayout() {

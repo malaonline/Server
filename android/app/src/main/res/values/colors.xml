@@ -49,6 +49,7 @@
     <color name="teacher_list_teacher_name">#dc000000</color>
     <color name="teacher_list_teacher_subject">#e8413e</color>
 
+    <color name="line_bg">#dedede</color>
 
     <color name="usercenter_btn_disable">#eee0e0e0</color>
     <color name="usercenter_main_bk">#ededed</color>
