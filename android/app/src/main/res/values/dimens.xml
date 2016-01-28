@@ -15,6 +15,8 @@
     <dimen name="page_padding_all">37dp</dimen>
     <dimen name="dialog_toolbar_height">65dp</dimen>
     <dimen name="dialog_bottom_bar_height">48dp</dimen>
+    <dimen name="alter_dialog_message_width">272dp</dimen>
+    <dimen name="alter_dialog_message_height">231dp</dimen>
 
     <dimen name="elevation_editor">2dp</dimen>
     <dimen name="elevation_normal">2dp</dimen>

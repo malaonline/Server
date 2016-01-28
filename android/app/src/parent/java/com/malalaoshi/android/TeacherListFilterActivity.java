@@ -3,7 +3,6 @@ package com.malalaoshi.android;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.malalaoshi.android.dialog.FilterDialog;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
-import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.FilterGradeFragment;
 import com.malalaoshi.android.fragments.FilterSubjectFragment;
 import com.malalaoshi.android.fragments.FilterTagFragment;
@@ -38,9 +36,6 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     public static final String EXTRA_SUBJECT = "subject";
     public static final String EXTRA_TAGS = "tags";
 
-
-    private List<Teacher> teachersList = new ArrayList<Teacher>();
-
     @Bind(R.id.tv_title)
     protected TextView tvTitle;
 
@@ -60,6 +55,10 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     private Grade grade;
     private Subject subject;
     private List<Tag> tags;
+    //筛选
+    private Long gradeId;
+    private Long subjectId;
+    private Long[] tagIds;
 
     public static void open(Context context, Grade grade, Subject subject, ArrayList<Tag> tags) {
         Intent intent = new Intent(context, TeacherListFilterActivity.class);
@@ -75,7 +74,6 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_list_filter);
         ButterKnife.bind(this);
-
         initDatas();
         initViews();
         setEvent();
@@ -85,47 +83,48 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
     private void setEvent() {
     }
 
-
-    private void initViews() {
-        updateCtrls();
-        filterFragment = new TeacherListFragment().setTeacherList(teachersList);
-        FragmentUtil.openFragment(R.id.teacher_list_fragment, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
-    }
-
     private void initDatas() {
         tvTitle.setText("筛选结果");
         Intent intent = getIntent();
         grade = intent.getParcelableExtra(EXTRA_GRADE);
         subject = intent.getParcelableExtra(EXTRA_SUBJECT);
         tags = intent.getParcelableArrayListExtra(EXTRA_TAGS);
+        updateConditions();
+
     }
 
-    private void updateCtrls() {
+    private void initViews() {
+        filterFragment = new TeacherListFragment().setSearchCondition(gradeId, subjectId, tagIds);
+        FragmentUtil.openFragment(R.id.teacher_list_fragment, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
+    }
+
+    private void updateConditions() {
+        gradeId = null;
+        subjectId = null;
+        tagIds = null;
+
         if (grade!=null&&grade.getName()!=null){
             tvFilterGrade.setText(grade.getName());
+            gradeId = grade.getId();
         }
         else{
             tvFilterGrade.setText("不限");
         }
         if (subject!=null&&subject.getName()!=null){
             tvFilterSubject.setText(subject.getName());
+            subjectId = subject.getId();
         }else{
             tvFilterSubject.setText("不限");
         }
         if (tags!=null&&tags.size()>0){
             String str = StringUtil.joinEntityName(tags,"·");
             tvFilterTag.setText(str);
+            tagIds = new Long[tags.size()];
+            for (int i=0;i<tags.size();i++){
+                tagIds[i] = tags.get(i).getId();
+            }
         }else{
             tvFilterTag.setText("不限");
-        }
-        //FragmentUtil.opFragmentMainActivity(getFragmentManager(), null, new TeacherListFragment().setTeacherList(teachersList).setSearchCondition(gradeId, subjectId, tagIds), TeacherListFragment.class.getName());
-    }
-
-    @Override
-    public void onBackPressed(){
-        if(!getFragmentManager().popBackStackImmediate()){
-            ActivityCompat.finishAfterTransition(this);
-            this.finish();
         }
     }
 
@@ -156,9 +155,9 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
             public void onGradeClick(Grade grade) {
                 TeacherListFilterActivity.this.grade = grade;
                 filterdialog.dismiss();
-                updateCtrls();
+                updateConditions();
                 //筛选结果
-                //filterFragment
+                filterFragment.loadDatas();
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");
@@ -192,9 +191,9 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
             public void onSubjectClick(Subject subject) {
                 TeacherListFilterActivity.this.subject = subject;
                 filterdialog.dismiss();
-                updateCtrls();
+                updateConditions();
                 //筛选结果
-                //filterFragment
+                filterFragment.loadDatas();
             }
         });
         filterdialog.show(getSupportFragmentManager(), "dialog");
@@ -239,9 +238,9 @@ public class TeacherListFilterActivity  extends AppCompatActivity{
             public void OnRightClick(View v) {
                 //开始筛选
                 filterdialog.dismiss();
-                updateCtrls();
+                updateConditions();
                 //筛选结果
-                //filterFragment
+                filterFragment.loadDatas();
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");

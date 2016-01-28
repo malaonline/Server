@@ -3,8 +3,6 @@ package com.malalaoshi.android;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -15,91 +13,64 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.base.BaseActivity;
-import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.fragments.FilterDialogFragment;
-import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
+import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.view.HomeScrollView;
 import com.malalaoshi.android.view.ScrollViewPager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import butterknife.OnClick;
 
 
 public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup , HomeScrollView.ScrollViewListener, View.OnClickListener, ViewPager.OnPageChangeListener {
 
-    //@Bind(R.id.home_pager)
     protected HomeScrollView homeScrollView;
 
     //标题栏
-    //@Bind(R.id.home_title)
     protected RelativeLayout rlHomeTitle;
     //标题
-    //@Bind(R.id.tv_title_text)
     protected TextView tvTitle;
     //标题栏上的三个tab
-    //@Bind(R.id.ll_home_title_tab)
     protected LinearLayout llTitleTabs;
-    //@Bind(R.id.iv_title_tab_teacher)
     protected ImageView ivTitleTabTeacher;
-    //@Bind(R.id.iv_title_tab_timetable)
     protected ImageView ivTitleTabTimeTable;
-    //@Bind(R.id.iv_title_tab_user)
     protected ImageView ivTitleTabUser;
 
-    //@Bind(R.id.tv_title_location)
     protected TextView tvTitleLocation;
 
     //tabs
     private float tabSY;
-    ////@Bind(R.id.rl_home_tabs)
     protected RelativeLayout rlTabBar;
     //tab
-    ////@Bind(R.id.rl_tab_findteacher)
     protected RelativeLayout rlTabTeacher;
     private float tabTeacherX;
     private int tabTeacherWidth;
     private float tabTeacherTextSize;
-    //@Bind(R.id.rl_tab_timetable)
     protected RelativeLayout rlTabTimetable;
     private float tabTimetableX;
     private int tabTimetableWidth;
     private float tabTimetableTextSize;
-    //@Bind(R.id.rl_tab_usercenter)
     protected RelativeLayout rlTabUser;
     private float tabUserCenterX;
     private int tabUserCenterWidth;
     private float tabUserCenterTextSize;
     //tab textview
-    //@Bind(R.id.tv_tab_findteacher)
     protected TextView tvTabTeacher;
-    //@Bind(R.id.tv_tab_timetable)
     protected TextView tvTabTimetable;
-    //@Bind(R.id.tv_tab_usercenter)
     protected TextView tvTabUserCenter;
 
     //tab indicator
-    //@Bind(R.id.view_tab_indicator_findteacher)
     protected View tabTeacherIndicator;
-    //@Bind(R.id.view_tab_indicator_timetable)
     protected View tabTimetableIndicator;
-    //@Bind(R.id.view_tab_indicator_usercenter)
     protected View tabUserCenterIndicator;
 
     private boolean initOnce = true;
 
-    //@Bind(R.id.viewpage)
     protected ScrollViewPager vpHome;
-
-    private List<Teacher> teachersList = new ArrayList<Teacher>();
 
     private NetworkStateReceiver mNetworkStateReceiver;
 
@@ -112,8 +83,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main1);
-        //ButterKnife.bind(this);
+        setContentView(R.layout.activity_main_home);
         init();
         initData();
         initViews();
@@ -168,6 +138,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         ivTitleTabTimeTable.setOnClickListener(this);
         ivTitleTabUser.setOnClickListener(this);
         vpHome.setOnPageChangeListener(this);
+        tvTitleLocation.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -378,6 +349,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 setCurrentTab(2);
                 vpHome.setCurrentItem(2);
                 break;
+            case R.id.tv_title_location:
+                onClickBarBtnLocation();
+                break;
         }
     }
 
@@ -443,24 +417,10 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
 
-    @OnClick(R.id.main_bar_location)
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "知道了");
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了",R.drawable.ic_location);
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
-    }
-
-    @OnClick(R.id.main_bar_filter)
-    protected void onClickBarBtnFilter() {
-        DialogFragment newFragment = FilterDialogFragment.newInstance();
-        newFragment.show(getSupportFragmentManager(), FilterDialogFragment.class.getSimpleName());
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!getFragmentManager().popBackStackImmediate()) {
-            ActivityCompat.finishAfterTransition(this);
-        }
     }
 
     @Override
@@ -484,10 +444,10 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         if (fragment == null) {
             switch (position) {
                 case 0:
-                    fragment = new TeacherListFragment().setTeacherList(teachersList);
+                    fragment = new TeacherListFragment();
                     break;
                 case 1:
-                    fragment = new ScheduleFragment();
+                    fragment = new UserTimetableFragment();
                     break;
                 case 2:
                     fragment = new UserFragment();

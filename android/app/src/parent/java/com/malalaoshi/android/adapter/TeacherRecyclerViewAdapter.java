@@ -159,24 +159,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Bind(R.id.teacher_list_item_subjects)
         protected TextView subjects;
-/*
-        @Bind(R.id.teacher_list_item_avatar)
-        protected ImageView avatar;
-
-        @Bind(R.id.teacher_list_item_price)
-        protected TextView priceView;
-
-        @Bind(R.id.teacher_list_item_name)
-        protected TextView name;
-
-        @Bind(R.id.teacher_list_item_grade_view)
-        protected TextView gradeView;
-
-        @Bind(R.id.teacher_list_item_subject)
-        protected TextView subject;
-
-        @Bind(R.id.teacher_list_item_tags)
-        protected TextView tagView;*/
 
         protected com.malalaoshi.android.entity.Teacher teacher;
 
@@ -194,7 +176,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 return;
             }
             teacher = teachersList.get(position);
-            level.setText("金牌讲师");
+            level.setText(teacher.getLevel());
             name.setText(teacher.getName());
             String sub = teacher.getSubject();
             String gradeStr = teacher.getGrades_shortname();
@@ -219,9 +201,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 avater.setImageUrl(imgUrl, mImageLoader);
 
             }
-            /*if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
-                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avater, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
-            }*/
 
             Double minPrice = teacher.getMin_price();
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
@@ -229,30 +208,6 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
             price.setText(minPriceStr + "-" + maxPriceStr);
 
-            /*name.setText(teacher.getName());
-            String sub = teacher.getSubject();
-            if(sub != null){
-                subject.setText(sub);
-            }
-            String gradeStr = teacher.getGrades_shortname();
-            if(gradeStr != null){
-                gradeView.setText(gradeStr);
-            }
-            String tagStr = StringUtil.join(teacher.getTags());
-            if(tagStr != null){
-                tagView.setText(tagStr);
-            }
-
-            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
-                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
-            }
-
-            Double minPrice = teacher.getMin_price();
-            String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
-            Double maxPrice = teacher.getMax_price();
-            String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
-            String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
-            priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);*/
         }
 
         @OnClick(R.id.teacher_list_item_body)

@@ -1,6 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import com.malalaoshi.android.result.TeacherListResult;
 import com.malalaoshi.android.util.JsonUtil;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,20 +38,21 @@ import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private OnListFragmentInteractionListener mListener;
-    private TeacherRecyclerViewAdapter adapter;
+    private TeacherRecyclerViewAdapter teacherListAdapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
     @Bind(R.id.teacher_list_refresh_layout)
     protected BGARefreshLayout mRefreshLayout;
 
-    private  List<Teacher> teachersList;
+    private  List<Teacher> teachersList = new ArrayList<>();
 
+    //筛选条件
     private Long gradeId;
     private Long subjectId;
     private Long [] tagIds;
 
-    private String next = null;
+    private String nextUrl = null;
 
     public TeacherListFragment(){
     }
@@ -65,7 +66,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         this.gradeId = gradeId;
         this.subjectId = subjectId;
         this.tagIds = tagIds;
-
         return this;
     }
 
@@ -77,71 +77,34 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.teacher_list, container, false);
-
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
         ButterKnife.bind(this, view);
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        setEvent();
+        Context context = view.getContext();
+        teacherListAdapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
+        GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
+        layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(teacherListAdapter);
+        recyclerView.addItemDecoration(new TeacherItemDecoration(context, TeacherItemDecoration.VERTICAL_LIST, getResources().getDimensionPixelSize(R.dimen.teacher_list_top_diver)));
+        recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
 
-        setListener();
-        if(recyclerView != null){
-            Context context = view.getContext();
-            adapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
-            GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
-            layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
-            recyclerView.setLayoutManager(layoutManager);
-
-            //处理在5.0以下版本中各个Item 间距过大的问题(解决方式:将要设置的间距减去各个Item的阴影宽度)
-            /*if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-                dealCardElevation(recyclerView);
-            }*/
-
-            recyclerView.setAdapter(adapter);
-            recyclerView.addItemDecoration(new TeacherItemDecoration(context, TeacherItemDecoration.VERTICAL_LIST, getResources().getDimensionPixelSize(R.dimen.teacher_list_top_diver)));
-
-            recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
-        }
-
-        processLogic(savedInstanceState);
-
+        initReshLayout();
         mRefreshLayout.beginRefreshing();
-
         return view;
     }
 
 
-    protected void setListener(){
+    protected void setEvent(){
         mRefreshLayout.setDelegate(this);
     }
-    protected void processLogic(Bundle savedInstanceState) {
+
+    protected void initReshLayout() {
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
-        moocStyleRefreshViewHolder.setUltimateColor(R.color.colorPrimary);
+        moocStyleRefreshViewHolder.setUltimateColor(R.color.tab_text_press_color);
         moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.teacher_main_bg);
         mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
-    }
-
-    //防止在5.0以下版本中出现RecyclerView左右边距距离父窗口间距过大的问题,将RecyclerView的左右padding减去Item的阴影宽度
-    private void dealCardElevation(RecyclerView recyclerView) {
-        //获取阴影的宽度
-        int cardElevation = getResources().getDimensionPixelSize(R.dimen.teacher_list_card_elevation);
-        //将父窗口左右的padding减去Item阴影的宽度
-        int leftPadding = recyclerView.getPaddingLeft();
-        int rightPadding = recyclerView.getPaddingLeft();
-        int bottomPadding = recyclerView.getPaddingLeft();
-        int topPadding = recyclerView.getPaddingTop();
-        leftPadding -= cardElevation;
-        rightPadding -= cardElevation;
-        recyclerView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
-    }
-
-    @Override
-    public void onAttach(Activity activity){
-        super.onAttach(activity);
-//        if (activity instanceof OnListFragmentInteractionListener){
-//            mListener = (OnListFragmentInteractionListener) activity;
-//        } else {
-//            throw new RuntimeException(activity.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -150,23 +113,27 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         mListener = null;
     }
 
+    public void loadDatas(){
+        mRefreshLayout.beginRefreshing();
+    }
+
     @Override
     public void onLoadMore(){
-        if(adapter != null && adapter.hasLoadMoreView && !adapter.loading && adapter.canLoadMore){
-            adapter.loading = true;
+        if(teacherListAdapter != null && teacherListAdapter.hasLoadMoreView && !teacherListAdapter.loading && teacherListAdapter.canLoadMore){
+            teacherListAdapter.loading = true;
             new LoadTeachersTask(){
                 @Override
                 public void afterTask(TeacherListResult response){
                     if(response != null){
                         try{
-                            next = response.getNext();
+                            nextUrl = response.getNext();
                         }catch(Exception e){
-                            next = null;
+                            nextUrl = null;
                         }
                     }
-                    adapter.loading = false;
-                    if(next == null){
-                        adapter.canLoadMore = false;
+                    teacherListAdapter.loading = false;
+                    if(nextUrl == null){
+                        teacherListAdapter.canLoadMore = false;
                     }
                 }
             }.execute();
@@ -175,32 +142,32 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout){
-        if(!adapter.loading){
+        if(!teacherListAdapter.loading){
             teachersList.clear();
-            next = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+            nextUrl = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
             boolean hasParam = false;
             if(gradeId != null && gradeId > 0){
-                next += "?grade=" + gradeId;
+                nextUrl += "?grade=" + gradeId;
                 hasParam = true;
             }
             if(subjectId != null && subjectId > 0){
-                next += hasParam ? "&subject=" : "?subject=";
-                next += subjectId;
+                nextUrl += hasParam ? "&subject=" : "?subject=";
+                nextUrl += subjectId;
                 hasParam = true;
             }
             if(tagIds != null && tagIds.length > 0){
-                next += hasParam ? "&tags=" : "?tags=";
+                nextUrl += hasParam ? "&tags=" : "?tags=";
                 for(int i=0; i<tagIds.length;){
-                    next += tagIds[i];
+                    nextUrl += tagIds[i];
                     if(++i < tagIds.length){
-                        next += "+";
+                        nextUrl += "+";
                     }
                 }
             }
             new LoadTeachersTask(){
                 @Override
                 public void afterTask(TeacherListResult response){
-                    adapter.loading = false;
+                    teacherListAdapter.loading = false;
                     setRefreshing(false);
                 }
             }.execute();
@@ -233,9 +200,9 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     private void notifyDataSetChanged(){
         if(teachersList != null && teachersList.size() < 20){
-            adapter.loading = false;
+            teacherListAdapter.loading = false;
         }
-        adapter.notifyDataSetChanged();
+        teacherListAdapter.notifyDataSetChanged();
     }
 
     private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
@@ -244,7 +211,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         @Override
         protected String doInBackground(String ...params){
             try{
-                String url = next;
+                String url = nextUrl;
                 RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
                 StringRequest jsArrayRequest = new StringRequest(
                         Request.Method.GET, url,
@@ -292,7 +259,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
         @Override
         public int getSpanSize(int position){
-            if(gridLayoutManager.getItemCount() - 1 == position && adapter.hasLoadMoreView && adapter.canLoadMore){
+            if(gridLayoutManager.getItemCount() - 1 == position && teacherListAdapter.hasLoadMoreView && teacherListAdapter.canLoadMore){
                 return 2;
             }else{
                 return 1;
@@ -305,7 +272,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     public void onClickTeacherFilter(View view){
         DialogFragment newFragment = FilterDialogFragment.newInstance();
         newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
-
     }
 
 }

@@ -65,7 +65,7 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timetable, container, false);
+        return inflater.inflate(R.layout.fragment_usertimetable, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

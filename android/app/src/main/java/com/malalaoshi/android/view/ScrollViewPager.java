@@ -29,4 +29,5 @@ public class ScrollViewPager extends ViewPager {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
 }
