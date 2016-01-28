@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.test import Client
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import Group, Permission
 from django.core.management import call_command
 import json
 from app.models import Parent, Teacher, Checkcode, Profile
@@ -37,7 +36,6 @@ class TestApi(TestCase):
         url = "/api/v1/teachers?grade=4&subject=3&tags=2+6"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
-
 
     def test_teacher_detail(self):
         client = Client()
@@ -78,24 +76,19 @@ class TestApi(TestCase):
     def test_get_token_key(self):
         client = Client()
         request_url = "/api/v1/token-auth"
-        # request_url = "/api/v1/subjects/"
         username = "parent1"
         password = "123123"
         user = authenticate(username=username, password=password)
         self.assertNotEqual(user, None)
         parent_user = User.objects.get(username=username)
-        # self.assertEqual(parent_user.password, password)
         self.assertEqual(parent_user.is_active, 1)
-        response = client.post(request_url, {"username": username, "password": password})
-        # print(response.status_code)
-        response.render()
-        #print(response.content.decode())
+        response = client.post(request_url, {"username": username,
+                                             "password": password})
         self.assertEqual(response.status_code, 200)
 
         client2 = Client()
-        response2 = client2.post(request_url, {"username": username, "password": password})
-        response2.render()
-        # print(response2.content.decode())
+        response2 = client2.post(request_url, {"username": username,
+                                               "password": password})
         self.assertEqual(response.content, response2.content)
 
     def test_modify_student_name(self):
@@ -103,10 +96,9 @@ class TestApi(TestCase):
         token_request_url = "/api/v1/token-auth"
         username = "parent1"
         password = "123123"
-        response = token_client.post(token_request_url, {"username": username, "password": password})
-        response.render()
+        response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
         token = json.loads(response.content.decode())["token"]
-        #print("get token:{token}".format(token=token))
         user = User.objects.get(username=username)
         parent = Parent.objects.get(user=user)
         user_token = Token.objects.get(user=user)
@@ -114,65 +106,61 @@ class TestApi(TestCase):
 
         call_command("add_groups_to_sample_users")
 
-        # test 201
         client = Client()
         request_url = "/api/v1/parents/%d" % (parent.pk,)
-        #print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
                                 data=json_data,
                                 **{"HTTP_AUTHORIZATION": " Token %s" % token})
         self.assertEqual(200, response.status_code)
-        # print(response.status_code)
-        response.render()
-        # print(response.content)
-        # print(response.content.decode())
         json_ret = json.loads(response.content.decode())
-        # print(json_ret)
-        # print(json_ret["done"])
         self.assertEqual(json_ret["done"], "true")
-        # self.assertEqual(response.content.decode(), "{'done': 'false', 'reason': 'Student name already exits.'}")
-        #print(response._headers)
         parent_after = Parent.objects.get(user=user)
         self.assertEqual(parent_after.student_name, "StudentNewName")
 
-        # test 200
         parent_after.student_name = ""
         parent_after.save()
         response = client.patch(request_url, content_type="application/json",
                                 data=json_data,
                                 **{"HTTP_AUTHORIZATION": " Token %s" % token})
         self.assertEqual(200, response.status_code)
-        response.render()
         self.assertEqual(response.content.decode(), '{"done":"true"}')
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
 
+        request_url = "/api/v1/parents/%d" % (parent.pk,)
+        school_name = '洛阳一中'
+        json_data = json.dumps({"student_school_name": school_name})
+        response = client.patch(request_url, content_type="application/json",
+                                data=json_data,
+                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(json_ret["done"], "true")
+        parent_after = Parent.objects.get(user=user)
+        self.assertEqual(parent_after.student_school_name, school_name)
+
     def test_create_order(self):
         token_client = Client()
-        url = '/api/v1/orders'
         token_request_url = "/api/v1/token-auth"
         username = "parent1"
         password = "123123"
-        response = token_client.post(token_request_url, {"username": username, "password": password})
-        response.render()
+        response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
         token = json.loads(response.content.decode())["token"]
-        #print("get token:{token}".format(token=token))
         user = User.objects.get(username=username)
-        parent = Parent.objects.get(user=user)
         user_token = Token.objects.get(user=user)
         self.assertEqual(user_token.key, token)
 
         client = Client()
         request_url = "/api/v1/orders"
-        #print("the request_url is {request_url}".format(request_url=request_url))
         json_data = json.dumps({
             'teacher': 1, 'school': 1, 'grade': 1, 'subject': 1,
             'coupon': 2, 'hours': 14, 'weekly_time_slots': [3, 8],
             })
         response = client.post(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                               data=json_data,
+                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
         self.assertEqual(201, response.status_code)
 
         request_url = "/api/v1/orders/1"
@@ -180,7 +168,6 @@ class TestApi(TestCase):
                               **{'HTTP_AUTHORIZATION': ' Token %s' % token})
         self.assertEqual(200, response.status_code)
 
-        response.render()
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
 
@@ -221,10 +208,8 @@ class TestTeacherWeb(TestCase):
                                    "code": sms_code
                                })
         self.assertEqual(response.status_code, 200)
-        # response.render()
-        #print(response.content)
-        self.assertEqual(json.loads(response.content.decode()),
-                         {"result": True, "url": "/teacher/information/complete/"})
+        self.assertEqual(json.loads(response.content.decode()), {
+            "result": True, "url": "/teacher/information/complete/"})
         # 第二次
         second_client = Client()
         response = second_client.post(reverse("teacher:verify-sms-code"),
@@ -232,14 +217,12 @@ class TestTeacherWeb(TestCase):
                                           "phone": phone,
                                           "code": sms_code
                                       })
-        self.assertEqual(json.loads(response.content.decode()),
-                         {"url": "/teacher/information/complete/", "result": True})
-        #print(response.content)
+        self.assertEqual(json.loads(response.content.decode()), {
+            "url": "/teacher/information/complete/", "result": True})
 
         # 测试information_compelte_percent
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
-        #print(percent)
 
 
 class TestAlgorithm(TestCase):
@@ -249,8 +232,6 @@ class TestAlgorithm(TestCase):
         tree.insert_val("a", "b", "c")
         tree.insert_val("b", "d", "e")
         self.assertEqual(tree.get_val("d").val, "d")
-        #print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
-        #print("test_tree_insert: {tree}".format(tree=tree.get_path("d")))
         self.assertEqual(tree.get_path("d"), ["a", "b", "d"])
         self.assertEqual(tree.get_path("e"), ["a", "b", "e"])
         self.assertEqual(tree.get_path("c"), ["a", "c"])
@@ -270,4 +251,3 @@ class TestAlgorithm(TestCase):
         self.assertTrue(parseInt('-234.234') == -234)
         self.assertTrue(parseInt('asd') == 'NaN')
         self.assertTrue(parseInt('-asd') == 'NaN')
-

@@ -550,7 +550,7 @@ class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
 class ParentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Parent
-        fields = ('student_name', )
+        fields = ('id', 'student_name', 'student_school_name', )
 
     def is_valid(self, raise_exception=False):
         super().is_valid(raise_exception=raise_exception)
@@ -622,6 +622,4 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        if response.status_code == 201:
-            print(response.data)
         return response

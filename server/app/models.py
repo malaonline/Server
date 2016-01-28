@@ -534,6 +534,7 @@ class Parent(BaseModel):
     user = models.OneToOneField(User)
 
     student_name = models.CharField(max_length=50)
+    student_school_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return "{child_name}'s parent [{parent_name}]".format(
