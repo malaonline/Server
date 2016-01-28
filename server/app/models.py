@@ -652,6 +652,39 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.all():
             handler(one_timeslot)
 
+class TimeSlotComplaint(BaseModel):
+    content = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+
+    def __str__(self):
+        return '%s' % (self.content)
+
+class TimeSlotAttendance(BaseModel):
+    NORMAL = 'a'
+    ABSENT = 'b'
+    LATE10 = 'c'
+    LATE10_30 = 'd'
+    LATE30 = 'e'
+    TYPE_CHOICES = (
+        (LATE10, '10分钟内'),
+        (LATE10_30, '10-30分钟'),
+        (LATE30, '30分钟以上'),
+        (ABSENT, '缺勤'),
+        (NORMAL, '正常出勤'),
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+    record_type = models.CharField(max_length=1,
+                              choices=TYPE_CHOICES,
+                              default=NORMAL)
+
+    def __str__(slef):
+        return '%s' % (self.get_record_type_display())
+
 
 class TimeSlot(BaseModel):
     order = models.ForeignKey(Order)
@@ -691,38 +724,6 @@ class TimeSlot(BaseModel):
             return True
         return False
 
-class TimeSlotComplaint(BaseModel):
-    content = models.CharField(max_length=500)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_updated_at = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(User, null=True, blank=True)
-
-    def __str__(self):
-        return '%s' % (self.content)
-
-class TimeSlotAttendance(BaseModel):
-    NORMAL = 'a'
-    ABSENT = 'b'
-    LATE10 = 'c'
-    LATE10_30 = 'd'
-    LATE30 = 'e'
-    TYPE_CHOICES = (
-        (LATE10, '10分钟内'),
-        (LATE10_30, '10-30分钟'),
-        (LATE30, '30分钟以上'),
-        (ABSENT, '缺勤'),
-        (NORMAL, '正常出勤'),
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_updated_at = models.DateTimeField(auto_now=True)
-    last_updated_by = models.ForeignKey(User, null=True, blank=True)
-    record_type = models.CharField(max_length=1,
-                              choices=TYPE_CHOICES,
-                              default=NORMAL)
-
-    def __str__(slef):
-        return '%s' % (self.get_record_type_display())
 
 class Comment(BaseModel):
     time_slot = models.ForeignKey(TimeSlot)
