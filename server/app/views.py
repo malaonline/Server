@@ -1,5 +1,4 @@
 import re
-import json
 import random
 import datetime
 import itertools
@@ -18,7 +17,7 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
-from rest_framework import serializers, viewsets, permissions, generics
+from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 
 from app import models
@@ -252,7 +251,6 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProfileSerializer
 
 
-# Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = ProfileSerializer()
 
@@ -261,7 +259,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'username', 'email', 'is_staff', 'profile')
 
 
-# ViewSets define the view behavior.
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.User.objects.all()
     serializer_class = UserSerializer
@@ -484,7 +481,8 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
 
         subject = self.request.query_params.get('subject', None) or None
         if subject is not None:
-            queryset = queryset.filter(abilities__subject__id__contains=subject)
+            queryset = queryset.filter(
+                    abilities__subject__id__contains=subject)
 
         tags = self.request.query_params.get('tags', '').split()
         tags = list(map(int, filter(lambda x: x, tags)))
@@ -547,7 +545,33 @@ class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WeeklyTimeSlotSerializer
 
 
-class ParentSerializer(serializers.HyperlinkedModelSerializer):
+class ParentBasedMixin(object):
+    def get_parent(self):
+        try:
+            parent = self.request.user.parent
+        except exceptions.ObjectDoesNotExist:
+            raise PermissionDenied(detail='Role incorrect')
+        return parent
+
+
+class TimeSlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.TimeSlot
+        fields = ('start', 'end', )
+
+
+class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
+    queryset = models.TimeSlot.objects.all()
+    serializer_class = TimeSlotSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        parent = self.get_parent()
+        queryset = models.TimeSlot.objects.filter(order__parent=parent)
+        return queryset
+
+
+class ParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Parent
         fields = ('id', 'student_name', 'student_school_name', )
@@ -556,17 +580,18 @@ class ParentSerializer(serializers.HyperlinkedModelSerializer):
         super().is_valid(raise_exception=raise_exception)
 
 
-class ParentViewSet(viewsets.ModelViewSet):
+class ParentViewSet(ParentBasedMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.ListModelMixin,
+                    mixins.UpdateModelMixin,
+                    viewsets.GenericViewSet):
     queryset = models.Parent.objects.all()
     serializer_class = ParentSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        user = self.request.user
-        try:
-            queryset = models.Parent.objects.filter(id=user.parent.id)
-        except exceptions.ObjectDoesNotExist:
-            raise PermissionDenied(detail='Role incorrect')
+        parent = self.get_parent()
+        queryset = models.Parent.objects.filter(id=parent.id)
         return queryset
 
     def update(self, request, *args, **kwargs):
@@ -593,31 +618,28 @@ class OrderSerializer(serializers.ModelSerializer):
         return value
 
     def validate_parent(self, value):
-        parent = self.request.user.parent
+        parent = self.get_parent()
         if value != parent:
             raise serializers.ValidationError('only create ones own order.')
         return value
 
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(ParentBasedMixin,
+                   mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   mixins.RetrieveModelMixin,
+                   viewsets.GenericViewSet):
     queryset = models.Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def _get_parent(self):
-        try:
-            parent = self.request.user.parent
-        except exceptions.ObjectDoesNotExist:
-            raise PermissionDenied(detail='Role incorrect')
-        return parent
-
     def get_queryset(self):
-        parent = self._get_parent()
+        parent = self.get_parent()
         queryset = models.Order.objects.filter(parent=parent).order_by('id')
         return queryset
 
     def perform_create(self, serializer):
-        parent = self._get_parent()
+        parent = self.get_parent()
         serializer.save(parent=parent)
 
     def create(self, request, *args, **kwargs):

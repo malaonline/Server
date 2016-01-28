@@ -9,6 +9,8 @@ from django.conf import settings
 
 from app.utils.algorithm import Tree, Node
 
+from app.utils import random_string, classproperty
+
 
 class BaseModel(models.Model):
     class Meta:
@@ -114,7 +116,8 @@ class Grade(BaseModel):
         """
         获得所有的grade名称
         """
-        return [[item.name for item in item.subset.all()] for item in Grade.objects.filter(superset=None)]
+        return [[item.name for item in item.subset.all()]
+                for item in Grade.objects.filter(superset=None)]
 
 
 class Ability(BaseModel):
@@ -276,16 +279,17 @@ class Teacher(BaseModel):
     def prices(self):
         abilities = self.abilities.all()
         return Price.objects.filter(
-                level=self.level, region=self.region, ability=abilities)
+                level=self.level, region=self.region,
+                ability__in=abilities)
 
     def min_price(self):
-        prices = self.prices()
+        prices = list(self.prices())
         if not prices:
             return None
         return min(x.price for x in prices)
 
     def max_price(self):
-        prices = self.prices()
+        prices = list(self.prices())
         if not prices:
             return None
         return max(x.price for x in prices)
@@ -372,10 +376,6 @@ class Teacher(BaseModel):
         teacher.save()
         ret_user = authenticate(username=username, password=password)
         return ret_user
-
-
-def random_string():
-    return str(uuid.uuid4())
 
 
 class Highscore(BaseModel):
@@ -580,9 +580,11 @@ class WeeklyTimeSlot(BaseModel):
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
-DAILY_TIME_SLOTS = [
-        dict(start=item.start, end=item.end) for item in
-        WeeklyTimeSlot.objects.filter(weekday=1)]
+    @classproperty
+    def DAILY_TIME_SLOTS(cls):
+        return [
+                dict(start=item.start, end=item.end) for item in
+                cls.objects.filter(weekday=1).order_by('start')]
 
 
 class OrderManager(models.Manager):
