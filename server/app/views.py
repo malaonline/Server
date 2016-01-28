@@ -547,7 +547,33 @@ class WeeklyTimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WeeklyTimeSlotSerializer
 
 
-class ParentSerializer(serializers.HyperlinkedModelSerializer):
+class ParentBasedViewSet(viewsets.ModelViewSet):
+    def get_parent(self):
+        try:
+            parent = self.request.user.parent
+        except exceptions.ObjectDoesNotExist:
+            raise PermissionDenied(detail='Role incorrect')
+        return parent
+
+
+class TimeslotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Timeslot
+        fields = ('start', 'end', )
+
+
+class TimeslotViewSet(ParentBasedViewSet):
+    queryset = models.Timeslot.objects.all()
+    serializer_class = TimeslotSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        parent = self.get_parent()
+        queryset = models.Timeslot.objects.filter(order__parent=parent)
+        return queryset
+
+
+class ParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Parent
         fields = ('id', 'student_name', 'student_school_name', )
@@ -556,17 +582,14 @@ class ParentSerializer(serializers.HyperlinkedModelSerializer):
         super().is_valid(raise_exception=raise_exception)
 
 
-class ParentViewSet(viewsets.ModelViewSet):
+class ParentViewSet(ParentBasedViewSet):
     queryset = models.Parent.objects.all()
     serializer_class = ParentSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        user = self.request.user
-        try:
-            queryset = models.Parent.objects.filter(id=user.parent.id)
-        except exceptions.ObjectDoesNotExist:
-            raise PermissionDenied(detail='Role incorrect')
+        parent = self.get_parent()
+        queryset = models.Parent.objects.filter(id=parent.id)
         return queryset
 
     def update(self, request, *args, **kwargs):
@@ -593,31 +616,24 @@ class OrderSerializer(serializers.ModelSerializer):
         return value
 
     def validate_parent(self, value):
-        parent = self.request.user.parent
+        parent = self.get_parent()
         if value != parent:
             raise serializers.ValidationError('only create ones own order.')
         return value
 
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(ParentBasedViewSet):
     queryset = models.Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def _get_parent(self):
-        try:
-            parent = self.request.user.parent
-        except exceptions.ObjectDoesNotExist:
-            raise PermissionDenied(detail='Role incorrect')
-        return parent
-
     def get_queryset(self):
-        parent = self._get_parent()
+        parent = self.get_parent()
         queryset = models.Order.objects.filter(parent=parent).order_by('id')
         return queryset
 
     def perform_create(self, serializer):
-        parent = self._get_parent()
+        parent = self.get_parent()
         serializer.save(parent=parent)
 
     def create(self, request, *args, **kwargs):
