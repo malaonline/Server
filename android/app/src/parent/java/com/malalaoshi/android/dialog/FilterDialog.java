@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 
 import java.util.List;
 
@@ -209,30 +210,5 @@ public class FilterDialog extends DialogFragment implements FragmentGroupAdapter
 
     public interface OnRightClickListener{
         void OnRightClick(View v);
-    }
-}
-
-class FragmentGroupAdapter extends FragmentPagerAdapter {
-    private IFragmentGroup fragment;
-
-    public FragmentGroupAdapter(Context context, FragmentManager fm, IFragmentGroup fragment) {
-        super(fm);
-        this.fragment = fragment;
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        return fragment.createFragment(position);
-    }
-
-    @Override
-    public int getCount() {
-        return fragment.getFragmentCount();
-    }
-
-
-    public interface IFragmentGroup{
-        Fragment createFragment(int position);
-        int getFragmentCount();
     }
 }

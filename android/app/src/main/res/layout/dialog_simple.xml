@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="272dp"
+    android:layout_height="231dp"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:id="@+id/rl_dlg_icon"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_dlg_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_location" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/page_padding"
-        android:textColor="@color/text_color_darkgray2"
-        android:textSize="@dimen/body_text_size"
-        android:lineSpacingExtra="5dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/list_divider_light"
-        />
-    <Button
-        android:id="@+id/btn_ok"
+        android:layout_below="@id/rl_dlg_icon"
+        android:lineSpacingExtra="8dp"
+        android:paddingLeft="37dp"
+        android:paddingRight="37dp"
+        android:textColor="@color/text_color_dlg"
+        android:textSize="@dimen/text_size_normal_x" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:background="@android:color/transparent"
-        android:textSize="@dimen/dialog_title_size"/>
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_title_color"></View>
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_gravity="end"
+            android:background="@drawable/dialog_ok_btn"
+            android:gravity="center"
+            android:text="确 认"
+            android:textColor="@color/dialog_title_color"
+            android:textSize="@dimen/text_size_large_x" />
+    </LinearLayout>
+</RelativeLayout>

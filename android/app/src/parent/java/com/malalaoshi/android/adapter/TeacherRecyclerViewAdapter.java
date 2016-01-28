@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
@@ -21,6 +22,8 @@ import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
+import com.malalaoshi.android.view.CircleImageView;
+import com.malalaoshi.android.view.CircleNetworkImage;
 
 import java.util.List;
 
@@ -65,14 +68,11 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         switch(viewType){
             case TYPE_LOAD_MORE:
                 hasLoadMoreView = true;
-                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, parent, false));
+                return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, null));
             case TYPE_NONE_VALUE:
-                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, parent, false));
+                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, null));
             default:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_body, parent, false);
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
-                    ((CardView)view).setPreventCornerOverlap(false);
-                }
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_item, null);
                 return new NormalViewHolder(view);
         }
     }
@@ -142,23 +142,23 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     }
 
     public class NormalViewHolder extends ViewHolder{
-        @Bind(R.id.teacher_list_item_avatar)
-        protected ImageView avatar;
-
-        @Bind(R.id.teacher_list_item_price)
-        protected TextView priceView;
-
         @Bind(R.id.teacher_list_item_name)
         protected TextView name;
 
-        @Bind(R.id.teacher_list_item_grade_view)
-        protected TextView gradeView;
+        @Bind(R.id.teacher_list_item_level)
+        protected TextView level;
 
-        @Bind(R.id.teacher_list_item_subject)
-        protected TextView subject;
+        @Bind(R.id.teacher_list_item_avater)
+        protected CircleNetworkImage avater;
+
+        @Bind(R.id.teacher_list_item_price)
+        protected TextView price;
 
         @Bind(R.id.teacher_list_item_tags)
-        protected TextView tagView;
+        protected TextView tags;
+
+        @Bind(R.id.teacher_list_item_subjects)
+        protected TextView subjects;
 
         protected com.malalaoshi.android.entity.Teacher teacher;
 
@@ -176,30 +176,38 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 return;
             }
             teacher = teachersList.get(position);
+            level.setText(teacher.getLevel());
             name.setText(teacher.getName());
             String sub = teacher.getSubject();
-            if(sub != null){
-                subject.setText(sub);
-            }
             String gradeStr = teacher.getGrades_shortname();
-            if(gradeStr != null){
-                gradeView.setText(gradeStr);
+            if(gradeStr != null&&!gradeStr.equals("")&&sub!=null&&!sub.equals("")){
+                subjects.setText(gradeStr+" · "+ sub);
+            }else {
+                if (gradeStr == null||gradeStr.equals("")){
+                    subjects.setText(sub);
+                }else if (sub==null||sub.equals("")){
+                    subjects.setText(gradeStr);
+                }
             }
             String tagStr = StringUtil.join(teacher.getTags());
             if(tagStr != null){
-                tagView.setText(tagStr);
+                tags.setText(tagStr);
             }
+            String imgUrl = teacher.getAvatar();
+            if (imgUrl != null && !imgUrl.equals("")) {
 
-            if (teacher.getAvatar() != null && !teacher.getAvatar().isEmpty()) {
-                mImageLoader.get(teacher.getAvatar(), ImageLoader.getImageListener(avatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+                avater.setDefaultImageResId(R.mipmap.ic_launcher);
+                avater.setErrorImageResId(R.mipmap.ic_launcher);
+                avater.setImageUrl(imgUrl, mImageLoader);
+
             }
 
             Double minPrice = teacher.getMin_price();
             String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
             Double maxPrice = teacher.getMax_price();
             String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
-            String currencyUnit = priceView.getContext().getString(R.string.currency_unit);
-            priceView.setText(minPriceStr + "-" + maxPriceStr+ currencyUnit);
+            price.setText(minPriceStr + "-" + maxPriceStr);
+
         }
 
         @OnClick(R.id.teacher_list_item_body)

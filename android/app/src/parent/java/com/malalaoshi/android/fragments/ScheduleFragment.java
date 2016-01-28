@@ -1,10 +1,10 @@
 package com.malalaoshi.android.fragments;
 
-import android.app.Fragment;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +27,6 @@ import com.malalaoshi.android.entity.Schedule;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.result.ScheduleListResult;
 import com.malalaoshi.android.util.JsonUtil;
-import com.malalaoshi.android.util.RefreshLayoutUtils;
 
 import java.util.ArrayList;
 import java.util.List;

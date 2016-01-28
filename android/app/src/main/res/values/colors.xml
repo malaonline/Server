@@ -65,9 +65,13 @@
     <color name="title_bar_text_color">#333333</color>
 
     <color name="backgrounp">#F6F6F6</color>
-
+    <color name="teacher_main_bg">#ededed</color>
     <color name="filter_btn_text_color">#8BBADC</color>
+    <color name="line_color">#dadada</color>
+    <color name="text_color_home_price">#82B4D9</color>
+    <color name="text_color_home_price_unit">#6c6c6c</color>
 
+    <color name="text_subject_color">#e5ffffff</color>
     <!-- 指示器 -->
     <color name="smallCircleColor">#c7deee</color>
     <color name="largeCircleColor">#8fbcdd</color>
@@ -79,6 +83,8 @@
 
     <color name="text_color_logout_btn">#82b4d9</color>
 
-
+    <!-- tab文字颜色 -->
+    <color name="tab_text_normal_color">#6c6c6c</color>
+    <color name="tab_text_press_color">#82b4d9</color>
 
 </resources>

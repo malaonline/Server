@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/item_background"
+    android:background="@color/teacher_main_bg"
     android:fitsSystemWindows="true">
     <include layout="@layout/app_title_bar"></include>
     <LinearLayout

@@ -1,23 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:id="@+id/teacher_list_item"
-              android:background="?attr/selectableItemBackgroundGeneral"
-    >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teacher_list_item_body"
+    style="@style/AppWidget.CardViewStyle">
+
+    <LinearLayout style="@style/CardView.LinearStyle">
+
+        <TextView
+            android:id="@+id/teacher_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/home_margin_xxlarge"
+            android:gravity="center"
+            android:text="顾思远"
+            android:typeface="serif"
+            android:textColor="@color/text_color_darkgray"
+            android:textSize="@dimen/text_size_xxxlarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/home_margin_top_normal"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_margin_normal"
+                android:layout_marginRight="@dimen/item_margin_normal"
+                android:layout_weight="1"
+                android:background="@drawable/line" />
+
+            <TextView
+                android:id="@+id/teacher_list_item_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="麻辣金牌名师"
+                android:typeface="serif"
+                android:textColor="@color/prices_price_text_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_margin_normal"
+                android:layout_marginRight="@dimen/item_margin_normal"
+                android:layout_weight="1"
+                android:background="@drawable/line" />
+        </LinearLayout>
+
+
+        <com.malalaoshi.android.view.CircleNetworkImage
+            android:id="@+id/teacher_list_item_avater"
+            android:layout_width="@dimen/home_avater_height"
+            android:layout_height="@dimen/home_avater_width"
+            android:layout_marginTop="@dimen/home_margin_top_xlarge"
+            android:gravity="center"
+            android:src="@drawable/user_detail_header_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/home_margin_top_large"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/teacher_list_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="100-200"
+                android:textStyle="bold"
+                android:textColor="@color/text_color_home_price"
+                android:textSize="@dimen/text_size_xxlarge" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="元/课时"
+                android:textColor="@color/text_color_home_price_unit"
+                android:textSize="@dimen/text_size_xlarge" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/teacher_list_item_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/home_margin_xxlarge"
+            android:layout_marginTop="@dimen/home_margin_top_xlarge"
+            android:gravity="center"
+            android:text="幽默 | 有责任心 | 正能量"
+            android:typeface="serif"
+            android:textColor="@color/text_color_darkgray"
+            android:textSize="@dimen/text_size_normal" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/fragment_teacher_list_item_id"
+        android:background="@drawable/subject_bg"
+        android:id="@+id/teacher_list_item_subjects"
+        android:paddingLeft="@dimen/item_margin_normal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <TextView
-        android:id="@+id/fragment_teacher_list_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        android:layout_height="@dimen/home_subject_height"
+        android:gravity="center_vertical|left"
+        android:typeface="serif"
+        android:textColor="@color/text_subject_color"
+        android:textSize="@dimen/text_size_small_x"
+        android:text="小初高 · 数学" />
+</FrameLayout>

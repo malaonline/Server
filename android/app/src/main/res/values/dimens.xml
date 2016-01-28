@@ -15,6 +15,8 @@
     <dimen name="page_padding_all">37dp</dimen>
     <dimen name="dialog_toolbar_height">65dp</dimen>
     <dimen name="dialog_bottom_bar_height">48dp</dimen>
+    <dimen name="alter_dialog_message_width">272dp</dimen>
+    <dimen name="alter_dialog_message_height">231dp</dimen>
 
     <dimen name="elevation_editor">2dp</dimen>
     <dimen name="elevation_normal">2dp</dimen>
@@ -32,6 +34,7 @@
     <dimen name="body_text_size">14dp</dimen>
 
     <dimen name="teacher_list_card_diver">8dp</dimen>
+    <dimen name="teacher_list_top_diver">12dp</dimen>
 
     <dimen name="teacher_list_card_corner_radius">4dp</dimen>
     <dimen name="teacher_list_card_elevation">2dp</dimen>
@@ -71,6 +74,8 @@
     <dimen name="gallery_height_small">72dp</dimen>
     <dimen name="gallery_divider_small">5dp</dimen>
 
+    <dimen name="item_margin_normal">12dp</dimen>
+
     <dimen name="teacher_name_margin_left">82dp</dimen>
 
     <dimen name="text_divider_margin_normal">5dp</dimen>
@@ -91,16 +96,56 @@
     <dimen name="school_margin_normal">10dp</dimen>
     <dimen name="toolbar_height">44dp</dimen>
 
+
+    <!-- 首页 教师列表 -->
+    <dimen name="home_list_divider_height">8dp</dimen>
+    <dimen name="home_margin_top_normal">10dp</dimen>
+    <dimen name="home_margin_top_large">11dp</dimen>
+    <dimen name="home_margin_top_xlarge">12dp</dimen>
+    <dimen name="home_margin_xxlarge">15dp</dimen>
+    <dimen name="home_avater_height">70dp</dimen>
+    <dimen name="home_avater_width">70dp</dimen>
+    <dimen name="home_subject_height">22dp</dimen>
+    <dimen name="gallery_padding">54dp</dimen>
+
+    <dimen name="title_bar_height">44dp</dimen>
+
+    <!-- 标题文字渐隐区域-->
+    <dimen name="title_text_disappear_boundary_top">20dp</dimen>
+    <dimen name="title_text_appear_boundary_bottom">15dp</dimen>
+    <!-- 标题tab渐隐区域-->
+    <dimen name="title_tab_appear_boundary_top">80dp</dimen>
+    <dimen name="title_tab_disappear_boundary_bottom">45dp</dimen>
+    <!-- tabbar文字渐隐区域-->
+    <dimen name="tab_bar_disappear_boundary_top">42dp</dimen>
+    <dimen name="tab_bar_appear_boundary_bottom">30dp</dimen>
+    <!-- tabbar文字缩放区域-->
+    <dimen name="tab_bar_scale_boundary_top">30dp</dimen>
+    <dimen name="tab_bar_scale_boundary_bottom">1dp</dimen>
+    <!-- tabbar开始上移边界值-->
+    <dimen name="tab_bar_move_boundary_top">56dp</dimen>
+    <dimen name="tab_bar_move_boundary_bottom">12dp</dimen>
+    <!-- tab开始左移区域-->
+    <dimen name="tab_move_left_boundary_top">30dp</dimen>
+    <dimen name="tab_move_left_boundary_bottom">1dp</dimen>
+    <dimen name="tab_divider">7dp</dimen>
+    <dimen name="tab_text_padding">5dp</dimen>
+
+    <!-- 指示器渐隐区域-->
+    <dimen name="indicator_move_boundary_top">12dp</dimen>
+    <dimen name="indicator_move_boundary_bottom">0dp</dimen>
+
+    <!-- 字体大小 -->
     <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_small_x">11sp</dimen>
     <dimen name="text_size_normal">12sp</dimen>
     <dimen name="text_size_normal_x">13sp</dimen>
     <dimen name="text_size_large">14sp</dimen>
     <dimen name="text_size_large_x">15sp</dimen>
     <dimen name="text_size_xlarge">16sp</dimen>
+    <dimen name="text_size_xlarge_x">17sp</dimen>
     <dimen name="text_size_xxlarge">18sp</dimen>
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
-    <dimen name="gallery_padding">54dp</dimen>
 
-    <dimen name="title_bar_height">44dp</dimen>
 </resources>

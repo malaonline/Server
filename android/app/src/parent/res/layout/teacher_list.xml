@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.bingoogolapple.refreshlayout.BGARefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/teacher_list_refresh_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingTop="0dp"
-    >
-
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/teacher_list_recycler_view"
+    android:layout_height="match_parent">
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/teacher_list_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        android:paddingLeft="@dimen/teacher_list_card_diver"
-        android:paddingRight="@dimen/teacher_list_card_diver"
-        android:background="#FFFFFF"
-        android:scrollbarSize="1dp"
-        />
+        android:background="@color/teacher_main_bg"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/teacher_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="1dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
-</cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    <Button
+        android:id="@+id/teacher_filter_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@drawable/filter_btn" />
+</FrameLayout>

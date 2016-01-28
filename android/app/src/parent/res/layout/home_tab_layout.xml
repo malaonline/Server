@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:layout_marginTop="44dp"
+    android:background="#E5ffffff"
+    android:paddingRight="7dp"
+    android:paddingLeft="7dp"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/rl_tab_findteacher"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_tab_findteacher"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|bottom"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="找老师"
+            android:textColor="#82b4d9"
+            android:textSize="16sp" />
+        <View
+            android:id="@+id/view_tab_indicator_findteacher"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignLeft="@id/tv_tab_findteacher"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/tv_tab_findteacher"
+            android:background="@drawable/tab_indicator_bg" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_tab_timetable"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_tab_timetable"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="left|bottom"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="课表"
+            android:textColor="#6c6c6c"
+            android:textSize="16sp" />
+        <View
+            android:id="@+id/view_tab_indicator_timetable"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignLeft="@id/tv_tab_timetable"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/tv_tab_timetable"
+            android:background="@drawable/tab_indicator_bg" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_tab_usercenter"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_tab_usercenter"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="left|bottom"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="我的"
+            android:textColor="#6c6c6c"
+            android:textSize="16sp" />
+        <View
+            android:id="@+id/view_tab_indicator_usercenter"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignLeft="@id/tv_tab_usercenter"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/tv_tab_usercenter"
+            android:background="@drawable/tab_indicator_bg" />
+    </RelativeLayout>
+</RelativeLayout>
