@@ -77,7 +77,7 @@ class TestApi(TestCase):
 
     def test_teacher_weekly_time_slot(self):
         client = Client()
-        url = "/api/v1/teachers/1/weeklytimeslots"
+        url = "/api/v1/teachers/1/weeklytimeslots?school_id=1"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 

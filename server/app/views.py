@@ -556,20 +556,20 @@ class ParentBasedViewSet(viewsets.ModelViewSet):
         return parent
 
 
-class TimeslotSerializer(serializers.ModelSerializer):
+class TimeSlotSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Timeslot
+        model = models.TimeSlot
         fields = ('start', 'end', )
 
 
-class TimeslotViewSet(ParentBasedViewSet):
-    queryset = models.Timeslot.objects.all()
-    serializer_class = TimeslotSerializer
+class TimeSlotViewSet(ParentBasedViewSet):
+    queryset = models.TimeSlot.objects.all()
+    serializer_class = TimeSlotSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         parent = self.get_parent()
-        queryset = models.Timeslot.objects.filter(order__parent=parent)
+        queryset = models.TimeSlot.objects.filter(order__parent=parent)
         return queryset
 
 
