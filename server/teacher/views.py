@@ -12,14 +12,11 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.timezone import make_aware
 
 from collections import namedtuple
 import json
 import datetime
-from dateutil.tz import tzoffset
-
-# 时区
-custom_time_zone = tzoffset("北京时间", +28800)
 
 # local modules
 from app import models
@@ -268,7 +265,7 @@ class FirstPage(View):
         avatar = profile.avatar or 'common/icons/none_body_profile.png'
         return avatar
 
-    def class_complete(self, order_set, current_data=datetime.datetime.now(tz=custom_time_zone)):
+    def class_complete(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 已上课数量
         complete_count = 0
         for one_order in order_set:
@@ -281,7 +278,7 @@ class FirstPage(View):
         class_complete = complete_count
         return class_complete
 
-    def class_waiting(self, order_set, current_data=datetime.datetime.now(tz=custom_time_zone)):
+    def class_waiting(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 待上课数量
         waiting_count = 0
         for one_order in order_set:
@@ -294,7 +291,7 @@ class FirstPage(View):
         class_waiting = waiting_count
         return class_waiting
 
-    def student_on_class(self, order_set, current_data=datetime.datetime.now(tz=custom_time_zone)):
+    def student_on_class(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 上课中的学生,需要先汇总学生的所有订单,然后判断学生是否在上课
         parent_set = set()
         parent_dict = {}
@@ -327,7 +324,7 @@ class FirstPage(View):
 
         return student_on_class
 
-    def student_complete(self, order_set, current_data=datetime.datetime.now(tz=custom_time_zone)):
+    def student_complete(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 已结课的学生,所有的time_slot都是完成的就算结课了,要先合并订单
         parent_set = set()
         parent_dict = {}
@@ -353,10 +350,10 @@ class FirstPage(View):
         return student_complete
 
     class CollectOrderInfo:
-        def __init__(self, current_date=datetime.datetime.now(tz=custom_time_zone)):
+        def __init__(self, current_data=make_aware(datetime.datetime.now())):
             self.score_list = []
             self.bad_commit = []
-            self.current_date = current_date
+            self.current_date = current_data
 
         def __call__(self, one_timeslot:models.TimeSlot):
             if one_timeslot.is_complete(self.current_date):
@@ -376,7 +373,7 @@ class FirstPage(View):
         def bad_commit_count(self):
             return len(self.bad_commit)
 
-    def comprehensive_evaluation(self, order_set, current_data=datetime.datetime.now(tz=custom_time_zone)):
+    def comprehensive_evaluation(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 综合评分,求所有timeslot的平均分,以及差评数
         gce = FirstPage.CollectOrderInfo()
         for one_order in order_set:

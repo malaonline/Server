@@ -4,18 +4,13 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 from django.core.management import call_command
-from django.conf import settings
+from django.utils.timezone import make_aware
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot
 from teacher.views import FirstPage
 
 import json
 import datetime
-from dateutil.tz import tzoffset
-
-# 时区
-custom_time_zone = tzoffset("北京时间", +28800)
-
 
 # Create your tests here.
 class TestWebPage(TestCase):
@@ -73,13 +68,15 @@ class TestWebPage(TestCase):
                       grade=Grade.objects.get(name="一年级"),
                       subject=Subject.objects.get(name="数学"),
                       coupon=None,
-                      price=200, hours=50, total=100, paid_at=datetime.datetime.now(tz=custom_time_zone),
+                      price=200, hours=50, total=100, paid_at=make_aware(datetime.datetime.now()),
                       status=Order.PAID)
         order.save()
         # 创建订单里的课程
-        one_time_slot = TimeSlot(order=order, start=datetime.datetime(2016, 1, 1, tzinfo=custom_time_zone), end=datetime.datetime(2016, 1, 20, tzinfo=custom_time_zone))
+        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2016, 1, 1)),
+                                 end=make_aware(datetime.datetime(2016, 1, 20)))
         one_time_slot.save()
-        one_time_slot = TimeSlot(order=order, start=datetime.datetime(2015, 12, 15, tzinfo=custom_time_zone), end=datetime.datetime(2015, 12, 30, tzinfo=custom_time_zone))
+        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 15)),
+                                 end=make_aware(datetime.datetime(2015, 12, 30 )))
         one_time_slot.save()
 
     def tearDown(self):
@@ -144,5 +141,5 @@ class TestWebPage(TestCase):
         first_page = FirstPage()
         self.assertEqual(2, first_page.class_complete(order_set))
         self.assertEqual(1, first_page.class_waiting(order_set,
-                                                     datetime.datetime(2015, 12, 20, tzinfo=custom_time_zone)))
+                                                     make_aware(datetime.datetime(2015, 12, 20))))
         self.assertEqual(1, first_page.student_complete(order_set))
