@@ -1,7 +1,9 @@
 package com.malalaoshi.android.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -321,6 +323,18 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
+                // TODO Auto-generated method stub 返回键关闭dialog
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
         return inflater.inflate(R.layout.dialog_filter, container, false);
     }
 
