@@ -315,8 +315,64 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 highscore = models.Highscore(teacher=teacher, name=name, increased_scores=scores,
                                              school_name=school_from, admitted_to=school_to)
                 highscore.save()
-            # 认证
-            # TODO
+            ### 认证
+            # 身份认证
+            certIdHeldOk = request.POST.get('certIdHeldOk')
+            if certIdHeldOk and certIdHeldOk=='True':
+                certIdHeld.verified = True
+            else:
+                certIdHeld.verified = False
+            certIdHeldImg = None
+            if request.FILES:
+                certIdHeldImg = request.FILES.get('certIdHeldImg')
+            if certIdHeldImg:
+                _img_content = ContentFile(certIdHeldImg.read())
+                certIdHeld.img.save("idHeld"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteCertIdHeld'):
+                    certIdHeld.img.delete()
+            if not certIdHeld.img:
+                certIdHeld.verified = False
+            certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
+                                                              defaults={'name':"",'verified':False})
+            certIdFrontImg = None
+            if request.FILES:
+                certIdFrontImg = request.FILES.get('certIdFrontImg')
+            if certIdFrontImg:
+                _img_content = ContentFile(certIdFrontImg.read())
+                certIdFront.img.save("IdFront"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteCertIdFront'):
+                    certIdFront.img.delete()
+            if not certIdFront.img:
+                certIdHeld.verified = False
+            certIdFront.save()
+            certIdHeld.save()
+            # 学历, 教师资格证,英语水平
+            self.postSaveCert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
+            self.postSaveCert(request, teacher, models.Certificate.TEACHING, 'Teaching')
+            self.postSaveCert(request, teacher, models.Certificate.ENGLISH, 'English')
+            # 其他认证
+            allCertOtherIds = request.POST.getlist('certOtherId')
+            stayCertOtherIds = [s for s in allCertOtherIds if s and (not s.startswith('new'))]
+            newCertOtherIds = [s for s in allCertOtherIds if s.startswith('new')]
+            models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER)\
+                .exclude(id__in=stayCertOtherIds).delete()
+            for certId in newCertOtherIds:
+                name = request.POST.get(certId+'certName')
+                certOk = request.POST.get(certId+'certOk')
+                certImg = None
+                if request.FILES:
+                    certImg = request.FILES.get(certId+'certImg')
+                if not certImg:
+                    continue
+                newCert = models.Certificate(teacher=teacher,name=name,type=models.Certificate.OTHER,verified=False)
+                if certOk and certOk=='True':
+                    newCert.verified = True
+                _img_content = ContentFile(certImg.read())
+                newCert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                newCert.save()
+            # TODO: 资质认证修改后, 发邮件或短信通知
             # 介绍语音, 介绍视频
             # TODO
             # 教学成果
@@ -325,6 +381,28 @@ class TeacherUnpublishedEditView(BaseStaffView):
             logger.error(ex)
             return JsonResponse({'ok': False, 'msg': BaseStaffActionView.defaultErrMeg, 'code': -1})
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+    def postSaveCert(self, request, teacher, type_code, type_str, cert=None):
+        if not cert:
+            cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=type_code,
+                                                                     defaults={'name':"",'verified':False})
+        certOk = request.POST.get('cert'+type_str+'Ok')
+        if certOk and certOk=='True':
+            cert.verified = True
+        else:
+            cert.verified = False
+        certImg = None
+        if request.FILES:
+            certImg = request.FILES.get('cert'+type_str+'Img')
+        if certImg:
+            _img_content = ContentFile(certImg.read())
+            cert.img.save(type_str+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+        else:
+            if request.POST.get('toDeleteCert'+type_str):
+                cert.img.delete()
+        if not cert.img:
+            cert.verified = False
+        cert.save()
 
 class TeacherActionView(BaseStaffActionView):
 

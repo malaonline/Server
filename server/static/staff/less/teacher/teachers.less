@@ -90,6 +90,34 @@ hr {
     }
   }
 }
+.cert-verify-flag {
+  > span {
+    font-size:12px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    &.ok {
+      display: none;
+      color:green;
+      border-color:green;
+    }
+  }
+  &.False > span{
+    &.todo {
+      display: inline-block;
+    }
+    &.ok {
+      display: none;
+    }
+  }
+  &.True > span{
+    &.todo {
+      display: none;
+    }
+    &.ok {
+      display: inline-block;
+    }
+  }
+}
 
 .help-block {
   display: none;

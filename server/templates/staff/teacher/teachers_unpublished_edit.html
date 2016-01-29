@@ -284,8 +284,7 @@
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <form class="form-horizontal">
-                            <input type="hidden" id="teacherId" value="{{teacher.id}}" />
+                        <div class="form-horizontal">
                           <fieldset>
                             <legend>添加新内容</legend>
                             <div class="control-group">
@@ -313,7 +312,7 @@
                               </div>
                             </div>
                           </fieldset>
-                        </form>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <a id="doAddHighScore" class="btn btn-primary">确定</a>
@@ -330,6 +329,12 @@
         <div class="pull-left img-edit" for="idHeld">
             <div class="title">
                 身份证手持照
+                <input type="hidden" name="toDeleteCertIdHeld">
+                <span class="cert-verify-flag {{ cert_id_held.verified }}">
+                    <input type="hidden" name="certIdHeldOk" value="{{ cert_id_held.verified }}"/>
+                    <span class="todo">未认证</span>
+                    <span class="ok">已认证</span>
+                </span>
             </div>
             <div class="img-upload-box">
                 <div class="img-box">
@@ -352,6 +357,7 @@
         <div class="pull-left img-edit" for="idFront">
             <div class="title">
                 身份证正面
+                <input type="hidden" name="toDeleteCertIdFront">
             </div>
             <div class="img-upload-box">
                 <div class="img-box">
@@ -372,6 +378,12 @@
         <div class="pull-left img-edit" for="academic">
             <div class="title">
                 学历证书
+                <input type="hidden" name="toDeleteCertAcademic">
+                <span class="cert-verify-flag {{ cert_academic.verified }}">
+                    <input type="hidden" name="certAcademicOk" value="{{ cert_academic.verified }}"/>
+                    <span class="todo">未认证</span>
+                    <span class="ok">已认证</span>
+                </span>
             </div>
             <div class="img-upload-box">
                 <div class="img-box">
@@ -394,6 +406,12 @@
         <div class="pull-left img-edit" for="teaching">
             <div class="title">
                 教师资格证
+                <input type="hidden" name="toDeleteCertTeaching">
+                <span class="cert-verify-flag {{ cert_teaching.verified }}">
+                    <input type="hidden" name="certTeachingOk" value="{{ cert_teaching.verified }}"/>
+                    <span class="todo">未认证</span>
+                    <span class="ok">已认证</span>
+                </span>
             </div>
             <div class="img-upload-box">
                 <div class="img-box">
@@ -417,6 +435,12 @@
             <div class="pull-left img-edit" for="english">
                 <div class="title">
                     英语水平证书
+                    <input type="hidden" name="toDeleteCertEnglish">
+                    <span class="cert-verify-flag {{ cert_english.verified }}">
+                        <input type="hidden" name="certEnglishOk" value="{{ cert_english.verified }}"/>
+                        <span class="todo">未认证</span>
+                        <span class="ok">已认证</span>
+                    </span>
                 </div>
                 <div class="img-upload-box">
                     <div class="img-box">
@@ -437,14 +461,22 @@
                 </div>
             </div>
         {% endif %}
-        <div class="pull-left">
-            <div class="title">
-                其他
-            </div>
+    </div>
+    <div class="clearfix">
+        <div class="title">
+            其他认证
+        </div>
+        <div id="otherCertsList">
             {% if not cert_others %}
                 <div class="pull-left img-edit" for="otherCert">
+                    <input type="hidden" name="certOtherId" value="newCert0"/>
                     <div>
-                        <input type="text" name="cert_name" placeholder="证书标题">
+                        <input type="text" name="newCert0certName" placeholder="证书标题">
+                        <span class="cert-verify-flag False">
+                            <input type="hidden" name="newCert0certOk" value="False"/>
+                            <span class="todo">未认证</span>
+                            <span class="ok">已认证</span>
+                        </span>
                     </div>
                     <div class="img-upload-box">
                         <div class="img-box">
@@ -457,7 +489,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="certOtherImg" multiple="" accept="image/*"/>
+                            <input title="请选择图片" type="file" name="newCert0certImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-cert">删除</a>
                         <a class="btn btn-success" data-action="approve-cert">认证通过</a>
@@ -467,8 +499,14 @@
             {% else %}
                 {% for cert in cert_others %}
                     <div class="pull-left img-edit" for="otherCert">
+                        <input type="hidden" name="certOtherId" value="{{ cert.id }}"/>
                         <div>
-                            <input type="text" name="cert_name" value="{{ cert.name }}" placeholder="证书标题">
+                            <input type="text" name="{{ cert.id }}certName" value="{{ cert.name }}" placeholder="证书标题">
+                            <span class="cert-verify-flag {{ cert.verified }}">
+                                <input type="hidden" name="{{ cert.id }}certOk" value="{{ cert.verified }}"/>
+                                <span class="todo">未认证</span>
+                                <span class="ok">已认证</span>
+                            </span>
                         </div>
                         <div class="img-upload-box">
                             <div class="img-box">
@@ -481,7 +519,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="certOtherImg" multiple="" accept="image/*"/>
+                                <input title="请选择图片" type="file" name="{{ cert.id }}certImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-cert">删除</a>
                             <a class="btn btn-success" data-action="approve-cert">认证通过</a>

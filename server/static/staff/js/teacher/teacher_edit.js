@@ -120,9 +120,8 @@ $(function(){
     });
 
     var clearImgEditBox = function($editBox) {
-        $editBox.find('.img-box img').attr('src', '');
-        $editBox.find('.img-preview-box img').attr('src', '');
-        $editBox.find('.img-preview-box').hide();
+        $editBox.find('.img-box').hide().find('img').attr('src', '');
+        $editBox.find('.img-preview-box').hide().find('img').attr('src', '');
         $editBox.find('input[type=file]').val('');
     };
 
@@ -223,12 +222,56 @@ $(function(){
         validIsAllHsChk();
     });
 
+    // 身份资质认证等
+    $('[data-action=approve-cert]').click(function(e){
+        var $editBox = $(this).closest('.img-edit');
+        var $flagSpan = $editBox.find('.cert-verify-flag');
+        $flagSpan.removeClass('False').addClass('True');
+        $flagSpan.find('input').val('True');
+    });
+    var declineCert = function($editBox) {
+        var $flagSpan = $editBox.find('.cert-verify-flag');
+        $flagSpan.removeClass('True').addClass('False');
+        $flagSpan.find('input').val('False');
+    };
+    $('[data-action=decline-cert]').click(function(e){
+        var $editBox = $(this).closest('.img-edit');
+        declineCert($editBox);
+    });
+    $('[data-action=delete-cert]').click(function(e){
+        var $editBox = $(this).closest('.img-edit'), type = $editBox.attr('for');
+        if (type=='otherCert') {
+            var $editBoxList = $("#otherCertsList > .img-edit");
+            if ($editBoxList.length>1) {
+                $editBox.remove();
+            } else {
+                declineCert($editBox);
+                clearImgEditBox($editBox);
+                $editBox.find('input[name$=certName]').val('');
+            }
+            return false;
+        }
+        declineCert($editBox);
+        clearImgEditBox($editBox);
+        $editBox.find('input[name^=toDeleteCert]').val('1');
+    });
     $('[data-action=add-more-cert]').click(function(){
+        var $otherCertsList = $("#otherCertsList"), newSeq = $otherCertsList.data('newSeq');
+        if (!newSeq) {
+            newSeq = 1;
+        }
         var $certEdit = $('.img-edit[for=otherCert]:last');
         var $newCertEdit = $certEdit.clone(true);
-        $newCertEdit.find('input[name=cert_name]').val('');
+        declineCert($newCertEdit);
         clearImgEditBox($newCertEdit);
+        var oldCertId = $certEdit.find('input[name=certOtherId]').val(), newCertId = 'newCert'+newSeq;
+        $newCertEdit.find('input[name=certOtherId]').val(newCertId);
+        $newCertEdit.find('input[name='+oldCertId+'certName]').attr('name', newCertId+'certName').val('');
+        $newCertEdit.find('input[name='+oldCertId+'certOk]').attr('name', newCertId+'certOk');
+        $newCertEdit.find('input[name='+oldCertId+'certImg]').attr('name', newCertId+'certImg');
         $certEdit.after($newCertEdit);
+        newSeq++;
+        $otherCertsList.data('newSeq', newSeq);
     });
 
     // audio file changed event
