@@ -41,7 +41,7 @@ $(function(){
         $modal.modal();
     });
     // 查看学习中心
-    $('[data-action=show-schools').click(function(e){
+    $('[data-action=show-schools]').click(function(e){
         var $schoolsModal = $("#schoolsModal");
         var $this = $(this), schools = $this.data('schools');
         var fillTableAndShow = function(schools) {
@@ -164,6 +164,29 @@ $(function(){
                 $this.data('achievements', data.list);
                 fillTableAndShow(data.list);
             }
+        });
+    });
+
+    $('[data-action=publish-teacher]').click(function(e){
+        var $row = $(this).closest('tr');
+        var teacherId = $row.attr('teacherId');
+        var name = $.trim($row.find('td[field=name]').text());
+        var decided = confirm('确定上架['+name+']?');
+        if (!decided) return;
+        // do request server
+        var params = {'action': 'publish-teacher', 'tid': teacherId};
+        $.post( "/staff/teachers/action/", params, function( result ) {
+            if (result) {
+                if (result.ok) {
+                    $row.remove();
+                } else {
+                    alert(result.msg);
+                }
+                return;
+            }
+            alert(defaultErrMsg);
+        }, 'json').fail(function() {
+            alert(defaultErrMsg);
         });
     });
 });

@@ -158,7 +158,7 @@ class TeacherUnpublishedView(BaseStaffView):
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
-        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK)
+        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=False)
         if name:
             query_set = query_set.filter(name__icontains = name)
         if phone:
@@ -486,7 +486,27 @@ class TeacherActionView(BaseStaffActionView):
             return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_OK)
         if action == 'set-interview-fail':
             return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
+        if action == 'publish-teacher':
+            return self.publishTeacher(request);
         return HttpResponse("Not supported request.", status=403)
+
+    def publishTeacher(self, request):
+        tid = request.POST.get('tid')
+        if not tid:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        try:
+            teacher = models.Teacher.objects.get(id=tid)
+            teacher.published = True
+            teacher.save()
+            # TODO: send notice (sms) to teacher
+            return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
+        except models.Teacher.DoesNotExist as e:
+            msg = self.NO_TEACHER_FORMAT.format(id=tid)
+            logger.error(msg)
+            return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
+        except Exception as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
 
     def listSubRegions(self, request):
         """
