@@ -27,6 +27,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='order',
+            name='paid_at',
+            field=models.DateTimeField(blank=True, null=True),
+        ),
+        migrations.AlterField(
+            model_name='order',
             name='status',
             field=models.CharField(choices=[('u', '待付款'), ('p', '已付款'), ('d', '已取消'), ('n', '没出现'), ('c', '已确认')], default='u', max_length=2),
         ),

@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0055_add_other_region2'),
+        ('app', '0054_auto_20160128_1944'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='parent',
-            name='student_school_name',
-            field=models.CharField(default='', max_length=100),
+        migrations.RenameField(
+            model_name='teacher',
+            old_name='public',
+            new_name='published',
         ),
     ]
