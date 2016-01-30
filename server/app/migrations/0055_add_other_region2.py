@@ -13,7 +13,7 @@ def add_other_region(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('app', '0051_auto_20160127_1855'),
+        ('app', '0054_auto_20160128_1944'),
     ]
     operations = [
         migrations.RunPython(add_other_region)

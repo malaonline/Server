@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0052_add_other_region2'),
+        ('app', '0055_add_other_region2'),
     ]
 
     operations = [
