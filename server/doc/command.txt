@@ -14,3 +14,4 @@ http://dba.stackexchange.com/questions/11893/force-drop-db-while-others-may-be-c
 
 使用特定的settings来做单元测试
 python manage.py test --settings=server.custom_settings.unittest_settings
+

@@ -7,13 +7,9 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('app', '0056_auto_20160130_1812'),
         ('app', '0052_add_other_region2'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='parent',
-            name='student_school_name',
-            field=models.CharField(default='', max_length=100),
-        ),
     ]
