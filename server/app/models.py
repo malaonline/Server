@@ -299,6 +299,12 @@ class Teacher(BaseModel):
         ENGLISH = Subject.get_english()
         return subject and (subject.id == ENGLISH.id)
 
+    def audio_url(self):
+        return self.audio and self.audio.url or ''
+
+    def video_url(self):
+        return self.video and self.video.url or ''
+
     def cert_verified_count(self):
         Certificate = apps.get_model('app', 'Certificate')
         if self.is_english_teacher():

@@ -374,7 +374,19 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 newCert.save()
             # TODO: 资质认证修改后, 发邮件或短信通知
             # 介绍语音, 介绍视频
-            # TODO
+            introAudio = None
+            if request.FILES:
+                introAudio =  request.FILES.get('introAudio')
+            if introAudio:
+                _tmp_content = ContentFile(introAudio.read())
+                teacher.audio.save('introAudio'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            introVideo = None
+            if request.FILES:
+                introVideo =  request.FILES.get('introVideo')
+            if introVideo:
+                _tmp_content = ContentFile(introVideo.read())
+                teacher.video.save('introVideo'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            teacher.save()
             # 教学成果
             # TODO
         except Exception as ex:

@@ -542,7 +542,7 @@
                 介绍语音（选填）
             </div>
             <div class="audio-upload-box">
-                <audio class="view" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
+                <audio class="view" src="{{ teacher.audio_url }}" controls="controls">您的浏览器不支持 audio 标签。</audio>
                 <audio class="preview" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
                 <div class="uploading-hint-box"></div>
             </div>
@@ -565,7 +565,7 @@
                 介绍视频（选填）
             </div>
             <div class="video-upload-box">
-                <video class="view" src="" controls="controls">您的浏览器不支持 video 标签。</video>
+                <video class="view" src="{{ teacher.video_url }}" controls="controls">您的浏览器不支持 video 标签。</video>
                 <video class="preview" src="" controls="controls">您的浏览器不支持 video 标签。</video>
                 <div class="uploading-hint-box"></div>
             </div>
