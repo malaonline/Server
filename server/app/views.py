@@ -468,7 +468,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Teacher.objects.filter(public=True)
+    queryset = models.Teacher.objects.filter(published=True)
 
     def get_queryset(self):
         queryset = self.queryset

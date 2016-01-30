@@ -219,7 +219,7 @@ class Teacher(BaseModel):
     degree = models.CharField(max_length=2,
                               choices=DEGREE_CHOICES,
                               )
-    public = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
     fulltime = models.BooleanField(default=True)
     teaching_age = models.PositiveIntegerField(default=0)
     level = models.ForeignKey(Level, null=True, blank=True,
@@ -242,7 +242,7 @@ class Teacher(BaseModel):
 
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
-                             'Private' if not self.public else '')
+                             'Unpublished' if not self.published else '')
 
     def avatar(self):
         if not hasattr(self.user, 'profile'):
