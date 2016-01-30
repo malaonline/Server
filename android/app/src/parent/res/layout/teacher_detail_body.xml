@@ -36,7 +36,7 @@
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
-            android:id="@+id/parent_teaching_age_tv"
+            android:id="@+id/parent_teaching_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/parent_teacher_detail_gender_tv"
@@ -46,31 +46,31 @@
             android:textSize="@dimen/text_size_normal" />
 
     </RelativeLayout>
-
     <View style="@style/AppWidget.ItemDivider" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_subject_ll"
+        android:id="@+id/parent_teacher_detail_grade_ll"
         style="@style/AppWidget.LinearItemStyle">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/teacher_teaching_subject"
+            android:text="教授年级"
             android:textColor="@color/teacher_title_text_color"
             android:textSize="@dimen/text_size_large_x" />
 
-        <TextView
-            android:id="@+id/parent_teacher_detail_subject_tv"
+        <com.malalaoshi.android.view.FlowLayout
+            android:id="@+id/parent_teacher_detail_grade_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_top"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginRight="-6dp"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
 
     </LinearLayout>
-
     <View style="@style/AppWidget.ItemDivider" />
 
     <LinearLayout
@@ -84,11 +84,13 @@
             android:textColor="@color/teacher_title_text_color"
             android:textSize="@dimen/text_size_large_x" />
 
-        <TextView
-            android:id="@+id/parent_teacher_detail_tag_tv"
+        <com.malalaoshi.android.view.FlowLayout
+            android:id="@+id/parent_teacher_detail_tag_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_top"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginRight="-6dp"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -162,7 +164,7 @@
     <View style="@style/AppWidget.ItemDivider" />
 
     <LinearLayout
-        android:id="@+id/parent_teacher_detail_certificate_ll"
+        android:id="@+id/parent_teacher_detail_achievement_ll"
         style="@style/AppWidget.LinearItemStyle">
 
         <TextView
@@ -172,11 +174,13 @@
             android:textColor="@color/teacher_title_text_color"
             android:textSize="@dimen/text_size_large_x" />
 
-        <TextView
-            android:id="@+id/parent_teacher_detail_certificate_tv"
+        <com.malalaoshi.android.view.FlowLayout
+            android:id="@+id/parent_teacher_detail_achievement_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_top"
+            android:layout_marginLeft="-6dp"
+            android:layout_marginRight="-6dp"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -215,11 +219,13 @@
                 android:textColor="@color/teacher_title_text_color"
                 android:textSize="@dimen/text_size_large_x" />
 
-            <TextView
-                android:id="@+id/parent_teacher_detail_memberservice_tv"
+            <com.malalaoshi.android.view.FlowLayout
+                android:id="@+id/parent_teacher_detail_memberservice_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_top"
+                android:layout_marginLeft="-6dp"
+                android:layout_marginRight="-6dp"
+                android:layout_marginTop="8dp"
                 android:singleLine="true"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_large" />
@@ -245,52 +251,10 @@
             android:id="@+id/parent_teacher_detail_level_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_top"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
-
-    </LinearLayout>
-
-    <View style="@style/AppWidget.ItemDivider" />
-
-    <LinearLayout
-        android:id="@+id/parent_teacher_detail_pricelist_ll"
-        style="@style/AppWidget.listLayout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/teacher_body_prices_padding_bottom"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/class_pricelist"
-                android:textColor="@color/teacher_title_text_color"
-                android:textSize="@dimen/text_size_large_x" />
-
-            <TextView
-                android:id="@+id/parent_teacher_detail_scholarship_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:singleLine="true"
-                android:text="新生奖学金已抵扣400元"
-                android:textColor="@color/prices_name_text_color"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
-
-        <com.malalaoshi.android.view.ScrollListView
-            android:id="@+id/parent_teacher_detail_pricelist_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/backgrounp"
-            android:dividerHeight="@dimen/list_divider"
-            android:listSelector="#00000000"></com.malalaoshi.android.view.ScrollListView>
 
     </LinearLayout>
 

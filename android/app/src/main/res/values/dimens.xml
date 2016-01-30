@@ -96,6 +96,8 @@
     <dimen name="school_margin_normal">10dp</dimen>
     <dimen name="toolbar_height">44dp</dimen>
 
+    <dimen name="item_text_padding">6dp</dimen>
+    <dimen name="item_gallery_padding">2.5dp</dimen>
 
     <!-- 首页 教师列表 -->
     <dimen name="home_list_divider_height">8dp</dimen>

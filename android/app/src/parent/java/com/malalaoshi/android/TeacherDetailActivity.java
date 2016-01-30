@@ -28,11 +28,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.activitys.GalleryActivity;
-import com.malalaoshi.android.adapter.CoursePriceAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
-import com.malalaoshi.android.entity.CoursePrice;
+import com.malalaoshi.android.entity.Achievement;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
@@ -41,12 +40,10 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.usercenter.SmsAuthActivity;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.LocManager;
-import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
@@ -61,7 +58,7 @@ import butterknife.ButterKnife;
  * Created by zl on 15/11/30.
  */
 
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, CoursePriceAdapter.OnClickItem, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
+public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
 
     private static final String TAG = "TeacherDetailActivity";
 
@@ -102,9 +99,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Bind(R.id.parent_teacher_detail_toolbar)
     protected Toolbar toolbar;
 
-    @Bind(R.id.toolbar_title)
-    protected TextView toolbarTitle;
-
     @Bind(R.id.nestedscrollview_content)
     protected NestedScrollView mNestedScrollViewContent;
 
@@ -123,21 +117,21 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Bind(R.id.parent_teacher_detail_gender_tv)
     protected TextView mTeacherGender;
 
-    //教师性别
-    @Bind(R.id.parent_teaching_age_tv)
-    protected TextView mTeachingAge;
-
-    //教师教授科目
-    @Bind(R.id.parent_teacher_detail_subject_tv)
-    protected TextView mTeacherSubject;
+    //价格区间
+    @Bind(R.id.parent_teaching_price_tv)
+    protected TextView mPriceRegion;
+    
+    //更多相册
+    @Bind(R.id.parent_teacher_detail_grade_fl)
+    protected FlowLayout mGrades;
 
     //标签
     @Bind(R.id.parent_teacher_detail_tag_ll)
     protected LinearLayout mTagLayout;
 
     //教师分格
-    @Bind(R.id.parent_teacher_detail_tag_tv)
-    protected TextView mTeachingTags;
+    @Bind(R.id.parent_teacher_detail_tag_fl)
+    protected FlowLayout mTeachingTags;
 
     //教师提分榜
     @Bind(R.id.parent_teacher_detail_highscore_listview)
@@ -152,27 +146,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected FlowLayout mGallery;
 
     //特殊成就
-    @Bind(R.id.parent_teacher_detail_certificate_tv)
-    protected TextView mCertificate;
+    @Bind(R.id.parent_teacher_detail_achievement_fl)
+    protected FlowLayout mAchievement;
 
     @Bind(R.id.parent_teacher_detail_memberservice_ll)
     protected LinearLayout mMemberServiceLayout;
 
     //会员服务
-    @Bind(R.id.parent_teacher_detail_memberservice_tv)
-    protected TextView mMemberServiceTv;
+    @Bind(R.id.parent_teacher_detail_memberservice_fl)
+    protected FlowLayout mMemberServiceFl;
 
     //教龄级别
     @Bind(R.id.parent_teacher_detail_level_tv)
     protected TextView mTeacherLevel;
-
-    //抵扣奖学金
-    @Bind(R.id.parent_teacher_detail_scholarship_tv)
-    protected TextView mScholarship;
-
-    //价格表
-    @Bind(R.id.parent_teacher_detail_pricelist_listview)
-    protected ListView mCoursePriceList;
 
     //马上报名
     @Bind(R.id.parent_teacher_signup_btn)
@@ -215,7 +201,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.teacher_detail);
+        setContentView(R.layout.fragment_teacher_detail);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -370,7 +356,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void loadTeacherInfo() {
-        String url = hostUrl + TEACHERS_PATH_V1 + mTeacherId + "/";
+        String url = hostUrl + TEACHERS_PATH_V1 + "/"+mTeacherId;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -438,7 +424,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private void updateUIServices(List<MemberService> mMemberServices) {
         if (mMemberServices != null && mMemberServices.size() > 0) {
             mMemberServiceLayout.setVisibility(View.VISIBLE);
-            mMemberServiceTv.setText(StringUtil.joinEntityName(mMemberServices, "  "));
+            String[] datas = new String[mMemberServices.size()];
+            for (int i =0;i<mMemberServices.size();i++){
+                datas[i] = mMemberServices.get(i).getName();
+            }
+            setFlowDatas(mMemberServiceFl,datas);
         }
     }
 
@@ -465,34 +455,34 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             } else {
                 mTeacherGender.setText("保密");
             }
-            Integer age = teacher.getTeaching_age();
-            if (age != null) {
-                mTeachingAge.setText(age.toString());
+
+            Double minPrice = teacher.getMin_price();
+            Double maxPrice = teacher.getMax_price();
+            String region = null;
+            if (minPrice!=null&&maxPrice!=null){
+                region = minPrice+"/"+maxPrice+"元每小时";
+            }
+            else if (minPrice!=null){
+                region = minPrice+"元每小时";
+            }
+            else if (maxPrice!=null){
+                region = maxPrice+"元每小时";
+            }
+            if (region != null) {
+                mPriceRegion.setText(region);
             }
 
-            //教学科目
-            StringBuilder strSubject = new StringBuilder();
-            string = mTeacher.getSubject();
-            if (string == null) {
-                string = "";
+            //教授年级
+            String[] grades = mTeacher.getGrades();
+            if (grades!=null&&grades.length>0){
+                setFlowDatas(mGrades,grades);
             }
-
-            //年级
-            String[] grades = teacher.getGrades();
-            if (grades != null && grades.length > 0) {
-                for (int i = 0; i < grades.length; i++) {
-                    strSubject.append(grades[i] + string + spot);
-                }
-                strSubject.setLength(strSubject.length() - spot.length());
-            }
-            mTeacherSubject.setText(strSubject.toString());
 
             //分格标签
             String[] tags = mTeacher.getTags();
-            String tagsStr = StringUtil.join(tags, spot);
-            if (tagsStr != null && tagsStr.length() > 0) {
+            if (tags != null && tags.length > 0) {
                 mTagLayout.setVisibility(View.VISIBLE);
-                mTeachingTags.setText(tagsStr);
+                setFlowDatas(mTeachingTags, tags);
             }
 
             //提分榜
@@ -507,24 +497,57 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //个人相册
             loadGallery(mTeacher.getPhoto_set());
             //特殊成就
-            String[] strCers = teacher.getCertificate_set();
-            mCertificate.setText(StringUtil.join(strCers, spot));
-
-            //教龄级别
-
-            String level = teacher.getLevel();
-            if (level != null) {
-                mTeacherLevel.setText(level);
+            List<Achievement> achievements = mTeacher.getAchievement_set();
+            if (achievements!=null&&achievements.size()>0){
+                String[] achievementArr = new String[achievements.size()];
+                for (int i=0;i<achievements.size();i++){
+                    achievementArr[i] = achievements.get(i).getTitle();
+                }
+                setFlowDatas(mAchievement,achievementArr, R.drawable.item_text_bg);
             }
 
-            //价格表
-            List<CoursePrice> coursePrices = teacher.getPrices();
-            CoursePriceAdapter coursePriceAdapter = new CoursePriceAdapter(this, coursePrices != null ? coursePrices : (new ArrayList<CoursePrice>()));
-            //添加按钮监听事件
-            coursePriceAdapter.setOnClickItem(this);
-            mCoursePriceList.setFocusable(false);
-            mCoursePriceList.setAdapter(coursePriceAdapter);
+            //教龄级别
+            String level = teacher.getLevel();
+            Integer teachAge = teacher.getTeaching_age();
+            if (level != null&&teachAge!=null) {
+                mTeacherLevel.setText(level+" "+teachAge.toString());
+            }else if (level != null){
+                mTeacherLevel.setText(level);
+            }else if (teachAge!=null){
+                mTeacherLevel.setText(teachAge.toString());
+            }
+        }
+    }
 
+    private void setFlowDatas(FlowLayout flowlayout, String[] datas, int drawable) {
+        flowlayout.setFocusable(false);
+        flowlayout.removeAllViews();
+        for (int i = 0; datas != null && i < datas.length; i++) {
+            TextView textView = new TextView(this);
+            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
+            layoutParams.setMargins(padding,padding,padding,padding);
+            textView.setLayoutParams(layoutParams);
+            textView.setPadding(padding,padding,padding,padding);
+            textView.setText(datas[i]);
+            textView.setBackground(getResources().getDrawable(drawable));
+            flowlayout.addView(textView, i);
+        }
+    }
+
+    private void setFlowDatas(FlowLayout flowlayout, String[] datas) {
+        flowlayout.setFocusable(false);
+        flowlayout.removeAllViews();
+        for (int i = 0; datas != null && i < datas.length; i++) {
+            TextView textView = new TextView(this);
+            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textView.setLayoutParams(layoutParams);
+            int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
+            textView.setPadding(padding, padding, padding, padding);
+            textView.setText(datas[i]);
+            flowlayout.addView(textView, i);
         }
     }
 
@@ -533,12 +556,22 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         mGallery.setFocusable(false);
         mGallery.removeAllViews();
         int width = mGallery.getWidth() / 3;
+
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
                     width, width));
-            imageView.setPadding(5, 5, 5, 5);
+            int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
+
+            if (i==0){
+                imageView.setPadding(0, 0, margin, 0);
+            }else if(i==1){
+                imageView.setPadding(margin, 0, margin, 0);
+            }else{
+                imageView.setPadding(margin, 0, 0, 0);
+            }
+
             final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -577,9 +610,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.parent_teacher_signup_btn:
-                //将界面移动到最底端
-                mAppBarLayout.setExpanded(false);
-                mNestedScrollViewContent.fullScroll(ScrollView.FOCUS_DOWN);
+
                 break;
             case R.id.parent_teacher_detail_gallery_more_iv:
                 //查看更多照片
@@ -597,22 +628,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
-    //报名
-    @Override
-    public void onClickItem(int position, Long gradeId) {
-        String token = MalaApplication.getInstance().getToken();
-        if (token==null||token.equals("")){
-            Intent intent = new Intent(this,SmsAuthActivity.class);
-            startActivity(intent);
-        }else{
-
-        }
-    }
-
     //设置上滑头像消失
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        //设置头像上滑缩小消失
+       //设置头像上滑缩小消失
         int toolbarHeight = toolbar.getHeight();
         int headPortraitHeight = mRlTeacherHeadPortrait.getHeight();
         //最大上滑距离
@@ -624,18 +643,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         if (len <= 0) {
             mRlTeacherHeadPortrait.setVisibility(View.GONE);
             toolbar.setNavigationIcon(R.drawable.ic_black_back);
-            toolbarTitle.setTextColor(getResources().getColor(R.color.text_color_darkgray));
+            //toolbarTitle.setTextColor(getResources().getColor(R.color.text_color_darkgray));
         } else if (len > 0 && len < toolbarHeight) {
             float ratio = (float) (len) / (float) toolbarHeight;
             mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
             mRlTeacherHeadPortrait.setAlpha(ratio);
             toolbar.setNavigationIcon(R.drawable.ic_black_back);
-            toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
+            //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
         } else {
             mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
             mRlTeacherHeadPortrait.setAlpha(1.0f);
             toolbar.setNavigationIcon(R.drawable.ic_white_back);
-            toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
+            //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
         }
     }
 

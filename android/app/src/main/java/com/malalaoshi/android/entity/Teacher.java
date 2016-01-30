@@ -23,9 +23,16 @@ public class Teacher extends BaseEntity {
     private String[] tags;
 
     private String[] photo_set;
-    private String[] certificate_set;
+    private List<Achievement> achievement_set;
     private List<HighScore> highscore_set;
     private List<CoursePrice> prices;
+    public List<Achievement> getAchievement_set() {
+        return achievement_set;
+    }
+
+    public void setAchievement_set(List<Achievement> achievement_set) {
+        this.achievement_set = achievement_set;
+    }
 
     public String getAvatar() {
         return avatar;
@@ -115,14 +122,6 @@ public class Teacher extends BaseEntity {
         this.photo_set = photo_set;
     }
 
-    public String[] getCertificate_set() {
-        return certificate_set;
-    }
-
-    public void setCertificate_set(String[] certificate_set) {
-        this.certificate_set = certificate_set;
-    }
-
     public List<HighScore> getHighscore_set() {
         return highscore_set;
     }
@@ -166,9 +165,7 @@ public class Teacher extends BaseEntity {
     @Override
     public String toString() {
         return "Teacher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", avatar='" + avatar + '\'' +
+                "avatar='" + avatar + '\'' +
                 ", gender=" + gender +
                 ", degree=" + degree +
                 ", user=" + user +
@@ -181,9 +178,11 @@ public class Teacher extends BaseEntity {
                 ", grades=" + Arrays.toString(grades) +
                 ", tags=" + Arrays.toString(tags) +
                 ", photo_set=" + Arrays.toString(photo_set) +
-                ", certificate_set=" + Arrays.toString(certificate_set) +
+                ", achievement_set=" + achievement_set +
                 ", highscore_set=" + highscore_set +
                 ", prices=" + prices +
                 '}';
     }
+
+
 }
