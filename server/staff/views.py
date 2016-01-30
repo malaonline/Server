@@ -2,6 +2,7 @@ import logging
 import datetime
 
 # django modules
+from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
@@ -186,6 +187,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
         teacherId = kwargs['tid']
         teacher = get_object_or_404(models.Teacher, id=teacherId)
         kwargs['teacher'] = teacher
+        # 老师科目年级
+        curSubject = teacher.subject()
+        if curSubject:
+            kwargs['grade_ids_range'] = models.Ability.objects.filter(subject=curSubject).values_list('grade_id', flat=True)
+        kwargs['teacher_grade_ids'] = [grade.id for grade in teacher.grades()]
         # 证书数据
         certification_all = models.Certificate.objects.filter(teacher=teacher)
         cert_others = []
@@ -233,6 +239,16 @@ class TeacherUnpublishedEditView(BaseStaffView):
     def post(self, request, tid):
         teacher = get_object_or_404(models.Teacher, id=tid)
         try:
+            # 获取参数, 并检验
+            newSubjectId = parseInt(request.POST.get('subject'), False)
+            if not newSubjectId:
+                return JsonResponse({'ok': False, 'msg': '请选择科目', 'code': 1})
+            newGradeIds = request.POST.getlist('grade')
+            if not newGradeIds:
+                return JsonResponse({'ok': False, 'msg': '请选择年级', 'code': -1})
+            newTagIds  = request.POST.getlist('tag')
+            if not newTagIds or len(newTagIds)>3:
+                return JsonResponse({'ok': False, 'msg': '风格标记 (最少选一个，最多选3个)', 'code': -1})
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
             profile = teacher.user.profile
@@ -250,30 +266,196 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 teacher.region = None
             else:
                 teacher.region_id = region
-            teacher.teaching_age = parseInt(request.POST.get('teaching_age'))
+            teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
             teacher.level_id = parseInt(request.POST.get('level'))
             teacher.experience = parseInt(request.POST.get('experience'))
             teacher.profession = parseInt(request.POST.get('profession'))
             teacher.interaction = parseInt(request.POST.get('interaction'))
             certIdHeld.save()
-            profile.save()
-            teacher.save()
             # 科目年级 & 风格标签
-            # TODO
+            teacher.abilities.clear()
+            ability_set = models.Ability.objects.filter(subject_id=newSubjectId, grade_id__in=newGradeIds)
+            for ability in ability_set:
+                teacher.abilities.add(ability)
+            teacher.tags.clear()
+            tag_set = models.Tag.objects.filter(id__in=newTagIds)
+            for tag in tag_set:
+                teacher.tags.add(tag)
+            teacher.save()
             # 头像 & 照片
-            # TODO
+            avatarImg = None
+            if request.FILES:
+                avatarImg = request.FILES.get('avatarImg')
+            if avatarImg:
+                _img_content = ContentFile(avatarImg.read())
+                profile.avatar.save("avatar"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteAvatar'):
+                    profile.avatar.delete()
+            profile.save()
+            stayPhotoIds = request.POST.getlist('photoId')
+            stayPhotoIds = [i for i in stayPhotoIds if i]
+            newPhotoImgs = request.FILES.getlist('photoImg')
+            models.Photo.objects.filter(teacher_id=teacher.id).exclude(id__in=stayPhotoIds).delete()
+            for photoImg in newPhotoImgs:
+                photo = models.Photo(teacher=teacher, public=True)
+                _img_content = ContentFile(photoImg.read())
+                photo.img.save("photo"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                photo.save()
             # 提分榜
-            # TODO
-            # 认证
-            # TODO
+            allHsIds = request.POST.getlist('highscoreId')
+            stayHsIds = [s for s in allHsIds if s and (not s.startswith('new'))]
+            newHsIds = [s for s in allHsIds if s.startswith('new')]
+            models.Highscore.objects.filter(teacher_id=teacher.id).exclude(id__in=stayHsIds).delete()
+            for hsId in newHsIds:
+                name = request.POST.get(hsId+'name')
+                scores = request.POST.get(hsId+'scores')
+                school_from = request.POST.get(hsId+'from')
+                school_to = request.POST.get(hsId+'to')
+                highscore = models.Highscore(teacher=teacher, name=name, increased_scores=scores,
+                                             school_name=school_from, admitted_to=school_to)
+                highscore.save()
+            ### 认证
+            # 身份认证
+            certIdHeldOk = request.POST.get('certIdHeldOk')
+            if certIdHeldOk and certIdHeldOk=='True':
+                certIdHeld.verified = True
+            else:
+                certIdHeld.verified = False
+            certIdHeldImg = None
+            if request.FILES:
+                certIdHeldImg = request.FILES.get('certIdHeldImg')
+            if certIdHeldImg:
+                _img_content = ContentFile(certIdHeldImg.read())
+                certIdHeld.img.save("idHeld"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteCertIdHeld'):
+                    certIdHeld.img.delete()
+            if not certIdHeld.img:
+                certIdHeld.verified = False
+            certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
+                                                              defaults={'name':"",'verified':False})
+            certIdFrontImg = None
+            if request.FILES:
+                certIdFrontImg = request.FILES.get('certIdFrontImg')
+            if certIdFrontImg:
+                _img_content = ContentFile(certIdFrontImg.read())
+                certIdFront.img.save("IdFront"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+            else:
+                if request.POST.get('toDeleteCertIdFront'):
+                    certIdFront.img.delete()
+            if not certIdFront.img:
+                certIdHeld.verified = False
+            certIdFront.save()
+            certIdHeld.save()
+            # 学历, 教师资格证,英语水平
+            self.postSaveCert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
+            self.postSaveCert(request, teacher, models.Certificate.TEACHING, 'Teaching')
+            self.postSaveCert(request, teacher, models.Certificate.ENGLISH, 'English')
+            # 其他认证
+            allCertOtherIds = request.POST.getlist('certOtherId')
+            stayCertOtherIds = [s for s in allCertOtherIds if s and (not s.startswith('new'))]
+            newCertOtherIds = [s for s in allCertOtherIds if s.startswith('new')]
+            models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER)\
+                .exclude(id__in=stayCertOtherIds).delete()
+            for certId in stayCertOtherIds:
+                name = request.POST.get(certId+'certName')
+                certOk = request.POST.get(certId+'certOk')
+                certImg = None
+                if request.FILES:
+                    certImg = request.FILES.get(certId+'certImg')
+                cert = models.Certificate.objects.get(id=certId)
+                cert.name = name
+                if certOk and certOk=='True':
+                    cert.verified = True
+                else:
+                    cert.verified = False
+                if certImg:
+                    _img_content = ContentFile(certImg.read())
+                    cert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                cert.save()
+            for certId in newCertOtherIds:
+                name = request.POST.get(certId+'certName')
+                certOk = request.POST.get(certId+'certOk')
+                certImg = None
+                if request.FILES:
+                    certImg = request.FILES.get(certId+'certImg')
+                if not certImg:
+                    continue
+                newCert = models.Certificate(teacher=teacher,name=name,type=models.Certificate.OTHER,verified=False)
+                if certOk and certOk=='True':
+                    newCert.verified = True
+                _img_content = ContentFile(certImg.read())
+                newCert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                newCert.save()
+            # TODO: 资质认证修改后, 发邮件或短信通知
             # 介绍语音, 介绍视频
-            # TODO
+            introAudio = None
+            if request.FILES:
+                introAudio =  request.FILES.get('introAudio')
+            if introAudio:
+                _tmp_content = ContentFile(introAudio.read())
+                teacher.audio.save('introAudio'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            introVideo = None
+            if request.FILES:
+                introVideo =  request.FILES.get('introVideo')
+            if introVideo:
+                _tmp_content = ContentFile(introVideo.read())
+                teacher.video.save('introVideo'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            teacher.save()
             # 教学成果
-            # TODO
+            allAchieveIds = request.POST.getlist('achieveId')
+            stayAchieveIds = [s for s in allAchieveIds if s and (not s.startswith('new'))]
+            newAchieveIds = [s for s in allAchieveIds if s.startswith('new')]
+            models.Achievement.objects.filter(teacher=teacher).exclude(id__in=stayAchieveIds).delete()
+            for achId in stayAchieveIds:
+                title = request.POST.get(achId+'achieveName')
+                achieveImg = None
+                if request.FILES:
+                    achieveImg = request.FILES.get(achId+'achieveImg')
+                achievement = models.Achievement.objects.get(id=achId)
+                achievement.title = title
+                if achieveImg:
+                    _img_content = ContentFile(achieveImg.read())
+                    achievement.img.save("achievement"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                achievement.save()
+            for achId in newAchieveIds:
+                title = request.POST.get(achId+'achieveName')
+                achieveImg = None
+                if request.FILES:
+                    achieveImg = request.FILES.get(achId+'achieveImg')
+                if not title or not achieveImg:
+                    continue
+                newAch = models.Achievement(teacher=teacher,title=title)
+                _img_content = ContentFile(achieveImg.read())
+                newAch.img.save("achievement"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                newAch.save()
         except Exception as ex:
             logger.error(ex)
             return JsonResponse({'ok': False, 'msg': BaseStaffActionView.defaultErrMeg, 'code': -1})
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+    def postSaveCert(self, request, teacher, type_code, type_str, cert=None):
+        if not cert:
+            cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=type_code,
+                                                                     defaults={'name':"",'verified':False})
+        certOk = request.POST.get('cert'+type_str+'Ok')
+        if certOk and certOk=='True':
+            cert.verified = True
+        else:
+            cert.verified = False
+        certImg = None
+        if request.FILES:
+            certImg = request.FILES.get('cert'+type_str+'Img')
+        if certImg:
+            _img_content = ContentFile(certImg.read())
+            cert.img.save(type_str+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+        else:
+            if request.POST.get('toDeleteCert'+type_str):
+                cert.img.delete()
+        if not cert.img:
+            cert.verified = False
+        cert.save()
 
 class TeacherActionView(BaseStaffActionView):
 
@@ -289,6 +471,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.getTeacherAchievement(request)
         if action == 'get-weekly-schedule':
             return self.getTeacherWeeklySchedule(request)
+        if action == 'get-subject-grades-range':
+            return self.getGradesRangeOfSubject(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
@@ -365,6 +549,18 @@ class TeacherActionView(BaseStaffActionView):
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+
+    def getGradesRangeOfSubject(self, request):
+        """
+        获取subject所属的的年级范围
+        :param request:
+        :return:
+        """
+        sid = request.GET.get('sid')  # subject id
+        if not sid:
+            return HttpResponse("")
+        grade_ids = list(models.Ability.objects.filter(subject_id=sid).values_list('grade_id', flat=True))
+        return JsonResponse({'list': grade_ids})
 
     def updateTeacherStatus(self, request, new_status):
         """
