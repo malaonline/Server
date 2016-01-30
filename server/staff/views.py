@@ -358,6 +358,22 @@ class TeacherUnpublishedEditView(BaseStaffView):
             newCertOtherIds = [s for s in allCertOtherIds if s.startswith('new')]
             models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER)\
                 .exclude(id__in=stayCertOtherIds).delete()
+            for certId in stayCertOtherIds:
+                name = request.POST.get(certId+'certName')
+                certOk = request.POST.get(certId+'certOk')
+                certImg = None
+                if request.FILES:
+                    certImg = request.FILES.get(certId+'certImg')
+                cert = models.Certificate.objects.get(id=certId)
+                cert.name = name
+                if certOk and certOk=='True':
+                    cert.verified = True
+                else:
+                    cert.verified = False
+                if certImg:
+                    _img_content = ContentFile(certImg.read())
+                    cert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                cert.save()
             for certId in newCertOtherIds:
                 name = request.POST.get(certId+'certName')
                 certOk = request.POST.get(certId+'certOk')
@@ -388,7 +404,32 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 teacher.video.save('introVideo'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
             teacher.save()
             # 教学成果
-            # TODO
+            allAchieveIds = request.POST.getlist('achieveId')
+            stayAchieveIds = [s for s in allAchieveIds if s and (not s.startswith('new'))]
+            newAchieveIds = [s for s in allAchieveIds if s.startswith('new')]
+            models.Achievement.objects.filter(teacher=teacher).exclude(id__in=stayAchieveIds).delete()
+            for achId in stayAchieveIds:
+                title = request.POST.get(achId+'achieveName')
+                achieveImg = None
+                if request.FILES:
+                    achieveImg = request.FILES.get(achId+'achieveImg')
+                achievement = models.Achievement.objects.get(id=achId)
+                achievement.title = title
+                if achieveImg:
+                    _img_content = ContentFile(achieveImg.read())
+                    achievement.img.save("achievement"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                achievement.save()
+            for achId in newAchieveIds:
+                title = request.POST.get(achId+'achieveName')
+                achieveImg = None
+                if request.FILES:
+                    achieveImg = request.FILES.get(achId+'achieveImg')
+                if not title or not achieveImg:
+                    continue
+                newAch = models.Achievement(teacher=teacher,title=title)
+                _img_content = ContentFile(achieveImg.read())
+                newAch.img.save("achievement"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
+                newAch.save()
         except Exception as ex:
             logger.error(ex)
             return JsonResponse({'ok': False, 'msg': BaseStaffActionView.defaultErrMeg, 'code': -1})

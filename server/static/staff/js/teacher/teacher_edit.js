@@ -114,7 +114,7 @@ $(function(){
         $previewBox.show();
         var type = $editBox.attr('for');
         if (type=='photo') {
-            $editBox.find('input[name=photoId]').val('');
+            $editBox.find('input[name=photoId]').val(''); // 重传照片按新建处理
         }
         return true;
     });
@@ -297,11 +297,31 @@ $(function(){
     });
 
     $('[data-action=add-more-achieve]').click(function(){
+        var $achieveList = $("#achieveList"), newSeq = $achieveList.data('newSeq');
+        if (!newSeq) {
+            newSeq = 1;
+        }
         var $imgEdit = $('.img-edit[for=achieve]:last');
         var $newImgEdit = $imgEdit.clone(true);
-        $newImgEdit.find('input[name=achieve_name]').val('');
         clearImgEditBox($newImgEdit);
+        var oldId = $imgEdit.find('input[name=achieveId]').val(), newId = 'new'+newSeq;
+        $newImgEdit.find('input[name=achieveId]').val(newId);
+        $newImgEdit.find('input[name='+oldId+'achieveName]').attr('name', newId+'achieveName').val('');
+        $newImgEdit.find('input[name='+oldId+'achieveImg]').attr('name', newId+'achieveImg');
         $imgEdit.after($newImgEdit);
+        newSeq++;
+        $achieveList.data('newSeq', newSeq);
+    });
+
+    $('[data-action=delete-achieve]').click(function(e){
+        var $editBox = $(this).closest('.img-edit')
+        var $editBoxList = $("#achieveList > .img-edit");
+        if ($editBoxList.length>1) {
+            $editBox.remove();
+        } else {
+            $editBox.find('input[name$=achieveName]').val('');
+            clearImgEditBox($editBox);
+        }
     });
 
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';

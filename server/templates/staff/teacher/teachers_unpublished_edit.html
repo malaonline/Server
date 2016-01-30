@@ -586,11 +586,12 @@
         <div class="title">
             教学成果 (选填)
         </div>
-        <div>
+        <div id="achieveList">
             {% if not teacher.achievement_set.all %}
                 <div class="pull-left img-edit" for="achieve">
+                    <input type="hidden" name="achieveId" value="new0"/>
                     <div>
-                        <input type="text" name="achieve_name" placeholder="成果标题">
+                        <input type="text" name="new0achieveName" placeholder="成果标题">
                     </div>
                     <div class="img-upload-box">
                         <div class="img-box">
@@ -603,7 +604,7 @@
                     <div class="actions">
                         <a class="btn btn-default file-input-mask text-center">
                             <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="achievementImg" multiple="" accept="image/*"/>
+                            <input title="请选择图片" type="file" name="new0achieveImg" multiple="" accept="image/*"/>
                         </a>
                         <a class="btn btn-default" data-action="delete-achieve">删除</a>
                     </div>
@@ -611,8 +612,9 @@
             {% else %}
                 {% for achieve in teacher.achievement_set.all %}
                     <div class="pull-left img-edit" for="achieve">
+                        <input type="hidden" name="achieveId" value="{{ achieve.id }}"/>
                         <div>
-                            <input type="text" name="achieve_name" value="{{ achieve.title }}" placeholder="成果标题">
+                            <input type="text" name="{{ achieve.id }}achieveName" value="{{ achieve.title }}" placeholder="成果标题">
                         </div>
                         <div class="img-upload-box">
                             <div class="img-box">
@@ -625,7 +627,7 @@
                         <div class="actions">
                             <a class="btn btn-default file-input-mask text-center">
                                 <span>上传/重传</span>
-                                <input title="请选择图片" type="file" name="achievementImg" multiple="" accept="image/*"/>
+                                <input title="请选择图片" type="file" name="{{ achieve.id }}achieveImg" multiple="" accept="image/*"/>
                             </a>
                             <a class="btn btn-default" data-action="delete-achieve">删除</a>
                         </div>
