@@ -563,7 +563,7 @@ class Parent(BaseModel):
 
 
 class Coupon(BaseModel):
-    parent = models.ForeignKey(Parent)
+    parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -597,7 +597,8 @@ class OrderManager(models.Manager):
     use_in_migrations = True
 
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
-        ability = Ability.objects.get(subject=subject, grade=grade)
+        ability = grade.ability_set.filter(subject=subject)[0]
+
         price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
 
@@ -628,6 +629,8 @@ class Order(BaseModel):
         (CONFIRMED, '已确认'),
     )
 
+    objects = OrderManager()
+
     parent = models.ForeignKey(Parent, null=True, blank=True)
     teacher = models.ForeignKey(Teacher)
     school = models.ForeignKey(School)
@@ -648,7 +651,6 @@ class Order(BaseModel):
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
                               default=PENDING, )
-    objects = OrderManager()
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
