@@ -594,6 +594,8 @@ class WeeklyTimeSlot(BaseModel):
 
 
 class OrderManager(models.Manager):
+    use_in_migrations = True
+
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
         ability = Ability.objects.get(subject=subject, grade=grade)
         price = teacher.region.price_set.get(
