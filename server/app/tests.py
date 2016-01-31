@@ -170,8 +170,9 @@ class TestApi(TestCase):
                                data=json_data,
                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
         self.assertEqual(201, response.status_code)
+        pk = json.loads(response.content.decode())['id']
 
-        request_url = "/api/v1/orders/1"
+        request_url = "/api/v1/orders/%d" % pk
         response = client.get(request_url, content_type='application/json',
                               **{'HTTP_AUTHORIZATION': ' Token %s' % token})
         self.assertEqual(200, response.status_code)

@@ -1,11 +1,13 @@
 import uuid
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.apps import apps
-from django.conf import settings
+from django.utils import timezone
 
 from app.utils.algorithm import Tree, Node
 
@@ -563,7 +565,7 @@ class Parent(BaseModel):
 
 
 class Coupon(BaseModel):
-    parent = models.ForeignKey(Parent)
+    parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -594,8 +596,11 @@ class WeeklyTimeSlot(BaseModel):
 
 
 class OrderManager(models.Manager):
+    use_in_migrations = True
+
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
-        ability = Ability.objects.get(subject=subject, grade=grade)
+        ability = grade.ability_set.filter(subject=subject)[0]
+
         price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
 
@@ -611,6 +616,45 @@ class OrderManager(models.Manager):
         order.save()
         return order
 
+    def _weekly_date_to_min(self, date):
+        return date.weekday() * 24 * 60 + date.hour * 60 + date.minute
+
+    def _delta_min(self, weekly_ts, cur_min):
+        return (
+                (weekly_ts.weekday - 1) * 24 * 60 + weekly_ts.start.hour * 60 +
+                weekly_ts.start.minute - cur_min + 7 * 24 * 60) % (7 * 24 * 60)
+
+    def _get_order_timeslots(self, order):
+        grace_time = datetime.timedelta(days=2)
+        date = timezone.now() + grace_time
+        cur_min = self._weekly_date_to_min(date)
+
+        weekly_time_slots = list(order.weekly_time_slots.all())
+        weekly_time_slots.sort(
+                key=lambda x: self._delta_min(x, cur_min))
+
+        n = len(weekly_time_slots)
+        h = order.hours
+        i = 0
+        ans = []
+        while h > 0:
+            weekly_ts = weekly_time_slots[i % n]
+            start = date + datetime.timedelta(
+                    minutes=self._delta_min(weekly_ts, cur_min)
+                    ) + datetime.timedelta(days=7 * (i // n))
+
+            end = start + datetime.timedelta(
+                    minutes=(weekly_ts.end.hour - weekly_ts.start.hour) * 60 +
+                    weekly_ts.end.minute - weekly_ts.start.minute)
+            ans.append(dict(start=start, end=end))
+            i = i + 1
+            h = h - 1
+        return ans
+
+    def allocate_timeslots(self, order, force=False):
+        timeslots = self._get_order_timeslots(order)
+        return timeslots
+
 
 class Order(BaseModel):
     PENDING = 'u'
@@ -625,6 +669,8 @@ class Order(BaseModel):
         (NOSHOW, '没出现'),
         (CONFIRMED, '已确认'),
     )
+
+    objects = OrderManager()
 
     parent = models.ForeignKey(Parent, null=True, blank=True)
     teacher = models.ForeignKey(Teacher)
@@ -646,7 +692,6 @@ class Order(BaseModel):
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
                               default=PENDING, )
-    objects = OrderManager()
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
@@ -660,6 +705,7 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.all():
             handler(one_timeslot)
 
+
 class TimeSlotComplaint(BaseModel):
     content = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -668,6 +714,7 @@ class TimeSlotComplaint(BaseModel):
 
     def __str__(self):
         return '%s' % (self.content)
+
 
 class TimeSlotAttendance(BaseModel):
     NORMAL = 'a'
@@ -687,10 +734,10 @@ class TimeSlotAttendance(BaseModel):
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
     record_type = models.CharField(max_length=1,
-                              choices=TYPE_CHOICES,
-                              default=NORMAL)
+                                   choices=TYPE_CHOICES,
+                                   default=NORMAL)
 
-    def __str__(slef):
+    def __str__(self):
         return '%s' % (self.get_record_type_display())
 
 
