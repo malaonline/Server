@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -11,18 +12,16 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/parent_teacher_detail_appbar"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="160dp"
             android:minHeight="44dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="@dimen/elevation_normal">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/parent_teacher_detail_collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_collapseParallaxMultiplier="0.9"
                 app:contentScrim="@color/toolbar_color"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <ImageView
                     android:layout_width="match_parent"
@@ -31,15 +30,11 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/teacher_detail_bg"
                     app:layout_collapseMode="parallax" />
-
                 <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/toolbar_height"
-                    android:minHeight="@dimen/toolbar_height"
-                    android:gravity="center"
+                    android:layout_height="64dp"
                     app:layout_collapseMode="pin"
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay"  />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -49,7 +44,9 @@
             android:id="@+id/nestedscrollview_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:showIn="@layout/fragment_teacher_detail"
+            >
 
             <include layout="@layout/teacher_detail_body" />
 
@@ -88,52 +85,49 @@
             android:id="@+id/parent_teacher_detail_toolbar"
             app:title=" "
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
-            android:minHeight="@dimen/toolbar_height"
+            android:layout_height="64dp"
             app:layout_collapseMode="pin"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             <ImageView
+                android:scaleType="center"
                 android:src="@drawable/ic_white_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="教师详情"
-                android:textSize="@dimen/text_size_xlarge"
-                android:layout_gravity="center"
-                android:id="@+id/toolbar_title" />
+                android:layout_marginTop="20dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp" />
         </android.support.v7.widget.Toolbar>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/teacher_body_margin_bottom"
+            android:layout_gravity="bottom|left"
+            android:alpha="0.96"
+            android:background="@color/backgrounp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:alpha="0.25"
+                android:background="@color/colorBlack" />
+
+            <Button
+                android:id="@+id/parent_teacher_signup_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/teacher_body_margin_button"
+                android:layout_marginLeft="@dimen/teacher_body_padding_normal"
+                android:layout_marginRight="@dimen/teacher_body_padding_normal"
+                android:layout_marginTop="@dimen/teacher_body_margin_button"
+                android:background="@drawable/signup_button"
+                android:gravity="center"
+                android:text="@string/sign_up_immediately"
+                android:textColor="@color/button_border"
+                android:textSize="@dimen/text_size_xlarge" />
+        </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/teacher_body_margin_bottom"
-        android:layout_gravity="bottom|left"
-        android:alpha="0.96"
-        android:background="@color/backgrounp"
-        android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:alpha="0.25"
-            android:background="@color/colorBlack" />
-
-        <Button
-            android:id="@+id/parent_teacher_signup_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/teacher_body_margin_button"
-            android:layout_marginLeft="@dimen/teacher_body_padding_normal"
-            android:layout_marginRight="@dimen/teacher_body_padding_normal"
-            android:layout_marginTop="@dimen/teacher_body_margin_button"
-            android:background="@drawable/signup_button"
-            android:gravity="center"
-            android:text="@string/sign_up_immediately"
-            android:textColor="@color/button_border"
-            android:textSize="@dimen/text_size_xlarge" />
-    </LinearLayout>
 </FrameLayout>
