@@ -12,8 +12,11 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, localtime
+from dateutil import relativedelta
+from pprint import pprint as pp
 
+import calendar
 from collections import namedtuple
 import json
 import datetime
@@ -33,6 +36,7 @@ class TeacherLogin(View):
     """
     老师用户注册页面 TW-1-1
     """
+
     def get(self, request):
         context = {}
         return render(request, 'teacher/register.html', context)
@@ -42,6 +46,7 @@ class VerifySmsCode(View):
     """
     检查短信验证码是否正确
     """
+
     def post(self, request):
         phone = request.POST.get("phone", None)
         code = request.POST.get("code", None)
@@ -212,6 +217,7 @@ class RegisterProgress(View):
     """
     显示注册进度
     """
+
     def get(self, request):
         context = {}
         try:
@@ -236,6 +242,7 @@ class FirstPage(View):
     """
     通过面试的老师见到的第一个页面
     """
+
     def get(self, request):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
@@ -355,7 +362,7 @@ class FirstPage(View):
             self.bad_commit = []
             self.current_date = current_data
 
-        def __call__(self, one_timeslot:models.TimeSlot):
+        def __call__(self, one_timeslot: models.TimeSlot):
             if one_timeslot.is_complete(self.current_date):
                 commit_list = one_timeslot.comment_set.all()
                 if commit_list:
@@ -366,7 +373,7 @@ class FirstPage(View):
 
         def average_score(self):
             try:
-                return sum(self.score_list)/len(self.score_list)
+                return sum(self.score_list) / len(self.score_list)
             except ZeroDivisionError:
                 return 0
 
@@ -392,8 +399,8 @@ class FirstPage(View):
         revenue = 0
         for one_order in order_set:
             if one_order.fit_statistical():
-                revenue += one_order.price*one_order.total
-        revenue = revenue/10000
+                revenue += one_order.price * one_order.total
+        revenue = revenue / 10000
         return "¥{revenue}万".format(revenue=revenue)
 
     def teacher_level(self):
@@ -415,11 +422,12 @@ class SideBarContent:
     """
     专门用来填充边栏的内容
     """
+
     def __init__(self, teacher):
         self.teacher = teacher
         self.order_set = models.Order.objects.filter(teacher=teacher)
 
-    def __call__(self, context:dict):
+    def __call__(self, context: dict):
         """
         填充context
         :param context:
@@ -454,11 +462,235 @@ class MySchoolTimetable(View):
     """
     TW-5-1, 查看课表上的内容
     """
-    def get(self, request):
+
+    class CollectTimeSlot:
+        """
+        用来遍历和分类TimeSlot
+        """
+        # 时间格式
+        time_formula = "%Y%m%d"
+
+        def __init__(self):
+            self.time_slot_dict = {}
+
+        def __call__(self, one_time_slot: models.TimeSlot):
+            start_day = one_time_slot.start.strftime(self.time_formula)
+            self.time_slot_dict[start_day] = self.time_slot_dict.get(start_day, 0) + 1
+
+        def specific_day_count(self, specific_day: datetime.datetime) -> int:
+            # 得到指定某天的数量
+            day_key = specific_day.strftime(self.time_formula)
+            return self.time_slot_dict.get(day_key, 0)
+
+    class GetTimeSlotProgress:
+        """
+        遍历slot来获得上课进度
+        """
+        def __init__(self):
+            self.complete_class = 0
+            self.total_class = 0
+            self.today = make_aware(datetime.datetime.now())
+
+        def __call__(self, one_time_slot: models.TimeSlot):
+            if one_time_slot.is_complete(self.today):
+                self.complete_class += 1
+            self.total_class += 1
+
+    class OneCourseDetail:
+        """
+        生成一条上课描述
+        """
+        def __call__(self, time_slot: models.TimeSlot):
+            order = self.order
+            today = self.today
+            # 上课时间
+            time_slot_start = localtime(time_slot.start)
+            time_slot_end = localtime(time_slot.end)
+            self.duration = "{start_hour:02d}:{start_min:02d}-{end_hour:02d}:{end_min:02d}".format(
+                    start_hour=time_slot_start.hour, start_min=time_slot_start.minute,
+                    end_hour=time_slot_end.hour, end_min=time_slot_end.minute)
+            # 上课级别
+            self.subclass_level = "{grade}{subject}".format(grade=order.grade, subject=order.subject)
+            # 学生名称
+            self.student_name = order.parent.student_name
+            # 上课地点
+            self.center = order.school.name
+            # 课程进度
+            gtsp = MySchoolTimetable.GetTimeSlotProgress()
+            order.enum_timeslot(gtsp)
+            self.progress = "第{complete}/{total}次课".format(complete=gtsp.complete_class, total=gtsp.total_class)
+            # 默认评价为未评价,只有课程上完才去检查评价
+            # 评价状态, 0-未评价, 1-已评价
+            self.comment_state = 0
+            # 上课状态, 0-待上课, 1-上课中, 2-已完成
+            if time_slot.is_waiting(today):
+                # 等待中的课程
+                self.class_state = 0
+            if time_slot.is_running(today):
+                # 进行中的课程
+                self.class_state = 1
+            if time_slot.is_complete(today):
+                # 结束的课程
+                self.class_state = 2
+                # 上完课才做评价检查
+                if len(time_slot.comment_set.all()) > 0:
+                    self.comment_state = 1
+            # 获得这个TimeSlot的key
+            self.key = time_slot.start.strftime(MySchoolTimetable.CollectTimeSlot.time_formula)
+            # start时间,用于排序
+            self.start = time_slot.start
+
+        def __init__(self, order: models.Order, today=make_aware(datetime.datetime.now())):
+            self.order = order
+            self.today = today
+            # 上课时间
+            self.duration = ""
+            # 上课级别
+            self.subclass_level = ""
+            # 学生名称
+            self.student_name = ""
+            # 上课地点
+            self.center = ""
+            self.progress = ""
+            # 默认评价为未评价,只有课程上完才去检查评价
+            # 评价状态, 0-未评价, 1-已评价
+            self.comment_state = 0
+            # 上课状态, 0-待上课, 1-上课中, 2-已完成
+            self.class_state = 0
+            # 开始时间
+            self.start = ""
+            # 获得这个TimeSlot的key
+            self.key = ""
+
+        def dict_data(self):
+            return {"duration": self.duration, "subclass_level": self.subclass_level,
+                    "student_name": self.student_name, "center": self.center,
+                    "progress": self.progress, "class_state": self.class_state,
+                    "comment_state": self.comment_state, "start": self.start}
+
+    class CourseSet:
+        # 用来收集每条TimeSlot
+        def __init__(self, the_order: models.Order, today=make_aware(datetime.datetime.now())):
+            self.order = the_order
+            self.time_slot_dict = {}
+            self.today = today
+
+        def __call__(self, time_slot: models.TimeSlot):
+            ocd = MySchoolTimetable.OneCourseDetail(self.order, self.today)
+            ocd(time_slot)
+            slot_list = self.time_slot_dict.get(ocd.key, [])
+            slot_list.append(ocd.dict_data())
+            self.time_slot_dict[ocd.key] = slot_list
+
+    def get_course_plan(self, order: models.Order):
+        # 得到一个订单里所有TimeSlot的映射
+        cs = MySchoolTimetable.CourseSet(order)
+        order.enum_timeslot(cs)
+        return cs.time_slot_dict
+
+    def merge_dict(self, source: dict, dest: dict):
+        """
+        合并两个字典,主要处理val是list的合并情况
+        :param source: {str:list}
+        :param dest: {str:list}
+        :return:
+        """
+        for key, val in dest.items():
+            old_data_set = source.get(key, [])
+            old_data_set += val
+            source[key] = old_data_set
+
+    def clear_up_time_slot_set(self, time_slot_set: dict, month_start: datetime.datetime, month_end: datetime.datetime):
+        # 清理time_slot
+        # 移除不是本月的键值
+        remove_key = []
+        for key, val in time_slot_set.items():
+            current_time = make_aware(datetime.datetime.strptime(key, MySchoolTimetable.CollectTimeSlot.time_formula))
+            if month_start <= current_time <= month_end:
+                # 对符合要求的进行排序
+                time_slot_set[key] = sorted(val, key=lambda item: item["start"])
+                # 移除datetime
+                for one_val in time_slot_set[key]:
+                    one_val.pop("start", "")
+            else:
+                # 记录下不符合要求的
+                remove_key.append(key)
+        # 移除不符合要求
+        for key in remove_key:
+            time_slot_set.pop(key)
+
+    def get(self, request, year, month):
+        # 思路,集中订单中的每堂课,映射到当月的日期中,由每天上课的数量来日期的状态.
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
-        context = {}
+        # 获得这个老师的每堂课
+        order_set = models.Order.objects.filter(teacher=teacher)
+        # 用于记录页面右边的数据
+        time_slot_details = {}
+        cts = MySchoolTimetable.CollectTimeSlot()
+        for one_order in order_set:
+            if one_order.fit_school_time():
+                # 已经付过费的才统计
+                one_order.enum_timeslot(cts)
+                self.merge_dict(time_slot_details, self.get_course_plan(one_order))
+        # 整理数据
+        year = int(year)
+        month = int(month)
+        cal = calendar.Calendar()
+        one_month = [item for item in cal.itermonthdates(year, month)]
+        one_week = []
+        one_month_with_weeks = []
+        today = make_aware(datetime.datetime.now())
+        # 清理time_slot_details
+        self.clear_up_time_slot_set(time_slot_details,
+                                    make_aware(datetime.datetime(one_month[0].year, one_month[0].month, one_month[0].day, 0, 0, 0)),
+                                    make_aware(datetime.datetime(one_month[-1].year, one_month[-1].month, one_month[-1].day, 23, 59, 59)),)
+        week_day_map = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日", ]
+        for index, day_item in enumerate(one_month):
+            # 0-当天没课, 1-已经上过, 2-正在上,3-还没上
+            day_statue = 0
+            given_day = make_aware(datetime.datetime(day_item.year, day_item.month, day_item.day, 23, 59, 59))
+            if cts.specific_day_count(given_day) > 0:
+                if given_day > today:
+                    day_statue = 3
+                if given_day == today:
+                    day_statue = 2
+                if given_day < today:
+                    day_statue = 1
+            else:
+                day_statue = 0
+            # 以今天为准,是不是过去的日子
+            is_pass = False
+            if given_day < today:
+                is_pass = True
+            else:
+                is_pass = False
+            one_week.append(("{day:02d}".format(day=day_item.day), day_statue, is_pass,
+                             day_item.strftime(MySchoolTimetable.CollectTimeSlot.time_formula),
+                             day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)]
+                             ))
+            if len(one_week) == 7:
+                one_month_with_weeks.append(one_week)
+                one_week = []
+        # 得到下一个月和前一个月的url
+        current_month = datetime.datetime(year, month, 1)
+        pre_month = current_month - relativedelta.relativedelta(months=1)
+        pre_month_url = reverse("teacher:my-school-timetable",
+                                kwargs={"year": pre_month.year, "month": "{day:02d}".format(day=pre_month.month)})
+        next_month = current_month + relativedelta.relativedelta(months=1)
+        next_month_url = reverse("teacher:my-school-timetable",
+                                 kwargs={"year": next_month.year, "month": "{day:02d}".format(day=next_month.month)})
+        context = {
+            "data_list": one_month_with_weeks,
+            "current": current_month,
+            "pre_month_url": pre_month_url,
+            "next_month_url": next_month_url,
+            "dynamic_title": "我的课表 {year}-{month}".format(year=year, month=month),
+            "time_slot_data": json.dumps(time_slot_details),
+        }
         set_teacher_page_general_context(teacher, context)
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
         return render(request, "teacher/my_school_timetable.html", context)
 
 
@@ -466,6 +698,7 @@ class MyStudents(View):
     """
     TW-5-2, 我的学生
     """
+
     def get(self, request):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
@@ -508,6 +741,7 @@ class TeacherLogout(View):
     """
     登出
     """
+
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
@@ -533,6 +767,7 @@ class BaseTeacherView(View):
     """
     Base View for Teacher web client, require teacher being logined
     """
+
     @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
     def dispatch(self, request, *args, **kwargs):
         return super(BaseTeacherView, self).dispatch(request, *args, **kwargs)
@@ -544,10 +779,12 @@ class BaseTeacherView(View):
         context['teacherName'] = teacher.name
         return context, teacher
 
+
 class CertificateView(BaseTeacherView):
     """
     certifications overview
     """
+
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         context['isEnglishTeacher'] = teacher.is_english_teacher()
@@ -570,17 +807,20 @@ class CertificateView(BaseTeacherView):
         context['cert_other'] = tmp_other_cert
         return render(request, 'teacher/certificate/overview.html', context)
 
+
 class CertificateIDView(BaseTeacherView):
     """
     page of certificate id
     """
     template_path = 'teacher/certificate/certificate_id.html'
+
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
-                                                              defaults={'name':"",'verified':False})
-        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
-                                                              defaults={'name':"",'verified':False})
+                                                                       defaults={'name': "", 'verified': False})
+        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher,
+                                                                        type=models.Certificate.ID_FRONT,
+                                                                        defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, certIdHeld, certIdFront)
         return render(request, self.template_path, context)
 
@@ -593,9 +833,10 @@ class CertificateIDView(BaseTeacherView):
     def post(self, request):
         context, teacher = self.getContextTeacher(request)
         certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
-                                                              defaults={'name':"",'verified':False})
-        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_FRONT,
-                                                              defaults={'name':"",'verified':False})
+                                                                       defaults={'name': "", 'verified': False})
+        certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher,
+                                                                        type=models.Certificate.ID_FRONT,
+                                                                        defaults={'name': "", 'verified': False})
         isJsonReq = request.POST.get('format') == 'json'
         if certIdHeld.verified:
             error_msg = '已通过认证的不能更改'
@@ -617,17 +858,18 @@ class CertificateIDView(BaseTeacherView):
             idHeldImgFile = request.FILES.get('idHeldImg')
             if idHeldImgFile:
                 held_img_content = ContentFile(idHeldImgFile.read())
-                certIdHeld.img.save("idHeld"+str(teacher.id), held_img_content)
+                certIdHeld.img.save("idHeld" + str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
             if idFrontImgFile:
                 front_img_content = ContentFile(idFrontImgFile.read())
-                certIdFront.img.save("idFrontImg"+str(teacher.id), front_img_content)
+                certIdFront.img.save("idFrontImg" + str(teacher.id), front_img_content)
 
         certIdHeld.save()
         certIdFront.save()
 
         if isJsonReq:
-            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'idHeldUrl': certIdHeld.img_url(), 'idFrontUrl': certIdFront.img_url()})
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0, 'idHeldUrl': certIdHeld.img_url(),
+                                 'idFrontUrl': certIdFront.img_url()})
         context = self.buildContextData(context, certIdHeld, certIdFront)
         return render(request, self.template_path, context)
 
@@ -646,7 +888,7 @@ class CertificateForOnePicView(BaseTeacherView):
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
-                                                              defaults={'name':"",'verified':False})
+                                                                 defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, cert)
         return render(request, self.template_path, context)
 
@@ -661,7 +903,7 @@ class CertificateForOnePicView(BaseTeacherView):
     def post(self, request):
         context, teacher = self.getContextTeacher(request)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
-                                                              defaults={'name':"",'verified':False})
+                                                                 defaults={'name': "", 'verified': False})
         isJsonReq = request.POST.get('format') == 'json'
         if cert.verified:
             error_msg = '已通过认证的不能更改'
@@ -683,7 +925,7 @@ class CertificateForOnePicView(BaseTeacherView):
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
                 cert_img_content = ContentFile(certImgFile.read())
-                cert.img.save("certImg"+str(self.cert_type)+str(teacher.id), cert_img_content)
+                cert.img.save("certImg" + str(self.cert_type) + str(teacher.id), cert_img_content)
 
         cert.save()
 
@@ -692,11 +934,13 @@ class CertificateForOnePicView(BaseTeacherView):
         context = self.buildContextData(context, cert)
         return render(request, self.template_path, context)
 
+
 class CertificateAcademicView(CertificateForOnePicView):
     cert_type = models.Certificate.ACADEMIC
     cert_title = '学历认证'
     cert_name = '毕业院校'
     hint_content = "请上传最新的毕业证或学位证书照片"
+
 
 class CertificateTeachingView(CertificateForOnePicView):
     cert_type = models.Certificate.TEACHING
@@ -704,11 +948,13 @@ class CertificateTeachingView(CertificateForOnePicView):
     cert_name = '证书名称'
     hint_content = "请上传有效期内的教师资格证书或同等资格证明"
 
+
 class CertificateEnglishView(CertificateForOnePicView):
     cert_type = models.Certificate.ENGLISH
     cert_title = '英语水平认证'
     cert_name = '证书名称'
     hint_content = "请上传你最具代表性的英语水平证书"
+
 
 class CertificateOthersView(BaseTeacherView):
     """
@@ -751,7 +997,8 @@ class CertificateOthersView(BaseTeacherView):
             certImgFile = request.FILES.get('certImg')
             if certImgFile:
                 cert_img_content = ContentFile(certImgFile.read())
-                cert.img.save("certImg"+str(cert.type)+str(teacher.id)+'_'+str(cert_img_content.size), cert_img_content)
+                cert.img.save("certImg" + str(cert.type) + str(teacher.id) + '_' + str(cert_img_content.size),
+                              cert_img_content)
 
         cert.save()
 
@@ -763,6 +1010,7 @@ class CertificateOthersView(BaseTeacherView):
     """
     return message format: {'ok': False, 'msg': msg, 'code': 1}
     """
+
     def doDeleteCert(self, request):
         context, teacher = self.getContextTeacher(request)
         certId = request.POST.get('certId')
@@ -815,28 +1063,31 @@ class HighscoreView(BaseTeacherView):
     """
     增加一行
     """
+
     def addNewHighscore(self, request):
         context, teacher = self.getContextTeacher(request)
         name = request.POST.get('name')
         increased_scores = request.POST.get('increased_scores')
         school_name = request.POST.get('school_name')
         admitted_to = request.POST.get('admitted_to')
-        highscore = models.Highscore(teacher=teacher, name = name, increased_scores = increased_scores, school_name = school_name, admitted_to = admitted_to)
+        highscore = models.Highscore(teacher=teacher, name=name, increased_scores=increased_scores,
+                                     school_name=school_name, admitted_to=admitted_to)
         highscore.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
     """
     return message format: {'ok': False, 'msg': msg, 'code': 1}
     """
+
     def doDelHighscore(self, request):
         context, teacher = self.getContextTeacher(request)
         delIds = request.POST.get('ids')
         if not delIds:
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         delIds = delIds.split(",");
-        delIds = list(map(int, filter(lambda x:x, delIds)))
+        delIds = list(map(int, filter(lambda x: x, delIds)))
         try:
-            delObjs = models.Highscore.objects.filter(id__in = delIds)
+            delObjs = models.Highscore.objects.filter(id__in=delIds)
             allIsSelf = True
             for p in delObjs:
                 if p.teacher.id != teacher.id:
@@ -844,12 +1095,13 @@ class HighscoreView(BaseTeacherView):
             if not allIsSelf:
                 return JsonResponse({'ok': False, 'msg': '只能删除自己的记录', 'code': -1})
 
-            ret = models.Highscore.objects.filter(id__in = delIds).delete()
+            ret = models.Highscore.objects.filter(id__in=delIds).delete()
 
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
         except Exception as err:
             logger.error(err)
             return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
+
 
 class BasicDocument(BaseTeacherView):
     """
@@ -937,13 +1189,13 @@ class AchievementView(BaseTeacherView):
         if request.FILES:
             achieveImgFile = request.FILES.get('achieveImg')
         if not achievement.img and not achieveImgFile:
-                error_msg = '请选择图片'
-                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
+            error_msg = '请选择图片'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 4})
 
         achievement.title = title
         if achieveImgFile:
             img_content = ContentFile(achieveImgFile.read())
-            achievement.img.save("achievement"+str(teacher.id)+'_'+str(img_content.size), img_content)
+            achievement.img.save("achievement" + str(teacher.id) + '_' + str(img_content.size), img_content)
 
         achievement.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})

@@ -15,7 +15,7 @@
 {#    从python渲染的javascript数据 #}
     {% csrf_token %}
     <script lang="javascript">
-        window.grade_select_by_html = {{ grade }}
+        window.grade_select_by_html = {{ grade | safe }}
     </script>
     <div class="container">
         <div class="row">

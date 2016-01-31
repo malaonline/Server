@@ -1,7 +1,7 @@
 <div class="side_bar">
     <p class="section-title"><a href="{% url 'teacher:first-page' %}">首页</a></p>
     <p class="section-title">我的课程</p>
-    <p class="section-link"><a href="{% url 'teacher:my-school-timetable' %}">我的课表
+    <p class="section-link"><a href="{% url 'teacher:my-school-timetable' '2016' '01' %}">我的课表
         {% if side_bar_my_course > 0 %}
             <span class="badge_number">({{ side_bar_my_course }})</span>
         {% endif %}

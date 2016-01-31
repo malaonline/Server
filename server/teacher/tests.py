@@ -11,6 +11,8 @@ from teacher.views import FirstPage
 
 import json
 import datetime
+from pprint import pprint as pp
+
 
 # Create your tests here.
 class TestWebPage(TestCase):
@@ -72,17 +74,24 @@ class TestWebPage(TestCase):
                       status=Order.PAID)
         order.save()
         # 创建订单里的课程
-        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2016, 1, 1)),
-                                 end=make_aware(datetime.datetime(2016, 1, 20)))
+        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2016, 1, 1, 8, 0, 0)),
+                                 end=make_aware(datetime.datetime(2016, 1, 1, 10, 0, 0)))
         one_time_slot.save()
-        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 15)),
-                                 end=make_aware(datetime.datetime(2015, 12, 30 )))
+        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 30, 15, 0, 0)),
+                                 end=make_aware(datetime.datetime(2015, 12, 30, 17, 0, 0)))
         one_time_slot.save()
+        one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 20, 11, 0, 0)),
+                                 end=make_aware(datetime.datetime(2015, 12, 20, 12, 0, 0)))
+        one_time_slot.save()
+        # 检查订单的数目是否正确
+        order = Order.objects.get(teacher=teacher)
+        self.assertEqual(3, len(order.timeslot_set.all()))
 
     def tearDown(self):
         old_user = User.objects.get(username=self.teacher_name)
         profile = Profile.objects.get(user=old_user)
         teacher = Teacher.objects.get(user=old_user)
+        Order.objects.filter(teacher=teacher).delete()
         teacher.delete()
         profile.delete()
         old_user.delete()
@@ -128,7 +137,13 @@ class TestWebPage(TestCase):
     def test_my_school_timetable(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
-        response = client.get(reverse("teacher:my-school-timetable"))
+        response = client.get(reverse("teacher:my-school-timetable",
+                                      kwargs={"year": "2016", "month": "01"}))
+        time_slot_data = json.loads(response.context["time_slot_data"])
+        self.assertTrue("20160101" in time_slot_data)
+        self.assertTrue("20151230" in time_slot_data)
+        self.assertEqual(1, len(time_slot_data["20160101"]))
+        self.assertEqual(1, len(time_slot_data["20151230"]))
         self.assertEqual(response.status_code, 200)
 
     def test_course_show(self):
@@ -139,7 +154,28 @@ class TestWebPage(TestCase):
         teacher = Teacher.objects.get(user=user)
         order_set = Order.objects.filter(teacher=teacher)
         first_page = FirstPage()
-        self.assertEqual(2, first_page.class_complete(order_set))
+        self.assertEqual(3, first_page.class_complete(order_set))
+        self.assertEqual(2, first_page.class_waiting(order_set,
+                                                     make_aware(datetime.datetime(2015, 12, 20, 16, 0, 0))))
         self.assertEqual(1, first_page.class_waiting(order_set,
-                                                     make_aware(datetime.datetime(2015, 12, 20))))
+                                                     make_aware(datetime.datetime(2016, 1, 1, 5, 0, 0))))
         self.assertEqual(1, first_page.student_complete(order_set))
+
+    def test_create_new_teacher(self):
+        """
+        创建老师的测试内容
+        :return:
+        """
+        new_teacher = Teacher.new_teacher()
+
+
+class TestCommands(TestCase):
+    def setUp(self):
+        call_command("mala_all")
+
+    def tearDown(self):
+        pass
+
+    def test_create_fake_order(self):
+        call_command("create_fake_order")
+
