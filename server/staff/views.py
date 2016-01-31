@@ -10,6 +10,7 @@ from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db.models import Q
+from django.utils import timezone
 
 # local modules
 from app import models
@@ -483,6 +484,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.getTeacherAchievement(request)
         if action == 'get-weekly-schedule':
             return self.getTeacherWeeklySchedule(request)
+        if action == 'get-course-schedule':
+            return self.getTeacherCourseSchedule(request)
         if action == 'get-subject-grades-range':
             return self.getGradesRangeOfSubject(request)
         return HttpResponse("", status=404)
@@ -582,6 +585,33 @@ class TeacherActionView(BaseStaffActionView):
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+
+    def getTeacherCourseSchedule(self, request):
+        tid = request.GET.get('tid')
+        weekOffset = parseInt(request.GET.get('weekOffset'), 0)
+        if not tid:
+            return HttpResponse("")
+        teacher = get_object_or_404(models.Teacher, id=tid)
+        weekly_time_slots = []
+        for wts in teacher.weekly_time_slots.all():
+            weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
+        now = timezone.now()
+        from_day = now + datetime.timedelta(days=(-now.weekday()+weekOffset*7))  # 该周一
+        to_day = now + datetime.timedelta(days=(7-now.weekday()+weekOffset*7))  # 下周一
+        dates = []
+        for i in range(7):
+            _d = from_day + datetime.timedelta(days=i)
+            dates.append(str(_d.month)+'.'+str(_d.day))
+        from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
+        to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
+        timeSlots = models.TimeSlot.objects.select_related("order__parent")\
+            .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lte=to_time)
+        courses = []
+        for timeSlot in timeSlots:
+            _tmp = {}  # TODO: 构造单节课程信息
+            courses.append(_tmp)
+        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS,
+                             'dates': dates, 'courses': courses})
 
     def getGradesRangeOfSubject(self, request):
         """

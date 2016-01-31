@@ -87,7 +87,7 @@
                 <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
                 <td>{# 所在地区 #} {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>
                 <td>{# 授课中心 #} <a data-action="show-schools" href="javascript:void(0)">查看</a> </td>
-                <td>{# 授课时间 #} <a data-action="show-weeklySchedule" href="javascript:void(0)">查看</a> </td>
+                <td>{# 授课时间 #} <a data-action="{% if list_type == 'published' %}show-courseSchedule{% else %}show-weeklySchedule{% endif %}" href="javascript:void(0)">查看</a> </td>
                 <td>{# 授课科目 #} {% if teacher.subject %}{{ teacher.subject }}{% else %}未填{% endif %} </td>
                 <td>{# 星级 #} {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>
                 <td>{# 授课年级 #} {% if teacher.grades %} {% for g in teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
@@ -162,6 +162,27 @@
                 <table class="text-center" border="1" width="100%">
                     <tr><td></td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td><td>周七</td></tr>
                 </table>
+              </div>
+            </div>
+        </div>
+    </div>
+{#    显示上课时间表#}
+    <div class="modal fade" id="courseScheduleModal" tabindex="-1" role="dialog" aria-labelledby="courseScheduleLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="courseScheduleLabel">授课时间表</h4>
+              </div>
+              <div class="modal-body text-center">
+                  <div class="panel-heading">
+                      <button class=".btn btn-default" data-action="pre-week-courses">&lt;上周</button>
+                      <button class=".btn btn-default" data-action="cur-week-courses">本周</button>
+                      <button class=".btn btn-default" data-action="next-week-courses">下周&gt;</button>
+                  </div>
+                  <table border="1" width="100%">
+                      <tr><td></td><td>周一<span class="day"></span></td><td>周二<span class="day"></span></td><td>周三<span class="day"></span></td><td>周四<span class="day"></span></td><td>周五<span class="day"></span></td><td>周六<span class="day"></span></td><td>周七<span class="day"></span></td></tr>
+                  </table>
               </div>
             </div>
         </div>

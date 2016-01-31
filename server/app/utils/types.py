@@ -20,5 +20,7 @@ def parseInt(nums, default='NaN'):
         return nums
     if isinstance(nums, float):
         return int(nums)
+    if not nums:
+        return default
     d = re.search(r'^-?\d+', nums)
     return int(d.group(0)) if d else default

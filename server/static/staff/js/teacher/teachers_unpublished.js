@@ -109,6 +109,74 @@ $(function(){
             }
         });
     });
+    // 查看上课安排时间表
+    var showCourseSchedule = function(weekOffset) {
+        var $courseScheduleModal = $("#courseScheduleModal");
+        var dataKey = 'courseSchedule'+(weekOffset<0?'_'+weekOffset:weekOffset); // jQuery data key不区分大小写和'-'
+        var courseSchedule = $courseScheduleModal.data(dataKey);
+        var fillTableAndShow = function(courseSchedule) {
+            var heap = [];
+            for (var k=0; k<courseSchedule.list.length; k++) {
+                var wsh = courseSchedule.list[k];
+                heap[""+wsh.weekday+wsh.start+wsh.end] = true;
+            }
+            var $courseScheduleTable = $courseScheduleModal.find("table");
+            $courseScheduleTable.find('tr:eq(0) td:gt(0)').each(function(i){
+                $(this).find('span').text('('+courseSchedule.dates[i]+')');
+            });
+            $courseScheduleTable.find('tr:gt(0)').remove();
+            var metaTimeSlots = courseSchedule.dailyTimeSlots;
+            var buf = [];
+            for (var i=0; i<metaTimeSlots.length; i++) {
+                var timeSlot = metaTimeSlots[i];
+                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                for (var d=1; d<=7; d++) {
+                    if (heap[""+d+timeSlot.start+timeSlot.end]) {
+                        buf.push('<td><span class="glyphicon glyphicon-ok"></span></td>');
+                    } else {
+                        buf.push('<td></td>');
+                    }
+                }
+                buf.push('</tr>');
+            }
+            $courseScheduleTable.append(buf.join(''));
+            $courseScheduleModal.modal();
+        };
+        if (courseSchedule) {
+            fillTableAndShow(courseSchedule);
+            return;
+        }
+        var teacherId = $courseScheduleModal.data('teacherid'),
+            params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
+        $.getJSON('/staff/teachers/action/', params, function(data){
+            if (data && data.list)  {
+                $courseScheduleModal.data(dataKey, data);
+                fillTableAndShow(data);
+            }
+        });
+    };
+    $('[data-action=pre-week-courses]').click(function(e){
+        var $courseScheduleModal = $("#courseScheduleModal"), weekOffset = $courseScheduleModal.data('weekoffset');
+        if (!weekOffset) weekOffset = 0;
+        $courseScheduleModal.data('weekoffset', --weekOffset);
+        showCourseSchedule(weekOffset);
+    });
+    $('[data-action=cur-week-courses]').click(function(e){
+        var $courseScheduleModal = $("#courseScheduleModal");
+        $courseScheduleModal.data('weekoffset', 0);
+        showCourseSchedule(0);
+    });
+    $('[data-action=next-week-courses]').click(function(e){
+        var $courseScheduleModal = $("#courseScheduleModal"), weekOffset = $courseScheduleModal.data('weekoffset');
+        if (!weekOffset) weekOffset = 0;
+        $courseScheduleModal.data('weekoffset', ++weekOffset);
+        showCourseSchedule(weekOffset);
+    });
+    $('[data-action=show-courseSchedule]').click(function(e){
+        var teacherId = $(this).closest('tr').attr('teacherId');
+        $("#courseScheduleModal").data('teacherid', teacherId);
+        showCourseSchedule(0);
+    });
     // 查看提分榜
     $('[data-action=show-highscores]').click(function(e){
         var $highscoresModal = $("#highscoresModal");
