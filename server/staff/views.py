@@ -150,15 +150,18 @@ class TeacherUnpublishedView(BaseStaffView):
     待上架老师列表view
     """
     template_name = 'staff/teacher/teachers_unpublished.html'
+    list_type = 'unpublished'
 
     def get_context_data(self, **kwargs):
+        kwargs['list_type'] = self.list_type
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         #
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
-        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=False)
+        for_published = self.list_type == 'published'
+        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
         if name:
             query_set = query_set.filter(name__icontains = name)
         if phone:
@@ -175,6 +178,15 @@ class TeacherUnpublishedView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
         return super(TeacherUnpublishedView, self).get_context_data(**kwargs)
+
+
+class TeacherPublishedView(TeacherUnpublishedView):
+    """
+    已上架老师列表view
+    """
+    list_type = 'published'
+    def get_context_data(self, **kwargs):
+        return super(TeacherPublishedView, self).get_context_data(**kwargs)
 
 
 class TeacherUnpublishedEditView(BaseStaffView):
@@ -492,11 +504,12 @@ class TeacherActionView(BaseStaffActionView):
 
     def publishTeacher(self, request):
         tid = request.POST.get('tid')
-        if not tid:
+        flag = request.POST.get('flag')
+        if not tid or not flag in ['true', 'false']:
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         try:
             teacher = models.Teacher.objects.get(id=tid)
-            teacher.published = True
+            teacher.published = (flag == 'true')
             teacher.save()
             # TODO: send notice (sms) to teacher
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})

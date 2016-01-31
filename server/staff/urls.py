@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^teachers/$', views.TeacherView.as_view(), name="teachers"),
     url(r'^teachers/unpublished/$', views.TeacherUnpublishedView.as_view(), name="teachers_unpublished"),
     url(r'^teachers/unpublished/(?P<tid>\d+)/edit$', views.TeacherUnpublishedEditView.as_view(), name="teachers_unpublished_edit"),
+    url(r'^teachers/published/$', views.TeacherPublishedView.as_view(), name="teachers_published"),
     url(r'^teachers/action/$', views.TeacherActionView.as_view(), name="teachers_action"),
     url(r'^schools/$', views.SchoolsView.as_view(), name="schools"),
     url(r'^school/$', views.SchoolView.as_view(), name='staff_school'),

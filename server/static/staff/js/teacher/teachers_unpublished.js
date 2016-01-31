@@ -167,14 +167,14 @@ $(function(){
         });
     });
 
-    $('[data-action=publish-teacher]').click(function(e){
-        var $row = $(this).closest('tr');
+    var _publishChange = function(ele, flag) {
+        var $row = $(ele).closest('tr');
         var teacherId = $row.attr('teacherId');
         var name = $.trim($row.find('td[field=name]').text());
-        var decided = confirm('确定上架['+name+']?');
+        var decided = confirm('确定'+(flag?'上架':'下架')+'【'+name+'】?');
         if (!decided) return;
         // do request server
-        var params = {'action': 'publish-teacher', 'tid': teacherId};
+        var params = {'action': 'publish-teacher', 'tid': teacherId, 'flag': flag};
         $.post( "/staff/teachers/action/", params, function( result ) {
             if (result) {
                 if (result.ok) {
@@ -188,5 +188,13 @@ $(function(){
         }, 'json').fail(function() {
             alert(defaultErrMsg);
         });
+    };
+
+    $('[data-action=publish-teacher]').click(function(e){
+        _publishChange(this, true);
+    });
+
+    $('[data-action=unpublish-teacher]').click(function(e){
+        _publishChange(this, false);
     });
 });
