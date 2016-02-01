@@ -544,3 +544,37 @@ HTTP Status Code 201
     'school': 1
 }
 ```
+
+### Create Comment
+
+```
+POST /api/v1/comments
+```
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+data:
+```
+{
+    'timeslot': 12,
+    'score': 4,
+    'content': 'Good.'
+}
+```
+
+result:
+
+HTTP Status Code 201
+
+```
+{
+    "id": 4,
+    "timeslot": 12,
+    "score": 4,
+    "content": "Good."
+}
+```
