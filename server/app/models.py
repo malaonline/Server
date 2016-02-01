@@ -699,6 +699,11 @@ class Order(BaseModel):
                 self.subject, self.total)
 
     def fit_statistical(self):
+        # 主要用于FirstPage中
+        return self.status == self.PAID
+
+    def fit_school_time(self):
+        # 主要用于学校课程表中
         return self.status == self.PAID
 
     def enum_timeslot(self, handler):

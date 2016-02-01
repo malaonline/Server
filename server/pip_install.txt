@@ -8,3 +8,4 @@ segmenttree
 django-static-precompiler[watch]
 gunicorn
 -e git://github.com/hwbuluo/django-send-messages.git#egg=django-send-messages
+python-dateutil==2.4.2
