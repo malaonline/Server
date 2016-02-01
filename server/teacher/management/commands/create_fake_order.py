@@ -55,7 +55,7 @@ class Command(BaseCommand):
         try:
             parent_profile = Profile.objects.get(user=parent_user)
         except Profile.DoesNotExist:
-            parent_profile = Profile(user=parent_user, phone="18922405996")
+            parent_profile = Profile(user=parent_user, phone="fake_phone_number")
             parent_profile.save()
         try:
             parent = Parent.objects.get(user=parent_user)
