@@ -64,10 +64,18 @@
                                     {% for one_week in data_list %}
                                     <div class="day-row">
                                         {% for one_day in one_week %}
-                                            {% if one_day.2 == True %}
-                                                <div class="normal" attrStatue="pass" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                            {% if one_day.6 == 6 %}
+                                                {% if one_day.2 == True %}
+                                                    <div class="normal-last" attrStatue="pass" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% else %}
+                                                    <div class="normal-last" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% endif %}
                                             {% else %}
-                                                <div class="normal" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% if one_day.2 == True %}
+                                                    <div class="normal" attrStatue="pass" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% else %}
+                                                    <div class="normal" onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% endif %}
                                             {% endif %}
 
                                             <p class="date">{{ one_day.0 }}</p>
