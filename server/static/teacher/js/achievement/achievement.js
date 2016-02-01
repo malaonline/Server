@@ -76,6 +76,15 @@ $(function(){
     //form保存操作
     $("#achieveEditForm [data-action=save]").click(function(e){
         var $form = $('#achieveEditForm');
+        var title = $.trim($form.find('input[name=title]').val());
+        if (!title) {
+            alert('名称不能为空');
+            return false;
+        }
+        if (title.length > 10) {
+            alert('名称不能超过10个字');
+            return false;
+        }
         $form.ajaxSubmit({
             dataType: 'json',
             success: function(result){
