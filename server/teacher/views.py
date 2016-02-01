@@ -672,7 +672,7 @@ class MySchoolTimetable(View):
                 is_pass = False
             one_week.append(("{day:02d}".format(day=day_item.day), day_statue, is_pass,
                              day_item.strftime(MySchoolTimetable.CollectTimeSlot.time_formula),
-                             day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)]
+                             day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)], len(one_week)
                              ))
             if len(one_week) == 7:
                 one_month_with_weeks.append(one_week)
