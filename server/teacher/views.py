@@ -1176,6 +1176,7 @@ class AchievementView(BaseTeacherView):
 
     def doSave(self, request, id):
         title = request.POST.get('title')
+        title = title and title.strip() or ''
         if not title:
             error_msg = '名称不能为空'
             return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
