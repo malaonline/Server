@@ -619,10 +619,10 @@ class TeacherActionView(BaseStaffActionView):
         order_heap = {}
         # 组织课程信息, TODO: 调课退课退费记录
         for timeSlot in timeSlots:
-            _tmp = {}
-            _tmp['weekday'] = timeSlot.start.isoweekday()
-            _tmp['start'] = timeSlot.start.strftime(TIME_FMT)
-            _tmp['end'] = timeSlot.end.strftime(TIME_FMT)
+            ts_dict = {}
+            ts_dict['weekday'] = timeSlot.start.isoweekday()
+            ts_dict['start'] = timeSlot.start.strftime(TIME_FMT)
+            ts_dict['end'] = timeSlot.end.strftime(TIME_FMT)
             cur_order = order_heap.get(timeSlot.order_id)
             if not cur_order:
                 cur_order = {}
@@ -631,8 +631,8 @@ class TeacherActionView(BaseStaffActionView):
                 cur_order['student'] = timeSlot.order.parent.student_name
                 cur_order['school'] = timeSlot.order.school.name
                 order_heap[timeSlot.order_id] = cur_order
-            _tmp.update(cur_order)
-            courses.append(_tmp)
+            ts_dict.update(cur_order)
+            courses.append(ts_dict)
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS,
                              'dates': dates, 'courses': courses})
 
