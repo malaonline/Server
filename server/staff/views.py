@@ -409,12 +409,18 @@ class TeacherUnpublishedEditView(BaseStaffView):
             if introAudio:
                 _tmp_content = ContentFile(introAudio.read())
                 teacher.audio.save('introAudio'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            else:
+                if request.POST.get('toDeleteAudio'):
+                    teacher.audio.delete()
             introVideo = None
             if request.FILES:
                 introVideo =  request.FILES.get('introVideo')
             if introVideo:
                 _tmp_content = ContentFile(introVideo.read())
                 teacher.video.save('introVideo'+str(teacher.id)+'_'+str(_tmp_content.size), _tmp_content)
+            else:
+                if request.POST.get('toDeleteVideo'):
+                    teacher.video.delete()
             teacher.save()
             # 教学成果
             allAchieveIds = request.POST.getlist('achieveId')
