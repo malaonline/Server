@@ -64,6 +64,10 @@ class Command(BaseCommand):
             parent.save()
         return parent
 
+    def add_time_slot(self, order, start, end):
+        one_time_slot = TimeSlot(order=order, start=start, end=end)
+        one_time_slot.save()
+
     def handle(self, *args, **options):
         for one_teacher in Teacher.objects.all():
             if len(Order.objects.filter(teacher=one_teacher).all()) == 0:
@@ -73,14 +77,18 @@ class Command(BaseCommand):
                               subject=Subject.objects.get(name="数学"), coupon=None, price=200, hours=50, total=100,
                               paid_at=make_aware(datetime.datetime.now()), status=Order.PAID)
                 order.save()
-                one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2016, 1, 1, 8, 0, 0)),
-                                         end=make_aware(datetime.datetime(2016, 1, 1, 10, 0, 0)))
-                one_time_slot.save()
-                one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 30, 15, 0, 0)),
-                                         end=make_aware(datetime.datetime(2015, 12, 30, 17, 0, 0)))
-                one_time_slot.save()
-                one_time_slot = TimeSlot(order=order, start=make_aware(datetime.datetime(2015, 12, 20, 11, 0, 0)),
-                                         end=make_aware(datetime.datetime(2015, 12, 20, 12, 0, 0)))
-                one_time_slot.save()
 
-
+                self.add_time_slot(order, make_aware(datetime.datetime(2016, 2, 2, 9, 0, 0)),
+                                   make_aware(datetime.datetime(2016, 2, 2, 11, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2016, 2, 1, 8, 0, 0)),
+                                   make_aware(datetime.datetime(2016, 2, 1, 9, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2016, 2, 1, 10, 0, 0)),
+                                   make_aware(datetime.datetime(2016, 2, 1, 13, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2016, 2, 1, 15, 0, 0)),
+                                   make_aware(datetime.datetime(2016, 2, 1, 17, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2016, 1, 1, 8, 0, 0)),
+                                   make_aware(datetime.datetime(2016, 1, 1, 10, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2015, 12, 30, 15, 0, 0)),
+                                   make_aware(datetime.datetime(2015, 12, 30, 17, 0, 0)))
+                self.add_time_slot(order, make_aware(datetime.datetime(2015, 12, 20, 11, 0, 0)),
+                                   make_aware(datetime.datetime(2015, 12, 20, 12, 0, 0)))
