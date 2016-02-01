@@ -1,0 +1,119 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}中心课程列表{% endblock %}
+
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+    <script src="{% static 'common/js/pagination.js' %}"></script>
+
+    <script src="{% static 'staff/js/school/timeslot.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="query_form" method="get" action="{% url 'staff:school_timeslot' %}">
+        时间 <input type="text" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}">
+        姓名 <input type="text" name="name" value="{{name | default_if_none:''}}">
+        手机号 <input type="text" name="phone" value="{{phone | default_if_none:''}}">
+        授课中心
+        <select class="form-control" name="schoolId">
+            {% for school in schools %}
+            <option value="{{school.id}}" {%if school.id = schoolId|add:0%}selected="true"{%endif%}>{{school.name}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="查询"/>
+    </form>
+    {% if error %}
+        <div class="error-msg">
+            {{error.msg}}
+        </div>
+    {% endif %}
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">{{weekday}}（{{ searchTime | date:"m-d" }}）</th>
+            <th class="text-center">家长姓名</th>
+            <th class="text-center">家长电话</th>
+            <th class="text-center">学生姓名</th>
+            <th class="text-center">报课年级</th>
+            <th class="text-center">报课科目</th>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">老师电话</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for timeslot in timeslots %}
+            <tr schoolId="{{ timeslot.id }}">
+                <td>{{timeslot.start | date:"H:i" }} - {{timeslot.end | date:"H:i" }}</td>
+                <td>{{timeslot.order.parent.user.username}}</td>
+                <td>{{timeslot.order.parent.user.profile.phone}}</td>
+                <td>{{timeslot.order.parent.student_name}}</td>
+                <td>{{timeslot.order.grade.name }}</td>
+                <td>{{timeslot.order.subject.name }}</td>
+                <td>{{timeslot.order.teacher.user.username}}</td>
+                <td>{{timeslot.order.teacher.user.profile.phone}}</td>
+                <td class="edit-td">
+                    {% if timeslot.complaint %}
+                    <a href="javascript:void(0)" data-toggle="modal" onclick="doComplaint('{{timeslot.id}}', '{{timeslot.complaint.id}}', '{{timeslot.complaint.content}}')">查看投诉</a>
+                    {% else %}
+                    <a href="javascript:void(0)" data-toggle="modal" onclick="doComplaint('{{timeslot.id}}', '', '')">投诉</a>
+                    {% endif %}
+                    {% if timeslot.attendance %}
+                    <a href="javascript:void(0)" data-toggle="modal" onclick="doAttendance('{{timeslot.id}}', '{{timeslot.attendance.id}}', '{{timeslot.attendance.record_type}}')">查看考勤</a>
+                    {% else %}
+                    <a href="javascript:void(0)" data-toggle="modal" onclick="doAttendance('{{timeslot.id}}', '', '')">考勤</a>
+                    {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <div id="complaintModal" class="modal fade in add-item-modal" style="padding-right:0;">
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <input type="hidden" id="complaintId"/>
+                <input type="hidden" id="timeslotId"/>
+              <fieldset>
+                <legend id="complaintLegend"></legend>
+                <div class="control-group">
+                  <textarea name="complaintContent" id="complaintContent" rows="5" cols="36" placeholder="请输入投诉问题"></textarea>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <input type="button" id="saveComplaintItem" value="保存" class="btn btn-primary">
+            <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+        </div>
+    </div>
+
+    <div id="attendanceModal" class="modal fade in add-item-modal attendance-modal" style="padding-right:0;">
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <input type="hidden" id="attendanceId"/>
+                <input type="hidden" id="timeslotId"/>
+              <fieldset>
+                <legend>考勤</legend>
+                <div class="control-group">
+                    <label>迟到时间：</label>
+                    <div class="btn btn-default" value="c" name="attendVal" onclick="setAttendValue('c')">10分钟内</div>
+                    <div class="btn btn-default" value="d" name="attendVal" onclick="setAttendValue('d')">10-30分钟内</div>
+                    <div class="btn btn-default" value="e" name="attendVal" onclick="setAttendValue('e')">30分钟以上</div>
+                    <div class="btn btn-default" value="b" name="attendVal" onclick="setAttendValue('b')">缺勤</div>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <input type="button" id="saveAttendanceItem" value="保存" class="btn btn-primary">
+            <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+        </div>
+    </div>
+{% endblock %}

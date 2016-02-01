@@ -868,3 +868,89 @@ class OrderRefundView(BaseStaffView):
         # todo: 应该只显示某些状态的订单(待处理: 退费审核中, 已退费: 退费成功, 已驳回: 退费被驳回)
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
+
+class SchoolTimeslotView(BaseStaffView):
+    template_name = 'staff/school/timeslot.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SchoolTimeslotView, self).get_context_data(**kwargs)
+        schoolId = self.request.GET.get('schoolId', None)
+        searchTime = self.request.GET.get('searchDate', None)
+        searchName = self.request.GET.get('name', None)
+        phone = self.request.GET.get('phone', None)
+
+        timeslots = None
+        stTime = None
+        edTime = None
+        if not searchTime:
+            searchTime = datetime.datetime.now()
+            stTime = datetime.datetime(searchTime.year, searchTime.month, searchTime.day)
+        else:
+            stTime = datetime.datetime.strptime(searchTime, '%Y-%m-%d')
+
+        edTime = stTime + datetime.timedelta(days=1)
+
+        timeslots = models.TimeSlot.objects.filter(start__gte=stTime, end__lt=edTime, deleted=False)
+        if searchName:
+            timeslots = timeslots.filter(Q(order__parent__user__username__icontains=searchName)|Q(order__teacher__user__username__icontains=searchName))
+        if phone:
+            timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
+        if not schoolId:
+            schoolId = 1
+        timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
+
+        schools = models.School.objects.all();
+
+        context['schools'] = schools
+        context['timeslots'] = timeslots
+        context['searchTime'] = stTime
+        context['schoolId'] = schoolId
+        context['name'] = searchName
+        context['phone'] = phone
+        context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
+        return context
+
+    def get(self, request):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        if request.POST.get('action') == 'saveComplaint':
+            timeslotId = request.POST.get('timeslotId', None)
+            complaintId = request.POST.get('complaintId', None)
+            complaintContent = request.POST.get('complaintContent', None)
+
+            if not timeslotId:
+                return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
+
+            if not complaintId:
+                cmp = models.TimeSlotComplaint(content=complaintContent)
+                cmp.save()
+                models.TimeSlot.objects.filter(id=timeslotId).update(complaint_id = cmp.id)
+            else:
+                models.TimeSlotComplaint.objects.filter(id=complaintId).update(content=complaintContent)
+                models.TimeSlot.objects.filter(id=timeslotId).update(complaint_id = complaintId)
+
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+        if request.POST.get('action') == 'saveAttendace':
+            timeslotId = request.POST.get('timeslotId', None)
+            attendanceId = request.POST.get('attendanceId', None)
+            attendanceValue = request.POST.get('attendanceValue', None)
+
+            if not timeslotId:
+                return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
+            if not attendanceValue:
+                return JsonResponse({'ok': False, 'msg': '必须提供考勤状态', 'code': -1})
+
+            if not attendanceId:
+                at = models.TimeSlotAttendance(record_type=attendanceValue)
+                at.save()
+                models.TimeSlot.objects.filter(id=timeslotId).update(attendance_id = at.id)
+            else:
+                models.TimeSlotAttendance.objects.filter(id=attendanceId).update(record_type=attendanceValue)
+                models.TimeSlot.objects.filter(id=timeslotId).update(attendance_id = attendanceId)
+
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+        return JsonResponse({'ok': False, 'msg': '系统错误', 'code': -1})
