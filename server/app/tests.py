@@ -180,6 +180,24 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
 
+    def test_get_timeslots(self):
+        token_client = Client()
+        token_request_url = "/api/v1/token-auth"
+        username = "parent1"
+        password = "123123"
+        response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
+        token = json.loads(response.content.decode())["token"]
+        user = User.objects.get(username=username)
+        user_token = Token.objects.get(user=user)
+        self.assertEqual(user_token.key, token)
+
+        client = Client()
+        request_url = "/api/v1/timeslots"
+        response = client.get(request_url, content_type='application/json',
+                              **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(200, response.status_code)
+
 
 class TestModels(TestCase):
     def setUp(self):
@@ -202,9 +220,9 @@ class TestModels(TestCase):
         """
         检查其它是否已经从数据库中移除
         """
-        region = Region.objects.get(name="其他")
+        Region.objects.get(name="其他")
         with self.assertRaises(Region.DoesNotExist):
-            not_exist_region = Region.objects.get(name="其它")
+            Region.objects.get(name="其它")
 
 
 class TestTeacherWeb(TestCase):
