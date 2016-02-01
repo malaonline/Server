@@ -437,6 +437,11 @@ class SideBarContent:
         context["side_bar_my_student"] = self._my_student_badge()
         context["side_bar_my_evaluation"] = self._my_evaluation_badge()
         context["side_bar_basic_data_notify"] = self._basic_data_notify()
+        today = datetime.datetime.now()
+        context["side_bar_my_school_time_url"] = reverse("teacher:my-school-timetable",
+                                                         kwargs={"year": today.year,
+                                                                 "month": "{day:02d}".format(day=today.month)}
+                                                         )
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
