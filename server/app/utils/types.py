@@ -2,6 +2,7 @@ import re
 
 def parseInt(nums, default='NaN'):
     """
+    (parseInt(None) == 'NaN')
     (parseInt('') == 'NaN')
     (parseInt(123) == 123)
     (parseInt(-123) == -123)
@@ -16,6 +17,8 @@ def parseInt(nums, default='NaN'):
     (parseInt('asd') == 'NaN')
     (parseInt('-asd') == 'NaN')
     """
+    if nums is None or nums is '':
+        return default
     if isinstance(nums, int):
         return nums
     if isinstance(nums, float):

@@ -10,6 +10,7 @@ from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db.models import Q
+from django.utils import timezone
 
 # local modules
 from app import models
@@ -150,15 +151,18 @@ class TeacherUnpublishedView(BaseStaffView):
     待上架老师列表view
     """
     template_name = 'staff/teacher/teachers_unpublished.html'
+    list_type = 'unpublished'
 
     def get_context_data(self, **kwargs):
+        kwargs['list_type'] = self.list_type
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         #
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
-        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=False)
+        for_published = self.list_type == 'published'
+        query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
         if name:
             query_set = query_set.filter(name__icontains = name)
         if phone:
@@ -175,6 +179,15 @@ class TeacherUnpublishedView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
         return super(TeacherUnpublishedView, self).get_context_data(**kwargs)
+
+
+class TeacherPublishedView(TeacherUnpublishedView):
+    """
+    已上架老师列表view
+    """
+    list_type = 'published'
+    def get_context_data(self, **kwargs):
+        return super(TeacherPublishedView, self).get_context_data(**kwargs)
 
 
 class TeacherUnpublishedEditView(BaseStaffView):
@@ -471,6 +484,8 @@ class TeacherActionView(BaseStaffActionView):
             return self.getTeacherAchievement(request)
         if action == 'get-weekly-schedule':
             return self.getTeacherWeeklySchedule(request)
+        if action == 'get-course-schedule':
+            return self.getTeacherCourseSchedule(request)
         if action == 'get-subject-grades-range':
             return self.getGradesRangeOfSubject(request)
         return HttpResponse("", status=404)
@@ -492,11 +507,12 @@ class TeacherActionView(BaseStaffActionView):
 
     def publishTeacher(self, request):
         tid = request.POST.get('tid')
-        if not tid:
+        flag = request.POST.get('flag')
+        if not tid or not flag in ['true', 'false']:
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         try:
             teacher = models.Teacher.objects.get(id=tid)
-            teacher.published = True
+            teacher.published = (flag == 'true')
             teacher.save()
             # TODO: send notice (sms) to teacher
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
@@ -569,6 +585,56 @@ class TeacherActionView(BaseStaffActionView):
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+
+    def getTeacherCourseSchedule(self, request):
+        """
+        查询老师某一周的课程安排
+        :param request: 老师ID, 周偏移量
+        :return: 课程记录
+        """
+        tid = request.GET.get('tid')
+        weekOffset = parseInt(request.GET.get('weekOffset'), 0)
+        if not tid:
+            return HttpResponse("")
+        teacher = get_object_or_404(models.Teacher, id=tid)
+        # 每周时间计划
+        weekly_time_slots = []
+        for wts in teacher.weekly_time_slots.all():
+            weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
+        # 计算该周日期
+        now = timezone.now()
+        from_day = now + datetime.timedelta(days=(-now.weekday()+weekOffset*7))  # 该周一
+        to_day = now + datetime.timedelta(days=(7-now.weekday()+weekOffset*7))  # 下周一
+        dates = []
+        for i in range(7):
+            _d = from_day + datetime.timedelta(days=i)
+            dates.append(str(_d.month)+'.'+str(_d.day))
+        # 查询课程安排
+        from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
+        to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
+        timeSlots = models.TimeSlot.objects.select_related("order__parent")\
+            .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lte=to_time)
+        courses = []
+        TIME_FMT = '%H:%M:00'
+        order_heap = {}
+        # 组织课程信息, TODO: 调课退课退费记录
+        for timeSlot in timeSlots:
+            ts_dict = {}
+            ts_dict['weekday'] = timeSlot.start.isoweekday()
+            ts_dict['start'] = timeSlot.start.strftime(TIME_FMT)
+            ts_dict['end'] = timeSlot.end.strftime(TIME_FMT)
+            cur_order = order_heap.get(timeSlot.order_id)
+            if not cur_order:
+                cur_order = {}
+                cur_order['subject'] = timeSlot.order.grade.name+timeSlot.order.subject.name
+                cur_order['phone'] = timeSlot.order.parent.user.profile.phone
+                cur_order['student'] = timeSlot.order.parent.student_name
+                cur_order['school'] = timeSlot.order.school.name
+                order_heap[timeSlot.order_id] = cur_order
+            ts_dict.update(cur_order)
+            courses.append(ts_dict)
+        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS,
+                             'dates': dates, 'courses': courses})
 
     def getGradesRangeOfSubject(self, request):
         """
