@@ -909,3 +909,48 @@ class SchoolTimeslotView(BaseStaffView):
         context['phone'] = phone
         context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
         return context
+
+    def get(self, request):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        if request.POST.get('action') == 'saveComplaint':
+            timeslotId = request.POST.get('timeslotId', None)
+            complaintId = request.POST.get('complaintId', None)
+            complaintContent = request.POST.get('complaintContent', None)
+
+            if not timeslotId:
+                return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
+
+            if not complaintId:
+                cmp = models.TimeSlotComplaint(content=complaintContent)
+                cmp.save()
+                models.TimeSlot.objects.filter(id=timeslotId).update(complaint_id = cmp.id)
+            else:
+                models.TimeSlotComplaint.objects.filter(id=complaintId).update(content=complaintContent)
+                models.TimeSlot.objects.filter(id=timeslotId).update(complaint_id = complaintId)
+
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+        if request.POST.get('action') == 'saveAttendace':
+            timeslotId = request.POST.get('timeslotId', None)
+            attendanceId = request.POST.get('attendanceId', None)
+            attendanceValue = request.POST.get('attendanceValue', None)
+
+            if not timeslotId:
+                return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
+            if not attendanceValue:
+                return JsonResponse({'ok': False, 'msg': '必须提供考勤状态', 'code': -1})
+
+            if not attendanceId:
+                at = models.TimeSlotAttendance(record_type=attendanceValue)
+                at.save()
+                models.TimeSlot.objects.filter(id=timeslotId).update(attendance_id = at.id)
+            else:
+                models.TimeSlotAttendance.objects.filter(id=attendanceId).update(record_type=attendanceValue)
+                models.TimeSlot.objects.filter(id=timeslotId).update(attendance_id = attendanceId)
+
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+        return JsonResponse({'ok': False, 'msg': '系统错误', 'code': -1})
