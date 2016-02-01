@@ -97,8 +97,8 @@
                 <td>{# 互动能力 #} {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>
                 <td>{# 风格 #} {% if teacher.tags.all %}{% for t in teacher.tags.all %} {{ t.name }}<br>{% endfor %} {% else %}未填{% endif %} </td>
                 <td>{# 提分榜 #} <a data-action="show-highscores" href="javascript:void(0)">查看</a> </td>
-                <td>{# 视频 #} TODO </td>
-                <td>{# 介绍语音 #} TODO </td>
+                <td>{# 视频 #} {% if teacher.video %}<a data-action="show-video" url="{{ teacher.video.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>
+                <td>{# 介绍语音 #} {% if teacher.audio %}<a data-action="show-audio" url="{{ teacher.audio.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>
                 <td>{# 教学成果 #} <a data-action="show-achievements" href="javascript:void(0)">查看</a> </td>
                 <td>{# 证书内容 #} {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>
                 <td field="action">{# 操作 #}
@@ -217,6 +217,36 @@
                 <table class="text-center" border="1" width="100%">
                     <tr><td><b>名称</b></td><td><b>照片</b></td></tr>
                 </table>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{#    介绍视频#}
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="videoLabel">视频</h4>
+              </div>
+              <div class="modal-body">
+                <video src="" controls="controls" width="100%">您的浏览器不支持 video 标签。</video>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{#    介绍音频#}
+    <div class="modal fade" id="audioModal" tabindex="-1" role="dialog" aria-labelledby="audioLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="audioLabel">介绍语音</h4>
+              </div>
+              <div class="modal-body">
+                <audio src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
               </div>
             </div>
         </div>

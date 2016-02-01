@@ -249,6 +249,28 @@ $(function(){
         });
     });
 
+    // 预览视频
+    $("#videoModal").on('hide.bs.modal', function(e){
+        $(this).find('video')[0].pause();
+    });
+    $('[data-action=show-video]').click(function(e){
+        var url = $(this).attr('url');
+        var $modal = $("#videoModal");
+        $modal.find('video').attr('src', url);
+        $modal.modal();
+    });
+
+    // 预览音频
+    $("#audioModal").on('hide.bs.modal', function(e){
+        $(this).find('audio')[0].pause();
+    });
+    $('[data-action=show-audio]').click(function(e){
+        var url = $(this).attr('url');
+        var $modal = $("#audioModal");
+        $modal.find('audio').attr('src', url);
+        $modal.modal();
+    });
+
     var _publishChange = function(ele, flag) {
         var $row = $(ele).closest('tr');
         var teacherId = $row.attr('teacherId');
