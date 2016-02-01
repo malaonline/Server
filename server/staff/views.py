@@ -695,6 +695,17 @@ class StudentView(BaseStaffView):
         return super(StudentView, self).get_context_data(**kwargs)
 
 
+class StudentScheduleView(BaseStaffView):
+    template_name = 'staff/student/schedule.html'
+
+    def get_context_data(self, **kwargs):
+        # kwargs['parents'] = models.Parent.objects.all 
+        #  kwargs['centers'] = models.School.objects.filter(center=True)
+        #  kwargs['grades'] = models.Grade.objects.all 
+        #  kwargs['subjects'] = models.Subject.objects.all
+        return super(StudentScheduleView, self).get_context_data(**kwargs)
+
+
 class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'
 
