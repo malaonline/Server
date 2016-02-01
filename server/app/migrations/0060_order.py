@@ -12,7 +12,7 @@ def add_item(apps, schema_editor):
     WeeklyTimeSlot = apps.get_model('app', 'WeeklyTimeSlot')
 
     parents = Parent.objects.all()
-    teachers = list(Teacher.objects.all())
+    teachers = list(Teacher.objects.filter(user__username__istartswith="test"))
     schools = list(School.objects.all())
     grades = list(Grade.objects.filter(leaf=True))
     weeklytimeslots = list(WeeklyTimeSlot.objects.all())
