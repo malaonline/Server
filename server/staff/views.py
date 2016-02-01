@@ -897,7 +897,7 @@ class SchoolTimeslotView(BaseStaffView):
             timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
         if not schoolId:
             schoolId = 1
-        timeslots = timeslots.filter(order__school__id=schoolId)
+        timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
 
         schools = models.School.objects.all();
 
