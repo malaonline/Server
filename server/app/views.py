@@ -637,9 +637,9 @@ class OrderViewSet(ParentBasedMixin,
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comment
-        fields = ('id', 'time_slot', 'score', 'content',)
+        fields = ('id', 'timeslot', 'score', 'content',)
 
-    def validate_time_slot(self, value):
+    def validate_timeslot(self, value):
         parent = self._context['request'].user.parent
         if value.order.parent != parent:
             raise serializers.ValidationError(
@@ -652,6 +652,12 @@ class CommentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('score not in range.')
         return value
 
+    def create(self, validated_data):
+        timeslot = validated_data.pop('timeslot')
+        instance = super(CommentSerializer, self).create(validated_data)
+        timeslot.comment = instance
+        timeslot.save()
+        return instance
 
 class CommentViewSet(ParentBasedMixin,
                      mixins.CreateModelMixin,
@@ -665,5 +671,5 @@ class CommentViewSet(ParentBasedMixin,
     def get_queryset(self):
         parent = self.get_parent()
         queryset = models.Comment.objects.filter(
-                time_slot__order__parent=parent).order_by('id')
+                timeslot__order__parent=parent).order_by('id')
         return queryset

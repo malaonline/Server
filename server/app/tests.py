@@ -40,7 +40,10 @@ class TestApi(TestCase):
 
     def test_teacher_detail(self):
         client = Client()
-        url = "/api/v1/teachers/1"
+        url = "/api/v1/teachers"
+        response = client.get(url)
+        pk = json.loads(response.content.decode())['results'][0]['id']
+        url = "/api/v1/teachers/%d" % pk
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -196,7 +199,7 @@ class TestApi(TestCase):
         client = Client()
         request_url = "/api/v1/comments"
         json_data = json.dumps({
-            'time_slot': timeslot.pk, 'score': 5, 'content': 'Good.'})
+            'timeslot': timeslot.pk, 'score': 5, 'content': 'Good.'})
         response = client.post(request_url, content_type="application/json",
                                data=json_data,
                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
@@ -220,7 +223,7 @@ class TestApi(TestCase):
 
         request_url = "/api/v1/comments"
         json_data = json.dumps({
-            'time_slot': timeslot2.pk, 'score': 5, 'content': 'Good.'})
+            'timeslot': timeslot2.pk, 'score': 5, 'content': 'Good.'})
         response = client.post(request_url, content_type="application/json",
                                data=json_data,
                                **{"HTTP_AUTHORIZATION": " Token %s" % token})

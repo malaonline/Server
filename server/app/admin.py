@@ -36,19 +36,6 @@ class OrderAdmin(admin.ModelAdmin):
                 ) or ''
 
 
-class TimeSlotAdmin(admin.ModelAdmin):
-    readonly_fields = ('comments', )
-
-    def comments(self, instance):
-        return format_html_join(
-                '\n',
-                '<li><a href="{}">{}</a></li>',
-                ((urlresolvers.reverse(
-                    'admin:app_comment_change', args=(comment.id,)), comment)
-                    for comment in instance.comment_set.all()),
-                ) or ''
-
-
 admin.site.register(Region, RegionAdmin)
 admin.site.register(School)
 admin.site.register(Grade)
@@ -73,6 +60,6 @@ admin.site.register(Parent, ParentAdmin)
 admin.site.register(Coupon)
 admin.site.register(WeeklyTimeSlot)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(TimeSlot, TimeSlotAdmin)
+admin.site.register(TimeSlot)
 admin.site.register(Comment)
 admin.site.register(Message)
