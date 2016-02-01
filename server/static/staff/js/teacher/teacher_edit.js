@@ -274,26 +274,50 @@ $(function(){
         $otherCertsList.data('newSeq', newSeq);
     });
 
+    // 初始化音视频
+    $('.media-edit').each(function(){
+        var $editBox = $(this), type = $editBox.attr('for');
+        var $uploadBox = $editBox.find("."+type+"-upload-box");
+        var $view = $uploadBox.find(type+".view");
+        var src = $uploadBox.attr('src');
+        $view.attr('src', src);
+        $view[0].load();
+        if (type=='audio') {
+            $view.css('display', 'inline-block');
+        } else {
+            $view.show();
+        }
+    });
+
     // audio file changed event
     $('.media-edit input[type=file]').change(function(e){
         var ele = e.target, $ele = $(ele), $editBox = $ele.closest(".media-edit");
         $editBox.find('.help-block').hide();
-        var type='', file = ele.files[0];
-        if ($editBox.hasClass('audio-edit')) {
-            type = 'audio';
-        } else if ($editBox.hasClass('video-edit')) {
-            type = 'video';
-        }
+        var type = $editBox.attr('for'), file = ele.files[0];
         var $uploadBox = $editBox.find("."+type+"-upload-box");
-        var mediaUrl = getObjectURL(file);
         var $previewBox = $uploadBox.find(type+".preview");
+        var mediaUrl = getObjectURL(file);
         $previewBox.attr("src", mediaUrl);
-        $previewBox.show();
+        if (type=='audio') {
+            $previewBox.css('display', 'inline-block');
+        } else {
+            $previewBox.show();
+        }
         var audio = $previewBox[0];
         //audio.play();
         function g(){isNaN(audio.duration) ? requestAnimationFrame(g):console.info("该歌曲的总时间为："+audio.duration+"秒")}
         requestAnimationFrame(g);
         return true;
+    });
+
+    $('[data-action=delete-media]').click(function(e){
+        var $editBox = $(this).closest(".media-edit"), type = $editBox.attr('for');
+        $editBox.find(type+".preview")[0].pause();
+        $editBox.find(type+".preview").hide();
+        $editBox.find(type+".view")[0].pause();
+        $editBox.find(type+".view").attr('src', '');
+        $editBox.find('input[name^=toDelete]').val('1');
+        $editBox.find('input[type=file]').val('');
     });
 
     $('[data-action=add-more-achieve]').click(function(){

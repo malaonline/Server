@@ -537,12 +537,13 @@
 
 {#介绍音频#}
     <div class="clearfix">
-        <div class="pull-left media-edit audio-edit">
+        <div class="pull-left media-edit audio-edit" for="audio">
+            <input type="hidden" name="toDeleteAudio">
             <div class="title">
                 介绍语音（选填）
             </div>
-            <div class="audio-upload-box">
-                <audio class="view" src="{{ teacher.audio_url }}" controls="controls">您的浏览器不支持 audio 标签。</audio>
+            <div class="audio-upload-box" src="{{ teacher.audio_url }}">
+                <audio class="view" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
                 <audio class="preview" src="" controls="controls">您的浏览器不支持 audio 标签。</audio>
                 <div class="uploading-hint-box"></div>
             </div>
@@ -552,7 +553,7 @@
                     <span>上传/重传</span>
                     <input title="请选择音频" type="file" name="introAudio" multiple="" accept="audio/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-audio">删除</a>
+                <a class="btn btn-default" data-action="delete-media">删除</a>
             </div>
         </div>
     </div>
@@ -560,12 +561,13 @@
 
 {#介绍视频#}
     <div class="clearfix">
-        <div class="pull-left media-edit video-edit">
+        <div class="pull-left media-edit video-edit" for="video">
+            <input type="hidden" name="toDeleteVideo">
             <div class="title">
                 介绍视频（选填）
             </div>
-            <div class="video-upload-box">
-                <video class="view" src="{{ teacher.video_url }}" controls="controls">您的浏览器不支持 video 标签。</video>
+            <div class="video-upload-box" src="{{ teacher.video_url }}">
+                <video class="view" src="" controls="controls">您的浏览器不支持 video 标签。</video>
                 <video class="preview" src="" controls="controls">您的浏览器不支持 video 标签。</video>
                 <div class="uploading-hint-box"></div>
             </div>
@@ -575,7 +577,7 @@
                     <span>上传/重传</span>
                     <input title="请选择视频" type="file" name="introVideo" multiple="" accept="video/*"/>
                 </a>
-                <a class="btn btn-default" data-action="delete-video">删除</a>
+                <a class="btn btn-default" data-action="delete-media">删除</a>
             </div>
         </div>
     </div>
