@@ -587,14 +587,21 @@ class TeacherActionView(BaseStaffActionView):
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
 
     def getTeacherCourseSchedule(self, request):
+        """
+        查询老师某一周的课程安排
+        :param request: 老师ID, 周偏移量
+        :return: 课程记录
+        """
         tid = request.GET.get('tid')
         weekOffset = parseInt(request.GET.get('weekOffset'), 0)
         if not tid:
             return HttpResponse("")
         teacher = get_object_or_404(models.Teacher, id=tid)
+        # 每周时间计划
         weekly_time_slots = []
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
+        # 计算该周日期
         now = timezone.now()
         from_day = now + datetime.timedelta(days=(-now.weekday()+weekOffset*7))  # 该周一
         to_day = now + datetime.timedelta(days=(7-now.weekday()+weekOffset*7))  # 下周一
@@ -602,13 +609,29 @@ class TeacherActionView(BaseStaffActionView):
         for i in range(7):
             _d = from_day + datetime.timedelta(days=i)
             dates.append(str(_d.month)+'.'+str(_d.day))
+        # 查询课程安排
         from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
         to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
         timeSlots = models.TimeSlot.objects.select_related("order__parent")\
             .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lte=to_time)
         courses = []
+        TIME_FMT = '%H:%M:00'
+        order_heap = {}
+        # 组织课程信息, TODO: 调课退课退费记录
         for timeSlot in timeSlots:
-            _tmp = {}  # TODO: 构造单节课程信息
+            _tmp = {}
+            _tmp['weekday'] = timeSlot.start.isoweekday()
+            _tmp['start'] = timeSlot.start.strftime(TIME_FMT)
+            _tmp['end'] = timeSlot.end.strftime(TIME_FMT)
+            cur_order = order_heap.get(timeSlot.order_id)
+            if not cur_order:
+                cur_order = {}
+                cur_order['subject'] = timeSlot.order.grade.name+timeSlot.order.subject.name
+                cur_order['phone'] = timeSlot.order.parent.user.profile.phone
+                cur_order['student'] = timeSlot.order.parent.student_name
+                cur_order['school'] = timeSlot.order.school.name
+                order_heap[timeSlot.order_id] = cur_order
+            _tmp.update(cur_order)
             courses.append(_tmp)
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS,
                              'dates': dates, 'courses': courses})

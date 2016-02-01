@@ -120,6 +120,11 @@ $(function(){
                 var wsh = courseSchedule.list[k];
                 heap[""+wsh.weekday+wsh.start+wsh.end] = true;
             }
+            var courses_heap = [];
+            for (var t=0; t<courseSchedule.courses.length; t++) {
+                var c = courseSchedule.courses[t];
+                courses_heap["" + c.weekday + c.start + c.end] = c;
+            }
             var $courseScheduleTable = $courseScheduleModal.find("table");
             $courseScheduleTable.find('tr:eq(0) td:gt(0)').each(function(i){
                 $(this).find('span').text('('+courseSchedule.dates[i]+')');
@@ -131,11 +136,20 @@ $(function(){
                 var timeSlot = metaTimeSlots[i];
                 buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
                 for (var d=1; d<=7; d++) {
-                    if (heap[""+d+timeSlot.start+timeSlot.end]) {
-                        buf.push('<td><span class="glyphicon glyphicon-ok"></span></td>');
+                    var _key = ""+d+timeSlot.start+timeSlot.end;
+                    var c = courses_heap[_key];
+                    buf.push('<td class="'+(c?'text-left ':'')+'">');
+                    if (c) {
+                        buf.push('科目: ' + c.subject+'<br>');
+                        buf.push('学生: ' + c.student+'<br>');
+                        buf.push('手机: ' + c.phone+'<br>');
+                        buf.push('中心: ' + c.school+'<br>');
+                    } else if (heap[_key]) {
+                        buf.push('<span class="glyphicon glyphicon-ok"></span>');
                     } else {
-                        buf.push('<td></td>');
+                        buf.push('<span class="glyphicon glyphicon-remove"></span>');
                     }
+                    buf.push('</td>');
                 }
                 buf.push('</tr>');
             }
