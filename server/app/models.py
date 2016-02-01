@@ -559,6 +559,10 @@ class Parent(BaseModel):
     student_name = models.CharField(max_length=50)
     student_school_name = models.CharField(max_length=100, default='')
 
+    def recent_orders(self):
+        one_month_before = timezone.now() - datetime.timedelta(days=90)
+        return self.order_set.filter(created_at__gt=one_month_before)
+
     def __str__(self):
         return "{child_name}'s parent [{parent_name}]".format(
                 child_name=self.student_name, parent_name=self.user.username)
@@ -764,7 +768,7 @@ class TimeSlot(BaseModel):
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
+        return '<%s> from %s' % (self.pk, self.start, )
 
     def is_complete(self, given_time):
         # 对于给定的时间,课程是否结束
@@ -793,7 +797,7 @@ class Comment(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s : %d, %d' % (self.time_slot, self.ma_degree, self.la_degree)
+        return '%s : %d' % (self.time_slot, self.score)
 
     def is_bad_comment(self):
         if self.score < 3:

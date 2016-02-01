@@ -576,9 +576,6 @@ class ParentSerializer(serializers.ModelSerializer):
         model = models.Parent
         fields = ('id', 'student_name', 'student_school_name', )
 
-    def is_valid(self, raise_exception=False):
-        super().is_valid(raise_exception=raise_exception)
-
 
 class ParentViewSet(ParentBasedMixin,
                     mixins.RetrieveModelMixin,
@@ -595,7 +592,7 @@ class ParentViewSet(ParentBasedMixin,
         return queryset
 
     def update(self, request, *args, **kwargs):
-        response = super().update(request, *args, **kwargs)
+        response = super(ParentViewSet, self).update(request, *args, **kwargs)
         if response.status_code == 200:
             response.data = {"done": "true"}
         return response
@@ -617,12 +614,6 @@ class OrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('hours should be even.')
         return value
 
-    def validate_parent(self, value):
-        parent = self.get_parent()
-        if value != parent:
-            raise serializers.ValidationError('only create ones own order.')
-        return value
-
 
 class OrderViewSet(ParentBasedMixin,
                    mixins.CreateModelMixin,
@@ -642,6 +633,37 @@ class OrderViewSet(ParentBasedMixin,
         parent = self.get_parent()
         serializer.save(parent=parent)
 
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return response
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Comment
+        fields = ('id', 'time_slot', 'score', 'content',)
+
+    def validate_time_slot(self, value):
+        parent = self._context['request'].user.parent
+        if value.order.parent != parent:
+            raise serializers.ValidationError(
+                    'order not belongs to the current user.')
+        return value
+
+    def validate_score(self, value):
+        value = int(value)
+        if value not in range(1, 6):
+            raise serializers.ValidationError('score not in range.')
+        return value
+
+
+class CommentViewSet(ParentBasedMixin,
+                     mixins.CreateModelMixin,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     viewsets.GenericViewSet):
+    queryset = models.Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        parent = self.get_parent()
+        queryset = models.Comment.objects.filter(
+                time_slot__order__parent=parent).order_by('id')
+        return queryset
