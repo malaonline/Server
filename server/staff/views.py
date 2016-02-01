@@ -504,9 +504,9 @@ class TeacherActionView(BaseStaffActionView):
             msg = self.NO_TEACHER_FORMAT.format(id=tid)
             logger.error(msg)
             return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
-        except Exception as err:
-            logger.error(err)
-            return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
+        # except Exception as err:
+        #     logger.error(err)
+        #     return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
 
     def listSubRegions(self, request):
         """
