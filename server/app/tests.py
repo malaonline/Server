@@ -27,7 +27,6 @@ class TestApi(TestCase):
         # 测试token是否能正常创建
         user = User.objects.get(username="parent0")
         token = Token.objects.create(user=user)
-        # print(token.key)
         self.assertTrue(isinstance(token.key, str))
 
     def test_teacher_list(self):
@@ -41,7 +40,10 @@ class TestApi(TestCase):
 
     def test_teacher_detail(self):
         client = Client()
-        url = "/api/v1/teachers/1"
+        url = "/api/v1/teachers"
+        response = client.get(url)
+        pk = json.loads(response.content.decode())['results'][0]['id']
+        url = "/api/v1/teachers/%d" % pk
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -179,6 +181,54 @@ class TestApi(TestCase):
 
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
+
+    def test_create_comment(self):
+        token_client = Client()
+        token_request_url = "/api/v1/token-auth"
+        username = "parent0"
+        password = "123123"
+        response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
+        token = json.loads(response.content.decode())["token"]
+        user = User.objects.get(username=username)
+
+        parent = user.parent
+        order = parent.order_set.all()[0]
+        timeslot = order.timeslot_set.all()[0]
+
+        client = Client()
+        request_url = "/api/v1/comments"
+        json_data = json.dumps({
+            'timeslot': timeslot.pk, 'score': 5, 'content': 'Good.'})
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data,
+                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(201, response.status_code)
+        pk = json.loads(response.content.decode())['id']
+
+        request_url = "/api/v1/comments/%d" % pk
+        response = client.get(request_url, content_type='application/json',
+                              **{'HTTP_AUTHORIZATION': ' Token %s' % token})
+        self.assertEqual(200, response.status_code)
+
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(json_ret['score'], 5)
+        self.assertEqual(json_ret['content'], 'Good.')
+
+        # Create a comment for a timeslot for a order not belongs to cur user
+        user2 = User.objects.get(username='parent4')
+        parent2 = user2.parent
+        order2 = parent2.order_set.all()[0]
+        timeslot2 = order2.timeslot_set.all()[0]
+
+        request_url = "/api/v1/comments"
+        json_data = json.dumps({
+            'timeslot': timeslot2.pk, 'score': 5, 'content': 'Good.'})
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data,
+                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
+
+        self.assertEqual(400, response.status_code)
 
     def test_get_timeslots(self):
         token_client = Client()

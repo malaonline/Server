@@ -559,6 +559,10 @@ class Parent(BaseModel):
     student_name = models.CharField(max_length=50)
     student_school_name = models.CharField(max_length=100, default='')
 
+    def recent_orders(self):
+        one_month_before = timezone.now() - datetime.timedelta(days=90)
+        return self.order_set.filter(created_at__gt=one_month_before)
+
     def __str__(self):
         return "{child_name}'s parent [{parent_name}]".format(
                 child_name=self.student_name, parent_name=self.user.username)
@@ -746,6 +750,21 @@ class TimeSlotAttendance(BaseModel):
         return '%s' % (self.get_record_type_display())
 
 
+class Comment(BaseModel):
+    # 评分, 评分低于3分是差评
+    score = models.PositiveIntegerField()
+    content = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s : %d' % (self.pk, self.score)
+
+    def is_bad_comment(self):
+        if self.score < 3:
+            return True
+        return False
+
+
 class TimeSlot(BaseModel):
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
@@ -758,13 +777,15 @@ class TimeSlot(BaseModel):
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
-    complaint = models.ForeignKey(TimeSlotComplaint, null=True, blank=True)
-    attendance = models.ForeignKey(TimeSlotAttendance, null=True, blank=True)
+    comment = models.OneToOneField(Comment, null=True, blank=True)
+    complaint = models.OneToOneField(TimeSlotComplaint, null=True, blank=True)
+    attendance = models.OneToOneField(
+            TimeSlotAttendance, null=True, blank=True)
 
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s - %s %s' % (self.start, self.end, self.last_updated_by)
+        return '<%s> from %s' % (self.pk, self.start, )
 
     def is_complete(self, given_time):
         # 对于给定的时间,课程是否结束
@@ -781,22 +802,6 @@ class TimeSlot(BaseModel):
     def is_running(self, given_time):
         # 对于给定时间,课程是否处于上课中
         if self.start < given_time < self.end:
-            return True
-        return False
-
-
-class Comment(BaseModel):
-    time_slot = models.ForeignKey(TimeSlot)
-    # 评分, 评分低于3分是差评
-    score = models.PositiveIntegerField()
-    content = models.CharField(max_length=500)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return '%s : %d, %d' % (self.time_slot, self.ma_degree, self.la_degree)
-
-    def is_bad_comment(self):
-        if self.score < 3:
             return True
         return False
 

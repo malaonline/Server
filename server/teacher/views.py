@@ -364,12 +364,11 @@ class FirstPage(View):
 
         def __call__(self, one_timeslot: models.TimeSlot):
             if one_timeslot.is_complete(self.current_date):
-                commit_list = one_timeslot.comment_set.all()
-                if commit_list:
-                    first_comment = commit_list[0]
-                    self.score_list.append(first_comment.score)
-                    if first_comment.is_bad_comment():
-                        self.bad_commit.append(first_comment.score)
+                comment = one_timeslot.comment
+                if comment:
+                    self.score_list.append(comment.score)
+                    if comment.is_bad_comment():
+                        self.bad_commit.append(comment.score)
 
         def average_score(self):
             try:
@@ -538,7 +537,7 @@ class MySchoolTimetable(View):
                 # 结束的课程
                 self.class_state = 2
                 # 上完课才做评价检查
-                if len(time_slot.comment_set.all()) > 0:
+                if time_slot.comment:
                     self.comment_state = 1
             # 获得这个TimeSlot的key
             self.key = time_slot.start.strftime(MySchoolTimetable.CollectTimeSlot.time_formula)
