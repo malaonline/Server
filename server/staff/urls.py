@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^login/auth/$', views.login_auth, name="login_auth"),
     url(r'^logout/$', views.logout, name="logout"),
     url(r'^students/$', views.StudentView.as_view(), name="students"),
+    url(r'^students/schedule$', views.StudentScheduleView.as_view(), name="student_schedule"),
     url(r'^teachers/$', views.TeacherView.as_view(), name="teachers"),
     url(r'^teachers/unpublished/$', views.TeacherUnpublishedView.as_view(), name="teachers_unpublished"),
     url(r'^teachers/unpublished/(?P<tid>\d+)/edit$', views.TeacherUnpublishedEditView.as_view(), name="teachers_unpublished_edit"),

@@ -1,0 +1,89 @@
+{% extends "staff/staff_base.html" %}
+
+{% block title %}调课与停课管理{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        家长手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        <input type="submit" value="查询"/>
+    </form>
+
+    <p align="center">上课时间表</p>
+    <p align="center">
+        <button>< 上周</button>
+        <button>本周</button>
+        <button>下周 ></button>
+    </p>
+
+    <table align="center" border="1" cellspacing="0" >
+        <tr>
+            <th class="text-center" width="200"></th>
+            <th class="text-center" width="200">周一</th>
+            <th class="text-center" width="200">周二</th>
+            <th class="text-center" width="200">周三</th>
+            <th class="text-center" width="200">周四</th>
+            <th class="text-center" width="200">周五</th>
+            <th class="text-center" width="200">周六</th>
+            <th class="text-center" width="200">周日</th>
+        </tr>
+        <tr>
+            <td align="center" width="200">8：00-10：00</td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+            <td align="center">
+                科目：数学<br/>
+                老师：张三<br/>
+                手机：18600261748<br/>
+                中心：东直门银座中心<br/>
+                <button>调课</button>
+                <button>停课</button>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
