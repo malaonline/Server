@@ -278,7 +278,7 @@ class FirstPage(View):
         for one_order in order_set:
             if one_order.fit_statistical():
                 # 处于PAID状态的单子才统计
-                time_slot_set = one_order.timeslot_set.all()
+                time_slot_set = one_order.timeslot_set.filter(deleted=False)
                 for one_time_slot in time_slot_set:
                     if one_time_slot.is_complete(current_data):
                         complete_count += 1
@@ -291,7 +291,7 @@ class FirstPage(View):
         for one_order in order_set:
             if one_order.fit_statistical():
                 # 处于PAID状态的单子才统计
-                time_slot_set = one_order.timeslot_set.all()
+                time_slot_set = one_order.timeslot_set.filter(deleted=False)
                 for one_time_slot in time_slot_set:
                     if one_time_slot.is_waiting(current_data):
                         waiting_count += 1
@@ -308,7 +308,7 @@ class FirstPage(View):
                 # 处于PAID状态的单子才统计
                 parent_id = one_order.parent.id
                 parent_time_slot = parent_dict.get(parent_id, [])
-                parent_time_slot += list(one_order.timeslot_set.all())
+                parent_time_slot += list(one_order.timeslot_set.filter(deleted=False))
                 parent_dict[parent_id] = parent_time_slot
         for parent_id, timeslot_list in parent_dict.items():
             time_slot_set = timeslot_list
@@ -341,7 +341,7 @@ class FirstPage(View):
                 # 处于PAID状态的单子才统计
                 parent_id = one_order.parent.id
                 parent_time_slot = parent_dict.get(parent_id, [])
-                parent_time_slot += list(one_order.timeslot_set.all())
+                parent_time_slot += list(one_order.timeslot_set.filter(deleted=False))
                 parent_dict[parent_id] = parent_time_slot
         for parent_id, timeslot_list in parent_dict.items():
             time_slot_set = timeslot_list

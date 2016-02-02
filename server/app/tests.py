@@ -194,7 +194,7 @@ class TestApi(TestCase):
 
         parent = user.parent
         order = parent.order_set.all()[0]
-        timeslot = order.timeslot_set.all()[0]
+        timeslot = order.timeslot_set.filter(deleted=False)[0]
 
         client = Client()
         request_url = "/api/v1/comments"
@@ -219,7 +219,7 @@ class TestApi(TestCase):
         user2 = User.objects.get(username='parent4')
         parent2 = user2.parent
         order2 = parent2.order_set.all()[0]
-        timeslot2 = order2.timeslot_set.all()[0]
+        timeslot2 = order2.timeslot_set.filter(deleted=False)[0]
 
         request_url = "/api/v1/comments"
         json_data = json.dumps({
@@ -243,7 +243,7 @@ class TestApi(TestCase):
 
         orders = Order.objects.filter(status='p')
         for order in orders:
-            timeslots = order.timeslot_set.all()
+            timeslots = order.timeslot_set.filter(deleted=False)
             weekly_time_slots = order.weekly_time_slots.all()
             mins = [weekly_2_mins(x) for x in weekly_time_slots]
             for timeslot in timeslots:
