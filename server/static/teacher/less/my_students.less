@@ -11,8 +11,12 @@
   border-width: 0 0 1px 0;
   border-color: @border_gray;
   border-style: solid;
+  a:hover{
+    text-decoration: none;
+  }
   .student-type{
     font-size: 16px;
+    color: black;
   }
   .student-type[attrState="selected"]{
     @selectedColor: #da0000;
@@ -143,7 +147,7 @@
       .glyphicon;
       .glyphicon-envelope;
       width: 160px;
-      padding-left: 137px;
+      margin-left: 137px;
       font-size: 18px;
     }
     .operation[attrState="to-send"]{
@@ -156,6 +160,7 @@
 }
 
 .page-index{
+  width: 1000px;
   margin-top: 27px;
   .one-page{
     padding-top: 8px;
@@ -166,6 +171,11 @@
     border-style: solid;
     border-color: @border_gray;
     margin-right: 5px;
+    margin-top: 5px;
+    color: black;
+  }
+  a{
+    height: 34px;
   }
   .one-page[attrState="current"]{
     text-decoration: underline;

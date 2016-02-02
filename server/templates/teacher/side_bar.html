@@ -6,7 +6,7 @@
             <span class="badge_number">({{ side_bar_my_course }})</span>
         {% endif %}
     </a></p>
-    <p class="section-link"><a href="{% url 'teacher:my-students' %}">我的学生
+    <p class="section-link"><a href="{{ side_bar_my_student_url }}">我的学生
         {% if side_bar_my_student > 0 %}
         <span class="badge_number">({{ side_bar_my_student }})</span>
         {% endif %}

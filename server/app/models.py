@@ -817,14 +817,12 @@ class Order(BaseModel):
     PENDING = 'u'
     PAID = 'p'
     CANCLED = 'd'
-    CONFIRMED = 'c'
-    NOSHOW = 'n'
+    REFUND = "r"
     STATUS_CHOICES = (
         (PENDING, '待付款'),
         (PAID, '已付款'),
         (CANCLED, '已取消'),
-        (NOSHOW, '没出现'),
-        (CONFIRMED, '已确认'),
+        (REFUND, '退费')
     )
 
     objects = OrderManager()
