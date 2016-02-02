@@ -769,6 +769,8 @@ class Comment(BaseModel):
 
 
 class TimeSlot(BaseModel):
+    TRAFFIC_TIME = datetime.timedelta(hours=1)
+
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
     end = models.DateTimeField()

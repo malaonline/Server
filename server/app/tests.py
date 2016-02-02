@@ -1,3 +1,5 @@
+import itertools
+
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
@@ -230,12 +232,13 @@ class TestApi(TestCase):
 
         self.assertEqual(400, response.status_code)
 
-    def test_timeslots(self):
+    def test_timeslots_second(self):
         timeslots = TimeSlot.objects.filter(start__second__gt=0)
         self.assertEqual(len(timeslots), 0)
         timeslots = TimeSlot.objects.filter(end__second__gt=0)
         self.assertEqual(len(timeslots), 0)
 
+    def test_orders_timeslots(self):
         def weekly_2_mins(weekly):
             return ((weekly.weekday - 1) * 24 * 60 + weekly.start.hour * 60 +
                     weekly.start.minute, (weekly.weekday - 1) * 24 * 60 +
@@ -253,6 +256,25 @@ class TestApi(TestCase):
                         timeslot.end.weekday() * 24 * 60 +
                         timeslot.end.hour * 60 + timeslot.end.minute)
                 self.assertIn(cur_min, mins)
+
+    def test_teacher_timeslot(self):
+        teachers = Teacher.objects.all()
+
+        for teacher in teachers:
+            orders = teacher.order_set.filter(status='p')
+            timeslots = list(
+                    itertools.chain(
+                        *(order.timeslot_set.filter(deleted=False)
+                            for order in orders)))
+            timeslots.sort(key=lambda x: (x.start, x.end))
+            for i, ts in enumerate(timeslots):
+                if i == 0:
+                    continue
+                pre_ts = timeslots[i - 1]
+                self.assertLessEqual(pre_ts.end, ts.start)
+                if pre_ts.order.school != ts.order.school:
+                    self.assertLessEqual(
+                            pre_ts.end + ts.TRAFFIC_TIME, ts.start)
 
     def test_get_timeslots(self):
         token_client = Client()
@@ -332,6 +354,7 @@ class TestTeacherWeb(TestCase):
         # 测试information_compelte_percent
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
+        self.assertEqual(percent, 0)
 
 
 class TestAlgorithm(TestCase):
