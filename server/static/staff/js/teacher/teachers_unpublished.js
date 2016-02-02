@@ -5,6 +5,15 @@
 $(function(){
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 
+    $('form[name=query_form]').on('submit', function(e){
+        var phone = $.trim($(this).find('input[name=phone]').val());
+        if (phone && (!/^\d+$/.test(phone) || phone.length > 11)) {
+            alert('手机号格式错误');
+            return false;
+        }
+        return true;
+    });
+
     $("select[name=province]").change(function(e){
         var pro_id = $(this).val(), $city_sel = $("select[name=city]"), $dist_sel = $("select[name=district]");
         $.getJSON('/staff/teachers/action/', {'action': 'list-region', 'sid': pro_id}, function(json){

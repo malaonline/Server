@@ -13,20 +13,26 @@
 
 {% block content %}
     <form name="query_form">
-        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
-        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
         所在地区
-        <select name="province">
-            <option value="">全部省</option>
-            {% for province in provinces %}
-                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>
+{#        <select name="province">#}
+{#            <option value="">全部省</option>#}
+{#            {% for province in provinces %}#}
+{#                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        <select name="city">#}
+{#            <option value="">全部市</option>#}
+{#        </select>#}
+{#        <select name="district">#}
+{#            <option value="">全部区</option>#}
+{#        </select>#}
+        <select name="region">
+            <option value="">全部</option>
+            {% for region in region_list %}
+                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
             {% endfor %}
-        </select>
-        <select name="city">
-            <option value="">全部市</option>
-        </select>
-        <select name="district">
-            <option value="">全部区</option>
         </select>
         年级
         <select name="grade">
