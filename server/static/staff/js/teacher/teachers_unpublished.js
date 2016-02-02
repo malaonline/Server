@@ -84,7 +84,7 @@ $(function(){
             var buf = [];
             for (var i=0; i<metaTimeSlots.length; i++) {
                 var timeSlot = metaTimeSlots[i];
-                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                buf.push('<tr><td>'+timeSlot.start.substr(0, 5)+'-'+timeSlot.end.substr(0, 5)+'</td>');
                 for (var d=1; d<=7; d++) {
                     if (heap[""+d+timeSlot.start+timeSlot.end]) {
                         buf.push('<td><span class="glyphicon glyphicon-ok"></span></td>');
@@ -112,7 +112,8 @@ $(function(){
     // 查看上课安排时间表
     var showCourseSchedule = function(weekOffset) {
         var $courseScheduleModal = $("#courseScheduleModal");
-        var dataKey = 'courseSchedule'+(weekOffset<0?'_'+weekOffset:weekOffset); // jQuery data key不区分大小写和'-'
+        var teacherId = $courseScheduleModal.data('teacherid');
+        var dataKey = 'courseSchedule'+teacherId+'w'+(weekOffset<0?'_'+weekOffset:weekOffset); // jQuery data key不区分大小写和'-'
         var courseSchedule = $courseScheduleModal.data(dataKey);
         var fillTableAndShow = function(courseSchedule) {
             var heap = [];
@@ -134,7 +135,7 @@ $(function(){
             var buf = [];
             for (var i=0; i<metaTimeSlots.length; i++) {
                 var timeSlot = metaTimeSlots[i];
-                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                buf.push('<tr><td>'+timeSlot.start.substr(0, 5)+'-'+timeSlot.end.substr(0, 5)+'</td>');
                 for (var d=1; d<=7; d++) {
                     var _key = ""+d+timeSlot.start+timeSlot.end;
                     var c = courses_heap[_key];
@@ -160,8 +161,7 @@ $(function(){
             fillTableAndShow(courseSchedule);
             return;
         }
-        var teacherId = $courseScheduleModal.data('teacherid'),
-            params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
+        var params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
         $.getJSON('/staff/teachers/action/', params, function(data){
             if (data && data.list)  {
                 $courseScheduleModal.data(dataKey, data);
@@ -187,8 +187,10 @@ $(function(){
         showCourseSchedule(weekOffset);
     });
     $('[data-action=show-courseSchedule]').click(function(e){
+        var $courseScheduleModal = $("#courseScheduleModal");
         var teacherId = $(this).closest('tr').attr('teacherId');
-        $("#courseScheduleModal").data('teacherid', teacherId);
+        $courseScheduleModal.data('teacherid', teacherId);
+        $courseScheduleModal.data('weekoffset', 0);
         showCourseSchedule(0);
     });
     // 查看提分榜
