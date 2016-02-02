@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
 import json
-from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot
+from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order
 from app.views import Sms
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
@@ -235,6 +235,24 @@ class TestApi(TestCase):
         self.assertEqual(len(timeslots), 0)
         timeslots = TimeSlot.objects.filter(end__second__gt=0)
         self.assertEqual(len(timeslots), 0)
+
+        def weekly_2_mins(weekly):
+            return ((weekly.weekday - 1) * 24 * 60 + weekly.start.hour * 60 +
+                    weekly.start.minute, (weekly.weekday - 1) * 24 * 60 +
+                    weekly.end.hour * 60 + weekly.end.minute)
+
+        orders = Order.objects.filter(status='p')
+        for order in orders:
+            timeslots = order.timeslot_set.all()
+            weekly_time_slots = order.weekly_time_slots.all()
+            mins = [weekly_2_mins(x) for x in weekly_time_slots]
+            for timeslot in timeslots:
+                cur_min = (
+                        timeslot.start.weekday() * 24 * 60 +
+                        timeslot.start.hour * 60 + timeslot.start.minute,
+                        timeslot.end.weekday() * 24 * 60 +
+                        timeslot.end.hour * 60 + timeslot.end.minute)
+                self.assertIn(cur_min, mins)
 
     def test_get_timeslots(self):
         token_client = Client()
