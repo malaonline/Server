@@ -129,16 +129,6 @@ function setNotifyLabel(need_phone_number, invalid_phone_number){
     $("#invalid-phone-number").attr("attrHidden", invalid_phone_number);
 }
 
-//检查手机号码的正则表达式
-function checkMobile(phone_val){
-    var pattern=/(^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$)|(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
-    if(pattern.test(phone_val)) {
-        return true;
-    }else{
-        return false;
-    }
-}
-
 //设置阅读同意的钩
 function setAgreeCheck(check){
     $("#agree").prop("checked", check)
