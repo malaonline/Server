@@ -37,7 +37,7 @@
             {{error.msg}}
         </div>
     {% endif %}
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="text-center table-hover" align="center" border="1" cellspacing="0" width="100%">
         <tr>
             <th class="text-center">{{weekday}}（{{ searchTime | date:"m-d" }}）</th>
             <th class="text-center">家长姓名</th>
@@ -49,9 +49,15 @@
             <th class="text-center">老师电话</th>
             <th class="text-center">操作</th>
         </tr>
-        {% for timeslot in timeslots %}
-            <tr schoolId="{{ timeslot.id }}">
-                <td>{{timeslot.start | date:"H:i" }} - {{timeslot.end | date:"H:i" }}</td>
+        {%for timeslot in timeslots %}
+            <tr schoolId="{{timeslot.id}}">
+                {%if timeslot.eqCount >= 0%}
+                <td {%if timeslot.eqCount > 0%}rowspan="{{timeslot.eqCount|add:1}}"{%endif%}>
+                    {{timeslot.start | date:"H:i"}} - {{timeslot.end | date:"H:i"}}
+                    <br/>
+                    共{{timeslot.eqCount|add:1}}对
+                </td>
+                {%endif%}
                 <td>{{timeslot.order.parent.user.username}}</td>
                 <td>{{timeslot.order.parent.user.profile.phone}}</td>
                 <td>{{timeslot.order.parent.student_name}}</td>

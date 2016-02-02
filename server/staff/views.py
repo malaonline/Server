@@ -896,6 +896,8 @@ class SchoolTimeslotView(BaseStaffView):
         searchName = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
+        schools = models.School.objects.filter(opened=True);
+
         timeslots = None
         stTime = None
         edTime = None
@@ -913,10 +915,35 @@ class SchoolTimeslotView(BaseStaffView):
         if phone:
             timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
         if not schoolId:
-            schoolId = 1
+            if len(schools) > 0:
+                schoolId = schools[0].id
+
         timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
 
-        schools = models.School.objects.all();
+        itemsLen = len(timeslots)
+        ind = 0
+        nextEqInd = 0
+        while ind < itemsLen:
+            itm = timeslots[ind]
+            eqCount = 0
+            nind = ind +1
+            if nind > nextEqInd:
+                while nind < itemsLen:
+                    nitm = timeslots[nind]
+                    if(itm.start == nitm.start) and (itm.end == nitm.end):
+                        eqCount += 1
+                        nextEqInd = nind
+                        nind += 1
+                    else:
+                        nind += 1
+                        break
+                itm.eqCount = eqCount
+
+            if ind > 0:
+                oitm = timeslots[ind - 1]
+                if(itm.start == oitm.start) and (itm.end == oitm.end):
+                    itm.eqCount = -1
+            ind += 1
 
         context['schools'] = schools
         context['timeslots'] = timeslots
@@ -924,7 +951,7 @@ class SchoolTimeslotView(BaseStaffView):
         context['schoolId'] = schoolId
         context['name'] = searchName
         context['phone'] = phone
-        context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
+        context['weekday'] = ("周日","周一","周二","周三","周四","周五","周六")[int(stTime.strftime("%w"))]
         return context
 
     def get(self, request):
