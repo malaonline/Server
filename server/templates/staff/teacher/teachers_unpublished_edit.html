@@ -151,13 +151,13 @@
                                {% if grade.id in teacher_grade_ids %}checked="checked"{% endif %}
                                {% if grade.id not in grade_ids_range %}disabled="disabled"{% endif %}
                             />
-                        {{ grade.name }}({{ grade.id }})</label><br>
+                        {{ grade.name }}</label><br>
                     {% for sub_grade in grade.children %}
                         <label class="{% if sub_grade.id not in grade_ids_range %}disabled{% endif %}">
                             <input type="checkbox" name="grade" super="{{ grade.id }}" value="{{ sub_grade.id }}"
                                    {% if sub_grade.id in teacher_grade_ids %}checked="checked"{% endif %}
                                    {% if sub_grade.id not in grade_ids_range %}disabled="disabled"{% endif %}
-                                />{{ sub_grade.name }}({{ sub_grade.id }})</label>
+                                />{{ sub_grade.name }}</label>
                     {% endfor %}
                 {% endfor %}
             </div>

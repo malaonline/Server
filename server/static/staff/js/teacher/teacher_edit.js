@@ -182,7 +182,7 @@ $(function(){
         var admittedTo = $('#admittedTo').val();
 
         if (stname == '' || inscore == '' || !/^\d+$/.test(inscore) || schoolname == '' || admittedTo == '') {
-            alert("必须填写所有内容, 并确保辅导提分格式正确！");
+            alert("必须填写所有内容, 并确保辅导提分为整数！");
             return false;
         }
         var $highScoreTable = $('#highScoreTable'), newSeq = $highScoreTable.data('newSeq');
@@ -357,6 +357,7 @@ $(function(){
                 if (result) {
                     if (result.ok) {
                         alert("保存成功");
+                        history.back();
                     } else {
                         alert(result.msg);
                     }
