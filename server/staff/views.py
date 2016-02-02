@@ -916,6 +916,31 @@ class SchoolTimeslotView(BaseStaffView):
             schoolId = 1
         timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
 
+        itemsLen = len(timeslots)
+        ind = 0
+        nextEqInd = 0
+        while ind < itemsLen:
+            itm = timeslots[ind]
+            eqCount = 0
+            nind = ind +1
+            if nind > nextEqInd:
+                while nind < itemsLen:
+                    nitm = timeslots[nind]
+                    if(itm.start.strftime('%b-%d-%y %H:%M') == nitm.start.strftime('%b-%d-%y %H:%M')) and (itm.end.strftime('%b-%d-%y %H:%M') == nitm.end.strftime('%b-%d-%y %H:%M')):
+                        eqCount += 1
+                        nextEqInd = nind
+                        nind += 1
+                    else:
+                        nind += 1
+                        break
+                itm.eqCount = eqCount
+
+            if ind > 0:
+                oitm = timeslots[ind - 1]
+                if(itm.start.strftime('%b-%d-%y %H:%M') == oitm.start.strftime('%b-%d-%y %H:%M')) and (itm.end.strftime('%b-%d-%y %H:%M') == oitm.end.strftime('%b-%d-%y %H:%M')):
+                    itm.eqCount = -1
+            ind += 1
+
         schools = models.School.objects.all();
 
         context['schools'] = schools
@@ -924,7 +949,7 @@ class SchoolTimeslotView(BaseStaffView):
         context['schoolId'] = schoolId
         context['name'] = searchName
         context['phone'] = phone
-        context['weekday'] = ("星期日","星期一","星期二","星期三","星期四","星期五","星期六")[int(stTime.strftime("%w"))]
+        context['weekday'] = ("周日","周一","周二","周三","周四","周五","周六")[int(stTime.strftime("%w"))]
         return context
 
     def get(self, request):
