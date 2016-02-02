@@ -78,6 +78,8 @@ class BaseStaffView(TemplateView):
                 page_to = int(page)
             else:
                 page_to = 1
+        else:
+            page_to = page
         if page_to > total_page:
             page_to = total_page
         if page_to < 1:
@@ -158,23 +160,39 @@ class TeacherUnpublishedView(BaseStaffView):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         #
-        name = self.request.GET.get('name')
-        phone = self.request.GET.get('phone')
-        page = self.request.GET.get('page')
+        name = self.request.GET.get('name') and self.request.GET.get('name').strip() or ''
+        phone = self.request.GET.get('phone') and self.request.GET.get('phone').strip() or ''
+        # province = self.request.GET.get('province')
+        # city = self.request.GET.get('city')
+        # district = self.request.GET.get('district')
+        # region = district and district or city and city or province
+        region = self.request.GET.get('region')
+        grade = self.request.GET.get('grade') and self.request.GET.get('grade').strip() or ''
+        subject = self.request.GET.get('subject') and self.request.GET.get('subject').strip() or ''
+        level = self.request.GET.get('level') and self.request.GET.get('level').strip() or ''
+        page = self.request.GET.get('page') and self.request.GET.get('page').strip() or ''
         for_published = self.list_type == 'published'
         query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
         if name:
             query_set = query_set.filter(name__icontains = name)
         if phone:
             query_set = query_set.filter(user__profile__phone__contains = phone)
+        if region:
+            query_set = query_set.filter(region_id=region)
+        if grade:
+            query_set = query_set.filter(Q(abilities__grade_id=grade) | Q(abilities__grade__superset_id=grade))
+        if subject:
+            query_set = query_set.filter(abilities__subject_id=subject)
+        if level:
+            query_set = query_set.filter(level_id=level)
         query_set = query_set.order_by('id')
         # paginate
         query_set, pager = self.paginate(query_set, page)
         kwargs['teachers'] = query_set
         kwargs['pager'] = pager
         # 一些固定数据
-        # 省份列表
-        kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        # kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其他'))
         kwargs['grades'] = models.Grade.objects.filter(superset_id__isnull=True)
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
@@ -274,16 +292,16 @@ class TeacherUnpublishedEditView(BaseStaffView):
             city = request.POST.get('city')
             district = request.POST.get('district')
             region = district and district or city and city or province
-            region = parseInt(region)
+            region = parseInt(region, None)
             if not region:
                 teacher.region = None
             else:
                 teacher.region_id = region
             teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
-            teacher.level_id = parseInt(request.POST.get('level'))
-            teacher.experience = parseInt(request.POST.get('experience'))
-            teacher.profession = parseInt(request.POST.get('profession'))
-            teacher.interaction = parseInt(request.POST.get('interaction'))
+            teacher.level_id = parseInt(request.POST.get('level'), 1)
+            teacher.experience = parseInt(request.POST.get('experience'), 0)
+            teacher.profession = parseInt(request.POST.get('profession'), 0)
+            teacher.interaction = parseInt(request.POST.get('interaction'), 0)
             certIdHeld.save()
             # 科目年级 & 风格标签
             teacher.abilities.clear()

@@ -4,6 +4,16 @@
 
 $(function(){
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+
+    $('form[name=query_form]').on('submit', function(e){
+        var phone = $.trim($(this).find('input[name=phone]').val());
+        if (phone && (!/^\d+$/.test(phone) || phone.length > 11)) {
+            alert('手机号格式错误');
+            return false;
+        }
+        return true;
+    });
+
     var TO_CHOOSE = 1,
         NOT_CHOSEN = 2,
         TO_INTERVIEW = 3,

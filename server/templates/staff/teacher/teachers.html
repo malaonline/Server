@@ -17,8 +17,8 @@
 
 {% block content %}
     <form name="query_form">
-        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
-        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
         状态
         <select name="status">
             <option value="">全部</option>
@@ -28,9 +28,9 @@
         </select>
 
         注册日期
-        <input type="text" name="reg_date_from" value="{{ query_data.reg_date_from }}" />
+        <input type="text" name="reg_date_from" value="{{ query_data.reg_date_from }}" size="10" />
          -
-        <input type="text"  name="reg_date_to" value="{{ query_data.reg_date_to }}" />
+        <input type="text"  name="reg_date_to" value="{{ query_data.reg_date_to }}" size="10" />
 
         所在地区
         <select name="region">

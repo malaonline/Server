@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 {% load compile_static %}
-{% block title %}待上架老师列表{% endblock %}
+{% block title %}{% if list_type == 'published' %}已上架{% else %}待上架{% endif %}老师列表{% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
@@ -13,20 +13,26 @@
 
 {% block content %}
     <form name="query_form">
-        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
-        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" />
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
         所在地区
-        <select name="province">
-            <option value="">全部省</option>
-            {% for province in provinces %}
-                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>
+{#        <select name="province">#}
+{#            <option value="">全部省</option>#}
+{#            {% for province in provinces %}#}
+{#                <option value="{{ province.id }}" {% if province.id|stringformat:"i" == query_data.province %} selected="selected"{% endif %}>{{ province.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        <select name="city">#}
+{#            <option value="">全部市</option>#}
+{#        </select>#}
+{#        <select name="district">#}
+{#            <option value="">全部区</option>#}
+{#        </select>#}
+        <select name="region">
+            <option value="">全部</option>
+            {% for region in region_list %}
+                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
             {% endfor %}
-        </select>
-        <select name="city">
-            <option value="">全部市</option>
-        </select>
-        <select name="district">
-            <option value="">全部区</option>
         </select>
         年级
         <select name="grade">
@@ -105,7 +111,7 @@
                     {% if list_type == 'published' %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="unpublish-teacher">下架</a>
-                        | <a data-action="copy-link">复制链接</a>
+                        | <a data-action="copy-link">复制链接</a>  {# TODO: 复制链接#}
                     {% else %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="publish-teacher">上架</a>
@@ -160,7 +166,7 @@
               </div>
               <div class="modal-body">
                 <table class="text-center" border="1" width="100%">
-                    <tr><td></td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td><td>周七</td></tr>
+                    <tr><td></td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td><td>周日</td></tr>
                 </table>
               </div>
             </div>
@@ -181,7 +187,7 @@
                       <button class=".btn btn-default" data-action="next-week-courses">下周&gt;</button>
                   </div>
                   <table border="1" width="100%">
-                      <tr><td></td><td>周一<span class="day"></span></td><td>周二<span class="day"></span></td><td>周三<span class="day"></span></td><td>周四<span class="day"></span></td><td>周五<span class="day"></span></td><td>周六<span class="day"></span></td><td>周七<span class="day"></span></td></tr>
+                      <tr><td></td><td>周一<span class="day"></span></td><td>周二<span class="day"></span></td><td>周三<span class="day"></span></td><td>周四<span class="day"></span></td><td>周五<span class="day"></span></td><td>周六<span class="day"></span></td><td>周日<span class="day"></span></td></tr>
                   </table>
               </div>
             </div>

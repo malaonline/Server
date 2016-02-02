@@ -5,6 +5,15 @@
 $(function(){
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 
+    $('form[name=query_form]').on('submit', function(e){
+        var phone = $.trim($(this).find('input[name=phone]').val());
+        if (phone && (!/^\d+$/.test(phone) || phone.length > 11)) {
+            alert('手机号格式错误');
+            return false;
+        }
+        return true;
+    });
+
     $("select[name=province]").change(function(e){
         var pro_id = $(this).val(), $city_sel = $("select[name=city]"), $dist_sel = $("select[name=district]");
         $.getJSON('/staff/teachers/action/', {'action': 'list-region', 'sid': pro_id}, function(json){
@@ -84,7 +93,7 @@ $(function(){
             var buf = [];
             for (var i=0; i<metaTimeSlots.length; i++) {
                 var timeSlot = metaTimeSlots[i];
-                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                buf.push('<tr><td>'+timeSlot.start.substr(0, 5)+'-'+timeSlot.end.substr(0, 5)+'</td>');
                 for (var d=1; d<=7; d++) {
                     if (heap[""+d+timeSlot.start+timeSlot.end]) {
                         buf.push('<td><span class="glyphicon glyphicon-ok"></span></td>');
@@ -112,7 +121,8 @@ $(function(){
     // 查看上课安排时间表
     var showCourseSchedule = function(weekOffset) {
         var $courseScheduleModal = $("#courseScheduleModal");
-        var dataKey = 'courseSchedule'+(weekOffset<0?'_'+weekOffset:weekOffset); // jQuery data key不区分大小写和'-'
+        var teacherId = $courseScheduleModal.data('teacherid');
+        var dataKey = 'courseSchedule'+teacherId+'w'+(weekOffset<0?'_'+weekOffset:weekOffset); // jQuery data key不区分大小写和'-'
         var courseSchedule = $courseScheduleModal.data(dataKey);
         var fillTableAndShow = function(courseSchedule) {
             var heap = [];
@@ -134,7 +144,7 @@ $(function(){
             var buf = [];
             for (var i=0; i<metaTimeSlots.length; i++) {
                 var timeSlot = metaTimeSlots[i];
-                buf.push('<tr><td>'+timeSlot.start+'-'+timeSlot.end+'</td>');
+                buf.push('<tr><td>'+timeSlot.start.substr(0, 5)+'-'+timeSlot.end.substr(0, 5)+'</td>');
                 for (var d=1; d<=7; d++) {
                     var _key = ""+d+timeSlot.start+timeSlot.end;
                     var c = courses_heap[_key];
@@ -160,8 +170,7 @@ $(function(){
             fillTableAndShow(courseSchedule);
             return;
         }
-        var teacherId = $courseScheduleModal.data('teacherid'),
-            params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
+        var params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
         $.getJSON('/staff/teachers/action/', params, function(data){
             if (data && data.list)  {
                 $courseScheduleModal.data(dataKey, data);
@@ -187,8 +196,10 @@ $(function(){
         showCourseSchedule(weekOffset);
     });
     $('[data-action=show-courseSchedule]').click(function(e){
+        var $courseScheduleModal = $("#courseScheduleModal");
         var teacherId = $(this).closest('tr').attr('teacherId');
-        $("#courseScheduleModal").data('teacherid', teacherId);
+        $courseScheduleModal.data('teacherid', teacherId);
+        $courseScheduleModal.data('weekoffset', 0);
         showCourseSchedule(0);
     });
     // 查看提分榜
