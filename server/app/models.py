@@ -714,7 +714,7 @@ class Order(BaseModel):
         return self.status == self.PAID
 
     def enum_timeslot(self, handler):
-        for one_timeslot in self.timeslot_set.all():
+        for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
 
@@ -769,6 +769,8 @@ class Comment(BaseModel):
 
 
 class TimeSlot(BaseModel):
+    TRAFFIC_TIME = datetime.timedelta(hours=1)
+
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
     end = models.DateTimeField()

@@ -1,3 +1,5 @@
+import itertools
+
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
@@ -6,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
 import json
-from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot
+from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order
 from app.views import Sms
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
@@ -194,7 +196,7 @@ class TestApi(TestCase):
 
         parent = user.parent
         order = parent.order_set.all()[0]
-        timeslot = order.timeslot_set.all()[0]
+        timeslot = order.timeslot_set.filter(deleted=False)[0]
 
         client = Client()
         request_url = "/api/v1/comments"
@@ -219,7 +221,7 @@ class TestApi(TestCase):
         user2 = User.objects.get(username='parent4')
         parent2 = user2.parent
         order2 = parent2.order_set.all()[0]
-        timeslot2 = order2.timeslot_set.all()[0]
+        timeslot2 = order2.timeslot_set.filter(deleted=False)[0]
 
         request_url = "/api/v1/comments"
         json_data = json.dumps({
@@ -230,11 +232,49 @@ class TestApi(TestCase):
 
         self.assertEqual(400, response.status_code)
 
-    def test_timeslots(self):
+    def test_timeslots_second(self):
         timeslots = TimeSlot.objects.filter(start__second__gt=0)
         self.assertEqual(len(timeslots), 0)
         timeslots = TimeSlot.objects.filter(end__second__gt=0)
         self.assertEqual(len(timeslots), 0)
+
+    def test_orders_timeslots(self):
+        def weekly_2_mins(weekly):
+            return ((weekly.weekday - 1) * 24 * 60 + weekly.start.hour * 60 +
+                    weekly.start.minute, (weekly.weekday - 1) * 24 * 60 +
+                    weekly.end.hour * 60 + weekly.end.minute)
+
+        orders = Order.objects.filter(status='p')
+        for order in orders:
+            timeslots = order.timeslot_set.filter(deleted=False)
+            weekly_time_slots = order.weekly_time_slots.all()
+            mins = [weekly_2_mins(x) for x in weekly_time_slots]
+            for timeslot in timeslots:
+                cur_min = (
+                        timeslot.start.weekday() * 24 * 60 +
+                        timeslot.start.hour * 60 + timeslot.start.minute,
+                        timeslot.end.weekday() * 24 * 60 +
+                        timeslot.end.hour * 60 + timeslot.end.minute)
+                self.assertIn(cur_min, mins)
+
+    def test_teacher_timeslot(self):
+        teachers = Teacher.objects.all()
+
+        for teacher in teachers:
+            orders = teacher.order_set.filter(status='p')
+            timeslots = list(
+                    itertools.chain(
+                        *(order.timeslot_set.filter(deleted=False)
+                            for order in orders)))
+            timeslots.sort(key=lambda x: (x.start, x.end))
+            for i, ts in enumerate(timeslots):
+                if i == 0:
+                    continue
+                pre_ts = timeslots[i - 1]
+                self.assertLessEqual(pre_ts.end, ts.start)
+                if pre_ts.order.school != ts.order.school:
+                    self.assertLessEqual(
+                            pre_ts.end + ts.TRAFFIC_TIME, ts.start)
 
     def test_get_timeslots(self):
         token_client = Client()
@@ -314,6 +354,7 @@ class TestTeacherWeb(TestCase):
         # 测试information_compelte_percent
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
+        self.assertEqual(percent, 0)
 
 
 class TestAlgorithm(TestCase):

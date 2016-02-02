@@ -32,7 +32,7 @@ class OrderAdmin(admin.ModelAdmin):
                 '<li><a href="{}">{}</a></li>',
                 ((urlresolvers.reverse(
                     'admin:app_timeslot_change', args=(ts.id,)), ts)
-                    for ts in instance.timeslot_set.all()),
+                    for ts in instance.timeslot_set.filter(deleted=False)),
                 ) or ''
 
 

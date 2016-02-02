@@ -85,7 +85,7 @@ class TestWebPage(TestCase):
         one_time_slot.save()
         # 检查订单的数目是否正确
         order = Order.objects.get(teacher=teacher)
-        self.assertEqual(3, len(order.timeslot_set.all()))
+        self.assertEqual(3, len(order.timeslot_set.filter(deleted=False)))
 
     def tearDown(self):
         old_user = User.objects.get(username=self.teacher_name)
