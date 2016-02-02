@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
 import json
-from app.models import Parent, Teacher, Checkcode, Profile
+from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot
 from app.views import Sms
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
@@ -229,6 +229,12 @@ class TestApi(TestCase):
                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
 
         self.assertEqual(400, response.status_code)
+
+    def test_timeslots(self):
+        timeslots = TimeSlot.objects.filter(start__second__gt=0)
+        self.assertEqual(len(timeslots), 0)
+        timeslots = TimeSlot.objects.filter(end__second__gt=0)
+        self.assertEqual(len(timeslots), 0)
 
     def test_get_timeslots(self):
         token_client = Client()

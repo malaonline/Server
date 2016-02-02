@@ -631,6 +631,9 @@ class OrderManager(models.Manager):
     def _get_order_timeslots(self, order):
         grace_time = datetime.timedelta(days=2)
         date = timezone.now() + grace_time
+        date = date.replace(second=0, microsecond=0)
+        date += datetime.timedelta(minutes=1)
+
         cur_min = self._weekly_date_to_min(date)
 
         weekly_time_slots = list(order.weekly_time_slots.all())
