@@ -930,7 +930,7 @@ class SchoolTimeslotView(BaseStaffView):
             if nind > nextEqInd:
                 while nind < itemsLen:
                     nitm = timeslots[nind]
-                    if(itm.start.strftime('%b-%d-%y %H:%M') == nitm.start.strftime('%b-%d-%y %H:%M')) and (itm.end.strftime('%b-%d-%y %H:%M') == nitm.end.strftime('%b-%d-%y %H:%M')):
+                    if(itm.start == nitm.start) and (itm.end == nitm.end):
                         eqCount += 1
                         nextEqInd = nind
                         nind += 1
@@ -941,7 +941,7 @@ class SchoolTimeslotView(BaseStaffView):
 
             if ind > 0:
                 oitm = timeslots[ind - 1]
-                if(itm.start.strftime('%b-%d-%y %H:%M') == oitm.start.strftime('%b-%d-%y %H:%M')) and (itm.end.strftime('%b-%d-%y %H:%M') == oitm.end.strftime('%b-%d-%y %H:%M')):
+                if(itm.start == oitm.start) and (itm.end == oitm.end):
                     itm.eqCount = -1
             ind += 1
 
