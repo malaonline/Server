@@ -896,6 +896,8 @@ class SchoolTimeslotView(BaseStaffView):
         searchName = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
+        schools = models.School.objects.filter(opened=True);
+
         timeslots = None
         stTime = None
         edTime = None
@@ -913,7 +915,9 @@ class SchoolTimeslotView(BaseStaffView):
         if phone:
             timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
         if not schoolId:
-            schoolId = 1
+            if len(schools) > 0:
+                schoolId = schools[0].id
+
         timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
 
         itemsLen = len(timeslots)
@@ -940,8 +944,6 @@ class SchoolTimeslotView(BaseStaffView):
                 if(itm.start.strftime('%b-%d-%y %H:%M') == oitm.start.strftime('%b-%d-%y %H:%M')) and (itm.end.strftime('%b-%d-%y %H:%M') == oitm.end.strftime('%b-%d-%y %H:%M')):
                     itm.eqCount = -1
             ind += 1
-
-        schools = models.School.objects.all();
 
         context['schools'] = schools
         context['timeslots'] = timeslots
