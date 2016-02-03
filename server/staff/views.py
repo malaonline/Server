@@ -11,12 +11,14 @@ from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db.models import Q
 from django.utils import timezone
+from rest_framework.renderers import JSONRenderer
 
 # local modules
 from app import models
 from app.utils import smsUtil
 from app.utils.types import parseInt
 from .decorators import mala_staff_required, is_manager
+
 
 logger = logging.getLogger('app')
 
@@ -904,6 +906,7 @@ class OrderRefundView(BaseStaffView):
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
 
+
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'
 
@@ -943,6 +946,8 @@ class SchoolTimeslotView(BaseStaffView):
         nextEqInd = 0
         while ind < itemsLen:
             itm = timeslots[ind]
+            if itm.complaint:
+                itm.complaint.content = JSONRenderer().render(itm.complaint.content)
             eqCount = 0
             nind = ind +1
             if nind > nextEqInd:
