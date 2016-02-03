@@ -1045,10 +1045,22 @@ class HighscoreView(BaseTeacherView):
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         highscore = None
+        profile = None
         if teacher:
-            highscores = models.Highscore.objects.filter(teacher=teacher)
+            profile = models.Profile.objects.get(user=teacher.user)
+
+        ability_set_all = teacher.abilities.all()
+        phone = profile.mask_phone()
+        if len(ability_set_all) > 0:
+            subclass = ability_set_all[0].subject.name
+        else:
+            subclass = ""
+
         context = self.buildContextData(context, teacher)
-        context["highscores"] = highscores
+        context["profile"] = profile
+        context["subclass"] = subclass
+        context["systags"] = models.Tag.objects.all()
+
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):

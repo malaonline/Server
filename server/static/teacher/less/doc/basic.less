@@ -1,0 +1,95 @@
+.form-horizontal{
+  margin-top: 20px;
+  .controls{
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .control-group{
+    label{
+      width: 90px;
+    }
+  }
+  .control-group:nth-child(n+3){
+    margin-top: 10px;
+  }
+}
+.form-control{
+  width: 80px;
+  display: inline;
+}
+#saveBtn{
+  margin-bottom: 20px;
+}
+.btn-number-ctl{
+  border-radius: 0px;
+  width: 42px;
+  font-size: 25px;
+  padding-top: 4px;
+  color: #aeaeae;
+}
+.label-number-view{
+  height: 36px;
+  display: inline-block;
+  text-align: center;
+  border-left: 0;
+  border-right: none;
+  border-radius: 0;
+}
+.grand_input{
+  .grand_button, .grand_add{
+    height: 51px;
+    border-radius: 3px;
+    color: #898a8b;
+  }
+  .grand_button{
+    border-width: 1px;
+    height: 40px;
+    width: 95px;
+    i{
+      visibility: hidden;
+    }
+    &:hover{
+      background: white;
+      border-width: 1px;
+      border-color: black;
+      i{
+        visibility: visible;
+      }
+    }
+  }
+  .grand_add{
+    width: 40px;
+    height: 40px;
+    border-style: dashed;
+  }
+}
+.group-label-top{
+
+}
+.introduce-group, .grand-group, .tags-group{
+  >label{
+    vertical-align: top;
+  }
+  .controls{
+    max-width: 80%;
+  }
+}
+.grand-group, .tags-group{
+  button{
+    margin-top: 3px;
+  }
+}
+.tags-group{
+  .btn{
+    margin-top: 3px;
+    width: initial;
+  }
+}
+#grand_select{
+  button{
+    margin-top: 3px;
+  }
+}
+.item-seleted{
+  border-color: black;
+}

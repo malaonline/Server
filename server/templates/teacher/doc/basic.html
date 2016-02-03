@@ -7,11 +7,12 @@
 {% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'teacher/less/highscore/highscore.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/doc/basic.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
-    <script src="{% static 'teacher/js/highscore/hiscore.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'teacher/js/doc/basic.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -21,18 +22,161 @@
 {% endblock %}
 
 {% block maincontent %}
-    <div>基本信息</div>
-    <div>
-        <div class="form-row">
-            <label>姓名</label>
-            <label for="">张三</label>
+    <form class="form-horizontal">
+      <fieldset>
+        <legend>基本信息</legend>
+        <div class="control-group">
+          <label class="control-label" for="stname">姓名</label>
+          <div class="controls">
+            <label for="">{{ teacher.name }}</label>
+          </div>
         </div>
-        <div class="form-row">
-            <label>手机号</label>
-            <label>138...</label>
+        <div class="control-group">
+          <label class="control-label" for="inscore">手机号</label>
+          <div class="controls">
+            <label for="">{{ profile.phone }}</label>
+          </div>
         </div>
-    </div>
-    <div class="bottom-btn">
-        <input type="button" name="addHighscore" value="提交" class="btn btn-primary">
+        <div class="control-group">
+          <label class="control-label" for="schoolname">性别</label>
+          <div class="controls">
+            <label for="">{% if profile.gender == 'm' %}男{% elif  profile.gender == 'f' %}女{% else %}未知{% endif%}</label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="admittedTo">所在城市</label>
+          <div class="controls">
+            <label for="">{{teacher.region.name}}</label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="admittedTo">出生日期</label>
+          <div class="controls">
+            <select class="form-control" name="">
+                <option>1991</option>
+                <option>1991</option>
+                <option>1991</option>
+                <option>1991</option>
+                <option>1991</option>
+                <option>1991</option>
+                <option>1991</option>
+            </select>
+            <select class="form-control" name="">
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+            </select>
+            <select class="form-control" name="">
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="admittedTo">教龄</label>
+          <div class="controls">
+              <div class="btn btn-default btn-number-ctl" id="teachingAgeSub">-</div><div class="form-control input-xlarge label-number-view" id="teachingAge">{{teacher.teaching_age}}</div><div class="btn btn-default btn-number-ctl" id="teachingAgeAdd">+</div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="admittedTo">毕业院校</label>
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="admittedTo">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="admittedTo">授课科目</label>
+          <div class="controls">
+            <label for="" id="subclass_input">{{ subclass }}</label>
+          </div>
+        </div>
+
+        <script id="grand_button_group" type="text/template">
+            <% _.each(datas, function(item) { %>
+            <button class="btn btn-default grand_button" onclick="remove_button('<%= item %>')"><%= item %> <i
+                    class="glyphicon glyphicon-remove-sign"></i></button>
+            <%});%>
+            <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
+                    data-target="#grand_select" disabled="disabled" type="button">
+                <i class="glyphicon glyphicon-plus"></i>
+            </button>
+        </script>
+
+
+        <div class="control-group grand-group">
+          <label class="control-label" for="admittedTo">授课年级</label>
+          <div class="controls">
+              <div class="grand_input" id="grand_input">
+                  <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
+                          data-target="#grand_select"
+                          {# disabled="disabled" #}
+                          type="button">
+                      <i class="glyphicon glyphicon-plus"></i>
+                  </button>
+              </div>
+          </div>
+        </div>
+        <script id="grand_select_button" type="text/template">
+            <% _.each(datas, function(item) { %>
+            <% if (item[3] == true){ %>
+            <% if (item[2] == true){ %>
+                <button id="<%= item[0] %>" class="btn btn-default item-seleted" onclick="remove_button('<%= item[1] %>')"><%= item[1] %></button>
+            <% }else{ %>
+                <button id="<%= item[0] %>" class="btn btn-default" onclick="add_button('<%= item[1] %>')"><%= item[1] %></button>
+            <% } %>
+            <% } %>
+            <% }); %>
+        </script>
+
+
+        <div class="control-group tags-group">
+          <label class="control-label" for="admittedTo">风格标记</label>
+          <div class="controls">
+            {% for tag in systags %}
+                <div class="btn btn-default" name="tag-item" data-id="{{tag.id}}">{{tag.name}}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="control-group introduce-group">
+          <label class="control-label" for="admittedTo">自我介绍</label>
+          <div class="controls">
+            <textarea name="name" cols="50" rows="7"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+            <input type="button" id="saveBtn" value="提交" class="btn btn-primary">
+        </div>
+
+
+      </fieldset>
+    </form>
+
+    <div class="modal fade" id="grand_select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content agree">
+                <div class="modal-header doc-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">选择年级</h4>
+                </div>
+                <div class="modal-body doc">
+                    <h4>小学</h4>
+                    <div id="primary_select">
+                    </div>
+                    <h4>初中</h4>
+                    <div id="junior_select">
+                    </div>
+                    <h4>高中</h4>
+                    <div id="high_select">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="agree-and-continue" type="button" class="btn btn-default continue-button"
+                            data-dismiss="modal">确定
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
