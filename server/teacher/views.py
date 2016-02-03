@@ -269,8 +269,10 @@ class FirstPage(View):
         return render(request, "teacher/first_page.html", context)
 
     def avatar(self, profile):
-        avatar = profile.avatar or 'common/icons/none_body_profile.png'
-        return avatar
+        if profile.avatar:
+            return profile.avatar.url
+        else:
+            return 'common/icons/none_body_profile.png'
 
     def class_complete(self, order_set, current_data=make_aware(datetime.datetime.now())):
         # 已上课数量
