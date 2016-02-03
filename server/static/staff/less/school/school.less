@@ -56,3 +56,100 @@
   color: white;
   font-size: 24px;
 }
+.school-edit{
+  .form-row{
+    margin-top: 10px;
+    > label{
+      vertical-align: top;
+    }
+    > div{
+      display: inline-block;
+      width: 300px;
+      text-align: left;
+      padding-left: 20px;
+    }
+  }
+  .member-service{
+    .form-control{
+      margin-top: 2px;
+    }
+  }
+}
+.image-view{
+  .image-box{
+    width: 70px;
+    height: 70px;
+    background: #ddd;
+  }
+}
+.actions a{
+    display: inline-block;
+    margin: 2px 0;
+    padding: 0;
+    height: 30px;
+    line-height: 30px;
+    width: 70px;
+}
+.file-input-mask input{
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    margin: 0;
+    width: 100%;
+    height: 200px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    transform: scale(4);
+    font-size: 16px;
+    direction: ltr;
+    cursor: pointer;
+    color: transparent;
+}
+@imgUploadBoxWidth: 141px;
+@imgUploadBoxHeight: 70px;
+@imgUploadBtnHeight: 30px;
+.image-view{
+  width: @imgUploadBoxWidth+10;
+  input[type=text] {
+    width: @imgUploadBoxWidth;
+  }
+  .img-upload-box {
+    position: relative;
+    width: @imgUploadBoxWidth;
+    height: @imgUploadBoxHeight;
+    margin: 5px 0;
+    background: #ddd;
+    .img-box {
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      text-align: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .img-preview-box {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      text-align: center;
+      background: #ddd;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .uploading-hint-box {
+      position: absolute;
+      display: none;
+    }
+  }
+}

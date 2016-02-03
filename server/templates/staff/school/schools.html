@@ -26,12 +26,12 @@
         {% for school in schools %}
             <tr schoolId="{{ school.id }}">
                 <td>{{school.name }}</td>
-                <td></td>
+                <td>{%if school.opened%}是{%else%}否{%endif%}</td>
                 <td>{%if school.center%}体验中心{%else%}社区中心{%endif%}</td>
                 <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
                 <td>{{school.address }}</td>
                 <td></td>
-                <td><a href="{{ school.thumbnail.url }}" target="_blank">查看</a></td>
+                <td>{%if school.thumbnail%}<a href="{{ school.thumbnail.url }}" target="_blank">查看</a>{%endif%}</td>
                 <td></td>
                 <td></td>
                 <td></td>
