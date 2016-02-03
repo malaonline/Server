@@ -73,6 +73,9 @@ function doComplaint(timeslotId, complaintId, compContent){
     $('#complaintLegend').html('添加新的投诉');
   }else{
     $('#complaintLegend').html('修改投诉内容');
+    if(compContent.length > 2){
+      compContent = compContent.substring(1, compContent.length-1)
+    }
   }
   $('#timeslotId').val(timeslotId);
   $('#complaintId').val(complaintId);
