@@ -61,7 +61,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'EXCEPTION_HANDLER': 'app.restful_exception.exception_handler',
+    'EXCEPTION_HANDLER': 'app.exception.exception_handler',
     'PAGE_SIZE': 10,
     'DEFAULT_THROTTLE_CLASSES': (
         'app.throttles.BurstRateThrottle',

@@ -1,6 +1,8 @@
 import uuid
 import datetime
 
+from segmenttree import SegmentTree
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.hashers import make_password
@@ -9,8 +11,8 @@ from django.contrib.auth import authenticate
 from django.apps import apps
 from django.utils import timezone
 
+from app.exception import TimeSlotConflict
 from app.utils.algorithm import Tree, Node
-
 from app.utils import random_string, classproperty
 
 
@@ -360,6 +362,121 @@ class Teacher(BaseModel):
             account.save()
         return account
 
+    def longterm_available_dict(self, school):
+        TimeSlot = apps.get_model('app', 'TimeSlot')
+
+        renew_time = TimeSlot.RENEW_TIME
+        traffic_time = int(TimeSlot.TRAFFIC_TIME.total_seconds()) // 60
+
+        teacher = self
+        region = school.region
+        weekly_time_slots = region.weekly_time_slots.all()
+
+        date = timezone.now() - renew_time
+        occupied = TimeSlot.objects.filter(
+                order__teacher=teacher, start__gte=date, deleted=False)
+        occupied = [
+                (x if x.transferred_from is None else x.transferred_from)
+                for x in occupied]
+
+        segtree = SegmentTree(0, 7 * 24 * 60 - 1)
+        for occ in occupied:
+            cur_school = occ.order.school
+            occ.start = timezone.localtime(occ.start)
+            occ.end = timezone.localtime(occ.end)
+            start = (occ.start.weekday() * 24 * 60 + occ.start.hour * 60 +
+                     occ.start.minute)
+
+            end = (occ.end.weekday() * 24 * 60 + occ.end.hour * 60 +
+                   occ.end.minute - 1)
+
+            if cur_school.id != school.id:
+                start, end = start - traffic_time, end + traffic_time
+            segtree.add(start, end)
+
+        def w2m(w, t):
+            return (w - 1) * 24 * 60 + t.hour * 60 + t.minute
+
+        data = {(s.weekday, s.start, s.end): (segtree.query_len(
+            w2m(s.weekday, s.start), w2m(s.weekday, s.end) - 1) == 0)
+            for s in weekly_time_slots
+            }
+        return data
+
+    def is_longterm_available(self, periods, school):
+        '''
+        periods: [(weekday, start, end), ...]
+        weekday: int (1-7)
+        start: time
+        end: time
+        '''
+        la_dict = self.longterm_available_dict(school)
+        for period in periods:
+            if not la_dict[period]:
+                return False
+        return True
+
+    def shortterm_available_dict(self, school):
+        TimeSlot = apps.get_model('app', 'TimeSlot')
+
+        renew_time = TimeSlot.RENEW_TIME
+        shortterm = TimeSlot.SHORTTERM
+        traffic_time = int(TimeSlot.TRAFFIC_TIME.total_seconds()) // 60
+
+        teacher = self
+        region = school.region
+        weekly_time_slots = region.weekly_time_slots.all()
+
+        date = timezone.now()
+        occupied = models.TimeSlot.objects.filter(
+                order__teacher=teacher, start__gte=date - renew_time,
+                end__lt=date + shortterm + renew_time, deleted=False)
+
+        segtree = SegmentTree(0, 7 * 24 * 60 - 1)
+        for occ in occupied:
+            cur_school = occ.order.school
+            occ.start = timezone.localtime(occ.start)
+            occ.end = timezone.localtime(occ.end)
+            start = (occ.start.weekday() * 24 * 60 + occ.start.hour * 60 +
+                     occ.start.minute)
+
+            end = (occ.end.weekday() * 24 * 60 + occ.end.hour * 60 +
+                   occ.end.minute - 1)
+
+            if cur_school.id != school.id:
+                start, end = start - traffic_time, end + traffic_time
+            segtree.add(start, end)
+
+        def w2m(w):
+            return (w.weekday - 1) * 24 * 60 + w.hour * 60 + w.minute
+
+        data = {(s.weekday, s.start, s.end): (segtree.query_len(
+            w2m(s.start), w2m(s.end) - 1) == 0)
+            for s in weekly_time_slots
+            }
+        return data
+
+    def is_shortterm_available(self, start, end, school):
+        '''
+        start: datetime
+        end: datetime
+        '''
+        assert end > start
+        assert start.weekday() == end.weekday()
+
+        shortterm = TimeSlot.SHORTTERM
+        sa_dict = self.shortterm_available_dict(school)
+        date = timezone.now()
+
+        if not (start >= date and end < date + shortterm):
+            return False
+
+        weekday = start.weekday()
+        start = datetime.time(hour=start.hour, minute=start.minute)
+        end = datetime.time(hour=end.hour, minute=end.minute)
+
+        return sa_dict[(weekday, start, end)]
+
     # 新建一个空白老师用户
     @staticmethod
     def new_teacher()->User:
@@ -629,6 +746,8 @@ class OrderManager(models.Manager):
                 weekly_ts.start.minute - cur_min + 7 * 24 * 60) % (7 * 24 * 60)
 
     def _get_order_timeslots(self, order):
+        school = order.school
+        teacher = order.teacher
         grace_time = datetime.timedelta(days=2)
         date = timezone.now() + grace_time
         date = date.replace(second=0, microsecond=0)
@@ -637,6 +756,12 @@ class OrderManager(models.Manager):
         cur_min = self._weekly_date_to_min(date)
 
         weekly_time_slots = list(order.weekly_time_slots.all())
+        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
+        if hasattr(teacher, 'is_longterm_available'):
+            # Not check this when migrating
+            if not teacher.is_longterm_available(periods, school):
+                raise TimeSlotConflict()
+
         weekly_time_slots.sort(
                 key=lambda x: self._delta_min(x, cur_min))
 
@@ -653,12 +778,15 @@ class OrderManager(models.Manager):
             end = start + datetime.timedelta(
                     minutes=(weekly_ts.end.hour - weekly_ts.start.hour) * 60 +
                     weekly_ts.end.minute - weekly_ts.start.minute)
+
             ans.append(dict(start=start, end=end))
             i = i + 1
             h = h - 1
         return ans
 
     def allocate_timeslots(self, order, force=False):
+        if order.status == 'p' and not force:
+            raise TimeSlotConflict()
         timeslots = self._get_order_timeslots(order)
         return timeslots
 
@@ -770,13 +898,16 @@ class Comment(BaseModel):
 
 class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
+    RENEW_TIME = datetime.timedelta(hours=2)
+    SHORTTERM = datetime.timedelta(days=7)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
     end = models.DateTimeField()
 
     confirmed_by = models.ForeignKey(Parent, null=True, blank=True)
-    transferred_from = models.ForeignKey('TimeSlot', null=True, blank=True)
+    transferred_from = models.ForeignKey(
+            'TimeSlot', related_name='trans_to_set', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)

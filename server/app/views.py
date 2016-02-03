@@ -4,8 +4,6 @@ import datetime
 import itertools
 from collections import OrderedDict
 
-from segmenttree import SegmentTree
-
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
@@ -46,43 +44,23 @@ class Policy(generics.RetrieveAPIView):
 
 class TeacherWeeklyTimeSlot(View):
     def get(self, request, teacher_id):
-        renew_time = datetime.timedelta(hours=2)
-        traffic_time = 60  # 1 hour
-
         school_id = request.GET.get('school_id')
         school = get_object_or_404(models.School, pk=school_id)
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+
+        la_dict = teacher.longterm_available_dict(school)
+
         region = school.region
         weekly_time_slots = list(region.weekly_time_slots.all())
         slots = itertools.groupby(weekly_time_slots, key=lambda x: x.weekday)
-
-        date = timezone.now() - renew_time
-        occupied = models.TimeSlot.objects.filter(
-                order__teacher__id=teacher.id, start__gte=date, deleted=False)
-
-        segtree = SegmentTree(0, 7 * 24 * 60 - 1)
-        for occ in occupied:
-            cur_school = occ.order.school
-            occ.start = timezone.localtime(occ.start)
-            occ.end = timezone.localtime(occ.end)
-            start = (occ.start.weekday() * 24 * 60 + occ.start.hour * 60 +
-                     occ.start.minute)
-
-            end = (occ.end.weekday() * 24 * 60 + occ.end.hour * 60 +
-                   occ.end.minute - 1)
-
-            if cur_school.id != school.id:
-                start, end = start - traffic_time, end + traffic_time
-            segtree.add(start, end)
 
         data = [(str(day), [OrderedDict([
             ('id', s.id),
             ('start', s.start.strftime('%H:%M')),
             ('end', s.end.strftime('%H:%M')),
-            ('available', segtree.query_len(
-                (day - 1) * 24 * 60 + s.start.hour * 60 + s.start.minute,
-                (day - 1) * 24 * 60 + s.end.hour * 60 + s.end.minute - 1
-                ) == 0)]) for s in ss]) for day, ss in slots]
+            ('available', la_dict[(day, s.start, s.end)])])
+            for s in ss])
+            for day, ss in slots]
 
         # weekday = datetime.datetime.today().weekday() + 1
         data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
@@ -658,6 +636,7 @@ class CommentSerializer(serializers.ModelSerializer):
         timeslot.comment = instance
         timeslot.save()
         return instance
+
 
 class CommentViewSet(ParentBasedMixin,
                      mixins.CreateModelMixin,
