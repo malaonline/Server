@@ -7,3 +7,6 @@ def exception_handler(exc, context):
         response.data['status_code'] = response.status_code
 
     return response
+
+class TimeSlotConflict(Exception):
+    pass
