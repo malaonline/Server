@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^information/complete/$', login_required(views.CompleteInformation.as_view(), login_url=LOGIN_URL), name="complete-information"),
     url(r'^register/progress/$', login_required(views.RegisterProgress.as_view(), login_url=LOGIN_URL), name="register-progress"),
     url(r'^first_page/$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="first-page"),
-    url(r'^$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="first-page"),
+    url(r'^$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="default-page"),
     url(r'^my_school_timetable/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', login_required(views.MySchoolTimetable.as_view(), login_url=LOGIN_URL), name="my-school-timetable"),
     url(r'^my_students/$', login_required(views.MyStudents.as_view(), login_url=LOGIN_URL), name="my-students"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
