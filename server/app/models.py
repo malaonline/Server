@@ -1,6 +1,7 @@
 import uuid
 import datetime
 
+import posix_ipc
 from segmenttree import SegmentTree
 
 from django.contrib.auth.models import User
@@ -787,7 +788,17 @@ class OrderManager(models.Manager):
     def allocate_timeslots(self, order, force=False):
         if order.status == 'p' and not force:
             raise TimeSlotConflict()
-        timeslots = self._get_order_timeslots(order)
+
+        name = '/teacher_%d' % order.teacher.id
+        semaphore = posix_ipc.Semaphore(
+                name, flags=posix_ipc.O_CREAT, initial_value=1)
+        semaphore.acquire()
+        try:
+            timeslots = self._get_order_timeslots(order)
+        except Exception as e:
+            raise e
+        finally:
+            semaphore.release()
         return timeslots
 
 
