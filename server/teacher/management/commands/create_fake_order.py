@@ -6,7 +6,7 @@ from django.utils.timezone import make_aware
 import datetime
 from dateutil.relativedelta import relativedelta
 
-from app.models import Teacher, Order, School, Region, Profile, Parent, Grade, Subject, TimeSlot
+from app.models import Teacher, Order, School, Region, Profile, Parent, Grade, Subject, TimeSlot, WeeklyTimeSlot
 
 
 class Command(BaseCommand):
@@ -84,9 +84,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         today = make_aware(datetime.datetime.now())
         # offset = 0
-        duration_list = [[[9, 0, 0], [11, 0, 0]], [[8, 0, 0], [9, 0, 0]], [[10, 0, 0], [13, 0, 0]],
-                         [[15, 0, 0], [17, 0, 0]],
-                         [[8, 0, 0], [10, 0, 0]], [[15, 0, 0], [17, 0, 0]], [[11, 0, 0], [12, 0, 0]]]*2
+        # duration_list = [[[9, 0, 0], [11, 0, 0]], [[8, 0, 0], [9, 0, 0]], [[10, 0, 0], [13, 0, 0]],
+        #                  [[15, 0, 0], [17, 0, 0]],
+        #                  [[8, 0, 0], [10, 0, 0]], [[15, 0, 0], [17, 0, 0]], [[11, 0, 0], [12, 0, 0]]]*2
+        duration_list = []
+        for legal_time_slot in WeeklyTimeSlot.DAILY_TIME_SLOTS:
+            start = legal_time_slot["start"]
+            end = legal_time_slot["end"]
+            duration_list.append([[start.hour, start.minute, start.second], [end.hour, end.minute, end.second]])
         # today + relativedelta(day=offset+1)
         for one_teacher in Teacher.objects.all():
             if len(Order.objects.filter(teacher=one_teacher).all()) == 0:

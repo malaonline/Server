@@ -774,7 +774,7 @@ class MyStudents(View):
         context["class_ending_student_url"] = class_ending_student_url
         context["refund_student_url"] = refund_student_url
         context["student_type"] = student_type
-        pp(context)
+        # pp(context)
         return render(request, "teacher/my_students.html", context)
 
     def refund_student(self, teacher: models.Teacher, page_size=11, offset=1):
