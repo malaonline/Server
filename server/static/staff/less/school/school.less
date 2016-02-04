@@ -1,11 +1,12 @@
 @import "../../../common/less/bootstrap.less";
 
-
+.edit-content{
+  padding-left: 35%;
+}
 .information_header{
   font-size:20px;
   text-align: center;
   margin-top: 24px;
-
 }
 
 .form-horizontal{
@@ -75,39 +76,40 @@
     }
   }
 }
-.image-view{
-  .image-box{
-    width: 70px;
-    height: 70px;
-    background: #ddd;
+.actions{
+  span{
+    cursor: pointer;
   }
-}
-.actions a{
+  a{
     display: inline-block;
     margin: 2px 0;
     padding: 0;
     height: 30px;
     line-height: 30px;
     width: 70px;
+    cursor: pointer;
+  }
 }
 .file-input-mask input{
-    top: -16px;
-    right: -16px;
+    position: relative;
+    top: -30px;
     margin: 0;
     width: 70px;
     height: 30px;
     opacity: 0;
     filter: alpha(opacity=0);
-    transform: scale(4);
     font-size: 16px;
     direction: ltr;
     cursor: pointer;
     color: transparent;
 }
-@imgUploadBoxWidth: 172px;
+@imgUploadBoxWidth: 140px;
 @imgUploadBoxHeight: 70px;
 @imgUploadBtnHeight: 30px;
 .image-view{
+  > label{
+    float: left;
+  }
   .img-upload-box {
     position: relative;
     width: @imgUploadBoxWidth;
@@ -147,4 +149,19 @@
       display: none;
     }
   }
+}
+.image-box{
+  width: 100%;
+  margin-left: 80px;
+}
+.image-edit-box{
+  display: inline-block;
+}
+.right-add{
+  margin-top: 5px;
+  vertical-align: top;
+  display: inline-block;
+}
+.help-block {
+    display: none;
 }

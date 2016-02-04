@@ -7,9 +7,12 @@
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/school.less'|compile %}">
 {% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/school/school_edit.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-    <div style="text-align: center;">
+    <div class="edit-content">
         <form class="form-inline school-edit">
             <div class="form-head">
                 <h3>
@@ -83,28 +86,45 @@
                     <input type="text" class="form-control" id="" name="" value="作业辅导" readonly>
                 </div>
             </div>
-            <div class="form-row image-view">
+            <div class="image-view">
                 <label>环境图片</label>
-                <div style="image-box">
-                    {%if school.thumbnail%}
-                        <img src="{{ school.thumbnail.url }}" />
-                    {%else%}
-                        <input type="text" class="form-control" id="" name="" placeholder="" style="display: inline;">
-                    {%endif%}
-                    <div class="img-upload-box">
-                        <div class="img-box">
-                            <img src={{ teacher.user.profile.avatar_url }}>
+                <div class="image-box">
+                    <div class="image-edit-box">
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ teacher.user.profile.avatar_url }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
                         </div>
-                        <div class="img-preview-box"><img src=""></div>
-                        <div class="uploading-hint-box"></div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="avatarImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-photo">删除</a>
+                        </div>
                     </div>
-                    <div class="help-block"></div>
-                    <div class="actions">
-                        <a class="btn btn-default file-input-mask text-center">
-                            <span>上传/重传</span>
-                            <input title="请选择图片" type="file" name="avatarImg" multiple="" accept="image/*"/>
-                        </a>
-                        <a class="btn btn-default" data-action="delete-photo">删除</a>
+                    <div class="image-edit-box">
+                        <div class="img-upload-box">
+                            <div class="img-box">
+                                <img src={{ teacher.user.profile.avatar_url }}>
+                            </div>
+                            <div class="img-preview-box"><img src=""></div>
+                            <div class="uploading-hint-box"></div>
+                        </div>
+                        <div class="help-block"></div>
+                        <div class="actions">
+                            <a class="btn btn-default file-input-mask text-center">
+                                <span>上传/重传</span>
+                                <input title="请选择图片" type="file" name="avatarImg" multiple="" accept="image/*"/>
+                            </a>
+                            <a class="btn btn-default" data-action="delete-photo">删除</a>
+                        </div>
+                    </div>
+                    <div class="right-add">
+                        <a class="btn btn-default" data-action="add-more-photo">+</a>
                     </div>
                 </div>
             </div>
