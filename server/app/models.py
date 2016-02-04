@@ -73,10 +73,21 @@ class School(BaseModel):
     longitude = models.IntegerField()
     latitude = models.IntegerField()
     opened = models.BooleanField(default=False)
+    class_seat = models.IntegerField(default=0, null=True)
+    study_seat = models.IntegerField(default=0, null=True)
 
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
+class SchoolPhoto(BaseModel):
+    school = models.ForeignKey(School)
+    img = models.ImageField(null=True, blank=True, upload_to='schools')
+
+    def __str__(self):
+        return self.school
+
+    def img_url(self):
+        return self.img and self.img.url or ''
 
 class Subject(BaseModel):
     ENGLISH = None
