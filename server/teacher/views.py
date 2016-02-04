@@ -9,17 +9,16 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.timezone import make_aware, localtime
+
 from dateutil import relativedelta
-from pprint import pprint as pp
 
 import calendar
-from collections import namedtuple
 import json
 import datetime
+from pprint import pprint as pp
 
 # local modules
 from app import models
@@ -443,6 +442,8 @@ class SideBarContent:
                                                          kwargs={"year": today.year,
                                                                  "month": "{day:02d}".format(day=today.month)}
                                                          )
+        context["side_bar_my_student_url"] = reverse("teacher:my-students",
+                                                     kwargs={"student_type": 0, "page_offset": 1})
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
@@ -492,6 +493,7 @@ class MySchoolTimetable(View):
         """
         遍历slot来获得上课进度
         """
+
         def __init__(self):
             self.complete_class = 0
             self.total_class = 0
@@ -506,6 +508,7 @@ class MySchoolTimetable(View):
         """
         生成一条上课描述
         """
+
         def __call__(self, time_slot: models.TimeSlot):
             order = self.order
             today = self.today
@@ -649,8 +652,12 @@ class MySchoolTimetable(View):
         today = make_aware(datetime.datetime.now())
         # 清理time_slot_details
         self.clear_up_time_slot_set(time_slot_details,
-                                    make_aware(datetime.datetime(one_month[0].year, one_month[0].month, one_month[0].day, 0, 0, 0)),
-                                    make_aware(datetime.datetime(one_month[-1].year, one_month[-1].month, one_month[-1].day, 23, 59, 59)),)
+                                    make_aware(
+                                        datetime.datetime(one_month[0].year, one_month[0].month, one_month[0].day, 0, 0,
+                                                          0)),
+                                    make_aware(
+                                        datetime.datetime(one_month[-1].year, one_month[-1].month, one_month[-1].day,
+                                                          23, 59, 59)), )
         week_day_map = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日", ]
         for index, day_item in enumerate(one_month):
             # 0-当天没课, 1-已经上过, 2-正在上,3-还没上
@@ -705,42 +712,174 @@ class MyStudents(View):
     TW-5-2, 我的学生
     """
 
-    def get(self, request):
+    class CollectTimeSlotGroupByStudent:
+        """
+        收集所有Order的所有TimeSlot,并按照学生进行分组
+        """
+
+        def __init__(self):
+            self.group_by_student = {}
+            self.order = None
+
+        def __call__(self, time_slot: models.TimeSlot):
+            """
+            用dict来归类学生
+            """
+            order = self.order
+            one_student_description = self.group_by_student.get(order.parent.student_name, {})
+            if not one_student_description:
+                # 需要初始化一些数据
+                one_student_description["name"] = order.parent.student_name
+                one_student_description["grade"] = order.grade
+                one_student_description["price"] = "￥{price}/小时".format(price=order.price)
+            old_data_array = one_student_description.get("time_slot_list", [])
+            # print("old_data_array's type is {old_data_array}".format(old_data_array=old_data_array))
+            old_data_array.append(time_slot)
+            new_data_array = old_data_array
+            one_student_description["time_slot_list"] = new_data_array
+            self.group_by_student[order.parent.student_name] = one_student_description
+
+    class GetTimeSlotProgress(MySchoolTimetable.GetTimeSlotProgress):
+        """
+        统计time slot的进度
+        """
+        pass
+
+    def get(self, request, student_type, page_offset):
         user = request.user
         teacher = models.Teacher.objects.get(user=user)
 
-        total_page = self.total_page()
-        current_page = self.current_page()
-        default_page_list = [[item, False] for item in range(total_page)]
-        default_page_list[current_page][1] = True
+        offset = int(page_offset)
+
+        student_state = {0: ["新生", "正常", "续费"], 1: ["结课"], 2: ["退费"]}
+        filter_student_state = student_state[int(student_type)]
+        student_list, total_page = self.current_student(teacher, filter_student_state, 11, offset)
+
+        default_page_list = [[item + 1, False, reverse("teacher:my-students",
+                                                       kwargs={"student_type": student_type, "page_offset": item+1})]
+                             for item in range(total_page)]
+        default_page_list[offset - 1][1] = True
         context = {
-            "student_list": self.current_student(),
+            "student_list": student_list,
             "page_list": default_page_list
         }
         set_teacher_page_general_context(teacher, context)
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
+        # 设置三种学生的url
+        current_student_url = reverse("teacher:my-students", kwargs={"student_type": 0, "page_offset": 1})
+        class_ending_student_url = reverse("teacher:my-students", kwargs={"student_type": 1, "page_offset": 1})
+        refund_student_url = reverse("teacher:my-students", kwargs={"student_type": 2, "page_offset": 1})
+        context["current_student_url"] = current_student_url
+        context["class_ending_student_url"] = class_ending_student_url
+        context["refund_student_url"] = refund_student_url
+        context["student_type"] = student_type
+        # pp(context)
         return render(request, "teacher/my_students.html", context)
 
-    def current_student(self):
-        student_list = [
-            ["胡晓璐", "初二", "0/20", "￥190/小时", "新生", True],
-            ["胡晓璐", "小学一年级", "8/10", "￥190/小时", "续费", False],
-            ["胡晓璐", "高一", "9/20", "￥190/小时", "正常", True],
-            ["胡晓璐", "高三", "12/100", "￥190/小时", "正常", True],
-            ["胡晓璐", "高二", "7/20", "￥190/小时", "正常", True],
-            ["胡晓璐", "初二", "14/15", "￥190/小时", "续费", True],
-            ["张子涵", "小学二年级", "8/10", "￥190/小时", "退费", False],
-            ["汪小菲", "小学六年级", "19/20", "￥190/小时", "续费", False],
-            ["孙大圣", "小学一年级", "12/100", "￥190/小时", "正常", False],
-            ["刘宇", "高一", "20/20", "￥190/小时", "结课", False],
-            ["赵一曼", "高三", "15/15", "￥190/小时", "结课", False],
-        ]
-        return student_list
+    def refund_student(self, teacher: models.Teacher, page_size=11, offset=1):
+        # 提取退费的单子,然后合并出结果
+        ctsgb = MyStudents.CollectTimeSlotGroupByStudent()
+        for order in models.Order.objects.filter(teacher=teacher, status=models.Order.REFUND):
+            ctsgb.order = order
+            order.enum_timeslot(ctsgb)
+        student_list = []
+        for name, des in ctsgb.group_by_student.items():
+            gtsp = MyStudents.GetTimeSlotProgress()
+            for time_slot_list in des["time_slot_list"]:
+                gtsp(time_slot_list)
+            des["progress"] = "{complete}/{total}".format(complete=gtsp.complete_class,
+                                                          total=gtsp.total_class)
+            percent = gtsp.complete_class / gtsp.total_class
+            des["state"] = "退费"
+            # 填充结果
+            one_row = [name, des["grade"], des["progress"], des["price"], des["state"], True]
+            student_list.append(one_row)
+        # 分页切割
+        partition_list = split_list(student_list, page_size)
+        if not partition_list:
+            # 设置一个空的结果
+            partition_list = [[]]
+        return partition_list[offset - 1], len(partition_list)
 
-    def total_page(self):
-        return 5
+    def current_student(self, teacher: models.Teacher, filter_student_state: list, page_size=11, offset=1):
+        if "退费" in filter_student_state:
+            return self.refund_student(teacher, page_size, offset)
+        else:
+            return self.normal_student(teacher, filter_student_state, page_size, offset)
 
-    def current_page(self):
-        return 3
+    def normal_student(self, teacher: models.Teacher, filter_student_state: list, page_size=11, offset=1):
+        # 思路,先汇总订单,然后按照学生分类,再进行分页和定位当前的位置
+        ctsgb = MyStudents.CollectTimeSlotGroupByStudent()
+        for order in models.Order.objects.filter(teacher=teacher):
+            if order.status == models.Order.PAID:
+                ctsgb.order = order
+                order.enum_timeslot(ctsgb)
+        student_list = []
+        for name, des in ctsgb.group_by_student.items():
+            gtsp = MyStudents.GetTimeSlotProgress()
+            for time_slot_list in des["time_slot_list"]:
+                gtsp(time_slot_list)
+            des["progress"] = "{complete}/{total}".format(complete=gtsp.complete_class,
+                                                          total=gtsp.total_class)
+            percent = gtsp.complete_class / gtsp.total_class
+            if percent == 0:
+                des["state"] = "新生"
+            if 0 < percent < 0.8:
+                des["state"] = "正常"
+            if 0.8 <= percent < 1:
+                des["state"] = "续费"
+            if percent == 1:
+                des["state"] = "结课"
+            # 填充结果
+            one_row = [name, des["grade"], des["progress"], des["price"], des["state"], True]
+            student_list.append(one_row)
+        # 过滤学生
+        filter_student_list = []
+        for one_student in student_list:
+            if one_student[4] in filter_student_state:
+                filter_student_list.append(one_student)
+        # 分页切割
+        partition_list = split_list(filter_student_list, page_size)
+        if not partition_list:
+            # 设置一个空的结果
+            partition_list = [[]]
+        return partition_list[offset - 1], len(partition_list)
+
+        # student_list = [
+        #     ["胡晓璐", "初二", "0/20", "￥190/小时", "新生", True],
+        #     ["胡晓璐", "小学一年级", "8/10", "￥190/小时", "续费", False],
+        #     ["胡晓璐", "高一", "9/20", "￥190/小时", "正常", True],
+        #     ["胡晓璐", "高三", "12/100", "￥190/小时", "正常", True],
+        #     ["胡晓璐", "高二", "7/20", "￥190/小时", "正常", True],
+        #     ["胡晓璐", "初二", "14/15", "￥190/小时", "续费", True],
+        #     ["张子涵", "小学二年级", "8/10", "￥190/小时", "退费", False],
+        #     ["汪小菲", "小学六年级", "19/20", "￥190/小时", "续费", False],
+        #     ["孙大圣", "小学一年级", "12/100", "￥190/小时", "正常", False],
+        #     ["刘宇", "高一", "20/20", "￥190/小时", "结课", False],
+        #     ["赵一曼", "高三", "15/15", "￥190/小时", "结课", False],
+        # ]
+        # return student_list, 3
+
+
+def split_list(array: list, segment_size):
+    """
+    按照segment_size切分列表array
+    :param array: 给定的列表
+    :param segment_size: 需要切分的大小
+    :return:
+    """
+    count = 0
+    sub_array = []
+    ret_array = []
+    for item in array:
+        sub_array.append(item)
+        if len(sub_array) >= segment_size:
+            ret_array.append(sub_array)
+            sub_array = []
+    if sub_array:
+        ret_array.append(sub_array)
+    return ret_array
 
 
 class TeacherLogout(View):

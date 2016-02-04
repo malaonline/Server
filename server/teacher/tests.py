@@ -7,7 +7,8 @@ from django.core.management import call_command
 from django.utils.timezone import make_aware
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot
-from teacher.views import FirstPage
+from teacher.views import FirstPage, split_list
+from teacher.management.commands import create_fake_order
 
 import json
 import datetime
@@ -146,6 +147,15 @@ class TestWebPage(TestCase):
         self.assertEqual(1, len(time_slot_data["20151230"]))
         self.assertEqual(response.status_code, 200)
 
+    def test_my_students(self):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        for student_type in range(3):
+            response = client.get(reverse("teacher:my-students", kwargs={
+                "student_type": student_type, "page_offset": 1
+            }))
+            self.assertEqual(response.status_code, 200)
+
     def test_course_show(self):
         """
         测试课程的正确获得姿势
@@ -168,6 +178,14 @@ class TestWebPage(TestCase):
         """
         new_teacher = Teacher.new_teacher()
 
+    def test_split_list(self):
+        """
+        测试切分列表
+        :return:
+        """
+        the_list = split_list(list(range(10)), 3)
+        self.assertEqual(4, len(the_list))
+        self.assertEqual([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]], the_list)
 
 class TestCommands(TestCase):
     def setUp(self):
@@ -177,6 +195,12 @@ class TestCommands(TestCase):
         pass
 
     def test_create_fake_order(self):
-        # call_command("create_fake_order")
         pass
-
+        # call_command("create_fake_order")
+        # cfo = create_fake_order.Command()
+        # now = datetime.datetime.now()
+        # # print("build_time_array result")
+        # # pp(cfo.build_time_array(datetime.datetime.now(), 0, [[[1,2,3], [4,5,6]]]))
+        # start_time, end_time = cfo.build_time_array(now, 0, [[[1,2,3], [4,5,6]]])[0]
+        # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 1,2,3), start_time)
+        # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 4,5,6), end_time)

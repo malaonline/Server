@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from . import views
 from django.contrib.auth.decorators import login_required
 
-LOGIN_URL = "/teacher/login"
+LOGIN_URL = "/teacher/login/"
 
 urlpatterns = [
     url(r'^login/$', views.TeacherLogin.as_view(), name="register"),
@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^first_page/$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="first-page"),
     url(r'^$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="default-page"),
     url(r'^my_school_timetable/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', login_required(views.MySchoolTimetable.as_view(), login_url=LOGIN_URL), name="my-school-timetable"),
-    url(r'^my_students/$', login_required(views.MyStudents.as_view(), login_url=LOGIN_URL), name="my-students"),
+    url(r'^my_students/(?P<student_type>[0-9]{1})/(?P<page_offset>[0-9]+)/$', login_required(views.MyStudents.as_view(), login_url=LOGIN_URL), name="my-students"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),
