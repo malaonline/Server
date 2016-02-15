@@ -127,8 +127,18 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     
     // MARK: - Delegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // 获取Cell对象
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ThemeClassScheduleCell
         cell.button.selected = !cell.button.selected
+        
+        // 获取数据模型
+        if self.model != nil && indexPath.row >= 1 && indexPath.section >= 1 {
+            let model = self.model![indexPath.row-1][indexPath.section-1]
+            let index = (indexPath.row == 7 ? 0 : indexPath.row)
+            model.id = index
+            print("课程表Did点击 ： \(model)")
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ClassScheduleDidTap, object: model)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {

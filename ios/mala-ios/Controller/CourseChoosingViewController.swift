@@ -135,8 +135,6 @@ class CourseChoosingViewController: UIViewController {
     }
     
     private func loadClassSchedule() {
-        print("refresh")
-        
         NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
             [weak self] (result, error) -> () in
             if error != nil {
@@ -211,6 +209,44 @@ class CourseChoosingViewController: UIViewController {
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!
                 }
         }
+        // 选择上课时间
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ClassScheduleDidTap,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                print("ClassSchedule Did Tap")
+                let model = notification.object as! ClassScheduleDayModel
+                // 判断上课时间是否已经选择
+                let index = self?.choosingObject?.selectedTime.indexOf(model)
+                // 如果上课时间尚未选择，加入课程购买模型
+                // 如果上课时间已经选择，从课程购买模型中移除
+                if index == nil {
+                    self?.choosingObject?.selectedTime.append(model)
+                }else {
+                    self?.choosingObject?.selectedTime.removeAtIndex(index!)
+                }
+                // 改变课时选择的基数，并刷新课时选择Cell
+                // 课时基数最小为2
+                let stepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
+                MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
+                print(MalaClassPeriod_StepValue)
+                // 课时选择
+                (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
+                // 上课时间
+                (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = [
+                    "2016/02/21 (08:00-10:00)",
+                    "2016/02/21 (10:30-12:30)",
+                    "2016/02/21 (15:30-17:30)",
+                    "2016/02/23 (08:00-10:00)",
+                    "2016/02/24 (10:30-12:30)",
+                    "2016/02/28 (08:00-10:00)",
+                    "2016/02/28 (10:30-12:30)",
+                    "2016/02/28 (15:30-17:30)",
+                    "2016/03/01 (08:00-10:00)",
+                    "2016/03/02 (10:30-12:30)"
+                ]
+                self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+        }
     }
     
     @objc private func popSelf() {
@@ -221,15 +257,20 @@ class CourseChoosingViewController: UIViewController {
         print("choosing Controller deinit")
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassScheduleDidTap, object: nil)
     }
 }
 
 
-
-
+// MARK: - 课程购买模型
 class CourseChoosingObject: NSObject {
     
+    /// 授课年级
     var price: GradePriceModel?
+    /// 上课地点
     var school: SchoolModel?
-    
+    /// 已选上课时间
+    var selectedTime: [ClassScheduleDayModel] = []
+    /// 上课小时数
+    var classPeriod: Int = 2
 }

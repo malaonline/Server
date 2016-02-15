@@ -28,6 +28,12 @@ class CourseChoosingClassPeriodCell: MalaBaseCell {
     }
     
     
+    // MARK: - Public Method
+    func updateSetpValue() {
+        legendView.updateStepValue()
+    }
+    
+    
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
@@ -51,7 +57,7 @@ class CourseChoosingClassPeriodCell: MalaBaseCell {
 }
 
 
-class PeriodStepper: UIView, UITextFieldDelegate {
+public class PeriodStepper: UIView, UITextFieldDelegate {
   
     // MARK: - Compontents
     /// 计数器
@@ -82,13 +88,23 @@ class PeriodStepper: UIView, UITextFieldDelegate {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
+        print("config")
         
         configura()
         setupUserInterface()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Public Method
+    public func updateStepValue() {
+        stepper.minimumValue = MalaClassPeriod_StepValue
+        stepper.value = MalaClassPeriod_StepValue
+        stepper.incrementStepValue = MalaClassPeriod_StepValue
+        stepper.decrementStepValue = MalaClassPeriod_StepValue
     }
     
     
@@ -98,11 +114,11 @@ class PeriodStepper: UIView, UITextFieldDelegate {
         // 设置计数器属性
         stepper.autoRepeat = true
         stepper.wraps = false
-        stepper.minimumValue = 2
+        stepper.minimumValue = MalaClassPeriod_StepValue
         stepper.maximumValue = 998
-        stepper.value = 2
-        stepper.incrementStepValue = 2
-        stepper.decrementStepValue = 2
+        stepper.value = MalaClassPeriod_StepValue
+        stepper.incrementStepValue = MalaClassPeriod_StepValue
+        stepper.decrementStepValue = MalaClassPeriod_StepValue
         // 计数器数值changed回调闭包
         stepper.valueChangedCallback = {
             self.textField.text = String(format: "%d", Int(self.stepper.value))
@@ -141,13 +157,13 @@ class PeriodStepper: UIView, UITextFieldDelegate {
     
     
     // MARK: - Delegate
-    func textFieldDidEndEditing(textField: UITextField) {
+    public func textFieldDidEndEditing(textField: UITextField) {
         // 限制输入值最大为998
         var value = Int(textField.text ?? "") ?? 0
         value = value > 998 ? 998 : value
         // 限制输入值为偶数
-        let num = value%2
-        value = num == 0 ? value : value+1
+        let num = value%Int(MalaClassPeriod_StepValue)
+        value = num == 0 ? value : value-num
         // 赋值给计数器
         self.stepper.value = Double(value)
     }

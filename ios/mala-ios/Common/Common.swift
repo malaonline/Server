@@ -14,8 +14,7 @@ var Mala_UserToken: String = "0"
 
 
 // MARK: - Variables
-let MalaClassPeriod_StepValue = 2
-
+var MalaClassPeriod_StepValue: Double = 2
 
 
 // MARK: - NotificationName
@@ -25,6 +24,7 @@ let MalaNotification_ConfirmFilterView = "com.malalaoshi.app.ConfirmFilterView"
 let MalaNotification_CommitCondition = "com.malalaoshi.app.CommitCondition"
 let MalaNotification_ChoosingGrade = "com.malalaoshi.app.ChoosingGrade"
 let MalaNotification_ChoosingSchool = "com.malalaoshi.app.ChoosingSchool"
+let MalaNotification_ClassScheduleDidTap = "com.malalaoshi.app.ClassScheduleDidTap"
 
 
 // MARK: - Appearance TintColor
@@ -48,7 +48,7 @@ let MalaClassScheduleSelectedColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.50)
 let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
 let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
 let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
-//let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)s
+//let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -99,6 +99,7 @@ let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
+let MalaLayout_FontSize_28: CGFloat = 28.0
 
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
 let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - MalaLayout_Margin_12)/2
@@ -142,6 +143,19 @@ public func makeStatusBarBlack() {
 }
 public func makeStatusBarWhite() {
     UIApplication.sharedApplication().statusBarStyle = .LightContent
+}
+public func MalaRandomColor() -> UIColor {
+    return MalaColorArray[randomInRange(0...MalaColorArray.count-1)]
+}
+///  根据Date获取星期数
+///
+///  - parameter date: NSDate对象
+///
+///  - returns: 星期数（0~6, 对应星期日~星期六）
+public func weekdayInt(date: NSDate) -> Int {
+    let calendar = NSCalendar.currentCalendar()
+    let components: NSDateComponents = calendar.components(NSCalendarUnit.Weekday, fromDate: date)
+    return components.weekday-1
 }
 
 
@@ -195,9 +209,17 @@ let MalaColorArray = [
     UIColor(rgbHexValue: 0xE5BEED, alpha: 1.0)
 ]
 
-public func MalaRandomColor() -> UIColor {
-    return MalaColorArray[randomInRange(0...MalaColorArray.count-1)]
-}
+let MalaWeekdays = [
+    "周日",
+    "周一",
+    "周二",
+    "周三",
+    "周四",
+    "周五",
+    "周六"
+]
+
+
 
 
 
