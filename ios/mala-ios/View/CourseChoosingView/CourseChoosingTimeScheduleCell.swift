@@ -24,6 +24,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Components
     private lazy var tableView: TimeScheduleCellTableView = {
         let tableView = TimeScheduleCellTableView()
+        tableView.bounces = false
         return tableView
     }()
     
@@ -100,6 +101,10 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
         return MalaLayout_FontSize_28
     }
     
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
+
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
