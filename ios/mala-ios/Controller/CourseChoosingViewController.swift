@@ -226,9 +226,26 @@ class CourseChoosingViewController: UIViewController {
                     self?.choosingObject?.selectedTime.removeAtIndex(index!)
                 }
                 // 改变课时选择的基数，并刷新课时选择Cell
-                MalaClassPeriod_StepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
+                // 课时基数最小为2
+                let stepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
+                MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
                 print(MalaClassPeriod_StepValue)
-                self?.tableView.reloadSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
+                // 课时选择
+                (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
+                // 上课时间
+                (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = [
+                    "2016/02/21 (08:00-10:00)",
+                    "2016/02/21 (10:30-12:30)",
+                    "2016/02/21 (15:30-17:30)",
+                    "2016/02/23 (08:00-10:00)",
+                    "2016/02/24 (10:30-12:30)",
+                    "2016/02/28 (08:00-10:00)",
+                    "2016/02/28 (10:30-12:30)",
+                    "2016/02/28 (15:30-17:30)",
+                    "2016/03/01 (08:00-10:00)",
+                    "2016/03/02 (10:30-12:30)"
+                ]
+                self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
         }
     }
     

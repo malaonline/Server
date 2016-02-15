@@ -99,6 +99,7 @@ let MalaLayout_FontSize_15: CGFloat = 15.0
 let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
+let MalaLayout_FontSize_28: CGFloat = 28.0
 
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
 let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - MalaLayout_Margin_12)/2
