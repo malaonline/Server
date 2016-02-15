@@ -10,6 +10,7 @@
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'teacher/js/achievement/achievement.js' %}"></script>
+    <script>var maxCount = '{{ MAX_COUNT }}';</script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -37,6 +38,6 @@
         {% endfor %}
     </div>
     <div>
-        <a class="btn btn-success" href="{% url 'teacher:achievement-add' action='add' %}" data-action="add-achievement">添加</a>
+        <a class="btn btn-success" data-url="{% url 'teacher:achievement-add' action='add' %}" id="btnAddAchievement">添加</a>
     </div>
 {% endblock %}
