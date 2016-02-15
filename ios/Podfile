@@ -11,6 +11,7 @@ pod 'SnapKit', '~> 0.18.0'
 pod 'Kingfisher', '~> 1.8.5'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'IQKeyboardManagerSwift', '~> 3.3.6'
+pod 'DateTools', '~> 1.7.0'
 pod 'UMengAnalytics-NO-IDFA'
 
 

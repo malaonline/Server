@@ -8,17 +8,43 @@
 
 import UIKit
 
-class CourseChoosingTimeScheduleCell: UITableViewCell {
+class CourseChoosingTimeScheduleCell: MalaBaseCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Components
+    private lazy var legendView: PeriodStepper = {
+        let legendView = PeriodStepper()
+        return legendView
+    }()
+    
+    
+    // MARK: - Contructed
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUserInterface()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // SubViews
+        content.removeFromSuperview()
+        contentView.addSubview(legendView)
+        
+        // Autolayout
+        // Remove margin
+        title.snp_updateConstraints { (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+        }
+        
+        legendView.snp_makeConstraints { (make) -> Void in
+            make.width.equalTo(97)
+            make.height.equalTo(27)
+            make.centerY.equalTo(self.title.snp_centerY)
+            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+        }
+    }
 }

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1BE6F55309EECB222979F268C32397F6"
+               BlueprintIdentifier = "C87A5717ECCF7977F34D3CC4E04AA361"
                BuildableName = "Pods.framework"
                BlueprintName = "Pods"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -42,6 +42,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4402E051C5A165700E7D3DB"
+               BuildableName = "parentUITests1.xctest"
+               BlueprintName = "parentUITests1"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4402E131C5A16A700E7D3DB"
+               BuildableName = "parentTests.xctest"
+               BlueprintName = "parentTests"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

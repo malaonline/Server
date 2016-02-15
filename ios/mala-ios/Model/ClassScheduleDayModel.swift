@@ -21,8 +21,9 @@ class ClassScheduleDayModel: BaseObjectModel {
         super.init()
     }
     
-    convenience init(start: String, end: String, available: Bool) {
+    convenience init(id: Int, start: String, end: String, available: Bool) {
         self.init()
+        self.id = id
         self.start = start
         self.end = end
         self.available = available
@@ -36,7 +37,7 @@ class ClassScheduleDayModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["start", "end", "available"]
+        let keys = ["id", "start", "end", "available"]
         return dictionaryWithValuesForKeys(keys).description
     }
 }

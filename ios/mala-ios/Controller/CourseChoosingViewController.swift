@@ -135,8 +135,6 @@ class CourseChoosingViewController: UIViewController {
     }
     
     private func loadClassSchedule() {
-        print("refresh")
-        
         NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
             [weak self] (result, error) -> () in
             if error != nil {
@@ -211,6 +209,27 @@ class CourseChoosingViewController: UIViewController {
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!
                 }
         }
+        // 选择上课时间
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ClassScheduleDidTap,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                print("ClassSchedule Did Tap")
+                let model = notification.object as! ClassScheduleDayModel
+                // 判断上课时间是否已经选择
+                let index = self?.choosingObject?.selectedTime.indexOf(model)
+                // 如果上课时间尚未选择，加入课程购买模型
+                // 如果上课时间已经选择，从课程购买模型中移除
+                if index == nil {
+                    self?.choosingObject?.selectedTime.append(model)
+                }else {
+                    self?.choosingObject?.selectedTime.removeAtIndex(index!)
+                }
+                // 改变课时选择的基数，并刷新课时选择Cell
+                MalaClassPeriod_StepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
+                print(MalaClassPeriod_StepValue)
+                self?.tableView.reloadSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
+        }
     }
     
     @objc private func popSelf() {
@@ -221,15 +240,20 @@ class CourseChoosingViewController: UIViewController {
         print("choosing Controller deinit")
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassScheduleDidTap, object: nil)
     }
 }
 
 
-
-
+// MARK: - 课程购买模型
 class CourseChoosingObject: NSObject {
     
+    /// 授课年级
     var price: GradePriceModel?
+    /// 上课地点
     var school: SchoolModel?
-    
+    /// 已选上课时间
+    var selectedTime: [ClassScheduleDayModel] = []
+    /// 上课小时数
+    var classPeriod: Int = 2
 }
