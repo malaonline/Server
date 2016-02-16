@@ -144,13 +144,11 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         case 3:
             let cell = reuseCell as! CourseChoosingClassPeriodCell
             // 更新已选择课时数
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [weak self] () -> Void in
-                dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                    if ((self?.isPeriodNeedUpdate) == true) {
-                        cell.updateSetpValue()
-                        self?.isPeriodNeedUpdate = false
-                    }
-                })
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                if ((self?.isPeriodNeedUpdate) == true) {
+                    cell.updateSetpValue()
+                    self?.isPeriodNeedUpdate = false
+                }
             })
             return cell
             
