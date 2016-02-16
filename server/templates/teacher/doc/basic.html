@@ -22,6 +22,9 @@
 {% endblock %}
 
 {% block maincontent %}
+    <script lang="javascript">
+        window.grade_select_by_html = {{ grade | safe }};
+    </script>
     <form class="form-horizontal">
       <fieldset>
         <legend>基本信息</legend>

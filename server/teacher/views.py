@@ -1278,10 +1278,26 @@ class BasicDocument(BaseTeacherView):
             subclass = ability_set_all[0].subject.name
         else:
             subclass = ""
-        # 初始化年级
+
+        grade = [[False for i in range(6)],
+                 [False for i in range(3)],
+                 [False for i in range(3)]]
+        grade_name = models.Grade.get_all_grades()
+        grade_slot = {}
+        for x, one_level in enumerate(grade_name):
+            for y, one_grade in enumerate(one_level):
+                grade_slot[one_grade] = (x, y)
+
+        grade_list = [item.grade.name for item in list(teacher.abilities.all())]
+        for one_grade in grade_list:
+            x, y = grade_slot.get(one_grade, (0, 0))
+            grade[x][y] = True
+
+        context["grade"] = json.dumps(grade)
         context["profile"] = profile
         context["subclass"] = subclass
         context["phone"] = profile.mask_phone()
+
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
