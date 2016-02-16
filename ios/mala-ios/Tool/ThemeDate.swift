@@ -56,7 +56,7 @@ class ThemeDate {
             classPeriod = classPeriod - 2
         }
         // 若课时循环完毕则返回字符串数组
-        if classPeriod == 0 || modelArray.count == 0 || days.count == 0{
+        if classPeriod == 0 || days.count == 0{
             return timeSchedule
         }
 

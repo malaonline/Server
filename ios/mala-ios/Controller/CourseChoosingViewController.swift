@@ -229,10 +229,11 @@ class CourseChoosingViewController: UIViewController {
                 let stepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
                 MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
                 // 课时选择
+                self?.tableView.isPeriodNeedUpdate = true
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
                 if self?.choosingObject?.selectedTime != nil {
-                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int(self?.choosingObject?.classPeriod ?? (self?.choosingObject?.selectedTime.count)!*2))
+                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int((self?.choosingObject?.selectedTime.count)!*2))
                     (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
@@ -247,8 +248,8 @@ class CourseChoosingViewController: UIViewController {
                 // 保存选择课时数
                 self?.choosingObject?.classPeriod = Int(period == 0 ? 2 : period)
                 // 上课时间
-                if self?.choosingObject?.selectedTime != nil {
-                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int(self?.choosingObject?.classPeriod ?? (self?.choosingObject?.selectedTime.count)!*2))
+                if self?.choosingObject?.selectedTime != nil && self?.choosingObject?.classPeriod != nil {
+                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int((self?.choosingObject?.classPeriod)!))
                     (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
