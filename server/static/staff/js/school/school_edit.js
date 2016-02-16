@@ -1,4 +1,5 @@
 $(function(){
+  var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
   var getObjectURL = function(file){
     var url = null;
     if(window.createObjectURL != undefined){
@@ -26,7 +27,7 @@ $(function(){
       $previewBox.show();
       var type = $editBox.attr('for');
       if(type=='photo'){
-          $editBox.find('input[name=photoId]').val(''); // 重传照片按新建处理
+          $editBox.find('input[name=photoId]').val('');
       }
       return true;
   });
@@ -47,7 +48,59 @@ $(function(){
           $editBox.remove();
       }else{
           $editBox.find('input[name=photoId]').val('');
+          $editBox.find('input[name=schoolImgId]').val('');
           clearImgEditBox($editBox);
       }
+  });
+  $('[data-action=integer]').keyup(function(){
+    if(this.value.length==1){
+      this.value=this.value.replace(/[^1-9]/g,'');
+    }else{
+      this.value=this.value.replace(/\D/g,'');
+    }
+  });
+  $('input').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 50){
+      this.value = vl.substring(0, 50);
+    }
+  });
+  $('#subBtn').click(function(){
+    var fm = $('#editForm');
+    schoolName = $('#schoolName');
+    latitude = $('#latitude');
+    longitude = $('#longitude');
+    if(schoolName.val().trim().length == 0){
+      alert("名字不能为空！");
+      return false;
+    }
+    if(latitude.val().trim().length == 0){
+      alert("纬度不能为空！\n参考地址：http://api.map.baidu.com/lbsapi/getpoint/index.html");
+      return false;
+    }
+    if(longitude.val().trim().length == 0){
+      alert("经度不能为空！\n参考地址：http://api.map.baidu.com/lbsapi/getpoint/index.html");
+      return false;
+    }
+
+    fm.ajaxSubmit({
+        dataType: 'json',
+        success: function(result){
+            if(result){
+                if(result.ok){
+                    alert("保存成功");
+                    location.href="/staff/schools";
+                }else{
+                    alert(result.msg);
+                }
+                return;
+            }
+            alert(defaultErrMsg);
+        },
+        error: function(e){
+          alert(defaultErrMsg);
+        }
+    });
+    return false;
   });
 });

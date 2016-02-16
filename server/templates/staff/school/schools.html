@@ -1,12 +1,22 @@
 {% extends "staff/staff_base.html" %}
 
 {% load staticfiles %}
+{% load compile_static %}
 {% block title %}学习中心管理{% endblock %}
 
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/schools.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'staff/js/school/schools.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <form name="query_form">
-        <input type="button" value="新增中心"/>
+        <a class="btn btn-default" href="{% url 'staff:staff_school' %}">新增中心</a>
     </form>
 
     <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
@@ -31,12 +41,27 @@
                 <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
                 <td>{{school.address }}</td>
                 <td></td>
-                <td>{%if school.thumbnail%}<a href="{{ school.thumbnail.url }}" target="_blank">查看</a>{%endif%}</td>
-                <td></td>
-                <td></td>
+                <td>{%if school.schoolphoto_set.all%}<a href="javascript:void(0);" target="_blank" onclick="showImages({{school.id}})">查看</a>{%endif%}</td>
+                <td>{{ school.class_seat }}</td>
+                <td>{{ school.study_seat }}</td>
                 <td></td>
                 <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
             </tr>
+            <div style="display: none;" id="hiddenImages{{school.id}}">
+            {%if school.schoolphoto_set.all%}
+                {%for photo in school.schoolphoto_set.all %}
+                    <img src="{{photo.img_url}}"/>
+                {%endfor%}
+            {%endif%}
+            </div>
         {% endfor %}
     </table>
+
+    <div id="imageModal" class="modal fade in school-img-modal">
+        <div class="img-cont" id="imgContent">
+        </div>
+        <div class="modal-footer">
+            <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+        </div>
+    </div>
 {% endblock %}
