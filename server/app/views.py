@@ -73,6 +73,8 @@ class ConcreteTimeSlots(View):
     def get(self, request):
         hours = int(request.GET.get('hours'))
         assert hours % 2 == 0
+        if hours > 100:
+            return JsonResponse({'error': 'too many hours'})
         weekly_time_slots = request.GET.get('weekly_time_slots').split()
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
                             for x in weekly_time_slots]
@@ -80,7 +82,7 @@ class ConcreteTimeSlots(View):
         data = [(to_timestamp(x['start']),
                  to_timestamp(x['end'])) for x in data]
 
-        return JsonResponse(data, safe=False)
+        return JsonResponse({'data': data})
 
 
 class Sms(View):
