@@ -499,6 +499,33 @@ result:
 }
 ```
 
+### Concrete Time Slot
+
+```
+GET /api/v1/concrete/timeslots
+```
+
+parameters:
+```
+hours=14
+weekly_time_slots=3+8
+```
+
+result:
+```
+[
+    [
+        123456890,
+        123459890
+    ],
+    [
+        143456890,
+        143459890
+    ],
+    ...
+]
+```
+
 ### Create Order
 
 ```
@@ -520,7 +547,7 @@ data:
     'subject': 1,
     'coupon': 2,
     'hours': 14,
-    'weekly_time_slots': [3, 8],
+    'weekly_time_slots': [3, 8]
 }
 ```
 
