@@ -75,6 +75,8 @@ class School(BaseModel):
     opened = models.BooleanField(default=False)
     class_seat = models.IntegerField(default=0, null=True)
     study_seat = models.IntegerField(default=0, null=True)
+    phone = models.CharField(max_length=20, default=None, null=True)
+    service = models.CharField(max_length=200, default=None, null=True)
 
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
