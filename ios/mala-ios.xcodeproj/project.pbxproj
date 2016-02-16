@@ -256,6 +256,8 @@
 		F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
 		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
+		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
+		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -388,6 +390,9 @@
 		F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingOtherServiceCell.swift; sourceTree = "<group>"; };
 		F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingConfirmView.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
+		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
+		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
+		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +522,7 @@
 		304135871C23AE6400830C43 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */,
 				304135881C23AE6400830C43 /* Assets.xcassets */,
 				304135891C23AE6400830C43 /* LaunchScreen.storyboard */,
 				307788511C2A3D7A007AF6B0 /* FilterCondition.plist */,
@@ -571,6 +577,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F491A8BB1C734EB500B5D520 /* GIFImageSerialization */,
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
 				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
 				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
@@ -726,6 +733,15 @@
 			path = CourseChoosingView;
 			sourceTree = "<group>";
 		};
+		F491A8BB1C734EB500B5D520 /* GIFImageSerialization */ = {
+			isa = PBXGroup;
+			children = (
+				F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */,
+				F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */,
+			);
+			path = GIFImageSerialization;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -848,6 +864,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
 				F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */,
@@ -1054,6 +1071,7 @@
 				F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
 				F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
+				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
@@ -1473,6 +1491,7 @@
 				F4402E1D1C5A16A700E7D3DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

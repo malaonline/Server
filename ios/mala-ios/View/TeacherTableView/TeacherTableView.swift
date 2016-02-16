@@ -73,6 +73,11 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         })
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > 60 {
+            //TODO: Pull to refresh
+        }
+    }
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
