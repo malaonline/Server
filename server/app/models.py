@@ -63,6 +63,12 @@ class Region(BaseModel):
             _region = _region.superset
         return _dict
 
+class Memberservice(BaseModel):
+    name = models.CharField(max_length=30)
+    detail = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return '%s' % self.name
 
 class School(BaseModel):
     name = models.CharField(max_length=100)
@@ -76,7 +82,7 @@ class School(BaseModel):
     class_seat = models.IntegerField(default=0, null=True)
     study_seat = models.IntegerField(default=0, null=True)
     phone = models.CharField(max_length=20, default=None, null=True)
-    service = models.CharField(max_length=200, default=None, null=True)
+    member_service = models.ManyToManyField(Memberservice)
 
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
@@ -674,15 +680,6 @@ class Feedback(BaseModel):
 
     def __str__(self):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
-
-
-class Memberservice(BaseModel):
-    name = models.CharField(max_length=30)
-    detail = models.CharField(max_length=1000)
-
-    def __str__(self):
-        return '%s' % self.name
-
 
 class Parent(BaseModel):
     user = models.OneToOneField(User)
