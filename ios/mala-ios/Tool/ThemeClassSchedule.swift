@@ -120,6 +120,9 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
             
             let itemModel = model?[indexPath.row-1][indexPath.section-1]
             cell.button.enabled = itemModel?.available ?? false
+            if itemModel?.isSelected != nil {
+                cell.button.selected = itemModel!.isSelected
+            }
         }
         
         return cell
@@ -131,13 +134,14 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ThemeClassScheduleCell
         cell.button.selected = !cell.button.selected
         
+        
         // 获取数据模型
         if self.model != nil && indexPath.row >= 1 && indexPath.section >= 1 {
             let model = self.model![indexPath.row-1][indexPath.section-1]
             let index = (indexPath.row == 7 ? 0 : indexPath.row)
             model.id = index
-            print("课程表Did点击 ： \(model)")
             NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ClassScheduleDidTap, object: model)
+            model.isSelected = cell.button.selected
         }
     }
     

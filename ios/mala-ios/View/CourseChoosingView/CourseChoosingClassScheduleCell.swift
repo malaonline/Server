@@ -22,6 +22,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     private lazy var classSchedule: ThemeClassSchedule = {
         let frame = CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: MalaLayout_CardCellWidth*0.66)
         let classSchedule = ThemeClassSchedule(frame: frame, collectionViewLayout: ThemeClassScheduleFlowLayout(frame: frame))
+        classSchedule.bounces = false
         return classSchedule
     }()
     private lazy var legendView: LegendView = {

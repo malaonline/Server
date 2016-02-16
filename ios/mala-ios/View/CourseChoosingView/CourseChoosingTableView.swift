@@ -49,6 +49,12 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
         }
     }
+    /// 上课时间表数据
+    var timeScheduleResult: [String]? {
+        didSet {
+            
+        }
+    }
     var selectedIndexPath: NSIndexPath?
     
     
@@ -140,7 +146,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             
         case 4:
             let cell = reuseCell as! CourseChoosingTimeScheduleCell
-
+            cell.timeScheduleResult = self.timeScheduleResult
             return cell
             
         case 5:
