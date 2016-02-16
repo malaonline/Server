@@ -1330,10 +1330,11 @@ class AchievementView(BaseTeacherView):
 
     def doSave(self, request, id):
         context, teacher = self.getContextTeacher(request)
-        old_count = models.Achievement.objects.filter(teacher=teacher).count()
-        if old_count >= self.MAX_COUNT:
-            error_msg = '最多添加'+str(self.MAX_COUNT)+'个特殊成果'
-            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 3})
+        if not id: # check max count when adding new one
+            old_count = models.Achievement.objects.filter(teacher=teacher).count()
+            if old_count >= self.MAX_COUNT:
+                error_msg = '最多添加'+str(self.MAX_COUNT)+'个特殊成果'
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 3})
 
         title = request.POST.get('title')
         title = title and title.strip() or ''
