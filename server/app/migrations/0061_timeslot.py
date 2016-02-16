@@ -6,9 +6,10 @@ def add_item(apps, schema_editor):
     TimeSlot = apps.get_model('app', 'TimeSlot')
 
     for order in Order.objects.filter(status='p'):
-        tss = Order.objects.allocate_timeslots(order, force=True)
+        tss = Order.objects.get_order_timeslots(order, check_conflict=False)
         for ts in tss:
-            timeslot = TimeSlot(order=order, start=ts['start'], end=ts['end'])
+            timeslot = TimeSlot(
+                    order=order, start=ts['start'], end=ts['end'])
             timeslot.save()
 
 

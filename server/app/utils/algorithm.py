@@ -1,3 +1,32 @@
+import time
+import random
+
+from django.utils import timezone
+
+
+def to_timestamp(tz_time):
+    timestamp = time.mktime(tz_time.timetuple())
+    return int(timestamp)
+
+
+def timestamp():
+    now = timezone.now()
+    return to_timestamp(now)
+
+
+def orderid():
+    '''
+    This method does NOT ensure unique id
+    '''
+    begin = 1340861754.0
+    ans = timestamp() - begin
+    assert ans > 0
+    rand = random.randint(0, 999999)
+    ans = int('%d%06d' % (ans, rand))
+    ans = '%d%d' % (ans, ans % 7)
+    return ans
+
+
 class Node:
     def __init__(self, val):
         self.val = val
@@ -52,4 +81,3 @@ class Tree:
 
     def get_path(self, val)->[]:
         return self._get_path(val, self.root, [])[0]
-
