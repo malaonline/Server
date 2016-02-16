@@ -25,6 +25,15 @@ $(function(){
         }
     });
 
+    $("#btnAddAchievement").click(function (e){
+        var old_count = $("#achievementsList > .list-group-item").length;
+        if (old_count >= parseInt(maxCount)) {
+            alert('最多添加'+maxCount+'个特殊成果');
+            return false;
+        }
+        location.href = $(this).data('url');
+    });
+
     var getObjectURL = function(file) {
       var url = null;
       if (window.createObjectURL != undefined) {

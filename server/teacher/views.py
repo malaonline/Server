@@ -1284,6 +1284,7 @@ class AchievementView(BaseTeacherView):
     """
     特殊成果
     """
+    MAX_COUNT = 5
     template_path = 'teacher/achievement/achievement.html'
     edit_template_path = 'teacher/achievement/achievement_edit.html'
 
@@ -1300,6 +1301,7 @@ class AchievementView(BaseTeacherView):
         # 返回列表页
         achievements = models.Achievement.objects.filter(teacher=teacher)
         context["achievements"] = achievements
+        context['MAX_COUNT'] = 5
         return render(request, self.template_path, context)
 
     def post(self, request, action=None, id=None):
@@ -1327,6 +1329,12 @@ class AchievementView(BaseTeacherView):
             return JsonResponse({'ok': False, 'msg': '请求失败,请稍后重试,或联系管理员!', 'code': -1})
 
     def doSave(self, request, id):
+        context, teacher = self.getContextTeacher(request)
+        old_count = models.Achievement.objects.filter(teacher=teacher).count()
+        if old_count >= self.MAX_COUNT:
+            error_msg = '最多添加'+str(self.MAX_COUNT)+'个特殊成果'
+            return JsonResponse({'ok': False, 'msg': error_msg, 'code': 3})
+
         title = request.POST.get('title')
         title = title and title.strip() or ''
         if not title:
@@ -1336,7 +1344,6 @@ class AchievementView(BaseTeacherView):
             error_msg = '名称不能超过10个字'
             return JsonResponse({'ok': False, 'msg': error_msg, 'code': 2})
 
-        context, teacher = self.getContextTeacher(request)
         achievement = None
         if id:
             achievement = models.Achievement.objects.get(id=id, teacher=teacher)
