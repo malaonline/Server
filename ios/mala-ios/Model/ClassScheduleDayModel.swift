@@ -14,6 +14,7 @@ class ClassScheduleDayModel: BaseObjectModel {
     var start: String?
     var end: String?
     var available: Bool = false
+    var isSelected: Bool = false
     
     
     // MARK: - Instance Method
