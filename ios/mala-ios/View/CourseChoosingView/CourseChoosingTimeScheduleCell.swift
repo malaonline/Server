@@ -13,11 +13,10 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Property
     var timeScheduleResult: [String]? {
         didSet {
+            self.tableView.timeSchedule = timeScheduleResult
             self.tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(Int(MalaLayout_FontSize_28)*timeScheduleResult!.count)
+                make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
             }
-            tableView.timeSchedule = self.timeScheduleResult
-            tableView.reloadData()
         }
     }
     
@@ -41,7 +40,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     
     
     // MARK: - Public Method
-    func setupTableView () {
+    func reloadTableView () {
         tableView.timeSchedule = self.timeScheduleResult
         tableView.reloadData()
     }
@@ -73,7 +72,11 @@ private let TimeScheduleCellTableViewCellReuseId = "TimeScheduleCellTableViewCel
 class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    var timeSchedule: [String]?
+    var timeSchedule: [String]? {
+        didSet {
+            reloadData()
+        }
+    }
     
     
     // MARK: - Constructed
@@ -91,7 +94,7 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     private func configura() {
         delegate = self
         dataSource = self
-        registerClass(UITableViewCell.self, forCellReuseIdentifier: TimeScheduleCellTableViewCellReuseId)
+        registerClass(TimeScheduleCellTableViewCell.self, forCellReuseIdentifier: TimeScheduleCellTableViewCellReuseId)
         
         self.separatorStyle = .None
     }
@@ -112,16 +115,41 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TimeScheduleCellTableViewCellReuseId, forIndexPath: indexPath)
-        
-        // 设置label
+        let cell = tableView.dequeueReusableCellWithIdentifier(TimeScheduleCellTableViewCellReuseId, forIndexPath: indexPath) as! TimeScheduleCellTableViewCell
+        cell.setTitle(timeSchedule![indexPath.row])
+        return cell
+    }
+}
+
+
+class TimeScheduleCellTableViewCell: UITableViewCell {
+    
+    // MARK: - Property
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: MalaLayout_FontSize_14/2, width: 0, height: 0)
         label.font = UIFont(name: "Courier New", size: MalaLayout_FontSize_14)
         label.textColor = MalaAppearanceTextColor
-        label.text = timeSchedule?[indexPath.row]
         label.sizeToFit()
-        cell.contentView.addSubview(label)
-        return cell
+        return label
+    }()
+    
+    
+    // MARK: - Constructed
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.contentView.addSubview(label)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Public Method
+    func setTitle(title: String) {
+        label.text = title
+        label.sizeToFit()
     }
 }

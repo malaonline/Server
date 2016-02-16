@@ -214,7 +214,6 @@ class CourseChoosingViewController: UIViewController {
             MalaNotification_ClassScheduleDidTap,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
-                print("ClassSchedule Did Tap")
                 let model = notification.object as! ClassScheduleDayModel
                 // 判断上课时间是否已经选择
                 let index = self?.choosingObject?.selectedTime.indexOf(model)
@@ -229,23 +228,31 @@ class CourseChoosingViewController: UIViewController {
                 // 课时基数最小为2
                 let stepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
                 MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
-                print(MalaClassPeriod_StepValue)
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
-                (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = [
-                    "2016/02/21 (08:00-10:00)",
-                    "2016/02/21 (10:30-12:30)",
-                    "2016/02/21 (15:30-17:30)",
-                    "2016/02/23 (08:00-10:00)",
-                    "2016/02/24 (10:30-12:30)",
-                    "2016/02/28 (08:00-10:00)",
-                    "2016/02/28 (10:30-12:30)",
-                    "2016/02/28 (15:30-17:30)",
-                    "2016/03/01 (08:00-10:00)",
-                    "2016/03/02 (10:30-12:30)"
-                ]
-                self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                if self?.choosingObject?.selectedTime != nil {
+                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int(self?.choosingObject?.classPeriod ?? (self?.choosingObject?.selectedTime.count)!*2))
+                    (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
+                    self?.tableView.timeScheduleResult = array
+                    self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                }
+        }
+        // 选择课时
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ClassPeriodDidChange,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                let period = (notification.object as? Double) ?? 2
+                // 保存选择课时数
+                self?.choosingObject?.classPeriod = Int(period == 0 ? 2 : period)
+                // 上课时间
+                if self?.choosingObject?.selectedTime != nil {
+                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int(self?.choosingObject?.classPeriod ?? (self?.choosingObject?.selectedTime.count)!*2))
+                    (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
+                    self?.tableView.timeScheduleResult = array
+                    self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                }
         }
     }
     
@@ -258,6 +265,7 @@ class CourseChoosingViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassScheduleDidTap, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassPeriodDidChange, object: nil)
     }
 }
 

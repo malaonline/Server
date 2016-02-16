@@ -65,7 +65,7 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
     /// 输入框
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.text = String(format: "%d", 2)
+        textField.text = String(format: "%d", Int(MalaClassPeriod_StepValue))
         textField.textAlignment = .Center
         return textField
     }()
@@ -115,13 +115,14 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
         stepper.autoRepeat = true
         stepper.wraps = false
         stepper.minimumValue = MalaClassPeriod_StepValue
-        stepper.maximumValue = 998
+        stepper.maximumValue = 100
         stepper.value = MalaClassPeriod_StepValue
         stepper.incrementStepValue = MalaClassPeriod_StepValue
         stepper.decrementStepValue = MalaClassPeriod_StepValue
         // 计数器数值changed回调闭包
         stepper.valueChangedCallback = {
             self.textField.text = String(format: "%d", Int(self.stepper.value))
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ClassPeriodDidChange, object: self.stepper.value)
         }
         
         textField.delegate = self
@@ -158,9 +159,9 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
     
     // MARK: - Delegate
     public func textFieldDidEndEditing(textField: UITextField) {
-        // 限制输入值最大为998
+        // 限制输入值最大为100
         var value = Int(textField.text ?? "") ?? 0
-        value = value > 998 ? 998 : value
+        value = value > 100 ? 100 : value
         // 限制输入值为偶数
         let num = value%Int(MalaClassPeriod_StepValue)
         value = num == 0 ? value : value-num

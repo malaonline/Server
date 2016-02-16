@@ -136,7 +136,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
             let model = self.model![indexPath.row-1][indexPath.section-1]
             let index = (indexPath.row == 7 ? 0 : indexPath.row)
             model.id = index
-            print("课程表Did点击 ： \(model)")
             NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ClassScheduleDidTap, object: model)
         }
     }
