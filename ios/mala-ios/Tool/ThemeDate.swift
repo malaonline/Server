@@ -21,12 +21,17 @@ class ThemeDate {
         
         /// 上课时间表
         var timeSchedule: [String] = []
+        /// 课表数组排序
+        let sortDays = days.sort { (model0, model1) -> Bool in
+            return (model0.id == 0 ? 7 : model0.id) < (model1.id == 0 ? 7 : model1.id)
+        }
         /// 课程表时间模型数组
-        var modelArray = days
+        var modelArray = sortDays
         /// 课时数
         var classPeriod = period
         /// 当前Date对象
         let today = NSDate()
+        
         
         // 过滤出本周可上课的时间对象（星期数大于今天）
         var classArrayInThisWeek: [ClassScheduleDayModel] = []
@@ -51,7 +56,7 @@ class ThemeDate {
             classPeriod = classPeriod - 2
         }
         // 若课时循环完毕则返回字符串数组
-        if classPeriod == 0 || modelArray.count == 0 {
+        if classPeriod == 0 || modelArray.count == 0 || days.count == 0{
             return timeSchedule
         }
 
@@ -61,7 +66,7 @@ class ThemeDate {
         /// 遍历循环次数（除本周外的上课周数）
         var weeks = 1
         for _ in 1...(classPeriod - classArrayInThisWeek.count*2)/2 {
-            let model = modelArray[index]
+            let model = sortDays[index]
             var date = MalaWeekdays[model.id].dateInThisWeek()
             // 获取到对应的本周日期后，加上对应的周数即为上课时间。
             date = date.dateByAddingWeeks(1*weeks)
@@ -72,7 +77,7 @@ class ThemeDate {
             
             // 累加计数器。超出数组下标归零，循环次数+1
             index++
-            if index == modelArray.count {
+            if index == days.count {
                 index = 0
                 weeks++
             }
