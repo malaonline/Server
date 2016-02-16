@@ -1,11 +1,12 @@
 @import "../../../common/less/bootstrap.less";
 
-
+.edit-content{
+  padding-left: 35%;
+}
 .information_header{
   font-size:20px;
   text-align: center;
   margin-top: 24px;
-
 }
 
 .form-horizontal{
@@ -55,4 +56,112 @@
   background: #8c8c8e;
   color: white;
   font-size: 24px;
+}
+.school-edit{
+  .form-row{
+    margin-top: 10px;
+    > label{
+      vertical-align: top;
+    }
+    > div{
+      display: inline-block;
+      width: 300px;
+      text-align: left;
+      padding-left: 20px;
+    }
+  }
+  .member-service{
+    .form-control{
+      margin-top: 2px;
+    }
+  }
+}
+.actions{
+  span{
+    cursor: pointer;
+  }
+  a{
+    display: inline-block;
+    margin: 2px 0;
+    padding: 0;
+    height: 30px;
+    line-height: 30px;
+    width: 70px;
+    cursor: pointer;
+  }
+}
+.file-input-mask input{
+    position: relative;
+    top: -30px;
+    margin: 0;
+    width: 70px;
+    height: 30px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 16px;
+    direction: ltr;
+    cursor: pointer;
+    color: transparent;
+}
+@imgUploadBoxWidth: 140px;
+@imgUploadBoxHeight: 70px;
+@imgUploadBtnHeight: 30px;
+.image-view{
+  > label{
+    float: left;
+  }
+  .img-upload-box {
+    position: relative;
+    width: @imgUploadBoxWidth;
+    height: @imgUploadBoxHeight;
+    margin: 5px 0;
+    background: #ddd;
+    .img-box {
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      text-align: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .img-preview-box {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: @imgUploadBoxHeight;
+      line-height: @imgUploadBoxHeight;
+      overflow: hidden;
+      text-align: center;
+      background: #ddd;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+    .uploading-hint-box {
+      position: absolute;
+      display: none;
+    }
+  }
+}
+.image-box{
+  width: 100%;
+  margin-left: 80px;
+}
+.image-edit-box{
+  display: inline-block;
+}
+.right-add{
+  margin-top: 5px;
+  vertical-align: top;
+  display: inline-block;
+}
+.help-block {
+    display: none;
 }

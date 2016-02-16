@@ -761,15 +761,60 @@ class SchoolView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
-        schoolId = self.request.GET.get('schoolId')
+        schoolId = self.request.GET.get('schoolId', None)
+        if not schoolId:
+            schoolId = self.request.POST.get('schoolId', None)
 
+        if schoolId == 'None':
+            schoolId = None
+
+        context['region_list'] = models.Region.objects.filter(opened=True)
+        context['schoolId'] = schoolId
+        return context
+
+    def get(self, request):
+        context = self.get_context_data()
+        schoolId = context['schoolId']
         school = None
         if schoolId:
             school = models.School.objects.get(id=schoolId)
 
         context['school'] = school
-        context['schoolId'] = schoolId
-        return context
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        context = self.get_context_data()
+        schoolId = context['schoolId']
+        school = None
+        if not schoolId is None:
+            school = models.School.objects.get(id=schoolId)
+        else:
+            school = models.School()
+        school.name = self.request.POST.get('schoolName', None)
+        school.center = True if self.request.POST.get('center', '0') == '1' else False
+        school.opened = True if self.request.POST.get('opened', '0') == '1' else False
+        school.class_seat = self.request.POST.get('class_seat', None)
+        school.study_seat = self.request.POST.get('study_seat', None)
+        school.longitude = self.request.POST.get('longitude', None)
+        school.latitude = self.request.POST.get('latitude', None)
+        school.address = self.request.POST.get('address', None)
+        regionId = self.request.POST.get('regionId', None)
+        school.region = models.Region.objects.get(id=regionId)
+        school.save()
+
+        context['school'] = school
+
+        staySchoolImgIds = request.POST.getlist('schoolImgId')
+        staySchoolImgIds = [i for i in staySchoolImgIds if i]
+        models.SchoolPhoto.objects.filter(school_id=schoolId).exclude(id__in=staySchoolImgIds).delete()
+        newSchoolImgs = request.FILES.getlist('schoolImg')
+        for schoolImg in newSchoolImgs:
+            photo = models.SchoolPhoto(school=school)
+            _img_content = ContentFile(schoolImg.read())
+            photo.img.save("photo"+str(school.id)+'_'+str(_img_content.size), _img_content)
+            photo.save()
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
 class OrderReviewView(BaseStaffView):
