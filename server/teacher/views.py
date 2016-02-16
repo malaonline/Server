@@ -1268,11 +1268,20 @@ class BasicDocument(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        profile = models.Profile.objects.get(user=teacher.user)
         highscore = None
         if teacher:
             highscores = models.Highscore.objects.filter(teacher=teacher)
         context = self.buildContextData(context, teacher)
-        context["highscores"] = highscores
+        ability_set_all = teacher.abilities.all()
+        if len(ability_set_all) > 0:
+            subclass = ability_set_all[0].subject.name
+        else:
+            subclass = ""
+        # 初始化年级
+        context["profile"] = profile
+        context["subclass"] = subclass
+        context["phone"] = profile.mask_phone()
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
