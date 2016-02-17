@@ -47,8 +47,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         
         // 下拉刷新组件
         self.addPullToRefresh({ [weak self] in
-            sleep(2)
-            //TODO: 刷新数据
+            self?.reloadData()
             self?.stopPullToRefresh()
             })
     }
