@@ -180,7 +180,9 @@ GET /api/v1/teachers/{teacher id}
             },
             "price": 99
         }
-    ]
+    ],
+    "min_price": 90,
+    "max_price": 200
 }
 ```
 
@@ -571,6 +573,37 @@ HTTP Status Code 201
     'weekly_time_slots': [3, 8],
     'subject': 1,
     'school': 1
+}
+```
+
+### Get student course table
+
+```
+GET /api/v1/timeslots
+```
+
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+data:
+```
+
+{
+    "count": 14,
+    "next": "http://127.0.0.1:8000/api/v1/timeslots?page=2",
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "start": 1234567890,
+            "end": 1234567890,
+            "subject": "数学",
+            "is_passed": false
+        },
+        ...
+    ]
 }
 ```
 

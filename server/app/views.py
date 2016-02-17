@@ -459,7 +459,8 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
                   'level', 'subject', 'grades', 'tags', 'achievement_set',
-                  'photo_set', 'highscore_set', 'prices')
+                  'photo_set', 'highscore_set', 'prices', 'min_price',
+                  'max_price')
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
@@ -550,9 +551,18 @@ class ParentBasedMixin(object):
 
 
 class TimeSlotSerializer(serializers.ModelSerializer):
+    subject = SubjectNameSerializer()
+    end = serializers.SerializerMethodField()
+
     class Meta:
         model = models.TimeSlot
-        fields = ('start', 'end', )
+        fields = ('id', 'end', 'subject', 'is_passed')
+
+    def get_start(self, obj):
+        return int(obj.start.timestamp())
+
+    def get_end(self, obj):
+        return int(obj.end.timestamp())
 
 
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
