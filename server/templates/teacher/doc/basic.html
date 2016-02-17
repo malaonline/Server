@@ -137,7 +137,7 @@
           <label class="control-label" for="admittedTo">风格标记</label>
           <div class="controls">
             {% for tag in systags %}
-                <div class="btn btn-default" name="tag-item" data-id="{{tag.id}}">{{tag.name}}</div>
+                <div class="btn btn-default {%if tag.ck%}item-seleted{%endif%}" name="tag-item" data-id="{{tag.id}}">{{tag.name}}</div>
             {% endfor %}
           </div>
         </div>

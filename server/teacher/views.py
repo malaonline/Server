@@ -1293,7 +1293,22 @@ class BasicDocument(BaseTeacherView):
             x, y = grade_slot.get(one_grade, (0, 0))
             grade[x][y] = True
 
+        tags = models.Tag.objects.all()
+
+        itemsLen = len(tags)
+        ind = 0
+        while ind < itemsLen:
+            itm = tags[ind]
+            ind += 1
+            print(itm.name)
+            if itm in teacher.tags.all():
+                itm.ck = 1
+            else:
+                print('....bu zai...')
+
+
         context["grade"] = json.dumps(grade)
+        context["systags"] = tags
         context["profile"] = profile
         context["subclass"] = subclass
         context["phone"] = profile.mask_phone()
