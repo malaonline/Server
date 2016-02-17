@@ -380,10 +380,10 @@ class Teacher(BaseModel):
     def safe_get_account(self):
         # 获得账户,如果没有账户就创建一个
         try:
-            account = self.account
+            account = self.user.account
         except AttributeError:
             # 新建一个账户
-            account = Account(teacher=self, balance=0)
+            account = Account(user=self.user, balance=0)
             account.save()
         return account
 
