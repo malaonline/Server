@@ -15,8 +15,8 @@ class ThemeRefreshView: UIView {
     private lazy var imageView: UIImageView = UIImageView(image: UIImage(named: "refreshImage"))
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.blackColor()
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        label.textColor = MalaDetailsCellSubTitleColor
         label.text = "下拉可刷新"
         label.sizeToFit()
         return label
@@ -41,11 +41,11 @@ class ThemeRefreshView: UIView {
         
         setupUserInterface()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
