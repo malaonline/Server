@@ -12,7 +12,7 @@ class HighScoreModel: NSObject {
 
     // MARK: - Property
     var name: String?
-    var increased_scores: Int?
+    var increased_scores: Int = 0
     var school_name: String?
     var admitted_to: String?
     

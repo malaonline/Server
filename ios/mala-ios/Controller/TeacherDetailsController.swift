@@ -17,7 +17,7 @@ private let TeacherDetailsCellReuseId = [
     5: "TeacherDetailsPlaceCellReuseId",
     6: "TeacherDetailsVipServiceCellReuseId",
     7: "TeacherDetailsLevelCellReuseId",
-    8: "TeacherDetailsPriceCellReuseId"
+//    8: "TeacherDetailsPriceCellReuseId"
 ]
 
 class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
@@ -144,7 +144,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
         tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
         tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
-        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
+//        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
         
         // SubViews
         view.addSubview(signupView)
@@ -293,7 +293,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     // MARK: - DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 9
+        return TeacherDetailsCellReuseId.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -323,7 +323,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 2:
             let cell = reuseCell as! TeacherDetailsHighScoreCell
-            cell.model = self.model!.highscore_set!
+            cell.model = self.model!.highscore_set
             return cell
             
         case 3:
@@ -334,7 +334,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = self.model?.certificate_set
+            cell.labels = self.model?.achievement_set.map({ (model) -> String in
+                return model?.title ?? ""
+            })
             return cell
             
         case 5:

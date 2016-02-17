@@ -34,7 +34,7 @@ class TeacherDetailsHeaderView: UIView {
         didSet{
             switch gender {
             case "m": genderLabel.text = "男"
-            case "fm": genderLabel.text = "女"
+            case "f": genderLabel.text = "女"
             default: genderLabel.text = "暂无"
             }
         }

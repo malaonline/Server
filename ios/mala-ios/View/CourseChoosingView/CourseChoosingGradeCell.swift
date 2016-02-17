@@ -11,11 +11,11 @@ import UIKit
 class CourseChoosingGradeCell: MalaBaseCell {
     
     // MARK: - Property
-    var prices: [GradePriceModel]? {
+    var prices: [GradePriceModel?] = [] {
         didSet {
             self.collectionView.prices = prices
-            var collectionRow = CGFloat(Int(prices?.count ?? 0)/2)
-            collectionRow = (prices?.count)!%2 == 0 ? collectionRow : collectionRow + 1
+            var collectionRow = CGFloat(Int(prices.count ?? 0)/2)
+            collectionRow = (prices.count)%2 == 0 ? collectionRow : collectionRow + 1
             let collectionHeight = (MalaLayout_GradeSelectionWidth*0.19) * collectionRow + (MalaLayout_Margin_14*(collectionRow-1))
             collectionView.snp_updateConstraints(closure: { (make) -> Void in
                 make.height.equalTo(collectionHeight)
@@ -69,7 +69,7 @@ private let GradeSelectionCellReuseId = "GradeSelectionCellReuseId"
 class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Property
-    var prices: [GradePriceModel]? {
+    var prices: [GradePriceModel?] = [] {
         didSet {
             self.reloadData()
         }
@@ -99,12 +99,12 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
     
     // MARK: - DataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return prices?.count ?? 0
+        return prices.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(GradeSelectionCellReuseId, forIndexPath: indexPath) as! GradeSelectionCell
-        cell.price = prices![indexPath.row]
+        cell.price = prices[indexPath.row]
         return cell
     }
     

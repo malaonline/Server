@@ -258,6 +258,11 @@
 		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
+		F4BD4F9B1C7410D300488613 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4F9A1C7410D300488613 /* ThemeRefreshView.swift */; };
+		F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
+		F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */; };
+		F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
+		F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCD1C74559F00488613 /* AchievementModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -393,6 +398,11 @@
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
+		F4BD4F9A1C7410D300488613 /* ThemeRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRefreshView.swift; sourceTree = "<group>"; };
+		F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshOption.swift; sourceTree = "<group>"; };
+		F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
+		F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
+		F4BD4FCD1C74559F00488613 /* AchievementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,6 +525,7 @@
 				303BCFF01C44A86200B37DD9 /* SchoolModel.swift */,
 				30B5980D1C451A8900169390 /* MemberServiceModel.swift */,
 				F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */,
+				F4BD4FCD1C74559F00488613 /* AchievementModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -577,6 +588,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F491A8BF1C7364C500B5D520 /* Refresher */,
 				F491A8BB1C734EB500B5D520 /* GIFImageSerialization */,
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
 				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
@@ -740,6 +752,17 @@
 				F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */,
 			);
 			path = GIFImageSerialization;
+			sourceTree = "<group>";
+		};
+		F491A8BF1C7364C500B5D520 /* Refresher */ = {
+			isa = PBXGroup;
+			children = (
+				F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */,
+				F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */,
+				F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */,
+				F4BD4F9A1C7410D300488613 /* ThemeRefreshView.swift */,
+			);
+			path = Refresher;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1061,6 +1084,7 @@
 			files = (
 				F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
+				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
 				F4402DFA1C59FECB00E7D3DB /* ThemeDate.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
@@ -1069,6 +1093,7 @@
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
+				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
@@ -1082,10 +1107,12 @@
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
+				F4BD4F9B1C7410D300488613 /* ThemeRefreshView.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
+				F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
@@ -1113,6 +1140,7 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
+				F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
 				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,

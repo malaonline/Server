@@ -13,7 +13,7 @@ private let TeacherDetailsHighScoreTableViewCellReuseId = "TeacherDetailsHighSco
 class TeacherDetailsHighScoreTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Variables
-    var model: [HighScoreModel] {
+    var models: [HighScoreModel?] = [] {
         didSet {
             reloadData()
         }
@@ -22,7 +22,6 @@ class TeacherDetailsHighScoreTableView: UITableView, UITableViewDelegate, UITabl
     
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
-        self.model = []
         super.init(frame: frame, style: style)
         
         delegate = self
@@ -51,12 +50,19 @@ class TeacherDetailsHighScoreTableView: UITableView, UITableViewDelegate, UITabl
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.count
+        return models.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsHighScoreTableViewCellReuseId, forIndexPath: indexPath)
-        (cell as! TeacherDetailsHighScoreTableViewCell).model = model[indexPath.row]
+        let model = models[indexPath.row]
+        if model == nil {
+            (cell as! TeacherDetailsHighScoreTableViewCell).model = HighScoreModel(name: "-", score: 0, school: "-", admitted: "-")
+        }else {
+            (cell as! TeacherDetailsHighScoreTableViewCell).model = model
+        }
+        
+        
         return cell
     }
     

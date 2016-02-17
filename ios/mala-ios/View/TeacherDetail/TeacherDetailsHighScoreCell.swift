@@ -11,10 +11,10 @@ import UIKit
 class TeacherDetailsHighScoreCell: MalaBaseCell {
 
     // MARK: - Property
-    var model: [HighScoreModel] = [] {
+    var model: [HighScoreModel?] = [] {
         didSet {
             // 设置数据模型后，刷新TableView高度
-            tableView.model = model
+            tableView.models = model
             tableView.snp_updateConstraints { (make) -> Void in
                 make.height.equalTo(Int(MalaLayout_DeatilHighScoreTableViewCellHeight) * (model.count+1))
             }
