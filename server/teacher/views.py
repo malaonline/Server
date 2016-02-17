@@ -1300,9 +1300,13 @@ class BasicDocument(BaseTeacherView):
         while ind < itemsLen:
             itm = tags[ind]
             ind += 1
-            print(itm.name)
             if itm in teacher.tags.all():
                 itm.ck = 1
+
+        if hasattr(profile, "birthday"):
+            context["birthday_y"] = profile.birthday.year
+            context["birthday_m"] = profile.birthday.month
+            context["birthday_d"] = profile.birthday.day
 
         context["grade"] = json.dumps(grade)
         context["systags"] = tags

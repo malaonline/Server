@@ -112,30 +112,9 @@ $(function(){
       window.need_select_subclass = false;
   }
 
-
   map_grand_button_mask(get_grand_mask($("#subclass_input").html()));
   render_grand_button_list();
   render_grand_select_button_group();
-
-  $("#submit_page").click(function(eventObject){
-      console.log("submit_page");
-      eventObject.preventDefault();
-      var name = $("#realName").val();
-      var gender = $("#gender-input").val();
-      var region = $("#city_input").val();
-      var subclass = $("#subclass_input").html();
-      var grade = selected_grand();
-      //console.log(grade);
-      $.post("/teacher/information/complete/",
-          {
-              name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
-          },
-      function(data){
-          console.log(data);
-          window.location.href =  data.url;
-      });
-
-  });
 
   $(function(){
     $.ms_DatePicker({
@@ -147,8 +126,6 @@ $(function(){
   });
 
 });
-
-
 
 //添加一个年级
 function add_button(args){
