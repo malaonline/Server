@@ -924,6 +924,10 @@ class BaseTeacherView(View):
         context['teacherName'] = teacher.name
         return context, teacher
 
+    def setSidebarContent(self, teacher, context):
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
+
 
 class CertificateView(BaseTeacherView):
     """
@@ -932,6 +936,7 @@ class CertificateView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         context['isEnglishTeacher'] = teacher.is_english_teacher()
         certifications = models.Certificate.objects.filter(teacher=teacher)
         tmp_other_cert = None
@@ -961,6 +966,7 @@ class CertificateIDView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                        defaults={'name': "", 'verified': False})
         certIdFront, created = models.Certificate.objects.get_or_create(teacher=teacher,
@@ -1032,6 +1038,7 @@ class CertificateForOnePicView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
                                                                  defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, cert)
@@ -1109,6 +1116,7 @@ class CertificateOthersView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         context = self.buildContextData(context, teacher)
         return render(request, self.template_path, context)
 
@@ -1183,6 +1191,7 @@ class HighscoreView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         highscore = None
         profile = None
         if teacher:
@@ -1268,6 +1277,7 @@ class BasicDocument(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         profile = models.Profile.objects.get(user=teacher.user)
         highscore = None
         if teacher:
@@ -1388,6 +1398,7 @@ class AchievementView(BaseTeacherView):
 
     def get(self, request, action=None, id=None):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
         if action == 'add':
             context['achieve_title'] = '新建'
             return render(request, self.edit_template_path, context)
@@ -1471,5 +1482,8 @@ class WalletView(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
+        account = teacher.safe_get_account()
+        context['account'] = account
         return render(request, self.template_path, context)
 
