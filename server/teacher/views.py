@@ -1463,3 +1463,13 @@ class AchievementView(BaseTeacherView):
 
         achievement.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+
+class WalletView(BaseTeacherView):
+
+    template_path = 'teacher/wallet/wallet.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        return render(request, self.template_path, context)
+

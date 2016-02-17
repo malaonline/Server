@@ -1,0 +1,22 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的钱包
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/wallet/wallet.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% csrf_token %}
+    <span class="title">我的钱包</span>
+{% endblock %}
+
+{% block maincontent %}
+
+{% endblock %}
