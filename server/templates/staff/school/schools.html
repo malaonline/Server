@@ -48,7 +48,8 @@
                     {%if school.member_services.all%}
                         {%for service in school.member_services.all%}
                             {{service.name}}
-                        {%%}
+                            {%if forloop.counter|divisibleby:4%}<br/>{%endif%}
+                        {%endfor%}
                     {%endif%}
                 </td>
                 <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>

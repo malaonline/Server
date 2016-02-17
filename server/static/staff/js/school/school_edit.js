@@ -65,6 +65,12 @@ $(function(){
       this.value = vl.substring(0, 50);
     }
   });
+  $('[name=phone]').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 20){
+      this.value = vl.substring(0, 20);
+    }
+  });
   $('#subBtn').click(function(){
     var fm = $('#editForm');
     schoolName = $('#schoolName');

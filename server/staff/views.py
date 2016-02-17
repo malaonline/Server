@@ -790,6 +790,15 @@ class SchoolView(BaseStaffView):
             school = models.School.objects.get(id=schoolId)
         else:
             school = models.School()
+
+        # 这个版本写死
+        if not school.member_services.all():
+            for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
+                mbService = models.Memberservice(name=serviceName)
+                mbService.save()
+                school.member_services.add(mbService)
+
+        school.phone = self.request.POST.get('phone', None)
         school.name = self.request.POST.get('schoolName', None)
         school.center = True if self.request.POST.get('center', '0') == '1' else False
         school.opened = True if self.request.POST.get('opened', '0') == '1' else False

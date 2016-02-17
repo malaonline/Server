@@ -30,7 +30,7 @@
             <div class="form-row">
                 <label>中心名称</label>
                 <div>
-                    <input type="text" class="form-control" id="schoolName" name="schoolName" placeholder="请输入中心名称" value="{{school.name }}" style="display: inline;">
+                    <input type="text" class="form-control" id="schoolName" name="schoolName" placeholder="请输入中心名称" value="{{school.name }}" >
                 </div>
             </div>
             <div class="form-row">
@@ -70,19 +70,25 @@
             <div class="form-row">
                 <label>详细地址</label>
                 <div>
-                    <input type="text" class="form-control" name="address" placeholder="" style="display: inline;" value="{{school.address}}" />
+                    <input type="text" class="form-control" name="address" value="{{school.address}}" />
+                </div>
+            </div>
+            <div class="form-row">
+                <label>联系电话</label>
+                <div>
+                    <input type="text" class="form-control" name="phone" value="{{school.phone|default_if_none:""}}" />
                 </div>
             </div>
             <div class="form-row">
                 <label>上课座位</label>
                 <div>
-                    <input type="number" data-action="integer" class="form-control" name="class_seat" placeholder="" style="display: inline;" value="{{school.class_seat}}" />
+                    <input type="number" data-action="integer" class="form-control" name="class_seat" value="{{school.class_seat}}" />
                 </div>
             </div>
             <div class="form-row">
                 <label>自习座位</label>
                 <div>
-                    <input type="number" data-action="integer" class="form-control" name="study_seat" placeholder="" style="display: inline;" value="{{school.study_seat}}" />
+                    <input type="number" data-action="integer" class="form-control" name="study_seat" value="{{school.study_seat}}" />
                 </div>
             </div>
             <div class="form-row member-service">
@@ -149,13 +155,13 @@
             <div class="form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度</label>
                 <div>
-                    <input type="number" class="form-control" id="longitude" name="longitude" value="{{school.longitude }}" style="display: inline;">
+                    <input type="number" class="form-control" id="longitude" name="longitude" value="{{school.longitude }}" >
                 </div>
             </div>
             <div class="form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纬度</label>
                 <div>
-                    <input type="number" class="form-control" id="latitude" name="latitude" value="{{school.latitude }}" style="display: inline;">
+                    <input type="number" class="form-control" id="latitude" name="latitude" value="{{school.latitude }}" >
                 </div>
             </div>
             <div class="form-row">
