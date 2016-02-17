@@ -40,11 +40,17 @@
                 <td>{%if school.center%}体验中心{%else%}社区中心{%endif%}</td>
                 <td>{%if school.region.superset%}{{school.region.superset.name}}-{%endif%}{{school.region.name }}</td>
                 <td>{{school.address }}</td>
-                <td></td>
+                <td>{%if school.phone%}{{school.phone}}{%endif%}</td>
                 <td>{%if school.schoolphoto_set.all%}<a href="javascript:void(0);" target="_blank" onclick="showImages({{school.id}})">查看</a>{%endif%}</td>
                 <td>{{ school.class_seat }}</td>
                 <td>{{ school.study_seat }}</td>
-                <td></td>
+                <td>
+                    {%if school.member_services.all%}
+                        {%for service in school.member_services.all%}
+                            {{service.name}}
+                        {%%}
+                    {%endif%}
+                </td>
                 <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
             </tr>
             <div style="display: none;" id="hiddenImages{{school.id}}">
