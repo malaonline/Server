@@ -264,6 +264,9 @@ class Teacher(BaseModel):
                                limit_choices_to={'opened': True})
     status = models.IntegerField(default=1, choices=STATUS_CHOICES)
 
+    graduate_school = models.CharField(max_length=50, blank=True, null=True)
+    introduce = models.CharField(max_length=200, blank=True, null=True)
+
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                              'Unpublished' if not self.published else '')
