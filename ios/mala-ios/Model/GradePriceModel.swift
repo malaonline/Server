@@ -12,7 +12,7 @@ class GradePriceModel: NSObject {
 
     // MARK: - Property
     var grade: BaseObjectModel?
-    var price: Int?
+    var price: Int = 0
     
     
     // MARK: - Constructed
@@ -36,6 +36,17 @@ class GradePriceModel: NSObject {
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         debugPrint("GradePriceModel - Set for UndefinedKey: \(key)")
+    }
+    
+    override func setValue(value: AnyObject?, forKey key: String) {
+        if key == "grade" {
+            if let dict = value as? [String: AnyObject] {
+                let model = BaseObjectModel(dict: dict)
+                grade = model
+            }
+            return
+        }
+        super.setValue(value, forKey: key)
     }
     
     

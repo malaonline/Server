@@ -72,7 +72,7 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     var price: GradePriceModel? {
         didSet {
             subjectLabel.text = price!.grade!.name
-            priceLabel.text = String(format: "¥%d/课时", price!.price!)
+            priceLabel.text = String(format: "¥%d/课时", price!.price)
         }
     }
     
