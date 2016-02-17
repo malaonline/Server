@@ -152,6 +152,12 @@ class TestApi(TestCase):
         parent_after = Parent.objects.get(user=user)
         self.assertEqual(parent_after.student_school_name, school_name)
 
+    def test_concrete_time_slots(self):
+        client = Client()
+        url = "/api/v1/concrete/timeslots?hours=100&weekly_time_slots=3+8+18"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
     def test_create_order(self):
         token_client = Client()
         token_request_url = "/api/v1/token-auth"

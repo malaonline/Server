@@ -20,6 +20,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from app import models
 from .utils.smsUtil import sendCheckcode
+from .utils.algorithm import to_timestamp
 
 
 class PolicySerializer(serializers.ModelSerializer):
@@ -66,6 +67,22 @@ class TeacherWeeklyTimeSlot(View):
         data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
 
         return JsonResponse(data)
+
+
+class ConcreteTimeSlots(View):
+    def get(self, request):
+        hours = int(request.GET.get('hours'))
+        assert hours % 2 == 0
+        if hours > 100:
+            return JsonResponse({'error': 'too many hours'})
+        weekly_time_slots = request.GET.get('weekly_time_slots').split()
+        weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
+                            for x in weekly_time_slots]
+        data = models.Order.objects.concrete_timeslots(hours, weekly_time_slots)
+        data = [(to_timestamp(x['start']),
+                 to_timestamp(x['end'])) for x in data]
+
+        return JsonResponse({'data': data})
 
 
 class Sms(View):

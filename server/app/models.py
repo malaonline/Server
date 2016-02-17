@@ -1,4 +1,3 @@
-import uuid
 import datetime
 
 import posix_ipc
@@ -13,7 +12,7 @@ from django.apps import apps
 from django.utils import timezone
 
 from app.exception import TimeSlotConflict
-from app.utils.algorithm import Tree, Node
+from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
 
 
@@ -87,6 +86,7 @@ class School(BaseModel):
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
+
 class SchoolPhoto(BaseModel):
     school = models.ForeignKey(School)
     img = models.ImageField(null=True, blank=True, upload_to='schools')
@@ -96,6 +96,7 @@ class SchoolPhoto(BaseModel):
 
     def img_url(self):
         return self.img and self.img.url or ''
+
 
 class Subject(BaseModel):
     ENGLISH = None
@@ -743,50 +744,42 @@ class OrderManager(models.Manager):
 
         total = price * hours - discount_amount
 
+        order_id = orderid()
+
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours, total=total,
-                coupon=coupon,)
+                coupon=coupon, order_id=order_id)
 
         order.save()
         return order
 
-    def _weekly_date_to_min(self, date):
+    def _weekly_date_to_minutes(self, date):
         return date.weekday() * 24 * 60 + date.hour * 60 + date.minute
 
-    def _delta_min(self, weekly_ts, cur_min):
+    def _delta_minutes(self, weekly_ts, cur_min):
         return (
                 (weekly_ts.weekday - 1) * 24 * 60 + weekly_ts.start.hour * 60 +
                 weekly_ts.start.minute - cur_min + 7 * 24 * 60) % (7 * 24 * 60)
 
-    def _get_order_timeslots(self, order):
-        school = order.school
-        teacher = order.teacher
-        grace_time = datetime.timedelta(days=2)
+    def concrete_timeslots(self, hours, weekly_time_slots):
+        grace_time = TimeSlot.GRACE_TIME
         date = timezone.now() + grace_time
         date = date.replace(second=0, microsecond=0)
         date += datetime.timedelta(minutes=1)
 
-        cur_min = self._weekly_date_to_min(date)
-
-        weekly_time_slots = list(order.weekly_time_slots.all())
-        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
-        if hasattr(teacher, 'is_longterm_available'):
-            # Not check this when migrating
-            if not teacher.is_longterm_available(periods, school):
-                raise TimeSlotConflict()
-
+        cur_min = self._weekly_date_to_minutes(date)
         weekly_time_slots.sort(
-                key=lambda x: self._delta_min(x, cur_min))
+                key=lambda x: self._delta_minutes(x, cur_min))
 
         n = len(weekly_time_slots)
-        h = order.hours
+        h = hours
         i = 0
         ans = []
         while h > 0:
             weekly_ts = weekly_time_slots[i % n]
             start = date + datetime.timedelta(
-                    minutes=self._delta_min(weekly_ts, cur_min)
+                    minutes=self._delta_minutes(weekly_ts, cur_min)
                     ) + datetime.timedelta(days=7 * (i // n))
 
             end = start + datetime.timedelta(
@@ -798,7 +791,19 @@ class OrderManager(models.Manager):
             h = h - 1
         return ans
 
+    def get_order_timeslots(self, order, check_conflict=True):
+        weekly_time_slots = list(order.weekly_time_slots.all())
+        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
+        if check_conflict:
+            school = order.school
+            teacher = order.teacher
+
+            if not teacher.is_longterm_available(periods, school):
+                raise TimeSlotConflict()
+        return self.concrete_timeslots(order.hours, weekly_time_slots)
+
     def allocate_timeslots(self, order, force=False):
+        TimeSlot = apps.get_model('app', 'TimeSlot')
         if order.status == 'p' and not force:
             raise TimeSlotConflict()
 
@@ -807,7 +812,12 @@ class OrderManager(models.Manager):
                 name, flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
         try:
-            timeslots = self._get_order_timeslots(order)
+            timeslots = self.get_order_timeslots(order)
+            for ts in timeslots:
+                timeslot = TimeSlot(
+                        order=order, start=ts['start'], end=ts['end'])
+                timeslot.save()
+
         except Exception as e:
             raise e
         finally:
@@ -839,8 +849,8 @@ class Order(BaseModel):
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
-    charge_id = models.CharField(max_length=100)  # For Ping++ use
-    order_id = models.CharField(max_length=64, default=uuid.uuid1)
+    charge_id = models.CharField(max_length=27)  # For Ping++ use
+    order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -922,6 +932,7 @@ class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
     RENEW_TIME = datetime.timedelta(hours=2)
     SHORTTERM = datetime.timedelta(days=7)
+    GRACE_TIME = datetime.timedelta(days=2)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
