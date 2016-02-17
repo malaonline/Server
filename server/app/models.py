@@ -208,6 +208,7 @@ class Profile(BaseModel):
                               default=UNKNOWN,
                               )
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
+    birthday = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self):
         return '%s (%s)' % (self.user, self.gender)
