@@ -974,6 +974,13 @@ class TimeSlot(BaseModel):
             return True
         return False
 
+    @property
+    def subject(self):
+        return self.order.subject
+
+    @property
+    def is_passed(self):
+        return timezone.now() > self.end
 
 class Message(BaseModel):
     SYSTEM = 's'
