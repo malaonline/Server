@@ -63,7 +63,7 @@ class Region(BaseModel):
         return _dict
 
 class Memberservice(BaseModel):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     detail = models.CharField(max_length=1000)
 
     def __str__(self):
