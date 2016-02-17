@@ -1299,7 +1299,7 @@ class AchievementView(BaseTeacherView):
             context['achieve'] = achievement
             return render(request, self.edit_template_path, context)
         # 返回列表页
-        achievements = models.Achievement.objects.filter(teacher=teacher)
+        achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
         context["achievements"] = achievements
         context['MAX_COUNT'] = 5
         return render(request, self.template_path, context)
