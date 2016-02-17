@@ -156,7 +156,6 @@ function render_grand_button_list(){
     var grand_array = selected_grand();
     if(grand_array != undefined){
         var button_template = $("#grand_button_group").html();
-        //console.log("button_template is :" + button_template);
         var grand_button_group = _.template(button_template, {variable: 'datas'})(grand_array);
         $("#grand_input").html(grand_button_group);
         if(window.need_select_subclass == false){

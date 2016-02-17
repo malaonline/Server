@@ -1303,7 +1303,7 @@ class BasicDocument(BaseTeacherView):
             if itm in teacher.tags.all():
                 itm.ck = 1
 
-        if hasattr(profile, "birthday"):
+        if profile.birthday:
             context["birthday_y"] = profile.birthday.year
             context["birthday_m"] = profile.birthday.month
             context["birthday_d"] = profile.birthday.day
