@@ -12,6 +12,7 @@ from teacher.management.commands import create_fake_order
 
 import json
 import datetime
+import random
 from pprint import pprint as pp
 
 
@@ -186,6 +187,13 @@ class TestWebPage(TestCase):
         the_list = split_list(list(range(10)), 3)
         self.assertEqual(4, len(the_list))
         self.assertEqual([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]], the_list)
+
+    def test_teacher_account(self):
+        teacher = random.choice(list(Teacher.objects.filter(user__username__istartswith="test")))
+        account = teacher.safe_get_account()
+        self.assertIsNotNone(account.calculated_balance)
+        self.assertIsNotNone(account.accumulated_income)
+        self.assertIsNotNone(account.anticipated_income)
 
 class TestCommands(TestCase):
     def setUp(self):

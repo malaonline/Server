@@ -380,10 +380,10 @@ class Teacher(BaseModel):
     def safe_get_account(self):
         # 获得账户,如果没有账户就创建一个
         try:
-            account = self.account
+            account = self.user.account
         except AttributeError:
             # 新建一个账户
-            account = Account(teacher=self, balance=0)
+            account = Account(user=self.user, balance=0)
             account.save()
         return account
 
@@ -629,13 +629,36 @@ class InterviewRecord(BaseModel):
 
 class Account(BaseModel):
     """
-    老师账户
+    用户(老师)财务账户
     """
-    teacher = models.OneToOneField(Teacher)
+    user = models.OneToOneField(User)
     balance = models.PositiveIntegerField(default=0)
 
+    @property
+    def calculated_balance(self):
+        AccountHistory = apps.get_model('app', 'AccountHistory')
+        ret = AccountHistory.objects.filter(account=self, done=True).aggregate(models.Sum('amount'))
+        sum = ret['amount__sum']
+        return sum and sum or 0
+
+    @property
+    def accumulated_income(self):
+        AccountHistory = apps.get_model('app', 'AccountHistory')
+        ret = AccountHistory.objects.filter(account=self, amount__gt=0, done=True).aggregate(models.Sum('amount'))
+        sum = ret['amount__sum']
+        return sum and sum or 0
+
+    @property
+    def anticipated_income(self):
+        """
+        预计收入, 完成未来所有课时后将会得到的金额
+        :return:
+        """
+        # TODO: 预计收入
+        return 0
+
     def __str__(self):
-        return '%s : %d' % (self.teacher, self.balance)
+        return '%s : %d' % (self.user, self.balance)
 
 
 class BankCard(BaseModel):
@@ -645,7 +668,7 @@ class BankCard(BaseModel):
 
     def __str__(self):
         return '%s %s (%s)' % (self.bank_name, self.card_number,
-                               self.account.teacher)
+                               self.account.user)
 
 
 class BankCodeInfo(BaseModel):
@@ -664,16 +687,17 @@ class BankCodeInfo(BaseModel):
 
 class AccountHistory(BaseModel):
     account = models.ForeignKey(Account)
-    amount = models.PositiveIntegerField()
-    bankcard = models.ForeignKey(BankCard)
+    amount = models.IntegerField()
+    bankcard = models.ForeignKey(BankCard, null=True, blank=True)
     submit_time = models.DateTimeField()
-    done = models.BooleanField()
+    done = models.BooleanField(default=False)
     done_by = models.ForeignKey(User, related_name='processed_withdraws',
                                 null=True, blank=True)
-    done_at = models.DateTimeField()
+    done_at = models.DateTimeField(null=True, blank=True)
+    comment = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return '%s %s : %s' % (self.account.teacher, self.amount,
+        return '%s %s : %s' % (self.account.user, self.amount,
                                'D' if self.done else '')
 
 
