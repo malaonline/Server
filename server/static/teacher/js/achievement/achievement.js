@@ -77,10 +77,7 @@ $(function(){
     });
     //form取消操作
     $("#achieveEditForm [data-action=cancel]").click(function(e){
-        var $form = $('#achieveEditForm');
-        $form[0].reset();
-        $form.find('.img-preview-box img').attr('src', '');
-        $form.find('.img-preview-box').hide();
+        location.href = listPageUrl; // go back list page, do not reset form
     });
     //form保存操作
     $("#achieveEditForm [data-action=save]").click(function(e){
