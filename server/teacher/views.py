@@ -1485,5 +1485,7 @@ class WalletView(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         account = teacher.safe_get_account()
         context['account'] = account
+        histories = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
+        context['histories'] = histories
         return render(request, self.template_path, context)
 

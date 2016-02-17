@@ -1,0 +1,90 @@
+
+
+@border_color: #d6d6d6;
+@text_gray_color: #979797;
+@text_light_gray_color: #d3d3d3;
+
+.summary {
+  margin: 10px;
+  border-radius: 0;
+  border: 1px solid @border_color;
+  .amounts {
+    padding-left: 0;
+    padding-right: 0;
+    border-right: 1px solid @border_color;
+    font-size: 13px;
+    .panel-body:first-child {
+      border-bottom: 1px solid @border_color;
+    }
+    .balance-box {
+      color: black;
+      .balance {
+        font-size: 20px;
+      }
+      .go-withdraw {
+        width: 50px;
+        height: 24px;
+        line-height: 24px;
+        background: gray;
+        color: #eee;
+      }
+      .show-withdraws {
+        vertical-align: sub;
+        font-size: 12px;
+      }
+    }
+    .sum-box {
+      font-size: 12px;
+      color: #555;
+    }
+  }
+  .bank-card {
+    padding-top: 8px;
+    margin-top: -1px;
+    border-top: 1px solid @border_color;
+    .bank-card-add {
+      margin-top: 8px;
+      height: 50px;
+      line-height: 50px;
+      border: 1px solid @border_color;
+    }
+  }
+}
+
+.history {
+  margin: 10px;
+  .title {
+    margin: 18px 0;
+    color: black;
+  }
+  .history-list {
+    margin: 18px 0;
+    line-height: 32px;
+    border: 1px solid @border_color;
+    .heading {
+      background: #f9f9f9;
+      th, td{
+        text-align: center;
+      }
+    }
+    .item {
+      font-size: 13px;
+      .time {
+        text-align: center;
+      }
+      .amount {
+        padding-right: 20px;
+        text-align: right;
+        &.income {
+          color: lightgreen;
+        }
+        &.outgoing {
+          color: red;
+        }
+      }
+      .comment {
+        padding-left: 26px;
+      }
+    }
+  }
+}

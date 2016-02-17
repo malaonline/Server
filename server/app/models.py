@@ -639,14 +639,14 @@ class Account(BaseModel):
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(account=self, done=True).aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
-        return sum and sum or 0
+        return sum and sum/100 or 0
 
     @property
     def accumulated_income(self):
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(account=self, amount__gt=0, done=True).aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
-        return sum and sum or 0
+        return sum and sum/100 or 0
 
     @property
     def anticipated_income(self):
