@@ -17,6 +17,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.pagination import PageNumberPagination
 
 from app import models
 from .utils.smsUtil import sendCheckcode
@@ -77,8 +78,9 @@ class ConcreteTimeSlots(View):
             return JsonResponse({'error': 'too many hours'})
         weekly_time_slots = request.GET.get('weekly_time_slots').split()
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
-                            for x in weekly_time_slots]
-        data = models.Order.objects.concrete_timeslots(hours, weekly_time_slots)
+                             for x in weekly_time_slots]
+        data = models.Order.objects.concrete_timeslots(
+                hours, weekly_time_slots)
         data = [(to_timestamp(x['start']),
                  to_timestamp(x['end'])) for x in data]
 
@@ -565,14 +567,22 @@ class TimeSlotSerializer(serializers.ModelSerializer):
         return int(obj.end.timestamp())
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 300
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
+    pagination_class = LargeResultsSetPagination
     queryset = models.TimeSlot.objects.all()
     serializer_class = TimeSlotSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         parent = self.get_parent()
-        queryset = models.TimeSlot.objects.filter(order__parent=parent)
+        queryset = models.TimeSlot.objects.filter(
+                order__parent=parent).order_by('-end')
         return queryset
 
 
