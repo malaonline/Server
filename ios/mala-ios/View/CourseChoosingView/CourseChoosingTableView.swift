@@ -146,9 +146,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 if ((self?.isPeriodNeedUpdate) == true) {
                     cell.updateSetpValue()
-                    self?.isPeriodNeedUpdate = false
                 }
             })
+            self.isPeriodNeedUpdate = false
             return cell
             
         case 4:

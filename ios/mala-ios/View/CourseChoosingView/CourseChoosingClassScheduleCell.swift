@@ -20,7 +20,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     
     // MARK: - Components
     private lazy var classSchedule: ThemeClassSchedule = {
-        let frame = CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: MalaLayout_CardCellWidth*0.66)
+        let frame = CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: MalaLayout_CardCellWidth*0.65)
         let classSchedule = ThemeClassSchedule(frame: frame, collectionViewLayout: ThemeClassScheduleFlowLayout(frame: frame))
         classSchedule.bounces = false
         return classSchedule
@@ -59,7 +59,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
             make.top.equalTo(self.content.snp_top).offset(MalaLayout_Margin_14)
             make.left.equalTo(self.content.snp_left)
             make.right.equalTo(self.content.snp_right)
-            make.height.equalTo(MalaLayout_CardCellWidth*0.66)
+            make.height.equalTo(MalaLayout_CardCellWidth*0.65)
         }
         legendView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.classSchedule.snp_bottom).offset(MalaLayout_Margin_14)
