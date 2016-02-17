@@ -13,7 +13,7 @@ private let TeacherDetailsPriceTableViewCellReuseId = "TeacherDetailsPriceTableV
 class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    var prices: [GradePriceModel] = [] {
+    var prices: [GradePriceModel?] = [] {
         didSet {
             reloadData()
         }

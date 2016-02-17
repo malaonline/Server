@@ -27,7 +27,7 @@ class TestFactory {
             "http://img.taopic.com/uploads/allimg/110311/6446-110311151K931.jpg",
             "http://img.taopic.com/uploads/allimg/110821/1942-110r110431925.jpg",
             "http://www.86ps.com/sc/RW/311/GM_0024.jpg"]
-        model.certificate_set = ["特级教师","一级教师","十佳青年"]
+//        model.achievement_set = ["特级教师","一级教师","十佳青年"]
         model.highscore_set = [
             HighScoreModel(name: "高明", score: 122, school: "洛阳一中", admitted: "河北大学"),
             HighScoreModel(name: "高晓明", score: 125, school: "洛阳二中", admitted: "北京大学"),

@@ -11,7 +11,7 @@ import UIKit
 class TeacherDetailsPriceCell: MalaBaseCell {
 
     // MARK: - Property
-    var prices: [GradePriceModel] = [] {
+    var prices: [GradePriceModel?] = [] {
         didSet {
             tableView.prices = prices
             tableView.snp_updateConstraints { (make) -> Void in

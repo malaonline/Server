@@ -13,9 +13,11 @@ private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    var teachers: [TeacherModel]? = TestFactory.TeacherList() {
+    /// 下拉刷新组件
+    private var refreshControl: UIRefreshControl?
+    /// 老师数据模型数组
+    var teachers: [TeacherModel]? {
         didSet {
-            teachers = TestFactory.TeacherList() //TODO: 教师测试数据处理
             self.reloadData()
         }
     }
@@ -42,6 +44,12 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         separatorStyle = .None
         contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
+        
+        // 下拉刷新组件
+        self.addPullToRefresh({ [weak self] in
+            self?.reloadData()
+            self?.stopPullToRefresh()
+            })
     }
     
     
@@ -65,14 +73,12 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
             }
             
             let viewController = TeacherDetailsController()
-            let model = TestFactory.TeacherDetailsModel() //TODO: Remove TestModel
-            
-            viewController.model = model   // TeacherDetailModel(dict: dict)
+            viewController.model = TeacherDetailModel(dict: dict)
             viewController.hidesBottomBarWhenPushed = true
             self?.controller?.navigationController?.pushViewController(viewController, animated: true)
         })
     }
-    
+
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
