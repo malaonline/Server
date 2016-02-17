@@ -12,6 +12,7 @@
 {% block addition_js %}
     <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'common/js/birthday.js' %}"></script>
     <script src="{% static 'teacher/js/doc/basic.js' %}"></script>
 {% endblock %}
 
@@ -22,6 +23,7 @@
 {% endblock %}
 
 {% block maincontent %}
+    {% csrf_token %}
     <script lang="javascript">
         window.grade_select_by_html = {{ grade | safe }};
     </script>
@@ -37,7 +39,7 @@
         <div class="control-group">
           <label class="control-label" for="inscore">手机号</label>
           <div class="controls">
-            <label for="">{{ phone }}</label>
+            <label for="">{{phone}}</label>
           </div>
         </div>
         <div class="control-group">
@@ -55,24 +57,11 @@
         <div class="control-group">
           <label class="control-label" for="admittedTo">出生日期</label>
           <div class="controls">
-            <select class="form-control" name="">
-                <option>1991</option>
-                <option>1991</option>
-                <option>1991</option>
-                <option>1991</option>
-                <option>1991</option>
-                <option>1991</option>
-                <option>1991</option>
+            <select class="form-control sel_year" name="birthday_y" id="birthday_y" rel="{{birthday_y}}">
             </select>
-            <select class="form-control" name="">
-                <option>01</option>
-                <option>02</option>
-                <option>03</option>
+            <select class="form-control sel_month" name="birthday_m" id="birthday_m" rel="{{birthday_m}}">
             </select>
-            <select class="form-control" name="">
-                <option>29</option>
-                <option>30</option>
-                <option>31</option>
+            <select class="form-control sel_day" name="birthday_d" id="birthday_d" rel="{{birthday_d}}">
             </select>
           </div>
         </div>
@@ -85,19 +74,19 @@
         <div class="control-group">
           <label class="control-label" for="admittedTo">毕业院校</label>
           <div class="controls">
-            <input type="text" class="input-xlarge" id="admittedTo">
+            <input type="text" class="input-xlarge" id="graduate_school" name="graduate_school" value="{{teacher.graduate_school}}">
           </div>
         </div>
         <div class="control-group">
           <label class="control-label" for="admittedTo">授课科目</label>
           <div class="controls">
-            <label for="" id="subclass_input">{{ subclass }}</label>
+            <label id="subclass_input">{{ subclass }}</label>
           </div>
         </div>
 
         <script id="grand_button_group" type="text/template">
             <% _.each(datas, function(item) { %>
-            <button class="btn btn-default grand_button" onclick="remove_button('<%= item %>')"><%= item %> <i
+            <button name="selectedGrand" class="btn btn-default grand_button" onclick="remove_button('<%= item %>')"><%= item %> <i
                     class="glyphicon glyphicon-remove-sign"></i></button>
             <%});%>
             <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
@@ -124,7 +113,7 @@
             <% _.each(datas, function(item) { %>
             <% if (item[3] == true){ %>
             <% if (item[2] == true){ %>
-                <button id="<%= item[0] %>" class="btn btn-default item-seleted" onclick="remove_button('<%= item[1] %>')"><%= item[1] %></button>
+                <button id="<%= item[0] %>" class="btn btn-default item-selected" onclick="remove_button('<%= item[1] %>')"><%= item[1] %></button>
             <% }else{ %>
                 <button id="<%= item[0] %>" class="btn btn-default" onclick="add_button('<%= item[1] %>')"><%= item[1] %></button>
             <% } %>
@@ -137,14 +126,14 @@
           <label class="control-label" for="admittedTo">风格标记</label>
           <div class="controls">
             {% for tag in systags %}
-                <div class="btn btn-default {%if tag.ck%}item-seleted{%endif%}" name="tag-item" data-id="{{tag.id}}">{{tag.name}}</div>
+                <div class="btn btn-default {%if tag.ck%}item-selected{%endif%}" name="tag-item" data-id="{{tag.id}}">{{tag.name}}</div>
             {% endfor %}
           </div>
         </div>
         <div class="control-group introduce-group">
           <label class="control-label" for="admittedTo">自我介绍</label>
           <div class="controls">
-            <textarea name="name" cols="50" rows="7"></textarea>
+            <textarea name="name" cols="50" rows="7" name="introduce" id="introduce">{{teacher.introduce}}</textarea>
           </div>
         </div>
         <div class="control-group">
@@ -159,8 +148,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content agree">
                 <div class="modal-header doc-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><spanaria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">选择年级</h4>
                 </div>
                 <div class="modal-body doc">

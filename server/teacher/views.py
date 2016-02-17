@@ -1303,9 +1303,6 @@ class BasicDocument(BaseTeacherView):
             print(itm.name)
             if itm in teacher.tags.all():
                 itm.ck = 1
-            else:
-                print('....bu zai...')
-
 
         context["grade"] = json.dumps(grade)
         context["systags"] = tags
@@ -1319,6 +1316,63 @@ class BasicDocument(BaseTeacherView):
         context["teacher"] = teacher
         return context
 
+    def post(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        profile = models.Profile.objects.get(user=user)
+
+        birthday_y = int(self.request.POST.get('birthday_y', 0))
+        birthday_m = int(self.request.POST.get('birthday_m', 0))
+        birthday_d = int(self.request.POST.get('birthday_d', 0))
+
+        teachingAge = self.request.POST.get('teachingAge', 0)
+        graduate_school = self.request.POST.get('graduate_school', None)
+        introduce = self.request.POST.get('graduate_school', None)
+        subclass = self.request.POST.get('subclass', None)
+
+        grade = request.POST.get("selectedGrand")
+        tags = request.POST.get("selectedTags")
+
+        grade_list = json.loads(grade)
+        tags_list = json.loads(tags)
+
+        the_subject = models.Subject.objects.get(name=subclass)
+        grade_name_list = models.Grade.get_all_grades()
+        page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],
+                           ["初一", "初二", "初三"],
+                           ["高一", "高二", "高三"]]
+        grade_dict = {}
+        for page_level, database_level in list(zip(page_grade_list, grade_name_list)):
+            for page_grade, database_grade in list(zip(page_level, database_level)):
+                grade_dict[page_grade] = database_grade
+
+        # clear ability_set
+        teacher.abilities.clear()
+        for one_grade in grade_list:
+            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
+            try:
+                ability = models.Ability.objects.get(grade=the_grade, subject=the_subject)
+            except models.Ability.DoesNotExist:
+                # 如果这个年级不存在就跳过
+                continue
+            teacher.abilities.add(ability)
+            ability.save()
+
+        teacher.tags.clear()
+        for tagId in tags_list:
+            tag = models.Tag.objects.get(id=tagId)
+            teacher.tags.add(tag)
+
+        if birthday_y > 0 and birthday_m > 0 and birthday_d > 0:
+            profile.birthday = datetime.datetime(birthday_y, birthday_m, birthday_d)
+
+        teacher.introduce = introduce
+        teacher.teaching_age = teachingAge
+        teacher.graduate_school = graduate_school
+        teacher.save()
+        profile.save()
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 class AchievementView(BaseTeacherView):
     """
