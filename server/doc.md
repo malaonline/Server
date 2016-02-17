@@ -3,6 +3,17 @@
 ```
 cd server
 pip install -r pip_install.txt
+
+Recommended way to get started with PostgreSQL(on MAC): http://postgresapp.com
+make sure your postgres service in on.
+
+open postgres console by clicking Elephant icon on system bar, 
+then create user and db on local database server:(you can find PASSWORD here: server/server/settings.py)
+
+create user malauser with password 'PASSWORD';
+create database maladb;
+GRANT ALL PRIVILEGES on database maladb to malauser; 
+
 python manage.py migrate
 python manage.py createsuperuser
 
