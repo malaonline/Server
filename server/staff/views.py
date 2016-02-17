@@ -713,6 +713,75 @@ class StudentScheduleView(BaseStaffView):
         return super(StudentScheduleView, self).get_context_data(**kwargs)
 
 
+
+class StudentRescheduleView(BaseStaffView):
+    template_name = 'staff/student/reschedule.html'
+
+    """
+    已经调课停课课时(Timeslot)列表
+    """
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        name = self.request.GET.get('name',None)
+        phone = self.request.GET.get('phone',None)
+        status = self.request.GET.get('status',None)
+        searchDateOri = self.request.GET.get('searchDateOri',None)
+        searchDateNew = self.request.GET.get('searchDateNew',None)
+
+        query_set = models.TimeSlot.objects.filter(
+            Q(deleted=True) |
+            Q(transferred_from__isnull=False)
+                                                   )
+        # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
+        if name:
+            query_set = query_set.filter(
+                Q(order__parent__user__username__icontains=name) |
+                Q(order__parent__student_name__icontains=name) |
+                Q(order__teacher__name__icontains=name)
+            )
+        # 家长手机 or 老师手机, 模糊匹配
+        if phone:
+            query_set = query_set.filter(
+                Q(order__parent__user__profile__phone__contains=phone) |
+                Q(order__teacher__user__profile__phone__contains=phone)
+            )
+        # 类型匹配
+        if status == "transfered":
+            query_set = query_set.filter(
+                trans_to_set__isnull = False
+            )
+        if status == "suspended":
+            query_set = query_set.filter(
+                Q(deleted=True) &
+                Q(trans_to_set__isnull = True)
+            )
+        if searchDateOri:
+            stTime = datetime.datetime.strptime(searchDateOri, '%Y-%m-%d')
+            query_set = query_set.filter(
+                Q(trans_to_set__isnull=False) &
+                Q(start__date=stTime.date())
+            )
+        if searchDateNew:
+            stTime = datetime.datetime.strptime(searchDateNew, '%Y-%m-%d')
+            query_set = query_set.filter(
+                Q(deleted=False) &
+                Q(start__date=stTime.date())
+            )
+        # 可用筛选条件数据集
+        kwargs['statusList'] = [
+            {'text':"全部",'value':""},
+            {'text':"调课",'value':"transfered"},
+            {'text':"停课",'value':"suspended"},
+                                ]
+        # 查询结果数据集
+        kwargs['timeslots'] = query_set
+        return super(StudentRescheduleView, self).get_context_data(**kwargs)
+
+    def get(self, request):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
 class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'
 

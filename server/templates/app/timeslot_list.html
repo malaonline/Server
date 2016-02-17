@@ -1,0 +1,8 @@
+<h1>调课停课记录</h1>
+<ul>
+    {% for timeslot in object_list %}
+        <li>{{ timeslot.start }} - {{ timeslot.end }}</li>
+    {% empty %}
+        <li>还没有课程表</li>
+    {% endfor %}
+</ul>

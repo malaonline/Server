@@ -1,0 +1,127 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}调课停课记录{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+    <script src="{% static 'common/js/pagination.js' %}"></script>
+
+    <script src="{% static 'staff/js/student/reschedule.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{#    <div class="container-fluid">#}
+        <div class="row">
+            <div class="col-md-12">
+                <form name="query_form" class="form-inline">
+                    <div class="form-group">
+                        <label for="nameFilterInput">姓名</label>
+                        <input type="text"
+                               class="form-control"
+                               id="nameFilterInput"
+                               name="name"
+                               placeholder="关键字.."
+                               value={{ query_data.name }}
+                               >
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneFilterInput">手机号</label>
+                        <input type="text"
+                               class="form-control"
+                               id="phoneFilterInput"
+                               name="phone"
+                               placeholder="关键字.."
+                               value={{ query_data.phone }}
+                               >
+                    </div>
+                    <div class="form-group">
+                        <label for="statusFilterInput">类型</label>
+                        <select name="status"
+                                id="statusFilterInput"
+                                class="form-control">
+                            {% for status in statusList %}
+                                <option value={{ status.value }}>{{ status.text }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="createdAtFilterInput">原上课时间</label>
+                        <input class="datetimeInput" id="createdAtFilterInput" type="text" name="searchDateOri" value="{{ searchTime | date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateTimeFilterInput">现上课时间</label>
+                        <input class="datetimeInput" id="dateTimeFilterInput" type="text" name="searchDateNew" value="{{ searchTime | date:"Y-m-d" }}">
+                    </div>
+                    <button type="submit" class="btn btn-success">查询</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>家长</th>
+                            <th>类型</th>
+                            <th>家长电话</th>
+                            <th>学生</th>
+                            <th>报课年级</th>
+                            <th>所报学科</th>
+                            <th>老师</th>
+                            <th>老师电话</th>
+                            <th>原上课时间</th>
+                            <th>现上课时间</th>
+                            <th>上课地址</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for timeslot in timeslots %}
+                            <tr>
+                                <td>{{ timeslot.order.parent.user.username }}</td>
+                                <td></td>
+                                <td>{{ timeslot.order.parent.user.profile.phone }}</td>
+                                <td>{{ timeslot.order.parent.student_name }}</td>
+                                <td>{{ timeslot.order.grade }}</td>
+                                <td>{{ timeslot.subject }}</td>
+                                <td>{{ timeslot.order.teacher.name }}</td>
+                                <td>{{ timeslot.order.teacher.user.profile.phone }}</td>
+                                <td>
+                                    {% if timeslot.is_suspended %}
+                                        已停课
+                                    {% elif timeslot.is_transfered %}
+                                        {{ timeslot.start|date:"Y-m-d" }}
+                                    {% else %}
+                                        {{ timeslot.transferred_from.start|date:"Y-m-d" }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if timeslot.is_transfered %}
+                                        {{ timeslot.trans_to_time|date:"Y-m-d" }}
+                                    {% else %}
+                                        {{ timeslot.start|date:"Y-m-d" }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ timeslot.order.school.address }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+{#                <h1 class="text-center">调课停课记录</h1>#}
+            </div>
+        </div>
+
+{#    </div>#}
+
+{% endblock %}
