@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^achievement$', views.AchievementView.as_view(), name="achievement"),
     url(r'^achievement/(?P<action>\w+)$', views.AchievementView.as_view(), name="achievement-add"),
     url(r'^achievement/(?P<action>\w+)/(?P<id>\d+)$', views.AchievementView.as_view(), name="achievement-edit"),
+    url(r'^wallet', views.WalletView.as_view(), name="wallet"),
 ]
