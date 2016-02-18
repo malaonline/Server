@@ -6,16 +6,10 @@
 
 
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}">
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
 {% endblock %}
 
 {% block addition_js %}
-    <script src="{% static 'common/js/moment.min.js' %}"></script>
-    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
-    <script src="{% static 'common/js/pagination.js' %}"></script>
-
     <script src="{% static 'staff/js/school/timeslot.js' %}"></script>
 {% endblock %}
 
