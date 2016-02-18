@@ -792,11 +792,9 @@ class SchoolView(BaseStaffView):
             school = models.School()
 
         # 这个版本写死
-        if not school.member_services.all():
-            for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
-                mbService = models.Memberservice(name=serviceName)
-                mbService.save()
-                school.member_services.add(mbService)
+        for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
+            mbService, created = models.Memberservice.objects.get_or_create(name=serviceName)
+            school.member_services.add(mbService)
 
         school.phone = self.request.POST.get('phone', None)
         school.name = self.request.POST.get('schoolName', None)
