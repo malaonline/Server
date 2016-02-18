@@ -45,7 +45,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     /// 课程表数据模型
     var classScheduleModel: [[ClassScheduleDayModel]] = [] {
         didSet {
-            // 刷新 [选择上课地点] Cell
+            // 刷新 [选择上课地点][选择小时][上课时间] Cell
             reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
         }
     }
@@ -113,7 +113,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 5
+        return CourseChoosingCellReuseId.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

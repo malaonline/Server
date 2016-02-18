@@ -49,6 +49,8 @@ let MalaClassScheduleSelectedColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.50)
 let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
 let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
 let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
+let MalaFilterPageControlColor = UIColor(rgbHexValue: 0xC7DEEE, alpha: 1.0)
+let MalaFilterPageControlSelectedColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
 //let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)
 
 
@@ -119,6 +121,7 @@ let MalaLayout_FilterWindowWidth: CGFloat = MalaScreenWidth*0.85
 let MalaLayout_FilterWindowHeight: CGFloat = MalaLayout_FilterWindowWidth*1.14
 let MalaLayout_FilterContentWidth: CGFloat = MalaLayout_FilterWindowWidth - MalaLayout_Margin_26*2
 let MalaLayout_FilterBarHeight: CGFloat = 40
+let MalaLayout_OtherServiceCellHeight: CGFloat = 46
 
 
 // MARK: - Device
@@ -220,7 +223,10 @@ let MalaWeekdays = [
     "周六"
 ]
 
-
+let MalaOtherService = [
+    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: UIViewController.self),
+    OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: UIViewController.self)
+]
 
 
 

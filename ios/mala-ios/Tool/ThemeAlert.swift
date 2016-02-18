@@ -34,6 +34,7 @@ public class ThemeAlert: UIViewController {
     /// 单击背景close窗口
     var closeWhenTap: Bool = false
     
+    
     // MARK: - Components
     private lazy var themeIcon: UIImageView = {
         let themeIcon = UIImageView()
@@ -83,6 +84,26 @@ public class ThemeAlert: UIViewController {
     private lazy var contentContainer: UIView = {
         let contentContainer = UIView()
         return contentContainer
+    }()
+    /// 页标指示器
+    private lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = 3
+        pageControl.pageIndicatorTintColor = MalaFilterPageControlColor
+        pageControl.currentPageIndicatorTintColor = MalaFilterPageControlSelectedColor
+        
+        // 添加横线
+        let view = UIView()
+        pageControl.addSubview(view)
+        view.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(pageControl.snp_left)
+            make.right.equalTo(pageControl.snp_right)
+            make.height.equalTo(MalaScreenOnePixel)
+            make.centerY.equalTo(pageControl.snp_centerY)
+        }
+        view.backgroundColor = MalaFilterPageControlColor
+        return pageControl
     }()
     
     
@@ -149,6 +170,10 @@ public class ThemeAlert: UIViewController {
         confirmButton.hidden = !showConfirm
     }
     
+    public func setPageControl(number: Int) {
+        self.pageControl.currentPage = number
+    }
+    
     public func close() {
         closeAlert(0)
     }
@@ -168,6 +193,7 @@ public class ThemeAlert: UIViewController {
         window.addSubview(confirmButton)
         window.addSubview(themeTitle)
         window.insertSubview(separator, belowSubview: themeTitle)
+        window.addSubview(pageControl)
         window.addSubview(contentContainer)
         
         // Autolayout
@@ -205,11 +231,17 @@ public class ThemeAlert: UIViewController {
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
             make.height.equalTo(MalaScreenOnePixel)
         }
+        pageControl.snp_makeConstraints { (make) -> Void in
+            make.width.equalTo(36)
+            make.height.equalTo(6)
+            make.bottom.equalTo(self.window.snp_bottom).offset(-MalaLayout_Margin_10)
+            make.centerX.equalTo(self.window.snp_centerX)
+        }
         contentContainer.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.themeTitle.snp_bottom).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
-            make.bottom.equalTo(self.window.snp_bottom).offset(-MalaLayout_Margin_12)
+            make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
         }
     }
     

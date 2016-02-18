@@ -88,7 +88,6 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("config")
         
         configura()
         setupUserInterface()
