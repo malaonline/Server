@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>title</key>
+		<string>在线测试</string>
+		<key>image</key>
+		<string>EvaluationFiling1</string>
+		<key>subTitle</key>
+		<string>智能组卷，检测学生知识漏洞，并找出具体详细报告</string>
+	</dict>
+    <dict>
+        <key>title</key>
+        <string>了解教师</string>
+        <key>image</key>
+        <string>EvaluationFiling2</string>
+        <key>subTitle</key>
+        <string>课前与教师1对1交流，规划辅导方案</string>
+    </dict>
+    <dict>
+        <key>title</key>
+        <string>顾问答疑</string>
+        <key>image</key>
+        <string>EvaluationFiling3</string>
+        <key>subTitle</key>
+        <string>学习顾问解答您对“麻辣老师”，师资力量学习规划等一切问题</string>
+    </dict>
+</array>
+</plist>

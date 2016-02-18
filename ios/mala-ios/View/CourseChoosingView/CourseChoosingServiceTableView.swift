@@ -43,6 +43,12 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
         return MalaLayout_OtherServiceCellHeight
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let viewController = (services[indexPath.row].viewController) as? UIViewController.Type {
+            self.viewController()?.navigationController?.pushViewController(viewController.init(), animated: true)
+        }
+    }
+    
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
