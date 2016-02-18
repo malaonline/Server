@@ -1268,17 +1268,115 @@ class BasicDocument(BaseTeacherView):
 
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
+        profile = models.Profile.objects.get(user=teacher.user)
         highscore = None
         if teacher:
             highscores = models.Highscore.objects.filter(teacher=teacher)
         context = self.buildContextData(context, teacher)
-        context["highscores"] = highscores
+        ability_set_all = teacher.abilities.all()
+        if len(ability_set_all) > 0:
+            subclass = ability_set_all[0].subject.name
+        else:
+            subclass = ""
+
+        grade = [[False for i in range(6)],
+                 [False for i in range(3)],
+                 [False for i in range(3)]]
+        grade_name = models.Grade.get_all_grades()
+        grade_slot = {}
+        for x, one_level in enumerate(grade_name):
+            for y, one_grade in enumerate(one_level):
+                grade_slot[one_grade] = (x, y)
+
+        grade_list = [item.grade.name for item in list(teacher.abilities.all())]
+        for one_grade in grade_list:
+            x, y = grade_slot.get(one_grade, (0, 0))
+            grade[x][y] = True
+
+        tags = models.Tag.objects.all()
+
+        itemsLen = len(tags)
+        ind = 0
+        while ind < itemsLen:
+            itm = tags[ind]
+            ind += 1
+            if itm in teacher.tags.all():
+                itm.ck = 1
+
+        if profile.birthday:
+            context["birthday_y"] = profile.birthday.year
+            context["birthday_m"] = profile.birthday.month
+            context["birthday_d"] = profile.birthday.day
+
+        context["grade"] = json.dumps(grade)
+        context["systags"] = tags
+        context["profile"] = profile
+        context["subclass"] = subclass
+        context["phone"] = profile.mask_phone()
+
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
         context["teacher"] = teacher
         return context
 
+    def post(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        profile = models.Profile.objects.get(user=user)
+
+        birthday_y = int(self.request.POST.get('birthday_y', 0))
+        birthday_m = int(self.request.POST.get('birthday_m', 0))
+        birthday_d = int(self.request.POST.get('birthday_d', 0))
+
+        teachingAge = self.request.POST.get('teachingAge', 0)
+        graduate_school = self.request.POST.get('graduate_school', None)
+        introduce = self.request.POST.get('graduate_school', None)
+        subclass = self.request.POST.get('subclass', None)
+
+        grade = request.POST.get("selectedGrand")
+        tags = request.POST.get("selectedTags")
+
+        grade_list = json.loads(grade)
+        tags_list = json.loads(tags)
+
+        the_subject = models.Subject.objects.get(name=subclass)
+        grade_name_list = models.Grade.get_all_grades()
+        page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],
+                           ["初一", "初二", "初三"],
+                           ["高一", "高二", "高三"]]
+        grade_dict = {}
+        for page_level, database_level in list(zip(page_grade_list, grade_name_list)):
+            for page_grade, database_grade in list(zip(page_level, database_level)):
+                grade_dict[page_grade] = database_grade
+
+        # clear ability_set
+        teacher.abilities.clear()
+        for one_grade in grade_list:
+            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
+            try:
+                ability = models.Ability.objects.get(grade=the_grade, subject=the_subject)
+            except models.Ability.DoesNotExist:
+                # 如果这个年级不存在就跳过
+                continue
+            teacher.abilities.add(ability)
+            ability.save()
+
+        teacher.tags.clear()
+        for tagId in tags_list:
+            tag = models.Tag.objects.get(id=tagId)
+            teacher.tags.add(tag)
+
+        if birthday_y > 0 and birthday_m > 0 and birthday_d > 0:
+            profile.birthday = datetime.datetime(birthday_y, birthday_m, birthday_d)
+
+        teacher.introduce = introduce
+        teacher.teaching_age = teachingAge
+        teacher.graduate_school = graduate_school
+        teacher.save()
+        profile.save()
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 class AchievementView(BaseTeacherView):
     """

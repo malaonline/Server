@@ -1,3 +1,4 @@
+var pagedefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 $(function(){
   $('#teachingAgeAdd').click(function(e){
     $('#teachingAge').html(parseInt($('#teachingAge').html()) + 1);
@@ -8,9 +9,60 @@ $(function(){
     $('#teachingAge').html(nv);
   });
   $('[name="tag-item"]').click(function(e){
-    $(e.target).toggleClass('item-seleted');
+    $(e.target).toggleClass('item-selected');
   });
+  $('input').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 50){
+      this.value = vl.substring(0, 50);
+    }
+  });
+  $('textarea').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 200){
+      this.value = vl.substring(0, 200);
+    }
+  });
+  $('#saveBtn').click(function(){
+    var birthday_y = $('#birthday_y').val();
+    var birthday_m = $('#birthday_m').val();
+    var birthday_d = $('#birthday_d').val();
+    var teachingAge = $('#teachingAge').html();
+    var graduate_school = $('#graduate_school').val();
+    var introduce = $('#introduce').val();
 
+    var params = {
+      'birthday_y': birthday_y,
+      'birthday_m': birthday_m,
+      'birthday_d': birthday_d,
+      'teachingAge': teachingAge,
+      'graduate_school': graduate_school,
+      'introduce': introduce,
+      'selectedTags': JSON.stringify(getSelectedTags()),
+      'subclass': $('#subclass_input').html(),
+      'selectedGrand': JSON.stringify(selected_grand()),
+    };
+
+    if(birthday_y <= 0 || birthday_m <= 0 || birthday_d <= 0){
+      alert("请选择出生日期！");
+      return false;
+    }
+
+    $.post("/teacher/basic_doc/", params, function(result){
+        if(result){
+          if(result.ok){
+            alert("保存成功");
+          }else{
+            alert(result.msg);
+          }
+        }else{
+          alert(pagedefaultErrMsg);
+        }
+    }, 'json').fail(function(){
+      $('#complaintModal').modal('hide');
+      alert(pagedefaultErrMsg);
+    });
+  });
 
   //视图数据定义区
   window.primary_list = [
@@ -60,35 +112,20 @@ $(function(){
       window.need_select_subclass = false;
   }
 
-
   map_grand_button_mask(get_grand_mask($("#subclass_input").html()));
   render_grand_button_list();
   render_grand_select_button_group();
 
-  $("#submit_page").click(function(eventObject){
-      console.log("submit_page");
-      eventObject.preventDefault();
-      var name = $("#realName").val();
-      var gender = $("#gender-input").val();
-      var region = $("#city_input").val();
-      var subclass = $("#subclass_input").html();
-      var grade = selected_grand();
-      //console.log(grade);
-      $.post("/teacher/information/complete/",
-          {
-              name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
-          },
-      function(data){
-          console.log(data);
-          window.location.href =  data.url;
-      });
-
+  $(function(){
+    $.ms_DatePicker({
+      YearSelector: ".sel_year",
+      MonthSelector: ".sel_month",
+      DaySelector: ".sel_day",
+      minYear: 1960
+    });
   });
 
-
 });
-
-
 
 //添加一个年级
 function add_button(args){
@@ -119,7 +156,6 @@ function render_grand_button_list(){
     var grand_array = selected_grand();
     if(grand_array != undefined){
         var button_template = $("#grand_button_group").html();
-        //console.log("button_template is :" + button_template);
         var grand_button_group = _.template(button_template, {variable: 'datas'})(grand_array);
         $("#grand_input").html(grand_button_group);
         if(window.need_select_subclass == false){
@@ -208,4 +244,14 @@ function map_grand_button_mask(grand_mask){
     _set_mask(primary_mask, window.primary_list);
     _set_mask(junior_mask, window.junior_list);
     _set_mask(high_mask, window.high_list);
+}
+//获取所选tag
+function getSelectedTags(){
+  var ret = [];
+  _.each($('[name=tag-item]'), function(item){
+    if($(item).hasClass('item-selected')){
+      ret[ret.length] = $(item).attr('data-id');
+    }
+  });
+  return ret;
 }
