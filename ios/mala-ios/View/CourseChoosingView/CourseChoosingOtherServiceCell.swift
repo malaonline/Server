@@ -8,17 +8,118 @@
 
 import UIKit
 
-class CourseChoosingOtherServiceCell: UITableViewCell {
+class CourseChoosingOtherServiceCell: MalaBaseCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Property
+    /// 价格
+    var price: Int = 0 {
+        didSet {
+            self.priceView.priceLabel.text = String(price)
+        }
+    }
+    
+    
+    // MARK: - Components
+    private lazy var tableView: CourseChoosingServiceTableView = {
+        let tableView = CourseChoosingServiceTableView(frame: CGRectZero, style: .Plain)
+        return tableView
+    }()
+    private lazy var priceView: PriceResultView = {
+        let priceView = PriceResultView()
+        return priceView
+    }()
+    
+    
+    // MARK: - Constructed
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupUserInterface()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // Style
+        
+        
+        // SubViews
+        contentView.addSubview(tableView)
+        contentView.addSubview(priceView)
+        
+        // Autolayout
+        priceView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.tableView.snp_bottom)
+            make.left.equalTo(self.contentView.snp_left)
+            make.right.equalTo(self.contentView.snp_right)
+            make.bottom.equalTo(self.contentView.snp_bottom)
+            make.height.equalTo(MalaLayout_OtherServiceCellHeight)
+        }
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.contentView.snp_top)
+            make.bottom.equalTo(priceView.snp_top)
+            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.height.equalTo(MalaOtherService.count*Int(MalaLayout_OtherServiceCellHeight))
+        }
+    }
+}
+
+
+// MARK: - PriceResultView
+class PriceResultView: UIView {
+    
+    // MARK: Components
+    /// 价格说明标签
+    private lazy var stringLabel: UILabel = {
+        let stringLabel = UILabel()
+        stringLabel.textColor = MalaDetailsCellTitleColor
+        stringLabel.text = "原价:"
+        return stringLabel
+    }()
+    /// 金额标签
+    private lazy var priceLabel: UILabel = {
+        let priceLabel = UILabel()
+        priceLabel.textColor = UIColor.redColor()
+        priceLabel.text = "￥0.00"
+        return priceLabel
+    }()
+    
+    
+    // MARK: - Constructed
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupUserInterface()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        // Style
+        self.backgroundColor = UIColor.whiteColor()
+        
+        // SubViews
+        addSubview(stringLabel)
+        addSubview(priceLabel)
+        
+        // Autolayout
+        priceLabel.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(MalaLayout_FontSize_14)
+            make.centerY.equalTo(self.snp_centerY)
+            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+        }
+        stringLabel.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(MalaLayout_FontSize_14)
+            make.centerY.equalTo(self.snp_centerY)
+            make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_12)
+        }
+    }
 }

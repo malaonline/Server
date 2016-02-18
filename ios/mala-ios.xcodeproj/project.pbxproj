@@ -263,6 +263,8 @@
 		F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
 		F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCD1C74559F00488613 /* AchievementModel.swift */; };
 		F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */; };
+		F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
+		F4C5C2391C759F0500FB833B /* OtherServiceCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -403,6 +405,8 @@
 		F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
 		F4BD4FCD1C74559F00488613 /* AchievementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementModel.swift; sourceTree = "<group>"; };
 		F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRefreshView.swift; sourceTree = "<group>"; };
+		F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingServiceTableView.swift; sourceTree = "<group>"; };
+		F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherServiceCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -526,6 +530,7 @@
 				30B5980D1C451A8900169390 /* MemberServiceModel.swift */,
 				F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */,
 				F4BD4FCD1C74559F00488613 /* AchievementModel.swift */,
+				F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 				F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */,
 				F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */,
 				F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */,
+				F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */,
 			);
 			path = CourseChoosingView;
 			sourceTree = "<group>";
@@ -1082,6 +1088,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4C5C2391C759F0500FB833B /* OtherServiceCellModel.swift in Sources */,
 				F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
@@ -1113,6 +1120,7 @@
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
+				F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,

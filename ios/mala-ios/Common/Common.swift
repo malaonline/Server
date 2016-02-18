@@ -121,6 +121,7 @@ let MalaLayout_FilterWindowWidth: CGFloat = MalaScreenWidth*0.85
 let MalaLayout_FilterWindowHeight: CGFloat = MalaLayout_FilterWindowWidth*1.14
 let MalaLayout_FilterContentWidth: CGFloat = MalaLayout_FilterWindowWidth - MalaLayout_Margin_26*2
 let MalaLayout_FilterBarHeight: CGFloat = 40
+let MalaLayout_OtherServiceCellHeight: CGFloat = 46
 
 
 // MARK: - Device
@@ -222,7 +223,10 @@ let MalaWeekdays = [
     "周六"
 ]
 
-
+let MalaOtherService = [
+    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: UIViewController.self),
+    OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: UIViewController.self)
+]
 
 
 
