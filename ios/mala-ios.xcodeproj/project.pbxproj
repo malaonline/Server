@@ -265,6 +265,15 @@
 		F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */; };
 		F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
 		F4C5C2391C759F0500FB833B /* OtherServiceCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */; };
+		F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
+		F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */; };
+		F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2461C75D37000FB833B /* EvaluationFiling1@2x.png */; };
+		F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2471C75D37000FB833B /* EvaluationFiling1@3x.png */; };
+		F4C5C24E1C75D37000FB833B /* EvaluationFiling2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2481C75D37000FB833B /* EvaluationFiling2@2x.png */; };
+		F4C5C24F1C75D37000FB833B /* EvaluationFiling2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2491C75D37000FB833B /* EvaluationFiling2@3x.png */; };
+		F4C5C2501C75D37000FB833B /* EvaluationFiling3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C24A1C75D37000FB833B /* EvaluationFiling3@2x.png */; };
+		F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */; };
+		F4C5C2531C75D51400FB833B /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -407,6 +416,15 @@
 		F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRefreshView.swift; sourceTree = "<group>"; };
 		F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingServiceTableView.swift; sourceTree = "<group>"; };
 		F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherServiceCellModel.swift; sourceTree = "<group>"; };
+		F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroductionModel.swift; sourceTree = "<group>"; };
+		F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EvaluationFiling.plist; sourceTree = "<group>"; };
+		F4C5C2461C75D37000FB833B /* EvaluationFiling1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling1@2x.png"; sourceTree = "<group>"; };
+		F4C5C2471C75D37000FB833B /* EvaluationFiling1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling1@3x.png"; sourceTree = "<group>"; };
+		F4C5C2481C75D37000FB833B /* EvaluationFiling2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling2@2x.png"; sourceTree = "<group>"; };
+		F4C5C2491C75D37000FB833B /* EvaluationFiling2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling2@3x.png"; sourceTree = "<group>"; };
+		F4C5C24A1C75D37000FB833B /* EvaluationFiling3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling3@2x.png"; sourceTree = "<group>"; };
+		F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling3@3x.png"; sourceTree = "<group>"; };
+		F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFilingServiceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -531,6 +549,7 @@
 				F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */,
 				F4BD4FCD1C74559F00488613 /* AchievementModel.swift */,
 				F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */,
+				F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -538,6 +557,7 @@
 		304135871C23AE6400830C43 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F4C5C2431C75D35400FB833B /* EvaluationFiling */,
 				F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */,
 				304135881C23AE6400830C43 /* Assets.xcassets */,
 				304135891C23AE6400830C43 /* LaunchScreen.storyboard */,
@@ -560,6 +580,7 @@
 			isa = PBXGroup;
 			children = (
 				F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */,
+				F4C5C23A1C75CD4D00FB833B /* OtherService */,
 				F45871E81C51D5CE0048D93F /* CourseChoosingView */,
 				30B598131C47AC0500169390 /* TeacherTableView */,
 				3037B58D1C3B9C83005672D9 /* TeacherDetail */,
@@ -771,6 +792,28 @@
 			path = Refresher;
 			sourceTree = "<group>";
 		};
+		F4C5C23A1C75CD4D00FB833B /* OtherService */ = {
+			isa = PBXGroup;
+			children = (
+				F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */,
+			);
+			path = OtherService;
+			sourceTree = "<group>";
+		};
+		F4C5C2431C75D35400FB833B /* EvaluationFiling */ = {
+			isa = PBXGroup;
+			children = (
+				F4C5C2461C75D37000FB833B /* EvaluationFiling1@2x.png */,
+				F4C5C2471C75D37000FB833B /* EvaluationFiling1@3x.png */,
+				F4C5C2481C75D37000FB833B /* EvaluationFiling2@2x.png */,
+				F4C5C2491C75D37000FB833B /* EvaluationFiling2@3x.png */,
+				F4C5C24A1C75D37000FB833B /* EvaluationFiling3@2x.png */,
+				F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */,
+				F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */,
+			);
+			path = EvaluationFiling;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -893,10 +936,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4C5C24E1C75D37000FB833B /* EvaluationFiling2@2x.png in Resources */,
+				F4C5C2501C75D37000FB833B /* EvaluationFiling3@2x.png in Resources */,
 				F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */,
+				F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
+				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
+				F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */,
 				F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */,
+				F4C5C24F1C75D37000FB833B /* EvaluationFiling2@3x.png in Resources */,
+				F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1134,6 +1184,7 @@
 				30F9E6C91C23D23C0022A3BF /* MainViewController.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
+				F4C5C2531C75D51400FB833B /* EvaluationFilingServiceController.swift in Sources */,
 				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
@@ -1168,6 +1219,7 @@
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
+				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
 				3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 			);

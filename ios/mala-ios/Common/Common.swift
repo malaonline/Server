@@ -224,8 +224,8 @@ let MalaWeekdays = [
 ]
 
 let MalaOtherService = [
-    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: UIViewController.self),
-    OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: UIViewController.self)
+    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: EvaluationFilingServiceController.self),
+    OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]
 
 
