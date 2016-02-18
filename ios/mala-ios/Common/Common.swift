@@ -49,6 +49,8 @@ let MalaClassScheduleSelectedColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.50)
 let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
 let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
 let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
+let MalaFilterPageControlColor = UIColor(rgbHexValue: 0xC7DEEE, alpha: 1.0)
+let MalaFilterPageControlSelectedColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
 //let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)
 
 

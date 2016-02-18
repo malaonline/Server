@@ -14,6 +14,7 @@ class FilterResultController: UIViewController {
     weak var filterCondition: ConditionObject? {
         didSet {
             self.filterBar.filterCondition = filterCondition
+            loadTeachers(filterCondition?.getParam())
         }
     }
     
@@ -27,6 +28,7 @@ class FilterResultController: UIViewController {
     private lazy var filterBar: FilterBar = {
         let filterBar = FilterBar(frame: CGRectZero)
         filterBar.backgroundColor = MalaTeacherCellBackgroundColor
+        filterBar.controller = self
         return filterBar
     }()
     
@@ -34,6 +36,7 @@ class FilterResultController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUserInterface()
     }
 
@@ -89,6 +92,33 @@ class FilterResultController: UIViewController {
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
     }
     
+    ///  根据筛选条件字典，请求老师列表
+    ///
+    ///  - parameter filters: 筛选条件字典
+    private func loadTeachers(filters: [String: AnyObject]? = nil) {
+        NetworkTool.sharedTools.loadTeachers(filters) { [weak self] result, error in
+            if error != nil {
+                debugPrint("HomeViewController - loadTeachers Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("HomeViewController - loadTeachers Format Error")
+                return
+            }
+            
+            self?.tableView.teachers = []
+            let resultModel = ResultModel(dict: dict)
+            if resultModel.results != nil {
+                for object in ResultModel(dict: dict).results! {
+                    if let dict = object as? [String: AnyObject] {
+                        self?.tableView.teachers!.append(TeacherModel(dict: dict))
+                    }
+                }
+            }
+            self?.tableView.reloadData()
+        }
+    }
+    
     @objc private func popSelf() {
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -98,6 +128,9 @@ class FilterResultController: UIViewController {
 class FilterBar: UIView {
     
     // MARK: - Property
+    /// 父控制器
+    weak var controller: FilterResultController?
+    /// 筛选条件
     var filterCondition: ConditionObject? {
         didSet {
             self.gradeButton.setTitle(filterCondition?.grade.name, forState: .Normal)
@@ -193,6 +226,7 @@ class FilterBar: UIView {
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
                 self?.filterCondition = notification.object as? ConditionObject
+                self?.controller?.filterCondition = self?.filterCondition
         }
     }
     
