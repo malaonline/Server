@@ -109,4 +109,21 @@ $(function(){
     });
     return false;
   });
+  function checkSetLongLatValue(reg, obj){
+    var str = obj.value;
+    if(obj.value.charAt(obj.value.length-1) == '.'){
+      str += "0";
+    }
+    if(!reg.test(str)){
+      obj.value = '';
+    }
+  }
+  $('#longitude').keyup(function(e){
+    var reg = /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/;
+    checkSetLongLatValue(reg, this);
+  });
+  $('#latitude').keyup(function(e){
+    var reg = /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/;
+    checkSetLongLatValue(reg, this);
+  });
 });
