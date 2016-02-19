@@ -36,7 +36,7 @@
             <label for="">{{ teacher.name }}</label>
           </div>
           <div class="teacher-avatar">
-              <img src="{{ teacher.user.profile.avatar_url }}">
+              <img src="{%if teacher.user.profile.avatar_url%}{{teacher.user.profile.avatar_url}}{%else%}{%static 'common/icons/none_body_profile.png' %}{%endif%}">
           </div>
         </div>
         <div class="control-group">
