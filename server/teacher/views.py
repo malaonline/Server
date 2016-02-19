@@ -1195,16 +1195,16 @@ class HighscoreView(BaseTeacherView):
         highscore = None
         profile = None
         if teacher:
-            profile = models.Profile.objects.get(user=teacher.user)
+            highscores = models.Highscore.objects.filter(teacher=teacher)
 
         ability_set_all = teacher.abilities.all()
-        phone = profile.mask_phone()
         if len(ability_set_all) > 0:
             subclass = ability_set_all[0].subject.name
         else:
             subclass = ""
 
         context = self.buildContextData(context, teacher)
+        context["highscores"] = highscores
         context["profile"] = profile
         context["subclass"] = subclass
         context["systags"] = models.Tag.objects.all()
@@ -1280,8 +1280,7 @@ class BasicDocument(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         profile = models.Profile.objects.get(user=teacher.user)
         highscore = None
-        if teacher:
-            highscores = models.Highscore.objects.filter(teacher=teacher)
+
         context = self.buildContextData(context, teacher)
         ability_set_all = teacher.abilities.all()
         if len(ability_set_all) > 0:
@@ -1488,4 +1487,3 @@ class WalletView(BaseTeacherView):
         histories = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
         context['histories'] = histories
         return render(request, self.template_path, context)
-
