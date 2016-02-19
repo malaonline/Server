@@ -724,14 +724,32 @@ class Parent(BaseModel):
         return "{child_name}'s parent [{parent_name}]".format(
                 child_name=self.student_name, parent_name=self.user.username)
 
+class CouponRule(BaseModel):
+    """
+    奖学金使用规则
+    """
+    content = models.CharField(max_length=50)
+
+class CouponGenerator(BaseModel):
+    """
+    奖学金生成规则
+    """
+    activated = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    validated_start = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
+    expired_at = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
+    amount = models.PositiveIntegerField()
+    mini_course_count = models.PositiveSmallIntegerField(default=0)
 
 class Coupon(BaseModel):
     parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    expired_at = models.DateTimeField()
+    validated_start = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
+    expired_at = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
     used = models.BooleanField()
+    mini_course_count = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
