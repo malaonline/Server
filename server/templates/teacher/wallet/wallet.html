@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'teacher/less/wallet/wallet.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script>var histories_url = '{% url 'teacher:wallet-histories' action='histories' %}';</script>
     <script src="{% static 'teacher/js/wallet/wallet.js' %}"></script>
 {% endblock %}
 
@@ -21,20 +22,20 @@
 
 {% block maincontent %}
     <div class="clearfix panel summary">
-        <div class="col-md-8 amounts">
+        <div class="col-sm-8 amounts">
             <div class="panel-body balance-box">
-                <div class="col-md-5">可用余额: <span class="balance">￥{{ account.calculated_balance|money_format:'' }}</span></div>
-                <div class="col-md-7 text-right actions">
+                <div class="col-sm-5">可用余额: <span class="balance">￥{{ account.calculated_balance|money_format:'' }}</span></div>
+                <div class="col-sm-7 text-right actions">
                     <a class="btn btn-small btn-default go-withdraw">提现</a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="show-withdraws">提现记录</a>
                 </div>
             </div>
             <div class="panel-body sum-box">
-                <div class="col-md-5 border-right">累计收入: ￥{{ account.accumulated_income|money_format:'' }}</div>
-                <div class="col-md-5">未消耗课时金额: ￥{{ account.anticipated_income|money_format:'' }}</div>
+                <div class="col-sm-5 border-right">累计收入: ￥{{ account.accumulated_income|money_format:'' }}</div>
+                <div class="col-sm-5">未消耗课时金额: ￥{{ account.anticipated_income|money_format:'' }}</div>
             </div>
         </div>
-        <div class="col-md-4 panel-body bank-card">
+        <div class="col-sm-4 panel-body bank-card">
             <div class="title"><span class="glyphicon glyphicon-credit-card"></span>我的银行卡</div>
             <div class="bank-card-add text-center">
                 <span class="glyphicon glyphicon-plus"></span>添加银行卡
@@ -53,8 +54,11 @@
                 </tr>
             {% endfor %}
         </table>
-        <div class="page-info">
-            每页显示10条, 共{{ histories.count }}条
+        <div class="clearfix page-info">
+            <div class="pull-left">每页显示10条, 共{{ histories.count }}条</div>
+            <div class="pull-right">
+                {% include 'pagination_nav.html' %}
+            </div>
         </div>
     </div>
 {% endblock %}

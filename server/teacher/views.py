@@ -22,6 +22,8 @@ from pprint import pprint as pp
 
 # local modules
 from app import models
+from app.templatetags.custom_tags import money_format
+from app.utils.db import paginate
 
 logger = logging.getLogger('app')
 
@@ -1477,12 +1479,28 @@ class AchievementView(BaseTeacherView):
 class WalletView(BaseTeacherView):
 
     template_path = 'teacher/wallet/wallet.html'
+    PAGE_SIZE = 10
 
-    def get(self, request):
+    def get(self, request, action=None):
         context, teacher = self.getContextTeacher(request)
+        if action == 'histories':
+            return self.listAccountHistories(request, teacher)
         self.setSidebarContent(teacher, context)
         account = teacher.safe_get_account()
         context['account'] = account
         histories = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
+        # paginate
+        histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
         context['histories'] = histories
+        context['pager'] = pager
         return render(request, self.template_path, context)
+
+    def listAccountHistories(self, request, teacher):
+        page = self.request.GET.get('page') and self.request.GET.get('page').strip() or 1
+        account = teacher.safe_get_account()
+        query_set = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
+        # paginate
+        query_set, pager = paginate(query_set, page, page_size=self.PAGE_SIZE)
+        histories = [{'submit_time': localtime(h.submit_time).strftime('%Y-%m-%d %H:%M'), 'positive': h.amount >=0, 'amount': money_format(h.amount), 'comment': h.comment} for h in query_set]
+        return JsonResponse({'ok': True, 'list': histories, 'pager': pager})
+
