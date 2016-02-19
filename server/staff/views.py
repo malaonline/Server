@@ -740,7 +740,7 @@ class SchoolsView(BaseStaffView):
         schoolId = self.request.GET.get('schoolId')
         center = self.request.GET.get('center')
 
-        query_set = models.School.objects.filter()
+        query_set = models.School.objects.filter().order_by('-id')
         if schoolId:
             query_set = query_set.filter(id = schoolId)
 
