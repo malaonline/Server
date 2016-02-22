@@ -1279,7 +1279,6 @@ class BasicDocument(BaseTeacherView):
         context, teacher = self.getContextTeacher(request)
         self.setSidebarContent(teacher, context)
         profile = models.Profile.objects.get(user=teacher.user)
-        highscore = None
 
         context = self.buildContextData(context, teacher)
         ability_set_all = teacher.abilities.all()
