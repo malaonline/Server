@@ -54,7 +54,6 @@ class EvaluationFilingServiceController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("cell for row \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier(EvaluationFilingServiceCellReuseId, forIndexPath: indexPath)
         if self.introductions?[indexPath.section] != nil {
             (cell as! EvaluationFilingServiceCell).model = self.introductions![indexPath.section]
