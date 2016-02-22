@@ -27,7 +27,7 @@ var updateLocationByParam = function(key, val) {
     }
 };
 
-var paginationInit = function($ctx, fn) {
+var paginationInit = function(fn, $ctx) {
     if (!fn) { // 导航点击事件: 默认取pageto属性值,更新url查询参数,可以自定义
         fn = function(e){
             var $this = $(this), $li = $this.closest('li');
@@ -37,4 +37,28 @@ var paginationInit = function($ctx, fn) {
         }
     }
     $('.pagination a', $ctx).click(fn);
+};
+
+var paginationUpdate = function(pager, $ctx) {
+    var $pagination = $('.pagination', $ctx);
+    var bakClick = $._data($pagination.find('a')[0], 'events').click[0];
+    $pagination.children().remove();
+    $pagination.append('<li class="' + ((!pager.page || pager.page <= 1)?'disabled':'') + '">'
+        + '<a href="javascript:void(0)" aria-label="First" data-pageto="1"><span aria-hidden="true">&laquo;</span></a>'
+        + '</li>');
+    $pagination.append('<li class="' + ((!pager.page || pager.page <= 1)?'disabled':'') + '">'
+        + '<a href="javascript:void(0)" aria-label="Previous" data-pageto="' + (pager.page - 1) + '"><span aria-hidden="true">&lt;</span></a>'
+        + '</li>');
+    for(var i = 1; i <= pager.total_page; i++) {
+        $pagination.append('<li class="' + (pager.page == i?'active':'') + '">'
+            + '<a href="javascript:void(0)" data-pageto="' + i + '">' + i + '</a>'
+            + '</li>');
+    }
+    $pagination.append('<li class="' + ((!pager.page || pager.page >= pager.total_page)?'disabled':'') + '">'
+        + '<a href="javascript:void(0)" aria-label="Next" data-pageto="' + (pager.page + 1) + '"> <span aria-hidden="true">&gt;</span></a>'
+        + '</li>');
+    $pagination.append('<li class="' + ((!pager.page || pager.page >= pager.total_page)?'disabled':'') + '">'
+        + '<a href="javascript:void(0)" aria-label="Last" data-pageto="' + pager.total_page + '"> <span aria-hidden="true">&raquo;</span></a>'
+        + '</li>');
+    $pagination.find('a').click(bakClick);
 };
