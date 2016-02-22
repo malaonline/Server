@@ -37,7 +37,7 @@ class CourseChoosingConfirmView: UIView {
     /// 确定按钮
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
-        confirmButton.backgroundColor = UIColor.redColor()
+        confirmButton.backgroundColor = MalaTeacherCellLevelColor
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         confirmButton.setTitle("确定", forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)

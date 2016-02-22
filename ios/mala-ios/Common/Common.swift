@@ -90,6 +90,8 @@ let MalaLayout_Margin_14: CGFloat = 14.0
 let MalaLayout_Margin_15: CGFloat = 15.0
 let MalaLayout_Margin_16: CGFloat = 16.0
 let MalaLayout_Margin_18: CGFloat = 18.0
+let MalaLayout_Margin_20: CGFloat = 20.0
+let MalaLayout_Margin_21: CGFloat = 21.0
 let MalaLayout_Margin_26: CGFloat = 26.0
 let MalaLayout_Margin_27: CGFloat = 27.0
 
@@ -103,6 +105,7 @@ let MalaLayout_FontSize_16: CGFloat = 16.0
 let MalaLayout_FontSize_17: CGFloat = 17.0
 let MalaLayout_FontSize_20: CGFloat = 20.0
 let MalaLayout_FontSize_28: CGFloat = 28.0
+let MalaLayout_FontSize_37: CGFloat = 37.0
 
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
 let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - MalaLayout_Margin_12)/2
@@ -224,9 +227,15 @@ let MalaWeekdays = [
 ]
 
 let MalaOtherService = [
-    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: EvaluationFilingServiceController.self),
+    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: ScholarshipTableViewController.self),
     OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]
 
+let MalaScholarship = [
+    ScholarshipModel(title: "新生注册奖学金", price: 400, desc: "满20课时使用", status: .Unused, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
+    ScholarshipModel(title: "新生注册奖学金", price: 20, desc: "满20课时使用", status: .Unused, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
+    ScholarshipModel(title: "新生注册奖学金", price: 20, desc: "满20课时使用", status: .Used, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
+    ScholarshipModel(title: "新生注册奖学金", price: 400, desc: "满20课时使用", status: .Expired, validityTerm: "2015.10.19", useDirection: "仅在线支付使用")
+]
 
 
