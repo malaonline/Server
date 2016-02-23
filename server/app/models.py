@@ -923,7 +923,7 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
-class OrderRefundRecords(BaseModel):
+class OrderRefundRecord(BaseModel):
     PENDING = 'u'
     APPROVED = 'a'
     REJECTED = 'r'
