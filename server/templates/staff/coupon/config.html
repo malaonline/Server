@@ -58,16 +58,19 @@
                 <input type="text" name="expiredAt" id="expiredAt_new" value="{{ searchTime | date:"Y-m-d" }}">
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group table-group">
               <label class="col-sm-2 control-label">奖学金券</label>
-              <div class="form-input">
-                <input type="password" class="form-control" id="inputPassword3">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label"></label>
-              <div class="form-input">
-                <input type="password" class="form-control" id="inputPassword3">
+              <div class="form-input table-responsive">
+                  <table class="table table-bordered">
+                      <tr>
+                        <th class="text-center">使用条件</td>
+                        <th class="text-center">代金券金额</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">购买<input type="number" />课时</td>
+                        <td class="text-center"><input type="number" />元</td>
+                      </tr>
+                  </table>
               </div>
             </div>
         </div>
@@ -92,6 +95,8 @@
                 <input type="password" class="form-control" id="inputPassword3">
               </div>
             </div>
+        </div>
+        <div class="form-horizontal config-type-select">
             <div class="form-group">
               <label class="col-sm-2 control-label"></label>
               <div class="form-input">
