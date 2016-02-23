@@ -1,5 +1,7 @@
 import re
+import json
 import random
+import logging
 import datetime
 import itertools
 from collections import OrderedDict
@@ -13,15 +15,18 @@ from django.db.models import Q
 from django.core import exceptions
 from django.utils.decorators import method_decorator
 from django.utils import timezone
+from django.conf import settings
 
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 
+import pingpp
+
 from app import models
 from .utils.smsUtil import sendCheckcode
-from .utils.algorithm import to_timestamp
+from .utils.algorithm import verify_sig
 
 
 class PolicySerializer(serializers.ModelSerializer):
@@ -42,6 +47,35 @@ class Policy(generics.RetrieveAPIView):
     def get_object(self):
         obj = get_object_or_404(models.Policy, pk=1)
         return obj
+
+
+class ChargeSucceeded(View):
+    def post(self, request):
+        logging.info(request.body)
+
+        body = request.body.encode('utf-8')
+        sig = request.META.get('x-pingplusplus-signature').encode('utf-8')
+        pub_key = settings.PINGPP_PUB_KEY
+        if not verify_sig(body, sig, pub_key):
+            raise PermissionDenied()
+
+        data = json.loads(request.body)
+
+        if data['type'] != 'charge.succeeded':
+            raise PermissionDenied()
+
+        obj = data['data']['object']
+        charge = models.Charge.objects.get(ch_id=obj['id'])
+
+        assert obj['paid']
+        charge.paid = obj['paid']
+        charge.time_paid = timezone.make_aware(
+                datetime.datetime.fromtimestamp(obj['time_paid']))
+        charge.transaction_no = obj['transaction_no']
+        charge.save()
+
+        order = charge.order
+        models.Order.objects.allocate_timeslots(order)
 
 
 class TeacherWeeklyTimeSlot(View):
@@ -81,8 +115,8 @@ class ConcreteTimeSlots(View):
                              for x in weekly_time_slots]
         data = models.Order.objects.concrete_timeslots(
                 hours, weekly_time_slots)
-        data = [(to_timestamp(x['start']),
-                 to_timestamp(x['end'])) for x in data]
+        data = [(x['start'].timestamp(),
+                 x['end'].timestamp()) for x in data]
 
         return JsonResponse({'data': data})
 
@@ -632,6 +666,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderViewSet(ParentBasedMixin,
                    mixins.CreateModelMixin,
+                   mixins.UpdateModelMixin,
                    mixins.ListModelMixin,
                    mixins.RetrieveModelMixin,
                    viewsets.GenericViewSet):
@@ -647,6 +682,64 @@ class OrderViewSet(ParentBasedMixin,
     def perform_create(self, serializer):
         parent = self.get_parent()
         serializer.save(parent=parent)
+
+    def update(self, request, *args, **kwargs):
+        return JsonResponse({'err': 'Method not allowed'})
+
+    def partial_update(self, request, *args, **kwargs):
+        order = self.get_object()
+        data = request.data
+        if data['action'] != 'pay':
+            return JsonResponse({'err': 'action not allowed'})
+        pingpp.api_key = settings.PINGPP_API_KEY
+        ch = pingpp.Charge.create(
+                order_no=order.order_id,
+                amount=order.total,
+                app=dict(id=settings.PINGPP_APP_ID),
+                channel=data['channel'],
+                currency='cny',
+                client_ip='127.0.0.1',
+                subject='Your Subject',
+                body='Your Body',
+        )
+
+        charge, created = models.Charge.objects.get_or_create(ch_id=ch['id'])
+        if created:
+            charge.order = order
+            charge.created = timezone.make_aware(
+                    datetime.datetime.fromtimestamp(ch['created']))
+            charge.livemode = ch['livemode']
+            charge.app = ch['app']
+            assert not ch['paid']
+            assert not ch['refunded']
+            charge.channel = ch['channel']
+            assert ch['order_no'] == order.order_id
+            charge.order_no = ch['order_no']
+            charge.client_ip = ch['client_ip']
+            assert ch['amount'] == order.total
+            charge.amount = ch['amount']
+            charge.amount_settle = ch['amount_settle']
+            assert ch['currency'] == 'cny'
+            charge.currency = ch['currency']
+            charge.subject = ch['subject']
+            charge.body = ch['body']
+            charge.extra = json.dumps(ch['extra'], ensure_ascii=False)
+            assert ch['time_paid'] is None
+            charge.time_paid = ch['time_paid']
+            charge.time_expire = timezone.make_aware(
+                    datetime.datetime.fromtimestamp(ch['time_expire']))
+            assert ch['time_settle'] is None
+            charge.time_settle = ch['time_settle']
+            assert ch['transaction_no'] is None
+            charge.transaction_no = ''
+            charge.failure_code = ch['failure_code'] or ''
+            charge.failure_msg = ch['failure_msg'] or ''
+            charge.credential = json.dumps(
+                    ch['credential'], ensure_ascii=False)
+            charge.description = ch['description'] or ''
+            charge.save()
+
+        return JsonResponse(ch)
 
 
 class CommentSerializer(serializers.ModelSerializer):

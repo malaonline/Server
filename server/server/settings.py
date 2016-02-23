@@ -180,6 +180,10 @@ AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
 YUNPIAN_API_KEY = 'f79c************************1569'  # yunpian.com sms api key
 
+PINGPP_API_KEY = 'sk_test_in90COrrD4SKqvT0SKC8qT4G'
+PINGPP_APP_ID = 'app_CeTCW5TqDSC49GGO'
+PINGPP_PUB_KEY = open(os.path.join(BASE_DIR, 'server/pingpp.pub'), 'rb').read()
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -209,6 +213,7 @@ LOGGING = {
         },
         'app': {
             'handlers': ['file'],
+            'propagate': True,
             'level': 'DEBUG',
         },
         # 'django.db.backends':{

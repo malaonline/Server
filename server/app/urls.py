@@ -36,6 +36,9 @@ urlpatterns = [
     url(r'^api/v1/token-auth', authviews.obtain_auth_token),
     url(r'^api/v1/policy', views.Policy.as_view(), name='policy'),
     url(r'^api/v1/sms', views.Sms.as_view(), name='sms'),
-    url(r'^api/v1/concrete/timeslots', views.ConcreteTimeSlots.as_view(), name='concrete_time_slot'),
+    url(r'^api/v1/charge_succeeded', views.ChargeSucceeded.as_view(),
+        name='charge_succeeded'),
+    url(r'^api/v1/concrete/timeslots', views.ConcreteTimeSlots.as_view(),
+        name='concrete_time_slot'),
     url(r'^api/v1/', include(router.urls)),
 ]

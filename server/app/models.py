@@ -893,7 +893,6 @@ class Order(BaseModel):
 
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
-    charge_id = models.CharField(max_length=27)  # For Ping++ use
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
 
@@ -920,6 +919,35 @@ class Order(BaseModel):
     def enum_timeslot(self, handler):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
+
+
+class Charge(BaseModel):
+    order = models.ForeignKey(Order, null=True, blank=True)
+    ch_id = models.CharField(max_length=40, unique=True)
+    created = models.DateTimeField(null=True, blank=True)
+    livemode = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    refunded = models.BooleanField(default=False)
+    app = models.CharField(max_length=40)
+    channel = models.CharField(max_length=10)
+    order_no = models.CharField(max_length=20)
+    client_ip = models.CharField(max_length=50)
+    amount = models.IntegerField(default=0)
+    amount_settle = models.IntegerField(default=0)
+    currency = models.CharField(max_length=5)
+    subject = models.CharField(max_length=20)
+    body = models.CharField(max_length=200)
+    extra = models.TextField()
+    time_paid = models.DateTimeField(null=True, blank=True)
+    time_expire = models.DateTimeField(null=True, blank=True)
+    time_settle = models.DateTimeField(null=True, blank=True)
+    transaction_no = models.CharField(max_length=50)
+    amount_refunded = models.IntegerField(default=0)
+    failure_code = models.CharField(max_length=10)
+    failure_msg = models.CharField(max_length=30)
+    metadata = models.CharField(max_length=50)
+    credential = models.TextField()
+    description = models.CharField(max_length=50)
 
 
 class TimeSlotComplaint(BaseModel):
