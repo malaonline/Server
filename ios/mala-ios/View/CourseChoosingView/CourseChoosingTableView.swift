@@ -158,7 +158,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             
         case 5:
             let cell = reuseCell as! CourseChoosingOtherServiceCell
-
+            cell.price = MalaCourseChoosingObject.getPrice() ?? 0
             return cell
             
         default:
@@ -168,8 +168,15 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         return reuseCell
     }
     
+    
+    ///  清空订单条件
+    private func resetOrder() {
+        MalaClassPeriod_StepValue = 2
+        MalaCourseChoosingObject.reset()
+    }
+    
     deinit {
         print("choosing TableView deinit")
-        MalaClassPeriod_StepValue = 2
+        resetOrder()
     }
 }

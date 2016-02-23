@@ -39,11 +39,11 @@ class CourseChoosingGradeCell: MalaBaseCell {
         
         setupUserInterface()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     
     // MARK: - Private Method
     private func setupUserInterface() {
@@ -69,12 +69,14 @@ private let GradeSelectionCellReuseId = "GradeSelectionCellReuseId"
 class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Property
+    /// 年级价格数据模型
     var prices: [GradePriceModel?] = [] {
         didSet {
             self.reloadData()
         }
     }
-    private var currentSelectedCell: GradeSelectionCell?
+    /// 当前选择项IndexPath标记
+    private var currentSelectedIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
     
     
     // MARK: - Constructed
@@ -82,7 +84,7 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
         super.init(frame: frame, collectionViewLayout: layout)
         configura()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -91,9 +93,11 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
     // MARK: - Delegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! GradeSelectionCell
+        
+        // 选中当前选择Cell，并取消其他Cell选择
         cell.selected = true
-        currentSelectedCell?.selected = false
-        currentSelectedCell = cell
+        (collectionView.cellForItemAtIndexPath(currentSelectedIndexPath)?.selected = false)
+        currentSelectedIndexPath = indexPath
     }
     
     
@@ -105,6 +109,10 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(GradeSelectionCellReuseId, forIndexPath: indexPath) as! GradeSelectionCell
         cell.price = prices[indexPath.row]
+        // 选中当前选择项
+        if indexPath == currentSelectedIndexPath {
+            cell.selected = true
+        }
         return cell
     }
     
@@ -156,7 +164,7 @@ class GradeSelectionCell: UICollectionViewCell {
         super.init(frame: frame)
         setupUserInterface()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

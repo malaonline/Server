@@ -14,7 +14,15 @@ var Mala_UserToken: String = "0"
 
 
 // MARK: - Variables
+/// 课时选择步增数
 var MalaClassPeriod_StepValue: Double = 2
+
+
+// MARK: - Instance
+/// 当前课程选择对象
+var MalaCourseChoosingObject: CourseChoosingObject = CourseChoosingObject()
+/// 其他课程服务数组
+var MalaServiceObject: [OtherServiceCellModel] = []
 
 
 // MARK: - NotificationName
@@ -228,7 +236,7 @@ let MalaWeekdays = [
 
 let MalaOtherService = [
     OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: ScholarshipTableViewController.self),
-    OtherServiceCellModel(title: "测评建党服务", price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
+    OtherServiceCellModel(title: "测评建档服务", price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]
 
 let MalaScholarship = [
