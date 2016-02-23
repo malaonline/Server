@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import datetime
+from django.utils.timezone import make_aware
 from django.db import migrations, models
 
 
@@ -19,8 +20,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('activated', models.BooleanField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('validated_start', models.DateTimeField(auto_now_add=True)),
-                ('expired_at', models.DateTimeField(auto_now_add=True)),
+                ('validated_start', models.DateTimeField(default=make_aware(datetime.datetime.now()))),
+                ('expired_at', models.DateTimeField(default=make_aware(datetime.datetime.now()))),
                 ('amount', models.PositiveIntegerField()),
                 ('mini_course_count', models.PositiveSmallIntegerField(default=0)),
             ],
@@ -46,11 +47,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coupon',
             name='validated_start',
-            field=models.DateTimeField(auto_now_add=True),
+            field=models.DateTimeField(default=make_aware(datetime.datetime.now())),
         ),
         migrations.AlterField(
             model_name='coupon',
             name='expired_at',
-            field=models.DateTimeField(auto_now_add=True),
+            field=models.DateTimeField(default=make_aware(datetime.datetime.now())),
         ),
     ]
