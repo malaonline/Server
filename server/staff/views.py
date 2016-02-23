@@ -6,7 +6,7 @@ from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db.models import Q
@@ -82,6 +82,16 @@ class BaseStaffActionView(View):
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
+
+# @mala_staff_required
+class CouponsListView(ListView):
+    model = models.Coupon
+    template_name = 'staff/coupon/coupons_list.html'
+    context_object_name = 'coupons_list'
+
+    # @method_decorator(mala_staff_required)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
 
 class TeacherView(BaseStaffView):
