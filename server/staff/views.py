@@ -1183,3 +1183,24 @@ class SchoolTimeslotView(BaseStaffView):
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
         return JsonResponse({'ok': False, 'msg': '系统错误', 'code': -1})
+
+class CouponConfigView(BaseStaffView):
+    template_name = 'staff/coupon/config.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CouponConfigView, self).get_context_data(**kwargs)
+
+        return context
+
+    def get(self, request):
+        context = self.get_context_data()
+
+        context['couponRule'] = models.CouponRule.objects.order_by('-id')[0]
+        context['couponGenerator'] = models.CouponGenerator.objects.order_by('-id')[0]
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        context = self.get_context_data()
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})

@@ -1,0 +1,21 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}奖学金设置{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/coupon/config.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/coupon/confgig.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="config-content">
+        <div class="config-rule">
+        </div>
+        <div class="config-rule-set">
+        </div>
+    </div>
+{% endblock %}
