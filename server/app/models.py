@@ -949,11 +949,14 @@ class OrderRefundRecord(BaseModel):
             self.status = OrderRefundRecords.APPROVED
             # todo: 订单的退费成功状态只应该在这一处操作
             self.order.status = Order.REFUND
+            self.order.save()
+            self.save()
         return self.status
 
     def reject_refund(self):
         if self.status == OrderRefundRecords.PENDING:
             self.status = OrderRefundRecords.REJECTED
+            self.save()
         return self.status
 
 class Charge(BaseModel):
