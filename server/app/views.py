@@ -76,6 +76,7 @@ class ChargeSucceeded(View):
 
         order = charge.order
         models.Order.objects.allocate_timeslots(order)
+        return JsonResponse({'ok': 1})
 
 
 class TeacherWeeklyTimeSlot(View):
@@ -702,6 +703,7 @@ class OrderViewSet(ParentBasedMixin,
                 subject='Your Subject',
                 body='Your Body',
         )
+        logging.info(ch)
 
         charge, created = models.Charge.objects.get_or_create(ch_id=ch['id'])
         if created:
