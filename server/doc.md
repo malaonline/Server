@@ -2,6 +2,7 @@
 
 ```
 cd server
+(switch into your virtualenv if needed.)
 pip install -r pip_install.txt
 
 Recommended way to get started with PostgreSQL(on MAC): http://postgresapp.com

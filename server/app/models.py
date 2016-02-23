@@ -1018,6 +1018,25 @@ class TimeSlot(BaseModel):
         return False
 
     @property
+    def trans_to_time(self):
+        if self.deleted and self.trans_to_set.exists():
+            return self.trans_to_set.first().start
+
+    @property
+    def is_transfered(self):
+        # 判断为已经被调课状态
+        if self.deleted and self.trans_to_set.exists():
+            return True
+        return False
+
+    @property
+    def is_suspended(self):
+        # 判断为被停课状态
+        if self.deleted and not self.trans_to_set.exists():
+            return True
+        return False
+
+    @property
     def subject(self):
         return self.order.subject
 
