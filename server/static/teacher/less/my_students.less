@@ -5,49 +5,6 @@
 @page_min_width: 1150px;
 @page_height: 800px;
 
-.tag-tab{
-  padding-top: 25px;
-  padding-bottom: 17px;
-  border-width: 0 0 1px 0;
-  border-color: @border_gray;
-  border-style: solid;
-  a:hover{
-    text-decoration: none;
-  }
-  .student-type{
-    font-size: 16px;
-    color: black;
-  }
-  .student-type[attrState="selected"]{
-    @selectedColor: #da0000;
-    border-width: 0 0 2px 0;
-    border-color: @selectedColor;
-    border-style: solid;
-    padding-bottom: 5px;
-    color: @selectedColor;
-  }
-
-  .student-type[attrState="normal"]{
-  }
-  .student-type:hover{
-    @selectedColor: black;
-    border-width: 0 0 2px 0;
-    border-color: @selectedColor;
-    border-style: solid;
-    padding-bottom: 5px;
-    color: @selectedColor;
-  }
-
-  .number-count{
-  }
-  .number-count[attrState="empty"]{
-    padding-right: 25px;
-  }
-  .number-count[attrState="full"]{
-    color: #e55371;
-  }
-}
-
 .student-list{
   .list-header{
     padding-top: 8px;

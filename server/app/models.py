@@ -14,6 +14,7 @@ from django.utils import timezone
 from app.exception import TimeSlotConflict
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
+from django.utils.timezone import make_aware
 
 
 class BaseModel(models.Model):
@@ -960,13 +961,27 @@ class Comment(BaseModel):
     # 评分, 评分低于3分是差评
     score = models.PositiveIntegerField()
     content = models.CharField(max_length=500)
+    # 回复
+    reply = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return '%s : %d' % (self.pk, self.score)
 
     def is_bad_comment(self):
+        # 差评
         if self.score < 3:
+            return True
+        return False
+
+    def is_mediu_evaluation(self):
+        # 中评
+        if 2 < self.score < 5:
+            return True
+        return False
+
+    def is_high_praise(self):
+        # 好评
+        if self.score == 5:
             return True
         return False
 
@@ -999,7 +1014,7 @@ class TimeSlot(BaseModel):
     def __str__(self):
         return '<%s> from %s' % (self.pk, self.start, )
 
-    def is_complete(self, given_time):
+    def is_complete(self, given_time=make_aware(datetime.datetime.now())):
         # 对于给定的时间,课程是否结束
         if self.end < given_time:
             return True

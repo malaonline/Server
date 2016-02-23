@@ -195,6 +195,16 @@ class TestWebPage(TestCase):
         self.assertIsNotNone(account.accumulated_income)
         self.assertIsNotNone(account.anticipated_income)
 
+    def test_my_evaluation(self):
+        for comment_type in range(4):
+            client = Client()
+            client.login(username=self.teacher_name, password=self.teacher_password)
+            response = client.get(reverse("teacher:my-evaluation", kwargs={
+                "comment_type": comment_type, "page_offset": 1
+            }))
+            self.assertEqual(response.status_code, 200)
+
+
 class TestCommands(TestCase):
     def setUp(self):
         call_command("mala_all")
@@ -212,3 +222,13 @@ class TestCommands(TestCase):
         # start_time, end_time = cfo.build_time_array(now, 0, [[[1,2,3], [4,5,6]]])[0]
         # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 1,2,3), start_time)
         # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 4,5,6), end_time)
+
+    def test_create_fake_comment(self):
+        pass
+        # call_command("create_fake_order")
+        # call_command("create_fake_comment")
+        # for one_teacher in Teacher.objects.all():
+        #     for one_order in one_teacher.order_set.all():
+        #         for one_time_slot in one_order.timeslot_set.all():
+        #             # one_time_slot = one_teacher.order_set.all()[0].timeslot_set.all()[0]
+        #             self.assertNotEqual(one_time_slot.comment, None)
