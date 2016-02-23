@@ -195,6 +195,16 @@ class TestWebPage(TestCase):
         self.assertIsNotNone(account.accumulated_income)
         self.assertIsNotNone(account.anticipated_income)
 
+    def test_my_evaluation(self):
+        for comment_type in range(4):
+            client = Client()
+            client.login(username=self.teacher_name, password=self.teacher_password)
+            response = client.get(reverse("teacher:my-evaluation", kwargs={
+                "comment_type": comment_type, "page_offset": 1
+            }))
+            self.assertEqual(response.status_code, 200)
+
+
 class TestCommands(TestCase):
     def setUp(self):
         call_command("mala_all")

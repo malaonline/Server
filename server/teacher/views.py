@@ -963,7 +963,10 @@ class MyEvaluation(View):
             print("comment_reply_error is {error}".format(error=cres.error))
             print("comment-reply-error-id is {id}".format(id=cres.id))
         comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)
-        context["comments"] = comments_array[page_offset-1]
+        if comments_array:
+            context["comments"] = comments_array[page_offset-1]
+        else:
+            context["comments"] = []
         # 建立分页数据
         page_array = []
         for one_offset in range(len(comments_array)):
@@ -995,11 +998,18 @@ class MyEvaluation(View):
             "mid": count_package[2],
             "bad": count_package[3]
         }
-        context["percent"] = {
-            "good":  "{:2.0f}".format(count_package[1]/count_package[0]*100),
-            "mid":  "{:2.0f}".format(count_package[2]/count_package[0]*100),
-            "bad":  "{:2.0f}".format(count_package[3]/count_package[0]*100)
-        }
+        if count_package[0] > 0:
+            context["percent"] = {
+                "good":  "{:2.0f}".format(count_package[1]/count_package[0]*100),
+                "mid":  "{:2.0f}".format(count_package[2]/count_package[0]*100),
+                "bad":  "{:2.0f}".format(count_package[3]/count_package[0]*100)
+            }
+        else:
+            context["percent"] = {
+                "good":  "0",
+                "mid":  "0",
+                "bad":  "0"
+            }
         context["avg_score"] = "{:2.1f}".format(avg_score)
         return render(request, "teacher/my_evaluation.html", context)
 
@@ -1016,7 +1026,11 @@ class MyEvaluation(View):
                 bcl.set_order(one_order)
                 one_order.enum_timeslot(bcl)
             comment_list = bcl.get_sorted_comment_list()
-            return comment_list, (bcl.all_count, bcl.good_count, bcl.mid_count, bcl.bad_count), bcl.sum_score/bcl.all_count
+            if bcl.all_count > 0:
+                avg_score = bcl.sum_score/bcl.all_count
+            else:
+                avg_score = 0
+            return comment_list, (bcl.all_count, bcl.good_count, bcl.mid_count, bcl.bad_count), avg_score
 
         def _fake(cres):
             """
