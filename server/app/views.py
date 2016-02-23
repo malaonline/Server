@@ -1,5 +1,7 @@
 import re
+import json
 import random
+import logging
 import datetime
 import itertools
 from collections import OrderedDict
@@ -13,15 +15,18 @@ from django.db.models import Q
 from django.core import exceptions
 from django.utils.decorators import method_decorator
 from django.utils import timezone
+from django.conf import settings
 
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 
+import pingpp
+
 from app import models
 from .utils.smsUtil import sendCheckcode
-from .utils.algorithm import to_timestamp
+from .utils.algorithm import to_timestamp, verify_sig
 
 
 class PolicySerializer(serializers.ModelSerializer):
@@ -42,6 +47,25 @@ class Policy(generics.RetrieveAPIView):
     def get_object(self):
         obj = get_object_or_404(models.Policy, pk=1)
         return obj
+
+
+class ChargeSucceeded(View):
+    def post(self, request):
+        logging.info(request.body)
+
+        body = request.body.encode('utf-8')
+        sig = request.META.get('x-pingplusplus-signature').encode('utf-8')
+        pub_key = settings.PINGPP_PUB_KEY
+        if not verify_sig(body, sig, pub_key):
+            raise PermissionDenied()
+
+        data = json.loads(request.body)
+
+        if data['type'] != 'charge.succeeded':
+            raise PermissionDenied()
+
+        ins = data['data']['object']
+
 
 
 class TeacherWeeklyTimeSlot(View):
@@ -632,6 +656,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderViewSet(ParentBasedMixin,
                    mixins.CreateModelMixin,
+                   mixins.UpdateModelMixin,
                    mixins.ListModelMixin,
                    mixins.RetrieveModelMixin,
                    viewsets.GenericViewSet):
@@ -647,6 +672,27 @@ class OrderViewSet(ParentBasedMixin,
     def perform_create(self, serializer):
         parent = self.get_parent()
         serializer.save(parent=parent)
+
+    def update(self, request, *args, **kwargs):
+        return JsonResponse({'err': 'Method not allowed'})
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data
+        if data['action'] != 'pay':
+            return JsonResponse({'err': 'action not allowed'})
+        pingpp.api_key = settings.PINGPP_API_KEY
+        ch = pingpp.Charge.create(
+                order_no=instance.order_id,
+                amount=instance.total,
+                app=dict(id=settings.PINGPP_APP_ID),
+                channel=data['channel'],
+                currency='cny',
+                client_ip='127.0.0.1',
+                subject='Your Subject',
+                body='Your Body',
+        )
+        return JsonResponse(ch)
 
 
 class CommentSerializer(serializers.ModelSerializer):

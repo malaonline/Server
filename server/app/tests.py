@@ -16,6 +16,8 @@ from app.utils.types import parseInt
 from teacher.views import information_complete_percent
 from app.models import Region
 
+from app.utils.algorithm import verify_sig
+
 
 # Create your tests here.
 class TestApi(TestCase):
@@ -189,6 +191,16 @@ class TestApi(TestCase):
 
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
+
+        # Test create charge object
+        client = Client()
+        json_data = json.dumps({
+            'action': 'pay', 'channel': 'alipay',
+            })
+        response = client.patch(request_url, content_type="application/json",
+                                data=json_data,
+                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(200, response.status_code)
 
     def test_create_comment(self):
         token_client = Client()
@@ -390,3 +402,17 @@ class TestAlgorithm(TestCase):
         self.assertTrue(parseInt('-234.234') == -234)
         self.assertTrue(parseInt('asd') == 'NaN')
         self.assertTrue(parseInt('-asd') == 'NaN')
+
+    def test_verify_sig(self):
+        sig = b"PcU0SMJhbPObiIVinNnalZOjI02koWozxLrxa3WQW3rK/n7I+EuVGuXvhsq2MIfUaNiHZDgRFYybGtKr1uuFzEXjA4PwmnDHfWgwRPdjgseoU0eke6ZqGpklBRVTbF6PUy6/vAqur4xb7h1wpdrteUpCPafzDmVPsQLicdojJ/TF9ACjQW8gTNiS6tE9gL5hxy0RJ3/okRJo6dz2pvJBWkjCrgp/r98z/LQijA1o//atZrH63+DcL/GwEOgaymqbodzusXF+g6WMJ/GTJgjdPRHvpO9UAAUKkOQqvwthJvsXIH/L1xqvy+tFpo2J0Ptwg85bowKoyy1qC5ak3sqWqw=="
+        data = '''{"id":"evt_04qN8cXQvIhssduhS4hpqd9p","created":1427555016,"livemode":false,"type":"account.summary.available","data":{"object":{"acct_id":"acct_0eHSiDyzv9G09ejT","object":"account_daily_summary","acct_display_name":"xx公司","created":1425139260,"summary_from":1425052800,"summary_to":1425139199,"charges_amount":1000,"charges_count":100}},"object":"event","pending_webhooks":2,"request":null,"scope":"acct_1234567890123456","acct_id":"acct_1234567890123456"}'''
+        pubkey = b'''-----BEGIN PUBLIC KEY-----
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzs8SiPoFQT9K0lWa6WSx
+        0d6UnA391KM2aFwijY0AK7r+MiAe07ivenopzFL3dqIRhQjuP7d30V85kWydN5UZ
+        cm/tZgm4K+8wttb988hOrzSjtPOMghHK+bnDwE8FIB+ZbHAZCEVhNfE6i9kLGbHH
+        Q617+mxUTJ3yEZG9CIgke475o2Blxy4UMsRYjo2gl5aanzmOmoZcbiC/R5hXSQUH
+        XV9/VzA7U//DIm8Xn7rerd1n8+KWCg4hrIIu/A0FKm8zyS4QwAwQO2wdzGB0h15t
+        uFLhjVz1W5ZPXjmCRLzTUoAvH12C6YFStvS5kjPcA66P1nSKk5o3koSxOumOs0iC
+        EQIDAQAB
+        -----END PUBLIC KEY-----'''
+        self.assertTrue(verify_sig(data, sig, pubkey))

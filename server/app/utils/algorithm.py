@@ -1,5 +1,10 @@
 import time
+import base64
 import random
+
+from Crypto.PublicKey import RSA
+from Crypto.Signature import PKCS1_v1_5
+from Crypto.Hash import SHA256
 
 from django.utils import timezone
 
@@ -25,6 +30,26 @@ def orderid():
     ans = int('%d%06d' % (ans, rand))
     ans = '%d%d' % (ans, ans % 7)
     return ans
+
+
+def decode_base64(data):
+    missing_padding = 4 - len(data) % 4
+    if missing_padding:
+        data += b'='*missing_padding
+    return base64.decodestring(data)
+
+
+def verify_sig(body, sig, pub_key):
+    '''
+    body: binary
+    sig: binary
+    pubkey: binary
+    '''
+    sig = decode_base64(sig)
+    digest = SHA256.new(body)
+    pubkey = RSA.importKey(pub_key)
+    pkcs = PKCS1_v1_5.new(pubkey)
+    return pkcs.verify(digest, sig)
 
 
 class Node:
