@@ -1194,9 +1194,12 @@ class CouponConfigView(BaseStaffView):
 
     def get(self, request):
         context = self.get_context_data()
-
-        context['couponRule'] = models.CouponRule.objects.order_by('-id')[0]
-        context['couponGenerator'] = models.CouponGenerator.objects.order_by('-id')[0]
+        couponRules = models.CouponRule.objects.order_by('-id')
+        couponGenerators = models.CouponGenerator.objects.order_by('-id')
+        if couponRules:
+            context['couponRule'] = couponRules[0]
+        if couponGenerators:
+            context['couponGenerator'] = couponGenerators[0]
 
         return render(request, self.template_name, context)
 
