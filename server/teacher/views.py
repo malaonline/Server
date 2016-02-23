@@ -1167,6 +1167,7 @@ class BaseTeacherView(View):
         teacher = get_object_or_404(models.Teacher, user=request.user)
         context['teacher'] = teacher
         context['teacherName'] = teacher.name
+        context['title'] = ''
         return context, teacher
 
     def setSidebarContent(self, teacher, context):
@@ -1746,4 +1747,13 @@ class WalletView(BaseTeacherView):
         query_set, pager = paginate(query_set, page, page_size=self.PAGE_SIZE)
         histories = [{'submit_time': localtime(h.submit_time).strftime('%Y-%m-%d %H:%M'), 'positive': h.amount >=0, 'amount': money_format(h.amount), 'comment': h.comment} for h in query_set]
         return JsonResponse({'ok': True, 'list': histories, 'pager': pager})
+
+
+class WalletBankcardView(BaseTeacherView):
+    template_path = 'teacher/wallet/bankcard_add.html'
+
+    def get(self, request):
+        context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
+        return render(request, self.template_path, context)
 

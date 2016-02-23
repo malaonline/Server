@@ -1,0 +1,26 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的钱包
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/wallet/wallet.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script>var histories_url = '{% url 'teacher:wallet-histories' action='histories' %}';</script>
+    <script src="{% static 'teacher/js/wallet/wallet.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% csrf_token %}
+    <a href="{% url 'teacher:wallet' %}"><span class="title">我的钱包</span></a>
+    &gt;
+    <span>添加银行卡</span>
+{% endblock %}
+
+{% block maincontent %}
+    TODO
+{% endblock %}
