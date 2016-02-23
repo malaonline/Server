@@ -713,7 +713,6 @@ class StudentScheduleView(BaseStaffView):
         return super(StudentScheduleView, self).get_context_data(**kwargs)
 
 
-
 class StudentRescheduleView(BaseStaffView):
     template_name = 'staff/student/reschedule.html'
 
