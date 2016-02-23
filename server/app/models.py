@@ -736,8 +736,8 @@ class CouponGenerator(BaseModel):
     """
     activated = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
-    validated_start = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
-    expired_at = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
+    validated_start = models.DateTimeField(null=False, blank=False, default=timezone.now)
+    expired_at = models.DateTimeField(null=False, blank=False, default=timezone.now)
     amount = models.PositiveIntegerField()
     mini_course_count = models.PositiveSmallIntegerField(default=0)
 
@@ -746,8 +746,8 @@ class Coupon(BaseModel):
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    validated_start = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
-    expired_at = models.DateTimeField(null=False, blank=False, default=datetime.datetime.now())
+    validated_start = models.DateTimeField(null=False, blank=False, default=timezone.now)
+    expired_at = models.DateTimeField(null=False, blank=False, default=timezone.now)
     used = models.BooleanField()
     mini_course_count = models.PositiveSmallIntegerField(default=0)
 
