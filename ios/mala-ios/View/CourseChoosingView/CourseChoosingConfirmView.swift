@@ -11,6 +11,14 @@ import UIKit
 class CourseChoosingConfirmView: UIView {
 
     // MARK: - Property
+    /// 需支付金额
+    var price: Int = 0 {
+        didSet{
+            self.priceLabel.text = String(format: "￥%.2f", Float(price))
+            self.priceLabel.sizeToFit()
+        }
+    }
+    private var myContext = 0
     
     
     // MARK: - Components
@@ -50,11 +58,20 @@ class CourseChoosingConfirmView: UIView {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setupUserInterface()
+        configura()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Override
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        // 当选课条件改变时，更新总价
+        self.price = getAmount() ?? 0
     }
     
     
@@ -92,5 +109,14 @@ class CourseChoosingConfirmView: UIView {
             make.width.equalTo(144)
             make.height.equalTo(37)
         }
+    }
+    
+    private func configura() {
+        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
+    }
+    
+    
+    deinit {
+        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
     }
 }

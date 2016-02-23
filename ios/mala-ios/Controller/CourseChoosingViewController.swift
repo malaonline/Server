@@ -297,7 +297,9 @@ class CourseChoosingObject: NSObject {
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
-        
+            if selectedTime.count > oldValue.count {
+                originalPrice = getPrice()
+            }
         }
     }
     /// 上课小时数
@@ -316,7 +318,7 @@ class CourseChoosingObject: NSObject {
     ///  - returns: 原价
     func getPrice() ->Int {
         if (price?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
-            return (price?.price)! * classPeriod
+            return (price?.price)! * (selectedTime.count*2)
         }else {
             return 0
         }
