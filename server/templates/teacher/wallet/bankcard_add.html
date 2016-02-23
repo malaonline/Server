@@ -7,11 +7,10 @@
 {% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'teacher/less/wallet/wallet.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/wallet/bankcard_add.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script>var histories_url = '{% url 'teacher:wallet-histories' action='histories' %}';</script>
-    <script src="{% static 'teacher/js/wallet/wallet.js' %}"></script>
+    <script src="{% static 'teacher/js/wallet/bankcard_add.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -22,5 +21,57 @@
 {% endblock %}
 
 {% block maincontent %}
-    TODO
+    <div class="hint">
+        <span class="glyphicon glyphicon-exclamation-sign warning-icon"></span>
+        您好，为了保障您的资金安全，请绑定本人银行卡，只能提现至本人银行卡。
+        <span class="glyphicon glyphicon-remove-sign close-icon"></span>
+    </div>
+    <div class="bankcard-add-box">
+        <form class="form-horizontal" id="bankcardAddForm" method="post">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">持卡人</label>
+                <div class="col-sm-7">
+                    <p class="form-control-static">
+                        <input type="hidden" id="teacherName" name="teacherName" value="{{ teacherName }}"/>
+                        <span class="teacher-name">{{ teacherName }}</span>
+                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+                          title="<div class='text-left'>为了您的账户资金安全，只能绑定持卡人本人的银行卡。获取更多帮组，请致电麻辣老师客服 010-88776655</div>"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_num" class="col-sm-2 control-label">身份证号</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="id_num" name="id_num" value="{{ id_num }}" placeholder="身份证号">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="card_number" class="col-sm-2 control-label">银行卡号</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="card_number" name="card_number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">手机号</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}" placeholder="请输入银行预留手机号">
+                    <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+                          title="<div class='text-left'>银行预留的手机号是办理该银行卡时所填写的手机号码。没有预留、手机号忘记或者已停用，请联系银行客服更新处理</div>"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="checkcode" class="col-sm-2 control-label">手机验证码</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="checkcode" name="checkcode" placeholder="请输入验证码">
+                    <a class="btn btn-success disabled" data-action="get-checkcode">获取验证码</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-7">
+                    <a class="btn btn-success disabled" data-action="next-step">下一步</a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
