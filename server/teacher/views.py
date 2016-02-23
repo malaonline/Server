@@ -1755,5 +1755,9 @@ class WalletBankcardView(BaseTeacherView):
     def get(self, request):
         context, teacher = self.getContextTeacher(request)
         self.setSidebarContent(teacher, context)
+        certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                                       defaults={'name': "", 'verified': False})
+        context['id_num'] = certIdHeld.name # 身份证号
+        context['phone'] = teacher.user.profile.phone
         return render(request, self.template_path, context)
 
