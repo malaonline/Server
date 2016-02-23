@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('activated', models.BooleanField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('validated_start', models.DateTimeField()),
-                ('expired_at', models.DateTimeField()),
+                ('validated_start', models.DateTimeField(auto_now_add=True)),
+                ('expired_at', models.DateTimeField(auto_now_add=True)),
                 ('amount', models.PositiveIntegerField()),
                 ('mini_course_count', models.PositiveSmallIntegerField(default=0)),
             ],
@@ -46,11 +46,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coupon',
             name='validated_start',
-            field=models.DateTimeField(),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='coupon',
             name='expired_at',
-            field=models.DateTimeField(),
+            field=models.DateTimeField(auto_now_add=True),
         ),
     ]
