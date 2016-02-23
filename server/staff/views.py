@@ -712,8 +712,8 @@ class StudentScheduleView(BaseStaffView):
         return super(StudentScheduleView, self).get_context_data(**kwargs)
 
 
-class StudentRescheduleView(BaseStaffView):
-    template_name = 'staff/student/reschedule.html'
+class StudentScheduleChangelogView(BaseStaffView):
+    template_name = 'staff/student/schedule_changelog.html'
 
     """
     已经调课停课课时(Timeslot)列表
@@ -774,7 +774,7 @@ class StudentRescheduleView(BaseStaffView):
                                 ]
         # 查询结果数据集
         kwargs['timeslots'] = query_set
-        return super(StudentRescheduleView, self).get_context_data(**kwargs)
+        return super(StudentScheduleChangelogView, self).get_context_data(**kwargs)
 
     def get(self, request):
         context = self.get_context_data()
