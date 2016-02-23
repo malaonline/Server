@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^$', login_required(views.FirstPage.as_view(), login_url=LOGIN_URL), name="default-page"),
     url(r'^my_school_timetable/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', login_required(views.MySchoolTimetable.as_view(), login_url=LOGIN_URL), name="my-school-timetable"),
     url(r'^my_students/(?P<student_type>[0-9]{1})/(?P<page_offset>[0-9]+)/$', login_required(views.MyStudents.as_view(), login_url=LOGIN_URL), name="my-students"),
+    url(r'^my_evaluation/(?P<comment_type>[0-9]+)/(?P<page_offset>[0-9]+)/$', login_required(views.MyEvaluation.as_view(), login_url=LOGIN_URL), name="my-evaluation"),
+    url(r'^my_evaluation/(?P<comment_type>[0-9]+)/(?P<page_offset>[0-9]+)/reply/comment/(?P<id>\d+)$', login_required(views.CommentReply.as_view(), login_url=LOGIN_URL), name="reply-comment"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),

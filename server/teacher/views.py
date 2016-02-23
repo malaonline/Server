@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate, _get_backends, logout
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.timezone import make_aware, localtime
@@ -22,6 +22,7 @@ from pprint import pprint as pp
 
 # local modules
 from app import models
+from . import forms
 from app.templatetags.custom_tags import money_format
 from app.utils.db import paginate
 
@@ -256,7 +257,7 @@ class FirstPage(View):
             "class_waiting": self.class_waiting(order_set),
             "student_on_class": self.student_on_class(order_set),
             "student_complete": self.student_complete(order_set),
-            "comprehensive_evaluation": gce.average_score(),
+            "comprehensive_evaluation": "{:2.1f}".format(gce.average_score()),
             "bad_review": gce.bad_commit_count(),
             "account_balance": self.account_balance(teacher),
             "total_revenue": self.total_revenue(order_set),
@@ -446,6 +447,8 @@ class SideBarContent:
                                                          )
         context["side_bar_my_student_url"] = reverse("teacher:my-students",
                                                      kwargs={"student_type": 0, "page_offset": 1})
+        context["side_bar_my_evaluation"] = reverse("teacher:my-evaluation",
+                                                    kwargs={"comment_type": 0, "page_offset": 1})
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
@@ -518,8 +521,8 @@ class MySchoolTimetable(View):
             time_slot_start = localtime(time_slot.start)
             time_slot_end = localtime(time_slot.end)
             self.duration = "{start_hour:02d}:{start_min:02d}-{end_hour:02d}:{end_min:02d}".format(
-                    start_hour=time_slot_start.hour, start_min=time_slot_start.minute,
-                    end_hour=time_slot_end.hour, end_min=time_slot_end.minute)
+                start_hour=time_slot_start.hour, start_min=time_slot_start.minute,
+                end_hour=time_slot_end.hour, end_min=time_slot_end.minute)
             # 上课级别
             self.subclass_level = "{grade}{subject}".format(grade=order.grade, subject=order.subject)
             # 学生名称
@@ -758,7 +761,7 @@ class MyStudents(View):
         student_list, total_page = self.current_student(teacher, filter_student_state, 11, offset)
 
         default_page_list = [[item + 1, False, reverse("teacher:my-students",
-                                                       kwargs={"student_type": student_type, "page_offset": item+1})]
+                                                       kwargs={"student_type": student_type, "page_offset": item + 1})]
                              for item in range(total_page)]
         default_page_list[offset - 1][1] = True
         context = {
@@ -862,6 +865,232 @@ class MyStudents(View):
         #     ["赵一曼", "高三", "15/15", "￥190/小时", "结课", False],
         # ]
         # return student_list, 3
+
+
+class MyEvaluation(View):
+    # 显示评价 TW-6-1
+    class BuildCommentList:
+        def __init__(self, cres):
+            self.comment_list = []
+            self.name = ""
+            self.class_type = ""
+            self.cres = cres
+            self.all_count = 0
+            self.good_count = 0
+            self.mid_count = 0
+            self.bad_count = 0
+            self.sum_score = 0
+
+        def count_comment(self, comment: models.Comment):
+            self.all_count += 1
+            self.sum_score += comment.score
+            if comment.is_high_praise():
+                self.good_count += 1
+            if comment.is_mediu_evaluation():
+                self.mid_count += 1
+            if comment.is_bad_comment():
+                self.bad_count += 1
+
+        def set_order(self, order):
+            self.name = order.parent.student_name
+            self.class_type = "{grade}{subject}".format(grade=order.grade.name, subject=order.subject)
+
+        def is_valid(self, comment):
+            # 过滤器,用来过滤不同档次的comment
+            return True
+
+        def __call__(self, time_slot: models.TimeSlot):
+            if time_slot.is_complete() and hasattr(time_slot, "comment"):
+                comment = time_slot.comment
+                if comment:
+                    self.count_comment(comment)
+                    if self.is_valid(comment):
+                        if self.cres.is_error and self.cres.id == time_slot.comment_id:
+                            the_form = forms.CommentReplyForm(initial={"reply": self.cres.reply})
+                        else:
+                            the_form = forms.CommentReplyForm()
+                        one_comment = {
+                            "name": self.name,
+                            "publish_date": comment.created_at.strftime("%Y-%M-%d %H:%M"),
+                            "full_star": range(comment.score),
+                            "empty_star": range(5 - comment.score),
+                            "comment": comment.content,
+                            "class_type": self.class_type+"1对1",
+                            "form": the_form,
+                            "action_url": "reply/comment/{id}".format(id=comment.id),
+                            "form_id": "reply_form_{id}".format(id=comment.id),
+                            "reply_id": "reply_{id}".format(id=comment.id),
+                            "reply_content": comment.reply
+                        }
+                        self.comment_list.append(one_comment)
+
+
+        def get_sorted_comment_list(self):
+            return sorted(self.comment_list, key=lambda comment: comment["publish_date"])
+
+    class BuildGoodCommentList(BuildCommentList):
+        # 建立好评列表
+        def is_valid(self, comment):
+            return comment.is_high_praise()
+
+    class BuildMidCommentList(BuildCommentList):
+        # 建立中评列表
+        def is_valid(self, comment):
+            return comment.is_mediu_evaluation()
+
+    class BuildBadCommentList(BuildCommentList):
+        # 建立差评列表
+        def is_valid(self, comment):
+            return comment.is_bad_comment()
+
+    comment_type_map = {0: BuildCommentList,
+                        1: BuildGoodCommentList,
+                        2: BuildMidCommentList,
+                        3: BuildBadCommentList}
+
+    def get(self, request, comment_type, page_offset):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        context = {}
+        page_offset = int(page_offset)
+        comment_type = int(comment_type)
+        set_teacher_page_general_context(teacher, context)
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
+        cres = CommentReply.CommentReplyErrorSession(request)
+        if cres.is_error:
+            context["comment_reply_error"] = cres.error["reply"][0]
+            print("comment_reply_error is {error}".format(error=cres.error))
+            print("comment-reply-error-id is {id}".format(id=cres.id))
+        comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)
+        context["comments"] = comments_array[page_offset-1]
+        # 建立分页数据
+        page_array = []
+        for one_offset in range(len(comments_array)):
+            page_array.append(
+                {
+                    "url": reverse("teacher:my-evaluation", kwargs={"comment_type": comment_type,
+                                                                    "page_offset": one_offset+1}),
+                    "offset_id": one_offset+1
+                }
+            )
+        context["page_array"] = page_array
+        context["current_page"] = page_offset
+        context["current_comment_type"] = comment_type
+        context["all_comment"] = reverse("teacher:my-evaluation", kwargs={
+            "comment_type": 0, "page_offset": 1
+        })
+        context["good_comment"] = reverse("teacher:my-evaluation", kwargs={
+            "comment_type": 1, "page_offset": 1
+        })
+        context["mid_comment"] = reverse("teacher:my-evaluation", kwargs={
+            "comment_type": 2, "page_offset": 1
+        })
+        context["bad_comment"] = reverse("teacher:my-evaluation", kwargs={
+            "comment_type": 3, "page_offset": 1
+        })
+        context["comment_count"] = {
+            "all": count_package[0],
+            "good": count_package[1],
+            "mid": count_package[2],
+            "bad": count_package[3]
+        }
+        context["percent"] = {
+            "good":  "{:2.0f}".format(count_package[1]/count_package[0]*100),
+            "mid":  "{:2.0f}".format(count_package[2]/count_package[0]*100),
+            "bad":  "{:2.0f}".format(count_package[3]/count_package[0]*100)
+        }
+        context["avg_score"] = "{:2.1f}".format(avg_score)
+        return render(request, "teacher/my_evaluation.html", context)
+
+    def get_comments(self, cres, teacher, comment_type):
+        def _real(cres, teacher, comment_type):
+            """
+            真实数据
+            """
+            paid_order = teacher.order_set.filter(status=models.Order.PAID)
+            comment_list = []
+            # bcl = MyEvaluation.BuildCommentList(cres)
+            bcl = self.comment_type_map[comment_type](cres)
+            for one_order in paid_order:
+                bcl.set_order(one_order)
+                one_order.enum_timeslot(bcl)
+            comment_list = bcl.get_sorted_comment_list()
+            return comment_list, (bcl.all_count, bcl.good_count, bcl.mid_count, bcl.bad_count), bcl.sum_score/bcl.all_count
+
+        def _fake(cres):
+            """
+            调界面样式用的伪造数据,速度快
+            """
+            if cres.is_error:
+                the_form = forms.CommentReplyForm(initial={"reply": cres.reply})
+            else:
+                the_form = forms.CommentReplyForm()
+            return [{
+                "name": "刘晓伟",
+                "full_star": range(3),
+                "empty_star": range(2),
+                "comment": "这家伙很懒,什么话也没有留下!",
+                "publish_date": "2015-12-30 16:00",
+                "class_type": "初二数学1对1",
+                "form": the_form,
+                "action_url": "reply/comment/50",
+                "form_id": "reply_form_50",
+                "reply_id": "reply_50",
+                "reply_content": "hello, I'm reply.",
+            },{
+                "name": "刘晓伟",
+                "full_star": range(3),
+                "empty_star": range(2),
+                "comment": "这家伙很懒,什么话也没有留下!",
+                "publish_date": "2015-12-30 16:00",
+                "class_type": "初二数学1对1",
+                "form": the_form,
+                "action_url": "reply/comment/51",
+                "form_id": "reply_form_51",
+                "reply_id": "reply_51",
+            },], (1, 2, 3, 4, 4.8)
+        comment_list, count_package, avg_score = _real(cres, teacher, comment_type)
+        # comment_list, count_package, avg_score = _fake(cres)
+        return split_list(comment_list, 4), count_package, avg_score
+
+
+class CommentReply(View):
+    class CommentReplyErrorSession:
+        def __init__(self, request):
+            self.error = request.session.pop("comment-reply-error", None)
+            self.id = request.session.pop("comment-reply-error-id", None)
+            self.reply = request.session.pop("comment-reply-error-reply", None)
+            if self.error:
+                self.is_error = True
+            else:
+                self.is_error = False
+
+        @staticmethod
+        def save(request, error, identify, reply):
+            request.session["comment-reply-error"] = error
+            request.session["comment-reply-error-id"] = identify
+            request.session["comment-reply-error-reply"] = reply
+
+    # 回复评价
+    def post(self, request, comment_type, page_offset, id):
+        print("comment reply id is {id}".format(id=id))
+        comment_reply_form = forms.CommentReplyForm(request.POST)
+        if comment_reply_form.is_valid():
+            # 是正确的返回
+            reply = comment_reply_form["reply"].data
+            the_comment = models.Comment.objects.get(id=id)
+            the_comment.reply = reply
+            the_comment.save()
+            print("reply is {reply}".format(reply=reply))
+            print("reply's type is {the_type}".format(the_type=type(comment_reply_form["reply"])))
+        else:
+            print("comment reply not illegal, {errors}".format(errors=comment_reply_form.errors))
+            CommentReply.CommentReplyErrorSession.save(request, comment_reply_form.errors, id,
+                                                       comment_reply_form["reply"].data)
+            request.session["comment-reply-error"] = comment_reply_form.errors
+            request.session["comment-reply-error-id"] = id
+        return redirect("teacher:my-evaluation", comment_type=comment_type, page_offset=page_offset)
 
 
 def split_list(array: list, segment_size):

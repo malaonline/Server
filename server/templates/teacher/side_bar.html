@@ -11,9 +11,9 @@
         <span class="badge_number">({{ side_bar_my_student }})</span>
         {% endif %}
     </a></p>
-    <p class="section-link"><a href="#">我的评价
+    <p class="section-link"><a href="{{ side_bar_my_evaluation }}">我的评价
         {% if side_bar_my_evaluation %}
-        <span class="badge_number">({{ side_bar_my_evaluation }})</span>
+        <span class="badge_number">(12)</span>
         {% endif %}
     </a></p>
     <p class="section-title"><a href="{% url 'teacher:wallet' %}">我的钱包</a></p>

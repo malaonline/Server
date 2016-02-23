@@ -1,0 +1,174 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的评价
+{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_evaluation.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_evaluation.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "李四老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% include 'teacher/side_bar.html' %}
+                <div class='the_content'>
+                    <div class="nav_bar">
+                        <p>我的评价</p>
+                    </div>
+                    <div class="overview-board">
+                        <div class="overview-section">
+                            <p class="overview-score">{{ avg_score }}</p>
+                            <p class="score-title">综合评分</p>
+                        </div>
+                        <div class="level-section">
+                            <div class="high-praise">
+                                <div class="title">好评</div>
+                                <div class="percent">{{ percent.good }}%</div>
+                                <div class="progress-bar">
+                                    <div class="custom-progress">
+                                        <div class="custom-progress-bar" role="progressbar" aria-valuenow="{{ percent.good }}"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: {{ percent.good }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="medium-review">
+                                <div class="title">中评</div>
+                                <div class="percent">{{ percent.mid }}%</div>
+                                <div class="progress-bar">
+                                    <div class="custom-progress">
+                                        <div class="custom-progress-bar" role="progressbar" aria-valuenow="{{ percent.mid }}"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: {{ percent.mid }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bad-review">
+                                <div class="title">差评</div>
+                                <div class="percent">{{ percent.bad }}%</div>
+                                <div class="progress-bar">
+                                    <div class="custom-progress">
+                                        <div class="custom-progress-bar" role="progressbar" aria-valuenow="{{ percent.bad }}"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: {{ percent.bad }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="tag-tab">
+                            <a href="{{ all_comment }}">
+                                {% if current_comment_type == 0 %}
+                                    <span class="student-type" attrState="selected">全部评价</span>
+                                {% else %}
+                                    <span class="student-type">全部评价</span>
+                                {% endif %}
+                                <span class="number-count" attrState="full">({{ comment_count.all }})</span>
+                            </a>
+                            <a href="{{ good_comment }}">
+                                {% if current_comment_type == 1 %}
+                                    <span class="student-type" attrState="selected">好评</span>
+                                {% else %}
+                                    <span class="student-type">好评</span>
+                                {% endif %}
+                                <span class="number-count" attrState="full">({{ comment_count.good }})</span>
+                            </a>
+                            <a href="{{ mid_comment }}">
+                                {% if current_comment_type == 2 %}
+                                    <span class="student-type" attrState="selected">中评</span>
+                                {% else %}
+                                    <span class="student-type">中评</span>
+                                {% endif %}
+                                <span class="number-count" attrState="full">({{ comment_count.mid }})</span>
+                            </a>
+                            <a href="{{ bad_comment }}">
+                                {% if current_comment_type == 3 %}
+                                    <span class="student-type" attrState="selected">差评</span>
+                                {% else %}
+                                    <span class="student-type">差评</span>
+                                {% endif %}
+                                <span class="number-count" attrState="full">({{ comment_count.bad }})</span>
+                            </a>
+                        </div>
+                        <div class="comments-list">
+                            {% for one_comment in comments %}
+                                <div class="one-comments">
+                                    <div class="name-section">
+                                        <p class="name">{{ one_comment.name }}</p>
+                                    </div>
+                                    <div class="info-section">
+                                        <div class="general-info-section">
+                                            {% for star in one_comment.full_star %}
+                                                <i class="fill-star"></i>
+                                            {% endfor %}
+                                            {% for star in one_comment.empty_star %}
+                                                <i class="blank-star"></i>
+                                            {% endfor %}
+
+                                            <span class="class-type">{{ one_comment.class_type }}</span>
+                                            <span class="seperator">|</span>
+                                            <span class="publish-date">{{ one_comment.publish_date }}</span>
+                                        </div>
+                                        <div class="comment-section">
+                                            <p class="comments-info">{{ one_comment.comment }}</p>
+                                        </div>
+                                        {% if one_comment.reply_content %}
+                                            <div>
+                                                <p>{{ one_comment.reply_content }}</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="reply-section" attrHidden="true" id="{{ one_comment.form_id }}">
+                                                <form action="{{ one_comment.action_url }}" method="post">
+                                                    {% csrf_token %}
+                                                    {{ one_comment.form }}
+    {#                                                <input class="reply-content">#}
+                                                    <button type="submit" class="submit-button">回复</button>
+                                                </form>
+                                            </div>
+                                            <div class="operation-section" attrHidden="false" id="{{ one_comment.reply_id }}">
+                                                <span class="reply"
+                                                      onclick="show_reply_form('{{ one_comment.form_id }}', '{{ one_comment.reply_id }}')">
+                                                    回复
+                                                </span>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if comment_reply_error %}
+                                            <div>
+                                            {{ comment_reply_error }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="page-index">
+                            {% for one_page_offset in page_array %}
+                                {% if one_page_offset.offset_id == current_page %}
+                                    <a href="{{ one_page_offset.url }}">
+                                        <div class="one-page" attrCurrent="true">{{ one_page_offset.offset_id }}</div>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ one_page_offset.url }}">
+                                        <div class="one-page">{{ one_page_offset.offset_id }}</div>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-right"></div>
+        </div>
+    </div>
+{% endblock %}
