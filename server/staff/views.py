@@ -701,7 +701,6 @@ class StudentView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
 
-
 class StudentScheduleView(BaseStaffView):
     template_name = 'staff/student/schedule.html'
 
