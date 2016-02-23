@@ -26,7 +26,7 @@ import pingpp
 
 from app import models
 from .utils.smsUtil import sendCheckcode
-from .utils.algorithm import to_timestamp, verify_sig
+from .utils.algorithm import verify_sig
 
 
 class PolicySerializer(serializers.ModelSerializer):
@@ -64,8 +64,18 @@ class ChargeSucceeded(View):
         if data['type'] != 'charge.succeeded':
             raise PermissionDenied()
 
-        ins = data['data']['object']
+        obj = data['data']['object']
+        charge = models.Charge.objects.get(ch_id=obj['id'])
 
+        assert obj['paid']
+        charge.paid = obj['paid']
+        charge.time_paid = timezone.make_aware(
+                datetime.datetime.fromtimestamp(obj['time_paid']))
+        charge.transaction_no = obj['transaction_no']
+        charge.save()
+
+        order = charge.order
+        models.Order.objects.allocate_timeslots(order)
 
 
 class TeacherWeeklyTimeSlot(View):
@@ -105,8 +115,8 @@ class ConcreteTimeSlots(View):
                              for x in weekly_time_slots]
         data = models.Order.objects.concrete_timeslots(
                 hours, weekly_time_slots)
-        data = [(to_timestamp(x['start']),
-                 to_timestamp(x['end'])) for x in data]
+        data = [(x['start'].timestamp(),
+                 x['end'].timestamp()) for x in data]
 
         return JsonResponse({'data': data})
 
@@ -677,14 +687,14 @@ class OrderViewSet(ParentBasedMixin,
         return JsonResponse({'err': 'Method not allowed'})
 
     def partial_update(self, request, *args, **kwargs):
-        instance = self.get_object()
+        order = self.get_object()
         data = request.data
         if data['action'] != 'pay':
             return JsonResponse({'err': 'action not allowed'})
         pingpp.api_key = settings.PINGPP_API_KEY
         ch = pingpp.Charge.create(
-                order_no=instance.order_id,
-                amount=instance.total,
+                order_no=order.order_id,
+                amount=order.total,
                 app=dict(id=settings.PINGPP_APP_ID),
                 channel=data['channel'],
                 currency='cny',
@@ -692,6 +702,43 @@ class OrderViewSet(ParentBasedMixin,
                 subject='Your Subject',
                 body='Your Body',
         )
+
+        charge, created = models.Charge.objects.get_or_create(ch_id=ch['id'])
+        if created:
+            charge.order = order
+            charge.created = timezone.make_aware(
+                    datetime.datetime.fromtimestamp(ch['created']))
+            charge.livemode = ch['livemode']
+            charge.app = ch['app']
+            assert not ch['paid']
+            assert not ch['refunded']
+            charge.channel = ch['channel']
+            assert ch['order_no'] == order.order_id
+            charge.order_no = ch['order_no']
+            charge.client_ip = ch['client_ip']
+            assert ch['amount'] == order.total
+            charge.amount = ch['amount']
+            charge.amount_settle = ch['amount_settle']
+            assert ch['currency'] == 'cny'
+            charge.currency = ch['currency']
+            charge.subject = ch['subject']
+            charge.body = ch['body']
+            charge.extra = json.dumps(ch['extra'], ensure_ascii=False)
+            assert ch['time_paid'] is None
+            charge.time_paid = ch['time_paid']
+            charge.time_expire = timezone.make_aware(
+                    datetime.datetime.fromtimestamp(ch['time_expire']))
+            assert ch['time_settle'] is None
+            charge.time_settle = ch['time_settle']
+            assert ch['transaction_no'] is None
+            charge.transaction_no = ''
+            charge.failure_code = ch['failure_code'] or ''
+            charge.failure_msg = ch['failure_msg'] or ''
+            charge.credential = json.dumps(
+                    ch['credential'], ensure_ascii=False)
+            charge.description = ch['description'] or ''
+            charge.save()
+
         return JsonResponse(ch)
 
 

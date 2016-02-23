@@ -1,4 +1,3 @@
-import time
 import base64
 import random
 
@@ -9,14 +8,8 @@ from Crypto.Hash import SHA256
 from django.utils import timezone
 
 
-def to_timestamp(tz_time):
-    timestamp = time.mktime(tz_time.timetuple())
-    return int(timestamp)
-
-
 def timestamp():
-    now = timezone.now()
-    return to_timestamp(now)
+    return int(timezone.now().timestamp())
 
 
 def orderid():
