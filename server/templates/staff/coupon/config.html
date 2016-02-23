@@ -8,14 +8,96 @@
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/coupon/config.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'staff/js/coupon/confgig.js' %}"></script>
+    <script src="{% static 'staff/js/coupon/config.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="config-content">
-        <div class="config-rule">
+    <div class="center-block config-content">
+        <div class="form-horizontal config-rule">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">使用规则</label>
+              <div class="form-input">
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="form-input">
+                <input type="password" class="form-control" id="inputPassword3">
+              </div>
+            </div>
         </div>
-        <div class="config-rule-set">
+        <div class="form-horizontal config-type-select">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金名称</label>
+              <div class="form-input">
+                  <select class="form-control select" name="couponType" id="couponType">
+                    <option value="new">新生奖学金</option>
+                    <option value="give">赠送奖学金</option>
+                  </select>
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-coupon-new" style="border: solid red 1px;">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">是否开启</label>
+              <div class="form-input">
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 开启
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 关闭
+                  </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金有效期</label>
+              <div class="form-input time-select">
+                <input type="text" name="validatedStart" id="validatedStart_new" value="{{ searchTime | date:"Y-m-d" }}">
+                <hr>
+                <input type="text" name="expiredAt" id="expiredAt_new" value="{{ searchTime | date:"Y-m-d" }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金券</label>
+              <div class="form-input">
+                <input type="password" class="form-control" id="inputPassword3">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="form-input">
+                <input type="password" class="form-control" id="inputPassword3">
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-coupon-give" style="border: solid blue 1px;">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金有效期</label>
+              <div class="form-input time-select">
+                <input type="text" name="validatedStart" id="validatedStart_give" value="{{ searchTime | date:"Y-m-d" }}">
+                <hr>
+                <input type="text" name="expiredAt" id="expiredAt_give" value="{{ searchTime | date:"Y-m-d" }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金券</label>
+              <div class="form-input">
+                <input type="password" class="form-control" id="inputPassword3">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">发送给</label>
+              <div class="form-input">
+                <input type="password" class="form-control" id="inputPassword3">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="form-input">
+                <button type="button" class="btn btn-default">确定</button>
+              </div>
+            </div>
         </div>
     </div>
 {% endblock %}
