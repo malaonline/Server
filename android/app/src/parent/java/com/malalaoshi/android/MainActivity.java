@@ -373,6 +373,13 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         }
     }
 
+    private void loadCourses(){
+        UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
+        if (userTimetableFragment!=null){
+            userTimetableFragment.loadDatas();
+        }
+    }
+
     private void setCurrentTab(int i) {
         switch (i){
             case 0:
@@ -407,7 +414,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTitleLocation.setVisibility(View.GONE);
                 tvTitleTady.setVisibility(View.VISIBLE);
                 //下载数据
-
+                loadCourses();
                 break;
             case 2:
                 ivTitleTabTeacher.setSelected(false);

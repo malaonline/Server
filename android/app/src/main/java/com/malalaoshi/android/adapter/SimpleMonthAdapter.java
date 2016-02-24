@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.listener.DatePickerController;
+import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
 
 import java.io.Serializable;
@@ -35,7 +36,6 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     private HashMap<CalendarDay, Integer> countMap;
     private HashMap<CalendarMonth, HashMap<CalendarDay, Integer>> monthCountMap =
             new HashMap<>();
-
     private HashMap<String,List<Cource>> mapCourse;
 
     public SimpleMonthAdapter(Context context, DatePickerController datePickerController, TypedArray typedArray) {
@@ -78,20 +78,25 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
         v.setMonthParams(drawingParams);
         //设置课程信息
         if (mapCourse!=null){
-            List<Cource> listCourse = mapCourse.get(year+month+"");
+            int tempMonth = month+1;
+            List<Cource> listCourse = mapCourse.get(year+""+tempMonth);
             if (listCourse!=null&&listCourse.size()>0){
                 final Map<Integer, List<Cource>> mapCourse1 = new HashMap<>();
                 for (int i =0;i<listCourse.size();i++){
                     Cource cource = listCourse.get(i);
-                    List<Cource> listCource1 = mapCourse1.get(cource.getData().getDay());
+                    List<Cource> listCource1 = mapCourse1.get((CalendarUtils.timestampToCalendarDay(cource.getEnd())).getDay());
                     if (listCource1==null){
                         listCource1 = new ArrayList<>();
-                        mapCourse1.put(cource.getData().getDay(),listCource1);
+                        mapCourse1.put((CalendarUtils.timestampToCalendarDay(cource.getEnd())).getDay(),listCource1);
                     }
                     listCource1.add(cource);
                 }
                 v.setCourses(mapCourse1);
+            }else{
+                v.setCourses(null);
             }
+        }else{
+            v.setCourses(null);
         }
 
         v.showMothInfo(isDragging);
@@ -114,6 +119,13 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
         return itemCount;
     }
 
+    @Override
+    public void onDayClick(SimpleMonthView simpleMonthView, CalendarDay calendarDay, List<Cource> courses) {
+        if (mController!=null){
+            mController.onDayClick(simpleMonthView,calendarDay,courses);
+        }
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         final SimpleMonthView simpleMonthView;
@@ -131,16 +143,6 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
 	protected void init() {
         if (typedArray.getBoolean(R.styleable.DayPickerView_currentDaySelected, false))
             onDayTapped(new CalendarDay(System.currentTimeMillis()));
-	}
-
-	public void onDayClick(SimpleMonthView simpleMonthView, CalendarDay calendarDay, List<Cource> courses) {
-		if (calendarDay != null) {
-			onDayTapped(calendarDay);
-            /*if (courses!=null&&courses.size()>0){
-                Toast.makeText(mContext,courses.get(0).getSubject(),Toast.LENGTH_SHORT).show();
-            }*/
-            Toast.makeText(mContext,calendarDay.getYear()+"年"+calendarDay.getMonth()+"月"+calendarDay.getDay()+"日",Toast.LENGTH_SHORT).show();
-        }
 	}
 
 	protected void onDayTapped(CalendarDay calendarDay) {

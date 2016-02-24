@@ -23,7 +23,12 @@
  ***********************************************************************************/
 package com.malalaoshi.android.util;
 
+import com.malalaoshi.android.adapter.SimpleMonthAdapter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class CalendarUtils
@@ -49,4 +54,26 @@ public class CalendarUtils
                 throw new IllegalArgumentException("Invalid Month");
         }
 	}
+
+    public static SimpleMonthAdapter.CalendarDay timestampToCalendarDay(Long timestamp)
+    {
+        //时间戳转化为Sting或Date
+        SimpleMonthAdapter.CalendarDay calendarDay = null;
+        SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d = format.format(timestamp * 1000);
+        try {
+            Date date = format.parse(d);
+
+
+            // 初始化 (重置) Calendar 对象
+            Calendar calendar = Calendar.getInstance();
+            // 或者用 Date 来初始化 Calendar 对象
+            calendar.setTime(date);
+            calendarDay = new SimpleMonthAdapter.CalendarDay();
+            calendarDay.setDay(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendarDay;
+    }
 }

@@ -1,6 +1,7 @@
 package com.malalaoshi.android.entity;
 
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
+import com.malalaoshi.android.util.CalendarUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ public class Cource {
     private String subject;
     private boolean is_passed;
     private Long end;
-    private SimpleMonthAdapter.CalendarDay data;
 
     public Long getEnd() {
         return end;
@@ -39,13 +39,6 @@ public class Cource {
         this.id = id;
     }
 
-    public SimpleMonthAdapter.CalendarDay getData() {
-        return data;
-    }
-
-    public void setData(SimpleMonthAdapter.CalendarDay data) {
-        this.data = data;
-    }
 
     public String getSubject() {
         return subject;
@@ -58,7 +51,7 @@ public class Cource {
     public static List<Cource> getCources(List<Cource> cources,SimpleMonthAdapter.CalendarDay data) {
         List<Cource>  courceList = new ArrayList<>();
         for (int i=0;i<cources.size();i++){
-            if (cources.get(i).getData().equals(data)){
+            if ((CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd())).equals(data)){
                 courceList.add(cources.get(i));
             }
         }
@@ -69,7 +62,7 @@ public class Cource {
     public static Map<String, List<Cource>> getCourses(List<Cource> cources){
         Map<String, List<Cource>> mapCourse = new HashMap<>();
         for (int i=0;i<cources.size();i++){
-            SimpleMonthAdapter.CalendarDay calendar = cources.get(i).getData();
+            SimpleMonthAdapter.CalendarDay calendar = (CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd()));
             List<Cource> listCourse = mapCourse.get(calendar.getYear()+calendar.getMonth());
             if (listCourse==null){
                 listCourse = new ArrayList<>();

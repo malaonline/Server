@@ -9,14 +9,14 @@ import android.util.AttributeSet;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.listener.DatePickerController;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class DayPickerView extends RecyclerView
-{
+public class DayPickerView extends RecyclerView{
     public static final String TAG = DayPickerView.class.getSimpleName();
 
     protected Context mContext;
@@ -211,5 +211,7 @@ public class DayPickerView extends RecyclerView
         public void onScrolled(RecyclerView recyclerView, int dx, int dy, Calendar calendar);
 
         public void onScrollStateChanged(RecyclerView recyclerView, int newState);
+
+
     }
 }

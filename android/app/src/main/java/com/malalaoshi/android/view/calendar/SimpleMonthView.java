@@ -10,6 +10,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -161,7 +162,7 @@ public class SimpleMonthView extends View {
         textNormalColor = typedArray.getColor(R.styleable.DayPickerView_textNormalColor, resources.getColor(R.color.calendar_text_normal_color));
         previousSelectColor = typedArray.getColor(R.styleable.DayPickerView_previousSelectColor, resources.getColor(R.color.calendar_previous_select_color));
 
-        testData();
+        //testData();
         initView();
 
     }
@@ -225,14 +226,18 @@ public class SimpleMonthView extends View {
     }
 
     private String getMonthString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("M");
         String monthTitleText = dateFormat.format(mCalendar.getTime());
         return monthTitleText + "月";
     }
 
     private void onDayClick(SimpleMonthAdapter.CalendarDay calendarDay) {
         if (mOnDayClickListener != null && (isPrevDayEnabled || !((calendarDay.month == today.month) && (calendarDay.year == today.year) && calendarDay.day < today.monthDay))) {
-            mOnDayClickListener.onDayClick(this, calendarDay, courses.get(calendarDay.day));
+            List<Cource> listCource = null;
+            if (courses!=null){
+                listCource = courses.get(calendarDay.day);
+            }
+            mOnDayClickListener.onDayClick(this, calendarDay, listCource);
         }
     }
 
@@ -255,7 +260,7 @@ public class SimpleMonthView extends View {
         if (mMonth > 11 || mMonth < 0 || CalendarUtils.getDaysInMonth(mMonth, mYear) < day || day < 1)
             return null;
 
-        return new SimpleMonthAdapter.CalendarDay(mYear, mMonth, day);
+        return new SimpleMonthAdapter.CalendarDay(mYear, mMonth+1, day);
     }
 
     protected void initView() {
