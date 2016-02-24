@@ -1731,7 +1731,7 @@ class WalletView(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         account = teacher.safe_get_account()
         context['account'] = account
-        histories = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
+        histories = models.AccountHistory.objects.filter(account=account, done=True).order_by("-submit_time")
         # paginate
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
         context['histories'] = histories
@@ -1741,7 +1741,7 @@ class WalletView(BaseTeacherView):
     def listAccountHistories(self, request, teacher):
         page = self.request.GET.get('page') and self.request.GET.get('page').strip() or 1
         account = teacher.safe_get_account()
-        query_set = models.AccountHistory.objects.filter(account=account).order_by("-submit_time")
+        query_set = models.AccountHistory.objects.filter(account=account, done=True).order_by("-submit_time")
         # paginate
         query_set, pager = paginate(query_set, page, page_size=self.PAGE_SIZE)
         histories = [{'submit_time': localtime(h.submit_time).strftime('%Y-%m-%d %H:%M'), 'positive': h.amount >=0, 'amount': money_format(h.amount), 'comment': h.comment} for h in query_set]
