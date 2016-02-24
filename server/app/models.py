@@ -699,7 +699,7 @@ class AccountHistory(BaseModel):
     account = models.ForeignKey(Account)
     amount = models.IntegerField()
     bankcard = models.ForeignKey(BankCard, null=True, blank=True)
-    submit_time = models.DateTimeField()
+    submit_time = models.DateTimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
     done_by = models.ForeignKey(User, related_name='processed_withdraws',
                                 null=True, blank=True)
