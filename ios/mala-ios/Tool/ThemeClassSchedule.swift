@@ -26,7 +26,7 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,7 +35,7 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         delegate = self
         dataSource = self
         backgroundColor = UIColor.whiteColor()
@@ -203,7 +203,7 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
         super.init()
         self.frame = frame
         
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -212,7 +212,7 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
 
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         scrollDirection = .Vertical
         let itemWidth: CGFloat = frame.width / 8
         let itemHeight: CGFloat = frame.height / 6

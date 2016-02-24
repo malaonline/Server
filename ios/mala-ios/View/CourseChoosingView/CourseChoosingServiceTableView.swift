@@ -19,7 +19,7 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +28,7 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         delegate = self
         dataSource = self
         bounces = false

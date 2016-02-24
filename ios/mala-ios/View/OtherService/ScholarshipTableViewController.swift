@@ -24,7 +24,7 @@ class ScholarshipTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configura()
+        configure()
         loadScholarship()
     }
 
@@ -52,7 +52,7 @@ class ScholarshipTableViewController: UITableViewController {
     }
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         tableView.backgroundColor = MalaTeacherCellBackgroundColor
         tableView.separatorStyle = .None
         

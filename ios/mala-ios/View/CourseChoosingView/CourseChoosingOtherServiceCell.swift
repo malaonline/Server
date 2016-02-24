@@ -104,7 +104,7 @@ class PriceResultView: UIView {
         super.init(frame: frame)
         
         setupUserInterface()
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -138,12 +138,12 @@ class PriceResultView: UIView {
         }
         stringLabel.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(MalaLayout_FontSize_14)
-            make.centerY.equalTo(self.snp_centerY)
+            make.bottom.equalTo(self.priceLabel.snp_bottom)
             make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_12)
         }
     }
     
-    private func configura() {
+    private func configure() {
         MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
     }
     
