@@ -24,7 +24,7 @@ class EvaluationFilingServiceController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configura()
+        configure()
         loadIntroductions()
     }
     
@@ -64,7 +64,7 @@ class EvaluationFilingServiceController: UITableViewController {
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         self.title = MalaCommonString_EvaluationFiling
         self.tableView.backgroundColor = UIColor.whiteColor()
         self.tableView.estimatedRowHeight = 300

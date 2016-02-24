@@ -134,7 +134,7 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -143,7 +143,7 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         delegate = self
         dataSource = self
         self.separatorStyle = .None

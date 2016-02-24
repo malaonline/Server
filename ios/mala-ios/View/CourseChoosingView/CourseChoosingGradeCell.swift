@@ -82,7 +82,7 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
     // MARK: - Constructed
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        configura()
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -118,7 +118,7 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         dataSource = self
         delegate = self
         backgroundColor = UIColor.whiteColor()

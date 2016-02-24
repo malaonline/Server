@@ -89,7 +89,7 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configura()
+        configure()
         setupUserInterface()
     }
 
@@ -108,7 +108,7 @@ public class PeriodStepper: UIView, UITextFieldDelegate {
     
     
     // MARK: - Private Method
-    private func configura() {
+    private func configure() {
         stepper = KWStepper(decrementButton: decrementButton, incrementButton: incrementButton)
         // 设置计数器属性
         stepper.autoRepeat = true

@@ -63,7 +63,7 @@ class CourseChoosingConfirmView: UIView {
         super.init(frame: frame)
         
         setupUserInterface()
-        configura()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -115,7 +115,7 @@ class CourseChoosingConfirmView: UIView {
         }
     }
     
-    private func configura() {
+    private func configure() {
         MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
     }
     
