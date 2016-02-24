@@ -16,7 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelManagers(
             name='order',
             managers=[
-                ('objects', app.models.OrderManager()),
             ],
         ),
     ]

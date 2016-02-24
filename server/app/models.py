@@ -63,12 +63,14 @@ class Region(BaseModel):
             _region = _region.superset
         return _dict
 
+
 class Memberservice(BaseModel):
     name = models.CharField(max_length=30, unique=True)
     detail = models.CharField(max_length=1000)
 
     def __str__(self):
         return '%s' % self.name
+
 
 class School(BaseModel):
     name = models.CharField(max_length=100)
@@ -168,7 +170,9 @@ class Price(BaseModel):
     region = models.ForeignKey(Region, limit_choices_to={'opened': True})
     ability = models.ForeignKey(Ability, default=1)
     level = models.ForeignKey(Level)
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()  # Lesson price
+    salary = models.PositiveIntegerField(default=0)
+    commission_percentage = models.PositiveIntegerField(default=0)
 
     class Meta:
         unique_together = ('region', 'ability', 'level')
@@ -640,14 +644,17 @@ class Account(BaseModel):
     @property
     def calculated_balance(self):
         AccountHistory = apps.get_model('app', 'AccountHistory')
-        ret = AccountHistory.objects.filter(account=self, done=True).aggregate(models.Sum('amount'))
+        ret = AccountHistory.objects.filter(
+                account=self, done=True).aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
         return sum and sum/100 or 0
 
     @property
     def accumulated_income(self):
         AccountHistory = apps.get_model('app', 'AccountHistory')
-        ret = AccountHistory.objects.filter(account=self, amount__gt=0, done=True).aggregate(models.Sum('amount'))
+        ret = AccountHistory.objects.filter(
+                account=self, amount__gt=0, done=True).aggregate(
+                        models.Sum('amount'))
         sum = ret['amount__sum']
         return sum and sum/100 or 0
 
@@ -713,6 +720,7 @@ class Feedback(BaseModel):
     def __str__(self):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
 
+
 class Parent(BaseModel):
     user = models.OneToOneField(User)
 
@@ -727,11 +735,13 @@ class Parent(BaseModel):
         return "{child_name}'s parent [{parent_name}]".format(
                 child_name=self.student_name, parent_name=self.user.username)
 
+
 class CouponRule(BaseModel):
     """
     奖学金使用规则
     """
     content = models.CharField(max_length=50)
+
 
 class CouponGenerator(BaseModel):
     """
@@ -739,18 +749,23 @@ class CouponGenerator(BaseModel):
     """
     activated = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
-    validated_start = models.DateTimeField(null=False, blank=False, default=timezone.now)
-    expired_at = models.DateTimeField(null=False, blank=False, default=timezone.now)
+    validated_start = models.DateTimeField(
+            null=False, blank=False, default=timezone.now)
+    expired_at = models.DateTimeField(
+            null=False, blank=False, default=timezone.now)
     amount = models.PositiveIntegerField()
     mini_course_count = models.PositiveSmallIntegerField(default=0)
+
 
 class Coupon(BaseModel):
     parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    validated_start = models.DateTimeField(null=False, blank=False, default=timezone.now)
-    expired_at = models.DateTimeField(null=False, blank=False, default=timezone.now)
+    validated_start = models.DateTimeField(
+            null=False, blank=False, default=timezone.now)
+    expired_at = models.DateTimeField(
+            null=False, blank=False, default=timezone.now)
     used = models.BooleanField()
     mini_course_count = models.PositiveSmallIntegerField(default=0)
 
@@ -778,8 +793,6 @@ class WeeklyTimeSlot(BaseModel):
 
 
 class OrderManager(models.Manager):
-    use_in_migrations = True
-
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
         ability = grade.ability_set.filter(subject=subject)[0]
 
@@ -794,8 +807,8 @@ class OrderManager(models.Manager):
 
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
-                subject=subject, price=price, hours=hours, total=total,
-                coupon=coupon, order_id=order_id)
+                subject=subject, price=price, hours=hours,
+                total=total, coupon=coupon, order_id=order_id)
 
         order.save()
         return order
@@ -925,6 +938,7 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
+
 class OrderRefundRecord(BaseModel):
     PENDING = 'u'
     APPROVED = 'a'
@@ -947,8 +961,8 @@ class OrderRefundRecord(BaseModel):
     last_updated_by = models.ForeignKey(User)
 
     def approve_refund(self):
-        if self.status == OrderRefundRecords.PENDING:
-            self.status = OrderRefundRecords.APPROVED
+        if self.status == OrderRefundRecord.PENDING:
+            self.status = OrderRefundRecord.APPROVED
             # todo: 订单的退费成功状态只应该在这一处操作
             self.order.status = Order.REFUND
             self.order.save()
@@ -956,10 +970,11 @@ class OrderRefundRecord(BaseModel):
         return self.status
 
     def reject_refund(self):
-        if self.status == OrderRefundRecords.PENDING:
-            self.status = OrderRefundRecords.REJECTED
+        if self.status == OrderRefundRecord.PENDING:
+            self.status = OrderRefundRecord.REJECTED
             self.save()
         return self.status
+
 
 class Charge(BaseModel):
     order = models.ForeignKey(Order, null=True, blank=True)
@@ -1032,6 +1047,7 @@ class Comment(BaseModel):
     # 回复
     reply = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return '%s : %d' % (self.pk, self.score)
 
@@ -1126,6 +1142,7 @@ class TimeSlot(BaseModel):
     @property
     def is_passed(self):
         return timezone.now() > self.end
+
 
 class Message(BaseModel):
     SYSTEM = 's'
