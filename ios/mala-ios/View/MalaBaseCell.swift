@@ -37,8 +37,8 @@ class MalaBaseCell: UITableViewCell {
                 contentView.addSubview(rightArrow)
                 rightArrow.snp_makeConstraints(closure: { (make) -> Void in
                     make.centerY.equalTo(self.title.snp_centerY)
-                    make.width.equalTo(7)
-                    make.height.equalTo(self.title.snp_height)
+                    make.width.equalTo(50)
+                    make.height.equalTo(title.snp_height)
                     make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
                 })
                 
@@ -46,8 +46,8 @@ class MalaBaseCell: UITableViewCell {
                 contentView.addSubview(dropArrow)
                 dropArrow.snp_makeConstraints(closure: { (make) -> Void in
                     make.centerY.equalTo(self.title.snp_centerY)
-                    make.width.equalTo(13)
-                    make.height.equalTo(7)
+                    make.width.equalTo(50)
+                    make.height.equalTo(title.snp_height)
                     make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
                 })
                 
@@ -92,6 +92,7 @@ class MalaBaseCell: UITableViewCell {
     private lazy var rightArrow: UIButton = {
         let rightArrow = UIButton()
         rightArrow.setImage(UIImage(named: "rightArrow"), forState: .Normal)
+        rightArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
         rightArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
         return rightArrow
     }()
@@ -99,6 +100,7 @@ class MalaBaseCell: UITableViewCell {
     private lazy var dropArrow: UIButton = {
         let dropArrow = UIButton()
         dropArrow.setImage(UIImage(named: "dropArrow"), forState: .Normal)
+        dropArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
         dropArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
         return dropArrow
     }()
@@ -153,6 +155,6 @@ class MalaBaseCell: UITableViewCell {
     }
     
     @objc func accessoryViewDidTap(sender: UIButton) {
-    
+        
     }
 }
