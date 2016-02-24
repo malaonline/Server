@@ -14,5 +14,11 @@ $(function(){
             alert("请确保截止查询日期大于开始日期");
             return false;
         }
+        var phone = $.trim($(this).find('input[name=phone]').val());
+        if (phone && (!/^\d+$/.test(phone) || phone.length > 11)) {
+            alert('手机号格式错误');
+            return false;
+        }
+        return true;
     });
 });
