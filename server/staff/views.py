@@ -83,7 +83,8 @@ class BaseStaffActionView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
-# @mala_staff_required
+#因为使用了listView而无法直接继承BaseStaffView
+@method_decorator(mala_staff_required, name='dispatch')
 class CouponsListView(ListView):
     model = models.Coupon
     template_name = 'staff/coupon/coupons_list.html'
@@ -130,18 +131,14 @@ class CouponsListView(ListView):
         if type == 'reg':
             pass
         if status == 'used':
-            pass
+            coupons_list = coupons_list.filter(used = True)
         if status == 'unused':
-            pass
+            now = timezone.now()
+            coupons_list = coupons_list.filter(used = False).exclude(expired_at__lt = now)
         if status == 'expired':
-            pass
-
+            now = timezone.now()
+            coupons_list = coupons_list.filter(used = False).filter(expired_at__lt = now)
         return coupons_list
-
-    # @method_decorator(mala_staff_required)
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
-
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'

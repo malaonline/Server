@@ -775,7 +775,7 @@ class Coupon(BaseModel):
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                                    'D' if self.used else '')
-
+    @property
     def status(self):
         now = timezone.now()
         if self.used:
