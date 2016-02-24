@@ -1,5 +1,15 @@
 from django.conf import settings
 import requests
+import re
+
+def isValidPhone(phone):
+    return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
+
+def isTestPhone(phone):
+    return re.match(r'^000\d+$', phone)
+
+def isValidCode(code):
+    return re.match(r'^\d+$', code)
 
 def sendSms(phone, msg):
     apikey = settings.YUNPIAN_API_KEY # get apikey by global settings

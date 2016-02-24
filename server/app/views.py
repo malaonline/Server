@@ -1,4 +1,3 @@
-import re
 import json
 import random
 import logging
@@ -25,7 +24,7 @@ from rest_framework.pagination import PageNumberPagination
 import pingpp
 
 from app import models
-from .utils.smsUtil import sendCheckcode
+from .utils.smsUtil import sendCheckcode, isValidPhone, isTestPhone, isValidCode
 from .utils.algorithm import verify_sig
 
 
@@ -123,71 +122,10 @@ class ConcreteTimeSlots(View):
 
 
 class Sms(View):
-    expired_time = 10    # 10 minutes
-    resend_span = 1      # 1 minute
-    max_verify_times = 3
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(Sms, self).dispatch(request, *args, **kwargs)
-
-    def isValidPhone(self, phone):
-        return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
-
-    def isTestPhone(self, phone):
-        return re.match(r'^000\d+$', phone)
-
-    def isValidCode(self, code):
-        return re.match(r'^\d+$', code)
-
-    def generateCheckcode(self, phone):
-        # 生成，并保存到数据库或缓存，10分钟后过期
-        # is_test = self.isTestPhone(phone)
-        obj, created = models.Checkcode.objects.get_or_create(
-                phone=phone,
-                defaults={'checkcode': "1111"})
-        # obj, created = models.Checkcode.objects.get_or_create(phone=phone,
-        # defaults={'checkcode': is_test and '1111' or random.randrange(1000,
-        # 9999)})
-        if not created:
-            now = timezone.now()
-            delta = now - obj.updated_at
-            if delta > datetime.timedelta(minutes=self.expired_time):
-                # expired, make new one
-                obj.checkcode = "1111"
-                # obj.checkcode = is_test and '1111' or random.randrange(0, 99)
-                obj.updated_at = now
-                obj.verify_times = 0
-                obj.resend_at = now
-                obj.save()
-            else:
-                resend_at = obj.resend_at and obj.resend_at or obj.updated_at
-                delta = now - resend_at
-                if delta < datetime.timedelta(minutes=self.resend_span):
-                    # resend too much times
-                    return False
-                obj.resend_at = now
-                obj.save()
-        return obj.checkcode
-
-    def verifyCheckcode(self, phone, code):
-        # return is_valid, err_no
-        try:
-            obj = models.Checkcode.objects.get(phone=phone)
-            delta = timezone.now() - obj.updated_at
-            if delta > datetime.timedelta(minutes=self.expired_time):
-                return False, 2
-            if obj.verify_times >= self.max_verify_times:  # meybe got attack
-                return False, 3
-            is_valid = code == obj.checkcode
-            if is_valid:
-                obj.delete()
-            else:
-                obj.verify_times += 1
-                obj.save()
-            return is_valid, 0
-        except:
-            return False, 1
 
     # @method_decorator(csrf_exempt) # here it doesn't work
     def post(self, request):
@@ -197,17 +135,17 @@ class Sms(View):
             if not phone:
                 return JsonResponse({'sent': False,
                                      'reason': 'phone is required'})
-            if not self.isValidPhone(phone):
+            if not isValidPhone(phone):
                 return JsonResponse({'sent': False,
                                      'reason': 'phone is wrong'})
             try:
                 # generate code
-                checkcode = self.generateCheckcode(phone)
+                checkcode = models.Checkcode.generate(phone)
                 if not checkcode:
                     return JsonResponse({'sent': False,
                                          'reason': 'resend too much times'})
                 print('验证码：' + str(checkcode))
-                if not self.isTestPhone(phone):
+                if not isTestPhone(phone):
                     # call send sms api
                     r = sendCheckcode(phone, checkcode)
                     print(r)
@@ -221,13 +159,13 @@ class Sms(View):
             if not phone or not code:
                 return JsonResponse({'verified': False,
                                      'reason': 'params error'})
-            if not self.isValidPhone(phone):
+            if not isValidPhone(phone):
                 return JsonResponse({'sent': False,
                                      'reason': 'phone is wrong'})
-            if not self.isValidCode(code):
+            if not isValidCode(code):
                 return JsonResponse({'sent': False, 'reason': 'code is wrong'})
             try:
-                is_valid, err_no = self.verifyCheckcode(phone, code)
+                is_valid, err_no = models.Checkcode.verify(phone, code)
                 if not is_valid:
                     return JsonResponse({
                         'verified': False,

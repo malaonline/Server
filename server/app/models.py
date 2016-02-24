@@ -1187,6 +1187,11 @@ class Message(BaseModel):
 
 
 class Checkcode(BaseModel):
+
+    EXPIRED_TIME = 10    # 10 minutes
+    RESEND_SPAN = 1      # 1 minute
+    MAX_VERIFY_TIMES = 3 # prevent attacking
+
     phone = models.CharField(max_length=20, unique=True)
     checkcode = models.CharField(max_length=30)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -1194,9 +1199,61 @@ class Checkcode(BaseModel):
     resend_at = models.DateTimeField(blank=True, null=True, default=None)
 
     @staticmethod
-    def verify_sms(phone, code):
+    def has_sms(phone, code):
         try:
             Checkcode.objects.get(phone=phone, checkcode=code)
             return True
         except Checkcode.DoesNotExist:
             return False
+
+    @classmethod
+    def generate(cls, phone):
+        # 生成，并保存到数据库或缓存，10分钟后过期
+        # is_test = self.isTestPhone(phone)
+        obj, created = Checkcode.objects.get_or_create(
+                phone=phone,
+                defaults={'checkcode': "1111"})
+        # obj, created = models.Checkcode.objects.get_or_create(phone=phone,
+        # defaults={'checkcode': is_test and '1111' or random.randrange(1000,
+        # 9999)})
+        if not created:
+            now = timezone.now()
+            delta = now - obj.updated_at
+            if delta > datetime.timedelta(minutes=cls.EXPIRED_TIME):
+                # expired, make new one
+                obj.checkcode = "1111"
+                # obj.checkcode = is_test and '1111' or random.randrange(0, 99)
+                obj.updated_at = now
+                obj.verify_times = 0
+                obj.resend_at = now
+                obj.save()
+            else:
+                resend_at = obj.resend_at and obj.resend_at or obj.updated_at
+                delta = now - resend_at
+                if delta < datetime.timedelta(minutes=cls.RESEND_SPAN):
+                    # resend too much times
+                    return False
+                obj.resend_at = now
+                obj.save()
+        return obj.checkcode
+
+    @classmethod
+    def verify(cls, phone, code):
+        # return is_valid, err_no
+        try:
+            obj = Checkcode.objects.get(phone=phone)
+            delta = timezone.now() - obj.updated_at
+            if delta > datetime.timedelta(minutes=cls.EXPIRED_TIME):
+                return False, 2
+            if obj.verify_times >= cls.MAX_VERIFY_TIMES:  # maybe got attack
+                return False, 3
+            is_valid = code == obj.checkcode
+            if is_valid:
+                obj.delete()
+            else:
+                obj.verify_times += 1
+                obj.save()
+            return is_valid, 0
+        except:
+            return False, 1
+
