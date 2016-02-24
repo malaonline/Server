@@ -122,9 +122,6 @@ class HomeViewController: UIViewController {
                 return
             }
             
-            // 结束下拉刷新
-            self?.tableView.startPullToRefresh()
-            
             self?.tableView.teachers = []
             let resultModel = ResultModel(dict: dict)
             if resultModel.results != nil {
@@ -135,6 +132,9 @@ class HomeViewController: UIViewController {
                 }
             }
             self?.tableView.reloadData()
+            
+            // 结束下拉刷新
+            self?.tableView.stopPullToRefresh()
         }
     }
     
