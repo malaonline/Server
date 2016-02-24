@@ -89,7 +89,7 @@ class MalaBaseCell: UITableViewCell {
         return tagsView
     }()
     /// 详情箭头指示器——附加组件类型之一
-    private lazy var rightArrow: UIButton = {
+    lazy var rightArrow: UIButton = {
         let rightArrow = UIButton()
         rightArrow.setImage(UIImage(named: "rightArrow"), forState: .Normal)
         rightArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
@@ -97,7 +97,7 @@ class MalaBaseCell: UITableViewCell {
         return rightArrow
     }()
     /// 详情箭头指示器——附加组件类型之一
-    private lazy var dropArrow: UIButton = {
+    lazy var dropArrow: UIButton = {
         let dropArrow = UIButton()
         dropArrow.setImage(UIImage(named: "dropArrow"), forState: .Normal)
         dropArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
@@ -105,7 +105,7 @@ class MalaBaseCell: UITableViewCell {
         return dropArrow
     }()
     /// 副标题label——附加组件类型之一
-    private lazy var subTitleLabel: UILabel = {
+    lazy var subTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
         label.textColor = MalaDetailsCellSubTitleColor

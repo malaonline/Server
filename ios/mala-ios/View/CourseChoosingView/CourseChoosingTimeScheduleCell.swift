@@ -11,14 +11,38 @@ import UIKit
 class CourseChoosingTimeScheduleCell: MalaBaseCell {
 
     // MARK: - Property
+    /// 上课时间表字符串数组
     var timeScheduleResult: [String]? {
         didSet {
-            self.tableView.timeSchedule = timeScheduleResult
-            self.tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
+            // 若下拉箭头显示且已经展开，加载时间表
+            if (dropArrow.hidden == false) && (isOpen == true) {
+                self.tableView.timeSchedule = timeScheduleResult
+                self.tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
+                }
+                self.tableView.reloadData()
+            }else {
+                self.tableView.timeSchedule = timeScheduleResult
             }
         }
     }
+    /// 展开标记
+    var isOpen: Bool = false {
+        didSet {
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: isOpen)
+            if isOpen {
+                self.tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
+                }
+            }else {
+                self.tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(0)
+                }
+            }
+        }
+    }
+    private var myContext = 0
+    
     
     // MARK: - Components
     private lazy var tableView: TimeScheduleCellTableView = {
@@ -31,7 +55,9 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Contructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setupUserInterface()
+        configura()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,15 +73,27 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     
     
     // MARK: - Override
-    ///  自定义视图点击事件
-    ///
-    ///  - parameter sender: 自定义视图
-    override func accessoryViewDidTap(sender: UIButton) {
-        print("didtap")
+    ///  cell点击事件
+    func cellDidTap() {
+        if dropArrow.hidden == false {
+            isOpen = !isOpen
+        }
     }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        // 若当前选择课时数为零，隐藏下拉箭头
+        if let courseChoosingObject = object as? CourseChoosingObject  {
+            dropArrow.hidden = (courseChoosingObject.selectedTime.count == 0)
+        }
+    }
+    
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        // Style
+        dropArrow.userInteractionEnabled = false
+        dropArrow.hidden = true
+        
         // SubViews
         content.addSubview(tableView)
         
@@ -73,6 +111,15 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             make.height.equalTo(0)
         }
     }
+    
+    private func configura() {
+        // 通过观察originalPrice属性来监听筛选条件的变化
+        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
+    }
+    
+    deinit {
+        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
+    }
 }
 
 
@@ -80,11 +127,7 @@ private let TimeScheduleCellTableViewCellReuseId = "TimeScheduleCellTableViewCel
 class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    var timeSchedule: [String]? {
-        didSet {
-            reloadData()
-        }
-    }
+    var timeSchedule: [String]?
     
     
     // MARK: - Constructed
@@ -98,14 +141,15 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     // MARK: - Private Method
     private func configura() {
         delegate = self
         dataSource = self
-        registerClass(TimeScheduleCellTableViewCell.self, forCellReuseIdentifier: TimeScheduleCellTableViewCellReuseId)
-        
         self.separatorStyle = .None
+        registerClass(TimeScheduleCellTableViewCell.self, forCellReuseIdentifier: TimeScheduleCellTableViewCellReuseId)
     }
+    
     
     // MARK: - Delegate
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

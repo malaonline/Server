@@ -53,6 +53,7 @@ let MalaNotification_ChoosingGrade = "com.malalaoshi.app.ChoosingGrade"
 let MalaNotification_ChoosingSchool = "com.malalaoshi.app.ChoosingSchool"
 let MalaNotification_ClassScheduleDidTap = "com.malalaoshi.app.ClassScheduleDidTap"
 let MalaNotification_ClassPeriodDidChange = "com.malalaoshi.app.ClassPeriodDidChange"
+let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeScheduleCell"
 
 
 // MARK: - Appearance TintColor

@@ -42,6 +42,14 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             }
         }
     }
+    /// 上课地点Cell展开标识
+    var isOpenTimeScheduleCell: Bool = false {
+        didSet {
+            if isOpenTimeScheduleCell != oldValue {
+                reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+            }
+        }
+    }
     /// 课程表数据模型
     var classScheduleModel: [[ClassScheduleDayModel]] = [] {
         didSet {
@@ -95,7 +103,10 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        // 若点击【上课时间】Cell
+        if indexPath.section == 4 {
+            (tableView.cellForRowAtIndexPath(indexPath) as? CourseChoosingTimeScheduleCell)?.cellDidTap()
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -154,6 +165,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         case 4:
             let cell = reuseCell as! CourseChoosingTimeScheduleCell
             cell.accessory = .DropArrow
+            cell.isOpen = self.isOpenTimeScheduleCell
             cell.timeScheduleResult = self.timeScheduleResult
             return cell
             

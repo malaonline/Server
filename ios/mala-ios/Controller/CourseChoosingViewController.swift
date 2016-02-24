@@ -202,9 +202,12 @@ class CourseChoosingViewController: UIViewController {
                     self?.tableView.selectedIndexPath = self?.selectedSchoolIndexPath
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
-                    // 当户用选择不同的上课地点时，更新课程表视图
+                    // 当户用选择不同的上课地点时，更新课程表视图,清空所有选课条件
                     if school.schoolModel?.id != MalaCourseChoosingObject.school?.id {
                         self?.loadClassSchedule()
+                        MalaCourseChoosingObject.reset()
+                        self?.tableView.isPeriodNeedUpdate = true
+                        (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                     }
                     
                     // 保存用户所选上课地点
@@ -243,7 +246,6 @@ class CourseChoosingViewController: UIViewController {
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                     let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int((MalaCourseChoosingObject.selectedTime.count)*2))
-                    (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
@@ -260,12 +262,21 @@ class CourseChoosingViewController: UIViewController {
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                     let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
-                    (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
         }
         self.observers.append(observerClassPeriodDidChange)
+        // 展开/收起 上课时间表
+        let observerOpenTimeScheduleCell = NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_OpenTimeScheduleCell,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                if let bool = notification.object as? Bool {
+                    self?.tableView.isOpenTimeScheduleCell = bool
+                }
+        }
+        self.observers.append(observerOpenTimeScheduleCell)
     }
     
     @objc private func popSelf() {
@@ -278,55 +289,5 @@ class CourseChoosingViewController: UIViewController {
             NSNotificationCenter.defaultCenter().removeObserver(observer)
             self.observers.removeAtIndex(0)
         }
-    }
-}
-
-
-// MARK: - 课程购买模型
-class CourseChoosingObject: NSObject {
-    
-    // MARK: - Property
-    /// 授课年级
-    dynamic var price: GradePriceModel? {
-        didSet {
-            originalPrice = getPrice()
-        }
-    }
-    /// 上课地点
-    dynamic var school: SchoolModel?
-    /// 已选上课时间
-    dynamic var selectedTime: [ClassScheduleDayModel] = [] {
-        didSet {
-            originalPrice = getPrice()
-        }
-    }
-    /// 上课小时数
-    dynamic var classPeriod: Int = 2 {
-        didSet {
-            originalPrice = getPrice()
-        }
-    }
-    /// 原价
-    dynamic var originalPrice: Int = 0
-    
-    
-    // MARK: - API
-    ///  根据当前选课条件获取价格, 选课条件不正确时返回0
-    ///
-    ///  - returns: 原价
-    func getPrice() ->Int {
-        if (price?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
-            return (price?.price)! * (selectedTime.count*2)
-        }else {
-            return 0
-        }
-    }
-    
-    ///  重置选课模型
-    func reset() {
-        price = nil
-        school = nil
-        selectedTime.removeAll()
-        classPeriod = 2
     }
 }
