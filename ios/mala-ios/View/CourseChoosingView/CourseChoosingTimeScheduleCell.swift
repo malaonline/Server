@@ -46,6 +46,14 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     }
     
     
+    // MARK: - Override
+    ///  自定义视图点击事件
+    ///
+    ///  - parameter sender: 自定义视图
+    override func accessoryViewDidTap(sender: UIButton) {
+        print("didtap")
+    }
+    
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews

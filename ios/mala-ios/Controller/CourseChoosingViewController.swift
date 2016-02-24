@@ -29,12 +29,13 @@ class CourseChoosingViewController: UIViewController {
             self.tableView.classScheduleModel = classScheduleModel
         }
     }
-    /// 当前课程选择对象
-    var choosingObject: CourseChoosingObject? = CourseChoosingObject()
     /// 上课地点Cell打开标识
     var isOpenSchoolsCell: Bool = false
     /// 当前上课地点记录下标
     var selectedSchoolIndexPath: NSIndexPath  = NSIndexPath(forRow: 0, inSection: 0)
+    /// 观察者对象数组
+    var observers: [AnyObject] = []
+    
     
     
     // MARK: - Compontents
@@ -135,7 +136,7 @@ class CourseChoosingViewController: UIViewController {
     }
     
     private func loadClassSchedule() {
-        NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (choosingObject?.school?.id ?? 1)) {
+        NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (MalaCourseChoosingObject.school?.id ?? 1)) {
             [weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("CourseChoosingViewController - loadClassSchedule Request Error")
@@ -173,16 +174,21 @@ class CourseChoosingViewController: UIViewController {
     
     private func setupNotification() {
         // 授课年级选择
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerChoosingGrade = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ChoosingGrade,
             object: nil,
-            queue: nil) { [weak self] (notification) -> Void in
-                // 保存用户所选课程
+            queue: nil) { (notification) -> Void in
                 let price = notification.object as! GradePriceModel
-                self?.choosingObject?.price = price
+                
+                // 保存用户所选课程
+                if price != MalaCourseChoosingObject.price {
+                    MalaCourseChoosingObject.price = price
+                    
+                }
         }
+        self.observers.append(observerChoosingGrade)
         // 选择上课地点
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerChoosingSchool = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ChoosingSchool,
             object: nil,
             queue: nil
@@ -197,64 +203,69 @@ class CourseChoosingViewController: UIViewController {
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
                     // 当户用选择不同的上课地点时，更新课程表视图
-                    if school.schoolModel?.id != self?.choosingObject?.school?.id {
+                    if school.schoolModel?.id != MalaCourseChoosingObject.school?.id {
                         self?.loadClassSchedule()
                     }
                     
                     // 保存用户所选上课地点
-                    self?.choosingObject?.school = school.schoolModel
+                    MalaCourseChoosingObject.school = school.schoolModel
                     
                     // 设置tableView 的数据源和选中项
                     self?.tableView.schoolModel = [school.schoolModel!]
                     self?.selectedSchoolIndexPath = school.selectedIndexPath!
                 }
         }
+        self.observers.append(observerChoosingSchool)
         // 选择上课时间
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerClassScheduleDidTap = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ClassScheduleDidTap,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
                 let model = notification.object as! ClassScheduleDayModel
+                
                 // 判断上课时间是否已经选择
-                let index = self?.choosingObject?.selectedTime.indexOf(model)
+                let index = MalaCourseChoosingObject.selectedTime.indexOf(model)
                 // 如果上课时间尚未选择，加入课程购买模型
                 // 如果上课时间已经选择，从课程购买模型中移除
                 if index == nil {
-                    self?.choosingObject?.selectedTime.append(model)
+                    MalaCourseChoosingObject.selectedTime.append(model)
                 }else {
-                    self?.choosingObject?.selectedTime.removeAtIndex(index!)
+                    MalaCourseChoosingObject.selectedTime.removeAtIndex(index!)
                 }
+                
                 // 改变课时选择的基数，并刷新课时选择Cell
                 // 课时基数最小为2
-                let stepValue = Double((self?.choosingObject?.selectedTime.count ?? 1)*2)
+                let stepValue = Double((MalaCourseChoosingObject.selectedTime.count ?? 1)*2)
                 MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
                 // 课时选择
                 self?.tableView.isPeriodNeedUpdate = true
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
-                if self?.choosingObject?.selectedTime != nil {
-                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int((self?.choosingObject?.selectedTime.count)!*2))
+                if MalaCourseChoosingObject.selectedTime.count != 0 {
+                    let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int((MalaCourseChoosingObject.selectedTime.count)*2))
                     (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
         }
+        self.observers.append(observerClassScheduleDidTap)
         // 选择课时
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerClassPeriodDidChange = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ClassPeriodDidChange,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
                 let period = (notification.object as? Double) ?? 2
                 // 保存选择课时数
-                self?.choosingObject?.classPeriod = Int(period == 0 ? 2 : period)
+                MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
                 // 上课时间
-                if self?.choosingObject?.selectedTime != nil && self?.choosingObject?.classPeriod != nil {
-                    let array = ThemeDate.dateArray((self?.choosingObject?.selectedTime)!, period: Int((self?.choosingObject?.classPeriod)!))
+                if MalaCourseChoosingObject.selectedTime.count != 0 {
+                    let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
                     (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 4)) as? CourseChoosingTimeScheduleCell)?.timeScheduleResult = array
                     self?.tableView.timeScheduleResult = array
                     self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
         }
+        self.observers.append(observerClassPeriodDidChange)
     }
     
     @objc private func popSelf() {
@@ -263,10 +274,10 @@ class CourseChoosingViewController: UIViewController {
     
     deinit {
         print("choosing Controller deinit")
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ChoosingGrade, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassScheduleDidTap, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ClassPeriodDidChange, object: nil)
+        for observer in observers {
+            NSNotificationCenter.defaultCenter().removeObserver(observer)
+            self.observers.removeAtIndex(0)
+        }
     }
 }
 
@@ -274,12 +285,48 @@ class CourseChoosingViewController: UIViewController {
 // MARK: - 课程购买模型
 class CourseChoosingObject: NSObject {
     
+    // MARK: - Property
     /// 授课年级
-    var price: GradePriceModel?
+    dynamic var price: GradePriceModel? {
+        didSet {
+            originalPrice = getPrice()
+        }
+    }
     /// 上课地点
-    var school: SchoolModel?
+    dynamic var school: SchoolModel?
     /// 已选上课时间
-    var selectedTime: [ClassScheduleDayModel] = []
+    dynamic var selectedTime: [ClassScheduleDayModel] = [] {
+        didSet {
+            originalPrice = getPrice()
+        }
+    }
     /// 上课小时数
-    var classPeriod: Int = 2
+    dynamic var classPeriod: Int = 2 {
+        didSet {
+            originalPrice = getPrice()
+        }
+    }
+    /// 原价
+    dynamic var originalPrice: Int = 0
+    
+    
+    // MARK: - API
+    ///  根据当前选课条件获取价格, 选课条件不正确时返回0
+    ///
+    ///  - returns: 原价
+    func getPrice() ->Int {
+        if (price?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
+            return (price?.price)! * (selectedTime.count*2)
+        }else {
+            return 0
+        }
+    }
+    
+    ///  重置选课模型
+    func reset() {
+        price = nil
+        school = nil
+        selectedTime.removeAll()
+        classPeriod = 2
+    }
 }

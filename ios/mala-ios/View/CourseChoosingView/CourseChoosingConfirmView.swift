@@ -11,6 +11,14 @@ import UIKit
 class CourseChoosingConfirmView: UIView {
 
     // MARK: - Property
+    /// 需支付金额
+    var price: Int = 0 {
+        didSet{
+            self.priceLabel.text = String(format: "￥%.2f", Float(price))
+            self.priceLabel.sizeToFit()
+        }
+    }
+    private var myContext = 0
     
     
     // MARK: - Components
@@ -23,6 +31,7 @@ class CourseChoosingConfirmView: UIView {
     /// 价格说明标签
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
+        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         stringLabel.textColor = MalaDetailsCellTitleColor
         stringLabel.text = "还需支付:"
         return stringLabel
@@ -30,7 +39,9 @@ class CourseChoosingConfirmView: UIView {
     /// 金额标签
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.textColor = UIColor.redColor()
+        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.textColor = MalaTeacherCellLevelColor
+        priceLabel.textAlignment = .Left
         priceLabel.text = "￥0.00"
         return priceLabel
     }()
@@ -50,11 +61,20 @@ class CourseChoosingConfirmView: UIView {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setupUserInterface()
+        configura()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Override
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        // 当选课条件改变时，更新总价
+        self.price = getAmount() ?? 0
     }
     
     
@@ -83,7 +103,8 @@ class CourseChoosingConfirmView: UIView {
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(stringLabel.snp_right)
-            make.centerY.equalTo(self.snp_centerY)
+            make.width.equalTo(100)
+            make.bottom.equalTo(stringLabel.snp_bottom)
             make.height.equalTo(MalaLayout_FontSize_14)
         }
         confirmButton.snp_makeConstraints { (make) -> Void in
@@ -92,5 +113,14 @@ class CourseChoosingConfirmView: UIView {
             make.width.equalTo(144)
             make.height.equalTo(37)
         }
+    }
+    
+    private func configura() {
+        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
+    }
+    
+    
+    deinit {
+        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
     }
 }

@@ -108,6 +108,10 @@ class HomeViewController: UIViewController {
     }
     
     private func loadTeachers(filters: [String: AnyObject]? = nil) {
+        
+        // 开启下拉刷新
+        self.tableView.startPullToRefresh()
+        
         NetworkTool.sharedTools.loadTeachers(filters) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
@@ -128,6 +132,9 @@ class HomeViewController: UIViewController {
                 }
             }
             self?.tableView.reloadData()
+            
+            // 结束下拉刷新
+            self?.tableView.stopPullToRefresh()
         }
     }
     

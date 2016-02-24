@@ -14,7 +14,7 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
     /// 价格
     var price: Int = 0 {
         didSet {
-            self.priceView.priceLabel.text = String(price)
+            self.priceView.price = price
         }
     }
     
@@ -72,7 +72,17 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
 // MARK: - PriceResultView
 class PriceResultView: UIView {
     
-    // MARK: Components
+    // MARK: - Property
+    /// 价格
+    var price: Int = 0 {
+        didSet{
+            self.priceLabel.text = String(format: "￥%.2f", Float(price))
+            self.priceLabel.sizeToFit()
+        }
+    }
+    private var myContext = 0
+    
+    // MARK: - Components
     /// 价格说明标签
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
@@ -94,10 +104,20 @@ class PriceResultView: UIView {
         super.init(frame: frame)
         
         setupUserInterface()
+        configura()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Override
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        // 当选课条件改变时，更新原价
+        if let courseChoosingObject = object as? CourseChoosingObject  {
+            self.price = courseChoosingObject.originalPrice
+        }
     }
     
     
@@ -121,5 +141,14 @@ class PriceResultView: UIView {
             make.centerY.equalTo(self.snp_centerY)
             make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_12)
         }
+    }
+    
+    private func configura() {
+        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
+    }
+    
+    
+    deinit {
+        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
     }
 }

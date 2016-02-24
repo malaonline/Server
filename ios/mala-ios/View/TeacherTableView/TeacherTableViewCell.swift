@@ -11,9 +11,10 @@ import UIKit
 class TeacherTableViewCell: UITableViewCell {
 
     // MARK: - Property
+    /// 老师简介模型
     var model: TeacherModel? {
         didSet{
-            tagsTitle.setTitle((model!.grades_shortname ?? "")+" • "+(model!.subject ?? ""), forState: .Normal)
+            courseLabel.setTitle((model!.grades_shortname ?? "")+" • "+(model!.subject ?? ""), forState: .Normal)
             nameLabel.text = model!.name
             levelLabel.text = "  "+(model!.level ?? "麻辣讲师")+"  "
             avatarView.kf_setImageWithURL(model!.avatar!, placeholderImage: nil)
@@ -28,23 +29,28 @@ class TeacherTableViewCell: UITableViewCell {
     
     
     // MARK: - Components
+    /// 布局视图（卡片式Cell白色背景）
     private lazy var content: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.whiteColor()
         return view
     }()
-    private lazy var tagsTitle: UIButton = {
-        let tagsTitle = UIButton()
-        tagsTitle.setBackgroundImage(UIImage(named: "tagsTitle"), forState: .Normal)
-        tagsTitle.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
-        return tagsTitle
+    /// 授课类型label
+    private lazy var courseLabel: UIButton = {
+        let courseLabel = UIButton()
+        courseLabel.setBackgroundImage(UIImage(named: "tagsTitle"), forState: .Normal)
+        courseLabel.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        courseLabel.userInteractionEnabled = false
+        return courseLabel
     }()
+    /// 老师姓名label
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_17)
         nameLabel.textColor = MalaDetailsCellTitleColor
         return nameLabel
     }()
+    /// 老师级别label
     private lazy var levelLabel: UILabel = {
         let levelLabel = UILabel()
         levelLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_13)
@@ -52,11 +58,13 @@ class TeacherTableViewCell: UITableViewCell {
         levelLabel.textColor = MalaTeacherCellLevelColor
         return levelLabel
     }()
+    /// 级别所在分割线
     private lazy var separator: UIView = {
         let separator = UIView()
         separator.backgroundColor = MalaTeacherCellSeparatorColor
         return separator
     }()
+    /// 老师头像ImageView
     private lazy var avatarView: UIImageView = {
         let avatarView = UIImageView()
         avatarView.frame = CGRect(x: 0, y: 0, width: MalaLayout_AvatarSize, height: MalaLayout_AvatarSize)
@@ -66,12 +74,14 @@ class TeacherTableViewCell: UITableViewCell {
         avatarView.contentMode = .ScaleAspectFill
         return avatarView
     }()
+    /// 授课价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont(name: "PingFangSC", size: MalaLayout_FontSize_12)
         priceLabel.textColor = MalaAppearanceTextColor
         return priceLabel
     }()
+    /// 风格标签label
     private lazy var tagsLabel: UILabel = {
         let tagsLabel = UILabel()
         tagsLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_11)
@@ -98,7 +108,7 @@ class TeacherTableViewCell: UITableViewCell {
         
         // SubViews
         contentView.addSubview(content)
-        contentView.addSubview(tagsTitle)
+        contentView.addSubview(courseLabel)
         content.addSubview(nameLabel)
         content.addSubview(levelLabel)
         content.insertSubview(separator, belowSubview: levelLabel)
@@ -113,7 +123,7 @@ class TeacherTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_4)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
         }
-        tagsTitle.snp_makeConstraints { (make) -> Void in
+        courseLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_4)
             make.left.equalTo(self.contentView.snp_left)
             make.height.equalTo(24)

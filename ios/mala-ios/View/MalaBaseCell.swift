@@ -36,9 +36,18 @@ class MalaBaseCell: UITableViewCell {
             case .RightArrow:
                 contentView.addSubview(rightArrow)
                 rightArrow.snp_makeConstraints(closure: { (make) -> Void in
-                    make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
-                    make.width.equalTo(7)
-                    make.height.equalTo(self.title.snp_height)
+                    make.centerY.equalTo(self.title.snp_centerY)
+                    make.width.equalTo(50)
+                    make.height.equalTo(title.snp_height)
+                    make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+                })
+                
+            case .DropArrow:
+                contentView.addSubview(dropArrow)
+                dropArrow.snp_makeConstraints(closure: { (make) -> Void in
+                    make.centerY.equalTo(self.title.snp_centerY)
+                    make.width.equalTo(50)
+                    make.height.equalTo(title.snp_height)
                     make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
                 })
                 
@@ -50,9 +59,6 @@ class MalaBaseCell: UITableViewCell {
                     make.height.equalTo(self.title.snp_height)
                     make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
                 })
-                
-            default:
-                break
             }
         }
     }
@@ -83,9 +89,20 @@ class MalaBaseCell: UITableViewCell {
         return tagsView
     }()
     /// 详情箭头指示器——附加组件类型之一
-    private lazy var rightArrow: UIImageView = {
-        let rightArrowView = UIImageView(image: UIImage(named: "rightArrow"))
-        return rightArrowView
+    private lazy var rightArrow: UIButton = {
+        let rightArrow = UIButton()
+        rightArrow.setImage(UIImage(named: "rightArrow"), forState: .Normal)
+        rightArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
+        rightArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
+        return rightArrow
+    }()
+    /// 详情箭头指示器——附加组件类型之一
+    private lazy var dropArrow: UIButton = {
+        let dropArrow = UIButton()
+        dropArrow.setImage(UIImage(named: "dropArrow"), forState: .Normal)
+        dropArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
+        dropArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
+        return dropArrow
     }()
     /// 副标题label——附加组件类型之一
     private lazy var subTitleLabel: UILabel = {
@@ -135,5 +152,9 @@ class MalaBaseCell: UITableViewCell {
             make.left.equalTo(self.content.snp_left)
             make.right.equalTo(self.content.snp_right)
         }
+    }
+    
+    @objc func accessoryViewDidTap(sender: UIButton) {
+        
     }
 }
