@@ -1734,6 +1734,10 @@ class WalletView(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         account = teacher.safe_get_account()
         context['account'] = account
+        bankcards = models.BankCard.objects.filter(account=account)
+        if bankcards.count() > 0:
+            bankcard = bankcards[0]
+            context['bankcard'] = bankcard
         histories = models.AccountHistory.objects.filter(account=account, done=True).order_by("-submit_time")
         # paginate
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
@@ -1759,6 +1763,10 @@ class WalletBankcardView(BaseTeacherView):
         context, teacher = self.getContextTeacher(request)
         self.setSidebarContent(teacher, context)
         if step == 'success':
+            return render(request, self.success_template_path, context)
+        account = teacher.safe_get_account()
+        bankcards = models.BankCard.objects.filter(account=account)
+        if bankcards.count() >= 1: # 只支持添加一张银行卡
             return render(request, self.success_template_path, context)
         certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                        defaults={'name': "", 'verified': False})

@@ -680,6 +680,9 @@ class BankCard(BaseModel):
         return '%s %s (%s)' % (self.bank_name, self.card_number,
                                self.account.user)
 
+    def mask_number(self):
+        return '**** **** **** ' + self.card_number[-4:]
+
 
 class BankCodeInfo(BaseModel):
     org_code = models.CharField(max_length=30)
