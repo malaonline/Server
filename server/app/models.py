@@ -1254,6 +1254,6 @@ class Checkcode(BaseModel):
                 obj.verify_times += 1
                 obj.save()
             return is_valid, 0
-        except:
+        except Checkcode.DoesNotExist:
             return False, 1
 
