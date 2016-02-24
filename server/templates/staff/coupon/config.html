@@ -14,16 +14,29 @@
 {% block content %}
     <div class="center-block config-content">
         <div class="form-horizontal config-rule">
-            <div class="form-group">
+            {%if couponRule%}
+                {%for rule in couponRule%}
+                <div class="form-group" name="configRuleCont">
+                  <label class="col-sm-2 control-label">{%if forloop.first%}使用规则{%endif%}</label>
+                  <div class="form-input">
+                    <input type="text" class="form-control" name="couponRule" value="{{rule.content}}">
+                    <a class="btn btn-default" data-action="remove-rule">-</a>
+                  </div>
+                </div>
+                {%endfor%}
+            {%else%}
+            <div class="form-group" name="configRuleCont">
               <label class="col-sm-2 control-label">使用规则</label>
               <div class="form-input">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                <input type="text" class="form-control" name="couponRule">
+                <a class="btn btn-default" data-action="remove-rule">-</a>
               </div>
             </div>
+            {%endif%}
             <div class="form-group">
               <label class="col-sm-2 control-label"></label>
               <div class="form-input">
-                <input type="password" class="form-control" id="inputPassword3">
+                <a class="btn btn-default" data-action="add-more-rule">+</a>
               </div>
             </div>
         </div>
@@ -38,24 +51,24 @@
               </div>
             </div>
         </div>
-        <div class="form-horizontal config-coupon-new" style="border: solid red 1px;">
+        <div class="form-horizontal config-coupon-new">
             <div class="form-group">
               <label class="col-sm-2 control-label">是否开启</label>
               <div class="form-input">
                   <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 开启
+                    <input type="radio" name="isOpened" value="1" {%if couponGenerator.activated%}checked="true"{%endif%}> 开启
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 关闭
+                    <input type="radio" name="isOpened" value="0" {%if not couponGenerator.activated%}checked="true"{%endif%}> 关闭
                   </label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
-                <input type="text" name="validatedStart" id="validatedStart_new" value="{{ searchTime | date:"Y-m-d" }}">
+                <input type="text" name="validatedStart" id="validatedStart_new" value="{{ couponGenerator.validated_start | date:"Y-m-d" }}">
                 <hr>
-                <input type="text" name="expiredAt" id="expiredAt_new" value="{{ searchTime | date:"Y-m-d" }}">
+                <input type="text" name="expiredAt" id="expiredAt_new" value="{{ couponGenerator.expired_at | date:"Y-m-d" }}">
               </div>
             </div>
             <div class="form-group table-group">
@@ -67,14 +80,14 @@
                         <th class="text-center">代金券金额</td>
                       </tr>
                       <tr>
-                        <td class="text-center">购买<input type="number" />课时</td>
-                        <td class="text-center"><input type="number" />元</td>
+                        <td class="text-center input-td">购买<input type="text" id="mini_course_count"  data-action="integer" value="{{couponGenerator.mini_course_count}}"/>课时</td>
+                        <td class="text-center input-td"><input type="text" id="amount" data-action="integer" value="{{couponGenerator.amount}}"/>元</td>
                       </tr>
                   </table>
               </div>
             </div>
         </div>
-        <div class="form-horizontal config-coupon-give" style="border: solid blue 1px;">
+        <div class="form-horizontal config-coupon-give">
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
@@ -83,24 +96,33 @@
                 <input type="text" name="expiredAt" id="expiredAt_give" value="{{ searchTime | date:"Y-m-d" }}">
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group table-group">
               <label class="col-sm-2 control-label">奖学金券</label>
-              <div class="form-input">
-                <input type="password" class="form-control" id="inputPassword3">
+              <div class="form-input table-responsive">
+                  <table class="table table-bordered">
+                      <tr>
+                        <th class="text-center">使用条件</td>
+                        <th class="text-center">代金券金额</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center input-td">购买<input type="text" id="mini_course_count_give"  data-action="integer"/>课时</td>
+                        <td class="text-center input-td"><input type="text" id="amount_give" data-action="integer"/>元</td>
+                      </tr>
+                  </table>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">发送给</label>
               <div class="form-input">
-                <input type="password" class="form-control" id="inputPassword3">
+                <input type="text" class="form-control" id="parent_phone">
               </div>
             </div>
         </div>
-        <div class="form-horizontal config-type-select">
+        <div class="form-horizontal config-save">
             <div class="form-group">
               <label class="col-sm-2 control-label"></label>
               <div class="form-input">
-                <button type="button" class="btn btn-default">确定</button>
+                <button type="button" class="btn btn-default" data-action="save">保存</button>
               </div>
             </div>
         </div>

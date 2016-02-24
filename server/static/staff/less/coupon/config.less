@@ -1,3 +1,4 @@
+@formInputWidth: 245px;
 .form-input{
   display: inline-block;
 }
@@ -11,15 +12,21 @@
   .table-group{
     height: 82px;
     input{
-      width: 30px;
+      width: 50px;
+      border: none;
+      border-bottom: solid 1px;
+    }
+    .input-td{
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 }
 .form-group{
   .form-input{
-    width: 245px;
-    .select,>button{
-      width: 245px;
+    width: @formInputWidth;
+    .select,>button,>a:first-child{
+      width: @formInputWidth;
     }
     .radio-inline{
       margin-left: 45px;
@@ -39,5 +46,20 @@
     margin-bottom: 4px;
     border: solid #000000 1px;
     border-bottom: 0;
+  }
+}
+.config-coupon-give{
+  display: none;
+}
+.config-save{
+  margin-top: 25px;
+}
+.config-rule{
+  .form-input{
+    width: 300px;
+    >input{
+      width: @formInputWidth;
+      display: inline-block;
+    }
   }
 }
