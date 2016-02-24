@@ -31,6 +31,7 @@ class CourseChoosingConfirmView: UIView {
     /// 价格说明标签
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
+        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         stringLabel.textColor = MalaDetailsCellTitleColor
         stringLabel.text = "还需支付:"
         return stringLabel
@@ -38,7 +39,9 @@ class CourseChoosingConfirmView: UIView {
     /// 金额标签
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.textColor = UIColor.redColor()
+        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.textColor = MalaTeacherCellLevelColor
+        priceLabel.textAlignment = .Left
         priceLabel.text = "￥0.00"
         return priceLabel
     }()
@@ -100,7 +103,8 @@ class CourseChoosingConfirmView: UIView {
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(stringLabel.snp_right)
-            make.centerY.equalTo(self.snp_centerY)
+            make.width.equalTo(100)
+            make.bottom.equalTo(stringLabel.snp_bottom)
             make.height.equalTo(MalaLayout_FontSize_14)
         }
         confirmButton.snp_makeConstraints { (make) -> Void in

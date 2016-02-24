@@ -297,9 +297,7 @@ class CourseChoosingObject: NSObject {
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
-            if selectedTime.count > oldValue.count {
-                originalPrice = getPrice()
-            }
+            originalPrice = getPrice()
         }
     }
     /// 上课小时数

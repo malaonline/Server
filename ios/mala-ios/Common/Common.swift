@@ -92,6 +92,7 @@ let MalaCommonString_Cancel = "取消"
 let MalaCommonString_VerifyCode = "验证码"
 let MalaCommonString_FilterResult = "筛选结果"
 let MalaCommonString_CourseChoosing = "课程购买"
+let MalaCommonString_EvaluationFiling = "测评建档服务"
 
 
 // MARK: - Common Proportion
@@ -255,7 +256,7 @@ let MalaWeekdays = [
 
 let MalaOtherService = [
     OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: ScholarshipTableViewController.self),
-    OtherServiceCellModel(title: "测评建档服务", price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
+    OtherServiceCellModel(title: MalaCommonString_EvaluationFiling, price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]
 
 let MalaScholarship = [

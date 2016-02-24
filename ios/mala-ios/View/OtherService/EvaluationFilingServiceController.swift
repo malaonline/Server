@@ -55,6 +55,7 @@ class EvaluationFilingServiceController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(EvaluationFilingServiceCellReuseId, forIndexPath: indexPath)
+        cell.selectionStyle = .None
         if self.introductions?[indexPath.section] != nil {
             (cell as! EvaluationFilingServiceCell).model = self.introductions![indexPath.section]
         }
@@ -64,7 +65,7 @@ class EvaluationFilingServiceController: UITableViewController {
     
     // MARK: - Private Method
     private func configura() {
-        self.title = "测评建档服务"
+        self.title = MalaCommonString_EvaluationFiling
         self.tableView.backgroundColor = UIColor.whiteColor()
         self.tableView.estimatedRowHeight = 300
         self.tableView.separatorStyle = .None

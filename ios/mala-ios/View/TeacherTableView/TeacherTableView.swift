@@ -13,8 +13,6 @@ private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    /// 下拉刷新组件
-    private var refreshControl: UIRefreshControl?
     /// 老师数据模型数组
     var teachers: [TeacherModel]? {
         didSet {
