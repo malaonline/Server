@@ -872,12 +872,15 @@ class OrderManager(models.Manager):
 class Order(BaseModel):
     PENDING = 'u'
     PAID = 'p'
-    CANCLED = 'd'
+    CANCELED = 'd'
+
+    # REFUND 表示已经退费成功的订单
+    # todo: 订单的退费成功状态只应该在审核通过时设置, 其他地方不应操作
     REFUND = "r"
     STATUS_CHOICES = (
         (PENDING, '待付款'),
         (PAID, '已付款'),
-        (CANCLED, '已取消'),
+        (CANCELED, '已取消'),
         (REFUND, '退费')
     )
 
@@ -920,6 +923,41 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
+class OrderRefundRecord(BaseModel):
+    PENDING = 'u'
+    APPROVED = 'a'
+    REJECTED = 'r'
+    # 这里的文字描述是以申请者的角度, 审核者应该分别为("待处理", "已退费", "已驳回")
+    STATUS_CHOICES = (
+        (PENDING, '退费审核中'),
+        (APPROVED, '退费成功'),
+        (REJECTED, '退费被驳回')
+    )
+
+    status = models.CharField(max_length=2,
+                              choices=STATUS_CHOICES,
+                              default=PENDING, )
+
+    order = models.ForeignKey(Order)
+    reason = models.CharField(max_length=100, default="退费原因", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User)
+
+    def approve_refund(self):
+        if self.status == OrderRefundRecords.PENDING:
+            self.status = OrderRefundRecords.APPROVED
+            # todo: 订单的退费成功状态只应该在这一处操作
+            self.order.status = Order.REFUND
+            self.order.save()
+            self.save()
+        return self.status
+
+    def reject_refund(self):
+        if self.status == OrderRefundRecords.PENDING:
+            self.status = OrderRefundRecords.REJECTED
+            self.save()
+        return self.status
 
 class Charge(BaseModel):
     order = models.ForeignKey(Order, null=True, blank=True)
