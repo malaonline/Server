@@ -20,7 +20,7 @@ public class SingleInfoActivity extends BaseActivity implements TitleBarView.OnT
 
     public static int RESULT_CODE_VALUE = 0x002;
     public static String EXTRA_VALUE = "value";
-    public static String EXTRA_TITLE = "value";
+    public static String EXTRA_TITLE = "title";
 
     @Bind(R.id.titleBar)
     TitleBarView titleBar;
@@ -46,7 +46,7 @@ public class SingleInfoActivity extends BaseActivity implements TitleBarView.OnT
             strValue = "";
         }
         etValue.setText(strValue);
-
+        etValue.setSelection(strValue.length());
         String strTitle = intent.getStringExtra(EXTRA_TITLE);
         if (strTitle==null){
             strTitle = "";

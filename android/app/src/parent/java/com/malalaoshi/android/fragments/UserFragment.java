@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -266,7 +267,16 @@ public class UserFragment extends Fragment {
             switch (requestCode){
                 case REQUEST_CODE_PICK_IMAGE:
                     Uri uri = data.getData();
-                    postUserAvator(uri.getPath());
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                    Cursor cursor = getActivity().getContentResolver().query(uri,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    postUserAvator(picturePath);
                 break;
                 case REQUEST_CODE_CAPTURE_CAMEIA:
                     postUserAvator(strAvatorLocPath);

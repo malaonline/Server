@@ -48,6 +48,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
             userName = "";
         }
         etUserName.setText(userName);
+        etUserName.setSelection(userName.length());
         titleBar.setTitle("更改名字");
     }
 
