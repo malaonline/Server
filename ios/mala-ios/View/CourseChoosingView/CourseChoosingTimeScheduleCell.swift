@@ -29,7 +29,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     /// 展开标记
     var isOpen: Bool = false {
         didSet {
-            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: isOpen)
             if isOpen {
                 self.tableView.snp_updateConstraints { (make) -> Void in
                     make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
@@ -76,7 +75,8 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     ///  cell点击事件
     func cellDidTap() {
         if dropArrow.hidden == false {
-            isOpen = !isOpen
+//            isOpen = !isOpen
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
         }
     }
     

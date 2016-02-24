@@ -247,7 +247,6 @@ class CourseChoosingViewController: UIViewController {
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                     let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int((MalaCourseChoosingObject.selectedTime.count)*2))
                     self?.tableView.timeScheduleResult = array
-                    self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
         }
         self.observers.append(observerClassScheduleDidTap)
@@ -263,7 +262,6 @@ class CourseChoosingViewController: UIViewController {
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                     let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
                     self?.tableView.timeScheduleResult = array
-                    self?.tableView.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                 }
         }
         self.observers.append(observerClassPeriodDidChange)

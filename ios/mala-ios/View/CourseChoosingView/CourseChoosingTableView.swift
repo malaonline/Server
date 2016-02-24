@@ -60,7 +60,8 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     /// 上课时间表数据
     var timeScheduleResult: [String]? {
         didSet {
-            
+            // 刷新 [上课时间] Cell
+            reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
         }
     }
     /// 课时需要更新标记 (控制课时只在课程改变时更新，滑动重用时不变)
