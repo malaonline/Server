@@ -270,6 +270,8 @@ class Teacher(BaseModel):
     graduate_school = models.CharField(max_length=50, blank=True, null=True)
     introduce = models.CharField(max_length=200, blank=True, null=True)
 
+    recommended_on_wechat = models.BooleanField(default=False)
+
     def __str__(self):
         return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
                              'Unpublished' if not self.published else '')
