@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.entity.Cource;
-import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.listener.DatePickerController;
 
 import java.util.Calendar;
