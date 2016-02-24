@@ -33,14 +33,14 @@ class TestApi(TestCase):
         token = Token.objects.create(user=user)
         self.assertTrue(isinstance(token.key, str))
 
-    def test_coupons_list(self):
-        token_client = Client()
-        token_request_url = "/staff/coupons/list/"
-        username = "test"
-        password = "mala-test"
-        response = token_client.get(token_request_url, {"username": username,
-                                                         "password": password})
-        self.assertEqual(response.status_code, 200)
+    # def test_coupons_list(self):
+    #     token_client = Client()
+    #     token_request_url = "/staff/coupons/list/"
+    #     username = "test"
+    #     password = "mala-test"
+    #     response = token_client.get(token_request_url, {"username": username,
+    #                                                      "password": password})
+    #     self.assertEqual(response.status_code, 200)
 
     def test_teacher_list(self):
         client = Client()
