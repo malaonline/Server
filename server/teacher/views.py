@@ -71,7 +71,7 @@ class VerifySmsCode(View):
             profile = teacher.user.profile
             profile.phone = phone
             profile.save()
-        if CheckCode.verify_sms(phone, code) is True:
+        if CheckCode.verify(phone, code)[0]:
             # 验证通过
             percent = information_complete_percent(user)
             login(request, user)

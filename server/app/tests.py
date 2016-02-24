@@ -326,9 +326,9 @@ class TestModels(TestCase):
 
     def test_sms_verify(self):
         phone = "18922405996"
-        sms_code = Sms().generateCheckcode(phone)
-        self.assertTrue(Checkcode.verify_sms(phone, sms_code))
-        self.assertFalse(Checkcode.verify_sms(phone, "error_code"))
+        sms_code = Checkcode.generate(phone)
+        self.assertTrue(Checkcode.verify(phone, sms_code)[0])
+        self.assertFalse(Checkcode.verify(phone, "error_code")[0])
 
     def test_other_region(self):
         """
@@ -348,7 +348,7 @@ class TestTeacherWeb(TestCase):
 
     def test_verify_sms_code(self):
         phone = "18922405996"
-        sms_code = Sms().generateCheckcode(phone)
+        sms_code = Checkcode.generate(phone)
         client = Client()
         # 第一次
         response = client.post(reverse("teacher:verify-sms-code"),
@@ -360,6 +360,7 @@ class TestTeacherWeb(TestCase):
         self.assertEqual(json.loads(response.content.decode()), {
             "result": True, "url": "/teacher/information/complete/"})
         # 第二次
+        sms_code = Checkcode.generate(phone)
         second_client = Client()
         response = second_client.post(reverse("teacher:verify-sms-code"),
                                       {
