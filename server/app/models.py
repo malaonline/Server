@@ -776,6 +776,21 @@ class Coupon(BaseModel):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                                    'D' if self.used else '')
 
+    def status(self):
+        now = timezone.now()
+        if self.used:
+            return 'used'
+        elif (not self.used) and now > self.expired_at:
+            return 'expired'
+        else:
+            return 'unused'
+
+    def print_validate_period(self):
+        return '%s ~ %s' % (self.validated_start.date(),self.expired_at.date())
+
+    class Meta: #添加默认排序使列表更合理
+        ordering = ["-created_at"]
+
 
 class WeeklyTimeSlot(BaseModel):
     weekday = models.PositiveIntegerField()  # 1 - 7

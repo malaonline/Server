@@ -88,6 +88,55 @@ class CouponsListView(ListView):
     model = models.Coupon
     template_name = 'staff/coupon/coupons_list.html'
     context_object_name = 'coupons_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(CouponsListView, self).get_context_data(**kwargs)
+        kwargs['statusList'] = [
+            {'text':"状态",'value':""},
+            {'text':"已使用",'value':"used"},
+            {'text':"未使用",'value':"unused"},
+            {'text':"已过期",'value':"expired"},
+                                ]
+        kwargs['typesList'] = [
+            {'text':"类型",'value':""},
+            {'text':"注册",'value':"reg"},
+            {'text':"抽奖",'value':"lotto"},
+                                ]
+        return super(CouponsListView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        coupons_list = self.model.objects.all()
+        #TODO:用字典循环取值
+        # for keyword in ['name','phone','dateFrom','dateTo','type','status']:
+        #     cmd = "%s = self.request.GET.get('%s',None)" % (keyword,keyword)
+        #     exec(cmd)
+        #     print(name)
+        name = self.request.GET.get('name',None)
+        phone = self.request.GET.get('phone',None)
+        dateFrom = self.request.GET.get('dateFrom',None)
+        dateTo = self.request.GET.get('dateTo',None)
+        type = self.request.GET.get('type',None)
+        status = self.request.GET.get('status',None)
+
+        if name:
+            coupons_list = coupons_list.filter(parent__user__username__icontains=name)
+        if phone:
+            coupons_list = coupons_list.filter(parent__user__profile__phone__contains=phone)
+        if dateFrom and dateTo:
+            coupons_list = coupons_list.filter(created_at__range=(dateFrom, dateTo))
+        if type == 'reg':
+            pass
+        if type == 'reg':
+            pass
+        if status == 'used':
+            pass
+        if status == 'unused':
+            pass
+        if status == 'expired':
+            pass
+
+        return coupons_list
 
     # @method_decorator(mala_staff_required)
     # def dispatch(self, request, *args, **kwargs):

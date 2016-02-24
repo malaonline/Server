@@ -1,0 +1,154 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}调课停课记录{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'staff/js/student/reschedule.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+            <div class="col-md-12">
+                <form name="query_form" class="form-inline">
+                    <div class="form-group">
+                        <label for="nameFilterInput">姓名</label>
+                        <input type="text"
+                               class="form-control"
+                               id="nameFilterInput"
+                               name="name"
+                               placeholder="关键字.."
+                               value={{ query_data.name }}
+                               >
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneFilterInput">手机号</label>
+                        <input type="text"
+                               class="form-control"
+                               id="phoneFilterInput"
+                               name="phone"
+                               placeholder="关键字.."
+                               value={{ query_data.phone }}
+                               >
+                    </div>
+                    <div class="form-group">
+                        <label for="dateFromFilterInput">领取日期</label>
+                        <input class="datetimeInput" id="dateFromFilterInput" type="text" name="dateFrom" value="{{ query_data.dateFrom | date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateToFilterInput"> - </label>
+                        <input class="datetimeInput" id="dateToFilterInput" type="text" name="dateTo" value="{{ query_data.dateTo | date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="typeFilterInput">类型</label>
+                        <select name="type"
+                                id="typeFilterInput"
+                                class="form-control">
+                            {% for type in typesList %}
+                                <option value={{ query_data.type.value }}>{{ type.text }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusFilterInput">状态</label>
+                        <select name="status"
+                                id="statusFilterInput"
+                                class="form-control">
+                            {% for status in statusList %}
+                                <option value={{ query_data.status.value }}>{{ status.text }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">查询</button>
+                </form>
+            </div>
+    </div>
+    <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>领取人</th>
+                            <th>手机号</th>
+                            <th>奖学金名称</th>
+                            <th>金额</th>
+                            <th>使用条件</th>
+                            <th>有效期</th>
+                            <th>领取时间</th>
+                            <th>使用时间</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for coupon in coupons_list %}
+                            <tr>
+                                <td>{{ coupon.parent.user.username }}</td>
+                                <td>{{ coupon.parent.user.profile.phone}}</td>
+                                <td>{{ coupon.name }}</td>
+                                <td>{{ coupon.amount }}</td>
+                                {#TODO:(walter)显示规则#}
+                                <td> TODO规则 </td>
+                                <td>{{ coupon.print_validate_period }}</td>
+                                <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
+                                <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
+                                <td>
+                                    {% if coupon.status == 'used' %}
+                                        已使用
+                                    {% elif coupon.status == 'expired' %}
+                                        已过期
+                                    {% else %}
+                                        未使用
+                                    {% endif %}
+                                </td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if is_paginated %}
+                        <ul class="pagination">
+                          <li>
+                            {% if page_obj.has_previous %}
+                              <a href="?page={{ page_obj.previous_page_number }}">
+                                前一页
+                              </a>
+                            {% else %}
+                              <span>前一页</span>
+                            {% endif %}
+                          </li>
+
+                          {% for page_number in paginator.page_range %}
+                            {% if page_number = page_obj.number %}
+                              <li class="active">
+                                <span>{{ page_number }}</span>
+                              </li>
+                            {% else %}
+                              <li>
+                                <a href="?page={{ page_number }}">
+                                  {{ page_number }}
+                                </a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+
+
+                      <li>
+                        {% if page_obj.has_next %}
+                          <a href="?page={{ page_obj.next_page_number }}">
+                            后一页
+                          </a>
+                        {% else %}
+                          <span>后一页</span>
+                        {% endif %}
+                      </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
