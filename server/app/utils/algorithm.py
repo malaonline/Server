@@ -1,5 +1,6 @@
 import base64
 import random
+import re
 
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
@@ -43,6 +44,31 @@ def verify_sig(body, sig, pub_key):
     pubkey = RSA.importKey(pub_key)
     pkcs = PKCS1_v1_5.new(pubkey)
     return pkcs.verify(digest, sig)
+
+
+def check_id_number(id_num):
+    """
+    检测身份证号是否合法
+    """
+    b = re.match('^\d{17}[0-9xX]$', id_num)
+    if (not b):
+        return False
+    w = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2]
+    c = [1,0,'X',9,8,7,6,5,4,3,2]
+    s = 0
+    for i in range(17):
+        s += int(id_num[i])*w[i]
+
+    r = c[s%11]
+    e = id_num[17]
+    return (e.isdigit() and int(e)==r or e=='x' and r=='X')
+
+
+def check_bankcard_number(card_number):
+    """
+    简单判断银行卡号格式是否正确
+    """
+    return re.match('^\d{16,19}$', card_number)
 
 
 class Node:

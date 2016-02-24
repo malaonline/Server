@@ -1,0 +1,26 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的钱包
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/wallet/bankcard_add.less'|compile %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% csrf_token %}
+    <a href="{% url 'teacher:wallet' %}"><span class="title">我的钱包</span></a>
+    &gt;
+    <span>添加银行卡</span>
+{% endblock %}
+
+{% block maincontent %}
+    <div class="success-info">
+        <h3>您的银行卡绑定成功</h3>
+        <div class="note">您的账户余额可以通过提现方式转到本银行卡</div>
+        <a class="btn btn-success" href="{% url 'teacher:wallet' %}">返回</a>
+    </div>
+{% endblock %}

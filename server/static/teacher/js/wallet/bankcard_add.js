@@ -192,10 +192,29 @@ $(function () {
                 $this.removeClass('disabled');
             }
         });
-        return true;
     });
-
+    var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
     $("[data-action=next-step]").click(function(e){
-        return true;
+        if (!canNextStep()) {
+            return alert('请确保以上信息填写完整');
+        }
+        var $form = $("#bankcardAddForm");
+        $form.ajaxSubmit({
+            dataType: 'json',
+            success: function(result){
+                if (result) {
+                    if (result.ok) {
+                        location.href = location.pathname + 'success/';
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(defaultErrMsg);
+            },
+            error: function(e){
+                alert(defaultErrMsg);
+            }
+        });
     });
 });
