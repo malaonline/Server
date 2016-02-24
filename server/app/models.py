@@ -169,6 +169,8 @@ class Price(BaseModel):
     ability = models.ForeignKey(Ability, default=1)
     level = models.ForeignKey(Level)
     price = models.PositiveIntegerField()
+    salary = models.PositiveIntegerField(default=0)
+    commission_percentage = models.PositiveIntegerField(default=0)
 
     class Meta:
         unique_together = ('region', 'ability', 'level')
