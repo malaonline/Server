@@ -35,7 +35,7 @@ class TestApi(TestCase):
 
     def test_coupons_list(self):
         client = Client()
-        url = "/api/v1/staff/coupons/list/?name=par&phone=1&dateFrom=2016-02-16&dateTo=2016-02-19&status=unused"
+        url = "/staff/coupons/list/?name=par&phone=1&dateFrom=2016-02-16&dateTo=2016-02-19&status=unused"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
