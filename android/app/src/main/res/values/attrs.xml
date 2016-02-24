@@ -32,4 +32,63 @@
         <attr name="cusLeftShow" format="boolean" ></attr>
         <attr name="cusRightShow" format="boolean"></attr>
     </declare-styleable>
+
+    <!-- 日历课表 -->
+    <declare-styleable name="DayPickerView">
+        <attr name="topPadding" format="dimension"/>
+        <attr name="bottomPadding" format="dimension"/>
+        <attr name="leftPadding" format="dimension"/>
+        <attr name="rightPadding" format="dimension"/>
+
+        <attr name="monthTopPadding" format="dimension"/>
+        <attr name="monthBottomPadding" format="dimension"/>
+        <attr name="monthTextSize" format="dimension"/>
+        <attr name="dayTopPadding" format="dimension"/>
+        <attr name="dayBottomPadding" format="dimension"/>
+        <attr name="daySpacing" format="dimension"/>
+        <attr name="dayTextSize" format="dimension"/>
+        <attr name="dayLabelTextSize" format="dimension"/>
+
+        <attr name="splitLineStrokeHeight" format="dimension"/>
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="circleSmallRadius" format="dimension"/>
+        <attr name="circleSmallDis" format="dimension"/>
+
+        <attr name="enablePreviousDay" format="boolean"/>
+
+        <attr name="splitLineColor" format="color"/>
+        <attr name="textSelectColor" format="color"/>
+        <attr name="selectColor" format="color"/>
+        <attr name="textNormalColor" format="color"/>
+        <attr name="previousSelectColor" format="color"/>
+        <attr name="firstMonth" format="enum">
+            <enum name="january" value="0" />
+            <enum name="february" value="1" />
+            <enum name="march" value="2" />
+            <enum name="april" value="3" />
+            <enum name="may" value="4" />
+            <enum name="june" value="5" />
+            <enum name="july" value="6" />
+            <enum name="august" value="7" />
+            <enum name="september" value="8" />
+            <enum name="october" value="9" />
+            <enum name="november" value="10" />
+            <enum name="december" value="11" />
+        </attr>
+        <attr name="lastMonth" format="enum">
+            <enum name="january" value="0" />
+            <enum name="february" value="1" />
+            <enum name="march" value="2" />
+            <enum name="april" value="3" />
+            <enum name="may" value="4" />
+            <enum name="june" value="5" />
+            <enum name="july" value="6" />
+            <enum name="august" value="7" />
+            <enum name="september" value="8" />
+            <enum name="october" value="9" />
+            <enum name="november" value="10" />
+            <enum name="december" value="11" />
+        </attr>
+        <attr name="currentDaySelected" format="boolean" />
+    </declare-styleable>
 </resources>

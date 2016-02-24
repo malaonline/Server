@@ -88,4 +88,12 @@
     <color name="tab_text_normal_color">#6c6c6c</color>
     <color name="tab_text_press_color">#82b4d9</color>
 
+    <!-- 日历课表 -->
+    <color name="calendar_split_line_color">#e5e5e5</color>
+    <color name="calendar_text_select_color">#ffffff</color>
+    <color name="calendar_select_color">#82b4d9</color>
+    <color name="calendar_text_normal_color">#333333</color>
+    <color name="calendar_previous_select_color">#dadada</color>
+
+    <color name="calendar_week_bg">#f7f7f7</color>
 </resources>
