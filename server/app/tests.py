@@ -29,9 +29,17 @@ class TestApi(TestCase):
 
     def test_token_key(self):
         # 测试token是否能正常创建
-        user = User.objects.get(username="parent0")
-        token = Token.objects.create(user=user)
-        self.assertTrue(isinstance(token.key, str))
+        token_client = Client()
+        token_request_url = "/api/v1/token-auth"
+        username = "test"
+        password = "mala-test"
+        auth_response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
+        token = json.loads(auth_response.content.decode())["token"]
+        client = Client()
+        request_url = "/staff/coupons/list/"
+        response = client.get(request_url,**{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(response.status_code, 200)
 
     # def test_coupons_list(self):
     #     token_client = Client()
