@@ -129,9 +129,19 @@ class Sms(View):
 
     # @method_decorator(csrf_exempt) # here it doesn't work
     def post(self, request):
-        action = request.POST.get('action')
-        if action == 'send':
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                jsonData = json.loads(request.body.decode())
+                action = jsonData.get('action')
+                phone = jsonData.get('phone')
+                code = jsonData.get('code')
+            except:
+                return HttpResponse(status=400)
+        else:
+            action = request.POST.get('action')
             phone = request.POST.get('phone')
+            code = request.POST.get('code')
+        if action == 'send':
             if not phone:
                 return JsonResponse({'sent': False,
                                      'reason': 'phone is required'})
@@ -154,8 +164,6 @@ class Sms(View):
                 print(err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
-            phone = request.POST.get('phone')
-            code = request.POST.get('code')
             if not phone or not code:
                 return JsonResponse({'verified': False,
                                      'reason': 'params error'})
