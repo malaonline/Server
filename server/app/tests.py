@@ -1,3 +1,4 @@
+import json
 import itertools
 
 from django.test import TestCase
@@ -7,9 +8,7 @@ from django.test import Client
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
-import json
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order
-from app.views import Sms
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
 
@@ -106,26 +105,17 @@ class TestApi(TestCase):
         self.assertEqual(response.content, response2.content)
 
     def test_modify_student_name(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
         username = "parent1"
         password = "123123"
-        response = token_client.post(token_request_url, {"username": username,
-                                                         "password": password})
-        token = json.loads(response.content.decode())["token"]
         user = User.objects.get(username=username)
-        parent = Parent.objects.get(user=user)
-        user_token = Token.objects.get(user=user)
-        self.assertEqual(user_token.key, token)
-
-        call_command("add_groups_to_sample_users")
+        parent = user.parent
 
         client = Client()
+        client.login(username=username, password=password)
         request_url = "/api/v1/parents/%d" % (parent.pk,)
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                                data=json_data)
         self.assertEqual(200, response.status_code)
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
@@ -135,8 +125,7 @@ class TestApi(TestCase):
         parent_after.student_name = ""
         parent_after.save()
         response = client.patch(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                                data=json_data)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response.content.decode(), '{"done":"true"}')
         json_ret = json.loads(response.content.decode())
@@ -146,8 +135,7 @@ class TestApi(TestCase):
         school_name = '洛阳一中'
         json_data = json.dumps({"student_school_name": school_name})
         response = client.patch(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                                data=json_data)
         self.assertEqual(200, response.status_code)
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
@@ -161,55 +149,38 @@ class TestApi(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_order(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
-        username = "parent1"
-        password = "123123"
-        response = token_client.post(token_request_url, {"username": username,
-                                                         "password": password})
-        token = json.loads(response.content.decode())["token"]
-        user = User.objects.get(username=username)
-        user_token = Token.objects.get(user=user)
-        self.assertEqual(user_token.key, token)
-
         client = Client()
+        username = "parent0"
+        password = "123123"
+        client.login(username=username, password=password)
         request_url = "/api/v1/orders"
         json_data = json.dumps({
             'teacher': 1, 'school': 1, 'grade': 1, 'subject': 1,
             'coupon': 2, 'hours': 14, 'weekly_time_slots': [3, 8],
             })
         response = client.post(request_url, content_type="application/json",
-                               data=json_data,
-                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                               data=json_data,)
         self.assertEqual(201, response.status_code)
         pk = json.loads(response.content.decode())['id']
 
         request_url = "/api/v1/orders/%d" % pk
-        response = client.get(request_url, content_type='application/json',
-                              **{'HTTP_AUTHORIZATION': ' Token %s' % token})
+        response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
 
         # Test create charge object
-        client = Client()
         json_data = json.dumps({
             'action': 'pay', 'channel': 'alipay',
             })
         response = client.patch(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                                data=json_data)
         self.assertEqual(200, response.status_code)
 
     def test_create_comment(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
         username = "parent0"
         password = "123123"
-        response = token_client.post(token_request_url, {"username": username,
-                                                         "password": password})
-        token = json.loads(response.content.decode())["token"]
         user = User.objects.get(username=username)
 
         parent = user.parent
@@ -217,18 +188,17 @@ class TestApi(TestCase):
         timeslot = order.timeslot_set.filter(deleted=False)[0]
 
         client = Client()
+        client.login(username=username, password=password)
         request_url = "/api/v1/comments"
         json_data = json.dumps({
             'timeslot': timeslot.pk, 'score': 5, 'content': 'Good.'})
         response = client.post(request_url, content_type="application/json",
-                               data=json_data,
-                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                               data=json_data)
         self.assertEqual(201, response.status_code)
         pk = json.loads(response.content.decode())['id']
 
         request_url = "/api/v1/comments/%d" % pk
-        response = client.get(request_url, content_type='application/json',
-                              **{'HTTP_AUTHORIZATION': ' Token %s' % token})
+        response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
         json_ret = json.loads(response.content.decode())
@@ -245,8 +215,7 @@ class TestApi(TestCase):
         json_data = json.dumps({
             'timeslot': timeslot2.pk, 'score': 5, 'content': 'Good.'})
         response = client.post(request_url, content_type="application/json",
-                               data=json_data,
-                               **{"HTTP_AUTHORIZATION": " Token %s" % token})
+                               data=json_data)
 
         self.assertEqual(400, response.status_code)
 
@@ -295,21 +264,12 @@ class TestApi(TestCase):
                             pre_ts.end + ts.TRAFFIC_TIME, ts.start)
 
     def test_get_timeslots(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
         username = "parent1"
         password = "123123"
-        response = token_client.post(token_request_url, {"username": username,
-                                                         "password": password})
-        token = json.loads(response.content.decode())["token"]
-        user = User.objects.get(username=username)
-        user_token = Token.objects.get(user=user)
-        self.assertEqual(user_token.key, token)
-
         client = Client()
+        client.login(username=username, password=password)
         request_url = "/api/v1/timeslots"
-        response = client.get(request_url, content_type='application/json',
-                              **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
 
@@ -377,20 +337,12 @@ class TestTeacherWeb(TestCase):
 
 
 class TestStaffWeb(TestCase):
-       def test_coupons_list(self):
+    def test_coupons_list(self):
         client = Client()
-        client.login(username='test',password='mala-test')
+        client.login(username='test', password='mala-test')
         url = "/staff/coupons/list/"
         response = client.get(url)
         self.assertEqual(200, response.status_code)
-        #
-        # token_client = Client()
-        # token_request_url = "/staff/coupons/list/"
-        # username = "test"
-        # password = "mala-test"
-        # response = token_client.get(token_request_url, {"username": username,
-        #                                                  "password": password})
-        # self.assertEqual(response.status_code, 200)
 
 
 class TestAlgorithm(TestCase):
@@ -422,8 +374,22 @@ class TestAlgorithm(TestCase):
         self.assertTrue(parseInt('-asd') == 'NaN')
 
     def test_verify_sig(self):
-        sig = b"PcU0SMJhbPObiIVinNnalZOjI02koWozxLrxa3WQW3rK/n7I+EuVGuXvhsq2MIfUaNiHZDgRFYybGtKr1uuFzEXjA4PwmnDHfWgwRPdjgseoU0eke6ZqGpklBRVTbF6PUy6/vAqur4xb7h1wpdrteUpCPafzDmVPsQLicdojJ/TF9ACjQW8gTNiS6tE9gL5hxy0RJ3/okRJo6dz2pvJBWkjCrgp/r98z/LQijA1o//atZrH63+DcL/GwEOgaymqbodzusXF+g6WMJ/GTJgjdPRHvpO9UAAUKkOQqvwthJvsXIH/L1xqvy+tFpo2J0Ptwg85bowKoyy1qC5ak3sqWqw=="
-        data = '''{"id":"evt_04qN8cXQvIhssduhS4hpqd9p","created":1427555016,"livemode":false,"type":"account.summary.available","data":{"object":{"acct_id":"acct_0eHSiDyzv9G09ejT","object":"account_daily_summary","acct_display_name":"xx公司","created":1425139260,"summary_from":1425052800,"summary_to":1425139199,"charges_amount":1000,"charges_count":100}},"object":"event","pending_webhooks":2,"request":null,"scope":"acct_1234567890123456","acct_id":"acct_1234567890123456"}'''
+        sig = (
+                b'PcU0SMJhbPObiIVinNnalZOjI02koWozxLrxa3WQW3rK/n7I+EuVGuXvh' +
+                b'sq2MIfUaNiHZDgRFYybGtKr1uuFzEXjA4PwmnDHfWgwRPdjgseoU0eke6' +
+                b'ZqGpklBRVTbF6PUy6/vAqur4xb7h1wpdrteUpCPafzDmVPsQLicdojJ/T' +
+                b'F9ACjQW8gTNiS6tE9gL5hxy0RJ3/okRJo6dz2pvJBWkjCrgp/r98z/LQi' +
+                b'jA1o//atZrH63+DcL/GwEOgaymqbodzusXF+g6WMJ/GTJgjdPRHvpO9UA' +
+                b'AUKkOQqvwthJvsXIH/L1xqvy+tFpo2J0Ptwg85bowKoyy1qC5ak3sqWqw' +
+                b'==')
+        data = ('{"id":"evt_04qN8cXQvIhssduhS4hpqd9p","created":1427555016,' +
+                '"livemode":false,"type":"account.summary.available","data"' +
+                ':{"object":{"acct_id":"acct_0eHSiDyzv9G09ejT","object":"ac' +
+                'count_daily_summary","acct_display_name":"xx公司","created' +
+                '":1425139260,"summary_from":1425052800,"summary_to":142513' +
+                '9199,"charges_amount":1000,"charges_count":100}},"object":' +
+                '"event","pending_webhooks":2,"request":null,"scope":"acct_' +
+                '1234567890123456","acct_id":"acct_1234567890123456"}')
         data = data.encode('utf-8')
         pubkey = b'''-----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzs8SiPoFQT9K0lWa6WSx
