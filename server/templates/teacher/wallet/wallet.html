@@ -62,7 +62,7 @@
             {% endfor %}
         </table>
         <div class="clearfix page-info">
-            <div class="pull-left">每页显示10条, 共{{ histories.count }}条</div>
+            <div class="pull-left">每页显示{% if pager and pager.page_size %}{{ pager.page_size }}{% else %}10{% endif %}条, 共{% if pager %}{{ pager.total_count }}{% else %}{{ histories.count }}{% endif %}条</div>
             <div class="pull-right">
                 {% include 'pagination_nav.html' %}
             </div>
