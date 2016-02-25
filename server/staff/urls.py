@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^orders/review/$', views.OrderReviewView.as_view(), name="orders_review"),
     url(r'^orders/refund/$', views.OrderRefundView.as_view(), name="orders_refund"),
     url(r'^coupons/list/$', views.CouponsListView.as_view(), name="coupons_list"),
+    url(r'^coupon/config/$', views.CouponConfigView.as_view(), name="coupon_config"),
 ]

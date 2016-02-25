@@ -1,0 +1,130 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}奖学金设置{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/coupon/config.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/coupon/config.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="center-block config-content">
+        <div class="form-horizontal config-rule">
+            {%if couponRule%}
+                {%for rule in couponRule%}
+                <div class="form-group" name="configRuleCont">
+                  <label class="col-sm-2 control-label">{%if forloop.first%}使用规则{%endif%}</label>
+                  <div class="form-input">
+                    <input type="text" class="form-control" name="couponRule" value="{{rule.content}}">
+                    <a class="btn btn-default" data-action="remove-rule">-</a>
+                  </div>
+                </div>
+                {%endfor%}
+            {%else%}
+            <div class="form-group" name="configRuleCont">
+              <label class="col-sm-2 control-label">使用规则</label>
+              <div class="form-input">
+                <input type="text" class="form-control" name="couponRule">
+                <a class="btn btn-default" data-action="remove-rule">-</a>
+              </div>
+            </div>
+            {%endif%}
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="form-input">
+                <a class="btn btn-default" data-action="add-more-rule">+</a>
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-type-select">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金名称</label>
+              <div class="form-input">
+                  <select class="form-control select" name="couponType" id="couponType">
+                    <option value="new">新生奖学金</option>
+                    <option value="give">赠送奖学金</option>
+                  </select>
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-coupon-new">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">是否开启</label>
+              <div class="form-input">
+                  <label class="radio-inline">
+                    <input type="radio" name="isOpened" value="1" {%if couponGenerator.activated%}checked="true"{%endif%}> 开启
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="isOpened" value="0" {%if not couponGenerator.activated%}checked="true"{%endif%}> 关闭
+                  </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金有效期</label>
+              <div class="form-input time-select">
+                <input type="text" name="validatedStart" id="validatedStart_new" value="{{ couponGenerator.validated_start | date:"Y-m-d" }}">
+                <hr>
+                <input type="text" name="expiredAt" id="expiredAt_new" value="{{ couponGenerator.expired_at | date:"Y-m-d" }}">
+              </div>
+            </div>
+            <div class="form-group table-group">
+              <label class="col-sm-2 control-label">奖学金券</label>
+              <div class="form-input table-responsive">
+                  <table class="table table-bordered">
+                      <tr>
+                        <th class="text-center">使用条件</td>
+                        <th class="text-center">代金券金额</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center input-td">购买<input type="text" id="mini_course_count"  data-action="integer" value="{{couponGenerator.mini_course_count}}"/>课时</td>
+                        <td class="text-center input-td"><input type="text" id="amount" data-action="integer" value="{{couponGenerator.amount}}"/>元</td>
+                      </tr>
+                  </table>
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-coupon-give">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">奖学金有效期</label>
+              <div class="form-input time-select">
+                <input type="text" name="validatedStart" id="validatedStart_give" value="{{ searchTime | date:"Y-m-d" }}">
+                <hr>
+                <input type="text" name="expiredAt" id="expiredAt_give" value="{{ searchTime | date:"Y-m-d" }}">
+              </div>
+            </div>
+            <div class="form-group table-group">
+              <label class="col-sm-2 control-label">奖学金券</label>
+              <div class="form-input table-responsive">
+                  <table class="table table-bordered">
+                      <tr>
+                        <th class="text-center">使用条件</td>
+                        <th class="text-center">代金券金额</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center input-td">购买<input type="text" id="mini_course_count_give"  data-action="integer"/>课时</td>
+                        <td class="text-center input-td"><input type="text" id="amount_give" data-action="integer"/>元</td>
+                      </tr>
+                  </table>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">发送给</label>
+              <div class="form-input">
+                <input type="text" class="form-control" id="parent_phone">
+              </div>
+            </div>
+        </div>
+        <div class="form-horizontal config-save">
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="form-input">
+                <button type="button" class="btn btn-default" data-action="save">保存</button>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -13,6 +13,8 @@ from django.db.models import Q
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
 
+import json
+
 # local modules
 from app import models
 from app.utils import smsUtil
@@ -1183,3 +1185,96 @@ class SchoolTimeslotView(BaseStaffView):
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
         return JsonResponse({'ok': False, 'msg': '系统错误', 'code': -1})
+
+class CouponConfigView(BaseStaffView):
+    template_name = 'staff/coupon/config.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CouponConfigView, self).get_context_data(**kwargs)
+
+        return context
+
+    def get(self, request):
+        context = self.get_context_data()
+        couponRules = models.CouponRule.objects.order_by('id')
+        couponGenerators = models.CouponGenerator.objects.order_by('-id')
+        if couponRules:
+            context['couponRule'] = couponRules
+        if couponGenerators:
+            context['couponGenerator'] = couponGenerators[0]
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        context = self.get_context_data()
+
+        couponType = self.request.POST.get('couponType', None)
+        used = self.request.POST.get('opened')
+        if used == '1':
+            used = True
+        else:
+            used = False
+        couponName = self.request.POST.get('couponName')
+        amount = self.request.POST.get('amount', 0)
+        mini_course_count = self.request.POST.get('mini_course_count', 0)
+        parent_phone = self.request.POST.get('parent_phone')
+        expiredAt = self.request.POST.get('expiredAt', None)
+        validatedStart = self.request.POST.get('validatedStart', None)
+        couponRules = self.request.POST.get('couponRules')
+        couponRules_list = None
+        if couponRules:
+            couponRules_list = json.loads(couponRules)
+            models.CouponRule.objects.all().delete()
+            for item in couponRules_list:
+                models.CouponRule(content=item).save()
+
+        if couponType == 'new':
+            couponGenerators = models.CouponGenerator.objects.order_by('-id')
+            gen = None
+            if couponGenerators:
+                gen = couponGenerators[0]
+            else:
+                gen = models.CouponGenerator()
+            gen.activated = used
+            if validatedStart:
+                gen.validated_start = datetime.datetime.strptime(validatedStart, '%Y-%m-%d')
+            if expiredAt:
+                gen.expired_at = datetime.datetime.strptime(expiredAt, '%Y-%m-%d')
+            try:
+                gen.amount = int(amount)
+            except:
+                gen.amount = 0
+            try:
+                gen.mini_course_count = int(mini_course_count)
+            except:
+                gen.mini_course_count =  0
+
+            gen.save()
+
+        elif couponType == 'give':
+            query_set = models.Parent.objects.filter()
+            query_set = query_set.filter(user__profile__phone = parent_phone)
+            if query_set.count() == 0:
+                return JsonResponse({'ok': False, 'msg': '家长不存在', 'code': -1})
+
+            if validatedStart:
+                validated_start = datetime.datetime.strptime(validatedStart, '%Y-%m-%d')
+            else:
+                validated_start = timezone.now()
+            if expiredAt:
+                expired_at = datetime.datetime.strptime(expiredAt, '%Y-%m-%d')
+            else:
+                expired_at = timezone.now()
+            try:
+                amount = int(amount)
+            except:
+                amount = 0
+            try:
+                mini_course_count = int(mini_course_count)
+            except:
+                mini_course_count =  0
+            models.Coupon.objects.get_or_create(parent=query_set[0], name=couponName, amount=amount,
+                                                mini_course_count=mini_course_count,validated_start=validated_start,
+                                                expired_at=expired_at,used=False)
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
