@@ -378,20 +378,10 @@ class TestTeacherWeb(TestCase):
 
 class TestStaffWeb(TestCase):
        def test_coupons_list(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
-        username = "test"
-        password = "mala-test"
-        response = token_client.post(token_request_url, {"username": username,
-                                                         "password": password})
-        token = json.loads(response.content.decode())["token"]
-
         client = Client()
-        request_url = "/staff/coupons/list/"
-        json_data = json.dumps({"student_name": "StudentNewName"})
-        response = client.patch(request_url, content_type="application/json",
-                                data=json_data,
-                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        client.login(username='test',password='mala-test')
+        url = "/staff/coupons/list/"
+        response = client.get(url)
         self.assertEqual(200, response.status_code)
         #
         # token_client = Client()

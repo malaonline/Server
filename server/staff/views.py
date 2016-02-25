@@ -104,6 +104,12 @@ class CouponsListView(ListView):
             {'text':"注册",'value':"reg"},
             {'text':"抽奖",'value':"lotto"},
                                 ]
+        kwargs['name'] = self.request.GET.get('name',None)
+        kwargs['phone'] = self.request.GET.get('phone',None)
+        kwargs['dateFrom'] = self.request.GET.get('dateFrom',None)
+        kwargs['dateTo'] = self.request.GET.get('dateTo',None)
+        kwargs['type'] = self.request.GET.get('type',None)
+        kwargs['status'] = self.request.GET.get('status',None)
         return super(CouponsListView, self).get_context_data(**kwargs)
 
     def get_queryset(self):
