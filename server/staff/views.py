@@ -549,7 +549,10 @@ class TeacherBankcardView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
-        kwargs['query_data'] = self.request.GET.dict()
+        query_data = {}
+        query_data['name'] = self.request.GET.get('name', '')
+        query_data['phone'] = self.request.GET.get('phone', '')
+        kwargs['query_data'] = query_data
         #
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
