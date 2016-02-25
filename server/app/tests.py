@@ -344,6 +344,12 @@ class TestStaffWeb(TestCase):
         response = client.get(url)
         self.assertEqual(200, response.status_code)
 
+    def test_coupon_config(self):
+        client = Client()
+        client.login(username='test',password='mala-test')
+        response = client.get(reverse("staff:coupon_config"))
+        self.assertEqual(response.status_code, 200)
+
 
 class TestAlgorithm(TestCase):
     def test_tree_insert(self):
