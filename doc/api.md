@@ -317,7 +317,7 @@ result:
 ### Save child name
 
 ```
-PATCH /api/v1/parent/(\d+)
+PATCH /api/v1/parents/(\d+)
 ```
 
 header data:
@@ -333,17 +333,14 @@ content_type: application/json
 body data:
 
 ```
-
 {
     student_name=XYZ
 }
-
 ```
 
 result:
 
 ```
-body
 {
     "done": "true"
 }
@@ -352,7 +349,7 @@ body
 ### Save child school name
 
 ```
-PATCH /api/v1/parent/(\d+)
+PATCH /api/v1/parents/(\d+)
 ```
 
 header data:
@@ -368,22 +365,50 @@ content_type: application/json
 body data:
 
 ```
-
 {
     student_school_name=XYZ
 }
-
 ```
 
 result:
 
 ```
-body
 {
     "done": "true"
 }
 ```
 
+### Save user profile avatar
+
+```
+PATCH /api/v1/profiles/{profile_id}
+```
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+```
+content_type: multipart/form-data
+```
+
+body data:
+
+```
+{
+    avatar=image_file
+}
+```
+
+result:
+
+```
+{
+    "done": "true"
+}
+```
 
 
 ### Get user policy
