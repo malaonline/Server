@@ -350,6 +350,13 @@ class TestStaffWeb(TestCase):
         response = client.get(reverse("staff:coupon_config"))
         self.assertEqual(response.status_code, 200)
 
+    def test_bankcard_list(self):
+        client = Client()
+        client.login(username='test', password='mala-test')
+        url = '/staff/teachers/bankcard/list/'
+        response = client.get(url)
+        self.assertEqual(200, response.status_code)
+
 
 class TestAlgorithm(TestCase):
     def test_tree_insert(self):
