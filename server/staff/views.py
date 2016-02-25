@@ -85,6 +85,7 @@ class BaseStaffActionView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
+
 #因为使用了listView而无法直接继承BaseStaffView
 @method_decorator(mala_staff_required, name='dispatch')
 class CouponsListView(ListView):
@@ -147,6 +148,7 @@ class CouponsListView(ListView):
             now = timezone.now()
             coupons_list = coupons_list.filter(used = False).filter(expired_at__lt = now)
         return coupons_list
+
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
@@ -541,6 +543,30 @@ class TeacherUnpublishedEditView(BaseStaffView):
             cert.verified = False
         cert.save()
 
+
+class TeacherBankcardView(BaseStaffView):
+    template_name = 'staff/teacher/teacher_bankcard_list.html'
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        #
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        page = self.request.GET.get('page')
+        query_set = models.BankCard.objects.select_related('account__user__teacher', 'account__user__profile').filter()
+        if name:
+            query_set = query_set.filter(account__user__teacher__name__contains = name)
+        if phone:
+            query_set = query_set.filter(account__user__profile__phone__contains = phone)
+        query_set = query_set.order_by('account__user__teacher__name')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['bankcards'] = query_set
+        kwargs['pager'] = pager
+        return super(TeacherBankcardView, self).get_context_data(**kwargs)
+
+
 class TeacherActionView(BaseStaffActionView):
 
     NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
@@ -765,6 +791,7 @@ class StudentView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
 
+
 class StudentScheduleManageView(BaseStaffView):
     template_name = 'staff/student/schedule_manage.html'
 
@@ -843,6 +870,7 @@ class StudentScheduleChangelogView(BaseStaffView):
     def get(self, request):
         context = self.get_context_data()
         return render(request, self.template_name, context)
+
 
 class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'

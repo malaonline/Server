@@ -1,0 +1,42 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}老师银行卡查询{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teacher_bankcard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
+        <input type="submit" value="查询"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">老师姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">所属省市</th>
+            <th class="text-center">所属银行</th>
+            <th class="text-center">开户行</th>
+            <th class="text-center">银行卡号</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for bankcard in bankcards %}
+            <tr>
+                <td field="name">{# 老师姓名 #} {{ bankcard.account.user.teacher.name }}</td>
+                <td>{# 手机号 #} {{ bankcard.account.user.profile.phone }}</td>
+                <td>{# 所属省市 #} {% if bankcard.account.teacher.region %}{{ bankcard.account.teacher.region.full_name }}{% else %}未填{% endif %}</td>
+                <td>{# 所属银行 #} {{ bankcard.bank_name }}</td>
+                <td>{# 开户行 #} TODO</td>
+                <td>{# 银行卡号 #} {{ bankcard.mask_number }}</td>
+                <td field="action">{# 操作 #}
+                    TODO
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+{% endblock %}
