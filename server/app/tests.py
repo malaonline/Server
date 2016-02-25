@@ -33,29 +33,6 @@ class TestApi(TestCase):
         token = Token.objects.create(user=user)
         self.assertTrue(isinstance(token.key, str))
 
-    def test_coupons_list(self):
-        token_client = Client()
-        token_request_url = "/api/v1/token-auth"
-        username = "test"
-        password = "mala-test"
-        user = authenticate(username=username, password=password)
-        self.assertNotEqual(user, None)
-        parent_user = User.objects.get(username=username)
-        self.assertEqual(parent_user.is_active, 1)
-
-        url="/staff/coupons/list/"
-        response = token_client.post(url, {"username": username,
-                                             "password": password})
-        self.assertEqual(response.status_code, 200)
-        #
-        # token_client = Client()
-        # token_request_url = "/staff/coupons/list/"
-        # username = "test"
-        # password = "mala-test"
-        # response = token_client.get(token_request_url, {"username": username,
-        #                                                  "password": password})
-        # self.assertEqual(response.status_code, 200)
-
     def test_teacher_list(self):
         client = Client()
         url = "/api/v1/teachers"
@@ -397,6 +374,33 @@ class TestTeacherWeb(TestCase):
         profile = Profile.objects.get(phone=phone)
         percent = information_complete_percent(profile.user)
         self.assertEqual(percent, 0)
+
+
+class TestStaffWeb(TestCase):
+       def test_coupons_list(self):
+        token_client = Client()
+        token_request_url = "/api/v1/token-auth"
+        username = "test"
+        password = "mala-test"
+        response = token_client.post(token_request_url, {"username": username,
+                                                         "password": password})
+        token = json.loads(response.content.decode())["token"]
+
+        client = Client()
+        request_url = "/staff/coupons/list/"
+        json_data = json.dumps({"student_name": "StudentNewName"})
+        response = client.patch(request_url, content_type="application/json",
+                                data=json_data,
+                                **{"HTTP_AUTHORIZATION": " Token %s" % token})
+        self.assertEqual(200, response.status_code)
+        #
+        # token_client = Client()
+        # token_request_url = "/staff/coupons/list/"
+        # username = "test"
+        # password = "mala-test"
+        # response = token_client.get(token_request_url, {"username": username,
+        #                                                  "password": password})
+        # self.assertEqual(response.status_code, 200)
 
 
 class TestAlgorithm(TestCase):
