@@ -1767,6 +1767,7 @@ class WalletBankcardView(BaseTeacherView):
         account = teacher.safe_get_account()
         bankcards = models.BankCard.objects.filter(account=account)
         if bankcards.count() >= 1: # 只支持添加一张银行卡
+            context['error_msg'] = "目前只支持添加一张银行卡。获取更多帮组，请致电麻辣老师客服 010-88776655"
             return render(request, self.success_template_path, context)
         certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                        defaults={'name': "", 'verified': False})
@@ -1790,7 +1791,7 @@ class WalletBankcardView(BaseTeacherView):
             return JsonResponse({'ok': False, 'msg': '手机号错误', 'code': 4})
         if not isValidCode(checkcode):
             return JsonResponse({'ok': False, 'msg': '验证码格式错误', 'code': 5})
-        if not models.Checkcode.verify(phone, checkcode):
+        if not models.Checkcode.verify(phone, checkcode)[0]:
             return JsonResponse({'ok': False, 'msg': '验证码错误', 'code': 6})
         # 添加银行卡
         account = teacher.safe_get_account()

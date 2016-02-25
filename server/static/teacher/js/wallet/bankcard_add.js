@@ -74,7 +74,11 @@ $(function () {
 
     var validateGetCheckcode = function() {
         if (canGetCheckcode()) {
-            $("[data-action=get-checkcode]").removeClass('disabled');
+            $getCodeBtn = $("[data-action=get-checkcode]");
+            if ($getCodeBtn.data('getting')) {
+                return;
+            }
+            $getCodeBtn.removeClass('disabled');
         } else {
             $("[data-action=get-checkcode]").addClass('disabled');
         }
@@ -174,6 +178,7 @@ $(function () {
                     timer = window.setInterval(function(){
                         if (countdown<=0) {
                             window.clearInterval(timer);
+                            $this.data('getting', false);
                             $this.html("重新获取");
                             $this.val("重新获取");
                             $this.removeClass('disabled');
@@ -183,6 +188,7 @@ $(function () {
                         $this.val("重新获取("+countdown+")");
                         countdown--;
                     },1000);
+                    $this.data('getting', true);
                 } else {
                     alert(data.reason);
                     $this.removeClass('disabled');
