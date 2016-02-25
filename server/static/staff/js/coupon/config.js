@@ -70,15 +70,18 @@ $(function(){
       amount = $('#amount_give').val();
       parent_phone = $('#parent_phone').val();
       if(parent_phone.trim().length == 0){
-        alert('请输入发送给电话号码！');
+        alert('请输入家长电话号码！');
+        return false;
       }
     }
 
     if(Number(mini_course_count) <= 0){
       alert('请输入正确课时！');
+      return false;
     }
     if(Number(amount) <= 0){
       alert('请输入正确代金券金额！');
+      return false;
     }
 
     var params = {

@@ -1,0 +1,60 @@
+.form-input {
+  display: inline-block;
+}
+.form-horizontal .form-group {
+  width: 800px;
+  height: 40px;
+  margin: auto;
+  padding-left: 110px;
+}
+.form-horizontal .table-group {
+  height: 82px;
+}
+.form-horizontal .table-group input {
+  width: 50px;
+  border: none;
+  border-bottom: solid 1px;
+}
+.form-horizontal .table-group .input-td {
+  padding-left: 0;
+  padding-right: 0;
+}
+.form-group .form-input {
+  width: 245px;
+}
+.form-group .form-input .select,
+.form-group .form-input > button,
+.form-group .form-input > a:first-child {
+  width: 245px;
+}
+.form-group .form-input .radio-inline {
+  margin-left: 45px;
+}
+.time-select {
+  position: relative;
+}
+.time-select > input {
+  width: 85px;
+}
+.time-select hr {
+  display: inline-block;
+  width: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 4px;
+  border: solid #000000 1px;
+  border-bottom: 0;
+}
+.config-coupon-give {
+  display: none;
+}
+.config-save {
+  margin-top: 25px;
+}
+.config-rule .form-input {
+  width: 300px;
+}
+.config-rule .form-input > input {
+  width: 245px;
+  display: inline-block;
+}
