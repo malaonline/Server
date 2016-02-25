@@ -22,5 +22,5 @@ def paginate(query_set, page=1, page_size=20):
     if page_to < 1:
         page_to = 1
     query_set = query_set[(page_to-1)*page_size:page_to*page_size]
-    return query_set, {'page': page_to, 'total_page': total_page, 'total_count': total_count}
+    return query_set, {'page': page_to, 'total_page': total_page, 'total_count': total_count, 'page_size': page_size}
 
