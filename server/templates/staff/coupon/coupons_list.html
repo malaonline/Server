@@ -122,7 +122,7 @@
                           </li>
 
                           {% for page_number in paginator.page_range %}
-                            {% if page_number = page_obj.number %}
+                            {% if page_number == page_obj.number %}
                               <li class="active">
                                 <span>{{ page_number }}</span>
                               </li>
