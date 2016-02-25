@@ -241,7 +241,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         self.subjectView.subjects = subjects
         
         // 获取风格标签
-        NetworkTool.sharedTools.loadTags{ [weak self] (result, error) -> () in
+        MalaNetworking.sharedTools.loadTags{ [weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("TeacherFilterView - loadTags Request Error")
                 return

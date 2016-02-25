@@ -122,6 +122,8 @@ class LoginViewController: UIViewController {
         return protocolLabel
     }()
     
+    private var callMeInSeconds = MalaConfig.callMeInSeconds()
+    
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -242,14 +244,14 @@ class LoginViewController: UIViewController {
         return mobileTest.evaluateWithObject(mobile)
     }
     
+    ///  倒计时
     private func countDown() {
-        var timeout = 3.0 // 60s
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         let timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
         dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), UInt64(NSTimeInterval(NSEC_PER_SEC)), 0)
         dispatch_source_set_event_handler(timer) {[weak self] () -> Void in
             
-            if timeout <= 0 { // 倒计时完成
+            if self?.callMeInSeconds <= 0 { // 倒计时完成
                 dispatch_source_cancel(timer)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self?.codeGetButton.setTitle(" 获取验证码 ", forState: .Normal)
@@ -257,10 +259,10 @@ class LoginViewController: UIViewController {
                 })
             }else { // 继续倒计时
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self?.codeGetButton.setTitle(String(format: " %02ds后获取 ", Int(timeout)), forState: .Normal)
+                    self?.codeGetButton.setTitle(String(format: " %02ds后获取 ", Int((self?.callMeInSeconds)!)), forState: .Normal)
                     self?.codeGetButton.enabled = false
                 })
-                timeout--
+                self?.callMeInSeconds--
             }
         }
         dispatch_resume(timer)
@@ -286,25 +288,38 @@ class LoginViewController: UIViewController {
             return
         }
         
+        let mobile = self.phoneTextField.text!
+        countDown()
+        
         // 发送SMS
-        NetworkTool.sharedTools.sendSMS(self.phoneTextField.text!) { [weak self] (result, error) -> () in
-            if error != nil {
-                debugPrint("LoginViewController - sendSMS Request Error")
-                return
+        sendVerifyCodeOfMobile(mobile, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("LoginViewController - Error \(errorMessage)")
             }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("LoginViewController - sendSMS Format Error")
-                return
-            }
-            
-            // 处理SMS发送结果
-            if dict["sent"]?.intValue == 1 {
-                print("SMS发送成功")
-            }else {
-                print("SMS发送失败")
-            }
-            self?.countDown()
-        }
+        }, completion: { bool in
+            println("verifyCode \(bool)")
+        })
+         
+        // 发送SMS
+//        MalaNetworking.sharedTools.sendSMS(self.phoneTextField.text!) { [weak self] (result, error) -> () in
+//            if error != nil {
+//                debugPrint("LoginViewController - sendSMS Request Error")
+//                return
+//            }
+//            guard let dict = result as? [String: AnyObject] else {
+//                debugPrint("LoginViewController - sendSMS Format Error")
+//                return
+//            }
+//            
+//            // 处理SMS发送结果
+//            if dict["sent"]?.intValue == 1 {
+//                print("SMS发送成功")
+//            }else {
+//                print("SMS发送失败")
+//            }
+//        }
     }
 
     @objc private func verifyButtonDidTap() {
@@ -323,7 +338,7 @@ class LoginViewController: UIViewController {
         }
         
         // 验证SMS
-        NetworkTool.sharedTools.verifySMS(self.phoneTextField.text!, code: self.codeTextField.text!) { (result, error) -> () in
+        MalaNetworking.sharedTools.verifySMS(self.phoneTextField.text!, code: self.codeTextField.text!) { (result, error) -> () in
             if error != nil {
                 debugPrint("LoginViewController - verifySMS Request Error")
                 return

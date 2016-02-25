@@ -60,7 +60,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         let teacherId = (tableView.cellForRowAtIndexPath(indexPath) as! TeacherTableViewCell).model!.id
         
         // Request Teacher Info
-        NetworkTool.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
+        MalaNetworking.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("HomeViewController - loadTeacherDetail Request Error")
                 return

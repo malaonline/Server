@@ -46,16 +46,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F4402E051C5A165700E7D3DB"
-               BuildableName = "parentUITests1.xctest"
-               BlueprintName = "parentUITests1"
-               ReferencedContainer = "container:mala-ios.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4402E131C5A16A700E7D3DB"
                BuildableName = "parentTests.xctest"
                BlueprintName = "parentTests"

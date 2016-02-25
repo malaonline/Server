@@ -13,6 +13,18 @@ class ProfileViewController: UITableViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        println("Profile Did Load")
+        
+        // 若尚未登陆，弹出登陆页面
+        if !MalaUserDefaults.isLogined {
+            self.navigationController?.presentViewController(
+                UINavigationController(rootViewController: LoginViewController()),
+                animated: true,
+                completion: { () -> Void in
+                    
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {

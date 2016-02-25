@@ -96,7 +96,7 @@ class FilterResultController: UIViewController {
     ///
     ///  - parameter filters: 筛选条件字典
     private func loadTeachers(filters: [String: AnyObject]? = nil) {
-        NetworkTool.sharedTools.loadTeachers(filters) { [weak self] result, error in
+        MalaNetworking.sharedTools.loadTeachers(filters) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
                 return
