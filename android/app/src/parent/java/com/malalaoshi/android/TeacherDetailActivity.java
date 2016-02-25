@@ -460,13 +460,14 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             Double maxPrice = teacher.getMax_price();
             String region = null;
             if (minPrice!=null&&maxPrice!=null){
-                region = minPrice+"/"+maxPrice+"元每小时";
+
+                region = Math.round(minPrice)+"-"+Math.round(maxPrice)+"元/小时";
             }
             else if (minPrice!=null){
-                region = minPrice+"元每小时";
+                region = Math.round(minPrice)+"元/小时";
             }
             else if (maxPrice!=null){
-                region = maxPrice+"元每小时";
+                region = Math.round(maxPrice)+"元/小时";
             }
             if (region != null) {
                 mPriceRegion.setText(region);
@@ -510,11 +511,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             String level = teacher.getLevel();
             Integer teachAge = teacher.getTeaching_age();
             if (level != null&&teachAge!=null) {
-                mTeacherLevel.setText(level+" "+teachAge.toString());
+                mTeacherLevel.setText(teachAge.toString()+"年"+"  "+level);
             }else if (level != null){
                 mTeacherLevel.setText(level);
             }else if (teachAge!=null){
-                mTeacherLevel.setText(teachAge.toString());
+                mTeacherLevel.setText(teachAge.toString()+"年");
             }
         }
     }
