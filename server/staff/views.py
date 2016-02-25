@@ -1228,8 +1228,12 @@ class CouponConfigView(BaseStaffView):
         couponGenerators = models.CouponGenerator.objects.order_by('-id')
         if couponRules:
             context['couponRule'] = couponRules
+        else:
+            context['couponRule'] = None
         if couponGenerators:
             context['couponGenerator'] = couponGenerators[0]
+        else:
+            context['couponGenerator'] = None
 
         return render(request, self.template_name, context)
 

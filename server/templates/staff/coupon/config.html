@@ -56,19 +56,19 @@
               <label class="col-sm-2 control-label">是否开启</label>
               <div class="form-input">
                   <label class="radio-inline">
-                    <input type="radio" name="isOpened" value="1" {%if couponGenerator.activated%}checked="true"{%endif%}> 开启
+                    <input type="radio" name="isOpened" value="1" {%if couponGenerator and couponGenerator.activated%}checked="true"{%endif%}> 开启
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="isOpened" value="0" {%if not couponGenerator.activated%}checked="true"{%endif%}> 关闭
+                    <input type="radio" name="isOpened" value="0" {%if couponGenerator and not couponGenerator.activated%}checked="true"{%endif%}> 关闭
                   </label>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
-                <input type="text" name="validatedStart" id="validatedStart_new" value="{{ couponGenerator.validated_start | date:"Y-m-d" }}">
+                <input type="text" name="validatedStart" id="validatedStart_new" value="{%if couponGenerator%}{{ couponGenerator.validated_start | date:"Y-m-d" }}{%endif%}">
                 <hr>
-                <input type="text" name="expiredAt" id="expiredAt_new" value="{{ couponGenerator.expired_at | date:"Y-m-d" }}">
+                <input type="text" name="expiredAt" id="expiredAt_new" value="{%if couponGenerator%}{{ couponGenerator.expired_at | date:"Y-m-d" }}{%endif%}">
               </div>
             </div>
             <div class="form-group table-group">
@@ -80,8 +80,8 @@
                         <th class="text-center">代金券金额</td>
                       </tr>
                       <tr>
-                        <td class="text-center input-td">购买<input type="text" id="mini_course_count"  data-action="integer" value="{{couponGenerator.mini_course_count}}"/>课时</td>
-                        <td class="text-center input-td"><input type="text" id="amount" data-action="integer" value="{{couponGenerator.amount}}"/>元</td>
+                        <td class="text-center input-td">购买<input type="text" id="mini_course_count"  data-action="integer" value="{%if couponGenerator%}{{couponGenerator.mini_course_count}}{%endif%}"/>课时</td>
+                        <td class="text-center input-td"><input type="text" id="amount" data-action="integer" value="{%if couponGenerator%}{{couponGenerator.amount}}{%endif%}"/>元</td>
                       </tr>
                   </table>
               </div>
@@ -91,9 +91,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
-                <input type="text" name="validatedStart" id="validatedStart_give" value="{{ searchTime | date:"Y-m-d" }}">
+                <input type="text" name="validatedStart" id="validatedStart_give">
                 <hr>
-                <input type="text" name="expiredAt" id="expiredAt_give" value="{{ searchTime | date:"Y-m-d" }}">
+                <input type="text" name="expiredAt" id="expiredAt_give">
               </div>
             </div>
             <div class="form-group table-group">
