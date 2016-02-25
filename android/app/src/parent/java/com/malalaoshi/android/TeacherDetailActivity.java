@@ -510,11 +510,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             String level = teacher.getLevel();
             Integer teachAge = teacher.getTeaching_age();
             if (level != null&&teachAge!=null) {
-                mTeacherLevel.setText(level+" "+teachAge.toString());
+                mTeacherLevel.setText(teachAge.toString()+"年"+"  "+level);
             }else if (level != null){
                 mTeacherLevel.setText(level);
             }else if (teachAge!=null){
-                mTeacherLevel.setText(teachAge.toString());
+                mTeacherLevel.setText(teachAge.toString()+"年");
             }
         }
     }
