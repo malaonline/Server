@@ -5,16 +5,10 @@
 {% block title %}调课停课记录{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}">
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school/timeslot.less'|compile %}">
 {% endblock %}
 
 {% block addition_js %}
-    <script src="{% static 'common/js/moment.min.js' %}"></script>
-    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
-    <script src="{% static 'common/js/pagination.js' %}"></script>
-
     <script src="{% static 'staff/js/student/reschedule.js' %}"></script>
 {% endblock %}
 
@@ -55,11 +49,11 @@
                     </div>
                     <div class="form-group">
                         <label for="createdAtFilterInput">原上课时间</label>
-                        <input class="datetimeInput" id="createdAtFilterInput" type="text" name="searchDateOri" value="{{ searchTime | date:"Y-m-d" }}">
+                        <input class="datetimeInput" id="createdAtFilterInput" type="text" name="searchDateOri" value="{{ query_data.searchTime | date:"Y-m-d" }}">
                     </div>
                     <div class="form-group">
                         <label for="dateTimeFilterInput">现上课时间</label>
-                        <input class="datetimeInput" id="dateTimeFilterInput" type="text" name="searchDateNew" value="{{ searchTime | date:"Y-m-d" }}">
+                        <input class="datetimeInput" id="dateTimeFilterInput" type="text" name="searchDateNew" value="{{ query_data.searchTime | date:"Y-m-d" }}">
                     </div>
                     <button type="submit" class="btn btn-success">查询</button>
                 </form>

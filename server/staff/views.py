@@ -6,7 +6,7 @@ from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db.models import Q
@@ -83,6 +83,68 @@ class BaseStaffActionView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
+#因为使用了listView而无法直接继承BaseStaffView
+@method_decorator(mala_staff_required, name='dispatch')
+class CouponsListView(ListView):
+    model = models.Coupon
+    template_name = 'staff/coupon/coupons_list.html'
+    context_object_name = 'coupons_list'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(CouponsListView, self).get_context_data(**kwargs)
+        kwargs['statusList'] = [
+            {'text':"状态",'value':""},
+            {'text':"已使用",'value':"used"},
+            {'text':"未使用",'value':"unused"},
+            {'text':"已过期",'value':"expired"},
+                                ]
+        kwargs['typesList'] = [
+            {'text':"类型",'value':""},
+            {'text':"注册",'value':"reg"},
+            {'text':"抽奖",'value':"lotto"},
+                                ]
+        kwargs['name'] = self.request.GET.get('name',None)
+        kwargs['phone'] = self.request.GET.get('phone',None)
+        kwargs['dateFrom'] = self.request.GET.get('dateFrom',None)
+        kwargs['dateTo'] = self.request.GET.get('dateTo',None)
+        kwargs['type'] = self.request.GET.get('type',None)
+        kwargs['status'] = self.request.GET.get('status',None)
+        return super(CouponsListView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        coupons_list = self.model.objects.all()
+        #TODO:用字典循环取值
+        # for keyword in ['name','phone','dateFrom','dateTo','type','status']:
+        #     cmd = "%s = self.request.GET.get('%s',None)" % (keyword,keyword)
+        #     exec(cmd)
+        #     print(name)
+        name = self.request.GET.get('name',None)
+        phone = self.request.GET.get('phone',None)
+        dateFrom = self.request.GET.get('dateFrom',None)
+        dateTo = self.request.GET.get('dateTo',None)
+        type = self.request.GET.get('type',None)
+        status = self.request.GET.get('status',None)
+
+        if name:
+            coupons_list = coupons_list.filter(parent__user__username__icontains=name)
+        if phone:
+            coupons_list = coupons_list.filter(parent__user__profile__phone__contains=phone)
+        if dateFrom and dateTo:
+            coupons_list = coupons_list.filter(created_at__range=(dateFrom, dateTo))
+        if type == 'reg':
+            pass
+        if type == 'reg':
+            pass
+        if status == 'used':
+            coupons_list = coupons_list.filter(used = True)
+        if status == 'unused':
+            now = timezone.now()
+            coupons_list = coupons_list.filter(used = False).exclude(expired_at__lt = now)
+        if status == 'expired':
+            now = timezone.now()
+            coupons_list = coupons_list.filter(used = False).filter(expired_at__lt = now)
+        return coupons_list
 
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'

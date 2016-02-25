@@ -376,6 +376,23 @@ class TestTeacherWeb(TestCase):
         self.assertEqual(percent, 0)
 
 
+class TestStaffWeb(TestCase):
+       def test_coupons_list(self):
+        client = Client()
+        client.login(username='test',password='mala-test')
+        url = "/staff/coupons/list/"
+        response = client.get(url)
+        self.assertEqual(200, response.status_code)
+        #
+        # token_client = Client()
+        # token_request_url = "/staff/coupons/list/"
+        # username = "test"
+        # password = "mala-test"
+        # response = token_client.get(token_request_url, {"username": username,
+        #                                                  "password": password})
+        # self.assertEqual(response.status_code, 200)
+
+
 class TestAlgorithm(TestCase):
     def test_tree_insert(self):
         tree = Tree()

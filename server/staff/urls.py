@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^school/timeslot$', views.SchoolTimeslotView.as_view(), name='school_timeslot'),
     url(r'^orders/review/$', views.OrderReviewView.as_view(), name="orders_review"),
     url(r'^orders/refund/$', views.OrderRefundView.as_view(), name="orders_refund"),
+    url(r'^coupons/list/$', views.CouponsListView.as_view(), name="coupons_list"),
 ]
