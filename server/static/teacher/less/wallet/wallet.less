@@ -1,8 +1,4 @@
-
-
-@border_color: #d6d6d6;
-@text_gray_color: #979797;
-@text_light_gray_color: #d3d3d3;
+@import "../variables.less";
 
 .summary {
   margin: 10px;
@@ -38,10 +34,15 @@
       color: #555;
     }
   }
-  .bank-card {
+  .bank-card-box {
     padding-top: 8px;
     margin-top: -1px;
     border-top: 1px solid @border_color;
+    .bank-card {
+      padding: 8px 16px;
+      background: #fee;
+      border: 1px solid @border_color;
+    }
     .bank-card-add {
       margin-top: 8px;
       height: 50px;

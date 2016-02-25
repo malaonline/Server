@@ -1,0 +1,48 @@
+@import "../variables.less";
+
+.hint {
+  margin: 26px 26px 2px 26px;
+  padding: 10px 12px 10px 16px;
+  background: @light_gray_bg;
+  border: 1px @border_color solid;
+  font-size: 12px;
+  .warning-icon {
+    margin-right: 6px;
+    margin-top: 1px;
+    font-size: 14px;
+    color: red;
+  }
+  .close-icon {
+    float: right;
+    margin-top: -5px;
+    font-size: 26px;
+    color: @text_gray_color;
+  }
+}
+
+.bankcard-add-box {
+  margin: 26px;
+  .form-horizontal {
+    .teacher-name {
+      width: 200px;
+    }
+    input {
+      display: inline-block;
+      width: 234px;
+    }
+    .has-error .hint-block {
+      color: red;
+    }
+  }
+}
+
+.success-info{
+  margin: 40px;
+  .note {
+    font-size: 12px;
+    color: @text_gray_color
+  }
+  .btn {
+    margin-top: 16px;
+  }
+}

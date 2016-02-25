@@ -31,4 +31,6 @@ urlpatterns = [
     url(r'^achievement/(?P<action>\w+)/(?P<id>\d+)$', views.AchievementView.as_view(), name="achievement-edit"),
     url(r'^wallet/$', views.WalletView.as_view(), name="wallet"),
     url(r'^wallet/(?P<action>histories)/$', views.WalletView.as_view(), name="wallet-histories"),
+    url(r'^wallet/bankcard/add/$', views.WalletBankcardView.as_view(), name="wallet-bankcard-add"),
+    url(r'^wallet/bankcard/add/(?P<step>success)/$', views.WalletBankcardView.as_view(), name="wallet-bankcard-add-success"),
 ]

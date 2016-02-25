@@ -24,6 +24,8 @@ from pprint import pprint as pp
 from app import models
 from . import forms
 from app.templatetags.custom_tags import money_format
+from app.utils.algorithm import check_bankcard_number, check_id_number
+from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.db import paginate
 
 logger = logging.getLogger('app')
@@ -1167,6 +1169,7 @@ class BaseTeacherView(View):
         teacher = get_object_or_404(models.Teacher, user=request.user)
         context['teacher'] = teacher
         context['teacherName'] = teacher.name
+        context['title'] = ''
         return context, teacher
 
     def setSidebarContent(self, teacher, context):
@@ -1731,6 +1734,10 @@ class WalletView(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         account = teacher.safe_get_account()
         context['account'] = account
+        bankcards = models.BankCard.objects.filter(account=account)
+        if bankcards.count() > 0:
+            bankcard = bankcards[0]
+            context['bankcard'] = bankcard
         histories = models.AccountHistory.objects.filter(account=account, done=True).order_by("-submit_time")
         # paginate
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
@@ -1746,4 +1753,51 @@ class WalletView(BaseTeacherView):
         query_set, pager = paginate(query_set, page, page_size=self.PAGE_SIZE)
         histories = [{'submit_time': localtime(h.submit_time).strftime('%Y-%m-%d %H:%M'), 'positive': h.amount >=0, 'amount': money_format(h.amount), 'comment': h.comment} for h in query_set]
         return JsonResponse({'ok': True, 'list': histories, 'pager': pager})
+
+
+class WalletBankcardView(BaseTeacherView):
+    template_path = 'teacher/wallet/bankcard_add.html'
+    success_template_path = 'teacher/wallet/bankcard_add_success.html'
+
+    def get(self, request, step=None):
+        context, teacher = self.getContextTeacher(request)
+        self.setSidebarContent(teacher, context)
+        if step == 'success':
+            return render(request, self.success_template_path, context)
+        account = teacher.safe_get_account()
+        bankcards = models.BankCard.objects.filter(account=account)
+        if bankcards.count() >= 1: # 只支持添加一张银行卡
+            context['error_msg'] = "目前只支持添加一张银行卡。获取更多帮组，请致电麻辣老师客服 010-88776655"
+            return render(request, self.success_template_path, context)
+        certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                                       defaults={'name': "", 'verified': False})
+        context['id_num'] = certIdHeld.name # 身份证号
+        context['phone'] = teacher.user.profile.phone
+        return render(request, self.template_path, context)
+
+    def post(self, request):
+        context, teacher = self.getContextTeacher(request)
+        id_num = self.request.POST.get('id_num') and self.request.POST.get('id_num').strip() or ''
+        card_number = self.request.POST.get('card_number') and self.request.POST.get('card_number').replace(' ','',) or ''
+        phone = self.request.POST.get('phone') and self.request.POST.get('phone').strip() or ''
+        checkcode = self.request.POST.get('checkcode') and self.request.POST.get('checkcode').strip() or ''
+        if not id_num or not card_number or not phone or not checkcode:
+            return JsonResponse({'ok': False, 'msg': '参数不能为空', 'code': 1})
+        if not check_id_number(id_num):
+            return JsonResponse({'ok': False, 'msg': '身份证号不合法', 'code': 2})
+        if not check_bankcard_number(card_number):
+            return JsonResponse({'ok': False, 'msg': '银行卡号长度错误', 'code': 3})
+        if not isValidPhone(phone):
+            return JsonResponse({'ok': False, 'msg': '手机号错误', 'code': 4})
+        if not isValidCode(checkcode):
+            return JsonResponse({'ok': False, 'msg': '验证码格式错误', 'code': 5})
+        if not models.Checkcode.verify(phone, checkcode)[0]:
+            return JsonResponse({'ok': False, 'msg': '验证码错误', 'code': 6})
+        # 添加银行卡
+        account = teacher.safe_get_account()
+        bankcard = models.BankCard(account=account)
+        bankcard.card_number = card_number
+        bankcard.bank_name = '中国银行' # TODO: 获得银行卡对应银行名称
+        bankcard.save()
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 

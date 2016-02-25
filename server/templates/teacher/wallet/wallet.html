@@ -35,11 +35,18 @@
                 <div class="col-sm-5">未消耗课时金额: ￥{{ account.anticipated_income|money_format:'' }}</div>
             </div>
         </div>
-        <div class="col-sm-4 panel-body bank-card">
+        <div class="col-sm-4 panel-body bank-card-box">
             <div class="title"><span class="glyphicon glyphicon-credit-card"></span>我的银行卡</div>
-            <div class="bank-card-add text-center">
-                <span class="glyphicon glyphicon-plus"></span>添加银行卡
-            </div>
+            {% if bankcard %}
+                <div class="bank-card">
+                    <div class="title">{{ bankcard.bank_name }}</div>
+                    <div>{{ bankcard.mask_number }}</div>
+                </div>
+            {% else %}
+                <div class="bank-card-add text-center">
+                    <a href="{% url 'teacher:wallet-bankcard-add' %}"><span class="glyphicon glyphicon-plus"></span>添加银行卡</a>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div class="panel history">
