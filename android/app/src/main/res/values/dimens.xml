@@ -150,4 +150,22 @@
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
 
+    <!-- 日历课表 -->
+    <dimen name="calendar_toppadding">0dp</dimen>
+    <dimen name="calendar_bottompadding">0dp</dimen>
+    <dimen name="calendar_leftpadding">0dp</dimen>
+    <dimen name="calendar_rightpadding">0dp</dimen>
+    <dimen name="calendar_month_toppadding">0dp</dimen>
+    <dimen name="calendar_month_bottompadding">14dp</dimen>
+    <dimen name="calendar_month_text_size">15sp</dimen>
+    <dimen name="calendar_day_toppadding">14dp</dimen>
+    <dimen name="calendar_day_bottompadding">14dp</dimen>
+    <dimen name="calendar_day_spacing">10dp</dimen>
+    <dimen name="calendar_day_text_size">15sp</dimen>
+    <dimen name="calendar_day_label_text_size">15sp</dimen>
+    <dimen name="calendar_split_line_strokeheight">1px</dimen>
+    <dimen name="calendar_circle_radius">12dp</dimen>
+    <dimen name="calendar_small_circle_radius">2dp</dimen>
+    <dimen name="calendar_small_circle_dis">5dp</dimen>
+
 </resources>

@@ -1,11 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    >
-    <TextView
-        android:text="暂无课表"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:background="#ff5b6ba4"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/calendar_week_bg">
+
+        <TextView
+            android:id="@+id/tv_off_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="2016年2月"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/ll_week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="日"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="一"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="二"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="三"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="四"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="五"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="六"
+                android:textColor="@color/calendar_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <com.malalaoshi.android.view.calendar.DayPickerView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white" />
+
 </LinearLayout>

@@ -30,7 +30,7 @@
         layout="@layout/home_tab_layout" />
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpage"
-        android:paddingTop="88dp"
+        android:layout_marginTop="88dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"></android.support.v4.view.ViewPager>

@@ -1,6 +1,7 @@
 package com.malalaoshi.android;
 
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,6 @@ import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.view.HomeScrollView;
-import com.malalaoshi.android.view.ScrollViewPager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected ImageView ivTitleTabUser;
 
     protected TextView tvTitleLocation;
+    protected TextView tvTitleTady;
 
     //tabs
     private float tabSY;
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         ivTitleTabUser = (ImageView)findViewById(R.id.iv_title_tab_user);
 
         tvTitleLocation = (TextView) findViewById(R.id.tv_title_location);
+        tvTitleTady = (TextView) findViewById(R.id.tv_title_tady);
 
         //tabs
         rlTabBar = (RelativeLayout)findViewById(R.id.rl_home_tabs);
@@ -133,7 +135,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     private void setEvent() {
-        homeScrollView.setOnScrollViewListener(this);
+        //homeScrollView.setOnScrollViewListener(this);
         rlTabTeacher.setOnClickListener(this);
         rlTabTimetable.setOnClickListener(this);
         rlTabUser.setOnClickListener(this);
@@ -142,6 +144,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         ivTitleTabUser.setOnClickListener(this);
         vpHome.setOnPageChangeListener(this);
         tvTitleLocation.setOnClickListener(this);
+        tvTitleTady.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -355,6 +358,25 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             case R.id.tv_title_location:
                 onClickBarBtnLocation();
                 break;
+            case R.id.tv_title_tady:
+                scrollToTady();
+
+                break;
+        }
+    }
+
+    //移动到今天
+    private void scrollToTady() {
+        UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
+        if (userTimetableFragment!=null){
+            userTimetableFragment.scrollToTady();
+        }
+    }
+
+    private void loadCourses(){
+        UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
+        if (userTimetableFragment!=null){
+            userTimetableFragment.loadDatas();
         }
     }
 
@@ -372,6 +394,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTabTeacher.setTextColor(getResources().getColor(R.color.tab_text_press_color));
                 tvTabTimetable.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
                 tvTabUserCenter.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
+
+                tvTitleLocation.setVisibility(View.VISIBLE);
+                tvTitleTady.setVisibility(View.GONE);
                 break;
             case 1:
                 ivTitleTabTeacher.setSelected(false);
@@ -385,6 +410,11 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTabTeacher.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
                 tvTabTimetable.setTextColor(getResources().getColor(R.color.tab_text_press_color));
                 tvTabUserCenter.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
+
+                tvTitleLocation.setVisibility(View.GONE);
+                tvTitleTady.setVisibility(View.VISIBLE);
+                //下载数据
+                loadCourses();
                 break;
             case 2:
                 ivTitleTabTeacher.setSelected(false);
@@ -398,6 +428,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTabTeacher.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
                 tvTabTimetable.setTextColor(getResources().getColor(R.color.tab_text_normal_color));
                 tvTabUserCenter.setTextColor(getResources().getColor(R.color.tab_text_press_color));
+
+                tvTitleLocation.setVisibility(View.GONE);
+                tvTitleTady.setVisibility(View.GONE);
                 break;
 
         }
