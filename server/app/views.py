@@ -208,7 +208,8 @@ class Sms(View):
                 return JsonResponse({
                     'verified': True,
                     'first_login': first_login, 'token': token.key,
-                    'parent_id': parent.id})
+                    'parent_id': parent.id, 'user_id': parent.user.id,
+                    'profile_id': parent.user.profile.id})
 
             except Exception as err:
                 print(err)

@@ -301,7 +301,9 @@ result:
     "verified": "true",
     "first_login": "true",
     "token": "189841301....7438741938",
-    "parent_id": 51
+    "parent_id": 51,
+    "user_id": 231,
+    "profile_id": 333
 }
 ```
 
