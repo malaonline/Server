@@ -7,8 +7,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.entity.CouponEntity;
+import com.malalaoshi.android.entity.CreateChargeEntity;
 
 import org.json.JSONObject;
 
@@ -25,6 +27,7 @@ public class NetworkSender {
     private static final String URL_GET_USER_POLICY = "/api/v1/policy";
     private static final String URL_SAVE_CHILD_NAME = "/api/v1/parent";
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
+    private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
     private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
@@ -60,6 +63,11 @@ public class NetworkSender {
             }
         };
         queue.add(request);
+    }
+
+    private static void postJsonRequest(String url, final Map<String, String> headers,
+                                        JSONObject json, final NetworkListener listener) {
+        jsonRequest(Request.Method.POST, url, headers, json, listener);
     }
 
     private static void jsonRequest(int method, String url, final Map<String, String> headers,
@@ -106,5 +114,28 @@ public class NetworkSender {
     public static void getCouponList(NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         stringRequest(Request.Method.GET, URL_COUPON_LIST, headers, listener);
+    }
+
+    public static void createCourseOrder(JSONObject json, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        postJsonRequest(URL_CREATE_COURSE_ORDER, headers, json, listener);
+    }
+
+    public static void getCharge(String orderId, CreateChargeEntity entity, NetworkListener listener) {
+        if (entity == null) {
+            return;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject json;
+        try {
+            json = new JSONObject(mapper.writeValueAsString(entity));
+        } catch (Exception e) {
+            return;
+        }
+        String url = URL_CREATE_COURSE_ORDER + "/" + orderId;
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        jsonRequest(Request.Method.PATCH, url, headers, json, listener);
     }
 }

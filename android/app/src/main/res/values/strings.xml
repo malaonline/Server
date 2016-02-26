@@ -118,5 +118,6 @@
     <string name="scholarship">Scholarship</string>
     <string name="coupon_expired">Expired</string>
     <string name="coupon_not_use">Usable</string>
+    <string name="pay">Pay</string>
 
 </resources>

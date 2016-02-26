@@ -29,6 +29,11 @@ public class MiscUtil {
                 rid, Toast.LENGTH_SHORT).show();
     }
 
+    public static void toast(String msg) {
+        Toast.makeText(MalaApplication.getInstance().getApplicationContext(),
+                msg, Toast.LENGTH_SHORT).show();
+    }
+
     public static void runOnMainThread(Runnable task) {
         handler.post(task);
     }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/icon_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pay_failed"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginRight="37dp"
+        android:textColor="#939393"
+        android:lineSpacingExtra="5dp"
+        android:gravity="center_horizontal|top"
+        android:text="您的浏览器可能不支持自动设置主页。请参考以下步骤，设置百度为您的上网主页。"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#8f8cdd" />
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:text="我知道了"
+        android:textColor="#8f8cdd"
+        android:textSize="15sp" />
+
+</LinearLayout>
