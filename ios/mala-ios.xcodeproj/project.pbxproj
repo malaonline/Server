@@ -67,7 +67,6 @@
 		307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
 		307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
-		307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF91491C2ACE7000904C3A /* TeacherModel.swift */; };
 		307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		307AB8981C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
@@ -106,7 +105,6 @@
 		30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
 		30E336611C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
 		30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */; };
-		30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
 		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
@@ -127,9 +125,14 @@
 		4B7729A525CC171AFEC029E0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		F402C9951C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
 		F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
+		F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AB1C7ED80800C20037 /* MalaService.swift */; };
+		F40B53AE1C7EDA7500C20037 /* MalaNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */; };
+		F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */; };
+		F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53B11C7EF00E00C20037 /* MalaSupport.swift */; };
 		F40D89681C7D9E4100BD6871 /* CourseChoosingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */; };
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
+		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
 		F41B8A5F1C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */; };
@@ -180,7 +183,6 @@
 		F4402EB41C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
 		F4402EB51C5A1A1800E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
 		F4402EB61C5A1A1800E7D3DB /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
-		F4402EB71C5A1A1800E7D3DB /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */; };
 		F4402EB81C5A1A1800E7D3DB /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
 		F4402EB91C5A1A1800E7D3DB /* TestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF31C44ABC900B37DD9 /* TestFactory.swift */; };
 		F4402EBA1C5A1A1800E7D3DB /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
@@ -348,7 +350,6 @@
 		30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIButton.swift"; sourceTree = "<group>"; };
 		30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		30E336601C27A8AA00DCF1C5 /* BaseObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObjectModel.swift; sourceTree = "<group>"; };
-		30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
 		30E336711C27F41900DCF1C5 /* GradeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeModel.swift; sourceTree = "<group>"; };
 		30E336731C27F61900DCF1C5 /* ResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultModel.swift; sourceTree = "<group>"; };
 		30EB98B61C3CEBD6003977FF /* MATabListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MATabListView.swift; path = "mala-ios/Tool/MATabListView.swift"; sourceTree = SOURCE_ROOT; };
@@ -382,9 +383,14 @@
 		35D7A3451C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F402C9941C4F69C100E229FA /* TeacherTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableView.swift; sourceTree = "<group>"; };
+		F40B53AB1C7ED80800C20037 /* MalaService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaService.swift; sourceTree = "<group>"; };
+		F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaNetworking.swift; sourceTree = "<group>"; };
+		F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+NSURLRequest.swift"; sourceTree = "<group>"; };
+		F40B53B11C7EF00E00C20037 /* MalaSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaSupport.swift; sourceTree = "<group>"; };
 		F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingObject.swift; sourceTree = "<group>"; };
 		F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaUserDefaults.swift; sourceTree = "<group>"; };
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
+		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
 		F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
@@ -510,8 +516,12 @@
 			children = (
 				30F9E6C41C23BF6F0022A3BF /* Common.swift */,
 				307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */,
+				F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */,
+				F40B53AB1C7ED80800C20037 /* MalaService.swift */,
 				F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */,
 				F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */,
+				F40D896D1C7EAFB100BD6871 /* MalaLog.swift */,
+				F40B53B11C7EF00E00C20037 /* MalaSupport.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -541,6 +551,7 @@
 				308063961C3A271C00729832 /* Extension+UIView.swift */,
 				304D6D361C3E92D500282925 /* Extension+UIImageView.swift */,
 				F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */,
+				F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -633,7 +644,6 @@
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
 				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
 				30EB98B61C3CEBD6003977FF /* MATabListView.swift */,
-				30E3366D1C27C44600DCF1C5 /* NetworkTool.swift */,
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
 				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 				30445B121C49EEA2002CD290 /* ThemeAlert.swift */,
@@ -857,11 +867,11 @@
 			buildConfigurationList = 35D7A3461C0FE851007D7679 /* Build configuration list for PBXNativeTarget "parent" */;
 			buildPhases = (
 				393CBCE00FD8D9C1D900C433 /* Check Pods Manifest.lock */,
-				35D7A31D1C0FE851007D7679 /* Sources */,
 				35D7A31E1C0FE851007D7679 /* Frameworks */,
 				35D7A31F1C0FE851007D7679 /* Resources */,
 				1166DE4D39913B7CA7526262 /* Embed Pods Frameworks */,
 				3E063ACBBA148B930F8299BA /* Copy Pods Resources */,
+				35D7A31D1C0FE851007D7679 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1127,7 +1137,6 @@
 				F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				307AB8A41C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
 				30445B191C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
-				30E3366E1C27C44600DCF1C5 /* NetworkTool.swift in Sources */,
 				308063941C3A1AF100729832 /* Extension+UILabel.swift in Sources */,
 				30D4A9FC1C23D81100C5A336 /* MainNavigationController.swift in Sources */,
 				F41B8A621C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
@@ -1163,15 +1172,17 @@
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
-				307AB85D1C3165FC00D8397F /* NetworkTool.swift in Sources */,
 				F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
+				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
 				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
+				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
+				F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
@@ -1186,6 +1197,7 @@
 				F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */,
+				F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */,
 				F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
@@ -1219,6 +1231,7 @@
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
+				F40B53AE1C7EDA7500C20037 /* MalaNetworking.swift in Sources */,
 				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				F4C5C2551C76B76400FB833B /* ScholarshipTableViewController.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
@@ -1260,7 +1273,6 @@
 				F4402EB41C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
 				F4402EB51C5A1A1800E7D3DB /* KWStepper.swift in Sources */,
 				F4402EB61C5A1A1800E7D3DB /* MATabListView.swift in Sources */,
-				F4402EB71C5A1A1800E7D3DB /* NetworkTool.swift in Sources */,
 				F4402EB81C5A1A1800E7D3DB /* OperatorOverload.swift in Sources */,
 				F4402EB91C5A1A1800E7D3DB /* TestFactory.swift in Sources */,
 				F4402EBA1C5A1A1800E7D3DB /* GradeModel.swift in Sources */,
@@ -1490,6 +1502,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1528,6 +1541,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

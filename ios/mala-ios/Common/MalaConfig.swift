@@ -11,4 +11,8 @@ import UIKit
 class MalaConfig {
     
     static let appGroupID: String = "group.malalaoshi.parent"
+    
+    class func callMeInSeconds() -> Int {
+        return 60
+    }
 }

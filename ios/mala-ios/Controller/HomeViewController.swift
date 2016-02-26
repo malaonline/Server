@@ -112,7 +112,7 @@ class HomeViewController: UIViewController {
         // 开启下拉刷新
         self.tableView.startPullToRefresh()
         
-        NetworkTool.sharedTools.loadTeachers(filters) { [weak self] result, error in
+        MalaNetworking.sharedTools.loadTeachers(filters) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
                 return

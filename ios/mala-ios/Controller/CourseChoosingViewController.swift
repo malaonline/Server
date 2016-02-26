@@ -112,7 +112,7 @@ class CourseChoosingViewController: UIViewController {
     
     private func loadSchoolsData() {
         // // 获取 [教学环境] 数据
-        NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
+        MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("CourseChoosingViewController - loadSchools Request Error")
                 return
@@ -136,7 +136,7 @@ class CourseChoosingViewController: UIViewController {
     }
     
     private func loadClassSchedule() {
-        NetworkTool.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (MalaCourseChoosingObject.school?.id ?? 1)) {
+        MalaNetworking.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (MalaCourseChoosingObject.school?.id ?? 1)) {
             [weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("CourseChoosingViewController - loadClassSchedule Request Error")

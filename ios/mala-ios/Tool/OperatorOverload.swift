@@ -27,3 +27,7 @@ func randomInRange(range: Range<Int>) -> Int {
     let count = UInt32(range.endIndex - range.startIndex)
     return  Int(arc4random_uniform(count)) + range.startIndex
 }
+
+func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
+    return lhs.name == rhs.name
+}

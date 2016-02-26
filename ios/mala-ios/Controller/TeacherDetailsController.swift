@@ -181,7 +181,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     private func loadSchoolsData() {
         // // 获取 [教学环境] 数据
-        NetworkTool.sharedTools.loadSchools{[weak self] (result, error) -> () in
+        MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("TeacherDetailsController - loadSchools Request Error")
                 return
@@ -206,7 +206,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     private func loadMemberServices() {
         // 获取 [会员服务] 数据
-        NetworkTool.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
+        MalaNetworking.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
             if error != nil {
                 debugPrint("TeacherDetailsController - loadMemberServices Request Error")
                 return
