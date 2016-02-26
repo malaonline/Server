@@ -8,7 +8,7 @@ group_and_permission = [
     ("出纳", []),
     ("客服", []),
     ("老师", []),
-    ("家长", ['Can change parent']),
+    ("家长", ['Can change parent', 'Can change profile']),
     ("学生", []),
     ("师资管理员", ['Can change teacher'])
 ]

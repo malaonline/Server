@@ -225,9 +225,28 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'gender', 'avatar',)
 
 
-class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
+class ProfileBasedMixin(object):
+    def get_profile(self):
+        try:
+            profile = self.request.user.profile
+        except exceptions.ObjectDoesNotExist:
+            raise PermissionDenied(detail='Role incorrect')
+        return profile
+
+
+class ProfileViewSet(ProfileBasedMixin,
+                     mixins.UpdateModelMixin,
+                     viewsets.ReadOnlyModelViewSet):
     queryset = models.Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def update(self, request, *args, **kwargs):
+        if not self.request.user.is_superuser and self.get_profile()!=self.get_object():
+            return HttpResponse(status=403)
+        response = super(ProfileViewSet, self).update(request, *args, **kwargs)
+        if response.status_code == 200:
+            response.data = {"done": "true"}
+        return response
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

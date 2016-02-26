@@ -1,10 +1,12 @@
 import json
 import itertools
+import os
 
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.test import Client
+from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
@@ -16,6 +18,9 @@ from teacher.views import information_complete_percent
 from app.models import Region
 
 from app.utils.algorithm import verify_sig
+
+
+app_path = os.path.abspath(os.path.dirname(__file__))
 
 
 # Create your tests here.
@@ -141,6 +146,33 @@ class TestApi(TestCase):
         self.assertEqual(json_ret["done"], "true")
         parent_after = Parent.objects.get(user=user)
         self.assertEqual(parent_after.student_school_name, school_name)
+
+    def test_modify_user_avatar(self):
+        username = "parent1"
+        password = "123123"
+        user = User.objects.get(username=username)
+
+        change_profile_perm = Permission.objects.get(name='Can change profile')
+        user.user_permissions.add(change_profile_perm)
+        user.save()
+
+        client = Client()
+        client.login(username=username, password=password)
+        request_url = "/api/v1/profiles/%d" % (user.profile.pk,)
+        img_name = 'img0' # NOTE: seq is 0 not 1, seq of the user 'parent1'
+        img_path = os.path.join(app_path, 'migrations', 'avatars', img_name+'.jpg')
+        # print(img_path)
+        img_fd = open(img_path, 'rb')
+        data = {'avatar': img_fd}
+        encoded_data = encode_multipart(BOUNDARY, data)
+        response = client.patch(request_url, content_type=MULTIPART_CONTENT,
+                                data=encoded_data)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(json_ret["done"], "true")
+        profile_after = Profile.objects.get(user=user)
+        # print(profile_after.avatar_url())
+        self.assertTrue(profile_after.avatar.url.find(img_name)>=0)
 
     def test_concrete_time_slots(self):
         client = Client()
