@@ -4,7 +4,7 @@ import os
 
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User, Group, Permission
 from django.test import Client
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.core.urlresolvers import reverse
@@ -36,6 +36,48 @@ class TestApi(TestCase):
         user = User.objects.get(username="parent0")
         token = Token.objects.create(user=user)
         self.assertTrue(isinstance(token.key, str))
+
+    def test_sms_login(self):
+        phone = '0001'
+        code = '1111'
+        client = Client()
+        sms_url = reverse('sms')
+        # parent login or register via sms
+        parent_group, _new = Group.objects.get_or_create(name="家长")
+        self.assertIsNotNone(parent_group)
+        # (1) default content_type
+        # send
+        data = {'action': "send", 'phone': phone}
+        response = client.post(sms_url, data=data)
+        self.assertEqual(response.status_code, 200)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret["sent"])
+        # verify
+        data = {'action': "verify", 'phone': phone, 'code': code}
+        response = client.post(sms_url, data=data)
+        self.assertEqual(response.status_code, 200)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret["verified"])
+        token = json_ret.get("token")
+        self.assertTrue(isinstance(token, str) and token != '')
+        # (2) json content_typ
+        # send
+        content_type = "application/json"
+        data = {'action': "send", 'phone': phone}
+        data = json.dumps(data)
+        response = client.post(sms_url, data=data, content_type=content_type)
+        self.assertEqual(response.status_code, 200)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret["sent"])
+        # verify
+        data = {'action': "verify", 'phone': phone, 'code': code}
+        data = json.dumps(data)
+        response = client.post(sms_url, data=data, content_type=content_type)
+        self.assertEqual(response.status_code, 200)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret["verified"])
+        token = json_ret.get("token")
+        self.assertTrue(isinstance(token, str) and token != '')
 
     def test_teacher_list(self):
         client = Client()
