@@ -27,6 +27,8 @@ from app import models
 from .utils.smsUtil import sendCheckcode, isValidPhone, isTestPhone, isValidCode
 from .utils.algorithm import verify_sig
 
+logger = logging.getLogger('app')
+
 
 class PolicySerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -154,14 +156,14 @@ class Sms(View):
                 if not checkcode:
                     return JsonResponse({'sent': False,
                                          'reason': 'resend too much times'})
-                print('验证码：' + str(checkcode))
+                logger.debug('验证码：' + str(checkcode))
                 if not isTestPhone(phone):
                     # call send sms api
                     r = sendCheckcode(phone, checkcode)
-                    print(r)
+                    logger.debug(r)
                 return JsonResponse({'sent': True})
             except Exception as err:
-                print(err)
+                logger.error(err)
                 return JsonResponse({'sent': False, 'reason': 'Unknown'})
         if action == 'verify':
             if not phone or not code:
@@ -212,7 +214,7 @@ class Sms(View):
                     'profile_id': parent.user.profile.id})
 
             except Exception as err:
-                print(err)
+                logger.error(err)
                 return JsonResponse({'verified': False, 'reason': 'Unknown'})
         return HttpResponse("Not supported request.", status=403)
 
