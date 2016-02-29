@@ -106,7 +106,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadDatas() {
-        String url = MalaApplication.getInstance().getMalaHost() + "/" + USER_INFO_PATH_V1;
+        String url = MalaApplication.getInstance().getMalaHost() + USER_INFO_PATH_V1;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
