@@ -58,7 +58,7 @@ class Region(BaseModel):
                 _dict['province'] = _region
             elif _region.admin_level == 2:
                 _dict['city'] = _region
-            elif _region.admin_level == 3:
+            elif _region.admin_level == 3:git commit --amend
                 _dict['district'] = _region
             _region = _region.superset
         return _dict
