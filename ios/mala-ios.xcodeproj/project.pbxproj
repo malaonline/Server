@@ -129,6 +129,12 @@
 		F40B53AE1C7EDA7500C20037 /* MalaNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */; };
 		F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */; };
 		F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53B11C7EF00E00C20037 /* MalaSupport.swift */; };
+		F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53B41C83EC2F00C20037 /* CFNetwork.framework */; };
+		F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53B61C83EC3B00C20037 /* SystemConfiguration.framework */; };
+		F40B53BC1C83ED3600C20037 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53B81C83EC4600C20037 /* Security.framework */; };
+		F40B53C01C83EDDD00C20037 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53BD1C83ED9300C20037 /* libc++.1.dylib */; };
+		F40B53C21C83EDEF00C20037 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53C11C83EDEF00C20037 /* libz.1.dylib */; };
+		F40B53C41C83EE0F00C20037 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F40B53C31C83EE0F00C20037 /* libsqlite3.dylib */; };
 		F40D89681C7D9E4100BD6871 /* CourseChoosingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */; };
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
@@ -387,6 +393,12 @@
 		F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaNetworking.swift; sourceTree = "<group>"; };
 		F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+NSURLRequest.swift"; sourceTree = "<group>"; };
 		F40B53B11C7EF00E00C20037 /* MalaSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaSupport.swift; sourceTree = "<group>"; };
+		F40B53B41C83EC2F00C20037 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		F40B53B61C83EC3B00C20037 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F40B53B81C83EC4600C20037 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F40B53BD1C83ED9300C20037 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
+		F40B53C11C83EDEF00C20037 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		F40B53C31C83EE0F00C20037 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 		F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingObject.swift; sourceTree = "<group>"; };
 		F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaUserDefaults.swift; sourceTree = "<group>"; };
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
@@ -456,6 +468,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40B53C41C83EE0F00C20037 /* libsqlite3.dylib in Frameworks */,
+				F40B53C21C83EDEF00C20037 /* libz.1.dylib in Frameworks */,
+				F40B53C01C83EDDD00C20037 /* libc++.1.dylib in Frameworks */,
+				F40B53BC1C83ED3600C20037 /* Security.framework in Frameworks */,
+				F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */,
+				F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */,
 				03F76CF796D8F7E2B1EBFD7E /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,6 +769,12 @@
 		D07419656EA549B65E42E332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F40B53C31C83EE0F00C20037 /* libsqlite3.dylib */,
+				F40B53C11C83EDEF00C20037 /* libz.1.dylib */,
+				F40B53BD1C83ED9300C20037 /* libc++.1.dylib */,
+				F40B53B81C83EC4600C20037 /* Security.framework */,
+				F40B53B61C83EC3B00C20037 /* SystemConfiguration.framework */,
+				F40B53B41C83EC2F00C20037 /* CFNetwork.framework */,
 				25DA83160369F01018BE7B4A /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -1483,6 +1507,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1529,6 +1554,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

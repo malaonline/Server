@@ -4,6 +4,13 @@ PODS:
   - IQKeyboardManagerSwift (3.3.6)
   - Kingfisher (1.8.5)
   - MBProgressHUD (0.9.2)
+  - Pingpp/Alipay (2.2.0):
+    - Pingpp/Core
+  - Pingpp/Core (2.2.0):
+    - Pingpp/Network
+  - Pingpp/Network (2.2.0)
+  - Pingpp/Wx (2.2.0):
+    - Pingpp/Core
   - SnapKit (0.18.0)
   - SwiftyJSON (2.3.2)
   - UMengAnalytics-NO-IDFA (3.6.7)
@@ -14,6 +21,8 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift (~> 3.3.6)
   - Kingfisher (~> 1.8.5)
   - MBProgressHUD (~> 0.9.2)
+  - Pingpp/Alipay (~> 2.2.0)
+  - Pingpp/Wx (~> 2.2.0)
   - SnapKit (~> 0.18.0)
   - SwiftyJSON (~> 2.3.2)
   - UMengAnalytics-NO-IDFA
@@ -24,6 +33,7 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 111f01f029d9cda0647a2156d3b6efc24ad1e7f1
   Kingfisher: 780fed0fa82692a3bd59d53329ae2b85cdd354a5
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         setupExterior()
-        configureUmeng()
+        registerThirdParty()
         
         // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = defaultRootViewController
         window?.makeKeyAndVisible()
         
-        IQKeyboardManager.sharedManager().enable = true
+        
         
         return true
     }
@@ -65,10 +65,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK: - SDK Configuration
 extension AppDelegate {
-
-    private func configureUmeng() {
-        // 发送启动通知(channelId 默认为 "App Store")
+    
+    func registerThirdParty() {
+        // 友盟 - 发送启动通知(channelId 默认为 "App Store")
         MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
+        // Ping++ - 开启DEBUG模式log
+        Pingpp.setDebugMode(true)
+        // IQKeyboardManager - 开启键盘自动管理
+        IQKeyboardManager.sharedManager().enable = true
     }
 }
 
