@@ -650,7 +650,7 @@ class Account(BaseModel):
         return sum and sum/100 or 0
 
     @property
-    def can_withdraw_balance(self):
+    def withdrawable_amount(self):
         """
         可提现余额, 截止到上周日23:59:59(即本周一0点之前)
         """
