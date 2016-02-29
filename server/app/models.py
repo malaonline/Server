@@ -833,9 +833,8 @@ class OrderManager(models.Manager):
         price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
 
-        discount_amount = coupon.amount if coupon is not None else 0
-
-        total = price * hours - discount_amount
+        # pure total price, not calculate coupon's amount
+        total = price * hours
 
         order_id = orderid()
 
@@ -881,7 +880,8 @@ class OrderManager(models.Manager):
 
             ans.append(dict(start=start, end=end))
             i = i + 1
-            h = h - 1
+            # for now, 1 time slot include 2 hours
+            h = h - 2
         return ans
 
     def get_order_timeslots(self, order, check_conflict=True):
@@ -971,6 +971,51 @@ class Order(BaseModel):
     def enum_timeslot(self, handler):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
+
+    # 订单内已经完成课程的小时数(消耗小时)
+    def completed_hours(self):
+        completed_hours = 0
+        for one_timeslot in self.timeslot_set.filter(deleted=False):
+            if one_timeslot.is_complete():
+                completed_hours += one_timeslot.duration_hours()
+        return completed_hours
+
+    # 消耗金额
+    def completed_amount(self):
+        return self.price * self.completed_hours()
+
+    # 剩余小时
+    def remaining_hours(self):
+        return self.hours - self.completed_hours()
+
+    # 剩余金额
+    def remaining_amount(self):
+        return self.price * self.remaining_hours()
+
+    # 退费小时(预览, 不是记录)
+    def preview_refund_hours(self):
+        # 暂时直接返回剩余小时
+        return self.remaining_hours()
+
+    # 退费金额(预览, 不是记录)
+    def preview_refund_amount(self):
+        discount_amount = self.coupon.amount if self.coupon is not None else 0
+        return self.total - discount_amount - self.completed_amount()
+
+    # 实际上课小时
+    def real_completed_hours(self):
+        # 等于消耗小时
+        return self.completed_hours()
+
+    # 实际订单金额
+    def real_order_amount(self):
+        # 若有退费, 则等于消耗金额
+        if self.status == Order.REFUND:
+            return self.completed_amount()
+        # 若无退费, 则等于订单金额 - 奖学金
+        else:
+            discount_amount = self.coupon.amount if self.coupon is not None else 0
+            return self.total - discount_amount
 
 
 class OrderRefundRecord(BaseModel):
@@ -1130,7 +1175,7 @@ class TimeSlot(BaseModel):
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return '<%s> from %s' % (self.pk, self.start, )
+        return '<%s> from %s to %s' % (self.pk, self.start, self.end)
 
     def is_complete(self, given_time=make_aware(datetime.datetime.now())):
         # 对于给定的时间,课程是否结束
@@ -1149,6 +1194,9 @@ class TimeSlot(BaseModel):
         if self.start < given_time < self.end:
             return True
         return False
+
+    def duration_hours(self):
+        return (self.end - self.start).seconds/3600
 
     @property
     def trans_to_time(self):
