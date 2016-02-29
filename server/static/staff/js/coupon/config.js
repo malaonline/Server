@@ -96,14 +96,12 @@ $(function(){
       'couponRules': JSON.stringify(rules)
     };
 
-    console.log(params);
-
     $.post("/staff/coupon/config/", params, function(result){
         if(result){
           if(result.ok){
             alert("保存成功");
           }else if(result.code == '-1'){
-            alert('家长不存在!');
+            alert('家长不存在，请输入正确的家长手机号!');
           }else{
             alert(result.msg);
           }
@@ -114,8 +112,5 @@ $(function(){
       $('#complaintModal').modal('hide');
       alert(pagedefaultErrMsg);
     });
-
-
-
   });
 });
