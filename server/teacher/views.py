@@ -1771,12 +1771,25 @@ class WalletBankcardView(BaseTeacherView):
             return render(request, self.success_template_path, context)
         certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                        defaults={'name': "", 'verified': False})
+        if not certIdHeld.verified:
+            context['failure'] = True
+            context['error_msg'] = '只有通过<a href="{cert_url}">身份认证</a>才可以添加银行卡'.format(cert_url=reverse('teacher:certificate-id'))
+            return render(request, self.success_template_path, context)
         context['id_num'] = certIdHeld.name # 身份证号
         context['phone'] = teacher.user.profile.phone
         return render(request, self.template_path, context)
 
     def post(self, request):
         context, teacher = self.getContextTeacher(request)
+        account = teacher.safe_get_account()
+        bankcards = models.BankCard.objects.filter(account=account)
+        if bankcards.count() >= 1: # 只支持添加一张银行卡
+            return JsonResponse({'ok': False, 'msg': '目前只支持添加一张银行卡', 'code': 1})
+        certIdHeld, _ = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
+                                                                       defaults={'name': "", 'verified': False})
+        if not certIdHeld.verified:
+            return JsonResponse({'ok': False, 'msg': '只有通过身份认证才可以添加银行卡', 'code': 1})
+
         id_num = self.request.POST.get('id_num') and self.request.POST.get('id_num').strip() or ''
         card_number = self.request.POST.get('card_number') and self.request.POST.get('card_number').replace(' ','',) or ''
         phone = self.request.POST.get('phone') and self.request.POST.get('phone').strip() or ''

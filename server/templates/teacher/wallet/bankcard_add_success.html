@@ -19,8 +19,8 @@
 
 {% block maincontent %}
     <div class="success-info">
-        <h3>您的银行卡绑定成功</h3>
-        <div class="note">{% if error_msg %}{{ error_msg }}{% else %}您的账户余额可以通过提现方式转到本银行卡{% endif %}</div>
+        <h3>{% if failure %}添加失败{% else %}您的银行卡绑定成功{% endif %}</h3>
+        <div class="note">{% if error_msg %}{{ error_msg|safe }}{% else %}您的账户余额可以通过提现方式转到本银行卡{% endif %}</div>
         <a class="btn btn-success" href="{% url 'teacher:wallet' %}">返回</a>
     </div>
 {% endblock %}
