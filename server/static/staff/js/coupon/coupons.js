@@ -13,15 +13,12 @@ $(function(){
                 return false;
             }
         }
-        return true;
-    });
-
-    $('form[name=query_form]').submit(function(){
         var dateFrom = $('input[name=dateFrom]').val(), dateTo = $('input[name=dateTo]').val();
         if (dateFrom && dateTo && dateFrom>dateTo) {
             alert("请确保截止查询日期大于等于开始日期");
             return false;
         }
+        return true;
     });
 
     $('input.datetimeInput').datetimepicker({
