@@ -574,7 +574,7 @@ class TeacherBankcardView(BaseStaffView):
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
-        query_set = models.BankCard.objects.select_related('account__user__teacher', 'account__user__profile').filter()
+        query_set = models.BankCard.objects.select_related('account__user__teacher', 'account__user__profile').filter(account__user__teacher__isnull=False)
         if name:
             query_set = query_set.filter(account__user__teacher__name__contains = name)
         if phone:
@@ -585,6 +585,32 @@ class TeacherBankcardView(BaseStaffView):
         kwargs['bankcards'] = query_set
         kwargs['pager'] = pager
         return super(TeacherBankcardView, self).get_context_data(**kwargs)
+
+
+class TeacherIncomeView(BaseStaffView):
+    template_name = 'staff/teacher/teacher_income_list.html'
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        query_data = {}
+        query_data['name'] = self.request.GET.get('name', '')
+        query_data['phone'] = self.request.GET.get('phone', '')
+        kwargs['query_data'] = query_data
+        #
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        page = self.request.GET.get('page')
+        query_set = models.Account.objects.select_related('user__teacher', 'user__profile').filter(user__teacher__isnull=False)
+        if name:
+            query_set = query_set.filter(user__teacher__name__contains = name)
+        if phone:
+            query_set = query_set.filter(user__profile__phone__contains = phone)
+        query_set = query_set.order_by('user__teacher__name')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['accounts'] = query_set
+        kwargs['pager'] = pager
+        return super(TeacherIncomeView, self).get_context_data(**kwargs)
 
 
 class TeacherActionView(BaseStaffActionView):

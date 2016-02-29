@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^teachers/published/$', views.TeacherPublishedView.as_view(), name="teachers_published"),
     url(r'^teachers/action/$', views.TeacherActionView.as_view(), name="teachers_action"),
     url(r'^teachers/bankcard/list/$', views.TeacherBankcardView.as_view(), name="teachers_bankcard_list"),
+    url(r'^teachers/income/list/$', views.TeacherIncomeView.as_view(), name="teachers_income_list"),
     url(r'^schools/$', views.SchoolsView.as_view(), name="schools"),
     url(r'^school/$', views.SchoolView.as_view(), name='staff_school'),
     url(r'^school/timeslot$', views.SchoolTimeslotView.as_view(), name='school_timeslot'),
