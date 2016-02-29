@@ -1227,6 +1227,7 @@ class CertificateIDView(BaseTeacherView):
         context['id_num'] = certIdHeld.name
         context['idHeldUrl'] = certIdHeld.img_url()
         context['idFrontUrl'] = certIdFront.img_url()
+        context['verified'] = certIdHeld.verified
         return context
 
     def post(self, request):
