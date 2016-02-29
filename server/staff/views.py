@@ -613,6 +613,49 @@ class TeacherIncomeView(BaseStaffView):
         return super(TeacherIncomeView, self).get_context_data(**kwargs)
 
 
+class TeacherIncomeDetailView(BaseStaffView):
+    """
+    某个老师收入明细
+    """
+    template_name = 'staff/teacher/teacher_income_detail.html'
+
+    def get_context_data(self, **kwargs):
+        teacherId = kwargs['tid']
+        teacher = get_object_or_404(models.Teacher, id=teacherId)
+        kwargs['teacher'] = teacher
+        query_data = {}
+        query_data['date_from'] = self.request.GET.get('date_from', '')
+        query_data['date_to'] = self.request.GET.get('date_to', '')
+        query_data['order_id'] = self.request.GET.get('order_id', '')
+        kwargs['query_data'] = query_data
+        #
+        date_from = self.request.GET.get('date_from', '')
+        date_to = self.request.GET.get('date_to', '')
+        order_id = self.request.GET.get('order_id', '') # TODO: 根据订单查询
+        page = self.request.GET.get('page')
+        account = teacher.safe_get_account()
+        query_set = models.AccountHistory.objects.filter(account=account)
+        if date_from:
+            try:
+                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                query_set = query_set.filter(submit_time__gte = date_from)
+            except:
+                pass
+        if date_to:
+            try:
+                date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                query_set = query_set.filter(submit_time__lte = date_to)
+            except:
+                pass
+        query_set = query_set.order_by('-submit_time')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['histories'] = query_set
+        kwargs['pager'] = pager
+        return super(TeacherIncomeDetailView, self).get_context_data(**kwargs)
+
+
 class TeacherWithdrawalView(BaseStaffView):
     template_name = 'staff/teacher/teacher_withdrawal_list.html'
 

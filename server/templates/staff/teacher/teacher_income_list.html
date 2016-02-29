@@ -39,7 +39,7 @@
                 <td>{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'' }}</td>
                 <td>{# 累计收入 #} {{ account.accumulated_income|money_format:'' }}</td>
                 <td field="action">{# 收入明细 #}
-                    TODO
+                    <a data-action="show-detail" href="{% url 'staff:teachers_income_detail' tid=account.user.teacher.id %}">查看</a>
                 </td>
             </tr>
         {% endfor %}

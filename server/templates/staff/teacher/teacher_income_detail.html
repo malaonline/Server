@@ -1,0 +1,53 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}老师银行卡查询{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teacher_income.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        日期
+        <input type="text" name="date_from" value="{{ query_data.date_from }}" size="10" />
+         -
+        <input type="text"  name="date_to" value="{{ query_data.date_to }}" size="10" />
+        订单号 <input type="text" name="order_id" value="{{ query_data.order_id }}" size="12" />
+        <input type="submit" value="查询"/>
+        <input type="button" value="导出"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">日期</th>
+            <th class="text-center">订单号</th>
+            <th class="text-center">上课年级</th>
+            <th class="text-center">科目</th>
+            <th class="text-center">教师级别</th>
+            <th class="text-center">上课时间</th>
+            <th class="text-center">课时单价</th>
+            <th class="text-center">消耗课时</th>
+            <th class="text-center">佣金比例</th>
+            <th class="text-center">收入金额</th>
+            <th class="text-center">当日收入</th>
+        </tr>
+        {% for hist in histories %}
+            <tr>
+                <td>{# 日期 #} {{ hist.submit_time|date:"Y-m-d" }}</td>
+                <td>{# 订单号 #} TODO</td>
+                <td>{# 上课年级 #} TODO</td>
+                <td>{# 科目 #} TODO</td>
+                <td>{# 教师级别 #} TODO</td>
+                <td>{# 上课时间 #} TODO</td>
+                <td>{# 课时单价 #} TODO</td>
+                <td>{# 消耗课时 #} TODO</td>
+                <td>{# 佣金比例 #} TODO</td>
+                <td>{# 收入金额 #} TODO</td>
+                <td>{# 当日收入 #} TODO</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+{% endblock %}
