@@ -133,8 +133,25 @@ class CouponsListView(ListView):
             coupons_list = coupons_list.filter(parent__user__username__icontains=name)
         if phone:
             coupons_list = coupons_list.filter(parent__user__profile__phone__contains=phone)
-        if dateFrom and dateTo:
-            coupons_list = coupons_list.filter(created_at__range=(dateFrom, dateTo))
+        # if dateFrom:
+        #     now = timezone.now()
+        #     if not dateTo:
+        #         dateTo = now
+        #     print(dateFrom,dateTo)
+        #     coupons_list = coupons_list.filter(created_at__range=(dateFrom, dateTo))
+        if dateFrom:
+            try:
+                date_from = datetime.datetime.strptime(dateFrom, '%Y-%m-%d')
+                coupons_list = coupons_list.filter(created_at__gte = date_from)
+            except:
+                pass
+        if dateTo:
+            try:
+                date_to = datetime.datetime.strptime(dateTo, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                coupons_list = coupons_list.filter(created_at__lte = date_to)
+            except:
+                pass
         if type == 'reg':
             pass
         if type == 'reg':
