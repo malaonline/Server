@@ -96,8 +96,6 @@ $(function(){
       'couponRules': JSON.stringify(rules)
     };
 
-    console.log(params);
-
     $.post("/staff/coupon/config/", params, function(result){
         if(result){
           if(result.ok){
@@ -114,8 +112,5 @@ $(function(){
       $('#complaintModal').modal('hide');
       alert(pagedefaultErrMsg);
     });
-
-
-
   });
 });
