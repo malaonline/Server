@@ -16,6 +16,25 @@
     @butterknife.* <methods>;
 }
 
+#JPush
+#==================gson==========================
+-dontwarn com.google.**
+-keep class com.google.gson.** {*;}
+
+#==================protobuf======================
+-dontwarn com.google.**
+-keep class com.google.protobuf.** {*;}
+
+-dontoptimize
+-dontpreverify
+
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+
+#-libraryjars libs/jpush-android-2.0.6.jar
+#-dontwarn cn.jpush.**
+#-keep class cn.jpush.** { *; }
+
 # removes such information by default, so configure it to keep all of it.
 -keepattributes Signature
 # Gson specific classes

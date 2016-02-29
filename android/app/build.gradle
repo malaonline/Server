@@ -18,6 +18,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     // necessary for volley.jar, as sdk 23 has removed org.apache.http.
     useLibrary 'org.apache.http.legacy'
 
@@ -37,6 +43,7 @@ android {
             versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
+            manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent.debug"]
         }
 
         release {
@@ -46,6 +53,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent"]
         }
     }
 
@@ -92,5 +100,5 @@ dependencies {
     compile 'se.emilsjolander:android-flipview:1.1.0'
     compile project(":pingpp")
     compile project(':pingpp_one')
+    compile files('libs/jpush-android-2.0.6.jar')
 }
-

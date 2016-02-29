@@ -1,5 +1,6 @@
 package com.malalaoshi.android;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -29,6 +30,12 @@ import java.util.Map;
 
 
 public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup , HomeScrollView.ScrollViewListener, View.OnClickListener, ViewPager.OnPageChangeListener {
+
+    public static String EXTRAS_PAGE_INDEX = "page index";
+    public static final int PAGE_INDEX_TEACHERS = 0;
+    public static final int PAGE_INDEX_COURSES = 1;
+    public static final int PAGE_INDEX_USER = 2;
+    private int pageIndex = PAGE_INDEX_TEACHERS;
 
     protected HomeScrollView homeScrollView;
 
@@ -99,7 +106,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(mNetworkStateReceiver, filter);
-
+        //获取待显示页索引
+        pageIndex = getIntent().getIntExtra(EXTRAS_PAGE_INDEX,0);
 
         //标题栏
         rlHomeTitle = (RelativeLayout)findViewById(R.id.home_title);
@@ -148,14 +156,24 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     private void initViews() {
-        setCurrentTab(0);
+        setCurrentTab(pageIndex);
     }
 
     private void initData() {
         mHomeFragmentAdapter = new FragmentGroupAdapter(this,getSupportFragmentManager(), this);
         vpHome.setAdapter(mHomeFragmentAdapter);
         vpHome.setOffscreenPageLimit(2);//缓存页面
-        vpHome.setCurrentItem(0);
+        vpHome.setCurrentItem(pageIndex);
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //获取待显示页索引
+        pageIndex = intent.getIntExtra(EXTRAS_PAGE_INDEX, pageIndex);
+        setCurrentTab(pageIndex);
+        vpHome.setCurrentItem(pageIndex);
     }
 
     @Override
@@ -342,18 +360,18 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         switch (v.getId()){
             case R.id.iv_title_tab_teacher:
             case R.id.rl_tab_findteacher:
-                setCurrentTab(0);
-                vpHome.setCurrentItem(0);
+                setCurrentTab(PAGE_INDEX_TEACHERS);
+                vpHome.setCurrentItem(PAGE_INDEX_TEACHERS);
                 break;
             case R.id.iv_title_tab_timetable:
             case R.id.rl_tab_timetable:
-                setCurrentTab(1);
-                vpHome.setCurrentItem(1);
+                setCurrentTab(PAGE_INDEX_COURSES);
+                vpHome.setCurrentItem(PAGE_INDEX_COURSES);
                 break;
             case R.id.iv_title_tab_user:
             case R.id.rl_tab_usercenter:
-                setCurrentTab(2);
-                vpHome.setCurrentItem(2);
+                setCurrentTab(PAGE_INDEX_USER);
+                vpHome.setCurrentItem(PAGE_INDEX_USER);
                 break;
             case R.id.tv_title_location:
                 onClickBarBtnLocation();
@@ -368,21 +386,21 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     //移动到今天
     private void scrollToTady() {
         UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
-        if (userTimetableFragment!=null){
+        if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
             userTimetableFragment.scrollToTady();
         }
     }
 
     private void loadCourses(){
         UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
-        if (userTimetableFragment!=null){
+        if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
             userTimetableFragment.loadDatas();
         }
     }
 
     private void setCurrentTab(int i) {
         switch (i){
-            case 0:
+            case PAGE_INDEX_TEACHERS:
                 ivTitleTabTeacher.setSelected(true);
                 ivTitleTabTimeTable.setSelected(false);
                 ivTitleTabUser.setSelected(false);
@@ -398,7 +416,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTitleLocation.setVisibility(View.VISIBLE);
                 tvTitleTady.setVisibility(View.GONE);
                 break;
-            case 1:
+            case PAGE_INDEX_COURSES:
                 ivTitleTabTeacher.setSelected(false);
                 ivTitleTabTimeTable.setSelected(true);
                 ivTitleTabUser.setSelected(false);
@@ -416,7 +434,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 //下载数据
                 loadCourses();
                 break;
-            case 2:
+            case PAGE_INDEX_USER:
                 ivTitleTabTeacher.setSelected(false);
                 ivTitleTabTimeTable.setSelected(false);
                 ivTitleTabUser.setSelected(true);
