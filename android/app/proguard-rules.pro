@@ -32,3 +32,31 @@
 -keep class com.malalaoshi.android.entity.** {*;}
 -keep class com.malalaoshi.android.result.** {*;}
 
+-dontwarn com.pingplusplus.**
+-keep class com.pingplusplus.** {*;}
+
+-dontwarn  com.alipay.**
+-keep class com.alipay.** {*;}
+
+-dontwarn  com.ta.utdid2.**
+-keep class com.ta.utdid2.** {*;}
+
+-keep class com.ut.device.** {*;}
+
+-dontwarn  com.tencent.**
+-keep class com.tencent.** {*;}
+
+-dontwarn  com.baidu.paysdk.**
+-keep class com.baidu.paysdk.** {*;}
+
+-dontwarn  com.baidu.android.pay.**
+-keep class com.baidu.android.pay.** {*;}
+
+-dontwarn  com.unionpay.**
+-keep class com.unionpay.** {*;}
+
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
