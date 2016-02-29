@@ -19,6 +19,7 @@ public let teacherList = "/teachers"
 public let sms = "/sms"
 public let schools = "/schools"
 public let weeklytimeslots = "/weeklytimeslots"
+public let orders = "/orders"
 
 
 // MARK: - Model
@@ -85,3 +86,7 @@ func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -
 func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
     
 }
+
+
+// MARK: - Order
+//func createOrderWith

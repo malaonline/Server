@@ -15,4 +15,13 @@ class MalaConfig {
     class func callMeInSeconds() -> Int {
         return 60
     }
+    
+    
+    class func paymentChannel() -> [String] {
+        return ["wechat", "alipay"]
+    }
+    
+    class func paymentChannelAmount() -> Int {
+        return paymentChannel().count
+    }
 }

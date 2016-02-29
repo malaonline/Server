@@ -8,6 +8,12 @@
 
 import UIKit
 
+public protocol CourseChoosingConfirmViewDelegate: class {
+    ///  确认购买
+    func OrderDidconfirm()
+}
+
+
 class CourseChoosingConfirmView: UIView {
 
     // MARK: - Property
@@ -19,6 +25,7 @@ class CourseChoosingConfirmView: UIView {
         }
     }
     private var myContext = 0
+    weak var delegate: CourseChoosingConfirmViewDelegate?
     
     
     // MARK: - Components
@@ -54,6 +61,7 @@ class CourseChoosingConfirmView: UIView {
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         confirmButton.layer.cornerRadius = 5
         confirmButton.layer.masksToBounds = true
+        confirmButton.addTarget(self, action: "buttonDidTap", forControlEvents: .TouchUpInside)
         return confirmButton
     }()
     
@@ -119,6 +127,11 @@ class CourseChoosingConfirmView: UIView {
         MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
     }
     
+    
+    // MARK: - Event Response
+    @objc func buttonDidTap() {
+        delegate?.OrderDidconfirm()
+    }
     
     deinit {
         MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)

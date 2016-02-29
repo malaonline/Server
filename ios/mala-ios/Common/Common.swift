@@ -12,34 +12,16 @@ import UIKit
 let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 var Mala_UserToken: String = "e3c4bbd3185d1d0b40df85e8b23b2c32e19db320"
 
+
 // MARK: - Variables
 /// 课时选择步增数
 var MalaClassPeriod_StepValue: Double = 2
 
 
-// MARK: - Instance
-/// 当前课程选择对象
-var MalaCourseChoosingObject: CourseChoosingObject = CourseChoosingObject()
-/// 其他课程服务数组
-var MalaServiceObject: [OtherServiceCellModel] = MalaOtherService
-/// 需支付金额
-var amount: Int = 0
-/// 获取最终需支付金额
-public func getAmount() -> Int? {
-    var amount = MalaCourseChoosingObject.getPrice()
-    //  循环其他服务数组，计算折扣、减免
-    for object in MalaServiceObject {
-        switch object.priceHandleType {
-        case .Discount:
-            amount = amount - (object.price ?? 0)
-            break
-        case .Reduce:
-            
-            break
-        }
-    }
-    amount = amount < 0 ? 0 : amount
-    return amount
+// MARK: - Enum
+enum MalaPaymentChannel: String {
+    case Wechat = "wechat"
+    case Alipay = "alipay"
 }
 
 
@@ -67,7 +49,7 @@ let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
 let MalaDetailsButtonBlueColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
 let MalaDetailsButtonBorderColor = UIColor(rgbHexValue: 0xE5E5E5, alpha: 1.0)
 let MalaDetailsBottomViewColor = UIColor(rgbHexValue: 0xF6F6F6, alpha: 0.96)
-let MalaDetailsPriceRedColor = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
+let MalaDetailsPriceRedColor = UIColor(rgbHexValue: 0xE36A5D, alpha: 1.0)
 let MalaLoginPhonePlaceHolderColor = UIColor(rgbHexValue: 0xCECECE, alpha: 1.0)
 let MalaLoginCodeGetButtonColor = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
 let MalaLoginVerifyButtonDisableColor = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
@@ -242,6 +224,11 @@ let MalaColorArray = [
     UIColor(rgbHexValue: 0xF58F8F, alpha: 1.0),
     UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
     UIColor(rgbHexValue: 0xE5BEED, alpha: 1.0)
+]
+
+let MalaPaymentChannels = [
+    PaymentChannel(imageName: "alipay_icon", title: "支付宝", subTitle: "支付宝安全支付", channel: .Wechat),
+    PaymentChannel(imageName: "wechat_icon", title: "微信支付", subTitle: "微信快捷支付", channel: .Alipay)
 ]
 
 let MalaWeekdays = [
