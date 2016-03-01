@@ -1,0 +1,67 @@
+/*#teacherList .facebook-card .card-header {*/
+    /*text-align: center;*/
+/*}*/
+
+#teacherList .card {
+    position: relative;
+    padding: 0 15px 5px 15px;
+}
+
+#teacherList .card span.card-label {
+    margin: 10px 20px -5px -15px;
+    padding: 5px 30px 5px 5px;
+    position: absolute;
+    color: #ffffff;
+    background: linear-gradient(-45deg, transparent 22px, #8fb8db 0);
+    /*background-position: -20px;*/
+}
+
+#teacherList .card h3 {
+    text-align: center;
+    font-size: 1.85em;
+    font-weight: 100;
+    padding: 10px 0 0 0;
+    margin: 5px 0;
+
+}
+
+#teacherList .divider {
+    color: #d52248;
+}
+
+#teacherList .card-content {
+    text-align: center;
+}
+
+#teacherList img.card-image.img-circle.img-center {
+    width: 100px;
+    height: 100px;
+    margin: 5px auto;
+    border-radius: 50%;
+    border: 1px solid dodgerblue;
+    padding: 5px;
+}
+
+#teacherList .ui.divider {
+    margin: 0.5em 0;
+    font-weight: 100;
+}
+
+#teacherList .card-content p {
+    margin: 0;
+}
+
+
+#teacherList .card-content p.price {
+    font-size: 1.2em;
+    color: #777;
+}
+
+#teacherList .card-content p em {
+    font-size: 1.5em;
+    color: dodgerblue;
+}
+
+#teacherList .card-content p.teacher-tag span:not(:last-child):after {
+    content:" | ";
+}
