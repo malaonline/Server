@@ -149,7 +149,7 @@ class CouponsListView(ListView):
             try:
                 date_to = datetime.datetime.strptime(dateTo, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                coupons_list = coupons_list.filter(created_at__lte = date_to)
+                coupons_list = coupons_list.filter(created_at__lt = date_to)
             except:
                 pass
         if type == 'reg':
@@ -198,7 +198,7 @@ class TeacherView(BaseStaffView):
             try:
                 date_to = datetime.datetime.strptime(reg_date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(user__date_joined__lte = date_to)
+                query_set = query_set.filter(user__date_joined__lt = date_to)
             except:
                 pass
         if region and region.isdigit():
@@ -613,6 +613,51 @@ class TeacherIncomeView(BaseStaffView):
         return super(TeacherIncomeView, self).get_context_data(**kwargs)
 
 
+class TeacherIncomeDetailView(BaseStaffView):
+    """
+    某个老师收入明细
+    """
+    template_name = 'staff/teacher/teacher_income_detail.html'
+
+    def get_context_data(self, **kwargs):
+        teacherId = kwargs['tid']
+        teacher = get_object_or_404(models.Teacher, id=teacherId)
+        kwargs['teacher'] = teacher
+        query_data = {}
+        query_data['date_from'] = self.request.GET.get('date_from', '')
+        query_data['date_to'] = self.request.GET.get('date_to', '')
+        query_data['order_id'] = self.request.GET.get('order_id', '')
+        kwargs['query_data'] = query_data
+        #
+        date_from = self.request.GET.get('date_from', '')
+        date_to = self.request.GET.get('date_to', '')
+        order_id = self.request.GET.get('order_id', '') # TODO: 根据订单查询
+        page = self.request.GET.get('page')
+        account = teacher.safe_get_account()
+        query_set = models.AccountHistory.objects.select_related('timeslot__order').filter(account=account, amount__gt=0)
+        if date_from:
+            try:
+                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                query_set = query_set.filter(submit_time__gte = date_from)
+            except:
+                pass
+        if date_to:
+            try:
+                date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                query_set = query_set.filter(submit_time__lt = date_to)
+            except:
+                pass
+        if order_id:
+            query_set = query_set.filter(timeslot__order__order_id__icontains=order_id)
+        query_set = query_set.order_by('-submit_time')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['histories'] = query_set
+        kwargs['pager'] = pager
+        return super(TeacherIncomeDetailView, self).get_context_data(**kwargs)
+
+
 class TeacherWithdrawalView(BaseStaffView):
     template_name = 'staff/teacher/teacher_withdrawal_list.html'
 
@@ -643,7 +688,7 @@ class TeacherWithdrawalView(BaseStaffView):
             try:
                 date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(submit_time__lte = date_to)
+                query_set = query_set.filter(submit_time__lt = date_to)
             except:
                 pass
         if status:
@@ -805,7 +850,7 @@ class TeacherActionView(BaseStaffActionView):
         from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
         to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
         timeSlots = models.TimeSlot.objects.select_related("order__parent")\
-            .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lte=to_time)
+            .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lt=to_time)
         courses = []
         TIME_FMT = '%H:%M:00'
         order_heap = {}
@@ -1116,7 +1161,7 @@ class OrderReviewView(BaseStaffView):
             try:
                 date_to = datetime.datetime.strptime(order_date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(created_at__lte=date_to)
+                query_set = query_set.filter(created_at__lt=date_to)
             except:
                 pass
 
@@ -1158,7 +1203,7 @@ class OrderRefundView(BaseStaffView):
             try:
                 date_to = datetime.datetime.strptime(refund_date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(created_at__lte=date_to)
+                query_set = query_set.filter(created_at__lt=date_to)
             except:
                 pass
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
