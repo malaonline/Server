@@ -28,7 +28,7 @@ $(function(){
         $previewBox.show();
         return true;
 
-        // valid image properties
+        // valid images properties
         function validImgFile() {
           if (!ele.value || !ele.files) {
             return false;
