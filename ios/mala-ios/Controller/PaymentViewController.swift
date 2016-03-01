@@ -42,6 +42,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        title = "支付"
         view.backgroundColor = UIColor.whiteColor()
         paymentConfirmView.delegate = self
         
@@ -80,7 +81,9 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
                 println("PaymentViewController - Error \(errorMessage)")
             }
         }, completion: { (order) -> Void in
-                println("创建订单成功:\(order)")
+            println("创建订单成功:\(order)")
+            
+            
         })
     }
 }

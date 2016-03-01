@@ -73,7 +73,7 @@ public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
     let requestBody: NSData?
-    var headers: [String:String]    //原为let 修改请求头原因：SMS相关接口暂不支持[Content-Type: application/json]
+    let headers: [String:String]
     let parse: NSData -> A?
     
     public var description: String {
@@ -423,17 +423,6 @@ extension MalaNetworking {
     ///  - parameter finished: Closure for Finished
     func loadTeacherDetail(id: Int, finished: RequestCallBack) {
         request(.GET, URLString: MalaBaseUrl+teacherList+"/"+String(id), parameters: nil, finished: finished)
-    }
-    
-    ///  Request for send SMS
-    ///
-    ///  - parameter number:   string for phone number
-    ///  - parameter finished: Closure for Finished
-    func sendSMS(number: String, finished: RequestCallBack) {
-        var params = [String: AnyObject]()
-        params["action"] = "send"
-        params["phone"] = number
-        request(.POST, URLString: MalaBaseUrl+sms, parameters: params, finished: finished)
     }
     
     ///  Request for verify SMS

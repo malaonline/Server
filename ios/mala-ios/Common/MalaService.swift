@@ -24,13 +24,15 @@ public let weeklytimeslots = "/weeklytimeslots"
 // MARK: - Model
 struct LoginUser: CustomStringConvertible {
     let accessToken: String
-    let userID: String
-    let username: String?
-    let nickname: String
+    let userID: Int
+    let parentID: Int?
+    let profileID: Int
+    let firstLogin: Bool?
     let avatarURLString: String?
     
     var description: String {
-        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString))"
+        return "LoginUser(accessToken: \(accessToken), userID: \(userID), parentID: \(parentID), profileID: \(profileID))" +
+        ", firstLogin: \(firstLogin)), avatarURLString: \(avatarURLString))"
     }
 }
 
@@ -47,32 +49,55 @@ struct VerifyingSMS: CustomStringConvertible {
 }
 
 
-// MARK: - Handler
-typealias failureHandler = (Reason, String?) -> Void // 当前Swift版本Bug,无法识别这个typealias
-typealias loginUserCompletion = LoginUser -> Void
-typealias verifyResult = Bool -> Void
-
-
 // MARK: - User
+func saveTokenAndUserInfo(loginUser: LoginUser) {
+    MalaUserDefaults.userID.value = loginUser.userID
+    MalaUserDefaults.parentID.value = loginUser.parentID
+    MalaUserDefaults.profileID.value = loginUser.profileID
+    MalaUserDefaults.firstLogin.value = loginUser.firstLogin
+    MalaUserDefaults.userAccessToken.value = loginUser.accessToken
+}
+
 enum VerifyCodeMethod: String {
     case Send = "send"
     case Verify = "verify"
 }
 
-func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -> Void)?, completion: verifyResult) {
+func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
     /// 参数字典
     let requestParameters = [
-        "phone": mobile,
-        "action": VerifyCodeMethod.Send.rawValue
+        "action": VerifyCodeMethod.Send.rawValue,
+        "phone": mobile
     ]
     /// 返回值解析器
     let parse: JSONDictionary -> Bool? = { data in
         return true
     }
     
-    let resource = jsonResource(path: sms, method: .POST, requestParameters: requestParameters, parse: parse)
+    /// 请求资源对象
+    let resource = jsonResource(path: "/sms", method: .POST, requestParameters: requestParameters, parse: parse)
     
     /// 若未实现请求错误处理，进行默认的错误处理
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, String?) -> Void)?, completion: LoginUser -> Void) {
+    let requestParameters = [
+        "action": VerifyCodeMethod.Verify.rawValue,
+        "phone": mobile,
+        "code": verifyCode
+    ]
+    
+    let parse: JSONDictionary -> LoginUser? = { data in
+        return parseLoginUser(data)
+    }
+    
+    let resource = jsonResource(path: "/sms", method: .POST, requestParameters: requestParameters, parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
@@ -112,6 +137,8 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
     }
 }
 
+
+// MARK: - Parse
 /// 订单JSON解析器
 let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
     if let
@@ -131,6 +158,23 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
             return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
                 subject: subject, coupon: coupon, hours: hours, timeSchedule: weekly_time_slots,
                 order_id: order_id, parent: parent, total: total, price: price, status: status)
+    }
+    return nil
+}
+/// SMS验证结果解析器
+let parseLoginUser: JSONDictionary -> LoginUser? = { userInfo in
+    /// 验证失败直接返回
+    guard let verified = userInfo["verified"] where (verified as? Bool) == true else {
+        return nil
+    }
+    
+    if let
+        firstLogin = userInfo["first_login"] as? Bool,
+        accessToken = userInfo["token"] as? String,
+        parentID = userInfo["parent_id"] as? Int,
+        userID = userInfo["user_id"] as? Int,
+        profileID = userInfo["profile_id"] as? Int {
+            return LoginUser(accessToken: accessToken, userID: userID, parentID: parentID, profileID: profileID, firstLogin: firstLogin, avatarURLString: "")
     }
     return nil
 }
