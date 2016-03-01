@@ -613,6 +613,55 @@ class TeacherIncomeView(BaseStaffView):
         return super(TeacherIncomeView, self).get_context_data(**kwargs)
 
 
+class TeacherWithdrawalView(BaseStaffView):
+    template_name = 'staff/teacher/teacher_withdrawal_list.html'
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        query_data = {}
+        query_data['name'] = self.request.GET.get('name', '')
+        query_data['phone'] = self.request.GET.get('phone', '')
+        query_data['date_from'] = self.request.GET.get('date_from')
+        query_data['date_to'] = self.request.GET.get('date_to')
+        query_data['status'] = self.request.GET.get('status')
+        kwargs['query_data'] = query_data
+        #
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
+        status = self.request.GET.get('status')
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        page = self.request.GET.get('page')
+        query_set = models.Withdrawal.objects.select_related('account__user__teacher', 'account__user__profile').filter(account__user__teacher__isnull=False)
+        if date_from:
+            try:
+                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                query_set = query_set.filter(submit_time__gte = date_from)
+            except:
+                pass
+        if date_to:
+            try:
+                date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+                date_to += datetime.timedelta(days=1)
+                query_set = query_set.filter(submit_time__lte = date_to)
+            except:
+                pass
+        if status:
+            query_set = query_set.filter(status = status)
+        if name:
+            query_set = query_set.filter(account__user__teacher__name__contains = name)
+        if phone:
+            query_set = query_set.filter(account__user__profile__phone__contains = phone)
+        query_set = query_set.order_by('-submit_time')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['withdrawals'] = query_set
+        kwargs['pager'] = pager
+        # 一些固定数据
+        kwargs['status_choices'] = models.Withdrawal.STATUS_CHOICES
+        return super(TeacherWithdrawalView, self).get_context_data(**kwargs)
+
+
 class TeacherActionView(BaseStaffActionView):
 
     NO_TEACHER_FORMAT = "没有查到老师, ID={id}"
