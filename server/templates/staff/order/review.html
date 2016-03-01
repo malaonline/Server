@@ -161,7 +161,15 @@
 {# 退费金额 #}    <td>{{ order.preview_refund_amount }}</td>
 {# 实际上课小时 #} <td>{{ order.real_completed_hours }}</td>
 {# 实际订单金额 #} <td>{{ order.real_order_amount }}</td>
-{# 操作 #}       <td>N/A</td>
+{# 操作 #}       <td>
+                    {% if order.status == order.PAID and not order.refund_status %}
+                        <a data-action="refund">申请退款</a>
+                    {% elif order.status == order.PAID and order.refund_status == order.REFUND_PENDING %}
+                        <a data-action="view">查看记录</a>
+                    {% elif order.status == order.PAID and order.refund_status == order.REFUND_REJECTED %}
+                        <a data-action="refund">重新申请退款</a>
+                    {%  endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
