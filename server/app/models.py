@@ -966,7 +966,9 @@ class Order(BaseModel):
     subject = models.ForeignKey(Subject)
     coupon = models.ForeignKey(Coupon, null=True, blank=True)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
+    level = models.ForeignKey(Level, null=True, blank=True, on_delete=models.SET_NULL)
 
+    commission_percentage = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
