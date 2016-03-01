@@ -86,10 +86,10 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" class="form-control" value="查询"/>
+            <input type="submit" class="form-control btn-success" value="查询"/>
         </div>
         <div class="form-group">
-            <input type="button" class="form-control" value="导出"/>
+            <input type="button" class="form-control" disabled value="导出"/>
         </div>
     </form>
 
@@ -127,7 +127,13 @@
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
 {# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d f" }}</td>
 {# 支付平台 #}    <td>N/A</td>
-{# 订单状态 #}    <td>{{ order.get_status_display }}</td>
+{# 订单状态 #}    <td>
+                    {% if order.refund_status %}
+                        {{ order.get_refund_status_display }}
+                    {% else %}
+                        {{ order.get_status_display }}
+                    {% endif %}
+                </td>
 {# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
