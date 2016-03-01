@@ -319,7 +319,7 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
 ///
 ///  - returns: Resource结构体
 public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
-    let token = Mala_UserToken// MalaUserDefaults.userAccessToken.value
+    let token = MalaUserDefaults.userAccessToken.value
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
