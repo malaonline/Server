@@ -13,13 +13,17 @@ class CourseChoosingObject: NSObject {
     
     // MARK: - Property
     /// 授课年级
-    dynamic var price: GradePriceModel? {
+    dynamic var gradePrice: GradePriceModel? {
         didSet {
             originalPrice = getPrice()
         }
     }
     /// 上课地点
-    dynamic var school: SchoolModel?
+    dynamic var school: SchoolModel? {
+        didSet {
+            println("CourseChoosing-school didSet")
+        }
+    }
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
@@ -41,8 +45,8 @@ class CourseChoosingObject: NSObject {
     ///
     ///  - returns: 原价
     func getPrice() ->Int {
-        if (price?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
-            return (price?.price)! * (selectedTime.count*2)
+        if (gradePrice?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
+            return (gradePrice?.price)! * (selectedTime.count*2)
         }else {
             return 0
         }
@@ -50,7 +54,7 @@ class CourseChoosingObject: NSObject {
     
     ///  重置选课模型
     func reset() {
-        price = nil
+        gradePrice = nil
         school = nil
         selectedTime.removeAll()
         classPeriod = 2

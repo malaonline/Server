@@ -19,11 +19,26 @@ var MalaClassPeriod_StepValue: Double = 2
 
 
 // MARK: - Enum
+///  支付手段
+///
+///  - Wechat: 微信支付
+///  - Alipay: 支付宝
 enum MalaPaymentChannel: String {
     case Wechat = "wechat"
     case Alipay = "alipay"
 }
-
+///  订单状态
+///
+///  - Penging:  待付款
+///  - Paid:     已付款
+///  - Canceled: 已取消
+///  - Refund:   退费
+enum MalaOrderStatus: String {
+    case Penging = "u"
+    case Paid = "p"
+    case Canceled = "d"
+    case Refund = "r"
+}
 
 // MARK: - NotificationName
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
@@ -187,6 +202,17 @@ let MalaSubject = [
     7: "历  史",
     8: "政  治",
     9: "生  物"
+]
+let MalaSubjectName = [
+    "数学": 1,
+    "英语": 2,
+    "语文": 3,
+    "物理": 4,
+    "化学": 5,
+    "地理": 6,
+    "历史": 7,
+    "政治": 8,
+    "生物": 9
 ]
 let MalaTeacherDetailsCellTitle = [
     1: "教授科目",

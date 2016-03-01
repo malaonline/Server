@@ -63,10 +63,24 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
             make.bottom.equalTo(self.view.snp_bottom)
         }
     }
-    
 
+    
     // MARK: - Delegate
     func paymentDidConfirm() {
         println("确认支付")
+        
+        // 设置订单中的支付方式
+        MalaOrderObject.channel = .Alipay
+        
+        // 创建订单
+        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("PaymentViewController - Error \(errorMessage)")
+            }
+        }, completion: { (order) -> Void in
+                println("创建订单成功:\(order)")
+        })
     }
 }

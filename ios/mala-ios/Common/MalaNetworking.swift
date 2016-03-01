@@ -171,8 +171,10 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         
         if let httpResponse = response as? NSHTTPURLResponse {
             
-            if httpResponse.statusCode == 200 {
-                
+            // 识别StatusCode并处理
+            switch httpResponse.statusCode {
+            // 成功, 订单创建
+            case 200, 201:
                 if let responseData = data {
                     
                     if let result = resource.parse(responseData) {
@@ -192,8 +194,10 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     println("\(resource)\n")
                     println(request.cURLString)
                 }
+                break
                 
-            } else {
+            // 失败, 其他
+            default:
                 failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLString)
@@ -209,21 +213,25 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         }
                     }
                 }
+                break
             }
-            
         } else {
+            // 请求无响应, 错误处理
             failure(Reason.Other(error), errorMessageInData(data))
             println("\(resource)")
             println(request.cURLString)
         }
         
+        ///  开启网络请求指示器
         dispatch_async(dispatch_get_main_queue()) {
             MalaNetworkActivityCount--
         }
     }
     
+    ///  执行任务
     task.resume()
     
+    ///  关闭网络请求指示器
     dispatch_async(dispatch_get_main_queue()) {
         MalaNetworkActivityCount++
     }
@@ -311,7 +319,7 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
 ///
 ///  - returns: Resource结构体
 public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
-    let token = MalaUserDefaults.userAccessToken.value
+    let token = Mala_UserToken// MalaUserDefaults.userAccessToken.value
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
@@ -346,7 +354,7 @@ public func jsonResource<A>(token token: String?, path: String, method: Method, 
     let jsonBody = encodeJSON(requestParameters)
     /// 用户令牌
     if let token = token {
-        headers["Authorization"] = "Token token=\"\(token)\""
+        headers["Authorization"] = "Token \(token)"
     }
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }

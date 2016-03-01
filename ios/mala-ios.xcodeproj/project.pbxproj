@@ -273,6 +273,7 @@
 		F45871FF1C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
 		F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
+		F47C2AB91C8575050051A880 /* YepHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB81C8575050051A880 /* YepHUD.swift */; };
 		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
@@ -448,6 +449,7 @@
 		F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingOtherServiceCell.swift; sourceTree = "<group>"; };
 		F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingConfirmView.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
+		F47C2AB81C8575050051A880 /* YepHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHUD.swift; path = ../../../../Desktop/OpenResource/Yep/Yep/Helpers/YepHUD.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
@@ -691,6 +693,7 @@
 				F41B8A611C4DEC8700A842E9 /* ThemeTags.swift */,
 				F4402D871C5729D000E7D3DB /* ThemeClassSchedule.swift */,
 				F4402DF91C59FECB00E7D3DB /* ThemeDate.swift */,
+				F47C2AB81C8575050051A880 /* YepHUD.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1241,6 +1244,7 @@
 				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
+				F47C2AB91C8575050051A880 /* YepHUD.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,

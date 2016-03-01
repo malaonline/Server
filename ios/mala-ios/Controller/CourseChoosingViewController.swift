@@ -133,7 +133,13 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     tempArray.append(set)
                 }
             }
-            self?.schoolArray = tempArray 
+            self?.schoolArray = tempArray
+            
+//            // 默认选中第一项
+//            NSNotificationCenter.defaultCenter().postNotificationName(
+//                MalaNotification_ChoosingSchool,
+//                object: schoolChoosingObject(isOpen: false, school: tempArray[0], indexPath: NSIndexPath(forRow: 0, inSection: 0))
+//            )
         }
     }
     
@@ -183,8 +189,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 let price = notification.object as! GradePriceModel
                 
                 // 保存用户所选课程
-                if price != MalaCourseChoosingObject.price {
-                    MalaCourseChoosingObject.price = price
+                if price != MalaCourseChoosingObject.gradePrice {
+                    MalaCourseChoosingObject.gradePrice = price
                     
                 }
         }
@@ -279,6 +285,19 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         self.observers.append(observerOpenTimeScheduleCell)
     }
     
+    /// 设置订单模型
+    private func setupOrderForm() {
+        MalaOrderObject.teacher = (teacherModel?.id) ?? 0
+        MalaOrderObject.school  = 1 //TODO: 测试id MalaCourseChoosingObject.school?.id
+        MalaOrderObject.grade = (MalaCourseChoosingObject.gradePrice?.grade?.id) ?? 0
+        MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
+        MalaOrderObject.coupon = 1 //TODO: 测试id
+        MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
+        MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in
+            return model.id
+        }
+    }
+    
     
     // MARK: - Event Response
     @objc private func popSelf() {
@@ -288,6 +307,9 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     
     // MARK: - Delegate
     func OrderDidconfirm() {
+        // 设置订单模型
+        setupOrderForm()
+        
         // 跳转到支付页面
         let viewController = PaymentViewController()
         self.navigationController?.pushViewController(viewController, animated: true)

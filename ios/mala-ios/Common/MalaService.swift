@@ -19,7 +19,6 @@ public let teacherList = "/teachers"
 public let sms = "/sms"
 public let schools = "/schools"
 public let weeklytimeslots = "/weeklytimeslots"
-public let orders = "/orders"
 
 
 // MARK: - Model
@@ -89,4 +88,49 @@ func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((R
 
 
 // MARK: - Order
-//func createOrderWith
+func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: OrderForm -> Void) {
+    // teacher              老师id
+    // school               上课地点id
+    // grade                年级(&价格)id
+    // subject              学科id
+    // coupon               优惠卡券id
+    // hours                用户所选课时数
+    // weekly_time_slots    用户所选上课时间id数组
+    
+    /// 返回值解析器
+    let parse: JSONDictionary -> OrderForm? = { data in
+        return parseOrderForm(data)
+    }
+    
+    let resource = authJsonResource(path: "/orders", method: .POST, requestParameters: orderForm, parse: parse)
+    
+    /// 若未实现请求错误处理，进行默认的错误处理
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+/// 订单JSON解析器
+let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
+    if let
+        id = orderInfo["id"] as? Int,
+        teacher = orderInfo["teacher"] as? Int,
+        parent = orderInfo["parent"] as? Int,
+        school = orderInfo["school"] as? Int,
+        grade = orderInfo["grade"] as? Int,
+        subject = orderInfo["subject"] as? Int,
+        coupon = orderInfo["coupon"] as? Int,
+        hours = orderInfo["hours"] as? Int,
+        weekly_time_slots = orderInfo["weekly_time_slots"] as? [Int],
+        price = orderInfo["price"] as? Int,
+        total = orderInfo["total"] as? Int,
+        status = orderInfo["status"] as? String,
+        order_id = orderInfo["order_id"] as? String {
+            return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
+                subject: subject, coupon: coupon, hours: hours, timeSchedule: weekly_time_slots,
+                order_id: order_id, parent: parent, total: total, price: price, status: status)
+    }
+    return nil
+}
