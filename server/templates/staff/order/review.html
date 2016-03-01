@@ -144,14 +144,14 @@
 {# 购买小时 #}    <td>{{ order.hours }}</td>
 {# 订单金额 #}    <td>{{ order.total }}</td>
 {# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
-{# 消耗小时 #}    <td>N/A</td>
-{# 消耗订单金额 #} <td>N/A</td>
-{# 剩余小时 #}    <td>N/A</td>
-{# 剩余订单金额 #} <td>N/A</td>
-{# 退费小时 #}    <td>N/A</td>
-{# 退费金额 #}    <td>N/A</td>
-{# 实际上课小时 #} <td>N/A</td>
-{# 实际订单金额 #} <td>N/A</td>
+{# 消耗小时 #}    <td>{{ order.completed_hours }}</td>
+{# 消耗订单金额 #} <td>{{ order.completed_amount }}</td>
+{# 剩余小时 #}    <td>{{ order.remaining_hours }}</td>
+{# 剩余订单金额 #} <td>{{ order.remaining_amount }}</td>
+{# 退费小时 #}    <td>{{ order.preview_refund_hours }}</td>
+{# 退费金额 #}    <td>{{ order.preview_refund_amount }}</td>
+{# 实际上课小时 #} <td>{{ order.real_completed_hours }}</td>
+{# 实际订单金额 #} <td>{{ order.real_order_amount }}</td>
 {# 操作 #}       <td>N/A</td>
             </tr>
         {% endfor %}
