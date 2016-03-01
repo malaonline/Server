@@ -650,6 +650,22 @@ class Account(BaseModel):
         return sum and sum/100 or 0
 
     @property
+    def withdrawable_amount(self):
+        """
+        可提现余额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
+        """
+        now = timezone.now()
+        end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
+        end_day = end_day.replace(hour=0, minute=0, second=0, microsecond=0)
+        AccountHistory = apps.get_model('app', 'AccountHistory')
+        ret = AccountHistory.objects.filter(account=self, done=True)\
+            .filter(models.Q(submit_time__lt=end_day)
+                    | (models.Q(submit_time__gte=end_day) & models.Q(amount__lt=0)))\
+            .aggregate(models.Sum('amount'))
+        sum = ret['amount__sum']
+        return sum and sum/100 or 0
+
+    @property
     def accumulated_income(self):
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
