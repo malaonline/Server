@@ -28,3 +28,8 @@ class TeachersView(ListView):
 class TeacherDetailView(DetailView):
     model = models.Teacher
 
+class SchoolsView(ListView):
+    model = models.School
+    context_object_name = 'school_list'
+    template_name = 'wechat/school/schools.html'
+

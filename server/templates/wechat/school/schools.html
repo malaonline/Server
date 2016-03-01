@@ -1,0 +1,57 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}名师课程{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/teachers.css' %}">
+    <link rel="stylesheet" href="{% static 'wechat/css/semantic/divider.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="page" id="teacherList">
+        <div class="content">
+            {% for teacher in teacher_list %}
+                <a href="{% url 'teacher-detail' teacher.pk %}">
+                    <div class="card facebook-card">
+                    <span class="card-label">
+                        {{ teacher.grades_shortname }}:{{ teacher.subject }}
+                    </span>
+                        <a href="#" class="link">
+                            <h3>{{ teacher.name }}</h3>
+                        </a>
+                        <div class="ui horizontal divider">{{ teacher.level }}</div>
+                        <div class="card-content">
+                            <img class="card-image img-circle img-center" src="http://placeimg.com/100/100/nature" alt="">
+                            {#                         <img class="card-images img-circle img-center" src="{{ teacher.user.profile.avatar }}" alt="">#}
+                            <p class="price"><em>{{ teacher.min_price }}-{{ teacher.max_price }}</em> 元/课时</p>
+                            <p class="color-gray teacher-tag">
+                                {% for tag in teacher.tags.all %}
+                                    <span>{{ tag.name }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p>没有添加老师</p>
+            {% endfor %}
+            <div class="app-redirect-box">
+                <a href="#" class="left-desc">
+                    <img src="{% static 'wechat/images/download_icon.png' %}" alt="">
+                    <span>更多精彩课程尽在手机客户端</span>
+                </a>
+                <div class="right-buttons">
+                    <a href="#" class="button button-fill button-dark">立即下载</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block addition_js %}
+
+{% endblock %}
