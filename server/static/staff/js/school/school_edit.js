@@ -16,9 +16,9 @@ $(function(){
       $editBox.find('.img-preview-box').hide().find('img').attr('src', '');
       $editBox.find('input[type=file]').val('');
   };
-  $('.images-view input[type=file]').change(function(e){
+  $('.image-view input[type=file]').change(function(e){
       var ele = e.target, $ele = $(ele);
-      var $editBox = $ele.closest(".images-edit-box");
+      var $editBox = $ele.closest(".image-edit-box");
       var $uploadBox = $editBox.find(".img-upload-box");
       $editBox.find('.help-block').hide();
       var imtUrl = getObjectURL(ele.files[0]);
@@ -32,18 +32,18 @@ $(function(){
       return true;
   });
   $('[data-action=add-more-photo]').click(function(){
-      if($('.images-edit-box').length > 5){
+      if($('.image-edit-box').length > 5){
         return;
       }
-      var $photoEdit = $('.images-edit-box:last');
+      var $photoEdit = $('.image-edit-box:last');
       var $newPhotoEdit = $photoEdit.clone(true);
       $newPhotoEdit.find('input[name=photoId]').val('');
       clearImgEditBox($newPhotoEdit);
       $photoEdit.after($newPhotoEdit);
   });
   $('[data-action=delete-photo]').click(function(e){
-      var $this = $(this), $editBox = $this.closest('.images-edit-box');
-      var count = $('.images-edit-box').length;
+      var $this = $(this), $editBox = $this.closest('.image-edit-box');
+      var count = $('.image-edit-box').length;
       if(count > 1){
           $editBox.remove();
       }else{
