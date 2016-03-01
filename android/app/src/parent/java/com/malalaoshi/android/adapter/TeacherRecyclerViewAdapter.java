@@ -196,8 +196,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             String imgUrl = teacher.getAvatar();
             if (imgUrl != null && !imgUrl.equals("")) {
 
-                avater.setDefaultImageResId(R.mipmap.ic_launcher);
-                avater.setErrorImageResId(R.mipmap.ic_launcher);
+                avater.setDefaultImageResId(R.drawable.user_detail_header_bg);
+                avater.setErrorImageResId(R.drawable.user_detail_header_bg);
                 avater.setImageUrl(imgUrl, mImageLoader);
 
             }
