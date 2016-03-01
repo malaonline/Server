@@ -32,6 +32,8 @@ KEYSTORE_FILE_PATH=/Users/.../keystore
 KEYSTORE_PASSWORD=123456
 KEY_PASSWORD=123456
 LOCAL_SERVER=https://dev.malalaoshi.com
+PARENT_JPUSH_KEY_DEBUG=xxxxxxxxxx
+PARENT_JPUSH_KEY_RELEASE=xxxxxxxxxxxxx
 ```
 Modify variables if needed.
 
