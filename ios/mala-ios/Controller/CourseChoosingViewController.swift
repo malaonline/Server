@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseChoosingViewController: UIViewController {
+class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewDelegate {
 
     // MARK: - Property
     /// 教师详情数据模型
@@ -94,6 +94,8 @@ class CourseChoosingViewController: UIViewController {
         // SubViews
         view.addSubview(confirmView)
         view.addSubview(tableView)
+        
+        confirmView.delegate = self
         
         // Autolayout
         confirmView.snp_makeConstraints { (make) -> Void in
@@ -277,8 +279,18 @@ class CourseChoosingViewController: UIViewController {
         self.observers.append(observerOpenTimeScheduleCell)
     }
     
+    
+    // MARK: - Event Response
     @objc private func popSelf() {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
+    // MARK: - Delegate
+    func OrderDidconfirm() {
+        // 跳转到支付页面
+        let viewController = PaymentViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     deinit {
