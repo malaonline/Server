@@ -150,21 +150,13 @@ class Sms(View):
             if not isValidPhone(phone):
                 return JsonResponse({'sent': False,
                                      'reason': 'phone is wrong'})
-            try:
-                # generate code
-                checkcode = models.Checkcode.generate(phone)
-                if not checkcode:
-                    return JsonResponse({'sent': False,
-                                         'reason': 'resend too much times'})
-                logger.debug('验证码：' + str(checkcode))
-                if not isTestPhone(phone):
-                    # call send sms api
-                    r = sendCheckcode(phone, checkcode)
-                    logger.debug(r)
-                return JsonResponse({'sent': True})
-            except Exception as err:
-                logger.error(err)
-                return JsonResponse({'sent': False, 'reason': 'Unknown'})
+            # try:
+            # generate code
+            generate, result = models.Checkcode.generate(phone)
+            if generate is True:
+                return JsonResponse({"sent": True})
+            else:
+                return JsonResponse({"sent": False, "result": "%s" % (result, )})
         if action == 'verify':
             if not phone or not code:
                 return JsonResponse({'verified': False,
