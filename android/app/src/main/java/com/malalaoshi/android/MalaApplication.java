@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.malalaoshi.android.stat.StatReporter;
+import com.malalaoshi.android.util.MalaContext;
 
 /**
  * Created by liumengjun on 11/16/15.
@@ -32,6 +33,7 @@ public class MalaApplication extends Application {
         super.onCreate();
         this.init();
         instance = this;
+        MalaContext.init();
         StatReporter.init();
         StatReporter.onAppLaunch();
     }

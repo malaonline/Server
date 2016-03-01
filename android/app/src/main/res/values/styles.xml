@@ -47,6 +47,21 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="mala.widget.title.text.small" parent="android:Widget.TextView">
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="mala.widget.title.text.smaller" parent="android:Widget.TextView">
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="mala.widget.title.sub.text.smaller" parent="android:Widget.TextView">
+        <item name="android:textColor">#6c6c6c</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="mala.widget.usercenter.warn.text" parent="android:Widget.TextView">
         <item name="android:textColor">#e26254</item>
         <item name="android:textSize">11sp</item>
@@ -104,12 +119,15 @@
         <item name="android:activityCloseEnterAnimation">@anim/push_right_in</item>
         <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
     </style>
+
     <style name="AppTheme.AnimationFullscreen" parent="AppTheme.Animation">
 
-        <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
-        <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- Hides the Action Bar -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- Hides the status bar -->
     </style>
- 
+
     <style name="AppWidget.CardViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -131,6 +149,7 @@
         <item name="android:textColor">@color/item_text_color_normal</item>
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
+
     <style name="mala.widget.usercenter.item.text2" parent="android:Widget.TextView">
         <item name="android:textColor">@color/item_text_color_light</item>
         <item name="android:textSize">@dimen/text_size_normal_x</item>

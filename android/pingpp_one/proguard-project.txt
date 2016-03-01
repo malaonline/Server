@@ -1,0 +1,3 @@
+-verbose
+-dontwarn com.pingplusplus.**
+-keep class com.pingplusplus.** {*;}
