@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% load custom_tags %}
-{% block title %}老师银行卡查询{% endblock %}
+{% block title %}{{ teacher.name }}老师收入明细{% endblock %}
 {% block addition_js %}
     <script src="{% static 'staff/js/teacher/teacher_income.js' %}"></script>
 {% endblock %}
@@ -44,7 +44,7 @@
                 <td>{# 课时单价 #} TODO</td>
                 <td>{# 消耗课时 #} TODO</td>
                 <td>{# 佣金比例 #} TODO</td>
-                <td>{# 收入金额 #} TODO</td>
+                <td>{# 收入金额 #} {{ hist.amount|money_format:'/' }}</td>
                 <td>{# 当日收入 #} TODO</td>
             </tr>
         {% endfor %}

@@ -634,7 +634,7 @@ class TeacherIncomeDetailView(BaseStaffView):
         order_id = self.request.GET.get('order_id', '') # TODO: 根据订单查询
         page = self.request.GET.get('page')
         account = teacher.safe_get_account()
-        query_set = models.AccountHistory.objects.filter(account=account)
+        query_set = models.AccountHistory.objects.filter(account=account, amount__gt=0)
         if date_from:
             try:
                 date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
