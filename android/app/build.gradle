@@ -44,7 +44,7 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent.debug",
-                                    jpush_key:"273de02f3da48856d02acc3d"]
+                                    jpush_key:PARENT_JPUSH_KEY_DEBUG]
         }
 
         release {
@@ -55,7 +55,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent",
-                                    jpush_key:"f22a395a332b87ef57a04b82"]
+                                    jpush_key:PARENT_JPUSH_KEY_RELEASE]
         }
     }
 
