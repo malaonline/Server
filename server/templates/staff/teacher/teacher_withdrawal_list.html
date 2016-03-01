@@ -1,0 +1,59 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}老师提现审核{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/teacher/teacher_withdrawal.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form">
+        日期
+        <input type="text" name="date_from" value="{{ query_data.date_from }}" size="10" />
+         -
+        <input type="text"  name="date_to" value="{{ query_data.date_to }}" size="10" />
+        状态
+        <select name="status">
+            <option value="">全部</option>
+            {% for val,text in status_choices %}
+                <option value="{{ val }}" {% if val == query_data.status %} selected="selected"{% endif %}>{{ text }}</option>
+            {% endfor %}
+        </select>
+        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
+        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
+        <input type="submit" value="查询"/>
+        <input type="button" value="导出"/>
+    </form>
+
+    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th class="text-center">提现申请时间</th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">提现金额</th>
+            <th class="text-center">所在银行</th>
+            <th class="text-center">银行卡号</th>
+            <th class="text-center">开户行</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for wd in withdrawals %}
+            <tr>
+                <td>{# 提现申请时间 #} {{ wd.submit_time|date:"Y-m-d H:i" }}</td>
+                <td field="name">{# 姓名 #} {{ wd.account.user.teacher.name }}</td>
+                <td>{# 手机号 #} {{ wd.account.user.profile.phone }}</td>
+                <td>{# 提现金额 #} {{ wd.amount|money_format:'/' }}</td>
+                <td>{# 所在银行 #} {{ wd.bankcard.bank_name }}</td>
+                <td>{# 银行卡号 #} {{ wd.bankcard.card_number }}</td>
+                <td>{# 开户行 #} TODO</td>
+                <td>{# 状态 #} {{ wd.get_status_display }}</td>
+                <td field="action">{# 操作 #}
+                    TODO
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+{% endblock %}
