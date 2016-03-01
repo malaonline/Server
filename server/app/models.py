@@ -714,16 +714,40 @@ class BankCodeInfo(BaseModel):
                                     self.card_type, self.bin_code)
 
 
+class Withdrawal(BaseModel):
+    PENDING = 'u'
+    APPROVED = 'a'
+    REJECTED = 'r'
+    STATUS_CHOICES = (
+        (PENDING, '待审核'),
+        (APPROVED, '已通过'),
+        (REJECTED, '已驳回')
+    )
+    account = models.ForeignKey(Account)
+    amount = models.PositiveIntegerField()
+    bankcard = models.ForeignKey(BankCard, null=True, blank=True)
+    status = models.CharField(max_length=2,
+                              choices=STATUS_CHOICES,
+                              default=PENDING, )
+    submit_time = models.DateTimeField(auto_now_add=True)
+    audit_by = models.ForeignKey(User, null=True, blank=True)
+    audit_at = models.DateTimeField(null=True, blank=True)
+    comment = models.CharField(max_length=100, null=True, blank=True)
+
+
 class AccountHistory(BaseModel):
     account = models.ForeignKey(Account)
     amount = models.IntegerField()
-    bankcard = models.ForeignKey(BankCard, null=True, blank=True)
+    bankcard = models.ForeignKey(BankCard, null=True, blank=True, on_delete=models.SET_NULL)
     submit_time = models.DateTimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
+    # NOTE: done_by, done_at isn't in use
     done_by = models.ForeignKey(User, related_name='processed_withdraws',
                                 null=True, blank=True)
     done_at = models.DateTimeField(null=True, blank=True)
     comment = models.CharField(max_length=100, null=True, blank=True)
+    timeslot = models.ForeignKey('TimeSlot', null=True, blank=True, on_delete=models.SET_NULL)
+    withdrawal = models.ForeignKey(Withdrawal, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return '%s %s : %s' % (self.account.user, self.amount,
@@ -942,7 +966,9 @@ class Order(BaseModel):
     subject = models.ForeignKey(Subject)
     coupon = models.ForeignKey(Coupon, null=True, blank=True)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
+    level = models.ForeignKey(Level, null=True, blank=True, on_delete=models.SET_NULL)
 
+    commission_percentage = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField()
     hours = models.PositiveIntegerField()
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
