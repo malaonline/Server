@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 {% block title %}购买订单{% endblock %}
 
 {% block addition_js %}
@@ -21,7 +22,7 @@
 
         <div class="form-group">
             <label>手机号</label>
-            <input type="number" class="form-control" name="phone" value="{{ query_data.phone }}" />
+            <input type="text" class="form-control" name="phone" value="{{ query_data.phone }}" />
         </div>
 
         <div class="form-group">
@@ -124,7 +125,7 @@
         {% for order in orders %}
             <tr align="center">
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
-{# 下单时间 #}    <td>{{ order.created_at }}</td>
+{# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d f" }}</td>
 {# 支付平台 #}    <td>N/A</td>
 {# 订单状态 #}    <td>{{ order.get_status_display }}</td>
 {# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
@@ -137,7 +138,9 @@
 {# 上课地点 #}    <td>{{ order.school }}</td>
 {# 上课时间 #}    <td>
                     {% for slot in order.weekly_time_slots.all %}
-                        {{ slot }}<br/>
+                        {{ slot.weekday|weekday_format }}
+                        {{ slot.start|time:"H:i" }}-{{ slot.end|time:"H:i" }}
+                        <br/><br/>
                     {% endfor %}
                 </td>
 {# 小时单价 #}    <td>{{ order.price }}</td>
