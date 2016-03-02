@@ -375,6 +375,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }
 
     deinit {
+        
+        println("TeacherDetailController Deinit")
         // 移除观察者
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
     }

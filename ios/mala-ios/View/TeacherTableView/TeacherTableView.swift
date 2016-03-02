@@ -42,12 +42,6 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         separatorStyle = .None
         contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
-        
-        // 下拉刷新组件
-        self.addPullToRefresh({ [weak self] in
-            self?.reloadData()
-            self?.stopPullToRefresh()
-            })
     }
     
     
