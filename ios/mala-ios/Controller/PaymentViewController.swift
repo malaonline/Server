@@ -106,7 +106,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     
     func getChargeToken() {
         ///  获取支付信息
-        getChargeTokenWithChannel(MalaOrderObject.channel!, orderID: ServiceResponseOrder.id,
+        getChargeTokenWithChannel(MalaOrderObject.channel, orderID: ServiceResponseOrder.id,
             failureHandler: { (reason, errorMessage) -> Void in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 // 错误处理
@@ -123,7 +123,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
         ///  调用Ping++开始支付
         Pingpp.createPayment(charge,
             viewController: self,
-            appURLScheme: "wechat") { (result, error) -> Void in
+            appURLScheme: MalaOrderObject.channel.rawValue) { (result, error) -> Void in
                 if result == "success" {
                     // 支付成功
                     println("支付成功")
