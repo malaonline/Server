@@ -3,7 +3,7 @@ from ..settings import *
 # Jenkins单元测试专用的settings
 
 # 关闭SMS短信发送功能
-FIX_SMS_CODE = True
+FAKE_SMS_SERVER = True
 
 # 用sqlite替代postgresql
 DATABASES = {

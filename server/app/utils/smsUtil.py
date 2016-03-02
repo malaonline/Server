@@ -5,7 +5,7 @@ import json
 
 
 def isValidPhone(phone):
-    return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone)
+    return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone) and True or False
 
 
 def isTestPhone(phone):
@@ -38,6 +38,5 @@ def sendSms(phone, msg):
 
 
 def sendCheckcode(phone, checkcode):
-    SITE_NAME = '麻辣老师'
-    msg = "【"+SITE_NAME+"】您的验证码是"+str(checkcode)
+    msg = "【麻辣老师】您的验证码是{check_code}".format(check_code=str(checkcode))
     return sendSms(phone, msg)

@@ -34,7 +34,7 @@ class TestWebPage(TestCase):
     first_init = False
 
     def setUp(self):
-        self.assertTrue(settings.FIX_SMS_CODE)
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         if self.first_init is False:
             call_command("build_groups_and_permissions")
             self.first_init = True
@@ -209,7 +209,7 @@ class TestWebPage(TestCase):
 
 class TestCommands(TestCase):
     def setUp(self):
-        self.assertTrue(settings.FIX_SMS_CODE)
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("mala_all")
 
     def tearDown(self):

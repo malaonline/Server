@@ -17,7 +17,7 @@ from django.conf import settings
 from app.exception import TimeSlotConflict
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
-from app.utils.smsUtil import isTestPhone, isValidPhone, sendSms, SendSMSError
+from app.utils.smsUtil import isTestPhone, isValidPhone, sendCheckcode, SendSMSError
 from django.utils.timezone import make_aware
 
 
@@ -1304,7 +1304,7 @@ class Checkcode(BaseModel):
     EXPIRED_TIME = 10    # 10 minutes
     RESEND_SPAN = 1      # 1 minute
     MAX_VERIFY_TIMES = 3 # prevent attacking
-    BLOCK_TIME = 1  # 每1分钟允许校验3次
+    BLOCK_TIME = 10  # 每1分钟允许校验3次
 
     phone = models.CharField(max_length=20, unique=True)
     checkcode = models.CharField(max_length=30)
@@ -1331,8 +1331,8 @@ class Checkcode(BaseModel):
             # is_test是True,就生成固定的1111,否则是一个4位随机数
             return is_test and '1111' or str(random.randrange(1000, 9999))
 
-        if settings.FIX_SMS_CODE == True:
-            # 如果配置文件里的FIX_SMS_CODE就是True,则直接进入测试状态
+        if settings.FAKE_SMS_SERVER == True:
+            # 如果配置文件里的FAKE_SMS_SERVER就是True,则直接进入测试状态
             is_test = True
         else:
             is_test = isTestPhone(phone)
@@ -1363,7 +1363,7 @@ class Checkcode(BaseModel):
         if is_test is False:
             # 如果不是测试的类型就直接发送了
             try:
-                sendSms(phone, "【麻辣老师】您的验证码是{check_code}".format(check_code=obj.checkcode))
+                sendCheckcode(phone, obj.checkcode)
             except SendSMSError as e:
                 return False, e
         return True, obj.checkcode
@@ -1381,7 +1381,8 @@ class Checkcode(BaseModel):
             if delta > datetime.timedelta(minutes=cls.EXPIRED_TIME):
                 return False, 2
             if obj.verify_times >= cls.MAX_VERIFY_TIMES:  # maybe got attack
-                now = make_aware(datetime.datetime.now())
+                # now = make_aware(datetime.datetime.now())
+                now = timezone.now()
                 if obj.block_start_time is None:
                     obj.block_start_time = make_aware(datetime.datetime.now())
                     obj.save()
@@ -1389,6 +1390,7 @@ class Checkcode(BaseModel):
                     # 过了1分钟,就又能检验3次
                     obj.block_start_time = None
                     obj.verify_times = 0
+                    obj.save()
                 else:
                     obj.save()
                     return False, 3
@@ -1409,11 +1411,11 @@ class Checkcode(BaseModel):
             return "验证通过"
         else:
             msg = {
-                0: settings.FIX_SMS_CODE and "测试期间,短信验证码默认为 1111" or "验证码不正确",
+                0: settings.FAKE_SMS_SERVER and "测试期间,短信验证码默认为 1111" or "验证码不正确",
                 1: "没有生成验证码",
                 2: "验证码已过期",
                 3: "检测过于频繁,于1分钟后再试"
             }
-            # if settings.FIX_SMS_CODE is True:
+            # if settings.FAKE_SMS_SERVER is True:
             #     msg[0] = "测试期间,短信验证码默认为 1111"
             return msg.get(code, "未知情况{code}".format(code=code))

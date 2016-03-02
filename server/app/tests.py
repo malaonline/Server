@@ -28,7 +28,7 @@ app_path = os.path.abspath(os.path.dirname(__file__))
 class TestApi(TestCase):
     def setUp(self):
         # 确保单元测试不会发送短信
-        self.assertTrue(settings.FIX_SMS_CODE)
+        self.assertTrue(settings.FAKE_SMS_SERVER)
 
     def tearDown(self):
         pass
@@ -351,7 +351,7 @@ class TestApi(TestCase):
 
 class TestModels(TestCase):
     def setUp(self):
-        self.assertTrue(settings.FIX_SMS_CODE)
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("build_groups_and_permissions")
 
     def tearDown(self):
@@ -378,7 +378,7 @@ class TestModels(TestCase):
 
 class TestTeacherWeb(TestCase):
     def setUp(self):
-        self.assertTrue(settings.FIX_SMS_CODE)
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("build_groups_and_permissions")
 
     def tearDown(self):
