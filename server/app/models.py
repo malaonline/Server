@@ -1319,7 +1319,7 @@ class Checkcode(BaseModel):
         try:
             Checkcode.objects.get(phone=phone, checkcode=code)
             return True
-        except Checkcode.DoesNotExist:˚
+        except Checkcode.DoesNotExist:
             return False
 
     @classmethod
