@@ -25,7 +25,7 @@
                         <div class="card-content">
                             <img class="card-image img-circle img-center" src="{{ teacher.user.profile.avatar_url }}" alt="">
                             {#                         <img class="card-images img-circle img-center" src="{{ teacher.user.profile.avatar }}" alt="">#}
-                            <p class="price"><em>{{ teacher.min_price }}-{{ teacher.max_price }}</em> 元/课时</p>
+                            <p class="price"><em>{{ teacher.min_price }}-{{ teacher.max_price }}</em> 元/小时</p>
                             <p class="color-gray teacher-tag">
                                 {% for tag in teacher.tags.all %}
                                     <span>{{ tag.name }}</span>
