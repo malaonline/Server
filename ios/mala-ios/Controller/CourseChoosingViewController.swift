@@ -77,7 +77,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_5*2.3
+        spacer.width = -MalaLayout_Margin_12
         
         // leftBarButtonItem
         let leftBarButtonItem = UIBarButtonItem(customView:
@@ -134,12 +134,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 }
             }
             self?.schoolArray = tempArray
-            
-//            // 默认选中第一项
-//            NSNotificationCenter.defaultCenter().postNotificationName(
-//                MalaNotification_ChoosingSchool,
-//                object: schoolChoosingObject(isOpen: false, school: tempArray[0], indexPath: NSIndexPath(forRow: 0, inSection: 0))
-//            )
+            MalaCourseChoosingObject.school = tempArray[0]
         }
     }
     
@@ -288,7 +283,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     /// 设置订单模型
     private func setupOrderForm() {
         MalaOrderObject.teacher = (teacherModel?.id) ?? 0
-        MalaOrderObject.school  = 1 //TODO: 测试id MalaCourseChoosingObject.school?.id
+        MalaOrderObject.school  = (MalaCourseChoosingObject.school?.id) ?? 0
         MalaOrderObject.grade = (MalaCourseChoosingObject.gradePrice?.grade?.id) ?? 0
         MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
         MalaOrderObject.coupon = 1 //TODO: 测试id
@@ -316,7 +311,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     }
     
     deinit {
-        print("choosing Controller deinit")
+        println("choosing Controller deinit")
         for observer in observers {
             NSNotificationCenter.defaultCenter().removeObserver(observer)
             self.observers.removeAtIndex(0)
