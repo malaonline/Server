@@ -1140,7 +1140,24 @@ class OrderReviewView(BaseStaffView):
             query_set = query_set.filter(order_id__icontains=order_id)
         # 订单状态
         if status:
-            query_set = query_set.filter(status=status)
+            # 此处 status 是前端传过来的值, 需要进一步判断具体状态
+            if status == models.Order.PAID:
+                # 已支付: 主状态 PAID, 最后审核状态 null
+                query_set = query_set.filter(status=models.Order.PAID)
+                query_set = query_set.filter(refund_status__isnull=True)
+            elif status == models.Order.REFUND_PENDING or status == models.Order.REFUND_REJECTED:
+                # 退费审核中 \ 退费被驳回: 主状态 PAID, 最后审核状态 对应的审核状态
+                query_set = query_set.filter(status=models.Order.PAID)
+                query_set = query_set.filter(refund_status=status)
+            else:
+                """
+                其他状态, 直接判断 order 状态: 未支付(PENDING)
+                                           已取消(CANCELED)
+                                           退费成功(REFUND)
+                                           已结束(???)(最后一节课已经完成)
+                """
+                query_set = query_set.filter(status=status)
+
         # 年级
         if grade:
             query_set = query_set.filter(grade=grade)
@@ -1166,7 +1183,16 @@ class OrderReviewView(BaseStaffView):
                 pass
 
         # 可用筛选条件数据集
-        kwargs['status'] = models.Order.STATUS_CHOICES
+        # 订单状态 + 退费审核状态
+        all_status = models.Order.STATUS_CHOICES + models.Order.REFUND_STATUS_CHOICES
+        # 去除 退费审核通过的状态, 前端不需要显示
+        remove_status = [models.Order.REFUND_APPROVED]
+        kwargs['status'] = []
+        for key, text in all_status:
+            if key in remove_status:
+                continue
+            else:
+                kwargs['status'].append((key, text))
         kwargs['schools'] = models.School.objects.filter(center=True)
         kwargs['grades'] = models.Grade.objects.all()
         kwargs['subjects'] = models.Subject.objects.all()

@@ -959,7 +959,7 @@ class Order(BaseModel):
         (PENDING, '待付款'),
         (PAID, '已付款'),
         (CANCELED, '已取消'),
-        (REFUND, '退费')
+        (REFUND, '退费成功')
     )
 
     objects = OrderManager()
@@ -985,6 +985,20 @@ class Order(BaseModel):
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
                               default=PENDING, )
+
+    # 最后审核状态
+    REFUND_PENDING = 'rp'
+    REFUND_APPROVED = 'ra'
+    REFUND_REJECTED = 'rr'
+    REFUND_STATUS_CHOICES = (
+        (REFUND_PENDING, '退费审核中'),
+        (REFUND_APPROVED, '退费成功'),
+        (REFUND_REJECTED, '退费被驳回')
+    )
+    refund_status = models.CharField(max_length=2,
+                                     choices=REFUND_STATUS_CHOICES,
+                                     null=True,
+                                     blank=True)
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
@@ -1050,19 +1064,9 @@ class Order(BaseModel):
 
 
 class OrderRefundRecord(BaseModel):
-    PENDING = 'u'
-    APPROVED = 'a'
-    REJECTED = 'r'
-    # 这里的文字描述是以申请者的角度, 审核者应该分别为("待处理", "已退费", "已驳回")
-    STATUS_CHOICES = (
-        (PENDING, '退费审核中'),
-        (APPROVED, '退费成功'),
-        (REJECTED, '退费被驳回')
-    )
-
     status = models.CharField(max_length=2,
-                              choices=STATUS_CHOICES,
-                              default=PENDING, )
+                              choices=Order.REFUND_STATUS_CHOICES,
+                              default=Order.REFUND_PENDING)
 
     order = models.ForeignKey(Order)
     reason = models.CharField(max_length=100, default="退费原因", blank=True)
@@ -1071,8 +1075,9 @@ class OrderRefundRecord(BaseModel):
     last_updated_by = models.ForeignKey(User)
 
     def approve_refund(self):
-        if self.status == OrderRefundRecord.PENDING:
-            self.status = OrderRefundRecord.APPROVED
+        if self.status == Order.REFUND_PENDING:
+            self.status = Order.REFUND_APPROVED
+            self.order.refund_status = Order.REFUND_APPROVED
             # todo: 订单的退费成功状态只应该在这一处操作
             self.order.status = Order.REFUND
             self.order.save()
@@ -1080,8 +1085,10 @@ class OrderRefundRecord(BaseModel):
         return self.status
 
     def reject_refund(self):
-        if self.status == OrderRefundRecord.PENDING:
-            self.status = OrderRefundRecord.REJECTED
+        if self.status == Order.REFUND_PENDING:
+            self.status = Order.REFUND_REJECTED
+            self.order.refund_status = Order.REFUND_REJECTED
+            self.order.save()
             self.save()
         return self.status
 
