@@ -43,8 +43,7 @@ android {
             versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
-            manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent.debug",
-                                    jpush_key:PARENT_JPUSH_KEY_DEBUG]
+            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_DEBUG]
         }
 
         release {
@@ -54,8 +53,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [application_Id:"com.malalaoshi.android.parent",
-                                    jpush_key:PARENT_JPUSH_KEY_RELEASE]
+            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
         }
     }
 
