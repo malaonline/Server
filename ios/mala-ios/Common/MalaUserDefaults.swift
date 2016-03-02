@@ -10,6 +10,10 @@ import UIKit
 
 // MARK: - Keys
 let userAccessTokenKey = "userAccessTokenKey"
+let UserIDKey = "UserIDKey"
+let ParentIDKey = "ParentIDKey"
+let ProfileIDKey = "ProfileIDKey"
+let FirstLoginKey = "FirstLoginKey"
 
 ///  监听者
 struct Listener<T>: Hashable {
@@ -104,6 +108,38 @@ class MalaUserDefaults {
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                 
             }
+        }
+    }()
+    /// 用户id
+    static var userID: Listenable<Int?> = {
+        let userID = defaults.integerForKey(UserIDKey)
+        
+        return Listenable<Int?>(userID) { userID in
+            defaults.setObject(userID, forKey: UserIDKey)
+        }
+    }()
+    /// 家长id
+    static var parentID: Listenable<Int?> = {
+        let parentID = defaults.integerForKey(ParentIDKey)
+        
+        return Listenable<Int?>(parentID) { userID in
+            defaults.setObject(userID, forKey: ParentIDKey)
+        }
+    }()
+    /// 个人资料id
+    static var profileID: Listenable<Int?> = {
+        let profileID = defaults.integerForKey(ProfileIDKey)
+        
+        return Listenable<Int?>(profileID) { userID in
+            defaults.setObject(userID, forKey: ProfileIDKey)
+        }
+    }()
+    /// 登陆标示（以是否已填写学生姓名区分）
+    static var firstLogin: Listenable<Bool?> = {
+        let firstLogin = defaults.boolForKey(FirstLoginKey)
+        
+        return Listenable<Bool?>(firstLogin) { userID in
+            defaults.setObject(userID, forKey: FirstLoginKey)
         }
     }()
 }

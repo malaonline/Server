@@ -15,6 +15,7 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
 
         println("Profile Did Load")
+        println("UserToken is \(MalaUserDefaults.userAccessToken.value)")
         
         // 若尚未登陆，弹出登陆页面
         if !MalaUserDefaults.isLogined {

@@ -58,13 +58,11 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
             // 应付金额
-            println("应付金额")
             let cell = (tableView.dequeueReusableCellWithIdentifier(paymentAmountCellIdentifier, forIndexPath: indexPath)) as! PaymentAmountCell
             return cell
             
         case (1, 0):
             // 支付宝
-            println("支付宝")
             let cell = (tableView.dequeueReusableCellWithIdentifier(paymentChannelCellIdentifier, forIndexPath: indexPath)) as! PaymentChannelCell
             cell.model = MalaPaymentChannels[0]
             cell.selected = true
@@ -73,7 +71,6 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
             
         case (1, 1):
             // 微信支付
-            println("微信支付")
             let cell = (tableView.dequeueReusableCellWithIdentifier(paymentChannelCellIdentifier, forIndexPath: indexPath)) as! PaymentChannelCell
             cell.model = MalaPaymentChannels[1]
             return cell

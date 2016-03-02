@@ -93,7 +93,8 @@ class PriceResultView: UIView {
     /// 金额标签
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.textColor = UIColor.redColor()
+        priceLabel.textColor = MalaDetailsPriceRedColor
+        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         priceLabel.text = "￥0.00"
         return priceLabel
     }()

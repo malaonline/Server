@@ -73,7 +73,7 @@ public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
     let requestBody: NSData?
-    var headers: [String:String]    //原为let 修改请求头原因：SMS相关接口暂不支持[Content-Type: application/json]
+    let headers: [String:String]
     let parse: NSData -> A?
     
     public var description: String {
@@ -171,8 +171,10 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         
         if let httpResponse = response as? NSHTTPURLResponse {
             
-            if httpResponse.statusCode == 200 {
-                
+            // 识别StatusCode并处理
+            switch httpResponse.statusCode {
+            // 成功, 订单创建
+            case 200, 201:
                 if let responseData = data {
                     
                     if let result = resource.parse(responseData) {
@@ -192,8 +194,10 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     println("\(resource)\n")
                     println(request.cURLString)
                 }
+                break
                 
-            } else {
+            // 失败, 其他
+            default:
                 failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLString)
@@ -209,21 +213,25 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         }
                     }
                 }
+                break
             }
-            
         } else {
+            // 请求无响应, 错误处理
             failure(Reason.Other(error), errorMessageInData(data))
             println("\(resource)")
             println(request.cURLString)
         }
         
+        ///  开启网络请求指示器
         dispatch_async(dispatch_get_main_queue()) {
             MalaNetworkActivityCount--
         }
     }
     
+    ///  执行任务
     task.resume()
     
+    ///  关闭网络请求指示器
     dispatch_async(dispatch_get_main_queue()) {
         MalaNetworkActivityCount++
     }
@@ -346,7 +354,7 @@ public func jsonResource<A>(token token: String?, path: String, method: Method, 
     let jsonBody = encodeJSON(requestParameters)
     /// 用户令牌
     if let token = token {
-        headers["Authorization"] = "Token token=\"\(token)\""
+        headers["Authorization"] = "Token \(token)"
     }
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
@@ -415,17 +423,6 @@ extension MalaNetworking {
     ///  - parameter finished: Closure for Finished
     func loadTeacherDetail(id: Int, finished: RequestCallBack) {
         request(.GET, URLString: MalaBaseUrl+teacherList+"/"+String(id), parameters: nil, finished: finished)
-    }
-    
-    ///  Request for send SMS
-    ///
-    ///  - parameter number:   string for phone number
-    ///  - parameter finished: Closure for Finished
-    func sendSMS(number: String, finished: RequestCallBack) {
-        var params = [String: AnyObject]()
-        params["action"] = "send"
-        params["phone"] = number
-        request(.POST, URLString: MalaBaseUrl+sms, parameters: params, finished: finished)
     }
     
     ///  Request for verify SMS

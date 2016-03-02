@@ -77,7 +77,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_5*2.3
+        spacer.width = -MalaLayout_Margin_12
         
         // leftBarButtonItem
         let leftBarButtonItem = UIBarButtonItem(customView:
@@ -133,7 +133,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     tempArray.append(set)
                 }
             }
-            self?.schoolArray = tempArray 
+            self?.schoolArray = tempArray
+            MalaCourseChoosingObject.school = tempArray[0]
         }
     }
     
@@ -183,8 +184,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 let price = notification.object as! GradePriceModel
                 
                 // 保存用户所选课程
-                if price != MalaCourseChoosingObject.price {
-                    MalaCourseChoosingObject.price = price
+                if price != MalaCourseChoosingObject.gradePrice {
+                    MalaCourseChoosingObject.gradePrice = price
                     
                 }
         }
@@ -279,6 +280,19 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         self.observers.append(observerOpenTimeScheduleCell)
     }
     
+    /// 设置订单模型
+    private func setupOrderForm() {
+        MalaOrderObject.teacher = (teacherModel?.id) ?? 0
+        MalaOrderObject.school  = (MalaCourseChoosingObject.school?.id) ?? 0
+        MalaOrderObject.grade = (MalaCourseChoosingObject.gradePrice?.grade?.id) ?? 0
+        MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
+        MalaOrderObject.coupon = 1 //TODO: 测试id
+        MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
+        MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in
+            return model.id
+        }
+    }
+    
     
     // MARK: - Event Response
     @objc private func popSelf() {
@@ -288,13 +302,16 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     
     // MARK: - Delegate
     func OrderDidconfirm() {
+        // 设置订单模型
+        setupOrderForm()
+        
         // 跳转到支付页面
         let viewController = PaymentViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     deinit {
-        print("choosing Controller deinit")
+        println("choosing Controller deinit")
         for observer in observers {
             NSNotificationCenter.defaultCenter().removeObserver(observer)
             self.observers.removeAtIndex(0)

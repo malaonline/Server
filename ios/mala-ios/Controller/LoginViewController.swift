@@ -279,7 +279,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc private func codeGetButtonDidTap() {
+    @objc private func codeGetButtonDidTap() {        
         // 验证手机号
         if !validateMobile(phoneTextField.text ?? "") {
             self.phoneError.hidden = false
@@ -287,39 +287,24 @@ class LoginViewController: UIViewController {
             self.phoneTextField.becomeFirstResponder()
             return
         }
-        
-        let mobile = self.phoneTextField.text!
+                
         countDown()
+        ThemeHUD.showActivityIndicator()
         
         // 发送SMS
-        sendVerifyCodeOfMobile(mobile, failureHandler: { reason, errorMessage in
+        sendVerifyCodeOfMobile(self.phoneTextField.text!, failureHandler: { reason, errorMessage in
+            
+            ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
+            
             // 错误处理
             if let errorMessage = errorMessage {
-                println("LoginViewController - Error \(errorMessage)")
+                println("LoginViewController - SendCode Error \(errorMessage)")
             }
         }, completion: { bool in
-            println("verifyCode \(bool)")
+            ThemeHUD.hideActivityIndicator()
+            println("send Verifycode -  \(bool)")
         })
-         
-        // 发送SMS
-//        MalaNetworking.sharedTools.sendSMS(self.phoneTextField.text!) { [weak self] (result, error) -> () in
-//            if error != nil {
-//                debugPrint("LoginViewController - sendSMS Request Error")
-//                return
-//            }
-//            guard let dict = result as? [String: AnyObject] else {
-//                debugPrint("LoginViewController - sendSMS Format Error")
-//                return
-//            }
-//            
-//            // 处理SMS发送结果
-//            if dict["sent"]?.intValue == 1 {
-//                print("SMS发送成功")
-//            }else {
-//                print("SMS发送失败")
-//            }
-//        }
     }
 
     @objc private func verifyButtonDidTap() {
@@ -337,27 +322,28 @@ class LoginViewController: UIViewController {
             return
         }
         
+        ThemeHUD.showActivityIndicator()
+        
         // 验证SMS
-        MalaNetworking.sharedTools.verifySMS(self.phoneTextField.text!, code: self.codeTextField.text!) { (result, error) -> () in
-            if error != nil {
-                debugPrint("LoginViewController - verifySMS Request Error")
-                return
+        verifyMobile(self.phoneTextField.text!, verifyCode: self.codeTextField.text!, failureHandler: { [weak self] (reason, errorMessage) -> Void in
+            
+            ThemeHUD.hideActivityIndicator()
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("LoginViewController - VerifyCode Error \(errorMessage)")
             }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("LoginViewController - verifySMS Format Error")
-                return
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.codeError.hidden = false
+                self?.codeTextField.text = ""
             }
-
-            // 处理SMS验证结果
-            let smsResult = SMSResultModel(dict: dict)
-            if smsResult.verified && smsResult.token != "" {
-                Mala_UserToken = smsResult.token
-                print("SMS验证成功，用户Token：\(smsResult.token)")
-            }else {
-                self.codeError.hidden = false
-                self.codeTextField.text = ""
-            }
-        }
+        }, completion: { (loginUser) -> Void in
+            ThemeHUD.hideActivityIndicator()
+            println("SMS验证成功，用户Token：\(loginUser.accessToken)")
+            saveTokenAndUserInfo(loginUser)
+        })
     }
     
     @objc private func closeButtonDidClick() {

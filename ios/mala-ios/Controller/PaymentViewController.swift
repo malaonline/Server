@@ -42,6 +42,21 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        // 设置BarButtomItem间隔
+        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer.width = -MalaLayout_Margin_12
+        
+        // leftBarButtonItem
+        let leftBarButtonItem = UIBarButtonItem(customView:
+            UIButton(
+                imageName: "leftArrow_normal",
+                highlightImageName: "leftArrow_press",
+                target: self,
+                action: "popSelf"
+            )
+        )
+        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
+        title = "支付"
         view.backgroundColor = UIColor.whiteColor()
         paymentConfirmView.delegate = self
         
@@ -63,10 +78,32 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
             make.bottom.equalTo(self.view.snp_bottom)
         }
     }
-    
 
+    
+    // MARK: - Event Response
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
     // MARK: - Delegate
     func paymentDidConfirm() {
         println("确认支付")
+        
+        // 设置订单中的支付方式
+        MalaOrderObject.channel = .Alipay
+        
+        // 创建订单
+        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("PaymentViewController - Error \(errorMessage)")
+            }
+        }, completion: { (order) -> Void in
+            println("创建订单成功:\(order)")
+            
+            
+        })
     }
 }
