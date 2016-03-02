@@ -1319,19 +1319,19 @@ class Checkcode(BaseModel):
         try:
             Checkcode.objects.get(phone=phone, checkcode=code)
             return True
-        except Checkcode.DoesNotExist:
+        except Checkcode.DoesNotExist:˚
             return False
 
     @classmethod
     def generate(cls, phone):
-        # 注意,返回的元组,第一项是布尔型,如果False,就不发送,True就要发送
+        # 注意,返回的元组,第一项是布尔型,如果False,表示返回的第二项无效或有问题,True,表示返回的第二项有效
         # 生成，并保存到数据库或缓存，10分钟后过期
         # 返回的元组第一项为False,表示有错误,True表示没有错误
         def _generate_code(is_test):
             # is_test是True,就生成固定的1111,否则是一个4位随机数
             return is_test and '1111' or str(random.randrange(1000, 9999))
 
-        if settings.FAKE_SMS_SERVER == True:
+        if settings.FAKE_SMS_SERVER is True:
             # 如果配置文件里的FAKE_SMS_SERVER就是True,则直接进入测试状态
             is_test = True
         else:
@@ -1414,7 +1414,7 @@ class Checkcode(BaseModel):
                 0: settings.FAKE_SMS_SERVER and "测试期间,短信验证码默认为 1111" or "验证码不正确",
                 1: "没有生成验证码",
                 2: "验证码已过期",
-                3: "检测过于频繁,于1分钟后再试"
+                3: "验证码不正确", # "检测过于频繁,于1分钟后再试"这样的信息对于攻击者过于友好.
             }
             # if settings.FAKE_SMS_SERVER is True:
             #     msg[0] = "测试期间,短信验证码默认为 1111"
