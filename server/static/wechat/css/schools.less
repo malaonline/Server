@@ -1,3 +1,22 @@
 #schoolList .card {
   margin: 0 0 .5em 0;
+  .card-content {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    .card-content-inner-left {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .column {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .card-content-inner-right {
+      display: flex;
+      flex-basis: 50px;
+    }
+  }
 }

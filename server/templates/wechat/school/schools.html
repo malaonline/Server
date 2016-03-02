@@ -5,8 +5,7 @@
 {% block title %}学习中心{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'wechat/css/schools.css' %}">
-    <link rel="stylesheet" href="{% static 'wechat/css/semantic/divider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'wechat/css/schools.less'|compile %}">
 {% endblock %}
 
 {% block content %}
@@ -16,12 +15,22 @@
                 <a href="{% url 'school-detail' school.pk %}">
                     <div class="card demo-card-header-pic">
                         <div valign="bottom" class="card-header color-white no-border no-padding">
-                            <img class='card-cover' src="//gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" alt="">
+                            <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
                         </div>
                         <div class="card-content">
                             <div class="card-content-inner">
-                                <p class="color-gray">发表于 2015/01/15</p>
-                                <p>此处是内容...</p>
+                                <div class="card-content-inner-left">
+                                    <div class="column">
+                                        <p>{{ school.name }}</p>
+                                        <p class="color-gray">< 1km</p>
+                                    </div>
+                                    <div class="column">
+                                        <p class="color-gray">{{ school.address }}</p>
+                                    </div>
+                                </div>
+                                <div class="card-content-inner-left">
+                                    <p>test</p>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">
