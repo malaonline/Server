@@ -1040,8 +1040,9 @@ class Order(BaseModel):
 
     # 计算退费小时(预览, 不是记录)
     def preview_refund_hours(self):
-        # 暂时直接返回剩余小时
-        return self.remaining_hours()
+        discount_amount = self.coupon.amount if self.coupon is not None else 0
+        # 退费小时 = 剩余小时 - (奖学金 / 课程单价)(向下取整)
+        return self.remaining_hours() - int(discount_amount / self.price)
 
     # 计算退费金额(预览, 不是记录)
     def preview_refund_amount(self):
