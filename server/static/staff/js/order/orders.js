@@ -40,6 +40,9 @@ $(function(){
                     $('#remainingHours').html(order.remainingHours);
                     $('#refundHours').html(order.refundHours);
                     $('#refundAmount').html(order.refundAmount);
+                    // 如果原因未填写, 则默认显示上次提交的原因(如果存在的话)
+                    if ($('#refundReason').val().trim() == "")
+                        $('#refundReason').val(order.reason);
                     // 状态获取成功, 才显示 dialog
                     $('#refundModal').modal();
                 } else {

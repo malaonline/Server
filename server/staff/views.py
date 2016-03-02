@@ -1289,7 +1289,9 @@ class OrderRefundActionView(BaseStaffActionView):
                 'ok': True,
                 'remainingHours': order.remaining_hours(),      # 剩余小时
                 'refundHours': order.preview_refund_hours(),    # 退费小时
-                'refundAmount': order.preview_refund_amount()   # 退费金额
+                'refundAmount': order.preview_refund_amount(),  # 退费金额
+                'reason': order.refund_info().reason if order.refund_info() is not None else ''
+                # 退费原因
             })
         return JsonResponse({'ok': False, 'msg': '订单状态错误', 'code': 'order_01'})
 
