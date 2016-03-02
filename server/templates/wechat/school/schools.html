@@ -12,7 +12,7 @@
     <div class="page" id="schoolList">
         <div class="content">
             {% for school in school_list %}
-                <a href="{% url 'school-detail' school.pk %}">
+                <a href="#">
                     <div class="card demo-card-header-pic">
                         <div valign="bottom" class="card-header color-white no-border no-padding">
                             <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
