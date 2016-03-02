@@ -1,0 +1,94 @@
+@import "../../../common/less/weui/base/reset";
+
+// icon font
+@import "../../../common/less/weui/icon/weui_icon_font";
+
+// button
+@import "../../../common/less/weui/widget/weui_button/weui_button";
+
+// cell
+@import "../../../common/less/weui/widget/weui_cell/weui_cell_global";
+
+@import "../../../common/less/weui/widget/weui_cell/weui_access";
+@import "../../../common/less/weui/widget/weui_cell/weui_check";
+@import "../../../common/less/weui/widget/weui_cell/weui_form";
+@import "../../../common/less/weui/widget/weui_cell/weui_switch";
+@import "../../../common/less/weui/widget/weui_cell/weui_uploader";
+
+// msg
+@import "../../../common/less/weui/widget/weui_page/weui_msg";
+
+// tips
+@import "../../../common/less/weui/widget/weui_tips/weui_dialog";
+@import "../../../common/less/weui/widget/weui_tips/weui_toast";
+@import "../../../common/less/weui/widget/weui_tips/weui_mask";
+
+//action sheet
+@import "../../../common/less/weui/widget/weui_tips/weui_actionsheet";
+
+//searchbar
+@import "../../../common/less/weui/widget/weui_searchbar/weui_searchbar";
+
+body{
+  background-color: #ededed;
+}
+.set-margin{
+  margin-left: 5px;
+}
+
+.ext_btn_primary{
+    background-color: #86bedd;
+    &:not(.weui_btn_disabled):visited{
+        color: @weuiBtnActiveFontColor;
+        background-color: #467B98;
+    }
+    &:active{
+        color: @weuiBtnActiveFontColor;
+        background-color: #467B98;
+    }
+}
+.weui_cell_ft{
+  .ext_btn_disabled{
+    color: @weuiBtnActiveFontColor;
+    background-color: #467B98;
+  }
+}
+.ext_btn_default{
+  color: #ffffff;
+  background-color: #e1e1e1;
+  &:not(.weui_btn_disabled):visited {
+      color: @weuiBtnDefaultFontColor;
+  }
+  &:not(.weui_btn_disabled):active {
+    color: @weuiBtnDefaultActiveFontColor;
+    background-color: @weuiBtnDefaultActiveBg;
+  }
+}
+.weui_toast{
+  width: 8.6em;
+  min-height: 3.6em;
+  line-height: 3.6em;
+}
+.submit_btn{
+  width: 100%;
+}
+.submit_content{
+  padding: 10px 15px;
+  text-align: center;
+  font{
+    color: #467B98;
+    cursor: pointer;
+  }
+  >div{
+    color: #a0a0a0;
+    margin-top: 8px;
+  }
+}
+.msg-error{
+  display: none;
+  font-size: 18px;
+  color: red;
+  img{
+    margin-bottom: -4px;
+  }
+}

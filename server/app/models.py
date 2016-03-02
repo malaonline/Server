@@ -812,6 +812,28 @@ class Parent(BaseModel):
         return "{child_name}'s parent [{parent_name}]".format(
                 child_name=self.student_name, parent_name=self.user.username)
 
+    # 新建一个空白parent
+    @staticmethod
+    def new_parent()->User:
+        # 新建用户
+        username = random_string()[:30]
+        salt = random_string()[:5]
+        password = "malalaoshi"
+        user = User(username=username)
+        user.email = ""
+        user.password = make_password(password, salt)
+        user.save()
+        # 创建家长身份
+        profile = Profile(user=user, phone="")
+        profile.save()
+        parent = Parent(user=user)
+        parent.save()
+        # 集体保存
+        user.save()
+        profile.save()
+        parent.save()
+        ret_user = authenticate(username=username, password=password)
+        return ret_user
 
 class CouponRule(BaseModel):
     """

@@ -12,6 +12,9 @@ from django.db.models import Q,Count
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import _get_backends
+from django.http import HttpResponse, JsonResponse
 
 # local modules
 from app import models
@@ -19,7 +22,6 @@ from app.utils import random_string
 from .wxapi import wx_signature, get_token_from_weixin, get_wx_jsapi_ticket_from_weixin
 
 # Create your views here.
-
 
 class TeachersView(ListView):
     model = models.Teacher
@@ -433,3 +435,48 @@ def calculateDistance(pointA, pointB):
   toRadians = math.pi/180;
 
   return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
+
+@csrf_exempt
+def check_phone(request):
+    phone = request.POST.get("phone", None)
+    code = request.POST.get("code", None)
+    Profile = models.Profile
+    CheckCode = models.Checkcode
+    Parent = models.Parent
+    new_user = True
+    try:
+        profile = Profile.objects.get(phone=phone)
+        user = profile.user
+        for backend, backend_path in _get_backends(return_tuples=True):
+            user.backend = backend_path
+            break
+        parent = Parent.objects.get(user=user)
+        new_user = False
+    except Profile.DoesNotExist:
+        # new user
+        user = Parent.new_parent()
+        parent = user.parent
+        profile = parent.user.profile
+        profile.phone = phone
+        profile.save()
+    except Parent.DoesNotExist:
+        parent = Parent(user=user)
+        parent.save()
+    if CheckCode.verify(phone, code)[0]:
+        return JsonResponse({
+            "result": True
+        })
+    else:
+        # 验证失败
+        return JsonResponse({
+            "result": False
+        })
+
+@csrf_exempt
+def phone_page(request):
+    template_name = 'wechat/parent/reg_phone.html'
+    context = {
+        "zl": "aaa"
+    }
+    return render(request, template_name, context)
+
