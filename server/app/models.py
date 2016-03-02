@@ -1138,7 +1138,7 @@ class Charge(BaseModel):
     paid = models.BooleanField(default=False)
     refunded = models.BooleanField(default=False)
     app = models.CharField(max_length=40)
-    channel = models.CharField(max_length=10)
+    channel = models.CharField(max_length=20)
     order_no = models.CharField(max_length=20)
     client_ip = models.CharField(max_length=50)
     amount = models.IntegerField(default=0)
@@ -1299,6 +1299,10 @@ class TimeSlot(BaseModel):
     @property
     def is_passed(self):
         return timezone.now() > self.end
+
+    @property
+    def teacher(self):
+        return self.order.teacher
 
 
 class Message(BaseModel):

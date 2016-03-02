@@ -588,7 +588,7 @@ HTTP Status Code 201
 ```
 {
     'teacher': 1,
-    'order_id': 'ad5fc5d8-c4f8-11e5-96e0-985aebcf12ee',
+    'order_id': '1234123412341234',
     'parent': 1,
     'grade': 1,
     'id': 15,
@@ -616,7 +616,6 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 
 data:
 ```
-
 {
     "count": 14,
     "next": "http://127.0.0.1:8000/api/v1/timeslots?page=2",
@@ -624,13 +623,59 @@ data:
     "results": [
         {
             "id": 1,
-            "start": 1234567890,
             "end": 1234567890,
             "subject": "数学",
             "is_passed": false
         },
         ...
     ]
+}
+```
+
+### Get one course
+
+```
+GET /api/v1/timeslots/1
+```
+
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+data:
+```
+{
+    "id": 6,
+    "end": 1457883000,
+    "subject": "语文",
+    "is_passed": false,
+    "teacher": {
+        "id": 20,
+        "avatar": "http://127.0.0.1:8000/upload/avatars/img3_8LmhD21.jpg",
+        "name": "李老师"
+    },
+    "comment": null
+}
+```
+or
+```
+{
+    "id": 6,
+    "end": 1457883000,
+    "subject": "语文",
+    "is_passed": false,
+    "teacher": {
+        "id": 20,
+        "avatar": "http://127.0.0.1:8000/upload/avatars/img3_8LmhD21.jpg",
+        "name": "李老师"
+    },
+    "comment": {
+        "id": 1,
+        "timeslot": 6,
+        "score": 4,
+        "content": "rt"
+    }
 }
 ```
 
@@ -667,6 +712,23 @@ HTTP Status Code 201
     "content": "Good."
 }
 ```
+
+### Get Comment
+
+```
+GET /api/v1/comments/123
+```
+
+result:
+```
+{
+    "id": 1,
+    "timeslot": 6,
+    "score": 4,
+    "content": "rt"
+}
+```
+
 
 ### Get Charge Token
 
