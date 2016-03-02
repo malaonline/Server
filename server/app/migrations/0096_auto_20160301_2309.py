@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0094_merge'),
+        ('app', '0095_checkcode_block_start_time'),
     ]
 
     operations = [
