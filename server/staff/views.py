@@ -1265,6 +1265,48 @@ class OrderRefundView(BaseStaffView):
         return super(OrderRefundView, self).get_context_data(**kwargs)
 
 
+class OrderRefundActionView(BaseStaffActionView):
+    def get(self, request):
+        action = self.request.GET.get('action')
+        if action == 'preview-refund-info':
+            return self.preview_refund_info(request)
+        return HttpResponse("Not supported action.", status=404)
+
+    def post(self, request):
+        action = self.request.POST.get('action')
+        if action == 'request-refund':
+            return self.request_refund(request)
+        return HttpResponse("Not supported action.", status=404)
+
+    def preview_refund_info(self, request):
+        order_id = request.GET.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        # 已支付 和 退费已驳回 状态的订单可以预览退费信息
+        if (order.status == order.PAID and not order.refund_status) or (
+                order.status == order.PAID and order.refund_status == order.REFUND_REJECTED):
+            return JsonResponse({'ok': True,
+                                 'remainingHours': order.remaining_hours(),     # 剩余小时
+                                 'refundHours': order.preview_refund_hours(),   # 退费小时
+                                 'refundAmount': order.preview_refund_amount()  # 退费金额
+                                 })
+        return JsonResponse({'ok': False, 'msg': '订单状态错误', 'code': 'order_01'})
+
+    def request_refund(self, request):
+        order_id = request.POST.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.status == order.PAID:
+            if order.refund_status == order.REFUND_PENDING:
+                return JsonResponse({'ok': False, 'msg': '订单退费正在申请中, 请勿重复提交', 'code': 'order_03'})
+            else:
+                # 生成新的 OrderRefundRecord
+                # 需要记录当前退费信息
+                return JsonResponse({'ok': True,
+                                 'remainingHours': order.remaining_hours(),     # 剩余小时
+                                 'refundHours': order.preview_refund_hours(),   # 退费小时
+                                 'refundAmount': order.preview_refund_amount()  # 退费金额
+                                 })
+        return JsonResponse({'ok': False, 'msg': '订单状态错误', 'code': 'order_02'})
+
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'
 

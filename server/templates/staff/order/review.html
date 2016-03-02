@@ -163,14 +163,45 @@
 {# 实际订单金额 #} <td>{{ order.real_order_amount }}</td>
 {# 操作 #}       <td>
                     {% if order.status == order.PAID and not order.refund_status %}
-                        <a data-action="refund">申请退款</a>
+                        <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>
                     {% elif order.status == order.PAID and order.refund_status == order.REFUND_PENDING %}
-                        <a data-action="view">查看记录</a>
+                        <a data-action="show-refund-record" orderId={{ order.id }}>查看记录</a>
                     {% elif order.status == order.PAID and order.refund_status == order.REFUND_REJECTED %}
-                        <a data-action="refund">重新申请退款</a>
+                        <a data-action="show-refund-preview" orderId={{ order.id }}>重新申请退款</a>
                     {%  endif %}
                 </td>
             </tr>
         {% endfor %}
     </table>
+
+    <div id="refundModal" class="modal fade" role="dialog" style="margin: 0 auto;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center">退费确认</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <p>剩余 <label id="remainingHours"></label> 小时</p>
+                        <p>共退 <label id="refundHours"></label> 小时</p>
+                        <p>退费金额 <label id="refundAmount"></label> 元</p>
+                        <input type="button" value="刷新" data-action="refresh-refund-preview" class="btn btn-default"/>
+                        <input type="hidden" id="orderId"/>
+                        <fieldset>
+                            <div class="control-group">
+                                <textarea name="refundReason" id="refundReason" rows="5" cols="36" placeholder="请输入退费原因"></textarea>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="取消" data-dismiss="modal" class="btn btn-default">
+                    <input type="button" data-action="submit-refund" value="确定" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
