@@ -1,10 +1,18 @@
 #schoolList .card {
-  margin: 0 0 .5em 0;
-  .card-content {
+  margin: 0 0 .8em 0;
+  .card-content-inner {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: flex-start;
+    align-items: stretch;
+    font-size: 1.6em;
+    font-weight: 100;
+    padding: 14px 0 14px 12px;
+    .color-gray {
+      font-size: .8em;
+    }
     .card-content-inner-left {
+      flex: 1;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -12,11 +20,24 @@
         flex-basis: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        p {
+          margin: 0;
+          padding:0 21px 0 0 ;
+        }
       }
     }
     .card-content-inner-right {
       display: flex;
       flex-basis: 50px;
+      justify-content: center;
+      align-items: center;
+      border-left: 1px solid #e5e5e5;
+      padding: 12px;
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
   }
 }
