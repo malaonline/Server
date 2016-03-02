@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        setupExterior()
+        // 全局的外观自定义
+        customAppearance()
         registerThirdParty()
         
         // Setup Window
@@ -51,28 +52,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-    /// 设置公共外观样式
-    private func setupExterior() {
-        // 设置公共样式
-        UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
-        UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-//        UINavigationBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().tintColor = MalaAppearanceTextColor
-    }
-}
-
-
-// MARK: - SDK Configuration
-extension AppDelegate {
     
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
+            println("result: \(result), error: \(error)")
+        }
+        return canHandleURL
+    }
+    
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
+            println("result: \(result), error: \(error)")
+        }
+        return canHandleURL
+    }
+    
+    
+    
+    
+    
+    ///  SDK Configuration
     func registerThirdParty() {
         // 友盟 - 发送启动通知(channelId 默认为 "App Store")
         MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
+        
         // Ping++ - 开启DEBUG模式log
         Pingpp.setDebugMode(true)
+        
         // IQKeyboardManager - 开启键盘自动管理
         IQKeyboardManager.sharedManager().enable = true
+    }
+
+    /// 设置公共外观样式
+    private func customAppearance() {
+        
+        // NavigationBar
+        UINavigationBar.appearance().tintColor = MalaAppearanceTextColor
+        UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+        //UINavigationBar.appearance().shadowImage = UIImage()
+        
+        // TabBar
+        UITabBar.appearance().tintColor = MalaAppearanceTextColor
     }
 }
 

@@ -190,4 +190,22 @@ class TestFactory {
         print(NSDate().weekday())
         print("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))
     }
+    
+    class func testPingppPayment(charge: JSONDictionary) {
+        
+        let object = charge as? NSDictionary
+        
+        Pingpp.createPayment(object,
+            viewController: UIViewController(),
+            appURLScheme: "alipay") { (result, error) -> Void in
+                if result == "success" {
+                    // 支付成功
+                    println("支付成功")
+                }else {
+                    // 支付失败或取消
+                    println("支付失败或取消")
+                }
+        }
+    }
+    
  }

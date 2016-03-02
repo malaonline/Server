@@ -19,6 +19,7 @@ public let teacherList = "/teachers"
 public let sms = "/sms"
 public let schools = "/schools"
 public let weeklytimeslots = "/weeklytimeslots"
+public let coupons = "/coupons"
 
 
 // MARK: - Model
@@ -50,17 +51,14 @@ struct VerifyingSMS: CustomStringConvertible {
 
 
 // MARK: - User
+///  保存用户信息到UserDefaults
+///  - parameter loginUser: 登陆用户模型
 func saveTokenAndUserInfo(loginUser: LoginUser) {
     MalaUserDefaults.userID.value = loginUser.userID
     MalaUserDefaults.parentID.value = loginUser.parentID
     MalaUserDefaults.profileID.value = loginUser.profileID
     MalaUserDefaults.firstLogin.value = loginUser.firstLogin
     MalaUserDefaults.userAccessToken.value = loginUser.accessToken
-}
-
-enum VerifyCodeMethod: String {
-    case Send = "send"
-    case Verify = "verify"
 }
 
 func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
@@ -106,13 +104,13 @@ func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, 
 }
 
 
-// MARK: - Teahcer
+// MARK: - Teacher
 func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
     
 }
 
 
-// MARK: - Order
+// MARK: - Payment
 func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: OrderForm -> Void) {
     // teacher              老师id
     // school               上课地点id
@@ -128,6 +126,32 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
     }
     
     let resource = authJsonResource(path: "/orders", method: .POST, requestParameters: orderForm, parse: parse)
+    
+    /// 若未实现请求错误处理，进行默认的错误处理
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  获取支付信息
+///
+///  - parameter channel:        支付方式
+///  - parameter orderID:        订单id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int,failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "action": PaymentMethod.Pay.rawValue,
+        "channel": channel.rawValue
+    ]
+    
+    let parse: JSONDictionary -> JSONDictionary = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/orders/\(orderID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
     
     /// 若未实现请求错误处理，进行默认的错误处理
     if let failureHandler = failureHandler {
@@ -163,7 +187,7 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
 }
 /// SMS验证结果解析器
 let parseLoginUser: JSONDictionary -> LoginUser? = { userInfo in
-    /// 验证失败直接返回
+    /// 判断验证结果是否正确
     guard let verified = userInfo["verified"] where (verified as? Bool) == true else {
         return nil
     }

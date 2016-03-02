@@ -18,6 +18,8 @@ var MalaServiceObject: [OtherServiceCellModel] = MalaOtherService
 var amount: Int = 0
 /// 订单对象
 var MalaOrderObject: OrderForm = OrderForm()
+/// 服务器返回订单对象
+var ServiceResponseOrder: OrderForm = OrderForm()
 
 
 

@@ -19,12 +19,26 @@ var MalaClassPeriod_StepValue: Double = 2
 
 
 // MARK: - Enum
-///  支付手段
+///  验证码操作
 ///
+///  - Send:   发送验证码
+///  - Verify: 验证
+enum VerifyCodeMethod: String {
+    case Send = "send"
+    case Verify = "verify"
+}
+///  支付操作
+///
+///  - Pay: 支付
+enum PaymentMethod: String {
+    case Pay = "pay"
+}
+///  支付手段
+///  - See: [取值范围](https://www.pingxx.com/api#api-charges)
 ///  - Wechat: 微信支付
-///  - Alipay: 支付宝
+///  - Alipay: 支付宝手机支付
 enum MalaPaymentChannel: String {
-    case Wechat = "wechat"
+    case Wechat = "wx"
     case Alipay = "alipay"
 }
 ///  订单状态
@@ -253,8 +267,8 @@ let MalaColorArray = [
 ]
 
 let MalaPaymentChannels = [
-    PaymentChannel(imageName: "alipay_icon", title: "支付宝", subTitle: "支付宝安全支付", channel: .Wechat),
-    PaymentChannel(imageName: "wechat_icon", title: "微信支付", subTitle: "微信快捷支付", channel: .Alipay)
+    PaymentChannel(imageName: "alipay_icon", title: "支付宝", subTitle: "支付宝安全支付", channel: .Alipay),
+    PaymentChannel(imageName: "wechat_icon", title: "微信支付", subTitle: "微信快捷支付", channel: .Wechat)
 ]
 
 let MalaWeekdays = [

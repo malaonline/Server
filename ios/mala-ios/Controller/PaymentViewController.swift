@@ -89,21 +89,48 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Delegate
     func paymentDidConfirm() {
         println("确认支付")
-        
-        // 设置订单中的支付方式
-        MalaOrderObject.channel = .Alipay
-        
-        // 创建订单
+
+        ///  创建订单
         createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
-                println("PaymentViewController - Error \(errorMessage)")
+                println("PaymentViewController - CreateOrder Error \(errorMessage)")
             }
-        }, completion: { (order) -> Void in
+        }, completion: { [weak self] (order) -> Void in
             println("创建订单成功:\(order)")
-            
-            
+            ServiceResponseOrder = order
+            self?.getChargeToken()
         })
+    }
+    
+    func getChargeToken() {
+        ///  获取支付信息
+        getChargeTokenWithChannel(MalaOrderObject.channel!, orderID: ServiceResponseOrder.id,
+            failureHandler: { (reason, errorMessage) -> Void in
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+                // 错误处理
+                if let errorMessage = errorMessage {
+                    println("PaymentViewController - getGharge Error \(errorMessage)")
+                }
+            }, completion: { [weak self] (charges) -> Void in
+                println("获取支付信息:\(charges)")
+                self?.createPayment(charges)
+        })
+    }
+    
+    func createPayment(charge: JSONDictionary) {
+        ///  调用Ping++开始支付
+        Pingpp.createPayment(charge,
+            viewController: self,
+            appURLScheme: "wechat") { (result, error) -> Void in
+                if result == "success" {
+                    // 支付成功
+                    println("支付成功")
+                }else {
+                    // 支付失败或取消
+                    println("支付失败或取消")
+                }
+        }
     }
 }
