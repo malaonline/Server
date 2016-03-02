@@ -33,3 +33,6 @@ class SchoolsView(ListView):
     context_object_name = 'school_list'
     template_name = 'wechat/school/schools.html'
 
+class SchoolDetailView(ListView):
+    models = models.School
+
