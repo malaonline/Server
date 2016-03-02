@@ -12,6 +12,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.timezone import make_aware, localtime
+from django.utils import timezone
 
 from dateutil import relativedelta
 
@@ -61,6 +62,7 @@ class VerifySmsCode(View):
         try:
             profile = Profile.objects.get(phone=phone)
             user = profile.user
+            # 注意,这段代码摘抄自django库本身
             for backend, backend_path in _get_backends(return_tuples=True):
                 user.backend = backend_path
                 break
@@ -121,7 +123,7 @@ def information_complete_percent(user: User):
         unfinished += 1
     if profile.gender == "u":
         unfinished += 1
-    if teacher.region == None:
+    if teacher.region is None:
         unfinished += 1
     if len(teacher.abilities.all()) == 0:
         unfinished += 1
@@ -920,7 +922,7 @@ class MyEvaluation(View):
                             "full_star": range(comment.score),
                             "empty_star": range(5 - comment.score),
                             "comment": comment.content,
-                            "class_type": self.class_type+"1对1",
+                            "class_type": self.class_type + "1对1",
                             "form": the_form,
                             "action_url": "reply/comment/{id}".format(id=comment.id),
                             "form_id": "reply_form_{id}".format(id=comment.id),
@@ -928,7 +930,6 @@ class MyEvaluation(View):
                             "reply_content": comment.reply
                         }
                         self.comment_list.append(one_comment)
-
 
         def get_sorted_comment_list(self):
             return sorted(self.comment_list, key=lambda comment: comment["publish_date"])
@@ -969,7 +970,7 @@ class MyEvaluation(View):
             print("comment-reply-error-id is {id}".format(id=cres.id))
         comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)
         if comments_array:
-            context["comments"] = comments_array[page_offset-1]
+            context["comments"] = comments_array[page_offset - 1]
         else:
             context["comments"] = []
         # 建立分页数据
@@ -978,8 +979,8 @@ class MyEvaluation(View):
             page_array.append(
                 {
                     "url": reverse("teacher:my-evaluation", kwargs={"comment_type": comment_type,
-                                                                    "page_offset": one_offset+1}),
-                    "offset_id": one_offset+1
+                                                                    "page_offset": one_offset + 1}),
+                    "offset_id": one_offset + 1
                 }
             )
         context["page_array"] = page_array
@@ -1005,15 +1006,15 @@ class MyEvaluation(View):
         }
         if count_package[0] > 0:
             context["percent"] = {
-                "good":  "{:2.0f}".format(count_package[1]/count_package[0]*100),
-                "mid":  "{:2.0f}".format(count_package[2]/count_package[0]*100),
-                "bad":  "{:2.0f}".format(count_package[3]/count_package[0]*100)
+                "good": "{:2.0f}".format(count_package[1] / count_package[0] * 100),
+                "mid": "{:2.0f}".format(count_package[2] / count_package[0] * 100),
+                "bad": "{:2.0f}".format(count_package[3] / count_package[0] * 100)
             }
         else:
             context["percent"] = {
-                "good":  "0",
-                "mid":  "0",
-                "bad":  "0"
+                "good": "0",
+                "mid": "0",
+                "bad": "0"
             }
         context["avg_score"] = "{:2.1f}".format(avg_score)
         return render(request, "teacher/my_evaluation.html", context)
@@ -1032,7 +1033,7 @@ class MyEvaluation(View):
                 one_order.enum_timeslot(bcl)
             comment_list = bcl.get_sorted_comment_list()
             if bcl.all_count > 0:
-                avg_score = bcl.sum_score/bcl.all_count
+                avg_score = bcl.sum_score / bcl.all_count
             else:
                 avg_score = 0
             return comment_list, (bcl.all_count, bcl.good_count, bcl.mid_count, bcl.bad_count), avg_score
@@ -1057,7 +1058,7 @@ class MyEvaluation(View):
                 "form_id": "reply_form_50",
                 "reply_id": "reply_50",
                 "reply_content": "hello, I'm reply.",
-            },{
+            }, {
                 "name": "刘晓伟",
                 "full_star": range(3),
                 "empty_star": range(2),
@@ -1068,7 +1069,8 @@ class MyEvaluation(View):
                 "action_url": "reply/comment/51",
                 "form_id": "reply_form_51",
                 "reply_id": "reply_51",
-            },], (1, 2, 3, 4, 4.8)
+            }, ], (1, 2, 3, 4, 4.8)
+
         comment_list, count_package, avg_score = _real(cres, teacher, comment_type)
         # comment_list, count_package, avg_score = _fake(cres)
         return split_list(comment_list, 4), count_package, avg_score
@@ -1110,6 +1112,159 @@ class CommentReply(View):
             request.session["comment-reply-error"] = comment_reply_form.errors
             request.session["comment-reply-error-id"] = id
         return redirect("teacher:my-evaluation", comment_type=comment_type, page_offset=page_offset)
+
+
+class GenerateSMS(View):
+    def post(self, request):
+        user = request.user
+        phone = user.profile.phone
+        send_result, msg = models.Checkcode.generate(phone)
+        print("{result}: {msg}".format(result=send_result, msg=msg))
+        if send_result is True:
+            return JsonResponse({"sent": True})
+        else:
+            return JsonResponse({"sent": False, "msg": msg})
+
+
+class VerifyLoginSmsCode(View):
+    # 老师提现检测,里面的检测都通过,就进行转账
+    def is_valid_duration(self):
+        now = datetime.datetime.now()
+        # 如果是周二,就返回True,否则False
+        return now.weekday() == 1 or settings.TEST_WITHDRAW
+
+    def post(self, request):
+        user = request.user
+        phone = user.profile.phone
+        code = request.POST.get("code", None)
+        if self.is_valid_duration() is True:
+            verify_result, verify_code = models.Checkcode.verify(phone, code)
+            if verify_result is True:
+                # 验证通过,进行转账操作,注意,这里要重新计算金额,然后转账
+                balance = user.account.withdrawable_amount
+                # 如果TEST_WITHDRAW为True,则余额为0也可以转账.
+                if balance > 0 or settings.TEST_WITHDRAW:
+                    withdraw = models.Withdrawal()
+                    withdraw.account = user.account
+                    withdraw.amount = balance
+                    bankcard_list = user.account.bankcard_set.all()
+                    if bankcard_list:
+                        bankcard = bankcard_list[0]
+                        withdraw.bankcard = bankcard
+                    else:
+                        return JsonResponse({
+                            "verify": True, "msg": "没有可用的银行卡",
+                        })
+                    withdraw.save()
+                    request.session["withdraw_amount"] = withdraw.amount
+                    request.session["bank_name"] = bankcard.bank_name
+                    request.session["bank_card_end_number"] = bankcard.mask_card_number()[-1]
+                    request.session["expect_time"] = localtime(withdraw.submit_time + datetime.timedelta(days=2)).strftime("%Y-%m-%d %H:%M")
+                    # 转账成功后,把数字存在session里
+                    return JsonResponse({
+                        "verify": True, "url": reverse("teacher:my-wallet-withdrawal-result")
+                    })
+                else:
+                    return JsonResponse({
+                        "verify": False, "msg": "可提金额为0"
+                    })
+            else:
+                # 手机验证码不正确,不需要弹窗,直接提示
+                return JsonResponse({
+                    "verify": False, "pop": False, "msg": models.Checkcode.verify_msg(verify_result, verify_code)
+                })
+        else:
+            # 非有效转账时间,需要弹窗提示
+            return JsonResponse({
+                "verify": False, "pop": True, "msg": "请在每周二0:00-24:00进行提现!"
+            })
+
+
+class MyWalletBase(View):
+    # 我的钱包,基础类
+    template_url = ""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.request = None
+
+    def get(self, request):
+        user = request.user
+        teacher = models.Teacher.objects.get(user=user)
+        context = {}
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
+        set_teacher_page_general_context(teacher, context)
+        self.request = request
+        self.get_handle(context, teacher)
+        return render(request, self.template_url, context)
+
+    def get_handle(self, context, teacher:models.Teacher):
+        pass
+
+
+class MyWalletWithdrawal(MyWalletBase):
+    # 我的钱包
+    template_url = "teacher/my_wallet_withdrawal.html"
+
+    def get_handle(self, context, teacher:models.Teacher):
+        # 第一张银行卡
+        account = teacher.user.account
+        bankcard_list = account.bankcard_set.all()
+        if bankcard_list:
+            bankcard = account.bankcard_set.all()[0]
+            context["bank_card_number"] = " ".join(bankcard.mask_card_number())
+            context["bank_name"] = bankcard.bank_name
+        context["balance"] = "%.2f" % account.withdrawable_amount
+        context["phone"] = json.dumps({"code": teacher.user.profile.mask_phone()})
+        pp(context)
+
+
+class MyWalletWithdrawalResult(MyWalletBase):
+    # 我的钱包,提现结果
+    template_url = "teacher/my_wallet_withdrawal_result.html"
+
+    def get_handle(self, context, teacher:models.Teacher):
+        context["bank_card_end_number"] = self.request.session.pop("bank_card_end_number", "****")
+        context["bank_name"] = self.request.session.pop("bank_name", "未知银行")
+        context["withdraw_amount"] = "%.2f" % (self.request.session.pop("withdraw_amount", 0)/100)
+        context["expect_time"] = self.request.session.pop("expect_time", "未知时间")
+
+class MyWalletWithdrawalRecord(MyWalletBase):
+    # 我的钱包,提现记录
+    template_url = "teacher/my_wallet_withdrawal_record.html"
+
+    def _fake_record_list(self):
+        return [["2015-12-21 16:38:22",
+                 "¥1280.00",
+                 "中国银行 储蓄卡 (9923)",
+                 "处理中", ],
+                ["2015-12-21 16:38:22",
+                 "¥16.00",
+                 "中国银行 储蓄卡 (9923)",
+                 "2015-12-22 18:00:00", ],
+                ["2015-12-21 16:38:22",
+                 "¥9.20",
+                 "中国农业银行 储蓄卡 (1107)",
+                 "处理中", ],
+                ]
+
+    def record_list(self, teacher: models.Teacher):
+        account = teacher.user.account
+        result = []
+        for withdraw_item in models.Withdrawal.objects.filter(account=account).order_by("submit_time"):
+            result.append([
+                localtime(withdraw_item.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
+                "¥%.2f" % (withdraw_item.amount/100),
+                "{bank_name} 储蓄卡 ({last_code})".format(bank_name=withdraw_item.bankcard.bank_name,
+                                                     last_code=withdraw_item.bankcard.mask_card_number()[-1]),
+                withdraw_item.status_des,
+            ])
+        return result
+        # return self._fake_record_list()
+
+    def get_handle(self, context, teacher:models.Teacher):
+        context["result_list"] = self.record_list(teacher)
 
 
 def split_list(array: list, segment_size):

@@ -1,0 +1,37 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的钱包-基础
+{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_evaluation.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_evaluation.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "李四老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% include 'teacher/side_bar.html' %}
+                <div class="the_content">
+                    <div class="nav_bar">
+                        <p>
+                            {% block border_title %}
+                                我的钱包 > 基础
+                            {% endblock %}
+                        </p>
+                    </div>
+                    {% block border_content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

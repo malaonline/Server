@@ -1,0 +1,101 @@
+@import "my_wallet_base.less";
+
+.content-border {
+  margin-top: 45px;
+  margin-left: 40px;
+  @label_width: 116px;
+  @label_margin_right: 16px;
+  @row_margin_top: 10px;
+  .cash_card {
+    overflow: auto;
+    .card_label {
+      float: left;
+      width: @label_width;
+      text-align: right;
+      margin-right: @label_margin_right;
+      font-weight: bold;
+    }
+    .card {
+      float: left;
+    }
+  }
+
+  .withdrawal_amount {
+    overflow: auto;
+    margin-top: @row_margin_top;
+    .withdrawal_label {
+      float: left;
+      width: @label_width;
+      text-align: right;
+      margin-right: @label_margin_right;
+      font-weight: bold;
+    }
+    .amount {
+      float: left;
+      margin-right: 5px;
+    }
+    .icon {
+      float: left;
+      .icon-content{
+        .glyphicon;
+        .glyphicon-question-sign;
+      }
+    }
+  }
+
+  .sms_code {
+    overflow: auto;
+    margin-top: @row_margin_top;
+    .sms_label {
+      float: left;
+      width: @label_width;
+      text-align: right;
+      margin-right: @label_margin_right;
+      font-weight: bold;
+      padding-top: 6px;
+    }
+    .sms_input {
+      float: left;
+      .input_control{
+        height: 34px;
+      }
+    }
+    .send_sms {
+      float: left;
+      button{
+        .btn;
+        .btn-default;
+        background-color: #414141;
+        color: white;
+        border-radius: 2px;
+        width: 100px;
+        margin-left: 5px;
+      }
+      button:disabled{
+        color: @border_gray;
+        &:focus, &:active{
+          color: @border_gray;
+        }
+      }
+    }
+  }
+
+  .notify {
+    margin-top:@row_margin_top;
+    padding-left: 130px;
+  }
+
+  .next_button {
+    margin-top: 30px;
+    button{
+      .btn;
+      .btn-default;
+      background-color: #414141;
+      color: white;
+      border-radius: 2px;
+      width: 192px;
+      margin-left: 130px;
+    }
+  }
+
+}

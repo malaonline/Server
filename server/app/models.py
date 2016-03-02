@@ -227,6 +227,7 @@ class Profile(BaseModel):
     def __str__(self):
         return '%s (%s)' % (self.user, self.gender)
 
+    # 带有掩码的手机号码
     def mask_phone(self):
         return "{before}****{after}".format(
                 before=self.phone[:3], after=self.phone[-4:])
@@ -652,6 +653,7 @@ class Account(BaseModel):
 
     @property
     def calculated_balance(self):
+        # 可提现金额
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
@@ -701,6 +703,12 @@ class BankCard(BaseModel):
     card_number = models.CharField(max_length=100, unique=True)
     account = models.ForeignKey(Account)
 
+    # 显示的储蓄卡号,最后四位有,前面是 ****,每四个一分组
+    # 返回数值为 ["****", "****", "****", "6607"],用返回结果,进一步自行拼接
+    def mask_card_number(self):
+        card_text = ["****", "****", "****", self.card_number[-4:]]
+        return card_text
+
     def __str__(self):
         return '%s %s (%s)' % (self.bank_name, self.card_number,
                                self.account.user)
@@ -742,6 +750,15 @@ class Withdrawal(BaseModel):
     audit_by = models.ForeignKey(User, null=True, blank=True)
     audit_at = models.DateTimeField(null=True, blank=True)
     comment = models.CharField(max_length=100, null=True, blank=True)
+
+    @property
+    def status_des(self):
+        if self.status == Withdrawal.PENDING:
+            return "处理中"
+        if self.status == Withdrawal.APPROVED:
+            return self.audit_at.strftime("%Y-%m-%d %H:%M:%S")
+        if self.status == Withdrawal.REJECTED:
+            return "被驳回"
 
 
 class AccountHistory(BaseModel):

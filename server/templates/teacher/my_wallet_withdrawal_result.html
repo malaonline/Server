@@ -1,0 +1,43 @@
+{% extends "teacher/my_wallet_base.html" %}
+{% block title %}
+    我的钱包-提现
+{% endblock %}
+{% block border_title %}
+    我的钱包 > 提现
+{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_wallet_withdrawal_result.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_wallet_withdrawal_result.js' %}"></script>
+    {#    <script src="{% static 'common/js/underscore.js' %}"></script>#}
+{% endblock %}
+{% block border_content %}
+    <div class="border_content">
+        <div class="result">
+            <div class="time_icon"><img src="{% static 'teacher/icons/clock_icon.png' %}"></div>
+            <div class="details">
+                <p>提现申请已经提交!</p>
+                <p>预计到账时间{{ expect_time }}</p>
+            </div>
+        </div>
+        {% load tz %}
+        {% localtime on %}
+        <div class="detail">
+            <div class="card_info">
+                <div class="card_name">储蓄卡</div>
+                <div class="card_no">{{ bank_name }} 尾号 {{ bank_card_end_number }}</div>
+            </div>
+            <div class="amount">
+                <div class="amount_label">提现金额</div>
+                <div class="amount_number">¥{{ withdraw_amount }}</div>
+            </div>
+        </div>
+        {% endlocaltime %}
+        <div class="ok">
+            <button id="confirm">确定</button>
+        </div>
+    </div>
+{% endblock %}

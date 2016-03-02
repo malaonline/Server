@@ -1,0 +1,78 @@
+@import "my_wallet_base.less";
+
+
+@withdrawal_width: 150px;
+@amount_width: 120px;
+@withdrawal_way_width: 200px;
+@to_the_account_time_width: 150px;
+
+.content_board{
+  margin-top: 20px;
+  margin-left: 18px;
+  .title-header{
+    overflow: auto;
+    border-width: 1px;
+    border-color: @border_gray;
+    border-style: solid;
+    padding-left: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #f1f1f1;
+    .withdrawal{
+      float: left;
+      width: @withdrawal_width;
+      text-align: left;
+    }
+
+    .amount{
+      float: left;
+      width: @amount_width;
+      text-align: right;
+      padding-right: 35px;
+    }
+
+    .withdrawal_way{
+      float: left;
+      width: @withdrawal_way_width;
+      //padding-left: 30px;
+      text-align: center;
+    }
+
+    .to_the_account_time{
+      float: left;
+      width: @to_the_account_time_width;
+      text-align: center;
+    }
+
+  }
+  .data-row{
+    .title-header;
+    background-color: white;
+    border-top-width: 0;
+    //overflow: auto;
+    //border-width: 1px;
+    //border-color: @border_gray;
+    //border-style: solid;
+
+    .withdrawal{
+      padding-left: 0;
+    }
+    //
+    .amount{
+      width: @amount_width+30px;
+      padding-right: 65px;
+    }
+    //
+    .withdrawal_way{
+      //padding-left: 0;
+      //text-align: left;
+      text-align: left;
+    }
+
+    .to_the_account_time{
+      text-align: left;
+    }
+
+  }
+
+}

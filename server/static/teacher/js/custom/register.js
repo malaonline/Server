@@ -241,8 +241,6 @@ function checkSMS(){
             if(data.result == false){
             //    验证码错误
                 console.log("验证码错误");
-                //var result = $("#invalid-sms-result");
-                //result.html(data.msg);
                 var invalidPhoneNumber = $("#invalid-sms-code");
                 invalidPhoneNumber.html("<i class='glyphicon glyphicon-remove-sign'></i>"+data.msg);
                 invalidPhoneNumber.attr("attrHidden", false);

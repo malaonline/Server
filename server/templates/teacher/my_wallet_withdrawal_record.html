@@ -1,0 +1,49 @@
+{% extends "teacher/my_wallet_base.html" %}
+{% block title %}
+    我的钱包-提现记录
+{% endblock %}
+{% block border_title %}
+    我的钱包 > 提现记录
+{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_wallet_withdrawal_record.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    {#    <script src="{% static 'teacher/js/custom/my_wallet_withdrawal.js' %}"></script>#}
+    {#    <script src="{% static 'common/js/underscore.js' %}"></script>#}
+{% endblock %}
+{% block border_content %}
+    <div class="content_board">
+        <div class="title-header">
+            <div class="withdrawal">
+                提现时间
+            </div>
+            <div class="amount">
+                金额
+            </div>
+            <div class="withdrawal_way">
+                提现方式
+            </div>
+            <div class="to_the_account_time">
+                到账时间
+            </div>
+        </div>
+        {% for item in result_list %}
+        <div class="data-row">
+            <div class="withdrawal">{{ item.0 }}</div>
+            <div class="amount">{{ item.1 }}</div>
+            <div class="withdrawal_way">{{ item.2 }}</div>
+            <div class="to_the_account_time">{{ item.3 }}</div>
+        </div>
+        {% empty %}
+        <div class="data-row">
+            <div class="withdrawal">没有记录!</div>
+            <div class="amount"></div>
+            <div class="withdrawal_way"></div>
+            <div class="to_the_account_time"></div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

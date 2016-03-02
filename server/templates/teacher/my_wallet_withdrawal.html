@@ -1,0 +1,49 @@
+{% extends "teacher/my_wallet_base.html" %}
+{% block title %}
+    我的钱包-提现
+{% endblock %}
+{% block border_title %}
+    我的钱包 > 提现
+{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_wallet_withdrawal.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_wallet_withdrawal.js' %}"></script>
+{#    <script src="{% static 'common/js/underscore.js' %}"></script>#}
+{% endblock %}
+{% block border_content %}
+    <div class="content-border">
+        <div class="cash_card">
+            <div class="card_label">储蓄卡</div>
+            {% if bank_card_number %}
+                <div class="card">{{ bank_name }} {{ bank_card_number }}</div>
+            {% else %}
+                <div class="card">还没有绑定储蓄卡</div>
+            {% endif %}
+        </div>
+        <div class="withdrawal_amount">
+            <div class="withdrawal_label">提现金额</div>
+            <div class="amount">{{ balance }}元</div>
+            <div class="icon"><i class="icon-content" data-toggle="tooltip" data-placement="right" title="每周二可以申请提现,提现金额为全部账户余额."></i></div>
+        </div>
+        <div class="sms_code">
+            <div class="sms_label">请输入手机验证码</div>
+            <div class="sms_input"><input name="sms_code" type="text" class="input_control" id="sms_code"/></div>
+            <div class="send_sms"><button id="get_sms">获得验证码</button></div>
+        </div>
+
+        <script lang="javascript">
+            window.phone = {{ phone | safe }};
+        </script>
+
+        <div class="notify" id="output_info">
+{#        验证码已经发送至手机{{ phone }},如未收到验证码,请60s后重试!#}
+        </div>
+        <div class="next_button">
+            <button id="next_page">下一步</button>
+        </div>
+    </div>
+{% endblock %}

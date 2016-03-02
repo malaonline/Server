@@ -1,0 +1,82 @@
+@import "my_wallet_base.less";
+
+.border_content{
+  margin-left: 40px;
+  margin-top: 30px;
+  .result{
+    overflow:auto;
+
+    .time_icon{
+      float: left;
+    }
+    .details{
+      margin-left: 25px;
+      float: left;
+      padding-top: 10px;
+      p{
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .detail{
+    @row_width: 350px;
+    @row_height: 38px;
+    @label_width: 175px;
+    @val_width: 130px;
+    margin-top: 30px;
+    .card_info{
+      overflow: auto;
+      border-width: 1px 1px 1px 1px;
+      border-color: @border_gray;
+      border-style: solid;
+      background-color: #f7f7f7;
+      width: @row_width;
+      height: @row_height;
+      padding-top: 8px;
+      padding-left: 19px;
+      .card_name{
+        float: left;
+        width: @label_width;
+      }
+      .card_no{
+        float: left;
+        text-align: right;
+        width: @val_width;
+      }
+    }
+    .amount{
+      overflow: auto;
+      border-width: 0 1px 1px 1px;
+      border-color: @border_gray;
+      border-style: solid;
+      background-color: #f7f7f7;
+      width: @row_width;
+      height: @row_height;
+      padding-top: 8px;
+      padding-left: 19px;
+      .amount_label{
+        float: left;
+        width: @label_width;
+      }
+      .amount_number{
+        float: left;
+        text-align: right;
+        width: @val_width;
+      }
+    }
+  }
+
+  .ok{
+    margin-top: 27px;
+    button{
+      .btn;
+      .btn-default;
+      background-color: #414141;
+      color: white;
+      border-radius: 2px;
+      width: 195px;
+    }
+  }
+}
