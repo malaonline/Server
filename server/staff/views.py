@@ -653,9 +653,59 @@ class TeacherIncomeDetailView(BaseStaffView):
         query_set = query_set.order_by('-submit_time')
         # paginate
         query_set, pager = paginate(query_set, page)
-        kwargs['histories'] = query_set
+        histories = self.arrange_by_day(query_set, account, order_id)
+        kwargs['histories'] = histories
         kwargs['pager'] = pager
         return super(TeacherIncomeDetailView, self).get_context_data(**kwargs)
+
+    def arrange_by_day(self, query_set, account, order_id):
+        if len(query_set) == 0:
+            return []
+        min_time = None
+        max_time = None
+        for hist in query_set:
+            the_time = hist.submit_time
+            if min_time is None or min_time > the_time:
+                min_time = the_time
+            if max_time is None or max_time < the_time:
+                max_time = the_time
+        # query_set数据是分页已经被分页过的, 根据query_set的时间范围, 再次从数据库查询记录, 防止某天记录跨页情况
+        date_from = min_time.replace(hour=0, minute=0, second=0, microsecond=0)
+        date_to = max_time.replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
+        new_query_set = models.AccountHistory.objects.select_related('timeslot__order')\
+            .filter(account=account, amount__gt=0, submit_time__gte = date_from, submit_time__lt = date_to)
+        if order_id:
+            new_query_set = new_query_set.filter(timeslot__order__order_id__icontains=order_id)
+        new_query_set = new_query_set.order_by('-submit_time')
+        day_income_dict = {}
+        for hist in new_query_set:
+            the_day = hist.submit_time.replace(hour=0, minute=0, second=0, microsecond=0)
+            day_income = day_income_dict.get(the_day)
+            if day_income is None:
+                day_income = hist.amount
+            else:
+                day_income += hist.amount
+            day_income_dict[the_day] = day_income
+        # 重新组织原来的query_set数据
+        day_group = {}
+        for hist in query_set:
+            the_day = hist.submit_time.replace(hour=0, minute=0, second=0, microsecond=0)
+            day_obj = day_group.get(the_day)
+            if day_obj is None:
+                day_obj = {}
+                day_obj['count'] = 1
+                day_obj['income'] = day_income_dict.get(the_day)
+                day_obj['records'] = [hist]
+                day_group[the_day] = day_obj
+            else:
+                day_obj['count'] += 1
+                day_obj['records'].append(hist)
+        histories = []
+        for day, obj in day_group.items():
+            obj['day'] = day
+            histories.append(obj)
+        histories.sort(key=lambda x: x['day'], reverse=True)
+        return histories
 
 
 class TeacherWithdrawalView(BaseStaffView):

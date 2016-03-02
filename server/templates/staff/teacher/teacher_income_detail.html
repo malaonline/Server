@@ -35,7 +35,7 @@
         </tr>
         {% for hist in histories %}
             <tr>
-                <td>{# 日期 #} {{ hist.submit_time|date:"Y-m-d" }}</td>
+                <td rowspan="{{ hist.count }}">{# 日期 #} {{ hist.day|date:"Y-m-d" }}</td>
                 <td>{# 订单号 #} TODO</td>
                 <td>{# 上课年级 #} TODO</td>
                 <td>{# 科目 #} TODO</td>
@@ -44,9 +44,24 @@
                 <td>{# 课时单价 #} TODO</td>
                 <td>{# 消耗课时 #} TODO</td>
                 <td>{# 佣金比例 #} TODO</td>
-                <td>{# 收入金额 #} {{ hist.amount|money_format:'/' }}</td>
-                <td>{# 当日收入 #} TODO</td>
+                <td>{# 收入金额 #} {{ hist.records.0.amount|money_format:'/' }}</td>
+                <td rowspan="{{ hist.count }}">{# 当日收入 #} {{ hist.income|money_format:'/' }}</td>
             </tr>
+            {% if hist.count > 0 %}
+                {% for record in hist.records|sub_list:'1:' %}
+                    <tr>
+                        <td>{# 订单号 #} TODO</td>
+                        <td>{# 上课年级 #} TODO</td>
+                        <td>{# 科目 #} TODO</td>
+                        <td>{# 教师级别 #} TODO</td>
+                        <td>{# 上课时间 #} TODO</td>
+                        <td>{# 课时单价 #} TODO</td>
+                        <td>{# 消耗课时 #} TODO</td>
+                        <td>{# 佣金比例 #} TODO</td>
+                        <td>{# 收入金额 #} {{ record.amount|money_format:'/' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </table>
     {% include 'pagination_nav.html' %}
