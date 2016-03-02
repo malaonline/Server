@@ -234,7 +234,7 @@ PASSWORD_SALT = "abc"
 
 # 内部测试配置
 # 固定的sms
-FIX_SMS_CODE = True
+FAKE_SMS_SERVER = True
 # 固定的审核进度
 FIX_TEACHER_STATUS = True
 

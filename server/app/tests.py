@@ -18,6 +18,7 @@ from teacher.views import information_complete_percent
 from app.models import Region
 
 from app.utils.algorithm import verify_sig
+from django.conf import settings
 
 
 app_path = os.path.abspath(os.path.dirname(__file__))
@@ -26,7 +27,8 @@ app_path = os.path.abspath(os.path.dirname(__file__))
 # Create your tests here.
 class TestApi(TestCase):
     def setUp(self):
-        pass
+        # 确保单元测试不会发送短信
+        self.assertTrue(settings.FAKE_SMS_SERVER)
 
     def tearDown(self):
         pass
@@ -349,6 +351,7 @@ class TestApi(TestCase):
 
 class TestModels(TestCase):
     def setUp(self):
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("build_groups_and_permissions")
 
     def tearDown(self):
@@ -360,7 +363,7 @@ class TestModels(TestCase):
 
     def test_sms_verify(self):
         phone = "18922405996"
-        sms_code = Checkcode.generate(phone)
+        send_result, sms_code = Checkcode.generate(phone)
         self.assertTrue(Checkcode.verify(phone, sms_code)[0])
         self.assertFalse(Checkcode.verify(phone, "error_code")[0])
 
@@ -375,6 +378,7 @@ class TestModels(TestCase):
 
 class TestTeacherWeb(TestCase):
     def setUp(self):
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("build_groups_and_permissions")
 
     def tearDown(self):

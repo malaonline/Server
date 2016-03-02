@@ -73,7 +73,9 @@ class VerifySmsCode(View):
             profile = teacher.user.profile
             profile.phone = phone
             profile.save()
-        if CheckCode.verify(phone, code)[0]:
+        verify_result, verify_code = CheckCode.verify(phone, code)
+        verify_msg = CheckCode.verify_msg(verify_result, verify_code)
+        if verify_result:
             # 验证通过
             percent = information_complete_percent(user)
             login(request, user)
@@ -98,7 +100,8 @@ class VerifySmsCode(View):
         else:
             # 验证失败
             return JsonResponse({
-                "result": False
+                "result": False,
+                "msg": verify_msg,
             })
 
 

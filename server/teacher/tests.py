@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 from django.core.management import call_command
 from django.utils.timezone import make_aware
+from django.conf import settings
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot
 from teacher.views import FirstPage, split_list
@@ -33,6 +34,7 @@ class TestWebPage(TestCase):
     first_init = False
 
     def setUp(self):
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         if self.first_init is False:
             call_command("build_groups_and_permissions")
             self.first_init = True
@@ -207,6 +209,7 @@ class TestWebPage(TestCase):
 
 class TestCommands(TestCase):
     def setUp(self):
+        self.assertTrue(settings.FAKE_SMS_SERVER)
         call_command("mala_all")
 
     def tearDown(self):
