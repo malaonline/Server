@@ -219,6 +219,7 @@ class Profile(BaseModel):
                               )
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
     birthday = models.DateField(blank=True, null=True, default=None)
+    wx_openid = models.CharField(max_length=100, default=None, null=True, blank=True)
 
     def __str__(self):
         return '%s (%s)' % (self.user, self.gender)
