@@ -1018,7 +1018,7 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
-    # 订单内已经完成课程的小时数(消耗小时)
+    # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0
         for one_timeslot in self.timeslot_set.filter(deleted=False):
@@ -1026,34 +1026,34 @@ class Order(BaseModel):
                 completed_hours += one_timeslot.duration_hours()
         return completed_hours
 
-    # 消耗金额
+    # 计算消耗金额
     def completed_amount(self):
         return self.price * self.completed_hours()
 
-    # 剩余小时
+    # 计算剩余小时
     def remaining_hours(self):
         return self.hours - self.completed_hours()
 
-    # 剩余金额
+    # 计算剩余金额
     def remaining_amount(self):
         return self.price * self.remaining_hours()
 
-    # 退费小时(预览, 不是记录)
+    # 计算退费小时(预览, 不是记录)
     def preview_refund_hours(self):
         # 暂时直接返回剩余小时
         return self.remaining_hours()
 
-    # 退费金额(预览, 不是记录)
+    # 计算退费金额(预览, 不是记录)
     def preview_refund_amount(self):
         discount_amount = self.coupon.amount if self.coupon is not None else 0
         return self.total - discount_amount - self.completed_amount()
 
-    # 实际上课小时
+    # 计算实际上课小时
     def real_completed_hours(self):
         # 等于消耗小时
         return self.completed_hours()
 
-    # 实际订单金额
+    # 计算实际订单金额
     def real_order_amount(self):
         # 若有退费, 则等于消耗金额
         if self.status == Order.REFUND:
@@ -1063,6 +1063,36 @@ class Order(BaseModel):
             discount_amount = self.coupon.amount if self.coupon is not None else 0
             return self.total - discount_amount
 
+    # 最后退费申请记录
+    def last_refund_record(self):
+        # 有可能是 None
+        return self.orderrefundrecord_set.order_by('created_at').first()
+
+    # 最后退费信息, 是当时申请的记录
+    def refund_info(self):
+        last_record = self.last_refund_record()
+        if last_record is None:
+            return None
+        else:
+            class RefundInfo:
+                pass
+            refund_info = RefundInfo()
+            # 最后申请退费时间
+            refund_info.refunded_at = last_record.created_at
+            # 最后审核时间
+            refund_info.audited_at = last_record.last_updated_at
+            # 最后退费审核人
+            refund_info.auditor = last_record.last_updated_by
+            # 剩余小时
+            refund_info.remaining_hours = last_record.remaining_hours
+            # 退费小时
+            refund_info.refund_hours = last_record.refund_hours
+            # 退费金额
+            refund_info.refund_amount = last_record.refund_amount
+            # 退费原因
+            refund_info.reason = last_record.reason
+            return refund_info
+
 
 class OrderRefundRecord(BaseModel):
     status = models.CharField(max_length=2,
@@ -1070,10 +1100,15 @@ class OrderRefundRecord(BaseModel):
                               default=Order.REFUND_PENDING)
 
     order = models.ForeignKey(Order)
-    reason = models.CharField(max_length=100, default="退费原因", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User)
+
+    # 申请退费时, 保存的退费信息(剩余小时/退费小时/退费金额)
+    remaining_hours = models.PositiveIntegerField(default=0)
+    refund_hours = models.PositiveIntegerField(default=0)
+    refund_amount = models.PositiveIntegerField(default=0)
+    reason = models.CharField(max_length=100, default="退费原因", blank=True)
 
     def approve_refund(self):
         if self.status == Order.REFUND_PENDING:
