@@ -53,5 +53,4 @@ local_settings.py
 
 src
 .idea
-# *.css
-/static/compiled
+ *.css

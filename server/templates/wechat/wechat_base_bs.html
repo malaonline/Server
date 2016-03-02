@@ -11,7 +11,7 @@
         {% load compile_static %}
 
         {#WEUI微信官方UI库#}
-        <link href="{% static 'wechat/css/weui.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'wechat/css/weui.min.less'|compile %}" rel="stylesheet" type="text/css">
         <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet" type="text/css">
         {% block addition_header %}{% endblock %}
         {% block addition_js %}{% endblock %}
