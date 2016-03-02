@@ -15,8 +15,6 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
-# 忽略警告
--ignorewarning
 
 #JPush
 #==================gson==========================
