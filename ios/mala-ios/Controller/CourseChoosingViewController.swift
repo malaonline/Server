@@ -56,6 +56,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         setupUserInterface()
         loadSchoolsData()
         loadClassSchedule()
+        loadCoupons()
         setupNotification()
     }
     
@@ -175,6 +176,32 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         }
     }
     
+    private func loadCoupons() {
+        ///  获取优惠券信息
+        getCouponList({ (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadCoupons Error \(errorMessage)")
+            }
+            }, completion: { [weak self] (coupons) -> Void in
+                println("优惠券列表 \(coupons)")
+                MalaUserCoupons = coupons
+                self?.selectDefalutCoupon()
+            })
+    }
+    
+    ///  选择默认奖学金
+    private func selectDefalutCoupon() {
+        // 获取第一个可用的优惠券，并添加到选课数据模型中
+        let coupon = getFirstUnusedCoupon(MalaUserCoupons)
+        MalaCourseChoosingObject.coupon = coupon
+        
+        // 将该优惠券模型赋值到[其他服务]数组中，以待显示
+        MalaOtherService[0] = OtherServiceModel(title: coupon?.name, type: .Coupon, price: coupon?.amount, priceHandleType: .Discount, viewController: CouponViewController.self)
+    }
+    
     private func setupNotification() {
         // 授课年级选择
         let observerChoosingGrade = NSNotificationCenter.defaultCenter().addObserverForName(
@@ -286,7 +313,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         MalaOrderObject.school  = (MalaCourseChoosingObject.school?.id) ?? 0
         MalaOrderObject.grade = (MalaCourseChoosingObject.gradePrice?.grade?.id) ?? 0
         MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
-        MalaOrderObject.coupon = 1 //TODO: 测试id
+        MalaOrderObject.coupon = MalaCourseChoosingObject.coupon?.id ?? 0
         MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
         MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in
             return model.id

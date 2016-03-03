@@ -190,4 +190,35 @@ class TestFactory {
         print(NSDate().weekday())
         print("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))
     }
+    
+    class func testPingppPayment(charge: JSONDictionary) {
+        
+        let object = charge as NSDictionary
+        
+        Pingpp.createPayment(object,
+            viewController: UIViewController(),
+            appURLScheme: "alipay") { (result, error) -> Void in
+                if result == "success" {
+                    // 支付成功
+                    println("支付成功")
+                }else {
+                    // 支付失败或取消
+                    println("支付失败或取消")
+                }
+        }
+    }
+    
+    class func testCoupons() {
+        getCouponList({ (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("LoginViewController - VerifyCode Error \(errorMessage)")
+            }
+            }) { (coupons) -> Void in
+                println("优惠券列表： \(coupons)")
+        }
+    }
+    
  }

@@ -73,6 +73,6 @@ class PaymentAmountCell: UITableViewCell {
             make.height.equalTo(MalaLayout_FontSize_15)
         }
         
-        amount = getAmount() ?? 0
+        amount = MalaCourseChoosingObject.getAmount() ?? 0
     }
 }

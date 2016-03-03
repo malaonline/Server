@@ -28,7 +28,11 @@ class OrderForm: BaseObjectModel {
     var status: String?
     
     // 其他
-    var channel: MalaPaymentChannel?
+    var channel: MalaPaymentChannel = .Alipay {
+        didSet{
+            println("OrderForm - Channel: \(channel.rawValue)")
+        }
+    }
     
     
     // MARK: - Constructed

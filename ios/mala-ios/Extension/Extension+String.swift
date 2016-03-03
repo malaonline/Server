@@ -38,4 +38,16 @@ extension String {
         }
         return today
     }
+    
+    ///  根据时间戳返回对应字符串（"yyyy.MM.dd"）
+    ///
+    ///  - parameter timeStamp: 时间戳
+    ///
+    ///  - returns: 字符串
+    init(timeStamp: NSTimeInterval) {
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        self = dateFormatter.stringFromDate(date)
+    }
 }

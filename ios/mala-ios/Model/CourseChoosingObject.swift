@@ -36,6 +36,12 @@ class CourseChoosingObject: NSObject {
             originalPrice = getPrice()
         }
     }
+    /// 优惠券
+    dynamic var coupon: CouponModel? {
+        didSet {
+            println("选用优惠券 \(coupon)")
+        }
+    }
     /// 原价
     dynamic var originalPrice: Int = 0
     
@@ -51,6 +57,25 @@ class CourseChoosingObject: NSObject {
             return 0
         }
     }
+    
+    /// 获取最终需支付金额
+    func getAmount() -> Int? {
+        var amount = MalaCourseChoosingObject.getPrice()
+        //  循环其他服务数组，计算折扣、减免
+        for object in MalaServiceObject {
+            switch object.priceHandleType {
+            case .Discount:
+                amount = amount - (object.price ?? 0)
+                break
+            case .Reduce:
+                
+                break
+            }
+        }
+        amount = amount < 0 ? 0 : amount
+        return amount
+    }
+    
     
     ///  重置选课模型
     func reset() {
