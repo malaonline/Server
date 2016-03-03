@@ -8,6 +8,11 @@
                 <img src="{% static 'wechat/images/expr_center_icon.png' %}" alt="">
             {% endif %}
         </div>
+        <div class="album-count-div">
+            <img src="{% static 'wechat/images/album_icon.png' %}" alt="">
+            <span>{{ school.num_photos }}</span>
+        </div>
+{#    Todo:(Walter) 添加图片集图标#}
         <div class="trans-mask">
             {% if school.center %}
                 <h6>体验中心</h6>
