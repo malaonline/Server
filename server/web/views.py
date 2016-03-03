@@ -8,3 +8,7 @@ class Index(View):
     def get(self, request):
         # 官网的初始页面
         return render(request, 'web/index.html')
+
+
+
+
