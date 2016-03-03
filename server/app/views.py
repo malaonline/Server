@@ -727,8 +727,8 @@ class OrderViewSet(ParentBasedMixin,
                 channel=data['channel'],
                 currency='cny',
                 client_ip='127.0.0.1',
-                subject='Your Subject',
-                body='Your Body',
+                subject='麻辣老师',
+                body='课时费',
         )
         logging.info(ch)
 
