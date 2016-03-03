@@ -653,7 +653,7 @@ class Account(BaseModel):
 
     @property
     def calculated_balance(self):
-        # 可提现金额
+        # 可提现账户余额
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
@@ -663,7 +663,7 @@ class Account(BaseModel):
     @property
     def withdrawable_amount(self):
         """
-        可提现余额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
+        可提现金额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
         """
         now = timezone.now()
         end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
@@ -678,6 +678,7 @@ class Account(BaseModel):
 
     @property
     def accumulated_income(self):
+        # 累计收入
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, amount__gt=0, done=True).aggregate(
