@@ -1,0 +1,41 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}学习中心{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/schools.less'|compile %}">
+{% endblock %}
+
+{% block content %}
+    <div class="page" id="schoolList">
+        <div class="content">
+            {% for school in school_list.expr_center_list %}
+                {% include 'wechat/school/school_card_content.html' %}
+            {% empty %}
+                <p>暂无体验中心</p>
+            {% endfor %}
+            {% for school in school_list.community_center_list %}
+                {% include 'wechat/school/school_card_content.html' %}
+            {% empty %}
+                <p>暂无社区中心</p>
+            {% endfor %}
+            <div class="app-redirect-box">
+                <a href="#" class="left-desc">
+                    <img src="{% static 'wechat/images/download_icon.png' %}" alt="">
+                    <span>更多精彩课程尽在手机客户端</span>
+                </a>
+                <div class="right-buttons">
+                    <a href="#" class="button button-fill button-dark">立即下载</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block addition_js %}
+
+{% endblock %}

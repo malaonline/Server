@@ -94,6 +94,9 @@ class School(BaseModel):
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
+    def get_thumbnail(self):
+        return self.schoolphoto_set.first().img.url
+
 
 class SchoolPhoto(BaseModel):
     school = models.ForeignKey(School)
