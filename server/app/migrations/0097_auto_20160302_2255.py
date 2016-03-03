@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0096_auto_20160301_2309'),
+        ('app', '0096_profile_wx_openid'),
     ]
 
     operations = [
