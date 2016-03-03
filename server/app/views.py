@@ -30,6 +30,12 @@ from .utils.algorithm import verify_sig
 logger = logging.getLogger('app')
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 300
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class PolicySerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
 
@@ -441,6 +447,14 @@ class TeacherListSerializer(serializers.ModelSerializer):
                   'max_price', 'subject', 'grades_shortname', 'tags')
 
 
+class TeacherShortSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField()
+
+    class Meta:
+        model = models.Teacher
+        fields = ('id', 'avatar', 'name',)
+
+
 class TeacherSerializer(serializers.ModelSerializer):
     prices = PriceSerializer(many=True)
     avatar = serializers.ImageField()
@@ -547,25 +561,72 @@ class ParentBasedMixin(object):
         return parent
 
 
-class TimeSlotSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Comment
+        fields = ('id', 'timeslot', 'score', 'content',)
+
+    def validate_timeslot(self, value):
+        parent = self._context['request'].user.parent
+        if value.order.parent != parent:
+            raise serializers.ValidationError(
+                    'order not belongs to the current user.')
+        return value
+
+    def validate_score(self, value):
+        value = int(value)
+        if value not in range(1, 6):
+            raise serializers.ValidationError('score not in range.')
+        return value
+
+    def create(self, validated_data):
+        timeslot = validated_data.pop('timeslot')
+        instance = super(CommentSerializer, self).create(validated_data)
+        timeslot.comment = instance
+        timeslot.save()
+        return instance
+
+
+class CommentViewSet(ParentBasedMixin,
+                     mixins.CreateModelMixin,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     viewsets.GenericViewSet):
+    queryset = models.Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        parent = self.get_parent()
+        queryset = models.Comment.objects.filter(
+                timeslot__order__parent=parent).order_by('id')
+        return queryset
+
+
+class TimeSlotListSerializer(serializers.ModelSerializer):
     subject = SubjectNameSerializer()
     end = serializers.SerializerMethodField()
 
     class Meta:
         model = models.TimeSlot
-        fields = ('id', 'end', 'subject', 'is_passed')
-
-    def get_start(self, obj):
-        return int(obj.start.timestamp())
+        fields = ('id', 'end', 'subject', 'is_passed',)
 
     def get_end(self, obj):
         return int(obj.end.timestamp())
 
 
-class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 300
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
+class TimeSlotSerializer(serializers.ModelSerializer):
+    subject = SubjectNameSerializer()
+    end = serializers.SerializerMethodField()
+    teacher = TeacherShortSerializer()
+    comment = CommentSerializer()
+
+    class Meta:
+        model = models.TimeSlot
+        fields = ('id', 'end', 'subject', 'is_passed', 'teacher', 'comment')
+
+    def get_end(self, obj):
+        return int(obj.end.timestamp())
 
 
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
@@ -577,8 +638,14 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
     def get_queryset(self):
         parent = self.get_parent()
         queryset = models.TimeSlot.objects.filter(
-                order__parent=parent).order_by('-end')
+                order__parent=parent, deleted=False).order_by('-end')
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TimeSlotListSerializer
+        else:
+            return TimeSlotSerializer
 
 
 class ParentSerializer(serializers.ModelSerializer):
@@ -702,45 +769,3 @@ class OrderViewSet(ParentBasedMixin,
             charge.save()
 
         return JsonResponse(ch)
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Comment
-        fields = ('id', 'timeslot', 'score', 'content',)
-
-    def validate_timeslot(self, value):
-        parent = self._context['request'].user.parent
-        if value.order.parent != parent:
-            raise serializers.ValidationError(
-                    'order not belongs to the current user.')
-        return value
-
-    def validate_score(self, value):
-        value = int(value)
-        if value not in range(1, 6):
-            raise serializers.ValidationError('score not in range.')
-        return value
-
-    def create(self, validated_data):
-        timeslot = validated_data.pop('timeslot')
-        instance = super(CommentSerializer, self).create(validated_data)
-        timeslot.comment = instance
-        timeslot.save()
-        return instance
-
-
-class CommentViewSet(ParentBasedMixin,
-                     mixins.CreateModelMixin,
-                     mixins.ListModelMixin,
-                     mixins.RetrieveModelMixin,
-                     viewsets.GenericViewSet):
-    queryset = models.Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get_queryset(self):
-        parent = self.get_parent()
-        queryset = models.Comment.objects.filter(
-                timeslot__order__parent=parent).order_by('id')
-        return queryset
