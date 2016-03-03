@@ -11,6 +11,7 @@ import UIKit
 class CouponViewCell: UITableViewCell {
     
     // MARK: - Property
+    /// 奖学金模型
     var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
@@ -36,6 +37,17 @@ class CouponViewCell: UITableViewCell {
                 // 已过期
                 setStyleExpired()
                 self.selectedView.hidden = true
+            }
+        }
+    }
+    /// 重写选中方法，实现选中效果
+    override var selected: Bool {
+        didSet {
+            self.selectedView.hidden = !selected
+            
+            // 将选中项保存至公共模型中
+            if selected {
+                MalaCourseChoosingObject.coupon = self.model
             }
         }
     }

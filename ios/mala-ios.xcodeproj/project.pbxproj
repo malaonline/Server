@@ -272,6 +272,9 @@
 		F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */; };
 		F45871FF1C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
 		F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */; };
+		F45E69CD1C8821FC00BD0859 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */; };
+		F45E69CE1C8821FC00BD0859 /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */; };
+		F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABB1C8575820051A880 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABA1C8575820051A880 /* ThemeHUD.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
@@ -279,7 +282,6 @@
 		F47C8B031C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
-		F48C5A041C87F7A80024EE17 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A031C87F7A80024EE17 /* CouponViewController.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
@@ -289,7 +291,7 @@
 		F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCD1C74559F00488613 /* AchievementModel.swift */; };
 		F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */; };
 		F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
-		F4C5C2391C759F0500FB833B /* OtherServiceCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */; };
+		F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceModel.swift */; };
 		F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */; };
 		F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2461C75D37000FB833B /* EvaluationFiling1@2x.png */; };
@@ -298,7 +300,6 @@
 		F4C5C24F1C75D37000FB833B /* EvaluationFiling2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C2491C75D37000FB833B /* EvaluationFiling2@3x.png */; };
 		F4C5C2501C75D37000FB833B /* EvaluationFiling3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C24A1C75D37000FB833B /* EvaluationFiling3@2x.png */; };
 		F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */; };
-		F4C5C2531C75D51400FB833B /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */; };
 		F4C5C2571C76B87800FB833B /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2561C76B87800FB833B /* CouponModel.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 /* End PBXBuildFile section */
@@ -452,13 +453,15 @@
 		F45871F81C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTimeScheduleCell.swift; sourceTree = "<group>"; };
 		F45871FB1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingOtherServiceCell.swift; sourceTree = "<group>"; };
 		F45871FE1C51E0C40048D93F /* CourseChoosingConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingConfirmView.swift; sourceTree = "<group>"; };
+		F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
+		F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFilingServiceController.swift; sourceTree = "<group>"; };
+		F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaDataCenter.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABA1C8575820051A880 /* ThemeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHUD.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
 		F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaEnum.swift; sourceTree = "<group>"; };
-		F48C5A031C87F7A80024EE17 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
 		F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewCell.swift; sourceTree = "<group>"; };
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
@@ -469,7 +472,7 @@
 		F4BD4FCD1C74559F00488613 /* AchievementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementModel.swift; sourceTree = "<group>"; };
 		F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRefreshView.swift; sourceTree = "<group>"; };
 		F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingServiceTableView.swift; sourceTree = "<group>"; };
-		F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherServiceCellModel.swift; sourceTree = "<group>"; };
+		F4C5C2381C759F0500FB833B /* OtherServiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherServiceModel.swift; sourceTree = "<group>"; };
 		F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroductionModel.swift; sourceTree = "<group>"; };
 		F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EvaluationFiling.plist; sourceTree = "<group>"; };
 		F4C5C2461C75D37000FB833B /* EvaluationFiling1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling1@2x.png"; sourceTree = "<group>"; };
@@ -478,7 +481,6 @@
 		F4C5C2491C75D37000FB833B /* EvaluationFiling2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling2@3x.png"; sourceTree = "<group>"; };
 		F4C5C24A1C75D37000FB833B /* EvaluationFiling3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling3@2x.png"; sourceTree = "<group>"; };
 		F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EvaluationFiling3@3x.png"; sourceTree = "<group>"; };
-		F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFilingServiceController.swift; sourceTree = "<group>"; };
 		F4C5C2561C76B87800FB833B /* CouponModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponModel.swift; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -570,6 +572,7 @@
 				F40B53B11C7EF00E00C20037 /* MalaSupport.swift */,
 				F40B53CD1C84140C00C20037 /* MalaInstance.swift */,
 				F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */,
+				F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -585,6 +588,8 @@
 				F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */,
 				2E32A3001C34E15000890BF9 /* LoginViewController.swift */,
 				F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */,
+				F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */,
+				F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */,
 				F40B53C91C83F9A500C20037 /* PaymentViewController.swift */,
 			);
 			path = Controller;
@@ -620,7 +625,7 @@
 				30B5980D1C451A8900169390 /* MemberServiceModel.swift */,
 				F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */,
 				F4BD4FCD1C74559F00488613 /* AchievementModel.swift */,
-				F4C5C2381C759F0500FB833B /* OtherServiceCellModel.swift */,
+				F4C5C2381C759F0500FB833B /* OtherServiceModel.swift */,
 				F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */,
 				F4C5C2561C76B87800FB833B /* CouponModel.swift */,
 				F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */,
@@ -872,7 +877,6 @@
 		F48C5A021C87F7A80024EE17 /* Coupon */ = {
 			isa = PBXGroup;
 			children = (
-				F48C5A031C87F7A80024EE17 /* CouponViewController.swift */,
 				F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */,
 			);
 			path = Coupon;
@@ -902,7 +906,6 @@
 			isa = PBXGroup;
 			children = (
 				F48C5A021C87F7A80024EE17 /* Coupon */,
-				F4C5C2521C75D51400FB833B /* EvaluationFilingServiceController.swift */,
 			);
 			path = OtherService;
 			sourceTree = "<group>";
@@ -1244,7 +1247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4C5C2391C759F0500FB833B /* OtherServiceCellModel.swift in Sources */,
+				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
 				F41B8A631C4DEC8700A842E9 /* ThemeTags.swift in Sources */,
 				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
@@ -1252,7 +1255,7 @@
 				F4402DFA1C59FECB00E7D3DB /* ThemeDate.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
-				F48C5A041C87F7A80024EE17 /* CouponViewController.swift in Sources */,
+				F45E69CD1C8821FC00BD0859 /* CouponViewController.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
@@ -1308,11 +1311,11 @@
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				F4C5C2571C76B87800FB833B /* CouponModel.swift in Sources */,
-				F4C5C2531C75D51400FB833B /* EvaluationFilingServiceController.swift in Sources */,
 				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
+				F45E69CE1C8821FC00BD0859 /* EvaluationFilingServiceController.swift in Sources */,
 				F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
@@ -1329,6 +1332,7 @@
 				F404D47F1C8436A700C19C44 /* PaymentBottomView.swift in Sources */,
 				F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
+				F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */,
 				F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */,
 				30445B1A1C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
 				307AB8A51C33D6EC00D8397F /* TeacherDetailsController.swift in Sources */,
@@ -1537,6 +1541,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1555,6 +1560,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 			};
 			name = Release;

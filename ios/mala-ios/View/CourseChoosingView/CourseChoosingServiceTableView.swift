@@ -13,7 +13,7 @@ private let CourseChoosingServiceTableViewCellReuseId = "CourseChoosingServiceTa
 class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Property
-    var services: [OtherServiceCellModel] = MalaOtherService
+    var services: [OtherServiceModel] = MalaOtherService
     
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
@@ -72,8 +72,13 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
 class CourseChoosingServiceTableViewCell: UITableViewCell {
     
     // MARK: Property
-    var service: OtherServiceCellModel? {
+    var service: OtherServiceModel? {
         didSet{
+            
+            if service?.type == .Coupon {
+                configure()
+            }
+            
             self.titleLabel.text = service?.title
 
             if service?.priceHandleType == .Discount {
@@ -91,6 +96,8 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             }
         }
     }
+    private var myContext = 0
+    private var didAddObserve = false
     
     
     // MARK: - Components
@@ -163,6 +170,26 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             make.height.equalTo(MalaLayout_FontSize_14)
             make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_6)
             make.centerY.equalTo(contentView.snp_centerY)
+        }
+    }
+    
+    private func configure() {
+        MalaCourseChoosingObject.addObserver(self, forKeyPath: "coupon", options: .New, context: &myContext)
+        didAddObserve = true
+    }
+    
+    
+    // MARK: - Override
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        // 选择优惠券时更新UI
+        self.titleLabel.text = MalaCourseChoosingObject.coupon?.name
+        self.priceLabel.text = String(format: "￥%d", (MalaCourseChoosingObject.coupon?.amount ?? 0))
+    }
+    
+    
+    deinit {
+        if didAddObserve {
+            MalaCourseChoosingObject.removeObserver(self, forKeyPath: "coupon", context: &myContext)
         }
     }
 }

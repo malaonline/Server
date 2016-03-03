@@ -65,3 +65,12 @@ enum PriceHandleType {
     case Discount
     case Reduce
 }
+
+///  其他服务类型
+///
+///  - Coupon:           优惠券
+///  - EvaluationFiling: 测评建档
+enum OtherServiceType {
+    case Coupon
+    case EvaluationFiling
+}

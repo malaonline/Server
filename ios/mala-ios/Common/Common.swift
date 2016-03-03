@@ -245,7 +245,7 @@ let MalaWeekdays = [
     "周六"
 ]
 
-let MalaOtherService = [
-    OtherServiceCellModel(title: "新生注册奖学金", price: 0, priceHandleType: .Discount, viewController: CouponViewController.self),
-    OtherServiceCellModel(title: MalaCommonString_EvaluationFiling, price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
+var MalaOtherService = [
+    OtherServiceModel(title: "奖学金", type: .Coupon, price: 0, priceHandleType: .Discount, viewController: CouponViewController.self),
+    OtherServiceModel(title: MalaCommonString_EvaluationFiling, type: .EvaluationFiling, price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]

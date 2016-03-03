@@ -39,7 +39,7 @@ class CourseChoosingObject: NSObject {
     /// 优惠券
     dynamic var coupon: CouponModel? {
         didSet {
-            
+            println("选用优惠券 \(coupon)")
         }
     }
     /// 原价

@@ -1,5 +1,5 @@
 //
-//  OtherServiceCellModel.swift
+//  OtherServiceModel.swift
 //  mala-ios
 //
 //  Created by 王新宇 on 2/18/16.
@@ -8,11 +8,13 @@
 
 import UIKit
 
-class OtherServiceCellModel: NSObject {
+class OtherServiceModel: NSObject {
     
     // MARK: - Property
-    /// Cell标题
+    /// 标题
     var title: String?
+    /// 服务类型
+    var type: OtherServiceType = .Coupon
     /// 价格
     var price: Int?
     /// 价格处理类型
@@ -22,9 +24,10 @@ class OtherServiceCellModel: NSObject {
     
     
     // MARK: - Constructed
-    convenience init(title: String?, price: Int?, priceHandleType: PriceHandleType, viewController: AnyClass?) {
+    convenience init(title: String?, type: OtherServiceType, price: Int?, priceHandleType: PriceHandleType, viewController: AnyClass?) {
         self.init()
         self.title = title
+        self.type = type
         self.price = price
         self.priceHandleType = priceHandleType
         self.viewController = viewController
