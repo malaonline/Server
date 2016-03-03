@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
 from django.conf import settings  # noqa
 
-celery_app = Celery('mala')
+celery_app = Celery('server')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
