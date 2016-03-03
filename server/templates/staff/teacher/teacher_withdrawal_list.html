@@ -40,7 +40,7 @@
             <th class="text-center">操作</th>
         </tr>
         {% for wd in withdrawals %}
-            <tr>
+            <tr data-wid="{{ wd.id }}">
                 <td>{# 提现申请时间 #} {{ wd.submit_time|date:"Y-m-d H:i" }}</td>
                 <td field="name">{# 姓名 #} {{ wd.account.user.teacher.name }}</td>
                 <td>{# 手机号 #} {{ wd.account.user.profile.phone }}</td>
@@ -50,7 +50,10 @@
                 <td>{# 开户行 #} TODO</td>
                 <td>{# 状态 #} {{ wd.get_status_display }}</td>
                 <td field="action">{# 操作 #}
-                    TODO
+                    {% if wd.status == wd.PENDING %}
+                        <a class="" data-action="approve">通过</a>
+                        | <a class="" data-action="reject">驳回</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

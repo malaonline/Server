@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import View, TemplateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
@@ -755,6 +756,48 @@ class TeacherWithdrawalView(BaseStaffView):
         # 一些固定数据
         kwargs['status_choices'] = models.Withdrawal.STATUS_CHOICES
         return super(TeacherWithdrawalView, self).get_context_data(**kwargs)
+
+    def post(self, request):
+        action = self.request.POST.get('action')
+        wid = self.request.POST.get('wid')
+        if not wid:
+            return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
+        if action == 'approve':
+            return self.approve_withdraw(request, wid)
+        if action == 'reject':
+            return self.reject_withdraw(request, wid)
+        return HttpResponse("Not supported request.", status=403)
+
+    def approve_withdraw(self, request, wid):
+        try:
+            with transaction.atomic():
+                withdrawal = models.Withdrawal.objects.get(id=wid)
+                account = withdrawal.account
+                balance = account.calculated_balance
+                if balance < withdrawal.amount:
+                    JsonResponse({'ok': False, 'msg': '余额不足', 'code': -1})
+                ah = models.AccountHistory(account=account, submit_time=timezone.now(), done=True)
+                ah.amount = -withdrawal.amount
+                ah.bankcard =withdrawal.bankcard
+                ah.comment = "提现至银行卡"
+                ah.withdrawal = withdrawal
+                ah.save()
+                withdrawal.status = models.Withdrawal.APPROVED
+                withdrawal.audit_by = request.user
+                withdrawal.audit_at = timezone.now()
+                withdrawal.save()
+        except IntegrityError as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
+
+    def reject_withdraw(self, request, wid):
+        withdrawal = models.Withdrawal.objects.get(id=wid)
+        withdrawal.status = models.Withdrawal.REJECTED
+        withdrawal.audit_by = request.user
+        withdrawal.audit_at = timezone.now()
+        withdrawal.save()
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
 class TeacherActionView(BaseStaffActionView):
