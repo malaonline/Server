@@ -82,7 +82,7 @@ class CourseChoosingConfirmView: UIView {
     // MARK: - Override
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         // 当选课条件改变时，更新总价
-        self.price = getAmount() ?? 0
+        self.price = MalaCourseChoosingObject.getAmount() ?? 0
     }
     
     

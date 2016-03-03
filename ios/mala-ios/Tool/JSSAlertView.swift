@@ -427,31 +427,6 @@ class JSSAlertView: UIViewController {
 }
 
 
-
-
-
-// Utility methods + extensions
-
-// Extend UIImage with a method to create
-// a UIImage from a solid color
-//
-// See: http://stackoverflow.com/questions/20300766/how-to-change-the-highlighted-color-of-a-uibutton
-extension UIImage {
-    class func withColor(color: UIColor) -> UIImage {
-        let rect = CGRectMake(0, 0, 1, 1)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image
-    }
-}
-
 // For any hex code 0xXXXXXX and alpha value,
 // return a matching UIColor
 func UIColorFromHex(rgbValue:UInt32, alpha:Double=1.0)->UIColor {

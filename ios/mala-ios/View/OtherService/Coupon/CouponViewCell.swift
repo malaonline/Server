@@ -1,82 +1,27 @@
 //
-//  ScholarshipTableViewController.swift
+//  CouponViewCell.swift
 //  mala-ios
 //
-//  Created by 王新宇 on 2/19/16.
+//  Created by 王新宇 on 3/3/16.
 //  Copyright © 2016 Mala Online. All rights reserved.
 //
 
 import UIKit
 
-private let ScholarshipTableViewCellReuseId = "ScholarshipTableViewCellReuseId"
-
-class ScholarshipTableViewController: UITableViewController {
-
-    // MARK: - Property
-    var models: [ScholarshipModel] = [] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
-    
-    
-    // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        configure()
-        loadScholarship()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    
-    // MARK: - Delegate
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return MalaLayout_CardCellWidth*0.35
-    }
-    
-
-    // MARK: - DataSource
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.models.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(ScholarshipTableViewCellReuseId, forIndexPath: indexPath) as! ScholarshipTableViewCell
-        cell.selectionStyle = .None
-        cell.model = self.models[indexPath.row]
-        return cell
-    }
-    
-    // MARK: - Private Method
-    private func configure() {
-        tableView.backgroundColor = MalaTeacherCellBackgroundColor
-        tableView.separatorStyle = .None
-        
-        tableView.registerClass(ScholarshipTableViewCell.self, forCellReuseIdentifier: ScholarshipTableViewCellReuseId)
-    }
-    
-    private func loadScholarship() {
-        models = MalaScholarship
-    }
-}
-
-
-
-class ScholarshipTableViewCell: UITableViewCell {
+class CouponViewCell: UITableViewCell {
     
     // MARK: - Property
-    var model: ScholarshipModel? {
+    var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
-            self.priceLabel.text = String(format: "%d", (model?.price ?? 0))
-            self.titleLabel.text = model?.title
-            self.descLabel.text = model?.desc
-            self.validityTermLabel.text = model?.validityTerm
-            self.useDirectionLabel.text = model?.useDirection
+            self.priceLabel.text = String(format: "%d", (model?.amount ?? 0))
+            self.titleLabel.text = model?.name
+            self.validityTermLabel.text = String(timeStamp: (model?.expired_at ?? 0))
+            // 使用说明暂时写为常量
+            self.useDirectionLabel.text = "仅在线支付使用"
+            
+            // 优惠券描述暂时不使用
+            //self.descLabel.text = model?.desc
             
             // 奖学金使用状态
             if model?.status == .Used {
@@ -130,7 +75,7 @@ class ScholarshipTableViewCell: UITableViewCell {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_37)
         priceLabel.textColor = MalaTeacherCellLevelColor
-//        priceLabel.backgroundColor = UIColor.lightGrayColor()
+        //        priceLabel.backgroundColor = UIColor.lightGrayColor()
         return priceLabel
     }()
     /// 名称文本框
@@ -145,6 +90,7 @@ class ScholarshipTableViewCell: UITableViewCell {
         let descLabel = UILabel()
         descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
         descLabel.textColor = MalaAppearanceTextColor
+        descLabel.hidden = true
         return descLabel
     }()
     /// 使用状态文本框
@@ -188,7 +134,7 @@ class ScholarshipTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -18,42 +18,6 @@ var Mala_UserToken: String = "e3c4bbd3185d1d0b40df85e8b23b2c32e19db320"
 var MalaClassPeriod_StepValue: Double = 2
 
 
-// MARK: - Enum
-///  验证码操作
-///
-///  - Send:   发送验证码
-///  - Verify: 验证
-enum VerifyCodeMethod: String {
-    case Send = "send"
-    case Verify = "verify"
-}
-///  支付操作
-///
-///  - Pay: 支付
-enum PaymentMethod: String {
-    case Pay = "pay"
-}
-///  支付手段
-///  - See: [取值范围](https://www.pingxx.com/api#api-charges)
-///  - Wechat: 微信支付
-///  - Alipay: 支付宝手机支付
-enum MalaPaymentChannel: String {
-    case Wechat = "wx"
-    case Alipay = "alipay"
-}
-///  订单状态
-///
-///  - Penging:  待付款
-///  - Paid:     已付款
-///  - Canceled: 已取消
-///  - Refund:   退费
-enum MalaOrderStatus: String {
-    case Penging = "u"
-    case Paid = "p"
-    case Canceled = "d"
-    case Refund = "r"
-}
-
 // MARK: - NotificationName
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
@@ -282,15 +246,6 @@ let MalaWeekdays = [
 ]
 
 let MalaOtherService = [
-    OtherServiceCellModel(title: "新生注册奖学金", price: 400, priceHandleType: .Discount, viewController: ScholarshipTableViewController.self),
+    OtherServiceCellModel(title: "新生注册奖学金", price: 0, priceHandleType: .Discount, viewController: CouponViewController.self),
     OtherServiceCellModel(title: MalaCommonString_EvaluationFiling, price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)
 ]
-
-let MalaScholarship = [
-    ScholarshipModel(title: "新生注册奖学金", price: 400, desc: "满20课时使用", status: .Unused, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
-    ScholarshipModel(title: "新生注册奖学金", price: 20, desc: "满20课时使用", status: .Unused, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
-    ScholarshipModel(title: "新生注册奖学金", price: 20, desc: "满20课时使用", status: .Used, validityTerm: "2016.10.19", useDirection: "仅在线支付使用"),
-    ScholarshipModel(title: "新生注册奖学金", price: 400, desc: "满20课时使用", status: .Expired, validityTerm: "2015.10.19", useDirection: "仅在线支付使用")
-]
-
-

@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - Task
 typealias CancelableTask = (cancel: Bool) -> Void
 
 ///  延迟执行任务
@@ -42,4 +43,30 @@ func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
 
 func cancel(cancelableTask: CancelableTask?) {
     cancelableTask?(cancel: true)
+}
+
+
+// MARK: - Compare
+///  根据时间戳(优惠券有效期)判断优惠券是否过期
+///
+///  - parameter timeStamp: 有效期时间戳
+///
+///  - returns: Bool
+func couponIsExpired(timeStamp: NSTimeInterval) -> Bool {
+    let date = NSDate(timeIntervalSince1970: timeStamp)
+    let result = NSDate().compare(date)
+    
+    switch result {
+    // 有效期大于当前时间，未过期
+    case .OrderedAscending:
+        return false
+        
+    // 时间相同，已过期（考虑到后续操作所消耗的时间）
+    case .OrderedSame:
+        return true
+        
+    // 当前时间大于有效期，已过期
+    case .OrderedDescending:
+        return true
+    }
 }

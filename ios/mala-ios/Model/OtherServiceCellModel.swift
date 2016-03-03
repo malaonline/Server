@@ -9,16 +9,6 @@
 import UIKit
 
 class OtherServiceCellModel: NSObject {
-
-    // MARK: - Enum
-    ///  价钱折扣类型
-    enum PriceHandleType {
-        /// 折扣 例如: [-] [￥400]
-        case Discount
-        /// 减免 例如: [￥400(删除线)] [￥0]
-        case Reduce
-    }
-    
     
     // MARK: - Property
     /// Cell标题

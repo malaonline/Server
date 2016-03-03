@@ -20,25 +20,3 @@ var amount: Int = 0
 var MalaOrderObject: OrderForm = OrderForm()
 /// 服务器返回订单对象
 var ServiceResponseOrder: OrderForm = OrderForm()
-
-
-
-
-// MARK: - Method
-/// 获取最终需支付金额
-public func getAmount() -> Int? {
-    var amount = MalaCourseChoosingObject.getPrice()
-    //  循环其他服务数组，计算折扣、减免
-    for object in MalaServiceObject {
-        switch object.priceHandleType {
-        case .Discount:
-            amount = amount - (object.price ?? 0)
-            break
-        case .Reduce:
-            
-            break
-        }
-    }
-    amount = amount < 0 ? 0 : amount
-    return amount
-}

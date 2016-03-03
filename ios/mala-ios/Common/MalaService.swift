@@ -22,7 +22,12 @@ public let weeklytimeslots = "/weeklytimeslots"
 public let coupons = "/coupons"
 
 
+// MARK: - typealias
+typealias nullDictionary = [String: AnyObject]
+
+
 // MARK: - Model
+///  登陆用户信息结构体
 struct LoginUser: CustomStringConvertible {
     let accessToken: String
     let userID: Int
@@ -37,6 +42,7 @@ struct LoginUser: CustomStringConvertible {
     }
 }
 
+///  SMS验证结果结构体
 struct VerifyingSMS: CustomStringConvertible {
     let verified: String
     let first_login: String
@@ -51,6 +57,7 @@ struct VerifyingSMS: CustomStringConvertible {
 
 
 // MARK: - User
+
 ///  保存用户信息到UserDefaults
 ///  - parameter loginUser: 登陆用户模型
 func saveTokenAndUserInfo(loginUser: LoginUser) {
@@ -61,6 +68,11 @@ func saveTokenAndUserInfo(loginUser: LoginUser) {
     MalaUserDefaults.userAccessToken.value = loginUser.accessToken
 }
 
+///  获取验证码
+///
+///  - parameter mobile:         手机号码
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
 func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
     /// 参数字典
     let requestParameters = [
@@ -83,6 +95,12 @@ func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -
     }
 }
 
+///  验证手机号
+///
+///  - parameter mobile:         手机号码
+///  - parameter verifyCode:     验证码
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
 func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, String?) -> Void)?, completion: LoginUser -> Void) {
     let requestParameters = [
         "action": VerifyCodeMethod.Verify.rawValue,
@@ -103,6 +121,49 @@ func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, 
     }
 }
 
+///  优惠券列表解析函数
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getCouponList(failureHandler: ((Reason, String?) -> Void)?, completion: [CouponModel] -> Void) {
+    
+    let parse: [JSONDictionary] -> [CouponModel] = { couponData in
+        /// 解析优惠券JSON数组
+        var coupons = [CouponModel]()
+        for couponInfo in couponData {
+            if let coupon = parseCoupon(couponInfo) {
+                coupon.setupStatus()
+                coupons.append(coupon)
+            }
+        }
+        return coupons
+    }
+    
+    ///  获取优惠券列表JSON对象
+    headBlockedCoupons(failureHandler) { (jsonData) -> Void in
+        if let coupons = jsonData["results"] as? [JSONDictionary] where coupons.count != 0 {
+            completion(parse(coupons))
+        }else {
+            completion([])
+        }
+    }
+}
+
+///  获取优惠券列表
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func headBlockedCoupons(failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+    
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/coupons", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+}
+
 
 // MARK: - Teacher
 func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
@@ -111,6 +172,11 @@ func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((R
 
 
 // MARK: - Payment
+///  创建订单
+///
+///  - parameter orderForm:      订单对象字典
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
 func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: OrderForm -> Void) {
     // teacher              老师id
     // school               上课地点id
@@ -162,6 +228,7 @@ func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int,failure
 }
 
 
+
 // MARK: - Parse
 /// 订单JSON解析器
 let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
@@ -185,7 +252,7 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
     }
     return nil
 }
-/// SMS验证结果解析器
+/// SMS验证结果JSON解析器
 let parseLoginUser: JSONDictionary -> LoginUser? = { userInfo in
     /// 判断验证结果是否正确
     guard let verified = userInfo["verified"] where (verified as? Bool) == true else {
@@ -199,6 +266,24 @@ let parseLoginUser: JSONDictionary -> LoginUser? = { userInfo in
         userID = userInfo["user_id"] as? Int,
         profileID = userInfo["profile_id"] as? Int {
             return LoginUser(accessToken: accessToken, userID: userID, parentID: parentID, profileID: profileID, firstLogin: firstLogin, avatarURLString: "")
+    }
+    return nil
+}
+/// 优惠券JSON解析器
+let parseCoupon: JSONDictionary -> CouponModel? = { couponInfo in
+
+    /// 检测返回值有效性
+    guard let id = couponInfo["id"] else {
+        return nil
+    }
+    
+    if let
+        id = couponInfo["id"] as? Int,
+        name = couponInfo["name"] as? String,
+        amount = couponInfo["amount"] as? Int,
+        expired_at = couponInfo["expired_at"] as? NSTimeInterval,
+        used = couponInfo["used"] as? Bool {
+            return CouponModel(id: id, name: name, amount: amount, expired_at: expired_at, used: used)
     }
     return nil
 }
