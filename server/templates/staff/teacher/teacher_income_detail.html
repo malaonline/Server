@@ -35,18 +35,77 @@
         </tr>
         {% for hist in histories %}
             <tr>
-                <td>{# 日期 #} {{ hist.submit_time|date:"Y-m-d" }}</td>
-                <td>{# 订单号 #} TODO</td>
-                <td>{# 上课年级 #} TODO</td>
-                <td>{# 科目 #} TODO</td>
-                <td>{# 教师级别 #} TODO</td>
-                <td>{# 上课时间 #} TODO</td>
-                <td>{# 课时单价 #} TODO</td>
-                <td>{# 消耗课时 #} TODO</td>
-                <td>{# 佣金比例 #} TODO</td>
-                <td>{# 收入金额 #} {{ hist.amount|money_format:'/' }}</td>
-                <td>{# 当日收入 #} TODO</td>
+                <td rowspan="{{ hist.count }}">{# 日期 #} {{ hist.day|date:"Y-m-d" }}</td>
+                <td>{# 订单号 #}
+                    {% if hist.records.0.timeslot %}
+                        {{ hist.records.0.timeslot.order.order_id }}
+                    {% else %}
+                        {% if hist.records.0.comment %}{{ hist.records.0.comment }}{% else %}非课时收入{% endif %}
+                    {% endif %}
+                </td>
+                <td>{# 上课年级 #} {{ hist.records.0.timeslot.order.grade.name }}</td>
+                <td>{# 科目 #} {{ hist.records.0.timeslot.order.subject.name }}</td>
+                <td>{# 教师级别 #}
+                    {% if hist.records.0.timeslot %}
+                        {% if hist.records.0.timeslot.order.level.name %}
+                            {{ hist.records.0.timeslot.order.level.name }}
+                        {% else %}
+                            初级
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>{# 上课时间 #} {{ hist.records.0.timeslot.start|date:'H:i' }} - {{ hist.records.0.timeslot.end|date:'H:i' }}</td>
+                <td>{# 课时单价 #}
+                    {% if hist.records.0.timeslot.order.price %}
+                        {{ hist.records.0.timeslot.order.price|money_format:'/' }}
+                    {% endif %}
+                </td>
+                <td>{# 消耗课时 #} {{ hist.records.0.timeslot.duration_hours }}</td>
+                <td>{# 佣金比例 #}
+                    {% if hist.records.0.timeslot %}
+                        {{ hist.records.0.timeslot.order.commission_percentage }}%
+                    {% endif %}
+                </td>
+                <td>{# 收入金额 #} {{ hist.records.0.amount|money_format:'/' }}</td>
+                <td rowspan="{{ hist.count }}">{# 当日收入 #} {{ hist.income|money_format:'/' }}</td>
             </tr>
+            {% if hist.count > 0 %}
+                {% for record in hist.records|sub_list:'1:' %}
+                    <tr>
+                        <td>{# 订单号 #}
+                            {% if record.timeslot %}
+                                {{ record.timeslot.order.order_id }}
+                            {% else %}
+                                {% if record.comment %}{{ record.comment }}{% else %}非课时收入{% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{# 上课年级 #} {{ record.timeslot.order.grade.name }}</td>
+                        <td>{# 科目 #} {{ record.timeslot.order.subject.name }}</td>
+                        <td>{# 教师级别 #}
+                            {% if record.timeslot %}
+                                {% if record.timeslot.order.level.name %}
+                                    {{ record.timeslot.order.level.name }}
+                                {% else %}
+                                    初级
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{# 上课时间 #} {{ record.timeslot.start|date:'H:i' }} - {{ hist.records.0.timeslot.end|date:'H:i' }}</td>
+                        <td>{# 课时单价 #}
+                            {% if record.timeslot.order.price %}
+                                {{ record.timeslot.order.price|money_format:'/' }}
+                            {% endif %}
+                        </td>
+                        <td>{# 消耗课时 #} {{ record.timeslot.duration_hours }}</td>
+                        <td>{# 佣金比例 #}
+                            {% if record.timeslot %}
+                                {{ record.timeslot.order.commission_percentage }}%
+                            {% endif %}
+                        </td>
+                        <td>{# 收入金额 #} {{ record.amount|money_format:'/' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </table>
     {% include 'pagination_nav.html' %}

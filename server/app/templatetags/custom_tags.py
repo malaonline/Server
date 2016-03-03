@@ -11,6 +11,17 @@ def num_range(value, offset=1):
     return range(offset, value+offset)
 
 
+@register.filter('sub_list')
+def sub_list(arr, range):
+    """
+    arr is a list, range is 'a:b', return arr[a:b]
+    """
+    s = range.split(':')
+    a = s[0]=='' and 0 or int(s[0])
+    b = s[1]=='' and len(arr) or int(s[0])%len(arr)
+    return arr[a:b]
+
+
 @register.filter('money_format')
 def money_format(amount, format='+/'):
     """

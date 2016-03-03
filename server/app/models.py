@@ -1271,7 +1271,7 @@ class TimeSlot(BaseModel):
         return False
 
     def duration_hours(self):
-        return (self.end - self.start).seconds/3600
+        return int((self.end - self.start).seconds/3600)
 
     @property
     def trans_to_time(self):
