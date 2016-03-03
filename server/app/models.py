@@ -1304,6 +1304,22 @@ class TimeSlot(BaseModel):
     def teacher(self):
         return self.order.teacher
 
+    def confirm(self):
+        """
+        确认课时, 老师收入入账
+        """
+        if not self.is_complete():
+            return False
+        teacher = self.order.teacher
+        account = teacher.safe_get_account()
+        amount = self.duration_hours() * self.order.price
+        amount = amount * (100 - self.order.commission_percentage) // 100
+        ah = AccountHistory(account=account, submit_time=timezone.now(), done=True)
+        ah.amount = amount
+        ah.timeslot = self
+        ah.save()
+        return True
+
 
 class Message(BaseModel):
     SYSTEM = 's'
