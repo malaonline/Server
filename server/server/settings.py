@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'app',
     'teacher',
     'staff',
+    'web',
 )
 
 REST_FRAMEWORK = {

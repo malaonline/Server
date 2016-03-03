@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^upload/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
+    url(r'^web/', include('web.urls', namespace='web')),
 ]

@@ -1,0 +1,10 @@
+{% extends "web/base.html" %}
+{% block title %}麻辣老师官方网站{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_less %}
+    <link rel="stylesheet" type="text/css" href="{% static 'web/less/index_login.less'|compile %}">
+{% endblock %}
+{% block body_content %}
+{% include 'web/index_login.html' %}
+{% endblock %}
