@@ -96,18 +96,6 @@ $(function(){
       'couponRules': JSON.stringify(rules)
     };
 
-    $.post("/wechat/check_phone/", {phone:'13800138000', code:'1111'},
-      function(data){
-        console.log(data);
-        if(data.result == false){
-          //    验证码错误
-          console.log("验证码错误")
-        }else{
-          console.log("验证码正确")
-        }
-      }
-    );
-    return;
     $.post("/staff/coupon/config/", params, function(result){
         if(result){
           if(result.ok){

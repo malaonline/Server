@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^order/course_choosing/(?P<teacher_id>[0-9]+)/$', views.CourseChoosingView.as_view(), name="order-course-choosing"),
     url(r'^teacher/$', views.teacher_view, name="teacher"),
     url(r'^teacher/schools/$', views.getSchoolsWithDistance, name="teacher-schools"),
-    url(r'^phone_page/$', views.phone_page, name="phone_page"),
-    url(r'^check_phone/$', views.check_phone, name="check_phone"),
+    url(r'^phone_page/', views.phone_page, name="phone_page"),
+    url(r'^add_openid/', views.add_openid, name="add_openid"),
+    url(r'^check_phone/', views.check_phone, name="check_phone"),
 ]

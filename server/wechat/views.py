@@ -480,3 +480,44 @@ def phone_page(request):
     }
     return render(request, template_name, context)
 
+@csrf_exempt
+def add_openid(request):
+    phone = request.POST.get("phone", None)
+    code = request.POST.get("code", None)
+    openid = request.POST.get("openid", None)
+    if not openid:
+        return JsonResponse({
+            "result": False,
+            "code": -1
+        })
+    Profile = models.Profile
+    CheckCode = models.Checkcode
+    Parent = models.Parent
+    new_user = True
+    try:
+        profile = Profile.objects.get(phone=phone)
+        user = profile.user
+        for backend, backend_path in _get_backends(return_tuples=True):
+            user.backend = backend_path
+            break
+        parent = Parent.objects.get(user=user)
+        new_user = False
+    except Profile.DoesNotExist:
+        # new user
+        user = Parent.new_parent()
+        parent = user.parent
+        profile = parent.user.profile
+        profile.phone = phone
+        profile.save()
+    except Parent.DoesNotExist:
+        parent = Parent(user=user)
+        parent.save()
+    if CheckCode.verify(phone, code)[0]:
+        return JsonResponse({
+            "result": True
+        })
+    else:
+        # 验证失败
+        return JsonResponse({
+            "result": False
+        })

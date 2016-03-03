@@ -45,8 +45,7 @@ function checkSMS(){
     itm.removeClass('ext_btn_disabled');
     return false;
   }
-
-  $.post("/wechat/check_phone/", {phone:phone_code, code:sms_code},
+  $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: 'aaa'},
     function(data){
       console.log(data);
       if(data.result == false){
