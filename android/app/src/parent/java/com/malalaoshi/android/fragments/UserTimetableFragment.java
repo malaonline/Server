@@ -169,8 +169,6 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
             }
         });
         addRequestQueue(jstringRequest, COURSES_PATH_V1);
-
-
     }
 
     //向请求队列添加请求

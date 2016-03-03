@@ -18,6 +18,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     // necessary for volley.jar, as sdk 23 has removed org.apache.http.
     useLibrary 'org.apache.http.legacy'
 
@@ -37,6 +43,7 @@ android {
             versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
+            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_DEBUG]
         }
 
         release {
@@ -46,6 +53,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
         }
     }
 
@@ -93,4 +101,3 @@ dependencies {
     compile project(":pingpp")
     compile project(':pingpp_one')
 }
-
