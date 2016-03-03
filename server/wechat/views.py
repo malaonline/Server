@@ -484,6 +484,7 @@ def phone_page(request):
     return render(request, template_name, context)
 
 @csrf_exempt
+<<<<<<< 9f0a4eaca47d77aebb583489fbd03d77f007252b
 def add_openid(request):
     phone = request.POST.get("phone", None)
     code = request.POST.get("code", None)
@@ -524,3 +525,41 @@ def add_openid(request):
         return JsonResponse({
             "result": False
         })
+=======
+def check_phone(request):
+    get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
+    wx_code = request.GET.get('code', None)
+    if not nextpage:
+        wx_code = request.POST.get('code', None)
+    nextpage = request.GET.get('nextpage', None)
+    if not nextpage:
+        nextpage = request.POST.get('nextpage', None)
+    print('.......in check phone.....')
+    get_openid_url += '&appid=' + 'wx284fcd03e7a68dee'
+    get_openid_url += '&secret=' + 'aee2bc73bd0ff1798b08564621c39a53'
+    get_openid_url += '&code=' + '001d11713c28f9def0ab3a3ab80ddb8M'
+    req = requests.get(get_openid_url)
+    print(req.status_code)
+    ret = None
+    openid = None
+    if req.status_code == 200:
+        ret = json.loads(req.text)
+        if "openid" in ret:
+            openid = ret["openid"]
+        if "errcode" in ret:
+            pass
+    if openid:
+        print("得到了openid")
+        profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
+        print(profiles)
+        lastOne = list(profiles) and profiles[0]
+        print(lastOne)
+        print('end...')
+        if lastOne:
+            return HttpResponseRedirect(nextpage)
+        else:
+            return HttpResponseRedirect("/wechat/phone_page/?openid="+openid)
+    print(ret)
+    print(".....................end.......")
+    return HttpResponseRedirect("/wechat/phone_page/")
+>>>>>>> WEC-8:back file
