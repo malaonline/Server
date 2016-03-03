@@ -1070,7 +1070,7 @@ class Order(BaseModel):
     # 最后退费申请记录
     def last_refund_record(self):
         # 有可能是 None
-        return self.orderrefundrecord_set.order_by('created_at').first()
+        return self.orderrefundrecord_set.order_by('created_at').last()
 
     # 最后退费信息, 是当时申请的记录
     def refund_info(self):
