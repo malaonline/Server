@@ -54,3 +54,5 @@ local_settings.py
 src
 .idea
 *.css
+server/custom_settings/developer
+db.sqlite3
