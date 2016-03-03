@@ -12,7 +12,8 @@ $(function(){
 
     $('form[name=query_form]').submit(function() {
         var dateFrom = $('input[name=order_date_from]').val(), dateTo = $('input[name=order_date_to]').val();
-        if (dateFrom && dateTo && dateFrom > dateTo) {
+        var refundDateFrom = $('input[name=refund_date_from]').val(), refundDateTo = $('input[name=refund_date_to]').val();
+        if (dateFrom && dateTo && dateFrom > dateTo || refundDateFrom && refundDateTo && refundDateFrom > refundDateTo) {
             alert("请确保截止查询日期大于等于开始日期");
             return false;
         }

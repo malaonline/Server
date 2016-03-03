@@ -27,7 +27,7 @@ def money_format(amount, format='+/'):
     """
     格式化金额, 两位小数输出. '+'表示如果是正数前面加'+', '/'表示单位为分除以100
     """
-    if amount is None:
+    if amount is None or amount is '':
         return '0.00'
     if isinstance(amount, str):
         amount = float(amount)

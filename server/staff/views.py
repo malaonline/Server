@@ -1317,14 +1317,14 @@ class OrderRefundView(BaseStaffView):
         if refund_date_from:
             try:
                 date_from = datetime.datetime.strptime(refund_date_from, '%Y-%m-%d')
-                query_set = query_set.filter(created_at__gte=date_from)
+                query_set = query_set.filter(refund_at__gte=date_from)
             except:
                 pass
         if refund_date_to:
             try:
                 date_to = datetime.datetime.strptime(refund_date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(created_at__lt=date_to)
+                query_set = query_set.filter(refund_at__lt=date_to)
             except:
                 pass
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
@@ -1356,7 +1356,7 @@ class OrderRefundView(BaseStaffView):
         kwargs['status'] = models.Order.REFUND_STATUS_CHOICES
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
-        query_set = query_set.order_by('-created_at')
+        query_set = query_set.order_by('-refund_at')
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
 
@@ -1433,6 +1433,8 @@ class OrderRefundActionView(BaseStaffActionView):
                 record.save()
                 # 同时更新订单的退费状态字段
                 order.refund_status = order.REFUND_PENDING
+                # 记录申请时间, 用于 query
+                order.refund_at = record.created_at
                 order.save()
                 # 回显给前端, 刚刚记录的退费信息内容
                 return JsonResponse({
