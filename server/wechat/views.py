@@ -529,14 +529,14 @@ def add_openid(request):
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
     wx_code = request.GET.get('code', None)
-    if not nextpage:
+    if not wx_code:
         wx_code = request.POST.get('code', None)
     nextpage = request.GET.get('nextpage', None)
     if not nextpage:
         nextpage = request.POST.get('nextpage', None)
     print('.......in check phone.....')
-    get_openid_url += '&appid=' + 'wx284fcd03e7a68dee'
-    get_openid_url += '&secret=' + 'aee2bc73bd0ff1798b08564621c39a53'
+    get_openid_url += '&appid=' + settings.WEIXIN_APPID
+    get_openid_url += '&secret=' + settings.WEIXIN_APP_SECRET
     get_openid_url += '&code=' + '001d11713c28f9def0ab3a3ab80ddb8M'
     req = requests.get(get_openid_url)
     print(req.status_code)

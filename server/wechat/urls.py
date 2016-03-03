@@ -1,4 +1,5 @@
 from django.conf.urls import include, url
+from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     url(r'^phone_page/', views.phone_page, name="phone_page"),
     url(r'^add_openid/', views.add_openid, name="add_openid"),
     url(r'^check_phone/', views.check_phone, name="check_phone"),
+    url(r'^doc/agree/$', TemplateView.as_view(template_name="wechat/doc/policy.html"), name="doc-agree"),
 ]

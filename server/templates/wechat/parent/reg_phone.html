@@ -17,6 +17,7 @@
     <script>
         var nextpage = "{{nextpage}}";
         var openid = "{{openid}}";
+        var policyHref = "{% url 'wechat:doc-agree' %}";
     </script>
 </head>
 <body>
@@ -52,7 +53,7 @@
         <div class="submit_content">
             <a href="javascript:;" class="weui_btn ext_btn_default submit_btn" id="doCheck">验证</a>
             <div>
-                轻触上面验证“按钮”即表示你同意<font>麻辣老师用户协议</font>
+                轻触上面验证“按钮”即表示你同意<font id="usePolic">麻辣老师用户协议</font>
             </div>
         </div>
     </div>
