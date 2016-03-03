@@ -14,12 +14,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/parent/reg_phone.less'|compile %}">
+    <script>
+        var nextpage = "{{nextpage}}";
+        var openid = "{{openid}}";
+    </script>
 </head>
 <body>
 
 <div class="page">
     <div class="bd">
         {% csrf_token %}
+        <input type="hidden" id="openid" value="{{openid}}"/>
         <div class="weui_cells weui_cells_form">
             <div class="weui_cell">
                 <div class="weui_cell_hd">

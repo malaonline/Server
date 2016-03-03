@@ -45,7 +45,7 @@ function checkSMS(){
     itm.removeClass('ext_btn_disabled');
     return false;
   }
-  $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: 'aaa'},
+  $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: openid},
     function(data){
       console.log(data);
       if(data.result == false){
@@ -53,6 +53,9 @@ function checkSMS(){
         console.log("验证码错误")
       }else{
         console.log("验证码正确")
+        if(nextpage != "None"){
+          location.href = nextpage;
+        }
       }
     }
   );
