@@ -1122,7 +1122,8 @@ class OrderRefundRecord(BaseModel):
             self.order.status = Order.REFUND
             self.order.save()
             self.save()
-        return self.status
+            return True
+        return False
 
     def reject_refund(self):
         if self.status == Order.REFUND_PENDING:
@@ -1130,7 +1131,8 @@ class OrderRefundRecord(BaseModel):
             self.order.refund_status = Order.REFUND_REJECTED
             self.order.save()
             self.save()
-        return self.status
+            return True
+        return False
 
 
 class Charge(BaseModel):

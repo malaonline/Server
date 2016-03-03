@@ -5,6 +5,14 @@
 {% load custom_tags %}
 {% block title %}退费审核{% endblock %}
 
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+
+    <script src="{% static 'staff/js/order/orders.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <form name="query_form">
         申请退费时间
@@ -89,7 +97,14 @@
 {# 退费金额 #}    <td>{{ order.refund_info.refund_amount|money_format:'/' }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
-{# 操作 #}       <td>N/A</td>
+{# 操作 #}       <td>
+                    {% if order.refund_status == order.REFUND_PENDING %}
+                        <a class="" data-action="refund-approve" orderId={{ order.id }}>退费</a>
+                        | <a class="" data-action="refund-reject" orderId={{ order.id }}>驳回</a>
+                    {% else %}
+                        无
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>

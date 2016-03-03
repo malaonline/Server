@@ -1374,6 +1374,10 @@ class OrderRefundActionView(BaseStaffActionView):
         action = self.request.POST.get('action')
         if action == 'request-refund':
             return self.request_refund(request)
+        if action == 'refund-approve':
+            return self.refund_approve(request)
+        if action == 'refund-reject':
+            return self.refund_reject(request)
         return HttpResponse("Not supported action.", status=404)
 
     def preview_refund_info(self, request):
@@ -1439,6 +1443,24 @@ class OrderRefundActionView(BaseStaffActionView):
                     'reason': record.reason                     # 退费原因
                 })
         return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
+
+    def refund_approve(self, request):
+        order_id = request.POST.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.last_refund_record() is not None:
+            ok = order.last_refund_record().approve_refund()
+            if ok:
+                return JsonResponse({'ok': True})
+        return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
+
+    def refund_reject(self, request):
+        order_id = request.POST.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.last_refund_record() is not None:
+            ok = order.last_refund_record().reject_refund()
+            if ok:
+                return JsonResponse({'ok': True})
+        return JsonResponse({'ok': False, 'msg': '退费驳回失败, 请检查订单状态', 'code': 'order_07'})
 
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'
