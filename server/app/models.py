@@ -1345,10 +1345,10 @@ class Message(BaseModel):
 
 class Checkcode(BaseModel):
     # 手机发送的校验码
-    EXPIRED_TIME = 10    # 10 minutes
+    EXPIRED_TIME = 30    # 30 minutes
     RESEND_SPAN = 1      # 1 minute
     MAX_VERIFY_TIMES = 3 # prevent attacking
-    BLOCK_TIME = 10  # 每1分钟允许校验3次
+    BLOCK_TIME = 10  # 每10分钟允许校验3次
 
     phone = models.CharField(max_length=20, unique=True)
     checkcode = models.CharField(max_length=30)
@@ -1456,9 +1456,10 @@ class Checkcode(BaseModel):
         else:
             msg = {
                 0: settings.FAKE_SMS_SERVER and "测试期间,短信验证码默认为 1111" or "验证码不正确",
-                1: "没有生成验证码",
-                2: "验证码已过期",
-                3: "验证码不正确", # "检测过于频繁,于1分钟后再试"这样的信息对于攻击者过于友好.
+                1: "没有生成验证码,请重新生成",
+                2: "验证码已过期,请重新生成",
+                3: "检测过于频繁,于1分钟后再试",
+                # 3: "验证码不正确", # "检测过于频繁,于1分钟后再试"这样的信息对于攻击者过于友好.
             }
             # if settings.FAKE_SMS_SERVER is True:
             #     msg[0] = "测试期间,短信验证码默认为 1111"

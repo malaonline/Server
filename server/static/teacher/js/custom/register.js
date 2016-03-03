@@ -23,6 +23,7 @@ $(
             TimeEvent.start();
             SetSMSButtonText(TimeEvent.rest_time() + "秒");
             getSMSFromServer();
+            ErrorOutputClear();
         });
 
         var agree_and_continue_button = $("#agree-and-continue");
@@ -44,8 +45,32 @@ $(
             checkSMS();
         });
 
+        //追加网络异常检测情况
+        $(document).ajaxError(function(event, jqxhr, settings, thrownError){
+            console.log(event);
+            console.log(jqxhr);
+            console.log(settings);
+            console.log(thrownError);
+            ErrorOutput("网络异常,请稍后再试");
+        });
+        //追加网络超时限制,最多2秒
+        $.ajaxSetup({
+            timeout:2000
+        });
+
     }
 );
+
+function ErrorOutput(msg){
+    var invalidPhoneNumber = $("#invalid-sms-code");
+    invalidPhoneNumber.html("<i class='glyphicon glyphicon-remove-sign'></i>"+msg);
+    invalidPhoneNumber.attr("attrHidden", false);
+}
+
+function ErrorOutputClear(){
+    var invalidPhoneNumber = $("#invalid-sms-code");
+    invalidPhoneNumber.attr("attrHidden", true);
+}
 
 function CheckPhoneFunction(){
     var phone_code = $("#phoneNumber").val();

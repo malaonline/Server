@@ -4,4 +4,4 @@ from ..developer_settings import *
 SAMPLE_DATA_LENGTH = 5
 UNITTEST = True
 
-FAKE_SMS_SERVER = True
+FAKE_SMS_SERVER = False
