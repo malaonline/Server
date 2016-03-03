@@ -180,8 +180,8 @@ AWS_S3_REDUCED_REDUNDANCY_STATIC = False
 
 YUNPIAN_API_KEY = 'f79c************************1569'  # yunpian.com sms api key
 
-PINGPP_API_KEY = 'sk_test_in90COrrD4SKqvT0SKC8qT4G'
-PINGPP_APP_ID = 'app_CeTCW5TqDSC49GGO'
+PINGPP_API_KEY = 'sk_test_TGi9q1m5iPmHX9Cin18e1C88'
+PINGPP_APP_ID = 'app_eHWnr9D4qb90Sq1O'
 PINGPP_PUB_KEY = open(os.path.join(BASE_DIR, 'server/pingpp.pub'), 'rb').read()
 
 LOGGING = {
