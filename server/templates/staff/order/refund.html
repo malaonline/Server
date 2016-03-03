@@ -1,5 +1,8 @@
 {% extends "staff/staff_base.html" %}
 
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
 {% block title %}退费审核{% endblock %}
 
 {% block content %}
@@ -73,11 +76,17 @@
 {# 报课科目 #}    <td>{{ order.subject }}</td>
 {# 上课地址 #}    <td>{{ order.school }}</td>
 {# 购买小时 #}    <td>{{ order.hours }}</td>
-{# 小时单价 #}    <td>{{ order.price }}</td>
+{# 小时单价 #}    <td>{{ order.price|money_format:'/' }}</td>
 {# 剩余小时 #}    <td>{{ order.refund_info.remaining_hours }}</td>
 {# 退费小时 #}    <td>{{ order.refund_info.refund_hours }}</td>
-{# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
-{# 退费金额 #}    <td>{{ order.refund_info.refund_amount }}</td>
+{# 奖学金额 #}    <td>
+                    {% if order.coupon.amount %}
+                        {{ order.coupon.amount|money_format:'/' }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </td>
+{# 退费金额 #}    <td>{{ order.refund_info.refund_amount|money_format:'/' }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
 {# 操作 #}       <td>N/A</td>

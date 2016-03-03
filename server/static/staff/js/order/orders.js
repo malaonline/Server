@@ -63,6 +63,31 @@ $(function(){
         $("[data-action=refresh-refund-preview]").click();
     });
 
+    // 查看记录 link click
+    $("[data-action=show-refund-record]").click(function(e){
+        var orderId = $(this).attr("orderId")
+        var params = {'action': 'get-refund-record', 'order_id': orderId};
+        $.get("/staff/orders/action/", params, function (result) {
+            if (result) {
+                if (result.ok) {
+                    var order = result;
+                    $('#remainingHoursRecord').html(order.remainingHoursRecord);
+                    $('#refundHoursRecord').html(order.refundHoursRecord);
+                    $('#refundAmountRecord').html(order.refundAmountRecord);
+                    $('#refundReasonRecord').val(order.reason);
+                    // 状态获取成功, 才显示 dialog
+                    $('#refundInfoModal').modal();
+                } else {
+                    alert(result.msg);
+                }
+                return;
+            }
+            alert(defaultErrMsg);
+        }, 'json').fail(function () {
+            alert(defaultErrMsg);
+        });
+    });
+
     // 提交退费申请
     $("[data-action=submit-refund]").click(function(e){
         var orderId = $('#orderId').val();

@@ -45,7 +45,8 @@ def add_item(apps, schema_editor):
 
             tss.append(dict(start=start, end=end))
             i = i + 1
-            h = h - 1
+            # for now, 1 time slot include 2 hours
+            h = h - 2
 
         for ts in tss:
             timeslot = TimeSlot(
