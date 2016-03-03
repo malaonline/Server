@@ -1312,10 +1312,8 @@ class TimeSlot(BaseModel):
             return False
         teacher = self.order.teacher
         account = teacher.safe_get_account()
-        ability = Ability.objects.get(grade=self.order.grade, subject=self.order.subject)
-        price_obj = Price.objects.get(region=teacher.region, ability=ability, level=teacher.level)
-        amount = self.duration_hours() * price_obj.price
-        amount = amount * (100 - price_obj.commission_percentage) // 100
+        amount = self.duration_hours() * self.order.price
+        amount = amount * (100 - self.order.commission_percentage) // 100
         ah = AccountHistory(account=account, submit_time=timezone.now(), done=True)
         ah.amount = amount
         ah.timeslot = self

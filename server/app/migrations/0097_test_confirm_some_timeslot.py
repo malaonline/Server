@@ -3,8 +3,6 @@ from django.utils import timezone
 
 
 def confirm_some_timeslot(apps, schema_editor):
-    Ability = apps.get_model('app', 'Ability')
-    Price = apps.get_model('app', 'Price')
     Account = apps.get_model('app', 'Account')
     AccountHistory = apps.get_model('app', 'AccountHistory')
     TimeSlot = apps.get_model('app', 'TimeSlot')
@@ -27,10 +25,8 @@ def confirm_some_timeslot(apps, schema_editor):
         """
         teacher = timeslot.order.teacher
         account = _safe_get_account(teacher)
-        ability = Ability.objects.get(grade=timeslot.order.grade, subject=timeslot.order.subject)
-        price_obj = Price.objects.get(region=teacher.region, ability=ability, level=teacher.level)
-        amount = _timeslot_hours(timeslot) * price_obj.price
-        amount = amount * (100 - price_obj.commission_percentage) // 100
+        amount = _timeslot_hours(timeslot) * timeslot.order.price
+        amount = amount * (100 - timeslot.order.commission_percentage) // 100
         ah = AccountHistory(account=account, done=True)
         ah.amount = amount
         ah.timeslot = timeslot
