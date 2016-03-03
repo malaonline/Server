@@ -149,20 +149,20 @@
                         <br/><br/>
                     {% endfor %}
                 </td>
-{# 小时单价 #}    <td>{{ order.price }}</td>
+{# 小时单价 #}    <td>{{ order.price|money_format:'/' }}</td>
 {# 购买小时 #}    <td>{{ order.hours }}</td>
-{# 订单金额 #}    <td>{{ order.total }}</td>
+{# 订单金额 #}    <td>{{ order.total|money_format:'/' }}</td>
 {# 奖学金额 #}    <td>
                     {% if order.coupon.amount %}
-                        {{ order.coupon.amount }}
+                        {{ order.coupon.amount|money_format:'/' }}
                     {% else %}
                         0
                     {% endif %}
                 </td>
 {# 消耗小时 #}    <td>{{ order.completed_hours }}</td>
-{# 消耗订单金额 #} <td>{{ order.completed_amount }}</td>
+{# 消耗订单金额 #} <td>{{ order.completed_amount|money_format:'/' }}</td>
 {# 剩余小时 #}    <td>{{ order.remaining_hours }}</td>
-{# 剩余订单金额 #} <td>{{ order.remaining_amount }}</td>
+{# 剩余订单金额 #} <td>{{ order.remaining_amount|money_format:'/' }}</td>
 {# 退费小时 #}    <td>
                     <!--退费成功才显示此项, 否则显示0-->
                     {% if order.status == order.REFUND %}
@@ -174,13 +174,13 @@
 {# 退费金额 #}    <td>
                     <!--退费成功才显示此项, 否则显示0-->
                     {% if order.status == order.REFUND %}
-                        {{ order.refund_info.refund_amount }}
+                        {{ order.refund_info.refund_amount|money_format:'/' }}
                     {% else %}
                         0
                     {% endif %}
                 </td>
 {# 实际上课小时 #} <td>{{ order.real_completed_hours }}</td>
-{# 实际订单金额 #} <td>{{ order.real_order_amount }}</td>
+{# 实际订单金额 #} <td>{{ order.real_order_amount|money_format:'/' }}</td>
 {# 操作 #}       <td>
                     {% if order.status == order.PAID and not order.refund_status %}
                         <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>
