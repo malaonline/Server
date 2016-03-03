@@ -33,6 +33,16 @@ class SchoolsView(ListView):
     context_object_name = 'school_list'
     template_name = 'wechat/school/schools.html'
 
+    def get_queryset(self):
+        queryset = {}
+        queryset['expr_center_list'] = self.model.objects.filter(
+            center = True
+         )
+        queryset['community_center_list'] = self.model.objects.filter(
+            center=False
+        )
+        return queryset
+
 class SchoolDetailView(ListView):
     models = models.School
 

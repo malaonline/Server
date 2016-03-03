@@ -1,0 +1,40 @@
+{% load staticfiles %}
+{% load compile_static %}
+
+<div class="card demo-card-header-pic">
+    <div valign="bottom" class="card-header color-white no-border no-padding">
+        <div class="school-isexpr-flag">
+            {% if school.center %}
+                <img src="{% static 'wechat/images/expr_center_icon.png' %}" alt="">
+            {% endif %}
+        </div>
+        <div class="trans-mask">
+            {% if school.center %}
+                <h6>体验中心</h6>
+                <span>高配置教学环境,极佳学习体验</span>
+            {% else %}
+                <h6>社区中心</h6>
+                <span>距离交通优势,便捷轻松</span>
+            {% endif %}
+        </div>
+        <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
+    </div>
+    <div class="card-content">
+        <div class="card-content-inner">
+            <div class="card-content-inner-left">
+                <div class="column">
+                    <p>{{ school.name }}</p>
+                    <p class="color-gray">< 1km</p>
+                </div>
+                <div class="column">
+                    <p class="color-gray">{{ school.address }}</p>
+                </div>
+            </div>
+            <div class="card-content-inner-right">
+                <a href="#">
+                    <img src="{% static 'wechat/images/dail_icon.png' %}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

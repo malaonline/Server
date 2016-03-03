@@ -11,32 +11,15 @@
 {% block content %}
     <div class="page" id="schoolList">
         <div class="content">
-            {% for school in school_list %}
-                <div class="card demo-card-header-pic">
-                    <div valign="bottom" class="card-header color-white no-border no-padding">
-                        <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
-                    </div>
-                    <div class="card-content">
-                        <div class="card-content-inner">
-                            <div class="card-content-inner-left">
-                                <div class="column">
-                                    <p>{{ school.name }}</p>
-                                    <p class="color-gray">< 1km</p>
-                                </div>
-                                <div class="column">
-                                    <p class="color-gray">{{ school.address }}</p>
-                                </div>
-                            </div>
-                            <div class="card-content-inner-right">
-                                <a href="#">
-                                    <img src="{% static 'wechat/images/dail_icon.png' %}" alt="">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {% for school in school_list.expr_center_list %}
+                {% include 'wechat/school/school_card_content.html' %}
             {% empty %}
-            <p>没有添加学校</p>
+                <p>暂无体验中心</p>
+            {% endfor %}
+            {% for school in school_list.community_center_list %}
+                {% include 'wechat/school/school_card_content.html' %}
+            {% empty %}
+                <p>暂无社区中心</p>
             {% endfor %}
             <div class="app-redirect-box">
                 <a href="#" class="left-desc">
