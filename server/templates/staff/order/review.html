@@ -152,13 +152,33 @@
 {# 小时单价 #}    <td>{{ order.price }}</td>
 {# 购买小时 #}    <td>{{ order.hours }}</td>
 {# 订单金额 #}    <td>{{ order.total }}</td>
-{# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
+{# 奖学金额 #}    <td>
+                    {% if order.coupon.amount %}
+                        {{ order.coupon.amount }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </td>
 {# 消耗小时 #}    <td>{{ order.completed_hours }}</td>
 {# 消耗订单金额 #} <td>{{ order.completed_amount }}</td>
 {# 剩余小时 #}    <td>{{ order.remaining_hours }}</td>
 {# 剩余订单金额 #} <td>{{ order.remaining_amount }}</td>
-{# 退费小时 #}    <td>{{ order.preview_refund_hours }}</td>
-{# 退费金额 #}    <td>{{ order.preview_refund_amount }}</td>
+{# 退费小时 #}    <td>
+                    <!--退费成功才显示此项, 否则显示0-->
+                    {% if order.status == order.REFUND %}
+                        {{ order.refund_info.refund_hours }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </td>
+{# 退费金额 #}    <td>
+                    <!--退费成功才显示此项, 否则显示0-->
+                    {% if order.status == order.REFUND %}
+                        {{ order.refund_info.refund_amount }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </td>
 {# 实际上课小时 #} <td>{{ order.real_completed_hours }}</td>
 {# 实际订单金额 #} <td>{{ order.real_order_amount }}</td>
 {# 操作 #}       <td>
@@ -166,9 +186,13 @@
                         <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>
                     {% elif order.status == order.PAID and order.refund_status == order.REFUND_PENDING %}
                         <a data-action="show-refund-record" orderId={{ order.id }}>查看记录</a>
+                    {% elif order.status == order.REFUND and order.refund_status == order.REFUND_APPROVED %}
+                        <a data-action="show-refund-record" orderId={{ order.id }}>查看记录</a>
                     {% elif order.status == order.PAID and order.refund_status == order.REFUND_REJECTED %}
                         <a data-action="show-refund-preview" orderId={{ order.id }}>重新申请退款</a>
-                    {%  endif %}
+                    {% else %}
+                        无
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -204,4 +228,33 @@
             </div>
         </div>
     </div>
+
+    <div id="refundInfoModal" class="modal fade" role="dialog" style="margin: 0 auto;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center">查看记录</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <p>剩余 <label id="remainingHoursRecord"></label> 小时</p>
+                        <p>共退 <label id="refundHoursRecord"></label> 小时</p>
+                        <p>退费金额 <label id="refundAmountRecord"></label> 元</p>
+                        <fieldset>
+                            <div class="control-group">
+                                <textarea name="refundReason" id="refundReasonRecord" rows="5" cols="36" readonly="readonly"></textarea>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

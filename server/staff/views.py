@@ -1321,6 +1321,8 @@ class OrderRefundActionView(BaseStaffActionView):
         action = self.request.GET.get('action')
         if action == 'preview-refund-info':
             return self.preview_refund_info(request)
+        if action == 'get-refund-record':
+            return self.get_refund_record(request)
         return HttpResponse("Not supported action.", status=404)
 
     def post(self, request):
@@ -1332,9 +1334,8 @@ class OrderRefundActionView(BaseStaffActionView):
     def preview_refund_info(self, request):
         order_id = request.GET.get('order_id')
         order = models.Order.objects.get(id=order_id)
-        # 已支付 和 退费已驳回 状态的订单可以预览退费信息
-        if (order.status == order.PAID and not order.refund_status) or (
-                order.status == order.PAID and order.refund_status == order.REFUND_REJECTED):
+        # 只要是已支付的, 都可以预览退费信息, 包括 审核中 和 已驳回
+        if order.status == order.PAID:
             # 根据当前时间点,计算退费信息
             return JsonResponse({
                 'ok': True,
@@ -1344,7 +1345,22 @@ class OrderRefundActionView(BaseStaffActionView):
                 'reason': order.refund_info().reason if order.refund_info() is not None else ''
                 # 退费原因
             })
-        return JsonResponse({'ok': False, 'msg': '订单状态错误', 'code': 'order_01'})
+        return JsonResponse({'ok': False, 'msg': '订单还未支付', 'code': 'order_01'})
+
+    def get_refund_record(self, request):
+        order_id = request.GET.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.refund_info() is not None:
+            record = order.refund_info()
+            # 将之前申请退费时记录下来的退费信息返回给前端
+            return JsonResponse({
+                'ok': True,
+                'remainingHoursRecord': record.remaining_hours, # 剩余小时(申请退费时计算的)
+                'refundHoursRecord': record.refund_hours,       # 退费小时(申请退费时计算的)
+                'refundAmountRecord': record.refund_amount,     # 退费金额(申请退费时计算的)
+                'reason': record.reason                         # 退费原因(申请退费时提交的)
+            })
+        return JsonResponse({'ok': False, 'msg': '订单无申请退费记录', 'code': 'order_02'})
 
     def request_refund(self, request):
         order_id = request.POST.get('order_id')
@@ -1353,6 +1369,8 @@ class OrderRefundActionView(BaseStaffActionView):
         if order.status == order.PAID:
             if order.refund_status == order.REFUND_PENDING:
                 return JsonResponse({'ok': False, 'msg': '订单退费正在申请中, 请勿重复提交', 'code': 'order_03'})
+            elif order.refund_status == order.REFUND_APPROVED:
+                return JsonResponse({'ok': False, 'msg': '订单退费已经审核通过, 请勿重复提交', 'code': 'order_04'})
             else:
                 # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
                 record = models.OrderRefundRecord(
@@ -1375,7 +1393,7 @@ class OrderRefundActionView(BaseStaffActionView):
                     'refundAmount': record.refund_amount,       # 退费金额
                     'reason': record.reason                     # 退费原因
                 })
-        return JsonResponse({'ok': False, 'msg': '订单状态错误', 'code': 'order_02'})
+        return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
 
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'

@@ -76,7 +76,13 @@
 {# 小时单价 #}    <td>{{ order.price }}</td>
 {# 剩余小时 #}    <td>{{ order.refund_info.remaining_hours }}</td>
 {# 退费小时 #}    <td>{{ order.refund_info.refund_hours }}</td>
-{# 奖学金额 #}    <td>{{ order.coupon.amount }}</td>
+{# 奖学金额 #}    <td>
+                    {% if order.coupon.amount %}
+                        {{ order.coupon.amount }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </td>
 {# 退费金额 #}    <td>{{ order.refund_info.refund_amount }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
