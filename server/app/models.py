@@ -1003,6 +1003,8 @@ class Order(BaseModel):
                                      choices=REFUND_STATUS_CHOICES,
                                      null=True,
                                      blank=True)
+    # 保存的最后退费申请时间
+    refund_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s %s %s : %s' % (
@@ -1122,7 +1124,8 @@ class OrderRefundRecord(BaseModel):
             self.order.status = Order.REFUND
             self.order.save()
             self.save()
-        return self.status
+            return True
+        return False
 
     def reject_refund(self):
         if self.status == Order.REFUND_PENDING:
@@ -1130,7 +1133,8 @@ class OrderRefundRecord(BaseModel):
             self.order.refund_status = Order.REFUND_REJECTED
             self.order.save()
             self.save()
-        return self.status
+            return True
+        return False
 
 
 class Charge(BaseModel):

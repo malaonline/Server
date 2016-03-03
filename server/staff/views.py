@@ -1317,14 +1317,14 @@ class OrderRefundView(BaseStaffView):
         if refund_date_from:
             try:
                 date_from = datetime.datetime.strptime(refund_date_from, '%Y-%m-%d')
-                query_set = query_set.filter(created_at__gte=date_from)
+                query_set = query_set.filter(refund_at__gte=date_from)
             except:
                 pass
         if refund_date_to:
             try:
                 date_to = datetime.datetime.strptime(refund_date_to, '%Y-%m-%d')
                 date_to += datetime.timedelta(days=1)
-                query_set = query_set.filter(created_at__lt=date_to)
+                query_set = query_set.filter(refund_at__lt=date_to)
             except:
                 pass
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
@@ -1356,7 +1356,7 @@ class OrderRefundView(BaseStaffView):
         kwargs['status'] = models.Order.REFUND_STATUS_CHOICES
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
-        query_set = query_set.order_by('-created_at')
+        query_set = query_set.order_by('-refund_at')
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
 
@@ -1374,6 +1374,10 @@ class OrderRefundActionView(BaseStaffActionView):
         action = self.request.POST.get('action')
         if action == 'request-refund':
             return self.request_refund(request)
+        if action == 'refund-approve':
+            return self.refund_approve(request)
+        if action == 'refund-reject':
+            return self.refund_reject(request)
         return HttpResponse("Not supported action.", status=404)
 
     def preview_refund_info(self, request):
@@ -1429,6 +1433,8 @@ class OrderRefundActionView(BaseStaffActionView):
                 record.save()
                 # 同时更新订单的退费状态字段
                 order.refund_status = order.REFUND_PENDING
+                # 记录申请时间, 用于 query
+                order.refund_at = record.created_at
                 order.save()
                 # 回显给前端, 刚刚记录的退费信息内容
                 return JsonResponse({
@@ -1439,6 +1445,24 @@ class OrderRefundActionView(BaseStaffActionView):
                     'reason': record.reason                     # 退费原因
                 })
         return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
+
+    def refund_approve(self, request):
+        order_id = request.POST.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.last_refund_record() is not None:
+            ok = order.last_refund_record().approve_refund()
+            if ok:
+                return JsonResponse({'ok': True})
+        return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
+
+    def refund_reject(self, request):
+        order_id = request.POST.get('order_id')
+        order = models.Order.objects.get(id=order_id)
+        if order.last_refund_record() is not None:
+            ok = order.last_refund_record().reject_refund()
+            if ok:
+                return JsonResponse({'ok': True})
+        return JsonResponse({'ok': False, 'msg': '退费驳回失败, 请检查订单状态', 'code': 'order_07'})
 
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'

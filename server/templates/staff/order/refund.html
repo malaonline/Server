@@ -5,39 +5,65 @@
 {% load custom_tags %}
 {% block title %}退费审核{% endblock %}
 
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}" xmlns="http://www.w3.org/1999/html"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+
+    <script src="{% static 'staff/js/order/orders.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    <form name="query_form">
-        申请退费时间
-        <input type="date" name="refund_date_from" value="{{ query_data.refund_date_from }}" />
-         -
-        <input type="date" name="refund_date_to" value="{{ query_data.refund_date_to }}" />
+    <form name="query_form" class="form-inline">
+        <div class="form-group">
+            <label>申请退费时间</label>
+            <input type="text" class="datetimeInput form-control" name="refund_date_from" value="{{ query_data.refund_date_from }}" size="10"/>
+            -
+            <input type="text" class="datetimeInput form-control" name="refund_date_to" value="{{ query_data.refund_date_to }}" size="10"/>
+        </div>
 
-        姓名 <input type="text" name="name" value="{{ query_data.name }}" />
+        <div class="form-group">
+            <label>姓名</label>
+            <input type="text" class="form-control" name="name" value="{{ query_data.name }}" size="10"/>
+        </div>
 
-        手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
+        <div class="form-group">
+            <label>手机号</label>
+            <input type="text" class="form-control" name="phone" value="{{ query_data.phone }}" size="15"/>
+        </div>
+        <div class="form-group">
+            <label>订单号</label>
+            <input type="text" class="form-control" name="order_id" value="{{ query_data.order_id }}" size="18"/>
+        </div>
 
-        订单号 <input type="text" name="order_id" value="{{ query_data.order_id }}" />
+        <div class="form-group">
+            <label>科目</label>
+            <select name="subject" class="form-control">
+                <option value="">全部</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}
+                            selected="selected"{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        科目
-        <select name="subject">
-            <option value="">全部</option>
-            {% for subject in subjects %}
-                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}
-                        selected="selected"{% endif %}>{{ subject.name }}</option>
-            {% endfor %}
-        </select>
+        <div class="form-group">
+            <label>状态</label>
+            <select name="status" class="form-control">
+                <option value="">全部</option>
+                {% for val,text in status %}
+                    <option value="{{ val }}" {% if val == query_data.status %}
+                            selected="selected"{% endif %}>{{ text }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        状态
-        <select name="status">
-            <option value="">全部</option>
-            {% for val,text in status %}
-                <option value="{{ val }}" {% if val == query_data.status %}
-                        selected="selected"{% endif %}>{{ text }}</option>
-            {% endfor %}
-        </select>
-
-        <input type="submit" value="查询"/>
-        <input type="button" value="导出"/>
+        <div class="form-group">
+            <input type="submit" class="form-control btn-success" value="查询"/>
+        </div>
+        <div class="form-group">
+            <input type="button" class="form-control" disabled value="导出"/>
+        </div>
     </form>
 
     <table align="center" border="1" cellspacing="0" width="100%">
@@ -89,7 +115,14 @@
 {# 退费金额 #}    <td>{{ order.refund_info.refund_amount|money_format:'/' }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
-{# 操作 #}       <td>N/A</td>
+{# 操作 #}       <td>
+                    {% if order.refund_status == order.REFUND_PENDING %}
+                        <a class="" data-action="refund-approve" orderId={{ order.id }}>退费</a>
+                        | <a class="" data-action="refund-reject" orderId={{ order.id }}>驳回</a>
+                    {% else %}
+                        无
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
