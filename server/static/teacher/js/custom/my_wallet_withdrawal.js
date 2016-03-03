@@ -17,7 +17,7 @@ $(
         next_page.click(function(){
             console.log("next page");
             var sms_code = $("#sms_code");
-            $.post("/teacher/verify_login_sms_code/", {code: sms_code.val()},
+            $.post("/teacher/withdrawal_request/", {code: sms_code.val()},
                 function(data){
                     if (data.verify == true){
                         window.location.href = data.url;

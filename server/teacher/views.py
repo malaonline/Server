@@ -1115,6 +1115,7 @@ class CommentReply(View):
 
 
 class GenerateSMS(View):
+    # 登录后创建验证码.注意,这里不需要任何输入,验证码会发送到注册时给的手机号码.
     def post(self, request):
         user = request.user
         phone = user.profile.phone
@@ -1126,7 +1127,7 @@ class GenerateSMS(View):
             return JsonResponse({"sent": False, "msg": msg})
 
 
-class VerifyLoginSmsCode(View):
+class WithdrawalRequest(View):
     # 老师提现检测,里面的检测都通过,就进行转账
     def is_valid_duration(self):
         now = datetime.datetime.now()

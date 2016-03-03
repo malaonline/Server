@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^my_wallet/withdrawal/result/$', login_required(views.MyWalletWithdrawalResult.as_view(), login_url=LOGIN_URL), name="my-wallet-withdrawal-result"),
     url(r'^my_wallet/withdrawal/record/$', login_required(views.MyWalletWithdrawalRecord.as_view(), login_url=LOGIN_URL), name="my-wallet-withdrawal-record"),
     url(r'^generate_sms/$', login_required(views.GenerateSMS.as_view(), login_url=LOGIN_URL), name="generate-sms"),
-    url(r'^verify_login_sms_code/$', login_required(views.VerifyLoginSmsCode.as_view(), login_url=LOGIN_URL), name="verify_login_sms_code"),
+    url(r'^withdrawal_request/$', login_required(views.WithdrawalRequest.as_view(), login_url=LOGIN_URL), name="withdrawal_request"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
     url(r'^certificate/id/$', views.CertificateIDView.as_view(), name="certificate-id"),
     url(r'^certificate/academic/$', views.CertificateAcademicView.as_view(), name="certificate-academic"),
