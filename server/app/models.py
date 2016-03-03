@@ -714,7 +714,7 @@ class BankCard(BaseModel):
                                self.account.user)
 
     def mask_number(self):
-        return '**** **** **** ' + self.card_number[-4:]
+        return " ".join(self.mask_card_number())
 
 
 class BankCodeInfo(BaseModel):
