@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
+import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.DatePickerController;
@@ -129,6 +130,8 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
             }
             stringBuilder.append(courses.get(i).getSubject() + str);
         }
+        CommentDialog commentDialog = CommentDialog.newInstance("teacherName" ,"teacherAvatar", "courseName","commentId");
+        commentDialog.show(getFragmentManager(),CommentDialog.class.getName());
         Toast.makeText(getContext(), calendarDay.getYear() + "年" + calendarDay.getMonth() + "月" + calendarDay.getDay() + " 课程:" + stringBuilder.toString() , Toast.LENGTH_SHORT).show();
     }
 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_dialog"
+    android:layout_width="272dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="评价" />
+
+        <TextView
+            android:id="@+id/tv_Close"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#8fbcdd" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="288dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:indeterminateDrawable="@drawable/progressbar_drawable"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+        <TextView
+            android:id="@+id/load_textview"
+            android:text="加载中..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="288dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.malalaoshi.android.view.CircleNetworkImage
+                android:id="@+id/iv_teacher_avater"
+                android:layout_marginBottom="9dp"
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:gravity="center"
+                android:src="@drawable/user_detail_header_bg" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_teacher_name"
+                    android:textSize="13sp"
+                    android:textColor="#939393"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="顾思远 " />
+
+                <TextView
+                    android:id="@+id/tv_course"
+                    android:textSize="13sp"
+                    android:textColor="#bebebe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="初中数学1对1" />
+            </LinearLayout>
+
+            <RatingBar
+                android:layout_marginTop="12dp"
+                android:id="@+id/ratingbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                style="@style/mala.ratingbar"
+                android:rating="2"
+                android:stepSize="1" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edit_review"
+            android:layout_width="236dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_edit_bg"
+            android:gravity="top"
+            android:hint="最多输入200字,您的评价对我们很重要,来点评一下吧~"
+            android:scrollHorizontally="true"
+            android:scrollIndicators="right"
+            android:maxLength="200"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#8fbcdd" />
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:textColor="@drawable/submit_tv_drawable"
+        android:gravity="center"
+        android:text="提交" />
+</LinearLayout>

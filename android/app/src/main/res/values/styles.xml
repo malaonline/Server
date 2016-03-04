@@ -191,4 +191,10 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <!-- 评价星 -->
+    <style name="mala.ratingbar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_drawable</item>
+        <item name="android:minHeight">40dip</item>
+        <item name="android:maxHeight">40dip</item>
+    </style>
 </resources>
