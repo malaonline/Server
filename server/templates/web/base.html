@@ -12,8 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'web/fullpage/jquery.fullPage.min.less'|compile %}">
 
     {% block addition_less %}{% endblock %}
-    {% block addition_js %}{% endblock %}
-
     <!--[if IE]>
 		<script type="text/javascript">
 			 var console = { log: function() {} };
@@ -23,15 +21,8 @@
     <script src="http://libs.baidu.com/jqueryui/1.9.1/jquery-ui.min.js "></script>
 
     <script type="text/javascript" src="{% static 'web/fullpage/jquery.fullPage.min.js'%}"></script>
-    <script type="text/javascript">
-		$(document).ready(function() {
-			$('#fullpage').fullpage({
-				anchors: ['firstPage', 'secondPage', '3rdPage'],
-				sectionsColor: ['#C63D0F', '#1BBC9B', '#7E8F7C'],
-				responsiveHeight: 600
-			});
-		});
-	</script>
+
+    {% block addition_js %}{% endblock %}
 
 </head>
 <body>
