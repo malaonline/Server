@@ -1,89 +1,93 @@
 {% extends "staff/staff_base.html" %}
 
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
 {% block title %}调课与停课管理{% endblock %}
 
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+
+    <script src="{% static 'staff/js/student/reschedule.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    <form name="query_form">
-        家长手机号 <input type="number" name="phone" value="{{ query_data.phone }}" />
-        <input type="submit" value="查询"/>
+    <form name="query_form" class="form-inline">
+        <div class="form-group">
+            <label>家长手机号</label>
+            <input type="text" class="form-control" name="phone" value="{{ query_data.phone }}" size="15"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="form-control btn-success" value="查询"/>
+        </div>
     </form>
 
-    <p align="center">上课时间表</p>
-    <p align="center">
-        <button>< 上周</button>
-        <button>本周</button>
-        <button>下周 ></button>
-    </p>
+    {% if all_count == 0 and query_data.phone %}
+        <script>alert("无课程记录, 请检查输入的手机号")</script>
+    {% elif query_data.phone %}
+        <h4 align="center">上课时间表</h4>
+        <div class="text-center">
+            <form class="form-inline" style="display: inline">
+                <input type="hidden" name="phone" value="{{ query_data.phone }}"/>
+                <input type="hidden" name="week" value="{{ query_data.week|add:-1 }}"/>
+                <input type="submit" class="form-control" value="< 上周"/>
+            </form>
+            <form class="form-inline" style="display: inline">
+                <input type="hidden" name="phone" value="{{ query_data.phone }}"/>
+                <input type="hidden" name="week" value="0"/>
+                <input type="submit" class="form-control" value="本周"/>
+            </form>
+            <form class="form-inline" style="display: inline">
+                <input type="hidden" name="phone" value="{{ query_data.phone }}"/>
+                <input type="hidden" name="week" value="{{ query_data.week|add:1 }}"/>
+                <input type="submit" class="form-control" value="下周 >"/>
+            </form>
+        </div>
 
-    <table align="center" border="1" cellspacing="0" >
-        <tr>
-            <th class="text-center" width="200"></th>
-            <th class="text-center" width="200">周一</th>
-            <th class="text-center" width="200">周二</th>
-            <th class="text-center" width="200">周三</th>
-            <th class="text-center" width="200">周四</th>
-            <th class="text-center" width="200">周五</th>
-            <th class="text-center" width="200">周六</th>
-            <th class="text-center" width="200">周日</th>
-        </tr>
-        <tr>
-            <td align="center" width="200">8：00-10：00</td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-            <td align="center">
-                科目：数学<br/>
-                老师：张三<br/>
-                手机：18600261748<br/>
-                中心：东直门银座中心<br/>
-                <button>调课</button>
-                <button>停课</button>
-            </td>
-        </tr>
-    </table>
+        <p>
+
+        <table align="center" border="1" cellspacing="0">
+            <tr>
+                <th class="text-center" width="200"></th>
+                {% for weekday_dict in weekdays %}
+                    <th class="text-center" width="200">
+                        {{ weekday_dict.weekday|weekday_format }}
+                        {{ weekday_dict.day|date:"m-d" }}
+                        {% if weekday_dict.day ==  today %}
+                            (今天)
+                        {% endif %}
+                    </th>
+                {% endfor %}
+            </tr>
+            {% for one_weekly_slot in weekly_time_slots %}
+                <tr>
+                    <td align="center" width="200">
+                        {{ one_weekly_slot.start|time:"H:i" }}-{{ one_weekly_slot.end|time:"H:i" }}
+                    </td>
+                    {% for weekday_dict in weekdays %}
+                        <td align="center" class="form-inline">
+                            {% for one_slot in timeslots %}
+                                {% if one_slot.start.time == one_weekly_slot.start and one_slot.start.weekday|add:1 == weekday_dict.weekday %}
+                                    <div align="left">
+                                        科目：{{ one_slot.order.subject }}<br/>
+                                        老师：{{ one_slot.order.teacher.name }}<br/>
+                                        手机：{{ one_slot.order.teacher.user.profile.phone }}<br/>
+                                        中心：{{ one_slot.order.school }}<br/>
+                                    </div>
+
+                                    {% if query_data.week == 0 %}
+                                        <button class="form-control" disabled>调课</button>
+                                        <button class="form-control" disabled>停课</button>
+                                    {% endif %}
+
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock %}

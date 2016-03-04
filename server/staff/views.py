@@ -1034,6 +1034,58 @@ class StudentScheduleManageView(BaseStaffView):
         #  kwargs['centers'] = models.School.objects.filter(center=True)
         #  kwargs['grades'] = models.Grade.objects.all 
         #  kwargs['subjects'] = models.Subject.objects.all
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        parent_phone = self.request.GET.get('phone',None)
+        week = self.request.GET.get('week',0)
+        week = int(week)
+        kwargs['query_data']['week'] = week
+
+        query_set = models.TimeSlot.objects.filter(deleted=False)
+        # 家长手机号, 精确匹配
+        if parent_phone:
+            query_set = query_set.filter(order__parent__user__profile__phone=parent_phone)
+
+        kwargs['all_count'] = query_set.count()
+
+        # 起始查询时间: 根据当前天 和 上下几周 确定
+        start_search_time = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        start_search_time += datetime.timedelta(days=week*7)
+
+        end_search_time = start_search_time + datetime.timedelta(days=7)
+
+
+
+        # start_search_time.time()
+
+
+
+
+        # 第一列周几
+        first_weekday = start_search_time.weekday()
+        first_day = start_search_time.day
+        # 一周内 weekday 和 具体日期
+        weekdays = []
+        for i in range(7):
+            weekdays_dict = {}
+            time = start_search_time + datetime.timedelta(days=i)
+            weekdays_dict['weekday'] = time.weekday() + 1
+            weekdays_dict['day'] = time
+            weekdays.append(weekdays_dict)
+
+        # 只获取一周内数据
+        query_set = query_set.filter(start__gte=start_search_time).filter(end__lte=end_search_time).order_by('start')
+
+        # 从今天起到后7天的 weekday 描述
+        kwargs['weekdays'] = weekdays
+        kwargs['today'] = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        # 固定的 weekly time slots
+        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.objects.filter(weekday=1)
+        # 查询结果数据集
+        kwargs['timeslots'] = query_set
+        for one in query_set:
+            print(one)
+            print(one.start.day)
         return super(StudentScheduleManageView, self).get_context_data(**kwargs)
 
 
