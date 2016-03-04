@@ -70,22 +70,22 @@ class ThemeHUD: NSObject {
                                 dismissTimer.invalidate()
                             }
                             
-                            self.sharedInstance.dismissTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: "forcedHideActivityIndicator", userInfo: nil, repeats: false)
+//                            self.sharedInstance.dismissTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: "forcedHideActivityIndicator", userInfo: nil, repeats: false)
                         })
                     })
             }
         }
     }
-
-    class func forcedHideActivityIndicator() {
-        hideActivityIndicator() {
-            if
-                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
-                let viewController = appDelegate.window?.rootViewController {
-                    MalaAlert.alertSorry(message: NSLocalizedString("Wait too long, the operation may not be completed.", comment: ""), inViewController: viewController)
-            }
-        }
-    }
+//
+//    class func forcedHideActivityIndicator() {
+//        hideActivityIndicator() {
+//            if
+//                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+//                let viewController = appDelegate.window?.rootViewController {
+//                    MalaAlert.alertSorry(message: NSLocalizedString("Wait too long, the operation may not be completed.", comment: ""), inViewController: viewController)
+//            }
+//        }
+//    }
 
     class func hideActivityIndicator() {
         hideActivityIndicator() {

@@ -56,8 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - openURL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        // 微信,支付宝 回调
         let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
-            println("application result: \(result), error: \(error)")
+            // 处理Ping++回调
+            let handler = HandlePingppBehaviour()
+            handler.handleResult(result, error: error, currentViewController: MalaPaymentController)
         }
         return canHandleURL
     }

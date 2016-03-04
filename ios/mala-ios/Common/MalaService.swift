@@ -193,7 +193,6 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
     
     let resource = authJsonResource(path: "/orders", method: .POST, requestParameters: orderForm, parse: parse)
     
-    /// 若未实现请求错误处理，进行默认的错误处理
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
@@ -207,7 +206,7 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
 ///  - parameter orderID:        订单id
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int,failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "action": PaymentMethod.Pay.rawValue,
         "channel": channel.rawValue
@@ -219,7 +218,26 @@ func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int,failure
     
     let resource = authJsonResource(path: "/orders/\(orderID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
     
-    /// 若未实现请求错误处理，进行默认的错误处理
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  获取订单信息
+///
+///  - parameter orderID:        订单id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getOrderInfo(orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: OrderForm -> Void) {
+    /// 返回值解析器
+    let parse: JSONDictionary -> OrderForm? = { data in
+        return parseOrderForm(data)
+    }
+    
+    let resource = authJsonResource(path: "/orders/\(orderID)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {

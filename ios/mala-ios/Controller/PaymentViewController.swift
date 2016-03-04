@@ -89,7 +89,9 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Delegate
     func paymentDidConfirm() {
         println("确认支付")
-
+        
+        ThemeHUD.showActivityIndicator()
+        
         ///  创建订单
         createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
