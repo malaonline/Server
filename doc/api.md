@@ -812,3 +812,21 @@ result:
     "status": "p"
 }
 ```
+
+### Get if user has been evaluated for this subject
+
+```
+GET /api/v1/subject/(?P<subject_id>\d+)/record
+```
+
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+result:
+```
+{
+    "evaluated": true
+}
+```

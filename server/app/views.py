@@ -24,7 +24,7 @@ from rest_framework.pagination import PageNumberPagination
 import pingpp
 
 from app import models
-from .utils.smsUtil import sendCheckcode, isValidPhone, isTestPhone, isValidCode
+from .utils.smsUtil import isValidPhone, isValidCode
 from .utils.algorithm import verify_sig
 
 logger = logging.getLogger('app')
@@ -167,7 +167,8 @@ class Sms(View):
             if generate is True:
                 return JsonResponse({"sent": True})
             else:
-                return JsonResponse({"sent": False, "result": "%s" % (result, )})
+                return JsonResponse(
+                        {"sent": False, "result": "%s" % (result, )})
         if action == 'verify':
             if not phone or not code:
                 return JsonResponse({'verified': False,
@@ -246,7 +247,7 @@ class ProfileViewSet(ProfileBasedMixin,
     serializer_class = ProfileSerializer
 
     def update(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_profile()!=self.get_object():
+        if not self.request.user.is_superuser and self.get_profile() != self.get_object():
             return HttpResponse(status=403)
         response = super(ProfileViewSet, self).update(request, *args, **kwargs)
         if response.status_code == 200:
@@ -564,6 +565,17 @@ class ParentBasedMixin(object):
         except exceptions.ObjectDoesNotExist:
             raise PermissionDenied(detail='Role incorrect')
         return parent
+
+
+class SubjectRecord(ParentBasedMixin, View):
+    def get(self, request, subject_id):
+        subject = get_object_or_404(models.Subject, pk=subject_id)
+        parent = self.get_parent()
+        order_count = models.Order.objects.filter(
+                parent=parent, subject=subject,
+                status=models.Order.PAID).count()
+        ans = {'evaluated': order_count > 0}
+        return JsonResponse(ans)
 
 
 class CommentSerializer(serializers.ModelSerializer):

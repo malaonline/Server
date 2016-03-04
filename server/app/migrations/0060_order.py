@@ -43,8 +43,7 @@ def add_item(apps, schema_editor):
 
     for i, parent in enumerate(parents):
         if i % 2 == 0:
-            teacher = random.choice(teachers)
-            teachers.remove(teacher)
+            teacher = teachers[i]
             school = random.choice(schools)
             grade = random.choice(grades)
             subject = random.choice(

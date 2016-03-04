@@ -231,7 +231,7 @@ class TestApi(TestCase):
         client.login(username=username, password=password)
         request_url = "/api/v1/orders"
         json_data = json.dumps({
-            'teacher': 1, 'school': 1, 'grade': 1, 'subject': 1,
+            'teacher': 2, 'school': 1, 'grade': 1, 'subject': 1,
             'coupon': 2, 'hours': 14, 'weekly_time_slots': [3, 8],
             })
         response = client.post(request_url, content_type="application/json",
@@ -316,6 +316,23 @@ class TestApi(TestCase):
 
         order = Order.objects.get(pk=pk)
         self.assertEqual(order.status, 'p')
+
+        request_url = "/api/v1/subject/1/record"
+        response = client.get(request_url)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret['evaluated'])
+
+    def test_subject_record(self):
+        client = Client()
+        username = "parent0"
+        password = "123123"
+        client.login(username=username, password=password)
+        request_url = "/api/v1/subject/2/record"
+        response = client.get(request_url)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertFalse(json_ret['evaluated'])
 
     def test_create_comment(self):
         username = "parent0"

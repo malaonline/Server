@@ -35,6 +35,8 @@ urlpatterns = [
         name='teacher_weekly_time_slot'),
     url(r'^api/v1/token-auth', authviews.obtain_auth_token),
     url(r'^api/v1/policy', views.Policy.as_view(), name='policy'),
+    url(r'^api/v1/subject/(?P<subject_id>\d+)/record',
+        views.SubjectRecord.as_view(), name='subject_record'),
     url(r'^api/v1/sms', views.Sms.as_view(), name='sms'),
     url(r'^api/v1/charge_succeeded', views.ChargeSucceeded.as_view(),
         name='charge_succeeded'),
