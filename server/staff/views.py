@@ -1052,18 +1052,9 @@ class StudentScheduleManageView(BaseStaffView):
         start_search_time = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         start_search_time += datetime.timedelta(days=week*7)
 
+        # 结束时间
         end_search_time = start_search_time + datetime.timedelta(days=7)
 
-
-
-        # start_search_time.time()
-
-
-
-
-        # 第一列周几
-        first_weekday = start_search_time.weekday()
-        first_day = start_search_time.day
         # 一周内 weekday 和 具体日期
         weekdays = []
         for i in range(7):
