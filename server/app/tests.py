@@ -254,6 +254,66 @@ class TestApi(TestCase):
                                 data=json_data)
         self.assertEqual(200, response.status_code)
 
+        data = json.loads(response.content.decode())
+
+        charge_id = data['id']
+
+        json_data = json.dumps({
+                "id":"evt_ugB6x3K43D16wXCcqbplWAJo",
+                "created":1440407501,
+                "livemode":False,
+                "type":"charge.succeeded",
+                "data":{
+                    "object":{
+                        "id": charge_id,
+                        "object":"charge",
+                        "created":1440407501,
+                        "livemode":True,
+                        "paid":True,
+                        "refunded":False,
+                        "app":"app_urj1WLzvzfTK0OuL",
+                        "channel":"upacp",
+                        "order_no":"123456789",
+                        "client_ip":"127.0.0.1",
+                        "amount":100,
+                        "amount_settle":0,
+                        "currency":"cny",
+                        "subject":"Your Subject",
+                        "body":"Your Body",
+                        "extra":{
+                            },
+                        "time_paid":1440407501,
+                        "time_expire":1440407501,
+                        "time_settle":None,
+                        "transaction_no":"1224524301201505066067849274",
+                        "refunds":{
+                            "object":"list",
+                            "url":"/v1/charges/ch_Xsr7u35O3m1Gw4ed2ODmi4Lw/refunds",
+                            "has_more":False,
+                            "data":[
+                                ]
+                            },
+                        "amount_refunded":0,
+                        "failure_code":None,
+                        "failure_msg":None,
+                        "metadata":{
+                            },
+                        "credential":{
+                            },
+                        "description":None
+                        }
+                    },
+                "object":"event",
+                "pending_webhooks":0,
+                "request":"iar_qH4y1KbTy5eLGm1uHSTS00s"
+        })
+
+        request_url = '/api/v1/charge_succeeded'
+
+        response = client.post(request_url, content_type="application/json",
+                                data=json_data)
+        self.assertEqual(200, response.status_code)
+
     def test_create_comment(self):
         username = "parent0"
         password = "123123"
