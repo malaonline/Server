@@ -41,7 +41,7 @@
 			<string>alipay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>malalaoshi123alipay</string>
+				<string>malalaoshitoalipay</string>
 			</array>
 		</dict>
 	</array>
@@ -49,6 +49,7 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>alipayShare</string>
 		<string>wechat</string>
 		<string>alipay</string>
 		<string>weixin</string>

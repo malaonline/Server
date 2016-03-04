@@ -70,3 +70,19 @@ func couponIsExpired(timeStamp: NSTimeInterval) -> Bool {
         return true
     }
 }
+
+
+///  根据支付方式获取AppURLScheme
+///
+///  - parameter channel: 支付手段
+///
+///  - returns: URLScheme
+func getURLScheme(channel: MalaPaymentChannel) -> String {
+    switch channel {
+    case .Alipay:
+        return MalaAppURLScheme.Alipay.rawValue
+        
+    case .Wechat :
+        return MalaAppURLScheme.Wechat.rawValue
+    }
+}

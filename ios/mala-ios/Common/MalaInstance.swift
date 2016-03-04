@@ -22,3 +22,6 @@ var MalaOrderObject: OrderForm = OrderForm()
 var ServiceResponseOrder: OrderForm = OrderForm()
 /// 用户拥有优惠券数据模型数组
 var MalaUserCoupons: [CouponModel] = []
+
+/// 支付页面控制器，用于APPDelegate处理回调
+weak var MalaPaymentController: PaymentViewController?

@@ -53,16 +53,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    
+    // MARK: - openURL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
-            println("result: \(result), error: \(error)")
+            println("application result: \(result), error: \(error)")
         }
         return canHandleURL
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        // 微信,支付宝 回调
         let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
-            println("result: \(result), error: \(error)")
+            // 处理Ping++回调
+            let handler = HandlePingppBehaviour()
+            handler.handleResult(result, error: error, currentViewController: MalaPaymentController)
         }
         return canHandleURL
     }

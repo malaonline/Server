@@ -33,6 +33,15 @@ enum MalaPaymentChannel: String {
     case Alipay = "alipay"
 }
 
+///  跳转URLScheme
+///
+///  - Wechat: 微信
+///  - Alipay: 支付宝
+enum MalaAppURLScheme: String {
+    case Wechat = "wx"
+    case Alipay = "malalaoshitoalipay"
+}
+
 ///  订单状态
 ///
 ///  - Penging:  待付款

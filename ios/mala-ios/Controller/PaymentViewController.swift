@@ -120,17 +120,15 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     }
     
     func createPayment(charge: JSONDictionary) {
+        MalaPaymentController = self
+        
         ///  调用Ping++开始支付
         Pingpp.createPayment(charge,
             viewController: self,
-            appURLScheme: MalaOrderObject.channel.rawValue) { (result, error) -> Void in
-                if result == "success" {
-                    // 支付成功
-                    println("支付成功")
-                }else {
-                    // 支付失败或取消
-                    println("支付失败或取消")
-                }
+            appURLScheme: getURLScheme(MalaOrderObject.channel)) { (result, error) -> Void in
+                // 处理Ping++回调
+                let handler = HandlePingppBehaviour()
+                handler.handleResult(result, error: error, currentViewController: self)
         }
     }
 }
