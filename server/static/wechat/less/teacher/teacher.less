@@ -1,0 +1,139 @@
+@import "../../../common/less/weui/base/reset";
+
+// icon font
+@import "../../../common/less/weui/icon/weui_icon_font";
+
+
+// button
+@import "../../../common/less/weui/widget/weui_button/weui_button";
+
+// cell
+@import "../../../common/less/weui/widget/weui_cell/weui_cell_global";
+
+@import "../../../common/less/weui/widget/weui_cell/weui_access";
+@import "../../../common/less/weui/widget/weui_cell/weui_check";
+@import "../../../common/less/weui/widget/weui_cell/weui_form";
+@import "../../../common/less/weui/widget/weui_cell/weui_switch";
+@import "../../../common/less/weui/widget/weui_cell/weui_uploader";
+
+// msg
+@import "../../../common/less/weui/widget/weui_page/weui_msg";
+
+// article
+@import "../../../common/less/weui/widget/weui_page/weui_article";
+
+// tab
+@import "../../../common/less/weui/widget/weui_tab/weui_tab";
+
+// progress
+@import "../../../common/less/weui/widget/weui_progress/weui_progress";
+
+// card
+@import "../../../common/less/weui/widget/weui_panel/weui_panel";
+
+// media box
+@import "../../../common/less/weui/widget/weui_media_box/weui_media_box";
+
+// grid
+@import "../../../common/less/weui/widget/weui_grid/weui_grid";
+
+// tips
+@import "../../../common/less/weui/widget/weui_tips/weui_dialog";
+@import "../../../common/less/weui/widget/weui_tips/weui_toast";
+@import "../../../common/less/weui/widget/weui_tips/weui_mask";
+
+//action sheet
+@import "../../../common/less/weui/widget/weui_tips/weui_actionsheet";
+
+//searchbar
+@import "../../../common/less/weui/widget/weui_searchbar/weui_searchbar";
+
+body{
+  background-color: #ededed;
+}
+.weui_tab_bd {
+    box-sizing: border-box;
+    height: 100%;
+    padding-bottom: 70px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.weui_tabbar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #f7f7fa;
+}
+.container, .page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.weui_tabbar{
+  a{
+    width: 100%;
+    margin: 10px;
+  }
+}
+.teacher_head_img{
+  img{
+    width: 100%;
+    height: 220px;
+    background-color: #CCBBBB;
+  }
+}
+.teacher_avatar{
+  width: 100px;
+  height: 100px;
+  border-radius: 70px;
+  margin-left: 20px;
+  margin-top: -90px;
+}
+.teacher_name{
+  float: right;
+  width: 100%;
+  >div{
+    margin-left: 140px;
+  }
+}
+.weui_panel{
+  border-bottom: solid 1px #e6e0e0;
+}
+.teacher_panel{
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  .weui_cell_ft{
+    float: right;
+  }
+}
+.teacher_highscore{
+  width: 100%;
+  border-spacing: 0;
+  td{
+    border-bottom: solid 1px;
+    height: 45px;
+    text-align: center;
+  }
+}
+.teacher_images{
+  height: 142px;
+  line-height: 158px;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-top: 10px;
+  img{
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+  }
+}

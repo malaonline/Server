@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        老师详情
+    </title>
+    {% load staticfiles%}
+    {% load compile_static %}
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}">
+</head>
+<body>
+<div class="container js_container">
+<div class="page">
+    <div class="bd" style="height: 100%;">
+        <div class="weui_tab">
+            <div class="weui_tab_bd">
+                <div class="weui_panel weui_panel_access">
+                    <div class="teacher_head_img">
+                        <img src="" />
+                    </div>
+                    <div class="teacher_name">
+                        <div>{{teacher.name}}</div>
+                        <div>{{gender}} 教龄{{teacher.teaching_age}}年</div>
+                    </div>
+                    <img class="teacher_avatar" src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        教授年级
+                    </div>
+                    <div>
+                        <div>小学一年级</div>
+                        <div>初中一年级 初中二年级 初中三年级</div>
+                        <div>高中一年级 高中二年级</div>
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        风格标签
+                    </div>
+                    <div>
+                        {%for tg in tags%}
+                            {{tg.name}}
+                        {%endfor%}
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        提分榜
+                    </div>
+                    <div>
+                        <table class="teacher_highscore">
+                            <tr>
+                                <th>姓&nbsp;&nbsp;&nbsp;名</th>
+                                <th>提分区间</th>
+                                <th>所在学校</th>
+                                <th>考入学校</th>
+                            </tr>
+                            <tr>
+                                <td>高晓明</td>
+                                <td>122</td>
+                                <td>洛阳一种</td>
+                                <td>清华大学</td>
+                            </tr>
+                            <tr>
+                                <td>诸葛亮</td>
+                                <td>33</td>
+                                <td>南阳小学</td>
+                                <td>北京大学</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel weui_cells_access">
+                    <div>
+                        个人相册
+                        <span class="weui_cell_ft"></span>
+                    </div>
+                    <div class="teacher_images">
+                        <img src="http://img4.cache.netease.com/photo/0001/2016-03-03/BH8FI64B00AN0001.jpg">
+                        <img src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
+                        <img src="http://img4.cache.netease.com/photo/0001/2016-03-03/BH8FI64B00AN0001.jpg">
+                        <img src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
+                        <img src="">
+                        <img src="">
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        特殊成就
+                    </div>
+                    <div>
+                        {%for am in achievements%}
+                            {{am.title}}
+                        {%endfor%}
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        教学环境
+                    </div>
+                    <div>
+                        其他社区中心
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        会员服务
+                    </div>
+                    <div>
+                        {%for mb in memberService%}
+                            {{mb.name}}
+                        {%endfor%}
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel">
+                    <div>
+                        教龄  级别
+                    </div>
+                    <div>
+                        {{teacher.teaching_age}}年 {%if teacher and teacher.level%}{{teacher.level.name}}{%endif%}
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <div class="weui_tabbar">
+                <a href="javascript:;" class="weui_btn weui_btn_primary">马上报名</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="toast" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        请输入正确手机号
+    </div>
+</div>
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script src="{% static 'wechat/js/teacher/teacher.js' %}"></script>
+
+</body>
+</html>

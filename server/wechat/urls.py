@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^teachers/detail/(?P<id>[0-9]+)/$', views.TeacherDetailView.as_view(), name="teacher-detail"),
     url(r'^send_template_ms/$', views.send_template_msg, name="send_template_msg"),
     url(r'^order/course_choosing/(?P<teacher_id>[0-9]+)/$', views.CourseChoosingView.as_view(), name="order-course-choosing"),
+    url(r'^teacher/$', views.teacher_view, name="teacher"),
 ]

@@ -318,3 +318,38 @@ def template_msg_data_pay_info(request):
             }
         }
     }
+
+
+@csrf_exempt
+def teacher_view(request):
+    template_name = 'wechat/teacher/teacher.html'
+    openid = request.GET.get("openid", None)
+    if not openid:
+        openid = request.POST.get("openid", None)
+
+    teacherid = request.GET.get("teacherid", None)
+    if not teacherid:
+        teacherid = request.POST.get("teacherid", None)
+
+    teacher = []
+    gender = None
+    try:
+        teacher = models.Teacher.objects.get(id=teacherid)
+        profile = models.Profile.objects.get(user=teacher.user)
+
+        gender_dict = {"f": "女", "m": "男", "u": ""}
+        gender = gender_dict.get(profile.gender, "")
+    except:
+        pass
+
+    memberService = models.Memberservice.objects.all()
+    achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
+    context = {
+        "openid": openid,
+        "gender": gender,
+        "tags": list(teacher.tags.all()),
+        "achievements": achievements,
+        "memberService": list(memberService),
+        "teacher": teacher
+    }
+    return render(request, template_name, context)
