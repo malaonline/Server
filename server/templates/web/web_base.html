@@ -9,6 +9,7 @@
     {% load staticfiles %}
     {% load compile_static %}
 
+    <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{% static 'web/fullpage/jquery.fullPage.min.less'|compile %}">
 
     {% block addition_less %}{% endblock %}
@@ -19,7 +20,7 @@
 	<![endif]-->
     <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://libs.baidu.com/jqueryui/1.9.1/jquery-ui.min.js "></script>
-
+    <script src="{% static 'common/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'web/fullpage/jquery.fullPage.min.js'%}"></script>
 
     {% block addition_js %}{% endblock %}
