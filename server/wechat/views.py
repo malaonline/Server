@@ -47,3 +47,14 @@ class SchoolsView(ListView):
 class SchoolDetailView(ListView):
     models = models.School
 
+
+class CourseChoosingView(TemplateView):
+    template_name = 'wechat/order/course_choosing.html'
+
+    def get_context_data(self, teacher_id=None, **kwargs):
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+        kwargs['teacher'] = teacher
+        kwargs['current_user'] = self.request.user
+        kwargs['first_buy'] = True
+        return super(CourseChoosingView, self).get_context_data(**kwargs)
+

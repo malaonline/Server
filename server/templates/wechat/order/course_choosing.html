@@ -1,0 +1,25 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}课程报名{% endblock %}
+
+{% block addition_header %}
+
+{% endblock %}
+
+{% block content %}
+    是否是第一次购买: {{ first_buy }}
+    <p>
+    {% if current_user.is_anonymous %}未登录{% endif %}
+    </p>
+    <p>
+    亲, '{{ current_user.username }}', 您正在报名'{{ teacher.name }}'老师的课程!
+    </p>
+{% endblock %}
+
+
+
+{% block addition_js %}
+
+{% endblock %}
