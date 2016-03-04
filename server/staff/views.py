@@ -1074,9 +1074,7 @@ class StudentScheduleManageView(BaseStaffView):
         kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.objects.filter(weekday=1)
         # 查询结果数据集
         kwargs['timeslots'] = query_set
-        for one in query_set:
-            print(one)
-            print(one.start.day)
+
         return super(StudentScheduleManageView, self).get_context_data(**kwargs)
 
 
