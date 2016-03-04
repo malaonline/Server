@@ -54,7 +54,31 @@ class CourseChoosingView(TemplateView):
     def get_context_data(self, teacher_id=None, **kwargs):
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         kwargs['teacher'] = teacher
-        kwargs['current_user'] = self.request.user
-        kwargs['first_buy'] = True
+        current_user = self.request.user
+        kwargs['current_user'] = current_user
+        if not current_user.is_anonymous():
+            try:
+                parent = models.Parent.objects.get(user=current_user)
+            except models.Parent.DoesNotExist:
+                parent = None
+            kwargs['parent'] = parent
+        first_buy = True
+        kwargs['first_buy'] = first_buy
+        abilities = teacher.abilities.all()
+        kwargs['abilities'] = abilities
+        prices = teacher.prices()
+        kwargs['prices'] = prices
+        schools = teacher.schools
+        kwargs['schools'] = schools.all()
+        kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
+        # now = timezone.now()
+        # kwargs['server_now'] = now
+
+        # if current_user.parent:
+        #     coupons = models.Coupon.objects.filter(parent=current_user.parent,
+        #         validated_start__lte=now, expired_at__gt=now, used=False
+        #     ).order_by('-amount', 'expired_at')
+        #     kwargs['coupon'] = coupons.first()
+
         return super(CourseChoosingView, self).get_context_data(**kwargs)
 

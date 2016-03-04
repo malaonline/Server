@@ -2,24 +2,181 @@
 
 {% load staticfiles %}
 {% load compile_static %}
-{% block title %}课程报名{% endblock %}
+{% load custom_tags %}
+{% block title %}课程确认{% endblock %}
 
 {% block addition_header %}
-
+    <link rel="stylesheet" href="{% static 'wechat/css/course_choosing.less'|compile %}">
 {% endblock %}
 
 {% block content %}
-    是否是第一次购买: {{ first_buy }}
-    <p>
-    {% if current_user.is_anonymous %}未登录{% endif %}
-    </p>
-    <p>
-    亲, '{{ current_user.username }}', 您正在报名'{{ teacher.name }}'老师的课程!
-    </p>
+    <div class="page slideIn cell" id="courseChoosingContainer">
+        <div class="content">
+            <!--
+            是否是第一次购买: {{ first_buy }}
+            <p>
+            {% if current_user.is_anonymous %}未登录{% else %}已登录{% endif %} |
+            {% if not parent %}不是家长{% else %}是家长{% endif %}
+            </p>
+            <p>
+            亲, '{{ current_user.username }}', 您正在报名'{{ teacher.name }}'老师的课程!
+            </p>
+            -->
+{#          选择授课年级#}
+            <div class="weui_panel">
+                <div class="title_row">选择授课年级</div>
+                <div class="m-panel abilities-panel">
+                    {% for ability in abilities %}
+                        <div class="grade-box">
+                            <div class="grade" data-gradeid="{{ ability.grade.id }}">
+                                {{ ability.grade.name }}
+                                {% for price in prices %}
+                                    {% if ability == price.ability %}
+                                        {{ price.price }}/小时
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+{#          选择上课地点#}
+            <div class="weui_panel">
+                <div class="title_row">选择上课地点</div>
+                <div class="weui_cells weui_cells_radio schools-panel">
+{#                    {% for school in schools %}#}
+                        <label class="weui_cell weui_check_label school">
+                            <div class="weui_cell_bd weui_cell_primary school-body">
+                                <div class="school-head">
+                                    <span class="school-name">{{ schools.0.name }}</span>
+                                    <span class="distance">&lt;XXXm</span>
+                                </div>
+                                <div class="address">
+                                    {{ schools.0.address }}
+                                </div>
+                            </div>
+                            <div class="weui_cell_ft icons-area">
+                                <input type="radio" class="weui_check" name="school" id="x11" value="{{ schools.0.id }}">
+                                <i class="yes weui_icon_success"></i>
+                                <i class="no weui_icon_circle"></i>
+                            </div>
+                        </label>
+{#                    {% endfor %}#}
+                    {% if schools|length > 0 %}
+                        <div class="m-row more-schools-hint" id="showMoreSchoolsBtn">
+                            展开查看其它地点<img src="{% static 'wechat/images/down_chevron.png' %}">
+                        </div>
+                        <div class="more-schools" id="moreSchoolsContainer" style="display: none">
+                            {% for school in schools|sub_list:'1:' %}
+                                <label class="weui_cell weui_check_label school">
+                                    <div class="weui_cell_bd weui_cell_primary school-body">
+                                        <div class="school-head">
+                                            <span class="school-name">{{ school.name }}</span>
+                                            <span class="distance">&lt;XXXm</span>
+                                        </div>
+                                        <div class="address">
+                                            {{ school.address }}
+                                        </div>
+                                    </div>
+                                    <div class="weui_cell_ft icons-area">
+                                        <input type="radio" class="weui_check" name="school" id="x11" value="{{ school.id }}">
+                                        <span class="yes weui_icon_success"></span>
+                                        <i class="no weui_icon_circle"></i>
+                                    </div>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+{#          上课时间预览#}
+            <div class="weui_panel">
+                <div class="title_row">选择上课时间</div>
+                <div class="m-panel course-time-panel">
+                    <table border="1" id="weeklyTable">
+                        <thead>
+                            <tr>
+                                <td>时间</td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td><td>周日</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for timeslot in daily_time_slots %}
+                                <tr>
+                                    <td class="hours-col">{{ timeslot.start|date:'H:i' }}<br>{{ timeslot.end|date:'H:i' }}</td>
+                                    {% for day in 7|num_range %}
+                                        <td day="{{ day }}"></td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="flags">
+                        <span class="flag"><span class="rect unavailable"></span>已占</span>
+                        <span class="flag"><span class="rect available"></span>可选</span>
+                        <span class="flag"><span class="rect chosen"></span>已选</span>
+                    </div>
+                </div>
+            </div>
+{#          上课时间预览#}
+            <div class="weui_panel">
+                <div class="title_row">上课时间</div>
+                <div class="m-panel" id="courseTimePreview">
+
+                </div>
+            </div>
+{#          设置小时数,奖学金,测评建档#}
+            <div class="weui_panel no-padding cost-panel">
+                <div class="weui_cells">
+                    <div class="weui_cell adjust-hour-row">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p class="sub-title">选择小时</p>
+                        </div>
+                        <div class="weui_cell_ft" id="adjustHourArea">
+                            <a id="decHoursBtn"><img src="{% static 'wechat/images/minus-icon.png' %}"></a>
+                            <span id="courseHours">0</span>
+                            <a id="incHoursBtn"><img src="{% static 'wechat/images/plus-icon.png' %}"></a>
+                        </div>
+                    </div>
+                    <a class="weui_cell weui_cells_access coupon-row" href="javascript:;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p class="sub-title">新生注册奖学金</p>
+                        </div>
+                        <div class="weui_cell_ft"><span id="discountCost"></span>-￥400</div>
+                    </a>
+                    {% if first_buy %}
+                    <a class="weui_cell weui_cells_access test-row" href="javascript:;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p class="sub-title">测评建档服务</p>
+                        </div>
+                        <div class="weui_cell_ft"><s class="line-through" id="testCost">￥500</s> <span id="realTestCost">￥0</span></div>
+                    </a>
+                    {% endif %}
+                    <div class="weui_cell orig-cost-row" id="origTotalCostRow">
+                        <div class="weui_cell_bd weui_cell_primary">
+                        </div>
+                        <div class="weui_cell_ft">
+                            <span>原价: </span><span class="cost" id="origTotalCost">￥600.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tail-padding"></div>
+
+        </div>
+    </div>
 {% endblock %}
 
 
+{% block footer %}
+    <div class="weui_extra_area pay-action-area">
+        <div class="w50 cost-area">还需支付: <span class="cost" id="realCost">￥200.00</span></div>
+        <div class="w50 action-area">
+            <a href="javascript:;" class="weui_btn weui_btn_disabled weui_btn_warn">确认</a>
+        </div>
+    </div>
+{% endblock %}
+
 
 {% block addition_js %}
-
+    <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
 {% endblock %}

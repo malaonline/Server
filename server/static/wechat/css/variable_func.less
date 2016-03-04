@@ -1,0 +1,49 @@
+
+@titleSize: 15pt;
+@subTitleSize: 14pt;
+@noteSize: 12pt;
+
+@footerHeight: 60px;
+
+@gray: #6c6c6c;
+@grayDark: #333;
+@grayLight: #939393;
+@borderGray: #c9c9c9;
+@titleGray: @grayDark;
+
+@textBlue: #88bcde;
+
+@mainRed: #E36A5D;
+@costRed: #E36A5D;
+
+.title() {
+  font-size: @titleSize;
+  color: @titleGray;
+}
+
+.subTitle() {
+  font-size: @subTitleSize;
+  color: @gray;
+}
+
+.note() {
+  font-size: @noteSize;
+  color: @grayLight;
+}
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
