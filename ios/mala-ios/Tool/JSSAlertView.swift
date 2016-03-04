@@ -17,11 +17,13 @@ class JSSAlertView: UIViewController {
     var containerView:UIView!
     var alertBackgroundView:UIView!
     var dismissButton:UIButton!
+    var separatorLine:UIView!
     var cancelButton:UIButton!
     var buttonLabel:UILabel!
     var cancelButtonLabel:UILabel!
     var titleLabel:UILabel!
     var textView:UITextView!
+    var buttonTextColor:UIColor = UIColorFromHex(0x8FBCDD)
     weak var rootViewController:UIViewController!
     var iconImage:UIImage!
     var iconImageView:UIImageView!
@@ -34,23 +36,23 @@ class JSSAlertView: UIViewController {
     }
     var titleFont = "HelveticaNeue-Light"
     var textFont = "HelveticaNeue"
-    var buttonFont = "HelveticaNeue-Bold"
+    var buttonFont = "HelveticaNeue"
     
     var defaultColor = UIColorFromHex(0xF2F4F4, alpha: 1)
     
     enum TextColorTheme {
         case Dark, Light
     }
-    var darkTextColor = UIColorFromHex(0x000000, alpha: 0.75)
-    var lightTextColor = UIColorFromHex(0xffffff, alpha: 0.9)
+    var darkTextColor = UIColorFromHex(0x939393, alpha: 0.85)
+    var lightTextColor = UIColorFromHex(0x939393, alpha: 1.0)
     
     enum ActionType {
         case Close, Cancel
     }
     
-    let baseHeight:CGFloat = 160.0
-    var alertWidth:CGFloat = 290.0
-    let buttonHeight:CGFloat = 70.0
+    let baseHeight:CGFloat = 187.0
+    var alertWidth:CGFloat = 272.0
+    let buttonHeight:CGFloat = 44.0
     let padding:CGFloat = 20.0
     
     var viewWidth:CGFloat?
@@ -113,10 +115,10 @@ class JSSAlertView: UIViewController {
             }
         case .Button:
             self.buttonFont = fontStr
-            if let font = UIFont(name: self.buttonFont, size: 24) {
+            if let font = UIFont(name: self.buttonFont, size: 15) {
                 self.buttonLabel.font = font
             } else {
-                self.buttonLabel.font = UIFont.systemFontOfSize(24)
+                self.buttonLabel.font = UIFont.systemFontOfSize(15)
             }
         }
         // relayout to account for size changes
@@ -137,10 +139,12 @@ class JSSAlertView: UIViewController {
         if textView != nil {
             textView.textColor = color
         }
+        /*
         buttonLabel.textColor = color
         if cancelButtonLabel != nil {
             cancelButtonLabel.textColor = color
         }
+        */
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -212,12 +216,14 @@ class JSSAlertView: UIViewController {
             self.buttonLabel.frame = CGRect(x: self.padding, y: (self.buttonHeight/2) - 15, width: buttonWidth - (self.padding*2), height: 30)
         }
         
+        self.separatorLine.frame = CGRect(x: 0, y: 0, width: dismissButton.frame.width, height: MalaScreenOnePixel)
+        
         // set button fonts
         if self.buttonLabel != nil {
-            buttonLabel.font = UIFont(name: self.buttonFont, size: 20)
+            buttonLabel.font = UIFont(name: self.buttonFont, size: 15)
         }
         if self.cancelButtonLabel != nil {
-            cancelButtonLabel.font = UIFont(name: self.buttonFont, size: 20)
+            cancelButtonLabel.font = UIFont(name: self.buttonFont, size: 15)
         }
         
         yPos += self.buttonHeight
@@ -251,7 +257,7 @@ class JSSAlertView: UIViewController {
         return alertview
     }
     
-    func show(viewController: UIViewController, title: String, text: String?=nil, buttonText: String?=nil, cancelButtonText: String?=nil, color: UIColor?=nil, iconImage: UIImage?=nil) -> JSSAlertViewResponder {
+    func show(viewController: UIViewController, title: String, text: String?=nil, buttonText: String?=nil, cancelButtonText: String?=nil, color: UIColor?=UIColor.whiteColor(), iconImage: UIImage?=nil) -> JSSAlertViewResponder {
         
         self.rootViewController = viewController.view.window!.rootViewController
         self.rootViewController.addChildViewController(self)
@@ -293,10 +299,10 @@ class JSSAlertView: UIViewController {
         
         // Title
         self.titleLabel = UILabel()
-        titleLabel.textColor = textColor
+        titleLabel.textColor = MalaDetailsCellSubTitleColor
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .Center
-        titleLabel.font = UIFont(name: self.titleFont, size: 24)
+        titleLabel.textAlignment = title.characters.count > 10 ? .Left : .Center
+        titleLabel.font = UIFont(name: self.titleFont, size: 13)
         titleLabel.text = title
         self.containerView.addSubview(titleLabel)
         
@@ -306,8 +312,8 @@ class JSSAlertView: UIViewController {
             self.textView.userInteractionEnabled = false
             textView.editable = false
             textView.textColor = textColor
-            textView.textAlignment = .Center
-            textView.font = UIFont(name: self.textFont, size: 16)
+            // textView.textAlignment = .Center
+            textView.font = UIFont(name: self.textFont, size: 13)
             textView.backgroundColor = UIColor.clearColor()
             textView.text = text
             self.containerView.addSubview(textView)
@@ -315,15 +321,16 @@ class JSSAlertView: UIViewController {
         
         // Button
         self.dismissButton = UIButton()
-        let buttonColor = UIImage.withColor(adjustBrightness(baseColor!, amount: 0.8))
-        let buttonHighlightColor = UIImage.withColor(adjustBrightness(baseColor!, amount: 0.9))
+        let buttonColor = UIImage.withColor(UIColor.whiteColor())
+        let buttonHighlightColor = UIImage.withColor(UIColorFromHex(0xF8F8F8))
         dismissButton.setBackgroundImage(buttonColor, forState: .Normal)
         dismissButton.setBackgroundImage(buttonHighlightColor, forState: .Highlighted)
         dismissButton.addTarget(self, action: "buttonTap", forControlEvents: .TouchUpInside)
         alertBackgroundView!.addSubview(dismissButton)
+        
         // Button text
         self.buttonLabel = UILabel()
-        buttonLabel.textColor = textColor
+        buttonLabel.textColor = buttonTextColor
         buttonLabel.numberOfLines = 1
         buttonLabel.textAlignment = .Center
         if let text = buttonText {
@@ -332,6 +339,10 @@ class JSSAlertView: UIViewController {
             buttonLabel.text = "OK"
         }
         dismissButton.addSubview(buttonLabel)
+        self.separatorLine = UIView()
+        separatorLine.backgroundColor = UIColorFromHex(0x8FBCDD)
+        dismissButton.addSubview(separatorLine)
+        
         
         // Second cancel button
         if let btnText = cancelButtonText {
@@ -345,7 +356,7 @@ class JSSAlertView: UIViewController {
             // Button text
             self.cancelButtonLabel = UILabel()
             cancelButtonLabel.alpha = 0.7
-            cancelButtonLabel.textColor = textColor
+            cancelButtonLabel.textColor = buttonTextColor
             cancelButtonLabel.numberOfLines = 1
             cancelButtonLabel.textAlignment = .Center
             if let text = cancelButtonText {

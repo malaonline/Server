@@ -93,7 +93,7 @@ class HomeViewController: UIViewController {
                 imageName: "location_normal",
                 highlightImageName: "location_press",
                 target: self,
-                action: "locationButtonDidClick"
+                action: "profileButtonDidClick"
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -162,12 +162,11 @@ class HomeViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }
     
-//    @objc private func profileButtonDidClick() {
-//        self.navigationController?.presentViewController(
-//            UINavigationController(rootViewController: LoginViewController()),
-//            animated: true,
-//            completion: { () -> Void in
-//            
-//        })
-//    }
+    @objc private func profileButtonDidClick() {
+        _ = JSSAlertView().show(self,
+            title: "目前只支持洛阳，其他地区正在拓展中...",
+            buttonText: "我知道了",
+            iconImage: UIImage(named: "alert_Position")
+        )
+    }
 }
