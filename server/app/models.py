@@ -1509,3 +1509,10 @@ class Checkcode(BaseModel):
             # if settings.FAKE_SMS_SERVER is True:
             #     msg[0] = "测试期间,短信验证码默认为 1111"
             return msg.get(code, "未知情况{code}".format(code=code))
+
+class WeiXinToken(BaseModel):
+    token = models.CharField(max_length=600, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.token
