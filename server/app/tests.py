@@ -314,6 +314,9 @@ class TestApi(TestCase):
                                 data=json_data)
         self.assertEqual(200, response.status_code)
 
+        order = Order.objects.get(pk=pk)
+        self.assertEqual(order.status, 'p')
+
     def test_create_comment(self):
         username = "parent0"
         password = "123123"
