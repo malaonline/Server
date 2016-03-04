@@ -57,11 +57,16 @@ class Policy(generics.RetrieveAPIView):
 
 
 class ChargeSucceeded(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Sms, self).dispatch(request, *args, **kwargs)
+
     def post(self, request):
         logging.info(request.body)
 
         body = request.body.encode('utf-8')
         sig = request.META.get('x-pingplusplus-signature').encode('utf-8')
+        logging.info(sig)
         pub_key = settings.PINGPP_PUB_KEY
         if not verify_sig(body, sig, pub_key):
             raise PermissionDenied()
