@@ -373,7 +373,7 @@ class JSSAlertView: UIViewController {
         })
         self.containerView.frame.origin.x = self.view.center.x
         self.containerView.center.y = -500
-        UIView.animateWithDuration(0.5, delay: 0.05, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: [], animations: {
+        UIView.animateWithDuration(0.5, delay: 0.05, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: [], animations: {
             self.containerView.center = self.view.center
             }, completion: { finished in
                 

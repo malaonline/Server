@@ -14,8 +14,12 @@ class HandlePingppBehaviour: NSObject {
     func handleResult(result: String, error: PingppError?, currentViewController: UIViewController?) {
         
         guard currentViewController != nil else {
-            println("handlePing++Result - controller==nil")
+            println("HandlePingppBehaviour - 控制器为空")
             return
+        }
+        
+        func popToRootViewController() {
+            currentViewController?.navigationController?.popToRootViewControllerAnimated(true)
         }
         
         // result : success, fail, cancel, invalid
@@ -25,15 +29,37 @@ class HandlePingppBehaviour: NSObject {
             println("PingppError: code=\(error!.code), msg=\(error!.getMsg())")
         }
         
-        if result == "success" {
-            println("HandlePingpp - success")
+        
+        switch result {
+        case "success":
+            let alert = JSSAlertView().show(currentViewController!,
+                title: "恭喜您已支付成功！",
+                buttonText: "知道了",
+                iconImage: UIImage(named: "alert_PaymentSuccess")
+            )
+            alert.addAction(popToRootViewController)
             
-        }else if result == "cancel" {
-            println("HandlePingpp - cancel")
+        case "cancel":
+            let alert = JSSAlertView().show(currentViewController!,
+                title: "支付已取消",
+                buttonText: "我知道了",
+                iconImage: UIImage(named: "alert_PaymentFail")
+            )
+            alert.addAction(popToRootViewController)
             
-        }else if result == "fail" {
-            println("HandlePingpp - fail")
             
+        case "fail":
+            let alert = JSSAlertView().show(currentViewController!,
+                title: "支付失败，请重试！",
+                buttonText: "刷新",
+                iconImage: UIImage(named: "alert_PaymentFail")
+            )
+            alert.addAction(popToRootViewController)
+            
+        default:
+            
+            println("无法解析支付结果")
+            break
         }
     }
 }
