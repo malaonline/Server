@@ -42,10 +42,12 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
+import com.malalaoshi.android.usercenter.SmsAuthActivity;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
+import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
@@ -639,6 +641,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 mSchoolAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    private void signUp() {
+        //判断是否登录
+        Intent intent = new Intent();
+        if (MalaApplication.getInstance().isLogin()){
+            //跳转至报名页
+        }else{
+            //跳转登录页
+            intent.setClass(this, SmsAuthActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     //设置上滑头像消失
