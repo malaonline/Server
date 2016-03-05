@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.conf import settings
 
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
@@ -562,12 +563,14 @@ class ParentBasedMixin(object):
     def get_parent(self):
         try:
             parent = self.request.user.parent
-        except exceptions.ObjectDoesNotExist:
+        except (AttributeError, exceptions.ObjectDoesNotExist):
             raise PermissionDenied(detail='Role incorrect')
         return parent
 
 
-class SubjectRecord(ParentBasedMixin, View):
+class SubjectRecord(ParentBasedMixin, APIView):
+    queryset = models.Order.objects.all()
+
     def get(self, request, subject_id):
         subject = get_object_or_404(models.Subject, pk=subject_id)
         parent = self.get_parent()
