@@ -74,7 +74,7 @@ let MalaCommonString_EvaluationFiling = "测评建档服务"
 let MalaProportion_HomeCellWidthWithScreenWidth: CGFloat = 0.47
 let MalaProportion_HomeCellMarginWithScreenWidth: CGFloat = 0.02
 let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
-let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
+let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 1
 
 
 // MARK: - Common layout
@@ -118,7 +118,7 @@ let MalaLayout_DetailHeaderLayerHeight: CGFloat = MalaLayout_DetailHeaderHeight 
 let MalaLayout_DetailHeaderHeight: CGFloat = 146.0
 let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
 let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
-let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - (MalaLayout_Margin_5*3))/3
+let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - (MalaLayout_Margin_5*2))/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
 let MalaLayout_DetailPriceTableViewCellHeight: CGFloat = 71.0
 let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 110.0
