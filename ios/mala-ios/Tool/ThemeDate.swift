@@ -31,6 +31,8 @@ class ThemeDate {
         var classPeriod = period
         /// 当前Date对象
         let today = NSDate()
+        /// 推迟周数
+        var postpone = 0
         
         
         // 过滤出本周可上课的时间对象（星期数大于今天）
@@ -45,6 +47,9 @@ class ThemeDate {
             if id >= (weekdayInt(today)+intervals) {
                 classArrayInThisWeek.append(model)
                 modelArray.removeAtIndex(modelArray.indexOf(model)!)
+            }else {
+                // 加上间隔时间后推迟到下周的课程，推迟周数+1
+                postpone++
             }
         }
         // 将本周即可上课的日期字符串，添加到[上课时间表]中
@@ -71,7 +76,11 @@ class ThemeDate {
             let model = sortDays[index]
             var date = MalaWeekdays[model.id].dateInThisWeek()
             // 获取到对应的本周日期后，加上对应的周数即为上课时间。
-            date = date.dateByAddingWeeks(1*weeks)
+            if postpone != 0 && (model.id == 1 || model.id == 2){
+                date = date.dateByAddingWeeks(2*weeks)
+            }else {
+                date = date.dateByAddingWeeks(1*weeks)
+            }
             var dateString = date.formattedDateWithFormat("YYYY/MM/dd")
             // dateString = dateString + String(format: " ( %@-%@ ) ", model.start!, model.end!)
             dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.id], model.start!, model.end!)
