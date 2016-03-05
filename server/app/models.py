@@ -1355,6 +1355,33 @@ class TimeSlot(BaseModel):
         self.save()
         return
 
+    def reschedule_for_suspend(self, user):
+        # todo: 应该在后端也校验是否在可停课范围
+        # 如果是已调课后的, 先获取原始课程
+        old_timeslot = self.transferred_from if self.transferred_from is not None else self
+        # 得到最后一个 weekday 和 start,end 的 time 相同的 slot
+        time_slots = TimeSlot.objects.filter(order=old_timeslot.order).order_by('-start')
+        last_slot = None
+        for one in time_slots:
+            if one.start.time() == old_timeslot.start.time() and one.start.weekday() == old_timeslot.start.weekday():
+                last_slot = one
+                break
+
+        if last_slot is None:
+            raise TimeSlotConflict()
+
+        # 创建一个新的slot, 时间为上面得到的 last + 7 天
+        new_timeslot = TimeSlot(
+            order=last_slot.order,
+            start=last_slot.start + datetime.timedelta(days=7),
+            end=last_slot.end + datetime.timedelta(days=7),
+            last_updated_by=user
+        )
+        new_timeslot.save()
+        # 把老的课程停掉
+        old_timeslot.last_updated_by = user
+        old_timeslot.suspend()
+
 
 class Message(BaseModel):
     SYSTEM = 's'
