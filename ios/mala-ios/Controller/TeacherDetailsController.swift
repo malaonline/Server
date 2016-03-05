@@ -348,7 +348,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         case 6:
             let cell = reuseCell as! TeacherDetailsVipServiceCell
             cell.labels = self.memberServiceArray.map({ (model) -> String in
-                return model.detail ?? ""
+                return model.name ?? ""
             })
             return cell
             

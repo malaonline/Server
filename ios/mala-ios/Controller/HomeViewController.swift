@@ -21,6 +21,8 @@ class HomeViewController: UIViewController {
     private lazy var tableView: TeacherTableView = {
         let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
         tableView.controller = self
+        // 底部Tabbar留白
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 0)
         return tableView
     }()
     
