@@ -58,7 +58,7 @@ public class NetworkSender {
             }
         }) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            public Map<String, String> getHeaders() throws AuthFailureError {
                 return params;
             }
         };
@@ -98,13 +98,17 @@ public class NetworkSender {
         stringRequest(Request.Method.GET, url, params, listener);
     }
 
+    private static String getToken() {
+        return Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken();
+    }
+
     public static void getUserProtocol(NetworkListener listener) {
         getStringRequest(URL_GET_USER_POLICY, new HashMap<String, String>(), listener);
     }
 
     public static void saveChildName(JSONObject params, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        headers.put(Constants.AUTH, getToken());
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
         //TODO tianwei Waiting for sms verification api to get parentId
         String parentId = MalaApplication.getInstance().getParentId();
@@ -113,12 +117,13 @@ public class NetworkSender {
 
     public static void getCouponList(NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
         stringRequest(Request.Method.GET, URL_COUPON_LIST, headers, listener);
     }
 
     public static void createCourseOrder(JSONObject json, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        headers.put(Constants.AUTH, getToken());
         postJsonRequest(URL_CREATE_COURSE_ORDER, headers, json, listener);
     }
 
@@ -135,7 +140,7 @@ public class NetworkSender {
         }
         String url = URL_CREATE_COURSE_ORDER + "/" + orderId;
         Map<String, String> headers = new HashMap<>();
-        headers.put(Constants.AUTH, Constants.CAP_TOKEN + " " + MalaApplication.getInstance().getToken());
+        headers.put(Constants.AUTH, getToken());
         jsonRequest(Request.Method.PATCH, url, headers, json, listener);
     }
 }

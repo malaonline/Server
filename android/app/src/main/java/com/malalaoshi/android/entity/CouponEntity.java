@@ -11,15 +11,15 @@ public class CouponEntity {
     boolean used;
     String description;
     String id;
-    String userType;
+    String useType;
     boolean check;
 
-    public String getUserType() {
-        return userType;
+    public String getUseType() {
+        return useType;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUseType(String userType) {
+        this.useType = userType;
     }
 
     public boolean isCheck() {

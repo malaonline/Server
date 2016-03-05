@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.malalaoshi.android.view.TitleBarView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.malalaoshi.android.view.TitleBarView>
+        android:layout_height="wrap_content"
+        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftShow="true"
+        app:cusTitleText="@string/scholarship"
+        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextSize="@dimen/text_size_xlarge"/>
+
     <View
         android:layout_width="match_parent"
-        android:background="#b4b4b4"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#b4b4b4" />
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"

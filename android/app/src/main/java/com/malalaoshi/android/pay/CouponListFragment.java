@@ -3,7 +3,7 @@ package com.malalaoshi.android.pay;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
 import com.malalaoshi.android.entity.CouponEntity;
+import com.malalaoshi.android.entity.ScholarshipResult;
 import com.malalaoshi.android.event.ChoiceCouponEvent;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -70,7 +72,7 @@ public class CouponListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CouponEntity entity = (CouponEntity) adapter.getItem(position);
-                if (entity == null && entity.isUsed() ||
+                if (entity == null || entity.isUsed() ||
                         entity.getExpired_at() < System.currentTimeMillis()) {
                     return;
                 }
@@ -78,7 +80,7 @@ public class CouponListFragment extends Fragment {
                 adapter.setCheck(position);
             }
         });
-        fakeData();
+        fetchData();
         return view;
     }
 
@@ -91,14 +93,40 @@ public class CouponListFragment extends Fragment {
         NetworkSender.getCouponList(new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                Log.i("AABB", json.toString());
+                parseData(json.toString());
             }
 
             @Override
             public void onFailed(VolleyError error) {
-                Log.i("AABB", error.toString());
             }
         });
+    }
+
+    private void parseData(String jsonStr) {
+        if (TextUtils.isEmpty(jsonStr)) {
+            return;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ScholarshipResult result = mapper.readValue(jsonStr, ScholarshipResult.class);
+            List<CouponEntity> entities = new ArrayList<>();
+            for (ScholarshipResult.ScholarshipEntity entity : result.getResults()) {
+                CouponEntity coupon = new CouponEntity();
+                coupon.setCheck(false);
+                coupon.setUsed(entity.isUsed());
+                coupon.setName(entity.getName());
+                coupon.setDescription("");
+                coupon.setUseType("线上使用");
+                coupon.setAmount(entity.getAmount() + "");
+                coupon.setExpired_at(entity.getExpired_at() * 1000);
+                coupon.setId(entity.getId() + "");
+                entities.add(coupon);
+            }
+            adapter.addAll(entities);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fakeData() {
@@ -189,7 +217,7 @@ public class CouponListFragment extends Fragment {
             holder.conditionView.setText(data.getDescription());
             holder.expireView.setText(MiscUtil.formatDate(data.getExpired_at()));
             holder.titleView.setText(data.getName());
-            holder.useTypeView.setText(data.getUserType());
+            holder.useTypeView.setText(data.getUseType());
             holder.choiceView.setVisibility(data.isCheck() ? View.VISIBLE : View.GONE);
         }
 

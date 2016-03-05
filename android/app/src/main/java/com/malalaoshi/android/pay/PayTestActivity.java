@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Pay test activity
+ * 这个Activity是用来测试支付与优惠券功能，不是正式UI
  * Created by tianwei on 2/27/16.
  */
 public class PayTestActivity extends BaseActivity implements View.OnClickListener {
@@ -28,6 +28,9 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
     protected TextView payView;
     @Bind(R.id.btn_login)
     protected TextView loginView;
+
+    @Bind(R.id.btn_coupong)
+    protected TextView couponView;
 
     @Bind(R.id.tv_message)
     protected TextView messageView;
@@ -42,6 +45,7 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
         createOrderView.setOnClickListener(this);
         payView.setOnClickListener(this);
         loginView.setOnClickListener(this);
+        couponView.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +57,8 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
         } else if (v.getId() == R.id.btn_login) {
             Intent intent = new Intent(this, SmsAuthActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.btn_coupong) {
+            startActivity(new Intent(this, CouponActivity.class));
         }
     }
 

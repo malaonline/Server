@@ -24,7 +24,7 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
 
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
-    //The coupen that is chose current.
+    //The coupon that is chose currently.
     private CouponEntity couponEntity;
 
     @Override
