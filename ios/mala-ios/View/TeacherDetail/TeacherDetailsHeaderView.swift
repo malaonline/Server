@@ -39,10 +39,16 @@ class TeacherDetailsHeaderView: UIView {
             }
         }
     }
-    /// 教师教龄
-    var teachingAge: Int = 0 {
+    /// 最小价格
+    var minPrice: Int = 0 {
         didSet{
-            self.teachingAgeLabel.text = String(format: "教龄%d年", teachingAge)
+            self.priceLabel.text = String(format: "%d-%d元/小时", minPrice, maxPrice)
+        }
+    }
+    /// 最大价格
+    var maxPrice: Int = 0 {
+        didSet{
+            self.priceLabel.text = String(format: "%d-%d元/小时", minPrice, maxPrice)
         }
     }
     
@@ -86,8 +92,8 @@ class TeacherDetailsHeaderView: UIView {
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return label
     }()
-    /// 老师教龄label
-    private lazy var teachingAgeLabel: UILabel = {
+    /// 价格label
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaDetailsCellSubTitleColor
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
@@ -117,7 +123,7 @@ class TeacherDetailsHeaderView: UIView {
         self.contentView.addSubview(vipIconView)
         self.contentView.addSubview(nameLabel)
         self.contentView.addSubview(genderLabel)
-        self.contentView.addSubview(teachingAgeLabel)
+        self.contentView.addSubview(priceLabel)
         
         // Autolayout
         contentView.snp_makeConstraints(closure: { (make) -> Void in
@@ -150,7 +156,7 @@ class TeacherDetailsHeaderView: UIView {
             make.width.equalTo(MalaLayout_FontSize_12)
             make.height.equalTo(MalaLayout_FontSize_12)
         })
-        teachingAgeLabel.snp_makeConstraints(closure: { (make) -> Void in
+        priceLabel.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_8)
             make.left.equalTo(self.genderLabel.snp_right).offset(MalaLayout_Margin_12)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)

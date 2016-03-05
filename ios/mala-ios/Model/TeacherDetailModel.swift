@@ -23,6 +23,8 @@ class TeacherDetailModel: BaseObjectModel {
     var achievement_set: [AchievementModel?] = []
     var highscore_set: [HighScoreModel?] = []
     var prices: [GradePriceModel?] = []
+    var min_price: Int = 0
+    var max_price: Int = 0
     
     
     // MARK: - Constructed
@@ -81,7 +83,8 @@ class TeacherDetailModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["avatar", "gender", "degree", "teaching_age", "level", "subject", "grades", "tags", "photo_set", "achievement_set", "highscore_set", "prices"]
+        let keys = ["avatar", "gender", "degree", "teaching_age", "level", "subject", "grades", "tags",
+            "photo_set", "achievement_set", "highscore_set", "prices", "min_price", "max_price"]
         return super.description + dictionaryWithValuesForKeys(keys).description
     }
 }

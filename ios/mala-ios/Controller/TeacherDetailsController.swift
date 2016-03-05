@@ -28,7 +28,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             self.tableHeaderView.avatar = model!.avatar ?? ""
             self.tableHeaderView.name = model!.name ?? "----"
             self.tableHeaderView.gender = model!.gender ?? "m"
-            self.tableHeaderView.teachingAge = model!.teaching_age ?? 0
+            self.tableHeaderView.minPrice = model!.min_price ?? 0
+            self.tableHeaderView.maxPrice = model!.max_price ?? 0
             self.tableView.reloadData()
         }
     }
@@ -61,7 +62,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableHeaderView.avatar = ""
         tableHeaderView.name = "----"
         tableHeaderView.gender = "m"
-        tableHeaderView.teachingAge = 0
         return tableHeaderView
     }()
     /// 顶部背景图
