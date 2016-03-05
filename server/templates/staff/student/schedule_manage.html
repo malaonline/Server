@@ -48,9 +48,9 @@
 
         <p>
 
-        <table align="center" border="1" cellspacing="0">
-            <tr>
-                <th class="text-center" width="200"></th>
+        <table align="center" border="1" cellspacing="0" class="table-striped">
+            <tr >
+                <th class="text-center"></th>
                 {% for weekday_dict in weekdays %}
                     <th class="text-center" width="200">
                         {{ weekday_dict.weekday|weekday_format }}
@@ -63,8 +63,10 @@
             </tr>
             {% for one_weekly_slot in weekly_time_slots %}
                 <tr>
-                    <td align="center" width="200">
+                    <td align="center" width="120">
+                        <br/><br/>
                         {{ one_weekly_slot.start|time:"H:i" }}-{{ one_weekly_slot.end|time:"H:i" }}
+                        <br/><br/><br/>
                     </td>
                     {% for weekday_dict in weekdays %}
                         <td align="center" class="form-inline">
@@ -76,12 +78,10 @@
                                         手机：{{ one_slot.order.teacher.user.profile.phone }}<br/>
                                         中心：{{ one_slot.order.school }}<br/>
                                     </div>
-
                                     {% if query_data.week == 0 %}
-                                        <button class="form-control" disabled>调课</button>
-                                        <button class="form-control" disabled>停课</button>
+                                        <input type="button" class="form-control" disabled value="调课"/>
+                                        <input type="button" class="form-control" data-action="suspend-class" tid="{{ one_slot.id }}" value="停课"/>
                                     {% endif %}
-
                                 {% endif %}
                             {% endfor %}
                         </td>

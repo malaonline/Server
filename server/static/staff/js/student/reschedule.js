@@ -21,4 +21,25 @@ $(function() {
         //}
         return true;
     });
+
+    // 停课操作
+    $("[data-action=suspend-class]").click(function(e){
+        if(confirm("确定停课?")) {
+            var timeSlotId = $(this).attr("tid")
+            var params = {'action': 'suspend-class', 'tid': timeSlotId};
+            $.post("/staff/students/schedule/action/", params, function (result) {
+                if (result) {
+                    if (result.ok) {
+                        location.reload();
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(pagedefaultErrMsg);
+            }, 'json').fail(function () {
+                alert(pagedefaultErrMsg);
+            });
+        }
+    });
 });

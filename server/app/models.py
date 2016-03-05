@@ -1349,6 +1349,12 @@ class TimeSlot(BaseModel):
         ah.save()
         return True
 
+    def suspend(self):
+        # 暂时用 deleted 字段表示停课
+        self.deleted = True
+        self.save()
+        return
+
 
 class Message(BaseModel):
     SYSTEM = 's'

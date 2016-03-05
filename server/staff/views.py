@@ -22,6 +22,7 @@ from app.utils import smsUtil
 from app.utils.types import parseInt
 from app.utils.db import paginate
 from .decorators import mala_staff_required, is_manager
+from app.exception import TimeSlotConflict
 
 
 logger = logging.getLogger('app')
@@ -1147,6 +1148,44 @@ class StudentScheduleChangelogView(BaseStaffView):
         return render(request, self.template_name, context)
 
 
+class StudentScheduleActionView(BaseStaffActionView):
+    def post(self, request):
+        action = self.request.POST.get('action')
+        if action == 'suspend-class':
+            return self.suspend_class(request)
+        return HttpResponse("Not supported action.", status=404)
+
+    def suspend_class(self, request):
+        tid = request.POST.get('tid')
+        timeslot = models.TimeSlot.objects.get(id=tid)
+        # todo: 应该在后端也校验是否在可停课范围
+        # 如果是已调课后的, 先获取原始课程
+        old_timeslot = timeslot.transferred_from if timeslot.transferred_from is not None else timeslot
+        # 得到最后一个 weekday 和 start,end 的 time 相同的 slot
+        time_slots = models.TimeSlot.objects.filter(order=old_timeslot.order).order_by('-start')
+        last_slot = None
+        for one in time_slots:
+            if one.start.time() == old_timeslot.start.time() and one.start.weekday() == old_timeslot.start.weekday():
+                last_slot = one
+                break;
+
+        if last_slot is None:
+            raise TimeSlotConflict()
+
+        # 创建一个新的slot, 时间为上面得到的 last + 7 天
+        new_timeslot = models.TimeSlot(
+                    order=last_slot.order,
+                    start=last_slot.start + datetime.timedelta(days=7),
+                    end=last_slot.end + datetime.timedelta(days=7),
+                    last_updated_by=self.request.user
+                )
+        new_timeslot.save()
+        # 把老的课程停掉
+        old_timeslot.last_updated_by = self.request.user
+        old_timeslot.suspend();
+        return JsonResponse({'ok': True})
+
+
 class SchoolsView(BaseStaffView):
     template_name = 'staff/school/schools.html'
 
@@ -1493,6 +1532,8 @@ class OrderRefundActionView(BaseStaffActionView):
         if order.last_refund_record() is not None:
             ok = order.last_refund_record().approve_refund()
             if ok:
+                order.last_refund_record().last_updated_by = self.request.user
+                order.save()
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 
@@ -1502,6 +1543,8 @@ class OrderRefundActionView(BaseStaffActionView):
         if order.last_refund_record() is not None:
             ok = order.last_refund_record().reject_refund()
             if ok:
+                order.last_refund_record().last_updated_by = self.request.user
+                order.save()
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费驳回失败, 请检查订单状态', 'code': 'order_07'})
 
