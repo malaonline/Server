@@ -23,7 +23,7 @@ public class MalaApplication extends Application {
     private static MalaApplication instance;
 
     private RequestQueue mRequestQueue;
-    private String mMalaHost = "http://172.16.0.207:8000";//BuildConfig.API_HOST;
+    private String mMalaHost = BuildConfig.API_HOST;
 
     // 用户信息
     private String token;
@@ -102,6 +102,13 @@ public class MalaApplication extends Application {
     public void setUserId(String userId) {
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putString("userId", userId).commit();
+        //设置tag和别名(在登录和登出处需要添加设置别名)
+        JPushInterface.setAliasAndTags(this, userId, null, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.d(TAG, "status code:" + i + " alias:" + s);
+            }
+        });
         this.userId = userId;
     }
 
@@ -130,6 +137,13 @@ public class MalaApplication extends Application {
         this.token = "";
         SharedPreferences userInfo = getSharedPreferences("userInfo", 0);
         userInfo.edit().putBoolean("isLogin", false).putString("token", "").commit();
+        //JPush清除别名
+        JPushInterface.setAliasAndTags(this,"",null,new TagAliasCallback() {
+            @Override
+            public void gotResult ( int i, String s, Set < String > set){
+                Log.d(TAG, "status code:" + i + " alias:" + s );
+            }
+        });
         return true;
     }
 

@@ -65,8 +65,9 @@ import butterknife.ButterKnife;
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
 
     private static final String TAG = "TeacherDetailActivity";
-
     private static final String EXTRA_TEACHER_ID = "teacherId";
+    private static int REQUEST_CODE_LOGIN = 1000;
+
     //教师id
     private Long mTeacherId;
 
@@ -645,14 +646,35 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void signUp() {
         //判断是否登录
-        Intent intent = new Intent();
-        if (MalaApplication.getInstance().isLogin()){
+        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
             //跳转至报名页
+            startActivity();
         }else{
             //跳转登录页
-            intent.setClass(this, SmsAuthActivity.class);
-            startActivity(intent);
+            startSmsActivityRes();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUEST_CODE_LOGIN){
+            if (resultCode==SmsAuthActivity.RESULT_CODE_LOGIN_SUCCESSED){
+                //跳转到课程购买页
+                startActivity();
+            }
+        }
+    }
+
+    //启动登录页
+    private void startSmsActivityRes(){
+        Intent intent = new Intent();
+        intent.setClass(this, SmsAuthActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_LOGIN);
+    }
+
+    //启动购买课程页
+    private void startActivity(){
 
     }
 

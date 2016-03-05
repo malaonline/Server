@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,6 +25,9 @@ import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.DatePickerController;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
@@ -43,12 +47,6 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
     private DayPickerView calendarView;
     private TextView tvOffDate;
     private LinearLayout llWeek;
-
-    //网络请求消息队列
-    private RequestQueue requestQueue;
-    private String hostUrl;
-    private List<String> requestQueueTags;
-    private static final String COURSES_PATH_V1 = "/api/v1/timeslots";
 
     private CourseListResult courses;
 
@@ -93,14 +91,10 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
         //下载数据
         initDatas();
-
         return v;
     }
 
     private void initDatas() {
-        requestQueueTags = new ArrayList<String>();
-        requestQueue = MalaApplication.getHttpRequestQueue();
-        hostUrl = MalaApplication.getInstance().getMalaHost();
         loadDatas();
     }
 
@@ -138,12 +132,15 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
     //加载数据
     public void loadDatas(){
-        String url = hostUrl + COURSES_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        String token = MalaApplication.getInstance().getToken();
+        if (token==null||token.isEmpty()){
+            return;
+        }
+        NetworkSender.getTimetable(new NetworkListener() {
             @Override
-            public void onResponse(String response) {
-                //courses = JsonUtil.parseStringData(response, CourseListResult.class);
-                courses = JsonUtil.parseData(R.raw.courses, CourseListResult.class, getContext());
+            public void onSucceed(Object json) {
+                courses = JsonUtil.parseStringData(json.toString(), CourseListResult.class);
+                //courses = JsonUtil.parseData(R.raw.courses, CourseListResult.class, getContext());
                 if (courses != null) {
                     updateDatas(courses);
                 } else {
@@ -152,47 +149,21 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
                 }
                 //停止进度条
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailed(VolleyError error) {
                 //dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
                 //停止进度条,数据请求失败
-                {
-                    courses = JsonUtil.parseData(R.raw.courses, CourseListResult.class, getContext());
-                    if (courses != null) {
-                        updateDatas(courses);
-                    } else {
-                        //数据请求失败
-
-                    }
-                    //停止进度条
-                }
 
             }
         });
-        addRequestQueue(jstringRequest, COURSES_PATH_V1);
-    }
-
-    //向请求队列添加请求
-    public void addRequestQueue(StringRequest stringRequest, String requestTag) {
-        requestQueueTags.add(requestTag);
-        stringRequest.setTag(requestTag);
-        requestQueue.add(stringRequest);
-    }
-
-    //取消所有网络请求
-    public void cancelAllRequestQueue() {
-        for (int i = 0; requestQueue != null && i < requestQueueTags.size(); i++) {
-            requestQueue.cancelAll(requestQueueTags.get(i));
-        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         //volley联动,取消请求
-        cancelAllRequestQueue();
     }
 
     private void updateDatas(CourseListResult courses) {

@@ -88,6 +88,8 @@ public class VerifyStudentNameView extends LinearLayout {
                     if (jo.optBoolean(Constants.DONE, false)) {
                         Log.i(TAG, "Set student's name succeed : " + json.toString());
                         MiscUtil.toast(R.string.usercenter_set_student_succeed);
+                        ((SmsAuthActivity) getContext()).setActivityResult(null);
+                        ((SmsAuthActivity) getContext()).finish();
                         return;
                     }
                 } catch (Exception e) {

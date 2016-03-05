@@ -1,6 +1,7 @@
 package com.malalaoshi.android.usercenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class SmsAuthActivity extends Activity implements ViewController {
 
+    public static int RESULT_CODE_LOGIN_SUCCESSED = 200;
     private List<View> views;
 
     @Override
@@ -76,5 +78,9 @@ public class SmsAuthActivity extends Activity implements ViewController {
         if (view != null) {
             setContentView(view);
         }
+    }
+
+    public void setActivityResult(Intent intent){
+        setResult(RESULT_CODE_LOGIN_SUCCESSED,intent);
     }
 }

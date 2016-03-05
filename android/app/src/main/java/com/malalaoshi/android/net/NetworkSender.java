@@ -9,11 +9,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CreateChargeEntity;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +32,10 @@ public class NetworkSender {
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
+    private static final String URL_TEACHER = "/api/v1/teachers";
+    private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
+    private static final String URL_CREATE_TIMES_LOTS = "/api/v1/timeslots";
+    private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -164,6 +170,13 @@ public class NetworkSender {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         jsonRequest(Request.Method.PATCH, url, headers, json, listener);
+    }
+
+    public static void getTimetable(NetworkListener listener) {
+            Map<String, String> headers = new HashMap<>();
+            headers.put(Constants.AUTH, getToken());
+            stringRequest(Request.Method.GET, URL_COUPON_LIST, headers, listener);
+
     }
 
     public static void getSchoolList(NetworkListener listener) {

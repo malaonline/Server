@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,9 @@ import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
+import com.malalaoshi.android.pay.CouponActivity;
+import com.malalaoshi.android.usercenter.SmsAuthActivity;
+import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.JsonUtil;
@@ -64,6 +68,9 @@ public class UserFragment extends Fragment {
     @Bind(R.id.iv_user_avatar)
     protected CircleImageView ivAvatar;
 
+    @Bind(R.id.btn_logout)
+    protected Button btnLogout;
+
     private String userName;
     private BaseEntity userCity;
 
@@ -80,14 +87,16 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
         initDatas();
+        initViews();
         return view;
     }
 
     private void initDatas() {
         requestQueue = MalaApplication.getHttpRequestQueue();
         imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        loadDatas();
-        initViews();
+        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+            loadDatas();
+        }
     }
 
     private void initViews() {
@@ -96,12 +105,20 @@ public class UserFragment extends Fragment {
     }
 
     private void updateUI() {
-        if (mUser !=null){
-            /*tvUserName.setText(mUser.getName());
-            tvStuName.setText(mUser.getName());
-            tvUserCity.setText(mUser.getCity);
-            String string = mUser.getAvatar();
-            imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));*/
+        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+            btnLogout.setVisibility(View.VISIBLE);
+            if (mUser!=null){
+                tvUserName.setText("用户姓名");
+                tvStuName.setText("学生姓名");
+                tvUserCity.setText("所在城市");
+                //String string = mUser.getAvatar();
+                //imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));*/
+            }
+        }else{
+            tvUserName.setText("点击登录");
+            tvStuName.setText("");
+            tvUserCity.setText("");
+            btnLogout.setVisibility(View.GONE);
         }
     }
 
@@ -132,6 +149,7 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.iv_user_avatar)
     public void OnClickUserAvatar(View view){
+        if (checkLogin()==false) return;
         ArrayList<BaseEntity> datas = new ArrayList<>();
         datas.add(new BaseEntity(1L,"拍照"));
         datas.add(new BaseEntity(2L,"相册"));
@@ -188,6 +206,7 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_user_name)
     public void OnClickUserName(View view){
+        if (checkLogin()==false) return;
         if (userName==null){
             userName = "欧阳娜娜";
         }
@@ -199,6 +218,7 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_user_school)
     public void OnClickUserSchool(View view){
+        if (checkLogin()==false) return;
         Intent intent = new Intent(getActivity(), ModifyUserSchoolActivity.class);
         intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_GRADE,"高三");
         intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_SCHOOL, "洛阳中学");
@@ -207,6 +227,7 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_user_city)
     public void OnClickUserCity(View view){
+        if (checkLogin()==false) return;
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
         ArrayList<BaseEntity> datas = new ArrayList<>();
@@ -242,7 +263,9 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_user_schoolship)
      public void OnClickUserSchoolShip(View view){
-
+        if (checkLogin()==false) return;
+        Intent intent = new Intent(getContext(),CouponActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.rl_about_mala)
@@ -252,7 +275,14 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.btn_logout)
     public void OnClickLogout(View view){
-
+        //清除本地登录信息
+        MalaApplication.getInstance().logout();
+        //清除数据
+        mUser = null;
+        //跟新UI
+        updateUI();
+        //跳转到登录页面
+        AuthUtils.redirectLoginActivity(getContext());
     }
 
     @Override
@@ -292,6 +322,15 @@ public class UserFragment extends Fragment {
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
             Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2*width, 2*height, ImageCache.getInstance(MalaApplication.getInstance()));
             ivAvatar.setImageBitmap(bitmap);
+        }
+    }
+
+    private boolean checkLogin(){
+        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+            return true;
+        }else{
+            AuthUtils.redirectLoginActivity(getContext());
+            return false;
         }
     }
 
