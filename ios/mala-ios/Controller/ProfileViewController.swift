@@ -16,16 +16,6 @@ class ProfileViewController: UITableViewController {
 
         println("Profile Did Load")
         println("UserToken is \(MalaUserDefaults.userAccessToken.value)")
-        
-        // 若尚未登陆，弹出登陆页面
-        if !MalaUserDefaults.isLogined {
-            self.navigationController?.presentViewController(
-                UINavigationController(rootViewController: LoginViewController()),
-                animated: true,
-                completion: { () -> Void in
-                    
-            })
-        }
     }
 
     override func didReceiveMemoryWarning() {

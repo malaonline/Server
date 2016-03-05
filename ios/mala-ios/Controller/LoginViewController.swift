@@ -339,10 +339,11 @@ class LoginViewController: UIViewController {
                 self?.codeError.hidden = false
                 self?.codeTextField.text = ""
             }
-        }, completion: { (loginUser) -> Void in
+        }, completion: { [weak self] (loginUser) -> Void in
             ThemeHUD.hideActivityIndicator()
             println("SMS验证成功，用户Token：\(loginUser.accessToken)")
             saveTokenAndUserInfo(loginUser)
+            self?.closeButtonDidClick()
         })
     }
     
