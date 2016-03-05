@@ -277,6 +277,7 @@
 		F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */; };
 		F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
 		F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */; };
+		F45E69D61C8AE05400BD0859 /* ClassScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABB1C8575820051A880 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABA1C8575820051A880 /* ThemeHUD.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
@@ -460,6 +461,7 @@
 		F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaDataCenter.swift; sourceTree = "<group>"; };
 		F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandlePingppBehaviour.swift; sourceTree = "<group>"; };
 		F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@2x.gif"; sourceTree = "<group>"; };
+		F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewController.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABA1C8575820051A880 /* ThemeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHUD.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 				F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */,
 				F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */,
 				F40B53C91C83F9A500C20037 /* PaymentViewController.swift */,
+				F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1290,6 +1293,7 @@
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
+				F45E69D61C8AE05400BD0859 /* ClassScheduleViewController.swift in Sources */,
 				30D4AA001C23DF0C00C5A336 /* HomeViewController.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,

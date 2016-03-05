@@ -37,10 +37,12 @@ class ThemeDate {
         var classArrayInThisWeek: [ClassScheduleDayModel] = []
         for model in modelArray {
             let id = (model.id == 0 ? 7 : model.id)
+            // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
+            let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 0
             // 只有提前三天以上的课程，才会在本周开始授课。
             //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
             //（例如在周四预约了周日的课程，相隔周五、周六两天符合要求，将从本周日开始上课）
-            if id >= (weekdayInt(today)+3) {
+            if id >= (weekdayInt(today)+intervals) {
                 classArrayInThisWeek.append(model)
                 modelArray.removeAtIndex(modelArray.indexOf(model)!)
             }
@@ -85,4 +87,3 @@ class ThemeDate {
         return timeSchedule
     }
 }
-

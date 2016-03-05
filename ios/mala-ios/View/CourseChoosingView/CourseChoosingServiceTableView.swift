@@ -52,7 +52,8 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MalaOtherService.count
+        // 若非首次购课，不显示第二项[建档测评服务]
+        return MalaIsHasBeenEvaluatedThisSubject == true ? MalaOtherService.count : (MalaOtherService.count-1)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

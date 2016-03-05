@@ -164,6 +164,30 @@ func headBlockedCoupons(failureHandler: ((Reason, String?) -> Void)?, completion
     apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
+///  判断用户是否第一次购买此学科的课程
+///
+///  - parameter subjectID:      学科id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func isHasBeenEvaluatedWithSubject(subjectID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+
+    let parse: JSONDictionary -> Bool = { data in
+        if let result = data["evaluated"] as? Bool {
+            // 服务器返回结果为：用户是否已经做过此学科的建档测评，是则代表非首次购买。故取反处理。
+            return !result
+        }
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/subject/\(subjectID)/record", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Teacher
 func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
@@ -257,7 +281,7 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         school = orderInfo["school"] as? Int,
         grade = orderInfo["grade"] as? Int,
         subject = orderInfo["subject"] as? Int,
-        coupon = orderInfo["coupon"] as? Int,
+        // coupon = orderInfo["coupon"] as? Int, // 返回优惠券id暂时无用，返回可能为null值。暂不处理
         hours = orderInfo["hours"] as? Int,
         weekly_time_slots = orderInfo["weekly_time_slots"] as? [Int],
         price = orderInfo["price"] as? Int,
@@ -265,7 +289,7 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         status = orderInfo["status"] as? String,
         order_id = orderInfo["order_id"] as? String {
             return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
-                subject: subject, coupon: coupon, hours: hours, timeSchedule: weekly_time_slots,
+                subject: subject, coupon: nil, hours: hours, timeSchedule: weekly_time_slots,
                 order_id: order_id, parent: parent, total: total, price: price, status: status)
     }
     return nil

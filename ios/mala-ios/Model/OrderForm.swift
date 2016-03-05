@@ -68,15 +68,18 @@ class OrderForm: BaseObjectModel {
     }
     
     func jsonDictionary() -> JSONDictionary {
-        let json: JSONDictionary = [
+        var json: JSONDictionary = [
             "teacher": teacher ?? 0,
             "school": school ?? 0,
             "grade": grade ?? 0,
             "subject": subject ?? 0,
-            "coupon": coupon ?? 0,
             "hours": hours ?? 0,
+            "coupon": coupon ?? 0,
             "weekly_time_slots": weekly_time_slots ?? [],
         ]
+        if coupon == 0 {
+            json["coupon"] = NSNull()
+        }
         return json
     }
 }

@@ -57,6 +57,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         loadSchoolsData()
         loadClassSchedule()
         loadCoupons()
+        loadUserEvaluatedStatus()
         setupNotification()
     }
     
@@ -185,11 +186,26 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
             if let errorMessage = errorMessage {
                 println("CourseChoosingViewController - loadCoupons Error \(errorMessage)")
             }
-            }, completion: { [weak self] (coupons) -> Void in
+        }, completion: { [weak self] (coupons) -> Void in
                 println("优惠券列表 \(coupons)")
                 MalaUserCoupons = coupons
                 self?.selectDefalutCoupon()
             })
+    }
+    
+    private func loadUserEvaluatedStatus() {
+        ///  判断用户是否首次购买此学科课程
+        isHasBeenEvaluatedWithSubject(MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadUserEvaluatedStatus Error \(errorMessage)")
+            }
+        }, completion: { (bool) -> Void in
+                println("用户是否首次购买此学科课程？ \(bool)")
+                MalaIsHasBeenEvaluatedThisSubject = bool
+        })
     }
     
     ///  选择默认奖学金
@@ -339,6 +355,11 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     
     deinit {
         println("choosing Controller deinit")
+        
+        // 还原选课模型
+        MalaIsHasBeenEvaluatedThisSubject = nil
+        
+        // 移除观察者
         for observer in observers {
             NSNotificationCenter.defaultCenter().removeObserver(observer)
             self.observers.removeAtIndex(0)

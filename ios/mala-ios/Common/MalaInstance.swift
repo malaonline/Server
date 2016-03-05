@@ -22,6 +22,9 @@ var MalaOrderObject: OrderForm = OrderForm()
 var ServiceResponseOrder: OrderForm = OrderForm()
 /// 用户拥有优惠券数据模型数组
 var MalaUserCoupons: [CouponModel] = []
+/// 用户是否首次购买该学科课程标记
+/// 进入[课程购买]页面时请求服务端并赋值，退出[课程购买]页面时置空
+var MalaIsHasBeenEvaluatedThisSubject: Bool? = nil
 
 /// 支付页面控制器，用于APPDelegate处理回调
 weak var MalaPaymentController: PaymentViewController?

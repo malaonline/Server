@@ -58,12 +58,14 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
             make.bottom.equalTo(self.contentView.snp_bottom)
             make.height.equalTo(MalaLayout_OtherServiceCellHeight)
         }
+        
+        let otherServiceCount = (MalaIsHasBeenEvaluatedThisSubject == true ? MalaOtherService.count : (MalaOtherService.count-1))
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top)
             make.bottom.equalTo(priceView.snp_top)
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaOtherService.count*Int(MalaLayout_OtherServiceCellHeight))
+            make.height.equalTo(otherServiceCount*Int(MalaLayout_OtherServiceCellHeight))
         }
     }
 }
