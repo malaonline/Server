@@ -3,9 +3,90 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% block addition_less %}
+    <link rel="stylesheet" type="text/css" href="{% static 'web/less/index.less'|compile %}">
     <link rel="stylesheet" type="text/css" href="{% static 'web/less/index_login.less'|compile %}">
 {% endblock %}
+{% block addition_js %}<script src="{% static 'web/js/index_teacher_fullpage.js' %}"></script>{% endblock %}
 {% block body_content %}
+        <div id="fullpage">
+        <div class="section " id="section0">
+            <nav class="nav index-nav">
+                <div class="container">
+                    <img class="logo-normal" src="{% static 'web/images/logo.png' %}" alt="">
+                    <img class="logo-mini" src="{% static 'web/images/logo_mini.png' %}" alt="">
+                    <p class="red">
+                        <a href="{% url 'web:index' %}">我是家长</a> · 成为麻辣老师
+                    </p>
+                </div>
+            </nav>
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <h3>有个性的老师</h3>
+                            <h3>专属你的麻辣老师</h3>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            {% include 'web/index_login.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section1">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-icon" src="{% static 'web/images/money_icon.png' %}" alt="">
+                            <h3>更多收入, 即时课酬</h3>
+                            <p>去中间成本,大幅提高收入,按次计酬,自由支配,让你随心所欲</p>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive" src="{% static 'web/images/pig_illustration.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section2">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive" src="{% static 'web/images/pc_illustration.png' %}" alt="">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-icon" src="{% static 'web/images/clock_icon.png' %}" alt="">
+                            <h3>工作轻松, 时间灵活</h3>
+                            <p>
+                                自由选择上课时间<br>
+                                全方位学习管家服务支持,让你专注教学,轻松从容
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section3">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-icon" src="{% static 'web/images/plane_icon.png' %}" alt="">
+                            <h3>出国深造, 海外畅游</h3>
+                            <p>免费获得海外高级深造机会.工作,学习,娱乐一个都不能少</p>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive" src="{% static 'web/images/globe_illustration.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include 'web/footer.html' %}
+    </div>
 {#{% include 'web/index_login.html' %}#}
 {% endblock %}
 
