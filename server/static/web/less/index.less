@@ -1,10 +1,16 @@
 @logo-red: #eb5055;
+@background-gray: #2f3440;
 
 #fullpage {
   .section {
     color: white;
+    a {
+      text-decoration: none;
+    }
     h3 {
       font-size: 1.7em;
+    }
+    h3,h4 {
       font-weight: 400;
     }
     .index-nav {
@@ -14,13 +20,24 @@
       top: 0;
       height: 150px;
       width: 100%;
-      background-color: #2f3440;
+      background-color: @background-gray;
       .col-xs-4 {
         text-wrap: none;
       }
       img {
         margin: 15px 15px 15px -15px;
         float: left;
+      }
+      .logo-normal {
+          display: none;
+        }
+      @media (min-width: 768px) {
+        .logo-normal {
+          display: block;
+        }
+        .logo-mini {
+          display: none;
+        }
       }
       p {
         color: white;
@@ -57,12 +74,46 @@
   #section2 h3,#section2 p {
     color: #916324;
   }
-  #section4 img {
-    width: 220px;
+  #section4 {
+    img {
+      width: 220px;
+      margin: 2em auto;
+    }
+    .intro .container .row {
+      display: block;
+    }
+  }
+  #section-footer {
+    color: #bbb;
+    .container {
+      .row {
+        display: block;
+        align-items: flex-start;
+        text-align: left;
+        h4 {
+          margin: 30px 0 20px 0;
+        }
+      }
+      .footer-aboutus {
+        margin: 0;
+        padding: 30px 0;
+        .col-md-6.col-xs-12, .col-xs-6 {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+      .footer-copyright {
+        text-align: center;
+        margin: 0px;
+        padding: 20px;
+        border-top: 1px solid lighten(@background-gray,10%);
+        p.copyright {
+          font-size: .8em;
+        }
+      }
+    }
   }
 }
-
-
 
 #fp-nav.right ul li a span {
   background-color: #fff;
