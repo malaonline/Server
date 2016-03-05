@@ -325,7 +325,7 @@ class TestApi(TestCase):
 
     def test_subject_record(self):
         client = Client()
-        username = "parent0"
+        username = "parent1"
         password = "123123"
         client.login(username=username, password=password)
         request_url = "/api/v1/subject/2/record"
