@@ -39,7 +39,7 @@ class CourseChoosingObject: NSObject {
     /// 优惠券
     dynamic var coupon: CouponModel? {
         didSet {
-            println("选用优惠券 \(coupon)")
+            originalPrice = getPrice()
         }
     }
     /// 原价
@@ -62,7 +62,8 @@ class CourseChoosingObject: NSObject {
     func getAmount() -> Int? {
         var amount = MalaCourseChoosingObject.getPrice()
         //  循环其他服务数组，计算折扣、减免
-        for object in MalaServiceObject {
+        //  暂时注释，目前仅有奖学金折扣
+        /* for object in MalaServiceObject {
             switch object.priceHandleType {
             case .Discount:
                 amount = amount - (object.price ?? 0)
@@ -71,7 +72,13 @@ class CourseChoosingObject: NSObject {
                 
                 break
             }
+        } */
+        
+        // 计算其他优惠服务
+        if coupon != nil {
+            amount = amount - (coupon?.amount ?? 0)
         }
+        // 确保需支付金额不小于零
         amount = amount < 0 ? 0 : amount
         return amount
     }

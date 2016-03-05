@@ -80,7 +80,7 @@ class ThemeRefreshView: UIView {
     
     private func setAnimating() {
         if animating {
-            imageView.image = UIImage(named: "refreshImage@3x.gif")
+            imageView.image = (UIScreen.mainScreen().scale == 3 ? UIImage(named: "refreshImage@3x.gif") : UIImage(named: "refreshImage@2x.gif"))
             label.text = "正在加载.."
         }else {
             imageView.image = UIImage(named: "refreshImage")

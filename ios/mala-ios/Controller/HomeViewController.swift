@@ -31,7 +31,8 @@ class HomeViewController: UIViewController {
         
         setupNotification()
         setupUserInterface()
-        loadTeachers()
+        // 开启下拉刷新
+        self.tableView.startPullToRefresh() //loadTeachers()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -112,9 +113,6 @@ class HomeViewController: UIViewController {
     
     private func loadTeachers(filters: [String: AnyObject]? = nil) {
         
-        // 开启下拉刷新
-        self.tableView.startPullToRefresh()
-        
         MalaNetworking.sharedTools.loadTeachers(filters) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
@@ -135,9 +133,6 @@ class HomeViewController: UIViewController {
                 }
             }
             self?.tableView.reloadData()
-            
-            // 结束下拉刷新
-            self?.tableView.stopPullToRefresh()
         }
     }
     

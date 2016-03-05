@@ -83,4 +83,11 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         cell.model = teachers![indexPath.row]
         return cell
     }
+    
+    
+    // MARK: - override
+    override func reloadData() {
+        super.reloadData()
+        self.stopPullToRefresh()
+    }
 }

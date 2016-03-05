@@ -199,7 +199,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         MalaCourseChoosingObject.coupon = coupon
         
         // 将该优惠券模型赋值到[其他服务]数组中，以待显示
-        MalaOtherService[0] = OtherServiceModel(title: coupon?.name, type: .Coupon, price: coupon?.amount, priceHandleType: .Discount, viewController: CouponViewController.self)
+        MalaOtherService[0] = OtherServiceModel(title: (coupon?.name ?? "奖学金"), type: .Coupon, price: coupon?.amount, priceHandleType: .Discount, viewController: CouponViewController.self)
     }
     
     private func setupNotification() {

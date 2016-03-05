@@ -276,6 +276,7 @@
 		F45E69CE1C8821FC00BD0859 /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */; };
 		F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */; };
 		F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
+		F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABB1C8575820051A880 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABA1C8575820051A880 /* ThemeHUD.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
@@ -458,6 +459,7 @@
 		F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFilingServiceController.swift; sourceTree = "<group>"; };
 		F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaDataCenter.swift; sourceTree = "<group>"; };
 		F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandlePingppBehaviour.swift; sourceTree = "<group>"; };
+		F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@2x.gif"; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABA1C8575820051A880 /* ThemeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHUD.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
@@ -643,6 +645,7 @@
 			children = (
 				F4C5C2431C75D35400FB833B /* EvaluationFiling */,
 				F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */,
+				F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */,
 				304135881C23AE6400830C43 /* Assets.xcassets */,
 				304135891C23AE6400830C43 /* LaunchScreen.storyboard */,
 				307788511C2A3D7A007AF6B0 /* FilterCondition.plist */,
@@ -1052,6 +1055,7 @@
 				F4C5C24E1C75D37000FB833B /* EvaluationFiling2@2x.png in Resources */,
 				F4C5C2501C75D37000FB833B /* EvaluationFiling3@2x.png in Resources */,
 				F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */,
+				F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */,
 				F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
