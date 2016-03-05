@@ -35,11 +35,32 @@ public class NetworkSender {
     }
 
     private static void postStringRequest(String url, final Map<String, String> params, final NetworkListener listener) {
-        stringRequest(Request.Method.POST, url, params, listener);
+        url = MalaApplication.getInstance().getMalaHost() + url;
+        RequestQueue queue = MalaApplication.getHttpRequestQueue();
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (listener != null) {
+                    listener.onSucceed(s);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (listener != null) {
+                    listener.onFailed(volleyError);
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
+        queue.add(request);
     }
 
-    private static void stringRequest(int method, String url,
-                                      final Map<String, String> params, final NetworkListener listener) {
+    private static void stringRequest(int method, String url, final Map<String, String> headers, final NetworkListener listener) {
         url = MalaApplication.getInstance().getMalaHost() + url;
         RequestQueue queue = MalaApplication.getHttpRequestQueue();
         StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
@@ -59,7 +80,7 @@ public class NetworkSender {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return params;
+                return headers;
             }
         };
         queue.add(request);
