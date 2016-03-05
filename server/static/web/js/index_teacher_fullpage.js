@@ -10,3 +10,7 @@ $(document).ready(function() {
                 keyboardScrolling: true,
 			});
 		});
+
+$(document).on('click', 'a.next-section', function(){
+  $.fn.fullpage.moveSectionDown();
+});
