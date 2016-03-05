@@ -21,7 +21,11 @@
                 <span>距离交通优势,便捷轻松</span>
             {% endif %}
         </div>
-        <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
+        {% if school.get_thumbnail %}
+            <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
+        {% else %}
+            <img class='card-cover' src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
+        {% endif %}
     </div>
     <div class="card-content">
         <div class="card-content-inner">

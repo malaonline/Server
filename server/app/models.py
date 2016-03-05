@@ -95,7 +95,10 @@ class School(BaseModel):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
     def get_thumbnail(self):
-        return self.schoolphoto_set.first().img.url
+        if self.schoolphoto_set.first():
+            return self.schoolphoto_set.first().img.url
+        else:
+            return ""
 
 
 class SchoolPhoto(BaseModel):
