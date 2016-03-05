@@ -212,7 +212,7 @@ class Profile(BaseModel):
     )
 
     user = models.OneToOneField(User)
-    phone = models.CharField(max_length=20, default='', db_index=True)
+    phone = models.CharField(max_length=20, unique=True, db_index=True)
     # deprecated: use django group instead
     # role = models.ForeignKey(Role, null=True, blank=True,
     #                          on_delete=models.SET_NULL)
@@ -225,7 +225,8 @@ class Profile(BaseModel):
     wx_openid = models.CharField(max_length=100, default=None, null=True, blank=True)
 
     def __str__(self):
-        return '%s (%s)' % (self.user, self.gender)
+        return '%s : %s (%s)' % (
+                self.phone, self.user, self.get_gender_display())
 
     # 带有掩码的手机号码
     def mask_phone(self):

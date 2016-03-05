@@ -28,7 +28,7 @@ class TestWebPage(TestCase):
     parent_name = "parent name"
     parent_password = "I'm password"
     parent_email = "parent@mail.com"
-    parent_phone = "18922405996"
+    parent_phone = "18922405997"
     parent_salt = "I'm salt"
 
     first_init = False
