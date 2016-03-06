@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+    <script src="{% static 'common/js/jquery-2.1.4.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap.js' %}"></script>
+    <script src="{% static 'common/js/django-ajax-amend.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+
+    {% block addition_less %}{% endblock %}
+    {% block addition_js %}{% endblock %}
+</head>
+<body>
+{% block body_content%}{% endblock %}
+</body>
+</html>

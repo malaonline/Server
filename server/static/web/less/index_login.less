@@ -1,7 +1,174 @@
+@import "../../common/less/bootstrap.less";
+@icon-font-path: "../../common/fonts/";
+
+@border_radius: 5px;
+@border_color: #cfcfcf;
+@input_height: 46px;
+@font_size: 18px;
+
 .login_frame{
-  width: 460px;
-  height: 628px;
+  width: 360px;
+  height: 380px;
   border-width: 1px;
   border-style: solid;
-  border-color: black;
+  border-color: @border_color;
+  -webkit-border-radius: @border_radius;
+  -moz-border-radius: @border_radius;
+  border-radius: @border_radius;
+  padding-top: 40px;
+  padding-left: 30px;
+  .login_title{
+    margin-bottom: 40px;
+    span{
+      font-size: 16px;
+    }
+  }
+  .phone_input{
+    border-width: 1px;
+    border-style: solid;
+    border-color: @border_color;
+    -webkit-border-radius: @border_radius;
+    -moz-border-radius: @border_radius;
+    border-radius: @border_radius;
+    //padding: 12px;
+    margin-bottom: 6px;
+    width: 300px;
+    .phone_icon{
+      margin: 12px;
+    }
+    .phone_frame{
+      border: None;
+      height: @input_height;
+      width: 240px;
+      font-size: @font_size;
+    }
+    .phone_frame:focus{
+      outline-width: 0;
+    }
+  }
+  .sms{
+    overflow: auto;
+
+    .sms_input{
+      float: left;
+      .phone_input;
+      width: 190px;
+      margin-right: 22px;
+      margin-top: 6px;
+      .sms_frame{
+        width: 130px;
+        height: @input_height;
+        font-size: @font_size;
+        border: None;
+      }
+      .sms_frame:focus{
+        outline-width: 0;
+      }
+    }
+    .sms_get{
+      float: left;
+      margin-top: 6px;
+      button{
+        .btn;
+        .btn-default;
+        height: 52px;
+        width: 87px;
+        color: white;
+        border-color: #80b3da;
+        background-color: #80b3da;
+        font-size: 16px;
+      }
+      button:hover {
+        @hover_background_color: #6c96b3;
+        background-color: @hover_background_color;
+        border-color: @hover_background_color;
+        color: white;
+      }
+      button:disabled{
+        background-color: white;
+        border-color: #80b3da;
+        color: #80b3da;
+        &:active{
+          color: #80b3da;
+        }
+      }
+    }
+  }
+  .agree{
+    .agree_checkbox{
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+    .agree_text{
+      font-size: 16px;
+      height: 22px;
+    }
+    button{
+      font-size: 16px;
+      outline: 0;
+      padding: 0;
+      border: none;
+      height: 20px;
+    }
+
+  }
+  .verify{
+    margin-top: 44px;
+    button{
+      .btn;
+      .btn-default;
+      width: 300px;
+      height: 44px;
+
+      color: white;
+      border-color: #80b3da;
+      background-color: #80b3da;
+
+    }
+    button:hover {
+      @hover_background_color: #6c96b3;
+      background-color: @hover_background_color;
+      border-color: @hover_background_color;
+      color: white;
+    }
+  }
+  .error_output{
+    .error_icon{
+      .glyphicon;
+      .glyphicon-info-sign;
+      color: red;
+    }
+    .output_message{
+    }
+  }
+  .error_output[attrHidden=true]{
+    display: none;
+  }
+}
+
+.agree{
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  .doc-header{
+    h4{
+      margin-left: 190px;
+    }
+    background: #e4e4e4;
+    color: #716769;
+    //border-radius: 5px 5px 0 0;
+  }
+  .continue-button{
+    margin-right: 230px;
+    background: #8e8e8e;
+    color: white;
+  }
+  .doc{
+    iframe{
+      border:None;
+      width: 100%;
+      height: 500px;
+    }
+  }
 }

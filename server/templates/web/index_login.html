@@ -1,3 +1,54 @@
+{% load staticfiles %}
+
 <div class="login_frame">
+    <div class="login_title">
+        <img src="{% static 'web/icons/login_title_icon.png' %}">
+        <span>申请成为麻辣老师/登录</span>
+    </div>
+    <div class="phone_input">
+        <img class="phone_icon" src="{% static 'web/icons/phone_icon.png' %}">
+        <input id="phone_input" class="phone_frame" type="text" placeholder="请输入手机号"/>
+    </div>
+    <div class="error_output" id="error_output">
+        <i class="error_icon"></i>
+        <span id="error_msg">请输入正确的手机号</span>
+    </div>
+    <div class="sms">
+        <div class="sms_input">
+            <img class="phone_icon" src="{% static 'web/icons/sms_icon.png' %}">
+            <input id="sms_input" class="sms_frame" type="text" placeholder="请输入验证码"/>
+        </div>
+        <div class="sms_get">
+            <button id="sms_get">获取</button>
+        </div>
+    </div>
+    <div class="agree">
+        <input class="agree_checkbox" type="checkbox"/>
+        <span class="agree_text">
+            阅读并同意
+        </span>
+        <button type="button" class="btn btn-link" href="#" data-toggle="modal" data-target="#myModal">麻辣老师服务协议</button>
+    </div>
+    <div class="verify">
+        <button id="verify_button">验证</button>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content agree">
+          <div class="modal-header doc-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">麻辣老师平台服务协议</h4>
+          </div>
+          <div class="modal-body doc">
+            <iframe src="{% url 'teacher:doc-agree' %}">
+            </iframe>
+          </div>
+          <div class="modal-footer">
+            <button id="agree-and-continue" type="button" class="btn btn-default continue-button" data-dismiss="modal">同意并继续</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div>

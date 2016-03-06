@@ -657,7 +657,7 @@ class Account(BaseModel):
 
     @property
     def calculated_balance(self):
-        # 可提现账户余额
+        # 可计算余额
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
