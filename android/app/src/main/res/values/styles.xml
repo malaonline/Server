@@ -52,6 +52,18 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="mala.widget.title.text.smallest" parent="android:Widget.TextView">
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="mala.widget.course.title.attr" parent="android:Widget.TextView">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@color/theme_blue</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="mala.widget.title.text.smaller" parent="android:Widget.TextView">
         <item name="android:textColor">#333</item>
         <item name="android:textSize">14sp</item>
@@ -60,6 +72,16 @@
     <style name="mala.widget.title.sub.text.smaller" parent="android:Widget.TextView">
         <item name="android:textColor">#6c6c6c</item>
         <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="mala.widget.title.sub.text.mid" parent="android:Widget.TextView">
+        <item name="android:textColor">#6c6c6c</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="mala.widget.course.title.text" parent="android:Widget.TextView">
+        <item name="android:textColor">#939393</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="mala.widget.usercenter.warn.text" parent="android:Widget.TextView">

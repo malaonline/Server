@@ -9,13 +9,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
-import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CreateChargeEntity;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,8 +25,9 @@ public class NetworkSender {
     private static final String URL_GET_USER_POLICY = "/api/v1/policy";
     private static final String URL_SAVE_CHILD_NAME = "/api/v1/parents";
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
+    private static final String URL_SCHOOL = "/api/v1/schools";
+    private static final String URL_TEACHER = "/api/v1/teachers";
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
-    private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -163,5 +162,16 @@ public class NetworkSender {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         jsonRequest(Request.Method.PATCH, url, headers, json, listener);
+    }
+
+    public static void getSchoolList(NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.REGION, getToken());
+        stringRequest(Request.Method.GET, URL_SCHOOL, headers, listener);
+    }
+
+    public static void getTeacherInfo(String teacherId, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, URL_TEACHER + "/" + teacherId, headers, listener);
     }
 }

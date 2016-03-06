@@ -167,5 +167,5 @@
     <dimen name="calendar_circle_radius">12dp</dimen>
     <dimen name="calendar_small_circle_radius">2dp</dimen>
     <dimen name="calendar_small_circle_dis">5dp</dimen>
-
+    <dimen name="course_date_height">36dp</dimen>
 </resources>

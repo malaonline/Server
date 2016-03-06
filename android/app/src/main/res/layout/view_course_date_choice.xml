@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="4"
+            android:text="时间"
+            app:BorderColor="@color/theme_blue"
+            app:BottomBorder="1dp"
+            app:LeftBorder="1dp"
+            app:RightBorder="1dp"
+            app:TopBorder="1dp" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周一" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周二" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周三" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周四" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周五" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周六" />
+
+        <com.malalaoshi.android.course.BorderTextView
+            style="@style/mala.widget.course.title.attr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/course_date_height"
+            android:layout_weight="3"
+            android:text="周日" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_title"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.title.text.smallest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:gravity="center"
+                android:text="08:00\n10:00"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp" />
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.title.text.smallest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:gravity="center"
+                android:text="10:30\n12:30"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp" />
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.title.text.smallest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:gravity="center"
+                android:text="13:30\n15:30"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp" />
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.title.text.smallest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:gravity="center"
+                android:text="15:30\n17:30"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp" />
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.title.text.smallest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:gravity="center"
+                android:text="18:00\n20:00"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp" />
+
+        </LinearLayout>
+
+        <com.malalaoshi.android.course.GridViewForScrollView
+            android:id="@+id/grid_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="21"
+            android:numColumns="7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ll_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/bg_course_booked_thumb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="12dp"
+            android:text="已被约课"
+            android:textColor="#939393"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/bg_course_valid_thumb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="12dp"
+            android:text="已被约课"
+            android:textColor="#939393"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/bg_course_choice_thumb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="已被约课"
+            android:textColor="#939393"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>

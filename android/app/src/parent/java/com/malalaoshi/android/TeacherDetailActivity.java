@@ -31,7 +31,9 @@ import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
+import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
+import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
@@ -42,8 +44,8 @@ import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
-import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.LocManager;
+import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
@@ -611,7 +613,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.parent_teacher_signup_btn:
-
+                //查看更多照片
+                Intent signIntent = new Intent(this, CourseConfirmActivity.class);
+                if(mSchools!=null) {
+                    signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
+                            mSchools.toArray(new School[mSchools.size()]));
+                }
+                if(mTeacher!=null && mTeacher.getPrices()!=null) {
+                    signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
+                            mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
+                }
+                startActivity(signIntent);
                 break;
             case R.id.parent_teacher_detail_gallery_more_iv:
                 //查看更多照片

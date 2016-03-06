@@ -10,9 +10,9 @@
     </declare-styleable>
 
     <declare-styleable name="RubberIndicator">
-        <attr name="smallCircleColor" format="color"/>
-        <attr name="largeCircleColor" format="color"/>
-        <attr name="outerCircleColor" format="color"/>
+        <attr name="smallCircleColor" format="color" />
+        <attr name="largeCircleColor" format="color" />
+        <attr name="outerCircleColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="CircleView">
@@ -26,41 +26,41 @@
         <attr name="cusTitleTextColor" format="color"></attr>
         <attr name="cusLeftBackgroud" format="reference|color"></attr>
         <attr name="cusRightTextColor" format="reference|color"></attr>
-        <attr name="cusRightTextSize" format="dimension" ></attr>
+        <attr name="cusRightTextSize" format="dimension"></attr>
         <attr name="cusRightBackgroud" format="reference|color"></attr>
         <attr name="cusRightText" format="string"></attr>
-        <attr name="cusLeftShow" format="boolean" ></attr>
+        <attr name="cusLeftShow" format="boolean"></attr>
         <attr name="cusRightShow" format="boolean"></attr>
     </declare-styleable>
 
     <!-- 日历课表 -->
     <declare-styleable name="DayPickerView">
-        <attr name="topPadding" format="dimension"/>
-        <attr name="bottomPadding" format="dimension"/>
-        <attr name="leftPadding" format="dimension"/>
-        <attr name="rightPadding" format="dimension"/>
+        <attr name="topPadding" format="dimension" />
+        <attr name="bottomPadding" format="dimension" />
+        <attr name="leftPadding" format="dimension" />
+        <attr name="rightPadding" format="dimension" />
 
-        <attr name="monthTopPadding" format="dimension"/>
-        <attr name="monthBottomPadding" format="dimension"/>
-        <attr name="monthTextSize" format="dimension"/>
-        <attr name="dayTopPadding" format="dimension"/>
-        <attr name="dayBottomPadding" format="dimension"/>
-        <attr name="daySpacing" format="dimension"/>
-        <attr name="dayTextSize" format="dimension"/>
-        <attr name="dayLabelTextSize" format="dimension"/>
+        <attr name="monthTopPadding" format="dimension" />
+        <attr name="monthBottomPadding" format="dimension" />
+        <attr name="monthTextSize" format="dimension" />
+        <attr name="dayTopPadding" format="dimension" />
+        <attr name="dayBottomPadding" format="dimension" />
+        <attr name="daySpacing" format="dimension" />
+        <attr name="dayTextSize" format="dimension" />
+        <attr name="dayLabelTextSize" format="dimension" />
 
-        <attr name="splitLineStrokeHeight" format="dimension"/>
-        <attr name="circleRadius" format="dimension"/>
-        <attr name="circleSmallRadius" format="dimension"/>
-        <attr name="circleSmallDis" format="dimension"/>
+        <attr name="splitLineStrokeHeight" format="dimension" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="circleSmallRadius" format="dimension" />
+        <attr name="circleSmallDis" format="dimension" />
 
-        <attr name="enablePreviousDay" format="boolean"/>
+        <attr name="enablePreviousDay" format="boolean" />
 
-        <attr name="splitLineColor" format="color"/>
-        <attr name="textSelectColor" format="color"/>
-        <attr name="selectColor" format="color"/>
-        <attr name="textNormalColor" format="color"/>
-        <attr name="previousSelectColor" format="color"/>
+        <attr name="splitLineColor" format="color" />
+        <attr name="textSelectColor" format="color" />
+        <attr name="selectColor" format="color" />
+        <attr name="textNormalColor" format="color" />
+        <attr name="previousSelectColor" format="color" />
         <attr name="firstMonth" format="enum">
             <enum name="january" value="0" />
             <enum name="february" value="1" />
@@ -90,5 +90,13 @@
             <enum name="december" value="11" />
         </attr>
         <attr name="currentDaySelected" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BorderTextView">
+        <attr name="BottomBorder" format="dimension" />
+        <attr name="RightBorder" format="dimension" />
+        <attr name="LeftBorder" format="dimension" />
+        <attr name="TopBorder" format="dimension" />
+        <attr name="BorderColor" format="color" />
     </declare-styleable>
 </resources>

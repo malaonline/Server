@@ -1,5 +1,7 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+
 /**
  * Created by kang on 16/1/5.
  */
@@ -65,4 +67,44 @@ public class School extends BaseEntity implements Comparable<School>{
         Double d = another.getRegion();
         return this.region.compareTo(d);
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.address);
+        dest.writeString(this.thumbnail);
+        dest.writeValue(this.region);
+        dest.writeByte(center ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.longitude);
+        dest.writeValue(this.latitude);
+    }
+
+    public School() {
+    }
+
+    protected School(Parcel in) {
+        super(in);
+        this.address = in.readString();
+        this.thumbnail = in.readString();
+        this.region = (Double) in.readValue(Double.class.getClassLoader());
+        this.center = in.readByte() != 0;
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Creator<School> CREATOR = new Creator<School>() {
+        public School createFromParcel(Parcel source) {
+            return new School(source);
+        }
+
+        public School[] newArray(int size) {
+            return new School[size];
+        }
+    };
 }

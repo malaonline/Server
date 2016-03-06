@@ -77,13 +77,4 @@ public class BaseEntity implements Parcelable {
         this.isChecked = in.readByte() != 0;
     }
 
-    public static final Creator<BaseEntity> CREATOR = new Creator<BaseEntity>() {
-        public BaseEntity createFromParcel(Parcel source) {
-            return new BaseEntity(source);
-        }
-
-        public BaseEntity[] newArray(int size) {
-            return new BaseEntity[size];
-        }
-    };
 }

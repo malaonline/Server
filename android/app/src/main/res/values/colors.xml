@@ -58,7 +58,7 @@
 
     <color name="button_border">#82B4D9</color>
     <color name="prices_name_text_color">#939393</color>
-    <color name="prices_price_text_color">#e26254</color>
+    <color name="prices_price_text_color">@color/theme_red</color>
     <color name="teacher_title_text_color">#333333</color>
     <color name="item_text_color_normal">#636363</color>
     <color name="item_text_color_light">#d4d4d4</color>
@@ -66,6 +66,7 @@
     <color name="title_bar_text_color">#333333</color>
 
     <color name="backgrounp">#F6F6F6</color>
+    <color name="background">#F6F6F6</color>
     <color name="teacher_main_bg">#ededed</color>
     <color name="filter_btn_text_color">#8BBADC</color>
     <color name="line_color">#dadada</color>
@@ -78,11 +79,16 @@
     <color name="largeCircleColor">#8fbcdd</color>
     <color name="outerCircleColor">#FF533456</color>
 
-    <color name="coupon_red">#e26254</color>
+    <color name="coupon_red">@color/theme_red</color>
+    <color name="theme_red">#e26254</color>
+    <color name="theme_red_96">#e6e26254</color>
     <color name="coupon_title">#333</color>
     <color name="coupon_sub_title">#6c6c6c</color>
 
     <color name="text_color_logout_btn">#82b4d9</color>
+
+    <color name="theme_blue">#88bcde</color>
+    <color name="theme_blue_light">#c5deee</color>
 
     <!-- tab文字颜色 -->
     <color name="tab_text_normal_color">#6c6c6c</color>

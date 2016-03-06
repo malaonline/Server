@@ -109,6 +109,18 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".course.CourseConfirmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".course.SettingRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <receiver
             android:name=".receiver.NetworkStateReceiver"
             android:label="NetworkConnection">
@@ -146,7 +158,7 @@
         <!-- umeng begin -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5680e9b3e0f55a72ce00358f"></meta-data>
+            android:value="5680e9b3e0f55a72ce00358f"/>
         <!-- umeng end -->
 
         <!--       jpush begin        -->
