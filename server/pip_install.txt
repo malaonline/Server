@@ -14,5 +14,4 @@ pingpp==2.0.7
 pycrypto==2.6.1
 pytz==2015.7
 celery==3.1.20
-#flower==0.8.4
-#django-celery==3.1.17
+jpush==3.1.2
