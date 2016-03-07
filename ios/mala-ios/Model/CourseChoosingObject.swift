@@ -52,7 +52,7 @@ class CourseChoosingObject: NSObject {
     ///  - returns: 原价
     func getPrice() ->Int {
         if (gradePrice?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
-            return (gradePrice?.price)! * (selectedTime.count*2)
+            return (gradePrice?.price)! * classPeriod
         }else {
             return 0
         }

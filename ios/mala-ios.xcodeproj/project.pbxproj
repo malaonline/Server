@@ -590,6 +590,7 @@
 				30F9E6C71C23D23C0022A3BF /* MainViewController.swift */,
 				30D4A9FB1C23D81100C5A336 /* MainNavigationController.swift */,
 				30D4A9FE1C23DF0C00C5A336 /* HomeViewController.swift */,
+				F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */,
 				30D4AA011C23DF2200C5A336 /* ProfileViewController.swift */,
 				307AB8A31C33D6EC00D8397F /* TeacherDetailsController.swift */,
 				F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */,
@@ -598,7 +599,6 @@
 				F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */,
 				F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */,
 				F40B53C91C83F9A500C20037 /* PaymentViewController.swift */,
-				F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
