@@ -7,22 +7,7 @@ import jpush
 
 
 @shared_task
-def add(x, y):
-    return x + y
-
-
-@shared_task
-def mul(x, y):
-    return x * y
-
-
-@shared_task
-def xsum(numbers):
-    return sum(numbers)
-
-
-@shared_task
-def send_push_msg(msg, user_ids=None):
+def send_push(msg, user_ids=None, extras=None):
     '''
     user_ids is a list of user_id [1, 2, ...]
     if user_ids is None then send to all
@@ -32,20 +17,26 @@ def send_push_msg(msg, user_ids=None):
     _jpush = jpush.JPush(app_key, master_secret)
 
     push = _jpush.create_push()
+
+    ios_msg = jpush.ios(alert=msg, extras=extras)
+    android_msg = jpush.android(alert=msg, extras=extras)
+    push.notification = jpush.notification(
+            alert=msg, android=android_msg, ios=ios_msg)
+    push.platform = jpush.all_
+
     if user_ids is None:
         push.audience = jpush.all_
-        push.notification = jpush.notification(alert=msg)
-        push.platform = jpush.all_
-        push.send()
+        return str(push.send())
     elif len(user_ids) > 1000:
+        ans = []
         for i in range(len(user_ids) // 1000 + 1):
-            send_push_msg(msg, user_ids[i * 1000: (i + 1) * 1000])
+            ret = send_push(msg, user_ids[i * 1000: (i + 1) * 1000])
+            ans.append(ret)
+        return ans
     elif len(user_ids) == 0:
-        return
+        return ''
     else:
         push.audience = jpush.audience(
                 jpush.alias(*user_ids)
                 )
-        push.notification = jpush.notification(alert=msg)
-        push.platform = jpush.all_
-        push.send()
+        return str(push.send())
