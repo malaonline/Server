@@ -15,7 +15,7 @@ class CouponViewCell: UITableViewCell {
     var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
-            self.priceLabel.text = String(format: "%d", (model?.amount ?? 0).money)
+            self.priceLabel.text = String(format: "%@", (model?.amount ?? 0).money)
             self.titleLabel.text = model?.name
             self.validityTermLabel.text = String(timeStamp: (model?.expired_at ?? 0))
             // 使用说明暂时写为常量
@@ -40,18 +40,12 @@ class CouponViewCell: UITableViewCell {
             }
         }
     }
-    /// 重写选中方法，实现选中效果
-    override var selected: Bool {
+    // 是否显示[选中指示器]标识
+    var showSelectedIndicator: Bool = false {
         didSet {
-            self.selectedView.hidden = !selected
-            
-            // 将选中项保存至公共模型中
-            if selected {
-                MalaCourseChoosingObject.coupon = self.model
-            }
+            self.selectedView.hidden = !showSelectedIndicator
         }
     }
-    
     
     // MARK: - Components
     /// 顶部分隔线视图
@@ -113,8 +107,9 @@ class CouponViewCell: UITableViewCell {
         return statusLabel
     }()
     /// 选中效果箭头
-    private lazy var selectedView: UIImageView = {
+    lazy var selectedView: UIImageView = {
         let selectedView = UIImageView(image: UIImage(named: "scholarship_selected"))
+        selectedView.hidden = true
         return selectedView
     }()
     /// “有效期”

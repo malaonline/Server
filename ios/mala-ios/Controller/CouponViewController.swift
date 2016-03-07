@@ -20,7 +20,8 @@ class CouponViewController: UITableViewController {
         }
     }
     /// 当前选择项IndexPath标记
-    private var currentSelectedIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+    /// 缺省值为不存在的indexPath，有效的初始值将会在CellForRow方法中设置
+    private var currentSelectedIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 1)
     
     
     // MARK: - Life Cycle
@@ -72,16 +73,24 @@ class CouponViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as? CouponViewCell
-        
+
         // 只有未使用的才可选中
         guard cell?.model?.status == .Unused else {
             return
         }
         
         // 选中当前选择Cell，并取消其他Cell选择
-        cell?.selected = true
-        (tableView.cellForRowAtIndexPath(currentSelectedIndexPath)?.selected = false)
-        currentSelectedIndexPath = indexPath
+        if indexPath == currentSelectedIndexPath {
+            // 取消选中项
+            cell?.showSelectedIndicator = false
+            currentSelectedIndexPath = NSIndexPath(forItem: 0, inSection: 1)
+            MalaCourseChoosingObject.coupon = CouponModel(id: 0, name: "不使用奖学金", amount: 0, expired_at: 0, used: false)
+        }else {
+            (tableView.cellForRowAtIndexPath(currentSelectedIndexPath) as? CouponViewCell)?.showSelectedIndicator = false
+            cell?.showSelectedIndicator = true
+            currentSelectedIndexPath = indexPath
+            MalaCourseChoosingObject.coupon = cell?.model
+        }
     }
 
     // MARK: - DataSource
@@ -93,6 +102,11 @@ class CouponViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(CouponViewCellReuseId, forIndexPath: indexPath) as! CouponViewCell
         cell.selectionStyle = .None
         cell.model = self.models[indexPath.row]
+        // 如果是默认选中的优惠券，则设置选中样式
+        if models[indexPath.row].id == MalaCourseChoosingObject.coupon?.id {
+            cell.showSelectedIndicator = true
+            currentSelectedIndexPath = indexPath
+        }
         return cell
     }
     
