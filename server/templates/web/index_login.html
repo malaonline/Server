@@ -29,28 +29,28 @@
         <span class="agree_text">
             阅读并同意
         </span>
-        <button type="button" class="btn btn-link" href="#" data-toggle="modal" data-target="#myModal">麻辣老师服务协议</button>
+        <button type="button" class="btn btn-link" href="#" data-toggle="modal" data-target="#AgreeModal">麻辣老师服务协议</button>
     </div>
     <div class="verify">
         <button id="verify_button">验证</button>
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content agree">
-          <div class="modal-header doc-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">麻辣老师平台服务协议</h4>
-          </div>
-          <div class="modal-body doc">
-            <iframe src="{% url 'teacher:doc-agree' %}">
-            </iframe>
-          </div>
-          <div class="modal-footer">
-            <button id="agree-and-continue" type="button" class="btn btn-default continue-button" data-dismiss="modal">同意并继续</button>
-          </div>
-        </div>
-      </div>
-    </div>
+{#    <div class="modal fade" id="AgreeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+{#      <div class="modal-dialog" role="document">#}
+{#        <div class="modal-content agree">#}
+{#          <div class="modal-header doc-header">#}
+{#            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#            <h4 class="modal-title" id="myModalLabel">麻辣老师平台服务协议</h4>#}
+{#          </div>#}
+{#          <div class="modal-body doc">#}
+{#            <iframe src="{% url 'teacher:doc-agree' %}">#}
+{#            </iframe>#}
+{#          </div>#}
+{#          <div class="modal-footer">#}
+{#            <button id="agree-and-continue" type="button" class="btn btn-default continue-button" data-dismiss="modal">同意并继续</button>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
 
 </div>

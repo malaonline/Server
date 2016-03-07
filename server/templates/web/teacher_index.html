@@ -6,8 +6,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'web/less/index.less'|compile %}">
     <link rel="stylesheet" type="text/css" href="{% static 'web/less/index_login.less'|compile %}">
 {% endblock %}
-{% block addition_js %}<script src="{% static 'web/js/index_teacher_fullpage.js' %}"></script>{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'web/js/index_teacher_fullpage.js' %}"></script>
+
+    <script src="{% static 'common/js/django-ajax-amend.js' %}"></script>
+    <script src="{% static 'common/js/utils/tools.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'web/js/index_login.js' %}"></script>
+{% endblock %}
 {% block body_content %}
+    {% include "web/modals.html" %}
         <div id="fullpage">
         <div class="section index-bg" id="section0">
             <nav class="nav index-nav">
