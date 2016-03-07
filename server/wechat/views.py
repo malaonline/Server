@@ -12,7 +12,6 @@ from django.utils import timezone
 import json
 import requests
 import datetime
-import urllib
 
 # local modules
 from app import models
