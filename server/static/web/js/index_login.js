@@ -10,9 +10,9 @@ $(
         });
         var sms_button = $("#sms_get");
         sms_button.click(function(){
-            TimeEvent.start();
             var phone_val = _.extend(_.clone(InputVal), {element: "phone_input"});
             if(CheckInput.check() == true){
+                TimeEvent.start();
                 $.post("/api/v1/sms", {action:"send", phone:phone_val.val()},
                     function(data){
                         console.log(data);
@@ -43,6 +43,10 @@ $(
             phone_val.val()
         });
         OutputVal.clearVal();
+        $('#AgreeModal').on('shown.bs.modal', function () {
+            console.log("show.bs.modal");
+          $('#agree-and-continue').focus();
+        })
     }
 );
 
