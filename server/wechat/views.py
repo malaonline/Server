@@ -167,7 +167,7 @@ def getContentData(request):
 
 # 报名缴费成功
 def template_msg_data_pay_ok(request):
-    tempId = 'n5xWnCpnRDouQUTMdWtlNF90n54xbNoAj6ZKMOBh0yY'
+    tempId = settings.WECHAT_PAY_OK_TEMPLATE
 
     toUser = request.GET.get("toUser", None)
     if not toUser:
@@ -232,7 +232,7 @@ def template_msg_data_pay_ok(request):
 
 # 支付提醒：支付提醒，支付失败
 def template_msg_data_pay_info(request):
-    tempId = settings.WECHAT_PAY_RESULT_TEMPLATE
+    tempId = settings.WECHAT_PAY_FAILED_TEMPLATE
 
     toUser = request.GET.get("toUser", None)
     if not toUser:
