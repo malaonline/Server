@@ -23,6 +23,8 @@
             </p>
             -->
 {#          选择授课年级#}
+            <input type="hidden" name="isFirstBuy" id="isFirstBuy" value="{{ first_buy }}"/>
+            <input type="hidden" name="teacherId" id="teacherId" value="{{ teacher.id }}"/>
             <div class="weui_panel">
                 <div class="title_row">选择授课年级</div>
                 <div class="m-panel abilities-panel">
@@ -101,7 +103,7 @@
                         </thead>
                         <tbody>
                             {% for timeslot in daily_time_slots %}
-                                <tr>
+                                <tr start="{{ timeslot.start|date:'H:i' }}" end="{{ timeslot.end|date:'H:i' }}">
                                     <td class="hours-col">{{ timeslot.start|date:'H:i' }}<br>{{ timeslot.end|date:'H:i' }}</td>
                                     {% for day in 7|num_range %}
                                         <td day="{{ day }}"></td>
