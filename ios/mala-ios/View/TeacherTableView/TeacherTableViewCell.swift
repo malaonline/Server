@@ -19,7 +19,7 @@ class TeacherTableViewCell: UITableViewCell {
             levelLabel.text = "  "+(model!.level ?? "麻辣讲师")+"  "
             avatarView.kf_setImageWithURL(model!.avatar!, placeholderImage: nil)
             
-            let string = String(format: "%d-%d元/小时", model!.min_price, model!.max_price)
+            let string = String(format: "%@-%@元/小时", model!.min_price.money, model!.max_price.money)
             let attrString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             let rangeLocation = (string as NSString).rangeOfString("元").location
             attrString.addAttribute(NSForegroundColorAttributeName, value: MalaDetailsButtonBlueColor, range: NSMakeRange(0, rangeLocation))

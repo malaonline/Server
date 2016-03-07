@@ -138,8 +138,9 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         // 获取数据模型
         if self.model != nil && indexPath.row >= 1 && indexPath.section >= 1 {
             let model = self.model![indexPath.row-1][indexPath.section-1]
-            let index = (indexPath.row == 7 ? 0 : indexPath.row)
-            model.id = index
+            println("点击model: \(model)")
+            let weekID = (indexPath.row == 7 ? 0 : indexPath.row)
+            model.weekID = weekID
             NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ClassScheduleDidTap, object: model)
             model.isSelected = cell.button.selected
         }

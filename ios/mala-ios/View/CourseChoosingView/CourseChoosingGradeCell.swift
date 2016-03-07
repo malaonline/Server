@@ -134,7 +134,7 @@ class GradeSelectionCell: UICollectionViewCell {
     // MARK: - Property
     var price: GradePriceModel? {
         didSet {
-            let title = String(format: "%@  %d/小时", (price?.grade?.name)!, (price?.price)!)
+            let title = String(format: "%@  %@/小时", (price?.grade?.name)!, (price?.price.money)!)
             self.button.setTitle(title, forState: .Normal)
         }
     }

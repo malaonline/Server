@@ -266,6 +266,7 @@
 		F45E69DF1C8D278A00BD0859 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */; };
 		F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */; };
 		F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */; };
+		F45E69E31C8D2EAF00BD0859 /* Extension+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
@@ -450,6 +451,7 @@
 		F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHUD.swift; sourceTree = "<group>"; };
 		F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
+		F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Int.swift"; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				304D6D361C3E92D500282925 /* Extension+UIImageView.swift */,
 				F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */,
 				F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */,
+				F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1346,6 +1349,7 @@
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */,
 				30D4AA031C23DF2200C5A336 /* ProfileViewController.swift in Sources */,
+				F45E69E31C8D2EAF00BD0859 /* Extension+Int.swift in Sources */,
 				30AE09341C2AC94F00FD607D /* FilterViewCell.swift in Sources */,
 				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */,

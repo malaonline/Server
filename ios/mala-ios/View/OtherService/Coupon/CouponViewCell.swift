@@ -15,7 +15,7 @@ class CouponViewCell: UITableViewCell {
     var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
-            self.priceLabel.text = String(format: "%d", (model?.amount ?? 0))
+            self.priceLabel.text = String(format: "%d", (model?.amount ?? 0).money)
             self.titleLabel.text = model?.name
             self.validityTermLabel.text = String(timeStamp: (model?.expired_at ?? 0))
             // 使用说明暂时写为常量

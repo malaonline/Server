@@ -14,7 +14,7 @@ class PaymentAmountCell: UITableViewCell {
     /// 金额
     private var amount: Int = 0 {
         didSet {
-            amountLabel.text = String(format: "￥%.2f", Float(amount))
+            amountLabel.text = String(format: "￥%@", amount.money)
             self.amountLabel.sizeToFit()
         }
     }

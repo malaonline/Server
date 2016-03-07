@@ -23,7 +23,7 @@ class ThemeDate {
         var timeSchedule: [String] = []
         /// 课表数组排序
         let sortDays = days.sort { (model0, model1) -> Bool in
-            return (model0.id == 0 ? 7 : model0.id) < (model1.id == 0 ? 7 : model1.id)
+            return (model0.weekID == 0 ? 7 : model0.weekID) < (model1.weekID == 0 ? 7 : model1.weekID)
         }
         /// 课程表时间模型数组
         var modelArray = sortDays
@@ -38,7 +38,7 @@ class ThemeDate {
         // 过滤出本周可上课的时间对象（星期数大于今天）
         var classArrayInThisWeek: [ClassScheduleDayModel] = []
         for model in modelArray {
-            let id = (model.id == 0 ? 7 : model.id)
+            let id = (model.weekID == 0 ? 7 : model.weekID)
             // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
             let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 0
             // 只有提前三天以上的课程，才会在本周开始授课。
@@ -54,10 +54,10 @@ class ThemeDate {
         }
         // 将本周即可上课的日期字符串，添加到[上课时间表]中
         for model in classArrayInThisWeek {
-            let date = MalaWeekdays[model.id].dateInThisWeek()
+            let date = MalaWeekdays[model.weekID].dateInThisWeek()
             var dateString = date.formattedDateWithFormat("YYYY/MM/dd")
             // dateString = dateString + String(format: " ( %@-%@ ) ", model.start!, model.end!)
-            dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.id], model.start!, model.end!)
+            dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.weekID], model.start!, model.end!)
             timeSchedule.append(dateString)
             classArrayInThisWeek.removeAtIndex(classArrayInThisWeek.indexOf(model)!)
             classPeriod = classPeriod - 2
@@ -74,16 +74,16 @@ class ThemeDate {
         var weeks = 1
         for _ in 1...(classPeriod - classArrayInThisWeek.count*2)/2 {
             let model = sortDays[index]
-            var date = MalaWeekdays[model.id].dateInThisWeek()
+            var date = MalaWeekdays[model.weekID].dateInThisWeek()
             // 获取到对应的本周日期后，加上对应的周数即为上课时间。
-            if postpone != 0 && (model.id == 1 || model.id == 2){
+            if postpone != 0 && (model.weekID == 1 || model.weekID == 2){
                 date = date.dateByAddingWeeks(2*weeks)
             }else {
                 date = date.dateByAddingWeeks(1*weeks)
             }
             var dateString = date.formattedDateWithFormat("YYYY/MM/dd")
             // dateString = dateString + String(format: " ( %@-%@ ) ", model.start!, model.end!)
-            dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.id], model.start!, model.end!)
+            dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.weekID], model.start!, model.end!)
             timeSchedule.append(dateString)
             
             // 累加计数器。超出数组下标归零，循环次数+1
