@@ -1555,6 +1555,7 @@ class Checkcode(BaseModel):
 class WeiXinToken(BaseModel):
     token = models.CharField(max_length=600, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    expires_in = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.token
