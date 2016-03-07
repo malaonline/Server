@@ -127,7 +127,7 @@ DATABASES = {
     }
 }
 
-CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+CELERY_RESULT_BACKEND='redis://localhost'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
