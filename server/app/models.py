@@ -1445,6 +1445,9 @@ class Checkcode(BaseModel):
     block_start_time = models.DateTimeField(blank=True, null=True, default=None)
     resend_at = models.DateTimeField(blank=True, null=True, default=None)
 
+    def __str__(self):
+        return '%s, %s' % (self.phone, self.checkcode)
+
     @staticmethod
     def has_sms(phone, code):
         try:
