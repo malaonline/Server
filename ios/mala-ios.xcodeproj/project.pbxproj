@@ -107,7 +107,6 @@
 		30E336741C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336711C27F41900DCF1C5 /* GradeModel.swift */; };
-		30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
 		30EB98B71C3CEBD6003977FF /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
@@ -144,8 +143,6 @@
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
-		F41B8A5F1C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
-		F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
@@ -235,13 +232,10 @@
 		F4402F031C5A1A1800E7D3DB /* parentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3431C0FE851007D7679 /* parentUITests.swift */; };
 		F4402F041C5A1A1800E7D3DB /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3451C0FE851007D7679 /* Info.plist */; };
 		F4402F051C5A1A1800E7D3DB /* parentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E161C5A16A700E7D3DB /* parentTests.swift */; };
-		F4402F061C5A1A1800E7D3DB /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = F4402E181C5A16A700E7D3DB /* Info.plist */; };
 		F4402F071C5A1A1800E7D3DB /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */; };
 		F4402F081C5A1A1800E7D3DB /* teacher.app in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A2EF1C0FE82E007D7679 /* teacher.app */; };
 		F4402F091C5A1A1800E7D3DB /* parent.app in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3211C0FE851007D7679 /* parent.app */; };
 		F4402F0A1C5A1A1800E7D3DB /* parentTests.xctest in Sources */ = {isa = PBXBuildFile; fileRef = F4402E141C5A16A700E7D3DB /* parentTests.xctest */; };
-		F4402F0B1C5A1A1800E7D3DB /* Pods.debug.xcconfig in Sources */ = {isa = PBXBuildFile; fileRef = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */; };
-		F4402F0C1C5A1A1800E7D3DB /* Pods.release.xcconfig in Sources */ = {isa = PBXBuildFile; fileRef = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */; };
 		F4402F0D1C5A1A1800E7D3DB /* Pods.framework in Sources */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
@@ -1002,7 +996,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Mala Online";
 				TargetAttributes = {
 					35D7A2EE1C0FE82E007D7679 = {
@@ -1047,7 +1041,6 @@
 				304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */,
 				304135A61C23AE6400830C43 /* Assets.xcassets in Resources */,
 				35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */,
-				F41B8A5F1C4DDCCA00A842E9 /* Info.plist in Resources */,
 				307788521C2A3D7A007AF6B0 /* FilterCondition.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1065,7 +1058,6 @@
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
 				F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */,
-				F41B8A601C4DDCCA00A842E9 /* Info.plist in Resources */,
 				F4C5C24F1C75D37000FB833B /* EvaluationFiling2@3x.png in Resources */,
 				F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */,
 			);
@@ -1257,7 +1249,6 @@
 			files = (
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
-				30EB98B41C3CD904003977FF /* parent-Bridging-Header.h in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
 				F40B53CA1C83F9A500C20037 /* PaymentViewController.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
@@ -1433,13 +1424,10 @@
 				F4402F031C5A1A1800E7D3DB /* parentUITests.swift in Sources */,
 				F4402F041C5A1A1800E7D3DB /* Info.plist in Sources */,
 				F4402F051C5A1A1800E7D3DB /* parentTests.swift in Sources */,
-				F4402F061C5A1A1800E7D3DB /* Info.plist in Sources */,
 				F4402F071C5A1A1800E7D3DB /* ThemeTests.swift in Sources */,
 				F4402F081C5A1A1800E7D3DB /* teacher.app in Sources */,
 				F4402F091C5A1A1800E7D3DB /* parent.app in Sources */,
 				F4402F0A1C5A1A1800E7D3DB /* parentTests.xctest in Sources */,
-				F4402F0B1C5A1A1800E7D3DB /* Pods.debug.xcconfig in Sources */,
-				F4402F0C1C5A1A1800E7D3DB /* Pods.release.xcconfig in Sources */,
 				F4402F0D1C5A1A1800E7D3DB /* Pods.framework in Sources */,
 				F4402E9A1C5A19FC00E7D3DB /* Common.swift in Sources */,
 				F4402E9B1C5A19FC00E7D3DB /* CommonFlowLayout.swift in Sources */,
@@ -1550,6 +1538,7 @@
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1568,6 +1557,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
