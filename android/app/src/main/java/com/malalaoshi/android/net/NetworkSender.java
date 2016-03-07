@@ -26,9 +26,9 @@ public class NetworkSender {
     private static final String URL_SAVE_CHILD_NAME = "/api/v1/parents";
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
     private static final String URL_SCHOOL = "/api/v1/schools";
-    private static final String URL_TEACHER = "/api/v1/teachers";
-    private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
-    private static final String URL_GET_COMMENT = "/api/v1/comments";
+    private static final String URL_TEACHER = "/api/v1/teachers/%s";
+    private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
+    private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
@@ -160,7 +160,7 @@ public class NetworkSender {
         } catch (Exception e) {
             return;
         }
-        String url = URL_CREATE_COURSE_ORDER + "/" + orderId;
+        String url = String.format(URL_CREATE_COURSE_ORDER,orderId);
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         jsonRequest(Request.Method.PATCH, url, headers, json, listener);
@@ -174,12 +174,12 @@ public class NetworkSender {
 
     public static void getTeacherInfo(String teacherId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        stringRequest(Request.Method.GET, URL_TEACHER + "/" + teacherId, headers, listener);
+        stringRequest(Request.Method.GET, String.format(URL_TEACHER,teacherId), headers, listener);
     }
 
     public static void getComment(String commentId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        stringRequest(Request.Method.GET, URL_GET_COMMENT + "/" + commentId, headers, listener);
+        stringRequest(Request.Method.GET, String.format(URL_GET_COMMENT,commentId), headers, listener);
     }
 
     public static void submitComment(JSONObject params, NetworkListener listener) {
