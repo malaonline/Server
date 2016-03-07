@@ -192,5 +192,15 @@
 
 
 {% block addition_js %}
+    <script>
+        wx.config({
+            debug: true, // 开启调试模式?
+            appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
+            timestamp: '{{ server_timestamp }}', // 必填，生成签名的时间戳
+            nonceStr: '{{ WX_NONCE_STR }}', // 必填，生成签名的随机串
+            signature: '{{ WX_SIGNATURE }}',// 必填，签名
+            jsApiList: ['chooseWXPay', 'getLocation'] // 必填，需要使用的JS接口列表
+        });
+    </script>
     <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
 {% endblock %}

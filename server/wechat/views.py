@@ -3,18 +3,20 @@ import json
 import requests
 import datetime
 
+from Crypto.Hash import SHA
+
 # django modules
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView
 from django.db.models import Q,Count
-from django.utils import timezone
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
 
 # local modules
 from app import models
+from app.utils import random_string
 
 # Create your views here.
 
@@ -78,8 +80,9 @@ class CourseChoosingView(TemplateView):
         schools = teacher.schools
         kwargs['schools'] = schools.all()
         kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
-        # now = timezone.now()
-        # kwargs['server_now'] = now
+        now = timezone.now()
+        now_timestamp = int(now.timestamp())
+        kwargs['server_timestamp'] = now_timestamp
 
         # if current_user.parent:
         #     coupons = models.Coupon.objects.filter(parent=current_user.parent,
@@ -87,7 +90,85 @@ class CourseChoosingView(TemplateView):
         #     ).order_by('-amount', 'expired_at')
         #     kwargs['coupon'] = coupons.first()
 
+        nonce_str = random_string().replace('-','')
+        access_token, msg = _get_wx_token()
+        jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
+        cur_url = self.request.build_absolute_uri()
+        signature = wx_signature({'noncestr': nonce_str,
+                                  'jsapi_ticket': jsapi_ticket,
+                                  'timestamp': now_timestamp,
+                                  'url': cur_url})
+        kwargs['WX_APPID'] = settings.WEIXIN_APPID
+        kwargs['WX_APP_SECRET'] = settings.WEIXIN_APP_SECRET
+        kwargs['WX_NONCE_STR'] = nonce_str
+        kwargs['WX_SIGNATURE'] = signature
         return super(CourseChoosingView, self).get_context_data(**kwargs)
+
+def wx_signature(params_obj):
+    keys = params_obj.keys()
+    sorted_keys = sorted(keys)
+    buf = []
+    for key in sorted_keys:
+        buf.append(key+'='+str(params_obj[key]))
+    content = '&'.join(buf)
+    return SHA.new(content.encode()).hexdigest()
+
+def _get_wx_config_from_db():
+    return models.WeiXinToken.objects.all().order_by('-id').first()
+
+def _get_wx_jsapi_ticket(access_token):
+    jsapi_ticket = _get_wx_jsapi_ticket_from_db()
+    msg = None
+    if not jsapi_ticket:
+        result = get_wx_jsapi_ticket_from_weixin(access_token)
+        if result['ok']:
+            jsapi_ticket = result['ticket']
+        else:
+            msg = result['msg']
+    return jsapi_ticket, msg
+
+def _get_wx_jsapi_ticket_from_db():
+    tk = _get_wx_config_from_db()
+    if tk and tk.jsapi_ticket and (not tk.is_jsapi_ticket_expired()):
+        return tk.jsapi_ticket
+    return None
+
+def get_wx_jsapi_ticket_from_weixin(access_token):
+    wx_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={token}&type=jsapi'\
+        .format(token=access_token)
+
+    req = requests.get(wx_url)
+    if req.status_code == 200:
+        ret = json.loads(req.text)
+        if "ticket" in ret:
+            wx_obj = _get_wx_config_from_db()
+            wx_obj.jsapi_ticket = ret['ticket']
+            wx_obj.jsapi_ticket_new_at = timezone.now()
+            if "expires_in" in ret:
+                wx_obj.jsapi_ticket_life = ret['expires_in']
+            wx_obj.save()
+            return {'ok': True, 'ticket': ret['ticket'], 'code': 0}
+        else:
+            return {'ok': False, 'msg': '获取微信jsapi_ticket出错!', 'code': -1}
+    else:
+        return {'ok': False, 'msg': '获取微信jsapi_ticket出错，请联系管理员!', 'code': -1}
+
+def _get_wx_token():
+    token = _get_wx_token_from_db()
+    msg = None
+    if not token:
+        result = get_token_from_weixin()
+        if result['ok']:
+            token = result['token']
+        else:
+            msg = result['msg']
+    return token, msg
+
+def _get_wx_token_from_db():
+    tk = _get_wx_config_from_db()
+    if tk and (not tk.is_token_expired()):
+        return tk.token
+    return None
 
 def get_token_from_weixin():
     wx_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'
@@ -111,19 +192,7 @@ def get_token_from_weixin():
 
 @csrf_exempt
 def get_wx_token(request):
-    tk = models.WeiXinToken.objects.all().order_by('-id')
-    tk = list(tk) and tk[0]
-    now = timezone.now()
-    retToken = tk.token
-    retMsg = None
-    expires_date = tk.created_at + datetime.timedelta(seconds=tk.expires_in) + datetime.timedelta(seconds=-20)
-    delta = expires_date - now
-    if delta.total_seconds() < 0:
-        result = get_token_from_weixin()
-        if result['ok']:
-            retToken = ret['token']
-        else:
-            retMsg = ret['msg']
+    retToken, retMsg = _get_wx_token()
 
     if retMsg:
         return JsonResponse({'ok': False, 'msg': retMsg, 'code': -1})
