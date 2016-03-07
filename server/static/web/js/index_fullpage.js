@@ -8,6 +8,7 @@ $(document).ready(function() {
 		//navigationTooltips: ['First', 'Second', 'Third']
 		//Accessibility
 		keyboardScrolling: true,
+        //fixedElements: '.modal'
 	});
 });
 
