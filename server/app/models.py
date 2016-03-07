@@ -1356,6 +1356,9 @@ class TimeSlot(BaseModel):
         return
 
     def reschedule_for_suspend(self, user):
+        semaphore = posix_ipc.Semaphore('reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
+        semaphore.acquire()
+
         # todo: 应该在后端也校验是否在可停课范围
         # 如果是已调课后的, 先获取原始课程
         old_timeslot = self.transferred_from if self.transferred_from is not None else self
@@ -1381,6 +1384,8 @@ class TimeSlot(BaseModel):
         # 把老的课程停掉
         old_timeslot.last_updated_by = user
         old_timeslot.suspend()
+
+        semaphore.release()
 
 
 class Message(BaseModel):
