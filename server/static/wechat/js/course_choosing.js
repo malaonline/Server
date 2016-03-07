@@ -75,13 +75,13 @@ $(function(){
         });
     };
 
-    $(".school > .icons-area input[type=radio]").click(function(e){
+    $(".school").click(function(e){
         if (!chosen_grade_id) {
             showAlertDialog('请先选择授课年级');
             return;
         }
-        var ele = e.target, $ele = $(ele).closest(".icons-area");
-        var val = $ele.find("input")[0].value;
+        var ele = e.target, $school = $(ele).closest('.school');
+        var val = $school.find(".icons-area > input")[0].value;
         $(".school > .icons-area").each(function(){
           var $this = $(this), v = $this.find("input")[0].value;
           if (v===val) {

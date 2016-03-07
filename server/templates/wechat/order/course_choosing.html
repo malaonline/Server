@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="weui_cell_ft icons-area">
-                                <input type="radio" class="weui_check" name="school" id="x11" value="{{ schools.0.id }}">
+                                <input type="radio" class="weui_check" name="school" value="{{ schools.0.id }}">
                                 <i class="yes weui_icon_success"></i>
                                 <i class="no weui_icon_circle"></i>
                             </div>
@@ -82,7 +82,7 @@
                                         </div>
                                     </div>
                                     <div class="weui_cell_ft icons-area">
-                                        <input type="radio" class="weui_check" name="school" id="x11" value="{{ school.id }}">
+                                        <input type="radio" class="weui_check" name="school" value="{{ school.id }}">
                                         <span class="yes weui_icon_success"></span>
                                         <i class="no weui_icon_circle"></i>
                                     </div>
@@ -185,7 +185,7 @@
     <div class="weui_extra_area pay-action-area">
         <div class="w50 cost-area">还需支付: <span class="cost">￥<span id="realCost">0.00</span></span></div>
         <div class="w50 action-area">
-            <a href="javascript:;" class="weui_btn weui_btn_warn" id="confirmBtn">确认</a>
+            <a href="javascript:;" class="weui_btn weui_btn_warn" id="confirmBtn">确认并支付</a>
         </div>
     </div>
 {% endblock %}
