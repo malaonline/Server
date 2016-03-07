@@ -1,5 +1,7 @@
 {% load staticfiles %}
 
+{% csrf_token %}
+
 <div class="login_frame">
     <div class="login_title">
         <img src="{% static 'web/icons/login_title_icon.png' %}">
@@ -23,7 +25,7 @@
         </div>
     </div>
     <div class="agree">
-        <input class="agree_checkbox" type="checkbox"/>
+        <input id="agree_checkbox" class="agree_checkbox" type="checkbox" checked="checked"/>
         <span class="agree_text">
             阅读并同意
         </span>
