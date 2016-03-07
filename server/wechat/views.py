@@ -344,12 +344,28 @@ def teacher_view(request):
 
     memberService = models.Memberservice.objects.all()
     achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
+
+    grades_all = models.Grade.objects.all()
+    _heap = {}
+    grades_tree = []
+    for grade in grades_all:
+        if not grade.superset_id:
+            _temp = {'id':grade.id, 'name':grade.name, 'children':[]}
+            _heap[grade.id] = _temp
+            grades_tree.append(_temp)
+        else:
+            _temp = _heap[grade.superset_id]
+            _temp['children'].append({'id':grade.id, 'name':grade.name})
+
     context = {
         "openid": openid,
         "gender": gender,
         "tags": list(teacher.tags.all()),
         "achievements": achievements,
         "memberService": list(memberService),
+        "subjects": models.Subject.objects.all,
+        "grades_tree": grades_tree,
+        "teacher_grade_ids": [grade.id for grade in teacher.grades()],
         "teacher": teacher
     }
     return render(request, template_name, context)

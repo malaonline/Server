@@ -36,9 +36,12 @@
                         教授年级
                     </div>
                     <div>
-                        <div>小学一年级</div>
-                        <div>初中一年级 初中二年级 初中三年级</div>
-                        <div>高中一年级 高中二年级</div>
+                        {% for grade in grades_tree %}
+                            {% for sub_grade in grade.children %}
+                                {% if sub_grade.id in teacher_grade_ids %}{{ sub_grade.name }}{% endif %}
+                            {% endfor %}
+                            <br>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
@@ -63,18 +66,14 @@
                                 <th>所在学校</th>
                                 <th>考入学校</th>
                             </tr>
-                            <tr>
-                                <td>高晓明</td>
-                                <td>122</td>
-                                <td>洛阳一种</td>
-                                <td>清华大学</td>
-                            </tr>
-                            <tr>
-                                <td>诸葛亮</td>
-                                <td>33</td>
-                                <td>南阳小学</td>
-                                <td>北京大学</td>
-                            </tr>
+                            {% for hs in teacher.highscore_set.all %}
+                                <tr>
+                                    <td>{{ hs.name }}</td>
+                                    <td>{{ hs.increased_scores }}</td>
+                                    <td>{{ hs.school_name }}</td>
+                                    <td>{{ hs.admitted_to }}</td>
+                                </tr>
+                            {% endfor %}
                         </table>
                     </div>
                 </div>
@@ -84,12 +83,11 @@
                         <span class="weui_cell_ft"></span>
                     </div>
                     <div class="teacher_images">
-                        <img src="http://img4.cache.netease.com/photo/0001/2016-03-03/BH8FI64B00AN0001.jpg">
-                        <img src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
-                        <img src="http://img4.cache.netease.com/photo/0001/2016-03-03/BH8FI64B00AN0001.jpg">
-                        <img src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
-                        <img src="">
-                        <img src="">
+                        {% if teacher.photo_set.all%}
+                            {% for photo in teacher.photo_set.all %}
+                                <img src={{ photo.img_url }}>
+                            {% endfor %}
+                        {%endif%}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
