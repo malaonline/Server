@@ -34,7 +34,8 @@
                                 {{ ability.grade.name }}
                                 {% for price in prices %}
                                     {% if ability == price.ability %}
-                                        {{ price.price }}/小时
+                                        {{ price.price|money_format:'/' }}/小时
+                                        <input type="hidden" name="price" value="{{ price.price }}"/>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -143,21 +144,21 @@
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">新生注册奖学金</p>
                         </div>
-                        <div class="weui_cell_ft"><span id="discountCost"></span>-￥400</div>
+                        <div class="weui_cell_ft"><span>-￥<span id="discountCost">0</span></span></div>
                     </a>
                     {% if first_buy %}
                     <a class="weui_cell weui_cells_access test-row" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">测评建档服务</p>
                         </div>
-                        <div class="weui_cell_ft"><s class="line-through" id="testCost">￥500</s> <span id="realTestCost">￥0</span></div>
+                        <div class="weui_cell_ft"><s class="line-through">￥<span id="testCost">5.00</span></s> <span>￥<span id="realTestCost">0</span></span></div>
                     </a>
                     {% endif %}
                     <div class="weui_cell orig-cost-row" id="origTotalCostRow">
                         <div class="weui_cell_bd weui_cell_primary">
                         </div>
                         <div class="weui_cell_ft">
-                            <span>原价: </span><span class="cost" id="origTotalCost">￥600.00</span>
+                            <span>原价: </span><span class="cost">￥<span id="origTotalCost">0.00</span></span>
                         </div>
                     </div>
                 </div>
@@ -165,15 +166,26 @@
             <div class="tail-padding"></div>
 
         </div>
+
+        <div class="weui_dialog_alert" id="alertDialog" style="display: none;">
+            <div class="weui_mask"></div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd" id="alertDialogBody"></div>
+{#                <div class="weui_dialog_bd"></div>#}
+                <div class="weui_dialog_ft">
+                    <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 
 {% block footer %}
     <div class="weui_extra_area pay-action-area">
-        <div class="w50 cost-area">还需支付: <span class="cost" id="realCost">￥200.00</span></div>
+        <div class="w50 cost-area">还需支付: <span class="cost">￥<span id="realCost">0.00</span></span></div>
         <div class="w50 action-area">
-            <a href="javascript:;" class="weui_btn weui_btn_disabled weui_btn_warn">确认</a>
+            <a href="javascript:;" class="weui_btn weui_btn_warn" id="confirmBtn">确认</a>
         </div>
     </div>
 {% endblock %}

@@ -3,6 +3,18 @@
  */
 $(function(){
     //alert("course choosing");
+    var chosen_grade_id = '';
+    var chosen_price = 0;
+    var chosen_school_id = '';
+
+    var showAlertDialog = function(msg) {
+        $("#alertDialogBody").html(msg);
+        var $dialog = $('#alertDialog');
+        $dialog.show();
+        $dialog.one('click', function () {
+            $dialog.hide();
+        });
+    };
 
     $('.grade-box > .grade').click(function(e){
         var ele = e.target, $ele = $(ele);
@@ -15,6 +27,8 @@ $(function(){
             $this.removeClass('chosen');
           }
         });
+        chosen_grade_id = val;
+        chosen_price = parseInt($(ele).find('input').val());
         e.stopPropagation();
     });
 
@@ -41,7 +55,7 @@ $(function(){
         var teacherId = $('#teacherId').val();
         var params = {'school_id': school_id};
         $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
-            console.log(json);
+            //console.log(json);
             var _map = _makeWeeklyTimeSlotToMap(json);
             $weeklyTable.find('tbody > tr').each(function(){
                 var $row = $(this);
@@ -62,6 +76,10 @@ $(function(){
     };
 
     $(".school > .icons-area input[type=radio]").click(function(e){
+        if (!chosen_grade_id) {
+            showAlertDialog('请先选择授课年级');
+            return;
+        }
         var ele = e.target, $ele = $(ele).closest(".icons-area");
         var val = $ele.find("input")[0].value;
         $(".school > .icons-area").each(function(){
@@ -72,6 +90,7 @@ $(function(){
             $this.removeClass('chosen');
           }
         });
+        chosen_school_id = val;
         renderWeeklyTableBySchool(val);
         e.stopPropagation();
     });
@@ -116,11 +135,41 @@ $(function(){
         }
     };
 
+    var _format_money = function(num, isYuan) {
+        if (isYuan) {
+            num = num * 100;
+        }
+        // 直接抹零, 但是toFixed 默认是四舍五入
+        return (parseInt(num)/100).toFixed(2);
+    };
+
+    var updateCost = function() {
+        var hours = parseInt($('#courseHours').text());
+        var origTotalCost = hours * chosen_price; // 单位是分
+        var discount = parseFloat($('#discountCost').text()); // 单位是元
+        var realCost = origTotalCost - discount * 100;
+        $("#origTotalCost").text(_format_money(origTotalCost));
+        $("#realCost").text(_format_money(realCost));
+    };
+
     $('#weeklyTable > tbody > tr > td').click(function(e) {
+        if (!chosen_grade_id || !chosen_school_id) {
+            showAlertDialog('请先选择授课年级和上课地点');
+            return;
+        }
         var $this = $(this);
         if ($this.hasClass('available')) {
             $this.toggleClass('chosen');
             updateCourseTimePreview();
+            updateCost();
+        }
+    });
+
+    $('#confirmBtn').click(function(e){
+        var hours = parseInt($('#courseHours').text());
+        if (hours <= 0) {
+            showAlertDialog('请先选择上课时间');
+            return;
         }
     });
 });
