@@ -1,4 +1,7 @@
-import  logging
+import logging
+import json
+import requests
+import datetime
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
@@ -9,9 +12,6 @@ from django.utils import timezone
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
-import json
-import requests
-import datetime
 
 # local modules
 from app import models
