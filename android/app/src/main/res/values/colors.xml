@@ -102,4 +102,11 @@
     <color name="calendar_previous_select_color">#dadada</color>
 
     <color name="calendar_week_bg">#f7f7f7</color>
+
+    <color name="comment_title_text_color">#8fbcdd</color>
+    <color name="comment_submit_text_color">#bcd7eb</color>
+    <color name="comment_teacher_text_color">#939393</color>
+    <color name="comment_course_text_color">#bebebe</color>
+    <color name="comment_content_text_color">#939393</color>
+    <color name="comment_content_hint_color">#d4d4d4</color>
 </resources>

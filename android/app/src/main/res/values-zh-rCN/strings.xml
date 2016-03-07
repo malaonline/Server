@@ -87,4 +87,7 @@
     <string name="coupon_expired">已过期</string>
     <string name="coupon_not_use">未使用</string>
     <string name="pay">支付</string>
+
+    <string name="comment_succeed">评价成功!</string>
+    <string name="comment_failed">评价失败!</string>
 </resources>

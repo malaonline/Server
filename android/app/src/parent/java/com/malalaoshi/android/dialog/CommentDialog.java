@@ -4,6 +4,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +15,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.entity.Comment;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.ImageCache;
+import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.view.CircleNetworkImage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +51,13 @@ public class CommentDialog extends DialogFragment{
     private static String ARGS_DIALOG_TEACHER_NAME   = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
     private static String ARGS_DIALOG_COURSE_NAME    = "course name";
-    private static String ARGS_DIALOG_COMMENT_ID      = "course_id";
+    private static String ARGS_DIALOG_COMMENT_ID     = "course_id";
+    private static String ARGS_DIALOG_TIMESLOT       = "timeslot";
 
     private String teacherName;
     private String teacherAvatarUrl;
     private String courseName;
+    private Long timeslot;
     private String commentId;
 
     @Bind(R.id.iv_teacher_avater)
@@ -65,22 +81,27 @@ public class CommentDialog extends DialogFragment{
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
+    @Bind(R.id.ll_load_fail)
+    protected LinearLayout llLoadFail;
+
+    @Bind(R.id.ll_loading)
+    protected LinearLayout llLoading;
+
+    @Bind(R.id.ll_content)
+    protected LinearLayout llContent;
+
     private boolean isOpenInputMethod = false;
     //图片缓存
     private ImageLoader mImageLoader;
 
-    //网络请求消息队列
-    private RequestQueue requestQueue;
-    private String hostUrl;
-    private List<String> requestQueueTags;
-
-    public static CommentDialog newInstance(String teacherName,String teacherAvatarUrl,String courseName,String commentId) {
+    public static CommentDialog newInstance(String teacherName,String teacherAvatarUrl,String courseName, Long timeslot, String commentId) {
         CommentDialog f = new CommentDialog();
         Bundle args = new Bundle();
         args.putString(ARGS_DIALOG_TEACHER_NAME, teacherName);
         args.putString(ARGS_DIALOG_TEACHER_AVATAR, teacherAvatarUrl);
         args.putString(ARGS_DIALOG_COURSE_NAME, courseName);
         args.putString(ARGS_DIALOG_COMMENT_ID, commentId);
+        args.putLong(ARGS_DIALOG_TIMESLOT, timeslot);
         f.setArguments(args);
         return f;
     }
@@ -88,18 +109,17 @@ public class CommentDialog extends DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setCancelable(false);          // 设置点击屏幕Dialog不消失
         teacherName = getArguments().getString(ARGS_DIALOG_TEACHER_NAME,"");
         teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
         courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
         commentId = getArguments().getString(ARGS_DIALOG_COMMENT_ID,"");
+        timeslot = getArguments().getLong(ARGS_DIALOG_COMMENT_ID, 0);
         init();
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
     private void init() {
-        requestQueueTags = new ArrayList<String>();
-        requestQueue = MalaApplication.getHttpRequestQueue();
-        hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
@@ -115,17 +135,48 @@ public class CommentDialog extends DialogFragment{
     }
 
     private void initViews() {
+        //查看课程评价
         if (commentId!=null&&!commentId.isEmpty()){
-            //查看课程
+            //查看课程评价
+            updateLoadingUI();
+            //控件不可编辑
             editComment.setEnabled(false);
             ratingbar.setIsIndicator(true);
-            tvSubmit.setEnabled(false);
         }else{
             //评价课程
+            llContent.setVisibility(View.VISIBLE);
+            llLoading.setVisibility(View.GONE);
+            llLoadFail.setVisibility(View.GONE);
             editComment.setEnabled(true);
             ratingbar.setIsIndicator(false);
+
+            editComment.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    checkSubmitButtonStatus();
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    checkSubmitButtonStatus();
+                }
+            });
+
         }
-        //
+        //初始化控件
         if (teacherAvatarUrl != null && !teacherAvatarUrl.equals("")) {
             teacherAvater.setDefaultImageResId(R.drawable.user_detail_header_bg);
             teacherAvater.setErrorImageResId(R.drawable.user_detail_header_bg);
@@ -135,14 +186,68 @@ public class CommentDialog extends DialogFragment{
         tvCourse.setText(courseName);
     }
 
+    private void checkSubmitButtonStatus() {
+        boolean status = editComment.getText().length() > 0 && ratingbar.getRating() > 0;
+        if (status != true) {
+            tvSubmit.setEnabled(false);
+        }else{
+            tvSubmit.setEnabled(true);
+        }
+    }
+
     private void initDatas() {
-        loadDatas();
+        if (commentId!=null&&!commentId.isEmpty()){
+            //开始下载
+            loadDatas();
+        }
     }
 
     private void loadDatas() {
-        if (commentId!=null&&!commentId.isEmpty()){
-            //开始下载
+
+        NetworkSender.getComment(commentId, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                Comment comment = JsonUtil.parseStringData(json.toString(), Comment.class);
+                updateUI(comment);
+                updateLoadSuccessedUI();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                updateLoadFailedUI();
+            }
+        });
+    }
+
+    private void updateUI(Comment comment) {
+        if (comment!=null){
+            ratingbar.setNumStars(comment.getScore());
+            editComment.setText(comment.getContent());
+        }else{
+            ratingbar.setNumStars(0);
+            editComment.setText("");
         }
+    }
+
+    private void updateLoadingUI() {
+        llLoading.setVisibility(View.VISIBLE);
+        llContent.setVisibility(View.GONE);
+        llLoadFail.setVisibility(View.GONE);
+        tvSubmit.setEnabled(false);
+    }
+
+    private void updateLoadSuccessedUI() {
+        llLoading.setVisibility(View.GONE);
+        llContent.setVisibility(View.VISIBLE);
+        llLoadFail.setVisibility(View.GONE);
+        tvSubmit.setEnabled(false);
+    }
+
+    private void updateLoadFailedUI() {
+        llLoading.setVisibility(View.GONE);
+        llContent.setVisibility(View.GONE);
+        llLoadFail.setVisibility(View.VISIBLE);
+        tvSubmit.setEnabled(false);
     }
 
 
@@ -212,10 +317,60 @@ public class CommentDialog extends DialogFragment{
         isOpenInputMethod = !isOpenInputMethod;
     }
 
+    @OnClick(R.id.tv_load_fail)
+    public void OnClickLoadFail(View v){
+        updateLoadingUI();
+        loadDatas();
+    }
+
     @OnClick(R.id.tv_submit)
     public void onClickSubmit(View v){
+        String content = editComment.getText().toString();
+        Integer scorce = ratingbar.getNumStars();
+        if (content==null){
+            content = "";
+        }
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Constants.TIMESLOT, timeslot);
+            json.put(Constants.SCORE, scorce);
+            json.put(Constants.CONTENT, content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+        NetworkSender.submitComment(json, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    JSONObject jo = new JSONObject(json.toString());
+                    if (jo.optBoolean(Constants.DONE, false)) {
+                        Log.i("CommentDialog", "Set student's name succeed : " + json.toString());
+                        commentSucceed();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                commentFailed();
+            }
 
+            @Override
+            public void onFailed(VolleyError error) {
+                commentFailed();
+            }
+        });
     }
+
+    private void commentSucceed() {
+        MiscUtil.toast(R.string.comment_succeed);
+        dismiss();
+    }
+
+    private void commentFailed() {
+        MiscUtil.toast(R.string.comment_failed);
+    }
+
 
     @OnClick(R.id.tv_Close)
     public void onClickClose(View v){

@@ -28,6 +28,8 @@ public class NetworkSender {
     private static final String URL_SCHOOL = "/api/v1/schools";
     private static final String URL_TEACHER = "/api/v1/teachers";
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
+    private static final String URL_GET_COMMENT = "/api/v1/comments";
+    private static final String URL_CREATE_COMMENT = "/api/v1/comments";
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -173,5 +175,18 @@ public class NetworkSender {
     public static void getTeacherInfo(String teacherId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         stringRequest(Request.Method.GET, URL_TEACHER + "/" + teacherId, headers, listener);
+    }
+
+    public static void getComment(String commentId, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, URL_GET_COMMENT + "/" + commentId, headers, listener);
+    }
+
+    public static void submitComment(JSONObject params, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
+        //TODO tianwei Waiting for sms verification api to get parentId
+        jsonRequest(Request.Method.POST, URL_CREATE_COMMENT, headers, params, listener);
     }
 }
