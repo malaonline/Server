@@ -2,11 +2,13 @@ package com.malalaoshi.android.dialog;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +116,7 @@ public class CommentDialog extends DialogFragment{
         teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
         courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
         commentId = getArguments().getString(ARGS_DIALOG_COMMENT_ID,"");
-        timeslot = getArguments().getLong(ARGS_DIALOG_COMMENT_ID, 0);
+        timeslot = getArguments().getLong(ARGS_DIALOG_COMMENT_ID, 0L);
         init();
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
@@ -126,6 +128,18 @@ public class CommentDialog extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
+                // TODO Auto-generated method stub 返回键关闭dialog
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
         View view = inflater.inflate(R.layout.dialog_comment, container, false);
         ButterKnife.bind(this, view);
         initViews();
@@ -133,6 +147,7 @@ public class CommentDialog extends DialogFragment{
         initDatas();
         return view;
     }
+
 
     private void initViews() {
         //查看课程评价
