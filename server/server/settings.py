@@ -195,6 +195,8 @@ WEIXIN_APP_SECRET = 'hDTY************************G03m'
 JPUSH_APP_KEY = '5d4d4dc079a022deee259fb1'
 JPUSH_MASTER_SECRET = 'ef010e142da0aa8c4be23eaf'
 
+WECHAT_PAY_RESULT_TEMPLATE = 'RMpNzoIW1Gken7qh4L2YbM_g3rU_KTZF7i-VLGA_Vnk'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

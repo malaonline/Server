@@ -232,7 +232,7 @@ def template_msg_data_pay_ok(request):
 
 # 支付提醒：支付提醒，支付失败
 def template_msg_data_pay_info(request):
-    tempId = 'RMpNzoIW1Gken7qh4L2YbM_g3rU_KTZF7i-VLGA_Vnk'
+    tempId = settings.WECHAT_PAY_RESULT_TEMPLATE
 
     toUser = request.GET.get("toUser", None)
     if not toUser:
