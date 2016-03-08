@@ -1453,9 +1453,9 @@ class OrderRefundActionView(BaseStaffActionView):
             # 根据当前时间点,计算退费信息
             return JsonResponse({
                 'ok': True,
-                'remainingHours': order.remaining_hours(),      # 剩余小时
-                'refundHours': order.preview_refund_hours(),    # 退费小时
-                'refundAmount': order.preview_refund_amount(),  # 退费金额
+                'remainingHours': order.remaining_hours(),          # 剩余小时
+                'refundHours': order.preview_refund_hours(),        # 退费小时
+                'refundAmount': order.preview_refund_amount()/100,  # 退费金额
                 'reason': order.refund_info().reason if order.refund_info() is not None else ''
                 # 退费原因
             })
@@ -1469,10 +1469,10 @@ class OrderRefundActionView(BaseStaffActionView):
             # 将之前申请退费时记录下来的退费信息返回给前端
             return JsonResponse({
                 'ok': True,
-                'remainingHoursRecord': record.remaining_hours, # 剩余小时(申请退费时计算的)
-                'refundHoursRecord': record.refund_hours,       # 退费小时(申请退费时计算的)
-                'refundAmountRecord': record.refund_amount,     # 退费金额(申请退费时计算的)
-                'reason': record.reason                         # 退费原因(申请退费时提交的)
+                'remainingHoursRecord': record.remaining_hours,     # 剩余小时(申请退费时计算的)
+                'refundHoursRecord': record.refund_hours,           # 退费小时(申请退费时计算的)
+                'refundAmountRecord': record.refund_amount/100,     # 退费金额(申请退费时计算的)
+                'reason': record.reason                             # 退费原因(申请退费时提交的)
             })
         return JsonResponse({'ok': False, 'msg': '订单无申请退费记录', 'code': 'order_02'})
 
