@@ -1,29 +1,27 @@
+import os
 import json
 import itertools
 import datetime
-import os
 
-from django.test import TestCase
-from rest_framework.authtoken.models import Token
+from django.conf import settings
 from django.contrib.auth.models import User, Group, Permission
-from django.test import Client
+from django.contrib.auth import authenticate
+from django.test import Client, TestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate
 from django.core.management import call_command
 from django.utils import timezone
+
+from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         WeeklyTimeSlot
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
-
 from teacher.views import information_complete_percent
 from app.models import Region
-
 from app.utils.algorithm import verify_sig
-from django.conf import settings
-
+from app.tasks import send_push
 
 app_path = os.path.abspath(os.path.dirname(__file__))
 
@@ -46,7 +44,7 @@ class TestApi(TestCase):
     def test_concrete_timeslots(self):
         hours = 2
         weekly_time_slots = list(WeeklyTimeSlot.objects.filter(
-                weekday=1, start = datetime.time(8, 0)))
+                weekday=1, start=datetime.time(8, 0)))
         timeslots = Order.objects.concrete_timeslots(hours, weekly_time_slots)
         self.assertEqual(len(timeslots), 1)
         ts = timeslots[0]
@@ -216,8 +214,9 @@ class TestApi(TestCase):
         client = Client()
         client.login(username=username, password=password)
         request_url = "/api/v1/profiles/%d" % (user.profile.pk,)
-        img_name = 'img0' # NOTE: seq is 0 not 1, seq of the user 'parent1'
-        img_path = os.path.join(app_path, 'migrations', 'avatars', img_name+'.jpg')
+        img_name = 'img0'  # NOTE: seq is 0 not 1, seq of the user 'parent1'
+        img_path = os.path.join(
+                app_path, 'migrations', 'avatars', img_name + '.jpg')
         # print(img_path)
         img_fd = open(img_path, 'rb')
         data = {'avatar': img_fd}
@@ -229,13 +228,16 @@ class TestApi(TestCase):
         self.assertEqual(json_ret["done"], "true")
         profile_after = Profile.objects.get(user=user)
         # print(profile_after.avatar_url())
-        self.assertTrue(profile_after.avatar.url.find(img_name)>=0)
+        self.assertTrue(profile_after.avatar.url.find(img_name) >= 0)
 
     def test_concrete_time_slots(self):
         client = Client()
         url = "/api/v1/concrete/timeslots?hours=100&weekly_time_slots=3+8+18"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_send_push(self):
+        send_push('Hello')
 
     def test_create_order(self):
         client = Client()
@@ -272,59 +274,59 @@ class TestApi(TestCase):
         charge_id = data['id']
 
         json_data = json.dumps({
-                "id":"evt_ugB6x3K43D16wXCcqbplWAJo",
-                "created":1440407501,
-                "livemode":False,
-                "type":"charge.succeeded",
-                "data":{
-                    "object":{
-                        "id": charge_id,
-                        "object":"charge",
-                        "created":1440407501,
-                        "livemode":True,
-                        "paid":True,
-                        "refunded":False,
-                        "app":"app_urj1WLzvzfTK0OuL",
-                        "channel":"upacp",
-                        "order_no":"123456789",
-                        "client_ip":"127.0.0.1",
-                        "amount":100,
-                        "amount_settle":0,
-                        "currency":"cny",
-                        "subject":"Your Subject",
-                        "body":"Your Body",
-                        "extra":{
-                            },
-                        "time_paid":1440407501,
-                        "time_expire":1440407501,
-                        "time_settle":None,
-                        "transaction_no":"1224524301201505066067849274",
-                        "refunds":{
-                            "object":"list",
-                            "url":"/v1/charges/ch_Xsr7u35O3m1Gw4ed2ODmi4Lw/refunds",
-                            "has_more":False,
-                            "data":[
-                                ]
-                            },
-                        "amount_refunded":0,
-                        "failure_code":None,
-                        "failure_msg":None,
-                        "metadata":{
-                            },
-                        "credential":{
-                            },
-                        "description":None
-                        }
-                    },
-                "object":"event",
-                "pending_webhooks":0,
-                "request":"iar_qH4y1KbTy5eLGm1uHSTS00s"
-        })
+            "id": "evt_ugB6x3K43D16wXCcqbplWAJo",
+            "created": 1440407501,
+            "livemode": False,
+            "type": "charge.succeeded",
+            "data": {
+                "object": {
+                    "id":  charge_id,
+                    "object": "charge",
+                    "created": 1440407501,
+                    "livemode": True,
+                    "paid": True,
+                    "refunded": False,
+                    "app": "app_urj1WLzvzfTK0OuL",
+                    "channel": "upacp",
+                    "order_no": "123456789",
+                    "client_ip": "127.0.0.1",
+                    "amount": 100,
+                    "amount_settle": 0,
+                    "currency": "cny",
+                    "subject": "Your Subject",
+                    "body": "Your Body",
+                    "extra": {
+                        },
+                    "time_paid": 1440407501,
+                    "time_expire": 1440407501,
+                    "time_settle": None,
+                    "transaction_no": "1224524301201505066067849274",
+                    "refunds": {
+                        "object": "list",
+                        "url": "/v1/charges/ch_Xsr7u35O3m1Ged2ODmi4Lw/refunds",
+                        "has_more": False,
+                        "data": [
+                            ]
+                        },
+                    "amount_refunded": 0,
+                    "failure_code": None,
+                    "failure_msg": None,
+                    "metadata": {
+                        },
+                    "credential": {
+                        },
+                    "description": None
+                    }
+                },
+            "object": "event",
+            "pending_webhooks": 0,
+            "request": "iar_qH4y1KbTy5eLGm1uHSTS00s"
+            })
 
         request_url = '/api/v1/charge_succeeded'
 
-        response = client.post(request_url, content_type="application/json",
-                                data=json_data)
+        response = client.post(
+                request_url, content_type="application/json", data=json_data)
         self.assertEqual(200, response.status_code)
 
         order = Order.objects.get(pk=pk)
@@ -517,7 +519,7 @@ class TestStaffWeb(TestCase):
 
     def test_coupon_config(self):
         client = Client()
-        client.login(username='test',password='mala-test')
+        client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:coupon_config"))
         self.assertEqual(response.status_code, 200)
 
