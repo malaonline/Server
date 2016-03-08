@@ -2,6 +2,7 @@
 @background-gray: #2f3440;
 
 #fullpage {
+  font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
   #section0.index-bg{
     background-image: url(../images/teacher_index_bg.png);
     background-position: bottom;
@@ -17,7 +18,7 @@
       color: white;
     }
     h3 {
-      font-size: 1.7em;
+      font-size: 2.2em;
     }
     h3,h4 {
       font-weight: 400;
@@ -25,9 +26,12 @@
     .index-nav {
       display: flex;
       align-items: center;
-      position: absolute;
+      position: fixed;
+      @media (min-width: 600px) {
+        position: absolute;
+      }
       top: 0;
-      height: 150px;
+      height: 110px;
       width: 100%;
       background-color: @background-gray;
       .col-xs-4 {
@@ -60,20 +64,29 @@
   }
     .intro {
         .row {
-          display: flex;
+          display: block;
+          @media (min-width: 768px) {
+            display: flex;
+          }
           flex-wrap: nowrap;
           align-items: center;
           justify-content: space-between;
           text-align: center;
+          .screen-only {
+            display: none;
+            @media (min-width: 768px) {
+              display: block;
+            }
+          }
           img.illustration {
             width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 80%;
+            margin: 20px auto;
           }
           img.illustration-big {
             width: 450px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 80%;
+            margin: 20px auto;
           }
           img#qr-img {
             margin-top: .5em;
@@ -84,16 +97,25 @@
           }
         }
       .row.down-icon-row {
-        display: inline-block;
-        position: absolute;
-        bottom: 4em;
-        img {
-          margin: 0 auto;
+        display: none;
+        @media (min-width: 600px) {
+          display: inline-block;
+          position: absolute;
+          bottom: 4em;
+          img {
+            margin: 0 auto;
+          }
         }
       }
-      }
+    }
     position: relative;
     text-align: center;
+  }
+  #section0 {
+    padding-top: 110px;
+    @media (min-width: 600px) {
+      padding-top: 0px;
+    }
   }
   #section2 h3,#section2 p {
     color: #916324;
