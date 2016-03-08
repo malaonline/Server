@@ -1,5 +1,6 @@
 import json
 import itertools
+import datetime
 import os
 
 from django.test import TestCase
@@ -10,7 +11,10 @@ from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
 from django.core.management import call_command
-from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order
+from django.utils import timezone
+
+from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
+        WeeklyTimeSlot
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
 
@@ -38,6 +42,15 @@ class TestApi(TestCase):
         user = User.objects.get(username="parent0")
         token = Token.objects.create(user=user)
         self.assertTrue(isinstance(token.key, str))
+
+    def test_concrete_timeslots(self):
+        hours = 2
+        weekly_time_slots = list(WeeklyTimeSlot.objects.filter(
+                weekday=1, start = datetime.time(8, 0)))
+        timeslots = Order.objects.concrete_timeslots(hours, weekly_time_slots)
+        self.assertEqual(len(timeslots), 1)
+        ts = timeslots[0]
+        self.assertEqual(timezone.localtime(ts['start']).hour, 8)
 
     def test_sms_login(self):
         phone = '0001'
