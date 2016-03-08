@@ -1556,12 +1556,19 @@ class Checkcode(BaseModel):
             return msg.get(code, "未知情况{code}".format(code=code))
 
 class WeiXinToken(BaseModel):
+
+    ACCESS_TOKEN = 1
+    JSAPI_TICKET = 2
+
+    TYPE_CHOICES = (
+        (ACCESS_TOKEN, 'access_token'),
+        (JSAPI_TICKET, 'jsapi_ticket'),
+    )
+
     token = models.CharField(max_length=600, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_in = models.PositiveIntegerField(default=0)
-    jsapi_ticket = models.CharField(max_length=600, null=True, blank=True)
-    jsapi_ticket_new_at = models.DateTimeField(null=True, blank=True)
-    jsapi_ticket_life = models.PositiveIntegerField(default=0)
+    token_type = models.PositiveIntegerField(null=True, blank=True, choices=TYPE_CHOICES)
 
     def __str__(self):
         return self.token
@@ -1569,11 +1576,5 @@ class WeiXinToken(BaseModel):
     def is_token_expired(self):
         now = timezone.now()
         expires_date = self.created_at + datetime.timedelta(seconds=(self.expires_in-20))
-        delta = expires_date - now
-        return delta.total_seconds() <= 0
-
-    def is_jsapi_ticket_expired(self):
-        now = timezone.now()
-        expires_date = self.jsapi_ticket_new_at + datetime.timedelta(seconds=(self.jsapi_ticket_life-20))
         delta = expires_date - now
         return delta.total_seconds() <= 0

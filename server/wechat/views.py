@@ -113,9 +113,6 @@ def wx_signature(params_obj):
     content = '&'.join(buf)
     return SHA.new(content.encode()).hexdigest()
 
-def _get_wx_config_from_db():
-    return models.WeiXinToken.objects.all().order_by('-id').first()
-
 def _get_wx_jsapi_ticket(access_token):
     jsapi_ticket = _get_wx_jsapi_ticket_from_db()
     msg = None
@@ -128,9 +125,9 @@ def _get_wx_jsapi_ticket(access_token):
     return jsapi_ticket, msg
 
 def _get_wx_jsapi_ticket_from_db():
-    tk = _get_wx_config_from_db()
-    if tk and tk.jsapi_ticket and (not tk.is_jsapi_ticket_expired()):
-        return tk.jsapi_ticket
+    tk = models.WeiXinToken.objects.filter(token_type=models.WeiXinToken.JSAPI_TICKET).order_by('-id').first()
+    if tk and tk.token and (not tk.is_token_expired()):
+        return tk.token
     return None
 
 def get_wx_jsapi_ticket_from_weixin(access_token):
@@ -141,12 +138,12 @@ def get_wx_jsapi_ticket_from_weixin(access_token):
     if req.status_code == 200:
         ret = json.loads(req.text)
         if "ticket" in ret:
-            wx_obj = _get_wx_config_from_db()
-            wx_obj.jsapi_ticket = ret['ticket']
-            wx_obj.jsapi_ticket_new_at = timezone.now()
+            models.WeiXinToken.objects.filter(token_type=models.WeiXinToken.JSAPI_TICKET).delete()
+            tk_obj = models.WeiXinToken(token_type=models.WeiXinToken.JSAPI_TICKET)
+            tk_obj.token = ret['ticket']
             if "expires_in" in ret:
-                wx_obj.jsapi_ticket_life = ret['expires_in']
-            wx_obj.save()
+                tk_obj.expires_in = ret['expires_in']
+            tk_obj.save()
             return {'ok': True, 'ticket': ret['ticket'], 'code': 0}
         else:
             return {'ok': False, 'msg': '获取微信jsapi_ticket出错!', 'code': -1}
@@ -165,8 +162,8 @@ def _get_wx_token():
     return token, msg
 
 def _get_wx_token_from_db():
-    tk = _get_wx_config_from_db()
-    if tk and (not tk.is_token_expired()):
+    tk = models.WeiXinToken.objects.filter(token_type=models.WeiXinToken.ACCESS_TOKEN).order_by('-id').first()
+    if tk and tk.token and (not tk.is_token_expired()):
         return tk.token
     return None
 
@@ -180,7 +177,7 @@ def get_token_from_weixin():
         ret = json.loads(req.text)
         if "access_token" in ret:
             models.WeiXinToken.objects.all().delete()
-            wxToken = models.WeiXinToken(token=ret['access_token'])
+            wxToken = models.WeiXinToken(token=ret['access_token'], token_type=models.WeiXinToken.ACCESS_TOKEN)
             if "expires_in" in ret:
                 wxToken.expires_in = ret['expires_in']
             wxToken.save()
