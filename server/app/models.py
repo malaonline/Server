@@ -669,7 +669,7 @@ class Account(BaseModel):
         """
         可提现金额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
         """
-        now = timezone.now()
+        now = timezone.localtime(timezone.now())
         end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
         end_day = end_day.replace(hour=0, minute=0, second=0, microsecond=0)
         AccountHistory = apps.get_model('app', 'AccountHistory')
@@ -911,7 +911,7 @@ class OrderManager(models.Manager):
 
     def concrete_timeslots(self, hours, weekly_time_slots):
         grace_time = TimeSlot.GRACE_TIME
-        date = timezone.now() + grace_time
+        date = timezone.localtime(timezone.now()) + grace_time
         date = date.replace(second=0, microsecond=0)
         date += datetime.timedelta(minutes=1)
 
