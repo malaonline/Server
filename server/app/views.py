@@ -700,8 +700,9 @@ class OrderSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
                   'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
-                  'status', 'order_id',)
-        read_only_fields = ('parent', 'price', 'total', 'status', 'order_id',)
+                  'status', 'order_id', 'to_pay')
+        read_only_fields = (
+                'parent', 'price', 'total', 'status', 'order_id', 'to_pay')
 
     def validate_hours(self, value):
         value = int(value)
@@ -742,7 +743,7 @@ class OrderViewSet(ParentBasedMixin,
         pingpp.api_key = settings.PINGPP_API_KEY
         ch = pingpp.Charge.create(
                 order_no=order.order_id,
-                amount=order.total,
+                amount=order.to_pay,
                 app=dict(id=settings.PINGPP_APP_ID),
                 channel=data['channel'],
                 currency='cny',
@@ -765,7 +766,7 @@ class OrderViewSet(ParentBasedMixin,
             assert ch['order_no'] == order.order_id
             charge.order_no = ch['order_no']
             charge.client_ip = ch['client_ip']
-            assert ch['amount'] == order.total
+            assert ch['amount'] == order.to_pay
             charge.amount = ch['amount']
             charge.amount_settle = ch['amount_settle']
             assert ch['currency'] == 'cny'

@@ -21,7 +21,6 @@ from app.utils.smsUtil import isTestPhone, isValidPhone, sendCheckcode, SendSMSE
 from django.utils.timezone import make_aware
 
 
-
 class BaseModel(models.Model):
     class Meta:
         abstract = True
@@ -890,13 +889,14 @@ class OrderManager(models.Manager):
 
         # pure total price, not calculate coupon's amount
         total = price * hours
+        to_pay = total - (coupon.amount if coupon else 0)
 
         order_id = orderid()
 
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours,
-                total=total, coupon=coupon, order_id=order_id)
+                total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)
 
         order.save()
         return order
@@ -1004,6 +1004,7 @@ class Order(BaseModel):
     hours = models.PositiveIntegerField()
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
+    to_pay = models.PositiveIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True, blank=True)
@@ -1029,9 +1030,9 @@ class Order(BaseModel):
     refund_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return '%s %s %s %s %s : %s' % (
+        return '%s %s %s %s %s %s: %s' % (
                 self.school, self.parent, self.teacher, self.grade,
-                self.subject, self.total)
+                self.subject, self.total, self.to_pay)
 
     def fit_statistical(self):
         # 主要用于FirstPage中
