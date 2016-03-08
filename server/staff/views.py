@@ -1337,8 +1337,8 @@ class OrderReviewView(BaseStaffView):
         # 可用筛选条件数据集
         # 订单状态 + 退费审核状态
         all_status = models.Order.STATUS_CHOICES + models.Order.REFUND_STATUS_CHOICES
-        # 去除 退费审核通过的状态, 前端不需要显示
-        remove_status = [models.Order.REFUND_APPROVED]
+        # 去除 退费审核通过 和 审核被驳回 的状态, 前端不需要显示
+        remove_status = [models.Order.REFUND_APPROVED, models.Order.REFUND_REJECTED]
         kwargs['status'] = []
         for key, text in all_status:
             if key in remove_status:
@@ -1410,7 +1410,15 @@ class OrderRefundView(BaseStaffView):
             query_set = query_set.filter(refund_status__isnull=False)
 
         # 可用筛选条件数据集
-        kwargs['status'] = models.Order.REFUND_STATUS_CHOICES
+        # 去除 审核被驳回 的状态, 前端不需要显示
+        all_status = models.Order.REFUND_STATUS_CHOICES
+        remove_status = [models.Order.REFUND_REJECTED]
+        kwargs['status'] = []
+        for key, text in all_status:
+            if key in remove_status:
+                continue
+            else:
+                kwargs['status'].append((key, text))
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
         query_set = query_set.order_by('-refund_at')

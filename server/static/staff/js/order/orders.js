@@ -114,30 +114,9 @@ $(function(){
 
     // 确认退费 link click
     $("[data-action=refund-approve]").click(function(e){
-        if(confirm("确定退费?")) {
+        if(confirm("确定退费审核通过?")) {
             var orderId = $(this).attr("orderId")
             var params = {'action': 'refund-approve', 'order_id': orderId};
-            $.post("/staff/orders/action/", params, function (result) {
-                if (result) {
-                    if (result.ok) {
-                        location.reload();
-                    } else {
-                        alert(result.msg);
-                    }
-                    return;
-                }
-                alert(defaultErrMsg);
-            }, 'json').fail(function () {
-                alert(defaultErrMsg);
-            });
-        }
-    });
-
-    // 退费驳回 link click
-    $("[data-action=refund-reject]").click(function(e){
-        if(confirm("确定驳回?")) {
-            var orderId = $(this).attr("orderId")
-            var params = {'action': 'refund-reject', 'order_id': orderId};
             $.post("/staff/orders/action/", params, function (result) {
                 if (result) {
                     if (result.ok) {

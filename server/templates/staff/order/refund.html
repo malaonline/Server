@@ -117,8 +117,7 @@
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
 {# 操作 #}       <td>
                     {% if order.refund_status == order.REFUND_PENDING %}
-                        <a class="" data-action="refund-approve" orderId={{ order.id }}>退费</a>
-                        | <a class="" data-action="refund-reject" orderId={{ order.id }}>驳回</a>
+                        <a class="" data-action="refund-approve" orderId={{ order.id }}>审核通过</a>
                     {% else %}
                         无
                     {% endif %}
