@@ -1391,11 +1391,11 @@ class TimeSlot(BaseModel):
         semaphore = posix_ipc.Semaphore('reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
 
-        # todo: 应该在后端也校验是否在可停课范围
         # 如果是已调课后的, 先获取原始课程
         old_timeslot = self.transferred_from if self.transferred_from is not None else self
-        # 得到最后一个 weekday 和 start,end 的 time 相同的 slot
-        time_slots = TimeSlot.objects.filter(order=old_timeslot.order).order_by('-start')
+        # 这里不能只看当前订单的最后一次课, 同一个学生可能还有其他订单约了老师后续的课程
+        # 因此需要得到"这个老师"最后一个 weekday 和 start, end 的 time 相同的 slot
+        time_slots = TimeSlot.objects.filter(order__teacher=old_timeslot.order.teacher).order_by('-start')
         last_slot = None
         for one in time_slots:
             if one.start.time() == old_timeslot.start.time() and one.start.weekday() == old_timeslot.start.weekday():
