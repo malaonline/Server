@@ -379,7 +379,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
         }
         //
 
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         int index = 0;
         //三列
         int len = smallTags.size()/3;
@@ -592,10 +592,11 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "get tags list error", error);
                 if (!MalaApplication.getInstance().isNetworkOk()) {
-                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后，重新加载");
+                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后加载");
                 }
                 mTagsLoading.setVisibility(View.GONE);
                 mTagsLoadAgain.setVisibility(View.VISIBLE);
+                mTagsContainer.setVisibility(View.GONE);
             }
         });
         requestQueue.add(jsonRequest);
@@ -705,7 +706,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     @OnClick(R.id.filter_bar_right)
     protected void onClickBtnSearch() {
         dismiss();
-        if (mAllTag.isSelected()){
+        if (mAllTag!=null&&mAllTag.isSelected()){
             TeacherListFilterActivity.open(this.getActivity(), mSelectedGrade, mSelectedSubject, null);
             return;
         }
@@ -726,8 +727,12 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
 
     @OnClick(R.id.tags_load_again)
     protected void onClickTagsLoadAgain() {
-        mTagsLoadAgain.setVisibility(View.GONE);
-        mTagsLoading.setVisibility(View.VISIBLE);
+        if (MalaApplication.getInstance().isNetworkOk()) {
+            mTagsLoading.setVisibility(View.VISIBLE);
+            mTagsLoadAgain.setVisibility(View.GONE);
+            mTagsContainer.setVisibility(View.GONE);
+            getTagsList();
+        }
         //getTagsList();
     }
 

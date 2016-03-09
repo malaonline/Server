@@ -25,6 +25,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by kang on 16/1/21.
@@ -88,6 +89,15 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
+    @OnClick(R.id.tags_load_again)
+    public void onClickLoadAgain() {
+        if (MalaApplication.getInstance().isNetworkOk()) {
+            mTagsLoading.setVisibility(View.VISIBLE);
+            mTagsLoadAgain.setVisibility(View.GONE);
+            mTagsContainer.setVisibility(View.GONE);
+            loadDatas();
+        }
+    }
 
     public void updateUI(){
         List<Map<String, Object>> smallTags = new ArrayList<>();
@@ -287,10 +297,11 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (!MalaApplication.getInstance().isNetworkOk()) {
-                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后，重新加载");
+                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后加载");
                 }
                 mTagsLoading.setVisibility(View.GONE);
                 mTagsLoadAgain.setVisibility(View.VISIBLE);
+                mTagsContainer.setVisibility(View.GONE);
             }
         });
         requestQueue.add(jsonRequest);

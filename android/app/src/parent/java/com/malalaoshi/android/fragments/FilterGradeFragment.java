@@ -87,7 +87,7 @@ public class FilterGradeFragment extends Fragment {
 
         // 小学
         Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
-        Map<String, Object> item = new HashMap<String, Object>();
+        Map<String, Object> item = null;/*new HashMap<String, Object>();
         item.put("id", primary.getId());
         item.put("name", primary.getName());
         if (extraGradeId==primary.getId()){
@@ -96,10 +96,10 @@ public class FilterGradeFragment extends Fragment {
         }else{
             item.put("selected", false);
         }
-        mPrimaryGrages.add(item);
+        mPrimaryGrages.add(item);*/
         // 初中
         Grade middle = Grade.getGradeById(Grade.MIDDLE_ID);
-        item = new HashMap<String, Object>();
+       /* item = new HashMap<String, Object>();
         item.put("id", middle.getId());
         item.put("name", middle.getName());
         if (extraGradeId==middle.getId()){
@@ -108,10 +108,10 @@ public class FilterGradeFragment extends Fragment {
         }else{
             item.put("selected",false);
         }
-        mMiddleGrages.add(item);
+        mMiddleGrages.add(item);*/
         // 高中
         Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
-        item = new HashMap<String, Object>();
+       /* item = new HashMap<String, Object>();
         item.put("id", senior.getId());
         item.put("name", senior.getName());
         if (extraGradeId==senior.getId()){
@@ -120,7 +120,7 @@ public class FilterGradeFragment extends Fragment {
         }else{
             item.put("selected",false);
         }
-        mSeniorGrages.add(item);
+        mSeniorGrages.add(item);*/
 
         // collect all grade
         for (Grade g: Grade.gradeList) {
