@@ -95,6 +95,9 @@ $(function(){
         return hasImg || hasPreImg;
     };
     //form保存操作
+    $('#certEditForm').submit(function(e){
+        return false;
+    });
     $("#certEditForm [data-action=save]").click(function(e){
         var $form = $('#certEditForm');
         var isOtherCertPage = $form.find('input[name=id]')[0]; // 是否是其他认证页面

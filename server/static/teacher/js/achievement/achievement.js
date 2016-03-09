@@ -85,6 +85,9 @@ $(function(){
         return hasImg || hasPreImg;
     };
     //form保存操作
+    $('#achieveEditForm').submit(function(e){
+        return false;
+    });
     $("#achieveEditForm [data-action=save]").click(function(e){
         var $form = $('#achieveEditForm');
         var title = $.trim($form.find('input[name=title]').val());
