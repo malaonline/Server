@@ -31,18 +31,18 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var schoolModel: [SchoolModel] = [] {
         didSet {
             // 刷新 [选择上课地点] Cell
-            dispatch_async(dispatch_get_main_queue()) {
-                self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-            }
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            })
         }
     }
     /// 上课地点Cell展开标识
     var isOpenSchoolsCell: Bool = false {
         didSet {
             if isOpenSchoolsCell != oldValue {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                }
+                dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                    self?.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                })
             }
         }
     }
@@ -50,9 +50,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var isOpenTimeScheduleCell: Bool = false {
         didSet {
             if isOpenTimeScheduleCell != oldValue {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
-                }
+                dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                    self?.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                })
             }
         }
     }
@@ -60,18 +60,20 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var classScheduleModel: [[ClassScheduleDayModel]] = [] {
         didSet {
             // 刷新 [选择上课地点][选择小时][上课时间] Cell
-            dispatch_async(dispatch_get_main_queue()) {
-                self.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
-            }
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+            })
+
         }
     }
     /// 上课时间表数据
     var timeScheduleResult: [String]? {
         didSet {
             // 刷新 [上课时间] Cell
-            dispatch_async(dispatch_get_main_queue()) {
-                self.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
-            }
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+            })
+
         }
     }
     /// 课时需要更新标记 (控制课时只在课程改变时更新，滑动重用时不变)
@@ -96,7 +98,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         backgroundColor = MalaTeacherCellBackgroundColor
         estimatedRowHeight = 400
         separatorStyle = .None
-        bounces = true
+        bounces = false
         contentInset = UIEdgeInsets(top: -40, left: 0, bottom: 4, right: 0)
         
         
@@ -166,9 +168,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             let cell = reuseCell as! CourseChoosingClassPeriodCell
             // 更新已选择课时数
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                if ((self?.isPeriodNeedUpdate) == true) {
+//                if ((self?.isPeriodNeedUpdate) == true) {
                     cell.updateSetpValue()
-                }
+//                }
             })
             self.isPeriodNeedUpdate = false
             return cell

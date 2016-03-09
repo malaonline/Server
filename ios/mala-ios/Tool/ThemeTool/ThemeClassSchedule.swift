@@ -17,7 +17,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     // MARK: - Property
     var model: [[ClassScheduleDayModel]]? {
         didSet {
-            println("时间表数据： \(model)")
             reloadData()
         }
     }
