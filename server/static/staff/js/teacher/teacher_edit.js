@@ -350,6 +350,8 @@ $(function(){
 
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
     $('[data-action=submit]').click(function(e){
+        var $this = $(this);
+        $this.addClass('disabled');
         $teacherEditForm = $("#teacherEditForm");
         $teacherEditForm.ajaxSubmit({
             dataType: 'json',
@@ -357,16 +359,19 @@ $(function(){
                 if (result) {
                     if (result.ok) {
                         alert("保存成功");
-                        history.back();
+                        location.href = listPageUrl;
                     } else {
                         alert(result.msg);
+                        $this.removeClass('disabled');
                     }
                     return;
                 }
                 alert(defaultErrMsg);
+                $this.removeClass('disabled');
             },
             error: function(e){
                 alert(defaultErrMsg);
+                $this.removeClass('disabled');
             }
         });
     });

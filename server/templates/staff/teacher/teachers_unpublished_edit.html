@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script>
+        var listPageUrl = "{% if teacher.published %}{% url 'staff:teachers_published' %}{% else %}{% url 'staff:teachers_unpublished' %}{% endif %}";
+    </script>
     <script src="{% static 'staff/js/teacher/teacher_edit.js' %}"></script>
 {% endblock %}
 
