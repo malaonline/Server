@@ -1411,6 +1411,8 @@ class CertificateIDView(BaseTeacherView):
                 return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
             context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
+        if not check_id_number(id_num):
+            return JsonResponse({'ok': False, 'msg': '身份证号不合法', 'code': -1})
         certIdHeld.name = id_num
 
         if request.FILES:

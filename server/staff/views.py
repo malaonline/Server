@@ -19,6 +19,7 @@ import json
 # local modules
 from app import models
 from app.utils import smsUtil
+from app.utils.algorithm import check_id_number
 from app.utils.types import parseInt
 from app.utils.db import paginate
 from .decorators import mala_staff_required, is_manager
@@ -348,12 +349,17 @@ class TeacherUnpublishedEditView(BaseStaffView):
             newTagIds  = request.POST.getlist('tag')
             if not newTagIds or len(newTagIds)>3:
                 return JsonResponse({'ok': False, 'msg': '风格标记 (最少选一个，最多选3个)', 'code': -1})
+            certIdHeldOk = request.POST.get('certIdHeldOk')
+            id_num = request.POST.get('id_num')
+            if certIdHeldOk and certIdHeldOk=='True':
+                if not check_id_number(id_num):
+                    return JsonResponse({'ok': False, 'msg': '身份证号不合法', 'code': -1})
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
             profile = teacher.user.profile
             # 基本信息
             teacher.name = request.POST.get('name')
-            certIdHeld.name = request.POST.get('id_num')
+            certIdHeld.name = id_num
             profile.phone = request.POST.get('phone')
             profile.gender = request.POST.get('gender')
             province = request.POST.get('province')
@@ -416,7 +422,6 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 highscore.save()
             ### 认证
             # 身份认证
-            certIdHeldOk = request.POST.get('certIdHeldOk')
             if certIdHeldOk and certIdHeldOk=='True':
                 certIdHeld.verified = True
             else:
