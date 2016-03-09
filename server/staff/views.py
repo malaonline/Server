@@ -1116,10 +1116,16 @@ class StudentScheduleChangelogView(BaseStaffView):
             query_set = query_set.filter(
                 trans_to_set__isnull = False
             )
-        if status == "suspended":
+        elif status == "suspended":
             query_set = query_set.filter(
                 Q(deleted=True) &
+                Q(suspended=True) &
                 Q(trans_to_set__isnull = True)
+            )
+        else: # 调课和停课都拿出来
+            query_set = query_set.filter(
+                Q(trans_to_set__isnull = False) |
+                Q(suspended=True)
             )
         if searchDateOri:
             stTime = datetime.datetime.strptime(searchDateOri, '%Y-%m-%d')
