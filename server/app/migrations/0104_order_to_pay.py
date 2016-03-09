@@ -9,8 +9,8 @@ def update_order_to_pay(apps, schema_editor):
     Order = apps.get_model('app', 'Order')
     orders = Order.objects.all()
     for order in orders:
-        order.to_pay = order.total - (
-                order.coupon.amount if order.coupon else 0)
+        order.to_pay = max(order.total - (
+                order.coupon.amount if order.coupon else 0), 0)
         order.save()
 
 
