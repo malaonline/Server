@@ -695,8 +695,12 @@ class Account(BaseModel):
         预计收入, 完成未来所有课时后将会得到的金额
         :return:
         """
-        # TODO: 预计收入
-        return 0
+        Order = apps.get_model('app', 'Order')
+        orders = Order.objects.filter(teacher__user=self.user, status=Order.PAID)
+        sum = 0
+        for order in orders:
+            sum += order.remaining_amount()
+        return sum
 
     def __str__(self):
         return '%s : %d' % (self.user, self.balance)
