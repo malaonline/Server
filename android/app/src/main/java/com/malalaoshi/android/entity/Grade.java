@@ -14,7 +14,7 @@ import java.util.Map;
 public class Grade extends BaseEntity{
     public static final long PRIMARY_ID = 1;
     public static final long MIDDLE_ID = 8;
-    public static final long SENIOR_ID = 13;
+    public static final long SENIOR_ID = 12;
 
     private Boolean leaf;
     private Long supersetId;
@@ -77,10 +77,10 @@ public class Grade extends BaseEntity{
         gradeList.add(new Grade(10L, "初二", true, MIDDLE_ID));
         gradeList.add(new Grade(11L, "初三", true, MIDDLE_ID));
 
-        gradeList.add(new Grade(13L, "高中", false));
-        gradeList.add(new Grade(14L, "高一", true, SENIOR_ID));
-        gradeList.add(new Grade(15L, "高二", true, SENIOR_ID));
-        gradeList.add(new Grade(16L, "高三", true, SENIOR_ID));
+        gradeList.add(new Grade(12L, "高中", false));
+        gradeList.add(new Grade(13L, "高一", true, SENIOR_ID));
+        gradeList.add(new Grade(14L, "高二", true, SENIOR_ID));
+        gradeList.add(new Grade(15L, "高三", true, SENIOR_ID));
 
         gradeMap = new HashMap<>(gradeList.size()*2);
         for(Grade g: gradeList) {
