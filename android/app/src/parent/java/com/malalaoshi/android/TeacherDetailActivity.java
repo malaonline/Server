@@ -47,10 +47,10 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
-import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
+import com.malalaoshi.android.util.Number;
 
 import java.util.ArrayList;
 import java.util.List;
