@@ -1271,6 +1271,7 @@ class OrderReviewView(BaseStaffView):
         school = self.request.GET.get('school')
         order_date_from = self.request.GET.get('order_date_from')
         order_date_to = self.request.GET.get('order_date_to')
+        page = self.request.GET.get('page')
 
         query_set = models.Order.objects.filter()
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
@@ -1350,7 +1351,10 @@ class OrderReviewView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
         query_set = query_set.order_by('-created_at')
+        # paginate
+        query_set, pager = paginate(query_set, page, 5)
         kwargs['orders'] = query_set
+        kwargs['pager'] = pager
         return super(OrderReviewView, self).get_context_data(**kwargs)
 
 
@@ -1368,6 +1372,7 @@ class OrderRefundView(BaseStaffView):
         order_id = self.request.GET.get('order_id')
         subject = self.request.GET.get('subject')
         status = self.request.GET.get('status')
+        page = self.request.GET.get('page')
 
         query_set = models.Order.objects.filter()
         # 退费申请区间
@@ -1422,6 +1427,9 @@ class OrderRefundView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
         query_set = query_set.order_by('-refund_at')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['pager'] = pager
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
 

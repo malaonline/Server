@@ -66,7 +66,7 @@
         </div>
     </form>
 
-    <table align="center" border="1" cellspacing="0" width="100%">
+    <table align="center" border="1" cellspacing="0" width="100%" class="table-striped">
         <tr>
             <th>申请退费时间</th>
             <th>订单号</th>
@@ -125,4 +125,5 @@
             </tr>
         {% endfor %}
     </table>
+    {% include 'pagination_nav.html' %}
 {% endblock %}

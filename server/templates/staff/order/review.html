@@ -93,7 +93,7 @@
         </div>
     </form>
 
-    <table align="center" border="1" cellspacing="0" width="100%">
+    <table align="center" border="1" cellspacing="0" width="100%" class="table-striped">
         <tr>
             <th>订单号</th>
             <th>下单时间</th>
@@ -197,6 +197,7 @@
             </tr>
         {% endfor %}
     </table>
+    {% include 'pagination_nav.html' %}
 
     <div id="refundModal" class="modal fade" role="dialog" style="margin: 0 auto;">
         <div class="modal-dialog modal-sm" role="document">
