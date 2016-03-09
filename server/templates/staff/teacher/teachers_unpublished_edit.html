@@ -89,7 +89,7 @@
                 <div class="col-sm-9">
                     <select name="level">
                         {% for level in levels %}
-                            <option value="{{ level.id }}" {% if level.id == teacher.level %} selected="selected"{% endif %}>{{ level.name }}</option>
+                            <option value="{{ level.id }}" {% if level.id == teacher.level.id %} selected="selected"{% endif %}>{{ level.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
