@@ -265,8 +265,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     // MARK: - Deleagte
     func signupButtonDidTap(sender: UIButton) {
-        //TODO: 点击“立即报名” 滚动到底部
-        // tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 8), atScrollPosition: .Bottom, animated: true)
         let viewController = CourseChoosingViewController()
         viewController.teacherModel = model
         self.navigationController?.pushViewController(viewController, animated: true)

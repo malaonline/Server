@@ -63,12 +63,14 @@ class MalaBaseCell: UITableViewCell {
         }
     }
     /// 标签字符串数组
-    var labels: [String]? {
+    var labels: [String] = [] {
         didSet {
-            for view in self.tagsView.subviews {
-                view.removeFromSuperview()
+            if labels != oldValue {
+                for view in self.tagsView.subviews {
+                    view.removeFromSuperview()
+                }
+                self.tagsView.setTags(labels)
             }
-            self.tagsView.setTags(labels)
         }
     }
     

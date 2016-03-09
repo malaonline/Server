@@ -57,8 +57,8 @@ class MATabListView: UIView {
             newRect.size = size
             label.frame = newRect
             previousFrame = label.frame
-            self.setHeight(totalHeight + size.height)
             self.addSubview(label)
+            self.setHeight(totalHeight + size.height)
         }
     }
     
@@ -71,4 +71,3 @@ class MATabListView: UIView {
         }
     }
 }
-
