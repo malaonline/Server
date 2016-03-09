@@ -525,3 +525,6 @@ function ajaxLoadSchool(lat, lng){
       }
     });
 }
+$('.ext_weui_btn_primary').click(function(){
+  //TODO 报名
+});
