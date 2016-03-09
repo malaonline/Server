@@ -889,7 +889,7 @@ class OrderManager(models.Manager):
 
         # pure total price, not calculate coupon's amount
         total = price * hours
-        to_pay = total - (coupon.amount if coupon else 0)
+        to_pay = max(total - (coupon.amount if coupon else 0), 0)
 
         order_id = orderid()
 
