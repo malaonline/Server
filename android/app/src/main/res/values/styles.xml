@@ -197,4 +197,6 @@
         <item name="android:minHeight">40dip</item>
         <item name="android:maxHeight">40dip</item>
     </style>
+
+    <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
 </resources>

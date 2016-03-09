@@ -116,7 +116,7 @@ public class CommentDialog extends DialogFragment{
         teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
         courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
         commentId = getArguments().getString(ARGS_DIALOG_COMMENT_ID,"");
-        timeslot = getArguments().getLong(ARGS_DIALOG_COMMENT_ID, 0L);
+        timeslot = getArguments().getLong(ARGS_DIALOG_TIMESLOT, 0L);
         init();
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
@@ -341,7 +341,7 @@ public class CommentDialog extends DialogFragment{
     @OnClick(R.id.tv_submit)
     public void onClickSubmit(View v){
         String content = editComment.getText().toString();
-        Integer scorce = ratingbar.getNumStars();
+        float scorce = ratingbar.getRating();
         if (content==null){
             content = "";
         }
@@ -358,8 +358,8 @@ public class CommentDialog extends DialogFragment{
             @Override
             public void onSucceed(Object json) {
                 try {
-                    JSONObject jo = new JSONObject(json.toString());
-                    if (jo.optBoolean(Constants.DONE, false)) {
+                    Comment  comment = JsonUtil.parseStringData(json.toString(),Comment.class);
+                    if (comment!=null) {
                         Log.i("CommentDialog", "Set student's name succeed : " + json.toString());
                         commentSucceed();
                         return;

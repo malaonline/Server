@@ -616,17 +616,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.parent_teacher_signup_btn:
-                //查看更多照片
-                Intent signIntent = new Intent(this, CourseConfirmActivity.class);
-                if(mSchools!=null) {
-                    signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
-                            mSchools.toArray(new School[mSchools.size()]));
-                }
-                if(mTeacher!=null && mTeacher.getPrices()!=null) {
-                    signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
-                            mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
-                }
-                startActivity(signIntent);
+                //
+                signUp();
                 break;
             case R.id.parent_teacher_detail_gallery_more_iv:
                 //查看更多照片
@@ -648,12 +639,14 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //判断是否登录
         if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
             //跳转至报名页
-            startActivity();
+            startCourseConfirmActivity();
         }else{
             //跳转登录页
             startSmsActivityRes();
         }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -661,7 +654,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         if (requestCode==REQUEST_CODE_LOGIN){
             if (resultCode==SmsAuthActivity.RESULT_CODE_LOGIN_SUCCESSED){
                 //跳转到课程购买页
-                startActivity();
+                startCourseConfirmActivity();
             }
         }
     }
@@ -674,8 +667,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     //启动购买课程页
-    private void startActivity(){
-
+    private void startCourseConfirmActivity(){
+        Intent signIntent = new Intent(this, CourseConfirmActivity.class);
+        if(mSchools!=null) {
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
+                    mSchools.toArray(new School[mSchools.size()]));
+        }
+        if(mTeacher!=null && mTeacher.getPrices()!=null) {
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
+                    mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
+        }
+        startActivity(signIntent);
     }
 
     //设置上滑头像消失

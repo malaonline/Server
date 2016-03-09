@@ -121,11 +121,12 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
             String str = " 课未上 ";
             if (courses.get(i).is_passed()){
                 str = " 课已上 ";
+                CommentDialog commentDialog = CommentDialog.newInstance("teacherName" ,"teacherAvatar", courses.get(i).getSubject(), Long.valueOf(courses.get(i).getId()), "");
+                commentDialog.show(getFragmentManager(), CommentDialog.class.getName());
             }
             stringBuilder.append(courses.get(i).getSubject() + str);
         }
-        CommentDialog commentDialog = CommentDialog.newInstance("teacherName" ,"teacherAvatar", "courseName", 123L, "1");
-        commentDialog.show(getFragmentManager(),CommentDialog.class.getName());
+
         Toast.makeText(getContext(), calendarDay.getYear() + "年" + calendarDay.getMonth() + "月" + calendarDay.getDay() + " 课程:" + stringBuilder.toString() , Toast.LENGTH_SHORT).show();
     }
 

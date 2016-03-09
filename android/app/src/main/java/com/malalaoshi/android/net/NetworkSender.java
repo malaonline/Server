@@ -32,9 +32,7 @@ public class NetworkSender {
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
-    private static final String URL_TEACHER = "/api/v1/teachers";
-    private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders";
-    private static final String URL_CREATE_TIMES_LOTS = "/api/v1/timeslots";
+    private static final String URL_TIMES_LOTS = "/api/v1/timeslots";
     private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
@@ -173,9 +171,9 @@ public class NetworkSender {
     }
 
     public static void getTimetable(NetworkListener listener) {
-            Map<String, String> headers = new HashMap<>();
-            headers.put(Constants.AUTH, getToken());
-            stringRequest(Request.Method.GET, URL_COUPON_LIST, headers, listener);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.GET, URL_TIMES_LOTS, headers, listener);
 
     }
 
@@ -199,7 +197,6 @@ public class NetworkSender {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
-        //TODO tianwei Waiting for sms verification api to get parentId
         jsonRequest(Request.Method.POST, URL_CREATE_COMMENT, headers, params, listener);
     }
 }
