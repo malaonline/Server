@@ -1256,7 +1256,7 @@ class Comment(BaseModel):
 
 class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
-    RENEW_TIME = datetime.timedelta(hours=2)
+    RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
 
