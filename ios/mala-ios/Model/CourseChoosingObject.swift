@@ -51,8 +51,15 @@ class CourseChoosingObject: NSObject {
     ///
     ///  - returns: 原价
     func getPrice() ->Int {
-        if (gradePrice?.price != nil && selectedTime.count != 0 && classPeriod != 0) {
+        // [课程]、[上课时间]、[课时]三个条件均符合规则, 且[课时数]大于等于[选择上课时间数*2]时，使用[课时]进行费用计算
+        if (gradePrice?.price != nil && selectedTime.count != 0 && classPeriod >= selectedTime.count*2) {
             return (gradePrice?.price)! * classPeriod
+        
+        // 若[课时数]和[上课时间数]不符合，则按照[上课时间数]来进行费用计算
+        }else if (gradePrice?.price != nil && selectedTime.count != 0){
+            return (gradePrice?.price)! * selectedTime.count*2
+            
+        // 不合规则
         }else {
             return 0
         }
