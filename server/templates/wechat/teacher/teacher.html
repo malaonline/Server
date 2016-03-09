@@ -14,10 +14,40 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}">
+    <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
+        wx.config({
+            debug: true, // 开启调试模式?
+            appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
+            timestamp: '{{ server_timestamp }}', // 必填，生成签名的时间戳
+            nonceStr: '{{ WX_NONCE_STR }}', // 必填，生成签名的随机串
+            signature: '{{ WX_SIGNATURE }}',// 必填，签名
+            jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
+        });
+        wx.error(function(){
+            alert("wx.config错误");
+        });
+        wx.ready(function(res){
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function(res){
+                    alert('wx.getLocation success');
+                    alert(res);
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+                    ajaxLoadSchool(res.latitude, res.longitude);
+                },
+                fail: function(res){
+                    alert('wx.getLocation fail');
+                }
+            });
+        });
         var openid = "{{openid}}";
         var userPhotos = [];
         var schoolPhotos = [];
+        var pullDownImg = '{% static 'common/icons/pull_down.png' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url }}";
@@ -35,7 +65,6 @@
         {%endif%}
         function pageload(){
             $('.teacher_avatar').attr('src', '{{teacher.avatar.url}}');
-            $('#moreSchoolDown').attr('src', '{% static 'common/icons/pull_down.png' %}');
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img>');
               nimg.attr('src', userPhotos[i]);
@@ -132,7 +161,7 @@
                     <div>
                         教学环境
                     </div>
-                    <div>
+                    <div id="schoolsDiv">
                         {%if schools%}
                             {%for sc in schools%}
                                 <div class="school_cont">

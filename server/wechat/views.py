@@ -325,15 +325,6 @@ def template_msg_data_pay_info(request):
 def teacher_view(request):
     template_name = 'wechat/teacher/teacher.html'
     openid = request.GET.get("openid", None)
-    lat = request.GET.get("lat", None)
-    lng = request.GET.get("lng", None)
-
-    point = None
-    if lat is not None and lng is not None:
-        point = {
-            'lat': float(lat),
-            'lng': float(lng)
-        }
 
     if not openid:
         openid = request.POST.get("openid", None)
@@ -368,7 +359,24 @@ def teacher_view(request):
             _temp = _heap[grade.superset_id]
             _temp['children'].append({'id':grade.id, 'name':grade.name})
 
+    now = timezone.now()
+    now_timestamp = int(now.timestamp())
+
+    nonce_str = random_string().replace('-','')
+    access_token, msg = _get_wx_token()
+    jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
+    cur_url = request.build_absolute_uri()
+    signature = wx_signature({'noncestr': nonce_str,
+                            'jsapi_ticket': jsapi_ticket,
+                            'timestamp': now_timestamp,
+                            'url': cur_url})
+
     context = {
+        "server_timestamp": now_timestamp,
+        "WX_APPID": settings.WEIXIN_APPID,
+        "WX_APP_SECRET": settings.WEIXIN_APP_SECRET,
+        "WX_NONCE_STR": nonce_str,
+        "WX_SIGNATURE": signature,
         "openid": openid,
         "gender": gender,
         "tags": list(teacher.tags.all()),
@@ -377,15 +385,25 @@ def teacher_view(request):
         "subjects": models.Subject.objects.all,
         "grades_tree": grades_tree,
         "teacher_grade_ids": [grade.id for grade in teacher.grades()],
-        "schools": getSchools(point),
         "teacher": teacher
     }
 
     return render(request, template_name, context)
 
-def getSchools(point):
+@csrf_exempt
+def getSchoolsWithDistance(request):
+    lat = request.POST.get("lat", None)
+    lng = request.POST.get("lng", None)
+
+    point = None
+    if lat is not None and lng is not None:
+        point = {
+            'lat': float(lat),
+            'lng': float(lng)
+        }
+
     if not point:
-        return None
+        JsonResponse({'ok': False, 'msg': 'no lat,lng', 'code': -1})
     schools = models.School.objects.all()
     ret = []
     for school in schools:
@@ -394,7 +412,7 @@ def getSchools(point):
             'name': school.name,
             'img': school.get_thumbnail(),
             'address': school.address,
-            'region': school.region
+            'region': school.region.name
         }
         if school.latitude is not None and school.longitude is not None:
             pointB = {
@@ -408,7 +426,7 @@ def getSchools(point):
     for sc in ret:
         if 'dis' in sc and sc['dis'] is not None:
             sc['dis'] = sc['dis']/1000
-    return ret
+    return JsonResponse({'ok': True, 'schools': ret, 'code': 0})
 
 def calculateDistance(pointA, pointB):
   R = 6371000; #metres

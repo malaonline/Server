@@ -475,7 +475,53 @@ $('#photoContent').click(function(){
     $slide.css('display', 'none');
   });
 });
-$('#more_schools').click(function(){
-  $('.more_schools').css('display', 'none');
-  $('.school_cont').css('display', '-webkit-box');
-});
+function ajaxLoadSchool(lat, lng){
+  $.post("/wechat/teacher/schools/", {lat: lat, lng: lng},
+    function(data){
+      if(data.ok == false){
+        console.log("获取学校失败")
+      }else{
+          var schools = data.schools;
+          for(var i=0;i<schools.length;i++){
+              var sc = schools[i];
+              var schoolDis = $('<div>');
+              var dis = Number(sc.dis);
+              dis = isNaN(dis) ? '' : dis.toFixed(0)+'km';
+              schoolDis.html(dis);
+              schoolDis.addClass('school_dis');
+              var schollReg = $('<div>');
+              schollReg.html(sc.region);
+              var disRegCont = $('<div>');
+              disRegCont.append(schoolDis);
+              disRegCont.append(schollReg);
+              var wdCont = $('<div>');
+              wdCont.append(sc.name+sc.address);
+              wdCont.append(disRegCont);
+              var nimg = $('<img>');
+              nimg.attr('src', sc.img);
+              var allCont = $('<div>');
+              allCont.append(nimg);
+              allCont.append(wdCont);
+              var school_cont = $('<div>');
+              school_cont.append(allCont);
+              school_cont.addClass('school_cont');
+
+              $('#schoolsDiv').append(school_cont);
+
+              if(i==0){
+                  var nimg = $('<img>');
+                  nimg.attr('src', pullDownImg);
+                  var moreBtn = $('<div>');
+                  moreBtn.append("其他社区中心");
+                  moreBtn.append(nimg);
+                  moreBtn.addClass('more_schools');
+                  moreBtn.click(function(){
+                    $('.more_schools').css('display', 'none');
+                    $('.school_cont').css('display', '-webkit-box');
+                  });
+                  $('#schoolsDiv').append(moreBtn);
+              }
+          }
+      }
+    });
+}
