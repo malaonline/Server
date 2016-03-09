@@ -1540,6 +1540,9 @@ class OrderRefundActionView(BaseStaffActionView):
                 except IntegrityError as err:
                     logger.error(err)
                     return JsonResponse({'ok': False, 'msg': '退费失败, 请稍后重试或联系管理员', 'code': 'order_08'})
+                except AssertionError as err:
+                    logger.error(err)
+                    return JsonResponse({'ok': False, 'msg': '退费失败, 订单剩余小时与将要退费的课程时间不符, 请稍后重试或联系管理员', 'code': 'order_09'})
         return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
 
     def refund_approve(self, request):
