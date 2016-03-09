@@ -1374,6 +1374,7 @@ class MyLevel(MyWalletBase):
         for key, val in models.LevelRecord.OPERATION_CHOICE:
             operation[key] = val
         level_record_list = teacher.levelrecord_set.all().order_by("teacher__levelrecord__create_at")
+        # TODO: 初始时间按照哪个算?
         level_record_list_str = ["{time} 成为麻辣老师".format(time=timezone.now().strftime("%Y-%m-%d"))]
         for one_level_record in level_record_list:
             level_record_list_str.append(
@@ -1384,7 +1385,7 @@ class MyLevel(MyWalletBase):
                 )
             )
         context["level_record"] = level_record_list_str
-        # 显示等级权益
+        # 显示等级权益, TODO: 权益按照老师的第几个能力算?
         all_level_rights = []
         for one_price in models.Price.objects.filter(region=teacher.region, ability=teacher.abilities.all()[0]).order_by("level__level_order"):
             all_level_rights.append(
@@ -1395,7 +1396,7 @@ class MyLevel(MyWalletBase):
                 ]
             )
         context["level_rights"] = all_level_rights
-        # 显示评估时间
+        # 显示评估时间, TODO:如果record没有,初始时间是哪个?
         if level_record_list:
             last_evaluation = level_record_list[0].create_at
         else:

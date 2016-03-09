@@ -55,6 +55,11 @@ class TestWebPage(TestCase):
         teacher.save()
         teacher_account = Account(user=teacher_user)
         teacher_account.save()
+        grade = Grade.objects.get(name="高三")
+        subject = Subject.objects.get(name="英语")
+        ability = Ability.objects.get(grade=grade, subject=subject)
+        teacher.abilities.add(ability)
+        teacher.save()
         # 创建家长
         parent_user = User.objects.create(username=self.parent_name)
         parent_user.password = make_password(self.parent_password, self.parent_salt)
