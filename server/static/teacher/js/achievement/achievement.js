@@ -79,6 +79,11 @@ $(function(){
     $("#achieveEditForm [data-action=cancel]").click(function(e){
         location.href = listPageUrl; // go back list page, do not reset form
     });
+    var hasImg = function($editBox) {
+        var hasImg = !!$editBox.find('.img-box img').attr('src');
+        var hasPreImg = !!$editBox.find('.img-preview-box img').attr('src');
+        return hasImg || hasPreImg;
+    };
     //form保存操作
     $("#achieveEditForm [data-action=save]").click(function(e){
         var $form = $('#achieveEditForm');
@@ -91,12 +96,15 @@ $(function(){
             alert('名称不能超过10个字');
             return false;
         }
+        if (!hasImg($form.find('.img-upload-box'))) {
+            return alert("请上传图片");
+        }
         $form.ajaxSubmit({
             dataType: 'json',
             success: function(result){
                 if (result) {
                     if (result.ok) {
-                        location.href = '/teacher/achievement';
+                        location.href = listPageUrl;
                     } else {
                         alert(result.msg);
                     }
