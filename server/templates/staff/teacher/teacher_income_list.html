@@ -35,9 +35,9 @@
                 <td>{# 授课年级 #} {% if account.user.teacher.grades %} {% for g in account.user.teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
                 <td>{# 科目 #} {% if account.user.teacher.subject %}{{ account.user.teacher.subject }}{% else %}未填{% endif %}</td>
                 <td>{# 所在地区 #} {% if account.user.teacher.region %}{{ account.user.teacher.region.full_name }}{% else %}未填{% endif %}</td>
-                <td>{# 账户余额 #} {{ account.calculated_balance|money_format:'' }}</td>
-                <td>{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'' }}</td>
-                <td>{# 累计收入 #} {{ account.accumulated_income|money_format:'' }}</td>
+                <td>{# 账户余额 #} {{ account.calculated_balance|money_format:'/' }}</td>
+                <td>{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'/' }}</td>
+                <td>{# 累计收入 #} {{ account.accumulated_income|money_format:'/' }}</td>
                 <td field="action">{# 收入明细 #}
                     <a data-action="show-detail" href="{% url 'staff:teachers_income_detail' tid=account.user.teacher.id %}">查看</a>
                 </td>

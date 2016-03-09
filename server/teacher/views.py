@@ -1216,7 +1216,7 @@ class MyWalletWithdrawal(MyWalletBase):
             bankcard = account.bankcard_set.all()[0]
             context["bank_card_number"] = " ".join(bankcard.mask_card_number())
             context["bank_name"] = bankcard.bank_name
-        context["balance"] = "%.2f" % account.withdrawable_amount
+        context["balance"] = "%.2f" % (account.withdrawable_amount/100)
         context["phone"] = json.dumps({"code": teacher.user.profile.mask_phone()})
         pp(context)
 

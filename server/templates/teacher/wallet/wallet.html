@@ -24,15 +24,15 @@
     <div class="clearfix panel summary">
         <div class="col-sm-8 amounts">
             <div class="panel-body balance-box">
-                <div class="col-sm-5">可用余额: <span class="balance">￥{{ account.calculated_balance|money_format:'' }}</span></div>
+                <div class="col-sm-5">可用余额: <span class="balance">￥{{ account.calculated_balance|money_format:'/' }}</span></div>
                 <div class="col-sm-7 text-right actions">
                     <a class="btn btn-small btn-default go-withdraw" href="{% url 'teacher:my-wallet-withdrawal' %}">提现</a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="show-withdraws" href="{% url 'teacher:my-wallet-withdrawal-record' %}">提现记录</a>
                 </div>
             </div>
             <div class="panel-body sum-box">
-                <div class="col-sm-5 border-right">累计收入: ￥{{ account.accumulated_income|money_format:'' }}</div>
-                <div class="col-sm-5">未消耗课时金额: ￥{{ account.anticipated_income|money_format:'' }}</div>
+                <div class="col-sm-5 border-right">累计收入: ￥{{ account.accumulated_income|money_format:'/' }}</div>
+                <div class="col-sm-5">未消耗课时金额: ￥{{ account.anticipated_income|money_format:'/' }}</div>
             </div>
         </div>
         <div class="col-sm-4 panel-body bank-card-box">
