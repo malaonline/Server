@@ -11,3 +11,10 @@ class classproperty(object):
 
     def __get__(self, instance, owner):
         return self.getter(owner)
+
+
+def get_request_ip(request):
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        return request.META['HTTP_X_FORWARDED_FOR']
+    else:
+        return request.META['REMOTE_ADDR']

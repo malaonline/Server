@@ -2,12 +2,24 @@ import logging
 import json
 import requests
 from Crypto.Hash import SHA
+import xmltodict
 
 # django modules
 from django.conf import settings
 
 # local modules
 from app import models
+from app.utils import random_string, get_request_ip
+
+
+def make_nonce_str():
+    return random_string().replace('-','')
+
+def _wx_dict2xml(d):
+    return xmltodict.unparse({'xml': d})
+
+def _wx_xml2dict(xmlstr):
+    return xmltodict.parse(xmlstr)['xml']
 
 def wx_signature(params_obj):
     keys = params_obj.keys()
@@ -59,3 +71,54 @@ def get_wx_jsapi_ticket_from_weixin(access_token):
             return {'ok': False, 'msg': '获取微信jsapi_ticket出错!', 'code': -1}
     else:
         return {'ok': False, 'msg': '获取微信jsapi_ticket出错，请联系管理员!', 'code': -1}
+
+
+def wx_unified_order(order, request):
+    """
+    参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+    """
+    wx_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder'
+
+    params = {}
+    params['appid'] = settings.WEIXIN_APPID
+    params['mch_id'] = settings.WEIXIN_MERCHANT_ID
+    params['device_info'] = 'WEB'  # 终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
+    params['nonce_str'] = make_nonce_str()
+    params['body'] = '课程购买'
+    # params['detail'] = ''        # not required
+    # params['attach'] = ''        # not required
+    # params['fee_type'] = 'CNY'   # not required, 默认人民币：CNY
+    params['out_trade_no'] = order.id   # Order model记录的ID
+    params['total_fee'] = order.to_pay  # 订单总金额，单位为分
+    sp_ip = get_request_ip(request)     # APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+    params['spbill_create_ip'] = sp_ip
+    # params['time_start'] = ''    # not required, yyyyMMddHHmmss
+    # params['time_expire'] = ''   # not required, yyyyMMddHHmmss
+    # params['goods_tag'] = ''     # not required, 代金券或立减优惠功能的参数
+    # params['product_id'] = ''    # not required
+    # params['limit_pay'] = ''     # not required, no_credit--指定不能使用信用卡支付
+    params['notify_url'] = ''           # TODO: 接收微信支付异步通知回调地址
+    params['trade_type'] = 'JSAPI'      # JSAPI，NATIVE，APP
+    params['openid'] = ''               # trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。
+    # 签名
+    params['sign'] = wx_signature(params)
+
+    req_xml_str = _wx_dict2xml(params)
+
+    resp = requests.post(wx_url, data=req_xml_str)
+    if resp.status_code == 200:
+        resp_dict = _wx_xml2dict(resp.text)
+        return_code = resp_dict['return_code']
+        if return_code != 'SUCCESS':
+            return {'ok': False, 'msg': resp_dict['return_msg'], 'code': 1}
+        given_resp_sign = resp_dict.pop('sign', None)
+        calculated_resp_sign = wx_signature(resp_dict)
+        print(given_resp_sign==calculated_resp_sign)
+        result_code = resp_dict['result_code']
+        if result_code != 'SUCCESS':
+            return {'ok': False, 'msg': resp_dict['err_code_des'], 'code': 1}
+        prepay_id = resp_dict['prepay_id']
+        print(prepay_id)
+        return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
+    else:
+        return {'ok': False, 'msg': '网络请求出错!', 'code': -1}

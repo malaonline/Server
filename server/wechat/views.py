@@ -22,8 +22,7 @@ from django.conf import settings
 
 # local modules
 from app import models
-from app.utils import random_string
-from .wxapi import wx_signature, get_token_from_weixin, get_wx_jsapi_ticket_from_weixin
+from .wxapi import make_nonce_str, wx_signature, get_token_from_weixin, get_wx_jsapi_ticket_from_weixin
 
 # Create your views here.
 
@@ -99,7 +98,7 @@ class CourseChoosingView(TemplateView):
         #     ).order_by('-amount', 'expired_at')
         #     kwargs['coupon'] = coupons.first()
 
-        nonce_str = random_string().replace('-','')
+        nonce_str = make_nonce_str()
         access_token, msg = _get_wx_token()
         jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
         cur_url = self.request.build_absolute_uri()
