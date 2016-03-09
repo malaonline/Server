@@ -3,52 +3,31 @@
 // icon font
 @import "../../../common/less/weui/icon/weui_icon_font";
 
-
 // button
 @import "../../../common/less/weui/widget/weui_button/weui_button";
 
 // cell
 @import "../../../common/less/weui/widget/weui_cell/weui_cell_global";
 
-@import "../../../common/less/weui/widget/weui_cell/weui_access";
-@import "../../../common/less/weui/widget/weui_cell/weui_check";
-@import "../../../common/less/weui/widget/weui_cell/weui_form";
-@import "../../../common/less/weui/widget/weui_cell/weui_switch";
-@import "../../../common/less/weui/widget/weui_cell/weui_uploader";
-
-// msg
-@import "../../../common/less/weui/widget/weui_page/weui_msg";
-
-// article
-@import "../../../common/less/weui/widget/weui_page/weui_article";
-
 // tab
 @import "../../../common/less/weui/widget/weui_tab/weui_tab";
-
-// progress
-@import "../../../common/less/weui/widget/weui_progress/weui_progress";
 
 // card
 @import "../../../common/less/weui/widget/weui_panel/weui_panel";
 
-// media box
-@import "../../../common/less/weui/widget/weui_media_box/weui_media_box";
-
-// grid
-@import "../../../common/less/weui/widget/weui_grid/weui_grid";
-
-// tips
-@import "../../../common/less/weui/widget/weui_tips/weui_dialog";
-@import "../../../common/less/weui/widget/weui_tips/weui_toast";
-@import "../../../common/less/weui/widget/weui_tips/weui_mask";
-
-//action sheet
-@import "../../../common/less/weui/widget/weui_tips/weui_actionsheet";
-
-//searchbar
-@import "../../../common/less/weui/widget/weui_searchbar/weui_searchbar";
-
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, del, dfn, em, img, ins, kbd, q, samp, small, strong, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, footer, header, nav, section {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}
 body{
+  -webkit-text-size-adjust:none;
+  font-family:sans-serif;
+  min-height:416px;
   background-color: #ededed;
 }
 .weui_tab_bd {
@@ -84,22 +63,32 @@ body{
 .teacher_head_img{
   img{
     width: 100%;
-    height: 220px;
+    height: 150px;
     background-color: #CCBBBB;
   }
 }
 .teacher_avatar{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 70px;
   margin-left: 20px;
-  margin-top: -90px;
+  margin-top: -30px;
+  position: absolute;
 }
 .teacher_name{
   float: right;
   width: 100%;
+  padding-bottom: 10px;
   >div{
-    margin-left: 140px;
+    margin-left: 120px;
+  }
+  >div:first-child{
+    color: #333333;
+    font-size: 17px;
+  }
+  >div:nth-child(2){
+    color: #939393;
+    font-size: 15px;
   }
 }
 .weui_panel{
@@ -113,14 +102,34 @@ body{
   .weui_cell_ft{
     float: right;
   }
+  >div:first-child{
+    color: #333333;
+    font-size: 17px;
+  }
+  >div:nth-child(2){
+    color: #939393;
+    font-size: 15px;
+  }
 }
 .teacher_highscore{
   width: 100%;
   border-spacing: 0;
   td{
-    border-bottom: solid 1px;
-    height: 45px;
+    border-bottom: solid 1px #e5e5e5;
+    height: 35px;
     text-align: center;
+    vertical-align: middle;
+    color: #939393;
+    font-size: 14px;
+  }
+  tr:first-child{
+    background-color: #f6f6f6;
+    height: 35px;
+    line-height: 35px;
+    >th{
+      color: #636363;
+      font-weight: normal;
+    }
   }
 }
 .teacher_images{
@@ -136,4 +145,132 @@ body{
     width: 120px;
     height: 120px;
   }
+  img:nth-child(n+2){
+    margin-left: 3px;
+  }
+}
+.weui_toast{
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+
+h1{
+  font-size:33px;
+  margin:50px 0 15px;
+  text-align:center;
+  color:#212121;
+}
+h2{
+  font-size:14px;
+  font-weight:bold;
+  color:#3c3c3c;
+  margin:20px 10px 10px;
+}
+small{
+  margin:0 10px 30px;
+  display:block;
+  font-size:12px;
+}
+a{
+  margin:0 0 0 10px;
+  font-size:12px;
+  color:#3c3c3c;
+}
+#console{
+  font-size: 12px;
+  font-family:"Inconsolata", "Monaco", "Consolas", "Andale Mono", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+  color: #999;
+  line-height: 18px;
+  margin-top: 20px;
+  max-height: 150px;
+  overflow: auto;
+}
+#mySwipe div b{
+  display:block;
+  font-weight:bold;
+  color:#14ADE5;
+  font-size:20px;
+  text-align:center;
+  margin:10px;
+  padding:100px 10px;
+  box-shadow: 0 1px #EBEBEB;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid;
+  border-color: #E5E5E5 #D3D3D3 #B9C1C6;
+}
+.swipe{
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #4a4a4a;
+}
+.swipe-wrap{
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  text-align: center;
+  >div{
+    float:left;
+    width:100%;
+    top: 20%;
+    position: relative;
+    height: 100%;
+    >img{
+      width: 100%;
+    }
+  }
+}
+.ext_weui_btn_primary{
+    color: #82b4d9;
+    background-color: #ffffff;
+    &:not(.weui_btn_disabled):visited{
+        color: @weuiBtnFontColor;
+    }
+    &:not(.weui_btn_disabled):active{
+        background-color: #FDFAFA;
+    }
+}
+.school_cont{
+  display: -webkit-box;
+  margin: 5px 0px;
+  >div{
+    clear: both;
+    width: 100%;
+  }
+  >div>div{
+    padding-left: 110px;
+    color: #3c3c3c;
+    >div{
+      color: #939393;
+    }
+  }
+  .school_dis{
+    float: right;
+  }
+  >div>img{
+    float: left;
+    width: 100px;
+    height: 55px;
+  }
+}
+.school_cont:nth-child(n+2){
+  display: none;
+}
+.more_schools{
+  text-align: center;
+  border-top: solid 1px #e5e5e5;
+  color: #636363;
+  height: 45px;
+  line-height: 45px;
+  cursor: pointer;
+}
+.school_panel{
+  padding-bottom: 0;
 }

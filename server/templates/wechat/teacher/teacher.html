@@ -14,8 +14,40 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}">
+    <script>
+        var userPhotos = [];
+        var schoolPhotos = [];
+        {% if teacher.photo_set.all%}
+            {% for photo in teacher.photo_set.all %}
+                userPhotos[userPhotos.length] = "{{ photo.img_url }}";
+            {% endfor %}
+        {%endif%}
+
+        {%if schools%}
+            {%for sc in schools%}
+                {%if sc.img%}
+                    schoolPhotos[schoolPhotos.length] = "{{sc.img}}";
+                {%else%}
+                    schoolPhotos[schoolPhotos.length] = "";
+                {%endif%}
+            {%endfor%}
+        {%endif%}
+        function pageload(){
+            $('.teacher_avatar').attr('src', '{{teacher.avatar.url}}');
+            $('#moreSchoolDown').attr('src', '{% static 'common/icons/pull_down.png' %}');
+            for(var i=0;i<userPhotos.length;i++){
+              var nimg = $('<img>');
+              nimg.attr('src', userPhotos[i]);
+              $('.teacher_images').append(nimg);
+            }
+            var schoolCont = $('.school_cont');
+            for(var i=0;i<schoolCont.length;i++){
+                $(schoolCont[i]).find('img').attr('src', schoolPhotos[i]);
+            }
+        }
+    </script>
 </head>
-<body>
+<body ontouchstart onload="pageload()">
 <div class="container js_container">
 <div class="page">
     <div class="bd" style="height: 100%;">
@@ -29,7 +61,7 @@
                         <div>{{teacher.name}}</div>
                         <div>{{gender}} 教龄{{teacher.teaching_age}}年</div>
                     </div>
-                    <img class="teacher_avatar" src="http://img5.cache.netease.com/photo/0001/2016-03-03/BH8BEG0900AN0001.jpg">
+                    <img class="teacher_avatar" src="">
                 </div>
                 <div class="weui_panel teacher_panel">
                     <div>
@@ -77,17 +109,12 @@
                         </table>
                     </div>
                 </div>
-                <div class="weui_panel teacher_panel weui_cells_access">
+                <div class="weui_panel teacher_panel weui_cells_access" id="photoContent">
                     <div>
                         个人相册
                         <span class="weui_cell_ft"></span>
                     </div>
                     <div class="teacher_images">
-                        {% if teacher.photo_set.all%}
-                            {% for photo in teacher.photo_set.all %}
-                                <img src={{ photo.img_url }}>
-                            {% endfor %}
-                        {%endif%}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
@@ -100,12 +127,32 @@
                         {%endfor%}
                     </div>
                 </div>
-                <div class="weui_panel teacher_panel">
+                <div class="weui_panel teacher_panel school_panel">
                     <div>
                         教学环境
                     </div>
                     <div>
-                        其他社区中心
+                        {%if schools%}
+                            {%for sc in schools%}
+                                <div class="school_cont">
+                                    <div>
+                                        <img src="">
+                                        <div>
+                                            {{sc.name}}({{sc.address}})
+                                            <div>
+                                                <div class="school_dis">{%if sc.dis%}{{sc.dis|floatformat:"0"}}km{%endif%}</div>
+                                                <div>{{sc.region}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%if forloop.counter == 1%}
+                                <div class="more_schools" id="more_schools">
+                                    其他社区中心 <img id="moreSchoolDown" src="">
+                                </div>
+                                {%endif%}
+                            {%endfor%}
+                        {%endif%}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
@@ -128,20 +175,17 @@
                 </div>
             </div>
             <div class="weui_tabbar">
-                <a href="javascript:;" class="weui_btn weui_btn_primary">马上报名</a>
+                <a href="javascript:;" class="weui_btn ext_weui_btn_primary">马上报名</a>
             </div>
         </div>
     </div>
 </div>
 </div>
-<div id="toast" style="display: none;">
-    <div class="weui_mask_transparent"></div>
-    <div class="weui_toast">
-        请输入正确手机号
+<div id="slide" style="display: none;" class="swipe">
+    <div class="swipe-wrap">
     </div>
 </div>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script src="{% static 'wechat/js/teacher/teacher.js' %}"></script>
-
 </body>
 </html>

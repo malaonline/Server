@@ -2,6 +2,7 @@ import logging
 import json
 import requests
 import datetime
+import math
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
@@ -324,6 +325,16 @@ def template_msg_data_pay_info(request):
 def teacher_view(request):
     template_name = 'wechat/teacher/teacher.html'
     openid = request.GET.get("openid", None)
+    lat = request.GET.get("lat", None)
+    lng = request.GET.get("lng", None)
+
+    point = None
+    if lat is not None and lng is not None:
+        point = {
+            'lat': float(lat),
+            'lng': float(lng)
+        }
+
     if not openid:
         openid = request.POST.get("openid", None)
 
@@ -366,6 +377,41 @@ def teacher_view(request):
         "subjects": models.Subject.objects.all,
         "grades_tree": grades_tree,
         "teacher_grade_ids": [grade.id for grade in teacher.grades()],
+        "schools": getSchools(point),
         "teacher": teacher
     }
+
     return render(request, template_name, context)
+
+def getSchools(point):
+    if not point:
+        return None
+    schools = models.School.objects.all()
+    ret = []
+    for school in schools:
+        pointB = None
+        sc = {
+            'name': school.name,
+            'img': school.get_thumbnail(),
+            'address': school.address,
+            'region': school.region
+        }
+        if school.latitude is not None and school.longitude is not None:
+            pointB = {
+                'lat': school.latitude,
+                'lng': school.longitude
+            }
+            dis = calculateDistance(point, pointB)
+            sc['dis'] = dis
+        ret.append(sc)
+    ret = sorted(ret, key = lambda school: school['dis'] if 'dis' in school else 63710000)
+    for sc in ret:
+        if 'dis' in sc and sc['dis'] is not None:
+            sc['dis'] = sc['dis']/1000
+    return ret
+
+def calculateDistance(pointA, pointB):
+  R = 6371000; #metres
+  toRadians = math.pi/180;
+
+  return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
