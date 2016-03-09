@@ -37,6 +37,27 @@ class TeacherDetailModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
+    convenience init(id: Int, name: String, avatar: String, gender: String, teaching_age: Int, level: String, subject: String, grades: [String],
+        tags: [String], photo_set: [String], achievement_set: [AchievementModel?], highscore_set: [HighScoreModel?], prices: [GradePriceModel?],
+        minPrice: Int, maxPrice: Int) {
+            self.init()
+            self.id = id
+            self.name = name
+            self.avatar = avatar
+            self.gender = gender
+            self.teaching_age = teaching_age
+            self.level = level
+            self.subject = subject
+            self.grades = grades
+            self.tags = tags
+            self.photo_set = photo_set
+            self.achievement_set = achievement_set
+            self.highscore_set = highscore_set
+            self.prices = prices
+            self.min_price = minPrice
+            self.max_price = maxPrice
+    }
+    
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

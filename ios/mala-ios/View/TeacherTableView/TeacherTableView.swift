@@ -52,23 +52,10 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let teacherId = (tableView.cellForRowAtIndexPath(indexPath) as! TeacherTableViewCell).model!.id
-        
-        // Request Teacher Info
-        MalaNetworking.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
-            if error != nil {
-                debugPrint("HomeViewController - loadTeacherDetail Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("HomeViewController - loadTeacherDetail Format Error")
-                return
-            }
-            
-            let viewController = TeacherDetailsController()
-            viewController.model = TeacherDetailModel(dict: dict)
-            viewController.hidesBottomBarWhenPushed = true
-            self?.controller?.navigationController?.pushViewController(viewController, animated: true)
-        })
+        let viewController = TeacherDetailsController()
+        viewController.teacherID = teacherId
+        viewController.hidesBottomBarWhenPushed = true
+        controller?.navigationController?.pushViewController(viewController, animated: true)
     }
 
     

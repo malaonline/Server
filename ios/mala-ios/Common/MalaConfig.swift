@@ -24,4 +24,8 @@ class MalaConfig {
     class func paymentChannelAmount() -> Int {
         return paymentChannel().count
     }
+    
+    class func defaultTeacherDetail() -> TeacherDetailModel {
+        return TeacherDetailModel(id: 0, name: "老师姓名", avatar: "", gender: "m", teaching_age: 0, level: "一级", subject: "学科", grades: [], tags: [], photo_set: [], achievement_set: [], highscore_set: [], prices: [], minPrice: 0, maxPrice: 0)
+    }
 }

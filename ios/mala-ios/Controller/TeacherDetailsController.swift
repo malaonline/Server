@@ -23,13 +23,14 @@ private let TeacherDetailsCellReuseId = [
 class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
 
     // MARK: - Property
-    var model: TeacherDetailModel? {
+    var teacherID: Int = 0
+    var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
-            self.tableHeaderView.avatar = model!.avatar ?? ""
-            self.tableHeaderView.name = model!.name ?? "----"
-            self.tableHeaderView.gender = model!.gender ?? "m"
-            self.tableHeaderView.minPrice = model!.min_price ?? 0
-            self.tableHeaderView.maxPrice = model!.max_price ?? 0
+            self.tableHeaderView.avatar = model.avatar ?? ""
+            self.tableHeaderView.name = model.name  ?? "----"
+            self.tableHeaderView.gender = model.gender ?? "m"
+            self.tableHeaderView.minPrice = model.min_price
+            self.tableHeaderView.maxPrice = model.max_price
             self.tableView.reloadData()
         }
     }
@@ -83,6 +84,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         super.viewDidLoad()
         
         setupUserInterface()
+        loadTeacherDetail()
         setupNotification()
         loadSchoolsData()
         loadMemberServices()
@@ -179,6 +181,21 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
+    private func loadTeacherDetail() {
+        MalaNetworking.sharedTools.loadTeacherDetail(self.teacherID, finished: {[weak self] (result, error) -> () in
+            if error != nil {
+                debugPrint("TeahcerDeatilsController - loadTeacherDetail Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                debugPrint("TeahcerDeatilsController - loadTeacherDetail Format Error")
+                return
+            }
+            
+            self?.model = TeacherDetailModel(dict: dict)
+            })
+    }
+    
     private func loadSchoolsData() {
         // // 获取 [教学环境] 数据
         MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
@@ -231,7 +248,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     private func showBackground() {
         makeStatusBarBlack()
-        self.title = model?.name
+        self.title = model.name
         UIView.animateWithDuration(1) { [weak self] () -> Void in
             self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         }
@@ -310,31 +327,31 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
             let cell = reuseCell as! TeacherDetailsSubjectCell
             var set: [String] = []
-            for string in self.model!.grades {
-                set.append(string + (self.model!.subject ?? ""))
+            for string in self.model.grades {
+                set.append(string + (self.model.subject ?? ""))
             }
             cell.labels = set
             return cell
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = self.model?.tags
+            cell.labels = self.model.tags
             return cell
             
         case 2:
             let cell = reuseCell as! TeacherDetailsHighScoreCell
-            cell.model = self.model!.highscore_set
+            cell.model = self.model.highscore_set
             return cell
             
         case 3:
             let cell = reuseCell as! TeacherDetailsPhotosCell
-            cell.photos = self.model?.photo_set ?? []
+            cell.photos = self.model.photo_set ?? []
             cell.accessory = .RightArrow
             return cell
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = self.model?.achievement_set.map({ (model) -> String in
+            cell.labels = self.model.achievement_set.map({ (model) -> String in
                 return model?.title ?? ""
             })
             return cell
@@ -354,13 +371,13 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [(self.model?.level)!]
+            cell.labels = [(self.model.level)!]
             return cell
             
         case 8:
             let cell = reuseCell as! TeacherDetailsPriceCell
             cell.accessory = .SubTitle
-            cell.prices = self.model!.prices
+            cell.prices = self.model.prices
             return cell
             
         default:
