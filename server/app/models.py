@@ -1395,7 +1395,12 @@ class TimeSlot(BaseModel):
         old_timeslot = self.transferred_from if self.transferred_from is not None else self
         # 这里不能只看当前订单的最后一次课, 同一个学生可能还有其他订单约了老师后续的课程
         # 因此需要得到"这个老师"最后一个 weekday 和 start, end 的 time 相同的 slot
-        time_slots = TimeSlot.objects.filter(order__teacher=old_timeslot.order.teacher).order_by('-start')
+        # 同时过滤掉已经失效的 和 1天以前老的 time slot(1天足以越过时区问题)
+        time_slots = TimeSlot.objects.filter(
+            deleted=False,
+            start__gt=datetime.datetime.now() - datetime.timedelta(days=1),
+            order__teacher=old_timeslot.order.teacher
+        ).order_by('-start')
         last_slot = None
         for one in time_slots:
             if one.start.time() == old_timeslot.start.time() and one.start.weekday() == old_timeslot.start.weekday():
