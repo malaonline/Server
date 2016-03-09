@@ -661,7 +661,7 @@ class Account(BaseModel):
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
-        return sum and sum or 0
+        return sum or 0
 
     @property
     def withdrawable_amount(self):
@@ -677,7 +677,7 @@ class Account(BaseModel):
                     | (models.Q(submit_time__gte=end_day) & models.Q(amount__lt=0)))\
             .aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
-        return sum and sum or 0
+        return sum or 0
 
     @property
     def accumulated_income(self):
@@ -687,7 +687,7 @@ class Account(BaseModel):
                 account=self, amount__gt=0, done=True).aggregate(
                         models.Sum('amount'))
         sum = ret['amount__sum']
-        return sum and sum or 0
+        return sum or 0
 
     @property
     def anticipated_income(self):
