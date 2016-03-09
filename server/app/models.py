@@ -1278,6 +1278,8 @@ class TimeSlot(BaseModel):
             TimeSlotAttendance, null=True, blank=True)
 
     deleted = models.BooleanField(default=False)
+    # suspended 单独指示被停的课, 和被删掉的区分开
+    suspended = models.BooleanField(default=False)
 
     def __str__(self):
         return '<%s> from %s to %s' % (self.pk, self.start, self.end)
@@ -1318,7 +1320,7 @@ class TimeSlot(BaseModel):
     @property
     def is_suspended(self):
         # 判断为被停课状态
-        if self.deleted and not self.trans_to_set.exists():
+        if self.suspended and not self.trans_to_set.exists():
             return True
         return False
 
@@ -1351,8 +1353,9 @@ class TimeSlot(BaseModel):
         return True
 
     def suspend(self):
-        # 暂时用 deleted 字段表示停课
+        # 用 suspended 字段表示停课, 但为了兼容性, 同时也要设置课程状态为被删除
         self.deleted = True
+        self.suspended = True
         self.save()
         return
 
