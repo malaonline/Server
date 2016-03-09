@@ -1531,7 +1531,7 @@ class OrderRefundActionView(BaseStaffActionView):
                         return JsonResponse({
                             'ok': True,
                             'remainingHours': record.remaining_hours,  # 剩余小时
-                            'refundHours': record.refund_hours,  # 退费小时
+                            'refundHours': record.refund_hours,         # 退费小时
                             'refundAmount': record.refund_amount/100,  # 退费金额
                             'reason': record.reason  # 退费原因
                         })
