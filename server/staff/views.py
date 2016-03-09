@@ -1525,6 +1525,8 @@ class OrderRefundActionView(BaseStaffActionView):
                         # 记录申请时间, 用于 query
                         order.refund_at = record.created_at
                         order.save()
+                        # 断言以确保将释放的时间无误
+                        assert models.TimeSlot.objects.all().filter(order=order, end__gt=record.created_at).count() * 2 == record.remaining_hours
                         # 释放该订单内的所有未完成的课程时间
                         models.TimeSlot.objects.all().filter(order=order, end__gt=record.created_at).update(deleted=True)
                         # 回显给前端, 刚刚记录的退费信息内容
