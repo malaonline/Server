@@ -34,7 +34,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             self.tableView.reloadData()
         }
     }
-    var schoolArray: [SchoolModel] = [] {
+    var schoolArray: [SchoolModel] = [SchoolModel(id: 0, name: "线下体验店", address: "----")] {
         didSet {
             // 刷新 [教学环境] Cell
             self.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
