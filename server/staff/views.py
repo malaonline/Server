@@ -1507,31 +1507,37 @@ class OrderRefundActionView(BaseStaffActionView):
             elif order.refund_status == order.REFUND_APPROVED:
                 return JsonResponse({'ok': False, 'msg': '订单退费已经审核通过, 请勿重复提交', 'code': 'order_04'})
             else:
-                # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
-                record = models.OrderRefundRecord(
-                    order=order,
-                    remaining_hours=order.remaining_hours(),
-                    refund_hours=order.preview_refund_hours(),
-                    refund_amount=order.preview_refund_amount(),
-                    reason=reason,
-                    last_updated_by=self.request.user
-                )
-                record.save()
-                # 同时更新订单的退费状态字段
-                order.refund_status = order.REFUND_PENDING
-                # 记录申请时间, 用于 query
-                order.refund_at = record.created_at
-                order.save()
-                # 释放该订单内的所有课程时间
-                models.TimeSlot.objects.all().filter(order=order).update(deleted=True)
-                # 回显给前端, 刚刚记录的退费信息内容
-                return JsonResponse({
-                    'ok': True,
-                    'remainingHours': record.remaining_hours,   # 剩余小时
-                    'refundHours': record.refund_hours,         # 退费小时
-                    'refundAmount': record.refund_amount,       # 退费金额
-                    'reason': record.reason                     # 退费原因
-                })
+                # 增加事务处理
+                try:
+                    with transaction.atomic():
+                        # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
+                        record = models.OrderRefundRecord(
+                            order=order,
+                            remaining_hours=order.remaining_hours(),
+                            refund_hours=order.preview_refund_hours(),
+                            refund_amount=order.preview_refund_amount(),
+                            reason=reason,
+                            last_updated_by=self.request.user
+                        )
+                        record.save()
+                        # 同时更新订单的退费状态字段
+                        order.refund_status = order.REFUND_PENDING
+                        # 记录申请时间, 用于 query
+                        order.refund_at = record.created_at
+                        order.save()
+                        # 释放该订单内的所有未完成的课程时间
+                        models.TimeSlot.objects.all().filter(order=order, end__gt=record.created_at).update(deleted=True)
+                        # 回显给前端, 刚刚记录的退费信息内容
+                        return JsonResponse({
+                            'ok': True,
+                            'remainingHours': record.remaining_hours,  # 剩余小时
+                            'refundHours': record.refund_hours,  # 退费小时
+                            'refundAmount': record.refund_amount/100,  # 退费金额
+                            'reason': record.reason  # 退费原因
+                        })
+                except IntegrityError as err:
+                    logger.error(err)
+                    return JsonResponse({'ok': False, 'msg': '退费失败, 请稍后重试或联系管理员', 'code': 'order_08'})
         return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
 
     def refund_approve(self, request):
