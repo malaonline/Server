@@ -9,6 +9,7 @@ $(document).ready(function() {
 		//Accessibility
 		keyboardScrolling: true,
         //fixedElements: '.modal'
+        //normalScrollElements: '#wechatQrModal, #AgreeModal, #aboutUsModal'
 	});
 });
 
