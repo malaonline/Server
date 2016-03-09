@@ -54,7 +54,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     /// 主体TableView
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaScreenHeight - MalaLayout_DetailBottomViewHeight), style: .Grouped)
-        tableView.contentInset = UIEdgeInsets(top: MalaLayout_DetailBottomViewHeight, left: 0, bottom: -20, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: MalaLayout_DetailBottomViewHeight, left: 0, bottom: 0, right: 0)
         return tableView
     }()
     /// TableView头部视图
