@@ -1072,7 +1072,7 @@ class StudentScheduleManageView(BaseStaffView):
         kwargs['weekdays'] = weekdays
         kwargs['today'] = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         # 固定的 weekly time slots
-        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.objects.filter(weekday=1)
+        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         # 查询结果数据集
         kwargs['timeslots'] = query_set
 
