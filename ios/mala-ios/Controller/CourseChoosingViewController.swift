@@ -141,40 +141,17 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     }
     
     private func loadClassSchedule() {
-        MalaNetworking.sharedTools.loadClassSchedule((teacherModel?.id ?? 1), schoolId: (MalaCourseChoosingObject.school?.id ?? 1)) {
-            [weak self] (result, error) -> () in
-            if error != nil {
-                debugPrint("CourseChoosingViewController - loadClassSchedule Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                debugPrint("CourseChoosingViewController - loadClassSchedule Format Error")
-                return
-            }
+        
+        getTeacherAvailableTimeInSchool(1, schoolID: 1, failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
             
-            // result字典转模型
-            var modelArray: [[ClassScheduleDayModel]] = []
-            
-            // 遍历服务器返回字典
-            for (_, value) in dict {
-                // 若当前项为数组（每天的课时数组），执行遍历
-                if let array = value as? [AnyObject] {
-                    // 遍历课时数组
-                    var tempArray: [ClassScheduleDayModel] = []
-                    for dictJson in array {
-                        // 验证为字典，字典转模型并放入模型数组中
-                        if let dict = dictJson as? [String: AnyObject] {
-                            let object = ClassScheduleDayModel(dict: dict)
-                            tempArray.append(object)
-                        }
-                        
-                    }
-                    // 将课时模型数组，添加到结果数组中
-                    modelArray.append(tempArray)
-                }
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - getTeacherAvailableTimeInSchool Error \(errorMessage)")
             }
-            self?.classScheduleModel = modelArray
-        }
+        },completion: { [weak self] (timeSchedule) -> Void in
+                self?.classScheduleModel = timeSchedule
+        })
     }
     
     private func loadCoupons() {

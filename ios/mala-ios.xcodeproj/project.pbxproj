@@ -173,7 +173,6 @@
 		F4402EAA1C5A19FC00E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
 		F4402EAC1C5A1A1800E7D3DB /* teacher-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */; };
 		F4402EAD1C5A1A1800E7D3DB /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
-		F4402EAE1C5A1A1800E7D3DB /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = F41B8A5E1C4DDCCA00A842E9 /* Info.plist */; };
 		F4402EAF1C5A1A1800E7D3DB /* KMSwizzle.h in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA11C5768F600E7D3DB /* KMSwizzle.h */; };
 		F4402EB01C5A1A1800E7D3DB /* KMSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA21C5768F600E7D3DB /* KMSwizzle.m */; };
 		F4402EB11C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.h in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA31C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.h */; };
@@ -195,8 +194,6 @@
 		F4402EC21C5A1A1800E7D3DB /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF01C44A86200B37DD9 /* SchoolModel.swift */; };
 		F4402EC31C5A1A1800E7D3DB /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		F4402EC41C5A1A1800E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
-		F4402EC51C5A1A1800E7D3DB /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
-		F4402EC61C5A1A1800E7D3DB /* FilterCondition.plist in Sources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		F4402ECA1C5A1A1800E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402ECB1C5A1A1800E7D3DB /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
 		F4402ECC1C5A1A1800E7D3DB /* CourseChoosingGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */; };
@@ -230,13 +227,8 @@
 		F4402EE81C5A1A1800E7D3DB /* StyleFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30445B1E1C4A3B96002CD290 /* StyleFilterView.swift */; };
 		F4402EE91C5A1A1800E7D3DB /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE09321C2AC94F00FD607D /* FilterViewCell.swift */; };
 		F4402F031C5A1A1800E7D3DB /* parentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3431C0FE851007D7679 /* parentUITests.swift */; };
-		F4402F041C5A1A1800E7D3DB /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3451C0FE851007D7679 /* Info.plist */; };
 		F4402F051C5A1A1800E7D3DB /* parentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E161C5A16A700E7D3DB /* parentTests.swift */; };
 		F4402F071C5A1A1800E7D3DB /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */; };
-		F4402F081C5A1A1800E7D3DB /* teacher.app in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A2EF1C0FE82E007D7679 /* teacher.app */; };
-		F4402F091C5A1A1800E7D3DB /* parent.app in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A3211C0FE851007D7679 /* parent.app */; };
-		F4402F0A1C5A1A1800E7D3DB /* parentTests.xctest in Sources */ = {isa = PBXBuildFile; fileRef = F4402E141C5A16A700E7D3DB /* parentTests.xctest */; };
-		F4402F0D1C5A1A1800E7D3DB /* Pods.framework in Sources */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		F45871E61C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871E71C51D5C00048D93F /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E51C51D5C00048D93F /* CourseChoosingViewController.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -293,6 +285,50 @@
 		F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C5C24B1C75D37000FB833B /* EvaluationFiling3@3x.png */; };
 		F4C5C2571C76B87800FB833B /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2561C76B87800FB833B /* CouponModel.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
+		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
+		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
+		F4DA31A11C8FFAB100E70D39 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */; };
+		F4DA31A21C8FFAB100E70D39 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
+		F4DA31A31C8FFAB100E70D39 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */; };
+		F4DA31A41C8FFAB100E70D39 /* AnimatedGIFImageSerialization.h in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */; };
+		F4DA31A51C8FFAB100E70D39 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
+		F4DA31A61C8FFAB100E70D39 /* ThemeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D81C8D278A00BD0859 /* ThemeAlert.swift */; };
+		F4DA31A71C8FFAB100E70D39 /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */; };
+		F4DA31A81C8FFAB100E70D39 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */; };
+		F4DA31A91C8FFAB100E70D39 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */; };
+		F4DA31AA1C8FFAB100E70D39 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */; };
+		F4DA31AB1C8FFAB100E70D39 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
+		F4DA31AC1C8FFAB100E70D39 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
+		F4DA31AD1C8FFAB100E70D39 /* MalaNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AD1C7EDA7500C20037 /* MalaNetworking.swift */; };
+		F4DA31AE1C8FFAB100E70D39 /* MalaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AB1C7ED80800C20037 /* MalaService.swift */; };
+		F4DA31AF1C8FFAB100E70D39 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
+		F4DA31B01C8FFAB100E70D39 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
+		F4DA31B11C8FFAB100E70D39 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
+		F4DA31B21C8FFAB100E70D39 /* MalaSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53B11C7EF00E00C20037 /* MalaSupport.swift */; };
+		F4DA31B31C8FFAB100E70D39 /* MalaInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CD1C84140C00C20037 /* MalaInstance.swift */; };
+		F4DA31B41C8FFAB100E70D39 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
+		F4DA31B51C8FFAB100E70D39 /* MalaDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */; };
+		F4DA31B61C8FFAB100E70D39 /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
+		F4DA31B71C8FFAB100E70D39 /* ClassScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D51C8AE05400BD0859 /* ClassScheduleViewController.swift */; };
+		F4DA31B81C8FFAB100E70D39 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CB1C8821FC00BD0859 /* CouponViewController.swift */; };
+		F4DA31B91C8FFAB100E70D39 /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CC1C8821FC00BD0859 /* EvaluationFilingServiceController.swift */; };
+		F4DA31BA1C8FFAB100E70D39 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53C91C83F9A500C20037 /* PaymentViewController.swift */; };
+		F4DA31BB1C8FFAB100E70D39 /* Extension+NSURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */; };
+		F4DA31BC1C8FFAB100E70D39 /* Extension+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */; };
+		F4DA31BD1C8FFAB100E70D39 /* AchievementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCD1C74559F00488613 /* AchievementModel.swift */; };
+		F4DA31BE1C8FFAB100E70D39 /* OtherServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceModel.swift */; };
+		F4DA31BF1C8FFAB100E70D39 /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
+		F4DA31C01C8FFAB100E70D39 /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2561C76B87800FB833B /* CouponModel.swift */; };
+		F4DA31C11C8FFAB100E70D39 /* CourseChoosingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */; };
+		F4DA31C21C8FFAB100E70D39 /* OrderForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CB1C83FBCA00C20037 /* OrderForm.swift */; };
+		F4DA31C31C8FFAB100E70D39 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
+		F4DA31C41C8FFAC000E70D39 /* PaymentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53C71C83F98F00C20037 /* PaymentTableView.swift */; };
+		F4DA31C51C8FFAC000E70D39 /* PaymentAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53D11C841AD600C20037 /* PaymentAmountCell.swift */; };
+		F4DA31C61C8FFAC000E70D39 /* PaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CF1C841A9800C20037 /* PaymentChannelCell.swift */; };
+		F4DA31C71C8FFAC000E70D39 /* PaymentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404D47E1C8436A700C19C44 /* PaymentBottomView.swift */; };
+		F4DA31C81C8FFAC000E70D39 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
+		F4DA31C91C8FFAC000E70D39 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
+		F4DA31CA1C8FFAC000E70D39 /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1367,9 +1403,52 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4DA31C41C8FFAC000E70D39 /* PaymentTableView.swift in Sources */,
+				F4DA31C51C8FFAC000E70D39 /* PaymentAmountCell.swift in Sources */,
+				F4DA31C61C8FFAC000E70D39 /* PaymentChannelCell.swift in Sources */,
+				F4DA31C71C8FFAC000E70D39 /* PaymentBottomView.swift in Sources */,
+				F4DA31C81C8FFAC000E70D39 /* PaymentChannelSectionHeaderView.swift in Sources */,
+				F4DA31C91C8FFAC000E70D39 /* CouponViewCell.swift in Sources */,
+				F4DA31CA1C8FFAC000E70D39 /* CourseChoosingServiceTableView.swift in Sources */,
+				F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */,
+				F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */,
+				F4DA31A11C8FFAB100E70D39 /* PullToRefreshView.swift in Sources */,
+				F4DA31A21C8FFAB100E70D39 /* UIScrollViewExtension.swift in Sources */,
+				F4DA31A31C8FFAB100E70D39 /* ThemeRefreshView.swift in Sources */,
+				F4DA31A41C8FFAB100E70D39 /* AnimatedGIFImageSerialization.h in Sources */,
+				F4DA31A51C8FFAB100E70D39 /* AnimatedGIFImageSerialization.m in Sources */,
+				F4DA31A61C8FFAB100E70D39 /* ThemeAlert.swift in Sources */,
+				F4DA31A71C8FFAB100E70D39 /* ThemeClassSchedule.swift in Sources */,
+				F4DA31A81C8FFAB100E70D39 /* ThemeDate.swift in Sources */,
+				F4DA31A91C8FFAB100E70D39 /* ThemeHUD.swift in Sources */,
+				F4DA31AA1C8FFAB100E70D39 /* ThemeTags.swift in Sources */,
+				F4DA31AB1C8FFAB100E70D39 /* JSSAlertView.swift in Sources */,
+				F4DA31AC1C8FFAB100E70D39 /* MalaAlert.swift in Sources */,
+				F4DA31AD1C8FFAB100E70D39 /* MalaNetworking.swift in Sources */,
+				F4DA31AE1C8FFAB100E70D39 /* MalaService.swift in Sources */,
+				F4DA31AF1C8FFAB100E70D39 /* MalaUserDefaults.swift in Sources */,
+				F4DA31B01C8FFAB100E70D39 /* MalaConfig.swift in Sources */,
+				F4DA31B11C8FFAB100E70D39 /* MalaLog.swift in Sources */,
+				F4DA31B21C8FFAB100E70D39 /* MalaSupport.swift in Sources */,
+				F4DA31B31C8FFAB100E70D39 /* MalaInstance.swift in Sources */,
+				F4DA31B41C8FFAB100E70D39 /* MalaEnum.swift in Sources */,
+				F4DA31B51C8FFAB100E70D39 /* MalaDataCenter.swift in Sources */,
+				F4DA31B61C8FFAB100E70D39 /* HandlePingppBehaviour.swift in Sources */,
+				F4DA31B71C8FFAB100E70D39 /* ClassScheduleViewController.swift in Sources */,
+				F4DA31B81C8FFAB100E70D39 /* CouponViewController.swift in Sources */,
+				F4DA31B91C8FFAB100E70D39 /* EvaluationFilingServiceController.swift in Sources */,
+				F4DA31BA1C8FFAB100E70D39 /* PaymentViewController.swift in Sources */,
+				F4DA31BB1C8FFAB100E70D39 /* Extension+NSURLRequest.swift in Sources */,
+				F4DA31BC1C8FFAB100E70D39 /* Extension+Int.swift in Sources */,
+				F4DA31BD1C8FFAB100E70D39 /* AchievementModel.swift in Sources */,
+				F4DA31BE1C8FFAB100E70D39 /* OtherServiceModel.swift in Sources */,
+				F4DA31BF1C8FFAB100E70D39 /* IntroductionModel.swift in Sources */,
+				F4DA31C01C8FFAB100E70D39 /* CouponModel.swift in Sources */,
+				F4DA31C11C8FFAB100E70D39 /* CourseChoosingObject.swift in Sources */,
+				F4DA31C21C8FFAB100E70D39 /* OrderForm.swift in Sources */,
+				F4DA31C31C8FFAB100E70D39 /* PaymentChannel.swift in Sources */,
 				F4402EAC1C5A1A1800E7D3DB /* teacher-Bridging-Header.h in Sources */,
 				F4402EAD1C5A1A1800E7D3DB /* parent-Bridging-Header.h in Sources */,
-				F4402EAE1C5A1A1800E7D3DB /* Info.plist in Sources */,
 				F4402EAF1C5A1A1800E7D3DB /* KMSwizzle.h in Sources */,
 				F4402EB01C5A1A1800E7D3DB /* KMSwizzle.m in Sources */,
 				F4402EB11C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.h in Sources */,
@@ -1391,8 +1470,6 @@
 				F4402EC21C5A1A1800E7D3DB /* SchoolModel.swift in Sources */,
 				F4402EC31C5A1A1800E7D3DB /* MemberServiceModel.swift in Sources */,
 				F4402EC41C5A1A1800E7D3DB /* ClassScheduleDayModel.swift in Sources */,
-				F4402EC51C5A1A1800E7D3DB /* Assets.xcassets in Sources */,
-				F4402EC61C5A1A1800E7D3DB /* FilterCondition.plist in Sources */,
 				F4402ECA1C5A1A1800E7D3DB /* MalaBaseCell.swift in Sources */,
 				F4402ECB1C5A1A1800E7D3DB /* CourseChoosingTableView.swift in Sources */,
 				F4402ECC1C5A1A1800E7D3DB /* CourseChoosingGradeCell.swift in Sources */,
@@ -1426,13 +1503,8 @@
 				F4402EE81C5A1A1800E7D3DB /* StyleFilterView.swift in Sources */,
 				F4402EE91C5A1A1800E7D3DB /* FilterViewCell.swift in Sources */,
 				F4402F031C5A1A1800E7D3DB /* parentUITests.swift in Sources */,
-				F4402F041C5A1A1800E7D3DB /* Info.plist in Sources */,
 				F4402F051C5A1A1800E7D3DB /* parentTests.swift in Sources */,
 				F4402F071C5A1A1800E7D3DB /* ThemeTests.swift in Sources */,
-				F4402F081C5A1A1800E7D3DB /* teacher.app in Sources */,
-				F4402F091C5A1A1800E7D3DB /* parent.app in Sources */,
-				F4402F0A1C5A1A1800E7D3DB /* parentTests.xctest in Sources */,
-				F4402F0D1C5A1A1800E7D3DB /* Pods.framework in Sources */,
 				F4402E9A1C5A19FC00E7D3DB /* Common.swift in Sources */,
 				F4402E9B1C5A19FC00E7D3DB /* CommonFlowLayout.swift in Sources */,
 				F4402E9C1C5A19FC00E7D3DB /* MainViewController.swift in Sources */,
@@ -1662,6 +1734,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Elors.parentTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/parent.app/parent";
 			};
 			name = Debug;
@@ -1676,6 +1749,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Elors.parentTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/parent.app/parent";
 			};
 			name = Release;

@@ -31,14 +31,18 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var schoolModel: [SchoolModel] = [] {
         didSet {
             // 刷新 [选择上课地点] Cell
-            reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            }
         }
     }
     /// 上课地点Cell展开标识
     var isOpenSchoolsCell: Bool = false {
         didSet {
             if isOpenSchoolsCell != oldValue {
-                reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                }
             }
         }
     }
@@ -46,7 +50,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var isOpenTimeScheduleCell: Bool = false {
         didSet {
             if isOpenTimeScheduleCell != oldValue {
-                reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                }
             }
         }
     }
@@ -54,14 +60,18 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     var classScheduleModel: [[ClassScheduleDayModel]] = [] {
         didSet {
             // 刷新 [选择上课地点][选择小时][上课时间] Cell
-            reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+            }
         }
     }
     /// 上课时间表数据
     var timeScheduleResult: [String]? {
         didSet {
             // 刷新 [上课时间] Cell
-            reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.reloadSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+            }
         }
     }
     /// 课时需要更新标记 (控制课时只在课程改变时更新，滑动重用时不变)

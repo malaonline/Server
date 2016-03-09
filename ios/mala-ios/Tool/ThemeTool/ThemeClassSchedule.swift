@@ -17,6 +17,7 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     // MARK: - Property
     var model: [[ClassScheduleDayModel]]? {
         didSet {
+            println("时间表数据： \(model)")
             reloadData()
         }
     }
@@ -72,8 +73,10 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         // 在Cell中标注IndexPath
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
-        label.sizeToFit()
         label.center = cell.contentView.center
+//        label.text = String(format: "%d-%d", indexPath.section, indexPath.item)
+//        label.text = model.id
+//        label.sizeToFit()
         cell.contentView.addSubview(label)
         
         // 设置Cell列头标题
@@ -116,9 +119,13 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         
         // 根据数据源设置显示样式
         if indexPath.section > 0 && indexPath.row > 0 && (model ?? []) != [] {
-            label.removeFromSuperview()
+//            label.removeFromSuperview()
             
             let itemModel = model?[indexPath.row-1][indexPath.section-1]
+            
+            label.text = String(format: "%d", itemModel?.id ?? 0)
+            label.sizeToFit()
+            
             cell.button.enabled = itemModel?.available ?? false
             if itemModel?.isSelected != nil {
                 cell.button.selected = itemModel!.isSelected
