@@ -89,11 +89,24 @@ $(function(){
             $form.find('.img-box img').attr('src', '');
         }
     });
+    var hasImg = function($editBox) {
+        var hasImg = !!$editBox.find('.img-box img').attr('src');
+        var hasPreImg = !!$editBox.find('.img-preview-box img').attr('src');
+        return hasImg || hasPreImg;
+    };
     //form保存操作
     $("#certEditForm [data-action=save]").click(function(e){
         var $form = $('#certEditForm');
         var isOtherCertPage = $form.find('input[name=id]')[0]; // 是否是其他认证页面
         var isIdCertPage = $form.find('input[name=id_num]')[0]; // 是否是身份证认证页面
+        if (isOtherCertPage) {
+            if (!$.trim($('#name').val())) {
+                return alert("证书名称不能为空");
+            }
+            if (!hasImg($form.find('.img-upload-box'))) {
+                return alert("没有证书照片");
+            }
+        }
         $form.ajaxSubmit({
             data: {'format': 'json'},
             dataType: 'json',

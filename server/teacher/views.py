@@ -1535,7 +1535,7 @@ class CertificateOthersView(BaseTeacherView):
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, teacher):
-        otherCerts = models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER)
+        otherCerts = models.Certificate.objects.filter(teacher=teacher, type=models.Certificate.OTHER).order_by('id')
         context['otherCerts'] = otherCerts
         return context
 
@@ -1560,12 +1560,19 @@ class CertificateOthersView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, teacher))
         cert.name = name
 
+        certImgFile = None
         if request.FILES:
             certImgFile = request.FILES.get('certImg')
-            if certImgFile:
-                cert_img_content = ContentFile(certImgFile.read())
-                cert.img.save("certImg" + str(cert.type) + str(teacher.id) + '_' + str(cert_img_content.size),
-                              cert_img_content)
+        if not certImgFile and not cert.img:
+            error_msg = '证书照片不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+            context['error_msg'] = error_msg
+            return render(request, self.template_path, self.buildContextData(context, teacher))
+        if certImgFile:
+            cert_img_content = ContentFile(certImgFile.read())
+            cert.img.save("certImg" + str(cert.type) + str(teacher.id) + '_' + str(cert_img_content.size),
+                          cert_img_content)
 
         cert.save()
 
