@@ -1042,7 +1042,8 @@ class StudentScheduleManageView(BaseStaffView):
         week = int(week)
         kwargs['query_data']['week'] = week
 
-        query_set = models.TimeSlot.objects.filter(deleted=False)
+        # deleted 代表已经释放和调课的, suspended 代表停课的, 这些都不显示
+        query_set = models.TimeSlot.objects.filter(deleted=False, suspended=True)
         # 家长手机号, 精确匹配
         if parent_phone:
             query_set = query_set.filter(order__parent__user__profile__phone=parent_phone)
