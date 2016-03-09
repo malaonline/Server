@@ -1049,7 +1049,7 @@ class StudentScheduleManageView(BaseStaffView):
         kwargs['query_data']['week'] = week
 
         # deleted 代表已经释放和调课的, suspended 代表停课的, 这些都不显示
-        query_set = models.TimeSlot.objects.filter(deleted=False, suspended=True)
+        query_set = models.TimeSlot.objects.filter(deleted=False, suspended=False)
         # 家长手机号, 精确匹配
         if parent_phone:
             query_set = query_set.filter(order__parent__user__profile__phone=parent_phone)
@@ -1101,10 +1101,11 @@ class StudentScheduleChangelogView(BaseStaffView):
         searchDateOri = self.request.GET.get('searchDateOri',None)
         searchDateNew = self.request.GET.get('searchDateNew',None)
 
+        # 默认调课和停课都拿出来
         query_set = models.TimeSlot.objects.filter(
-            Q(deleted=True) |
-            Q(transferred_from__isnull=False)
-                                                   )
+            Q(trans_to_set__isnull = False) |
+            Q(suspended=True)
+        )
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
@@ -1128,11 +1129,6 @@ class StudentScheduleChangelogView(BaseStaffView):
                 Q(deleted=True) &
                 Q(suspended=True) &
                 Q(trans_to_set__isnull = True)
-            )
-        else: # 调课和停课都拿出来
-            query_set = query_set.filter(
-                Q(trans_to_set__isnull = False) |
-                Q(suspended=True)
             )
         if searchDateOri:
             stTime = datetime.datetime.strptime(searchDateOri, '%Y-%m-%d')
