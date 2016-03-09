@@ -7,7 +7,8 @@ from django.core.management import call_command
 from django.utils.timezone import make_aware
 from django.conf import settings
 
-from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot
+from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot, Ability, Highscore
+from app.models import Tag, Certificate, Achievement, Account
 from teacher.views import FirstPage, split_list
 from teacher.management.commands import create_fake_order
 
@@ -52,6 +53,8 @@ class TestWebPage(TestCase):
         teacher_user.save()
         profile.save()
         teacher.save()
+        teacher_account = Account(user=teacher_user)
+        teacher_account.save()
         # 创建家长
         parent_user = User.objects.create(username=self.parent_name)
         parent_user.password = make_password(self.parent_password, self.parent_salt)
@@ -205,6 +208,98 @@ class TestWebPage(TestCase):
                 "comment_type": comment_type, "page_offset": 1
             }))
             self.assertEqual(response.status_code, 200)
+
+    def test_information_complete_percent(self):
+        new_user = Teacher.new_teacher()
+        profile = new_user.profile
+        teacher = new_user.teacher
+        fp = FirstPage()
+        # 空白
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 0)
+        # 电话
+        profile.phone = "18922405996"
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 5)
+        # 姓名
+        teacher.name = "曹亚文"
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 10)
+        # 性别
+        profile.gender = "f"
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 12)
+        # 城市
+        teacher.region = Region.objects.get(name="洛阳市")
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 17)
+        # 能力,包括年级和学科
+        grade = Grade.objects.get(name="高二")
+        subject = Subject.objects.get(name="英语")
+        ability = Ability.objects.get(grade=grade, subject=subject)
+        teacher.abilities.add(ability)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25)
+        # 是英语老师
+        self.assertTrue("is_english" in fp.information_complete_percent(teacher, profile)[1])
+        # 自我简介,10个字以上
+        teacher.introduce = "012345678"
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25)
+        teacher.introduce = "0123456789"
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 35)
+        # 提分榜
+        highscore = Highscore(teacher=teacher, name="好学生", increased_scores=200, school_name="好学校", admitted_to="高级好学校")
+        highscore.save()
+        teacher.highscore_set.add(highscore)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 45)
+        # 教龄
+        teacher.experience = 5
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 50)
+        # 风格
+        teacher.tags.add(Tag.objects.get(name="幽默"))
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 55)
+
+        def _add_cert(percent, cert):
+            id_held = cert
+            id_held.save()
+            teacher.certificate_set.add(id_held)
+            self.assertEqual(fp.information_complete_percent(teacher, profile)[0], percent)
+
+        # 身份证手持照
+        _add_cert(65, Certificate(teacher=teacher, name="身份证手持照", type=Certificate.ID_HELD, verified=True))
+        # 毕业证书
+        _add_cert(75, Certificate(teacher=teacher, name="毕业证书", type=Certificate.ACADEMIC, verified=True))
+        # 教师资格证书
+        _add_cert(80, Certificate(teacher=teacher, name="教师资格证书", type=Certificate.TEACHING, verified=True))
+        # 英语水平
+        _add_cert(85, Certificate(teacher=teacher, name="英语水平证书", type=Certificate.ENGLISH, verified=True))
+        # 其它证书
+        _add_cert(90, Certificate(teacher=teacher, name="其他证书", type=Certificate.OTHER, verified=True))
+        # 特殊成果
+        ach = Achievement(teacher=teacher, title="残疾人长跑一等奖")
+        ach.save()
+        teacher.achievement_set.add(ach)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 95)
+        # 头像
+        pass
+
+    def check_page_accesibility(self, tag_name):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        register_url = reverse(tag_name)
+        response = client.get(register_url)
+        # response.render()
+        self.assertEqual(response.status_code, 200)
+
+    def test_my_level(self):
+        # 我的级别
+        self.check_page_accesibility("teacher:my-level")
+
+    def test_withdraw_record(self):
+        # 查看提现记录
+        self.check_page_accesibility("teacher:my-wallet-withdrawal-record")
+
+    def test_withdraw_result(self):
+        # 查看提现结果
+        self.check_page_accesibility("teacher:my-wallet-withdrawal-result")
+
+    def test_withdraw(self):
+        # 提现界面
+        self.check_page_accesibility("teacher:my-wallet-withdrawal")
 
 
 class TestCommands(TestCase):

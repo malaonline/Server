@@ -1,0 +1,94 @@
+@import "my_wallet_base.less";
+
+.my_level{
+  border-width: 0 0 1px 0;
+  border-color: @border_gray;
+  border-style: solid;
+  margin-top: 18px;
+  padding-bottom: 11px;
+  margin-bottom: 11px;
+}
+
+.description{
+  overflow: auto;
+  .general{
+    float: left;
+    border-width: 1px;
+    border-color: @border_gray;
+    border-style: solid;
+    width: 318px;
+    //height: 215px;
+    .your_level{
+      margin-top: 18px;
+      margin-left: 45px;
+    }
+    .level_icon{
+      margin-left: 125px;
+    }
+    .level{
+      margin-left: 115px;
+      border-width: 1px;
+      border-color: @border_gray;
+      border-style: solid;
+      width: 91px;
+      padding-left: 3px;
+    }
+    .bar{
+      margin-top: 20px;
+      background-color: #f2f2f2;
+      border-width: 1px 0 0 0;
+      border-color: @border_gray;
+      border-style: solid;
+      padding-top: 14px;
+      padding-left: 21px;
+      padding-bottom: 17px;
+      span{
+        font-size: 12px;
+      }
+      .level_evauation_time{
+
+      }
+      .next_level_evaluation_time{
+
+      }
+    }
+  }
+  .upgrade_data{
+    margin-left: 5px;
+    float: left;
+    width: 318px;
+    height: 235px;
+    border-width: 1px;
+    border-color: @border_gray;
+    border-style: solid;
+  }
+}
+
+.level_change_record{
+  margin-top:20px;
+  .title{
+    border-width: 0 0 1px 0;
+    border-color: @border_gray;
+    border-style: solid;
+    padding-bottom: 10px;
+  }
+  .record{
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+}
+
+.level_icon{
+  .level_change_record;
+  .icon{
+    margin-right: 15px;
+  }
+}
+
+.level_rights{
+  .level_change_record;
+  .table_header{
+
+  }
+}

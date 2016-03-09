@@ -269,7 +269,7 @@ class FirstPage(View):
             "account_balance": self.account_balance(teacher),
             "total_revenue": self.total_revenue(order_set),
             "teacher_level": self.teacher_level(),
-            "information_complete_percent": self.information_complete_percent(),
+            "information_complete_percent": self.information_complete_percent(teacher, profile)[0],
             "complete_url": self.complete_url(),
         }
         set_teacher_page_general_context(teacher, context)
@@ -418,10 +418,81 @@ class FirstPage(View):
         teacher_level = "中级教师"
         return "麻辣{teacher_level}".format(teacher_level=teacher_level)
 
-    def information_complete_percent(self):
+    def information_complete_percent(self, teacher: models.Teacher, profile: models.Profile):
         # 资料完成度
-        percent = 70
-        return percent
+        complete_percent = 0
+        complete_list = []
+        # 手机号码 5%
+        if hasattr(profile, "phone") is True and profile.phone:
+            complete_percent += 5
+            complete_list.append("phone is {phone}".format(phone=profile.phone))
+        # 姓名 5%
+        if hasattr(teacher, "name") is True and teacher.name:
+            complete_percent += 5
+            complete_list.append("name is {name}".format(name=teacher.name))
+        # 性别 2%
+        if hasattr(profile, "gender") is True and profile.gender != "u":
+            complete_percent += 2
+            complete_list.append("gender is {gender}".format(gender=profile.gender))
+        # 授课年级 3%, 教授科目 5%
+        if teacher.abilities.all():
+            complete_percent += 8
+            complete_list.append("abilities is {abilities}".format(abilities=teacher.abilities))
+        # 所在城市, 5%
+        if hasattr(teacher, "region") is True and teacher.region:
+            complete_percent += 5
+            complete_list.append("region is {region}".format(region=teacher.region))
+        # 头像, 5%
+        if profile.avatar_url():
+            complete_percent += 5
+            complete_list.append("avatar is {avatar}".format(avatar=profile.avatar_url()))
+        # 判断是不是英语老师
+        english_subject = models.Subject.get_english()
+        # 证书权重
+        cert_map = {
+            models.Certificate.ID_HELD: 10,
+            models.Certificate.ACADEMIC: 10,
+            models.Certificate.TEACHING: 5,
+            models.Certificate.OTHER: 10,
+        }
+        # 身份认证, 10%
+        # 毕业证书, 10%
+        # 教师资格证书, 5%
+        # 其他证书, 英语老师,5%, 非英语老师 10%
+        # 英语水平证书 5%, 只针对英语老师
+        teacher_abilities = teacher.abilities.all()
+        if teacher_abilities and teacher_abilities[0].subject == english_subject:
+            # 英语老师权重很特别
+            cert_map[models.Certificate.OTHER] = 5
+            cert_map[models.Certificate.ENGLISH] = 5
+            complete_list.append("is_english")
+
+        for one_cert in teacher.certificate_set.all():
+            if one_cert.verified is True:
+                complete_percent += cert_map.pop(one_cert.type, 0)
+
+        # 风格标记, 5%
+        if hasattr(teacher, "tags") and teacher.tags.count() > 0:
+            complete_percent += 5
+            complete_list.append("tags is {tags}".format(tags=teacher.tags))
+        # 自我介绍,至少10个字符, 10%
+        if teacher.introduce and len(teacher.introduce) > 9:
+            complete_percent += 10
+            complete_list.append("introduce is {introduce}".format(introduce=teacher.introduce))
+        # 教龄, 5%
+        if hasattr(teacher, "experience") and teacher.experience:
+            complete_percent += 5
+            complete_list.append("experience is {experience}".format(experience=teacher.experience))
+        # 提分榜, 10%
+        if teacher.highscore_set.all():
+            complete_percent += 10
+            complete_list.append("highscore is {highscore}".format(highscore=teacher.highscore_set))
+        # 特殊成果, 5%
+        if teacher.achievement_set.all():
+            complete_percent += 5
+            complete_list.append("achievement is {achievement}".format(achievement=teacher.achievement_set.all()))
+
+        return complete_percent, complete_list
 
     def complete_url(self):
         # 跳转到需要完善的url
@@ -1216,9 +1287,13 @@ class MyWalletWithdrawal(MyWalletBase):
             bankcard = account.bankcard_set.all()[0]
             context["bank_card_number"] = " ".join(bankcard.mask_card_number())
             context["bank_name"] = bankcard.bank_name
+        else:
+            context["bank_card_number"] = "还没有绑定储蓄卡"
+            context["bank_name"] = ""
+
         context["balance"] = "%.2f" % (account.withdrawable_amount/100)
         context["phone"] = json.dumps({"code": teacher.user.profile.mask_phone()})
-        pp(context)
+        # pp(context)
 
 
 class MyWalletWithdrawalResult(MyWalletBase):
@@ -1266,6 +1341,68 @@ class MyWalletWithdrawalRecord(MyWalletBase):
 
     def get_handle(self, context, teacher:models.Teacher):
         context["result_list"] = self.record_list(teacher)
+
+
+class MyLevel(MyWalletBase):
+    template_url = "teacher/my_level.html"
+
+    def fake_context(self, context):
+        context["all_level"] = ["一级", "二级", "三级"]
+        context["current_level"] = "二级"
+        context["level_record"] = ["2015-12-10 注册成为麻辣老师",
+                                   "2015-12-10 升级为一级麻辣老师",
+                                   "2015-12-10 升级为二级麻辣老师"]
+        context["level_rights"] = [
+            ["优秀麻辣老师", "1200.00/月", "40%"],
+            ["中级麻辣老师", "1500.00/月", "35%"],
+            ["高级麻辣老师", "2000.00/月", "30%"],
+            ["麻辣合伙人", "10000.00/月", "20%"],
+        ]
+        context["evaluation_time"] = ["2015-12-01", "2016-03-01"]
+
+    def get_handle(self, context, teacher:models.Teacher):
+        self.fake_context(context)
+        # 显示所有等级
+        context["all_level"] = [one_level.name for one_level in models.Level.objects.all().order_by("level_order")]
+        # 显示当前等级
+        if hasattr(teacher, "level"):
+            context["current_level"] = ""
+        else:
+            context["current_level"] = teacher.level.name
+        # 显示等级变更记录
+        operation = {}
+        for key, val in models.LevelRecord.OPERATION_CHOICE:
+            operation[key] = val
+        level_record_list = teacher.levelrecord_set.all().order_by("teacher__levelrecord__create_at")
+        level_record_list_str = ["{time} 成为麻辣老师".format(time=timezone.now().strftime("%Y-%m-%d"))]
+        for one_level_record in level_record_list:
+            level_record_list_str.append(
+                "{time} {operation}为{level}麻辣老师".format(
+                    time=one_level_record.create_at.strftime("%Y-%m-%d"),
+                    operation=operation[one_level_record.operation],
+                    level=one_level_record.to_level.name
+                )
+            )
+        context["level_record"] = level_record_list_str
+        # 显示等级权益
+        all_level_rights = []
+        for one_price in models.Price.objects.filter(region=teacher.region, ability=teacher.abilities.all()[0]).order_by("level__level_order"):
+            all_level_rights.append(
+                [
+                    "{level}麻辣老师".format(level=one_price.level.name),
+                    "¥{price}/月".format(price=one_price.price/100),
+                    "{percent}%".format(percent=one_price.commission_percentage),
+                ]
+            )
+        context["level_rights"] = all_level_rights
+        # 显示评估时间
+        if level_record_list:
+            last_evaluation = level_record_list[0].create_at
+        else:
+            last_evaluation = timezone.now()
+        next_evaluation = last_evaluation+datetime.timedelta(days=90)
+        context["evaluation_time"] = [last_evaluation.strftime("%Y-%m-%d"),
+                                      next_evaluation.strftime("%Y-%m-%d")]
 
 
 def split_list(array: list, segment_size):

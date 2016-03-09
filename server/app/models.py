@@ -175,18 +175,41 @@ class Ability(BaseModel):
 
 
 class Level(BaseModel):
+    # 老师等级信息
     name = models.CharField(max_length=20, unique=True)
+    # 级别,最小,最大上限设置好,低级别对应小数字,高级别对应大数字
+    level_order = models.IntegerField()
 
     def __str__(self):
         return self.name
+
+
+class LevelRecord(BaseModel):
+    # 老师等级调整记录,时间排序
+    to_level = models.ForeignKey(Level, null=True, on_delete=models.SET_NULL)
+    # 最后一条记录,即当前老师的级别评定时间
+    create_at = models.DateTimeField(auto_now=True)
+    teacher = models.ForeignKey("Teacher", null=True, on_delete=models.SET_NULL)
+
+    DEGRADE = 'd'
+    UPGRADE = 'u'
+    OPERATION_CHOICE = (
+        (DEGRADE, "降级"),
+        (UPGRADE, "升级"),
+    )
+    # 升级,降级,设成choice
+    operation = models.CharField(max_length=1, choices=OPERATION_CHOICE, default=UPGRADE)
 
 
 class Price(BaseModel):
     region = models.ForeignKey(Region, limit_choices_to={'opened': True})
     ability = models.ForeignKey(Ability, default=1)
     level = models.ForeignKey(Level)
+    # 单位也是分
     price = models.PositiveIntegerField()  # Lesson price
+    # 薪资,单位是分
     salary = models.PositiveIntegerField(default=0)
+    # 佣金比例,10表示10%
     commission_percentage = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -274,13 +297,14 @@ class Teacher(BaseModel):
     teaching_age = models.PositiveIntegerField(default=0)
     level = models.ForeignKey(Level, null=True, blank=True,
                               on_delete=models.SET_NULL)
-
+    # 教龄
     experience = models.PositiveSmallIntegerField(null=True, blank=True)
     profession = models.PositiveSmallIntegerField(null=True, blank=True)
     interaction = models.PositiveSmallIntegerField(null=True, blank=True)
     video = models.FileField(null=True, blank=True, upload_to='video')
     audio = models.FileField(null=True, blank=True, upload_to='audio')
 
+    # 风格标签
     tags = models.ManyToManyField(Tag)
     schools = models.ManyToManyField(School)
     weekly_time_slots = models.ManyToManyField('WeeklyTimeSlot')
@@ -356,6 +380,9 @@ class Teacher(BaseModel):
 
     def audio_url(self):
         return self.audio and self.audio.url or ''
+
+    def set_level(self, new_level: Level):
+        pass
 
     def video_url(self):
         return self.video and self.video.url or ''
@@ -563,6 +590,7 @@ class Highscore(BaseModel):
     name = models.CharField(max_length=200)
     increased_scores = models.IntegerField(default=0)
     school_name = models.CharField(max_length=300)
+    # 考入学校
     admitted_to = models.CharField(max_length=300)
 
     def __str__(self):
@@ -872,6 +900,7 @@ class CouponGenerator(BaseModel):
 
 
 class Coupon(BaseModel):
+    # 优惠卷
     parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()

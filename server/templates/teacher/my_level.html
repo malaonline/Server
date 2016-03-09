@@ -1,0 +1,96 @@
+{% extends "teacher/my_wallet_base.html" %}
+{% block title %}
+    我的级别
+{% endblock %}
+{% block border_title %}
+    个人设置 > 我的级别
+{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_level.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+{% block border_content %}
+    <p class="my_level">我的级别</p>
+    <div class="description">
+        <div class="general">
+            <p class="your_level">您的级别</p>
+            <img class="level_icon" src="{% static 'teacher/icons/level_2.png' %}">
+            <p class="level">{{ current_level }}麻辣老师</p>
+            <div class="bar">
+                <span>级别评定时间:</span>
+                <span>{{ evaluation_time.0 }}</span>
+                <span>下次评定时间:</span>
+                <span>{{ evaluation_time.1 }}</span>
+            </div>
+        </div>
+        <div class="upgrade_data">
+            <p>待定</p>
+        </div>
+    </div>
+    <div class="level_change_record">
+        <p class="title">级别变动记录</p>
+        {% for record in level_record %}
+            <p class="record">{{ record }}</p>
+        {% endfor %}
+{#        <p class="record">2015-12-10 注册成为麻辣老师</p>#}
+{#        <p class="record">2015-12-10 升级为优秀麻辣老师</p>#}
+{#        <p class="record">2015-12-10 升级为中级麻辣老师</p>#}
+    </div>
+    <div class="level_icon">
+        <p class="title">麻辣老师级别图示</p>
+        <div>
+            {% for one_level in all_level %}
+                <span>{{ one_level }}</span>
+            {% endfor %}
+{#            <img class="icon" src="{% static 'teacher/icons/level_1.png' %}">#}
+{#            <img class="icon" src="{% static 'teacher/icons/level_2.png' %}">#}
+{#            <img class="icon" src="{% static 'teacher/icons/level_3.png' %}">#}
+        </div>
+    </div>
+    <div class="level_rights">
+        <p class="title">各级别权益</p>
+        <table class="table table-striped">
+            <tr>
+                <th>教师级别</th>
+                <th>基本薪资</th>
+                <th>平台佣金(占总课时费)</th>
+                <th>其他</th>
+            </tr>
+            {% for one_rights in level_rights %}
+            <tr>
+                <td>{{ one_rights.0 }}</td>
+                <td>{{ one_rights.1 }}</td>
+                <td>{{ one_rights.2 }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+{#            <tr>#}
+{#                <td>优秀麻辣老师</td>#}
+{#                <td>1200.00/月</td>#}
+{#                <td>40%</td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>中级麻辣老师</td>#}
+{#                <td>1500.00/月</td>#}
+{#                <td>35%</td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>高级麻辣老师</td>#}
+{#                <td>2000.00/月</td>#}
+{#                <td>20%~30%</td>#}
+{#                <td></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>麻辣合伙人</td>#}
+{#                <td>10000.00/月</td>#}
+{#                <td>20%</td>#}
+{#                <td></td>#}
+{#            </tr>#}
+        </table>
+    </div>
+{% endblock %}

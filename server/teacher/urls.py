@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^my_wallet/withdrawal/$', login_required(views.MyWalletWithdrawal.as_view(), login_url=LOGIN_URL), name="my-wallet-withdrawal"),
     url(r'^my_wallet/withdrawal/result/$', login_required(views.MyWalletWithdrawalResult.as_view(), login_url=LOGIN_URL), name="my-wallet-withdrawal-result"),
     url(r'^my_wallet/withdrawal/record/$', login_required(views.MyWalletWithdrawalRecord.as_view(), login_url=LOGIN_URL), name="my-wallet-withdrawal-record"),
+    url(r'^my_level/$', login_required(views.MyLevel.as_view(), login_url=LOGIN_URL), name="my-level"),
     url(r'^generate_sms/$', login_required(views.GenerateSMS.as_view(), login_url=LOGIN_URL), name="generate-sms"),
     url(r'^withdrawal_request/$', login_required(views.WithdrawalRequest.as_view(), login_url=LOGIN_URL), name="withdrawal_request"),
     url(r'^certificate/$', views.CertificateView.as_view(), name="certificate"),
