@@ -455,11 +455,15 @@ GET /api/v1/teachers/TEACHER_ID/weeklytimeslots
 ```
 
 parameters:
-
 ```
 school_id=1
 ```
-evaluation
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
 
 result:
 ```

@@ -142,6 +142,10 @@ class TestApi(TestCase):
 
     def test_teacher_weekly_time_slot(self):
         client = Client()
+        username = "parent0"
+        password = "123123"
+        client.login(username=username, password=password)
+
         url = "/api/v1/teachers/1/weeklytimeslots?school_id=1"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)

@@ -65,7 +65,8 @@ class ChargeSucceeded(View):
     def post(self, request):
         body = request.body
         if not settings.TESTING:
-            sig = request.META.get('HTTP_X_PINGPLUSPLUS_SIGNATURE').encode('utf-8')
+            sig = request.META.get(
+                    'HTTP_X_PINGPLUSPLUS_SIGNATURE').encode('utf-8')
             pub_key = settings.PINGPP_PUB_KEY
             if not verify_sig(body, sig, pub_key):
                 raise PermissionDenied()
@@ -90,32 +91,6 @@ class ChargeSucceeded(View):
         order.status = 'p'
         order.save()
         return JsonResponse({'ok': 1})
-
-
-class TeacherWeeklyTimeSlot(View):
-    def get(self, request, teacher_id):
-        school_id = request.GET.get('school_id')
-        school = get_object_or_404(models.School, pk=school_id)
-        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
-
-        la_dict = teacher.longterm_available_dict(school)
-
-        region = school.region
-        weekly_time_slots = list(region.weekly_time_slots.all())
-        slots = itertools.groupby(weekly_time_slots, key=lambda x: x.weekday)
-
-        data = [(str(day), [OrderedDict([
-            ('id', s.id),
-            ('start', s.start.strftime('%H:%M')),
-            ('end', s.end.strftime('%H:%M')),
-            ('available', la_dict[(day, s.start, s.end)])])
-            for s in ss])
-            for day, ss in slots]
-
-        # weekday = datetime.datetime.today().weekday() + 1
-        data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
-
-        return JsonResponse(data)
 
 
 class ConcreteTimeSlots(View):
@@ -248,7 +223,8 @@ class ProfileViewSet(ProfileBasedMixin,
     serializer_class = ProfileSerializer
 
     def update(self, request, *args, **kwargs):
-        if not self.request.user.is_superuser and self.get_profile() != self.get_object():
+        if not self.request.user.is_superuser and (
+                self.get_profile() != self.get_object()):
             return HttpResponse(status=403)
         response = super(ProfileViewSet, self).update(request, *args, **kwargs)
         if response.status_code == 200:
@@ -566,6 +542,35 @@ class ParentBasedMixin(object):
         except (AttributeError, exceptions.ObjectDoesNotExist):
             raise PermissionDenied(detail='Role incorrect')
         return parent
+
+
+class TeacherWeeklyTimeSlot(ParentBasedMixin, APIView):
+    queryset = models.TimeSlot.objects.all()
+
+    def get(self, request, teacher_id):
+        parent = self.get_parent()
+        school_id = request.GET.get('school_id')
+        school = get_object_or_404(models.School, pk=school_id)
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+
+        la_dict = teacher.longterm_available_dict(school, parent=parent)
+
+        region = school.region
+        weekly_time_slots = list(region.weekly_time_slots.all())
+        slots = itertools.groupby(weekly_time_slots, key=lambda x: x.weekday)
+
+        data = [(str(day), [OrderedDict([
+            ('id', s.id),
+            ('start', s.start.strftime('%H:%M')),
+            ('end', s.end.strftime('%H:%M')),
+            ('available', la_dict[(day, s.start, s.end)])])
+            for s in ss])
+            for day, ss in slots]
+
+        # weekday = datetime.datetime.today().weekday() + 1
+        data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
+
+        return JsonResponse(data)
 
 
 class SubjectRecord(ParentBasedMixin, APIView):

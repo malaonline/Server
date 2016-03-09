@@ -14,13 +14,14 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.apps import apps
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.conf import settings
+from django.db.models import Q
 
 from app.exception import TimeSlotConflict
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
 from app.utils.smsUtil import isTestPhone, isValidPhone, sendCheckcode, SendSMSError
-from django.utils.timezone import make_aware
 
 logger = logging.getLogger('app')
 
@@ -410,7 +411,7 @@ class Teacher(BaseModel):
             account.save()
         return account
 
-    def longterm_available_dict(self, school):
+    def longterm_available_dict(self, school, parent=None):
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
         renew_time = TimeSlot.RENEW_TIME
@@ -423,6 +424,8 @@ class Teacher(BaseModel):
         date = timezone.now() - renew_time
         occupied = TimeSlot.objects.filter(
                 order__teacher=teacher, start__gte=date, deleted=False)
+        if parent is not None:
+            occupied = occupied.filter(~Q(order__parent=parent))
         occupied = [
                 (x if x.transferred_from is None else x.transferred_from)
                 for x in occupied]
