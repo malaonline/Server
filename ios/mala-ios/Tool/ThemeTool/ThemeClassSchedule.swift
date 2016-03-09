@@ -56,77 +56,33 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ThemeClassScheduleCellReuseId, forIndexPath: indexPath) as! ThemeClassScheduleCell
-        // 移除重用Cell中的临时label,样式
-        for view in cell.contentView.subviews {
-            if !(view is UIButton) {
-                view.removeFromSuperview()
-            }
-        }
-        cell.button.highlighted = false
-        cell.button.selected = false
         
-        // 设置Cell样式
-        cell.contentView.layer.borderColor = MalaLoginVerifyButtonNormalColor.CGColor
-        cell.contentView.layer.borderWidth = MalaScreenOnePixel
-        
-        
-        // 在Cell中标注IndexPath
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(12)
-        label.center = cell.contentView.center
-//        label.text = String(format: "%d-%d", indexPath.section, indexPath.item)
-//        label.text = model.id
-//        label.sizeToFit()
-        cell.contentView.addSubview(label)
+        // 重置Cell样式
+        cell.reset()
         
         // 设置Cell列头标题
         if indexPath.section == 0 {
-            label.text = ThemeClassScheduleSectionTitles[indexPath.row]
-            label.textColor = UIColor.whiteColor()
-            label.sizeToFit()
-            label.center = cell.contentView.center
+            cell.title = ThemeClassScheduleSectionTitles[indexPath.row]
+            cell.hiddenTitle = false
             cell.button.highlighted = true
         }
         
         // 设置Cell行头标题
         if indexPath.row == 0 && indexPath.section > 0 && (model ?? []) != [] {
-            
-            label.removeFromSuperview()
-            
             // 行头数据源
             let rowTitleModel = model?[0][indexPath.section-1]
-            
-            let firstLabel = UILabel()
-            firstLabel.text = rowTitleModel?.start
-            firstLabel.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height/2)
-            firstLabel.font = UIFont.systemFontOfSize(12)
-            firstLabel.sizeToFit()
-            firstLabel.frame.origin.x = (cell.frame.width - firstLabel.frame.width)/2
-            firstLabel.frame.origin.y = cell.frame.height/2 - firstLabel.frame.height
-            firstLabel.textColor = MalaDetailsCellSubTitleColor
-            
-            let secondLabel = UILabel()
-            secondLabel.text = rowTitleModel?.end
-            secondLabel.frame = CGRect(x: 0, y: cell.frame.height/2, width: cell.frame.width, height: cell.frame.height/2)
-            secondLabel.font = UIFont.systemFontOfSize(12)
-            secondLabel.sizeToFit()
-            secondLabel.frame.origin.x = (cell.frame.width - secondLabel.frame.width)/2
-            secondLabel.textColor = MalaDetailsCellSubTitleColor
-            
-            cell.contentView.addSubview(firstLabel)
-            cell.contentView.addSubview(secondLabel)
+            cell.start = rowTitleModel?.start
+            cell.end = rowTitleModel?.end
+            cell.hiddenTime = false
+            cell.setNormal()
         }
         
         // 根据数据源设置显示样式
         if indexPath.section > 0 && indexPath.row > 0 && (model ?? []) != [] {
-//            label.removeFromSuperview()
-            
             let itemModel = model?[indexPath.row-1][indexPath.section-1]
-            
-            label.text = String(format: "%d", itemModel?.id ?? 0)
-            label.sizeToFit()
-            
+            // 若不可选择 - disable
             cell.button.enabled = itemModel?.available ?? false
+            // 若已选择的 - selected
             if itemModel?.isSelected != nil {
                 cell.button.selected = itemModel!.isSelected
             }
@@ -166,7 +122,41 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
 
 class ThemeClassScheduleCell: UICollectionViewCell {
     
+    // MARK: - Property
+    /// 是否隐藏标题
+    var hiddenTitle: Bool = true {
+        didSet {
+            titleLabel.hidden = hiddenTitle
+        }
+    }
+    /// 是否隐藏每个时间段的开始时间、结束时间
+    var hiddenTime: Bool = true {
+        didSet {
+            startLabel.hidden = hiddenTime
+            endLabel.hidden = hiddenTime
+        }
+    }
+    /// 标题文字
+    var title: String = "" {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    /// 开始时间文字
+    var start: String? {
+        didSet {
+           startLabel.text = start
+        }
+    }
+    /// 结束时间文字
+    var end: String? {
+        didSet {
+            endLabel.text = end
+        }
+    }
+    
     // MARK: - Compontents
+    /// 多状态样式按钮，不进行用户交互
     lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
@@ -175,6 +165,37 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         button.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonNormalColor), forState: .Highlighted)
         button.userInteractionEnabled = false
         return button
+    }()
+    /// 标题label
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFontOfSize(12)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.hidden = true
+        titleLabel.textAlignment = .Center
+        return titleLabel
+    }()
+    /// 第一个时间段label
+    private lazy var startLabel: UILabel = {
+        let startLabel = UILabel()
+        startLabel.text = "00:00"
+        startLabel.font = UIFont.systemFontOfSize(12)
+        startLabel.textColor = MalaDetailsCellSubTitleColor
+        startLabel.backgroundColor = UIColor.clearColor()
+        startLabel.hidden = true
+        startLabel.textAlignment = .Center
+        return startLabel
+    }()
+    /// 第二个时间段label
+    private lazy var endLabel: UILabel = {
+        let endLabel = UILabel()
+        endLabel.text = "00:00"
+        endLabel.font = UIFont.systemFontOfSize(12)
+        endLabel.textColor = MalaDetailsCellSubTitleColor
+        endLabel.backgroundColor = UIColor.clearColor()
+        endLabel.hidden = true
+        endLabel.textAlignment = .Center
+        return endLabel
     }()
     
     
@@ -192,14 +213,54 @@ class ThemeClassScheduleCell: UICollectionViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        contentView.addSubview(button)
+        // Style
+        contentView.layer.borderColor = MalaLoginVerifyButtonNormalColor.CGColor
+        contentView.layer.borderWidth = MalaScreenOnePixel
         
-        button.frame.size = contentView.frame.size
-        button.center = contentView.center
+        // SubViews
+        contentView.addSubview(button)
+        contentView.insertSubview(startLabel, aboveSubview: button)
+        contentView.insertSubview(endLabel, aboveSubview: startLabel)
+        contentView.insertSubview(titleLabel, aboveSubview: endLabel)
+        
+        // Autolayout
+        button.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(contentView.snp_size)
+            make.center.equalTo(contentView.snp_center)
+        }
+        startLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(contentView.snp_top)
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.height.equalTo(contentView.snp_height).multipliedBy(0.5)
+        }
+        endLabel.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(contentView.snp_bottom)
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.height.equalTo(contentView.snp_height).multipliedBy(0.5)
+        }
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.width.equalTo(contentView.snp_width)
+            make.height.equalTo(12)
+            make.center.equalTo(contentView.snp_center)
+        }
+    }
+    
+    ///  重置Cell外观样式（仅保留button显示normal状态）
+    func reset() {
+        self.setNormal()
+        self.hiddenTitle = true
+        self.hiddenTime = true
+    }
+    
+    ///  设置button为normal状态
+    func setNormal() {
+        self.button.selected = false
+        self.button.highlighted = false
+        self.button.enabled = true
     }
 }
-
-
 
 
 class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
