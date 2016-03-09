@@ -223,8 +223,34 @@ $(function(){
     });
 
     // 身份资质认证等
+    var hasImg = function($editBox) {
+        var hasImg = !!$editBox.find('.img-box img').attr('src');
+        var hasPreImg = !!$editBox.find('.img-preview-box img').attr('src');
+        return hasImg || hasPreImg;
+    };
     $('[data-action=approve-cert]').click(function(e){
-        var $editBox = $(this).closest('.img-edit');
+        var $editBox = $(this).closest('.img-edit'), type = $editBox.attr('for');
+        if (type=='idHeld') {
+            if (!hasImg($editBox)) {
+                alert("没有身份证手持照");
+                return;
+            }
+            var $idFrontEditBox = $('.img-edit[for=idFront]');
+            if (!hasImg($idFrontEditBox)) {
+                alert("没有身份证正面照片");
+                return;
+            }
+        } else if (type=='otherCert') {
+            var certName = $.trim($editBox.find('input[name$=certName]').val());
+            if (!certName) {
+                alert("证书标题不能为空");
+                return;
+            }
+        }
+        if (!hasImg($editBox)) {
+            alert("没有证书照片");
+            return;
+        }
         var $flagSpan = $editBox.find('.cert-verify-flag');
         $flagSpan.removeClass('False').addClass('True');
         $flagSpan.find('input').val('True');

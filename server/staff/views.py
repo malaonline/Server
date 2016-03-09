@@ -353,7 +353,8 @@ class TeacherUnpublishedEditView(BaseStaffView):
             id_num = request.POST.get('id_num')
             if certIdHeldOk and certIdHeldOk=='True':
                 if not check_id_number(id_num):
-                    return JsonResponse({'ok': False, 'msg': '身份证号不合法', 'code': -1})
+                    return JsonResponse({'ok': False, 'msg': '身份认证失败, 身份证号不合法', 'code': -1})
+            
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
             profile = teacher.user.profile
