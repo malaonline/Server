@@ -202,11 +202,13 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
             }
 
+            String priceRange = "价格异常";
             Double minPrice = teacher.getMin_price();
-            String minPriceStr = minPrice == null ? "0" : Number.dfDecimal0.format(minPrice);
             Double maxPrice = teacher.getMax_price();
-            String maxPriceStr = maxPrice == null ? "0" : Number.dfDecimal0.format(maxPrice);
-            price.setText(minPriceStr + "-" + maxPriceStr);
+            if(minPrice!=null&&maxPrice!=null){
+                priceRange = Number.subZeroAndDot(minPrice*0.01d)+"-"+ Number.subZeroAndDot(maxPrice*0.01d);
+            }
+            price.setText(priceRange);
 
         }
 

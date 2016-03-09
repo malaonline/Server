@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class Teacher extends BaseEntity {
     private String avatar;
-    private Character gender;
-    private Character degree;
+    private String gender;
+    private String degree;
     private User user;
 
     private Double min_price;
@@ -42,19 +42,19 @@ public class Teacher extends BaseEntity {
         this.avatar = avatar;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Character getDegree() {
+    public String getDegree() {
         return degree;
     }
 
-    public void setDegree(Character degree) {
+    public void setDegree(String degree) {
         this.degree = degree;
     }
 

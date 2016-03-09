@@ -452,10 +452,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
 
             //性别
-            Character ch = teacher.getGender();
-            if (ch != null && ch == 'm') {
+            String grender = teacher.getGender();
+            if (grender != null && grender.equals("m")) {
                 mTeacherGender.setText("男");
-            } else if (ch != null && ch == 'w') {
+            } else if (grender != null && grender.equals("f")) {
                 mTeacherGender.setText("女");
             } else {
                 mTeacherGender.setText("保密");
@@ -466,13 +466,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             String region = null;
             if (minPrice!=null&&maxPrice!=null){
 
-                region = Math.round(minPrice)+"-"+Math.round(maxPrice)+"元/小时";
+                region = Number.subZeroAndDot(minPrice * 0.01d)+"-"+ Number.subZeroAndDot(maxPrice * 0.01d)+"元/小时";
             }
             else if (minPrice!=null){
-                region = Math.round(minPrice)+"元/小时";
+                region = Number.subZeroAndDot(minPrice * 0.01d)+"元/小时";
             }
             else if (maxPrice!=null){
-                region = Math.round(maxPrice)+"元/小时";
+                region = Number.subZeroAndDot(maxPrice * 0.01d)+"元/小时";
             }
             if (region != null) {
                 mPriceRegion.setText(region);
