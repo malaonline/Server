@@ -110,7 +110,7 @@
                     {% if list_type == 'published' %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="unpublish-teacher">下架</a>
-                        | <a data-action="copy-link">复制链接</a>  {# TODO: 复制链接#}
+                        | <a href="{% url 'wechat:teacher-detail' teacher.pk %}" target="_blank">复制链接</a>  {# TODO: 复制链接#}
                     {% else %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="publish-teacher">上架</a>

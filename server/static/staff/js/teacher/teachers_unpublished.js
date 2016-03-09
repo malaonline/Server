@@ -312,4 +312,11 @@ $(function(){
     $('[data-action=unpublish-teacher]').click(function(e){
         _publishChange(this, false);
     });
+/*    $('[data-action=copy-link]').click(function(e){
+        e.preventDefault();
+        teacherId = e.currentTarget.dataset.teacherId;
+        if (teacherId) {
+            //TODO:找到不需要flash的跨平台访问clipboard的解决方案
+        };
+    });*/
 });
