@@ -553,7 +553,7 @@ class TeacherWeeklyTimeSlot(ParentBasedMixin, APIView):
         school = get_object_or_404(models.School, pk=school_id)
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
 
-        la_dict = teacher.longterm_available_dict(school, parent=parent)
+        la_dict = teacher.longterm_available_dict(school, parent)
 
         region = school.region
         weekly_time_slots = list(region.weekly_time_slots.all())

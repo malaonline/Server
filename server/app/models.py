@@ -411,7 +411,7 @@ class Teacher(BaseModel):
             account.save()
         return account
 
-    def longterm_available_dict(self, school, parent=None):
+    def longterm_available_dict(self, school, parent):
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
         renew_time = TimeSlot.RENEW_TIME
@@ -424,8 +424,7 @@ class Teacher(BaseModel):
         date = timezone.now() - renew_time
         occupied = TimeSlot.objects.filter(
                 order__teacher=teacher, start__gte=date, deleted=False)
-        if parent is not None:
-            occupied = occupied.filter(~Q(order__parent=parent))
+        occupied = occupied.filter(~Q(order__parent=parent))
         occupied = [
                 (x if x.transferred_from is None else x.transferred_from)
                 for x in occupied]
@@ -454,14 +453,14 @@ class Teacher(BaseModel):
             }
         return data
 
-    def is_longterm_available(self, periods, school):
+    def is_longterm_available(self, periods, school, parent):
         '''
         periods: [(weekday, start, end), ...]
         weekday: int (1-7)
         start: time
         end: time
         '''
-        la_dict = self.longterm_available_dict(school)
+        la_dict = self.longterm_available_dict(school, parent)
         for period in periods:
             if not la_dict[period]:
                 return False
@@ -483,6 +482,7 @@ class Teacher(BaseModel):
                 order__teacher=teacher, start__gte=date - renew_time,
                 end__lt=date + shortterm + renew_time, deleted=False)
 
+        occupied = occupied.filter(~Q(order__parent=parent))
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
         for occ in occupied:
             cur_school = occ.order.school
@@ -979,8 +979,9 @@ class OrderManager(models.Manager):
         if check_conflict:
             school = order.school
             teacher = order.teacher
+            parent = order.parent
 
-            if not teacher.is_longterm_available(periods, school):
+            if not teacher.is_longterm_available(periods, school, parent):
                 raise TimeSlotConflict()
         return self.concrete_timeslots(order.hours, weekly_time_slots)
 
