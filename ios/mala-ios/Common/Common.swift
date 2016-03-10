@@ -53,6 +53,8 @@ let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
 let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
 let MalaFilterPageControlColor = UIColor(rgbHexValue: 0xC7DEEE, alpha: 1.0)
 let MalaFilterPageControlSelectedColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
+let MalaProfileCellDetailTextColor = UIColor(rgbHexValue: 0xD4D4D4, alpha: 1.0)
+let MalaProfileBackgroundColor = UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
 //let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)
 
 

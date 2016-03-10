@@ -12,20 +12,50 @@ class MalaConfig {
     
     static let appGroupID: String = "group.malalaoshi.parent"
     
+    ///  短信倒计时时间
     class func callMeInSeconds() -> Int {
         return 60
     }
-    
-    
+    ///  支付方式
     class func paymentChannel() -> [String] {
         return ["wechat", "alipay"]
     }
-    
+    ///  支付方式数
     class func paymentChannelAmount() -> Int {
         return paymentChannel().count
     }
-    
+    ///  老师详情缺省模型
     class func defaultTeacherDetail() -> TeacherDetailModel {
-        return TeacherDetailModel(id: 0, name: "老师姓名", avatar: "", gender: "m", teaching_age: 0, level: "一级", subject: "学科", grades: [], tags: [], photo_set: [], achievement_set: [], highscore_set: [], prices: [], minPrice: 0, maxPrice: 0)
+        return TeacherDetailModel(
+            id: 0,
+            name: "老师姓名",
+            avatar: "",
+            gender: "m",
+            teaching_age: 0,
+            level: "一级",
+            subject: "学科",
+            grades: [],
+            tags: [],
+            photo_set: [],
+            achievement_set: [],
+            highscore_set: [],
+            prices: [],
+            minPrice: 0,
+            maxPrice: 0
+        )
+    }
+    ///  [个人中心]静态结构数据
+    class func profileData() -> [[BaseObjectModel]] {
+        return [
+            [
+                BaseObjectModel(id: 0, name: "学生姓名"),
+                BaseObjectModel(id: 1, name: "学校信息"),
+                BaseObjectModel(id: 3, name: "所在城市"),
+                BaseObjectModel(id: 4, name: "我的奖学金")
+            ],
+            [
+                BaseObjectModel(id: 5, name: "关于麻辣老师"),
+            ]
+        ]
     }
 }

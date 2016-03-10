@@ -54,7 +54,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     private func setupTabBar() {
         addSubViewController(HomeViewController(), title: MalaCommonString_FindTeacher, imageName: "verifyCode")
         addSubViewController(ClassScheduleViewController(), title: MalaCommonString_ClassSchedule, imageName: "schedule_normal")
-        addSubViewController(ProfileViewController(style: .Plain), title: MalaCommonString_Profile, imageName: "profile_normal")
+        addSubViewController(ProfileViewController(style: .Grouped), title: MalaCommonString_Profile, imageName: "profile_normal")
     }
     
      ///  Convenience Function to Create SubViewControllers

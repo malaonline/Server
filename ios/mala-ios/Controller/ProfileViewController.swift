@@ -8,15 +8,25 @@
 
 import UIKit
 
+private let ProfileViewTableViewCellReuseID = "ProfileViewTableViewCellReuseID"
+
 class ProfileViewController: UITableViewController {
     
+    // MARK: - Property
+    /// [个人中心结构数据]
+    private var model: [[BaseObjectModel]] = MalaConfig.profileData()
     
     // MARK: - Components
     /// [个人中心]头部视图
     private lazy var profileHeaderView: ProfileViewHeaderView = {
         let profileHeaderView = ProfileViewHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_ProfileHeaderViewHeight))
-        profileHeaderView.name = "----"
+        profileHeaderView.name = "学生姓名"
         return profileHeaderView
+    }()
+    /// [个人中心]底部视图
+    private lazy var profileFooterView: UIView = {
+        let profileFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
+        return profileFooterView
     }()
     /// 顶部背景图
     private lazy var headerBackground: UIImageView = {
@@ -24,6 +34,26 @@ class ProfileViewController: UITableViewController {
         image.contentMode = .ScaleAspectFill
         return image
     }()
+    /// [退出登录] 按钮
+    private lazy var logoutButton: UIButton = {
+        let logoutButton = UIButton()
+        
+        logoutButton.layer.cornerRadius = 5
+        logoutButton.layer.masksToBounds = true
+        logoutButton.layer.borderColor = MalaDetailsButtonBorderColor.CGColor
+        logoutButton.layer.borderWidth = MalaScreenOnePixel
+        
+        logoutButton.setTitle("退出登录", forState: .Normal)
+        logoutButton.setTitleColor(MalaDetailsButtonBlueColor, forState: .Normal)
+        logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+//        logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Highlighted)
+        logoutButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        
+        logoutButton.addTarget(self, action: "logoutButtonDidTap", forControlEvents: .TouchUpInside)
+        return logoutButton
+    }()
+    
+    
     
 
     // MARK: - Life Cycle
@@ -31,6 +61,7 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
 
         println("UserToken is \(MalaUserDefaults.userAccessToken.value)")
+        configure()
         setupUserInterface()
     }
 
@@ -40,31 +71,81 @@ class ProfileViewController: UITableViewController {
 
     
     // MARK: - Private Method
+    private func configure() {
+        tableView.registerClass(ProfileViewCell.self, forCellReuseIdentifier: ProfileViewTableViewCellReuseID)
+    }
+    
     private func setupUserInterface() {
         // Style
         tableView.tableHeaderView = profileHeaderView
+        tableView.tableFooterView = profileFooterView
+        tableView.backgroundColor = MalaProfileBackgroundColor
         
         // SubViews
         tableView.insertSubview(headerBackground, atIndex: 0)
+        profileFooterView.addSubview(logoutButton)
         
         
         // Autolayout
         headerBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(0).offset(-MalaScreenNaviHeight)
+            make.top.equalTo(0)
             make.centerX.equalTo(self.tableView.snp_centerX)
             make.width.equalTo(MalaScreenWidth)
-            make.height.equalTo(MalaLayout_DetailHeaderLayerHeight)
+            make.height.equalTo(MalaLayout_ProfileHeaderViewHeight)
+        }
+        logoutButton.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(profileFooterView.snp_bottom)
+            make.left.equalTo(profileFooterView.snp_left).offset(MalaLayout_FontSize_12)
+            make.right.equalTo(profileFooterView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.height.equalTo(37)
         }
     }
     
     
     // MARK: - DataSource
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 0
+        return model.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return model[section].count
+    }
+    
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewCellReuseID, forIndexPath: indexPath) as! ProfileViewCell
+        
+        cell.title = model[indexPath.section][indexPath.row].name ?? ""
+        
+        return cell
+    }
+    
+    
+    // MARK: - TableView Delegate
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
+        view.backgroundColor = MalaProfileBackgroundColor
+        return view
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 8
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 44
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println(indexPath)
+    }
+    
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
     
     
@@ -73,12 +154,18 @@ class ProfileViewController: UITableViewController {
         let displacement = scrollView.contentOffset.y
         
         // 向下滑动页面时，使顶部图片跟随放大
-        if displacement < -MalaScreenNaviHeight {
+        if displacement < 0 && headerBackground.superview != nil{
             headerBackground.snp_updateConstraints(closure: { (make) -> Void in
                 make.top.equalTo(0).offset(displacement)
                 // 1.1为放大速率
-                make.height.equalTo(MalaLayout_ProfileHeaderViewHeight + abs(displacement+MalaScreenNaviHeight)*1.1)
+                make.height.equalTo(MalaLayout_ProfileHeaderViewHeight + abs(displacement)*1.1)
             })
         }
+    }
+    
+    
+    // MARK: - Event Response
+    @objc private func logoutButtonDidTap() {
+        
     }
 }
