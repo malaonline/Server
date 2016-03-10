@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ProfileViewHeaderView: UIImageView {
+class ProfileViewHeaderView: UIView {
 
     // MARK: - Property
     /// 学生姓名
-    var childName: String = "" {
+    var name: String = "" {
         didSet {
-            nameLabel.text = childName
+            nameLabel.text = name
         }
     }
     /// 用户头像URL
@@ -23,19 +23,14 @@ class ProfileViewHeaderView: UIImageView {
             avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "avatar_placeholder"))
         }
     }
-    /// [个人中心]背景图片
-    var backgroundImageURL: String = "" {
-        didSet {
-            self.kf_setImageWithURL(NSURL(string: backgroundImageURL) ?? NSURL(), placeholderImage: UIImage(named: "profile_headerBackground"))
-        }
-    }
     
     
     // MARK: - Components
     /// 头像ImageView控件
     private lazy var avatarView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.withColor(UIColor.lightGrayColor())
+        imageView.backgroundColor = UIColor.whiteColor()
+        imageView.image = UIImage(named: "avatar_placeholder")
         imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2.5
@@ -66,7 +61,7 @@ class ProfileViewHeaderView: UIImageView {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-        self.image = UIImage(named: "profile_headerBackground")
+        backgroundColor = UIColor.clearColor()
         
         // SubViews
         addSubview(avatarView)
