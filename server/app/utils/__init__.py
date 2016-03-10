@@ -18,3 +18,7 @@ def get_request_ip(request):
         return request.META['HTTP_X_FORWARDED_FOR']
     else:
         return request.META['REMOTE_ADDR']
+
+
+def get_server_host(request):
+    return request.scheme + '//' + request.get_host()

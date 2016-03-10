@@ -6,10 +6,11 @@ import xmltodict
 
 # django modules
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 # local modules
 from app import models
-from app.utils import random_string, get_request_ip
+from app.utils import random_string, get_request_ip, get_server_host
 
 
 __all__ = [
@@ -26,7 +27,7 @@ def make_nonce_str():
     return random_string().replace('-','')
 
 def wx_dict2xml(d):
-    return xmltodict.unparse({'xml': d})
+    return xmltodict.unparse({'xml': d}, full_document=False)
 
 def wx_xml2dict(xmlstr):
     return xmltodict.parse(xmlstr)['xml']
@@ -85,7 +86,7 @@ def wx_get_jsapi_ticket(access_token):
 
 _WX_PAY_MESSAGE_FORMAT = 'weixin_pay_unified_order return: [{code}] {msg}.'
 
-def wx_pay_unified_order(order, request):
+def wx_pay_unified_order(order, request, wx_openid):
     """
     参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
     """
@@ -109,9 +110,11 @@ def wx_pay_unified_order(order, request):
     # params['goods_tag'] = ''     # not required, 代金券或立减优惠功能的参数
     # params['product_id'] = ''    # not required
     # params['limit_pay'] = ''     # not required, no_credit--指定不能使用信用卡支付
-    params['notify_url'] = ''           # TODO: 接收微信支付异步通知回调地址
+    # TODO: 接收微信支付异步通知回调地址
+    params['notify_url'] = get_server_host(request) + reverse('wechat:wx_pay_notify')
     params['trade_type'] = 'JSAPI'      # JSAPI，NATIVE，APP
-    params['openid'] = ''               # trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。
+    params['openid'] = wx_openid        # trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。
+    print(params)
     # 签名
     params['sign'] = wx_signature(params)
 
@@ -119,7 +122,7 @@ def wx_pay_unified_order(order, request):
 
     resp = requests.post(wx_url, data=req_xml_str.encode('utf-8'))
     if resp.status_code == 200:
-        resp_dict = wx_xml2dict(resp.text)
+        resp_dict = wx_xml2dict(resp.content.decode('utf-8'))
         return_code = resp_dict['return_code']
         if return_code != 'SUCCESS':
             msg = resp_dict['return_msg']

@@ -142,7 +142,7 @@ class CourseChoosingView(TemplateView):
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
         # get wx pay order
-        ret_json = wx_pay_unified_order(order, request)
+        ret_json = wx_pay_unified_order(order, request, wx_openid)
         if not ret_json['ok']:
             return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': -500})
         # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
@@ -193,6 +193,11 @@ def _get_wx_token_from_db():
     if tk and tk.token and (not tk.is_token_expired()):
         return tk.token
     return None
+
+
+@csrf_exempt
+def wx_pay_notify(request):
+    pass
 
 
 @csrf_exempt
