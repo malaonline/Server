@@ -538,10 +538,17 @@ result:
 GET /api/v1/concrete/timeslots
 ```
 
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+
 parameters:
 ```
 hours=14
 weekly_time_slots=3+8
+teacher=1
 ```
 
 result:

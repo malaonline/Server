@@ -21,9 +21,10 @@ from django.db.models import Q
 from app.exception import TimeSlotConflict
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
-from app.utils.smsUtil import isTestPhone, isValidPhone, sendCheckcode, SendSMSError
+from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError
 
 logger = logging.getLogger('app')
+
 
 class BaseModel(models.Model):
     class Meta:
@@ -228,7 +229,8 @@ class Profile(BaseModel):
                               )
     avatar = models.ImageField(null=True, blank=True, upload_to='avatars')
     birthday = models.DateField(blank=True, null=True, default=None)
-    wx_openid = models.CharField(max_length=100, default=None, null=True, blank=True)
+    wx_openid = models.CharField(
+            max_length=100, default=None, null=True, blank=True)
 
     def __str__(self):
         return '%s : %s (%s)' % (
@@ -482,7 +484,6 @@ class Teacher(BaseModel):
                 order__teacher=teacher, start__gte=date - renew_time,
                 end__lt=date + shortterm + renew_time, deleted=False)
 
-        occupied = occupied.filter(~Q(order__parent=parent))
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
         for occ in occupied:
             cur_school = occ.order.school
@@ -522,7 +523,7 @@ class Teacher(BaseModel):
         if not (start >= date and end < date + shortterm):
             return False
 
-        weekday = start.weekday()
+        weekday = start.isoweekday()
         start = datetime.time(hour=start.hour, minute=start.minute)
         end = datetime.time(hour=end.hour, minute=end.minute)
 
@@ -678,10 +679,11 @@ class Account(BaseModel):
         end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
         end_day = end_day.replace(hour=0, minute=0, second=0, microsecond=0)
         AccountHistory = apps.get_model('app', 'AccountHistory')
-        ret = AccountHistory.objects.filter(account=self, done=True)\
-            .filter(models.Q(submit_time__lt=end_day)
-                    | (models.Q(submit_time__gte=end_day) & models.Q(amount__lt=0)))\
-            .aggregate(models.Sum('amount'))
+        ret = AccountHistory.objects.filter(
+                account=self, done=True).filter(
+                        models.Q(submit_time__lt=end_day) | (
+                            models.Q(submit_time__gte=end_day) & models.Q(
+                                amount__lt=0))).aggregate(models.Sum('amount'))
         sum = ret['amount__sum']
         return sum or 0
 
@@ -702,7 +704,8 @@ class Account(BaseModel):
         :return:
         """
         Order = apps.get_model('app', 'Order')
-        orders = Order.objects.filter(teacher__user=self.user, status=Order.PAID)
+        orders = Order.objects.filter(
+                teacher__user=self.user, status=Order.PAID)
         sum = 0
         for order in orders:
             sum += order.remaining_amount()
@@ -778,7 +781,8 @@ class Withdrawal(BaseModel):
 class AccountHistory(BaseModel):
     account = models.ForeignKey(Account)
     amount = models.IntegerField()
-    bankcard = models.ForeignKey(BankCard, null=True, blank=True, on_delete=models.SET_NULL)
+    bankcard = models.ForeignKey(
+            BankCard, null=True, blank=True, on_delete=models.SET_NULL)
     submit_time = models.DateTimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
     # NOTE: done_by, done_at isn't in use
@@ -786,8 +790,10 @@ class AccountHistory(BaseModel):
                                 null=True, blank=True)
     done_at = models.DateTimeField(null=True, blank=True)
     comment = models.CharField(max_length=100, null=True, blank=True)
-    timeslot = models.ForeignKey('TimeSlot', null=True, blank=True, on_delete=models.SET_NULL)
-    withdrawal = models.ForeignKey(Withdrawal, null=True, blank=True, on_delete=models.SET_NULL)
+    timeslot = models.ForeignKey(
+            'TimeSlot', null=True, blank=True, on_delete=models.SET_NULL)
+    withdrawal = models.ForeignKey(
+            Withdrawal, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return '%s %s : %s' % (self.account.user, self.amount,
@@ -843,6 +849,7 @@ class Parent(BaseModel):
         ret_user = authenticate(username=username, password=password)
         return ret_user
 
+
 class CouponRule(BaseModel):
     """
     奖学金使用规则
@@ -879,6 +886,7 @@ class Coupon(BaseModel):
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                                    'D' if self.used else '')
+
     @property
     def status(self):
         now = timezone.now()
@@ -890,9 +898,10 @@ class Coupon(BaseModel):
             return 'unused'
 
     def print_validate_period(self):
-        return '%s ~ %s' % (self.validated_start.date(),self.expired_at.date())
+        return '%s ~ %s' % (
+                self.validated_start.date(), self.expired_at.date())
 
-    class Meta: #添加默认排序使列表更合理
+    class Meta:  # 添加默认排序使列表更合理
         ordering = ["-created_at"]
 
 
@@ -943,7 +952,7 @@ class OrderManager(models.Manager):
                 (weekly_ts.weekday - 1) * 24 * 60 + weekly_ts.start.hour * 60 +
                 weekly_ts.start.minute - cur_min + 7 * 24 * 60) % (7 * 24 * 60)
 
-    def concrete_timeslots(self, hours, weekly_time_slots):
+    def concrete_timeslots(self, hours, weekly_time_slots, teacher):
         grace_time = TimeSlot.GRACE_TIME
         date = timezone.localtime(timezone.now()) + grace_time
         date = date.replace(second=0, microsecond=0)
@@ -952,6 +961,19 @@ class OrderManager(models.Manager):
         cur_min = self._weekly_date_to_minutes(date)
         weekly_time_slots.sort(
                 key=lambda x: self._delta_minutes(x, cur_min))
+
+        occupied_dict = {}
+        for wts in weekly_time_slots:
+            occupied_dict[(wts.weekday, wts.start)] = set()
+
+        occupied = TimeSlot.objects.filter(
+                order__teacher=teacher, start__gte=date, deleted=False)
+        for occ in occupied:
+            occ.start = timezone.localtime(occ.start)
+            occ.end = timezone.localtime(occ.end)
+            key = (occ.start.isoweekday(), occ.start.time())
+            if key in occupied_dict:
+                occupied_dict[key].add((occ.start, occ.end))
 
         n = len(weekly_time_slots)
         h = hours
@@ -967,23 +989,24 @@ class OrderManager(models.Manager):
                     minutes=(weekly_ts.end.hour - weekly_ts.start.hour) * 60 +
                     weekly_ts.end.minute - weekly_ts.start.minute)
 
-            ans.append(dict(start=start, end=end))
+            key = (start.isoweekday(), start.time())
+            if (start, end) not in occupied_dict[key]:
+                ans.append(dict(start=start, end=end))
+                h = h - 2  # for now, 1 time slot include 2 hours
             i = i + 1
-            # for now, 1 time slot include 2 hours
-            h = h - 2
         return ans
 
     def get_order_timeslots(self, order, check_conflict=True):
         weekly_time_slots = list(order.weekly_time_slots.all())
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
-        if check_conflict:
-            school = order.school
-            teacher = order.teacher
-            parent = order.parent
 
+        school = order.school
+        teacher = order.teacher
+        parent = order.parent
+        if check_conflict:
             if not teacher.is_longterm_available(periods, school, parent):
                 raise TimeSlotConflict()
-        return self.concrete_timeslots(order.hours, weekly_time_slots)
+        return self.concrete_timeslots(order.hours, weekly_time_slots, teacher)
 
     def allocate_timeslots(self, order, force=False):
         TimeSlot = apps.get_model('app', 'TimeSlot')
@@ -1032,7 +1055,8 @@ class Order(BaseModel):
     subject = models.ForeignKey(Subject)
     coupon = models.ForeignKey(Coupon, null=True, blank=True)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
-    level = models.ForeignKey(Level, null=True, blank=True, on_delete=models.SET_NULL)
+    level = models.ForeignKey(
+            Level, null=True, blank=True, on_delete=models.SET_NULL)
 
     commission_percentage = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField()
@@ -1124,7 +1148,8 @@ class Order(BaseModel):
             return self.completed_amount()
         # 若无退费, 则等于订单金额 - 奖学金
         else:
-            discount_amount = self.coupon.amount if self.coupon is not None else 0
+            discount_amount = (
+                    self.coupon.amount if self.coupon is not None else 0)
             return self.total - discount_amount
 
     # 最后退费申请记录
@@ -1320,11 +1345,9 @@ class TimeSlot(BaseModel):
     def __str__(self):
         return '<%s> from %s to %s' % (self.pk, self.start, self.end)
 
-    def is_complete(self, given_time=make_aware(datetime.datetime.now())):
+    def is_complete(self, given_time=timezone.now()):
         # 对于给定的时间,课程是否结束, 附加自动确认的那两小时
-        if self.end < given_time - TimeSlot.CONFIRM_TIME:
-            return True
-        return False
+        return self.end < given_time - TimeSlot.CONFIRM_TIME
 
     def is_waiting(self, given_time):
         # 对于给定时间,课程是否处于等待
@@ -1380,7 +1403,8 @@ class TimeSlot(BaseModel):
         account = teacher.safe_get_account()
         amount = self.duration_hours() * self.order.price
         amount = amount * (100 - self.order.commission_percentage) // 100
-        ah = AccountHistory(account=account, submit_time=timezone.now(), done=True)
+        ah = AccountHistory(
+                account=account, submit_time=timezone.now(), done=True)
         ah.amount = amount
         ah.timeslot = self
         ah.save()
@@ -1394,11 +1418,15 @@ class TimeSlot(BaseModel):
         return
 
     def reschedule_for_suspend(self, user):
-        semaphore = posix_ipc.Semaphore('reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
+        semaphore = posix_ipc.Semaphore(
+                'reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
 
         # 如果是已调课后的, 先获取原始课程
-        old_timeslot = self.transferred_from if self.transferred_from is not None else self
+        old_timeslot = (
+                self.transferred_from
+                if self.transferred_from is not None
+                else self)
         # 这里不能只看当前订单的最后一次课, 同一个学生可能还有其他订单约了老师后续的课程
         # 因此需要得到"这个老师"最后一个 weekday 和 start, end 的 time 相同的 slot
         # 同时过滤掉已经失效的 和 已经完成(结束2小时以后的)的课程
@@ -1409,7 +1437,8 @@ class TimeSlot(BaseModel):
         ).order_by('-start')
         last_slot = None
         for one in time_slots:
-            if one.start.time() == old_timeslot.start.time() and one.start.weekday() == old_timeslot.start.weekday():
+            if one.start.time() == old_timeslot.start.time() and \
+                    one.start.weekday() == old_timeslot.start.weekday():
                 last_slot = one
                 break
 
@@ -1486,7 +1515,7 @@ class Checkcode(BaseModel):
     # 手机发送的校验码
     EXPIRED_TIME = 30    # 30 minutes
     RESEND_SPAN = 1      # 1 minute
-    MAX_VERIFY_TIMES = 3 # prevent attacking
+    MAX_VERIFY_TIMES = 3  # prevent attacking
     BLOCK_TIME = 10  # 每10分钟允许校验3次
 
     phone = models.CharField(max_length=20, unique=True)
@@ -1494,7 +1523,8 @@ class Checkcode(BaseModel):
     updated_at = models.DateTimeField(auto_now_add=True)
     verify_times = models.PositiveIntegerField(default=0)
     # 当MAX_VERIFY_TIMES触发以后,过多久可以解锁
-    block_start_time = models.DateTimeField(blank=True, null=True, default=None)
+    block_start_time = models.DateTimeField(
+            blank=True, null=True, default=None)
     resend_at = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self):
@@ -1522,7 +1552,8 @@ class Checkcode(BaseModel):
             is_test = True
         else:
             is_test = isTestPhone(phone)
-        obj, created = Checkcode.objects.get_or_create(phone=phone, defaults={'checkcode': _generate_code(is_test)})
+        obj, created = Checkcode.objects.get_or_create(
+                phone=phone, defaults={'checkcode': _generate_code(is_test)})
         if not created:
             # 数据库已经存在sms code
             now = timezone.now()
@@ -1572,7 +1603,8 @@ class Checkcode(BaseModel):
                 if obj.block_start_time is None:
                     obj.block_start_time = make_aware(datetime.datetime.now())
                     obj.save()
-                if obj.block_start_time + datetime.timedelta(minutes=cls.BLOCK_TIME) < now:
+                if obj.block_start_time + \
+                        datetime.timedelta(minutes=cls.BLOCK_TIME) < now:
                     # 过了1分钟,就又能检验3次
                     obj.block_start_time = None
                     obj.verify_times = 0
@@ -1597,7 +1629,8 @@ class Checkcode(BaseModel):
             return "验证通过"
         else:
             msg = {
-                0: settings.FAKE_SMS_SERVER and "测试期间,短信验证码默认为 1111" or "验证码不正确",
+                0: (settings.FAKE_SMS_SERVER and
+                    "测试期间,短信验证码默认为 1111" or "验证码不正确"),
                 1: "没有生成验证码,请重新生成",
                 2: "验证码已过期,请重新生成",
                 3: "检测过于频繁,于1分钟后再试",
@@ -1607,8 +1640,8 @@ class Checkcode(BaseModel):
             #     msg[0] = "测试期间,短信验证码默认为 1111"
             return msg.get(code, "未知情况{code}".format(code=code))
 
-class WeiXinToken(BaseModel):
 
+class WeiXinToken(BaseModel):
     ACCESS_TOKEN = 1
     JSAPI_TICKET = 2
 
@@ -1620,13 +1653,15 @@ class WeiXinToken(BaseModel):
     token = models.CharField(max_length=600, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_in = models.PositiveIntegerField(default=0)
-    token_type = models.PositiveIntegerField(null=True, blank=True, choices=TYPE_CHOICES)
+    token_type = models.PositiveIntegerField(
+            null=True, blank=True, choices=TYPE_CHOICES)
 
     def __str__(self):
         return self.token
 
     def is_token_expired(self):
         now = timezone.now()
-        expires_date = self.created_at + datetime.timedelta(seconds=(self.expires_in-20))
+        expires_date = self.created_at + datetime.timedelta(
+                seconds=(self.expires_in-20))
         delta = expires_date - now
         return delta.total_seconds() <= 0

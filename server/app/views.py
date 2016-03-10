@@ -96,6 +96,8 @@ class ChargeSucceeded(View):
 class ConcreteTimeSlots(View):
     def get(self, request):
         hours = int(request.GET.get('hours'))
+        teacher = get_object_or_404(
+                models.Teacher, pk=request.GET.get('teacher'))
         assert hours % 2 == 0
         if hours > 100:
             return JsonResponse({'error': 'too many hours'})
@@ -103,7 +105,7 @@ class ConcreteTimeSlots(View):
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
                              for x in weekly_time_slots]
         data = models.Order.objects.concrete_timeslots(
-                hours, weekly_time_slots)
+                hours, weekly_time_slots, teacher)
         data = [(x['start'].timestamp(),
                  x['end'].timestamp()) for x in data]
 

@@ -45,7 +45,9 @@ class TestApi(TestCase):
         hours = 2
         weekly_time_slots = list(WeeklyTimeSlot.objects.filter(
                 weekday=1, start=datetime.time(8, 0)))
-        timeslots = Order.objects.concrete_timeslots(hours, weekly_time_slots)
+        teacher = Teacher.objects.all()[0]
+        timeslots = Order.objects.concrete_timeslots(
+                hours, weekly_time_slots, teacher)
         self.assertEqual(len(timeslots), 1)
         ts = timeslots[0]
         self.assertEqual(timezone.localtime(ts['start']).hour, 8)
@@ -236,7 +238,8 @@ class TestApi(TestCase):
 
     def test_concrete_time_slots(self):
         client = Client()
-        url = "/api/v1/concrete/timeslots?hours=100&weekly_time_slots=3+8+18"
+        url = ("/api/v1/concrete/timeslots" +
+                "?hours=100&weekly_time_slots=3+8+18&teacher=1")
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
