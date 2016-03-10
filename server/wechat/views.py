@@ -22,7 +22,8 @@ from django.conf import settings
 
 # local modules
 from app import models
-from .wxapi import make_nonce_str, wx_signature, get_token_from_weixin, get_wx_jsapi_ticket_from_weixin
+from app.utils.types import parseInt
+from .wxapi import *
 
 # Create your views here.
 
@@ -112,12 +113,58 @@ class CourseChoosingView(TemplateView):
         kwargs['WX_SIGNATURE'] = signature
         return super(CourseChoosingView, self).get_context_data(**kwargs)
 
+    def post(self, **kwargs):
+        wx_openid = 'wx1n934hnfidhf934hkjd'
+        # get request params
+        teacher_id = self.request.POST.get('teacher')
+        school_id = self.request.POST.get('school')
+        grade_id = self.request.POST.get('grade')
+        subject_id = self.request.POST.get('subject')
+        coupon_id = self.request.POST.get('coupon')
+        hours = parseInt(self.request.POST.get('hours'))
+        weekly_time_slot_ids = self.request.POST.getlist('weekly_time_slots')
+        if not hours or not weekly_time_slot_ids:
+            return JsonResponse({'ok': False, 'msg': '时间选择参数错误', 'code': 1})
+
+        # check params and get ref obj
+        # TODO: 通过 wx_openid 获得家长
+        # profile = get_object_or_404(models.Profile, wx_openid=wx_openid)
+        # parent = get_object_or_404(models.Parent, user=profile.user)
+        parent =models.Parent.objects.get(user__username='parent7')
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+        school = get_object_or_404(models.School, pk=school_id)
+        grade = get_object_or_404(models.Grade, pk=grade_id)
+        subject = teacher.subject() # 老师只有一个科目
+        coupon = coupon_id and get_object_or_404(models.Coupon, pk=coupon_id) or None
+        weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=w_id) for w_id in weekly_time_slot_ids]
+
+        # create order
+        order = models.Order.objects.create(
+                parent=parent, teacher=teacher, school=school,
+                grade=grade, subject=subject, hours=hours, coupon=coupon)
+        order.weekly_time_slots.add(*weekly_time_slots)
+        order.save()
+        # get wx pay order
+        ret_json = wx_pay_unified_order(order, self.request)
+        if not ret_json['ok']:
+            return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': ret_json['code']})
+        # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
+        data = {}
+        data['timestamp'] = int(timezone.now().timestamp())
+        data['nonceStr'] = make_nonce_str()
+        data['package'] = 'prepay_id={id})'.format(id=ret_json['data']['prepay_id'])
+        data['signType'] = 'SHA1'
+        data['appId'] = settings.WEIXIN_APPID
+        data['paySign'] = wx_signature(data) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
+        data.pop('appId') # appId 不能传给前段
+        return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
+
 
 def _get_wx_jsapi_ticket(access_token):
     jsapi_ticket = _get_wx_jsapi_ticket_from_db()
     msg = None
     if not jsapi_ticket:
-        result = get_wx_jsapi_ticket_from_weixin(access_token)
+        result = wx_get_jsapi_ticket(access_token)
         if result['ok']:
             jsapi_ticket = result['ticket']
         else:
@@ -136,7 +183,7 @@ def _get_wx_token():
     token = _get_wx_token_from_db()
     msg = None
     if not token:
-        result = get_token_from_weixin()
+        result = wx_get_token()
         if result['ok']:
             token = result['token']
         else:

@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from .wxapi import _wx_dict2xml, _wx_xml2dict
+from .wxapi import wx_dict2xml, wx_xml2dict
 
 class TestWechatPage(TestCase):
     def test_teachers(self):
@@ -29,7 +29,7 @@ class TestUtils(TestCase):
                <trade_type><![CDATA[JSAPI]]></trade_type>
             </xml>
         '''
-        xml_dict = _wx_xml2dict(xml_string)
+        xml_dict = wx_xml2dict(xml_string)
         # print(xml_dict)
         self.assertEqual(xml_dict['return_code'], 'SUCCESS')
         self.assertEqual(xml_dict['return_msg'], 'OK')
@@ -41,10 +41,10 @@ class TestUtils(TestCase):
         self.assertEqual(xml_dict['prepay_id'], 'wx201411101639507cbf6ffd8b0779950874')
         self.assertEqual(xml_dict['trade_type'], 'JSAPI')
 
-        xml_string2 = _wx_dict2xml(xml_dict)
+        xml_string2 = wx_dict2xml(xml_dict)
         # print(xml_string2)
 
-        xml_dict2 = _wx_xml2dict(xml_string)
+        xml_dict2 = wx_xml2dict(xml_string)
         # print(xml_dict2)
         self.assertEqual(xml_dict2['return_code'], 'SUCCESS')
         self.assertEqual(xml_dict2['return_msg'], 'OK')

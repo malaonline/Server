@@ -1221,6 +1221,12 @@ class OrderRefundRecord(BaseModel):
 
 
 class Charge(BaseModel):
+    """
+    用户直接用微信公共号支付下单, 时channel为WX_PUB_MALA, 后缀mala区别ping++的微信公共号渠道
+    而且, 微信的prepay_id存为ch_id
+    """
+    WX_PUB_MALA = 'wx_pub_mala'
+
     order = models.ForeignKey(Order, null=True, blank=True)
     ch_id = models.CharField(max_length=40, unique=True)
     created = models.DateTimeField(null=True, blank=True)

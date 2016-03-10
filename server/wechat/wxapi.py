@@ -12,13 +12,22 @@ from app import models
 from app.utils import random_string, get_request_ip
 
 
+__all__ = [
+    "make_nonce_str",
+    "wx_signature",
+    "wx_get_token",
+    "wx_get_jsapi_ticket",
+    "wx_pay_unified_order",
+    ]
+
+
 def make_nonce_str():
     return random_string().replace('-','')
 
-def _wx_dict2xml(d):
+def wx_dict2xml(d):
     return xmltodict.unparse({'xml': d})
 
-def _wx_xml2dict(xmlstr):
+def wx_xml2dict(xmlstr):
     return xmltodict.parse(xmlstr)['xml']
 
 def wx_signature(params_obj):
@@ -31,7 +40,7 @@ def wx_signature(params_obj):
     return SHA.new(content.encode()).hexdigest()
 
 
-def get_token_from_weixin():
+def wx_get_token():
     wx_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'
     wx_url += '&appid=' + settings.WEIXIN_APPID
     wx_url += '&secret=' + settings.WEIXIN_APP_SECRET
@@ -52,7 +61,7 @@ def get_token_from_weixin():
         return {'ok': False, 'msg': '获取微信token出错，请联系管理员!', 'code': -1}
 
 
-def get_wx_jsapi_ticket_from_weixin(access_token):
+def wx_get_jsapi_ticket(access_token):
     wx_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={token}&type=jsapi'\
         .format(token=access_token)
 
@@ -73,7 +82,7 @@ def get_wx_jsapi_ticket_from_weixin(access_token):
         return {'ok': False, 'msg': '获取微信jsapi_ticket出错，请联系管理员!', 'code': -1}
 
 
-def wx_unified_order(order, request):
+def wx_pay_unified_order(order, request):
     """
     参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
     """
@@ -103,11 +112,11 @@ def wx_unified_order(order, request):
     # 签名
     params['sign'] = wx_signature(params)
 
-    req_xml_str = _wx_dict2xml(params)
+    req_xml_str = wx_dict2xml(params)
 
     resp = requests.post(wx_url, data=req_xml_str)
     if resp.status_code == 200:
-        resp_dict = _wx_xml2dict(resp.text)
+        resp_dict = wx_xml2dict(resp.text)
         return_code = resp_dict['return_code']
         if return_code != 'SUCCESS':
             return {'ok': False, 'msg': resp_dict['return_msg'], 'code': 1}
