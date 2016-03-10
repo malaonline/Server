@@ -321,7 +321,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
         kwargs['gender_choices'] = models.Profile.GENDER_CHOICES
         kwargs['subjects'] = models.Subject.objects.all
         kwargs['levels'] = models.Level.objects.all
-        grades_all = models.Grade.objects.all()
+        grades_all = models.Grade.objects.all().order_by('-superset_id')
         _heap = {}
         grades_tree = []
         for grade in grades_all:
@@ -373,7 +373,12 @@ class TeacherUnpublishedEditView(BaseStaffView):
             else:
                 teacher.region_id = region
             teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
-            teacher.level_id = parseInt(request.POST.get('level'), 1)
+            # 更改成带有日志的模式
+            new_level = models.Level.objects.get(pk=parseInt(request.POST.get('level'), 1))
+            teacher.set_level(new_level)
+
+            # teacher.level_id = parseInt(request.POST.get('level'), 1)
+
             teacher.experience = parseInt(request.POST.get('experience'), 0)
             teacher.profession = parseInt(request.POST.get('profession'), 0)
             teacher.interaction = parseInt(request.POST.get('interaction'), 0)

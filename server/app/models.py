@@ -193,12 +193,26 @@ class LevelRecord(BaseModel):
 
     DEGRADE = 'd'
     UPGRADE = 'u'
+    BECOME = 'b'
     OPERATION_CHOICE = (
         (DEGRADE, "降级"),
         (UPGRADE, "升级"),
+        (BECOME, "成为")
     )
     # 升级,降级,设成choice
     operation = models.CharField(max_length=1, choices=OPERATION_CHOICE, default=UPGRADE)
+
+    def __str__(self):
+        operation = {}
+        for key, val in self.OPERATION_CHOICE:
+            operation[key] = val
+        msg = "{time} {name}{operation}{level}".format(
+            time=self.create_at.strftime("%Y-%m-%d"),
+            name=self.teacher.name,
+            operation=operation.get(self.operation, "未知"),
+            level=self.to_level.name
+        )
+        return msg
 
 
 class Price(BaseModel):
@@ -320,8 +334,9 @@ class Teacher(BaseModel):
     recommended_on_wechat = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s %s %s' % (self.name, 'F' if self.fulltime else '',
-                             'Unpublished' if not self.published else '')
+        return '%s %s %s %s' % (self.name, 'F' if self.fulltime else '',
+                             'Unpublished' if not self.published else '',
+                                self.user.profile.phone)
 
     def avatar(self):
         if not hasattr(self.user, 'profile'):
@@ -382,6 +397,23 @@ class Teacher(BaseModel):
         return self.audio and self.audio.url or ''
 
     def set_level(self, new_level: Level):
+        # 设置老师等级
+        new_level_record = LevelRecord(to_level=new_level, teacher=self)
+        if self.level:
+            if self.level.level_order < new_level.level_order:
+                # 升级
+                new_level_record.operation = LevelRecord.UPGRADE
+            else:
+                # 降级
+                new_level_record.operation = LevelRecord.DEGRADE
+        else:
+            # 初始化->成为
+            new_level_record.operation = LevelRecord.BECOME
+        new_level_record.save()
+        self.level = new_level
+        self.save()
+
+    def init_level(self):
         pass
 
     def video_url(self):
