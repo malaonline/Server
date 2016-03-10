@@ -345,6 +345,46 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertTrue(json_ret['evaluated'])
 
+        # Available to oneself
+        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=1"
+        response = client.get(request_url)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content.decode())
+
+        for value in data.values():
+            for d in value:
+                self.assertTrue(d['available'])
+
+        # Available time for other teacher
+        client = Client()
+        username = "parent1"
+        password = "123123"
+        client.login(username=username, password=password)
+        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=1"
+        response = client.get(request_url)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content.decode())
+
+        for value in data.values():
+            for d in value:
+                if d['id'] in [3, 8]:
+                    self.assertFalse(d['available'])
+                else:
+                    self.assertTrue(d['available'])
+
+        # Available time for other teacher for different school
+        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=2"
+        response = client.get(request_url)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content.decode())
+
+        for value in data.values():
+            for d in value:
+                if d['id'] in [3, 4, 8, 9]:
+                    self.assertFalse(d['available'])
+                else:
+                    self.assertTrue(d['available'])
+
     def test_subject_record(self):
         client = Client()
         username = "parent1"
