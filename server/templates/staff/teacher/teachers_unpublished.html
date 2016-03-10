@@ -110,7 +110,7 @@
                     {% if list_type == 'published' %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="unpublish-teacher">下架</a>
-                        | <a href="#"  data-toggle="modal" data-target="#copyLinkModal" data-teacherurl="{% url 'wechat:teacher-detail' teacher.id %}" data-teachername="{{ teacher.name }}">复制链接</a>
+                        | <a href="#"  data-toggle="modal" data-target="#copyLinkModal" data-teacherurl="{% url 'wechat:teacher' %}" data-teachername="{{ teacher.name }}" data-teacherid="{{ teacher.id }}">复制链接</a>
                     {% else %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="publish-teacher">上架</a>

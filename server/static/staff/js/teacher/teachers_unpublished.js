@@ -316,10 +316,12 @@ $(function(){
       var button = $(event.relatedTarget); // Button that triggered the modal
       var teacherurl = button.data('teacherurl');
       var teacherName = button.data('teachername');
+      var teacherId = button.data('teacherid');
       var modal = $(this);
         //获取域名
       var host = window.location.host;
       modal.find('.modal-title').text(teacherName + '的微信页链接');
-      modal.find('#wechat-link').val('http://'+host+teacherurl);
+      modal.find('#wechat-link').val('http://'+host+teacherurl+'?teacherid='+teacherId);
+      //modal.find('#wechat-link').val('http://'+host+teacherurl);  //因为teacher页设计改为硬编码
     });
 });
