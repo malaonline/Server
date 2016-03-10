@@ -526,5 +526,12 @@ function ajaxLoadSchool(lat, lng){
     });
 }
 $('.ext_weui_btn_primary').click(function(){
-  //TODO 报名
+  var href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx284fcd03e7a68dee'
+              +'&redirect_uri=' + encodeURI(checkPhoneURI)
+              +'&response_type=code'
+              +'&scope=snsapi_base'
+              +'&state=' + teacherid
+              +'&connect_redirect=1#wechat_redirect'
+
+  location.href = href;
 });

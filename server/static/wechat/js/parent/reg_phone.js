@@ -50,7 +50,7 @@ function checkSMS(){
       console.log(data);
       if(data.result == false){
         //    验证码错误
-        console.log("验证码错误")
+        alert("验证码失败！")
       }else{
         console.log("验证码正确")
         if(nextpage != "None"){

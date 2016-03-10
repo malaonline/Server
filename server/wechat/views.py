@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import _get_backends
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 import requests
 import json
 from django.conf import settings
@@ -440,42 +441,6 @@ def calculateDistance(pointA, pointB):
   return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
 
 @csrf_exempt
-def check_phone(request):
-    phone = request.POST.get("phone", None)
-    code = request.POST.get("code", None)
-    Profile = models.Profile
-    CheckCode = models.Checkcode
-    Parent = models.Parent
-    new_user = True
-    try:
-        profile = Profile.objects.get(phone=phone)
-        user = profile.user
-        for backend, backend_path in _get_backends(return_tuples=True):
-            user.backend = backend_path
-            break
-        parent = Parent.objects.get(user=user)
-        new_user = False
-    except Profile.DoesNotExist:
-        # new user
-        user = Parent.new_parent()
-        parent = user.parent
-        profile = parent.user.profile
-        profile.phone = phone
-        profile.save()
-    except Parent.DoesNotExist:
-        parent = Parent(user=user)
-        parent.save()
-    if CheckCode.verify(phone, code)[0]:
-        return JsonResponse({
-            "result": True
-        })
-    else:
-        # 验证失败
-        return JsonResponse({
-            "result": False
-        })
-
-@csrf_exempt
 def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
 
@@ -483,8 +448,7 @@ def phone_page(request):
     if not openid:
         openid = request.POST.get("openid", None)
     context = {
-        "openid": openid,
-        "zl": "aaa"
+        "openid": openid
     }
     return render(request, template_name, context)
 
@@ -530,20 +494,16 @@ def add_openid(request):
             "result": False
         })
 
+@csrf_exempt
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
     wx_code = request.GET.get('code', None)
-    if not wx_code:
-        wx_code = request.POST.get('code', None)
-    nextpage = request.GET.get('nextpage', None)
-    if not nextpage:
-        nextpage = request.POST.get('nextpage', None)
-    print('.......in check phone.....')
+    teacherId = request.GET.get('state', None)
+
     get_openid_url += '&appid=' + settings.WEIXIN_APPID
     get_openid_url += '&secret=' + settings.WEIXIN_APP_SECRET
-    get_openid_url += '&code=' + '001d11713c28f9def0ab3a3ab80ddb8M'
+    get_openid_url += '&code=' + wx_code
     req = requests.get(get_openid_url)
-    print(req.status_code)
     ret = None
     openid = None
     if req.status_code == 200:
@@ -555,14 +515,13 @@ def check_phone(request):
     if openid:
         print("得到了openid")
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
-        print(profiles)
         lastOne = list(profiles) and profiles[0]
-        print(lastOne)
-        print('end...')
         if lastOne:
-            return HttpResponseRedirect(nextpage)
-        else:
-            return HttpResponseRedirect("/wechat/phone_page/?openid="+openid)
-    print(ret)
-    print(".....................end.......")
-    return HttpResponseRedirect("/wechat/phone_page/")
+            return HttpResponseRedirect(reverse('wechat:order-course-choosing', args=(teacherId)))
+
+    context = {
+        "openid": openid,
+        "teacherId": teacherId,
+        "nextpage": reverse('wechat:order-course-choosing', args=(teacherId))
+    }
+    return render(request, 'wechat/parent/reg_phone.html', context)

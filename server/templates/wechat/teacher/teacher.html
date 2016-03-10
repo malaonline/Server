@@ -44,10 +44,11 @@
                 }
             });
         });
-        var openid = "{{openid}}";
+        var teacherid = "{{teacher.id}}";
         var userPhotos = [];
         var schoolPhotos = [];
         var pullDownImg = '{% static 'common/icons/pull_down.png' %}';
+        var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url }}";
