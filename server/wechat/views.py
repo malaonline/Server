@@ -442,15 +442,6 @@ def calculateDistance(pointA, pointB):
 
 @csrf_exempt
 def phone_page(request):
-    teacherId = "1"
-    context = {
-        "openid": 'openid',
-        "teacherId": 'teacherId',
-        "nextpage": reverse('wechat:order-course-choosing', args=(teacherId))
-    }
-
-    # return render(request, 'wechat/parent/reg_phone.html', context)
-    return HttpResponseRedirect(reverse('wechat:order-course-choosing', args=(teacherId)))
     template_name = 'wechat/parent/reg_phone.html'
 
     openid = request.GET.get("openid", None)
