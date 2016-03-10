@@ -12,13 +12,9 @@ from django.db.models import Q,Count
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import _get_backends
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-import requests
-import json
-from django.conf import settings
+from django.utils.decorators import method_decorator
 
 # local modules
 from app import models
@@ -66,6 +62,7 @@ class SchoolDetailView(ListView):
     models = models.School
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CourseChoosingView(TemplateView):
     template_name = 'wechat/order/course_choosing.html'
 
@@ -113,16 +110,16 @@ class CourseChoosingView(TemplateView):
         kwargs['WX_SIGNATURE'] = signature
         return super(CourseChoosingView, self).get_context_data(**kwargs)
 
-    def post(self, **kwargs):
+    def post(self, request, teacher_id=None):
         wx_openid = 'wx1n934hnfidhf934hkjd'
         # get request params
-        teacher_id = self.request.POST.get('teacher')
-        school_id = self.request.POST.get('school')
-        grade_id = self.request.POST.get('grade')
-        subject_id = self.request.POST.get('subject')
-        coupon_id = self.request.POST.get('coupon')
-        hours = parseInt(self.request.POST.get('hours'))
-        weekly_time_slot_ids = self.request.POST.getlist('weekly_time_slots')
+        teacher_id = request.POST.get('teacher')
+        school_id = request.POST.get('school')
+        grade_id = request.POST.get('grade')
+        subject_id = request.POST.get('subject')
+        coupon_id = request.POST.get('coupon')
+        hours = parseInt(request.POST.get('hours'))
+        weekly_time_slot_ids = request.POST.get('weekly_time_slots').split('+')
         if not hours or not weekly_time_slot_ids:
             return JsonResponse({'ok': False, 'msg': '时间选择参数错误', 'code': 1})
 
@@ -145,9 +142,9 @@ class CourseChoosingView(TemplateView):
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
         # get wx pay order
-        ret_json = wx_pay_unified_order(order, self.request)
+        ret_json = wx_pay_unified_order(order, request)
         if not ret_json['ok']:
-            return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': ret_json['code']})
+            return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': -500})
         # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
         data = {}
         data['timestamp'] = int(timezone.now().timestamp())

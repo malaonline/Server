@@ -6,6 +6,7 @@ $(function(){
     var chosen_grade_id = '';
     var chosen_price = 0;
     var chosen_school_id = '';
+    var chosen_weekly_time_slots = [];
 
     wx.ready(function(res){
         console.log("wx.ready");
@@ -66,7 +67,7 @@ $(function(){
             for (var i in timeslots) {
                 var timeslot = timeslots[i];
                 var key = timeslot.start+'_'+timeslot.end+'_'+d;
-                _map[key]= timeslot.available;
+                _map[key]= timeslot;
             }
         }
         return _map;
@@ -86,11 +87,13 @@ $(function(){
                     if (i==0) {
                         return;
                     }
-                    var key = timespan+'_'+i;
-                    if (_map[key]) {
-                        $(ele).addClass('available');
+                    var key = timespan+'_'+ i, ts = _map[key];
+                    var $td = $(ele);
+                    $td.attr('tsid', ts.id);
+                    if (ts.available) {
+                        $td.addClass('available');
                     } else {
-                        $(ele).removeClass('available').addClass('unavailable');
+                        $td.removeClass('available').addClass('unavailable');
                     }
                 });
             });
@@ -125,6 +128,7 @@ $(function(){
         var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
         var courseTimes = [];
+        chosen_weekly_time_slots.length=0;
         $chosenTimeSlot.each(function(i, ele){
             var $td = $(ele), $tr = $td.closest('tr');
             var day = parseInt($td.attr('day')),
@@ -135,7 +139,9 @@ $(function(){
             var s = start * HOUR;
             var e = end * HOUR;
             courseTimes.push({'date': date, 'start': s, 'end': e});
+            chosen_weekly_time_slots.push({'id': $td.attr('tsid'), 'day': day, 'start': s, 'end': e})
         });
+        console.log(chosen_weekly_time_slots);
         courseTimes.sort(function(a,b){
             var diff = a.date - b.date;
             if (diff == 0) {
@@ -193,5 +199,43 @@ $(function(){
             showAlertDialog('请先选择上课时间');
             return;
         }
+        var weekly_time_slot_ids = [];
+        for (var i in chosen_weekly_time_slots) {
+            weekly_time_slot_ids.push(chosen_weekly_time_slots[i].id)
+        }
+        var params = {
+            'teacher': $('#teacherId').val(),
+            'school': chosen_school_id,
+            'grade': chosen_grade_id,
+            //'coupon': 0, // TODO:
+            'hours': hours,
+            'weekly_time_slots': weekly_time_slot_ids.join('+')
+        };
+        var defaultErrMsg = '请求失败, 请稍后重试或联系客户人员!';
+        $.post(location.pathname, params, function (result) {
+            if (result) {
+                if (result.ok) {
+                    var data = result.data;
+                    wx.chooseWXPay({
+                        timestamp: data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                        signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: data.paySign, // 支付签名
+                        success: function (res) {
+                            console.log('wx.chooseWXPay fail');
+                            console.log(res);
+                        },
+                        fail: function(res){
+                            console.log('wx.chooseWXPay fail');
+                        }
+                    });
+                } else {
+                    showAlertDialog(result.msg);
+                }
+            } else {
+                showAlertDialog(defaultErrMsg);
+            }
+        }, 'json');
     });
 });

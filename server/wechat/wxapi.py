@@ -19,6 +19,7 @@ __all__ = [
     "wx_get_jsapi_ticket",
     "wx_pay_unified_order",
     ]
+logger = logging.getLogger('app')
 
 
 def make_nonce_str():
@@ -82,6 +83,8 @@ def wx_get_jsapi_ticket(access_token):
         return {'ok': False, 'msg': '获取微信jsapi_ticket出错，请联系管理员!', 'code': -1}
 
 
+_WX_PAY_MESSAGE_FORMAT = 'weixin_pay_unified_order return: [{code}] {msg}.'
+
 def wx_pay_unified_order(order, request):
     """
     参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
@@ -97,7 +100,7 @@ def wx_pay_unified_order(order, request):
     # params['detail'] = ''        # not required
     # params['attach'] = ''        # not required
     # params['fee_type'] = 'CNY'   # not required, 默认人民币：CNY
-    params['out_trade_no'] = order.id   # Order model记录的ID
+    params['out_trade_no'] = order.order_id   # Order model记录的ID
     params['total_fee'] = order.to_pay  # 订单总金额，单位为分
     sp_ip = get_request_ip(request)     # APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
     params['spbill_create_ip'] = sp_ip
@@ -114,20 +117,25 @@ def wx_pay_unified_order(order, request):
 
     req_xml_str = wx_dict2xml(params)
 
-    resp = requests.post(wx_url, data=req_xml_str)
+    resp = requests.post(wx_url, data=req_xml_str.encode('utf-8'))
     if resp.status_code == 200:
         resp_dict = wx_xml2dict(resp.text)
         return_code = resp_dict['return_code']
         if return_code != 'SUCCESS':
-            return {'ok': False, 'msg': resp_dict['return_msg'], 'code': 1}
+            msg = resp_dict['return_msg']
+            logger.error(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
+            return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_signature(resp_dict)
         print(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
         if result_code != 'SUCCESS':
-            return {'ok': False, 'msg': resp_dict['err_code_des'], 'code': 1}
+            msg = resp_dict['err_code_des']
+            logger.error(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
+            return {'ok': False, 'msg': msg, 'code': 1}
         prepay_id = resp_dict['prepay_id']
         print(prepay_id)
+        logger.info(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
         return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
     else:
         return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
