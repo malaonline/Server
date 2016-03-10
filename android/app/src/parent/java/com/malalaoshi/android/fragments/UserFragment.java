@@ -26,6 +26,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.ModifyUserNameActivity;
 import com.malalaoshi.android.activitys.ModifyUserSchoolActivity;
 import com.malalaoshi.android.dialog.RadioDailog;
@@ -270,7 +271,8 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_about_mala)
     public void OnClickAboutMala(View view){
-
+        Intent intent = new Intent(getContext(),AboutActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btn_logout)

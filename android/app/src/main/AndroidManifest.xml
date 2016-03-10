@@ -77,7 +77,7 @@
         <activity
             android:name=".pay.CouponActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.AnimationFullscreen">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
@@ -117,6 +117,12 @@
 
         <activity
             android:name=".course.SettingRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="com.malalaoshi.android.activitys.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

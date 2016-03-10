@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.dialog.FilterDialog;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
@@ -30,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by zl on 15/12/17.
  */
-public class TeacherListFilterActivity  extends AppCompatActivity{
+public class TeacherListFilterActivity  extends BaseActivity{
 
     public static final String EXTRA_GRADE = "grade";
     public static final String EXTRA_SUBJECT = "subject";
