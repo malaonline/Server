@@ -187,7 +187,7 @@ def send_template_msg(request):
 def getContentData(request):
     temptype = request.GET.get("temptype", None)
     if not temptype:
-        openid = request.POST.get("temptype", None)
+        temptype = request.POST.get("temptype", None)
 
     if temptype == 'payok':
         return template_msg_data_pay_ok(request)
@@ -201,7 +201,7 @@ def template_msg_data_pay_ok(request):
 
     toUser = request.GET.get("toUser", None)
     if not toUser:
-        openid = request.POST.get("toUser", None)
+        toUser = request.POST.get("toUser", None)
 
     first = request.GET.get("first", None)
     if not first:
@@ -213,23 +213,23 @@ def template_msg_data_pay_ok(request):
 
     kw2 = request.GET.get("kw2", None)
     if not kw2:
-        openid = request.POST.get("kw2", None)
+        kw2 = request.POST.get("kw2", None)
 
     kw3 = request.GET.get("kw3", None)
     if not kw3:
-        openid = request.POST.get("kw3", None)
+        kw3 = request.POST.get("kw3", None)
 
     kw4 = request.GET.get("kw4", None)
     if not kw4:
-        openid = request.POST.get("kw4", None)
+        kw4 = request.POST.get("kw4", None)
 
     kw5 = request.GET.get("kw5", None)
     if not kw5:
-        openid = request.POST.get("kw5", None)
+        kw5 = request.POST.get("kw5", None)
 
     remark = request.GET.get("remark", None)
     if not remark:
-        openid = request.POST.get("remark", None)
+        remark = request.POST.get("remark", None)
 
     return {
         "access_token": None,
@@ -266,35 +266,35 @@ def template_msg_data_pay_info(request):
 
     toUser = request.GET.get("toUser", None)
     if not toUser:
-        openid = request.POST.get("toUser", None)
+        toUser = request.POST.get("toUser", None)
 
     first = request.GET.get("first", None)
     if not first:
-        openid = request.POST.get("first", None)
+        first = request.POST.get("first", None)
 
     kw1 = request.GET.get("kw1", None)
     if not kw1:
-        openid = request.POST.get("kw1", None)
+        kw1 = request.POST.get("kw1", None)
 
     kw2 = request.GET.get("kw2", None)
     if not kw2:
-        openid = request.POST.get("kw2", None)
+        kw2 = request.POST.get("kw2", None)
 
     kw3 = request.GET.get("kw3", None)
     if not kw3:
-        openid = request.POST.get("kw3", None)
+        kw3 = request.POST.get("kw3", None)
 
     kw4 = request.GET.get("kw4", None)
     if not kw4:
-        openid = request.POST.get("kw4", None)
+        kw4 = request.POST.get("kw4", None)
 
     kw5 = request.GET.get("kw5", None)
     if not kw5:
-        openid = request.POST.get("kw5", None)
+        kw5 = request.POST.get("kw5", None)
 
     remark = request.GET.get("remark", None)
     if not remark:
-        openid = request.POST.get("remark", None)
+        remark = request.POST.get("remark", None)
 
     return {
         "access_token": None,
@@ -478,13 +478,17 @@ def check_phone(request):
 @csrf_exempt
 def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
+
+    openid = request.GET.get("openid", None)
+    if not remark:
+        openid = request.POST.get("openid", None)
     context = {
+        "openid": openid,
         "zl": "aaa"
     }
     return render(request, template_name, context)
 
 @csrf_exempt
-<<<<<<< 9f0a4eaca47d77aebb583489fbd03d77f007252b
 def add_openid(request):
     phone = request.POST.get("phone", None)
     code = request.POST.get("code", None)
@@ -525,7 +529,7 @@ def add_openid(request):
         return JsonResponse({
             "result": False
         })
-=======
+
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
     wx_code = request.GET.get('code', None)
@@ -562,4 +566,3 @@ def check_phone(request):
     print(ret)
     print(".....................end.......")
     return HttpResponseRedirect("/wechat/phone_page/")
->>>>>>> WEC-8:back file
