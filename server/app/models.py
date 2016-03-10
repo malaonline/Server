@@ -822,6 +822,8 @@ class Parent(BaseModel):
         user = User(username=username)
         user.email = ""
         user.password = make_password(password, salt)
+        parent_group = Group.objects.get(name="家长")
+        user.groups.add(parent_group)
         user.save()
         # 创建家长身份
         profile = Profile(user=user, phone="")
