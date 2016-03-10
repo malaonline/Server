@@ -465,7 +465,6 @@ def add_openid(request):
     Profile = models.Profile
     CheckCode = models.Checkcode
     Parent = models.Parent
-    new_user = True
     try:
         profile = Profile.objects.get(phone=phone)
         user = profile.user
@@ -473,7 +472,6 @@ def add_openid(request):
             user.backend = backend_path
             break
         parent = Parent.objects.get(user=user)
-        new_user = False
     except Profile.DoesNotExist:
         # new user
         user = Parent.new_parent()
