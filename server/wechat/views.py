@@ -414,7 +414,7 @@ def teacher_view(request):
     now = timezone.now()
     now_timestamp = int(now.timestamp())
 
-    nonce_str = random_string().replace('-','')
+    nonce_str = make_nonce_str()
     access_token, msg = _get_wx_token()
     jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
     cur_url = request.build_absolute_uri()
