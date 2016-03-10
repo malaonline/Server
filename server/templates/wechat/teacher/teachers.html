@@ -13,12 +13,12 @@
     <div class="page" id="teacherList">
         <div class="content">
             {% for teacher in teacher_list %}
-                <a href="{% url 'teacher-detail' teacher.pk %}">
+                <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}">
                     <div class="card facebook-card">
                     <span class="card-label">
                         {{ teacher.grades_shortname }}:{{ teacher.subject }}
                     </span>
-                        <a href="#" class="link">
+                        <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}" class="link">
                             <h3>{{ teacher.name }}</h3>
                         </a>
                         <div class="ui horizontal divider">{{ teacher.level }}</div>
