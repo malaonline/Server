@@ -442,6 +442,15 @@ def calculateDistance(pointA, pointB):
 
 @csrf_exempt
 def phone_page(request):
+    teacherId = "1"
+    context = {
+        "openid": 'openid',
+        "teacherId": 'teacherId',
+        "nextpage": reverse('wechat:order-course-choosing', args=(teacherId))
+    }
+
+    # return render(request, 'wechat/parent/reg_phone.html', context)
+    return HttpResponseRedirect(reverse('wechat:order-course-choosing', args=(teacherId)))
     template_name = 'wechat/parent/reg_phone.html'
 
     openid = request.GET.get("openid", None)
@@ -515,11 +524,11 @@ def check_phone(request):
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
-            return HttpResponseRedirect(reverse('wechat:order-course-choosing', args=(teacherId)))
+            return HttpResponseRedirect(reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId}))
 
     context = {
         "openid": openid,
         "teacherId": teacherId,
-        "nextpage": reverse('wechat:order-course-choosing', args=(teacherId))
+        "nextpage": reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId})
     }
     return render(request, 'wechat/parent/reg_phone.html', context)
