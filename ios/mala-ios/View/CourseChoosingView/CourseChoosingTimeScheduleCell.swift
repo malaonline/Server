@@ -12,13 +12,20 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
 
     // MARK: - Property
     /// 上课时间表字符串数组
-    var timeScheduleResult: [String]? {
+    var timeScheduleResult: [String] = [] {
         didSet {
+            
+            // 若结果为空时，收起Cell
+            if timeScheduleResult.count == 0 {
+                self.tableView.timeSchedule = timeScheduleResult
+                self.isOpen = false
+            }
+            
             // 若下拉箭头显示且已经展开，加载时间表
             if (dropArrow.hidden == false) && (isOpen == true) {
                 self.tableView.timeSchedule = timeScheduleResult
                 self.tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
+                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult.count))
                 }
                 self.tableView.reloadData()
             }else {
@@ -31,7 +38,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         didSet {
             if isOpen {
                 self.tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult?.count ?? 0))
+                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult.count))
                 }
             }else {
                 self.tableView.snp_updateConstraints { (make) -> Void in
@@ -127,7 +134,11 @@ private let TimeScheduleCellTableViewCellReuseId = "TimeScheduleCellTableViewCel
 class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Property
-    var timeSchedule: [String]?
+    var timeSchedule: [String] = [] {
+        didSet {
+            println("上课时间表结果 \(timeSchedule)")
+        }
+    }
     
     
     // MARK: - Constructed
@@ -163,12 +174,13 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     
     // MARK: - DataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return timeSchedule?.count ?? 0
+        return timeSchedule.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TimeScheduleCellTableViewCellReuseId, forIndexPath: indexPath) as! TimeScheduleCellTableViewCell
-        cell.setTitle(timeSchedule![indexPath.row])
+        let title = timeSchedule[indexPath.row]
+        cell.setTitle(title)
         return cell
     }
 }

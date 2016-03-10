@@ -67,7 +67,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         }
     }
     /// 上课时间表数据
-    var timeScheduleResult: [String]? {
+    var timeScheduleResult: [String] = [] {
         didSet {
             // 刷新 [上课时间] Cell
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in

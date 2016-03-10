@@ -268,6 +268,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                     let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int((MalaCourseChoosingObject.selectedTime.count)*2))
                     self?.tableView.timeScheduleResult = array
+                }else {
+                    self?.tableView.timeScheduleResult = []
                 }
         }
         self.observers.append(observerClassScheduleDidTap)
