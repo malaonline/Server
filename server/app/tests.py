@@ -355,6 +355,21 @@ class TestApi(TestCase):
             for d in value:
                 self.assertTrue(d['available'])
 
+        # Concrete time slot
+        hours = 6
+        weekly_time_slots = list(
+                WeeklyTimeSlot.objects.filter(pk__in=[3, 8, 20]))
+        teacher = Teacher.objects.get(pk=2)
+        timeslots = Order.objects.concrete_timeslots(
+                hours, weekly_time_slots, teacher)
+        self.assertEqual(len(timeslots), 3)
+        wts = weekly_time_slots[2]
+        for ts in timeslots:
+            self.assertEqual(
+                    timezone.localtime(ts['start']).isoweekday(), wts.weekday)
+            self.assertEqual(
+                    timezone.localtime(ts['start']).time(), wts.start)
+
         # Available time for other teacher
         client = Client()
         username = "parent1"
