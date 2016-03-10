@@ -8,6 +8,15 @@ $(function(){
     var chosen_school_id = '';
     var chosen_weekly_time_slots = [];
 
+    var showAlertDialog = function(msg) {
+        $("#alertDialogBody").html(msg);
+        var $dialog = $('#alertDialog');
+        $dialog.show();
+        $dialog.one('click', function () {
+            $dialog.hide();
+        });
+    };
+
     wx.ready(function(res){
         console.log("wx.ready");
         wx.getLocation({
@@ -29,15 +38,6 @@ $(function(){
     wx.error(function(){
         console.log("wx.config错误");
     });
-
-    var showAlertDialog = function(msg) {
-        $("#alertDialogBody").html(msg);
-        var $dialog = $('#alertDialog');
-        $dialog.show();
-        $dialog.one('click', function () {
-            $dialog.hide();
-        });
-    };
 
     $('.grade-box > .grade').click(function(e){
         var ele = e.target, $ele = $(ele);
