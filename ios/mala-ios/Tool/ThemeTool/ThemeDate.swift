@@ -31,27 +31,24 @@ class ThemeDate {
         var classPeriod = period
         /// 当前Date对象
         let today = NSDate()
-        /// 推迟周数
-        var postpone = 0
+        // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
+        var intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
         
         
         // 过滤出本周可上课的时间对象（星期数大于今天）
         var classArrayInThisWeek: [ClassScheduleDayModel] = []
         for model in modelArray {
-            let id = (model.weekID == 0 ? 7 : model.weekID)
-            // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
-            let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 0
+            let weekId = (model.weekID == 0 ? 7 : model.weekID)
+            
             // 只有提前三天以上的课程，才会在本周开始授课。
             //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
             //（例如在周四预约了周日的课程，相隔周五、周六两天符合要求，将从本周日开始上课）
-            if id >= (weekdayInt(today)+intervals) {
+            if weekId >= (weekdayInt(today)+intervals) {
                 classArrayInThisWeek.append(model)
                 modelArray.removeAtIndex(modelArray.indexOf(model)!)
-            }else {
-                // 加上间隔时间后推迟到下周的课程，推迟周数+1
-                postpone++
             }
         }
+        
         // 将本周即可上课的日期字符串，添加到[上课时间表]中
         for model in classArrayInThisWeek {
             let date = MalaWeekdays[model.weekID].dateInThisWeek()
@@ -62,8 +59,9 @@ class ThemeDate {
             classArrayInThisWeek.removeAtIndex(classArrayInThisWeek.indexOf(model)!)
             classPeriod = classPeriod - 2
         }
+        
         // 若课时循环完毕则返回字符串数组
-        if classPeriod == 0 || days.count == 0{
+        if classPeriod == 0 || days.count == 0 {
             return timeSchedule
         }
 
@@ -76,11 +74,12 @@ class ThemeDate {
             let model = sortDays[index]
             var date = MalaWeekdays[model.weekID].dateInThisWeek()
             // 获取到对应的本周日期后，加上对应的周数即为上课时间。
-            if postpone != 0 && (model.weekID == 1 || model.weekID == 2){
-                date = date.dateByAddingWeeks(2*weeks)
-            }else {
+//            if (weekdayInt(today)+intervals-7) > model.weekID {
+//                date = date.dateByAddingWeeks(2*weeks)
+//            }else {
                 date = date.dateByAddingWeeks(1*weeks)
-            }
+//            }
+            
             var dateString = date.formattedDateWithFormat("YYYY/MM/dd")
             // dateString = dateString + String(format: " ( %@-%@ ) ", model.start!, model.end!)
             dateString = dateString + String(format: " %@ ( %@-%@ ) ", MalaWeekdays[model.weekID], model.start!, model.end!)

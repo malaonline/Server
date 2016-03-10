@@ -120,66 +120,11 @@ class TestFactory {
         ]
     }
     
-    class func classSchedule() -> [[ClassScheduleDayModel]] {
-        let classData1 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: false),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        let classData2 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: false),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        let classData3 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: false),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        let classData4 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: false),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        let classData5 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: false),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        let classData6 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: false),
-        ]
-        let classData7 = [
-            ClassScheduleDayModel(id: 1,start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "10:00", end: "12:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "13:00", end: "15:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "15:00", end: "17:00", available: true),
-            ClassScheduleDayModel(id: 1,start: "17:00", end: "19:00", available: true),
-        ]
-        
-        return [classData1, classData2, classData3, classData4, classData5, classData6, classData7]
-    }
-    
-    
     class func testDate() {
         let array = [
-            ClassScheduleDayModel(id: 5, start: "08:00", end: "10:00", available: true),
-            ClassScheduleDayModel(id: 5, start: "10:30", end: "12:30", available: true),
-            ClassScheduleDayModel(id: 3, start: "08:00", end: "10:00", available: true)
+            ClassScheduleDayModel(id: 2, start: "08:00", end: "10:00", available: true, weekID: 1),
+            ClassScheduleDayModel(id: 3, start: "10:30", end: "12:30", available: true, weekID: 2),
+            ClassScheduleDayModel(id: 4, start: "08:00", end: "10:00", available: true, weekID: 3),
         ]
         
         let resultArray = ThemeDate.dateArray(array, period: 6)

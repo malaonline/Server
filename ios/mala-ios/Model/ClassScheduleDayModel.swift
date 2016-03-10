@@ -23,12 +23,13 @@ class ClassScheduleDayModel: BaseObjectModel {
         super.init()
     }
     
-    convenience init(id: Int, start: String, end: String, available: Bool) {
+    convenience init(id: Int, start: String, end: String, available: Bool, weekID: Int) {
         self.init()
         self.id = id
         self.start = start
         self.end = end
         self.available = available
+        self.weekID = weekID
     }
     
     override init(dict: [String: AnyObject]) {
@@ -39,7 +40,7 @@ class ClassScheduleDayModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["id", "start", "end", "available"]
+        let keys = ["id", "start", "end", "available", "weekID"]
         return dictionaryWithValuesForKeys(keys).description
     }
 }
