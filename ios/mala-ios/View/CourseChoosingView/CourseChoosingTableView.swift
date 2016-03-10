@@ -76,8 +76,6 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
 
         }
     }
-    /// 课时需要更新标记 (控制课时只在课程改变时更新，滑动重用时不变)
-    var isPeriodNeedUpdate: Bool = true
     var selectedIndexPath: NSIndexPath?
     
     
@@ -167,12 +165,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         case 3:
             let cell = reuseCell as! CourseChoosingClassPeriodCell
             // 更新已选择课时数
-            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                if ((self?.isPeriodNeedUpdate) == true) {
-                    cell.updateSetpValue()
-                }
-            })
-            self.isPeriodNeedUpdate = false
+            cell.updateSetpValue()
             return cell
             
         case 4:

@@ -50,6 +50,11 @@ public class KWStepper: UIControl {
     /// Sends UIControlEventValueChanged, clamped to min/max. Default = 0.
     public var value: Double = 0 {
         didSet {
+            // 数值相同时不在重复触发后续事件
+            guard value != oldValue else {
+                return
+            }
+            
             if value > oldValue {
                 delegate?.KWStepperDidIncrement?()
                 incrementCallback?()

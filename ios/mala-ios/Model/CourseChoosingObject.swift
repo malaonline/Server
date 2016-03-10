@@ -27,7 +27,8 @@ class CourseChoosingObject: NSObject {
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
-            originalPrice = getPrice()
+            // 保证[课时数]和[选择上课时间]匹配
+            classPeriod = selectedTime.count*2
         }
     }
     /// 上课小时数
