@@ -513,6 +513,8 @@ def add_openid(request):
     Parent = models.Parent
     try:
         profile = Profile.objects.get(phone=phone)
+        profile.wx_openid = openid
+        profile.save()
         user = profile.user
         for backend, backend_path in _get_backends(return_tuples=True):
             user.backend = backend_path
@@ -524,6 +526,7 @@ def add_openid(request):
         parent = user.parent
         profile = parent.user.profile
         profile.phone = phone
+        profile.wx_openid = openid
         profile.save()
     except Parent.DoesNotExist:
         parent = Parent(user=user)
