@@ -229,7 +229,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     if school.schoolModel?.id != MalaCourseChoosingObject.school?.id {
                         self?.loadClassSchedule()
                         MalaCourseChoosingObject.reset()
-                        self?.tableView.isPeriodNeedUpdate = true
                         (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                     }
                     
@@ -264,7 +263,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 let stepValue = Double((MalaCourseChoosingObject.selectedTime.count ?? 1)*2)
                 MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
                 // 课时选择
-                self?.tableView.isPeriodNeedUpdate = true
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
