@@ -10,10 +10,7 @@
 @import "../../../common/less/weui/widget/weui_cell/weui_cell_global";
 
 @import "../../../common/less/weui/widget/weui_cell/weui_access";
-@import "../../../common/less/weui/widget/weui_cell/weui_check";
 @import "../../../common/less/weui/widget/weui_cell/weui_form";
-@import "../../../common/less/weui/widget/weui_cell/weui_switch";
-@import "../../../common/less/weui/widget/weui_cell/weui_uploader";
 
 // msg
 @import "../../../common/less/weui/widget/weui_page/weui_msg";
@@ -22,12 +19,6 @@
 @import "../../../common/less/weui/widget/weui_tips/weui_dialog";
 @import "../../../common/less/weui/widget/weui_tips/weui_toast";
 @import "../../../common/less/weui/widget/weui_tips/weui_mask";
-
-//action sheet
-@import "../../../common/less/weui/widget/weui_tips/weui_actionsheet";
-
-//searchbar
-@import "../../../common/less/weui/widget/weui_searchbar/weui_searchbar";
 
 body{
   background-color: #ededed;
@@ -54,14 +45,13 @@ body{
   }
 }
 .ext_btn_default{
-  color: #ffffff;
-  background-color: #e1e1e1;
-  &:not(.weui_btn_disabled):visited {
-      color: @weuiBtnDefaultFontColor;
+  color: #82b4d9;
+  background-color: #ffffff;
+  &:not(.weui_btn_disabled):visited{
+      color: @weuiBtnFontColor;
   }
-  &:not(.weui_btn_disabled):active {
-    color: @weuiBtnDefaultActiveFontColor;
-    background-color: @weuiBtnDefaultActiveBg;
+  &:not(.weui_btn_disabled):active{
+      background-color: #FDFAFA;
   }
 }
 .weui_toast{

@@ -480,7 +480,7 @@ def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
 
     openid = request.GET.get("openid", None)
-    if not remark:
+    if not openid:
         openid = request.POST.get("openid", None)
     context = {
         "openid": openid,
