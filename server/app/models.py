@@ -1,3 +1,4 @@
+import logging
 import datetime
 
 import posix_ipc
@@ -7,6 +8,7 @@ import random
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db import IntegrityError, transaction
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
@@ -20,6 +22,7 @@ from app.utils import random_string, classproperty
 from app.utils.smsUtil import isTestPhone, isValidPhone, sendCheckcode, SendSMSError
 from django.utils.timezone import make_aware
 
+logger = logging.getLogger('app')
 
 class BaseModel(models.Model):
     class Meta:
@@ -1287,6 +1290,7 @@ class TimeSlot(BaseModel):
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
+    CONFIRM_TIME = datetime.timedelta(hours=2)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
@@ -1313,8 +1317,8 @@ class TimeSlot(BaseModel):
         return '<%s> from %s to %s' % (self.pk, self.start, self.end)
 
     def is_complete(self, given_time=make_aware(datetime.datetime.now())):
-        # 对于给定的时间,课程是否结束
-        if self.end < given_time:
+        # 对于给定的时间,课程是否结束, 附加自动确认的那两小时
+        if self.end < given_time - TimeSlot.CONFIRM_TIME:
             return True
         return False
 
@@ -1368,8 +1372,6 @@ class TimeSlot(BaseModel):
         """
         确认课时, 老师收入入账
         """
-        if not self.is_complete():
-            return False
         teacher = self.order.teacher
         account = teacher.safe_get_account()
         amount = self.duration_hours() * self.order.price
@@ -1395,10 +1397,10 @@ class TimeSlot(BaseModel):
         old_timeslot = self.transferred_from if self.transferred_from is not None else self
         # 这里不能只看当前订单的最后一次课, 同一个学生可能还有其他订单约了老师后续的课程
         # 因此需要得到"这个老师"最后一个 weekday 和 start, end 的 time 相同的 slot
-        # 同时过滤掉已经失效的 和 1天以前老的 time slot(1天足以越过时区问题)
+        # 同时过滤掉已经失效的 和 已经完成(结束2小时以后的)的课程
         time_slots = TimeSlot.objects.filter(
             deleted=False,
-            start__gt=datetime.datetime.now() - datetime.timedelta(days=1),
+            end__gt=timezone.now() - TimeSlot.CONFIRM_TIME,
             order__teacher=old_timeslot.order.teacher
         ).order_by('-start')
         last_slot = None
@@ -1408,21 +1410,30 @@ class TimeSlot(BaseModel):
                 break
 
         if last_slot is None:
+            semaphore.release()
             raise TimeSlotConflict()
 
-        # 创建一个新的slot, 时间为上面得到的 last + 7 天
-        new_timeslot = TimeSlot(
-            order=last_slot.order,
-            start=last_slot.start + datetime.timedelta(days=7),
-            end=last_slot.end + datetime.timedelta(days=7),
-            last_updated_by=user
-        )
-        new_timeslot.save()
-        # 把老的课程停掉
-        old_timeslot.last_updated_by = user
-        old_timeslot.suspend()
-
+        # 增加事务处理
+        try:
+            with transaction.atomic():
+                # 创建一个新的slot, 时间为上面得到的 last + 7 天
+                # todo: 应该同时检测该 last 是否已经被学生自己占用, 这个版本先不做
+                new_timeslot = TimeSlot(
+                    order=last_slot.order,
+                    start=last_slot.start + datetime.timedelta(days=7),
+                    end=last_slot.end + datetime.timedelta(days=7),
+                    last_updated_by=user
+                )
+                new_timeslot.save()
+                # 把老的课程停掉
+                old_timeslot.last_updated_by = user
+                old_timeslot.suspend()
+        except IntegrityError as err:
+            logger.error(err)
+            semaphore.release()
+            return False
         semaphore.release()
+        return True
 
 
 class Message(BaseModel):

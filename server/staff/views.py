@@ -1168,7 +1168,8 @@ class StudentScheduleActionView(BaseStaffActionView):
         tid = request.POST.get('tid')
         timeslot = models.TimeSlot.objects.get(id=tid)
         # 具体停课操作在里面
-        timeslot.reschedule_for_suspend(self.request.user);
+        if not timeslot.reschedule_for_suspend(self.request.user):
+            return JsonResponse({'ok': False, 'msg': '停课操作失败', 'code': 'suspend_transaction'})
         return JsonResponse({'ok': True})
 
 
@@ -1522,9 +1523,15 @@ class OrderRefundActionView(BaseStaffActionView):
                         order.refund_at = record.created_at
                         order.save()
                         # 断言以确保将释放的时间无误
-                        assert models.TimeSlot.objects.all().filter(order=order, end__gt=record.created_at).count() * 2 == record.remaining_hours
+                        assert models.TimeSlot.objects.all().filter(
+                            order=order,
+                            end__gt=record.created_at - models.TimeSlot.CONFIRM_TIME
+                        ).count() * 2 == record.remaining_hours
                         # 释放该订单内的所有未完成的课程时间
-                        models.TimeSlot.objects.all().filter(order=order, end__gt=record.created_at).update(deleted=True)
+                        models.TimeSlot.objects.all().filter(
+                            order=order,
+                            end__gt=record.created_at - models.TimeSlot.CONFIRM_TIME
+                        ).update(deleted=True)
                         # 回显给前端, 刚刚记录的退费信息内容
                         return JsonResponse({
                             'ok': True,
