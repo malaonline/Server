@@ -312,11 +312,14 @@ $(function(){
     $('[data-action=unpublish-teacher]').click(function(e){
         _publishChange(this, false);
     });
-/*    $('[data-action=copy-link]').click(function(e){
-        e.preventDefault();
-        teacherId = e.currentTarget.dataset.teacherId;
-        if (teacherId) {
-            //TODO:找到不需要flash的跨平台访问clipboard的解决方案
-        };
-    });*/
+    $('#copyLinkModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var teacherurl = button.data('teacherurl');
+      var teacherName = button.data('teachername');
+      var modal = $(this);
+        //获取域名
+      var host = window.location.host;
+      modal.find('.modal-title').text(teacherName + '的微信页链接');
+      modal.find('#wechat-link').val('http://'+host+teacherurl);
+    });
 });

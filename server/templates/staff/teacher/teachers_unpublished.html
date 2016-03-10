@@ -110,7 +110,7 @@
                     {% if list_type == 'published' %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="unpublish-teacher">下架</a>
-                        | <a href="{% url 'wechat:teacher-detail' teacher.pk %}" target="_blank">复制链接</a>  {# TODO: 复制链接#}
+                        | <a href="#"  data-toggle="modal" data-target="#copyLinkModal" data-teacherurl="{% url 'wechat:teacher-detail' teacher.id %}" data-teachername="{{ teacher.name }}">复制链接</a>
                     {% else %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_unpublished_edit' tid=teacher.id %}">编辑</a>
                         | <a data-action="publish-teacher">上架</a>
@@ -256,4 +256,29 @@
             </div>
         </div>
     </div>
+
+{#    弹出复制链接框#}
+    <div class="modal fade" id="copyLinkModal" tabindex="-1" role="dialog" aria-labelledby="copyLinkModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="wechat-link" class="control-label">点击输入框,点按ctrl+c复制链接:</label>
+                <input type="text" class="form-control" id="wechat-link" onfocus="this.select()">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}
