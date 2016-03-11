@@ -262,12 +262,27 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
-    
-    // MARK: - Deleagte
-    func signupButtonDidTap(sender: UIButton) {
+    // 跳转到课程购买页
+    private func pushToCourseChoosingView() {
         let viewController = CourseChoosingViewController()
         viewController.teacherModel = model
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    
+    // MARK: - Deleagte
+    func signupButtonDidTap(sender: UIButton) {
+        // 未登陆则进行登陆动作
+        if !MalaUserDefaults.isLogined {
+            
+            self.presentViewController(
+                UINavigationController(rootViewController: LoginViewController()),
+                animated: true,
+                completion: { () -> Void in
+            })
+        }else {
+            self.pushToCourseChoosingView()
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

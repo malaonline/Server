@@ -144,6 +144,7 @@ class LoginViewController: UIViewController {
         self.view.backgroundColor = MalaTeacherCellBackgroundColor
         let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: "closeButtonDidClick"))
         navigationItem.leftBarButtonItem = leftBarButtonItem
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         
         // SubView
         view.addSubview(contentView)
@@ -301,8 +302,11 @@ class LoginViewController: UIViewController {
             if let errorMessage = errorMessage {
                 println("LoginViewController - SendCode Error \(errorMessage)")
             }
-        }, completion: { bool in
+        }, completion: { [weak self] bool in
             ThemeHUD.hideActivityIndicator()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.codeTextField.becomeFirstResponder()
+            })
             println("send Verifycode -  \(bool)")
         })
     }

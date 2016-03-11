@@ -15,6 +15,10 @@ let ParentIDKey = "ParentIDKey"
 let ProfileIDKey = "ProfileIDKey"
 let FirstLoginKey = "FirstLoginKey"
 
+/// 已经登出标记 - 由于Listenable的Value不可为nil。
+/// 所以每次注销后accessToken仍然会保存用户的Token, 导致isLogined返回结果不正确
+var isLogouted = false
+
 ///  监听者
 struct Listener<T>: Hashable {
     /// 监听者名称
@@ -89,10 +93,11 @@ class MalaUserDefaults {
     
     /// 单例
     static let defaults = NSUserDefaults(suiteName: MalaConfig.appGroupID)!
+    
     /// 登陆标识
     static var isLogined: Bool {
-        
-        if let _ = MalaUserDefaults.userAccessToken.value {
+        // [用户Token为空] 或 [已经注销] 均判断为未登录情况
+        if let _ = MalaUserDefaults.userAccessToken.value where !isLogouted {
             return true
         } else {
             return false
@@ -142,4 +147,23 @@ class MalaUserDefaults {
             defaults.setObject(userID, forKey: FirstLoginKey)
         }
     }()
+    
+    /// 清空UserDefaults
+    class func cleanAllUserDefaults() {
+        
+        userAccessToken.removeAllListeners()
+        userID.removeAllListeners()
+        parentID.removeAllListeners()
+        profileID.removeAllListeners()
+        firstLogin.removeAllListeners()
+        
+        defaults.removeObjectForKey(userAccessTokenKey)
+        defaults.removeObjectForKey(UserIDKey)
+        defaults.removeObjectForKey(ParentIDKey)
+        defaults.removeObjectForKey(ProfileIDKey)
+        defaults.removeObjectForKey(FirstLoginKey)
+        
+        // 配置清空成功表示注销成功
+        isLogouted = defaults.synchronize()
+    }
 }

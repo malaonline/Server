@@ -32,7 +32,7 @@ class ThemeDate {
         /// 当前Date对象
         let today = NSDate()
         // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
-        var intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
+        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
         
         
         // 过滤出本周可上课的时间对象（星期数大于今天）

@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
-        window?.rootViewController = defaultRootViewController
+        window?.rootViewController = MainViewController()
         window?.makeKeyAndVisible()
         
         
@@ -76,10 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    
-    
-    
-    ///  SDK Configuration
+    // MARK: - SDK Configuration
     func registerThirdParty() {
         // 友盟 - 发送启动通知(channelId 默认为 "App Store")
         MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
@@ -102,22 +99,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // TabBar
         UITabBar.appearance().tintColor = MalaAppearanceTextColor
     }
-}
-
-
-// MARK: - RootViewController Switch
-extension AppDelegate {
     
-    // Setup RootViewController
-    private var defaultRootViewController: UIViewController {
-        // 1. Has Logged
-        //        if HasLogged {
-        //            return isNewVersion ? NewFeatureViewController() : WelcomeViewController()
-        //        }
-        
-        // 2. not logged in
-        //        return loginViewController()
-        return MainViewController()
+    
+    // MARK: - Public Method
+    func switchToStart() {
+        window?.rootViewController = MainViewController()
     }
 }
-

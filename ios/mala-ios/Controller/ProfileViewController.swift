@@ -166,6 +166,23 @@ class ProfileViewController: UITableViewController {
     
     // MARK: - Event Response
     @objc private func logoutButtonDidTap() {
-        
+        MalaAlert.confirmOrCancel(
+            title: "注意",
+            message: "您确认要退出登录吗？",
+            confirmTitle: "退出登录",
+            cancelTitle: "取消",
+            inViewController: self,
+            withConfirmAction: { () -> Void in
+                
+                unregisterThirdPartyPush()
+                cleanCaches()
+                MalaUserDefaults.cleanAllUserDefaults()
+                
+                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    appDelegate.switchToStart()
+                }
+                
+            }, cancelAction: { () -> Void in
+        })
     }
 }
