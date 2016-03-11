@@ -18,7 +18,6 @@ from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         WeeklyTimeSlot
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
-from teacher.views import information_complete_percent
 from app.models import Region
 from app.utils.algorithm import verify_sig
 from app.tasks import send_push
@@ -535,43 +534,6 @@ class TestModels(TestCase):
         with self.assertRaises(Region.DoesNotExist):
             Region.objects.get(name="其它")
 
-
-class TestTeacherWeb(TestCase):
-    def setUp(self):
-        self.assertTrue(settings.FAKE_SMS_SERVER)
-        call_command("build_groups_and_permissions")
-
-    def tearDown(self):
-        pass
-
-    def test_verify_sms_code(self):
-        phone = "18922405996"
-        sms_code = Checkcode.generate(phone)
-        client = Client()
-        # 第一次
-        response = client.post(reverse("teacher:verify-sms-code"),
-                               {
-                                   "phone": phone,
-                                   "code": sms_code
-                               })
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(json.loads(response.content.decode()), {
-            "result": True, "url": "/teacher/information/complete/"})
-        # 第二次
-        sms_code = Checkcode.generate(phone)
-        second_client = Client()
-        response = second_client.post(reverse("teacher:verify-sms-code"),
-                                      {
-                                          "phone": phone,
-                                          "code": sms_code
-                                      })
-        self.assertEqual(json.loads(response.content.decode()), {
-            "url": "/teacher/information/complete/", "result": True})
-
-        # 测试information_compelte_percent
-        profile = Profile.objects.get(phone=phone)
-        percent = information_complete_percent(profile.user)
-        self.assertEqual(percent, 0)
 
 
 class TestStaffWeb(TestCase):

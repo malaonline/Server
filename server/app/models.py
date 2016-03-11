@@ -1734,8 +1734,8 @@ class WeiXinToken(BaseModel):
         return delta.total_seconds() <= 0
 
 
-class WithdrawWeekday(BaseModel):
-    weekday = models.PositiveIntegerField(default=2)
+class Config(BaseModel):
+    withdraw_weekday = models.PositiveIntegerField(default=2)
 
     def __str__(self):
-        return self.weekday
+        return self.withdraw_weekday

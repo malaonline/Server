@@ -8,14 +8,53 @@ from django.utils.timezone import make_aware
 from django.conf import settings
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot, Ability, Highscore
-from app.models import Tag, Certificate, Achievement, Account
+from app.models import Tag, Certificate, Achievement, Account, Checkcode
 from teacher.views import FirstPage, split_list
+from teacher.views import information_complete_percent
 from teacher.management.commands import create_fake_order
 
 import json
 import datetime
 import random
 from pprint import pprint as pp
+
+
+class TestTeacherWeb(TestCase):
+    def setUp(self):
+        self.assertTrue(settings.FAKE_SMS_SERVER)
+        call_command("build_groups_and_permissions")
+
+    def tearDown(self):
+        pass
+
+    def test_verify_sms_code(self):
+        phone = "18922405996"
+        sms_code = Checkcode.generate(phone)
+        client = Client()
+        # 第一次
+        response = client.post(reverse("teacher:verify-sms-code"),
+                               {
+                                   "phone": phone,
+                                   "code": sms_code
+                               })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode()), {
+            "result": True, "url": "/teacher/information/complete/"})
+        # 第二次
+        sms_code = Checkcode.generate(phone)
+        second_client = Client()
+        response = second_client.post(reverse("teacher:verify-sms-code"),
+                                      {
+                                          "phone": phone,
+                                          "code": sms_code
+                                      })
+        self.assertEqual(json.loads(response.content.decode()), {
+            "url": "/teacher/information/complete/", "result": True})
+
+        # 测试information_compelte_percent
+        profile = Profile.objects.get(phone=phone)
+        percent = information_complete_percent(profile.user)
+        self.assertEqual(percent, 0)
 
 
 # Create your tests here.
@@ -305,6 +344,18 @@ class TestWebPage(TestCase):
     def test_withdraw(self):
         # 提现界面
         self.check_page_accesibility("teacher:my-wallet-withdrawal")
+
+    def test_withdrawal_request(self):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        response = client.post(reverse('teacher:generate-sms'))
+        self.assertEqual(response.status_code, 200)
+
+        checkcode = Checkcode.objects.get(phone=self.teacher_phone)
+        response = client.post(reverse('teacher:withdrawal_request'), {
+            'code': checkcode.checkcode,
+            })
+        self.assertEqual(response.status_code, 200)
 
 
 class TestCommands(TestCase):

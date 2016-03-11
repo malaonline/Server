@@ -1037,8 +1037,8 @@ class MyEvaluation(View):
         cres = CommentReply.CommentReplyErrorSession(request)
         if cres.is_error:
             context["comment_reply_error"] = cres.error["reply"][0]
-            print("comment_reply_error is {error}".format(error=cres.error))
-            print("comment-reply-error-id is {id}".format(id=cres.id))
+            # print("comment_reply_error is {error}".format(error=cres.error))
+            # print("comment-reply-error-id is {id}".format(id=cres.id))
         comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)
         if comments_array:
             context["comments"] = comments_array[page_offset - 1]
@@ -1166,7 +1166,7 @@ class CommentReply(View):
 
     # 回复评价
     def post(self, request, comment_type, page_offset, id):
-        print("comment reply id is {id}".format(id=id))
+        # print("comment reply id is {id}".format(id=id))
         comment_reply_form = forms.CommentReplyForm(request.POST)
         if comment_reply_form.is_valid():
             # 是正确的返回
@@ -1174,10 +1174,10 @@ class CommentReply(View):
             the_comment = models.Comment.objects.get(id=id)
             the_comment.reply = reply
             the_comment.save()
-            print("reply is {reply}".format(reply=reply))
-            print("reply's type is {the_type}".format(the_type=type(comment_reply_form["reply"])))
+            # print("reply is {reply}".format(reply=reply))
+            # print("reply's type is {the_type}".format(the_type=type(comment_reply_form["reply"])))
         else:
-            print("comment reply not illegal, {errors}".format(errors=comment_reply_form.errors))
+            # print("comment reply not illegal, {errors}".format(errors=comment_reply_form.errors))
             CommentReply.CommentReplyErrorSession.save(request, comment_reply_form.errors, id,
                                                        comment_reply_form["reply"].data)
             request.session["comment-reply-error"] = comment_reply_form.errors
@@ -1191,7 +1191,7 @@ class GenerateSMS(View):
         user = request.user
         phone = user.profile.phone
         send_result, msg = models.Checkcode.generate(phone)
-        print("{result}: {msg}".format(result=send_result, msg=msg))
+        # print("{result}: {msg}".format(result=send_result, msg=msg))
         if send_result is True:
             return JsonResponse({"sent": True})
         else:
@@ -1203,8 +1203,8 @@ class WithdrawalRequest(View):
     def is_now_allowed_to_withdraw(self):
         now = timezone.localtime(timezone.now())
         # 如果是周二,就返回True,否则False
-        withdraw_weekdays = set(models.WithdrawWeekday.objects.all())
-        return now.isoweekday() in withdraw_weekdays  or settings.TEST_WITHDRAW
+        withdraw_weekday = models.Config.objects.all()[0].withdraw_weekday
+        return now.isoweekday() == withdraw_weekday  or settings.TEST_WITHDRAW
 
     def post(self, request):
         user = request.user
@@ -1375,7 +1375,7 @@ class MyLevel(MyWalletBase):
         for key, val in models.LevelRecord.OPERATION_CHOICE:
             operation[key] = val
         level_record_list = teacher.levelrecord_set.all().order_by("-create_at")
-        print(level_record_list)
+        # print(level_record_list)
 
         level_record_list_str = []
         # level_record_list_str = ["{time} 成为麻辣老师".format(time=timezone.now().strftime("%Y-%m-%d"))]
