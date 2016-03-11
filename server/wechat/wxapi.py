@@ -22,9 +22,17 @@ __all__ = [
     "wx_get_token",
     "wx_get_jsapi_ticket",
     "wx_pay_unified_order",
+    "WX_SUCCESS",
+    "WX_FAIL",
     ]
 logger = logging.getLogger('app')
+_WX_PAY_UNIFIED_ORDER_LOG_FMT = 'weixin_pay_unified_order return: [{code}] {msg}.'
+_WX_PAY_QUERY_ORDER_LOG_FMT = 'weixin_pay_query_order return: [{code}] {msg}.'
+_WX_PAY_RESULT_NOTIFY_LOG_FMT = 'weixin_pay_result_notify return: [{code}] {msg}.'
 
+
+WX_SUCCESS = 'SUCCESS'
+WX_FAIL = 'FAIL'
 
 def make_nonce_str():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
@@ -81,8 +89,6 @@ def wx_get_jsapi_ticket(access_token):
         return {'ok': False, 'msg': '获取微信jsapi_ticket出错，请联系管理员!', 'code': -1}
 
 
-_WX_PAY_MESSAGE_FORMAT = 'weixin_pay_unified_order return: [{code}] {msg}.'
-
 def wx_pay_unified_order(order, request, wx_openid):
     """
     参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
@@ -121,21 +127,94 @@ def wx_pay_unified_order(order, request, wx_openid):
     if resp.status_code == 200:
         resp_dict = wx_xml2dict(resp.content.decode('utf-8'))
         return_code = resp_dict['return_code']
-        if return_code != 'SUCCESS':
+        if return_code != WX_SUCCESS:
             msg = resp_dict['return_msg']
-            logger.error(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
+            logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=return_code, msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_signature(resp_dict)
         print(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
-        if result_code != 'SUCCESS':
+        if result_code != WX_SUCCESS:
             msg = resp_dict['err_code_des']
-            logger.error(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
+            logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         prepay_id = resp_dict['prepay_id']
         print(prepay_id)
-        logger.info(_WX_PAY_MESSAGE_FORMAT.format(code=return_code, msg=msg))
+        logger.info(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=return_code, msg=''))
         return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
     else:
         return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
+
+
+def wx_pay_order_query(wx_order_id=None, order_id=None):
+    """
+    参考: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+    """
+    wx_url = 'https://api.mch.weixin.qq.com/pay/orderquery'
+
+    params = {}
+    params['appid'] = settings.WEIXIN_APPID
+    params['mch_id'] = settings.WEIXIN_MERCHANT_ID
+    params['transaction_id'] = wx_order_id  # 微信的订单号，优先使用
+    params['out_trade_no'] = order_id       # 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+    params['nonce_str'] = make_nonce_str()
+    print(params)
+    # 签名
+    params['sign'] = wx_signature(params)
+
+    req_xml_str = wx_dict2xml(params)
+
+    resp = requests.post(wx_url, data=req_xml_str.encode('utf-8'))
+    if resp.status_code == 200:
+        resp_dict = wx_xml2dict(resp.content.decode('utf-8'))
+        return_code = resp_dict['return_code']
+        if return_code != WX_SUCCESS:
+            msg = resp_dict['return_msg']
+            logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=msg))
+            return {'ok': False, 'msg': msg, 'code': 1}
+        given_resp_sign = resp_dict.pop('sign', None)
+        calculated_resp_sign = wx_signature(resp_dict)
+        print(given_resp_sign==calculated_resp_sign)
+        result_code = resp_dict['result_code']
+        if result_code != WX_SUCCESS:
+            msg = resp_dict['err_code_des']
+            logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
+            return {'ok': False, 'msg': msg, 'code': 1}
+        trade_state = resp_dict['trade_state']
+        """
+            SUCCESS—支付成功
+            REFUND—转入退款
+            NOTPAY—未支付
+            CLOSED—已关闭
+            REVOKED—已撤销（刷卡支付）
+            USERPAYING--用户支付中
+            PAYERROR--支付失败(其他原因，如银行返回失败)
+        """
+        print(trade_state)
+        logger.info(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=''))
+        return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
+    else:
+        return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
+
+
+def resolve_wx_pay_result_notify(request):
+    req_dict = wx_xml2dict(request.body.decode('utf-8'))
+    return_code = req_dict['return_code']
+    if return_code != WX_SUCCESS:
+        msg = req_dict['return_msg']
+        logger.error(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=return_code, msg=msg))
+        return {'ok': False, 'msg': msg, 'code': 1}
+    given_resp_sign = req_dict.pop('sign', None)
+    calculated_resp_sign = wx_signature(req_dict)
+    print(given_resp_sign==calculated_resp_sign)
+    result_code = req_dict['result_code']
+    if result_code != WX_SUCCESS:
+        msg = req_dict['err_code_des']
+        logger.error(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=req_dict['err_code'], msg=msg))
+        return {'ok': False, 'msg': msg, 'code': 1}
+    logger.info(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=return_code, msg=''))
+    openid = req_dict['openid']
+    transaction_id = req_dict['transaction_id']
+    out_trade_no = req_dict['out_trade_no']
+    return {'ok': True, 'msg': '', 'code': 0, 'data': req_dict}

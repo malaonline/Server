@@ -112,6 +112,14 @@ class CourseChoosingView(TemplateView):
         return super(CourseChoosingView, self).get_context_data(**kwargs)
 
     def post(self, request, teacher_id=None):
+        action = request.POST.get('action')
+        if action == 'confirm':
+            return self.confirm_order(request, teacher_id)
+        if action == 'verify':
+            return self.verify_order(request)
+        return HttpResponse("Not supported request.", status=403)
+
+    def confirm_order(self, request, teacher_id):
         wx_openid = 'wx1n934hnfidhf934hkjd'
         # get request params
         teacher_id = request.POST.get('teacher')
@@ -156,6 +164,9 @@ class CourseChoosingView(TemplateView):
         data['paySign'] = wx_signature(data) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
         data.pop('appId') # appId 不能传给前段
         return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
+
+    def verify_order(self, request):
+        pass
 
 
 def _get_wx_jsapi_ticket(access_token):
