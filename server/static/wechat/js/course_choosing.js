@@ -7,6 +7,8 @@ $(function(){
     var chosen_price = 0;
     var chosen_school_id = '';
     var chosen_weekly_time_slots = [];
+    var HOUR = 60*60*1000;
+    var DAY = 24*HOUR;
 
     var showAlertDialog = function(msg) {
         $("#alertDialogBody").html(msg);
@@ -60,6 +62,70 @@ $(function(){
         $('#moreSchoolsContainer').show();
     });
 
+    var _updateCourseTimePreview = function(hours) {
+        if (hours==0 || chosen_weekly_time_slots.length==0) {
+            return $("#courseTimePreview").html('');
+        }
+        var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
+        chosen_weekly_time_slots.sort(function(a,b){
+            var dayA = weekday >= a.day?(7+a.day):a.day,
+                dayB = weekday >= b.day?(7+b.day):b.day;
+            var dd = dayA - dayB;
+            return (dd != 0) ? dd : (a.start - b.start);
+        });
+        var courseTimes = [];
+        var count = hours/ 2, loop = 0;
+        while(count>0) {
+            for (var i = 0; i < chosen_weekly_time_slots.length && count>0; i++,count--) {
+                var wts = chosen_weekly_time_slots[i], day = wts.day, s = wts.start, e = wts.end;
+                var weekoffset = (weekday < day?0:1) + loop;
+                var date = todayTime + (day-weekday + weekoffset * 7)*DAY;
+                courseTimes.push({'date': date, 'start': s, 'end': e});
+            }
+            loop++;
+        }
+        courseTimes.sort(function(a,b){
+            var diff = a.date - b.date;
+            return (diff != 0) ? diff : (a.start - b.start);
+        });
+        $courseTimePreview = $("#courseTimePreview");
+        $courseTimePreview.html('');
+        for (var i in courseTimes) {
+            var obj = courseTimes[i], start = new Date(obj.date+obj.start), end = new Date(obj.date+obj.end);
+            var m = start.getMonth()+ 1, d = start.getDate(),
+                sh = start.getHours(), sm = start.getMinutes(), eh = end.getHours(), em = end.getMinutes();
+            $courseTimePreview.append('<div>'
+                +start.getFullYear()+'/'+(m<10?('0'+m):m)+'/'+(d<10?('0'+d):d)
+                +' ('+(sh<10?('0'+sh):sh)+':'+(sm<10?('0'+sm):sm)+'-'+(eh<10?('0'+eh):eh)+':'+(em<10?('0'+em):em)+')'
+                +'</div>'
+            );
+        }
+    };
+
+    var updateCourseTimePreview = function() {
+        var $chosenTimeSlot = $('#weeklyTable > tbody > tr > td.available.chosen');
+        chosen_weekly_time_slots.length=0;
+        $chosenTimeSlot.each(function(i, ele){
+            var $td = $(ele), $tr = $td.closest('tr');
+            var day = parseInt($td.attr('day')),
+                start = parseInt($tr.attr('start').split(':')[0]) + parseInt($tr.attr('start').split(':')[1])/60,
+                end = parseInt($tr.attr('end').split(':')[0]) + parseInt($tr.attr('end').split(':')[1])/60;
+            var s = start * HOUR;
+            var e = end * HOUR;
+            chosen_weekly_time_slots.push({'id': $td.attr('tsid'), 'day': day, 'start': s, 'end': e})
+        });
+        console.log(chosen_weekly_time_slots);
+        var hours = parseInt($('#courseHours').text());
+        if (chosen_weekly_time_slots.length==0) {
+            hours = 0;
+        } else {
+            hours = Math.max(chosen_weekly_time_slots.length * 2, hours);
+        }
+        $('#courseHours').html(hours);
+        _updateCourseTimePreview(hours);
+    };
+
     var _makeWeeklyTimeSlotToMap = function(json) {
         var _map = {};
         for (var d in json) {
@@ -89,14 +155,15 @@ $(function(){
                     }
                     var key = timespan+'_'+ i, ts = _map[key];
                     var $td = $(ele);
-                    $td.attr('tsid', ts.id);
-                    if (ts.available) {
+                    if (ts && ts.available) {
+                        $td.attr('tsid', ts.id);
                         $td.addClass('available');
                     } else {
                         $td.removeClass('available').addClass('unavailable');
                     }
                 });
             });
+            updateCourseTimePreview();
         });
     };
 
@@ -119,49 +186,6 @@ $(function(){
         renderWeeklyTableBySchool(val);
         e.stopPropagation();
     });
-
-    var HOUR = 60*60*1000;
-    var DAY = 24*HOUR;
-    var updateCourseTimePreview = function() {
-        var $chosenTimeSlot = $('#weeklyTable > tbody > tr > td.chosen');
-        $('#courseHours').html($chosenTimeSlot.length?$chosenTimeSlot.length * 2:0);
-        var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
-        var courseTimes = [];
-        chosen_weekly_time_slots.length=0;
-        $chosenTimeSlot.each(function(i, ele){
-            var $td = $(ele), $tr = $td.closest('tr');
-            var day = parseInt($td.attr('day')),
-                start = parseInt($tr.attr('start').split(':')[0]) + parseInt($tr.attr('start').split(':')[1])/60,
-                end = parseInt($tr.attr('end').split(':')[0]) + parseInt($tr.attr('end').split(':')[1])/60;
-            var weekoffset = weekday < day?0:1;
-            var date = todayTime + (day-weekday + weekoffset * 7)*DAY;
-            var s = start * HOUR;
-            var e = end * HOUR;
-            courseTimes.push({'date': date, 'start': s, 'end': e});
-            chosen_weekly_time_slots.push({'id': $td.attr('tsid'), 'day': day, 'start': s, 'end': e})
-        });
-        console.log(chosen_weekly_time_slots);
-        courseTimes.sort(function(a,b){
-            var diff = a.date - b.date;
-            if (diff == 0) {
-                return a.start - b.start;
-            }
-            return diff;
-        });
-        $courseTimePreview = $("#courseTimePreview");
-        $courseTimePreview.html('');
-        for (var i in courseTimes) {
-            var obj = courseTimes[i], start = new Date(obj.date+obj.start), end = new Date(obj.date+obj.end);
-            var m = start.getMonth()+ 1, d = start.getDate(),
-                sh = start.getHours(), sm = start.getMinutes(), eh = end.getHours(), em = end.getMinutes();
-            $courseTimePreview.append('<div>'
-                +start.getFullYear()+'/'+(m<10?('0'+m):m)+'/'+(d<10?('0'+d):d)
-                +' ('+(sh<10?('0'+sh):sh)+':'+(sm<10?('0'+sm):sm)+'-'+(eh<10?('0'+eh):eh)+':'+(em<10?('0'+em):em)+')'
-                +'</div>'
-            );
-        }
-    };
 
     var _format_money = function(num, isYuan) {
         if (isYuan) {
@@ -191,6 +215,22 @@ $(function(){
             updateCourseTimePreview();
             updateCost();
         }
+    });
+
+    $('#decHoursBtn').click(function(e){
+        var hours = parseInt($('#courseHours').text());
+        if (hours <= chosen_weekly_time_slots.length * 2) {
+            return;
+        }
+        hours -= 2;
+        $('#courseHours').html(hours);
+        _updateCourseTimePreview(hours);
+    });
+    $('#incHoursBtn').click(function(e){
+        var hours = parseInt($('#courseHours').text());
+        hours += 2;
+        $('#courseHours').html(hours);
+        _updateCourseTimePreview(hours);
     });
 
     $('#confirmBtn').click(function(e){
