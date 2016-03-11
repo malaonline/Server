@@ -10,6 +10,7 @@ import hashlib
 # django modules
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 # local modules
 from app import models
@@ -22,8 +23,11 @@ __all__ = [
     "wx_get_token",
     "wx_get_jsapi_ticket",
     "wx_pay_unified_order",
+    "wx_pay_order_query",
+    "resolve_wx_pay_result_notify",
     "WX_SUCCESS",
     "WX_FAIL",
+    "WX_PAYERROR",
     ]
 logger = logging.getLogger('app')
 _WX_PAY_UNIFIED_ORDER_LOG_FMT = 'weixin_pay_unified_order return: [{code}] {msg}.'
@@ -33,6 +37,7 @@ _WX_PAY_RESULT_NOTIFY_LOG_FMT = 'weixin_pay_result_notify return: [{code}] {msg}
 
 WX_SUCCESS = 'SUCCESS'
 WX_FAIL = 'FAIL'
+WX_PAYERROR = 'PAYERROR'
 
 def make_nonce_str():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
@@ -139,12 +144,37 @@ def wx_pay_unified_order(order, request, wx_openid):
             msg = resp_dict['err_code_des']
             logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
-        prepay_id = resp_dict['prepay_id']
-        print(prepay_id)
+        # prepay_id = resp_dict['prepay_id']
+        # print(prepay_id)
         logger.info(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=return_code, msg=''))
+        # create charge object
+        _create_charge_object(params, order, resp_dict)
         return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
     else:
         return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
+
+
+def _create_charge_object(pre_req_params, order, wx_pay_resp_dict):
+    charge = models.Charge.objects.create()
+    charge.order = order
+    charge.ch_id = wx_pay_resp_dict['prepay_id']
+    charge.created = timezone.now()
+    charge.app = pre_req_params['appid']
+    charge.channel = models.Charge.WX_PUB_MALA
+    charge.order_no = order.order_id
+    charge.client_ip = pre_req_params['spbill_create_ip']
+    charge.amount = order.to_pay
+    charge.currency = 'cny'
+    charge.subject = ''
+    charge.body = pre_req_params['body']
+    charge.extra = json.dumps({'openid': pre_req_params['openid']})
+    charge.transaction_no = ''
+    charge.failure_code = ''
+    charge.failure_msg = ''
+    charge.metadata = ''
+    charge.credential = ''
+    charge.description = ''
+    charge.save()
 
 
 def wx_pay_order_query(wx_order_id=None, order_id=None):
@@ -153,11 +183,16 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
     """
     wx_url = 'https://api.mch.weixin.qq.com/pay/orderquery'
 
+    if not wx_order_id and not order_id:
+        return {'ok': False, 'msg': '没有订单号!', 'code': -4}
     params = {}
     params['appid'] = settings.WEIXIN_APPID
     params['mch_id'] = settings.WEIXIN_MERCHANT_ID
-    params['transaction_id'] = wx_order_id  # 微信的订单号，优先使用
-    params['out_trade_no'] = order_id       # 商户系统内部的订单号，当没提供transaction_id时需要传这个。
+    # [微信的订单号, 商户系统内部的订单号]二选一, 优先使用'微信的订单号'
+    if wx_order_id:
+        params['transaction_id'] = wx_order_id  # 微信的订单号
+    if order_id:
+        params['out_trade_no'] = order_id       # 商户系统内部的订单号
     params['nonce_str'] = make_nonce_str()
     print(params)
     # 签名
@@ -181,7 +216,8 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             msg = resp_dict['err_code_des']
             logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
-        trade_state = resp_dict['trade_state']
+        # trade_state = resp_dict['trade_state']
+        # print(trade_state)
         """
             SUCCESS—支付成功
             REFUND—转入退款
@@ -191,7 +227,6 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             USERPAYING--用户支付中
             PAYERROR--支付失败(其他原因，如银行返回失败)
         """
-        print(trade_state)
         logger.info(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=''))
         return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
     else:

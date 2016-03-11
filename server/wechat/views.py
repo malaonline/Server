@@ -162,11 +162,37 @@ class CourseChoosingView(TemplateView):
         data['signType'] = 'SHA1'
         data['appId'] = settings.WEIXIN_APPID
         data['paySign'] = wx_signature(data) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
-        data.pop('appId') # appId 不能传给前段
+        data['prepay_id'] = ret_json['data']['prepay_id']
+        data['order_id'] = order.order_id
         return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
 
     def verify_order(self, request):
-        pass
+        # get request params
+        prepay_id = request.POST.get('prepay_id')
+        order_id = request.POST.get('order_id')
+        query_ret = wx_pay_order_query(order_id=order_id)
+        if query_ret['ok']:
+            trade_state = query_ret['data']['trade_state']
+            if trade_state == WX_SUCCESS:
+                # 支付成功, 设置订单支付成功, 并且生成课程安排
+                charge = models.Charge.objects.get(ch_id=prepay_id)
+                charge.paid = True
+                charge.time_paid = timezone.now()
+                # charge.transaction_no = ''
+                charge.save()
+
+                order = charge.order
+                order.status = models.Order.PAID
+                models.Order.objects.allocate_timeslots(order)
+                order.save()
+                return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+            else:
+                if trade_state == WX_PAYERROR:
+                    return {'ok': False, 'msg': '支付失败', 'code': 2}
+                else:
+                    return {'ok': False, 'msg': '未支付', 'code': 3}
+        else:
+            return {'ok': False, 'msg': query_ret['msg'], 'code': 1}
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -209,6 +235,10 @@ def _get_wx_token_from_db():
 
 @csrf_exempt
 def wx_pay_notify(request):
+    """
+    接受微信支付结果异步通知view
+    """
+    # TODO: 接受微信支付结果
     pass
 
 

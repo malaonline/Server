@@ -204,6 +204,7 @@ $(function(){
             weekly_time_slot_ids.push(chosen_weekly_time_slots[i].id)
         }
         var params = {
+            'action': 'confirm',
             'teacher': $('#teacherId').val(),
             'school': chosen_school_id,
             'grade': chosen_grade_id,
@@ -215,7 +216,7 @@ $(function(){
         $.post(location.pathname, params, function (result) {
             if (result) {
                 if (result.ok) {
-                    var data = result.data;
+                    var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
                     wx.chooseWXPay({
                         timestamp: data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                         nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
@@ -225,6 +226,23 @@ $(function(){
                         success: function (res) {
                             console.log('wx.chooseWXPay fail');
                             console.log(res);
+                            var verify_params = {
+                                'action': 'verify',
+                                'prepay_id': prepay_id,
+                                'order_id': order_id
+                            };
+                            $.post(location.pathname, verify_params, function(verify_ret){
+                                if (verify_ret) {
+                                    if (verify_ret.ok) {
+                                        // TODO: 支付成功
+                                        showAlertDialog('支付成功');
+                                    } else {
+                                        showAlertDialog(result.msg);
+                                    }
+                                } else {
+                                    showAlertDialog(defaultErrMsg);
+                                }
+                            });
                         },
                         fail: function(res){
                             console.log('wx.chooseWXPay fail');
