@@ -65,7 +65,7 @@
             {%endfor%}
         {%endif%}
         function pageload(){
-            $('.teacher_avatar').attr('src', '{{teacher.avatar.url}}');
+            $('.teacher_avatar').attr('src', '{{teacher.user.profile.avatar_url}}');
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img>');
               nimg.attr('src', userPhotos[i]);
@@ -90,7 +90,7 @@
                     </div>
                     <div class="teacher_name">
                         <div>{{teacher.name}}</div>
-                        <div>{{gender}} 教龄{{teacher.teaching_age}}年</div>
+                        <div>{%if not gender%}保密{%else%}{{gender}}{%endif%} 教龄{{teacher.teaching_age}}年</div>
                     </div>
                     <img class="teacher_avatar" src="">
                 </div>
@@ -99,6 +99,7 @@
                         教授年级
                     </div>
                     <div>
+                        <img src="{{teacher.user.profile.avatar_url}}" />
                         {% for grade in grades_tree %}
                             {% for sub_grade in grade.children %}
                                 {% if sub_grade.id in teacher_grade_ids %}{{ sub_grade.name }}{% endif %}
