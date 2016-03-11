@@ -989,7 +989,7 @@ class Parent(BaseModel):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            super(CouponRule, self).save(*args, **kwargs)
+            super(Parent, self).save(*args, **kwargs)
 
             couponGenerators = models.CouponGenerator.objects.order_by('-id')
             couponGenerator = list(couponGenerators) and couponGenerators[0]
@@ -998,7 +998,7 @@ class Parent(BaseModel):
                                 mini_course_count=couponGenerator.mini_course_count,validated_start=couponGenerator.validated_start,
                                 expired_at=couponGenerator.expired_at,used=False)
         else:
-            super(CouponRule, self).save(*args, **kwargs)
+            super(Parent, self).save(*args, **kwargs)
 
 
 class CouponRule(BaseModel):
