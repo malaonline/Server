@@ -65,7 +65,7 @@
             {%endfor%}
         {%endif%}
         function pageload(){
-            $('.teacher_avatar').attr('src', '{{teacher.user.profile.avatar_url}}');
+            $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url}}{%endif%}');
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img>');
               nimg.attr('src', userPhotos[i]);
