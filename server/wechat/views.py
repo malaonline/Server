@@ -7,7 +7,7 @@ import time
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View, TemplateView, ListView, DetailView
 from django.db.models import Q,Count
 from django.conf import settings
@@ -23,6 +23,27 @@ from app.utils.types import parseInt
 from .wxapi import *
 
 # Create your views here.
+
+
+def _get_parent(request):
+    parent = None
+    if not request.user.is_anonymous():
+        try:
+            parent = request.user.parent
+        except:
+            pass
+    if not parent:
+        # 通过 wx_openid 获得家长
+        openid = request.GET.get("openid", None)
+        if not openid:
+            openid = request.POST.get("openid", None)
+        if openid:
+            profile = models.Profile.objects.filter(wx_openid=openid).order_by('-id').first()
+            try:
+                parent = profile and profile.user.parent or None
+            except:
+                pass
+    return parent
 
 class TeachersView(ListView):
     model = models.Teacher
@@ -72,12 +93,10 @@ class CourseChoosingView(TemplateView):
         kwargs['teacher'] = teacher
         current_user = self.request.user
         kwargs['current_user'] = current_user
-        if not current_user.is_anonymous():
-            try:
-                parent = models.Parent.objects.get(user=current_user)
-            except models.Parent.DoesNotExist:
-                parent = None
-            kwargs['parent'] = parent
+        parent = _get_parent(self.request)
+        if parent is None:
+            return HttpResponseRedirect(reverse('wechat:phone_page'))
+        kwargs['parent'] = parent
         first_buy = True
         kwargs['first_buy'] = first_buy
         abilities = teacher.abilities.all()
@@ -90,12 +109,9 @@ class CourseChoosingView(TemplateView):
         now = timezone.now()
         now_timestamp = int(now.timestamp())
         kwargs['server_timestamp'] = now_timestamp
-
-        # if current_user.parent:
-        #     coupons = models.Coupon.objects.filter(parent=current_user.parent,
-        #         validated_start__lte=now, expired_at__gt=now, used=False
-        #     ).order_by('-amount', 'expired_at')
-        #     kwargs['coupon'] = coupons.first()
+        coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=now, expired_at__gt=now, used=False
+                                        ).order_by('-amount', 'expired_at')
+        kwargs['coupons'] = coupons
 
         nonce_str = make_nonce_str()
         access_token, msg = _get_wx_token()
@@ -119,7 +135,10 @@ class CourseChoosingView(TemplateView):
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request, teacher_id):
-        wx_openid = 'wx1n934hnfidhf934hkjd'
+        parent = _get_parent(self.request)
+        wx_openid = parent.user.profile.wx_openid
+        if not parent or not wx_openid:
+            return JsonResponse({'ok': False, 'msg': '您还未登录或未关注公共号', 'code': 403})
         # get request params
         teacher_id = request.POST.get('teacher')
         school_id = request.POST.get('school')
@@ -132,10 +151,6 @@ class CourseChoosingView(TemplateView):
             return JsonResponse({'ok': False, 'msg': '时间选择参数错误', 'code': 1})
 
         # check params and get ref obj
-        # TODO: 通过 wx_openid 获得家长
-        # profile = get_object_or_404(models.Profile, wx_openid=wx_openid)
-        # parent = get_object_or_404(models.Parent, user=profile.user)
-        parent =models.Parent.objects.get(user__username='parent7')
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         school = get_object_or_404(models.School, pk=school_id)
         grade = get_object_or_404(models.Grade, pk=grade_id)
@@ -549,7 +564,8 @@ def calculateDistance(pointA, pointB):
   R = 6371000; #metres
   toRadians = math.pi/180;
 
-  return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
+  return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(
+      toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
 
 @csrf_exempt
 def phone_page(request):
