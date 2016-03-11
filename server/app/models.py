@@ -1732,3 +1732,10 @@ class WeiXinToken(BaseModel):
                 seconds=(self.expires_in-20))
         delta = expires_date - now
         return delta.total_seconds() <= 0
+
+
+class WithdrawWeekday(BaseModel):
+    weekday = models.PositiveIntegerField(default=2)
+
+    def __str__(self):
+        return self.weekday
