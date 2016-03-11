@@ -51,6 +51,24 @@
                     </div>
                     <div class="border_right">
                         <div class="notify_list">
+                            <div class="message_container">
+{#                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>#}
+                                <div class="right_part"><span class="detail_span">您已经注册并提交资料成功!</span></div>
+                            </div>
+                            <div class="separate_line">
+                            </div>
+                        </div>
+                        <div class="notify_list">
+{#                        剔除以前的记录,用新方法描述#}
+                            {% for one_audit in audit_list %}
+                                <div class="message_container">
+                                    <div class="left_part"><i class="line_icon"></i> <span class="time_span">{{ one_audit.time }}</span></div>
+                                    <div class="right_part"><span class="detail_span">{{ one_audit.text }}</span></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% if hide_old_notify_list == False %}
+                        <div class="notify_list">
 {#                            一般情况#}
                             {% if 1 in text_list %}
                             <div class="message_container">
@@ -111,16 +129,21 @@
                             </div>
                             {% endif %}
                         </div>
+                    {% endif %}
                         <div class="notify_end">
                             {% if 9 in text_list %}
+                            <div class="separate_line">
+                            </div>
                             <div class="message_container">
-                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>
+{#                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>#}
+{#                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-01-22 18:00</span></div>#}
                                 <div class="right_part">
                                     <p>恭喜您成为麻辣老师!请点击马上体验,并提交相关个人资料.</p>
                                 </div>
                             </div>
                             {% endif %}
                         </div>
+
                     </div>
                 </div>
                 <div class="confirm_row">

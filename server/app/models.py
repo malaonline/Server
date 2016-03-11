@@ -14,7 +14,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.apps import apps
 from django.utils import timezone
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, localtime
 from django.conf import settings
 from django.db.models import Q
 
@@ -414,6 +414,13 @@ class Teacher(BaseModel):
         self.level = new_level
         self.save()
 
+    def set_status(self, operator: User, new_status: int):
+        # operator: 操作人
+        # new_status: 新的状态
+        AuditRecord.new_audit_record(operator, teacher=self, old_statue=self.status, new_statue=new_status)
+        self.status = new_status
+        self.save()
+
     def init_level(self):
         pass
 
@@ -613,6 +620,76 @@ class Teacher(BaseModel):
         teacher.save()
         ret_user = authenticate(username=username, password=password)
         return ret_user
+
+
+class AuditRecord(BaseModel):
+    # 新老师审核记录
+    # 记录创建时间
+    create_at = models.DateTimeField(auto_now=Tree)
+    # 审核老师
+    teacher = models.ForeignKey(Teacher)
+    # 操作员
+    operator = models.ForeignKey(User)
+
+    INFORMATION_COMPLETE = "ic"
+    PRIMARY_REJECT = "pr"
+    PRIMARY_PASS = "pp"
+    INTERVIEW_REJECT = "ir"
+    INTERVIEW_PASS = "ip"
+    OPERATION_CHOICE = (
+        # 在老师初选被淘汰后,可以补填资料来让老师再次进入面试环节
+        (INFORMATION_COMPLETE, "补填资料"),
+        (PRIMARY_REJECT, "初选淘汰"),
+        (PRIMARY_PASS, "邀约面试"),
+        (INTERVIEW_REJECT, "面试失败"),
+        (INTERVIEW_PASS, "面试通过"),
+    )
+    # 定义路径两头的状态
+    OPERATION_PATH = {
+        (Teacher.TO_CHOOSE, Teacher.NOT_CHOSEN): PRIMARY_REJECT,
+        (Teacher.TO_CHOOSE, Teacher.TO_INTERVIEW): PRIMARY_PASS,
+        (Teacher.NOT_CHOSEN, Teacher.TO_CHOOSE): INFORMATION_COMPLETE,
+        (Teacher.TO_INTERVIEW, Teacher.INTERVIEW_OK): INTERVIEW_PASS,
+        (Teacher.TO_INTERVIEW, Teacher.INTERVIEW_FAIL): INTERVIEW_REJECT
+    }
+    # 操作动作,这里特指路径,而不是结点
+    operation = models.CharField(max_length=3, choices=OPERATION_CHOICE)
+
+    @staticmethod
+    def new_audit_record(operator: User, teacher: Teacher, old_statue: int, new_statue: int):
+        # 创建一个新的审核记录
+        new_audit_record = AuditRecord(teacher=teacher, operator=operator, operation=AuditRecord.OPERATION_PATH[(old_statue, new_statue)])
+        new_audit_record.save()
+        return new_audit_record
+
+    @property
+    def operation_description(self):
+        msg = "未知操作"
+        for key, val in self.OPERATION_CHOICE:
+            if self.operation == key:
+                msg = val
+                break
+        return msg
+
+    def __str__(self):
+        msg = "未知操作"
+        for key, val in self.OPERATION_CHOICE:
+            if self.operation == key:
+                msg = val
+                break
+        time_str = localtime(self.create_at).strftime("%Y-%m-%d %H:%M:%S")
+        return "{time} {operator}对{teacher}进行{operation}操作".format(
+            time=time_str,
+            operator=self.operator.id,
+            teacher=self.teacher.name,
+            operation=self.operation_description
+        )
+
+    def html_description(self):
+        # 用于html的显示
+        time_str = localtime(self.create_at).strftime("%Y-%m-%d %H:%M:%S")
+        return {"time": time_str,
+                "text": self.operation_description}
 
 
 class Highscore(BaseModel):

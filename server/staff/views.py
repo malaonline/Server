@@ -1000,7 +1000,9 @@ class TeacherActionView(BaseStaffActionView):
         teacherId = request.POST.get('teacherId')
         try:
             teacher = models.Teacher.objects.get(id=teacherId)
-            teacher.status = new_status
+            # 用带日志的方法来包裹裸的调用
+            teacher.set_status(request.user, new_status)
+            # teacher.status = new_status
             teacher.save()
             # send notice (sms) to teacher
             # TODO: temporarily remove sendSms action

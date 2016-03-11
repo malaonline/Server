@@ -15,7 +15,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
-        WeeklyTimeSlot
+        WeeklyTimeSlot, AuditRecord
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
 from app.models import Region
@@ -506,6 +506,12 @@ class TestApi(TestCase):
         request_url = "/api/v1/timeslots"
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
+
+    def test_audit_record(self):
+        teacher = Teacher.objects.all()[0]
+        teacher.status = Teacher.TO_CHOOSE
+        teacher.set_status(teacher.user, teacher.TO_INTERVIEW)
+        print(AuditRecord.objects.all())
 
 
 class TestModels(TestCase):

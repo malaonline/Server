@@ -243,6 +243,11 @@ class RegisterProgress(View):
         if settings.FIX_TEACHER_STATUS:
             teacher.status = teacher.INTERVIEW_OK
         context["progress"] = teacher.get_progress()
+        audit_list = []
+        for one_audit in teacher.auditrecord_set.all().order_by("create_at"):
+            audit_list.append(one_audit.html_description())
+        context["audit_list"] = audit_list
+        context["hide_old_notify_list"] = True
         context["text_list"] = teacher.build_progress_info()
         context["user_name"] = "{name} 老师".format(name=teacher.name)
         return render(request, "teacher/register_progress.html", context)
