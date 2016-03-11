@@ -387,7 +387,7 @@ def teacher_view(request):
     if not teacherid:
         teacherid = request.POST.get("teacherid", None)
 
-    teacher = []
+    teacher = None
     gender = None
     try:
         teacher = models.Teacher.objects.get(id=teacherid)
@@ -395,8 +395,10 @@ def teacher_view(request):
 
         gender_dict = {"f": "女", "m": "男", "u": ""}
         gender = gender_dict.get(profile.gender, "")
-    except:
-        pass
+    except models.Teacher.DoesNotExist:
+        return JsonResponse({'error': 'teacher not exist', 'code': -1})
+    except models.Profile.DoesNotExist:
+        return JsonResponse({'error': 'teacher profile not exist', 'code': -1})
 
     memberService = models.Memberservice.objects.all()
     achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
