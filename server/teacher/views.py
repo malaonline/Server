@@ -1201,7 +1201,7 @@ class GenerateSMS(View):
 class WithdrawalRequest(View):
     # 老师提现检测,里面的检测都通过,就进行转账
     def is_now_allowed_to_withdraw(self):
-        now = timezone.now()
+        now = timezone.localtime(timezone.now())
         # 如果是周二,就返回True,否则False
         withdraw_weekdays = set(models.WithdrawWeekday.objects.all())
         return now.isoweekday() in withdraw_weekdays  or settings.TEST_WITHDRAW
