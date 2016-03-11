@@ -91,7 +91,7 @@ class VerifySmsCode(View):
                     "url": reverse("teacher:complete-information")
                 })
             else:
-                if teacher.status != Teacher.INTERVIEW_OK or teacher.status_confirm is False:
+                if teacher.status != Teacher.INTERVIEW_OK or not teacher.status_confirm:
                     return JsonResponse({
                         "result": True,
                         "url": reverse("teacher:register-progress")
