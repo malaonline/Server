@@ -565,11 +565,10 @@ def check_phone(request):
         if "errcode" in ret:
             pass
     if openid:
-        print("得到了openid")
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
-            return HttpResponseRedirect(reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId}))
+            return HttpResponseRedirect(reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId})+'?openid='+openid)
 
     context = {
         "openid": openid,
