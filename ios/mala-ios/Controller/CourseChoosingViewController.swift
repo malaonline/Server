@@ -142,7 +142,10 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     
     private func loadClassSchedule() {
         
-        getTeacherAvailableTimeInSchool(1, schoolID: 1, failureHandler: { (reason, errorMessage) -> Void in
+        let teacherID = teacherModel?.id ?? 1
+        let schoolID = MalaCourseChoosingObject.school?.id ?? 1
+        
+        getTeacherAvailableTimeInSchool(teacherID, schoolID: schoolID, failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
@@ -322,6 +325,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     
     // MARK: - Delegate
     func OrderDidconfirm() {
+        
         // 设置订单模型
         setupOrderForm()
         
@@ -329,6 +333,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         let viewController = PaymentViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+    
     
     deinit {
         println("choosing Controller deinit")
