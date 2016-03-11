@@ -101,4 +101,23 @@ extension UIButton {
         self.layer.borderWidth = MalaScreenOnePixel
         self.addTarget(target, action: action, forControlEvents: .TouchUpInside)
     }
+    
+    ///  便利构造函数
+    ///
+    ///  - parameter title:      标题文字
+    ///  - parameter titleColor: 标题文字颜色
+    ///  - parameter target:     点击事件Handler
+    ///  - parameter action:     点击事件Action
+    ///
+    ///  - returns: UIButton对象
+    convenience init(title: String, titleColor: UIColor, target: AnyObject?, action: Selector) {
+        self.init()
+        // 文字及其状态颜色
+        self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        self.setTitle(title, forState: .Normal)
+        self.setTitleColor(titleColor, forState: .Normal)
+        self.setTitleColor(titleColor, forState: .Highlighted)
+        self.addTarget(target, action: action, forControlEvents: .TouchUpInside)
+        self.sizeToFit()
+    }
 }

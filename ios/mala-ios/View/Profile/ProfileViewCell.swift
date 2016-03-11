@@ -11,16 +11,11 @@ import UIKit
 class ProfileViewCell: UITableViewCell {
 
     // MARK: - Property
-    /// Cell标题
-    var title: String = "" {
+    /// [个人中心]Cell数据模型
+    var model: ProfileElementModel = ProfileElementModel() {
         didSet {
-            self.textLabel?.text = title
-        }
-    }
-    /// Cell信息
-    var detail: String = "" {
-        didSet {
-            self.detailTextLabel?.text = detail
+            self.textLabel?.text = model.title
+            self.detailTextLabel?.text = model.detail
         }
     }
     
@@ -41,6 +36,7 @@ class ProfileViewCell: UITableViewCell {
     private func setupUserInterface() {
         // Style
         self.accessoryType = .DisclosureIndicator
+        self.selectionStyle = .None
         
         self.textLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         self.textLabel?.textColor = MalaDetailsCellLabelColor

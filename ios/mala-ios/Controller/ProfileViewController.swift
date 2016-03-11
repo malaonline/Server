@@ -14,7 +14,8 @@ class ProfileViewController: UITableViewController {
     
     // MARK: - Property
     /// [个人中心结构数据]
-    private var model: [[BaseObjectModel]] = MalaConfig.profileData()
+    private var model: [[ProfileElementModel]] = MalaConfig.profileData()
+    
     
     // MARK: - Components
     /// [个人中心]头部视图
@@ -46,7 +47,7 @@ class ProfileViewController: UITableViewController {
         logoutButton.setTitle("退出登录", forState: .Normal)
         logoutButton.setTitleColor(MalaDetailsButtonBlueColor, forState: .Normal)
         logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
-//        logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Highlighted)
+         logoutButton.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0xE5E5E5, alpha: 0.3)), forState: .Highlighted)
         logoutButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         
         logoutButton.addTarget(self, action: "logoutButtonDidTap", forControlEvents: .TouchUpInside)
@@ -114,9 +115,7 @@ class ProfileViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewCellReuseID, forIndexPath: indexPath) as! ProfileViewCell
-        
-        cell.title = model[indexPath.section][indexPath.row].name ?? ""
-        
+        cell.model =  model[indexPath.section][indexPath.row]
         return cell
     }
     
@@ -141,11 +140,14 @@ class ProfileViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println(indexPath)
-    }
-    
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ProfileViewCell
+        let model = cell.model
+        // 跳转到对应的ViewController
+        if let type = model.controller as? UIViewController.Type {
+            let viewController = type.init()
+            viewController.title = model.controllerTitle
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
     

@@ -131,6 +131,7 @@ let MalaLayout_FilterContentWidth: CGFloat = MalaLayout_FilterWindowWidth - Mala
 let MalaLayout_FilterBarHeight: CGFloat = 40
 let MalaLayout_OtherServiceCellHeight: CGFloat = 46
 let MalaLayout_ProfileHeaderViewHeight: CGFloat = 165
+let MalaLayout_ProfileModifyViewHeight: CGFloat = 48
 
 
 // MARK: - Device
