@@ -85,10 +85,11 @@ class SchoolDetailView(ListView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class CourseChoosingView(TemplateView):
+class CourseChoosingView(View):
     template_name = 'wechat/order/course_choosing.html'
 
-    def get_context_data(self, teacher_id=None, **kwargs):
+    def get(self, request, teacher_id=None):
+        kwargs = {}
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         kwargs['teacher'] = teacher
         current_user = self.request.user
@@ -124,7 +125,7 @@ class CourseChoosingView(TemplateView):
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
         kwargs['WX_NONCE_STR'] = nonce_str
         kwargs['WX_SIGNATURE'] = signature
-        return super(CourseChoosingView, self).get_context_data(**kwargs)
+        return render(request, self.template_name, kwargs)
 
     def post(self, request, teacher_id=None):
         action = request.POST.get('action')
