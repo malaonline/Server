@@ -265,6 +265,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     // 跳转到课程购买页
     private func pushToCourseChoosingView() {
         let viewController = CourseChoosingViewController()
+        viewController.schoolArray = self.schoolArray
         viewController.teacherModel = model
         self.navigationController?.pushViewController(viewController, animated: true)
     }

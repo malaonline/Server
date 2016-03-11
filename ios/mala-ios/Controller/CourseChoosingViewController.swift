@@ -20,6 +20,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     /// 上课地点数据模型
     var schoolArray: [SchoolModel] = [] {
         didSet {
+            MalaCourseChoosingObject.school = schoolArray[0]
             self.tableView.schoolModel = schoolArray
         }
     }
@@ -54,7 +55,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         super.viewDidLoad()
         
         setupUserInterface()
-        loadSchoolsData()
+//        loadSchoolsData()
         loadClassSchedule()
         loadCoupons()
         loadUserEvaluatedStatus()
@@ -228,15 +229,18 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     self?.tableView.selectedIndexPath = self?.selectedSchoolIndexPath
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
+                    
+                    
                     // 当户用选择不同的上课地点时，更新课程表视图,清空所有选课条件
                     if school.schoolModel?.id != MalaCourseChoosingObject.school?.id {
+                        
+                        // 保存用户所选上课地点
+                        MalaCourseChoosingObject.school = school.schoolModel
+                        
                         self?.loadClassSchedule()
                         MalaCourseChoosingObject.reset()
                         (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                     }
-                    
-                    // 保存用户所选上课地点
-                    MalaCourseChoosingObject.school = school.schoolModel
                     
                     // 设置tableView 的数据源和选中项
                     self?.tableView.schoolModel = [school.schoolModel!]
