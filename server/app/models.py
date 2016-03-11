@@ -987,6 +987,19 @@ class Parent(BaseModel):
         ret_user = authenticate(username=username, password=password)
         return ret_user
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            super(CouponRule, self).save(*args, **kwargs)
+
+            couponGenerators = models.CouponGenerator.objects.order_by('-id')
+            couponGenerator = list(couponGenerators) and couponGenerators[0]
+            if couponGenerator and couponGenerator.activated and (couponGenerator.expired_at > timezone.now()):
+                models.Coupon.objects.get_or_create(parent=self, name='新生奖学金', amount=couponGenerator.amount,
+                                mini_course_count=couponGenerator.mini_course_count,validated_start=couponGenerator.validated_start,
+                                expired_at=couponGenerator.expired_at,used=False)
+        else:
+            super(CouponRule, self).save(*args, **kwargs)
+
 
 class CouponRule(BaseModel):
     """
