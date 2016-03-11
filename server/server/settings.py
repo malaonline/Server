@@ -192,6 +192,7 @@ PINGPP_PUB_KEY = open(os.path.join(BASE_DIR, 'server/pingpp.pub'), 'rb').read()
 WEIXIN_APPID = 'wx73ee70d20beb7be7'
 WEIXIN_APP_SECRET = 'hDTY************************G03m'
 WEIXIN_MERCHANT_ID = '1230000109'
+WEIXIN_KEY = 'e10adc3949ba59abbe56e057f20f883e'
 
 JPUSH_APP_KEY = '5d4d4dc079a022deee259fb1'
 JPUSH_MASTER_SECRET = 'ef010e142da0aa8c4be23eaf'

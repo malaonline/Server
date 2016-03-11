@@ -106,7 +106,6 @@ class CourseChoosingView(TemplateView):
                                   'timestamp': now_timestamp,
                                   'url': cur_url})
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
-        kwargs['WX_APP_SECRET'] = settings.WEIXIN_APP_SECRET
         kwargs['WX_NONCE_STR'] = nonce_str
         kwargs['WX_SIGNATURE'] = signature
         return super(CourseChoosingView, self).get_context_data(**kwargs)

@@ -1,7 +1,7 @@
 import logging
 import json
 import requests
-from Crypto.Hash import SHA
+from Crypto.Hash import SHA, MD5
 import xmltodict
 import random
 import string
@@ -51,6 +51,25 @@ def wx_xml2dict(xmlstr):
 def wx_signature(params_obj):
     string = '&'.join(['%s=%s' % (key.lower(), params_obj[key]) for key in sorted(params_obj)])
     return hashlib.sha1(string.encode('utf-8')).hexdigest()
+    # keys = params_obj.keys()
+    # sorted_keys = sorted(keys)
+    # buf = []
+    # for key in sorted_keys:
+    #     buf.append(key+'='+str(params_obj[key]))
+    # content = '&'.join(buf)
+    # return SHA.new(content.encode()).hexdigest().upper()
+
+
+def wx_sign_for_pay(params):
+    keys = params.keys()
+    sorted_keys = sorted(keys)
+    buf = []
+    for key in sorted_keys:
+        buf.append(key+'='+str(params[key]))
+    content = '&'.join(buf)
+    content += '&key=' + settings.WEIXIN_KEY
+    return MD5.new(content.encode()).hexdigest().upper()
+
 
 def wx_get_token():
     wx_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'
@@ -124,7 +143,7 @@ def wx_pay_unified_order(order, request, wx_openid):
     params['openid'] = wx_openid        # trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。
     print(params)
     # 签名
-    params['sign'] = wx_signature(params)
+    params['sign'] = wx_sign_for_pay(params)
 
     req_xml_str = wx_dict2xml(params)
 
@@ -137,7 +156,7 @@ def wx_pay_unified_order(order, request, wx_openid):
             logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=return_code, msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
-        calculated_resp_sign = wx_signature(resp_dict)
+        calculated_resp_sign = wx_sign_for_pay(resp_dict)
         print(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
@@ -196,7 +215,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
     params['nonce_str'] = make_nonce_str()
     print(params)
     # 签名
-    params['sign'] = wx_signature(params)
+    params['sign'] = wx_sign_for_pay(params)
 
     req_xml_str = wx_dict2xml(params)
 
@@ -209,7 +228,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
-        calculated_resp_sign = wx_signature(resp_dict)
+        calculated_resp_sign = wx_sign_for_pay(resp_dict)
         print(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
@@ -241,7 +260,7 @@ def resolve_wx_pay_result_notify(request):
         logger.error(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=return_code, msg=msg))
         return {'ok': False, 'msg': msg, 'code': 1}
     given_resp_sign = req_dict.pop('sign', None)
-    calculated_resp_sign = wx_signature(req_dict)
+    calculated_resp_sign = wx_sign_for_pay(req_dict)
     print(given_resp_sign==calculated_resp_sign)
     result_code = req_dict['result_code']
     if result_code != WX_SUCCESS:
