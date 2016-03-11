@@ -23,7 +23,7 @@ def dfs(apps, root, deep, superset=None, leaf=True):
 
 
 def add_region(apps, schema_editor):
-    if settings.UNITTEST is True:
+    if settings.TESTING:
         data_file = "regions_for_test.json"
     else:
         data_file = "regions.txt"
