@@ -174,16 +174,7 @@ class CourseChoosingView(TemplateView):
             trade_state = query_ret['data']['trade_state']
             if trade_state == WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
-                charge = models.Charge.objects.get(ch_id=prepay_id)
-                charge.paid = True
-                charge.time_paid = timezone.now()
-                # charge.transaction_no = ''
-                charge.save()
-
-                order = charge.order
-                order.status = models.Order.PAID
-                models.Order.objects.allocate_timeslots(order)
-                order.save()
+                set_order_paid(prepay_id=prepay_id)
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == WX_PAYERROR:
@@ -192,6 +183,28 @@ class CourseChoosingView(TemplateView):
                     return {'ok': False, 'msg': '未支付', 'code': 3}
         else:
             return {'ok': False, 'msg': query_ret['msg'], 'code': 1}
+
+
+def set_order_paid(prepay_id=None, order_id=None):
+    # 支付成功, 设置订单支付成功, 并且生成课程安排
+    charge = None
+    if prepay_id:
+        charge = models.Charge.objects.get(ch_id=prepay_id)
+    elif order_id:
+        charge = models.Charge.objects.get(order__order_id=order_id)
+    if charge.paid:
+        return
+    charge.paid = True
+    charge.time_paid = timezone.now()
+    # charge.transaction_no = ''
+    charge.save()
+
+    order = charge.order
+    if order.status == models.Order.PAID:
+        return
+    order.status = models.Order.PAID
+    models.Order.objects.allocate_timeslots(order)
+    order.save()
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -237,8 +250,15 @@ def wx_pay_notify(request):
     """
     接受微信支付结果异步通知view
     """
-    # TODO: 接受微信支付结果
-    pass
+    req_json = resolve_wx_pay_notify(request)
+    if not req_json['ok']:
+        return HttpResponse(wx_dict2xml({'return_code': WX_FAIL, 'return_msg': ''}))
+    data = req_json['data']
+    openid = data['openid']
+    wx_order_id = data['transaction_id']
+    order_id = data['out_trade_no']
+    set_order_paid(order_id=order_id)
+    return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
 
 
 @csrf_exempt

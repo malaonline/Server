@@ -19,12 +19,13 @@ from app.utils import random_string, get_request_ip, get_server_host
 
 __all__ = [
     "make_nonce_str",
+    "wx_dict2xml",
     "wx_signature",
     "wx_get_token",
     "wx_get_jsapi_ticket",
     "wx_pay_unified_order",
     "wx_pay_order_query",
-    "resolve_wx_pay_result_notify",
+    "resolve_wx_pay_notify",
     "WX_SUCCESS",
     "WX_FAIL",
     "WX_PAYERROR",
@@ -252,7 +253,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
         return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
 
 
-def resolve_wx_pay_result_notify(request):
+def resolve_wx_pay_notify(request):
     req_dict = wx_xml2dict(request.body.decode('utf-8'))
     return_code = req_dict['return_code']
     if return_code != WX_SUCCESS:
