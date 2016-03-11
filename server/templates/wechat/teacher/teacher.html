@@ -51,21 +51,21 @@
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
-                userPhotos[userPhotos.length] = "{{ photo.img_url }}";
+                userPhotos[userPhotos.length] = "{{ photo.img_url|safe }}";
             {% endfor %}
         {%endif%}
 
         {%if schools%}
             {%for sc in schools%}
                 {%if sc.img%}
-                    schoolPhotos[schoolPhotos.length] = "{{sc.img}}";
+                    schoolPhotos[schoolPhotos.length] = "{{sc.img|safe}}";
                 {%else%}
                     schoolPhotos[schoolPhotos.length] = "";
                 {%endif%}
             {%endfor%}
         {%endif%}
         function pageload(){
-            $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url}}{%endif%}');
+            $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%}');
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img>');
               nimg.attr('src', userPhotos[i]);
@@ -99,7 +99,6 @@
                         教授年级
                     </div>
                     <div>
-                        <img src="{{teacher.user.profile.avatar_url}}" />
                         {% for grade in grades_tree %}
                             {% for sub_grade in grade.children %}
                                 {% if sub_grade.id in teacher_grade_ids %}{{ sub_grade.name }}{% endif %}
