@@ -3,6 +3,9 @@ import json
 import requests
 from Crypto.Hash import SHA
 import xmltodict
+import random
+import string
+import hashlib
 
 # django modules
 from django.conf import settings
@@ -24,7 +27,7 @@ logger = logging.getLogger('app')
 
 
 def make_nonce_str():
-    return random_string().replace('-','')
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
 
 def wx_dict2xml(d):
     return xmltodict.unparse({'xml': d}, full_document=False)
@@ -33,14 +36,8 @@ def wx_xml2dict(xmlstr):
     return xmltodict.parse(xmlstr)['xml']
 
 def wx_signature(params_obj):
-    keys = params_obj.keys()
-    sorted_keys = sorted(keys)
-    buf = []
-    for key in sorted_keys:
-        buf.append(key+'='+str(params_obj[key]))
-    content = '&'.join(buf)
-    return SHA.new(content.encode()).hexdigest()
-
+    string = '&'.join(['%s=%s' % (key.lower(), params_obj[key]) for key in sorted(params_obj)])
+    return hashlib.sha1(string.encode('utf-8')).hexdigest()
 
 def wx_get_token():
     wx_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential'

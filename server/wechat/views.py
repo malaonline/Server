@@ -3,6 +3,7 @@ import json
 import requests
 import datetime
 import math
+import time
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
@@ -415,13 +416,13 @@ def teacher_view(request):
             _temp = _heap[grade.superset_id]
             _temp['children'].append({'id':grade.id, 'name':grade.name})
 
-    now = timezone.now()
-    now_timestamp = int(now.timestamp())
+    now_timestamp = int(time.time())
 
     nonce_str = make_nonce_str()
     access_token, msg = _get_wx_token()
     jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
     cur_url = request.build_absolute_uri()
+
     signature = wx_signature({'noncestr': nonce_str,
                             'jsapi_ticket': jsapi_ticket,
                             'timestamp': now_timestamp,

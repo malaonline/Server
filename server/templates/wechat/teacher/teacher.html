@@ -24,8 +24,8 @@
             signature: '{{ WX_SIGNATURE }}',// 必填，签名
             jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表
         });
-        wx.error(function(){
-            alert("wx.config错误");
+        wx.error(function(res){
+            alert(res);
         });
         wx.ready(function(res){
             wx.getLocation({
@@ -40,7 +40,8 @@
                     ajaxLoadSchool(res.latitude, res.longitude);
                 },
                 fail: function(res){
-                    alert('wx.getLocation fail');
+                    alert('地理位置错误：');
+                    alert(res);
                 }
             });
         });
