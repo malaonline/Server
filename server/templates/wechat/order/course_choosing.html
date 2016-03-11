@@ -48,7 +48,7 @@
                 <div class="title_row">选择上课地点</div>
                 <div class="weui_cells weui_cells_radio schools-panel">
 {#                    {% for school in schools %}#}
-                        <label class="weui_cell weui_check_label school">
+                        <div class="weui_cell school">
                             <div class="weui_cell_bd weui_cell_primary school-body">
                                 <div class="school-head">
                                     <span class="school-name">{{ schools.0.name }}</span>
@@ -63,31 +63,29 @@
                                 <i class="yes weui_icon_success"></i>
                                 <i class="no weui_icon_circle"></i>
                             </div>
-                        </label>
+                        </div>
 {#                    {% endfor %}#}
                     {% if schools|length > 0 %}
+                        {% for school in schools|sub_list:'1:' %}
+                            <div class="weui_cell school" style="display: none;">
+                                <div class="weui_cell_bd weui_cell_primary school-body">
+                                    <div class="school-head">
+                                        <span class="school-name">{{ school.name }}</span>
+                                        <span class="distance">&lt;XXXm</span>
+                                    </div>
+                                    <div class="address">
+                                        {{ school.address }}
+                                    </div>
+                                </div>
+                                <div class="weui_cell_ft icons-area">
+                                    <input type="radio" class="weui_check" name="school" value="{{ school.id }}">
+                                    <span class="yes weui_icon_success"></span>
+                                    <i class="no weui_icon_circle"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
                         <div class="m-row more-schools-hint" id="showMoreSchoolsBtn">
                             展开查看其它地点<img src="{% static 'wechat/images/down_chevron.png' %}">
-                        </div>
-                        <div class="more-schools" id="moreSchoolsContainer" style="display: none">
-                            {% for school in schools|sub_list:'1:' %}
-                                <label class="weui_cell weui_check_label school">
-                                    <div class="weui_cell_bd weui_cell_primary school-body">
-                                        <div class="school-head">
-                                            <span class="school-name">{{ school.name }}</span>
-                                            <span class="distance">&lt;XXXm</span>
-                                        </div>
-                                        <div class="address">
-                                            {{ school.address }}
-                                        </div>
-                                    </div>
-                                    <div class="weui_cell_ft icons-area">
-                                        <input type="radio" class="weui_check" name="school" value="{{ school.id }}">
-                                        <span class="yes weui_icon_success"></span>
-                                        <i class="no weui_icon_circle"></i>
-                                    </div>
-                                </label>
-                            {% endfor %}
                         </div>
                     {% endif %}
                 </div>

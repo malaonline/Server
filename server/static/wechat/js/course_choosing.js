@@ -59,7 +59,9 @@ $(function(){
 
     $('#showMoreSchoolsBtn').click(function(e){
         $(this).hide();
-        $('#moreSchoolsContainer').show();
+        var $schools = $('.school');
+        $schools.css('display', 'flex');
+        $schools.last().addClass('last');
     });
 
     var _updateCourseTimePreview = function(hours) {
@@ -167,6 +169,21 @@ $(function(){
         });
     };
 
+    var hideOtherSchools = function($school) {
+        var $schools = $('.school');
+        if ($schools.length==1) {
+            return;
+        }
+        $schools.each(function(){
+            var $this = $(this);
+            if (this != $school[0]) {
+                $this.hide();
+            }
+        });
+        $schools.last().removeClass('last');
+        $('#showMoreSchoolsBtn').show();
+    };
+
     $(".school").click(function(e){
         if (!chosen_grade_id) {
             showAlertDialog('请先选择授课年级');
@@ -184,6 +201,7 @@ $(function(){
         });
         chosen_school_id = val;
         renderWeeklyTableBySchool(val);
+        hideOtherSchools($school);
         e.stopPropagation();
     });
 
