@@ -1200,7 +1200,7 @@ class GenerateSMS(View):
 
 class WithdrawalRequest(View):
     # 老师提现检测,里面的检测都通过,就进行转账
-    def is_valid_duration(self):
+    def is_now_allowed_to_withdraw(self):
         now = timezone.now()
         # 如果是周二,就返回True,否则False
         withdraw_weekdays = set(models.WithdrawWeekday.objects.all())
@@ -1210,7 +1210,7 @@ class WithdrawalRequest(View):
         user = request.user
         phone = user.profile.phone
         code = request.POST.get("code", None)
-        if self.is_valid_duration() is True:
+        if self.is_now_allowed_to_withdraw():
             verify_result, verify_code = models.Checkcode.verify(phone, code)
             if verify_result is True:
                 # 验证通过,进行转账操作,注意,这里要重新计算金额,然后转账
