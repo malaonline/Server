@@ -13,7 +13,6 @@
     <script src="{% static 'common/js/underscore.js' %}"></script>
 {% endblock %}
 {% block body %}
-    {% csrf_token %}
     <div class="container">
         <div class="row">
             {% load teacher_page %}
@@ -126,7 +125,10 @@
                 </div>
                 <div class="confirm_row">
                     {% if progress >= 3 %}
-                        <a class="confirm_button" href="{% url 'teacher:first-page' %}">马上体验</a>
+                        <form action="{% url 'teacher:register-progress' %}" method="post">
+                            {% csrf_token %}
+                            <button class="confirm_button" href="{% url 'teacher:first-page' %}">马上体验</button>
+                        </form>
                     {% else %}
                         <button class="confirm_button" disabled="disabled">马上体验</button>
                     {% endif %}

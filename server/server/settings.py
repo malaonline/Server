@@ -246,7 +246,7 @@ PASSWORD_SALT = "abc"
 # 虚假的sms, False表示用真是SMS服务器,True用虚假服务器
 FAKE_SMS_SERVER = True
 # 固定的审核进度
-FIX_TEACHER_STATUS = True
+FIX_TEACHER_STATUS = False
 # 转账限制,True的话就没有周二限制,0元转账限制,False表示有限制
 TEST_WITHDRAW = False
 

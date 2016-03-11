@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.timezone import make_aware, localtime
 from django.utils import timezone
+from django.db.models import Q, Count, Sum
+from django.core.paginator import Paginator
 
 from dateutil import relativedelta
 
@@ -89,7 +91,7 @@ class VerifySmsCode(View):
                     "url": reverse("teacher:complete-information")
                 })
             else:
-                if teacher.status != Teacher.INTERVIEW_OK:
+                if teacher.status != Teacher.INTERVIEW_OK or teacher.status_confirm is False:
                     return JsonResponse({
                         "result": True,
                         "url": reverse("teacher:register-progress")
@@ -216,6 +218,10 @@ class CompleteInformation(View):
             teacher.abilities.add(ability)
             ability.save()
 
+        # 初选淘汰的老师,再次填写资料,就会重新进入面试等待环节
+        if teacher.status == models.Teacher.NOT_CHOSEN:
+            teacher.status = models.Teacher.TO_CHOOSE
+
         teacher.save()
         profile.save()
 
@@ -240,6 +246,17 @@ class RegisterProgress(View):
         context["text_list"] = teacher.build_progress_info()
         context["user_name"] = "{name} 老师".format(name=teacher.name)
         return render(request, "teacher/register_progress.html", context)
+
+    def post(self, request):
+        # 已经确认注册进度
+        try:
+            teacher = models.Teacher.objects.get(user=request.user)
+        except models.Teacher.DoesNotExist:
+            return HttpResponseRedirect(reverse("teacher:first-page"))
+
+        teacher.status_confirm = True
+        teacher.save()
+        return HttpResponseRedirect(reverse("teacher:first-page"))
 
 
 # 设置老师页面的通用上下文
@@ -625,7 +642,7 @@ class MySchoolTimetable(View):
                 # 结束的课程
                 self.class_state = 2
                 # 上完课才做评价检查
-                if time_slot.comment:
+                if time_slot.comment_id and time_slot.comment_id > 0:
                     self.comment_state = 1
             # 获得这个TimeSlot的key
             self.key = time_slot.start.strftime(MySchoolTimetable.CollectTimeSlot.time_formula)
@@ -1037,8 +1054,10 @@ class MyEvaluation(View):
         cres = CommentReply.CommentReplyErrorSession(request)
         if cres.is_error:
             context["comment_reply_error"] = cres.error["reply"][0]
-            # print("comment_reply_error is {error}".format(error=cres.error))
-            # print("comment-reply-error-id is {id}".format(id=cres.id))
+            print("comment_reply_error is {error}".format(error=cres.error))
+            print("comment-reply-error-id is {id}".format(id=cres.id))
+        else:
+            context["comment_reply_error"] = None
         comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)
         if comments_array:
             context["comments"] = comments_array[page_offset - 1]

@@ -327,7 +327,8 @@ class Teacher(BaseModel):
     region = models.ForeignKey(Region, null=True, blank=True,
                                limit_choices_to={'opened': True})
     status = models.IntegerField(default=1, choices=STATUS_CHOICES)
-
+    # 老师审核状态的那个按钮
+    status_confirm = models.BooleanField(default=False)
     graduate_school = models.CharField(max_length=50, blank=True, null=True)
     introduce = models.CharField(max_length=200, blank=True, null=True)
 
