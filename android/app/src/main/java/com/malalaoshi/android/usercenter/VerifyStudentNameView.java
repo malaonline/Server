@@ -18,6 +18,7 @@ import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UserManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +89,7 @@ public class VerifyStudentNameView extends LinearLayout {
                     if (jo.optBoolean(Constants.DONE, false)) {
                         Log.i(TAG, "Set student's name succeed : " + json.toString());
                         MiscUtil.toast(R.string.usercenter_set_student_succeed);
+                        updateStuName(nameEditView.getText().toString());
                         ((SmsAuthActivity) getContext()).setActivityResult(null);
                         ((SmsAuthActivity) getContext()).finish();
                         return;
@@ -108,5 +110,11 @@ public class VerifyStudentNameView extends LinearLayout {
     private void setStudentNameFailed() {
         Log.i(TAG, "Set student's name failed.");
         MiscUtil.toast(R.string.usercenter_set_student_failed);
+    }
+
+    private void updateStuName(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            UserManager.getInstance().setStuName(name);
+        }
     }
 }

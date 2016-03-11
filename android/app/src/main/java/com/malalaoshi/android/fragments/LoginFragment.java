@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.util.UserManager;
 
 import org.json.JSONObject;
 
@@ -84,7 +85,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_login, container, false);
-        String phoneNo = MalaApplication.getInstance().getPhoneNo();
+        String phoneNo = UserManager.getInstance().getPhoneNo();
         if (phoneNo!=null && !phoneNo.isEmpty()) {
             EditText tPhone = (EditText)v.findViewById(R.id.loginPhone);
             tPhone.setText(phoneNo);
@@ -250,9 +251,8 @@ public class LoginFragment extends Fragment {
 
         private void onLoginSuccess(String token, String phoneNo) {
             Toast.makeText(LoginFragment.this.getActivity(), getString(R.string.hint_login_success), Toast.LENGTH_LONG).show();
-            MalaApplication.getInstance().setToken(token);
-            MalaApplication.getInstance().setPhoneNo(phoneNo);
-            MalaApplication.getInstance().setIsLogin(true);
+            UserManager.getInstance().setToken(token);
+            UserManager.getInstance().setPhoneNo(phoneNo);
             FragmentManager fragmentManager = getFragmentManager();
             MainFragment mainFragment = new MainFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();

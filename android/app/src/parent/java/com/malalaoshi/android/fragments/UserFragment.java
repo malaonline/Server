@@ -1,6 +1,8 @@
 package com.malalaoshi.android.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +21,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
@@ -33,15 +32,26 @@ import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.net.okhttp.UploadFile;
 import com.malalaoshi.android.pay.CouponActivity;
-import com.malalaoshi.android.usercenter.SmsAuthActivity;
+import com.malalaoshi.android.result.UserListResult;
 import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
+
+import org.json.JSONObject;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,8 +64,6 @@ public class UserFragment extends Fragment {
 
     public static final int REQUEST_CODE_PICK_IMAGE = 0x03;
     public static final int REQUEST_CODE_CAPTURE_CAMEIA = 0x04;
-
-    private static final String USER_INFO_PATH_V1 = "/api/v1/user";
 
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
@@ -72,15 +80,12 @@ public class UserFragment extends Fragment {
     @Bind(R.id.btn_logout)
     protected Button btnLogout;
 
-    private String userName;
-    private BaseEntity userCity;
-
-
     private String strAvatorLocPath;
-    private RequestQueue requestQueue;
+
     //图片缓存
     private ImageLoader imageLoader;
-    private User mUser;
+
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -93,59 +98,149 @@ public class UserFragment extends Fragment {
     }
 
     private void initDatas() {
-        requestQueue = MalaApplication.getHttpRequestQueue();
         imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+        if (UserManager.getInstance().isLogin()){
             loadDatas();
         }
     }
 
     private void initViews() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);   // 设置进度条的形式为圆形转动的进度条
+        progressDialog.setCancelable(true);                              // 设置是否可以通过点击Back键取消
+        progressDialog.setCanceledOnTouchOutside(false);                 // 设置在点击Dialog外是否取消Dialog进度条
         //先添加缓存数据
         updateUI();
     }
 
     private void updateUI() {
-        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
-            btnLogout.setVisibility(View.VISIBLE);
-            if (mUser!=null){
-                tvUserName.setText("用户姓名");
-                tvStuName.setText("学生姓名");
-                tvUserCity.setText("所在城市");
-                //String string = mUser.getAvatar();
-                //imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));*/
+        updateUserInfoUI();
+        updateUserAvatorUI();
+    }
+
+    public void reloadDatas(){
+        if (UserManager.getInstance().isLogin()){
+            loadDatas();
+        }else{
+            updateUI();
+        }
+    }
+
+    private void loadDatas() {
+        loadUserProfile();
+        loadUserInfo();
+    }
+
+    private void loadUserProfile() {
+        NetworkSender.getUserPolicy(new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                if (json == null) {
+                    //失败
+                    loadProfoleFailed();
+                }
+                try {
+                    Log.i("UserFragment", "UserFragment:" + json.toString());
+                    updateUserProfile(new JSONObject(json.toString()));
+                    updateUserAvatorUI();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //失败
+                    loadProfoleFailed();
+                }
             }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                //失败
+                loadProfoleFailed();
+            }
+        });
+    }
+
+    private void loadProfoleFailed() {
+
+    }
+
+    private void updateUserProfile(JSONObject jsonObject){
+        updateUserAvator(jsonObject.optString(Constants.AVATOR));
+    }
+
+    private void updateUserAvator(String avatorUrl) {
+        if (!TextUtils.isEmpty(avatorUrl)) {
+            UserManager.getInstance().setAvatorUrl(avatorUrl);
+        }
+    }
+
+    private void updateUserAvatorUI() {
+        if (UserManager.getInstance().isLogin()){
+            String string = UserManager.getInstance().getAvatorUrl();
+            if (!TextUtils.isEmpty(string)){
+                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            }
+        }else{
+            //ivAvatar.setImageResource(R.drawable.user_detail_header_bg);
+        }
+
+    }
+
+    private void loadUserInfo() {
+        NetworkSender.getStuInfo(new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                if (json == null) {
+                    //失败
+                    loadInfoFailed();
+                }
+                UserListResult userListResult = JsonUtil.parseStringData(json.toString(), UserListResult.class);
+                if (userListResult != null && userListResult.getResults() != null && userListResult.getResults().get(0) != null) {
+                    Log.i("UserFragment", "UserFragment:" + json.toString());
+                    updateUserInfo(userListResult.getResults().get(0));
+                    updateUserInfoUI();
+                }
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                loadInfoFailed();
+            }
+        });
+    }
+
+    private void loadInfoFailed() {
+        MiscUtil.toast(R.string.load_user_info_failed);
+    }
+
+    private void updateUserInfo(User user) {
+        updateStuName(user.getStudent_name());
+        updateSchool(user.getStudent_school_name());
+    }
+
+    private void updateSchool(String school) {
+        if (!TextUtils.isEmpty(school)) {
+            UserManager.getInstance().setSchool(school);
+        }
+    }
+
+    private void updateStuName(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            UserManager.getInstance().setStuName(name);
+        }
+    }
+
+    private void updateUserInfoUI() {
+        if (UserManager.getInstance().isLogin()){
+            tvUserName.setText(UserManager.getInstance().getStuName());
+            tvStuName.setText(UserManager.getInstance().getStuName());
+            tvUserCity.setText(UserManager.getInstance().getCity());
+            btnLogout.setVisibility(View.VISIBLE);
         }else{
             tvUserName.setText("点击登录");
             tvStuName.setText("");
             tvUserCity.setText("");
             btnLogout.setVisibility(View.GONE);
         }
-    }
 
-    private void loadDatas() {
-        String url = MalaApplication.getInstance().getMalaHost() + USER_INFO_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                User user = JsonUtil.parseStringData(response, User.class);
-                if (user == null) {
-                    Log.e(LoginFragment.class.getName(), "school list request failed!");
-                    return;
-                }
-                mUser = user;
-                updateUI();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-            }
-        });
-        jstringRequest.setTag(USER_INFO_PATH_V1);
-        requestQueue.add(jstringRequest);
     }
 
     @OnClick(R.id.iv_user_avatar)
@@ -181,21 +276,34 @@ public class UserFragment extends Fragment {
 
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
-            File dir = new File(outFilePath);
-            if (!dir.exists()) {
-                dir.mkdirs();
+            try{
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
+                File dir = new File(Environment.getExternalStorageDirectory(),"malaonline");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                String timeStamp = format.format(new Date());
+                String imageFileName = timeStamp + ".jpg";
+
+                File image = new File(dir, imageFileName);
+                strAvatorLocPath = image.getAbsolutePath();
+
+                //strAvatorLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+                //intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
+            }catch (ActivityNotFoundException e) {
+               Toast.makeText(getContext(), "没有找到储存目录",Toast.LENGTH_LONG).show();
             }
-            strAvatorLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(strAvatorLocPath)));
-            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-            startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
+
         }
         else {
             Toast.makeText(getContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
         }
     }
+
 
     //从相册获取照片
     private void getPhotoFromGallay(){
@@ -208,11 +316,8 @@ public class UserFragment extends Fragment {
     @OnClick(R.id.rl_user_name)
     public void OnClickUserName(View view){
         if (checkLogin()==false) return;
-        if (userName==null){
-            userName = "欧阳娜娜";
-        }
         Intent intent = new Intent(getActivity(), ModifyUserNameActivity.class);
-        intent.putExtra(ModifyUserNameActivity.EXTRA_USER_NAME, userName);
+        intent.putExtra(ModifyUserNameActivity.EXTRA_USER_NAME, UserManager.getInstance().getStuName());
         startActivityForResult(intent, ModifyUserNameActivity.RESULT_CODE_NAME);
 
     }
@@ -221,8 +326,8 @@ public class UserFragment extends Fragment {
     public void OnClickUserSchool(View view){
         if (checkLogin()==false) return;
         Intent intent = new Intent(getActivity(), ModifyUserSchoolActivity.class);
-        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_GRADE,"高三");
-        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_SCHOOL, "洛阳中学");
+        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_GRADE,UserManager.getInstance().getGradeId());
+        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_SCHOOL, UserManager.getInstance().getSchool());
         startActivity(intent);
     }
 
@@ -238,10 +343,10 @@ public class UserFragment extends Fragment {
             @Override
             public void onOkClick(View view, BaseEntity entity) {
                 if (entity != null) {
-                    if (userCity == null || userCity.getId() != entity.getId()) {
+                    /*if (userCity == null || userCity.getId() != entity.getId()) {
                         userCity = entity;
                         tvUserCity.setText(userCity.getName() != null ? userCity.getName() : "");
-                    }
+                    }*/
                 }
 
             }
@@ -278,9 +383,8 @@ public class UserFragment extends Fragment {
     @OnClick(R.id.btn_logout)
     public void OnClickLogout(View view){
         //清除本地登录信息
-        MalaApplication.getInstance().logout();
+        UserManager.getInstance().logout();
         //清除数据
-        mUser = null;
         //跟新UI
         updateUI();
         //跳转到登录页面
@@ -291,9 +395,10 @@ public class UserFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==ModifyUserNameActivity.RESULT_CODE_NAME){
-            userName = data.getStringExtra(ModifyUserNameActivity.EXTRA_USER_NAME);
-            tvStuName.setText(userName);
-            tvUserName.setText(userName);
+            //String userName = data.getStringExtra(ModifyUserNameActivity.EXTRA_USER_NAME);
+            //tvStuName.setText(userName);
+            //tvUserName.setText(userName);
+            updateUI();
         }
         if (resultCode == Activity.RESULT_OK){
             switch (requestCode){
@@ -320,15 +425,44 @@ public class UserFragment extends Fragment {
     private void postUserAvator(String path) {
         if (path!=null&&!path.isEmpty())
         {
+
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
             Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2*width, 2*height, ImageCache.getInstance(MalaApplication.getInstance()));
             ivAvatar.setImageBitmap(bitmap);
+            strAvatorLocPath = path;
+            uploadFile();
+            //
         }
     }
 
+    private void uploadFile() {
+        progressDialog.setMessage("正在上传头像...");
+        progressDialog.show();
+        NetworkSender.setUserAvator(strAvatorLocPath, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void setAvatorSucceeded() {
+        progressDialog.dismiss();
+    }
+
+    private void setAvatorFailed() {
+        progressDialog.dismiss();
+    }
+
+
     private boolean checkLogin(){
-        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+        if (UserManager.getInstance().isLogin()){
             return true;
         }else{
             AuthUtils.redirectLoginActivity(getContext());

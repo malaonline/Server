@@ -11,6 +11,7 @@ import cn.jpush.android.api.JPushInterface;
  * Created by zl on 15/11/30.
  */
 public class BaseActivity extends AppCompatActivity {
+    public static String TAG = BaseActivity.class.getName();
     @Override
     protected void onResume() {
         StatManager.getInstance().onResume(this);

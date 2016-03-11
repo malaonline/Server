@@ -12,25 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
+
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Cource;
-import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.DatePickerController;
-import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.calendar.DayPickerView;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
 
@@ -38,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kang on 16/1/28.
@@ -133,7 +126,7 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
     //加载数据
     public void loadDatas(){
-        String token = MalaApplication.getInstance().getToken();
+        String token = UserManager.getInstance().getToken();
         if (token==null||token.isEmpty()){
             return;
         }

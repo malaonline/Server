@@ -49,6 +49,7 @@ import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.ThemeUtils;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.util.Number;
@@ -635,7 +636,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void signUp() {
         //判断是否登录
-        if (MalaApplication.getInstance().getToken() != null && !MalaApplication.getInstance().getToken().isEmpty()) {
+        if (UserManager.getInstance().isLogin()){
             //跳转至报名页
             startCourseConfirmActivity();
         } else {

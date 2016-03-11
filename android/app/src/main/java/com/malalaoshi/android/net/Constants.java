@@ -21,9 +21,13 @@ public final class Constants {
     public static final String JSON = "application/json ;utf-8";
     public static final String DONE = "done";
     public static final String PARENT_ID = "parent_id";
+    public static final String PROFILE_ID = "profile_id";
     public static final String REGION = "region";
     public static final String TIMESLOT = "timeslot";
     public static final String SCORE = "score";
     public static final String CONTENT = "content";
     public static final String SCHOOL_ID = "school_id";
+    public static final String AVATOR = "avatar";
+    public static final String STUD_NAME = "student_name";
+    public static final String SCHOOL_NAME = "student_school_name";
 }

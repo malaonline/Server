@@ -7,15 +7,8 @@ import java.util.Date;
  */
 public class User {
     private Long id;
-    private String username;
-
-    public Date getDate_joined() {
-        return date_joined;
-    }
-
-    public void setDate_joined(Date date_joined) {
-        this.date_joined = date_joined;
-    }
+    private String student_name;
+    private String student_school_name;
 
     public Long getId() {
         return id;
@@ -25,22 +18,19 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getStudent_name() {
+        return student_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStudent_school_name() {
+        return student_school_name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStudent_school_name(String student_school_name) {
+        this.student_school_name = student_school_name;
     }
-
-    private String email;
-    private Date date_joined;
 }

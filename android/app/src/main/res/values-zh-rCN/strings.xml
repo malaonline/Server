@@ -90,7 +90,18 @@
 
     <string name="comment_succeed">评价成功!</string>
     <string name="comment_failed">评价失败!</string>
+    <string name="load_user_info_failed">用户信息下载失败!</string>
+    <string name="usercenter_student_empty">用户姓名不能为空!</string>
+    <string name="usercenter_set_school_failed">学校设置失败!</string>
+    <string name="usercenter_set_school_succeed">学校设置成功!</string>
+    <string name="usercenter_school_empty">学校不能为空!</string>
+
     <string name="app_version">版本 V1.0</string>
     <string name="app_company">COPYRIGHT&#169;2014-2016\n北京麻辣在线科技有限公司版权所有</string>
+<<<<<<< af2ee1600f8788958399ab4a48740c778a745e7e
     <string name="app_protocol">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师(MALALAOSHI.COM)成立于2015年6月，由众多资深教育人士和互联网顶尖人才组成，是专注于国内二三四线城市中小学K12课外辅导的O2O服务平台，以效果、费用、便捷为切入口，实现个性化教学和学生的个性发展，推动二三四线城市及偏进地区教育进步。\n\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师通过O2O的方式，以高效和精准的老师推荐，让中小学家长更加方便和经济地找到好老师，提升老师的收入，优化教、学、练、测、评五大环节, 提升教学与学习效率、创新服务模式,带给家长、老师及学生全新的学习体验。</string>
+=======
+    <string name="app_protocol">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师(MALALAOSHI.COM)成立于2015年6月，由众多资深教育人士和互联网顶尖人才组成，是专注于国内二三四线城市中小学K12课外辅导的O2O服务平台，以效果、费用、便捷为切入口，实现个性化教学和学生的个性发展，推劢二三四线城市及偏进地区教育进步。\n\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师通过O2O的方式，以高效和精准的老师推荐，让中小学家长更加方便和经济地找到好老师，提升老师的收入，优化教、学、练、测、评亐大环节, 提升教学与学习效率、创新服务模式,带给家长、老师及学生全新的学习体验。</string>
+
+>>>>>>> AN-138 1、create user manager object to manage the user information; 2、Get user information from the network；2、set user name,school;
 </resources>

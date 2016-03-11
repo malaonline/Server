@@ -3,14 +3,26 @@ package com.malalaoshi.android.activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.TitleBarView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,6 +33,7 @@ import butterknife.OnClick;
  */
 public class ModifyUserNameActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
+    public static String TAG = "ModifyUserNameActivity";
     public static int RESULT_CODE_NAME = 0x001;
     public static String EXTRA_USER_NAME = "username";
 
@@ -65,11 +78,53 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
 
     private void postModifyUserName() {
         userName = etUserName.getText().toString();
-        if (true){
-            setActivityResult();
-            finish();
-        }else{
-            Toast.makeText(this,"修改姓名失败!",Toast.LENGTH_SHORT);
+        if (TextUtils.isEmpty(userName)){
+            MiscUtil.toast(R.string.usercenter_student_empty);
+            return;
+        }
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Constants.STUDENT_NAME, userName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        NetworkSender.saveChildName(json, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    JSONObject jo = new JSONObject(json.toString());
+                    if (jo.optBoolean(Constants.DONE, false)) {
+                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        MiscUtil.toast(R.string.usercenter_set_student_succeed);
+                        updateStuName(userName);
+                        setActivityResult();
+                        finish();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setStudentNameFailed();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                setStudentNameFailed();
+            }
+        });
+    }
+
+    private void setStudentNameFailed() {
+        Log.i(TAG, "Set student's name failed.");
+        MiscUtil.toast(R.string.usercenter_set_student_failed);
+    }
+
+    private void updateStuName(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            UserManager.getInstance().setStuName(name);
         }
     }
 

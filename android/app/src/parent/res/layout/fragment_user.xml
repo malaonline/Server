@@ -66,7 +66,7 @@
                 android:text="欧阳娜娜" />
         </RelativeLayout>
 
-               <TextView
+               <View
             style="@style/mala.widget.item.line"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp" />
@@ -88,12 +88,14 @@
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_more_info" />
         </RelativeLayout>
-        <TextView
+        <View
+            android:visibility="gone"
             style="@style/mala.widget.item.line"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_user_city"
             style="@style/mala.widget.user.item">
             <TextView
@@ -112,7 +114,7 @@
                 android:layout_marginRight="16dp"
                 android:text="洛阳/其它" />
         </RelativeLayout>
-        <TextView
+        <View
             style="@style/mala.widget.item.line"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp" />

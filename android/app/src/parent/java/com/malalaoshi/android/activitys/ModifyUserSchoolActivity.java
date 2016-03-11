@@ -2,16 +2,27 @@ package com.malalaoshi.android.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.Grade;
+import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.TitleBarView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -74,11 +85,11 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
             @Override
             public void onOkClick(View view, BaseEntity entity) {
                 if (entity != null) {
-                    if (userGrade==null||userGrade.getId()!=entity.getId()){
-                        if (userGrade==null) userGrade = new Grade();
+                    if (userGrade == null || userGrade.getId() != entity.getId()) {
+                        if (userGrade == null) userGrade = new Grade();
                         userGrade.setId(entity.getId());
                         userGrade.setName(entity.getName());
-                        tvUserGrade.setText(userGrade.getName()!=null?userGrade.getName():"");
+                        tvUserGrade.setText(userGrade.getName() != null ? userGrade.getName() : "");
                     }
                 }
             }
@@ -156,12 +167,52 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
 
     private void postModifySchool() {
         userSchool = tvUserSchool.getText().toString();
-        //异步处理
-        if (true){
-            setActivityResult();
-            finish();
-        }else{
-            Toast.makeText(this,"学校信息修改失败!",Toast.LENGTH_SHORT);
+        if (TextUtils.isEmpty(userSchool)){
+            MiscUtil.toast(R.string.usercenter_school_empty);
+            return;
+        }
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Constants.SCHOOL_NAME, userSchool);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        NetworkSender.saveChildSchool(json, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    JSONObject jo = new JSONObject(json.toString());
+                    if (jo.optBoolean(Constants.DONE, false)) {
+                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        MiscUtil.toast(R.string.usercenter_set_school_succeed);
+                        updateStuSchool(userSchool);
+                        setActivityResult();
+                        finish();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setStudentNameFailed();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                setStudentNameFailed();
+            }
+        });
+    }
+
+    private void setStudentNameFailed() {
+        MiscUtil.toast(R.string.usercenter_set_school_failed);
+    }
+
+    private void updateStuSchool(String name) {
+        if (!TextUtils.isEmpty(name)) {
+            UserManager.getInstance().setSchool(name);
         }
     }
 

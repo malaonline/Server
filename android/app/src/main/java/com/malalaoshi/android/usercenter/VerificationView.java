@@ -25,6 +25,7 @@ import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.MaClickableSpan;
 
 import org.json.JSONObject;
@@ -269,6 +270,7 @@ public class VerificationView extends RelativeLayout implements MaClickableSpan.
         }
         updateLoginToken(json.optString(Constants.TOKEN));
         updateParentId(json.optString(Constants.PARENT_ID));
+        updateProfileId(json.optString(Constants.PROFILE_ID));
         if (json.optBoolean(Constants.FIRST_LOGIN, false)) {
             if (controller != null) {
                 controller.onChangeView(this, false, VerifyStudentNameView.class);
@@ -279,15 +281,21 @@ public class VerificationView extends RelativeLayout implements MaClickableSpan.
         }
     }
 
+    private void updateProfileId(String profileId) {
+        if (!TextUtils.isEmpty(profileId)) {
+            UserManager.getInstance().setProfileId(profileId);
+        }
+    }
+
     private void updateParentId(String parentId) {
         if (!TextUtils.isEmpty(parentId)) {
-            MalaApplication.getInstance().setParentId(parentId);
+            UserManager.getInstance().setParentId(parentId);
         }
     }
 
     private void updateLoginToken(String token) {
         if (!TextUtils.isEmpty(token)) {
-            MalaApplication.getInstance().setToken(token);
+            UserManager.getInstance().setToken(token);
         }
     }
 }
