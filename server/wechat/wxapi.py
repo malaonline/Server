@@ -1,7 +1,6 @@
 import logging
 import json
 import requests
-from Crypto.Hash import SHA, MD5
 import xmltodict
 import random
 import string
@@ -52,24 +51,12 @@ def wx_xml2dict(xmlstr):
 def wx_signature(params_obj):
     string = '&'.join(['%s=%s' % (key.lower(), params_obj[key]) for key in sorted(params_obj)])
     return hashlib.sha1(string.encode('utf-8')).hexdigest()
-    # keys = params_obj.keys()
-    # sorted_keys = sorted(keys)
-    # buf = []
-    # for key in sorted_keys:
-    #     buf.append(key+'='+str(params_obj[key]))
-    # content = '&'.join(buf)
-    # return SHA.new(content.encode()).hexdigest().upper()
 
 
 def wx_sign_for_pay(params):
-    keys = params.keys()
-    sorted_keys = sorted(keys)
-    buf = []
-    for key in sorted_keys:
-        buf.append(key+'='+str(params[key]))
-    content = '&'.join(buf)
+    content = '&'.join(['%s=%s' % (key, params[key]) for key in sorted(params)])
     content += '&key=' + settings.WEIXIN_KEY
-    return MD5.new(content.encode()).hexdigest().upper()
+    return hashlib.md5(content.encode('utf-8')).hexdigest().upper()
 
 
 def wx_get_token():

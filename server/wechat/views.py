@@ -22,6 +22,8 @@ from app import models
 from app.utils.types import parseInt
 from .wxapi import *
 
+logger = logging.getLogger('app')
+
 # Create your views here.
 
 
@@ -120,10 +122,12 @@ class CourseChoosingView(View):
         access_token, msg = _get_wx_token()
         jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
         cur_url = self.request.build_absolute_uri()
-        signature = wx_signature({'noncestr': nonce_str,
-                                  'jsapi_ticket': jsapi_ticket,
-                                  'timestamp': now_timestamp,
-                                  'url': cur_url})
+        data = {'noncestr': nonce_str,
+                'jsapi_ticket': jsapi_ticket,
+                'timestamp': now_timestamp,
+                'url': cur_url}
+        logger.debug(data)
+        signature = wx_signature(data)
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
         kwargs['WX_NONCE_STR'] = nonce_str
         kwargs['WX_SIGNATURE'] = signature
