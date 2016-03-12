@@ -874,7 +874,20 @@ class TeacherActionView(BaseStaffActionView):
             teacher = models.Teacher.objects.get(id=tid)
             teacher.published = (flag == 'true')
             teacher.save()
-            # TODO: send notice (sms) to teacher
+            # send notice (sms) to teacher
+            profile = models.Profile.objects.get(user=teacher.user)
+            phone = profile.phone
+            if phone:
+                sms_msg = None
+                if flag:
+                    sms_msg = '【麻辣老师】恭喜您，已成为麻辣老师, 童鞋们可以在网上预订您的课程了。'
+                else:
+                    sms_msg = '【麻辣老师】您的教师信息暂时下架, 如有疑问请联系客服人员。'
+                if sms_msg:
+                    sms_ok = _try_send_sms(phone, sms_msg, 3)
+                    if not sms_ok:
+                        ret_msg = '修改['+teacher.name+']老师状态成功, 但是短信通知失败, 请自行通知.'
+                        return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
             msg = self.NO_TEACHER_FORMAT.format(id=tid)
@@ -1040,7 +1053,7 @@ class TeacherActionView(BaseStaffActionView):
                 if msg:
                     sms_ok = _try_send_sms(phone, msg, 3)
                     if not sms_ok:
-                        return JsonResponse({'ok': True, 'msg': '修改成功, 但是短信通知失败, 请自行通知.', 'code': 3})
+                        return JsonResponse({'ok': True, 'msg': '修改['+teacher.name+']老师状态成功, 但是短信通知失败, 请自行通知.', 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
             msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
