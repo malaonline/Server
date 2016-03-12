@@ -1,7 +1,9 @@
 import logging
 import datetime
+import json
 
 # django modules
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
@@ -13,8 +15,6 @@ from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
-
-import json
 
 # local modules
 from app import models
@@ -94,6 +94,8 @@ def _try_send_sms(phone, msg, times=1):
     尝试发送短信
     :return: True or False
     """
+    if settings.FAKE_SMS_SERVER:
+        return True
     ok = False
     while (not ok and times > 0):
         try:
