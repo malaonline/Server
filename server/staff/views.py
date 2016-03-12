@@ -829,7 +829,7 @@ class TeacherWithdrawalView(BaseStaffView):
             with transaction.atomic():
                 withdrawal = models.Withdrawal.objects.get(id=wid)
                 account = withdrawal.account
-                balance = account.calculated_balance
+                balance = account.implicit_balance
                 if balance < withdrawal.amount:
                     JsonResponse({'ok': False, 'msg': '余额不足', 'code': -1})
                 ah = models.AccountHistory(account=account, submit_time=timezone.now(), done=True)

@@ -810,15 +810,24 @@ class Account(BaseModel):
     balance = models.PositiveIntegerField(default=0)
 
     @property
-    def calculated_balance(self):
-        # 可计算余额
+    def implicit_balance(self):
+        # 隐含的余额
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
-        sum = ret['amount__sum'] or 0
+        return ret['amount__sum'] or 0
+
+    @property
+    def calculated_balance(self):
+        # 可用余额, 减去提现申请中的部分
+        sum = self.implicit_balance
+        sum -= self.withdrawing_amount
+        return max(sum, 0)
+
+    @property
+    def withdrawing_amount(self):
         wding = Withdrawal.objects.filter(account=self, status=Withdrawal.PENDING).aggregate(models.Sum('amount'))
-        wding_sum = wding['amount__sum'] or 0
-        return max(sum-wding_sum, 0)
+        return wding['amount__sum'] or 0
 
     @property
     def withdrawable_amount(self):
@@ -835,9 +844,8 @@ class Account(BaseModel):
                             models.Q(submit_time__gte=end_day) & models.Q(
                                 amount__lt=0))).aggregate(models.Sum('amount'))
         sum = ret['amount__sum'] or 0
-        wding = Withdrawal.objects.filter(account=self, status=Withdrawal.PENDING).aggregate(models.Sum('amount'))
-        wding_sum = wding['amount__sum'] or 0
-        return max(sum-wding_sum, 0)
+        sum -= self.withdrawing_amount
+        return max(sum, 0)
 
     @property
     def accumulated_income(self):
