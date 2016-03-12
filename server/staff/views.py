@@ -94,6 +94,10 @@ def _try_send_sms(phone, msg, times=1):
     尝试发送短信
     :return: True or False
     """
+    if not phone:
+        return False
+    if not msg:
+        return True
     if settings.FAKE_SMS_SERVER:
         return True
     ok = False
@@ -446,6 +450,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 highscore.save()
             ### 认证
             # 身份认证
+            oldCertIdVerify = certIdHeld.verified
             if certIdHeldOk and certIdHeldOk=='True':
                 certIdHeld.verified = True
             else:
@@ -476,6 +481,14 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 certIdHeld.verified = False
             certIdFront.save()
             certIdHeld.save()
+            if oldCertIdVerify != certIdHeld.verified:
+                # send notice (sms) to teacher, when verified value is changed
+                if profile.phone:
+                    if certIdHeld.verified:
+                        sms_msg = '【麻辣老师】恭喜您，您的身份认证已通过。'
+                    else:
+                        sms_msg = '【麻辣老师】您的身份认证失败, 如有疑问请联系客服人员。'
+                    _try_send_sms(profile.phone, sms_msg, 2)  # 忽略发送结果
             # 学历, 教师资格证,英语水平
             self.postSaveCert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
             self.postSaveCert(request, teacher, models.Certificate.TEACHING, 'Teaching')
@@ -877,16 +890,14 @@ class TeacherActionView(BaseStaffActionView):
             # send notice (sms) to teacher
             phone = teacher.user.profile.phone
             if phone:
-                sms_msg = None
                 if flag:
                     sms_msg = '【麻辣老师】恭喜您，已成为麻辣老师, 童鞋们可以在网上预订您的课程了。'
                 else:
                     sms_msg = '【麻辣老师】您的教师信息暂时下架, 如有疑问请联系客服人员。'
-                if sms_msg:
-                    sms_ok = _try_send_sms(phone, sms_msg, 3)
-                    if not sms_ok:
-                        ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
-                        return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
+                sms_ok = _try_send_sms(phone, sms_msg, 3)
+                if not sms_ok:
+                    ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
+                    return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
             msg = self.NO_TEACHER_FORMAT.format(id=tid)
