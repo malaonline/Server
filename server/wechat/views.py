@@ -118,20 +118,30 @@ class CourseChoosingView(View):
                                         ).order_by('-amount', 'expired_at')
         kwargs['coupons'] = coupons
 
+        kwargs['WX_APPID'] = settings.WEIXIN_APPID
+        return render(request, self.template_name, kwargs)
+
+    def jssdk_sign(self, request):
+        url = request.POST.get('url')
+        if not url:
+            return JsonResponse({'ok': False})
+        now = timezone.now()
+        now_timestamp = int(now.timestamp())
         nonce_str = make_nonce_str()
         access_token, msg = _get_wx_token()
         jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
-        cur_url = self.request.build_absolute_uri()
         data = {'noncestr': nonce_str,
                 'jsapi_ticket': jsapi_ticket,
                 'timestamp': now_timestamp,
-                'url': cur_url}
+                'url': url}
         logger.debug(data)
         signature = wx_signature(data)
-        kwargs['WX_APPID'] = settings.WEIXIN_APPID
-        kwargs['WX_NONCE_STR'] = nonce_str
-        kwargs['WX_SIGNATURE'] = signature
-        return render(request, self.template_name, kwargs)
+        ret_data = {
+            'noncestr': nonce_str,
+            'timestamp': now_timestamp,
+            'signature': signature
+        }
+        return JsonResponse({'ok':True, 'data':ret_data})
 
     def post(self, request, teacher_id=None):
         action = request.POST.get('action')
@@ -139,6 +149,8 @@ class CourseChoosingView(View):
             return self.confirm_order(request, teacher_id)
         if action == 'verify':
             return self.verify_order(request)
+        if action == 'getjssign':
+            return self.jssdk_sign(request)
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request, teacher_id):
