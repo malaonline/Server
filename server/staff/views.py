@@ -483,12 +483,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
             certIdHeld.save()
             if oldCertIdVerify != certIdHeld.verified:
                 # send notice (sms) to teacher, when verified value is changed
-                if profile.phone:
-                    if certIdHeld.verified:
-                        sms_msg = '【麻辣老师】恭喜您，您的身份认证已通过。'
-                    else:
-                        sms_msg = '【麻辣老师】您的身份认证失败, 如有疑问请联系客服人员。'
-                    _try_send_sms(profile.phone, sms_msg, 2)  # 忽略发送结果
+                self._send_cert_sms_notify('身份认证', certIdHeld.verified, profile.phone)
             # 学历, 教师资格证,英语水平
             self.postSaveCert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
             self.postSaveCert(request, teacher, models.Certificate.TEACHING, 'Teaching')
@@ -506,6 +501,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 if request.FILES:
                     certImg = request.FILES.get(certId+'certImg')
                 cert = models.Certificate.objects.get(id=certId)
+                oldCertVerify = cert.verified
                 cert.name = name
                 if certOk and certOk=='True':
                     cert.verified = True
@@ -515,6 +511,9 @@ class TeacherUnpublishedEditView(BaseStaffView):
                     _img_content = ContentFile(certImg.read())
                     cert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 cert.save()
+                if oldCertVerify != cert.verified:
+                    # send notice (sms) to teacher, when verified value is changed
+                    self._send_cert_sms_notify('其他证书"'+cert.name+'"', cert.verified, profile.phone)
             for certId in newCertOtherIds:
                 name = request.POST.get(certId+'certName')
                 certOk = request.POST.get(certId+'certOk')
@@ -529,7 +528,9 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 _img_content = ContentFile(certImg.read())
                 newCert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 newCert.save()
-            # TODO: 资质认证修改后, 发邮件或短信通知
+                if newCert.verified:
+                    # send notice (sms) to teacher, when verified value is changed
+                    self._send_cert_sms_notify('其他证书"'+newCert.name+'"', newCert.verified, profile.phone)
             # 介绍语音, 介绍视频
             introAudio = None
             if request.FILES:
@@ -586,6 +587,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
         if not cert:
             cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=type_code,
                                                                      defaults={'name':"",'verified':False})
+        oldCertVerify = cert.verified
         certOk = request.POST.get('cert'+type_str+'Ok')
         if certOk and certOk=='True':
             cert.verified = True
@@ -603,7 +605,18 @@ class TeacherUnpublishedEditView(BaseStaffView):
         if not cert.img:
             cert.verified = False
         cert.save()
+        cert_name = cert.get_type_display()
+        if oldCertVerify != cert.verified:
+            # send notice (sms) to teacher, when verified value is changed
+            self._send_cert_sms_notify(cert_name, cert.verified, teacher.user.profile.phone)
 
+    def _send_cert_sms_notify(self, cert_name, new_status, phone):
+        if phone:
+            if new_status:
+                sms_msg = '【麻辣老师】恭喜您，您的'+cert_name+'已通过认证。'
+            else:
+                sms_msg = '【麻辣老师】您的'+cert_name+'认证失败, 如有疑问请联系客服人员。'
+            _try_send_sms(phone, sms_msg, 2)  # 忽略发送结果
 
 class TeacherBankcardView(BaseStaffView):
     template_name = 'staff/teacher/teacher_bankcard_list.html'
