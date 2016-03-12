@@ -119,29 +119,8 @@ class CourseChoosingView(View):
         kwargs['coupons'] = coupons
 
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
+        kwargs['helper_api'] = reverse('wechat:helper')
         return render(request, self.template_name, kwargs)
-
-    def jssdk_sign(self, request):
-        url = request.POST.get('url')
-        if not url:
-            return JsonResponse({'ok': False})
-        now = timezone.now()
-        now_timestamp = int(now.timestamp())
-        nonce_str = make_nonce_str()
-        access_token, msg = _get_wx_token()
-        jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
-        data = {'noncestr': nonce_str,
-                'jsapi_ticket': jsapi_ticket,
-                'timestamp': now_timestamp,
-                'url': url}
-        logger.debug(data)
-        signature = wx_signature(data)
-        ret_data = {
-            'noncestr': nonce_str,
-            'timestamp': now_timestamp,
-            'signature': signature
-        }
-        return JsonResponse({'ok':True, 'data':ret_data})
 
     def post(self, request, teacher_id=None):
         action = request.POST.get('action')
@@ -149,8 +128,6 @@ class CourseChoosingView(View):
             return self.confirm_order(request, teacher_id)
         if action == 'verify':
             return self.verify_order(request)
-        if action == 'getjssign':
-            return self.jssdk_sign(request)
         if action == 'schools_dist':
             return self.schools_distance(request, teacher_id)
         return HttpResponse("Not supported request.", status=403)
@@ -245,6 +222,34 @@ class CourseChoosingView(View):
             dis = calculateDistance(p, sp)
             distances.append({'id': school.id, 'far': dis})
         return JsonResponse({'ok': True, 'list': distances})
+
+
+def _jssdk_sign(url):
+    now = timezone.now()
+    now_timestamp = int(now.timestamp())
+    nonce_str = make_nonce_str()
+    access_token, msg = _get_wx_token()
+    jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
+    data = {'noncestr': nonce_str,
+            'jsapi_ticket': jsapi_ticket,
+            'timestamp': now_timestamp,
+            'url': url}
+    logger.debug(data)
+    signature = wx_signature(data)
+    return {'noncestr': nonce_str,
+            'timestamp': now_timestamp,
+            'signature': signature}
+
+@csrf_exempt
+def helper_view(request):
+    action = request.GET.get('action')
+    if action == 'getjssign':
+        url = request.GET.get('url')
+        if not url:
+            return JsonResponse({'ok': False})
+        ret_data = _jssdk_sign(url)
+        return JsonResponse({'ok':True, 'data':ret_data})
+    return HttpResponse(status=400)
 
 
 def set_order_paid(prepay_id=None, order_id=None):
