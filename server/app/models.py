@@ -1838,4 +1838,4 @@ class Config(BaseModel):
     withdraw_weekday = models.PositiveIntegerField(default=2)
 
     def __str__(self):
-        return self.withdraw_weekday
+        return 'withdraw on weekday %s' % self.withdraw_weekday
