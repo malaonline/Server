@@ -1111,11 +1111,11 @@ class OrderManager(models.Manager):
         date += datetime.timedelta(minutes=1)
 
         cur_min = self._weekly_date_to_minutes(date)
-        weekly_time_slots.sort(
+        wtss = sorted(weekly_time_slots,
                 key=lambda x: self._delta_minutes(x, cur_min))
 
         occupied_dict = {}
-        for wts in weekly_time_slots:
+        for wts in wtss:
             occupied_dict[(wts.weekday, wts.start)] = set()
 
         occupied = TimeSlot.objects.filter(
@@ -1127,12 +1127,12 @@ class OrderManager(models.Manager):
             if key in occupied_dict:
                 occupied_dict[key].add((occ.start, occ.end))
 
-        n = len(weekly_time_slots)
+        n = len(wtss)
         h = hours
         i = 0
         ans = []
         while h > 0:
-            weekly_ts = weekly_time_slots[i % n]
+            weekly_ts = wtss[i % n]
             start = date + datetime.timedelta(
                     minutes=self._delta_minutes(weekly_ts, cur_min)
                     ) + datetime.timedelta(days=7 * (i // n))
