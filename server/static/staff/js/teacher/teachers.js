@@ -50,6 +50,9 @@ $(function(){
         $.post( "/staff/teachers/action/", params, function( result ) {
             if (result) {
                 if (result.ok) {
+                    if (result.code != 0) {
+                        alert(result.msg);
+                    }
                     updateRowByStatus($row, newStatus);
                 } else {
                     alert(result.msg);

@@ -89,6 +89,22 @@ class BaseStaffActionView(View):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
 
+def _try_send_sms(phone, msg, times=1):
+    """
+    尝试发送短信
+    :return: True or False
+    """
+    ok = False
+    while (not ok and times > 0):
+        try:
+            smsUtil.sendSms(phone, msg)
+            ok = True
+        except Exception as ex:
+            logger.error(ex)
+        times -= 1
+    return ok
+
+
 #因为使用了listView而无法直接继承BaseStaffView
 @method_decorator(mala_staff_required, name='dispatch')
 class CouponsListView(ListView):
@@ -1005,20 +1021,24 @@ class TeacherActionView(BaseStaffActionView):
             # teacher.status = new_status
             teacher.save()
             # send notice (sms) to teacher
-            # TODO: temporarily remove sendSms action
-            # profile = models.Profile.objects.get(user=teacher.user)
-            # phone = profile.phone
-            # if phone:
-            #     if new_status == models.Teacher.NOT_CHOSEN:
-            #         smsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师初选。')
-            #     elif new_status == models.Teacher.TO_INTERVIEW:
-            #         smsUtil.sendSms(phone, '【麻辣老师】您已通过初步筛选，请按照约定时间参加面试。')
-            #     elif new_status == models.Teacher.INTERVIEW_OK:
-            #         smsUtil.sendSms(phone, '【麻辣老师】恭喜您，已通过老师面试，稍后会有工作人员跟您联系。')
-            #     elif new_status == models.Teacher.INTERVIEW_FAIL:
-            #         smsUtil.sendSms(phone, '【麻辣老师】很遗憾，您未通过老师面试。')
-            #     else:
-            #         pass
+            profile = models.Profile.objects.get(user=teacher.user)
+            phone = profile.phone
+            if phone:
+                msg = None
+                if new_status == models.Teacher.NOT_CHOSEN:
+                    msg = '【麻辣老师】很遗憾，您未通过老师初选。'
+                elif new_status == models.Teacher.TO_INTERVIEW:
+                    msg = '【麻辣老师】您已通过初步筛选，请按照约定时间参加面试。'
+                elif new_status == models.Teacher.INTERVIEW_OK:
+                    msg = '【麻辣老师】恭喜您，已通过老师面试，稍后会有工作人员跟您联系。'
+                elif new_status == models.Teacher.INTERVIEW_FAIL:
+                    msg = '【麻辣老师】很遗憾，您未通过老师面试。'
+                else:
+                    pass
+                if msg:
+                    sms_ok = _try_send_sms(phone, msg, 3)
+                    if not sms_ok:
+                        return JsonResponse({'ok': True, 'msg': '修改成功, 但是短信通知失败, 请自行通知.', 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
             msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
