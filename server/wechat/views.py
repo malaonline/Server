@@ -94,7 +94,9 @@ class CourseChoosingView(View):
         kwargs['teacher'] = teacher
         current_user = self.request.user
         kwargs['current_user'] = current_user
-        parent = _get_parent(self.request)
+        # parent = _get_parent(self.request)
+        # TODO: the below line is only for testing
+        parent = models.Parent.objects.get(pk=3)
         if parent is None:
             return HttpResponseRedirect(reverse('wechat:phone_page'))
         kwargs['parent'] = parent
@@ -136,10 +138,16 @@ class CourseChoosingView(View):
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request, teacher_id):
-        parent = _get_parent(self.request)
-        wx_openid = parent.user.profile.wx_openid
-        if not parent or not wx_openid:
-            return JsonResponse({'ok': False, 'msg': '您还未登录或未关注公共号', 'code': 403})
+        # parent = _get_parent(self.request)
+        # TODO: the below line is only for testing
+        parent = models.Parent.objects.get(pk=3)
+        if not parent:
+            return JsonResponse({'ok': False, 'msg': '您还未登录', 'code': 403})
+        # wx_openid = parent.user.profile.wx_openid
+        # if not wx_openid:
+        #     return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
+        # TODO: the below line is fake id
+        wx_openid = 'wx9jncv9384vnsv98edshf'
         # get request params
         teacher_id = request.POST.get('teacher')
         school_id = request.POST.get('school')
