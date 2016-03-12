@@ -226,7 +226,7 @@ class TestWebPage(TestCase):
         创建老师的测试内容
         :return:
         """
-        new_teacher = Teacher.new_teacher()
+        new_teacher = Teacher.new_teacher("12345")
 
     def test_split_list(self):
         """
@@ -254,7 +254,7 @@ class TestWebPage(TestCase):
             self.assertEqual(response.status_code, 200)
 
     def test_information_complete_percent(self):
-        new_user = Teacher.new_teacher()
+        new_user = Teacher.new_teacher("54321")
         profile = new_user.profile
         teacher = new_user.teacher
         fp = FirstPage()

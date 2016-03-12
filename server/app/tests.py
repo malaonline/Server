@@ -539,7 +539,7 @@ class TestModels(TestCase):
         pass
 
     def test_new_teacher(self):
-        new_teacher = Teacher.new_teacher()
+        new_teacher = Teacher.new_teacher("12345")
         self.assertTrue(isinstance(new_teacher, User))
 
     def test_sms_verify(self):
@@ -555,7 +555,6 @@ class TestModels(TestCase):
         Region.objects.get(name="其他")
         with self.assertRaises(Region.DoesNotExist):
             Region.objects.get(name="其它")
-
 
 
 class TestStaffWeb(TestCase):

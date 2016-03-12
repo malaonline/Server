@@ -602,7 +602,7 @@ class Teacher(BaseModel):
 
     # 新建一个空白老师用户
     @staticmethod
-    def new_teacher()->User:
+    def new_teacher(phone: str)->User:
         # 新建用户
         username = random_string()[:30]
         salt = random_string()[:5]
@@ -618,10 +618,6 @@ class Teacher(BaseModel):
         teacher.save()
         teacher_group = Group.objects.get(name="老师")
         user.groups.add(teacher_group)
-        # 集体保存
-        user.save()
-        profile.save()
-        teacher.save()
         ret_user = authenticate(username=username, password=password)
         return ret_user
 

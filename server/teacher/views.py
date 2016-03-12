@@ -39,6 +39,52 @@ logger = logging.getLogger('app')
 LOGIN_URL = "/teacher/login"
 
 
+# 判断是否是已登录老师
+def is_teacher_logined(u):
+    if not u:
+        return False
+    if not u.is_authenticated():
+        return False
+    try:
+        models.Teacher.objects.get(user=u)
+        return True
+    except models.Teacher.DoesNotExist as ex:
+        logger.error("Can not find Teacher related with user {0}".format(u))
+    except Exception as err:
+        logger.error(err)
+    return False
+
+
+class BasicTeacherView(View):
+    # 基础类,用于一些特定测试
+    def not_teacher_role(self):
+        return HttpResponseRedirect(reverse("teacher:register"))
+
+    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            teacher = user.teacher
+            return self.handle_get(request, user, teacher, *args, **kwargs)
+        except models.Teacher.DoesNotExist:
+            return self.not_teacher_role()
+
+    def handle_get(self, request, user, teacher, *args, **kwargs):
+        raise Exception("not implement")
+
+    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            teacher = user.teacher
+            return self.handle_post(request, user, teacher, *args, **kwargs)
+        except models.Teacher.DoesNotExist:
+            return self.not_teacher_role()
+
+    def handle_post(self, request, user, teacher, *args, **kwargs):
+        pass
+
+
 class TeacherLogin(View):
     """
     老师用户注册页面 TW-1-1
@@ -65,7 +111,7 @@ class VerifySmsCode(View):
             profile = Profile.objects.get(phone=phone)
         except Profile.DoesNotExist:
             # new user
-            user = Teacher.new_teacher()
+            user = Teacher.new_teacher(phone)
             teacher = user.teacher
             profile = teacher.user.profile
             profile.phone = phone
@@ -139,10 +185,8 @@ def information_complete_percent(user: User):
 
 
 # 完善老师的个人信息 TW-2-1
-class CompleteInformation(View):
-    def get(self, request):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
+class CompleteInformation(BasicTeacherView):
+    def handle_get(self, request, user, teacher, *args, **kwargs):
         profile = models.Profile.objects.get(user=user)
 
         name = teacher.name
@@ -183,9 +227,7 @@ class CompleteInformation(View):
         }
         return render(request, 'teacher/complete_information.html', context)
 
-    def post(self, request):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
+    def handle_post(self, request, user, teacher, *args, **kwargs):
         profile = models.Profile.objects.get(user=user)
 
         name = request.POST.get("name", "")
@@ -234,17 +276,12 @@ class CompleteInformation(View):
         return JsonResponse({"url": reverse("teacher:register-progress")})
 
 
-class RegisterProgress(View):
+class RegisterProgress(BasicTeacherView):
     """
     显示注册进度
     """
-
-    def get(self, request):
+    def handle_get(self, request, user, teacher, *args, **kwargs):
         context = {}
-        try:
-            teacher = models.Teacher.objects.get(user=request.user)
-        except models.Teacher.DoesNotExist:
-            return HttpResponseRedirect(reverse("teacher:register"))
 
         if settings.FIX_TEACHER_STATUS:
             teacher.status = teacher.INTERVIEW_OK
@@ -258,13 +295,8 @@ class RegisterProgress(View):
         context["user_name"] = "{name} 老师".format(name=teacher.name)
         return render(request, "teacher/register_progress.html", context)
 
-    def post(self, request):
+    def handle_post(self, request, user, teacher, *args, **kwargs):
         # 已经确认注册进度
-        try:
-            teacher = models.Teacher.objects.get(user=request.user)
-        except models.Teacher.DoesNotExist:
-            return HttpResponseRedirect(reverse("teacher:first-page"))
-
         teacher.status_confirm = True
         teacher.save()
         return HttpResponseRedirect(reverse("teacher:first-page"))
@@ -275,14 +307,13 @@ def set_teacher_page_general_context(teacher, context):
     context["user_name"] = "{name} 老师".format(name=teacher.name)
 
 
-class FirstPage(View):
+class FirstPage(BasicTeacherView):
     """
     通过面试的老师见到的第一个页面
     """
-
-    def get(self, request):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
+    def handle_get(self, request, user, teacher, *args, **kwargs):
+        # user = request.user
+        # teacher = models.Teacher.objects.get(user=user)
         profile = models.Profile.objects.get(user=user)
         order_set = models.Order.objects.filter(teacher=teacher)
         gce = self.comprehensive_evaluation(order_set)
@@ -576,7 +607,7 @@ class SideBarContent:
         return basic_data_notify
 
 
-class MySchoolTimetable(View):
+class MySchoolTimetable(BasicTeacherView):
     """
     TW-5-1, 查看课表上的内容
     """
@@ -739,10 +770,8 @@ class MySchoolTimetable(View):
         for key in remove_key:
             time_slot_set.pop(key)
 
-    def get(self, request, year, month):
+    def handle_get(self, request, user, teacher, year, month):
         # 思路,集中订单中的每堂课,映射到当月的日期中,由每天上课的数量来日期的状态.
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
         # 获得这个老师的每堂课
         order_set = models.Order.objects.filter(teacher=teacher)
         # 用于记录页面右边的数据
@@ -818,7 +847,7 @@ class MySchoolTimetable(View):
         return render(request, "teacher/my_school_timetable.html", context)
 
 
-class MyStudents(View):
+class MyStudents(BasicTeacherView):
     """
     TW-5-2, 我的学生
     """
@@ -856,10 +885,7 @@ class MyStudents(View):
         """
         pass
 
-    def get(self, request, student_type, page_offset):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
-
+    def handle_get(self, request, user, teacher, student_type, page_offset):
         offset = int(page_offset)
 
         student_state = {0: ["新生", "正常", "续费"], 1: ["结课"], 2: ["退费"]}
@@ -973,7 +999,7 @@ class MyStudents(View):
         # return student_list, 3
 
 
-class MyEvaluation(View):
+class MyEvaluation(BasicTeacherView):
     # 显示评价 TW-6-1
     class BuildCommentList:
         def __init__(self, cres):
@@ -1053,9 +1079,7 @@ class MyEvaluation(View):
                         2: BuildMidCommentList,
                         3: BuildBadCommentList}
 
-    def get(self, request, comment_type, page_offset):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
+    def handle_get(self, request, user, teacher, comment_type, page_offset):
         context = {}
         page_offset = int(page_offset)
         comment_type = int(comment_type)
@@ -1177,7 +1201,7 @@ class MyEvaluation(View):
         return split_list(comment_list, 4), count_package, avg_score
 
 
-class CommentReply(View):
+class CommentReply(BasicTeacherView):
     class CommentReplyErrorSession:
         def __init__(self, request):
             self.error = request.session.pop("comment-reply-error", None)
@@ -1195,7 +1219,7 @@ class CommentReply(View):
             request.session["comment-reply-error-reply"] = reply
 
     # 回复评价
-    def post(self, request, comment_type, page_offset, id):
+    def handle_post(self, request, user, teacher, comment_type, page_offset, id):
         # print("comment reply id is {id}".format(id=id))
         comment_reply_form = forms.CommentReplyForm(request.POST)
         if comment_reply_form.is_valid():
@@ -1228,7 +1252,7 @@ class GenerateSMS(View):
             return JsonResponse({"sent": False, "msg": msg})
 
 
-class WithdrawalRequest(View):
+class WithdrawalRequest(BasicTeacherView):
     # 老师提现检测,里面的检测都通过,就进行转账
     def is_now_allowed_to_withdraw(self):
         now = timezone.localtime(timezone.now())
@@ -1236,8 +1260,9 @@ class WithdrawalRequest(View):
         withdraw_weekday = models.Config.objects.all()[0].withdraw_weekday
         return now.isoweekday() == withdraw_weekday  or settings.TEST_WITHDRAW
 
-    def post(self, request):
-        user = request.user
+    def handle_post(self, request, user, teacher, *args, **kwargs):
+    # def post(self, request):
+    #     user = request.user
         phone = user.profile.phone
         code = request.POST.get("code", None)
         if self.is_now_allowed_to_withdraw():
@@ -1283,7 +1308,7 @@ class WithdrawalRequest(View):
             })
 
 
-class MyWalletBase(View):
+class MyWalletBase(BasicTeacherView):
     # 我的钱包,基础类
     template_url = ""
 
@@ -1291,9 +1316,7 @@ class MyWalletBase(View):
         super().__init__(**kwargs)
         self.request = None
 
-    def get(self, request):
-        user = request.user
-        teacher = models.Teacher.objects.get(user=user)
+    def handle_get(self, request, user, teacher, *args, **kwargs):
         context = {}
         side_bar_content = SideBarContent(teacher)
         side_bar_content(context)
@@ -1459,30 +1482,13 @@ def split_list(array: list, segment_size):
     return ret_array
 
 
-class TeacherLogout(View):
+class TeacherLogout(BasicTeacherView):
     """
     登出
     """
-
-    def get(self, request):
+    def handle_get(self, request, user, teacher, *args, **kwargs):
         logout(request)
         return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
-
-
-# 判断是否是已登录老师
-def is_teacher_logined(u):
-    if not u:
-        return False
-    if not u.is_authenticated():
-        return False
-    try:
-        models.Teacher.objects.get(user=u)
-        return True
-    except models.Teacher.DoesNotExist as ex:
-        logger.error("Can not find Teacher related with user {0}".format(u))
-    except Exception as err:
-        logger.error(err)
-    return False
 
 
 class BaseTeacherView(View):
