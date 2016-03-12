@@ -293,6 +293,9 @@ $(function(){
         $.post( "/staff/teachers/action/", params, function( result ) {
             if (result) {
                 if (result.ok) {
+                    if (result.code != 0) {
+                        alert(result.msg);
+                    }
                     $row.remove();
                 } else {
                     alert(result.msg);
