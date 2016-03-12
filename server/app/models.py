@@ -335,9 +335,13 @@ class Teacher(BaseModel):
     recommended_on_wechat = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s %s %s %s' % (self.name, 'F' if self.fulltime else '',
-                             'Unpublished' if not self.published else '',
-                                self.user.profile.phone)
+        return '%s %s %s' % (
+                '⬆' if not self.published else '  ', self.name, self.phone())
+
+    def phone(self):
+        if not hasattr(self.user, 'profile'):
+            return None
+        return self.user.profile.phone or None
 
     def avatar(self):
         if not hasattr(self.user, 'profile'):
