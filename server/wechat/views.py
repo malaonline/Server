@@ -221,6 +221,10 @@ def set_order_paid(prepay_id=None, order_id=None):
     order.status = models.Order.PAID
     models.Order.objects.allocate_timeslots(order)
     order.save()
+    # 设置代金券为已使用
+    if order.coupon:
+        order.coupon.used = True
+        order.coupon.save()
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -507,7 +511,6 @@ def teacher_view(request):
     context = {
         "server_timestamp": now_timestamp,
         "WX_APPID": settings.WEIXIN_APPID,
-        "WX_APP_SECRET": settings.WEIXIN_APP_SECRET,
         "WX_NONCE_STR": nonce_str,
         "WX_SIGNATURE": signature,
         "openid": openid,
