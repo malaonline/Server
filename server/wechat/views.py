@@ -312,7 +312,7 @@ def _get_wx_token_from_db():
 
 
 @csrf_exempt
-def wx_pay_notify(request):
+def wx_pay_notify_view(request):
     """
     接受微信支付结果异步通知view
     """
