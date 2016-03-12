@@ -717,6 +717,12 @@ class OrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('hours should be even.')
         return value
 
+    def validate_coupon(self, value):
+        if value is not None:
+            if value.used:
+                raise serializers.ValidationError('coupon has been used.')
+        return value
+
 
 class OrderViewSet(ParentBasedMixin,
                    mixins.CreateModelMixin,

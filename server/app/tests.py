@@ -15,7 +15,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
-        WeeklyTimeSlot, AuditRecord
+        WeeklyTimeSlot, AuditRecord, Coupon
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt
 from app.models import Region
@@ -253,6 +253,11 @@ class TestApi(TestCase):
         username = "parent0"
         password = "123123"
         client.login(username=username, password=password)
+
+        coupon = Coupon.objects.get(pk=2)
+        coupon.used = False
+        coupon.save()
+
         request_url = "/api/v1/orders"
         json_data = json.dumps({
             'teacher': 2, 'school': 1, 'grade': 1, 'subject': 1,
@@ -261,6 +266,8 @@ class TestApi(TestCase):
         response = client.post(request_url, content_type="application/json",
                                data=json_data,)
         self.assertEqual(201, response.status_code)
+        coupon = Coupon.objects.get(pk=2)
+        self.assertTrue(coupon.used)
         pk = json.loads(response.content.decode())['id']
 
         request_url = "/api/v1/orders/%d" % pk
@@ -511,7 +518,7 @@ class TestApi(TestCase):
         teacher = Teacher.objects.all()[0]
         teacher.status = Teacher.TO_CHOOSE
         teacher.set_status(teacher.user, teacher.TO_INTERVIEW)
-        print(AuditRecord.objects.all())
+        #print(AuditRecord.objects.all())
 
 
 class TestModels(TestCase):

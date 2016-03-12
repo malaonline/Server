@@ -1032,7 +1032,7 @@ class Coupon(BaseModel):
             null=False, blank=False, default=timezone.now)
     expired_at = models.DateTimeField(
             null=False, blank=False, default=timezone.now)
-    used = models.BooleanField()
+    used = models.BooleanField(default=False)
     mini_course_count = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
@@ -1333,6 +1333,15 @@ class Order(BaseModel):
             # 退费原因
             refund_info.reason = last_record.reason
             return refund_info
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            super(Order, self).save(*args, **kwargs)
+            if self.coupon is not None:
+                self.coupon.used = True
+                self.coupon.save()
+        else:
+            super(Order, self).save(*args, **kwargs)
 
 
 class OrderRefundRecord(BaseModel):
