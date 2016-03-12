@@ -71,7 +71,7 @@
                     {% for weekday_dict in weekdays %}
                         <td align="center" class="form-inline">
                             {% for one_slot in timeslots %}
-                                {% if one_slot.start.time == one_weekly_slot.start and one_slot.start.weekday|add:1 == weekday_dict.weekday %}
+                                {% if one_slot.start.astimezone.time == one_weekly_slot.start and one_slot.start.astimezone.weekday|add:1 == weekday_dict.weekday %}
                                     <div align="left">
                                         科目：{{ one_slot.order.subject }}<br/>
                                         老师：{{ one_slot.order.teacher.name }}<br/>
