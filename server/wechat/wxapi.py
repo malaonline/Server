@@ -129,15 +129,16 @@ def wx_pay_unified_order(order, request, wx_openid):
     params['notify_url'] = get_server_host(request) + reverse('wechat:wx_pay_notify')
     params['trade_type'] = 'JSAPI'      # JSAPI，NATIVE，APP
     params['openid'] = wx_openid        # trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。
-    print(params)
     # 签名
     params['sign'] = wx_sign_for_pay(params)
+    logger.debug(params)
 
     req_xml_str = wx_dict2xml(params)
 
     resp = requests.post(wx_url, data=req_xml_str.encode('utf-8'))
     if resp.status_code == 200:
         resp_dict = wx_xml2dict(resp.content.decode('utf-8'))
+        logger.debug(resp_dict)
         return_code = resp_dict['return_code']
         if return_code != WX_SUCCESS:
             msg = resp_dict['return_msg']
@@ -145,7 +146,7 @@ def wx_pay_unified_order(order, request, wx_openid):
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_sign_for_pay(resp_dict)
-        print(given_resp_sign==calculated_resp_sign)
+        logger.debug(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
             msg = resp_dict['err_code_des']
@@ -201,15 +202,16 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
     if order_id:
         params['out_trade_no'] = order_id       # 商户系统内部的订单号
     params['nonce_str'] = make_nonce_str()
-    print(params)
     # 签名
     params['sign'] = wx_sign_for_pay(params)
+    logger.debug(params)
 
     req_xml_str = wx_dict2xml(params)
 
     resp = requests.post(wx_url, data=req_xml_str.encode('utf-8'))
     if resp.status_code == 200:
         resp_dict = wx_xml2dict(resp.content.decode('utf-8'))
+        logger.debug(resp_dict)
         return_code = resp_dict['return_code']
         if return_code != WX_SUCCESS:
             msg = resp_dict['return_msg']
@@ -217,7 +219,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_sign_for_pay(resp_dict)
-        print(given_resp_sign==calculated_resp_sign)
+        logger.debug(given_resp_sign==calculated_resp_sign)
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
             msg = resp_dict['err_code_des']
@@ -242,6 +244,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
 
 def resolve_wx_pay_notify(request):
     req_dict = wx_xml2dict(request.body.decode('utf-8'))
+    logger.debug(req_dict)
     return_code = req_dict['return_code']
     if return_code != WX_SUCCESS:
         msg = req_dict['return_msg']
@@ -249,7 +252,7 @@ def resolve_wx_pay_notify(request):
         return {'ok': False, 'msg': msg, 'code': 1}
     given_resp_sign = req_dict.pop('sign', None)
     calculated_resp_sign = wx_sign_for_pay(req_dict)
-    print(given_resp_sign==calculated_resp_sign)
+    logger.debug(given_resp_sign==calculated_resp_sign)
     result_code = req_dict['result_code']
     if result_code != WX_SUCCESS:
         msg = req_dict['err_code_des']
