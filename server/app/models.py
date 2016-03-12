@@ -815,8 +815,10 @@ class Account(BaseModel):
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
                 account=self, done=True).aggregate(models.Sum('amount'))
-        sum = ret['amount__sum']
-        return sum or 0
+        sum = ret['amount__sum'] or 0
+        wding = Withdrawal.objects.filter(account=self, status=Withdrawal.PENDING).aggregate(models.Sum('amount'))
+        wding_sum = wding['amount__sum'] or 0
+        return max(sum-wding_sum, 0)
 
     @property
     def withdrawable_amount(self):
@@ -832,8 +834,10 @@ class Account(BaseModel):
                         models.Q(submit_time__lt=end_day) | (
                             models.Q(submit_time__gte=end_day) & models.Q(
                                 amount__lt=0))).aggregate(models.Sum('amount'))
-        sum = ret['amount__sum']
-        return sum or 0
+        sum = ret['amount__sum'] or 0
+        wding = Withdrawal.objects.filter(account=self, status=Withdrawal.PENDING).aggregate(models.Sum('amount'))
+        wding_sum = wding['amount__sum'] or 0
+        return max(sum-wding_sum, 0)
 
     @property
     def accumulated_income(self):
