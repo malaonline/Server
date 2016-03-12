@@ -1,5 +1,4 @@
 import json
-import random
 import logging
 import datetime
 import itertools
@@ -25,6 +24,7 @@ from rest_framework.pagination import PageNumberPagination
 import pingpp
 
 from app import models
+from .utils import random_name
 from .utils.smsUtil import isValidPhone, isValidCode
 from .utils.algorithm import verify_sig
 
@@ -171,9 +171,7 @@ class Sms(View):
                 except:
                     pass
                 if not is_found:
-                    chars = ('AaBbCcDdEeFfGgHhIiJjKkLlMmNnOo' +
-                             'PpQqRrSsTtUuVvWwXxYyZz0123456789')
-                    username = ''.join(random.sample(chars, 10))
+                    username = random_name()
                     new_user = User.objects.create_user(username)
                     new_user.save()
                     profile = models.Profile.objects.create(user=new_user,
