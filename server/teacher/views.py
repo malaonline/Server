@@ -2150,6 +2150,10 @@ class WalletBankcardView(BaseTeacherView):
             return JsonResponse({'ok': False, 'msg': '验证码格式错误', 'code': 5})
         if not models.Checkcode.verify(phone, checkcode)[0]:
             return JsonResponse({'ok': False, 'msg': '验证码错误', 'code': 6})
+        # 重复检测
+        oldone = models.BankCard.objects.filter(card_number=card_number).first()
+        if oldone is not None:
+            return JsonResponse({'ok': False, 'msg': '该银行卡已被添加过了, 如有疑问请联系客服人员', 'code': 7})
         # 添加银行卡
         account = teacher.safe_get_account()
         bankcard = models.BankCard(account=account)
