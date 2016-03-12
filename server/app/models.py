@@ -612,7 +612,7 @@ class Teacher(BaseModel):
         user.password = make_password(password, salt)
         user.save()
         # 创建老师身份
-        profile = Profile(user=user, phone="")
+        profile = Profile(user=user, phone=phone)
         profile.save()
         teacher = Teacher(user=user)
         teacher.save()
