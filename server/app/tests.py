@@ -522,6 +522,13 @@ class TestApi(TestCase):
         teacher.set_status(teacher.user, teacher.TO_INTERVIEW)
         #print(AuditRecord.objects.all())
 
+    def test_teacher_profile(self):
+        teachers = Teacher.objects.all()
+        for teacher in teachers:
+            user = teacher.user
+            profile = user.profile
+            self.assertIsNotNone(profile)
+
 
 class TestModels(TestCase):
     def setUp(self):
