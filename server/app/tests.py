@@ -479,6 +479,8 @@ class TestApi(TestCase):
             weekly_time_slots = order.weekly_time_slots.all()
             mins = [weekly_2_mins(x) for x in weekly_time_slots]
             for timeslot in timeslots:
+                timeslot.start = timezone.localtime(timeslot.start)
+                timeslot.end = timezone.localtime(timeslot.end)
                 cur_min = (
                         timeslot.start.weekday() * 24 * 60 +
                         timeslot.start.hour * 60 + timeslot.start.minute,

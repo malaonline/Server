@@ -21,7 +21,7 @@ def add_item(apps, schema_editor):
     for order in Order.objects.filter(status='p'):
         weekly_time_slots = list(order.weekly_time_slots.all())
         grace_time = datetime.timedelta(days=2)  # TimeSlot.GRACE_TIME
-        date = timezone.now() + grace_time
+        date = timezone.localtime(timezone.now()) + grace_time
         date = date.replace(second=0, microsecond=0)
         date += datetime.timedelta(minutes=1)
 
