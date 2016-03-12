@@ -621,6 +621,16 @@ class Teacher(BaseModel):
         ret_user = authenticate(username=username, password=password)
         return ret_user
 
+    @staticmethod
+    def add_teacher_role(user: User):
+        # 特殊情况,一个已经存在的家长角色,又用老师角色登录
+        # 这里不关心user的登录状态,登录状态见teacher.views.VerifySmsCode.post里的处理
+        teacher = Teacher(user=user)
+        teacher.save()
+        teacher_group = Group.objects.get(name="老师")
+        user.groups.add(teacher_group)
+        user.save()
+        return teacher
 
 class AuditRecord(BaseModel):
     # 新老师审核记录

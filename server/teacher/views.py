@@ -63,13 +63,6 @@ class VerifySmsCode(View):
         new_user = True
         try:
             profile = Profile.objects.get(phone=phone)
-            user = profile.user
-            # 注意,这段代码摘抄自django库本身
-            for backend, backend_path in _get_backends(return_tuples=True):
-                user.backend = backend_path
-                break
-            teacher = Teacher.objects.get(user=user)
-            new_user = False
         except Profile.DoesNotExist:
             # new user
             user = Teacher.new_teacher()
@@ -77,6 +70,19 @@ class VerifySmsCode(View):
             profile = teacher.user.profile
             profile.phone = phone
             profile.save()
+        else:
+            user = profile.user
+            # 注意,这段代码摘抄自django库本身
+            for backend, backend_path in _get_backends(return_tuples=True):
+                user.backend = backend_path
+                break
+            try:
+                teacher = Teacher.objects.get(user=user)
+                new_user = False
+            except Teacher.DoesNotExist:
+                # 这个手机号已经注册其它角色,但没注册过老师角色
+                teacher = Teacher.add_teacher_role(user)
+
         verify_result, verify_code = CheckCode.verify(phone, code)
         verify_msg = CheckCode.verify_msg(verify_result, verify_code)
         if verify_result:
