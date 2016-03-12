@@ -30,6 +30,10 @@ let MalaNotification_ClassPeriodDidChange = "com.malalaoshi.app.ClassPeriodDidCh
 let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeScheduleCell"
 
 
+// MARK: - Error Detail
+let MalaErrorDetail_InvalidPage = "Invalid page"
+
+
 // MARK: - Appearance TintColor
 let MalaAppearanceTintColor = UIColor.whiteColor()
 let MalaAppearanceTextColor = UIColor(rgbHexValue: 0x6C6C6C, alpha: 1.0)

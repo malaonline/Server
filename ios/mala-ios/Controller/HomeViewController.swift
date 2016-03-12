@@ -13,8 +13,13 @@ private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 class HomeViewController: UIViewController {
     
     // MARK: - Property
+    /// 筛选条件
     private var condition: ConditionObject?
     private var filterResultDidShow: Bool = false
+    /// 当前显示页数
+    var currentPageIndex = 1
+    /// 所有老师数据总量
+    var allTeacherCount = 0
     
     
     // MARK: - Components
@@ -113,9 +118,15 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
     }
     
-    private func loadTeachers(filters: [String: AnyObject]? = nil) {
+    func loadTeachers(filters: [String: AnyObject]? = nil, isLoadMore: Bool = false, finish: (()->())? = nil) {
         
-        MalaNetworking.sharedTools.loadTeachers(filters) { [weak self] result, error in
+        if isLoadMore {
+            currentPageIndex++
+        }else {
+            currentPageIndex = 1
+        }
+        
+        MalaNetworking.sharedTools.loadTeachers(filters, page: currentPageIndex) { [weak self] result, error in
             if error != nil {
                 debugPrint("HomeViewController - loadTeachers Request Error")
                 return
@@ -125,16 +136,50 @@ class HomeViewController: UIViewController {
                 return
             }
             
-            self?.tableView.teachers = []
             let resultModel = ResultModel(dict: dict)
-            if resultModel.results != nil {
-                for object in ResultModel(dict: dict).results! {
-                    if let dict = object as? [String: AnyObject] {
-                        self?.tableView.teachers!.append(TeacherModel(dict: dict))
+            
+            /// 记录数据量
+            if let count = resultModel.count where count != 0 {
+                self?.allTeacherCount = count.integerValue
+            }
+            
+            /// 若请求数达到最大, 执行return
+            if let detail = resultModel.detail where (detail as NSString).containsString(MalaErrorDetail_InvalidPage) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    finish?()
+                })
+                return
+            }
+            
+            if isLoadMore {
+                
+                ///  加载更多
+                
+                if resultModel.results != nil {
+                    for object in ResultModel(dict: dict).results! {
+                        if let dict = object as? [String: AnyObject] {
+                            self?.tableView.teachers.append(TeacherModel(dict: dict))
+                        }
                     }
                 }
+            }else {
+                
+                ///  如果不是加载更多，则刷新数据
+                self?.tableView.teachers = []
+                /// 解析数据
+                if resultModel.results != nil {
+                    for object in ResultModel(dict: dict).results! {
+                        if let dict = object as? [String: AnyObject] {
+                            self?.tableView.teachers.append(TeacherModel(dict: dict))
+                        }
+                    }
+                }
+                self?.tableView.reloadData()
             }
-            self?.tableView.reloadData()
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                finish?()
+            })
         }
     }
     

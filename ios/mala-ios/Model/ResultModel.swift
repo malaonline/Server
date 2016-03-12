@@ -22,6 +22,8 @@ class ResultModel: NSObject {
             }
         }
     }
+    var status_code: Int = 0
+    var detail: String?
     
     
     // MARK: - Constructed

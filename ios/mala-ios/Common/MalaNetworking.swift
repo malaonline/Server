@@ -412,9 +412,13 @@ extension MalaNetworking {
     
     ///  Request for TeacherList
     ///
-    ///  - parameter finished: Closure for Finished
-    func loadTeachers(parameters: [String: AnyObject]?, finished: RequestCallBack) {
-        request(.GET, URLString: MalaBaseUrl+teacherList, parameters: parameters, finished: finished)
+    ///  - parameter parameters: Filter Dict
+    ///  - parameter page:       page number
+    ///  - parameter finished:   Closure for Finished
+    func loadTeachers(parameters: [String: AnyObject]?, page: Int = 1, finished: RequestCallBack) {
+        var params = parameters ?? [String: AnyObject]()
+        params["page"] = page
+        request(.GET, URLString: MalaBaseUrl+teacherList, parameters: params, finished: finished)
     }
     
     ///  Request for Teacher Detail
@@ -443,17 +447,6 @@ extension MalaNetworking {
     ///  - parameter finished: Closure for Finished
     func loadSchools(finished: RequestCallBack) {
         request(.GET, URLString: MalaBaseUrl+schools, parameters: nil, finished: finished)
-    }
-    
-    ///  Request for ClassSchedule With TeacherId and SchoolId
-    ///
-    ///  - parameter teacherId: Int for teacherId
-    ///  - parameter schoolId:  Int for schoolId
-    ///  - parameter finished:  Closure for Finished
-    func loadClassSchedule(teacherId: Int, schoolId: Int, finished: RequestCallBack) {
-        var params = [String: AnyObject]()
-        params["school_id"] = schoolId
-        request(.GET, URLString: MalaBaseUrl+teacherList+"/"+String(teacherId)+weeklytimeslots, parameters: params, finished: finished)
     }
 }
 
