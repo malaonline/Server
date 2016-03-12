@@ -98,6 +98,17 @@ class TestWebPage(TestCase):
         subject = Subject.objects.get(name="英语")
         ability = Ability.objects.get(grade=grade, subject=subject)
         teacher.abilities.add(ability)
+        # 设置面试记录
+        teacher.status = Teacher.INTERVIEW_OK
+        teacher.status_confirm = True
+        # 设置性别
+        profile.gender = "f"
+        profile.save()
+        # 设置区域
+        other_region = Region.objects.get(name="其他")
+        teacher.region = other_region
+        # 设置老师名称
+        teacher.name = "单元测试老师"
         teacher.save()
         # 创建家长
         parent_user = User.objects.create(username=self.parent_name)
@@ -183,7 +194,7 @@ class TestWebPage(TestCase):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
         response = client.get(reverse("teacher:first-page"))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response.content.decode())
 
     def test_my_school_timetable(self):
         client = Client()

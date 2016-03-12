@@ -56,18 +56,50 @@ def is_teacher_logined(u):
 
 
 class BasicTeacherView(View):
+    class TeacherInformationNotComplete(Exception):
+        # 老师基本信息没有填完
+        pass
+
+    class TeacherQualifieldNotAudit(Exception):
+        # 老师资格审核没有完成
+        pass
+
     # 基础类,用于一些特定测试
     def not_teacher_role(self):
         return HttpResponseRedirect(reverse("teacher:register"))
+
+    need_check_percent = True
+    def check_percent(self, user):
+        # 检查老师信息是否完成
+        if self.need_check_percent:
+            percent = information_complete_percent(user)
+            if percent < 1:
+                raise BasicTeacherView.TeacherInformationNotComplete()
+
+    need_check_qualifield_audit = True
+    def check_qualifield_audit(self, teacher: models.Teacher):
+        # 检查老师资格审核是否完成
+        if self.need_check_qualifield_audit:
+            if teacher.status != models.Teacher.INTERVIEW_OK or not teacher.status_confirm:
+                raise BasicTeacherView.TeacherQualifieldNotAudit()
 
     @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
     def get(self, request, *args, **kwargs):
         user = request.user
         try:
             teacher = user.teacher
+            self.check_percent(user)
+            self.check_qualifield_audit(teacher)
             return self.handle_get(request, user, teacher, *args, **kwargs)
         except models.Teacher.DoesNotExist:
+            # 用户没有老师这个角色
             return self.not_teacher_role()
+        except BasicTeacherView.TeacherInformationNotComplete:
+            # 老师基本信息没有填完
+            return HttpResponseRedirect(reverse("teacher:complete-information"))
+        except BasicTeacherView.TeacherQualifieldNotAudit:
+            # 老师资料审核没有完成
+            return HttpResponseRedirect(reverse("teacher:register-progress"))
 
     def handle_get(self, request, user, teacher, *args, **kwargs):
         raise Exception("not implement")
@@ -77,9 +109,17 @@ class BasicTeacherView(View):
         user = request.user
         try:
             teacher = user.teacher
+            self.check_percent(user)
+            self.check_qualifield_audit(teacher)
             return self.handle_post(request, user, teacher, *args, **kwargs)
         except models.Teacher.DoesNotExist:
             return self.not_teacher_role()
+        except BasicTeacherView.TeacherInformationNotComplete:
+            # 老师基本信息没有填完
+            return HttpResponseRedirect(reverse("teacher:complete-information"))
+        except BasicTeacherView.TeacherQualifieldNotAudit:
+            # 老师资料审核没有完成
+            return HttpResponseRedirect(reverse("teacher:register-progress"))
 
     def handle_post(self, request, user, teacher, *args, **kwargs):
         pass
@@ -186,6 +226,9 @@ def information_complete_percent(user: User):
 
 # 完善老师的个人信息 TW-2-1
 class CompleteInformation(BasicTeacherView):
+    need_check_percent = False
+    need_check_qualifield_audit = False
+
     def handle_get(self, request, user, teacher, *args, **kwargs):
         profile = models.Profile.objects.get(user=user)
 
@@ -280,6 +323,7 @@ class RegisterProgress(BasicTeacherView):
     """
     显示注册进度
     """
+    need_check_qualifield_audit = False
     def handle_get(self, request, user, teacher, *args, **kwargs):
         context = {}
 
