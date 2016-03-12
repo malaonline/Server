@@ -29,7 +29,7 @@ from pprint import pprint as pp
 # local modules
 from app import models
 from . import forms
-from app.templatetags.custom_tags import money_format
+from app.templatetags.custom_tags import money_format, weekday_format
 from app.utils.algorithm import check_bankcard_number, check_id_number
 from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.db import paginate
@@ -1389,8 +1389,10 @@ class WithdrawalRequest(BasicTeacherView):
                 })
         else:
             # 非有效转账时间,需要弹窗提示
+            withdraw_weekday = models.Config.objects.all()[0].withdraw_weekday
+            _wday = withdraw_weekday or 2
             return JsonResponse({
-                "verify": False, "pop": True, "msg": "请在每周二0:00-24:00进行提现!"
+                "verify": False, "pop": True, "msg": "请在每"+weekday_format(_wday)+"0:00-24:00进行提现!"
             })
 
 

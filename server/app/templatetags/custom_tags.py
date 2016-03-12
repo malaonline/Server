@@ -39,17 +39,16 @@ def money_format(amount, format='+/'):
     return sign+"%.2f"%amount
 
 
+_weekday_dict = {
+    1: "周一",
+    2: "周二",
+    3: "周三",
+    4: "周四",
+    5: "周五",
+    6: "周六",
+    7: "周日",
+}
+
 @register.filter('weekday_format')
 def weekday_format(weekday):
-
-    weekday_dict = {
-        1: "周一",
-        2: "周二",
-        3: "周三",
-        4: "周四",
-        5: "周五",
-        6: "周六",
-        7: "周日"
-    }
-
-    return weekday_dict.get(weekday, "")
+    return _weekday_dict.get(weekday, "")
