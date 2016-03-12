@@ -19,6 +19,67 @@ $(function(){
         });
     };
 
+    var hideOtherSchools = function($school) {
+        var $schools = $('.school');
+        if ($schools.length==1) {
+            return;
+        }
+        $schools.each(function(){
+            var $this = $(this);
+            if (this != $school[0]) {
+                $this.hide();
+            }
+        });
+        $schools.last().removeClass('last');
+        $('#showMoreSchoolsBtn').show();
+    };
+
+    var sortSchools = function(list) {
+        var far_map = {};
+        for (var i in list) {
+            var o = list[i];
+            far_map[o.id] = o.far;
+        }
+        var $schools = $('.school');
+        var new_list = [];
+        var $chosenone = null;
+        $schools.each(function(){
+            var $this = $(this), scid = $this.attr('scid');
+            if (scid==chosen_school_id) {
+                $chosenone = $this;
+            }
+            var far = far_map[scid];
+            if (far=='') {
+                $this.find('.distance').html('...');
+            } else {
+                var ifar = parseInt(far);
+                if (ifar < 1000) {
+                    $this.find('.distance').html(ifar+"m");
+                } else {
+                    $this.find('.distance').html(parseInt(ifar/100)/10+"km");
+                }
+            }
+            new_list.push({'far': far, 'sc': $this});
+        });
+        new_list.sort(function(a,b) {
+            if (a.far=='') return 1;
+            if (b.far=='') return -1;
+            return a.far - b.far;
+        });
+        if ($chosenone == null) {
+            $chosenone = new_list[0].sc;
+        }
+        var scs = [];
+        for (var i in new_list) {
+            scs.push(new_list[i].sc[0]);
+        }
+        var $schoolsCon = $('#schoolsContainer');
+        $schools.remove();
+        $schoolsCon.prepend(scs);
+        $chosenone.css('display', 'flex');
+        hideOtherSchools($chosenone);
+    };
+
     wx.ready(function(res){
         console.log("wx.ready");
         wx.getLocation({
@@ -26,10 +87,13 @@ $(function(){
             success: function(res){
                 console.log('wx.getLocation success');
                 console.log(res);
-                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                var speed = res.speed; // 速度，以米/每秒计
-                var accuracy = res.accuracy; // 位置精度
+                var reqparams = {'action': 'schools_dist', 'lat': res.latitude, 'lng': res.longitude};
+                $.post(location.href, reqparams, function(result){
+                    console.log(result);
+                    if (result && result.ok) {
+                        sortSchools(result.list);
+                    }
+                }, 'json')
             },
             fail: function(res){
                 console.log('wx.getLocation fail');
@@ -169,30 +233,15 @@ $(function(){
         });
     };
 
-    var hideOtherSchools = function($school) {
-        var $schools = $('.school');
-        if ($schools.length==1) {
-            return;
-        }
-        $schools.each(function(){
-            var $this = $(this);
-            if (this != $school[0]) {
-                $this.hide();
-            }
-        });
-        $schools.last().removeClass('last');
-        $('#showMoreSchoolsBtn').show();
-    };
-
     $(".school").click(function(e){
         if (!chosen_grade_id) {
             showAlertDialog('请先选择授课年级');
             return;
         }
         var ele = e.target, $school = $(ele).closest('.school');
-        var val = $school.find(".icons-area > input")[0].value;
-        $(".school > .icons-area").each(function(){
-          var $this = $(this), v = $this.find("input")[0].value;
+        var val = $school.attr('scid');
+        $(".school").each(function(){
+          var $this = $(this), v = $this.attr('scid');
           if (v===val) {
             $this.addClass('chosen');
           } else {

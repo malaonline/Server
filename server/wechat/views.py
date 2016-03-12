@@ -151,6 +151,8 @@ class CourseChoosingView(View):
             return self.verify_order(request)
         if action == 'getjssign':
             return self.jssdk_sign(request)
+        if action == 'schools_dist':
+            return self.schools_distance(request, teacher_id)
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request, teacher_id):
@@ -162,8 +164,8 @@ class CourseChoosingView(View):
         # wx_openid = parent.user.profile.wx_openid
         # if not wx_openid:
         #     return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
-        # TODO: the below line is fake id
-        wx_openid = 'wx9jncv9384vnsv98edshf'
+        # TODO: the below line is real wx_openid, but not related with ours server
+        wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
         # get request params
         teacher_id = request.POST.get('teacher')
         school_id = request.POST.get('school')
@@ -223,6 +225,26 @@ class CourseChoosingView(View):
                     return {'ok': False, 'msg': '未支付', 'code': 3}
         else:
             return {'ok': False, 'msg': query_ret['msg'], 'code': 1}
+
+    def schools_distance(self, request, teacher_id):
+        lat = request.POST.get('lat', None)
+        lng = request.POST.get('lng', None)
+        if lat is None or lat == '' or lng is None or lng == '':
+            return JsonResponse({'ok': False})
+        lat = float(lat)
+        lng = float(lng)
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+        schools = teacher.schools.all()
+        distances = []
+        p = {'lat': lat, 'lng': lng};
+        for school in schools:
+            if school.latitude is None or school.longitude is None:
+                distances.append({'id': school.id, 'far': ''})
+                continue
+            sp = {'lat': school.latitude, 'lng': school.longitude}
+            dis = calculateDistance(p, sp)
+            distances.append({'id': school.id, 'far': dis})
+        return JsonResponse({'ok': True, 'list': distances})
 
 
 def set_order_paid(prepay_id=None, order_id=None):
