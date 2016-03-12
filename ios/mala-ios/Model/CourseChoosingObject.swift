@@ -92,10 +92,18 @@ class CourseChoosingObject: NSObject {
     }
     
     
-    ///  重置选课模型
+    /// 刷新选课模型
+    func refresh() {
+        selectedTime.removeAll()
+        classPeriod = 2
+        MalaClassPeriod_StepValue = 2
+    }
+    
+    /// 重置选课模型
     func reset() {
         gradePrice = nil
         school = nil
+        school?.id = -1
         selectedTime.removeAll()
         classPeriod = 2
         MalaClassPeriod_StepValue = 2

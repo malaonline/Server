@@ -238,7 +238,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                         MalaCourseChoosingObject.school = school.schoolModel
                         
                         self?.loadClassSchedule()
-                        MalaCourseChoosingObject.reset()
+                        MalaCourseChoosingObject.refresh()
                         (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                     }
                     
