@@ -347,6 +347,7 @@ class LoginViewController: UIViewController {
             ThemeHUD.hideActivityIndicator()
             println("SMS验证成功，用户Token：\(loginUser.accessToken)")
             saveTokenAndUserInfo(loginUser)
+            MalaUserDefaults.isLogouted = false
             self?.closeButtonDidClick()
         })
     }

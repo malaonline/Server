@@ -279,7 +279,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             self.presentViewController(
                 UINavigationController(rootViewController: LoginViewController()),
                 animated: true,
-                completion: { () -> Void in
+                completion: { [weak self] () -> Void in
+                    self?.pushToCourseChoosingView()
             })
         }else {
             self.pushToCourseChoosingView()
