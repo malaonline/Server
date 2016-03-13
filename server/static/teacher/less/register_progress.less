@@ -14,6 +14,20 @@
   font-size: 16px;
   margin:0 auto;
   display:block;
+  background-color: #2f6bac;
+  &:hover{
+    background-color: #2e5493;
+  }
+}
+
+.confirm_button:disabled{
+  @disabled_color: @border_gray;
+  border-color: @border_gray;
+  background-color: @disabled_color;
+  &:hover{
+    background-color: @disabled_color;
+    border-color: @border_gray;
+  }
 }
 
 .custom_alert{
