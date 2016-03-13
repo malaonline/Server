@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}">
     <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
+        var wx_appid = '{{ WX_APPID }}';
         wx.config({
             debug: true, // 开启调试模式?
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
