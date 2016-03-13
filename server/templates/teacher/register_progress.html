@@ -148,7 +148,8 @@
                 </div>
                 <div class="confirm_row">
                     {% if progress >= 3 %}
-                        <form action="{% url 'teacher:register-progress' %}" method="post">
+{#                        <form action="{% url 'teacher:register-progress' %}" method="post">#}
+                        <form method="post">
                             {% csrf_token %}
                             <button class="confirm_button" href="{% url 'teacher:first-page' %}">马上体验</button>
                         </form>

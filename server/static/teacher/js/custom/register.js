@@ -234,8 +234,10 @@ function checkSMS(){
 
     var phone_code = getPhoneCode();
     var sms_code = getSMSVal();
-
-    $.post("/teacher/verify_sms_code/", {phone:phone_code, code:sms_code},
+    console.log(window.location.href);
+    var post_url = window.location.href;
+    //var post_url = "/teacher/verify_sms_code/";
+    $.post(post_url, {phone:phone_code, code:sms_code},
         function(data){
             console.log(data);
             if(data.result == false){

@@ -65,7 +65,7 @@ $(
         render_grand_select_button_group();
 
         $("#submit_page").click(function(eventObject){
-            console.log("submit_page");
+            //console.log("submit_page");
             eventObject.preventDefault();
             var name = $("#realName").val();
             var gender = $("#gender-input").val();
@@ -73,7 +73,9 @@ $(
             var subclass = $("#subclass_input").val();
             var grade = selected_grand();
             //console.log(grade);
-            $.post("/teacher/information/complete/",
+            //var post_url = "/teacher/information/complete/";
+            var post_url = window.location.href;
+            $.post(post_url,
                 {
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
                 },

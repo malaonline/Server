@@ -9,7 +9,7 @@ $(
 );
 
 function day_cell_hover(day_id, today_date, today_week_day){
-    console.log(day_id);
+    //console.log(day_id);
     $("#today-date").html(today_date);
     $("#today-week-day").html(today_week_day);
     var header_template = $("#time_slot_header_template").html();
@@ -17,7 +17,7 @@ function day_cell_hover(day_id, today_date, today_week_day){
         today_week_day:today_week_day});
     if (window.time_slot_data[day_id] == undefined){
     //  今天暂无课程
-        console.log("no-class");
+    //    console.log("no-class");
         var no_class_template = $("#today_has_no_details").html();
         var no_class_content = _.template(no_class_template)();
         var list_content = header_content+no_class_content;

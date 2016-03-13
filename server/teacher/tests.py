@@ -32,24 +32,24 @@ class TestTeacherWeb(TestCase):
         sms_code = Checkcode.generate(phone)
         client = Client()
         # 第一次
-        response = client.post(reverse("teacher:verify-sms-code"),
+        response = client.post(reverse("teacher:register"),
                                {
                                    "phone": phone,
                                    "code": sms_code
                                })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.content.decode()), {
-            "result": True, "url": "/teacher/information/complete/"})
+            "result": True, "url": "/teacher/information/complete"})
         # 第二次
         sms_code = Checkcode.generate(phone)
         second_client = Client()
-        response = second_client.post(reverse("teacher:verify-sms-code"),
+        response = second_client.post(reverse("teacher:register"),
                                       {
                                           "phone": phone,
                                           "code": sms_code
                                       })
         self.assertEqual(json.loads(response.content.decode()), {
-            "url": "/teacher/information/complete/", "result": True})
+            "url": "/teacher/information/complete", "result": True})
 
         # 测试information_compelte_percent
         profile = Profile.objects.get(phone=phone)
@@ -182,7 +182,7 @@ class TestWebPage(TestCase):
                                          })
         self.assertEqual(post_response.status_code, 200)
         self.assertEqual(json.loads(post_response.content.decode("utf-8")),
-                         {"url": "/teacher/register/progress/"})
+                         {"url": "/teacher/register/progress"})
 
     def test_register_progress(self):
         client = Client()

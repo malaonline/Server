@@ -5,6 +5,8 @@ from django.core.files.base import ContentFile
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, _get_backends, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
@@ -13,6 +15,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.timezone import make_aware, localtime
 from django.utils import timezone
+from urllib.parse import urlparse
 from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator
 
@@ -36,7 +39,7 @@ logger = logging.getLogger('app')
 # Create your views here.
 
 # 目前老师端的公共登录url,这里不能用reverse,不然会发生循环引用
-LOGIN_URL = "/teacher/login"
+LOGIN_URL = "teacher:register"
 
 
 # 判断是否是已登录老师
@@ -55,7 +58,10 @@ def is_teacher_logined(u):
     return False
 
 
-class BasicTeacherView(View):
+class BasicTeacherView(LoginRequiredMixin, View):
+    login_url = LOGIN_URL
+    redirect_field_name = "next"
+
     class TeacherInformationNotComplete(Exception):
         # 老师基本信息没有填完
         pass
@@ -69,6 +75,7 @@ class BasicTeacherView(View):
         return HttpResponseRedirect(reverse("teacher:register"))
 
     need_check_percent = True
+
     def check_percent(self, user):
         # 检查老师信息是否完成
         if self.need_check_percent:
@@ -76,18 +83,33 @@ class BasicTeacherView(View):
             if percent < 1:
                 raise BasicTeacherView.TeacherInformationNotComplete()
 
+    def redirect_with_next(self, request, redirect_url, redirect_field_name="next"):
+        # 带有next的重定向
+        next = request.build_absolute_uri()
+        login_scheme, login_netloc = urlparse(redirect_url)[:2]
+        current_scheme, current_netloc = urlparse(next)[:2]
+        if ((not login_scheme or login_scheme == current_scheme) and
+                (not login_netloc or login_netloc == current_netloc)):
+            next = request.get_full_path()
+        return redirect_to_login(
+                next, redirect_url, redirect_field_name)
+
     need_check_qualifield_audit = True
+
     def check_qualifield_audit(self, teacher: models.Teacher):
         # 检查老师资格审核是否完成
         if self.need_check_qualifield_audit:
             if teacher.status != models.Teacher.INTERVIEW_OK or not teacher.status_confirm:
                 raise BasicTeacherView.TeacherQualifieldNotAudit()
 
-    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
     def get(self, request, *args, **kwargs):
         user = request.user
         try:
             teacher = user.teacher
+            # 检查用户组是否拥有
+            if not user.groups.filter(name="老师").exists():
+                raise models.Teacher.DoesNotExist()
             self.check_percent(user)
             self.check_qualifield_audit(teacher)
             return self.handle_get(request, user, teacher, *args, **kwargs)
@@ -96,15 +118,19 @@ class BasicTeacherView(View):
             return self.not_teacher_role()
         except BasicTeacherView.TeacherInformationNotComplete:
             # 老师基本信息没有填完
-            return HttpResponseRedirect(reverse("teacher:complete-information"))
+            path = request.build_absolute_uri()
+            return self.redirect_with_next(request, redirect_url=reverse("teacher:complete-information"),
+                                           redirect_field_name="next")
         except BasicTeacherView.TeacherQualifieldNotAudit:
             # 老师资料审核没有完成
-            return HttpResponseRedirect(reverse("teacher:register-progress"))
+            path = request.build_absolute_uri()
+            return self.redirect_with_next(request, redirect_url=reverse("teacher:register-progress"),
+                                           redirect_field_name="next")
 
     def handle_get(self, request, user, teacher, *args, **kwargs):
-        raise Exception("not implement")
+        raise Exception("get not implement")
 
-    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
     def post(self, request, *args, **kwargs):
         user = request.user
         try:
@@ -116,13 +142,17 @@ class BasicTeacherView(View):
             return self.not_teacher_role()
         except BasicTeacherView.TeacherInformationNotComplete:
             # 老师基本信息没有填完
-            return HttpResponseRedirect(reverse("teacher:complete-information"))
+            path = request.build_absolute_uri()
+            return self.redirect_with_next(request, redirect_url=reverse("teacher:complete-information"),
+                                           redirect_field_name="next")
         except BasicTeacherView.TeacherQualifieldNotAudit:
             # 老师资料审核没有完成
-            return HttpResponseRedirect(reverse("teacher:register-progress"))
+            path = request.build_absolute_uri()
+            return self.redirect_with_next(request, redirect_url=reverse("teacher:register-progress"),
+                                           redirect_field_name="next")
 
     def handle_post(self, request, user, teacher, *args, **kwargs):
-        pass
+        raise Exception("post not implement")
 
 
 class TeacherLogin(View):
@@ -131,18 +161,17 @@ class TeacherLogin(View):
     """
 
     def get(self, request):
+        next_url = request.GET.get("next", "")
+        # print("the_next_url is {next_url}".format(next_url=next_url))
         context = {}
         return render(request, 'teacher/register.html', context)
 
-
-class VerifySmsCode(View):
-    """
-    检查短信验证码是否正确
-    """
-
     def post(self, request):
+        # 登录,用短信验证
         phone = request.POST.get("phone", None)
         code = request.POST.get("code", None)
+        next_url = request.GET.get("next", "")
+        # print("the_next_url is {next_url}".format(next_url=next_url))
         Profile = models.Profile
         CheckCode = models.Checkcode
         Teacher = models.Teacher
@@ -189,10 +218,16 @@ class VerifySmsCode(View):
                         "url": reverse("teacher:register-progress")
                     })
                 else:
-                    return JsonResponse({
-                        "result": True,
-                        "url": reverse("teacher:first-page")
-                    })
+                    if next_url:
+                        return JsonResponse({
+                            "result": True,
+                            "url": next_url
+                        })
+                    else:
+                        return JsonResponse({
+                            "result": True,
+                            "url": reverse("teacher:first-page")
+                        })
         else:
             # 验证失败
             return JsonResponse({
@@ -271,6 +306,7 @@ class CompleteInformation(BasicTeacherView):
         return render(request, 'teacher/complete_information.html', context)
 
     def handle_post(self, request, user, teacher, *args, **kwargs):
+        next_url = request.GET.get("next", "")
         profile = models.Profile.objects.get(user=user)
 
         name = request.POST.get("name", "")
@@ -316,7 +352,10 @@ class CompleteInformation(BasicTeacherView):
         teacher.save()
         profile.save()
 
-        return JsonResponse({"url": reverse("teacher:register-progress")})
+        if next_url:
+            return JsonResponse({"url": next_url})
+        else:
+            return JsonResponse({"url": reverse("teacher:register-progress")})
 
 
 class RegisterProgress(BasicTeacherView):
@@ -343,7 +382,13 @@ class RegisterProgress(BasicTeacherView):
         # 已经确认注册进度
         teacher.status_confirm = True
         teacher.save()
-        return HttpResponseRedirect(reverse("teacher:first-page"))
+        next_url = request.GET.get("next", "")
+        print(request)
+        print("the next_url is {next}".format(next=next_url))
+        if next_url:
+            return HttpResponseRedirect(next_url)
+        else:
+            return HttpResponseRedirect(reverse("teacher:first-page"))
 
 
 # 设置老师页面的通用上下文
@@ -1526,13 +1571,20 @@ def split_list(array: list, segment_size):
     return ret_array
 
 
-class TeacherLogout(BasicTeacherView):
-    """
-    登出
-    """
-    def handle_get(self, request, user, teacher, *args, **kwargs):
-        logout(request)
-        return HttpResponseRedirect(redirect_to=reverse("teacher:register"))
+def is_information_complete(user: User):
+    # 判断用户信息是否填写完整
+    percent = information_complete_percent(user)
+    if percent < 1:
+        return False
+    return True
+
+
+def does_teacher_pass_qualifield_audit(user: User):
+    # 判断老师资质审核是否结束
+    teacher = user.teacher
+    if teacher.status != models.Teacher.INTERVIEW_OK or not teacher.status_confirm:
+        return False
+    return True
 
 
 class BaseTeacherView(View):
@@ -1541,6 +1593,10 @@ class BaseTeacherView(View):
     """
 
     @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    @method_decorator(user_passes_test(is_information_complete, login_url='teacher:complete-information',
+                                       redirect_field_name="next"))
+    @method_decorator(user_passes_test(does_teacher_pass_qualifield_audit, login_url='teacher:register-progress',
+                                       redirect_field_name="next"))
     def dispatch(self, request, *args, **kwargs):
         return super(BaseTeacherView, self).dispatch(request, *args, **kwargs)
 
