@@ -165,16 +165,17 @@
             android:background="#f6f6f6" />
 
         <RelativeLayout
+            android:id="@+id/rl_show_time_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_show_times"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
+                android:layout_height="36dp"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
                 android:text="上课时间"
                 android:textColor="#333"
                 android:textSize="15sp" />
@@ -182,9 +183,8 @@
             <ImageView
                 android:id="@+id/iv_show_times"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="36dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
                 android:scaleType="center"
                 android:src="@drawable/ic_down" />
@@ -194,6 +194,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_show_times"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="12dp"
                 android:visibility="gone" />
         </RelativeLayout>
 
@@ -214,6 +216,7 @@
             android:background="#f6f6f6" />
 
         <RelativeLayout
+            android:id="@+id/rl_scholarship_container"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="12dp"
@@ -235,7 +238,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/iv_scholarshop"
                 android:gravity="center"
-                android:text="-1"
+                android:text="未使用奖学金"
                 android:textColor="#333"
                 android:textSize="14sp" />
 
@@ -249,17 +252,21 @@
         </RelativeLayout>
 
         <View
+            android:id="@+id/line_evaluated"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="@color/line_color" />
+            android:background="@color/line_color"
+            android:visibility="gone" />
 
         <RelativeLayout
+            android:id="@+id/rl_review_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp">
+            android:layout_marginRight="12dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -277,7 +284,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/tv_review_mount"
                 android:gravity="center"
-                android:text="-1"
+                android:text="￥500"
                 android:textColor="#333"
                 android:textSize="14sp" />
 
@@ -333,12 +340,12 @@
                 android:layout_marginRight="6dp"
                 android:layout_toRightOf="@+id/tv_mount_label"
                 android:gravity="center"
-                android:text="-1"
+                android:text="0"
                 android:textColor="@color/theme_red_96"
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/iv_submit"
+                android:id="@+id/tv_submit"
                 android:layout_width="144dp"
                 android:layout_height="37dp"
                 android:layout_alignParentRight="true"

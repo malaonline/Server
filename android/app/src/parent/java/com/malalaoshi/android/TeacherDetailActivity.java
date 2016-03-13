@@ -679,6 +679,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
                     mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
             signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, mTeacher.getId());
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_SUBJECT, mTeacher.getSubject());
         }
         startActivity(signIntent);
     }

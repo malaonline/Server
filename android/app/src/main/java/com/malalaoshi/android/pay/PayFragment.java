@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
-import com.malalaoshi.android.util.MalaContext;
-import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.*;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,7 +66,8 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         wxpayLayout.setOnClickListener(this);
         payView.setOnClickListener(this);
         if (resultEntity != null) {
-            totalView.setText(resultEntity.getTotal());
+            double value = Double.valueOf(resultEntity.getTotal()) * 0.01d;
+            totalView.setText(com.malalaoshi.android.util.Number.subZeroAndDot(value));
         }
         return view;
     }

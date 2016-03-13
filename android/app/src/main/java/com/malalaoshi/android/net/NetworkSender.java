@@ -9,13 +9,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
-import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CreateChargeEntity;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,13 +27,14 @@ public class NetworkSender {
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
     private static final String URL_SCHOOL = "/api/v1/schools";
     private static final String URL_TEACHER = "/api/v1/teachers/%s";
+    private static final String URL_SUBJECT = "/api/v1/subjects";
     private static final String URL_TEACHER_VALID_TIME = "/api/v1/teachers/%s/weeklytimeslots";
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
     private static final String URL_TIMES_LOTS = "/api/v1/timeslots";
     private static final String URL_CONCRETE_TIME_SLOT = "/api/v1/concrete/timeslots";
-    private static List<CouponEntity> couponList;
+    private static final String URL_EVALUATED = "/api/v1/subject/%s/record";
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -152,7 +151,7 @@ public class NetworkSender {
     public static void createCourseOrder(JSONObject json, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
-        postJsonRequest(URL_CREATE_COURSE_ORDER, headers, json, listener);
+        postJsonRequest("/api/v1/orders", headers, json, listener);
     }
 
     public static void getCharge(String orderId, CreateChargeEntity entity, NetworkListener listener) {
@@ -217,6 +216,18 @@ public class NetworkSender {
         url += "&teacher=" + teacherId;
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.GET, url, headers, listener);
+    }
+
+    public static void getSubjectList(NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, URL_SUBJECT, headers, listener);
+    }
+
+    public static void getEvaluated(Long id, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        String url = String.format(URL_EVALUATED, id);
         stringRequest(Request.Method.GET, url, headers, listener);
     }
 }

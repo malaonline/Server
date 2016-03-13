@@ -55,10 +55,6 @@ public class CouponListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -119,9 +115,10 @@ public class CouponListFragment extends Fragment {
                 coupon.setUseType("线上使用");
                 coupon.setAmount(entity.getAmount() + "");
                 coupon.setExpired_at(entity.getExpired_at() * 1000);
-                coupon.setId(entity.getId() + "");
+                coupon.setId(entity.getId());
                 entities.add(coupon);
             }
+            fakeData(entities);
             adapter.addAll(entities);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
@@ -129,38 +126,14 @@ public class CouponListFragment extends Fragment {
         }
     }
 
-    private void fakeData() {
-        List<CouponEntity> entities = new ArrayList<>();
+    private void fakeData(List<CouponEntity> entities) {
         CouponEntity entity = new CouponEntity();
-        entity.setAmount(10000 + "");
+        entity.setAmount(100 + "");
         entity.setDescription("我们是个好老师");
-        entity.setExpired_at(System.currentTimeMillis() - 2000);
+        entity.setExpired_at(System.currentTimeMillis() + 2000);
         entity.setName("买一送一");
         entity.setUsed(false);
         entities.add(entity);
-        entity = new CouponEntity();
-        entity.setAmount(1000 + "");
-        entity.setDescription("我们是个好老师");
-        entity.setExpired_at(System.currentTimeMillis() + 20000);
-        entity.setName("买一送一");
-        entity.setUsed(false);
-        entities.add(entity);
-        entity = new CouponEntity();
-        entity.setAmount(10000 + "");
-        entity.setDescription("我们是个好老师");
-        entity.setExpired_at(System.currentTimeMillis() - 2000);
-        entity.setName("买一送一");
-        entity.setUsed(true);
-        entities.add(entity);
-        entity = new CouponEntity();
-        entity.setAmount(10000 + "");
-        entity.setDescription("我们是个好老师");
-        entity.setExpired_at(System.currentTimeMillis() - 2000);
-        entity.setName("买一送一");
-        entity.setUsed(false);
-        entities.add(entity);
-        adapter.addAll(entities);
-        adapter.notifyDataSetChanged();
     }
 
     static final class CouponAdapter extends MalaBaseAdapter<CouponEntity> {

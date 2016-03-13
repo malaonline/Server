@@ -58,12 +58,23 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         } else {
             setResult(RESULT_CANCELED);
         }
-        finish();
+        closeActivity();
     }
 
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
+        closeActivity();
+    }
+
+    private void closeActivity() {
+        if (couponEntity != null) {
+            Intent intent = new Intent();
+            intent.putExtra("coupon", couponEntity);
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
         finish();
     }
 

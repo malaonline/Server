@@ -1,7 +1,6 @@
 package com.malalaoshi.android.entity;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +10,9 @@ import java.util.Map;
 /**
  * Created by zl on 15/12/14.
  */
-public class Subject extends BaseEntity{
+public class Subject extends BaseEntity {
 
-    public Subject(){
+    public Subject() {
     }
 
     public Subject(Long id, String name) {
@@ -32,7 +31,7 @@ public class Subject extends BaseEntity{
     public static Map<Long, Subject> subjectMap;
 
     static {
-        subjectList = new ArrayList<Subject>();
+        subjectList = new ArrayList<>();
 
         subjectList.add(new Subject(1L, "数学"));
         subjectList.add(new Subject(2L, "英语"));
@@ -66,6 +65,22 @@ public class Subject extends BaseEntity{
             return getSubjectFromListById(id, subjectList);
         }
         return subjectMap.get(id);
+    }
+
+    public static Subject getSubjectIdByName(String name) {
+        if (subjectMap != null) {
+            for (Map.Entry<Long, Subject> entry : subjectMap.entrySet()) {
+                if (entry.getValue().getName().equals(name)) {
+                    return entry.getValue();
+                }
+            }
+        }
+        for (Subject subject : subjectList) {
+            if (subject.getName().equals(name)) {
+                return subject;
+            }
+        }
+        return null;
     }
 
     public static Subject getSubjectFromListById(Long id, List<Subject> subjectList) {

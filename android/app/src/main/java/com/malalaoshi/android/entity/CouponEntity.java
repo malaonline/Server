@@ -1,16 +1,19 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Coupon entity
  * Created by tianwei on 1/24/16.
  */
-public class CouponEntity {
+public class CouponEntity implements Parcelable {
     String name;
     String amount;
     long expired_at;
     boolean used;
     String description;
-    String id;
+    int id;
     String useType;
     boolean check;
 
@@ -62,11 +65,11 @@ public class CouponEntity {
         return expired_at;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -77,4 +80,46 @@ public class CouponEntity {
     public void setUsed(boolean used) {
         this.used = used;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.amount);
+        dest.writeLong(this.expired_at);
+        dest.writeByte(used ? (byte) 1 : (byte) 0);
+        dest.writeString(this.description);
+        dest.writeInt(this.id);
+        dest.writeString(this.useType);
+        dest.writeByte(check ? (byte) 1 : (byte) 0);
+    }
+
+    public CouponEntity() {
+    }
+
+    protected CouponEntity(Parcel in) {
+        this.name = in.readString();
+        this.amount = in.readString();
+        this.expired_at = in.readLong();
+        this.used = in.readByte() != 0;
+        this.description = in.readString();
+        this.id = in.readInt();
+        this.useType = in.readString();
+        this.check = in.readByte() != 0;
+    }
+
+    public static final Creator<CouponEntity> CREATOR = new Creator<CouponEntity>() {
+        public CouponEntity createFromParcel(Parcel source) {
+            return new CouponEntity(source);
+        }
+
+        public CouponEntity[] newArray(int size) {
+            return new CouponEntity[size];
+        }
+    };
 }

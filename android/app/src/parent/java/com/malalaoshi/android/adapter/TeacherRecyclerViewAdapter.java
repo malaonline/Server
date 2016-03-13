@@ -1,28 +1,20 @@
 package com.malalaoshi.android.adapter;
 
-import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherDetailActivity;
-import com.malalaoshi.android.entity.Grade;
-import com.malalaoshi.android.entity.Subject;
-import com.malalaoshi.android.entity.Tag;
-import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
-import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.CircleNetworkImage;
 
 import java.util.List;

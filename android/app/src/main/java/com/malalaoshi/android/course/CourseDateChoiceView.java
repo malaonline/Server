@@ -72,7 +72,7 @@ public class CourseDateChoiceView extends LinearLayout {
         return entity.getStart() + "\n" + entity.getEnd();
     }
 
-    public void setOnCourseDateChoicedListener(OnCourseDateChoiceListener listener) {
+    public void setOnCourseDateChoiceListener(OnCourseDateChoiceListener listener) {
         this.listener = listener;
     }
 
@@ -100,8 +100,6 @@ public class CourseDateChoiceView extends LinearLayout {
 
         @Override
         protected void fillView(int position, final View convertView, final CourseDateEntity data) {
-            TextView view = (TextView) convertView.findViewById(R.id.why);
-            view.setText(data.getDay() + " " + data.getId());
             if (data.isAvailable()) {
                 if (data.isChoice()) {
                     convertView.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.theme_blue_light));
