@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * 个人评测建档
  * Created by tianwei on 3/6/16.
  */
-public class SettingRecordActivity extends BaseActivity {
+public class SettingRecordActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
@@ -34,7 +34,18 @@ public class SettingRecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_record);
         ButterKnife.bind(this);
+        titleBarView.setOnTitleBarClickListener(this);
         initData();
+    }
+
+    @Override
+    public void onTitleLeftClick() {
+        finish();
+    }
+
+    @Override
+    public void onTitleRightClick() {
+
     }
 
     private void initData() {
