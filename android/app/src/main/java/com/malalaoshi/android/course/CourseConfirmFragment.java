@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,28 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
 import com.malalaoshi.android.base.BaseFragment;
 import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.CoursePriceUI;
+import com.malalaoshi.android.entity.CourseDateEntity;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
-import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocationUtil;
+import com.malalaoshi.android.util.MiscUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +47,10 @@ import butterknife.ButterKnife;
  * Course confirm fragment
  * Created by tianwei on 3/5/16.
  */
-public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener {
-    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices) {
+public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener, CourseDateChoiceView.OnCourseDateChoiceListener, View.OnClickListener {
+    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
-        fragment.init(schools, prices);
+        fragment.init(schools, prices, teacherId);
         return fragment;
     }
 
@@ -59,13 +72,38 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     @Bind(R.id.choice_time_view)
     protected CourseDateChoiceView choiceView;
 
+    @Bind(R.id.ll_week)
+    protected View weekContainer;
+
+    @Bind(R.id.tv_hours)
+    protected TextView hoursView;
+
+    @Bind(R.id.iv_minus)
+    protected View minusView;
+
+    @Bind(R.id.iv_add)
+    protected View addView;
+
+    @Bind(R.id.iv_show_times)
+    protected View showTimesView;
+
+    @Bind(R.id.lv_show_times)
+    protected ListView timesListView;
+
     private final List<CoursePriceUI> coursePrices;
     private final List<SchoolUI> schoolList;
+    private SchoolUI currentSchool;
     private final List<String> choiceList;
     private PriceAdapter priceAdapter;
     private SchoolAdapter schoolAdapter;
+    private TimesAdapter timesAdapter;
     private ChoiceAdapter choiceAdapter;
-    private Teacher teacher;
+    private View footView;
+    private Long teacher;
+    private int minHours;
+    private int currentHours;
+    private String selectedTimeSlots;
+    private boolean isShowTimes;
 
     @Nullable
     @Override
@@ -75,11 +113,20 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         initGridView();
         initSchoolListView();
         initChoiceListView();
+        initTimesListView();
+        minHours = 2;
+        hoursView.setText(minHours + "");
+        minusView.setOnClickListener(this);
+        addView.setOnClickListener(this);
+        showTimesView.setOnClickListener(this);
+        choiceView.setOnCourseDateChoicedListener(this);
         return view;
     }
 
-
-    private void init(Object[] schools, Object[] prices) {
+    private void init(Object[] schools, Object[] prices, Object teacherId) {
+        if (teacherId != null) {
+            this.teacher = (Long) teacherId;
+        }
         final String[] gradeList = MalaApplication.getInstance()
                 .getApplicationContext().getResources().getStringArray(R.array.grade_list);
         if (schools != null) {
@@ -105,6 +152,117 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         choiceListView.setAdapter(choiceAdapter);
     }
 
+    private void initTimesListView() {
+        timesAdapter = new TimesAdapter(getActivity());
+        timesListView.setAdapter(timesAdapter);
+    }
+
+    private void fetchWeekData() {
+        if (teacher == null || currentSchool == null) {
+            return;
+        }
+        NetworkSender.getCourseWeek(teacher, currentSchool.getSchool().getId(), new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    choiceView.setData(CourseDateEntity.format(json.toString()));
+                    weekContainer.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    MiscUtil.toast("课表数据错误");
+                }
+
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                Log.i("AABB", "error");
+            }
+        });
+    }
+
+    @Override
+    public void onCourseDateChoice(List<Long> sections) {
+        minHours = sections.size() * 2;
+        if (currentHours < minHours) {
+            currentHours = minHours;
+            hoursView.setText(currentHours + "");
+        }
+        selectedTimeSlots = "";
+        for (Long time : sections) {
+            selectedTimeSlots += time + "+";
+        }
+        if (selectedTimeSlots.endsWith("+")) {
+            selectedTimeSlots = selectedTimeSlots.substring(0, selectedTimeSlots.length() - 1);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_minus) {
+            if (currentHours - 2 >= minHours) {
+                currentHours -= 2;
+                hoursView.setText(currentHours + "");
+            }
+        } else if (v.getId() == R.id.iv_add) {
+            currentHours += 2;
+            hoursView.setText(currentHours + "");
+        } else if (v.getId() == R.id.iv_show_times) {
+            if (!isShowTimes) {
+                fetchCourseTimes();
+            } else {
+                //hide
+            }
+        }
+    }
+
+    private void fetchCourseTimes() {
+        NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    Times times = mapper.readValue(json.toString(), Times.class);
+                    Log.i("aabb", "dd");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                timesAdapter.clear();
+                timesAdapter.addAll(null);
+                timesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == placeListView.getId()) {
+            for (SchoolUI item : schoolList) {
+                item.setCheck(false);
+            }
+            currentSchool = (SchoolUI) schoolAdapter.getItem(position);
+            currentSchool.setCheck(true);
+            if (footView.getParent() == null) {
+                placeListView.addFooterView(footView);
+            }
+            schoolAdapter.clear();
+            schoolAdapter.add(currentSchool);
+            weekContainer.setVisibility(View.GONE);
+            minHours = 2;
+            selectedTimeSlots = "";
+            schoolAdapter.notifyDataSetChanged();
+            fetchWeekData();
+        }
+        if (parent.getId() == gridView.getId()) {
+            priceAdapter.setCurrentItem(position);
+        }
+    }
+
     private void initGridView() {
         priceAdapter = new PriceAdapter(getActivity());
         priceAdapter.addAll(coursePrices);
@@ -114,11 +272,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private void initSchoolListView() {
         if (schoolList.size() > 1) {
-            final View footView = View.inflate(getActivity(), R.layout.listview_course_foot_view, null);
+            footView = View.inflate(getActivity(), R.layout.listview_course_foot_view, null);
             footView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     schoolAdapter.clear();
+                    schoolList.remove(currentSchool);
+                    schoolList.add(0, currentSchool);
                     schoolAdapter.addAll(schoolList);
                     schoolAdapter.notifyDataSetChanged();
                     placeListView.removeFooterView(v);
@@ -128,20 +288,12 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
         schoolAdapter = new SchoolAdapter(getActivity());
         if (schoolList.size() > 0) {
-            schoolAdapter.add(schoolList.get(0));
+            currentSchool = schoolList.get(0);
+            schoolAdapter.clear();
+            schoolAdapter.add(currentSchool);
         }
         placeListView.setAdapter(schoolAdapter);
         placeListView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == placeListView.getId()) {
-            schoolAdapter.setCheckItem(position);
-        }
-        if (parent.getId() == gridView.getId()) {
-            priceAdapter.setCurrentItem(position);
-        }
     }
 
     private static class PriceAdapter extends MalaBaseAdapter<CoursePriceUI> {
@@ -188,25 +340,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private static class SchoolAdapter extends MalaBaseAdapter<SchoolUI> {
 
-        private int currentCheck;
-
         public SchoolAdapter(Context context) {
             super(context);
-            currentCheck = -1;
-        }
-
-        public void setCheckItem(int checkItem) {
-            if (currentCheck == checkItem) {
-                return;
-            }
-            if (currentCheck >= 0 && currentCheck < getCount()) {
-                getList().get(currentCheck).setCheck(false);
-            }
-            if (checkItem >= 0 && checkItem < getCount()) {
-                getList().get(checkItem).setCheck(true);
-            }
-            currentCheck = checkItem;
-            notifyDataSetChanged();
         }
 
         @Override
@@ -226,7 +361,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             ViewHolder holder = (ViewHolder) convertView.getTag();
             holder.nameView.setText(data.getSchool().getName());
             holder.addressView.setText(data.getSchool().getAddress());
-            holder.distanceView.setText("");
+            holder.distanceView.setText("< " + LocationUtil.formatRegion(data.getSchool().getRegion()));
             holder.checkView.setImageResource(data.isCheck() ? R.drawable.ic_check : R.drawable.ic_check_out);
         }
 
@@ -245,13 +380,34 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         protected View createView(int position, ViewGroup parent) {
-            TextView textView = new TextView(context);
-            return textView;
+            return new TextView(context);
         }
 
         @Override
         protected void fillView(int position, View convertView, String data) {
 
         }
+    }
+
+    private static class TimesAdapter extends MalaBaseAdapter<String> {
+
+        public TimesAdapter(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected View createView(int position, ViewGroup parent) {
+            View view = View.inflate(context, R.layout.view_course_selected_times, null);
+            return view;
+        }
+
+        @Override
+        protected void fillView(int position, View convertView, String data) {
+            //
+        }
+    }
+
+    private static class Times {
+        private List<List<String>> data;
     }
 }

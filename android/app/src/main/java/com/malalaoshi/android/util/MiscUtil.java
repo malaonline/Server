@@ -5,8 +5,12 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.entity.School;
+import com.malalaoshi.android.net.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,5 +45,13 @@ public class MiscUtil {
     public static String formatDate(long value) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         return format.format(value);
+    }
+
+    public static <T> boolean isNotEmpty(Collection<T> list) {
+        return list != null && list.size() > 0;
+    }
+
+    public static <T> boolean isEmpty(Collection<T> list) {
+        return list == null || list.size() == 0;
     }
 }

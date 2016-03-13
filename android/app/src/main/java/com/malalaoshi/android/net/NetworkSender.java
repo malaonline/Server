@@ -29,10 +29,12 @@ public class NetworkSender {
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
     private static final String URL_SCHOOL = "/api/v1/schools";
     private static final String URL_TEACHER = "/api/v1/teachers/%s";
+    private static final String URL_TEACHER_VALID_TIME = "/api/v1/teachers/%s/weeklytimeslots";
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
     private static final String URL_TIMES_LOTS = "/api/v1/timeslots";
+    private static final String URL_CONCRETE_TIME_SLOT = "/api/v1/concrete/timeslots";
     private static List<CouponEntity> couponList;
 
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
@@ -138,7 +140,7 @@ public class NetworkSender {
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
         //TODO tianwei Waiting for sms verification api to get parentId
         String parentId = MalaApplication.getInstance().getParentId();
-        jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME +"/"+ parentId, headers, params, listener);
+        jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME + "/" + parentId, headers, params, listener);
     }
 
     public static void getCouponList(NetworkListener listener) {
@@ -164,7 +166,7 @@ public class NetworkSender {
         } catch (Exception e) {
             return;
         }
-        String url = String.format(URL_CREATE_COURSE_ORDER,orderId);
+        String url = String.format(URL_CREATE_COURSE_ORDER, orderId);
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         jsonRequest(Request.Method.PATCH, url, headers, json, listener);
@@ -185,12 +187,12 @@ public class NetworkSender {
 
     public static void getTeacherInfo(String teacherId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        stringRequest(Request.Method.GET, String.format(URL_TEACHER,teacherId), headers, listener);
+        stringRequest(Request.Method.GET, String.format(URL_TEACHER, teacherId), headers, listener);
     }
 
     public static void getComment(String commentId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
-        stringRequest(Request.Method.GET, String.format(URL_GET_COMMENT,commentId), headers, listener);
+        stringRequest(Request.Method.GET, String.format(URL_GET_COMMENT, commentId), headers, listener);
     }
 
     public static void submitComment(JSONObject params, NetworkListener listener) {
@@ -198,5 +200,23 @@ public class NetworkSender {
         headers.put(Constants.AUTH, getToken());
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
         jsonRequest(Request.Method.POST, URL_CREATE_COMMENT, headers, params, listener);
+    }
+
+    public static void getCourseWeek(Long teacherId, Long schoolId, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        String url = String.format(URL_TEACHER_VALID_TIME, teacherId + "");
+        url += "?" + "school_id=" + schoolId;
+        headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.GET, url, headers, listener);
+    }
+
+    public static void fetchCourseTimes(Long teacherId, String times, String hours, NetworkListener listener) {
+        String url = URL_CONCRETE_TIME_SLOT;
+        url += "?hours=" + hours;
+        url += "&weekly_time_slots=" + times;
+        url += "&teacher=" + teacherId;
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.GET, url, headers, listener);
     }
 }

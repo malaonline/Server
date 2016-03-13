@@ -25,4 +25,5 @@ public final class Constants {
     public static final String TIMESLOT = "timeslot";
     public static final String SCORE = "score";
     public static final String CONTENT = "content";
+    public static final String SCHOOL_ID = "school_id";
 }

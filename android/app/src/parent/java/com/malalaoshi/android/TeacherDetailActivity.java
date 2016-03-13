@@ -47,6 +47,7 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
@@ -61,7 +62,6 @@ import butterknife.ButterKnife;
 /**
  * Created by zl on 15/11/30.
  */
-
 public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
 
     private static final String TAG = "TeacherDetailActivity";
@@ -125,7 +125,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //价格区间
     @Bind(R.id.parent_teaching_price_tv)
     protected TextView mPriceRegion;
-    
+
     //更多相册
     @Bind(R.id.parent_teacher_detail_grade_fl)
     protected FlowLayout mGrades;
@@ -277,7 +277,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         mSchoolAdapter = new SchoolAdapter(this, mSchools);
         listviewSchool.setAdapter(mSchoolAdapter);
         mNestedScrollViewContent.fullScroll(ScrollView.FOCUS_UP);
-        mNestedScrollViewContent.smoothScrollTo(0,0);
+        mNestedScrollViewContent.smoothScrollTo(0, 0);
         loadTeacherInfo();
         loadMemeberServices();
         loadSchools();
@@ -333,18 +333,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //排序
             LocationUtil.sortByRegion(mOtherSchools, latitude, longitude);
             Double dis;
-            if (mSchools.size()<=0){
+            if (mSchools.size() <= 0) {
                 dis = mOtherSchools.get(0).getRegion();
-            }else{
-                if (mOtherSchools.size()<=0){
+            } else {
+                if (mOtherSchools.size() <= 0) {
                     dis = mOtherSchools.get(0).getRegion();
-                }else{
+                } else {
                     School school = mSchools.get(0);
-                    dis = mOtherSchools.get(0).getRegion()-mSchools.get(0).getRegion()>0?mSchools.get(0).getRegion():mOtherSchools.get(0).getRegion();
+                    dis = mOtherSchools.get(0).getRegion() - mSchools.get(0).getRegion() > 0 ? mSchools.get(0).getRegion() : mOtherSchools.get(0).getRegion();
                 }
             }
 
-            tvSchoolMore.setText("离您最近的社区中心 ("+dis+"m)");
+            tvSchoolMore.setText("离您最近的社区中心 (" + dis + "m)");
             //没有体验中心,取最近的教学中心展示
             if (mSchools.size() <= 0) {
                 mSchools.add(mOtherSchools.get(0));
@@ -361,7 +361,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void loadTeacherInfo() {
-        String url = hostUrl + TEACHERS_PATH_V1 + "/"+mTeacherId;
+        String url = hostUrl + TEACHERS_PATH_V1 + "/" + mTeacherId;
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -430,10 +430,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         if (mMemberServices != null && mMemberServices.size() > 0) {
             mMemberServiceLayout.setVisibility(View.VISIBLE);
             String[] datas = new String[mMemberServices.size()];
-            for (int i =0;i<mMemberServices.size();i++){
+            for (int i = 0; i < mMemberServices.size(); i++) {
                 datas[i] = mMemberServices.get(i).getName();
             }
-            setFlowDatas(mMemberServiceFl,datas);
+            setFlowDatas(mMemberServiceFl, datas);
         }
     }
 
@@ -464,15 +464,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             Double minPrice = teacher.getMin_price();
             Double maxPrice = teacher.getMax_price();
             String region = null;
-            if (minPrice!=null&&maxPrice!=null){
+            if (minPrice != null && maxPrice != null) {
 
-                region = Number.subZeroAndDot(minPrice * 0.01d)+"-"+ Number.subZeroAndDot(maxPrice * 0.01d)+"元/小时";
-            }
-            else if (minPrice!=null){
-                region = Number.subZeroAndDot(minPrice * 0.01d)+"元/小时";
-            }
-            else if (maxPrice!=null){
-                region = Number.subZeroAndDot(maxPrice * 0.01d)+"元/小时";
+                region = Number.subZeroAndDot(minPrice * 0.01d) + "-" + Number.subZeroAndDot(maxPrice * 0.01d) + "元/小时";
+            } else if (minPrice != null) {
+                region = Number.subZeroAndDot(minPrice * 0.01d) + "元/小时";
+            } else if (maxPrice != null) {
+                region = Number.subZeroAndDot(maxPrice * 0.01d) + "元/小时";
             }
             if (region != null) {
                 mPriceRegion.setText(region);
@@ -480,8 +478,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
             //教授年级
             String[] grades = mTeacher.getGrades();
-            if (grades!=null&&grades.length>0){
-                setFlowDatas(mGrades,grades);
+            if (grades != null && grades.length > 0) {
+                setFlowDatas(mGrades, grades);
             }
 
             //分格标签
@@ -504,23 +502,23 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             loadGallery(mTeacher.getPhoto_set());
             //特殊成就
             List<Achievement> achievements = mTeacher.getAchievement_set();
-            if (achievements!=null&&achievements.size()>0){
+            if (achievements != null && achievements.size() > 0) {
                 String[] achievementArr = new String[achievements.size()];
-                for (int i=0;i<achievements.size();i++){
+                for (int i = 0; i < achievements.size(); i++) {
                     achievementArr[i] = achievements.get(i).getTitle();
                 }
-                setFlowDatas(mAchievement,achievementArr, R.drawable.item_text_bg);
+                setFlowDatas(mAchievement, achievementArr, R.drawable.item_text_bg);
             }
 
             //教龄级别
             String level = teacher.getLevel();
             Integer teachAge = teacher.getTeaching_age();
-            if (level != null&&teachAge!=null) {
-                mTeacherLevel.setText(teachAge.toString()+"年"+"  "+level);
-            }else if (level != null){
+            if (level != null && teachAge != null) {
+                mTeacherLevel.setText(teachAge.toString() + "年" + "  " + level);
+            } else if (level != null) {
                 mTeacherLevel.setText(level);
-            }else if (teachAge!=null){
-                mTeacherLevel.setText(teachAge.toString()+"年");
+            } else if (teachAge != null) {
+                mTeacherLevel.setText(teachAge.toString() + "年");
             }
         }
     }
@@ -533,9 +531,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
-            layoutParams.setMargins(padding,padding,padding,padding);
+            layoutParams.setMargins(padding, padding, padding, padding);
             textView.setLayoutParams(layoutParams);
-            textView.setPadding(padding,padding,padding,padding);
+            textView.setPadding(padding, padding, padding, padding);
             textView.setText(datas[i]);
             textView.setBackground(getResources().getDrawable(drawable));
             flowlayout.addView(textView, i);
@@ -570,11 +568,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     width, width));
             int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
 
-            if (i==0){
+            if (i == 0) {
                 imageView.setPadding(0, 0, margin, 0);
-            }else if(i==1){
+            } else if (i == 1) {
                 imageView.setPadding(margin, 0, margin, 0);
-            }else{
+            } else {
                 imageView.setPadding(margin, 0, 0, 0);
             }
 
@@ -637,22 +635,21 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void signUp() {
         //判断是否登录
-        if (MalaApplication.getInstance().getToken()!=null&&!MalaApplication.getInstance().getToken().isEmpty()){
+        if (MalaApplication.getInstance().getToken() != null && !MalaApplication.getInstance().getToken().isEmpty()) {
             //跳转至报名页
             startCourseConfirmActivity();
-        }else{
+        } else {
             //跳转登录页
             startSmsActivityRes();
         }
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==REQUEST_CODE_LOGIN){
-            if (resultCode==SmsAuthActivity.RESULT_CODE_LOGIN_SUCCESSED){
+        if (requestCode == REQUEST_CODE_LOGIN) {
+            if (resultCode == SmsAuthActivity.RESULT_CODE_LOGIN_SUCCESSED) {
                 //跳转到课程购买页
                 startCourseConfirmActivity();
             }
@@ -660,22 +657,28 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     //启动登录页
-    private void startSmsActivityRes(){
+    private void startSmsActivityRes() {
         Intent intent = new Intent();
         intent.setClass(this, SmsAuthActivity.class);
         startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 
     //启动购买课程页
-    private void startCourseConfirmActivity(){
+    private void startCourseConfirmActivity() {
         Intent signIntent = new Intent(this, CourseConfirmActivity.class);
-        if(mSchools!=null) {
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
-                    mSchools.toArray(new School[mSchools.size()]));
+        List<School> schools = new ArrayList<>();
+        if (MiscUtil.isNotEmpty(mSchools)) {
+            schools.addAll(mSchools);
         }
-        if(mTeacher!=null && mTeacher.getPrices()!=null) {
+        if (MiscUtil.isNotEmpty(mOtherSchools)) {
+            schools.addAll(mOtherSchools);
+        }
+        signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
+                schools.toArray(new School[schools.size()]));
+        if (mTeacher != null && mTeacher.getPrices() != null) {
             signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
                     mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, mTeacher.getId());
         }
         startActivity(signIntent);
     }
@@ -683,13 +686,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //设置上滑头像消失
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-       //设置头像上滑缩小消失
+        //设置头像上滑缩小消失
         int toolbarHeight = toolbar.getHeight();
         int headPortraitHeight = mRlTeacherHeadPortrait.getHeight();
         //最大上滑距离
         int maxOffset = mAppBarLayout.getHeight() - toolbarHeight;
         //头像彻底消失临界点
-        int criticalPoint = headPortraitHeight *35 / 75;
+        int criticalPoint = headPortraitHeight * 35 / 75;
         Log.e(TAG, "toolbar_height:" + toolbarHeight + " appBarLayout_height:" + mAppBarLayout.getHeight() + " Offset:" + verticalOffset);
         int len = (maxOffset + verticalOffset);
         if (len <= 0) {

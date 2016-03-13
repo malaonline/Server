@@ -87,6 +87,7 @@
             android:orientation="vertical">
 
             <com.malalaoshi.android.course.BorderTextView
+                android:id="@+id/tv_section1"
                 style="@style/mala.widget.title.text.smallest"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
@@ -98,6 +99,7 @@
                 app:RightBorder="1dp" />
 
             <com.malalaoshi.android.course.BorderTextView
+                android:id="@+id/tv_section2"
                 style="@style/mala.widget.title.text.smallest"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
@@ -109,6 +111,7 @@
                 app:RightBorder="1dp" />
 
             <com.malalaoshi.android.course.BorderTextView
+                android:id="@+id/tv_section3"
                 style="@style/mala.widget.title.text.smallest"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
@@ -120,6 +123,7 @@
                 app:RightBorder="1dp" />
 
             <com.malalaoshi.android.course.BorderTextView
+                android:id="@+id/tv_section4"
                 style="@style/mala.widget.title.text.smallest"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
@@ -131,6 +135,7 @@
                 app:RightBorder="1dp" />
 
             <com.malalaoshi.android.course.BorderTextView
+                android:id="@+id/tv_section5"
                 style="@style/mala.widget.title.text.smallest"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"

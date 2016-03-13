@@ -65,27 +65,37 @@
             android:layout_marginTop="16dp"
             android:background="#e3e3e3" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="#f6f6f6" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="16dp"
-            android:text="选择上课时间"
-            android:textColor="#333"
-            android:textSize="15sp" />
-
-        <com.malalaoshi.android.course.CourseDateChoiceView
-            android:id="@+id/choice_time_view"
+        <LinearLayout
+            android:id="@+id/ll_week"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#f6f6f6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:text="选择上课时间"
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+            <com.malalaoshi.android.course.CourseDateChoiceView
+                android:id="@+id/choice_time_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -154,20 +164,44 @@
             android:layout_height="8dp"
             android:background="#f6f6f6" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="16dp"
-            android:text="上课时间"
-            android:textColor="#333"
-            android:textSize="15sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_show_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:text="上课时间"
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_show_times"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_down" />
+
+            <com.malalaoshi.android.course.ListViewForScrollView
+                android:id="@+id/lv_show_times"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_show_times"
+                android:visibility="gone" />
+        </RelativeLayout>
+
 
         <com.malalaoshi.android.course.ListViewForScrollView
             android:id="@+id/list_choice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
@@ -276,10 +310,10 @@
             android:background="@color/line_color" />
 
         <RelativeLayout
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
 
             <TextView
                 android:id="@+id/tv_mount_label"
