@@ -154,7 +154,8 @@ function set_grand_tag(grand_name, select){
     var _remove_grand = function(grand_list){
         _.each(grand_list, function(item){
             if (item[1] == grand_name){
-                item[2] = select;
+                item[2] = item[2] != true;
+                //item[2] = select;
             }
         });
     };
