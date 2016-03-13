@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Input student name and sync with server.
@@ -92,6 +94,8 @@ public class VerifyStudentNameView extends LinearLayout {
                         updateStuName(nameEditView.getText().toString());
                         ((SmsAuthActivity) getContext()).setActivityResult(null);
                         ((SmsAuthActivity) getContext()).finish();
+                        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+                        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA));
                         return;
                     }
                 } catch (Exception e) {

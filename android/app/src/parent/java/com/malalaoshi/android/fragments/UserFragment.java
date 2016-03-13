@@ -484,7 +484,6 @@ public class UserFragment extends Fragment {
     private void postUserAvator(String path) {
         if (path!=null&&!path.isEmpty())
         {
-
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
             Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2*width, 2*height, ImageCache.getInstance(MalaApplication.getInstance()));

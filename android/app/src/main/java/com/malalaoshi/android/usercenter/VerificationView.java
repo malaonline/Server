@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.malalaoshi.android.BuildConfig;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -36,6 +37,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * verify the phone of user by verify code.
@@ -277,6 +279,8 @@ public class VerificationView extends RelativeLayout implements MaClickableSpan.
             }
         } else {
             ((SmsAuthActivity) context).setActivityResult(null);
+            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA));
             ((SmsAuthActivity) context).finish();
         }
     }

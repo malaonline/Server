@@ -98,6 +98,8 @@
     <string name="usercenter_set_avator_failed">头像设置失败!</string>
     <string name="usercenter_set_avator_succeed">头像设置成功!</string>
 
+    <string name="load_timetable_info_failed">课程表下载失败!</string>
+
     <string name="app_version">版本 V1.0</string>
     <string name="app_company">COPYRIGHT&#169;2014-2016\n北京麻辣在线科技有限公司版权所有</string>
 <<<<<<< af2ee1600f8788958399ab4a48740c778a745e7e

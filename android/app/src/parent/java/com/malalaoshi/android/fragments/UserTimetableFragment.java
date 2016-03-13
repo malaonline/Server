@@ -18,12 +18,14 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.listener.DatePickerController;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.calendar.DayPickerView;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/1/28.
@@ -84,8 +88,24 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
         //下载数据
         initDatas();
+        EventBus.getDefault().register(this);
         return v;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()){
+            case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
+                loadDatas();
+                break;
+        }
+    }
+
 
     private void initDatas() {
         loadDatas();
@@ -119,15 +139,13 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
             }
             stringBuilder.append(courses.get(i).getSubject() + str);
         }
-
         Toast.makeText(getContext(), calendarDay.getYear() + "年" + calendarDay.getMonth() + "月" + calendarDay.getDay() + " 课程:" + stringBuilder.toString() , Toast.LENGTH_SHORT).show();
     }
 
 
     //加载数据
     public void loadDatas(){
-        String token = UserManager.getInstance().getToken();
-        if (token==null||token.isEmpty()){
+        if (!UserManager.getInstance().isLogin()){
             return;
         }
         NetworkSender.getTimetable(new NetworkListener() {
@@ -139,25 +157,22 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
                     updateDatas(courses);
                 } else {
                     //数据请求失败
+                    loadTimeTableFailed();
 
                 }
-                //停止进度条
             }
 
             @Override
             public void onFailed(VolleyError error) {
                 //dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                //停止进度条,数据请求失败
-
+                loadTimeTableFailed();
             }
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        //volley联动,取消请求
+    private void loadTimeTableFailed() {
+        MiscUtil.toast(R.string.load_timetable_info_failed);
     }
 
     private void updateDatas(CourseListResult courses) {
