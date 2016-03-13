@@ -118,22 +118,11 @@ public class CouponListFragment extends Fragment {
                 coupon.setId(entity.getId());
                 entities.add(coupon);
             }
-            fakeData(entities);
             adapter.addAll(entities);
             adapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void fakeData(List<CouponEntity> entities) {
-        CouponEntity entity = new CouponEntity();
-        entity.setAmount(100 + "");
-        entity.setDescription("我们是个好老师");
-        entity.setExpired_at(System.currentTimeMillis() + 2000);
-        entity.setName("买一送一");
-        entity.setUsed(false);
-        entities.add(entity);
     }
 
     static final class CouponAdapter extends MalaBaseAdapter<CouponEntity> {

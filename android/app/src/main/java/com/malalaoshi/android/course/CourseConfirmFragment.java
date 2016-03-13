@@ -185,7 +185,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             String text;
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
-                text = gradeList[priceUI.getPrice().getGrade().getId().intValue()];
+                text = gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
                 text += " " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
@@ -260,6 +260,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     public void onCourseDateChoice(List<Long> sections) {
         minHours = sections.size() * 2;
         minHours = minHours < 2 ? 2 : minHours;
+        shouldUpdateTimes = true;
         if (currentHours < minHours) {
             currentHours = minHours;
             setHoursText();
@@ -288,9 +289,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                 currentHours -= 2;
                 setHoursText();
             }
+            timesListView.setVisibility(View.GONE);
         } else if (v.getId() == R.id.iv_add) {
             currentHours += 2;
             setHoursText();
+            timesListView.setVisibility(View.GONE);
         } else if (v.getId() == R.id.rl_show_time_container) {
             if (isShowingTimes) {
                 timesListView.setVisibility(View.GONE);
