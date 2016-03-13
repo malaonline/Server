@@ -27,6 +27,11 @@ logger = logging.getLogger('app')
 # Create your views here.
 
 
+def _get_default_bankend_path():
+    for backend, backend_path in _get_backends(return_tuples=True):
+        return backend_path
+
+
 def _get_parent(request):
     parent = None
     if not request.user.is_anonymous():
@@ -46,7 +51,7 @@ def _get_parent(request):
             except:
                 pass
         if parent:
-            parent.user.backend = 'django.contrib.auth.backends.ModelBackend'
+            parent.user.backend = _get_default_bankend_path()
             login(request, parent.user)
     return parent
 
@@ -102,6 +107,8 @@ class CourseChoosingView(View):
         if settings.TESTING:
             # the below line is only for testing
             parent = models.Parent.objects.get(pk=3)
+            parent.user.backend = _get_default_bankend_path()
+            login(request, parent.user)
         else:
             parent = _get_parent(request)
         if parent is None:
@@ -663,9 +670,7 @@ def add_openid(request):
         profile.wx_openid = openid
         profile.save()
         user = profile.user
-        for backend, backend_path in _get_backends(return_tuples=True):
-            user.backend = backend_path
-            break
+        user.backend = _get_default_bankend_path()
         parent = Parent.objects.get(user=user)
     except Profile.DoesNotExist:
         # new user
