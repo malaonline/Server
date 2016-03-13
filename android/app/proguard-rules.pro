@@ -79,3 +79,19 @@
 }
 
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+
+
+#okhttp
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.** { *;}
+-dontwarn okio.**
+
+#eventbus
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}

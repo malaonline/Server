@@ -2,9 +2,7 @@ package com.malalaoshi.android.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
