@@ -95,6 +95,8 @@
     <string name="usercenter_set_school_failed">学校设置失败!</string>
     <string name="usercenter_set_school_succeed">学校设置成功!</string>
     <string name="usercenter_school_empty">学校不能为空!</string>
+    <string name="usercenter_set_avator_failed">头像设置失败!</string>
+    <string name="usercenter_set_avator_succeed">头像设置成功!</string>
 
     <string name="app_version">版本 V1.0</string>
     <string name="app_company">COPYRIGHT&#169;2014-2016\n北京麻辣在线科技有限公司版权所有</string>

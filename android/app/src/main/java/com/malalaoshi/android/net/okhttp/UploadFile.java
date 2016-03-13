@@ -57,14 +57,20 @@ public class UploadFile {
                 if (networkListener!=null){
                     networkListener.onFailed(new VolleyError());
                 }
-                int i= 0;
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (networkListener!=null){
-                    networkListener.onSucceed(response.body().toString());
+                if (response.code()==200){
+                    if (networkListener!=null){
+                        networkListener.onSucceed(response.body()!=null?response.body().toString():null);
+                    }
+                }else{
+                    if (networkListener!=null){
+                        networkListener.onFailed(new VolleyError());
+                    }
                 }
+
             }
         });
 

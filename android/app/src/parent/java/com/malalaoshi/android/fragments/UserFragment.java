@@ -1,9 +1,11 @@
 package com.malalaoshi.android.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,10 +35,10 @@ import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
-import com.malalaoshi.android.net.okhttp.UploadFile;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.result.UserListResult;
 import com.malalaoshi.android.util.AuthUtils;
@@ -52,10 +55,12 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/1/24.
@@ -64,6 +69,8 @@ public class UserFragment extends Fragment {
 
     public static final int REQUEST_CODE_PICK_IMAGE = 0x03;
     public static final int REQUEST_CODE_CAPTURE_CAMEIA = 0x04;
+
+    public static final int PERMISSIONS_REQUEST_CAMERA = 0x05;
 
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
@@ -94,7 +101,26 @@ public class UserFragment extends Fragment {
         ButterKnife.bind(this, view);
         initDatas();
         initViews();
+        EventBus.getDefault().register(this);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()){
+            case BusEvent.BUS_EVENT_UPDATE_USERCENTER_UI:
+                updateUI();
+                break;
+            case BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA:
+                reloadDatas();
+                break;
+
+        }
     }
 
     private void initDatas() {
@@ -140,7 +166,6 @@ public class UserFragment extends Fragment {
                     loadProfoleFailed();
                 }
                 try {
-                    Log.i("UserFragment", "UserFragment:" + json.toString());
                     updateUserProfile(new JSONObject(json.toString()));
                     updateUserAvatorUI();
                 } catch (Exception e) {
@@ -159,7 +184,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadProfoleFailed() {
-
+        //MiscUtil.toast(R.string.load_user_info_failed);
     }
 
     private void updateUserProfile(JSONObject jsonObject){
@@ -197,7 +222,9 @@ public class UserFragment extends Fragment {
                     Log.i("UserFragment", "UserFragment:" + json.toString());
                     updateUserInfo(userListResult.getResults().get(0));
                     updateUserInfoUI();
+                    return;
                 }
+                loadInfoFailed();
             }
 
             @Override
@@ -245,16 +272,17 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.iv_user_avatar)
     public void OnClickUserAvatar(View view){
-        if (checkLogin()==false) return;
+        //if (checkLogin()==false) return;
         ArrayList<BaseEntity> datas = new ArrayList<>();
         datas.add(new BaseEntity(1L,"拍照"));
-        datas.add(new BaseEntity(2L,"相册"));
+        datas.add(new BaseEntity(2L, "相册"));
         SingleChoiceDialog dailog = SingleChoiceDialog.newInstance(0, 0, datas);
         dailog.setOnSingleChoiceClickListener(new SingleChoiceDialog.OnSingleChoiceClickListener() {
             @Override
             public void onChoiceClick(View view, BaseEntity entity) {
                 if (entity.getId() == 1L) {
-                    getPhotoFromCamera();
+                    requestPermission();
+                    //
                 } else if (entity.getId() == 2L) {
                     getPhotoFromGallay();
                 }
@@ -265,16 +293,8 @@ public class UserFragment extends Fragment {
 
     //拍照
     private void getPhotoFromCamera() {
-        /*String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
-        }
-        else {
-            Toast.makeText(getContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
-        }*/
 
-        String state = Environment.getExternalStorageState();
+       String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             try{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -285,16 +305,16 @@ public class UserFragment extends Fragment {
                 }
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
                 String timeStamp = format.format(new Date());
-                String imageFileName = timeStamp + ".jpg";
+                String imageFileName = timeStamp + ".png";
 
                 File image = new File(dir, imageFileName);
                 strAvatorLocPath = image.getAbsolutePath();
 
                 //strAvatorLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
-                //intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
-            }catch (ActivityNotFoundException e) {
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
+            } catch (ActivityNotFoundException e) {
                Toast.makeText(getContext(), "没有找到储存目录",Toast.LENGTH_LONG).show();
             }
 
@@ -304,6 +324,45 @@ public class UserFragment extends Fragment {
         }
     }
 
+
+    protected void requestPermission(){
+        int hasWritePermission = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasCameraPermission = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.CAMERA);
+        List<String> permissions = new ArrayList<String>();
+        if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (hasCameraPermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.CAMERA );
+        }
+        if( !permissions.isEmpty() ) {
+            requestPermissions( permissions.toArray( new String[permissions.size()] ), PERMISSIONS_REQUEST_CAMERA );
+        }else{
+            //有权限
+            getPhotoFromCamera();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CAMERA: {
+                //如果请求被取消，那么 result 数组将为空
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 已经获取对应权限
+                    getPhotoFromCamera();
+                } else {
+                    // 未获取到授权，取消需要该权限的方法
+                    //shouldShowRequestPermissionRationale( Manifest.permission.CAMERA))
+                    Toast.makeText(getContext(),"缺少拍照相关权限",Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
     //从相册获取照片
     private void getPhotoFromGallay(){
@@ -442,21 +501,23 @@ public class UserFragment extends Fragment {
         NetworkSender.setUserAvator(strAvatorLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-
+                setAvatorSucceeded();
             }
 
             @Override
             public void onFailed(VolleyError error) {
-
+                setAvatorFailed();
             }
         });
     }
 
     private void setAvatorSucceeded() {
+        MiscUtil.toast(R.string.usercenter_set_avator_succeed);
         progressDialog.dismiss();
     }
 
     private void setAvatorFailed() {
+        MiscUtil.toast(R.string.usercenter_set_avator_failed);
         progressDialog.dismiss();
     }
 
