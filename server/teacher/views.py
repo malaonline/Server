@@ -182,9 +182,6 @@ class TeacherLogin(View):
             # new user
             user = Teacher.new_teacher(phone)
             teacher = user.teacher
-            profile = teacher.user.profile
-            profile.phone = phone
-            profile.save()
         else:
             user = profile.user
             # 注意,这段代码摘抄自django库本身
