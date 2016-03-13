@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        /*FragmentManager fragmentManager = getSupportFragmentManager();
         MalaApplication malaApp = MalaApplication.getInstance();
         if (!malaApp.isLogin()) {
             LoginFragment loginFragment = new LoginFragment();
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             MainFragment mainFragment = new MainFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, mainFragment).commit();
-        }
+        }*/
 
         ButterKnife.bind(this);
     }
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_logout) {
-            MalaApplication.getInstance().logout();
+            //MalaApplication.getInstance().logout();
             FragmentManager fragmentManager = getSupportFragmentManager();
             LoginFragment loginFragment = new LoginFragment();
             fragmentManager.beginTransaction().replace(R.id.content_layout, loginFragment).commit();
