@@ -121,6 +121,29 @@ func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, 
     }
 }
 
+///  保存学生姓名
+///
+///  - parameter name:           姓名
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func saveStudentName(name: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    let requestParameters = [
+        "student_name": name,
+    ]
+    
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/parents/\(MalaUserDefaults.parentID.value ?? -2)", method: .PATCH, requestParameters: requestParameters, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 ///  优惠券列表解析函数
 ///
 ///  - parameter failureHandler: 失败处理闭包

@@ -345,14 +345,27 @@ class LoginViewController: UIViewController {
             }
         }, completion: { [weak self] (loginUser) -> Void in
             ThemeHUD.hideActivityIndicator()
-            println("SMS验证成功，用户Token：\(loginUser.accessToken)")
+            println("SMS验证成功，用户Token：\(loginUser)")
             saveTokenAndUserInfo(loginUser)
             MalaUserDefaults.isLogouted = false
-            self?.closeButtonDidClick()
+            
+            if loginUser.firstLogin == true {
+                self?.switchViewToSaveName()
+            }else {
+                 self?.closeButtonDidClick()
+            }
         })
     }
     
     @objc private func closeButtonDidClick() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func switchViewToSaveName() {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            let view = SaveNameView()
+            view.controller = self
+            self?.view = view
+        }
     }
 }

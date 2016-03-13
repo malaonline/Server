@@ -265,6 +265,7 @@
 		F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F11C926E16004056B1 /* ProfileElementModel.swift */; };
 		F46064F41C92715B004056B1 /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F31C92715B004056B1 /* InfoModifyViewController.swift */; };
 		F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F51C93C375004056B1 /* ThemeReloadView.swift */; };
+		F46064F81C941829004056B1 /* SaveNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F71C941829004056B1 /* SaveNameView.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F47C8B021C4F7AC800BACBFC /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */; };
@@ -500,6 +501,7 @@
 		F46064F11C926E16004056B1 /* ProfileElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileElementModel.swift; sourceTree = "<group>"; };
 		F46064F31C92715B004056B1 /* InfoModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewController.swift; sourceTree = "<group>"; };
 		F46064F51C93C375004056B1 /* ThemeReloadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeReloadView.swift; sourceTree = "<group>"; };
+		F46064F71C941829004056B1 /* SaveNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveNameView.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F47C8B011C4F7AC800BACBFC /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
@@ -883,9 +885,10 @@
 		F414FFEC1C916ACE0038D7A7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */,
 				F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */,
 				F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */,
+				F46064F71C941829004056B1 /* SaveNameView.swift */,
+				F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1422,6 +1425,7 @@
 				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
+				F46064F81C941829004056B1 /* SaveNameView.swift in Sources */,
 				F40B53CC1C83FBCA00C20037 /* OrderForm.swift in Sources */,
 				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,

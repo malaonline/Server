@@ -60,3 +60,19 @@ func unregisterThirdPartyPush() {
 func cleanCaches() {
     
 }
+
+
+// MARK: - Alert Message
+func showSaveResult(viewController: UIViewController?, result: Bool, property: String) {
+    guard viewController != nil else {
+        return
+    }
+    
+    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        let string = result ? "成功" : "失败"
+        _ = JSSAlertView().show(viewController!,
+            title: String(format: "%@保存%@",
+                property, string)
+        )
+    }
+}

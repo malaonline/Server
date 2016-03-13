@@ -21,7 +21,7 @@ class ProfileViewController: UITableViewController {
     /// [个人中心]头部视图
     private lazy var profileHeaderView: ProfileViewHeaderView = {
         let profileHeaderView = ProfileViewHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_ProfileHeaderViewHeight))
-        profileHeaderView.name = "学生姓名"
+        profileHeaderView.name = MalaUserDefaults.studentName.value ?? "学生姓名"
         return profileHeaderView
     }()
     /// [个人中心]底部视图
@@ -62,6 +62,7 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
 
         println("UserToken is \(MalaUserDefaults.userAccessToken.value)")
+        println("studentName is \(MalaUserDefaults.studentName.value)")
         configure()
         setupUserInterface()
     }

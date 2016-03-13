@@ -14,6 +14,7 @@ let UserIDKey = "UserIDKey"
 let ParentIDKey = "ParentIDKey"
 let ProfileIDKey = "ProfileIDKey"
 let FirstLoginKey = "FirstLoginKey"
+let StudentNameKey = "StudentNameKey"
 
 ///  监听者
 struct Listener<T>: Hashable {
@@ -127,26 +128,36 @@ class MalaUserDefaults {
     static var parentID: Listenable<Int?> = {
         let parentID = defaults.integerForKey(ParentIDKey)
         
-        return Listenable<Int?>(parentID) { userID in
-            defaults.setObject(userID, forKey: ParentIDKey)
+        return Listenable<Int?>(parentID) { parentID in
+            defaults.setObject(parentID, forKey: ParentIDKey)
         }
     }()
     /// 个人资料id
     static var profileID: Listenable<Int?> = {
         let profileID = defaults.integerForKey(ProfileIDKey)
         
-        return Listenable<Int?>(profileID) { userID in
-            defaults.setObject(userID, forKey: ProfileIDKey)
+        return Listenable<Int?>(profileID) { profileID in
+            defaults.setObject(profileID, forKey: ProfileIDKey)
         }
     }()
     /// 登陆标示（以是否已填写学生姓名区分）
     static var firstLogin: Listenable<Bool?> = {
         let firstLogin = defaults.boolForKey(FirstLoginKey)
         
-        return Listenable<Bool?>(firstLogin) { userID in
-            defaults.setObject(userID, forKey: FirstLoginKey)
+        return Listenable<Bool?>(firstLogin) { firstLogin in
+            defaults.setObject(firstLogin, forKey: FirstLoginKey)
         }
     }()
+    
+    /// 学生姓名
+    static var studentName: Listenable<String?> = {
+        let studentName = defaults.stringForKey(StudentNameKey)
+        
+        return Listenable<String?>(studentName) { studentName in
+            defaults.setObject(studentName, forKey: StudentNameKey)
+        }
+    }()
+    
     
     /// 清空UserDefaults
     class func cleanAllUserDefaults() {
@@ -156,12 +167,14 @@ class MalaUserDefaults {
         parentID.removeAllListeners()
         profileID.removeAllListeners()
         firstLogin.removeAllListeners()
+        studentName.removeAllListeners()
         
         defaults.removeObjectForKey(userAccessTokenKey)
         defaults.removeObjectForKey(UserIDKey)
         defaults.removeObjectForKey(ParentIDKey)
         defaults.removeObjectForKey(ProfileIDKey)
         defaults.removeObjectForKey(FirstLoginKey)
+        defaults.removeObjectForKey(StudentNameKey)
         
         // 配置清空成功表示注销成功
         MalaUserDefaults.isLogouted = defaults.synchronize()
