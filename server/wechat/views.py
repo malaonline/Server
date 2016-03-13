@@ -100,7 +100,7 @@ class CourseChoosingView(View):
         # TODO: the below line is only for testing
         parent = models.Parent.objects.get(pk=3)
         if parent is None:
-            return HttpResponseRedirect(reverse('wechat:phone_page'))
+            return HttpResponseRedirect(WX_AUTH_URL)
         kwargs['parent'] = parent
         first_buy = True
         kwargs['first_buy'] = first_buy

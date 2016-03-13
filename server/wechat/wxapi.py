@@ -28,6 +28,7 @@ __all__ = [
     "WX_SUCCESS",
     "WX_FAIL",
     "WX_PAYERROR",
+    "WX_AUTH_URL",
     ]
 logger = logging.getLogger('app')
 _WX_PAY_UNIFIED_ORDER_LOG_FMT = 'weixin_pay_unified_order return: [{code}] {msg}.'
@@ -38,6 +39,8 @@ _WX_PAY_RESULT_NOTIFY_LOG_FMT = 'weixin_pay_result_notify return: [{code}] {msg}
 WX_SUCCESS = 'SUCCESS'
 WX_FAIL = 'FAIL'
 WX_PAYERROR = 'PAYERROR'
+
+WX_AUTH_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+settings.WEIXIN_APPID
 
 def make_nonce_str():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
