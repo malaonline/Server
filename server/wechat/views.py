@@ -185,7 +185,7 @@ class CourseChoosingView(View):
             return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': -500})
         # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
         data = {}
-        data['timestamp'] = int(timezone.now().timestamp())
+        data['timeStamp'] = int(timezone.now().timestamp())
         data['nonceStr'] = make_nonce_str()
         data['package'] = 'prepay_id={id})'.format(id=ret_json['data']['prepay_id'])
         data['signType'] = 'SHA1'
