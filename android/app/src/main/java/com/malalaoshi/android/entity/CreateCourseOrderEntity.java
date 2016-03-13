@@ -7,7 +7,7 @@ import java.util.List;
  * Create course order entity
  * Created by tianwei on 2/27/16.
  */
-public class CreateCourseOrderEntity  extends jsonBodyBase implements Serializable {
+public class CreateCourseOrderEntity  extends JsonBodyBase implements Serializable {
     private long teacher;
     private long school;
     private long grade;

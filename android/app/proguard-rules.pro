@@ -95,3 +95,22 @@
 -keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+-keep class com.fasterxml.jackson.** {*;}
+
+#entity和result
+-keep class com.malalaoshi.android.entity.** {*;}
+-keep class com.malalaoshi.android.result.** {*;}
+
+# 保持UI类不被混淆
+-keep class android.** {*; }
+-keep public class * extends android.view
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.pm
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService

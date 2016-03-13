@@ -2,7 +2,7 @@ package com.malalaoshi.android.pay;
 
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.entity.CreateChargeEntity;
-import com.malalaoshi.android.entity.jsonBodyBase;
+import com.malalaoshi.android.entity.JsonBodyBase;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 
@@ -13,7 +13,7 @@ import com.malalaoshi.android.net.NetworkSender;
 public class PingppPayer implements Payer {
 
     @Override
-    public void createOrder(jsonBodyBase body, final ResultCallback<Object> callback) {
+    public void createOrder(JsonBodyBase body, final ResultCallback<Object> callback) {
         NetworkSender.createCourseOrder(body.toJson(), new NetworkListener() {
             @Override
             public void onSucceed(Object json) {

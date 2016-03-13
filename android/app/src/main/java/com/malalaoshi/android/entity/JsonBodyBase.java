@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * Create order base
  * Created by tianwei on 2/28/16.
  */
-public class jsonBodyBase {
+public class JsonBodyBase {
     public JSONObject toJson() {
         ObjectMapper mapper = new ObjectMapper();
         try {

@@ -296,7 +296,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/iv_review"
                 android:gravity="center"
-                android:text="-1"
+                android:text="￥0"
                 android:textColor="#333"
                 android:textSize="14sp" />
 
