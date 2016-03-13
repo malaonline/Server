@@ -5,10 +5,13 @@
     android:layout_height="wrap_content">
 
     <com.malalaoshi.android.course.BorderTextView
-        android:id="@+id/why"
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/course_date_height"
+        android:gravity="center"
         android:orientation="horizontal"
+        android:textColor="#fff"
+        android:textSize="12sp"
         app:BorderColor="@color/theme_blue"
         app:BottomBorder="1dp"
         app:RightBorder="1dp" />

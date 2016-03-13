@@ -18,6 +18,7 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
     private boolean available;
     private int day;
     private boolean choice;
+    private boolean isTitle;
 
     public long getId() {
         return id;
@@ -65,6 +66,14 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
 
     public void setChoice(boolean choice) {
         this.choice = choice;
+    }
+
+    public boolean isTitle() {
+        return isTitle;
+    }
+
+    public void setIsTitle(boolean isTitle) {
+        this.isTitle = isTitle;
     }
 
     @Override

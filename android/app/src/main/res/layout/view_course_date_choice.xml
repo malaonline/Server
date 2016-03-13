@@ -6,74 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="4"
-            android:text="时间"
-            app:BorderColor="@color/theme_blue"
-            app:BottomBorder="1dp"
-            app:LeftBorder="1dp"
-            app:RightBorder="1dp"
-            app:TopBorder="1dp" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周一" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周二" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周三" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周四" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周五" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周六" />
-
-        <com.malalaoshi.android.course.BorderTextView
-            style="@style/mala.widget.course.title.attr"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/course_date_height"
-            android:layout_weight="3"
-            android:text="周日" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,6 +17,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:orientation="vertical">
+
+            <com.malalaoshi.android.course.BorderTextView
+                style="@style/mala.widget.course.title.attr"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_date_height"
+                android:text="时间"
+                app:BorderColor="@color/theme_blue"
+                app:BottomBorder="1dp"
+                app:LeftBorder="1dp"
+                app:RightBorder="1dp"
+                app:TopBorder="1dp" />
 
             <com.malalaoshi.android.course.BorderTextView
                 android:id="@+id/tv_section1"

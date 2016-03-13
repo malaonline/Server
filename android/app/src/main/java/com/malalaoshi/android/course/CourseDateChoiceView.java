@@ -47,6 +47,8 @@ public class CourseDateChoiceView extends LinearLayout {
 
     private GridViewAdapter adapter;
 
+    private final String[] titles;
+
     public CourseDateChoiceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = View.inflate(context, R.layout.view_course_date_choice, null);
@@ -55,10 +57,17 @@ public class CourseDateChoiceView extends LinearLayout {
         dateList = new ArrayList<>();
         adapter = new GridViewAdapter(context);
         gridView.setAdapter(adapter);
+        titles = getResources().getStringArray(R.array.week);
     }
 
     public void setData(List<CourseDateEntity> list) {
         adapter.clear();
+        for (int i = 0; i < titles.length; i++) {
+            CourseDateEntity entity = new CourseDateEntity();
+            entity.setIsTitle(true);
+            entity.setStart(titles[i]);
+            adapter.add(entity);
+        }
         adapter.addAll(list);
         adapter.notifyDataSetChanged();
         section1.setText(getSectionTitle(list.get(0)));
@@ -83,7 +92,12 @@ public class CourseDateChoiceView extends LinearLayout {
 
         @Override
         protected View createView(int position, ViewGroup parent) {
-            return View.inflate(context, R.layout.view_course_date_choice_item, null);
+            View view = View.inflate(context, R.layout.view_course_date_choice_item, null);
+            TextView contentView = (TextView) view.findViewById(R.id.tv_content);
+            ViewHolder holder = new ViewHolder();
+            holder.contentView = contentView;
+            view.setTag(holder);
+            return view;
         }
 
         public void choiceChanged() {
@@ -93,13 +107,21 @@ public class CourseDateChoiceView extends LinearLayout {
                     list.add(entity.getId());
                 }
             }
-            if(listener!=null){
+            if (listener != null) {
                 listener.onCourseDateChoice(list);
             }
         }
 
         @Override
         protected void fillView(int position, final View convertView, final CourseDateEntity data) {
+            TextView contentView = ((ViewHolder) convertView.getTag()).contentView;
+            if (data.isTitle()) {
+                convertView.setBackgroundColor(Color.parseColor("#88bcde"));
+                contentView.setText(data.getStart());
+                return;
+            } else {
+                contentView.setText("");
+            }
             if (data.isAvailable()) {
                 if (data.isChoice()) {
                     convertView.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.theme_blue_light));
@@ -112,7 +134,7 @@ public class CourseDateChoiceView extends LinearLayout {
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!data.isAvailable()) {
+                    if (!data.isAvailable() || data.isTitle()) {
                         return;
                     }
                     data.setChoice(!data.isChoice());
@@ -120,6 +142,10 @@ public class CourseDateChoiceView extends LinearLayout {
                     notifyDataSetChanged();
                 }
             });
+        }
+
+        private class ViewHolder {
+            private TextView contentView;
         }
     }
 }
