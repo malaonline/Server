@@ -272,7 +272,7 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.iv_user_avatar)
     public void OnClickUserAvatar(View view){
-        //if (checkLogin()==false) return;
+        if (checkLogin()==false) return;
         ArrayList<BaseEntity> datas = new ArrayList<>();
         datas.add(new BaseEntity(1L,"拍照"));
         datas.add(new BaseEntity(2L, "相册"));
