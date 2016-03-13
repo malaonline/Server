@@ -1367,7 +1367,7 @@ class WithdrawalRequest(BasicTeacherView):
                         withdraw.bankcard = bankcard
                     else:
                         return JsonResponse({
-                            "verify": True, "msg": "没有可用的银行卡",
+                            "verify": False, "msg": "没有可用的银行卡",
                         })
                     withdraw.save()
                     request.session["withdraw_amount"] = withdraw.amount
