@@ -13,7 +13,7 @@ from django.db.models import Q,Count
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
-from django.contrib.auth import _get_backends
+from django.contrib.auth import _get_backends, login
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
@@ -45,6 +45,9 @@ def _get_parent(request):
                 parent = profile and profile.user.parent or None
             except:
                 pass
+        if parent:
+            parent.user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, parent.user)
     return parent
 
 class TeachersView(ListView):
@@ -96,9 +99,11 @@ class CourseChoosingView(View):
         kwargs['teacher'] = teacher
         current_user = self.request.user
         kwargs['current_user'] = current_user
-        # parent = _get_parent(self.request)
-        # TODO: the below line is only for testing
-        parent = models.Parent.objects.get(pk=3)
+        if settings.TESTING:
+            # the below line is only for testing
+            parent = models.Parent.objects.get(pk=3)
+        else:
+            parent = _get_parent(request)
         if parent is None:
             return HttpResponseRedirect(WX_AUTH_URL)
         kwargs['parent'] = parent
@@ -133,16 +138,22 @@ class CourseChoosingView(View):
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request, teacher_id):
-        # parent = _get_parent(self.request)
-        # TODO: the below line is only for testing
-        parent = models.Parent.objects.get(pk=3)
+        if settings.TESTING:
+            # the below line is only for testing
+            parent = models.Parent.objects.get(pk=3)
+        else:
+            parent = _get_parent(request)
         if not parent:
             return JsonResponse({'ok': False, 'msg': '您还未登录', 'code': 403})
-        # wx_openid = parent.user.profile.wx_openid
-        # if not wx_openid:
-        #     return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
-        # TODO: the below line is real wx_openid, but not related with ours server
-        wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
+        if settings.TESTING:
+            # the below line is real wx_openid, but not related with ours server
+            wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
+            pass
+        else:
+            wx_openid = parent.user.profile.wx_openid
+            pass
+        if not wx_openid:
+            return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
         # get request params
         teacher_id = request.POST.get('teacher')
         school_id = request.POST.get('school')
