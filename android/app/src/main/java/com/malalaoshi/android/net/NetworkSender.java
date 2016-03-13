@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CreateChargeEntity;
 import com.malalaoshi.android.net.okhttp.UploadFile;
 import com.malalaoshi.android.util.UserManager;
@@ -16,6 +17,7 @@ import com.malalaoshi.android.util.UserManager;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,17 +37,13 @@ public class NetworkSender {
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
     private static final String URL_TIMES_LOTS = "/api/v1/timeslots";
-<<<<<<< af2ee1600f8788958399ab4a48740c778a745e7e
     private static final String URL_CONCRETE_TIME_SLOT = "/api/v1/concrete/timeslots";
     private static final String URL_EVALUATED = "/api/v1/subject/%s/record";
-=======
     private static final String URL_GET_PROFILE = "/api/v1/profiles/%s";
     private static final String URL_SET_PROFILE = "/api/v1/profiles/%s";
     private static final String URL_PARENT = "/api/v1/parents";
     private static final String URL_SAVE_CHILD_SCHOOL = "/api/v1/parents/%s";
     private static List<CouponEntity> couponList;
->>>>>>> AN-138 1、create user manager object to manage the user information; 2、Get user information from the network；2、set user name,school;
-
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
     }
@@ -147,14 +145,8 @@ public class NetworkSender {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
-        //TODO tianwei Waiting for sms verification api to get parentId
-<<<<<<< af2ee1600f8788958399ab4a48740c778a745e7e
-        String parentId = MalaApplication.getInstance().getParentId();
-        jsonRequest(Request.Method.PATCH, URL_SAVE_CHILD_NAME + "/" + parentId, headers, params, listener);
-=======
         String parentId = UserManager.getInstance().getParentId();
         jsonRequest(Request.Method.PATCH, String.format(URL_SAVE_CHILD_NAME, parentId), headers, params, listener);
->>>>>>> AN-138 1、create user manager object to manage the user information; 2、Get user information from the network；2、set user name,school;
     }
 
     public static void getCouponList(NetworkListener listener) {
@@ -216,7 +208,6 @@ public class NetworkSender {
         jsonRequest(Request.Method.POST, URL_CREATE_COMMENT, headers, params, listener);
     }
 
-<<<<<<< af2ee1600f8788958399ab4a48740c778a745e7e
     public static void getCourseWeek(Long teacherId, Long schoolId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         String url = String.format(URL_TEACHER_VALID_TIME, teacherId + "");
@@ -246,7 +237,7 @@ public class NetworkSender {
         String url = String.format(URL_EVALUATED, id);
         stringRequest(Request.Method.GET, url, headers, listener);
     }
-=======
+
     public static void getUserPolicy(NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         stringRequest(Request.Method.GET, String.format(URL_GET_PROFILE, UserManager.getInstance().getProfileId()), headers, listener);
@@ -273,7 +264,4 @@ public class NetworkSender {
         String profileId = UserManager.getInstance().getProfileId();
         UploadFile.uploadImg(strAvatorLocPath, String.format(URL_SET_PROFILE, profileId), headers, networkListener);
     }
-
-    
->>>>>>> AN-138 1、create user manager object to manage the user information; 2、Get user information from the network；2、set user name,school;
 }
