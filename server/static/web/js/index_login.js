@@ -27,7 +27,7 @@ $(
             var phone_val = _.extend(_.clone(InputVal), {element: "phone_input"});
             var sms_val = _.extend(_.clone(InputVal), {element: "sms_input"});
             if(CheckAgree.check() == true){
-                $.post("/teacher/verify_sms_code/", {phone:phone_val.val(), code:sms_val.val()},
+                $.post("/teacher/login", {phone:phone_val.val(), code:sms_val.val()},
                     function(data){
                         if(data.result == false){
                             OutputVal.setVal(data.msg);
