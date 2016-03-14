@@ -10,7 +10,7 @@ import UIKit
 
 private let ProfileViewTableViewCellReuseID = "ProfileViewTableViewCellReuseID"
 
-class ProfileViewController: UITableViewController {
+class ProfileViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ProfileViewHeaderViewDelegate {
     
     // MARK: - Property
     /// [个人中心结构数据]
@@ -22,6 +22,7 @@ class ProfileViewController: UITableViewController {
     private lazy var profileHeaderView: ProfileViewHeaderView = {
         let profileHeaderView = ProfileViewHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_ProfileHeaderViewHeight))
         profileHeaderView.name = MalaUserDefaults.studentName.value ?? "学生姓名"
+        profileHeaderView.delegate = self
         return profileHeaderView
     }()
     /// [个人中心]底部视图
@@ -53,7 +54,13 @@ class ProfileViewController: UITableViewController {
         logoutButton.addTarget(self, action: "logoutButtonDidTap", forControlEvents: .TouchUpInside)
         return logoutButton
     }()
-    
+    /// 照片选择器
+    private lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        return imagePicker
+    }()
     
     
 
@@ -105,6 +112,24 @@ class ProfileViewController: UITableViewController {
         }
     }
     
+    ///  更新本地AvatarView的图片
+    ///
+    ///  - parameter completion: 完成闭包
+    private func updateAvatar(completion:() -> Void) {
+        if let avatarURLString = MalaUserDefaults.avatar.value {
+            
+            println("avatarURLString: \(avatarURLString)")
+
+            profileHeaderView.avatarURL = avatarURLString
+//            let avatarSize = MalaConfig.editProfileAvatarSize()
+//            let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+//            let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
+//            avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+            
+            completion()
+        }
+    }
+    
     
     // MARK: - DataSource
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -123,7 +148,7 @@ class ProfileViewController: UITableViewController {
     }
     
     
-    // MARK: - TableView Delegate
+    // MARK: - Delegate
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
         view.backgroundColor = MalaProfileBackgroundColor
@@ -152,9 +177,7 @@ class ProfileViewController: UITableViewController {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-    
-    
-    // MARK: - ScrollView Delegate
+
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         let displacement = scrollView.contentOffset.y
         
@@ -167,6 +190,114 @@ class ProfileViewController: UITableViewController {
             })
         }
     }
+    
+    ///  HeaderView头像点击事件
+    ///
+    ///  - parameter sender: UIImageView对象
+    func avatarViewDidTap(sender: UIImageView) {
+        
+        // 准备ActionSheet选择[拍照]或[选择照片]
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        // 设置Action - 选择照片
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: "选择照片", style: .Default) { (action) -> Void in
+        
+            let openCameraRoll: ProposerAction = { [weak self] in
+                
+                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                    self?.alertCanNotAccessCameraRoll()
+                    return
+                }
+                
+                if let strongSelf = self {
+                    strongSelf.imagePicker.sourceType = .PhotoLibrary
+                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                }
+            }
+            
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self.alertCanNotAccessCameraRoll()
+            })
+            
+        }
+        alertController.addAction(choosePhotoAction)
+        
+        // 设置Action - 拍照
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: "拍照", style: .Default) { (action) -> Void in
+            
+            let openCamera: ProposerAction = { [weak self] in
+                
+                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                    self?.alertCanNotOpenCamera()
+                    return
+                }
+                
+                if let strongSelf = self {
+                    strongSelf.imagePicker.sourceType = .Camera
+                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                }
+            }
+            
+            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                self.alertCanNotOpenCamera()
+            })
+            
+        }
+        alertController.addAction(takePhotoAction)
+        
+        // 设置Action - 取消
+        let cancelAction: UIAlertAction = UIAlertAction(title: "取消", style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+        
+        // 弹出ActionSheet
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        defer {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        // 开启头像刷新指示器
+        profileHeaderView.refreshAvatar = true
+        
+        // 处理图片尺寸和质量
+        let image = image.largestCenteredSquareImage().resizeToTargetSize(MalaConfig.avatarMaxSize())
+        let imageData = UIImageJPEGRepresentation(image, MalaConfig.avatarCompressionQuality())
+        
+        if let imageData = imageData {
+            
+            updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
+                
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.profileHeaderView.refreshAvatar = false
+                }
+                
+                }, completion: { newAvatarURLString in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+//                        MalaUserDefaults.avatar.value = newAvatarURLString
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            self?.profileHeaderView.avatar = UIImage(data: imageData) ?? UIImage()
+                        }
+                        
+                        println("newAvatarURLString: \(newAvatarURLString)")
+                        
+                        self.updateAvatar() {
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                self?.profileHeaderView.refreshAvatar = false
+                            }
+                        }
+                    }
+            })
+        }
+    }
+    
     
     
     // MARK: - Event Response

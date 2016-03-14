@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 // MARK: Api
 public let MalaBaseUrl = "https://dev.malalaoshi.com/api/v1"
@@ -225,6 +226,60 @@ func getParentInfo(parentID: Int, failureHandler: ((Reason, String?) -> Void)?, 
     } else {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
+}
+
+///  上传用户头像
+///
+///  - parameter imageData:      头像
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    guard let token = MalaUserDefaults.userAccessToken.value else {
+        println("updateAvatarWithImageData error - no token")
+        return
+    }
+    
+    guard let profileID = MalaUserDefaults.profileID.value else {
+        println("updateAvatarWithImageData error - no profileID")
+        return
+    }
+    
+    let parameters: [String: String] = [
+        "Authorization": "Token \(token)",
+    ]
+    
+    let fileName = "avatar.jpg"
+    
+    Alamofire.upload(.PATCH, MalaBaseUrl + "/profiles/\(profileID)", headers: parameters, multipartFormData: { multipartFormData in
+        
+        multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: fileName, mimeType: "image/jpeg")
+        
+        }, encodingCompletion: { encodingResult in
+            println("encodingResult: \(encodingResult)")
+            
+            switch encodingResult {
+                
+            case .Success(let upload, _, _):
+                
+                upload.responseJSON(completionHandler: { response in
+                    
+                    guard let
+                        data = response.data,
+                        json = decodeJSON(data),
+                        uploadResult = json["done"] as? String else {
+                            failureHandler?(.CouldNotParseJSON, nil)
+                            return
+                    }
+                    let result = (uploadResult == "true" ? true : false)
+                    completion(result)
+                })
+                
+            case .Failure(let encodingError):
+                
+                failureHandler?(.Other(nil), "\(encodingError)")
+            }
+    })
 }
 
 ///  保存学生姓名

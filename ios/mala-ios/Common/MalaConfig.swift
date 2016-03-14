@@ -24,6 +24,18 @@ class MalaConfig {
     class func paymentChannelAmount() -> Int {
         return paymentChannel().count
     }
+    ///  头像最大大小
+    class func avatarMaxSize() -> CGSize {
+        return CGSize(width: 414, height: 414)
+    }
+    ///  头像压缩质量
+    class func avatarCompressionQuality() -> CGFloat {
+        return 0.7
+    }
+    ///  头像大小
+    class func editProfileAvatarSize() -> CGFloat {
+        return 100
+    }
     ///  老师详情缺省模型
     class func defaultTeacherDetail() -> TeacherDetailModel {
         return TeacherDetailModel(

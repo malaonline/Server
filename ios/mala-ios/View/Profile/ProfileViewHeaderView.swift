@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ProfileViewHeaderViewDelegate: NSObjectProtocol {
+    func avatarViewDidTap(sender: UIImageView)
+}
+
 class ProfileViewHeaderView: UIView {
 
     // MARK: - Property
@@ -23,6 +27,19 @@ class ProfileViewHeaderView: UIView {
             avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "avatar_placeholder"))
         }
     }
+    /// 用户头像
+    var avatar: UIImage = UIImage(named: "avatar_placeholder") ?? UIImage() {
+        didSet {
+            avatarView.image = avatar
+        }
+    }
+    /// 头像刷新指示器
+    var refreshAvatar: Bool = false {
+        didSet {
+            refreshAvatar ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        }
+    }
+    weak var delegate: ProfileViewHeaderViewDelegate?
     
     
     // MARK: - Components
@@ -35,6 +52,8 @@ class ProfileViewHeaderView: UIView {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2.5
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarViewDidTap:"))
         return imageView
     }()
     /// 姓名label控件
@@ -50,6 +69,13 @@ class ProfileViewHeaderView: UIView {
         let sectionView = UIView()
         sectionView.backgroundColor = MalaProfileBackgroundColor
         return sectionView
+    }()
+    /// 头像刷新指示器
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.hidden = true
+        return activityIndicator
     }()
     
     
@@ -74,6 +100,7 @@ class ProfileViewHeaderView: UIView {
         addSubview(avatarView)
         addSubview(nameLabel)
         addSubview(sectionView)
+        avatarView.addSubview(activityIndicator)
         
         // Autolayout
         avatarView.snp_makeConstraints(closure: { (make) -> Void in
@@ -94,5 +121,14 @@ class ProfileViewHeaderView: UIView {
             make.right.equalTo(self.snp_right)
             make.height.equalTo(8)
         }
+        activityIndicator.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(avatarView.snp_center)
+        }
+    }
+    
+    
+    // MARK: - Event Response
+    @objc private func avatarViewDidTap(sender: UIImageView) {
+        self.delegate?.avatarViewDidTap(sender)
     }
 }
