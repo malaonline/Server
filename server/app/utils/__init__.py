@@ -31,4 +31,4 @@ def get_request_ip(request):
 
 
 def get_server_host(request):
-    return request.scheme + '//' + request.get_host()
+    return request.scheme + '://' + request.get_host()
