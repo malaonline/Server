@@ -520,7 +520,6 @@ public class UserFragment extends Fragment {
         progressDialog.dismiss();
     }
 
-
     private boolean checkLogin(){
         if (UserManager.getInstance().isLogin()){
             return true;

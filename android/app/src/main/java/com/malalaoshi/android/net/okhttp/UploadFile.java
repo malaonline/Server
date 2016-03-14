@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.util.MalaContext;
 import com.malalaoshi.android.util.UserManager;
 
 import java.io.File;
@@ -53,24 +54,35 @@ public class UploadFile {
 
             @Override
             public void onFailure(Call call, IOException e) {
+                MalaContext.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // OKHTTP
+                        if (networkListener != null) {
+                            networkListener.onFailed(new VolleyError());
+                        }
+                    }
+                });
 
-                if (networkListener!=null){
-                    networkListener.onFailed(new VolleyError());
-                }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.code()==200){
-                    if (networkListener!=null){
-                        networkListener.onSucceed(response.body()!=null?response.body().toString():null);
+            public void onResponse(Call call, final Response response) throws IOException {
+                MalaContext.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // OKHTTP
+                        if (response.code()==200){
+                            if (networkListener!=null){
+                                networkListener.onSucceed(response.body()!=null?response.body().toString():null);
+                            }
+                        }else{
+                            if (networkListener!=null){
+                                networkListener.onFailed(new VolleyError());
+                            }
+                        }
                     }
-                }else{
-                    if (networkListener!=null){
-                        networkListener.onFailed(new VolleyError());
-                    }
-                }
-
+                });
             }
         });
 
