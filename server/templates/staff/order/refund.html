@@ -91,7 +91,7 @@
         {% for order in orders %}
             <tr align="center">
             <!-- todo: 部分字段需要修改, 暂时显示替代数据 -->
-{# 申请时间 #}    <td>{{ order.refund_info.refunded_at|date:"Y/m/d f" }}</td>
+{# 申请时间 #}    <td>{{ order.refund_info.refunded_at|date:"Y/m/d H:i" }}</td>
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
 {# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>

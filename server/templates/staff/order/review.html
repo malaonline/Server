@@ -125,7 +125,7 @@
         {% for order in orders %}
             <tr align="center">
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
-{# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d f" }}</td>
+{# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d H:i" }}</td>
 {# 支付平台 #}    <td>N/A</td>
 {# 订单状态 #}    <td>
                     {% if order.refund_status %}
