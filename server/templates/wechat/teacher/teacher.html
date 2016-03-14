@@ -18,7 +18,7 @@
     <script>
         var wx_appid = '{{ WX_APPID }}';
         wx.config({
-            debug: true, // 开启调试模式?
+            debug: false, // 开启调试模式?
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
             timestamp: '{{ server_timestamp }}', // 必填，生成签名的时间戳
             nonceStr: '{{ WX_NONCE_STR }}', // 必填，生成签名的随机串
@@ -42,7 +42,6 @@
         var teacherid = "{{teacher.id}}";
         var userPhotos = [];
         var schoolPhotos = [];
-        var pullDownImg = '{% static 'common/icons/pull_down.png' %}';
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
@@ -85,7 +84,9 @@
                     </div>
                     <div class="teacher_name">
                         <div>{{teacher.name}}</div>
-                        <div>{%if not gender%}保密{%else%}{{gender}}{%endif%} 教龄{{teacher.teaching_age}}年</div>
+                        <div>{%if not gender%}保密{%else%}{{gender}}{%endif%}
+                            {{teacher.min_price|default_if_none:""}}-{{teacher.max_price|default_if_none:""}}元/小时
+                        </div>
                     </div>
                     <img class="teacher_avatar" src="">
                 </div>
@@ -139,7 +140,8 @@
                 <div class="weui_panel teacher_panel weui_cells_access" id="photoContent">
                     <div>
                         个人相册
-                        <span class="weui_cell_ft"></span>
+                        <div class="weui_cell_ft">
+                        </div>
                     </div>
                     <div class="teacher_images">
                     </div>
@@ -150,7 +152,7 @@
                     </div>
                     <div>
                         {%for am in achievements%}
-                            {{am.title}}
+                            <label class="teacher_achievement">{{am.title}}</label>
                         {%endfor%}
                     </div>
                 </div>
@@ -175,7 +177,7 @@
                                 </div>
                                 {%if forloop.counter == 1%}
                                 <div class="more_schools" id="more_schools">
-                                    其他社区中心 <img id="moreSchoolDown" src="">
+                                    其他社区中心 <label class="more_school_down"></label>
                                 </div>
                                 {%endif%}
                             {%endfor%}

@@ -509,11 +509,11 @@ function ajaxLoadSchool(lat, lng){
               $('#schoolsDiv').append(school_cont);
 
               if(i==0){
-                  var nimg = $('<img>');
-                  nimg.attr('src', pullDownImg);
+                  var msDown = $('<label>');
+                  msDown.addClass('more_school_down');
                   var moreBtn = $('<div>');
                   moreBtn.append("其他社区中心");
-                  moreBtn.append(nimg);
+                  moreBtn.append(msDown);
                   moreBtn.addClass('more_schools');
                   moreBtn.click(function(){
                     $('.more_schools').css('display', 'none');

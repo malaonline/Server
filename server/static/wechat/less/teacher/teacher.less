@@ -101,6 +101,16 @@ body{
   padding-bottom: 15px;
   .weui_cell_ft{
     float: right;
+    font-size: 20px;
+    width: 14px;
+    height: 14px;
+    &:after{
+      content: " ";
+      .setArrow_Wap(right, 6px, #C8C8CD, 2px);
+      top: -2px;
+      height: 9px;
+      width: 9px;
+    }
   }
   >div:first-child{
     color: #333333;
@@ -274,4 +284,18 @@ a{
 }
 .school_panel{
   padding-bottom: 0;
+}
+.teacher_achievement{
+  border: solid 1px #a5a5a5;
+  padding: 3px;
+  border-radius: 4px;
+}
+.more_school_down{
+  &:after{
+    content: " ";
+    .setArrow_Wap(down, 6px, #C8C8CD, 2px);
+    top: -1px;
+    height: 9px;
+    width: 9px;
+  }
 }
