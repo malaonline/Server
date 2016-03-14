@@ -2,7 +2,7 @@ from django.conf import settings
 import requests
 import re
 import json
-import urllib
+from urllib.parse import urlencode
 
 
 def isValidPhone(phone):
@@ -52,7 +52,7 @@ def tpl_send_sms(phone, tpl_id, tpl_value):
     tpl_value = {'#code#':'1234','#company#':'云片网'}
     """
     apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
-    params = {'apikey': apikey, 'tpl_id': tpl_id, 'tpl_value': tpl_value, 'mobile': phone}
+    params = {'apikey': apikey, 'tpl_id': tpl_id, 'tpl_value': urlencode(tpl_value), 'mobile': phone}
     url = "https://sms.yunpian.com/v1/sms/tpl_send.json"
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
     response = requests.post(url, headers=headers, data=params)
