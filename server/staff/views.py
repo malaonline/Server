@@ -376,7 +376,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
             if certIdHeldOk and certIdHeldOk=='True':
                 if not check_id_number(id_num):
                     return JsonResponse({'ok': False, 'msg': '身份认证失败, 身份证号不合法', 'code': -1})
-            
+
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
             profile = teacher.user.profile
@@ -1803,7 +1803,7 @@ class CouponConfigView(BaseStaffView):
             if expiredAt:
                 gen.expired_at = datetime.datetime.strptime(expiredAt, '%Y-%m-%d')
             try:
-                gen.amount = int(amount)
+                gen.amount = int(amount)*100
             except:
                 gen.amount = 0
             try:
@@ -1835,7 +1835,7 @@ class CouponConfigView(BaseStaffView):
                 mini_course_count = int(mini_course_count)
             except:
                 mini_course_count =  0
-            models.Coupon.objects.get_or_create(parent=query_set[0], name=couponName, amount=amount,
+            models.Coupon.objects.get_or_create(parent=query_set[0], name=couponName, amount=amount*100,
                                                 mini_course_count=mini_course_count,validated_start=validated_start,
                                                 expired_at=expired_at,used=False)
 
