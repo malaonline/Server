@@ -49,8 +49,7 @@ public class UploadFile {
                 .url(MalaApplication.getInstance().getMalaHost()+url)
                 .patch(requestBody)
                 .build();
-
-        mOkHttpClient.connectTimeoutMillis();
+        
         Call call = mOkHttpClient.newCall(request);
 
         call.enqueue(new Callback()
