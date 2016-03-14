@@ -24,6 +24,7 @@ class ProfileViewHeaderView: UIView {
     /// 用户头像URL
     var avatarURL: String = "" {
         didSet {
+            println("头像URL设置: \(MalaUserDefaults.avatar.value)")
             avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "avatar_placeholder"))
         }
     }
@@ -95,6 +96,7 @@ class ProfileViewHeaderView: UIView {
     private func setupUserInterface() {
         // Style
         backgroundColor = UIColor.clearColor()
+        self.avatarURL = MalaUserDefaults.avatar.value ?? ""
         
         // SubViews
         addSubview(avatarView)

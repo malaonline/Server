@@ -84,6 +84,13 @@ struct parentInfo: CustomStringConvertible {
 func getInfoWhenLoginSuccess() {
     
     // 个人信息
+    getAndSaveProfileInfo()
+    
+    // 家长信息
+    getAndSaveParentInfo()
+}
+
+func getAndSaveProfileInfo() {
     let profileID = MalaUserDefaults.profileID.value ?? 0
     getProfileInfo(profileID, failureHandler: { (reason, errorMessage) -> Void in
         defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -91,12 +98,13 @@ func getInfoWhenLoginSuccess() {
         if let errorMessage = errorMessage {
             println("MalaService - getProfileInfo Error \(errorMessage)")
         }
-    },completion: { (profile) -> Void in
-        println("保存Profile信息: \(profile)")
-        saveProfileInfoToUserDefaults(profile)
+        },completion: { (profile) -> Void in
+            println("保存Profile信息: \(profile)")
+            saveProfileInfoToUserDefaults(profile)
     })
-    
-    // 家长信息
+}
+
+func getAndSaveParentInfo() {
     let parentID = MalaUserDefaults.parentID.value ?? 0
     getParentInfo(parentID, failureHandler: { (reason, errorMessage) -> Void in
         defaultFailureHandler(reason, errorMessage: errorMessage)
