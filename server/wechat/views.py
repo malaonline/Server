@@ -197,12 +197,13 @@ class CourseChoosingView(View):
         data = {}
         data['timeStamp'] = int(timezone.now().timestamp())
         data['nonceStr'] = make_nonce_str()
-        data['package'] = 'prepay_id={id})'.format(id=ret_json['data']['prepay_id'])
-        data['signType'] = 'SHA1'
+        data['package'] = 'prepay_id={id}'.format(id=ret_json['data']['prepay_id'])
+        data['signType'] = 'MD5'
         data['appId'] = settings.WEIXIN_APPID
-        data['paySign'] = wx_signature(data) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
+        data['paySign'] = wx_signature(data, True, data['signType']) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
         data['prepay_id'] = ret_json['data']['prepay_id']
         data['order_id'] = order.order_id
+        logger.debug(data)
         return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
 
     def verify_order(self, request):
@@ -256,7 +257,6 @@ def _jssdk_sign(url):
             'jsapi_ticket': jsapi_ticket,
             'timestamp': now_timestamp,
             'url': url}
-    logger.debug(data)
     signature = wx_signature(data)
     return {'noncestr': nonce_str,
             'timestamp': now_timestamp,

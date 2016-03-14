@@ -51,10 +51,14 @@ def wx_dict2xml(d):
 def wx_xml2dict(xmlstr):
     return xmltodict.parse(xmlstr)['xml']
 
-def wx_signature(params_obj):
-    string = '&'.join(['%s=%s' % (key.lower(), params_obj[key]) for key in sorted(params_obj)])
+def wx_signature(data, sensitive=False, alg='SHA1'):
+    if sensitive:
+        string = '&'.join(['%s=%s' % (key, data[key]) for key in sorted(data)])
+    else:
+        string = '&'.join(['%s=%s' % (key.lower(), data[key]) for key in sorted(data)])
+    if alg == 'MD5':
+        return hashlib.md5(string.encode('utf-8')).hexdigest()
     return hashlib.sha1(string.encode('utf-8')).hexdigest()
-
 
 def wx_sign_for_pay(params):
     content = '&'.join(['%s=%s' % (key, params[key]) for key in sorted(params)])
