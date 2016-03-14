@@ -132,9 +132,10 @@ class SaveNameView: UIView, UITextFieldDelegate {
                 println("SaveNameView - saveStudentName Error \(errorMessage)")
             }
             }, completion: { [weak self] (bool) -> Void in
-                ThemeHUD.hideActivityIndicator()
                 println("学生姓名保存 - \(bool)")
+                getInfoWhenLoginSuccess()
                 self?.closeButtonDidClick()
+                ThemeHUD.hideActivityIndicator()
         })
     }
     

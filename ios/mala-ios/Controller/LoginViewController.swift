@@ -352,7 +352,8 @@ class LoginViewController: UIViewController {
             if loginUser.firstLogin == true {
                 self?.switchViewToSaveName()
             }else {
-                 self?.closeButtonDidClick()
+                self?.closeButtonDidClick()
+                getInfoWhenLoginSuccess()
             }
         })
     }

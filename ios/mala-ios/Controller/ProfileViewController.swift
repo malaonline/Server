@@ -62,6 +62,8 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
 
         println("UserToken is \(MalaUserDefaults.userAccessToken.value)")
+        println("profileID is \(MalaUserDefaults.profileID.value)")
+        println("parentID is \(MalaUserDefaults.parentID.value)")
         println("studentName is \(MalaUserDefaults.studentName.value)")
         configure()
         setupUserInterface()

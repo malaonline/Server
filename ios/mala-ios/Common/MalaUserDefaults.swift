@@ -8,13 +8,16 @@
 
 import UIKit
 
-// MARK: - Keys
+// MARK: Keys
 let userAccessTokenKey = "userAccessTokenKey"
 let UserIDKey = "UserIDKey"
 let ParentIDKey = "ParentIDKey"
 let ProfileIDKey = "ProfileIDKey"
 let FirstLoginKey = "FirstLoginKey"
+let GenderKey = "GenderKey"
+let AvatarKey = "AvatarKey"
 let StudentNameKey = "StudentNameKey"
+let SchoolNameKey = "SchoolNameKey"
 
 ///  监听者
 struct Listener<T>: Hashable {
@@ -104,6 +107,9 @@ class MalaUserDefaults {
             return false
         }
     }
+    
+    
+    // MARK: - Login Info
     /// 令牌
     static var userAccessToken: Listenable<String?> = {
         let userAccessToken = defaults.stringForKey(userAccessTokenKey)
@@ -149,6 +155,24 @@ class MalaUserDefaults {
         }
     }()
     
+    // MARK: - Profile Info
+    static var gender: Listenable<String?> = {
+        let gender = defaults.stringForKey(GenderKey)
+        
+        return Listenable<String?>(gender) { gender in
+            defaults.setObject(gender, forKey: GenderKey)
+        }
+    }()
+    static var avatar: Listenable<String?> = {
+        let avatar = defaults.stringForKey(AvatarKey)
+        
+        return Listenable<String?>(avatar) { avatar in
+            defaults.setObject(avatar, forKey: AvatarKey)
+        }
+    }()
+    
+    
+    // MARK: - Parent Info
     /// 学生姓名
     static var studentName: Listenable<String?> = {
         let studentName = defaults.stringForKey(StudentNameKey)
@@ -157,8 +181,17 @@ class MalaUserDefaults {
             defaults.setObject(studentName, forKey: StudentNameKey)
         }
     }()
+    /// 学校信息
+    static var schoolName: Listenable<String?> = {
+        let schoolName = defaults.stringForKey(SchoolNameKey)
+        
+        return Listenable<String?>(schoolName) { schoolName in
+            defaults.setObject(schoolName, forKey: SchoolNameKey)
+        }
+    }()
     
     
+    // MARK: - Class Method
     /// 清空UserDefaults
     class func cleanAllUserDefaults() {
         
@@ -168,6 +201,9 @@ class MalaUserDefaults {
         profileID.removeAllListeners()
         firstLogin.removeAllListeners()
         studentName.removeAllListeners()
+        schoolName.removeAllListeners()
+        gender.removeAllListeners()
+        avatar.removeAllListeners()
         
         defaults.removeObjectForKey(userAccessTokenKey)
         defaults.removeObjectForKey(UserIDKey)
@@ -175,6 +211,9 @@ class MalaUserDefaults {
         defaults.removeObjectForKey(ProfileIDKey)
         defaults.removeObjectForKey(FirstLoginKey)
         defaults.removeObjectForKey(StudentNameKey)
+        defaults.removeObjectForKey(SchoolNameKey)
+        defaults.removeObjectForKey(GenderKey)
+        defaults.removeObjectForKey(AvatarKey)
         
         // 配置清空成功表示注销成功
         MalaUserDefaults.isLogouted = defaults.synchronize()

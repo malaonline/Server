@@ -51,8 +51,62 @@ struct VerifyingSMS: CustomStringConvertible {
     let reason: String?
     
     var description: String {
-        return "LoginUser(verified: \(verified), first_login: \(first_login), token: \(token), parent_id: \(parent_id), reason: \(reason))"
+        return "VerifyingSMS(verified: \(verified), first_login: \(first_login), token: \(token), parent_id: \(parent_id), reason: \(reason))"
     }
+}
+
+///  个人账号信息结构体
+struct profileInfo: CustomStringConvertible {
+    let id: Int
+    let gender: String?
+    let avatar: String?
+    
+    var description: String {
+        return "parentInfo(id: \(id), gender: \(gender), avatar: \(avatar)"
+    }
+}
+
+///  家长账号信息结构体
+struct parentInfo: CustomStringConvertible {
+    let id: Int
+    let studentName: String?
+    let schoolName: String?
+    
+    var description: String {
+        return "parentInfo(id: \(id), studentName: \(studentName), schoolName: \(schoolName)"
+    }
+}
+
+
+// MARK: - Support Method
+///  登陆成功后，获取个人信息和家长信息并保存到UserDefaults
+func getInfoWhenLoginSuccess() {
+    
+    // 个人信息
+    let profileID = MalaUserDefaults.profileID.value ?? 0
+    getProfileInfo(profileID, failureHandler: { (reason, errorMessage) -> Void in
+        defaultFailureHandler(reason, errorMessage: errorMessage)
+        // 错误处理
+        if let errorMessage = errorMessage {
+            println("MalaService - getProfileInfo Error \(errorMessage)")
+        }
+    },completion: { (profile) -> Void in
+        println("保存Profile信息: \(profile)")
+        saveProfileInfoToUserDefaults(profile)
+    })
+    
+    // 家长信息
+    let parentID = MalaUserDefaults.parentID.value ?? 0
+    getParentInfo(parentID, failureHandler: { (reason, errorMessage) -> Void in
+        defaultFailureHandler(reason, errorMessage: errorMessage)
+        // 错误处理
+        if let errorMessage = errorMessage {
+            println("MalaService - getParentInfo Error \(errorMessage)")
+        }
+        },completion: { (parent) -> Void in
+            println("保存Parent信息: \(parent)")
+            saveParentInfoToUserDefaults(parent)
+    })
 }
 
 
@@ -66,6 +120,20 @@ func saveTokenAndUserInfo(loginUser: LoginUser) {
     MalaUserDefaults.profileID.value = loginUser.profileID
     MalaUserDefaults.firstLogin.value = loginUser.firstLogin
     MalaUserDefaults.userAccessToken.value = loginUser.accessToken
+}
+////  保存个人信息到UserDefaults
+///
+///  - parameter profile: 个人信息模型
+func saveProfileInfoToUserDefaults(profile: profileInfo) {
+    MalaUserDefaults.gender.value = profile.gender
+    MalaUserDefaults.avatar.value = profile.avatar
+}
+///  保存家长信息到UserDefaults
+///
+///  - parameter parent: 家长信息模型
+func saveParentInfoToUserDefaults(parent: parentInfo) {
+    MalaUserDefaults.studentName.value = parent.studentName
+    MalaUserDefaults.schoolName.value = parent.schoolName
 }
 
 ///  获取验证码
@@ -113,6 +181,44 @@ func verifyMobile(mobile: String, verifyCode: String, failureHandler: ((Reason, 
     }
     
     let resource = jsonResource(path: "/sms", method: .POST, requestParameters: requestParameters, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  根据个人id获取个人信息
+///
+///  - parameter parentID:       个人
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getProfileInfo(profileID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: profileInfo -> Void) {
+    let parse: JSONDictionary -> profileInfo? = { data in
+        return parseProfile(data)
+    }
+    
+    let resource = authJsonResource(path: "/profiles/\(profileID)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  根据家长id获取家长信息
+///
+///  - parameter parentID:       家长id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getParentInfo(parentID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: parentInfo -> Void) {
+    let parse: JSONDictionary -> parentInfo? = { data in
+        return parseParent(data)
+    }
+    
+    let resource = authJsonResource(path: "/parents/\(parentID)", method: .GET, requestParameters: nullDictionary(), parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -356,6 +462,36 @@ let parseLoginUser: JSONDictionary -> LoginUser? = { userInfo in
         userID = userInfo["user_id"] as? Int,
         profileID = userInfo["profile_id"] as? Int {
             return LoginUser(accessToken: accessToken, userID: userID, parentID: parentID, profileID: profileID, firstLogin: firstLogin, avatarURLString: "")
+    }
+    return nil
+}
+/// 个人信息JSON解析器
+let parseProfile: JSONDictionary -> profileInfo? = { profileData in
+    /// 判断验证结果是否正确
+    guard let profileID = profileData["id"] else {
+        return nil
+    }
+    
+    if let
+        id = profileData["id"] as? Int,
+        gender = profileData["gender"] as? String? {
+            let avatar = (profileData["avatar"] as? String) ?? ""
+            return profileInfo(id: id, gender: gender, avatar: avatar)
+    }
+    return nil
+}
+/// 家长信息JSON解析器
+let parseParent: JSONDictionary -> parentInfo? = { parentData in
+    /// 判断验证结果是否正确
+    guard let parentID = parentData["id"] else {
+        return nil
+    }
+    
+    if let
+        id = parentData["id"] as? Int,
+        studentName = parentData["student_name"] as? String?,
+        schoolName = parentData["student_school_name"] as? String? {
+            return parentInfo(id: id, studentName: studentName, schoolName: schoolName)
     }
     return nil
 }

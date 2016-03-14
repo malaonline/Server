@@ -46,11 +46,14 @@ class MalaConfig {
     }
     ///  [个人中心]静态结构数据
     class func profileData() -> [[ProfileElementModel]] {
+        let studentName = MalaUserDefaults.studentName.value ?? ""
+        let schoolName = MalaUserDefaults.schoolName.value ?? ""
+        
         return [
             [
-                ProfileElementModel(id: 0, title: "学生姓名", detail: "", controller: InfoModifyViewController.self, controllerTitle: "更改名字"),
-                ProfileElementModel(id: 1, title: "学校信息", detail: "", controller: InfoModifyViewController.self, controllerTitle: "所在学校"),
-                ProfileElementModel(id: 2, title: "所在城市", detail: "", controller: InfoModifyViewController.self, controllerTitle: "所在城市"),
+                ProfileElementModel(id: 0, title: "学生姓名", detail: studentName, controller: InfoModifyViewController.self, controllerTitle: "更改名字"),
+                ProfileElementModel(id: 1, title: "学校信息", detail: schoolName, controller: InfoModifyViewController.self, controllerTitle: "所在学校"),
+//                ProfileElementModel(id: 2, title: "所在城市", detail: "", controller: InfoModifyViewController.self, controllerTitle: "所在城市"),
                 ProfileElementModel(id: 3, title: "我的奖学金", detail: "", controller: CouponViewController.self, controllerTitle: "我的奖学金")
             ],
             [
