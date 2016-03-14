@@ -120,8 +120,9 @@ class CourseChoosingView(View):
         kwargs['abilities'] = abilities
         prices = teacher.prices()
         kwargs['prices'] = prices
-        schools = teacher.schools
-        kwargs['schools'] = schools.all()
+        # schools = teacher.schools.all()
+        schools = list(models.School.objects.all())
+        kwargs['schools'] = schools
         kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         now = timezone.now()
         now_timestamp = int(now.timestamp())
@@ -229,9 +230,10 @@ class CourseChoosingView(View):
         lat = float(lat)
         lng = float(lng)
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
-        schools = teacher.schools.all()
+        # schools = teacher.schools.all()
+        schools = models.School.objects.all()
         distances = []
-        p = {'lat': lat, 'lng': lng};
+        p = {'lat': lat, 'lng': lng}
         for school in schools:
             if school.latitude is None or school.longitude is None:
                 distances.append({'id': school.id, 'far': ''})
