@@ -45,7 +45,7 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
 
     @Override
     public void onTitleLeftClick() {
-
+        this.finish();
     }
 
     @Override

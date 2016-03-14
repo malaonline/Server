@@ -17,10 +17,12 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.util.*;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Payment UI
@@ -151,6 +153,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 if (result == null) {
                     dialog.setType(PayResultDialog.Type.PAY_FAILED);
                 } else if (result.equals("success")) {
+                    EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                     dialog.setType(PayResultDialog.Type.PAY_SUCCESS);
                 } else if (result.equals("cancel")) {
                     dialog.setType(PayResultDialog.Type.CANCEL);

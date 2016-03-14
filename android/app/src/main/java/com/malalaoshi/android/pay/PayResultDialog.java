@@ -1,5 +1,6 @@
 package com.malalaoshi.android.pay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 
@@ -67,6 +69,12 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.tv_confirm) {
             dismiss();
+            //支付成功,跳转首页
+            if (type==Type.PAY_SUCCESS){
+                Intent i = new Intent(getContext(), MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                getContext().startActivity(i);
+            }
         }
     }
 
