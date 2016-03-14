@@ -19,8 +19,10 @@
     <p class="section-title"><a href="{% url 'teacher:wallet' %}">我的钱包</a></p>
     <p class="section-title">个人设置</p>
     <p class="section-link"><a href="{% url 'teacher:basic_doc' %}">基本资料</a>
-        {% if side_bar_basic_data_notify == True %}
-        <i class="info_icon"></i>
+        {% if information_not_complete == False %}
+            {% load staticfiles %}
+{#        <i class="info_icon"></i>#}
+            <img src="{% static 'teacher/images/teacher_info_not_complete.png' %}">
         {% endif %}
     </p>
     <p class="section-link"><a href="{% url 'teacher:certificate' %}">资质认证</a></p>

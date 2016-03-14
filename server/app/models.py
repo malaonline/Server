@@ -329,7 +329,9 @@ class Teacher(BaseModel):
     status = models.IntegerField(default=1, choices=STATUS_CHOICES)
     # 老师审核状态的那个按钮
     status_confirm = models.BooleanField(default=False)
+    # 毕业院校
     graduate_school = models.CharField(max_length=50, blank=True, null=True)
+    # 自我介绍
     introduce = models.CharField(max_length=200, blank=True, null=True)
 
     recommended_on_wechat = models.BooleanField(default=False)

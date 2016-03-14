@@ -662,7 +662,6 @@ class SideBarContent:
         context["side_bar_my_course"] = self._my_course_badge()
         context["side_bar_my_student"] = self._my_student_badge()
         context["side_bar_my_evaluation"] = self._my_evaluation_badge()
-        context["side_bar_basic_data_notify"] = self._basic_data_notify()
         today = datetime.datetime.now()
         context["side_bar_my_school_time_url"] = reverse("teacher:my-school-timetable",
                                                          kwargs={"year": today.year,
@@ -672,6 +671,7 @@ class SideBarContent:
                                                      kwargs={"student_type": 0, "page_offset": 1})
         context["side_bar_my_evaluation_url"] = reverse("teacher:my-evaluation",
                                                     kwargs={"comment_type": 0, "page_offset": 1})
+        context["information_not_complete"] = self.is_teacher_information_not_complete(self.teacher)
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
@@ -691,9 +691,40 @@ class SideBarContent:
         my_evaluation = None
         return my_evaluation
 
-    def _basic_data_notify(self):
-        basic_data_notify = True
-        return basic_data_notify
+    def is_teacher_information_not_complete(self, teacher: models.Teacher):
+        # 老师基本资料没有填完就返回False,否则返回True
+        # 姓名
+        if not teacher.name:
+            return False
+        # 手机号
+        profile = teacher.user.profile
+        if not profile.phone:
+            return False
+        # 性别
+        if profile.gender == "u":
+            return False
+        # 所在城市
+        if not teacher.region:
+            return False
+        # 出生年月日
+        if not profile.birthday:
+            return False
+        # 教龄
+        if not teacher.experience:
+            return False
+        # 毕业院校
+        if not teacher.graduate_school:
+            return False
+        # 授课科目, 授课年级
+        if not teacher.abilities.all().exists():
+            return False
+        # 风格标记
+        if not teacher.tags.all().exists():
+            return False
+        # 自我介绍
+        if not teacher.introduce:
+            return False
+        return True
 
 
 class MySchoolTimetable(BasicTeacherView):
