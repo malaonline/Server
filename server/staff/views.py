@@ -278,7 +278,7 @@ class TeacherUnpublishedView(BaseStaffView):
             query_set = query_set.filter(level_id=level)
         query_set = query_set.order_by('id')
         # paginate
-        query_set, pager = paginate(query_set, page)
+        query_set, pager = paginate(query_set, page, 15)
         kwargs['teachers'] = query_set
         kwargs['pager'] = pager
         # 一些固定数据

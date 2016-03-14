@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 {% block title %}{% if list_type == 'published' %}已上架{% else %}待上架{% endif %}老师列表{% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" type="text/css" href="{% static 'staff/less/teacher/teachers.less'|compile %}">
@@ -96,7 +97,7 @@
                 <td>{# 授课科目 #} {% if teacher.subject %}{{ teacher.subject }}{% else %}未填{% endif %} </td>
                 <td>{# 星级 #} {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>
                 <td>{# 授课年级 #} {% if teacher.grades %} {% for g in teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
-                <td>{# 课时单价 #} {% if teacher.min_price %}{{ teacher.min_price }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price }}{% endif %}</td>
+                <td>{# 课时单价 #} {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}</td>
                 <td>{# 教学经验 #} {% if teacher.experience %} {{ teacher.experience }}分{% else %}未填{% endif %} </td>
                 <td>{# 专业技能 #} {% if teacher.profession %} {{ teacher.profession }}分{% else %}未填{% endif %} </td>
                 <td>{# 互动能力 #} {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>

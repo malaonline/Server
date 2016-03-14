@@ -57,7 +57,9 @@
                 <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
                 <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
                 <td>{# 教龄（年）#} {{ teacher.teaching_age }}</td>
-                <td>{# 年级科目 #} <a href="javascript:void(0)" data-action="showGradeSubjectModal">
+                <td>{# 年级科目 #}
+                  {% if teacher.abilities.all %}
+                    <a href="javascript:void(0)" data-action="showGradeSubjectModal">
                         {{ teacher.subject }} {{ teacher.grades_shortname }}
                         <div class="hidden">
                         {% for ability in teacher.abilities.all %}
@@ -65,6 +67,9 @@
                         {% endfor %}
                         </div>
                     </a>
+                  {% else %}
+                    未填
+                  {% endif %}
                 </td>
                 <td>{# 所在地区 #} {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>
                 <td field="status">{# 状态 #} {{ teacher.get_status_display }}</td>
