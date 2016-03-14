@@ -56,8 +56,9 @@ def add_teacher(apps, schema_editor):
     school.save()
 
     print('添加风格标记')
-    tags = ['幽默', '与孩子做朋友', '专治厌学', '专治注意力不集中',
-            '心理辅导', '充满正能量', '引导教学', '提升自信心',]
+    tags = ['赏识教育', '100%进步率', '学员过千', '押题达人', '奥赛教练',
+            '幽默风趣', '心理专家', '讲解生动', '公立学校老师', '最受学生欢迎',
+            '80后名师', '英语演讲冠军',]
     for tag_name in tags:
         tag, created = Tag.objects.get_or_create(name=tag_name)
         if created:
