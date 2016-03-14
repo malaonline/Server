@@ -16,5 +16,4 @@ urlpatterns = [
     url(r'^check_phone/', views.check_phone, name="check_phone"),
     url(r'^doc/agree/$', TemplateView.as_view(template_name="wechat/doc/policy.html"), name="doc-agree"),
     url(r'^pay/notify/', views.wx_pay_notify_view, name="wx_pay_notify"),
-    url(r'^helper/', views.helper_view, name="helper"),
 ]

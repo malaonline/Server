@@ -131,8 +131,10 @@ class CourseChoosingView(View):
                                         ).order_by('-amount', 'expired_at')
         kwargs['coupons'] = coupons
 
+        url = request.build_absolute_uri()
+        sign_data = _jssdk_sign(url)
+        kwargs.update(sign_data)
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
-        kwargs['helper_api'] = reverse('wechat:helper')
         return render(request, self.template_name, kwargs)
 
     def post(self, request, teacher_id=None):
@@ -259,17 +261,6 @@ def _jssdk_sign(url):
     return {'noncestr': nonce_str,
             'timestamp': now_timestamp,
             'signature': signature}
-
-@csrf_exempt
-def helper_view(request):
-    action = request.GET.get('action')
-    if action == 'getjssign':
-        url = request.GET.get('url')
-        if not url:
-            return JsonResponse({'ok': False})
-        ret_data = _jssdk_sign(url)
-        return JsonResponse({'ok':True, 'data':ret_data})
-    return HttpResponse(status=400)
 
 
 def set_order_paid(prepay_id=None, order_id=None):

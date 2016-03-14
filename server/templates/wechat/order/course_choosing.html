@@ -191,20 +191,13 @@
     <script>
 {#        alert(location.href);#}
 {#        alert(wx);#}
-        $(function(){
-            $.getJSON('{{ helper_api }}', {'action': 'getjssign', 'url': encodeURI(location.href.split('#')[0])}, function(result){
-                if (result && result.ok) {
-                    console.log(result.data);
-                    wx.config({
-                        debug: true, // 开启调试模式?
-                        appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
-                        timestamp: result.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: result.data.noncestr, // 必填，生成签名的随机串
-                        signature: result.data.signature,// 必填，签名
-                        jsApiList: ['chooseWXPay', 'getLocation'] // 必填，需要使用的JS接口列表
-                    });
-                }
-            });
+        wx.config({
+            debug: true, // 开启调试模式?
+            appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
+            timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
+            nonceStr: '{{ noncestr }}', // 必填，生成签名的随机串
+            signature: '{{ signature }}',// 必填，签名
+            jsApiList: ['chooseWXPay', 'getLocation'] // 必填，需要使用的JS接口列表
         });
     </script>
     <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
