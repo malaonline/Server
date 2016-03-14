@@ -1088,6 +1088,7 @@ class WeeklyTimeSlot(BaseModel):
 
     class Meta:
         unique_together = ('weekday', 'start', 'end')
+        ordering = ['weekday', 'start', 'end']
 
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
