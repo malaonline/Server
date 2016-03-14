@@ -80,6 +80,9 @@ $(function(){
         hideOtherSchools($chosenone);
     };
 
+    $(document).on('ajaxError', function(e, xhr, options){
+        showAlertDialog('请求失败, 请重试');
+    });
     wx.ready(function(res){
         console.log("wx.ready");
         wx.getLocation({
