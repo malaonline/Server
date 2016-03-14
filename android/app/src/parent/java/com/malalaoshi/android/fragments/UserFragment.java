@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -293,23 +293,18 @@ public class UserFragment extends Fragment {
 
     //拍照
     private void getPhotoFromCamera() {
-
-       String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
+        String cachePath  = ImageUtil.getAppDir("cache");
+        if (cachePath!=null) {
             try{
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
-                File dir = new File(Environment.getExternalStorageDirectory(),"malaonline");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+                File dir = new File(cachePath);
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
                 String timeStamp = format.format(new Date());
                 String imageFileName = timeStamp + ".png";
 
                 File image = new File(dir, imageFileName);
                 strAvatorLocPath = image.getAbsolutePath();
-
                 //strAvatorLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
@@ -326,7 +321,7 @@ public class UserFragment extends Fragment {
 
 
     protected void requestPermission(){
-        int hasWritePermission = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasWritePermission = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int hasCameraPermission = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.CAMERA);
         List<String> permissions = new ArrayList<String>();
         if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
@@ -443,8 +438,7 @@ public class UserFragment extends Fragment {
     public void OnClickLogout(View view){
         //清除本地登录信息
         UserManager.getInstance().logout();
-        //清除数据
-        //跟新UI
+        //更新UI
         updateUI();
         //跳转到登录页面
         AuthUtils.redirectLoginActivity(getContext());
@@ -486,13 +480,23 @@ public class UserFragment extends Fragment {
         {
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2*width, 2*height, ImageCache.getInstance(MalaApplication.getInstance()));
+            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance(MalaApplication.getInstance()));
             ivAvatar.setImageBitmap(bitmap);
-            strAvatorLocPath = path;
-            uploadFile();
-            //
+            String cachePath = ImageUtil.getAppDir("cache");
+            if (cachePath!=null){
+                strAvatorLocPath = ImageUtil.saveBitmap(cachePath,"avatar.png", bitmap);
+                if (strAvatorLocPath!=null){
+                    uploadFile();
+                }else{
+                    Toast.makeText(getContext(), "文件读写错误", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(getContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
+            }
         }
     }
+
+
 
     private void uploadFile() {
         progressDialog.setMessage("正在上传头像...");
@@ -500,7 +504,17 @@ public class UserFragment extends Fragment {
         NetworkSender.setUserAvator(strAvatorLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                setAvatorSucceeded();
+                try {
+                    JSONObject jo = new JSONObject(json.toString());
+                    if (jo!=null&&jo.optBoolean(Constants.DONE, false)) {
+                        Log.i("UserFragment", "Set user avator succeed : " + json.toString());
+                        setAvatorSucceeded();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setAvatorFailed();
             }
 
             @Override

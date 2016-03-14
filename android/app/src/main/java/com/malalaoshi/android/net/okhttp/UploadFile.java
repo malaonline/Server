@@ -11,7 +11,9 @@ import com.malalaoshi.android.util.UserManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,54 +33,28 @@ import okio.BufferedSink;
 public class UploadFile {
 
     public static void uploadImg(String filePath, String url, Map<String, String> headers, final NetworkListener networkListener){
+
         File file = new File(filePath);
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
         //创建okHttpClient对象
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-
-
-     /*   public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-            RequestBody body = RequestBody.create(JSON, json);
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .build();
-        }*/
-
-
+        OkHttpClient mOkHttpClient = new OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).writeTimeout(20,TimeUnit.SECONDS).build();
         //构造上传请求，类似web表单
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("hello", "android")
                 .addFormDataPart("avatar", file.getName(), fileBody/*RequestBody.create(null, file)*/)
-                .addPart(Headers.of("Content-Disposition", "form-data; name=\"avatar\""), RequestBody.create(MediaType.parse("application/octet-stream"), file))
                 .build();
-     /*  RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addPart(Headers.of(
-                        "Content-Disposition",
-                        "form-data; name=\"avatar\""), fileBody)
-                .build();
-
-         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), file);
-
-*/
-               /* .addPart(Headers.of(
-                        "Content-Disposition",
-                        "form-data; name=\"avatar\""), fileBody)
-                .build();*/
 
         Request request = new Request.Builder()
                 .header(Constants.AUTH, headers.get(Constants.AUTH))
                 .url(MalaApplication.getInstance().getMalaHost()+url)
                 .patch(requestBody)
                 .build();
+
+        mOkHttpClient.connectTimeoutMillis();
         Call call = mOkHttpClient.newCall(request);
 
         call.enqueue(new Callback()
         {
-
             @Override
             public void onFailure(Call call, IOException e) {
                 MalaContext.postOnMainThread(new Runnable() {
@@ -99,12 +75,10 @@ public class UploadFile {
                     @Override
                     public void run() {
                         // OKHTTP
-                        if (response.code()==200){
-                            if (networkListener!=null){
-                                networkListener.onSucceed(response.body()!=null?response.body().toString():null);
-                            }
-                        }else{
-                            if (networkListener!=null){
+                        if (networkListener!=null){
+                            try{
+                                networkListener.onSucceed(response.body()!=null?response.body().string():null);
+                            }catch (IOException e){
                                 networkListener.onFailed(new VolleyError());
                             }
                         }
@@ -112,27 +86,5 @@ public class UploadFile {
                 });
             }
         });
-
-
-
-
-/*        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addPart(
-                        Headers.of("Content-Disposition", "form-data; name=\"title\""),
-                        RequestBody.create(null, "Square Logo"))
-                .addPart(
-                        Headers.of("Content-Disposition", "form-data; name=\"image\""),
-                        RequestBody.create(MediaType.parse(""), new File("website/static/logo-square.png")))
-                .build();*/
-
-       /* Request request = new Request.Builder()
-                .header("Authorization", "token")
-                .url("https://api.imgur.com/3/image")
-                .post(requestBody)
-                .build();*/
-     /*   .addPart(Headers.of(
-                        "Content-Disposition",
-                        "form-data; name=\"avatar\""),
-                RequestBody.create(null, filePath))*/
     }
 }

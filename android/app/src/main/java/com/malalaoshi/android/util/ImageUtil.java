@@ -17,12 +17,24 @@
 package com.malalaoshi.android.util;
 
 import android.annotation.TargetApi;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Useful for when the input images might be too large to simply load directly into
@@ -191,4 +203,59 @@ public class ImageUtil {
         return inSampleSize;
         // END_INCLUDE (calculate_sample_size)
     }
+
+    /**
+     * save bitmap
+     */
+    /** 保存位图,并返回完整路径 */
+    public static String saveBitmap(String path, String fileName, Bitmap bitmap) {
+
+        String strPath = null;
+        File f = new File(path);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        File outf = new File(f,fileName);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(outf);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            strPath = outf.getPath();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (out!=null) {
+                    out.flush();
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return strPath;
+    }
+
+    /**
+     * 获取&创建指定路径,失败未null
+     * @param subDir
+     * @return
+     */
+    public static String getAppDir(String subDir){
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            //String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
+            File dir = new File(Environment.getExternalStorageDirectory(),"malaonline/"+subDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            return dir.getAbsolutePath();
+        }
+        else {
+            return null;
+        }
+    }
+
 }
