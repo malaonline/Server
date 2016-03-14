@@ -20,6 +20,7 @@ __all__ = [
     "make_nonce_str",
     "wx_dict2xml",
     "wx_signature",
+    "wx_sign_for_pay",
     "wx_get_token",
     "wx_get_jsapi_ticket",
     "wx_pay_unified_order",

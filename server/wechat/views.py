@@ -200,7 +200,7 @@ class CourseChoosingView(View):
         data['package'] = 'prepay_id={id}'.format(id=ret_json['data']['prepay_id'])
         data['signType'] = 'MD5'
         data['appId'] = settings.WEIXIN_APPID
-        data['paySign'] = wx_signature(data, True, data['signType']) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
+        data['paySign'] = wx_sign_for_pay(data) # 签名, TODO: 微信文档中新版签名怎么怎么着, 待测试
         data['prepay_id'] = ret_json['data']['prepay_id']
         data['order_id'] = order.order_id
         logger.debug(data)
