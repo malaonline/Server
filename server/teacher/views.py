@@ -2036,7 +2036,7 @@ class BasicDocument(BaseTeacherView):
 
         teachingAge = self.request.POST.get('teachingAge', 0)
         graduate_school = self.request.POST.get('graduate_school', None)
-        introduce = self.request.POST.get('graduate_school', None)
+        introduce = self.request.POST.get('introduce', None)
         subclass = self.request.POST.get('subclass', None)
 
         grade = request.POST.get("selectedGrand")
@@ -2267,4 +2267,3 @@ class WalletBankcardView(BaseTeacherView):
         bankcard.bank_name = '中国银行' # TODO: 获得银行卡对应银行名称
         bankcard.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
-

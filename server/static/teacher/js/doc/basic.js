@@ -52,6 +52,7 @@ $(function(){
         if(result){
           if(result.ok){
             alert("保存成功");
+            location.href=nextPage;
           }else{
             alert(result.msg);
           }

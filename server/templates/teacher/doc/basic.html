@@ -26,8 +26,9 @@
     {% csrf_token %}
     <script lang="javascript">
         window.grade_select_by_html = {{ grade | safe }};
+        var nextPage = "{% url 'teacher:certificate' %}";
     </script>
-    <form class="form-horizontal">
+    <div class="form-horizontal">
       <fieldset>
         <legend>基本信息</legend>
         <div class="control-group">
@@ -77,7 +78,7 @@
         <div class="control-group">
           <label class="control-label" for="admittedTo">毕业院校</label>
           <div class="controls">
-            <input type="text" class="input-xlarge" id="graduate_school" name="graduate_school" value="{{teacher.graduate_school}}">
+            <input type="text" class="input-xlarge" id="graduate_school" name="graduate_school" value="{{teacher.graduate_school|default_if_none:""}}">
           </div>
         </div>
         <div class="control-group">
@@ -135,7 +136,7 @@
         <div class="control-group introduce-group">
           <label class="control-label" for="admittedTo">自我介绍</label>
           <div class="controls">
-            <textarea name="name" cols="50" rows="7" name="introduce" id="introduce">{{teacher.introduce}}</textarea>
+            <textarea name="name" cols="50" rows="7" name="introduce" id="introduce">{{teacher.introduce|default_if_none:""}}</textarea>
           </div>
         </div>
         <div class="control-group">
@@ -143,7 +144,7 @@
         </div>
 
       </fieldset>
-    </form>
+  </div>
 
     <div class="modal fade" id="grand_select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
