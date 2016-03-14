@@ -14,7 +14,7 @@ class CouponViewController: UITableViewController {
 
     // MARK: - Property
     /// 优惠券模型数组
-    var models: [CouponModel] = [] {
+    var models: [CouponModel] = MalaUserCoupons {
         didSet {
             self.tableView.reloadData()
         }
@@ -22,6 +22,18 @@ class CouponViewController: UITableViewController {
     /// 当前选择项IndexPath标记
     /// 缺省值为不存在的indexPath，有效的初始值将会在CellForRow方法中设置
     private var currentSelectedIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 1)
+    /// 是否仅用于展示（例如[个人中心]）
+    var justShow: Bool = true
+    /// 是否正在拉取数据
+    var isFetching: Bool = false
+    
+    // MARK: - Components
+    /// 下拉刷新视图
+    private lazy var refresher: UIRefreshControl = {
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: "loadCoupons", forControlEvents: .ValueChanged)
+        return refresher
+    }()
     
     
     // MARK: - Life Cycle
@@ -55,14 +67,42 @@ class CouponViewController: UITableViewController {
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
-        
+        refreshControl = refresher
         
         tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
     }
     
     ///  获取优惠券信息
-    private func loadCoupons() {
-        self.models = MalaUserCoupons
+    @objc private func loadCoupons() {
+        
+        // 屏蔽[正在刷新]时的操作
+        guard isFetching == false else {
+            return
+        }
+        isFetching = true
+
+        refreshControl?.beginRefreshing()
+
+        ///  获取优惠券信息
+        getCouponList({ [weak self] (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CouponViewController - loadCoupons Error \(errorMessage)")
+            }
+            // 显示缺省值
+            self?.models = MalaUserCoupons
+            self?.refreshControl?.endRefreshing()
+            self?.isFetching = false
+        }, completion: { [weak self] (coupons) -> Void in
+                println("优惠券列表 \(coupons)")
+                MalaUserCoupons = coupons
+                self?.models = MalaUserCoupons
+                self?.refreshControl?.endRefreshing()
+                self?.isFetching = false
+        })
+
     }
     
     
@@ -93,6 +133,11 @@ class CouponViewController: UITableViewController {
         }
     }
 
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return justShow ? false : true
+    }
+    
+    
     // MARK: - DataSource
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.models.count

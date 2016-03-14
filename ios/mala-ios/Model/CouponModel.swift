@@ -63,7 +63,7 @@ class CouponModel: NSObject {
     
     // MARK: - Description
     override var description: String {
-        return "CouponModel(id: \(id), name: \(name), amount: \(amount), expired_at: \(String(timeStamp: expired_at)))" +
-        ", used: \(used))\n"
+        return "\nCouponModel(id: \(id), name: \(name), amount: \(amount), expired_at: \(String(timeStamp: expired_at)))" +
+        ", used: \(used)), status: \(status)\n"
     }
 }

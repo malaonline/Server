@@ -21,11 +21,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             
             switch self {
             case .Teacher:
-                return "麻辣老师"
+                return MalaCommonString_FindTeacher
             case .Schedule:
-                return "课程表"
+                return MalaCommonString_ClassSchedule
             case .Profile:
-                return "我的"
+                return MalaCommonString_Profile
             }
         }
     }

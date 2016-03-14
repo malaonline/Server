@@ -11,6 +11,11 @@ import UIKit
 class SchoolModel: BaseObjectModel {
 
     // MARK: - Property
+    override var id: Int {
+        didSet {
+            id = (id == 0 ? 1 : id)
+        }
+    }
     var address: String?
     var thumbnail: String?
     var region: Int = 0

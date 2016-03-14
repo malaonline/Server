@@ -27,10 +27,12 @@ class CouponViewCell: UITableViewCell {
             // 奖学金使用状态
             if model?.status == .Used {
                 // 已使用
+                setStyleNormal()
                 self.content.image = UIImage(named: "scholarship_used")
                 self.selectedView.hidden = true
             }else if model?.status == .Unused {
                 // 未使用
+                setStyleNormal()
                 self.statusLabel.text = "未使用"
                 self.selectedView.hidden = true
             }else if model?.status == .Expired {
@@ -241,6 +243,7 @@ class CouponViewCell: UITableViewCell {
         }
     }
     
+    ///  设置过期样式
     private func setStyleExpired() {
         self.moneySymbol.textColor = MalaAppearanceTextColor
         self.priceLabel.textColor = MalaAppearanceTextColor
@@ -249,5 +252,16 @@ class CouponViewCell: UITableViewCell {
         self.statusLabel.textColor = MalaAppearanceTextColor
         self.content.image = UIImage(named: "scholarship_expired")
         self.statusLabel.text = "已过期"
+    }
+    
+    ///  设置普通样式（包含可使用、已使用）
+    private func setStyleNormal() {
+        self.moneySymbol.textColor = MalaTeacherCellLevelColor
+        self.priceLabel.textColor = MalaTeacherCellLevelColor
+        self.titleLabel.textColor = MalaDetailsCellTitleColor
+        self.descLabel.textColor = MalaAppearanceTextColor
+        self.statusLabel.textColor = MalaTeacherCellLevelColor
+        self.content.image = UIImage(named: "scholarship_unused")
+        self.statusLabel.text = ""
     }
 }
