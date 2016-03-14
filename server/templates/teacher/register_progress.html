@@ -66,6 +66,16 @@
                                     <div class="right_part"><span class="detail_span">{{ one_audit.text }}</span></div>
                                 </div>
                             {% endfor %}
+{#                            重新提交#}
+                            {% if 2 in text_list %}
+                            <div class="message_container">
+                                <div class="left_part"><i class="line_icon"></i> <span class="time_span">2015-12-21 16:00</span></div>
+                                <div class="right_part">
+                                    <p>抱歉,您提交的资料未审核通过,请重新提交!</p>
+                                    <p><a class="action" href="{% url 'teacher:complete-information' %}">重新提交资料</a></p>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     {% if hide_old_notify_list == False %}
                         <div class="notify_list">
