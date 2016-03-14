@@ -188,14 +188,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     }
     
     
-    ///  清空订单条件
-    private func resetOrder() {
-        MalaClassPeriod_StepValue = 2
-        MalaCourseChoosingObject.reset()
-    }
-    
     deinit {
         print("choosing TableView deinit")
-        resetOrder()
+        ///  清空选课模型
+        MalaCourseChoosingObject.reset()
     }
 }

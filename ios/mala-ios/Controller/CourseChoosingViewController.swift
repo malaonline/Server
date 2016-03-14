@@ -230,7 +230,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     self?.tableView.schoolModel = self?.schoolArray ?? []
                 }else if school.schoolModel != nil {
                     
-                    
                     // 当户用选择不同的上课地点时，更新课程表视图,清空所有选课条件
                     if school.schoolModel?.id != MalaCourseChoosingObject.school?.id {
                         
@@ -265,15 +264,17 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     MalaCourseChoosingObject.selectedTime.removeAtIndex(index!)
                 }
                 
-                // 改变课时选择的基数，并刷新课时选择Cell
-                // 课时基数最小为2
-                let stepValue = Double((MalaCourseChoosingObject.selectedTime.count ?? 1)*2)
-                MalaClassPeriod_StepValue = stepValue == 0 ? 2 : stepValue
+                // 若[所选上课时间]多于当前课时，则改变课时，并刷新课时选择Cell
+                let selectedTimePeriod = MalaCourseChoosingObject.selectedTime.count*2
+                if selectedTimePeriod > MalaCourseChoosingObject.classPeriod {
+                    MalaCourseChoosingObject.classPeriod = selectedTimePeriod
+                }
+                
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
-                    let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int((MalaCourseChoosingObject.selectedTime.count)*2))
+                    let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
                     self?.tableView.timeScheduleResult = array
                 }else {
                     self?.tableView.timeScheduleResult = []

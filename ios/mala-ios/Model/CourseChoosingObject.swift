@@ -21,14 +21,13 @@ class CourseChoosingObject: NSObject {
     /// 上课地点
     dynamic var school: SchoolModel? {
         didSet {
-            println("CourseChoosing-school didSet")
+            
         }
     }
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
-            // 保证[课时数]和[选择上课时间]匹配
-            classPeriod = selectedTime.count*2
+
         }
     }
     /// 上课小时数
@@ -96,7 +95,6 @@ class CourseChoosingObject: NSObject {
     func refresh() {
         selectedTime.removeAll()
         classPeriod = 2
-        MalaClassPeriod_StepValue = 2
     }
     
     /// 重置选课模型
@@ -106,6 +104,5 @@ class CourseChoosingObject: NSObject {
         school?.id = -1
         selectedTime.removeAll()
         classPeriod = 2
-        MalaClassPeriod_StepValue = 2
     }
 }
