@@ -95,10 +95,11 @@
                     </div>
                     <div>
                         {% for grade in grades_tree %}
+                            <div>
                             {% for sub_grade in grade.children %}
                                 {% if sub_grade.id in teacher_grade_ids %}{{ sub_grade.name }}{% endif %}
                             {% endfor %}
-                            <br>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
