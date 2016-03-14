@@ -126,7 +126,13 @@
             <tr align="center">
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
 {# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d H:i" }}</td>
-{# 支付平台 #}    <td>N/A</td>
+{# 支付平台 #}    <td>
+                    {% if order.status == order.PAID %}
+                        {% for chagre in order.charge_set.all %}
+                            {{ chagre.channel }}<br/>
+                        {% endfor %}
+                    {% endif %}
+                </td>
 {# 订单状态 #}    <td>
                     {% if order.refund_status %}
                         {{ order.get_refund_status_display }}
