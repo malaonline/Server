@@ -670,22 +670,25 @@ class SideBarContent:
                                                          )
         context["side_bar_my_student_url"] = reverse("teacher:my-students",
                                                      kwargs={"student_type": 0, "page_offset": 1})
-        context["side_bar_my_evaluation"] = reverse("teacher:my-evaluation",
+        context["side_bar_my_evaluation_url"] = reverse("teacher:my-evaluation",
                                                     kwargs={"comment_type": 0, "page_offset": 1})
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
-        my_course = 89
+        # 这里先不做
+        my_course = None
         return my_course
 
     def _my_student_badge(self):
         # 我的学生旁边的徽章
-        my_student = 79
+        # 这里先不做
+        my_student = None
         return my_student
 
     def _my_evaluation_badge(self):
         # 我的评价旁边的徽章
-        my_evaluation = 15
+        # 这里先不做
+        my_evaluation = None
         return my_evaluation
 
     def _basic_data_notify(self):
