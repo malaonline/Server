@@ -305,7 +305,7 @@ class TestWebPage(TestCase):
         teacher.experience = 5
         self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 50)
         # 风格
-        teacher.tags.add(Tag.objects.get(name="幽默"))
+        teacher.tags.add(Tag.objects.get(name="幽默风趣"))
         self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 55)
 
         def _add_cert(percent, cert):
