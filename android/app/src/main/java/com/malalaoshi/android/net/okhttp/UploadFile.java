@@ -22,6 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.BufferedSink;
 
 
 /**
@@ -35,12 +36,38 @@ public class UploadFile {
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
 
+
+     /*   public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+            RequestBody body = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+        }*/
+
+
+        //构造上传请求，类似web表单
         RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("hello", "android")
+                .addFormDataPart("avatar", file.getName(), fileBody/*RequestBody.create(null, file)*/)
+                .addPart(Headers.of("Content-Disposition", "form-data; name=\"avatar\""), RequestBody.create(MediaType.parse("application/octet-stream"), file))
+                .build();
+     /*  RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addPart(Headers.of(
                         "Content-Disposition",
                         "form-data; name=\"avatar\""), fileBody)
                 .build();
+
+         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), file);
+
+*/
+               /* .addPart(Headers.of(
+                        "Content-Disposition",
+                        "form-data; name=\"avatar\""), fileBody)
+                .build();*/
 
         Request request = new Request.Builder()
                 .header(Constants.AUTH, headers.get(Constants.AUTH))
