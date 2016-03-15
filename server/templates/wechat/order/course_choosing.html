@@ -12,16 +12,6 @@
 {% block content %}
     <div class="page slideIn cell" id="courseChoosingContainer">
         <div class="content">
-            <!--
-            是否是第一次购买: {{ first_buy }}
-            <p>
-            {% if current_user.is_anonymous %}未登录{% else %}已登录{% endif %} |
-            {% if not parent %}不是家长{% else %}是家长{% endif %}
-            </p>
-            <p>
-            亲, '{{ current_user.username }}', 您正在报名'{{ teacher.name }}'老师的课程!
-            </p>
-            -->
 {#          选择授课年级#}
             <input type="hidden" name="isFirstBuy" id="isFirstBuy" value="{{ first_buy }}"/>
             <input type="hidden" name="teacherId" id="teacherId" value="{{ teacher.id }}"/>
