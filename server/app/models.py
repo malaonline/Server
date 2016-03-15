@@ -21,7 +21,7 @@ from django.db.models import Q
 from app.exception import TimeSlotConflict
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
-from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError
+from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError, tpl_send_sms, TPL_COURSE_INCOME
 
 logger = logging.getLogger('app')
 
@@ -1622,6 +1622,11 @@ class TimeSlot(BaseModel):
             )
             self.attendance = attendance
             self.save()
+            # 短信通知老师
+            try:
+                tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
+            except Exception as ex:
+                logger.error(ex)
             return True
         except IntegrityError as err:
             logger.error(err)

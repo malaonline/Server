@@ -151,7 +151,7 @@ TPL_WITHDRAW_REJECT = 1274321
 1274323
 【麻辣老师】您有一笔新的课时费被确认，金额为#money#，请访问麻辣老师网站并到我的钱包中查看。
 """
-TPL_NEW_INCOME = 1274323
+TPL_COURSE_INCOME = 1274323
 
 
 
