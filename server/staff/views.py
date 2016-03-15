@@ -1606,6 +1606,12 @@ class OrderRefundActionView(BaseStaffActionView):
                             deleted=False,
                             end__gt=record.created_at - models.TimeSlot.CONFIRM_TIME
                         ).update(deleted=True)
+                        # 短信通知家长
+                        parent = order.parent
+                        _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname':parent.student_name}, 3)
+                        # 短信通知老师
+                        teacher = order.teacher
+                        _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
                         # 回显给前端, 刚刚记录的退费信息内容
                         return JsonResponse({
                             'ok': True,
@@ -1630,9 +1636,10 @@ class OrderRefundActionView(BaseStaffActionView):
             if ok:
                 order.last_refund_record().last_updated_by = self.request.user
                 order.save()
-                # 短信通知老师
-                teacher = order.teacher
-                _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
+                # 短信通知家长
+                parent = order.parent
+                amount_str = "%.2f"%(order.last_refund_record().refund_amount/100)
+                _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname':parent.student_name, 'amount': amount_str}, 3)
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 
