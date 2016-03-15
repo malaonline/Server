@@ -121,7 +121,6 @@ $(function(){
 
   map_grand_button_mask(get_grand_mask($("#subclass_input").html()));
   render_grand_button_list();
-  render_grand_select_button_group();
 
   $(function(){
     $.ms_DatePicker({
@@ -186,7 +185,6 @@ function set_grand_tag(grand_name, select){
     _remove_grand(window.high_list);
     //渲染
     render_grand_button_list();
-    render_grand_select_button_group();
 }
 
 //Array添加一个方法
@@ -200,17 +198,7 @@ Array.prototype.remove = function() {
     }
     return this;
 };
-//渲染年级选择面板
-function render_grand_select_button_group(){
-    var select_button_template = $("#grand_select_button").html();
 
-    var primary_contnet = _.template(select_button_template, {variable: 'datas'})(window.primary_list);
-    var junior_contnet = _.template(select_button_template, {variable: 'datas'})(window.junior_list);
-    var high_contnet = _.template(select_button_template, {variable: 'datas'})(window.high_list);
-    $("#primary_select").html(primary_contnet);
-    $("#junior_select").html(junior_contnet);
-    $("#high_select").html(high_contnet);
-}
 //允许添加授课年级
 function enable_add_grand(){
     $("#add_grand").prop("disabled", false);

@@ -104,26 +104,9 @@
           <label class="control-label" for="admittedTo">授课年级</label>
           <div class="controls">
               <div class="grand_input" id="grand_input">
-                  <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
-                          data-target="#grand_select"
-                          {# disabled="disabled" #}
-                          type="button">
-                      <i class="glyphicon glyphicon-plus"></i>
-                  </button>
               </div>
           </div>
         </div>
-        <script id="grand_select_button" type="text/template">
-            <% _.each(datas, function(item) { %>
-            <% if (item[3] == true){ %>
-            <% if (item[2] == true){ %>
-                <button id="<%= item[0] %>" class="btn btn-default item-selected" onclick="remove_button('<%= item[1] %>')"><%= item[1] %></button>
-            <% }else{ %>
-                <button id="<%= item[0] %>" class="btn btn-default" onclick="add_button('<%= item[1] %>')"><%= item[1] %></button>
-            <% } %>
-            <% } %>
-            <% }); %>
-        </script>
 
         <div class="control-group tags-group">
           <label class="control-label" for="admittedTo">风格标记</label>
