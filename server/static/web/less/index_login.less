@@ -9,7 +9,7 @@
 .login_frame{
   color: #666;
   width: 360px;
-  height: 380px;
+  height: 420px;
   background-color: #fff;
   border-width: 1px;
   border-style: solid;
@@ -18,6 +18,7 @@
   -moz-border-radius: @border_radius;
   border-radius: @border_radius;
   padding-top: 40px;
+  padding-bottom: 40px;
   padding-left: 30px;
   margin-left: auto;
   margin-right: auto;
@@ -53,13 +54,11 @@
   }
   .sms{
     overflow: auto;
-
     .sms_input{
       float: left;
       .phone_input;
       width: 190px;
       margin-right: 22px;
-      margin-top: 6px;
       .sms_frame{
         width: 130px;
         height: @input_height;
@@ -72,7 +71,6 @@
     }
     .sms_get{
       float: left;
-      margin-top: 6px;
       button{
         .btn;
         .btn-default;
@@ -140,10 +138,14 @@
     }
   }
   .error_output{
+    margin-bottom: 20px;
+    height: 20px;
     .error_icon{
       .glyphicon;
       .glyphicon-info-sign;
       color: red;
+      top: 3px;
+      font-size: 16px;
     }
     .output_message{
     }
