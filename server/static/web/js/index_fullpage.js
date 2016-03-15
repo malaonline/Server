@@ -9,10 +9,17 @@ $(document).ready(function() {
 		//Accessibility
 		keyboardScrolling: true,
         //fixedElements: '.modal'
-        //normalScrollElements: '#wechatQrModal, #AgreeModal, #aboutUsModal'
+        normalScrollElements: '#wechatQrModal, #AgreeModal, #aboutUsModal'
 	});
 });
 
 $(document).on('click', 'a.next-section', function(){
   $.fn.fullpage.moveSectionDown();
+});
+
+
+$("#wechatQrModal").on("show", function () {
+  $("body").addClass("modal-open");
+}).on("hidden", function () {
+  $("body").removeClass("modal-open")
 });
