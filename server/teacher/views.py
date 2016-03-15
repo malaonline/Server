@@ -672,7 +672,10 @@ class SideBarContent:
         context["side_bar_my_evaluation_url"] = reverse("teacher:my-evaluation",
                                                     kwargs={"comment_type": 0, "page_offset": 1})
         information_complete, msg = self.is_teacher_information_not_complete(self.teacher)
-        logger.debug("资料填写检查: {msg}".format(msg=msg))
+        if information_complete:
+            logger.debug("资料填写检查: 完整, {tag}".format(tag=information_complete))
+        else:
+            logger.debug("资料填写检查: >{msg}<, {tag}".format(msg=msg, tag=information_complete))
         context["information_not_complete"] = information_complete
 
     def _my_course_badge(self):
