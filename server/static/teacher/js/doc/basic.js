@@ -45,8 +45,7 @@ $(function(){
       'graduate_school': graduate_school,
       'introduce': introduce,
       'selectedTags': JSON.stringify(getSelectedTags()),
-      'subclass': $('#subclass_input').html(),
-      'selectedGrand': JSON.stringify(selected_grand()),
+      'subclass': $('#subclass_input').html()
     };
 
     if(birthday_y <= 0 || birthday_m <= 0 || birthday_d <= 0){
@@ -133,15 +132,6 @@ $(function(){
 
 });
 
-//添加一个年级
-function add_button(args){
-  set_grand_tag(args, true);
-}
-
-//删除一个年级按钮
-function remove_button(args){
-    set_grand_tag(args, false);
-}
 //获得已经选择的年级
 function selected_grand(){
     var select_button = [];
@@ -168,23 +158,6 @@ function render_grand_button_list(){
             enable_add_grand();
         }
     }
-}
-
-//设置年级是否被选择
-function set_grand_tag(grand_name, select){
-    //注意这里用了闭包来传递参数
-    var _remove_grand = function(grand_list){
-        _.each(grand_list, function(item){
-            if(item[1] == grand_name){
-                item[2] = select;
-            }
-        });
-    };
-    _remove_grand(window.primary_list);
-    _remove_grand(window.junior_list);
-    _remove_grand(window.high_list);
-    //渲染
-    render_grand_button_list();
 }
 
 //Array添加一个方法

@@ -90,13 +90,8 @@
 
         <script id="grand_button_group" type="text/template">
             <% _.each(datas, function(item) { %>
-            <button name="selectedGrand" class="btn btn-default grand_button" onclick="remove_button('<%= item %>')"><%= item %> <i
-                    class="glyphicon glyphicon-remove-sign"></i></button>
+            <button name="selectedGrand" class="btn btn-default grand_button"><%= item %></button>
             <%});%>
-            <button id="add_grand" class="btn btn-default grand_add" data-toggle="modal"
-                    data-target="#grand_select" disabled="disabled" type="button">
-                <i class="glyphicon glyphicon-plus"></i>
-            </button>
         </script>
 
 

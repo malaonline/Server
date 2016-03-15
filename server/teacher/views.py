@@ -2036,36 +2036,9 @@ class BasicDocument(BaseTeacherView):
         introduce = self.request.POST.get('introduce', None)
         subclass = self.request.POST.get('subclass', None)
 
-        grade = request.POST.get("selectedGrand")
         tags = request.POST.get("selectedTags")
 
-        grade_list = json.loads(grade)
         tags_list = json.loads(tags)
-
-        if len(tags_list) > 3:
-            return JsonResponse({'ok': False, 'msg': '风格标签不能超过3个', 'code': -1})
-
-        the_subject = models.Subject.objects.get(name=subclass)
-        grade_name_list = models.Grade.get_all_grades()
-        page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],
-                           ["初一", "初二", "初三"],
-                           ["高一", "高二", "高三"]]
-        grade_dict = {}
-        for page_level, database_level in list(zip(page_grade_list, grade_name_list)):
-            for page_grade, database_grade in list(zip(page_level, database_level)):
-                grade_dict[page_grade] = database_grade
-
-        # clear ability_set
-        teacher.abilities.clear()
-        for one_grade in grade_list:
-            the_grade = models.Grade.objects.get(name=grade_dict.get(one_grade, one_grade))
-            try:
-                ability = models.Ability.objects.get(grade=the_grade, subject=the_subject)
-            except models.Ability.DoesNotExist:
-                # 如果这个年级不存在就跳过
-                continue
-            teacher.abilities.add(ability)
-            ability.save()
 
         teacher.tags.clear()
         for tagId in tags_list:
