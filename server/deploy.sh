@@ -26,6 +26,7 @@ then
     echo 'Restarted.'
 else
     echo 'Starting celery...'
+    mkdir /var/run/celery
     celery multi start autoconfirm --app=server -l info -c4 --pidfile=/var/run/celery/%n.pid --beat
     echo 'Started.'
 
