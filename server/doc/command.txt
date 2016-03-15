@@ -17,3 +17,9 @@ python manage.py test --settings=server.custom_settings.unittest_settings
 
 pip包更新
 pip install -r pip_install.txt --upgrade
+
+dev上的local_setting是
+/opt/keys-pros/local_settings.py
+
+查看远端服务器上的日志
+ssh ec2-user@54.223.238.201 'tail /opt/jenkins/mala/server/log.log'

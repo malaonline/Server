@@ -28,63 +28,64 @@
                     <div class="tag-tab">
                         {% if student_type == "0" %}
                         <a href="{{ current_student_url }}"><span class="student-type" attrState="selected">当前学生</span></a>
-                        <span class="number-count" attrState="empty"> </span>
+                        <span class="number-count" attrState="empty">({{ current_count }})</span>
                         {% else %}
                         <a href="{{ current_student_url }}"><span class="student-type">当前学生</span></a>
-                        <span class="number-count" attrState="empty"> </span>
+                        <span class="number-count" attrState="empty">({{ current_count }})</span>
                         {% endif %}
 
                         {% if student_type == "1" %}
                         <a href="{{ class_ending_student_url }}"><span class="student-type" attrState="selected">结课学生</span></a>
-                        <span class="number-count" attrState="empty"> </span>
+                        <span class="number-count" attrState="empty">({{ session_count }})</span>
                         {% else %}
                         <a href="{{ class_ending_student_url }}"><span class="student-type">结课学生</span></a>
-                        <span class="number-count" attrState="empty"> </span>
+                        <span class="number-count" attrState="empty">({{ session_count }})</span>
                         {% endif %}
                         {% if student_type == "2" %}
                         <a href="{{ refund_student_url }}"><span class="student-type" attrState="selected">退费学生</span></a>
-                        <span class="number-count" attrState="full">(10+)</span>
+                        <span class="number-count" attrState="full">({{ refund_count }})</span>
                         {% else %}
                         <a href="{{ refund_student_url }}"><span class="student-type">退费学生</span></a>
-                        <span class="number-count" attrState="full">(10+)</span>
+                        <span class="number-count" attrState="full">({{ refund_count }})</span>
                         {% endif %}
                     </div>
                     <div class="student-list">
                         <div class="list-header">
                             <span class="header-name">学生姓名</span>
                             <span class="header-grade">年级</span>
-                            <span class="header-subclass-progress">已完成课时/总课时</span>
+{#                            <span class="header-subclass-progress">已完成课时/总课时</span>#}
                             <span class="header-subclass-price">课时单价</span>
                             <span class="header-student-status">学生状态</span>
                             <span class="header-operation">操作</span>
                         </div>
                         {% for one_student in student_list %}
                         <div class="list-body">
-                            <span class="name">{{ one_student.0 }}</span>
-                            <span class="grade">{{ one_student.1 }}</span>
-                            <span class="subclass-progress">{{ one_student.2 }}</span>
-                            <span class="subclass-price">{{ one_student.3 }}</span>
+                            <span class="name">{{ one_student.name }}</span>
+                            <span class="grade">{{ one_student.grade }}</span>
+{#                            <span class="subclass-progress"> </span>#}
+{#                            <span class="subclass-progress">{{ one_student.2 }}</span>#}
+                            <span class="subclass-price">{{ one_student.price }}</span>
                             <span class="student-state">
-                            {% if one_student.4 == "新生" %}
+                            {% if one_student.state == "新生" %}
                                 <span class="state-new" data-toggle="tooltip" data-placement="right" title="首次上课的学生,得好好准备">新生</span>
                             {% endif %}
-                            {% if one_student.4 == "续费" %}
+                            {% if one_student.state == "续费" %}
                                 <span class="state-renewal" data-toggle="tooltip" data-placement="right" title="课都快上完了,提醒他续费吧">续费</span>
                             {% endif %}
-                            {% if one_student.4 == "正常" %}
+                            {% if one_student.state == "正常" %}
                                 <span class="state-normal" data-toggle="tooltip" data-placement="right" title="正常上课ing">正常</span>
                             {% endif %}
-                            {% if one_student.4 == "退费" %}
+                            {% if one_student.state == "退费" %}
                                 <span class="state-refund" data-toggle="tooltip" data-placement="right" title="已经退费了,他真的走了">退费</span>
                             {% endif %}
-                            {% if one_student.4 == "结课" %}
+                            {% if one_student.state == "结课" %}
                                 <span class="state-session" data-toggle="tooltip" data-placement="right" title="已经完成课程学习">结课</span>
                             {% endif %}
                             </span>
-                            {% if one_student.5 == True %}
+                            {% if one_student.mail == True %}
                                 <i class="operation" attrState="to-send" data-toggle="tooltip" data-placement="left" title="沟通很重要,快给家长写一封信吧"></i>
                             {% endif %}
-                            {% if one_student.5 == False %}
+                            {% if one_student.mail == False %}
                                 <i class="operation" attrState="sent"></i>
                             {% endif %}
                         </div>

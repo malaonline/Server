@@ -974,45 +974,85 @@ class MyStudents(BasicTeacherView):
     TW-5-2, 我的学生
     """
 
-    class CollectTimeSlotGroupByStudent:
+    def get_student_statistics(self, teacher: models.Teacher, student_type: int, per_page: int, offset: int):
         """
-        收集所有Order的所有TimeSlot,并按照学生进行分组
+        不同类型的学生统计
+        :param teacher: 老师
+        :param student_type: 0 - 当前学生, 1 - 结课学生, 2 - 退费学生
+        :param per_page: 分页每页显示的学生数目
+        :param offset: 当前位置
+        :return: { "student_statistics": [当前学生,结课学生,退费学生],}
         """
+        # 先获得不同学生在这个老师下的最新订单
+        student_list = models.Parent.objects.filter(order__teacher=teacher)
+        refund_count = 0
+        session_count = 0
+        current_count = 0
+        page_student_list = []
+        for one_student in student_list:
+            # 最新的订单
+            the_order = one_student.order_set.filter(teacher=teacher).latest("created_at")
 
-        def __init__(self):
-            self.group_by_student = {}
-            self.order = None
+            if the_order.status == models.Order.REFUND:
+                # 退费学生
+                refund_count += 1
+                if student_type == 2:
+                    page_student_list.append((one_student, the_order))
+            elif the_order.status == models.Order.PAID:
+                # 都是付费学生
+                if the_order.timeslot_set.filter(end__gt=timezone.now(), order__teacher=teacher).exists():
+                    # 还有没上完的课
+                    current_count += 1
+                    if student_type == 0:
+                        page_student_list.append((one_student, the_order))
+                else:
+                    # 所有的课都上完了
+                    session_count += 1
+                    if student_type == 1:
+                        page_student_list.append((one_student, the_order))
+        p = Paginator(page_student_list, per_page)
+        page_student_details = []
+        # 找到特定分页进行详细处理
+        for one_student, one_order in p.page(offset).object_list:
+            one_details = {
+                "name": one_student.student_name or one_student.user.profile.phone,
+                "grade": one_order.grade,
+                "price": "￥{price}/小时".format(price=one_order.price),
+                "mail": True
+            }
 
-        def __call__(self, time_slot: models.TimeSlot):
-            """
-            用dict来归类学生
-            """
-            order = self.order
-            one_student_description = self.group_by_student.get(order.parent.student_name, {})
-            if not one_student_description:
-                # 需要初始化一些数据
-                one_student_description["name"] = order.parent.student_name
-                one_student_description["grade"] = order.grade
-                one_student_description["price"] = "￥{price}/小时".format(price=order.price)
-            old_data_array = one_student_description.get("time_slot_list", [])
-            # print("old_data_array's type is {old_data_array}".format(old_data_array=old_data_array))
-            old_data_array.append(time_slot)
-            new_data_array = old_data_array
-            one_student_description["time_slot_list"] = new_data_array
-            self.group_by_student[order.parent.student_name] = one_student_description
-
-    class GetTimeSlotProgress(MySchoolTimetable.GetTimeSlotProgress):
-        """
-        统计time slot的进度
-        """
-        pass
+            if student_type == 0:
+                # 当前学生需要检查新生,续费,和正常三种情况
+                complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, end__lt=timezone.now())
+                if not complete_lesson.exists():
+                    one_details["state"] = "新生"
+                else:
+                    not_complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, start__gt=timezone.now())
+                    if complete_lesson.count()/(complete_lesson.count()+not_complete_lesson.count()) > 0.8:
+                        one_details["state"] = "续费"
+                    else:
+                        one_details["state"] = "正常"
+            elif student_type == 1:
+                one_details["state"] = "结课"
+            elif student_type == 2:
+                one_details["state"] = "退费"
+            page_student_details.append(one_details)
+        return {
+            "student_statistics": [current_count, session_count, refund_count],
+            "student_details": page_student_details,
+            "num_pages": p.num_pages
+        }
 
     def handle_get(self, request, user, teacher, student_type, page_offset):
         offset = int(page_offset)
 
         student_state = {0: ["新生", "正常", "续费"], 1: ["结课"], 2: ["退费"]}
-        filter_student_state = student_state[int(student_type)]
-        student_list, total_page = self.current_student(teacher, filter_student_state, 11, offset)
+        # filter_student_state = student_state[int(student_type)]
+        # student_list, total_page = self.current_student(teacher, filter_student_state, 11, offset)
+
+        ss = self.get_student_statistics(teacher, int(student_type), 11, offset)
+        student_list = ss["student_details"]
+        total_page = ss["num_pages"]
 
         default_page_list = [[item + 1, False, reverse("teacher:my-students",
                                                        kwargs={"student_type": student_type, "page_offset": item + 1})]
@@ -1033,92 +1073,9 @@ class MyStudents(BasicTeacherView):
         context["class_ending_student_url"] = class_ending_student_url
         context["refund_student_url"] = refund_student_url
         context["student_type"] = student_type
+        context["current_count"], context["session_count"], context["refund_count"] = ss["student_statistics"]
         # pp(context)
         return render(request, "teacher/my_students.html", context)
-
-    def refund_student(self, teacher: models.Teacher, page_size=11, offset=1):
-        # 提取退费的单子,然后合并出结果
-        ctsgb = MyStudents.CollectTimeSlotGroupByStudent()
-        for order in models.Order.objects.filter(teacher=teacher, status=models.Order.REFUND):
-            ctsgb.order = order
-            order.enum_timeslot(ctsgb)
-        student_list = []
-        for name, des in ctsgb.group_by_student.items():
-            gtsp = MyStudents.GetTimeSlotProgress()
-            for time_slot_list in des["time_slot_list"]:
-                gtsp(time_slot_list)
-            des["progress"] = "{complete}/{total}".format(complete=gtsp.complete_class,
-                                                          total=gtsp.total_class)
-            percent = gtsp.complete_class / gtsp.total_class
-            des["state"] = "退费"
-            # 填充结果
-            one_row = [name, des["grade"], des["progress"], des["price"], des["state"], True]
-            student_list.append(one_row)
-        # 分页切割
-        partition_list = split_list(student_list, page_size)
-        if not partition_list:
-            # 设置一个空的结果
-            partition_list = [[]]
-        return partition_list[offset - 1], len(partition_list)
-
-    def current_student(self, teacher: models.Teacher, filter_student_state: list, page_size=11, offset=1):
-        if "退费" in filter_student_state:
-            return self.refund_student(teacher, page_size, offset)
-        else:
-            return self.normal_student(teacher, filter_student_state, page_size, offset)
-
-    def normal_student(self, teacher: models.Teacher, filter_student_state: list, page_size=11, offset=1):
-        # 思路,先汇总订单,然后按照学生分类,再进行分页和定位当前的位置
-        ctsgb = MyStudents.CollectTimeSlotGroupByStudent()
-        for order in models.Order.objects.filter(teacher=teacher):
-            if order.status == models.Order.PAID:
-                ctsgb.order = order
-                order.enum_timeslot(ctsgb)
-        student_list = []
-        for name, des in ctsgb.group_by_student.items():
-            gtsp = MyStudents.GetTimeSlotProgress()
-            for time_slot_list in des["time_slot_list"]:
-                gtsp(time_slot_list)
-            des["progress"] = "{complete}/{total}".format(complete=gtsp.complete_class,
-                                                          total=gtsp.total_class)
-            percent = gtsp.complete_class / gtsp.total_class
-            if percent == 0:
-                des["state"] = "新生"
-            if 0 < percent < 0.8:
-                des["state"] = "正常"
-            if 0.8 <= percent < 1:
-                des["state"] = "续费"
-            if percent == 1:
-                des["state"] = "结课"
-            # 填充结果
-            one_row = [name, des["grade"], des["progress"], des["price"], des["state"], True]
-            student_list.append(one_row)
-        # 过滤学生
-        filter_student_list = []
-        for one_student in student_list:
-            if one_student[4] in filter_student_state:
-                filter_student_list.append(one_student)
-        # 分页切割
-        partition_list = split_list(filter_student_list, page_size)
-        if not partition_list:
-            # 设置一个空的结果
-            partition_list = [[]]
-        return partition_list[offset - 1], len(partition_list)
-
-        # student_list = [
-        #     ["胡晓璐", "初二", "0/20", "￥190/小时", "新生", True],
-        #     ["胡晓璐", "小学一年级", "8/10", "￥190/小时", "续费", False],
-        #     ["胡晓璐", "高一", "9/20", "￥190/小时", "正常", True],
-        #     ["胡晓璐", "高三", "12/100", "￥190/小时", "正常", True],
-        #     ["胡晓璐", "高二", "7/20", "￥190/小时", "正常", True],
-        #     ["胡晓璐", "初二", "14/15", "￥190/小时", "续费", True],
-        #     ["张子涵", "小学二年级", "8/10", "￥190/小时", "退费", False],
-        #     ["汪小菲", "小学六年级", "19/20", "￥190/小时", "续费", False],
-        #     ["孙大圣", "小学一年级", "12/100", "￥190/小时", "正常", False],
-        #     ["刘宇", "高一", "20/20", "￥190/小时", "结课", False],
-        #     ["赵一曼", "高三", "15/15", "￥190/小时", "结课", False],
-        # ]
-        # return student_list, 3
 
 
 class MyEvaluation(BasicTeacherView):
