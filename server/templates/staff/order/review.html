@@ -99,7 +99,6 @@
             <th>下单时间</th>
             <th>支付平台</th>
             <th>订单状态</th>
-            <th>家长姓名</th>
             <th>家长手机号</th>
             <th>学生姓名</th>
             <th>老师姓名</th>
@@ -140,7 +139,6 @@
                         {{ order.get_status_display }}
                     {% endif %}
                 </td>
-{# 家长姓名 #}    <td>{{ order.parent.user.username }}</td>
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
