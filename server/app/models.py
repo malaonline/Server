@@ -1200,7 +1200,8 @@ class OrderManager(models.Manager):
                 timeslot = TimeSlot(
                         order=order, start=ts['start'], end=ts['end'])
                 timeslot.save()
-
+            order.status = 'p'
+            order.save()
         except Exception as e:
             raise e
         finally:

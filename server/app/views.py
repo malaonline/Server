@@ -87,8 +87,6 @@ class ChargeSucceeded(View):
 
         order = charge.order
         models.Order.objects.allocate_timeslots(order)
-        order.status = 'p'
-        order.save()
         return JsonResponse({'ok': 1})
 
 
