@@ -98,7 +98,8 @@ class SchoolDetailView(ListView):
 class CourseChoosingView(View):
     template_name = 'wechat/order/course_choosing.html'
 
-    def get(self, request, teacher_id=None):
+    def get(self, request):
+        teacher_id = request.GET.get('teacher_id', -1)
         kwargs = {}
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         kwargs['teacher'] = teacher
@@ -137,17 +138,17 @@ class CourseChoosingView(View):
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
         return render(request, self.template_name, kwargs)
 
-    def post(self, request, teacher_id=None):
+    def post(self, request):
         action = request.POST.get('action')
         if action == 'confirm':
-            return self.confirm_order(request, teacher_id)
+            return self.confirm_order(request)
         if action == 'verify':
             return self.verify_order(request)
         if action == 'schools_dist':
-            return self.schools_distance(request, teacher_id)
+            return self.schools_distance(request)
         return HttpResponse("Not supported request.", status=403)
 
-    def confirm_order(self, request, teacher_id):
+    def confirm_order(self, request):
         if settings.TESTING:
             # the below line is only for testing
             parent = models.Parent.objects.get(pk=3)
@@ -225,14 +226,13 @@ class CourseChoosingView(View):
         else:
             return {'ok': False, 'msg': query_ret['msg'], 'code': 1}
 
-    def schools_distance(self, request, teacher_id):
+    def schools_distance(self, request):
         lat = request.POST.get('lat', None)
         lng = request.POST.get('lng', None)
         if lat is None or lat == '' or lng is None or lng == '':
             return JsonResponse({'ok': False})
         lat = float(lat)
         lng = float(lng)
-        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         # schools = teacher.schools.all()
         schools = models.School.objects.all()
         distances = []
@@ -708,11 +708,11 @@ def check_phone(request):
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
-            return HttpResponseRedirect(reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId})+'?openid='+openid)
+            return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid)
 
     context = {
         "openid": openid,
         "teacherId": teacherId,
-        "nextpage": reverse('wechat:order-course-choosing', kwargs={"teacher_id": teacherId})
+        "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)
     }
     return render(request, 'wechat/parent/reg_phone.html', context)
