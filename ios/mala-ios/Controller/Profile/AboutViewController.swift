@@ -45,14 +45,26 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         copyrightLabel.text = MalaConfig.aboutCopyRightString()
         return copyrightLabel
     }()
+    /// 描述 文字背景
+    private lazy var textBackground: UIImageView = {
+        let textBackground = UIImageView(image: UIImage(named: "aboutText_Background"))
+        return textBackground
+    }()
+    /// 描述标题
+    private lazy var titleView: AboutTitleView = {
+        let titleView = AboutTitleView()
+        titleView.title = MalaCommonString_Malalaoshi
+        return titleView
+    }()
     /// 关于描述label
-    private lazy var aboutTextView: UITextView = {
-        let aboutTextView = UITextView()
-        aboutTextView.editable = false
+    private lazy var aboutTextView: UILabel = {
+        let aboutTextView = UILabel()
+        aboutTextView.numberOfLines = 0
         aboutTextView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         aboutTextView.textColor = MalaDetailsCellSubTitleColor
         aboutTextView.text = MalaConfig.aboutDescriptionHTMLString()
         aboutTextView.backgroundColor = MalaProfileBackgroundColor
+        aboutTextView
         return aboutTextView
     }()
     
@@ -81,7 +93,10 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(appLogoView)
         scrollView.addSubview(appVersionLabel)
         scrollView.addSubview(copyrightLabel)
-        scrollView.addSubview(aboutTextView)
+        scrollView.addSubview(textBackground)
+        
+        textBackground.addSubview(titleView)
+        textBackground.addSubview(aboutTextView)
         
         // Autolayout
         scrollView.snp_makeConstraints { (make) -> Void in
@@ -104,12 +119,22 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
             make.centerX.equalTo(scrollView.snp_centerX)
             make.top.equalTo(appVersionLabel.snp_bottom).offset(MalaLayout_Margin_12)
         }
-        aboutTextView.snp_makeConstraints { (make) -> Void in
+        textBackground.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(copyrightLabel.snp_bottom).offset(MalaLayout_Margin_12)
             make.centerX.equalTo(scrollView.snp_centerX)
             make.left.equalTo(scrollView.snp_left).offset(MalaLayout_Margin_12)
             make.right.equalTo(scrollView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(200)
+        }
+        titleView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(textBackground.snp_top).offset(MalaLayout_Margin_18)
+            make.left.equalTo(textBackground.snp_left)
+            make.right.equalTo(textBackground.snp_right)
+        }
+        aboutTextView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(titleView.snp_bottom).offset(MalaLayout_Margin_18)
+            make.left.equalTo(textBackground.snp_left).offset(MalaLayout_Margin_18)
+            make.right.equalTo(textBackground.snp_right).offset(-MalaLayout_Margin_18)
+            make.bottom.equalTo(textBackground.snp_bottom).offset(-MalaLayout_Margin_18)
         }
         
         upateContentSize()
