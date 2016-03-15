@@ -89,21 +89,21 @@ class BaseStaffActionView(View):
         return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
 
-def _try_send_sms(phone, msg, times=1):
+def _try_send_sms(phone, tpl_id=0, params=None, times=1):
     """
     尝试发送短信
     :return: True or False
     """
     if not phone:
         return False
-    if not msg:
+    if not tpl_id:
         return True
     if settings.FAKE_SMS_SERVER:
         return True
     ok = False
     while (not ok and times > 0):
         try:
-            smsUtil.sendSms(phone, msg)
+            smsUtil.tpl_send_sms(phone, tpl_id, params)
             ok = True
         except Exception as ex:
             logger.error(ex)
@@ -611,12 +611,8 @@ class TeacherUnpublishedEditView(BaseStaffView):
             self._send_cert_sms_notify(cert_name, cert.verified, teacher.user.profile.phone)
 
     def _send_cert_sms_notify(self, cert_name, new_status, phone):
-        if phone:
-            if new_status:
-                sms_msg = '【麻辣老师】恭喜您，您的'+cert_name+'已通过认证。'
-            else:
-                sms_msg = '【麻辣老师】您的'+cert_name+'认证失败, 如有疑问请联系客服人员。'
-            _try_send_sms(phone, sms_msg, 2)  # 忽略发送结果
+        # TODO: 
+        pass
 
 class TeacherBankcardView(BaseStaffView):
     template_name = 'staff/teacher/teacher_bankcard_list.html'
@@ -842,6 +838,9 @@ class TeacherWithdrawalView(BaseStaffView):
                 withdrawal.audit_by = request.user
                 withdrawal.audit_at = timezone.now()
                 withdrawal.save()
+                # 短信通知老师
+                teacher = account.user.teacher
+                _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_APPROVE, {'username':teacher.name}, 2)
         except IntegrityError as err:
             logger.error(err)
             return JsonResponse({'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
@@ -853,6 +852,9 @@ class TeacherWithdrawalView(BaseStaffView):
         withdrawal.audit_by = request.user
         withdrawal.audit_at = timezone.now()
         withdrawal.save()
+        # 短信通知老师
+        teacher = withdrawal.account.user.teacher
+        _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_REJECT, {'username':teacher.name}, 2)
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
@@ -903,11 +905,14 @@ class TeacherActionView(BaseStaffActionView):
             # send notice (sms) to teacher
             phone = teacher.user.profile.phone
             if phone:
-                if flag:
-                    sms_msg = '【麻辣老师】恭喜您，已成为麻辣老师, 童鞋们可以在网上预订您的课程了。'
+                sms_tpl_id = 0
+                sms_data = None
+                if teacher.published:
+                    sms_tpl_id = smsUtil.TPL_PUBLISH_TEACHER
+                    sms_data = {'username': teacher.name}
                 else:
-                    sms_msg = '【麻辣老师】您的教师信息暂时下架, 如有疑问请联系客服人员。'
-                sms_ok = _try_send_sms(phone, sms_msg, 3)
+                    pass
+                sms_ok = _try_send_sms(phone, sms_tpl_id, sms_data, 3)
                 if not sms_ok:
                     ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
                     return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
@@ -1061,22 +1066,24 @@ class TeacherActionView(BaseStaffActionView):
             # send notice (sms) to teacher
             phone = teacher.user.profile.phone
             if phone:
-                sms_msg = None
+                sms_tpl_id = 0
+                sms_data = None
                 if new_status == models.Teacher.NOT_CHOSEN:
-                    sms_msg = '【麻辣老师】很遗憾，您未通过老师初选。'
+                    pass
                 elif new_status == models.Teacher.TO_INTERVIEW:
-                    sms_msg = '【麻辣老师】您已通过初步筛选，请按照约定时间参加面试。'
+                    pass # TODO: 短信模板没有做好
                 elif new_status == models.Teacher.INTERVIEW_OK:
-                    sms_msg = '【麻辣老师】恭喜您，已通过老师面试，稍后会有工作人员跟您联系。'
+                    sms_tpl_id = smsUtil.TPL_INTERVIEW_OK
+                    sms_data = {'username': teacher.name}
                 elif new_status == models.Teacher.INTERVIEW_FAIL:
-                    sms_msg = '【麻辣老师】很遗憾，您未通过老师面试。'
+                    sms_tpl_id = smsUtil.TPL_INTERVIEW_FAIL
+                    sms_data = {'username': teacher.name}
                 else:
                     pass
-                if sms_msg:
-                    sms_ok = _try_send_sms(phone, sms_msg, 3)
-                    if not sms_ok:
-                        ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
-                        return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
+                sms_ok = _try_send_sms(phone, sms_tpl_id, sms_data, 3)
+                if not sms_ok:
+                    ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
+                    return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
             msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
@@ -1623,6 +1630,9 @@ class OrderRefundActionView(BaseStaffActionView):
             if ok:
                 order.last_refund_record().last_updated_by = self.request.user
                 order.save()
+                # 短信通知老师
+                teacher = order.teacher
+                _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 

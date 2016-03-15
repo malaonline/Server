@@ -114,7 +114,7 @@ TPL_PUBLISH_TEACHER = 1274309
 """
 教师级别变更
 1274315
-【麻辣老师】尊敬的#username#，您的界别变更为#grade#。
+【麻辣老师】尊敬的#username#，您的级别变更为#grade#。
 """
 TPL_LEVEL_CHANGE = 1274315
 
@@ -123,7 +123,7 @@ TPL_LEVEL_CHANGE = 1274315
 1274317
 【麻辣老师】尊敬的#username#，您的学生发生退费，请登录麻辣老师网站查看相关信息。如有疑问请致电010-57733349。
 """
-TPL_STUDENT_REFUND = 1274317
+TPL_REFUND_NOTICE = 1274317
 
 """
 确认提现
