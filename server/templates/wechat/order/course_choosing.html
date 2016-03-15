@@ -195,7 +195,7 @@
 {#        alert(wx);#}
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
         wx.config({
-            debug: true, // 开启调试模式?
+            debug: false, // 开启调试模式?
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
             timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
             nonceStr: '{{ noncestr }}', // 必填，生成签名的随机串
