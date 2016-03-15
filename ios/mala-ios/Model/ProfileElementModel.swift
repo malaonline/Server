@@ -19,6 +19,8 @@ class ProfileElementModel: BaseObjectModel {
     var controller: AnyClass?
     /// 跳转控制器标题
     var controllerTitle: String?
+    /// 信息类型
+    var type: userInfoType?
     
     
     // MARK: - Constructed
@@ -31,13 +33,14 @@ class ProfileElementModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, title: String, detail: String, controller: AnyClass?, controllerTitle: String) {
+    convenience init(id: Int, title: String, detail: String, controller: AnyClass?, controllerTitle: String, type: userInfoType?) {
         self.init()
         self.id = id
         self.title = title
         self.detail = detail
         self.controller = controller
         self.controllerTitle = controllerTitle
+        self.type = type
     }
     
     // MARK: - Override
@@ -48,7 +51,7 @@ class ProfileElementModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["id", "title", "detail", "controller"]
+        let keys = ["id", "title", "detail", "controller", "type"]
         return dictionaryWithValuesForKeys(keys).description
     }
 }

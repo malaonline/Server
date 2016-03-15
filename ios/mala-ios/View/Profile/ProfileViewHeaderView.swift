@@ -24,7 +24,6 @@ class ProfileViewHeaderView: UIView {
     /// 用户头像URL
     var avatarURL: String = "" {
         didSet {
-            println("头像URL设置: \(MalaUserDefaults.avatar.value)")
             avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
         }
     }
@@ -132,5 +131,13 @@ class ProfileViewHeaderView: UIView {
     // MARK: - Event Response
     @objc private func avatarViewDidTap(sender: UIImageView) {
         self.delegate?.avatarViewDidTap(sender)
+    }
+    
+    
+    // MARK: - Public Method
+    ///  使用UserDefaults中的头像URL刷新头像
+    func refreshDataWithUserDefaults() {
+        avatarURL = MalaUserDefaults.avatar.value ?? ""
+        name = MalaUserDefaults.studentName.value ?? ""
     }
 }

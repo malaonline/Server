@@ -83,3 +83,12 @@ enum OtherServiceType {
     case Coupon
     case EvaluationFiling
 }
+
+///  用户信息类型
+///
+///  - StudentName:       学生姓名
+///  - StudentSchoolName: 学生学校姓名
+public enum userInfoType {
+    case StudentName
+    case StudentSchoolName
+}

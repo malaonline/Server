@@ -113,7 +113,7 @@ extension UIButton {
     convenience init(title: String, titleColor: UIColor, target: AnyObject?, action: Selector) {
         self.init()
         // 文字及其状态颜色
-        self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         self.setTitle(title, forState: .Normal)
         self.setTitleColor(titleColor, forState: .Normal)
         self.setTitleColor(titleColor, forState: .Highlighted)

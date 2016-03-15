@@ -80,6 +80,14 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         super.didReceiveMemoryWarning()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 每次显示[个人]页面时，刷新个人信息
+        model = MalaConfig.profileData()
+        tableView.reloadData()
+        profileHeaderView.refreshDataWithUserDefaults()
+    }
     
     // MARK: - Private Method
     private func configure() {
@@ -174,6 +182,8 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         if let type = model.controller as? UIViewController.Type {
             let viewController = type.init()
             viewController.title = model.controllerTitle
+            (viewController as? InfoModifyViewController)?.infoType = model.type
+            (viewController as? InfoModifyViewController)?.defaultString = model.detail
             viewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(viewController, animated: true)
         }

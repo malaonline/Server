@@ -120,7 +120,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
     
     @objc private func finishButtonDidTap() {
         let name = (inputField.text ?? "")
-        MalaUserDefaults.studentName.value = name
+        
         
         ThemeHUD.showActivityIndicator()
         
@@ -131,8 +131,9 @@ class SaveNameView: UIView, UITextFieldDelegate {
             if let errorMessage = errorMessage {
                 println("SaveNameView - saveStudentName Error \(errorMessage)")
             }
-            }, completion: { [weak self] (bool) -> Void in
+        }, completion: { [weak self] (bool) -> Void in
                 println("学生姓名保存 - \(bool)")
+                MalaUserDefaults.studentName.value = name
                 getInfoWhenLoginSuccess()
                 self?.closeButtonDidClick()
                 ThemeHUD.hideActivityIndicator()
