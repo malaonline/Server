@@ -128,7 +128,9 @@ class CourseChoosingView(View):
         now = timezone.now()
         now_timestamp = int(now.timestamp())
         kwargs['server_timestamp'] = now_timestamp
-        coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=now, expired_at__gt=now, used=False
+        date_from = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        date_to = now.replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
+        coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=date_from, expired_at__gt=date_to, used=False
                                         ).order_by('-amount', 'expired_at')
         kwargs['coupons'] = coupons
 

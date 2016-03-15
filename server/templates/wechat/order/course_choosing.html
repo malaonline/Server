@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="weui_cell_ft icons-area">
-                                    <span class="yes weui_icon_success"></span>
+                                    <i class="yes weui_icon_success"></i>
                                     <i class="no weui_icon_circle"></i>
                                 </div>
                             </div>
@@ -128,10 +128,22 @@
                     </div>
                     <a class="weui_cell weui_cells_access coupon-row" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
-                            <p class="sub-title">新生注册奖学金</p>
+                            <p class="sub-title">奖学金</p>
                         </div>
                         <div class="weui_cell_ft"><span>-￥<span id="discountCost">0</span></span></div>
                     </a>
+                    {% for coupon in coupons %}
+                        <div class="weui_cell coupon" couponId="{{ couponId }}">
+                            <div class="coupon-upper">
+                                <div class="cost"><span class="amount">{{ coupon.amount }}</span></div>
+                                <div class="name">{{ coupon.name }}</div>
+                                <div class="icons-area">
+                                    <img src="{% static 'wechat/images/coupon-checked.png' %}">
+                                </div>
+                            </div>
+                            <div class="coupon-footer">有效期 {{ coupon.validated_start|date:'Y.m.d' }} - {{ coupon.expired_at|date:'Y.m.d' }}</div>
+                        </div>
+                    {% endfor %}
                     {% if first_buy %}
                     <a class="weui_cell weui_cells_access test-row" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
