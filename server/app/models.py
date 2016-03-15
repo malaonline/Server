@@ -1508,7 +1508,7 @@ class Comment(BaseModel):
 class TimeSlotShouldAutoConfirmManager(models.Manager):
     def get_queryset(self):
         now = timezone.localtime(timezone.now())
-        autoConfirmDeltaTime = TimeSlot.AUTO_CONFIRM_DELTA_TIME
+        autoConfirmDeltaTime = TimeSlot.CONFIRM_TIME
         return super(TimeSlotShouldAutoConfirmManager, self).get_queryset().filter(
             attendance__isnull=True).filter(
             end__lt = now + autoConfirmDeltaTime
@@ -1519,7 +1519,7 @@ class TimeSlot(BaseModel):
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
-    AUTO_CONFIRM_DELTA_TIME = datetime.timedelta(hours=-2)
+    CONFIRM_TIME = datetime.timedelta(hours=-2)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
