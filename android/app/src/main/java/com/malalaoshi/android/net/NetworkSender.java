@@ -290,4 +290,8 @@ public class NetworkSender {
         String profileId = UserManager.getInstance().getProfileId();
         UploadFile.uploadImg(strAvatarLocPath, String.format(URL_SET_PROFILE, profileId), headers, networkListener);
     }
+
+    public static void getCourseInfo(String courseSubId, NetworkListener networkListener) {
+
+    }
 }

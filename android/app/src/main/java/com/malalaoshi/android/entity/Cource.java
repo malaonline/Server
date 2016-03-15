@@ -1,5 +1,8 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.util.CalendarUtils;
 
@@ -11,7 +14,7 @@ import java.util.Map;
 /**
  * Created by kang on 16/2/17.
  */
-public class Cource {
+public class Cource implements Parcelable {
     private Integer id;
     private String subject;
     private boolean is_passed;
@@ -72,4 +75,37 @@ public class Cource {
         }
         return mapCourse;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.subject);
+        dest.writeByte(is_passed ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.end);
+    }
+
+    public Cource() {
+    }
+
+    protected Cource(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.subject = in.readString();
+        this.is_passed = in.readByte() != 0;
+        this.end = (Long) in.readValue(Long.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Cource> CREATOR = new Parcelable.Creator<Cource>() {
+        public Cource createFromParcel(Parcel source) {
+            return new Cource(source);
+        }
+
+        public Cource[] newArray(int size) {
+            return new Cource[size];
+        }
+    };
 }
