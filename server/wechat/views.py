@@ -289,8 +289,8 @@ def set_order_paid(prepay_id=None, order_id=None):
     order = charge.order
     if order.status == models.Order.PAID:
         return
-    order.status = models.Order.PAID
     models.Order.objects.allocate_timeslots(order)
+    order.status = models.Order.PAID
     order.save()
     # 设置代金券为已使用
     if order.coupon:
