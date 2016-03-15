@@ -393,13 +393,13 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             }
             TextView textView2 = (TextView)view.findViewById(R.id.text2);
             TextView textView3 = (TextView)view.findViewById(R.id.text3);
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView3.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
             textView1.setText((String) smallTags.get(3 * i).get("name"));
@@ -422,10 +422,10 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             View view = layoutInflater.inflate(R.layout.tag_two_items, mTagFlow,false);
             TextView textView1 = (TextView)view.findViewById(R.id.text1);
             TextView textView2 = (TextView)view.findViewById(R.id.text2);
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
             textView1.setOnClickListener(this);
@@ -445,12 +445,12 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
                 ViewGroup.LayoutParams layoutParams = textView1.getLayoutParams();
                 layoutParams.width = (mTagFlow.getMeasuredWidth()-mTagFlow.getPaddingLeft()*4)/3;
                 textView1.setLayoutParams(layoutParams);
-                textView1.setText((String) smallTags.get(smallTags.size() - remainderSmall + i - 1).get("name"));
-                if (index>mTagStyles.length) index = 0;
+                textView1.setText((String) smallTags.get(smallTags.size() - remainderSmall + i).get("name"));
+                if (index>=mTagStyles.length) index = 1;
                 textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
                 index++;
                 textView1.setOnClickListener(this);
-                textView1.setTag(smallTags.get(smallTags.size() - remainderSmall + i - 1));
+                textView1.setTag(smallTags.get(smallTags.size() - remainderSmall + i));
                 mTagFlow.addView(textView1);
                 mTagViews.add(textView1);
             }
@@ -460,11 +460,12 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             ViewGroup.LayoutParams layoutParams = textView1.getLayoutParams();
             layoutParams.width = (mTagFlow.getMeasuredWidth()-mTagFlow.getPaddingLeft()*3)/2;
             textView1.setLayoutParams(layoutParams);
-            textView1.setText((String) bigTags.get(bigTags.size() - 2).get("name"));
-            if (index>mTagStyles.length) index = 0;
+            textView1.setText((String) bigTags.get(bigTags.size() - 1).get("name"));
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            textView1.setTag(bigTags.get(bigTags.size() - 2));
+            textView1.setOnClickListener(this);
+            textView1.setTag(bigTags.get(bigTags.size() - 1));
             mTagFlow.addView(textView1);
             mTagViews.add(textView1);
         }

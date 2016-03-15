@@ -132,13 +132,13 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             TextView textView2 = (TextView)view.findViewById(R.id.text2);
             TextView textView3 = (TextView)view.findViewById(R.id.text3);
 
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView3.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
 
@@ -187,10 +187,10 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             TextView textView1 = (TextView)view.findViewById(R.id.text1);
             TextView textView2 = (TextView)view.findViewById(R.id.text2);
 
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView2.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
 
@@ -229,7 +229,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
                 textView1.setLayoutParams(layoutParams);
                 textView1.setText((String) smallTags.get(smallTags.size() - remainderSmall + i - 1).get("name"));
 
-                if (index>mTagStyles.length) index = 0;
+                if (index>=mTagStyles.length) index = 1;
                 textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
                 index++;
 
@@ -252,21 +252,21 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             layoutParams.width = (mTagFlow.getMeasuredWidth()-mTagFlow.getPaddingLeft()*3)/2;
 
             textView1.setLayoutParams(layoutParams);
-            textView1.setText((String) bigTags.get(bigTags.size() - 2).get("name"));
+            textView1.setText((String) bigTags.get(bigTags.size() - 1).get("name"));
 
-            if (index>mTagStyles.length) index = 0;
+            if (index>=mTagStyles.length) index = 1;
             textView1.setBackground(getActivity().getResources().getDrawable(mTagStyles[index]));
             index++;
 
-            textView1.setTag(bigTags.get(bigTags.size() - 2));
-            Object selectedObj = bigTags.get(bigTags.size() - 2).get("selected");
+            textView1.setTag(bigTags.get(bigTags.size() - 1));
+            Object selectedObj = bigTags.get(bigTags.size() - 1).get("selected");
 
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView1.setSelected(true);
             }else{
                 textView1.setSelected(false);
             }
-
+            textView1.setOnClickListener(this);
             mTagFlow.addView(textView1);
             mTagViews.add(textView1);
         }
