@@ -2081,6 +2081,9 @@ class BasicDocument(BaseTeacherView):
         grade_list = json.loads(grade)
         tags_list = json.loads(tags)
 
+        if len(tags_list) > 3:
+            return JsonResponse({'ok': False, 'msg': '风格标签不能超过3个', 'code': -1})
+
         the_subject = models.Subject.objects.get(name=subclass)
         grade_name_list = models.Grade.get_all_grades()
         page_grade_list = [["小学一年级", "小学二年级", "小学三年级", "小学四年级", "小学五年级", "小学六年级"],

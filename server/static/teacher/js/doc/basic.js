@@ -9,6 +9,9 @@ $(function(){
     $('#teachingAge').html(nv);
   });
   $('[name="tag-item"]').click(function(e){
+    if(!$(e.target).hasClass('item-selected') && !checkFlag()){
+      return false;
+    }
     $(e.target).toggleClass('item-selected');
   });
   $('input').bind("input propertychange change", function(){
@@ -24,6 +27,9 @@ $(function(){
     }
   });
   $('#saveBtn').click(function(){
+    if(!checkFlag()){
+      return false;
+    }
     var birthday_y = $('#birthday_y').val();
     var birthday_m = $('#birthday_m').val();
     var birthday_d = $('#birthday_d').val();
@@ -255,4 +261,11 @@ function getSelectedTags(){
     }
   });
   return ret;
+}
+function checkFlag(){
+  if(getSelectedTags().length>=3){
+    alert('风格标签不能超过3个！');
+    return false;
+  }
+  return true;
 }
