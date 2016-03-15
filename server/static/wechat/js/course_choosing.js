@@ -325,10 +325,6 @@ $(function(){
         var defaultErrMsg = '请求失败, 请稍后重试或联系客户人员!';
         $.post(location.pathname, params, function (result) {
             if (result) {
-                if (result.testing){
-                    location.href = pay_success_page;
-                    return;
-                }
                 if (result.ok) {
                     var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
                     wx.chooseWXPay({
@@ -348,7 +344,7 @@ $(function(){
                             $.post(location.pathname, verify_params, function(verify_ret){
                                 if (verify_ret) {
                                     if (verify_ret.ok) {
-                                        location.href = pay_success_page;
+                                        window.close();
                                         //showAlertDialog('支付成功');
                                         return;
                                     } else {
