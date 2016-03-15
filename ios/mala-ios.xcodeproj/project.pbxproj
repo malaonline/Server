@@ -258,6 +258,7 @@
 		F46065291C97B168004056B1 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651C1C97B168004056B1 /* CouponViewController.swift */; };
 		F460652A1C97B168004056B1 /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651E1C97B168004056B1 /* ProfileViewController.swift */; };
+		F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460652C1C97B1C8004056B1 /* AboutViewController.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
@@ -494,6 +495,7 @@
 		F460651C1C97B168004056B1 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
 		F460651D1C97B168004056B1 /* InfoModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewController.swift; sourceTree = "<group>"; };
 		F460651E1C97B168004056B1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F460652C1C97B1C8004056B1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
@@ -985,6 +987,7 @@
 				F460651C1C97B168004056B1 /* CouponViewController.swift */,
 				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
+				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
 				F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */,
+				F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */,
 				F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,

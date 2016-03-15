@@ -36,6 +36,21 @@ class MalaConfig {
     class func editProfileAvatarSize() -> CGFloat {
         return 100
     }
+    ///  app版本号
+    class func aboutAPPVersion() -> CGFloat {
+        return 1.0
+    }
+    ///  版权信息
+    class func aboutCopyRightString() -> String {
+        return "COPYRIGHT © 2014 - 2016\n北京麻辣在线网络科技有限公司版权所有"
+    }
+    ///  关于我们描述HTMLString
+    class func aboutDescriptionHTMLString() -> String {
+        return "        麻辣老师(MALALAOSHI.COM)成立于2015年6月，由众多资深教育人士和互联网顶尖人才组成，是专注于国内二三四线城市中小学K12课外辅导的O2O服务平台，以效果、费用、便捷为切入口，实现个性化教学和学生的个性发展，推动二三四线城市及偏进地区教育进步。\n\n        麻辣老师通过O2O的方式，以高效和精准的老师推荐，让中小学家长更加方便和经济地找到好老师，提升老师的收入，优化教、学、练、测、评亐五环节, 提升教学与学习效率、创新服务模式，带给家长、老师及学生全新的学习体验。"
+    }
+    
+    
+    // MARK: - Default Data
     ///  老师详情缺省模型
     class func defaultTeacherDetail() -> TeacherDetailModel {
         return TeacherDetailModel(
@@ -56,6 +71,7 @@ class MalaConfig {
             maxPrice: 0
         )
     }
+    
     ///  [个人中心]静态结构数据
     class func profileData() -> [[ProfileElementModel]] {
         let studentName = MalaUserDefaults.studentName.value ?? ""
@@ -65,11 +81,11 @@ class MalaConfig {
             [
                 ProfileElementModel(id: 0, title: "学生姓名", detail: studentName, controller: InfoModifyViewController.self, controllerTitle: "更改名字"),
                 ProfileElementModel(id: 1, title: "学校信息", detail: schoolName, controller: InfoModifyViewController.self, controllerTitle: "所在学校"),
-//                ProfileElementModel(id: 2, title: "所在城市", detail: "", controller: InfoModifyViewController.self, controllerTitle: "所在城市"),
+                // ProfileElementModel(id: 2, title: "所在城市", detail: "", controller: InfoModifyViewController.self, controllerTitle: "所在城市"),
                 ProfileElementModel(id: 3, title: "我的奖学金", detail: "", controller: CouponViewController.self, controllerTitle: "我的奖学金")
             ],
             [
-                ProfileElementModel(id: 4, title: "关于麻辣老师", detail: "", controller: UIViewController.self, controllerTitle: "关于麻辣老师")
+                ProfileElementModel(id: 4, title: "关于麻辣老师", detail: "", controller: AboutViewController.self, controllerTitle: "关于麻辣老师")
             ]
         ]
     }

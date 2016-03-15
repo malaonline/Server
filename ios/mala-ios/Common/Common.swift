@@ -101,6 +101,7 @@ let MalaLayout_Margin_16: CGFloat = 16.0
 let MalaLayout_Margin_18: CGFloat = 18.0
 let MalaLayout_Margin_20: CGFloat = 20.0
 let MalaLayout_Margin_21: CGFloat = 21.0
+let MalaLayout_Margin_24: CGFloat = 24.0
 let MalaLayout_Margin_26: CGFloat = 26.0
 let MalaLayout_Margin_27: CGFloat = 27.0
 
@@ -136,6 +137,7 @@ let MalaLayout_FilterBarHeight: CGFloat = 40
 let MalaLayout_OtherServiceCellHeight: CGFloat = 46
 let MalaLayout_ProfileHeaderViewHeight: CGFloat = 165
 let MalaLayout_ProfileModifyViewHeight: CGFloat = 48
+let MalaLayout_AboutAPPLogoViewHeight: CGFloat = 62
 
 
 // MARK: - Device

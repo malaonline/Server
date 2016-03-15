@@ -25,11 +25,11 @@ class ProfileViewHeaderView: UIView {
     var avatarURL: String = "" {
         didSet {
             println("头像URL设置: \(MalaUserDefaults.avatar.value)")
-            avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "avatar_placeholder"))
+            avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
         }
     }
     /// 用户头像
-    var avatar: UIImage = UIImage(named: "avatar_placeholder") ?? UIImage() {
+    var avatar: UIImage = UIImage(named: "profileAvatar_placeholder") ?? UIImage() {
         didSet {
             avatarView.image = avatar
         }

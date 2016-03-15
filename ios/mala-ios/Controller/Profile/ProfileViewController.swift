@@ -174,6 +174,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         if let type = model.controller as? UIViewController.Type {
             let viewController = type.init()
             viewController.title = model.controllerTitle
+            viewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
