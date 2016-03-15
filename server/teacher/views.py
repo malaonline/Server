@@ -671,7 +671,9 @@ class SideBarContent:
                                                      kwargs={"student_type": 0, "page_offset": 1})
         context["side_bar_my_evaluation_url"] = reverse("teacher:my-evaluation",
                                                     kwargs={"comment_type": 0, "page_offset": 1})
-        context["information_not_complete"] = self.is_teacher_information_not_complete(self.teacher)
+        information_complete, msg = self.is_teacher_information_not_complete(self.teacher)
+        logger.debug("资料填写检查: {msg}".format(msg=msg))
+        context["information_not_complete"] = information_complete
 
     def _my_course_badge(self):
         # 我的课表旁边的徽章
@@ -695,36 +697,36 @@ class SideBarContent:
         # 老师基本资料没有填完就返回False,否则返回True
         # 姓名
         if not teacher.name:
-            return False
+            return False, "姓名未填写"
         # 手机号
         profile = teacher.user.profile
         if not profile.phone:
-            return False
+            return False, "电话未填写"
         # 性别
         if profile.gender == "u":
-            return False
+            return False, "性别未指明"
         # 所在城市
         if not teacher.region:
-            return False
+            return False, "地区未填写"
         # 出生年月日
         if not profile.birthday:
-            return False
+            return False, "生日未填写"
         # 教龄
         if not teacher.experience:
-            return False
+            return False, "教龄未填写"
         # 毕业院校
         if not teacher.graduate_school:
-            return False
+            return False, "毕业院校未填写"
         # 授课科目, 授课年级
         if not teacher.abilities.all().exists():
-            return False
+            return False, "授课科目或授课年级"
         # 风格标记
         if not teacher.tags.all().exists():
-            return False
+            return False, "风格标记未填写"
         # 自我介绍
         if not teacher.introduce:
-            return False
-        return True
+            return False, "自我介绍未填写"
+        return True, ""
 
 
 class MySchoolTimetable(BasicTeacherView):
