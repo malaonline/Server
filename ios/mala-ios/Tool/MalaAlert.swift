@@ -114,7 +114,7 @@ extension UIViewController {
     func alertCanNotAccessCameraRoll() {
 
         dispatch_async(dispatch_get_main_queue()) {
-            MalaAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+            MalaAlert.confirmOrCancel(title: "照片访问失败", message: "请在设置-隐私-照片里打开权限", confirmTitle: "去更改", cancelTitle: "取消", inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -126,7 +126,7 @@ extension UIViewController {
     func alertCanNotOpenCamera() {
 
         dispatch_async(dispatch_get_main_queue()) {
-            MalaAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+            MalaAlert.confirmOrCancel(title: "拍照失败", message: "请在设置-隐私-相机里打开权限", confirmTitle: "去更改", cancelTitle: "取消", inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -138,7 +138,7 @@ extension UIViewController {
     func alertCanNotAccessMicrophone() {
 
         dispatch_async(dispatch_get_main_queue()) {
-            MalaAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+            MalaAlert.confirmOrCancel(title: "麦克风访问失败", message: "请在设置-隐私-麦克风里打开权限", confirmTitle: "去更改", cancelTitle: "取消", inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 

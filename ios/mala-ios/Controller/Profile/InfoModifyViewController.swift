@@ -160,7 +160,8 @@ class InfoModifyViewController: UIViewController {
     
     // MARK: - Event Response
     private func validateName(name: String) -> Bool {
-        let nameRegex = "^[\\u4e00-\\u9fa5]{2,4}$"
+        let maxLength = (infoType == .StudentSchoolName ? 10 : 4)
+        let nameRegex = "^[\\u4e00-\\u9fa5]{2,\(maxLength)}$"
         let nameTest = NSPredicate(format: "SELF MATCHES %@", nameRegex)
         return nameTest.evaluateWithObject(name)
     }
