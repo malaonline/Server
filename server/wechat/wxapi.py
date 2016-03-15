@@ -244,9 +244,18 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             PAYERROR--支付失败(其他原因，如银行返回失败)
         """
         logger.info(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=''))
+        transaction_id = resp_dict['transaction_id']
+        out_trade_no = resp_dict['out_trade_no']
+        _set_charge_transaction_no(out_trade_no, transaction_id)
         return {'ok': True, 'msg': '', 'code': 0, 'data': resp_dict}
     else:
         return {'ok': False, 'msg': '网络请求出错!', 'code': -1}
+
+
+def _set_charge_transaction_no(order_no, transaction_id):
+    charge = models.Charge.objects.get(order__order_id=order_no)
+    charge.transaction_no = transaction_id
+    charge.save()
 
 
 def resolve_wx_pay_notify(request):
@@ -268,7 +277,8 @@ def resolve_wx_pay_notify(request):
         logger.error(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=req_dict['err_code'], msg=msg))
         return {'ok': False, 'msg': msg, 'code': 1}
     logger.info(_WX_PAY_RESULT_NOTIFY_LOG_FMT.format(code=return_code, msg=''))
-    openid = req_dict['openid']
+    # openid = req_dict['openid']
     transaction_id = req_dict['transaction_id']
     out_trade_no = req_dict['out_trade_no']
+    _set_charge_transaction_no(out_trade_no, transaction_id)
     return {'ok': True, 'msg': '', 'code': 0, 'data': req_dict}
