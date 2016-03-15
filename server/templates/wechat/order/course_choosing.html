@@ -191,6 +191,7 @@
     <script>
 {#        alert(location.href);#}
 {#        alert(wx);#}
+        var pay_success_page = '{% url 'wechat:pay_success' %}';
         wx.config({
             debug: true, // 开启调试模式?
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识

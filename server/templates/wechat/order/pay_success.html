@@ -1,0 +1,38 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}课程确认{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/course_choosing.less'|compile %}">
+{% endblock %}
+
+{% block content %}
+    <div class="page slideIn msg" id="courseChoosingContainer">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title">支付成功</h2>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
+                    <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+                </p>
+            </div>
+            <div class="weui_extra_area">
+                <a href="">查看详情</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block addition_js %}
+    <script>
+
+    </script>
+    <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
+{% endblock %}

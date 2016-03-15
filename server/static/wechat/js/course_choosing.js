@@ -325,6 +325,10 @@ $(function(){
         var defaultErrMsg = '请求失败, 请稍后重试或联系客户人员!';
         $.post(location.pathname, params, function (result) {
             if (result) {
+                if (result.testing){
+                    location.href = pay_success_page;
+                    return;
+                }
                 if (result.ok) {
                     var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
                     wx.chooseWXPay({
@@ -334,7 +338,7 @@ $(function(){
                         signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                         paySign: data.paySign, // 支付签名
                         success: function (res) {
-                            console.log('wx.chooseWXPay fail');
+                            console.log('wx.chooseWXPay success');
                             console.log(res);
                             var verify_params = {
                                 'action': 'verify',
@@ -344,8 +348,9 @@ $(function(){
                             $.post(location.pathname, verify_params, function(verify_ret){
                                 if (verify_ret) {
                                     if (verify_ret.ok) {
-                                        // TODO: 支付成功
-                                        showAlertDialog('支付成功');
+                                        location.href = pay_success_page;
+                                        //showAlertDialog('支付成功');
+                                        return;
                                     } else {
                                         showAlertDialog(result.msg);
                                     }

@@ -190,6 +190,8 @@ class CourseChoosingView(View):
                 grade=grade, subject=subject, hours=hours, coupon=coupon)
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
+        if settings.TESTING:
+            return JsonResponse({'testing': True})
         # get wx pay order
         ret_json = wx_pay_unified_order(order, request, wx_openid)
         if not ret_json['ok']:
@@ -245,6 +247,13 @@ class CourseChoosingView(View):
             dis = calculateDistance(p, sp)
             distances.append({'id': school.id, 'far': dis})
         return JsonResponse({'ok': True, 'list': distances})
+
+
+@csrf_exempt
+def pay_success_view(request):
+    template_name = 'wechat/order/pay_success.html'
+    context = {}
+    return render(request, template_name, context)
 
 
 def _jssdk_sign(url):
