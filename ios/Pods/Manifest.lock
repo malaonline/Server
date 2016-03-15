@@ -3,6 +3,7 @@ PODS:
   - DateTools (1.7.0)
   - IQKeyboardManagerSwift (3.3.6)
   - Kingfisher (1.8.5)
+  - PDTSimpleCalendar (0.9.1)
   - Pingpp/Alipay (2.2.0):
     - Pingpp/Core
   - Pingpp/Core (2.2.0):
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - DateTools (~> 1.7.0)
   - IQKeyboardManagerSwift (~> 3.3.6)
   - Kingfisher (~> 1.8.5)
+  - PDTSimpleCalendar (~> 0.9.1)
   - Pingpp/Alipay (~> 2.2.0)
   - Pingpp/Wx (~> 2.2.0)
   - SnapKit (~> 0.18.0)
@@ -28,6 +30,7 @@ SPEC CHECKSUMS:
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   IQKeyboardManagerSwift: 111f01f029d9cda0647a2156d3b6efc24ad1e7f1
   Kingfisher: 780fed0fa82692a3bd59d53329ae2b85cdd354a5
+  PDTSimpleCalendar: d1c03387678422715dc021aa1a85d70f4d1014f2
   Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b

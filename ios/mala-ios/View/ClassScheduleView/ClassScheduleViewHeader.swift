@@ -1,0 +1,39 @@
+//
+//  ClassScheduleViewHeader.swift
+//  mala-ios
+//
+//  Created by 王新宇 on 3/7/16.
+//  Copyright © 2016 Mala Online. All rights reserved.
+//
+
+import UIKit
+import PDTSimpleCalendar
+
+class ClassScheduleViewHeader: PDTSimpleCalendarViewHeader {
+    
+    // MARK: - Constructed
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configure()
+        setupUserInterface()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
+    // MARK: - Private Method
+    private func configure() {
+        backgroundColor = UIColor.lightGrayColor()
+        separatorColor = UIColor.clearColor()
+        textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        textColor = MalaDetailsCellTitleColor
+        titleLabel.textAlignment = .Center
+    }
+    
+    private func setupUserInterface() {
+        
+    }
+}

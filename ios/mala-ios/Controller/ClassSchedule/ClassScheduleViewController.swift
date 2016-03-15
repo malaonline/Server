@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import PDTSimpleCalendar
 
-class ClassScheduleViewController: UIViewController {
+class ClassScheduleViewController: PDTSimpleCalendarViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
