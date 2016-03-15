@@ -308,10 +308,10 @@ class Teacher(BaseModel):
                               )
     published = models.BooleanField(default=False)
     fulltime = models.BooleanField(default=True)
+    # 教龄
     teaching_age = models.PositiveIntegerField(default=0)
     level = models.ForeignKey(Level, null=True, blank=True,
                               on_delete=models.SET_NULL)
-    # 教龄
     experience = models.PositiveSmallIntegerField(null=True, blank=True)
     profession = models.PositiveSmallIntegerField(null=True, blank=True)
     interaction = models.PositiveSmallIntegerField(null=True, blank=True)

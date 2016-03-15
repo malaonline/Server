@@ -715,7 +715,7 @@ class SideBarContent:
         if not profile.birthday:
             return False, "生日未填写"
         # 教龄
-        if not teacher.experience:
+        if not teacher.teaching_age:
             return False, "教龄未填写"
         # 毕业院校
         if not teacher.graduate_school:
