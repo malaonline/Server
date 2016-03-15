@@ -1032,7 +1032,7 @@ class MyStudents(BasicTeacherView):
                 #     one_details["state"] = "续费"
                 # else:
                 #     one_details["state"] = "正常"
-                pass
+                one_details["state"] = "正常"
             elif student_type == 1:
                 one_details["state"] = "结课"
             elif student_type == 2:
