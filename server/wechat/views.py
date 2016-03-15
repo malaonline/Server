@@ -115,8 +115,13 @@ class CourseChoosingView(View):
         if parent is None:
             return HttpResponseRedirect(WX_AUTH_URL)
         kwargs['parent'] = parent
-        first_buy = True
+        subject = teacher.subject()  # 目前老师只有一个科目
+        order_count = models.Order.objects.filter(
+                parent=parent, subject=subject,
+                status=models.Order.PAID).count()
+        first_buy = order_count <= 0  # 对于当前科目来说, 是第一次购买
         kwargs['first_buy'] = first_buy
+        kwargs['evaluate_time'] = int(models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
         abilities = teacher.abilities.all()
         kwargs['abilities'] = abilities
         prices = teacher.prices()

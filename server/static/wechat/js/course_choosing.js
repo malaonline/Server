@@ -7,8 +7,21 @@ $(function(){
     var chosen_price = 0;
     var chosen_school_id = '';
     var chosen_weekly_time_slots = [];
+    var chosen_coupon_id = 0;
     var HOUR = 60*60*1000;
     var DAY = 24*HOUR;
+    var is_first_buy = $("#isFirstBuy").val()=='True';
+    var evaluate_time = parseInt($("#evaluateTime").val())*1000; // 原单位秒
+    var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
+    var courseStartTime = is_first_buy?(todayTime+evaluate_time+DAY):todayTime;
+
+    $('.coupon').each(function(){
+        var $this = $(this);
+        if ($this.hasClass('chosen')) {
+            chosen_coupon_id = $this.attr('couponId');
+        }
+    });
 
     var showAlertDialog = function(msg) {
         $("#alertDialogBody").html(msg);
@@ -135,8 +148,6 @@ $(function(){
         if (hours==0 || chosen_weekly_time_slots.length==0) {
             return $("#courseTimePreview").html('');
         }
-        var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
         chosen_weekly_time_slots.sort(function(a,b){
             var dayA = weekday >= a.day?(7+a.day):a.day,
                 dayB = weekday >= b.day?(7+b.day):b.day;
@@ -146,11 +157,15 @@ $(function(){
         var courseTimes = [];
         var count = hours/ 2, loop = 0;
         while(count>0) {
-            for (var i = 0; i < chosen_weekly_time_slots.length && count>0; i++,count--) {
+            for (var i = 0; i < chosen_weekly_time_slots.length && count>0; i++) {
                 var wts = chosen_weekly_time_slots[i], day = wts.day, s = wts.start, e = wts.end;
                 var weekoffset = (weekday < day?0:1) + loop;
                 var date = todayTime + (day-weekday + weekoffset * 7)*DAY;
+                if (date<courseStartTime) {
+                    continue;
+                }
                 courseTimes.push({'date': date, 'start': s, 'end': e});
+                count--;
             }
             loop++;
         }
@@ -193,6 +208,7 @@ $(function(){
         }
         $('#courseHours').html(hours);
         _updateCourseTimePreview(hours);
+        updateCost();
     };
 
     var _makeWeeklyTimeSlotToMap = function(json) {
@@ -295,12 +311,18 @@ $(function(){
         hours -= 2;
         $('#courseHours').html(hours);
         _updateCourseTimePreview(hours);
+        updateCost();
     });
     $('#incHoursBtn').click(function(e){
+        if (chosen_weekly_time_slots.length==0) {
+            showAlertDialog('请先选择上课时间');
+            return;
+        }
         var hours = parseInt($('#courseHours').text());
         hours += 2;
         $('#courseHours').html(hours);
         _updateCourseTimePreview(hours);
+        updateCost();
     });
 
     $('#confirmBtn').click(function(e){
@@ -344,7 +366,7 @@ $(function(){
                             $.post(location.pathname, verify_params, function(verify_ret){
                                 if (verify_ret) {
                                     if (verify_ret.ok) {
-                                        window.close();
+                                        location.href = teacher_detail_page;
                                         //showAlertDialog('支付成功');
                                         return;
                                     } else {
