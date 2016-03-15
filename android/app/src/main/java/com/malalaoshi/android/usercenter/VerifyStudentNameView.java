@@ -12,13 +12,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UIResultCallback;
 import com.malalaoshi.android.util.UserManager;
 
 import org.json.JSONException;
@@ -83,13 +82,14 @@ public class VerifyStudentNameView extends LinearLayout {
             e.printStackTrace();
             return;
         }
-        NetworkSender.saveChildName(json, new NetworkListener() {
+
+        NetworkSender.saveChildName(json, new UIResultCallback<String>() {
             @Override
-            public void onSucceed(Object json) {
+            protected void onResult(String json) {
                 try {
-                    JSONObject jo = new JSONObject(json.toString());
+                    JSONObject jo = new JSONObject(json);
                     if (jo.optBoolean(Constants.DONE, false)) {
-                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        Log.i(TAG, "Set student's name succeed : " + json);
                         MiscUtil.toast(R.string.usercenter_set_student_succeed);
                         updateStuName(nameEditView.getText().toString());
                         ((SmsAuthActivity) getContext()).setActivityResult(null);
@@ -101,11 +101,6 @@ public class VerifyStudentNameView extends LinearLayout {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                setStudentNameFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
                 setStudentNameFailed();
             }
         });

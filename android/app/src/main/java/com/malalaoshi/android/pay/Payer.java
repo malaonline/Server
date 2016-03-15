@@ -1,6 +1,7 @@
 package com.malalaoshi.android.pay;
 
 import com.malalaoshi.android.entity.JsonBodyBase;
+import com.malalaoshi.android.util.UIResultCallback;
 
 /**
  * Payer interface
@@ -8,5 +9,5 @@ import com.malalaoshi.android.entity.JsonBodyBase;
  */
 public interface Payer {
     void createOrder(JsonBodyBase body, ResultCallback<Object> callback);
-    void createOrderInfo(String orderId, String channel, ResultCallback<Object> callback);
+    void createOrderInfo(String orderId, String channel, UIResultCallback<String> callback);
 }

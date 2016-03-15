@@ -111,9 +111,9 @@ public class PayFragment extends Fragment implements View.OnClickListener {
             return;
         }
         PayManager.getInstance().getOrderInfo(resultEntity.getId(),
-                currentPay.name(), new ResultCallback<Object>() {
+                currentPay.name(), new UIResultCallback<String>() {
                     @Override
-                    public void onResult(Object data) {
+                    protected void onResult(String data) {
                         if (data != null) {
                             payInternal(data.toString());
                         } else {

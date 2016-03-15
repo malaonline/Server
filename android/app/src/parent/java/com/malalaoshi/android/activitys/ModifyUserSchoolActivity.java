@@ -7,16 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UIResultCallback;
 import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.TitleBarView;
 
@@ -179,13 +178,13 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
             return;
         }
 
-        NetworkSender.saveChildSchool(json, new NetworkListener() {
+        NetworkSender.saveChildSchool(json, new UIResultCallback<String>() {
             @Override
-            public void onSucceed(Object json) {
+            protected void onResult(String json) {
                 try {
-                    JSONObject jo = new JSONObject(json.toString());
+                    JSONObject jo = new JSONObject(json);
                     if (jo.optBoolean(Constants.DONE, false)) {
-                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        Log.i(TAG, "Set student's name succeed : " + json);
                         MiscUtil.toast(R.string.usercenter_set_school_succeed);
                         updateStuSchool(userSchool);
                         setActivityResult();
@@ -195,11 +194,6 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                setStudentNameFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
                 setStudentNameFailed();
             }
         });

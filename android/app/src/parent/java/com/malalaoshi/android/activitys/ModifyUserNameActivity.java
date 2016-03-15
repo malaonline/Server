@@ -6,13 +6,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UIResultCallback;
 import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.TitleBarView;
 
@@ -51,7 +50,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
     private void initDatas() {
         Intent intent = getIntent();
         userName = intent.getStringExtra(EXTRA_USER_NAME);
-        if (userName==null){
+        if (userName == null) {
             userName = "";
         }
         etUserName.setText(userName);
@@ -72,7 +71,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
 
     private void postModifyUserName() {
         userName = etUserName.getText().toString();
-        if (TextUtils.isEmpty(userName)){
+        if (TextUtils.isEmpty(userName)) {
             MiscUtil.toast(R.string.usercenter_student_empty);
             return;
         }
@@ -85,13 +84,20 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
             return;
         }
 
-        NetworkSender.saveChildName(json, new NetworkListener() {
+        NetworkSender.saveChildName(json, new UIResultCallback<String>() {
             @Override
-            public void onSucceed(Object json) {
+            protected void onResult(String s) {
+
+            }
+        });
+
+        NetworkSender.saveChildName(json, new UIResultCallback<String>() {
+            @Override
+            protected void onResult(String json) {
                 try {
-                    JSONObject jo = new JSONObject(json.toString());
+                    JSONObject jo = new JSONObject(json);
                     if (jo.optBoolean(Constants.DONE, false)) {
-                        Log.i(TAG, "Set student's name succeed : " + json.toString());
+                        Log.i(TAG, "Set student's name succeed : " + json);
                         MiscUtil.toast(R.string.usercenter_set_student_succeed);
                         updateStuName(userName);
                         setActivityResult();
@@ -101,11 +107,6 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                setStudentNameFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
                 setStudentNameFailed();
             }
         });
@@ -122,9 +123,9 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
         }
     }
 
-    private void setActivityResult(){
+    private void setActivityResult() {
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_USER_NAME,userName);
-        setResult(RESULT_CODE_NAME,intent);
+        intent.putExtra(EXTRA_USER_NAME, userName);
+        setResult(RESULT_CODE_NAME, intent);
     }
 }

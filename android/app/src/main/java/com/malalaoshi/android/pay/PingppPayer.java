@@ -5,6 +5,7 @@ import com.malalaoshi.android.entity.CreateChargeEntity;
 import com.malalaoshi.android.entity.JsonBodyBase;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.UIResultCallback;
 
 /**
  * Pingplusplus payer
@@ -38,24 +39,10 @@ public class PingppPayer implements Payer {
     }
 
     @Override
-    public void createOrderInfo(String orderId, String channel, final ResultCallback<Object> resultCallback) {
+    public void createOrderInfo(String orderId, String channel, UIResultCallback<String> callback) {
         CreateChargeEntity chargeEntity = new CreateChargeEntity();
         chargeEntity.setAction("pay");
         chargeEntity.setChannel(channel);
-        NetworkSender.getCharge(orderId, chargeEntity, new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                if (resultCallback != null) {
-                    resultCallback.onResult(json);
-                }
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                if (resultCallback != null) {
-                    resultCallback.onResult(null);
-                }
-            }
-        });
+        NetworkSender.getCharge(orderId, chargeEntity, callback);
     }
 }

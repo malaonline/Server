@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -501,7 +500,7 @@ public class UserFragment extends Fragment {
     private void uploadFile() {
         progressDialog.setMessage("正在上传头像...");
         progressDialog.show();
-        NetworkSender.setUserAvator(strAvatorLocPath, new NetworkListener() {
+        NetworkSender.setUserAvatar(strAvatorLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
                 try {
