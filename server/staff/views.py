@@ -1,6 +1,7 @@
 import logging
 import datetime
 import json
+from collections import OrderedDict
 
 # django modules
 from django.conf import settings
@@ -1275,6 +1276,8 @@ class StudentScheduleActionView(BaseStaffActionView):
         action = self.request.POST.get('action')
         if action == 'suspend-class':
             return self.suspend_class(request)
+        if action == 'view-available':
+            return self.view_available(request)
         return HttpResponse("Not supported action.", status=404)
 
     def suspend_class(self, request):
@@ -1284,6 +1287,22 @@ class StudentScheduleActionView(BaseStaffActionView):
         if not timeslot.reschedule_for_suspend(self.request.user):
             return JsonResponse({'ok': False, 'msg': '停课操作失败', 'code': 'suspend_transaction'})
         return JsonResponse({'ok': True})
+
+    def view_available(self, request):
+        tid = request.POST.get('tid')
+        timeslot = models.TimeSlot.objects.get(id=tid)
+        teacher = timeslot.order.teacher
+        school = timeslot.order.school
+        sa_dict = teacher.shortterm_available_dict(school)
+
+        data = [OrderedDict([
+            ('weekday', one[0]),
+            ('start', one[1]),
+            ('end', one[2]),
+            ('available', sa_dict[(one[0], one[1], one[2])])
+        ]) for one in sa_dict]
+
+        return JsonResponse({'ok': True, 'sa_dict': data})
 
 
 class SchoolsView(BaseStaffView):

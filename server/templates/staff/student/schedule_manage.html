@@ -69,7 +69,7 @@
                         <br/><br/><br/>
                     </td>
                     {% for weekday_dict in weekdays %}
-                        <td align="center" class="form-inline">
+                        <td align="center" class="form-inline" weekday="{{ weekday_dict.weekday }}" start="{{ one_weekly_slot.start|time:"H:i:s" }}" end="{{ one_weekly_slot.end|time:"H:i:s" }}">
                             {% for one_slot in timeslots %}
                                 {% if one_slot.start.astimezone.time == one_weekly_slot.start and one_slot.start.astimezone.weekday|add:1 == weekday_dict.weekday %}
                                     <div align="left">
@@ -79,8 +79,9 @@
                                         中心：{{ one_slot.order.school }}<br/>
                                     </div>
                                     {% if query_data.week == 0 and not one_slot.is_complete%}
-                                        <input type="button" class="form-control" disabled value="调课"/>
+                                        <input type="button" class="form-control" data-action="view-available" tid="{{ one_slot.id }}" value="调课"/>
                                         <input type="button" class="form-control" data-action="suspend-class" tid="{{ one_slot.id }}" value="停课"/>
+                                        <input type="button" class="form-control" data-action="cancel-transfer" style="display: none" tid="{{ one_slot.id }}" value="取消调课"/>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}

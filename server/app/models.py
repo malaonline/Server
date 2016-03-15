@@ -553,7 +553,7 @@ class Teacher(BaseModel):
         weekly_time_slots = region.weekly_time_slots.all()
 
         date = timezone.now()
-        occupied = models.TimeSlot.objects.filter(
+        occupied = TimeSlot.objects.filter(
                 order__teacher=teacher, start__gte=date - renew_time,
                 end__lt=date + shortterm + renew_time, deleted=False)
 
@@ -572,11 +572,11 @@ class Teacher(BaseModel):
                 start, end = start - traffic_time, end + traffic_time
             segtree.add(start, end)
 
-        def w2m(w):
-            return (w.weekday - 1) * 24 * 60 + w.hour * 60 + w.minute
+        def w2m(w, t):
+            return (w - 1) * 24 * 60 + t.hour * 60 + t.minute
 
         data = {(s.weekday, s.start, s.end): (segtree.query_len(
-            w2m(s.start), w2m(s.end) - 1) == 0)
+            w2m(s.weekday, s.start), w2m(s.weekday, s.end) - 1) == 0)
             for s in weekly_time_slots
             }
         return data
