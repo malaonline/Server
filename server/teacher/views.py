@@ -1023,15 +1023,16 @@ class MyStudents(BasicTeacherView):
 
             if student_type == 0:
                 # 当前学生需要检查新生,续费,和正常三种情况
-                complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, end__lt=timezone.now())
+                # complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, end__lt=timezone.now(), order__teacher=teacher, state=)
                 # if not complete_lesson.exists():
                 #     one_details["state"] = "新生"
                 # else:
-                not_complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, start__gt=timezone.now())
-                if complete_lesson.count()/(complete_lesson.count()+not_complete_lesson.count()) > 0.8:
-                    one_details["state"] = "续费"
-                else:
-                    one_details["state"] = "正常"
+                # not_complete_lesson = models.TimeSlot.objects.filter(order__parent=one_student, start__gt=timezone.now())
+                # if complete_lesson.count()/(complete_lesson.count()+not_complete_lesson.count()) > 0.8:
+                #     one_details["state"] = "续费"
+                # else:
+                #     one_details["state"] = "正常"
+                pass
             elif student_type == 1:
                 one_details["state"] = "结课"
             elif student_type == 2:
