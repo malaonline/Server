@@ -611,7 +611,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
             self._send_cert_sms_notify(cert_name, cert.verified, teacher.user.profile.phone)
 
     def _send_cert_sms_notify(self, cert_name, new_status, phone):
-        # TODO: 
+        # TODO:
         pass
 
 class TeacherBankcardView(BaseStaffView):
@@ -1854,8 +1854,9 @@ class CouponConfigView(BaseStaffView):
                 mini_course_count = int(mini_course_count)
             except:
                 mini_course_count =  0
-            models.Coupon.objects.get_or_create(parent=query_set[0], name=couponName, amount=amount*100,
+            cp = models.Coupon(parent=query_set[0], name=couponName, amount=amount*100,
                                                 mini_course_count=mini_course_count,validated_start=validated_start,
                                                 expired_at=expired_at,used=False)
+            cp.save()
 
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})

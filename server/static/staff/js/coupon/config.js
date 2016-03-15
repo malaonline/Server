@@ -100,6 +100,14 @@ $(function(){
         if(result){
           if(result.ok){
             alert("保存成功");
+
+            if(couponType == 'give'){
+              $('#validatedStart_give').val("");
+              $('#expiredAt_give').val("");
+              $('#mini_course_count_give').val("");
+              $('#amount_give').val("");
+              $('#parent_phone').val("");
+            }
           }else if(result.code == '-1'){
             alert('家长不存在，请输入正确的家长手机号!');
           }else{
