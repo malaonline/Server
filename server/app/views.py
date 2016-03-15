@@ -28,6 +28,8 @@ from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.algorithm import verify_sig
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 
+from .tasks import autoConfirmClasses
+
 logger = logging.getLogger('app')
 
 
@@ -126,6 +128,11 @@ class ConcreteTimeSlots(View):
                  x['end'].timestamp()) for x in data]
 
         return JsonResponse({'data': data})
+
+class autoConfirmClasses(View):
+    # def get(self, request):
+    pass
+
 
 
 class Sms(View):

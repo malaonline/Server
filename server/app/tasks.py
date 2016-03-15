@@ -16,6 +16,7 @@ def autoConfirmClasses():
     for timeslot in operateTargets:
         timeslot.confirm('系统到时自动确认课程完成.')
         print("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+    return True
 
 @shared_task
 def send_push(msg, user_ids=None, extras=None):
