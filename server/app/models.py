@@ -1422,12 +1422,12 @@ class Charge(BaseModel):
     app = models.CharField(max_length=40)
     channel = models.CharField(max_length=20)
     order_no = models.CharField(max_length=20)
-    client_ip = models.CharField(max_length=50)
+    client_ip = models.CharField(max_length=15)
     amount = models.IntegerField(default=0)
     amount_settle = models.IntegerField(default=0)
-    currency = models.CharField(max_length=5)
-    subject = models.CharField(max_length=20)
-    body = models.CharField(max_length=200)
+    currency = models.CharField(max_length=3)
+    subject = models.CharField(max_length=32)
+    body = models.CharField(max_length=128)
     extra = models.TextField()
     time_paid = models.DateTimeField(null=True, blank=True)
     time_expire = models.DateTimeField(null=True, blank=True)
@@ -1438,7 +1438,23 @@ class Charge(BaseModel):
     failure_msg = models.CharField(max_length=30)
     metadata = models.CharField(max_length=50)
     credential = models.TextField()
-    description = models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
+
+
+class Refund(BaseModel):
+    charge = models.ForeignKey(Charge)
+    re_id = models.CharField(max_length=27, unique=True)
+    order_no = models.CharField(max_length=27)
+    amount = models.IntegerField(default=0)
+    succeed = models.BooleanField(default=False)
+    status = models.CharField(max_length=10)
+    created = models.DateTimeField(null=True, blank=True)
+    time_succeed = models.DateTimeField(null=True, blank=True)
+    description = models.CharField(max_length=255)
+    failure_code = models.CharField(max_length=10)
+    failure_msg = models.CharField(max_length=30)
+    metadata = models.CharField(max_length=50)
+    transaction_no = models.CharField(max_length=40)
 
 
 class TimeSlotComplaint(BaseModel):
