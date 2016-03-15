@@ -1505,13 +1505,21 @@ class Comment(BaseModel):
             return True
         return False
 
+class TimeSlotShouldAutoConfirmManager(models.Manager):
+    def get_queryset(self):
+        now = timezone.localtime(timezone.now())
+        autoConfirmDeltaTime = TimeSlot.AUTO_CONFIRM_DELTA_TIME
+        return super(TimeSlotShouldAutoConfirmManager, self).get_queryset().filter(
+            attendance__isnull=True).filter(
+            end__lt = now + autoConfirmDeltaTime
+        )
 
 class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
-    CONFIRM_TIME = datetime.timedelta(hours=2)
+    AUTO_CONFIRM_DELTA_TIME = datetime.timedelta(hours=-2)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()
@@ -1533,6 +1541,11 @@ class TimeSlot(BaseModel):
     deleted = models.BooleanField(default=False)
     # suspended 单独指示被停的课, 和被删掉的区分开
     suspended = models.BooleanField(default=False)
+
+    # The default manager.
+    objects = models.Manager()
+    # 返回应该被自动确认的TimeSlot
+    should_auto_confirmed_objects = TimeSlotShouldAutoConfirmManager()
 
     def __str__(self):
         return '<%s> from %s to %s' % (self.pk, self.start, self.end)
@@ -1587,20 +1600,33 @@ class TimeSlot(BaseModel):
     def teacher(self):
         return self.order.teacher
 
-    def confirm(self):
-        """
-        确认课时, 老师收入入账
-        """
-        teacher = self.order.teacher
-        account = teacher.safe_get_account()
-        amount = self.duration_hours() * self.order.price
-        amount = amount * (100 - self.order.commission_percentage) // 100
-        ah = AccountHistory(
-                account=account, submit_time=timezone.now(), done=True)
-        ah.amount = amount
-        ah.timeslot = self
-        ah.save()
-        return True
+    def confirm(self,commentText):
+        try:
+            """
+            确认课时, 老师收入入账
+            """
+            teacher = self.order.teacher
+            account = teacher.safe_get_account()
+            amount = self.duration_hours() * self.order.price
+            amount = amount * (100 - self.order.commission_percentage) // 100
+            if amount < 0:
+                amount = 0
+            ah = AccountHistory(
+                    account=account, submit_time=timezone.now(), done=True)
+            ah.amount = amount
+            ah.comment = commentText
+            ah.timeslot = self
+            ah.save()
+            attendance = TimeSlotAttendance.objects.create(
+            record_type = 'a'
+            )
+            self.attendance = attendance
+            self.save()
+            return True
+        except IntegrityError as err:
+            logger.error(err)
+            return False
+
 
     def suspend(self):
         # 用 suspended 字段表示停课, 但为了兼容性, 同时也要设置课程状态为被删除

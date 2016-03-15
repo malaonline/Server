@@ -50,3 +50,11 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 ```
 { 'token' : '9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' }
 ```
+
+
+### Celery worker
+celery worker --app=server -l info
+celery -A server beat
+
+celery multi start autoconfirm --app=server  -c4  --pidfile=autoconfirm.pid --beat
+

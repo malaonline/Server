@@ -3,8 +3,19 @@ from __future__ import absolute_import
 from celery import shared_task
 
 from django.conf import settings
+# from django.utils import timezone
+# from django.db.models import F
 import jpush
 
+from .models import TimeSlot, TimeSlotAttendance
+
+@shared_task
+def autoConfirmClasses():
+    operateTargets = TimeSlot.should_auto_confirmed_objects.all()
+    print("target amount:%d" %(len(operateTargets)))
+    for timeslot in operateTargets:
+        timeslot.confirm('系统到时自动确认课程完成.')
+        print("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
 
 @shared_task
 def send_push(msg, user_ids=None, extras=None):
