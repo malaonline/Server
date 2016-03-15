@@ -321,6 +321,9 @@ $(function(){
         }
         var discount = parseFloat($('#discountCost').text()); // 单位是元
         var realCost = origTotalCost - discount * 100;
+        if (origTotalCost>0) {
+            realCost = Math.max(realCost, 1); // 暂时不支持免费订单, 最少1分
+        }
         $("#origTotalCost").text(_format_money(origTotalCost));
         $("#realCost").text(_format_money(realCost));
     };
