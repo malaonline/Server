@@ -127,22 +127,28 @@
                             <a id="incHoursBtn"><img src="{% static 'wechat/images/plus-icon.png' %}"></a>
                         </div>
                     </div>
-                    <a class="weui_cell weui_cells_access coupon-row" href="javascript:;">
+                    <a class="weui_cell weui_cells_access coupon-row" id="couponRow" href="javascript:;">
+                        <input type="hidden" id="preChosenCoupon" value="{{ pre_chosen_coupon.id }}"/>
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">奖学金</p>
                         </div>
                         <div class="weui_cell_ft"><span>-￥<span id="discountCost">0</span></span></div>
                     </a>
                     {% for coupon in coupons %}
-                        <div class="weui_cell coupon" couponId="{{ couponId }}">
+                        <div class="weui_cell coupon" couponId="{{ coupon.id }}" style="display: none">
                             <div class="coupon-upper">
-                                <div class="cost"><span class="amount">{{ coupon.amount }}</span></div>
-                                <div class="name">{{ coupon.name }}</div>
+                                <div class="cost">￥<span class="amount">{{ coupon.amount|money_format:'/' }}</span></div>
+                                <div class="desc">
+                                    <div class="name">{{ coupon.name }}</div>
+                                    <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
+                                </div>
                                 <div class="icons-area">
                                     <img src="{% static 'wechat/images/coupon-checked.png' %}">
                                 </div>
                             </div>
-                            <div class="coupon-footer">有效期 {{ coupon.validated_start|date:'Y.m.d' }} - {{ coupon.expired_at|date:'Y.m.d' }}</div>
+                            <div class="coupon-footer">
+                                有效期 {{ coupon.validated_start|date:'Y.m.d' }} - {{ coupon.expired_at|date:'Y.m.d' }}
+                            </div>
                         </div>
                     {% endfor %}
                     {% if first_buy %}

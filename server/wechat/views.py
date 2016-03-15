@@ -138,6 +138,13 @@ class CourseChoosingView(View):
         coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=date_from, expired_at__gt=date_to, used=False
                                         ).order_by('-amount', 'expired_at')
         kwargs['coupons'] = coupons
+        pre_chosen_coupon = None
+        for coupon in coupons:
+            if coupon.name.startswith('新生'):
+                pre_chosen_coupon = coupon
+                break
+        # pre_chosen_coupon = pre_chosen_coupon or coupons.first()
+        kwargs['pre_chosen_coupon'] = pre_chosen_coupon
 
         url = request.build_absolute_uri()
         sign_data = _jssdk_sign(url)

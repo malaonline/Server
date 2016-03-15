@@ -213,6 +213,50 @@
       height: 62px;
     }
   }
+  .coupon{
+    display: block;
+    .coupon-upper{
+      .clearfix();
+      min-height: 28pt;
+      .cost{
+        float: left;
+        .amount{
+          font-size: 24pt;
+        }
+      }
+      .desc{
+        float: left;
+        padding-left: 12px;
+        color: @gray;
+        .limit {
+          font-size: @noteSize;
+          color: @grayLight;
+        }
+      }
+      .icons-area{
+        float: right;
+        img {
+          max-height: 24pt;
+          -webkit-filter: grayscale(100%);
+          -moz-filter: grayscale(100%);
+          -ms-filter: grayscale(100%);
+          -o-filter: grayscale(100%);
+          filter: grayscale(100%);
+        }
+      }
+    }
+    &.chosen .icons-area img{
+        -webkit-filter: initial;
+        -moz-filter: initial;
+        -ms-filter: initial;
+        -o-filter: initial;
+        filter: initial;
+    }
+    .coupon-footer{
+      .clearfix();
+      color: @grayLight;
+    }
+  }
   .tail-padding {
     height: @footerHeight;
   }

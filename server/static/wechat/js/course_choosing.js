@@ -16,12 +16,17 @@ $(function(){
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
     var courseStartTime = is_first_buy?(todayTime+evaluate_time+DAY):todayTime;
 
-    $('.coupon').each(function(){
-        var $this = $(this);
-        if ($this.hasClass('chosen')) {
-            chosen_coupon_id = $this.attr('couponId');
-        }
-    });
+    var pre_chosen_coupon_id = $("#preChosenCoupon").val();
+    if (pre_chosen_coupon_id) {
+        chosen_coupon_id = pre_chosen_coupon_id;
+        $('.coupon').each(function () {
+            var $this = $(this), cpid = $this.attr('couponId');
+            if (cpid == pre_chosen_coupon_id) {
+                $this.addClass('chosen');
+                return false;
+            }
+        });
+    }
 
     var showAlertDialog = function(msg) {
         $("#alertDialogBody").html(msg);
@@ -284,6 +289,36 @@ $(function(){
     var updateCost = function() {
         var hours = parseInt($('#courseHours').text());
         var origTotalCost = hours * chosen_price; // 单位是分
+        // 检查奖学金
+        if (hours==0) {
+            $('#discountCost').html('0');
+        } else {
+            var $coupon = null;
+            if (chosen_coupon_id) {
+                $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
+                var min_count = parseInt($coupon.find('.ccount').text());
+                if (hours < min_count) {
+                    chosen_coupon_id = 0;
+                    $coupon.removeClass('chosen');
+                    $('#discountCost').html('0');
+                }
+            }
+            if (!chosen_coupon_id) {
+                // auto choose another one
+                $('.coupon').each(function () {
+                    var _$cp = $(this), _min_count = parseInt(_$cp.find('.ccount').text());
+                    if (hours >= _min_count) {
+                        _$cp.addClass('chosen');
+                        chosen_coupon_id = _$cp.attr('couponId');
+                        return false;
+                    }
+                });
+            }
+            if (chosen_coupon_id) { // get discount
+                $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
+                $('#discountCost').html($coupon.find('.amount').text());
+            }
+        }
         var discount = parseFloat($('#discountCost').text()); // 单位是元
         var realCost = origTotalCost - discount * 100;
         $("#origTotalCost").text(_format_money(origTotalCost));
@@ -299,7 +334,6 @@ $(function(){
         if ($this.hasClass('available')) {
             $this.toggleClass('chosen');
             updateCourseTimePreview();
-            updateCost();
         }
     });
 
@@ -325,6 +359,45 @@ $(function(){
         updateCost();
     });
 
+    $('#couponRow').click(function(){
+        var $coupons = $('.coupon');
+        if ($($coupons[0]).css('display')!='none') {
+            $coupons.hide();
+        } else {
+            $coupons.show();
+        }
+    });
+    $(".coupon").click(function(){
+        var hours = parseInt($('#courseHours').text());
+        if (hours==0) {
+            showAlertDialog('请先选择上课时间');
+            return;
+        }
+        var $this = $(this), cpid = $this.attr('couponId');
+        if (cpid==chosen_coupon_id) {
+            $('.coupon').hide();
+            return;
+        }
+        var min_count = parseInt($this.find('.ccount').text());
+        if (hours<min_count){
+            showAlertDialog('课时数不足');
+            return;
+        }
+        // choose this one
+        chosen_coupon_id = cpid;
+        $('.coupon').each(function () {
+            var _$this = $(this), _cpid = _$this.attr('couponId');
+            if (_cpid == chosen_coupon_id) {
+                _$this.addClass('chosen');
+            } else {
+                _$this.removeClass('chosen');
+            }
+        });
+        // 更新discount不在这里做, 在后面的updateCost()方法里
+        updateCost();
+        $('.coupon').hide();
+    });
+
     $('#confirmBtn').click(function(e){
         var hours = parseInt($('#courseHours').text());
         if (hours <= 0) {
@@ -340,7 +413,7 @@ $(function(){
             'teacher': $('#teacherId').val(),
             'school': chosen_school_id,
             'grade': chosen_grade_id,
-            //'coupon': 0, // TODO:
+            'coupon': chosen_coupon_id,
             'hours': hours,
             'weekly_time_slots': weekly_time_slot_ids.join('+')
         };
