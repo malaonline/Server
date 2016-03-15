@@ -191,7 +191,6 @@
     <script>
 {#        alert(location.href);#}
 {#        alert(wx);#}
-        var pay_success_page = '{% url 'wechat:pay_success' %}';
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
         wx.config({
             debug: true, // 开启调试模式?

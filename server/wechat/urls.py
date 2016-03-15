@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^teachers/detail/(?P<id>[0-9]+)/$', views.TeacherDetailView.as_view(), name="teacher-detail"),
     url(r'^send_template_ms/$', views.send_template_msg, name="send_template_msg"),
     url(r'^order/course_choosing/$', views.CourseChoosingView.as_view(), name="order-course-choosing"),
-    url(r'^order/pay/success/', views.pay_success_view, name="pay_success"),
     url(r'^teacher/$', views.teacher_view, name="teacher"),
     url(r'^teacher/schools/$', views.getSchoolsWithDistance, name="teacher-schools"),
     url(r'^phone_page/', views.phone_page, name="phone_page"),
