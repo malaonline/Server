@@ -190,6 +190,7 @@ YUNPIAN_API_KEY = 'f79c************************1569'  # yunpian.com sms api key
 PINGPP_API_KEY = 'sk_test_TGi9q1m5iPmHX9Cin18e1C88'
 PINGPP_APP_ID = 'app_eHWnr9D4qb90Sq1O'
 PINGPP_PUB_KEY = open(os.path.join(BASE_DIR, 'server/pingpp.pub'), 'rb').read()
+PINGPP_PRI_KEY_PATH = '/opt/keys-pros/mala_pingpp_private_key.pem'
 
 WEIXIN_APPID = 'wx73ee70d20beb7be7'
 WEIXIN_APP_SECRET = 'hDTY************************G03m'

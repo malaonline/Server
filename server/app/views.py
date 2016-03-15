@@ -21,12 +21,11 @@ from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 
-import pingpp
-
 from app import models
-from .utils import random_name
-from .utils.smsUtil import isValidPhone, isValidCode
-from .utils.algorithm import verify_sig
+from app.pingpp import pingpp
+from app.utils import random_name
+from app.utils.smsUtil import isValidPhone, isValidCode
+from app.utils.algorithm import verify_sig
 
 logger = logging.getLogger('app')
 
@@ -751,7 +750,6 @@ class OrderViewSet(ParentBasedMixin,
         data = request.data
         if data['action'] != 'pay':
             return JsonResponse({'err': 'action not allowed'})
-        pingpp.api_key = settings.PINGPP_API_KEY
         ch = pingpp.Charge.create(
                 order_no=order.order_id,
                 amount=order.to_pay,
