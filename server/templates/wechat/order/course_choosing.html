@@ -19,16 +19,12 @@
             <div class="weui_panel">
                 <div class="title_row">选择授课年级</div>
                 <div class="m-panel abilities-panel">
-                    {% for ability in abilities %}
+                    {% for price in prices %}
                         <div class="grade-box">
-                            <div class="grade" data-gradeid="{{ ability.grade.id }}">
-                                {{ ability.grade.name }}
-                                {% for price in prices %}
-                                    {% if ability == price.ability %}
-                                        {{ price.price|money_format:'/' }}/小时
-                                        <input type="hidden" name="price" value="{{ price.price }}"/>
-                                    {% endif %}
-                                {% endfor %}
+                            <div class="grade" data-gradeid="{{ price.ability.grade.id }}">
+                                {{ price.ability.grade.name }}
+                                {{ price.price|money_format:'/' }}/小时
+                                <input type="hidden" name="price" value="{{ price.price }}"/>
                             </div>
                         </div>
                     {% endfor %}

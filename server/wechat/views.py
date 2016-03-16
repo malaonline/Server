@@ -145,8 +145,8 @@ class CourseChoosingView(View):
         first_buy = order_count <= 0  # 对于当前科目来说, 是第一次购买
         kwargs['first_buy'] = first_buy
         kwargs['evaluate_time'] = int(models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
-        abilities = teacher.abilities.all()
-        kwargs['abilities'] = abilities
+        # abilities = teacher.abilities.all()
+        # kwargs['abilities'] = abilities
         prices = teacher.prices()
         kwargs['prices'] = prices
         # schools = teacher.schools.all()
