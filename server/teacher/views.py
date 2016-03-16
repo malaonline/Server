@@ -2157,6 +2157,7 @@ class WalletView(BaseTeacherView):
         account = teacher.safe_get_account()
         context['account'] = account
         context['calculated_balance'] = account.calculated_balance
+        context['bankcard'] = ''
         bankcards = models.BankCard.objects.filter(account=account)
         if bankcards.count() > 0:
             bankcard = bankcards[0]
