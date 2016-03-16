@@ -151,7 +151,7 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
         //设置数据
         SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(cource.getEnd());
         if (calendarDay!=null){
-            tvCourseDate.setText(calendarDay.getYear()+"."+calendarDay.getMonth()+"."+calendarDay.getDay());
+            tvCourseDate.setText(String.format("%04d", calendarDay.getYear())+"."+String.format("%02d",calendarDay.getMonth()) + "." + String.format("%02d",calendarDay.getDay()));
         }
         tvSubject.setText(cource.getSubject());
 
@@ -160,8 +160,8 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
         Calendar start = CalendarUtils.timestampToCalendar(cource.getStart());
         Calendar end = CalendarUtils.timestampToCalendar(cource.getEnd());
         if(start!=null&&end!=null){
-            String strStart = start.get(Calendar.HOUR)+":"+ start.get(Calendar.MINUTE);
-            String strEnd = end.get(Calendar.HOUR) +":" + end.get(Calendar.MINUTE);
+            String strStart = String.format("%02d",start.get(Calendar.HOUR))+":"+ String.format("%02d", start.get(Calendar.MINUTE));
+            String strEnd = String.format("%02d",end.get(Calendar.HOUR)) +":" + String.format("%02d", end.get(Calendar.MINUTE));
             tvTime.setText(strStart+"-"+strEnd);
         }else{
             tvTime.setText("时间异常");

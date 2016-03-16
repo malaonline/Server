@@ -39,8 +39,8 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     public enum Type {
         NOPASS,
-        PASS_NO_COMMENT,
-        PASS_COMMENT
+        PASS_NO_COMMENTED,
+        PASS_COMMENTED
     }
 
     public static String ARGS_FRAGEMENT_COURSE = "courses";
@@ -133,10 +133,10 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
-            if (true){
-                setUIType(Type.PASS_NO_COMMENT);
+            if (cource.is_commented()){
+                setUIType(Type.PASS_COMMENTED);
             }else{
-                setUIType(Type.PASS_COMMENT);
+                setUIType(Type.PASS_NO_COMMENTED);
             }
         }
 
@@ -198,9 +198,9 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
             setUIType(Type.NOPASS);
         }else{
             if (true){
-                setUIType(Type.PASS_NO_COMMENT);
+                setUIType(Type.PASS_NO_COMMENTED);
             }else{
-                setUIType(Type.PASS_COMMENT);
+                setUIType(Type.PASS_COMMENTED);
             }
         }
     }
@@ -215,10 +215,10 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
             case NOPASS:
                 setUINoPass();
                 break;
-            case PASS_NO_COMMENT:
+            case PASS_NO_COMMENTED:
                 setUIPassNoCommit();
                 break;
-            case PASS_COMMENT:
+            case PASS_COMMENTED:
                 setUIPassCommit();
                 break;
         }

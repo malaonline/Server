@@ -239,10 +239,10 @@ public class CommentDialog extends DialogFragment{
 
     private void updateUI(Comment comment) {
         if (comment!=null){
-            ratingbar.setNumStars(comment.getScore());
+            ratingbar.setRating(comment.getScore());
             editComment.setText(comment.getContent());
         }else{
-            ratingbar.setNumStars(0);
+            ratingbar.setRating(0);
             editComment.setText("");
         }
     }
