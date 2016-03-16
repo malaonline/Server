@@ -27,7 +27,7 @@ $(function(){
     }
   });
   $('#saveBtn').click(function(){
-    if(!checkFlag()){
+    if(!checkFlag(true)){
       return false;
     }
     var birthday_y = $('#birthday_y').val();
@@ -223,8 +223,8 @@ function getSelectedTags(){
   });
   return ret;
 }
-function checkFlag(){
-  if(getSelectedTags().length>=3){
+function checkFlag(isSubmit){
+  if((isSubmit && getSelectedTags().length>3) || (!isSubmit && getSelectedTags().length>=3)){
     alert('风格标签不能超过3个！');
     return false;
   }
