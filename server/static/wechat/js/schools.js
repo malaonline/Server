@@ -1,10 +1,11 @@
-function refreshDistance(url,lat,lng) {
-    new Ajax.Request(url, {
-        method: 'post',
-        parameters: {lat:lat,lng:lng},
-        onSuccess: function(transport) {
-            alert('成功!')
-    }
-    }); // end new Ajax.Request
+function refreshDistance(lat,lng) {
+    schoolDistanceNodeList = $("[data-school-latitude]");
+    console.log(schoolDistanceNodeList)
+    schoolDistanceNodeList.each(function() {
+        console.log(
+            $(this)[0].dataset.schoolLatitude,
+            $(this)[0].dataset.schoolLongitude
+        )
+    })
 }
 
