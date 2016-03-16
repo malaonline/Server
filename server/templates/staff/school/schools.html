@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form" class="head-form">
+    <form name="query_form" class="head-form form-inline">
         <a class="btn btn-default" href="{% url 'staff:staff_school' %}">新增中心</a>
     </form>
 
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-striped">
         <tr>
             <th class="text-center">中心名称</th>
             <th class="text-center">是否开放</th>

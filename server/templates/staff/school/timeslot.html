@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form" class="query_form" method="get" action="{% url 'staff:school_timeslot' %}">
+    <form name="query_form" class="query_form form-inline" method="get" action="{% url 'staff:school_timeslot' %}">
         <div class="time-select">时间 <input type="text" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}"></div>
         姓名 <input type="text" name="name" value="{{name | default_if_none:''}}">
         手机号 <input type="text" name="phone" value="{{phone | default_if_none:''}}">
@@ -31,7 +31,7 @@
             {{error.msg}}
         </div>
     {% endif %}
-    <table class="text-center table-hover" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-hover">
         <tr>
             <th class="text-center">{{weekday}}（{{ searchTime | date:"n.j" }}）</th>
             <th class="text-center">家长姓名</th>

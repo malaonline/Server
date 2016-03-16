@@ -8,13 +8,13 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form">
+    <form name="query_form" class="form-inline">
         姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
         手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
         <input type="submit" value="查询"/>
     </form>
 
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-striped">
         <tr>
             <th class="text-center">老师姓名</th>
             <th class="text-center">手机号</th>

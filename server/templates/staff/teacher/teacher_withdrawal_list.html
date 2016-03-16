@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form">
+    <form name="query_form" class="form-inline">
         日期
         <input type="text" name="date_from" value="{{ query_data.date_from }}" size="10" />
          -
@@ -27,7 +27,7 @@
         <input type="button" value="导出"/>
     </form>
 
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-striped">
         <tr>
             <th class="text-center">提现申请时间</th>
             <th class="text-center">姓名</th>

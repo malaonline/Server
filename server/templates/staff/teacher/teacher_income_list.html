@@ -9,37 +9,37 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form">
+    <form name="query_form" class="form-inline">
         姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
         手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
-        <input type="submit" value="查询"/>
-        <input type="button" value="导出"/>
+        <input type="submit" class="btn btn-success" value="查询"/>
+        <input type="button" class="btn btn-danger" value="导出"/>
     </form>
 
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-striped">
         <tr>
-            <th class="text-center">老师姓名</th>
-            <th class="text-center">手机号</th>
-            <th class="text-center">授课年级</th>
-            <th class="text-center">科目</th>
-            <th class="text-center">所在地区</th>
-            <th class="text-center">账户余额</th>
-            <th class="text-center">可提现金额</th>
-            <th class="text-center">累计收入</th>
+            <th>老师姓名</th>
+            <th>手机号</th>
+            <th>授课年级</th>
+            <th>科目</th>
+            <th>所在地区</th>
+            <th class="text-right">账户余额</th>
+            <th class="text-right">可提现金额</th>
+            <th class="text-right">累计收入</th>
             <th class="text-center">收入明细</th>
         </tr>
         {% for account in accounts %}
             <tr>
                 <td field="name">{# 老师姓名 #} {{ account.user.teacher.name }}</td>
                 <td>{# 手机号 #} {{ account.user.profile.phone }}</td>
-                <td>{# 授课年级 #} {% if account.user.teacher.grades %} {% for g in account.user.teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
+                <td>{# 授课年级 #} {% if account.user.teacher.grades %} {% for g in account.user.teacher.grades %} <span class="label label-info">{{ g.name }}</span>{% endfor %} {% else %}未填{% endif %}</td>
                 <td>{# 科目 #} {% if account.user.teacher.subject %}{{ account.user.teacher.subject }}{% else %}未填{% endif %}</td>
                 <td>{# 所在地区 #} {% if account.user.teacher.region %}{{ account.user.teacher.region.full_name }}{% else %}未填{% endif %}</td>
-                <td>{# 账户余额 #} {{ account.calculated_balance|money_format:'/' }}</td>
-                <td>{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'/' }}</td>
-                <td>{# 累计收入 #} {{ account.accumulated_income|money_format:'/' }}</td>
-                <td field="action">{# 收入明细 #}
-                    <a data-action="show-detail" href="{% url 'staff:teachers_income_detail' tid=account.user.teacher.id %}">查看</a>
+                <td class="text-right">{# 账户余额 #} {{ account.calculated_balance|money_format:'/' }}</td>
+                <td class="text-right">{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'/' }}</td>
+                <td class="text-right">{# 累计收入 #} {{ account.accumulated_income|money_format:'/' }}</td>
+                <td class="text-center">{# 收入明细 #}
+                    <a class="btn btn-info btn-sm" data-action="show-detail" href="{% url 'staff:teachers_income_detail' tid=account.user.teacher.id %}">查看</a>
                 </td>
             </tr>
         {% endfor %}
