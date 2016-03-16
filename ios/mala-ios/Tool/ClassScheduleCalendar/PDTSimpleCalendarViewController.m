@@ -107,7 +107,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     if (!_headerDateFormatter) {
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
+        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"M/M" options:0 locale:self.calendar.locale];
     }
     return _headerDateFormatter;
 }
@@ -279,8 +279,8 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     [self.collectionView setBackgroundColor:self.backgroundColor];
 
     //Configure the Overlay View
-    [self.overlayView setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.90]];
-    [self.overlayView setFont:[UIFont boldSystemFontOfSize:PDTSimpleCalendarOverlaySize]];
+    [self.overlayView setBackgroundColor:[self.overlayBackgroundColor colorWithAlphaComponent:0.90]];
+    [self.overlayView setFont:[UIFont systemFontOfSize:PDTSimpleCalendarOverlaySize]];
     [self.overlayView setTextColor:self.overlayTextColor];
     [self.overlayView setAlpha:0.0];
     [self.overlayView setTextAlignment:NSTextAlignmentCenter];

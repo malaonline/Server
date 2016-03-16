@@ -50,10 +50,38 @@ public class MalaConfig {
     }
     
     // MARK: - UI Config
+    class func colorF2F2F2() -> UIColor {
+        return UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
+    }
+    
     class func setupClassSchedule(inout viewController: ClassScheduleViewController) {
+
+        // 日历控制器
         viewController.weekdayHeaderEnabled = true
         viewController.weekdayTextType = .VeryShort
+        viewController.overlayTextColor = MalaDetailsCellTitleColor
+        viewController.overlayBackgroundColor = MalaProfileBackgroundColor
         viewController.weekdayHeader = ClassScheduleViewWeekdayHeader(calendar: viewController.calendar, weekdayTextType: viewController.weekdayTextType)
+
+        ///  星期数视图
+        PDTSimpleCalendarViewWeekdayHeader.appearance().textColor = MalaDetailsCellTitleColor
+        PDTSimpleCalendarViewWeekdayHeader.appearance().textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        PDTSimpleCalendarViewWeekdayHeader.appearance().headerBackgroundColor = MalaProfileBackgroundColor
+        
+        ///  月份头视图
+        PDTSimpleCalendarViewHeader.appearance().textColor = MalaDetailsButtonBlueColor
+        PDTSimpleCalendarViewHeader.appearance().textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        PDTSimpleCalendarViewHeader.appearance().separatorColor = MalaDetailsButtonBorderColor
+        
+        ///  日期视图
+        PDTSimpleCalendarViewCell.appearance().circleDefaultColor = UIColor.whiteColor()
+        PDTSimpleCalendarViewCell.appearance().circleSelectedColor = UIColor.orangeColor()
+        PDTSimpleCalendarViewCell.appearance().circleTodayColor = UIColor.whiteColor()
+        PDTSimpleCalendarViewCell.appearance().textDefaultColor = MalaDetailsCellTitleColor
+        PDTSimpleCalendarViewCell.appearance().textSelectedColor = UIColor.whiteColor()
+        PDTSimpleCalendarViewCell.appearance().textTodayColor = MalaDetailsButtonBlueColor
+        PDTSimpleCalendarViewCell.appearance().textDisabledColor = UIColor.whiteColor()
+        PDTSimpleCalendarViewCell.appearance().textDefaultFont = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
     }
     
     

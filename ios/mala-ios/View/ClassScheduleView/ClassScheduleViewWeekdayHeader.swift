@@ -28,6 +28,11 @@ class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
     
     // MARK: - Private
     private func setupUserInterface() {
+        // Style
+//        textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+//        textColor = MalaDetailsCellTitleColor
+//        headerBackgroundColor = MalaProfileBackgroundColor
+        
         // SubViews
         
         

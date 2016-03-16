@@ -131,7 +131,6 @@
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
-		F42FBE961C993C0C00AE6FC6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F42FBE8A1C993C0C00AE6FC6 /* Info.plist */; };
 		F42FBE971C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */; };
 		F42FBE981C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8F1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m */; };
 		F42FBE991C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */; };
@@ -447,7 +446,6 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F42FBE8A1C993C0C00AE6FC6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F42FBE8B1C993C0C00AE6FC6 /* PDTSimpleCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendar.h; sourceTree = "<group>"; };
 		F42FBE8C1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewCell.h; sourceTree = "<group>"; };
 		F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewCell.m; sourceTree = "<group>"; };
@@ -910,7 +908,6 @@
 		F42FBE891C993C0C00AE6FC6 /* ClassScheduleCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				F42FBE8A1C993C0C00AE6FC6 /* Info.plist */,
 				F42FBE8B1C993C0C00AE6FC6 /* PDTSimpleCalendar.h */,
 				F42FBE8C1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.h */,
 				F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */,
@@ -1236,7 +1233,6 @@
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
-				F42FBE961C993C0C00AE6FC6 /* Info.plist in Resources */,
 				F4C5C2511C75D37000FB833B /* EvaluationFiling3@3x.png in Resources */,
 				F4C5C24F1C75D37000FB833B /* EvaluationFiling2@3x.png in Resources */,
 				F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */,
