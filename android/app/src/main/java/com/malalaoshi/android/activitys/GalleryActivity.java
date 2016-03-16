@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,8 @@ import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.view.ZoomImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by zk on 16/01/12.
  * 图片预览
@@ -27,17 +30,22 @@ import com.malalaoshi.android.view.ZoomImageView;
 public class GalleryActivity extends BaseActivity {
 	private static String TAG = "GalleryActivity";
 	public static String GALLERY_URLS = "gallery_urls";
+	public static String GALLERY_DES = "pic_des";
 	public static String GALLERY_CURRENT_INDEX = "gallery_current_index";
 
 	private ViewPager myVp;
 	//图片Url
 	private String[] mImgUrls;
+	//图片描述
+	private String[] mImgDes;
 	//当前页索引
 	private int mCurrentItem;
 	//图片View
 	private ImageView[] mImaViews;
 	//页码
 	private TextView mTextView;
+	//照片描述
+	private TextView mTVPicDes;
 	private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +65,13 @@ public class GalleryActivity extends BaseActivity {
 			@Override
 			public void onPageSelected(int position) {
 				int count = position + 1;
+
 				mTextView.setText(count + "/" + mImgUrls.length);
+				if (mImgDes!=null&&mImgDes.length>position){
+					mTVPicDes.setText(mImgDes[position]);
+				}else{
+					mTVPicDes.setText("");
+				}
 				Log.i(TAG, "current item:" + count);
 			}
 
@@ -70,6 +84,8 @@ public class GalleryActivity extends BaseActivity {
 
 	private void initViews() {
 		mTextView = (TextView)findViewById(R.id.tv_gallery_number);
+		mTVPicDes = (TextView)findViewById(R.id.tv_pic_des);
+
 		myVp = (ViewPager) findViewById(R.id.myVp);
 		myVp.setAdapter(new PagerAdapter() {
 
@@ -106,6 +122,15 @@ public class GalleryActivity extends BaseActivity {
 				return mImaViews.length;
 			}
 		});
+
+		//显示描述
+		if (mImgDes!=null&&mImgDes.length>0){
+			mTVPicDes.setText(mImgDes[mCurrentItem]);
+			mTextView.setGravity(Gravity.RIGHT);
+		} else {
+			mTVPicDes.setText("");
+		}
+
 		//显示页码
 		if (mImgUrls.length>0){
 			int count = 0;
@@ -124,6 +149,12 @@ public class GalleryActivity extends BaseActivity {
 		Intent intent = getIntent();
 		mImgUrls = intent.getStringArrayExtra(GALLERY_URLS);
 		mCurrentItem = intent.getIntExtra(GALLERY_CURRENT_INDEX, 0);
+		mImgDes = intent.getStringArrayExtra(GALLERY_DES);
+
+		if (mImgDes==null){
+			mImgDes = new String[0];
+		}
+
 		if (mImgUrls==null){
 			mImgUrls = new String[0];
 		}

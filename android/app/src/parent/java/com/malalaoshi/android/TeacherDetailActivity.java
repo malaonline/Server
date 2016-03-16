@@ -127,7 +127,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Bind(R.id.parent_teaching_price_tv)
     protected TextView mPriceRegion;
 
-    //更多相册
+    //授课年级
     @Bind(R.id.parent_teacher_detail_grade_fl)
     protected FlowLayout mGrades;
 
@@ -504,11 +504,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //特殊成就
             List<Achievement> achievements = mTeacher.getAchievement_set();
             if (achievements != null && achievements.size() > 0) {
-                String[] achievementArr = new String[achievements.size()];
-                for (int i = 0; i < achievements.size(); i++) {
-                    achievementArr[i] = achievements.get(i).getTitle();
-                }
-                setFlowDatas(mAchievement, achievementArr, R.drawable.item_text_bg);
+                setFlowCertDatas(mAchievement, achievements, R.drawable.item_text_bg);
             }
 
             //教龄级别
@@ -524,10 +520,10 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
     }
 
-    private void setFlowDatas(FlowLayout flowlayout, String[] datas, int drawable) {
+    private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
-        for (int i = 0; datas != null && i < datas.length; i++) {
+        for (int i = 0; datas != null && i < datas.size(); i++) {
             TextView textView = new TextView(this);
             ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -535,8 +531,27 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             layoutParams.setMargins(padding, padding, padding, padding);
             textView.setLayoutParams(layoutParams);
             textView.setPadding(padding, padding, padding, padding);
-            textView.setText(datas[i]);
+            textView.setText(datas.get(i).getTitle());
             textView.setBackground(getResources().getDrawable(drawable));
+            final int finalI = i;
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String[] imgUrl = new String[datas.size()];
+                    String[] imgDes = new String[datas.size()];
+
+                    for (int i=0;i<datas.size();i++){
+                        imgUrl[i] = datas.get(i).getImg();
+                        imgDes[i] = datas.get(i).getTitle();
+                    }
+                    Intent intent = new Intent(TeacherDetailActivity.this, GalleryActivity.class);
+                    intent.putExtra(GalleryActivity.GALLERY_URLS, imgUrl);
+                    intent.putExtra(GalleryActivity.GALLERY_DES, imgDes);
+                    intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, finalI);
+                    startActivity(intent);
+
+                }
+            });
             flowlayout.addView(textView, i);
         }
     }
@@ -622,7 +637,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 //查看更多照片
                 Intent intent = new Intent(this, GalleryActivity.class);
                 intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
-                //intent.getIntExtra(GalleryActivity.GALLERY_CURRENT_INDEX,)
                 startActivity(intent);
                 break;
             case R.id.ll_school_more:

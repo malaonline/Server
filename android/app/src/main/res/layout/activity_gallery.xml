@@ -12,15 +12,29 @@
         android:layout_marginTop="@dimen/gallery_padding"
         android:layout_marginBottom="@dimen/gallery_padding"
         />
+
+    <TextView
+        android:id="@+id/tv_pic_des"
+        android:textColor="@color/item_text_color_normal"
+        android:textSize="@dimen/text_size_large"
+        android:layout_marginBottom="@dimen/gallery_bottom_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_gallery_number"
         android:text="0/0"
+        android:gravity="center"
         android:textColor="@color/item_text_color_normal"
         android:textSize="@dimen/text_size_large"
         android:layout_marginBottom="@dimen/gallery_bottom_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 </RelativeLayout>
