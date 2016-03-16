@@ -382,7 +382,7 @@ class Teacher(BaseModel):
         abilities = self.abilities.all()
         return Price.objects.filter(
                 level=self.level, region=self.region,
-                ability__grade__leaf=True, ability__in=abilities)
+                ability__grade__leaf=True, ability__in=abilities).order_by('pk')
 
     def min_price(self):
         prices = list(self.prices())
