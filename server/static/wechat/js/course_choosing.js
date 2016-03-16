@@ -8,7 +8,7 @@ $(function(){
     var chosen_price = 0;
     var chosen_school_id = '';
     var chosen_weekly_time_slots = [];
-    var chosen_coupon_id = 0;
+    var chosen_coupon_id = '';
     var HOUR = 60*60*1000;
     var DAY = 24*HOUR;
     var is_first_buy = $("#isFirstBuy").val()=='True';

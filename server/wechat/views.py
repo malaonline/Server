@@ -218,7 +218,7 @@ class CourseChoosingView(View):
         school = get_object_or_404(models.School, pk=school_id)
         grade = get_object_or_404(models.Grade, pk=grade_id)
         subject = teacher.subject() # 老师只有一个科目
-        coupon = coupon_id and get_object_or_404(models.Coupon, pk=coupon_id) or None
+        coupon = coupon_id and coupon_id != '0' and get_object_or_404(models.Coupon, pk=coupon_id) or None
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=w_id) for w_id in weekly_time_slot_ids]
         if coupon and coupon.used:
             return JsonResponse({'ok': False, 'msg': '您所选择代金券已使用, 请重新选择', 'code': 2})
