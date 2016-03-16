@@ -369,6 +369,10 @@ $(function(){
     });
 
     $('#couponRow').click(function(){
+        if ($coupons.length==0) {
+            showAlertDialog('您没有可用奖学金');
+            return;
+        }
         if ($($coupons[0]).css('display')!='none') {
             $coupons.hide();
         } else {
