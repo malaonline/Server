@@ -112,6 +112,11 @@ class SchoolsView(ListView):
 
         return context
 
+    # def post(self):
+    #     if self.request.is_ajax():
+    #         lat = self.request.POST.get('type', '')
+    #         lng = self.request.POST.get('','')
+
 
 
 

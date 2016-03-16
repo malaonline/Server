@@ -1,3 +1,10 @@
-function refreshDistance(lat,lng) {
-    alert('正在修改距离显示'+lat+lng);
+function refreshDistance(url,lat,lng) {
+    new Ajax.Request(url, {
+        method: 'post',
+        parameters: {lat:lat,lng:lng},
+        onSuccess: function(transport) {
+            alert('成功!')
+    }
+    }); // end new Ajax.Request
 }
+
