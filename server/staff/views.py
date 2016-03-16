@@ -781,7 +781,8 @@ class TeacherWithdrawalView(BaseStaffView):
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
-        query_set = models.Withdrawal.objects.select_related('account__user__teacher', 'account__user__profile').filter(account__user__teacher__isnull=False)
+        query_set = models.AccountHistory.objects.select_related('account__user__teacher', 'account__user__profile')\
+            .filter(account__user__teacher__isnull=False, withdrawal__isnull=False)
         if date_from:
             try:
                 date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
@@ -796,7 +797,7 @@ class TeacherWithdrawalView(BaseStaffView):
             except:
                 pass
         if status:
-            query_set = query_set.filter(status = status)
+            query_set = query_set.filter(withdrawal__status = status)
         if name:
             query_set = query_set.filter(account__user__teacher__name__contains = name)
         if phone:
@@ -821,40 +822,26 @@ class TeacherWithdrawalView(BaseStaffView):
             return self.reject_withdraw(request, wid)
         return HttpResponse("Not supported request.", status=403)
 
-    def approve_withdraw(self, request, wid):
+    def approve_withdraw(self, request, ahid):
         try:
             with transaction.atomic():
-                withdrawal = models.Withdrawal.objects.get(id=wid)
-                account = withdrawal.account
-                balance = account.implicit_balance
-                if balance < withdrawal.amount:
-                    JsonResponse({'ok': False, 'msg': '余额不足', 'code': -1})
-                ah = models.AccountHistory(account=account, submit_time=timezone.now(), done=True)
-                ah.amount = -withdrawal.amount
-                ah.bankcard =withdrawal.bankcard
-                ah.comment = "提现至银行卡"
-                ah.withdrawal = withdrawal
-                ah.save()
-                withdrawal.status = models.Withdrawal.APPROVED
-                withdrawal.audit_by = request.user
-                withdrawal.audit_at = timezone.now()
-                withdrawal.save()
+                ah = models.AccountHistory.objects.get(id=ahid)
+                if not ah.withdrawal.is_pending():
+                    return JsonResponse({'ok': False, 'msg': '已经被审核过了', 'code': -1})
+                ah.audit_withdrawal(True, request.user)
                 # 短信通知老师
-                teacher = account.user.teacher
+                teacher = ah.account.user.teacher
                 _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_APPROVE, {'username':teacher.name}, 2)
         except IntegrityError as err:
             logger.error(err)
             return JsonResponse({'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
-    def reject_withdraw(self, request, wid):
-        withdrawal = models.Withdrawal.objects.get(id=wid)
-        withdrawal.status = models.Withdrawal.REJECTED
-        withdrawal.audit_by = request.user
-        withdrawal.audit_at = timezone.now()
-        withdrawal.save()
+    def reject_withdraw(self, request, ahid):
+        ah = models.AccountHistory.objects.get(id=ahid)
+        ah.audit_withdrawal(False, request.user)
         # 短信通知老师
-        teacher = withdrawal.account.user.teacher
+        teacher = ah.account.user.teacher
         _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_REJECT, {'username':teacher.name}, 2)
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 

@@ -57,7 +57,17 @@
                 <tr class="item">
                     <td class="time">{{ hist.submit_time|date:'Y-m-d H:i' }}</td>
                     <td class="amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">{{ hist.amount|money_format }}</td>
-                    <td class="comment">{% if hist.comment %}{{ hist.comment }}{% else %}{% if hist.amount >= 0 %}收入{% else %}支出{% endif %}{% endif %}</td>
+                    <td class="comment">
+                        {% if hist.withdrawal %}
+                            {% if hist.withdrawal.is_rejected %}
+                                提现失败
+                            {% else %}
+                                提现
+                            {% endif %}
+                        {% else %}
+                            {% if hist.comment %}{{ hist.comment }}{% else %}{% if hist.amount >= 0 %}收入{% else %}支出{% endif %}{% endif %}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

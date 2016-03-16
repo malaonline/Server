@@ -932,6 +932,12 @@ class Withdrawal(BaseModel):
         if self.status == Withdrawal.REJECTED:
             return "被驳回"
 
+    def is_rejected(self):
+        return self.status == Withdrawal.REJECTED
+
+    def is_pending(self):
+        return self.status == Withdrawal.PENDING
+
 
 class AccountHistory(BaseModel):
     # 老师课程完成,就记录一条增值记录
@@ -953,12 +959,14 @@ class AccountHistory(BaseModel):
     # False表示因为提现或者其它原因,比如审核被驳回,这样就不参与求和和其它统计计算
     valid = models.BooleanField(default=True)
 
-    def audit_withdrawal(self, approve: bool):
+    def audit_withdrawal(self, approve: bool, user: User=None):
         """
         设置提现流程通过或者不通过,进行操作后,就不需要再save
         :param approve: True,表示通过,False,表示不通过
         :return: 没有返回
         """
+        self.withdrawal.audit_by = user
+        self.withdrawal.audit_at = timezone.now()
         if approve:
             # 审核通过
             self.withdrawal.status = Withdrawal.APPROVED
@@ -969,6 +977,7 @@ class AccountHistory(BaseModel):
             self.withdrawal.status = Withdrawal.REJECTED
             self.valid = False
             self.op_by_function = True
+        self.withdrawal.save()
         self.save()
 
     def save(self, force_insert=False, force_update=False, using=None,

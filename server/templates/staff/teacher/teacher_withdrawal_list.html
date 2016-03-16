@@ -45,12 +45,12 @@
                 <td field="name">{# 姓名 #} {{ wd.account.user.teacher.name }}</td>
                 <td>{# 手机号 #} {{ wd.account.user.profile.phone }}</td>
                 <td>{# 提现金额 #} {{ wd.amount|money_format:'/' }}</td>
-                <td>{# 所在银行 #} {{ wd.bankcard.bank_name }}</td>
-                <td>{# 银行卡号 #} {{ wd.bankcard.card_number }}</td>
+                <td>{# 所在银行 #} {{ wd.withdrawal.bankcard.bank_name }}</td>
+                <td>{# 银行卡号 #} {{ wd.withdrawal.bankcard.card_number }}</td>
                 <td>{# 开户行 #} TODO</td>
-                <td>{# 状态 #} {{ wd.get_status_display }}</td>
+                <td>{# 状态 #} {{ wd.withdrawal.get_status_display }}</td>
                 <td field="action">{# 操作 #}
-                    {% if wd.status == wd.PENDING %}
+                    {% if wd.withdrawal.is_pending %}
                         <a class="" data-action="approve">通过</a>
                         | <a class="" data-action="reject">驳回</a>
                     {% endif %}
