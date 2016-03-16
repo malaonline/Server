@@ -53,6 +53,7 @@ public class MalaConfig {
     class func setupClassSchedule(inout viewController: ClassScheduleViewController) {
         viewController.weekdayHeaderEnabled = true
         viewController.weekdayTextType = .VeryShort
+//        viewController.weekdayHeader = ClassScheduleViewWeekdayHeader(calendar: viewController.calendar, weekdayTextType: viewController.weekdayTextType)
     }
     
     

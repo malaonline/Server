@@ -14,7 +14,11 @@ class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupUserInterface()
+    }
+    
+    override init(calendar: NSCalendar, weekdayTextType: PDTSimpleCalendarViewWeekdayTextType) {
+        super.init(calendar: calendar, weekdayTextType: weekdayTextType)
         setupUserInterface()
     }
     
@@ -27,4 +31,5 @@ class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
     private func setupUserInterface() {
         
     }
+
 }
