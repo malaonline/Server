@@ -33,4 +33,6 @@ function getRad(d){
         s = s/1000;   
         s = s.toFixed(0);//指定小数点后的位数。   
         return s;     
-    }    
+    }
+
+
