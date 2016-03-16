@@ -37,6 +37,7 @@
 
 {% block addition_js %}
 {#    <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>#}
+    <script type='text/javascript' src='{% static 'wechat/js/calculate_distance.js' %}' charset='utf-8'></script>
     <script type='text/javascript' src='{% static 'wechat/js/schools.js' %}' charset='utf-8'></script>
     <script>
         wx.config({
@@ -54,6 +55,7 @@
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function(res){
+                    refreshDistance(res.latitude,res.longitude);
                     console.log(res)
 {#                    ajaxLoadSchool(res.latitude, res.longitude);#}
                 },
