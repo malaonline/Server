@@ -86,8 +86,21 @@ class ChargeSucceeded(View):
         charge.save()
 
         order = charge.order
-        models.Order.objects.allocate_timeslots(order)
-        return JsonResponse({'ok': 1})
+        order.status = order.PAID
+        order.save()
+        try:
+            models.Order.objects.allocate_timeslots(order)
+            return JsonResponse({'ok': 1})
+        except TimeSlotConflict:
+            logger.info('timeslot conflict, do refund')
+            try:
+                models.Order.objects.refund(order, '课程被抢占，自动退款')
+            except OrderStatusIncorrect as e:
+                logger.error(e)
+                raise e
+            except RefundError as e:
+                logger.error(e)
+                raise e
 
 
 class ConcreteTimeSlots(View):

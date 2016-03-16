@@ -18,10 +18,11 @@ from django.utils.timezone import make_aware, localtime
 from django.conf import settings
 from django.db.models import Q
 
-from app.exception import TimeSlotConflict
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
-from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError, tpl_send_sms, TPL_COURSE_INCOME
+from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError,\
+        tpl_send_sms, TPL_COURSE_INCOME
 
 logger = logging.getLogger('app')
 
@@ -1239,7 +1240,8 @@ class OrderManager(models.Manager):
 
     def allocate_timeslots(self, order, force=False):
         TimeSlot = apps.get_model('app', 'TimeSlot')
-        if order.status == 'p' and not force:
+
+        if order.timeslot_set.count() > 0:
             raise TimeSlotConflict()
 
         name = '/teacher_%d' % order.teacher.id
@@ -1252,13 +1254,72 @@ class OrderManager(models.Manager):
                 timeslot = TimeSlot(
                         order=order, start=ts['start'], end=ts['end'])
                 timeslot.save()
-            order.status = 'p'
-            order.save()
         except Exception as e:
             raise e
         finally:
             semaphore.release()
         return timeslots
+
+    def refund(self, order, reason):
+        OrderRefundRecord = apps.get_model('app', 'OrderRefundRecord')
+        TimeSlot = apps.get_model('app', 'TimeSlot')
+
+        if order.status != order.PAID:
+            raise OrderStatusIncorrect('订单未支付')
+        if order.refund_status == order.REFUND_PENDING:
+            raise OrderStatusIncorrect('订单退费正在申请中, 请勿重复提交')
+        if order.refund_status == order.REFUND_APPROVED:
+            raise OrderStatusIncorrect('订单退费已经审核通过, 请勿重复提交')
+
+        try:
+            with transaction.atomic():
+                # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
+                record = OrderRefundRecord(
+                    order=order,
+                    remaining_hours=order.remaining_hours(),
+                    refund_hours=order.preview_refund_hours(),
+                    refund_amount=order.preview_refund_amount(),
+                    reason=reason,
+                    last_updated_by=self.request.user
+                )
+                record.save()
+                # 同时更新订单的退费状态字段
+                order.refund_status = order.REFUND_PENDING
+                # 记录申请时间, 用于 query
+                order.refund_at = record.created_at
+                order.save()
+                # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
+                assert TimeSlot.objects.all().filter(
+                    order=order,
+                    deleted=False,
+                    end__gt=record.created_at - TimeSlot.CONFIRM_TIME
+                ).count() * 2 == record.remaining_hours
+                # 释放该订单内的所有未完成的课程时间
+                TimeSlot.objects.all().filter(
+                    order=order,
+                    deleted=False,
+                    end__gt=record.created_at - TimeSlot.CONFIRM_TIME
+                ).update(deleted=True)
+                # 短信通知家长
+                parent = order.parent
+                _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname':parent.student_name}, 3)
+                # 短信通知老师
+                teacher = order.teacher
+                _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
+                # 回显给前端, 刚刚记录的退费信息内容
+                return JsonResponse({
+                    'ok': True,
+                    'remainingHours': record.remaining_hours,  # 剩余小时
+                    'refundHours': record.refund_hours,         # 退费小时
+                    'refundAmount': record.refund_amount/100,  # 退费金额
+                    'reason': record.reason  # 退费原因
+                })
+        except IntegrityError as err:
+            logger.error(err)
+            raise RefundError('退费失败, 请稍后重试或联系管理员')
+        except AssertionError as err:
+            logger.error(err)
+            raise RefundError('退费失败, 订单剩余小时与将要退费的课程时间不符, 请稍后重试或联系管理员')
 
 
 class Order(BaseModel):
@@ -1700,7 +1761,6 @@ class TimeSlot(BaseModel):
         except IntegrityError as err:
             logger.error(err)
             return False
-
 
     def suspend(self):
         # 用 suspended 字段表示停课, 但为了兼容性, 同时也要设置课程状态为被删除

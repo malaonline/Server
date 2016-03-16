@@ -10,3 +10,9 @@ def exception_handler(exc, context):
 
 class TimeSlotConflict(Exception):
     pass
+
+class OrderStatusIncorrect(Exception):
+    pass
+
+class RefundError(Exception):
+    pass

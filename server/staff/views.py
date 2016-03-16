@@ -1655,63 +1655,13 @@ class OrderRefundActionView(BaseStaffActionView):
         order_id = request.POST.get('order_id')
         order = models.Order.objects.get(id=order_id)
         reason = request.POST.get('reason')
-        if order.status == order.PAID:
-            if order.refund_status == order.REFUND_PENDING:
-                return JsonResponse({'ok': False, 'msg': '订单退费正在申请中, 请勿重复提交', 'code': 'order_03'})
-            elif order.refund_status == order.REFUND_APPROVED:
-                return JsonResponse({'ok': False, 'msg': '订单退费已经审核通过, 请勿重复提交', 'code': 'order_04'})
-            else:
-                # 增加事务处理
-                try:
-                    with transaction.atomic():
-                        # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
-                        record = models.OrderRefundRecord(
-                            order=order,
-                            remaining_hours=order.remaining_hours(),
-                            refund_hours=order.preview_refund_hours(),
-                            refund_amount=order.preview_refund_amount(),
-                            reason=reason,
-                            last_updated_by=self.request.user
-                        )
-                        record.save()
-                        # 同时更新订单的退费状态字段
-                        order.refund_status = order.REFUND_PENDING
-                        # 记录申请时间, 用于 query
-                        order.refund_at = record.created_at
-                        order.save()
-                        # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
-                        assert models.TimeSlot.objects.all().filter(
-                            order=order,
-                            deleted=False,
-                            end__gt=record.created_at - models.TimeSlot.CONFIRM_TIME
-                        ).count() * 2 == record.remaining_hours
-                        # 释放该订单内的所有未完成的课程时间
-                        models.TimeSlot.objects.all().filter(
-                            order=order,
-                            deleted=False,
-                            end__gt=record.created_at - models.TimeSlot.CONFIRM_TIME
-                        ).update(deleted=True)
-                        # 短信通知家长
-                        parent = order.parent
-                        _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname':parent.student_name}, 3)
-                        # 短信通知老师
-                        teacher = order.teacher
-                        _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
-                        # 回显给前端, 刚刚记录的退费信息内容
-                        return JsonResponse({
-                            'ok': True,
-                            'remainingHours': record.remaining_hours,  # 剩余小时
-                            'refundHours': record.refund_hours,         # 退费小时
-                            'refundAmount': record.refund_amount/100,  # 退费金额
-                            'reason': record.reason  # 退费原因
-                        })
-                except IntegrityError as err:
-                    logger.error(err)
-                    return JsonResponse({'ok': False, 'msg': '退费失败, 请稍后重试或联系管理员', 'code': 'order_08'})
-                except AssertionError as err:
-                    logger.error(err)
-                    return JsonResponse({'ok': False, 'msg': '退费失败, 订单剩余小时与将要退费的课程时间不符, 请稍后重试或联系管理员', 'code': 'order_09'})
-        return JsonResponse({'ok': False, 'msg': '订单状态错误, 提交申请失败', 'code': 'order_05'})
+        try:
+            models.Order.objects.refund(order, reason)
+            return JsonResponse({'ok': True})
+        except OrderStatusIncorrect as e:
+            return JsonResponse({'ok': False, 'msg': e})
+        except RefundError as e:
+            return JsonResponse({'ok': False, 'msg': e})
 
     def refund_approve(self, request):
         order_id = request.POST.get('order_id')
@@ -1738,6 +1688,7 @@ class OrderRefundActionView(BaseStaffActionView):
                 order.save()
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费驳回失败, 请检查订单状态', 'code': 'order_07'})
+
 
 class SchoolTimeslotView(BaseStaffView):
     template_name = 'staff/school/timeslot.html'
