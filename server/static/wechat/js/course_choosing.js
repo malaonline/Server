@@ -3,6 +3,7 @@
  */
 $(function(){
     //alert("course choosing");
+    var teacherId = $('#teacherId').val();
     var chosen_grade_id = '';
     var chosen_price = 0;
     var chosen_school_id = '';
@@ -17,9 +18,10 @@ $(function(){
     var courseStartTime = is_first_buy?(todayTime+evaluate_time+DAY):todayTime;
 
     var pre_chosen_coupon_id = $("#preChosenCoupon").val();
+    var $coupons = $('.coupon');
     if (pre_chosen_coupon_id) {
         chosen_coupon_id = pre_chosen_coupon_id;
-        $('.coupon').each(function () {
+        $coupons.each(function () {
             var $this = $(this), cpid = $this.attr('couponId');
             if (cpid == pre_chosen_coupon_id) {
                 $this.addClass('chosen');
@@ -28,12 +30,16 @@ $(function(){
         });
     }
 
+    var $payArea = $('#payArea');
+    var $alertDialog = $('#alertDialog');
+    var $alertDialogBody = $("#alertDialogBody");
     var showAlertDialog = function(msg) {
-        $("#alertDialogBody").html(msg);
-        var $dialog = $('#alertDialog');
-        $dialog.show();
-        $dialog.one('click', function () {
-            $dialog.hide();
+        $alertDialogBody.html(msg);
+        $payArea.hide();
+        $alertDialog.show();
+        $alertDialog.one('click', function () {
+            $alertDialog.hide();
+            $payArea.show();
         });
     };
 
@@ -139,6 +145,7 @@ $(function(){
         });
         chosen_grade_id = val;
         chosen_price = parseInt($(ele).find('input').val());
+        updateCost();
         e.stopPropagation();
     });
 
@@ -149,6 +156,7 @@ $(function(){
         $schools.last().addClass('last');
     });
 
+    var $courseTimePreview = $("#courseTimePreview");
     var _updateCourseTimePreview = function(hours) {
         if (hours==0 || chosen_weekly_time_slots.length==0) {
             return $("#courseTimePreview").html('');
@@ -178,7 +186,6 @@ $(function(){
             var diff = a.date - b.date;
             return (diff != 0) ? diff : (a.start - b.start);
         });
-        $courseTimePreview = $("#courseTimePreview");
         $courseTimePreview.html('');
         for (var i in courseTimes) {
             var obj = courseTimes[i], start = new Date(obj.date+obj.start), end = new Date(obj.date+obj.end);
@@ -229,9 +236,8 @@ $(function(){
         return _map;
     };
 
+    var $weeklyTable = $('#weeklyTable');
     var renderWeeklyTableBySchool = function(school_id) {
-        var $weeklyTable = $('#weeklyTable');
-        var teacherId = $('#teacherId').val();
         var params = {'school_id': school_id};
         $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
             //console.log(json);
@@ -305,7 +311,7 @@ $(function(){
             }
             if (!chosen_coupon_id) {
                 // auto choose another one
-                $('.coupon').each(function () {
+                $coupons.each(function () {
                     var _$cp = $(this), _min_count = parseInt(_$cp.find('.ccount').text());
                     if (hours >= _min_count) {
                         _$cp.addClass('chosen');
@@ -328,7 +334,7 @@ $(function(){
         $("#realCost").text(_format_money(realCost));
     };
 
-    $('#weeklyTable > tbody > tr > td').click(function(e) {
+    $weeklyTable.find('tbody > tr > td').click(function(e) {
         if (!chosen_grade_id || !chosen_school_id) {
             showAlertDialog('请先选择授课年级和上课地点');
             return;
@@ -363,14 +369,13 @@ $(function(){
     });
 
     $('#couponRow').click(function(){
-        var $coupons = $('.coupon');
         if ($($coupons[0]).css('display')!='none') {
             $coupons.hide();
         } else {
             $coupons.show();
         }
     });
-    $(".coupon").click(function(){
+    $coupons.click(function(){
         var hours = parseInt($('#courseHours').text());
         if (hours==0) {
             showAlertDialog('请先选择上课时间');
@@ -378,7 +383,7 @@ $(function(){
         }
         var $this = $(this), cpid = $this.attr('couponId');
         if (cpid==chosen_coupon_id) {
-            $('.coupon').hide();
+            $coupons.hide();
             return;
         }
         var min_count = parseInt($this.find('.ccount').text());
@@ -388,7 +393,7 @@ $(function(){
         }
         // choose this one
         chosen_coupon_id = cpid;
-        $('.coupon').each(function () {
+        $coupons.each(function () {
             var _$this = $(this), _cpid = _$this.attr('couponId');
             if (_cpid == chosen_coupon_id) {
                 _$this.addClass('chosen');
@@ -398,7 +403,7 @@ $(function(){
         });
         // 更新discount不在这里做, 在后面的updateCost()方法里
         updateCost();
-        $('.coupon').hide();
+        $coupons.hide();
     });
 
     $('#confirmBtn').click(function(e){
@@ -413,7 +418,7 @@ $(function(){
         }
         var params = {
             'action': 'confirm',
-            'teacher': $('#teacherId').val(),
+            'teacher': teacherId,
             'school': chosen_school_id,
             'grade': chosen_grade_id,
             'coupon': chosen_coupon_id,
@@ -465,4 +470,35 @@ $(function(){
             }
         }, 'json');
     });
+
+    // 初始化"测评建档服务"内容
+    var $evaluateRow = $('#evaluateRow');
+    if ($evaluateRow[0]) {
+        var $evaluateDialog = $('#evaluateItemsDialog');
+        var $evaluateItemsBody = $('#evaluateItemsBody');
+        var buf = [];
+        for (var i in evaluateItems) {
+            var obj = evaluateItems[i];
+            buf.push('<div class="evaluate-item">');
+            buf.push('<div class="evaluate-title">');
+            buf.push(obj.title);
+            buf.push('</div>');
+            buf.push('<div class="evaluate-photo">');
+            buf.push('<img src="'+obj.photo+'"/>');
+            buf.push('</div>');
+            buf.push('<div class="evaluate-note">');
+            buf.push(obj.desc);
+            buf.push('</div>');
+            buf.push('</div>');
+        }
+        $evaluateItemsBody.append(buf.join(''));
+        $evaluateRow.click(function(e){
+            $payArea.hide();
+            $evaluateDialog.show();
+            $evaluateDialog.one('click', function () {
+                $evaluateDialog.hide();
+                $payArea.show();
+            });
+        });
+    }
 });

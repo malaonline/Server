@@ -292,6 +292,26 @@
   }
 }
 
+#evaluateItemsBody {
+  margin: @footerHeight 0;
+  padding: 26px 16px;
+  overflow-y: scroll;
+  text-align: left;
+  .evaluate-item {
+    .evaluate-title {
+      .title();
+    }
+    .evaluate-photo {
+      img {
+        max-width: 100%;
+      }
+    }
+    .evaluate-note{
+      .note();
+    }
+  }
+}
+
 .pay-action-area {
   padding: 6px 12px;
   background-color: rgba(255, 255, 255, 0.96);

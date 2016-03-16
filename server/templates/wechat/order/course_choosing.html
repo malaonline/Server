@@ -152,7 +152,7 @@
                         </div>
                     {% endfor %}
                     {% if first_buy %}
-                    <a class="weui_cell weui_cells_access test-row" href="javascript:;">
+                    <a class="weui_cell weui_cells_access test-row" id="evaluateRow" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">测评建档服务</p>
                         </div>
@@ -182,12 +182,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="weui_dialog_alert" id="evaluateItemsDialog" style="display: none;">
+            <div class="weui_mask"></div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd" id="evaluateItemsBody">
+
+                </div>
+                <div class="weui_dialog_ft">
+                    <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 
 {% block footer %}
-    <div class="weui_extra_area pay-action-area">
+    <div class="weui_extra_area pay-action-area" id="payArea">
         <div class="w50 cost-area">还需支付: <span class="cost">￥<span id="realCost">0.00</span></span></div>
         <div class="w50 action-area">
             <a href="javascript:;" class="weui_btn weui_btn_warn" id="confirmBtn">确认并支付</a>
@@ -201,6 +213,11 @@
 {#        alert(location.href);#}
 {#        alert(wx);#}
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
+        var evaluateItems = [
+            {'id':1, 'title':'在线答疑', 'photo':'{% static 'common/img/evaluate/photo1.png' %}', 'desc':'智能组卷，检测学生知识漏洞，并找出具体详细报告'},
+            {'id':2, 'title':'了解老师', 'photo':'{% static 'common/img/evaluate/photo2.png' %}', 'desc':'课前与教师1对1交流，规划辅导方案'},
+            {'id':3, 'title':'顾问答疑', 'photo':'{% static 'common/img/evaluate/photo3.png' %}', 'desc':'学习顾问解答您对“麻辣老师”、师资力量学习规划等一切问题'},
+        ];
         wx.config({
             debug: false, // 开启调试模式?
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
