@@ -1217,10 +1217,10 @@ class StudentScheduleChangelogView(BaseStaffView):
         searchDateOri = self.request.GET.get('searchDateOri',None)
         searchDateNew = self.request.GET.get('searchDateNew',None)
 
-        # 默认调课和停课都拿出来
+        # 默认 调课后的 和 已经停课的 都拿出来
         query_set = models.TimeSlot.objects.filter(
-            Q(trans_to_set__isnull = False) |
-            Q(suspended=True)
+            Q(transferred_from__isnull = False) & Q(deleted=False) |
+            Q(suspended=True) & Q(deleted=True)
         )
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
@@ -1236,32 +1236,27 @@ class StudentScheduleChangelogView(BaseStaffView):
                 Q(order__teacher__user__profile__phone__contains=phone)
             )
         # 类型匹配
-        if status == "transfered":
-            query_set = query_set.filter(
-                trans_to_set__isnull = False
-            )
+        if status == "transferred":
+            query_set = query_set.filter(transferred_from__isnull=False, deleted=False)
         elif status == "suspended":
             query_set = query_set.filter(
                 Q(deleted=True) &
-                Q(suspended=True) &
-                Q(trans_to_set__isnull = True)
+                Q(suspended=True)
             )
         if searchDateOri:
             stTime = datetime.datetime.strptime(searchDateOri, '%Y-%m-%d')
             query_set = query_set.filter(
-                Q(trans_to_set__isnull=False) &
                 Q(start__date=stTime.date())
             )
         if searchDateNew:
             stTime = datetime.datetime.strptime(searchDateNew, '%Y-%m-%d')
             query_set = query_set.filter(
-                Q(deleted=False) &
                 Q(start__date=stTime.date())
             )
         # 可用筛选条件数据集
         kwargs['statusList'] = [
             {'text':"全部",'value':""},
-            {'text':"调课",'value':"transfered"},
+            {'text':"调课",'value':"transferred"},
             {'text':"停课",'value':"suspended"},
                                 ]
         # 查询结果数据集

@@ -43,7 +43,8 @@
                                 id="statusFilterInput"
                                 class="form-control">
                             {% for status in statusList %}
-                                <option value={{ status.value }}>{{ status.text }}</option>
+                                <option value={{ status.value }} {% if status.value == query_data.status %}
+                                    selected="selected"{% endif %}>{{ status.text }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -85,10 +86,8 @@
                                 <td>
                                     {% if timeslot.is_suspended %}
                                         已停课
-                                    {% elif timeslot.is_transfered %}
-                                        调课前
-                                    {% else %}
-                                        调课后
+                                    {% elif timeslot.transferred_from %}
+                                        调课
                                     {% endif %}
                                 </td>
                                 <td>{{ timeslot.order.parent.user.profile.phone }}</td>
@@ -98,24 +97,21 @@
                                 <td>{{ timeslot.order.teacher.name }}</td>
                                 <td>{{ timeslot.order.teacher.user.profile.phone }}</td>
                                 <td>
-                                    <!--停课或被调的课, 显示原上课时间-->
-                                    {% if timeslot.is_suspended or timeslot.is_transfered%}
-                                        {{ timeslot.start|date:"Y-m-d" }}
+                                    <!--停课的, 显示原上课时间-->
+                                    {% if timeslot.is_suspended %}
+                                        {{ timeslot.start|date:"Y-m-d H:i" }}
                                     <!--调整后的课, 显示原上课时间-->
                                     {% else %}
-                                        {{ timeslot.transferred_from.start|date:"Y-m-d" }}
+                                        {{ timeslot.transferred_from.start|date:"Y-m-d H:i" }}
                                     {% endif %}
                                 </td>
                                 <td>
                                     <!--停课不显示现上课时间-->
                                     {% if timeslot.is_suspended %}
                                         -
-                                    <!--被调的课, 显示调整后的时间-->
-                                    {% elif timeslot.is_transfered %}
-                                        {{ timeslot.trans_to_time|date:"Y-m-d" }}
                                     <!--调整后的课, 时间即为现上课时间-->
                                     {% else %}
-                                        {{ timeslot.start|date:"Y-m-d" }}
+                                        {{ timeslot.start|date:"Y-m-d H:i" }}
                                     {% endif %}
                                 </td>
                                 <td>{{ timeslot.order.school.address }}</td>
