@@ -448,7 +448,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     if (kind == UICollectionElementKindSectionHeader) {
         PDTSimpleCalendarViewHeader *headerView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:PDTSimpleCalendarViewHeaderIdentifier forIndexPath:indexPath];
 
-        headerView.titleLabel.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]].uppercaseString;
+        headerView.titleLabel.text = [self.weekdayheaderDateFormatter stringFromDate:[self firstOfMonthForSection:indexPath.section]].uppercaseString;
 
         headerView.layer.shouldRasterize = YES;
         headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -496,7 +496,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     NSArray *sortedIndexPaths = [indexPaths sortedArrayUsingSelector:@selector(compare:)];
     NSIndexPath *firstIndexPath = [sortedIndexPaths firstObject];
 
-    self.overlayView.text = [self.weekdayheaderDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
+    self.overlayView.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
 }
 
 - (void)hideOverlayView
