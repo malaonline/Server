@@ -26,7 +26,11 @@
             <div class="panel-body balance-box">
                 <div class="col-sm-5">可用余额: <span class="balance">￥{{ calculated_balance|money_format:'/' }}</span></div>
                 <div class="col-sm-7 text-right actions">
-                    <a class="btn btn-small btn-default {% if calculated_balance <= 0 %}disabled btn-disabled{% endif %} go-withdraw" href="{% url 'teacher:my-wallet-withdrawal' %}">提现</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-small btn-default
+                    {% if can_withdrawal == False %}
+                    disabled btn-disabled
+                    {% endif %}
+                    go-withdraw" href="{% url 'teacher:my-wallet-withdrawal' %}">提现</a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="show-withdraws" href="{% url 'teacher:my-wallet-withdrawal-record' %}">提现记录</a>
                 </div>
             </div>

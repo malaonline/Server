@@ -2157,6 +2157,10 @@ class WalletView(BaseTeacherView):
         account = teacher.safe_get_account()
         context['account'] = account
         context['calculated_balance'] = account.calculated_balance
+        if account.bankcard_set.all().exists() and account.calculated_balance > 0:
+            context["can_withdrawal"] = True
+        else:
+            context["can_withdrawal"] = False
         context['bankcard'] = ''
         bankcards = models.BankCard.objects.filter(account=account)
         if bankcards.count() > 0:
