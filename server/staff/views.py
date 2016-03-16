@@ -24,7 +24,7 @@ from app.utils.algorithm import check_id_number
 from app.utils.types import parseInt
 from app.utils.db import paginate
 from .decorators import mala_staff_required, is_manager
-from app.exception import TimeSlotConflict
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 
 
 logger = logging.getLogger('app')
@@ -1640,7 +1640,14 @@ class OrderRefundActionView(BaseStaffActionView):
         order = models.Order.objects.get(id=order_id)
         reason = request.POST.get('reason')
         try:
-            models.Order.objects.refund(order, reason)
+            models.Order.objects.refund(order, reason, self.request.user)
+            # 短信通知家长
+            parent = order.parent
+            _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname': parent.student_name}, 3)
+            # 短信通知老师
+            teacher = order.teacher
+            _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username': teacher.name}, 2)
+
             return JsonResponse({'ok': True})
         except OrderStatusIncorrect as e:
             return JsonResponse({'ok': False, 'msg': '%s' % e})

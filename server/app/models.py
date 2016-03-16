@@ -1269,7 +1269,7 @@ class OrderManager(models.Manager):
             semaphore.release()
         return timeslots
 
-    def refund(self, order, reason):
+    def refund(self, order, reason, user):
         OrderRefundRecord = apps.get_model('app', 'OrderRefundRecord')
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
@@ -1289,7 +1289,7 @@ class OrderManager(models.Manager):
                     refund_hours=order.preview_refund_hours(),
                     refund_amount=order.preview_refund_amount(),
                     reason=reason,
-                    last_updated_by=self.request.user
+                    last_updated_by=user
                 )
                 record.save()
                 # 同时更新订单的退费状态字段
@@ -1309,12 +1309,6 @@ class OrderManager(models.Manager):
                     deleted=False,
                     end__gt=record.created_at - TimeSlot.CONFIRM_TIME
                 ).update(deleted=True)
-                # 短信通知家长
-                parent = order.parent
-                _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname':parent.student_name}, 3)
-                # 短信通知老师
-                teacher = order.teacher
-                _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
         except IntegrityError as err:
             logger.error(err)
             raise RefundError('退费失败, 请稍后重试或联系管理员')
