@@ -14,7 +14,19 @@ private let kCalendarUnitYMD: NSCalendarUnit = [.Year, .Month, .Day]
 
 public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate, PDTSimpleCalendarViewCellDelegate {
 
-//    override 
+
+    // MARK: - Components
+    /// 保存按钮
+    private lazy var saveButton: UIButton = {
+        let saveButton = UIButton(
+            title: "今天",
+            titleColor: MalaDetailsButtonBlueColor,
+            target: self,
+            action: "scrollToToday"
+        )
+        saveButton.setTitleColor(MalaLoginVerifyButtonDisableColor, forState: .Disabled)
+        return saveButton
+    }()
     
     // MARK: - Life Cycle
     override public func viewDidLoad() {
@@ -30,9 +42,17 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
 
     // MARK: - Private Method
     private func configure() {
+        // Calendar
         delegate = self
         weekdayHeaderEnabled = true
         
+        // rightBarButtonItem
+        let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacerRight.width = -MalaLayout_Margin_5
+        let rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
+        
+        // register
         collectionView?.registerClass(ClassScheduleViewCell.self, forCellWithReuseIdentifier: ClassScheduleViewCellReuseID)
         collectionView?.registerClass(ClassScheduleViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: ClassScheduleViewHeaderReuseID)
     }
@@ -83,4 +103,11 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     
     
     // MARK: - Delegate
+    
+    
+    
+    // MARK: - Event Response
+    @objc private func scrollToToday() {
+        scrollToDate(NSDate(), animated: true)
+    }
 }
