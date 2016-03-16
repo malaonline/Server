@@ -39,7 +39,6 @@ import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
 public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
-    private OnListFragmentInteractionListener mListener;
     private TeacherRecyclerViewAdapter teacherListAdapter;
 
     private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
@@ -57,7 +56,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     private Long gradeId;
     private Long subjectId;
     private Long [] tagIds;
-    private int viewType= 0;
 
     private String nextUrl = null;
 
@@ -89,14 +87,12 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
         setEvent();
         Context context = view.getContext();
-        teacherListAdapter = new TeacherRecyclerViewAdapter(teachersList, mListener);
+        teacherListAdapter = new TeacherRecyclerViewAdapter(teachersList);
         GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
-        layoutManager.setSpanSizeLookup(new FooterSpanSizeLookup(layoutManager));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(teacherListAdapter);
         recyclerView.addItemDecoration(new TeacherItemDecoration(context, TeacherItemDecoration.VERTICAL_LIST, getResources().getDimensionPixelSize(R.dimen.teacher_list_top_diver)));
         recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
-
         initReshLayout();
         mRefreshLayout.beginRefreshing();
         return view;
@@ -126,7 +122,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     @Override
     public void onDetach(){
         super.onDetach();
-        mListener = null;
     }
 
     public void loadDatas(){
@@ -135,8 +130,8 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public void onLoadMore(){
-        if(teacherListAdapter != null && teacherListAdapter.hasLoadMoreView && !teacherListAdapter.loading && teacherListAdapter.canLoadMore){
-            teacherListAdapter.loading = true;
+        if(teacherListAdapter != null&&teacherListAdapter.getMoreStatus()!=TeacherRecyclerViewAdapter.LOADING_MORE && nextUrl!=null&& !nextUrl.isEmpty() ){
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.LOADING_MORE);
             new LoadTeachersTask(){
                 @Override
                 public void afterTask(TeacherListResult response){
@@ -147,9 +142,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
                             nextUrl = null;
                         }
                     }
-                    teacherListAdapter.loading = false;
                     if(nextUrl == null){
-                        teacherListAdapter.canLoadMore = false;
                     }
                 }
             }.execute();
@@ -158,36 +151,34 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout){
-        if(!teacherListAdapter.loading){
-            teachersList.clear();
-            nextUrl = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
-            boolean hasParam = false;
-            if(gradeId != null && gradeId > 0){
-                nextUrl += "?grade=" + gradeId;
-                hasParam = true;
-            }
-            if(subjectId != null && subjectId > 0){
-                nextUrl += hasParam ? "&subject=" : "?subject=";
-                nextUrl += subjectId;
-                hasParam = true;
-            }
-            if(tagIds != null && tagIds.length > 0){
-                nextUrl += hasParam ? "&tags=" : "?tags=";
-                for(int i=0; i<tagIds.length;){
-                    nextUrl += tagIds[i];
-                    if(++i < tagIds.length){
-                        nextUrl += "+";
-                    }
-                }
-            }
-            new LoadTeachersTask(){
-                @Override
-                public void afterTask(TeacherListResult response){
-                    teacherListAdapter.loading = false;
-                    setRefreshing(false);
-                }
-            }.execute();
+        //刷新
+        teachersList.clear();
+        nextUrl = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
+        boolean hasParam = false;
+        if(gradeId != null && gradeId > 0){
+            nextUrl += "?grade=" + gradeId;
+            hasParam = true;
         }
+        if(subjectId != null && subjectId > 0){
+            nextUrl += hasParam ? "&subject=" : "?subject=";
+            nextUrl += subjectId;
+            hasParam = true;
+        }
+        if(tagIds != null && tagIds.length > 0){
+            nextUrl += hasParam ? "&tags=" : "?tags=";
+            for(int i=0; i<tagIds.length;){
+                nextUrl += tagIds[i];
+                if(++i < tagIds.length){
+                    nextUrl += "+";
+                }
+            }
+        }
+        new LoadTeachersTask(){
+            @Override
+            public void afterTask(TeacherListResult response){
+                setRefreshing(false);
+            }
+        }.execute();
     }
 
     @Override
@@ -205,64 +196,60 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Teacher item);
-    }
 
     public void setRefreshing(boolean status){
         mRefreshLayout.endRefreshing();
     }
 
-    private void notifyDataSetChanged(){
-        if(teachersList != null && teachersList.size() < 20){
-            teacherListAdapter.loading = false;
-        }
-        teacherListAdapter.notifyDataSetChanged();
-    }
 
     private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
         public void afterTask(TeacherListResult response){
         }
         @Override
         protected String doInBackground(String ...params){
-            try{
-                String url = nextUrl;
-                RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-                StringRequest jsArrayRequest = new StringRequest(
-                        Request.Method.GET, url,
-                        new Response.Listener<String>(){
-                            @Override
-                            public void onResponse(String response){
-                                TeacherListResult teacherResult = null;
-                                try{
-                                    teacherResult = JsonUtil.parseStringData(response, TeacherListResult.class);
-                                    List<Teacher> teachers = teacherResult.getResults();
-                                    if(teachers != null && teachers.size() > 0){
-                                        teachersList.addAll(teachers);
-                                        notifyDataSetChanged();
-                                    }
-                                }catch (Exception e){
-                                    Log.e(LoginFragment.class.getName(), e.getMessage(), e);
-                                }finally{
-                                    afterTask(teacherResult);
+            String url = nextUrl;
+            RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
+            StringRequest jsArrayRequest = new StringRequest(
+                    Request.Method.GET, url,
+                    new Response.Listener<String>(){
+                        @Override
+                        public void onResponse(String response){
+                            TeacherListResult teacherResult = null;
+                            try{
+                                teacherResult = JsonUtil.parseStringData(response, TeacherListResult.class);
+                                List<Teacher> teachers = teacherResult.getResults();
+                                if(teachers != null && teachers.size() > 0){
+                                    teachersList.addAll(teachers);
+                                }
+                                nextUrl = teacherResult.getNext();
+                                return;
+                            }catch (Exception e){
+                                Log.e(LoginFragment.class.getName(), e.getMessage(), e);
+                            }finally{
+                                afterTask(teacherResult);
+                                if (nextUrl==null||!nextUrl.isEmpty()){
+                                    teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+                                }else{
+                                    teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
                                 }
                             }
-                        },
-                        new Response.ErrorListener(){
-                            @Override
-                            public void onErrorResponse(VolleyError error){
-                                afterTask(null);
-                                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
+
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error){
+                            afterTask(null);
+                            if (nextUrl==null||!nextUrl.isEmpty()){
+                                teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+                            }else{
+                                teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
                             }
-                        });
-                requestQueue.add(jsArrayRequest);
-                return "ok";
-            }catch(Exception e){
-                afterTask(null);
-                Log.e(LoginFragment.class.getName(), e.getMessage(), e);
-            }
-            return null;
+                            Log.e(LoginFragment.class.getName(), error.getMessage(), error);
+                        }
+                    });
+            requestQueue.add(jsArrayRequest);
+            return "ok";
         }
     }
 
@@ -275,7 +262,7 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
         @Override
         public int getSpanSize(int position){
-            if(gridLayoutManager.getItemCount() - 1 == position && teacherListAdapter.hasLoadMoreView && teacherListAdapter.canLoadMore){
+            if(gridLayoutManager.getItemCount() - 1 == position){
                 return 2;
             }else{
                 return 1;

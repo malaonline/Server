@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/home_margin_xxlarge"
             android:gravity="center"
-            android:text="顾思远"
+            android:text=""
             android:typeface="serif"
             android:textColor="@color/text_color_darkgray"
             android:textSize="@dimen/text_size_xxxlarge" />
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="麻辣金牌名师"
+                android:text=""
                 android:typeface="serif"
                 android:textColor="@color/prices_price_text_color"
                 android:textSize="@dimen/text_size_large" />
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="100-200"
+                android:text="-"
                 android:textStyle="bold"
                 android:textColor="@color/text_color_home_price"
                 android:textSize="@dimen/text_size_xxlarge" />
@@ -93,7 +93,7 @@
             android:layout_marginBottom="@dimen/home_margin_xxlarge"
             android:layout_marginTop="@dimen/home_margin_top_xlarge"
             android:gravity="center"
-            android:text="幽默 | 有责任心 | 正能量"
+            android:text=""
             android:typeface="serif"
             android:textColor="@color/text_color_darkgray"
             android:textSize="@dimen/text_size_normal" />
@@ -109,5 +109,5 @@
         android:typeface="serif"
         android:textColor="@color/text_subject_color"
         android:textSize="@dimen/text_size_small_x"
-        android:text="小初高 · 数学" />
+        android:text="" />
 </FrameLayout>

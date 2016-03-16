@@ -87,7 +87,7 @@
     <dimen name="image_width">110dp</dimen>
     <dimen name="image_height">79dp</dimen>
 
-    <dimen name="gallery_bottom_height">21dp</dimen>
+    <dimen name="gallery_bottom_height">20dp</dimen>
 
     <dimen name="heightscore_item_height">33dp</dimen>
 

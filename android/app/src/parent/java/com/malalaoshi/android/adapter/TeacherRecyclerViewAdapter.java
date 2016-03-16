@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -23,33 +24,31 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Teacher} and makes a call to the
- * specified {@link TeacherListFragment.OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+
+
 public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecyclerViewAdapter.ViewHolder>{
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_LOAD_MORE = 1;
-    private static final int TYPE_NONE_VALUE = 2;
 
-    public static final int TEACHER_LIST_PAGE_SIZE = 20;
+    //上拉加载更多
+    public static final int  PULLUP_LOAD_MORE=0;
+    //正在加载中
+    public static final int  LOADING_MORE=1;
+    //没有更多数据,到底了
+    public static final int NODATA_LOADING = 2;
+    //没有更多数据,到底了
+    public static final int GONE_LOADING = 3;
+    //上拉加载更多状态-默认为0
+    private int load_more_status=0;
 
-    private final TeacherListFragment.OnListFragmentInteractionListener mListener;
-
-    public boolean loading = false;
+    public static final int TEACHER_LIST_PAGE_SIZE = 10;
 
     private  List<Teacher> teachersList;
 
-    public boolean hasLoadMoreView = false;
-
-    public boolean canLoadMore = true;
-
     private ImageLoader mImageLoader;
 
-    public TeacherRecyclerViewAdapter(List<Teacher> items, TeacherListFragment.OnListFragmentInteractionListener listener){
+    public TeacherRecyclerViewAdapter(List<Teacher> items){
         teachersList = items;
-        mListener = listener;
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
@@ -59,10 +58,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         switch(viewType){
             case TYPE_LOAD_MORE:
-                hasLoadMoreView = true;
                 return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.normal_refresh_footer, null));
-            case TYPE_NONE_VALUE:
-                return new NoValueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nothing, null));
             default:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_list_item, null);
                 return new NormalViewHolder(view);
@@ -77,15 +73,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     @Override
     public int getItemCount(){
         if(teachersList != null){
-            if(teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE && canLoadMore){
-                if(teachersList.size() % 2 == 0){
-                    return teachersList.size() + 1;
-                }else{
-                    return teachersList.size() + 2;
-                }
-            }else{
-                return teachersList.size();
-            }
+            return teachersList.size()+1;
         }else{
             return 0;
         }
@@ -94,14 +82,28 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     @Override
     public int getItemViewType(int position){
         int type = TYPE_NORMAL;
-        if(teachersList != null && canLoadMore && teachersList.size() >= TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE){
-            if(position == getItemCount() - 1){
-                type = TYPE_LOAD_MORE;
-            }else if(teachersList.size() % 2 != 0 && position == getItemCount() - 2){
-                type = TYPE_NONE_VALUE;
-            }
+        if (position==getItemCount()-1){
+            type = TYPE_LOAD_MORE;
         }
         return type;
+    }
+
+    /**
+     * //上拉加载更多
+     * PULLUP_LOAD_MORE=0;
+     * //正在加载中
+     * LOADING_MORE=1;
+     * //加载完成已经没有更多数据了
+     * NO_MORE_DATA=2;
+     * @param status
+     */
+    public void setMoreStatus(int status){
+        load_more_status=status;
+        notifyDataSetChanged();
+    }
+
+    public int getMoreStatus(){
+        return load_more_status;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -122,6 +124,12 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         @Bind(R.id.item_load_more_icon_loading)
         protected View iconLoading;
 
+        @Bind(R.id.iv_normal_refresh_footer_chrysanthemum)
+        protected ImageView ivProgress;
+
+        @Bind(R.id.tv_normal_refresh_footer_status)
+        protected TextView tvStatusText;
+
         protected LoadMoreViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -129,6 +137,30 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @Override
         protected void update(int position){
+            if (position<=2){
+                iconLoading.setVisibility(View.GONE);
+            }else{
+                iconLoading.setVisibility(View.VISIBLE);
+            }
+
+            switch (load_more_status){
+                case PULLUP_LOAD_MORE:
+                    tvStatusText.setText("上拉加载更多...");
+                    ivProgress.setVisibility(View.GONE);
+                    break;
+                case LOADING_MORE:
+                    tvStatusText.setText("加载中...");
+                    ivProgress.setVisibility(View.VISIBLE);
+                    break;
+                case NODATA_LOADING:
+                    tvStatusText.setText("到底了,没有更多数据了!");
+                    ivProgress.setVisibility(View.GONE);
+                    break;
+                case GONE_LOADING:
+                    //iconLoading.setVisibility(View.GONE);
+                    break;
+            }
+
         }
 
     }
@@ -186,12 +218,14 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 tags.setText(tagStr);
             }
             String imgUrl = teacher.getAvatar();
-            if (imgUrl != null && !imgUrl.equals("")) {
-
+            if (imgUrl != null && !imgUrl.isEmpty()) {
                 avater.setDefaultImageResId(R.drawable.user_detail_header_bg);
                 avater.setErrorImageResId(R.drawable.user_detail_header_bg);
                 avater.setImageUrl(imgUrl, mImageLoader);
-
+            }else{
+                avater.setDefaultImageResId(R.drawable.user_detail_header_bg);
+                avater.setErrorImageResId(R.drawable.user_detail_header_bg);
+                avater.setImageUrl("", mImageLoader);
             }
 
             String priceRange = "价格异常";
