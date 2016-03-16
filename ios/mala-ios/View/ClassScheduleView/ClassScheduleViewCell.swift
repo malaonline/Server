@@ -52,14 +52,6 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
         
         
         // SubViews
-
-        
-        // Autolayout
-        
-    }
-    
-    private func setSeparatorLine() {
-        // SubViews
         contentView.addSubview(separatorLine)
         
         // Autolayout
@@ -69,6 +61,11 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
             make.width.equalTo(contentView.snp_width).offset(2)
             make.height.equalTo(MalaScreenOnePixel)
         }
+        
+    }
+    
+    private func hideSeparatorLine(hide: Bool) {
+        separatorLine.hidden = hide
     }
     
     
@@ -76,9 +73,7 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
     override func setDate(date: NSDate!, calendar: NSCalendar!) {
         super.setDate(date, calendar: calendar)
         
-        if dayLabel.text != "" {
-            setSeparatorLine()
-        }
+        hideSeparatorLine(dayLabel.text == "")
     }
     
     override func prepareForReuse() {
