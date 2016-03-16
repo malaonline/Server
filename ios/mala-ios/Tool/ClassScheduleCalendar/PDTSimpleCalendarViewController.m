@@ -23,7 +23,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
-
+@property (nonatomic, strong) NSDateFormatter *weekdayheaderDateFormatter;
 
 // First and last date of the months based on the public properties first & lastDate
 @property (nonatomic) NSDate *firstDateMonth;
@@ -107,9 +107,19 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     if (!_headerDateFormatter) {
         _headerDateFormatter = [[NSDateFormatter alloc] init];
         _headerDateFormatter.calendar = self.calendar;
-        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"M/M" options:0 locale:self.calendar.locale];
+        _headerDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy LLLL" options:0 locale:self.calendar.locale];
     }
     return _headerDateFormatter;
+}
+
+- (NSDateFormatter *)weekdayheaderDateFormatter;
+{
+    if (!_weekdayheaderDateFormatter) {
+        _weekdayheaderDateFormatter = [[NSDateFormatter alloc] init];
+        _weekdayheaderDateFormatter.calendar = self.calendar;
+        _weekdayheaderDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"M/M" options:0 locale:self.calendar.locale];
+    }
+    return _weekdayheaderDateFormatter;
 }
 
 - (NSCalendar *)calendar
@@ -124,6 +134,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 {
     _calendar = calendar;
     self.headerDateFormatter.calendar = calendar;
+    self.weekdayheaderDateFormatter.calendar = calendar;
     self.daysPerWeek = [_calendar maximumRangeOfUnit:NSCalendarUnitWeekday].length;
 }
 
@@ -485,7 +496,7 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
     NSArray *sortedIndexPaths = [indexPaths sortedArrayUsingSelector:@selector(compare:)];
     NSIndexPath *firstIndexPath = [sortedIndexPaths firstObject];
 
-    self.overlayView.text = [self.headerDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
+    self.overlayView.text = [self.weekdayheaderDateFormatter stringFromDate:[self firstOfMonthForSection:firstIndexPath.section]];
 }
 
 - (void)hideOverlayView
