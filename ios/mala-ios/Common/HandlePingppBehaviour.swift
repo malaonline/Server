@@ -96,7 +96,7 @@ class HandlePingppBehaviour: NSObject {
             buttonText: "我知道了",
             iconImage: UIImage(named: "alert_PaymentFail")
         )
-        alert.addAction(popToRootViewController)
+        // alert.addAction(popToRootViewController)
     }
     
     ///  支付成功弹窗
