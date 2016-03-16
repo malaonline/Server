@@ -15,7 +15,7 @@ public class Number{
      * @return
      */
     public static String subZeroAndDot(double d){
-        String s = String.valueOf(d);
+        String s = String.format("%.2f",d);
         if(s.indexOf(".") > 0){
             s = s.replaceAll("0+?$", "");//去掉多余的0
             s = s.replaceAll("[.]$", "");//如最后一位是.则去掉
