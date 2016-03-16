@@ -101,25 +101,28 @@ $(function() {
                         var end = "[end='" + saDict[i].end + "']";
                         var selector = weekday + start + end;
                         // 根据不同的时段, 显示对应状态
+                                // 本老师时间不可用
                         if (!saDict[i].available ||
-                            (nowDate == $(selector).attr("date")
-                            && nowTime >= $(selector).attr("start"))) {
-                            // 不可用, 以及已经过去的时段
+                                // 或者该时段, 该学生有课
+                            $(selector).find("[data-action=course-content]").length > 0 ||
+                                // 或者该课程开始时间已过
+                            (nowDate == $(selector).attr("date") && nowTime >= $(selector).attr("start"))) {
+                            // 设置为 不可用 状态
                             $(selector).attr("available", false);
                             $(selector).css("background", "#ff8080"); // %50 红色
                             $(selector).css("display", "none");
-                            $(selector).attr("title", "不可用");
+                            $(selector).attr("title", "这个时段不可用");
                             $(selector).css("cursor", "no-drop");
-                            if (saDict[i].available && nowTime <= $(selector).attr("end")) {
-                                // 处理下当前的时间段为特殊颜色
+                            //
+                            if (nowDate == $(selector).attr("date") && nowTime <= $(selector).attr("end")) {
+                                // 开始时间已过, 但还未结束的时段
                                 $(selector).css("background", "#FFC080"); // 浅橙色
-                                $(selector).attr("title", "当前时段,不可用");
+                                $(selector).attr("title", "正在上课中时段");
                             }
                             $(selector).fadeIn();
                         } else {
                             // 可用时段
                             $(selector).attr("available", true);
-                            $(selector).html(courseContent);
                             $(selector).css("opacity", "0");
                             $(selector).css("background", "green"); // 绿色, 整体半透明
                             $(selector).css("color", "white");
@@ -127,9 +130,11 @@ $(function() {
                         }
                     }
                     $("[available=true]").mouseenter(function (e) {
+                        $(this).html(courseContent);
                         $(this).fadeTo(200, 0.5);
                     });
                     $("[available=true]").mouseleave(function (e) {
+                        $(this).html("");
                         $(this).fadeTo(50, 0);
                     });
                     $("[available=true]").click(function (e) {
@@ -164,6 +169,7 @@ $(function() {
     $("[data-action=cancel-transfer]").click(function (e) {
         // location.reload()
         // 恢复之前的状态
+        $("[available]").css("opacity", "1");
         $("[available]").css("cursor", "auto");
         $("[available]").css("background", "none");
         $("[available]").removeAttr("title");
