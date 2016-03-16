@@ -1761,6 +1761,49 @@ class TimeSlot(BaseModel):
         return True
 
 
+    def reschedule_for_transfer(self, new_start, new_end, user):
+        semaphore = posix_ipc.Semaphore(
+                'reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
+        semaphore.acquire()
+
+        # 0 代表成功
+        ret_code = 0
+        try:
+            with transaction.atomic():
+                # 首先, 校验这个课有没有冲突
+                # 筛选这个老师, 或者这个家长的有效课程, 并且时间与新课程时间一致, 应该是没有的才对
+                should_be_empty = TimeSlot.objects.filter(
+                    (Q(order__teacher=self.order.teacher) |
+                     Q(order__parent=self.order.parent)) &
+                    Q(deleted=False, start=new_start, end=new_end)
+                )
+                assert should_be_empty.count() == 0
+
+                # 校验成功
+                # 生成新的调课后课程, transferred_from 为最原始的课程(如果原课程已经被调过)
+                transferred_from = self.transferred_from if self.transferred_from is not None else self
+                new_timeslot = TimeSlot(
+                    order=self.order,
+                    start=new_start,
+                    end=new_end,
+                    transferred_from=transferred_from,
+                    last_updated_by=user
+                )
+                new_timeslot.save()
+                # 先把当前 slot 置为取消状态
+                self.deleted = True
+                self.save()
+        except IntegrityError as err:
+            logger.error(err)
+            ret_code = -1
+        except AssertionError as err:
+            logger.error(err)
+            ret_code = -2
+
+        semaphore.release()
+        return ret_code
+
+
 class Message(BaseModel):
     SYSTEM = 's'
     FINANCE = 'f'

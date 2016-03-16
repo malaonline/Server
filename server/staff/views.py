@@ -1274,18 +1274,20 @@ class StudentScheduleChangelogView(BaseStaffView):
 class StudentScheduleActionView(BaseStaffActionView):
     def post(self, request):
         action = self.request.POST.get('action')
-        if action == 'suspend-class':
-            return self.suspend_class(request)
+        if action == 'suspend-course':
+            return self.suspend_course(request)
         if action == 'view-available':
             return self.view_available(request)
+        if action == 'transfer-course':
+            return self.transfer_course(request)
         return HttpResponse("Not supported action.", status=404)
 
-    def suspend_class(self, request):
+    def suspend_course(self, request):
         tid = request.POST.get('tid')
         timeslot = models.TimeSlot.objects.get(id=tid)
         # 具体停课操作在里面
         if not timeslot.reschedule_for_suspend(self.request.user):
-            return JsonResponse({'ok': False, 'msg': '停课操作失败', 'code': 'suspend_transaction'})
+            return JsonResponse({'ok': False, 'msg': '停课失败, 请稍后重试或联系管理员', 'code': 'suspend_transaction'})
         return JsonResponse({'ok': True})
 
     def view_available(self, request):
@@ -1302,10 +1304,30 @@ class StudentScheduleActionView(BaseStaffActionView):
             ('available', sa_dict[(one[0], one[1], one[2])])
         ]) for one in sa_dict]
 
-        now_date = timezone.now().astimezone().strftime("%Y-%m-%d")
-        now_time = timezone.now().astimezone().strftime("%H:%M:%S")
+        now_date = timezone.now().astimezone().strftime('%Y-%m-%d')
+        now_time = timezone.now().astimezone().strftime('%H:%M:%S')
 
         return JsonResponse({'ok': True, 'sa_dict': data, 'now_date': now_date, 'now_time': now_time})
+
+    def transfer_course(self, request):
+        tid = request.POST.get('tid')
+        new_date_str = request.POST.get('new_date')
+        new_start_str = request.POST.get('new_start')
+        new_end_str = request.POST.get('new_end')
+        new_start_datetime = timezone.make_aware(
+            datetime.datetime.strptime(new_date_str + ' ' + new_start_str, '%Y-%m-%d %H:%M:%S')
+        )
+        new_end_datetime = timezone.make_aware(
+            datetime.datetime.strptime(new_date_str + ' ' + new_end_str, '%Y-%m-%d %H:%M:%S')
+        )
+        timeslot = models.TimeSlot.objects.get(id=tid)
+        ret_code = timeslot.reschedule_for_transfer(new_start_datetime, new_end_datetime, self.request.user)
+
+        if ret_code == -1:
+            return JsonResponse({'ok': False, 'msg': '调课失败, 请稍后重试或联系管理员', 'code': 'transfer_transaction'})
+        if ret_code == -2:
+            return JsonResponse({'ok': False, 'msg': '调课失败, 调整后的课程时间冲突, 请稍后重试或联系管理员', 'code': 'transfer_conflict'})
+        return JsonResponse({'ok': True})
 
 
 class SchoolsView(BaseStaffView):

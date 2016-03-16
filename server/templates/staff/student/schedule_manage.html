@@ -84,7 +84,7 @@
                                     </div>
                                     {% if query_data.week == 0 and not one_slot.is_complete%}
                                         <input type="button" class="form-control" data-action="view-available" tid="{{ one_slot.id }}" value="调课"/>
-                                        <input type="button" class="form-control" data-action="suspend-class" tid="{{ one_slot.id }}" value="停课"/>
+                                        <input type="button" class="form-control" data-action="suspend-course" tid="{{ one_slot.id }}" value="停课"/>
                                         <input type="button" class="form-control" data-action="cancel-transfer" style="display: none" tid="{{ one_slot.id }}" value="取消调课"/>
                                     {% endif %}
                                 {% endif %}

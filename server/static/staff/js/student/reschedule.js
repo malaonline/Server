@@ -23,10 +23,10 @@ $(function() {
     });
 
     // 停课操作
-    $("[data-action=suspend-class]").click(function(e){
+    $("[data-action=suspend-course]").click(function(e){
         if(confirm("确定停课?")) {
             var timeSlotId = $(this).attr("tid")
-            var params = {'action': 'suspend-class', 'tid': timeSlotId};
+            var params = {'action': 'suspend-course', 'tid': timeSlotId};
             $.post("/staff/students/schedule/action/", params, function (result) {
                 if (result) {
                     if (result.ok) {
@@ -43,12 +43,41 @@ $(function() {
         }
     });
 
+    var doTransfer = function(tid, newDate, newStart, newEnd) {
+        var params = {
+            'action': 'transfer-course',
+            'tid': tid,
+            'new_date': newDate,
+            'new_start': newStart,
+            'new_end': newEnd
+        };
+        $.post("/staff/students/schedule/action/", params, function (result) {
+            if (result) {
+                if (result.ok) {
+                    location.reload();
+                } else {
+                    alert(result.msg);
+                    // 请求失败刷新页面
+                    location.reload();
+                }
+                return;
+            }
+            alert(pagedefaultErrMsg);
+            // 请求失败刷新页面
+            location.reload();
+        }, 'json').fail(function () {
+            alert(pagedefaultErrMsg);
+            // 请求失败刷新页面
+            location.reload();
+        });
+    }
+
     // 调课按钮点击, 获取老师可用时间表
     $("[data-action=view-available]").click(function(e){
         var timeSlotId = $(this).attr("tid");
 
         $("[data-action=view-available]").hide();
-        $("[data-action=suspend-class]").hide();
+        $("[data-action=suspend-course]").hide();
         $("[data-action=cancel-transfer][tid=" + timeSlotId + "]").show();
 
         var contentElement = $("[data-action=course-content][tid=" + timeSlotId + "]");
@@ -81,7 +110,7 @@ $(function() {
                             $(selector).css("display", "none");
                             $(selector).attr("title", "不可用");
                             $(selector).css("cursor", "no-drop");
-                            if (nowTime <= $(selector).attr("end")) {
+                            if (saDict[i].available && nowTime <= $(selector).attr("end")) {
                                 // 处理下当前的时间段为特殊颜色
                                 $(selector).css("background", "#FFC080"); // 浅橙色
                                 $(selector).attr("title", "当前时段,不可用");
@@ -113,8 +142,12 @@ $(function() {
                             + oldStart + " - " + oldEnd + "\n\n"
                             + "调课后上课时间:\n" + newDate
                             + " 周" + newWeekday + " "
-                            + newStart + " - " + newEnd;
-                        alert(msg);
+                            + newStart + " - " + newEnd + "\n\n"
+                            + "确定调课吗?";
+                        if (confirm(msg)) {
+                            $("[available]").unbind();
+                            doTransfer(timeSlotId, newDate, newStart, newEnd);
+                        }
                     });
                 } else {
                     alert(result.msg);
@@ -138,7 +171,7 @@ $(function() {
         $("[available]").removeAttr("available");
         $(this).hide();
         $("[data-action=view-available]").fadeIn();
-        $("[data-action=suspend-class]").fadeIn();
+        $("[data-action=suspend-course]").fadeIn();
     });
 
     $(document).keyup(function (e) {
