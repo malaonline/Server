@@ -256,6 +256,7 @@ class CourseChoosingView(View):
             if trade_state == WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
                 set_order_paid(prepay_id=prepay_id)
+                send_pay_info_to_user(query_ret['data']['openid'], query_ret['data']['out_trade_no'])
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == WX_PAYERROR:
@@ -398,7 +399,7 @@ def send_template_msg(request):
         content = json.loads(tk.content.decode())
         token = content['token']
 
-        tmpmsg_url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + token
+        tmpmsg_url = WX_TPL_MSG_URL.format(token=token)
 
         ct = getContentData(request)
         ct['access_token'] = token
@@ -555,6 +556,40 @@ def template_msg_data_pay_info(request):
             }
         }
     }
+
+
+def send_pay_info_to_user(openid, order_no):
+    order = models.Order.objects.get(order_id=order_no)
+    data = {
+        "first": {
+            "value": "亲爱的家长，你好，你的课已经报名成功"
+        },
+        "keyword1": {
+            "value": order.subject.name
+        },
+        "keyword2": {
+            "value": order.teacher.name
+        },
+        "keyword3": {
+            "value": '课程费'
+        },
+        "keyword4": {
+            "value": order.parent.student_name
+        },
+        "keyword5": {
+            "value": "%.2f元"%(order.to_pay/100)
+        },
+        "remark": {
+            "value": '如有任何疑问，请拨打客服电话'+settings.SERVICE_SUPPORT_TEL
+        }
+    }
+    tpl_id = settings.WECHAT_PAY_INFO_TEMPLATE
+    access_token, msg = _get_wx_token()
+    ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
+    if 'msgid' in ret_json:
+        return ret_json['msgid']
+    return False
+
 
 
 @csrf_exempt

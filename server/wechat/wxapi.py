@@ -26,10 +26,12 @@ __all__ = [
     "wx_pay_unified_order",
     "wx_pay_order_query",
     "resolve_wx_pay_notify",
+    "wx_send_tpl_msg",
     "WX_SUCCESS",
     "WX_FAIL",
     "WX_PAYERROR",
     "WX_AUTH_URL",
+    "WX_TPL_MSG_URL",
     ]
 logger = logging.getLogger('app')
 _WX_PAY_UNIFIED_ORDER_LOG_FMT = 'weixin_pay_unified_order return: [{code}] {msg}.'
@@ -42,6 +44,8 @@ WX_FAIL = 'FAIL'
 WX_PAYERROR = 'PAYERROR'
 
 WX_AUTH_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+settings.WEIXIN_APPID
+# 微信模板消息
+WX_TPL_MSG_URL = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={token}'
 
 def make_nonce_str():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
@@ -282,3 +286,22 @@ def resolve_wx_pay_notify(request):
     out_trade_no = req_dict['out_trade_no']
     _set_charge_transaction_no(out_trade_no, transaction_id)
     return {'ok': True, 'msg': '', 'code': 0, 'data': req_dict}
+
+
+def wx_send_tpl_msg(token, tpl_id, openid, data, detail_url=''):
+    wx_url = WX_TPL_MSG_URL.format(token=token)
+    ct = {
+        'access_token': token,
+        'touser': openid,
+        'template_id': tpl_id,
+        'url': detail_url,
+        'topcolor': "#FF0000",
+        "data": data
+    }
+    resp = requests.post(wx_url, data=json.dumps(ct))
+    if resp.status_code == 200:
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        logger.debug(ret_json)
+    else:
+        ret_json = {'ok': False}
+    return ret_json
