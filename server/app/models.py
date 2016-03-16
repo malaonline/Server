@@ -749,7 +749,7 @@ class Photo(BaseModel):
 
 class Certificate(BaseModel):
     """
-    资质认证,身份认证用了两个记录(因为身份认证有手持照),判断是否通过认证用
+    身份认证用了两条记录(手持照和正面照), 因为身份认证有手持照, 判断是否通过认证以手持照记录为准, 正面照只是一个图片
     """
     ID_HELD = 1
     ID_FRONT = 2
