@@ -571,7 +571,7 @@ def send_pay_info_to_user(openid, order_no):
             "value": order.teacher.name
         },
         "keyword3": {
-            "value": '课程费'
+            "value": '课时费'
         },
         "keyword4": {
             "value": order.parent.student_name
