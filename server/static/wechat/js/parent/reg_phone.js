@@ -1,8 +1,10 @@
 $('.ext_btn_primary').click(function(){
   var itm = $('.ext_btn_primary');
   if(!itm.hasClass('ext_btn_disabled')){
-    if(checkMobile($('#phoneCode').val())){
+    if(checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined){
       itm.addClass('ext_btn_disabled');
+      TimeEvent.start();
+      $('.ext_btn_primary').html('60秒');
       getSMSFromServer();
     }else{
       itm.removeClass('ext_btn_disabled');
@@ -60,3 +62,25 @@ function checkSMS(){
     }
   );
 }
+var TimeEvent = {
+    duration: 60,
+    start:function(){
+        this.interval = setInterval((function(){
+            this.tick += 1;
+            if(this.tick >= this.duration){
+                clearInterval(this.interval);
+                this.interval = undefined;
+                this.tick = 0;
+                var getMsgBtn = $('.ext_btn_primary');
+                getMsgBtn.html("获取验证码");
+                getMsgBtn.removeClass('ext_btn_disabled');
+            }else{
+                $('.ext_btn_primary').html(this.rest_time() + "秒");
+            }
+        }).bind(this), 1000);
+    },
+    tick: 0,
+    rest_time: function(){
+        return this.duration - this.tick;
+    }
+};
