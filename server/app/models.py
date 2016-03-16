@@ -1750,9 +1750,9 @@ class TimeSlot(BaseModel):
                     last_updated_by=user
                 )
                 new_timeslot.save()
-                # 把老的课程停掉
-                old_timeslot.last_updated_by = user
-                old_timeslot.suspend()
+                # 把当前的课程停掉, 注意是 self, 不是 old_timeslot
+                self.last_updated_by = user
+                self.suspend()
         except IntegrityError as err:
             logger.error(err)
             semaphore.release()
