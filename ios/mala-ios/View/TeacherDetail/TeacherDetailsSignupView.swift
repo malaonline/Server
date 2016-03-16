@@ -30,12 +30,12 @@ class TeacherDetailsSignupView: UIView {
     private lazy var button: UIButton = {
         let button = UIButton(
             title: "马上报名",
-            titleColor: MalaDetailsButtonBlueColor,
+            titleColor: MalaColor_82B4D9_0,
             backgroundColor: UIColor(rgbHexValue: 0xFFFFFF, alpha: 0.95)
         )
         button.layer.cornerRadius = 5.0
         button.layer.masksToBounds = true
-        button.layer.borderColor = MalaDetailsButtonBorderColor.CGColor
+        button.layer.borderColor = MalaColor_E5E5E5_0.CGColor
         button.layer.borderWidth = 1.0
         button.addTarget(self, action: "buttonDidTap", forControlEvents: .TouchUpInside)
         return button
@@ -56,7 +56,7 @@ class TeacherDetailsSignupView: UIView {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        self.backgroundColor = MalaDetailsBottomViewColor
+        self.backgroundColor = MalaColor_F6F6F6_96
 
         // SubViews
         self.addSubview(topLine)

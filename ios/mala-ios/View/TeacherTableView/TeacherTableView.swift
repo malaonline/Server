@@ -49,7 +49,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
     private func configration() {
         delegate = self
         dataSource = self
-        backgroundColor = MalaTeacherCellBackgroundColor
+        backgroundColor = MalaColor_EDEDED_0
         estimatedRowHeight = 200
         separatorStyle = .None
         contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)

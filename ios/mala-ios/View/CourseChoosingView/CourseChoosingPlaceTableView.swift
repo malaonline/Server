@@ -40,7 +40,7 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Highlighted)
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
-        button.setTitleColor(MalaDetailsCellLabelColor, forState: .Normal)
+        button.setTitleColor(MalaColor_636363_0, forState: .Normal)
         button.setImage(UIImage(named: "dropArrow"), forState: .Normal)
         button.addTarget(self, action: "buttonDidTap:", forControlEvents: .TouchUpInside)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
@@ -106,7 +106,7 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         delegate = self
         dataSource = self
         scrollEnabled = false
-        separatorColor = MalaDetailsButtonBorderColor
+        separatorColor = MalaColor_E5E5E5_0
         backgroundColor = UIColor.whiteColor()
         registerClass(CourseChoosingPlaceTableViewCell.self, forCellReuseIdentifier: CourseChoosingPlaceTableViewCellReuseId)
         
@@ -174,14 +174,14 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
     /// 上课地点名称label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = MalaDetailsCellTitleColor
+        titleLabel.textColor = MalaColor_333333_0
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         return titleLabel
     }()
     /// 上课地点详细地址label
     private lazy var addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.textColor = MalaDetailsCellSubTitleColor
+        addressLabel.textColor = MalaColor_939393_0
         addressLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return addressLabel
     }()
@@ -189,7 +189,7 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
     private lazy var positionLabel: UILabel = {
         let positionLabel = UILabel()
         positionLabel.text = "未知"
-        positionLabel.textColor = MalaDetailsCellSubTitleColor
+        positionLabel.textColor = MalaColor_939393_0
         positionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         positionLabel.textAlignment = .Right
         return positionLabel

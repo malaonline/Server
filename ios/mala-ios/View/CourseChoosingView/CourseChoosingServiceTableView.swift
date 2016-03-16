@@ -32,7 +32,7 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
         delegate = self
         dataSource = self
         bounces = false
-        separatorColor = MalaDetailsButtonBorderColor
+        separatorColor = MalaColor_E5E5E5_0
         registerClass(CourseChoosingServiceTableViewCell.self, forCellReuseIdentifier: CourseChoosingServiceTableViewCellReuseId)
         
     }
@@ -106,7 +106,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        titleLabel.textColor = MalaAppearanceTextColor
+        titleLabel.textColor = MalaColor_WhiteColor
         return titleLabel
     }()
     /// 右箭头标示
@@ -118,14 +118,14 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        priceLabel.textColor = MalaDetailsCellTitleColor
+        priceLabel.textColor = MalaColor_333333_0
         return priceLabel
     }()
     /// 价格处理Label
     private lazy var priceHandleLabel: UILabel = {
         let priceHandleLabel = UILabel()
         priceHandleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        priceHandleLabel.textColor = MalaDetailsCellTitleColor
+        priceHandleLabel.textColor = MalaColor_333333_0
         return priceHandleLabel
     }()
     

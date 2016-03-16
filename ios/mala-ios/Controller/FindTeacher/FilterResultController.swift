@@ -31,7 +31,7 @@ class FilterResultController: UIViewController {
     }()
     private lazy var filterBar: FilterBar = {
         let filterBar = FilterBar(frame: CGRectZero)
-        filterBar.backgroundColor = MalaTeacherCellBackgroundColor
+        filterBar.backgroundColor = MalaColor_EDEDED_0
         filterBar.controller = self
         return filterBar
     }()
@@ -59,7 +59,7 @@ class FilterResultController: UIViewController {
     private func setupUserInterface() {
         // style
         self.title = MalaCommonString_FilterResult
-        self.view.backgroundColor = MalaTeacherCellBackgroundColor
+        self.view.backgroundColor = MalaColor_EDEDED_0
         self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
         
         // SubViews
@@ -193,7 +193,7 @@ class FilterBar: UIView {
     private lazy var gradeButton: UIButton = {
         let gradeButton = UIButton(
             title: "小学一年级",
-            borderColor: MalaFilterHeaderBorderColor,
+            borderColor: MalaColor_8FBCDD_0,
             target: self,
             action: "buttonDidTap:"
         )
@@ -203,7 +203,7 @@ class FilterBar: UIView {
     private lazy var subjectButton: UIButton = {
         let subjectButton = UIButton(
             title: "科  目",
-            borderColor: MalaFilterHeaderBorderColor,
+            borderColor: MalaColor_8FBCDD_0,
             target: self,
             action: "buttonDidTap:"
         )
@@ -213,7 +213,7 @@ class FilterBar: UIView {
     private lazy var styleButton: UIButton = {
         let styleButton = UIButton(
             title: "不  限",
-            borderColor: MalaFilterHeaderBorderColor,
+            borderColor: MalaColor_8FBCDD_0,
             target: self,
             action: "buttonDidTap:"
         )

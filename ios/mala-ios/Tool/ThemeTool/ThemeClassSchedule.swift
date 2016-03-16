@@ -159,9 +159,9 @@ class ThemeClassScheduleCell: UICollectionViewCell {
     lazy var button: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
-        button.setBackgroundImage(UIImage.withColor(MalaTeacherCellBackgroundColor), forState: .Disabled)
-        button.setBackgroundImage(UIImage.withColor(MalaClassScheduleSelectedColor), forState: .Selected)
-        button.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonNormalColor), forState: .Highlighted)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_EDEDED_0), forState: .Disabled)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_5), forState: .Selected)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Highlighted)
         button.userInteractionEnabled = false
         return button
     }()
@@ -179,7 +179,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         let startLabel = UILabel()
         startLabel.text = "00:00"
         startLabel.font = UIFont.systemFontOfSize(12)
-        startLabel.textColor = MalaDetailsCellSubTitleColor
+        startLabel.textColor = MalaColor_939393_0
         startLabel.backgroundColor = UIColor.clearColor()
         startLabel.hidden = true
         startLabel.textAlignment = .Center
@@ -190,7 +190,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         let endLabel = UILabel()
         endLabel.text = "00:00"
         endLabel.font = UIFont.systemFontOfSize(12)
-        endLabel.textColor = MalaDetailsCellSubTitleColor
+        endLabel.textColor = MalaColor_939393_0
         endLabel.backgroundColor = UIColor.clearColor()
         endLabel.hidden = true
         endLabel.textAlignment = .Center
@@ -213,7 +213,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        contentView.layer.borderColor = MalaLoginVerifyButtonNormalColor.CGColor
+        contentView.layer.borderColor = MalaColor_88BCDE_95.CGColor
         contentView.layer.borderWidth = MalaScreenOnePixel
         
         // SubViews

@@ -28,7 +28,7 @@ class ClassScheduleViewHeader: PDTSimpleCalendarViewHeader {
         backgroundColor = UIColor.lightGrayColor()
         separatorColor = UIColor.clearColor()
         textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        textColor = MalaDetailsCellTitleColor
+        textColor = MalaColor_333333_0
         titleLabel.textAlignment = .Center
     }
     

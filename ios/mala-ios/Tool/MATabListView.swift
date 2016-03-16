@@ -38,7 +38,7 @@ class MATabListView: UIView {
         for string in tags ?? [] {
             let label = UILabel(frame: CGRectZero)
             label.textAlignment = .Left
-            label.textColor = MalaDetailsCellLabelColor
+            label.textColor = MalaColor_636363_0
             label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
             label.text = string
             var size = (string as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(MalaLayout_FontSize_14)])

@@ -37,14 +37,14 @@ class PaymentChannelCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        titleLabel.textColor = MalaDetailsCellTitleColor
+        titleLabel.textColor = MalaColor_333333_0
         return titleLabel
     }()
     /// 支付方式描述
     private lazy var subTitleLabel: UILabel = {
         let subTitleLabel = UILabel()
         subTitleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        subTitleLabel.textColor = MalaAppearanceTextColor
+        subTitleLabel.textColor = MalaColor_WhiteColor
         return subTitleLabel
     }()
     /// 选择按钮

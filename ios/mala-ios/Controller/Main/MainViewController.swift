@@ -52,7 +52,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBar() {
-        tabBar.tintColor = MalaDetailsButtonBlueColor
+        tabBar.tintColor = MalaColor_82B4D9_0
         
         /// 首页
         let homeViewController = getNaviController(

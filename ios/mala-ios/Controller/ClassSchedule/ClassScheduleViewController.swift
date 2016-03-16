@@ -20,11 +20,11 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     private lazy var saveButton: UIButton = {
         let saveButton = UIButton(
             title: "今天",
-            titleColor: MalaDetailsButtonBlueColor,
+            titleColor: MalaColor_82B4D9_0,
             target: self,
             action: "scrollToToday"
         )
-        saveButton.setTitleColor(MalaLoginVerifyButtonDisableColor, forState: .Disabled)
+        saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
     }()
     

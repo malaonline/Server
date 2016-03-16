@@ -299,7 +299,7 @@ class JSSAlertView: UIViewController {
         
         // Title
         self.titleLabel = UILabel()
-        titleLabel.textColor = MalaDetailsCellSubTitleColor
+        titleLabel.textColor = MalaColor_939393_0
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = title.characters.count > 10 ? .Left : .Center
         titleLabel.font = UIFont(name: self.titleFont, size: 13)

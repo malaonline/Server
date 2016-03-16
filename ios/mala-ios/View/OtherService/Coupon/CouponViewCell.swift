@@ -75,14 +75,14 @@ class CouponViewCell: UITableViewCell {
         let moneySymbol = UILabel()
         moneySymbol.text = "￥"
         moneySymbol.font = UIFont.systemFontOfSize(MalaLayout_FontSize_17)
-        moneySymbol.textColor = MalaTeacherCellLevelColor
+        moneySymbol.textColor = MalaColor_E26254_0
         return moneySymbol
     }()
     /// 价格文本框
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_37)
-        priceLabel.textColor = MalaTeacherCellLevelColor
+        priceLabel.textColor = MalaColor_E26254_0
         //        priceLabel.backgroundColor = UIColor.lightGrayColor()
         return priceLabel
     }()
@@ -90,14 +90,14 @@ class CouponViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
-        titleLabel.textColor = MalaDetailsCellTitleColor
+        titleLabel.textColor = MalaColor_333333_0
         return titleLabel
     }()
     /// 描述文本框
     private lazy var descLabel: UILabel = {
         let descLabel = UILabel()
         descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
-        descLabel.textColor = MalaAppearanceTextColor
+        descLabel.textColor = MalaColor_WhiteColor
         descLabel.hidden = true
         return descLabel
     }()
@@ -105,7 +105,7 @@ class CouponViewCell: UITableViewCell {
     private lazy var statusLabel: UILabel = {
         let statusLabel = UILabel()
         statusLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
-        statusLabel.textColor = MalaTeacherCellLevelColor
+        statusLabel.textColor = MalaColor_E26254_0
         return statusLabel
     }()
     /// 选中效果箭头
@@ -152,7 +152,7 @@ class CouponViewCell: UITableViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        contentView.backgroundColor = MalaTeacherCellBackgroundColor
+        contentView.backgroundColor = MalaColor_EDEDED_0
         
         // SubViews
         contentView.addSubview(separatorView)
@@ -245,22 +245,22 @@ class CouponViewCell: UITableViewCell {
     
     ///  设置过期样式
     private func setStyleExpired() {
-        self.moneySymbol.textColor = MalaAppearanceTextColor
-        self.priceLabel.textColor = MalaAppearanceTextColor
-        self.titleLabel.textColor = MalaAppearanceTextColor
-        self.descLabel.textColor = MalaAppearanceTextColor
-        self.statusLabel.textColor = MalaAppearanceTextColor
+        self.moneySymbol.textColor = MalaColor_WhiteColor
+        self.priceLabel.textColor = MalaColor_WhiteColor
+        self.titleLabel.textColor = MalaColor_WhiteColor
+        self.descLabel.textColor = MalaColor_WhiteColor
+        self.statusLabel.textColor = MalaColor_WhiteColor
         self.content.image = UIImage(named: "scholarship_expired")
         self.statusLabel.text = "已过期"
     }
     
     ///  设置普通样式（包含可使用、已使用）
     private func setStyleNormal() {
-        self.moneySymbol.textColor = MalaTeacherCellLevelColor
-        self.priceLabel.textColor = MalaTeacherCellLevelColor
-        self.titleLabel.textColor = MalaDetailsCellTitleColor
-        self.descLabel.textColor = MalaAppearanceTextColor
-        self.statusLabel.textColor = MalaTeacherCellLevelColor
+        self.moneySymbol.textColor = MalaColor_E26254_0
+        self.priceLabel.textColor = MalaColor_E26254_0
+        self.titleLabel.textColor = MalaColor_333333_0
+        self.descLabel.textColor = MalaColor_WhiteColor
+        self.statusLabel.textColor = MalaColor_E26254_0
         self.content.image = UIImage(named: "scholarship_unused")
         self.statusLabel.text = ""
     }

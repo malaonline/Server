@@ -33,7 +33,7 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
         let button = UIButton()
         button.setTitle("距离您最近的社区中心", forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
-        button.setTitleColor(MalaDetailsCellLabelColor, forState: .Normal)
+        button.setTitleColor(MalaColor_636363_0, forState: .Normal)
         button.setImage(UIImage(named: "dropArrow"), forState: .Normal)        
         button.addTarget(self, action: "buttonDidTap", forControlEvents: .TouchUpInside)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
@@ -79,7 +79,7 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
         dataSource = self
         scrollEnabled = false
         estimatedRowHeight = 107
-        separatorColor = MalaDetailsButtonBorderColor
+        separatorColor = MalaColor_E5E5E5_0
         registerClass(TeacherDetailsSchoolsTableViewCell.self, forCellReuseIdentifier: TeacherDetailsSchoolsTableViewCellReuseId)
         
         // 若Cell尚未展开，则显示展开按钮
@@ -123,20 +123,20 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     }()
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = MalaDetailsCellTitleColor
+        titleLabel.textColor = MalaColor_333333_0
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         return titleLabel
     }()
     private lazy var addressLabel: UILabel = {
         let addressLabel = UILabel()
-        addressLabel.textColor = MalaDetailsCellSubTitleColor
+        addressLabel.textColor = MalaColor_939393_0
         addressLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return addressLabel
     }()
     private lazy var distanceLabel: UILabel = {
         let distanceLabel = UILabel()
         distanceLabel.text = "未知"
-        distanceLabel.textColor = MalaDetailsCellSubTitleColor
+        distanceLabel.textColor = MalaColor_939393_0
         distanceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         distanceLabel.textAlignment = .Right
         return distanceLabel

@@ -108,7 +108,7 @@ public class LegendView: UIView {
         
         button.setTitle(title, forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
-        button.setTitleColor(MalaDetailsCellSubTitleColor, forState: .Normal)
+        button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         
         button.sizeToFit()
         button.frame.origin.x = (currentX == MalaLayout_Margin_6 ? currentX : currentX+MalaLayout_Margin_12)

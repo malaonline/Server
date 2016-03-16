@@ -31,7 +31,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
     private lazy var appVersionLabel: UILabel = {
         let appVersionLabel = UILabel()
         appVersionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        appVersionLabel.textColor = MalaDetailsCellTitleColor
+        appVersionLabel.textColor = MalaColor_333333_0
         appVersionLabel.text = String(format: "版本 V%@", MalaConfig.aboutAPPVersion() ?? "1.0")
         return appVersionLabel
     }()
@@ -41,7 +41,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         copyrightLabel.textAlignment = .Center
         copyrightLabel.numberOfLines = 2
         copyrightLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
-        copyrightLabel.textColor = MalaDetailsCellSubTitleColor
+        copyrightLabel.textColor = MalaColor_939393_0
         copyrightLabel.text = MalaConfig.aboutCopyRightString()
         return copyrightLabel
     }()
@@ -61,13 +61,12 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         let aboutTextView = UILabel()
         aboutTextView.numberOfLines = 0
         aboutTextView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        aboutTextView.textColor = MalaDetailsCellSubTitleColor
+        aboutTextView.textColor = MalaColor_939393_0
         aboutTextView.text = MalaConfig.aboutDescriptionHTMLString()
-        aboutTextView.backgroundColor = MalaProfileBackgroundColor
+        aboutTextView.backgroundColor = MalaColor_F2F2F2_0
         aboutTextView
         return aboutTextView
     }()
-    
     
     
     // MARK: - Life Cycle
@@ -85,7 +84,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-        scrollView.backgroundColor = MalaProfileBackgroundColor
+        scrollView.backgroundColor = MalaColor_F2F2F2_0
         
         
         // SubViews

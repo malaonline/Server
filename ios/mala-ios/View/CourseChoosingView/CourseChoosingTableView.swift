@@ -93,7 +93,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     private func configration() {
         delegate = self
         dataSource = self
-        backgroundColor = MalaTeacherCellBackgroundColor
+        backgroundColor = MalaColor_EDEDED_0
         estimatedRowHeight = 400
         separatorStyle = .None
         bounces = false

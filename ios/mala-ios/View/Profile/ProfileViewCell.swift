@@ -39,9 +39,9 @@ class ProfileViewCell: UITableViewCell {
         self.selectionStyle = .None
         
         self.textLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        self.textLabel?.textColor = MalaDetailsCellLabelColor
+        self.textLabel?.textColor = MalaColor_636363_0
         
         self.detailTextLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        self.detailTextLabel?.textColor = MalaProfileCellDetailTextColor
+        self.detailTextLabel?.textColor = MalaColor_D4D4D4_0
     }
 }

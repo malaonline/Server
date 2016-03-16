@@ -20,19 +20,19 @@ class LoginViewController: UIViewController {
     /// 容器顶部装饰线
     private lazy var topSeparator: UIView = {
         let topSeparator = UIView()
-        topSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        topSeparator.backgroundColor = MalaColor_E5E5E5_0
         return topSeparator
     }()
     /// 容器中部装饰线
     private lazy var middleSeparator: UIView = {
         let middleSeparator = UIView()
-        middleSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        middleSeparator.backgroundColor = MalaColor_E5E5E5_0
         return middleSeparator
     }()
     /// 容器底部装饰线
     private lazy var bottomSeparator: UIView = {
         let bottomSeparator = UIView()
-        bottomSeparator.backgroundColor = MalaDetailsButtonBorderColor
+        bottomSeparator.backgroundColor = MalaColor_E5E5E5_0
         return bottomSeparator
     }()
     /// 手机图标
@@ -43,14 +43,14 @@ class LoginViewController: UIViewController {
     /// [获取验证码] 按钮
     private lazy var codeGetButton: UIButton = {
         let codeGetButton = UIButton()
-        codeGetButton.layer.borderColor = MalaLoginCodeGetButtonColor.CGColor
+        codeGetButton.layer.borderColor = MalaColor_8DBEDF_0.CGColor
         codeGetButton.layer.borderWidth = 1.0
         codeGetButton.layer.cornerRadius = 3.0
         codeGetButton.layer.masksToBounds = true
         codeGetButton.setTitle(" 获取验证码 ", forState: .Normal)
         codeGetButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        codeGetButton.setTitleColor(MalaLoginCodeGetButtonColor, forState: .Disabled)
-        codeGetButton.setBackgroundImage(UIImage.withColor(MalaLoginCodeGetButtonColor), forState: .Normal)
+        codeGetButton.setTitleColor(MalaColor_8DBEDF_0, forState: .Disabled)
+        codeGetButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Normal)
         codeGetButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Disabled)
         codeGetButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         codeGetButton.addTarget(self, action: "codeGetButtonDidTap", forControlEvents: .TouchUpInside)
@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
     private lazy var phoneError: UIButton = {
         let phoneError = UIButton()
         phoneError.setImage(UIImage(named: "error"), forState: .Normal)
-        phoneError.setTitleColor(MalaDetailsPriceRedColor, forState: .Normal)
+        phoneError.setTitleColor(MalaColor_E36A5D_0, forState: .Normal)
         phoneError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
         phoneError.setTitle("手机号错误", forState: .Normal)
         phoneError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
@@ -73,7 +73,7 @@ class LoginViewController: UIViewController {
         phoneTextField.keyboardType = .NumberPad
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        phoneTextField.textColor = MalaAppearanceTextColor
+        phoneTextField.textColor = MalaColor_WhiteColor
         phoneTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
         phoneTextField.clearButtonMode = .Never
         return phoneTextField
@@ -87,7 +87,7 @@ class LoginViewController: UIViewController {
     private lazy var codeError: UIButton = {
         let codeError = UIButton()
         codeError.setImage(UIImage(named: "error"), forState: .Normal)
-        codeError.setTitleColor(MalaDetailsPriceRedColor, forState: .Normal)
+        codeError.setTitleColor(MalaColor_E36A5D_0, forState: .Normal)
         codeError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
         codeError.setTitle("验证码错误", forState: .Normal)
         codeError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController {
     private lazy var codeTextField: UITextField = {
         let codeTextField = UITextField()
         codeTextField.keyboardType = .NumberPad
-        codeTextField.textColor = MalaAppearanceTextColor
+        codeTextField.textColor = MalaColor_WhiteColor
         codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         codeTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
         return codeTextField
@@ -110,8 +110,8 @@ class LoginViewController: UIViewController {
         verifyButton.layer.masksToBounds = true
         verifyButton.setTitle("验证", forState: .Normal)
         verifyButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        verifyButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonDisableColor), forState: .Disabled)
-        verifyButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonNormalColor), forState: .Normal)
+        verifyButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Disabled)
+        verifyButton.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Normal)
         verifyButton.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
         return verifyButton
     }()
@@ -141,7 +141,7 @@ class LoginViewController: UIViewController {
         // Style
         self.title = "验证"
         self.navigationController!.navigationBar.shadowImage = UIImage()
-        self.view.backgroundColor = MalaTeacherCellBackgroundColor
+        self.view.backgroundColor = MalaColor_EDEDED_0
         let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: "closeButtonDidClick"))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default

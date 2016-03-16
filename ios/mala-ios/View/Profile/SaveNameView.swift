@@ -27,15 +27,15 @@ class SaveNameView: UIView, UITextFieldDelegate {
         inputField.textAlignment = .Center
         inputField.placeholder = "请输入学生姓名"
         inputField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        inputField.textColor = MalaDetailsCellLabelColor
-        inputField.tintColor = MalaDetailsButtonBlueColor
+        inputField.textColor = MalaColor_636363_0
+        inputField.tintColor = MalaColor_82B4D9_0
         inputField.addTarget(self, action: "inputFieldDidChange", forControlEvents: .EditingChanged)
         return inputField
     }()
     /// 描述label
     private lazy var descLabel: UILabel = {
         let descLabel = UILabel()
-        descLabel.textColor = MalaDetailsCellSubTitleColor
+        descLabel.textColor = MalaColor_939393_0
         descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         descLabel.text = "请填写真实姓名，不得超过4个汉字"
         return descLabel
@@ -47,8 +47,8 @@ class SaveNameView: UIView, UITextFieldDelegate {
         finishButton.layer.masksToBounds = true
         finishButton.setTitle("完成", forState: .Normal)
         finishButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        finishButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonDisableColor), forState: .Disabled)
-        finishButton.setBackgroundImage(UIImage.withColor(MalaLoginVerifyButtonNormalColor), forState: .Normal)
+        finishButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Disabled)
+        finishButton.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Normal)
         finishButton.addTarget(self, action: "finishButtonDidTap", forControlEvents: .TouchUpInside)
         finishButton.enabled = false
         return finishButton
@@ -70,7 +70,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-        backgroundColor = MalaProfileBackgroundColor
+        backgroundColor = MalaColor_F2F2F2_0
         
         // SubViews
         addSubview(inputBackground)

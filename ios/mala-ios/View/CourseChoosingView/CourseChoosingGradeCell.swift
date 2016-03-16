@@ -152,7 +152,7 @@ class GradeSelectionCell: UICollectionViewCell {
     private lazy var button: UIButton = {
         let button = UIButton(
             title: "年级——价格",
-            borderColor: MalaFilterHeaderBorderColor,
+            borderColor: MalaColor_8FBCDD_0,
             target: self,
             action: "buttonDidTap:"
         )

@@ -42,11 +42,11 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         
         logoutButton.layer.cornerRadius = 5
         logoutButton.layer.masksToBounds = true
-        logoutButton.layer.borderColor = MalaDetailsButtonBorderColor.CGColor
+        logoutButton.layer.borderColor = MalaColor_E5E5E5_0.CGColor
         logoutButton.layer.borderWidth = MalaScreenOnePixel
         
         logoutButton.setTitle("退出登录", forState: .Normal)
-        logoutButton.setTitleColor(MalaDetailsButtonBlueColor, forState: .Normal)
+        logoutButton.setTitleColor(MalaColor_82B4D9_0, forState: .Normal)
         logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
          logoutButton.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0xE5E5E5, alpha: 0.3)), forState: .Highlighted)
         logoutButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
@@ -98,7 +98,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         // Style
         tableView.tableHeaderView = profileHeaderView
         tableView.tableFooterView = profileFooterView
-        tableView.backgroundColor = MalaProfileBackgroundColor
+        tableView.backgroundColor = MalaColor_F2F2F2_0
         
         // SubViews
         tableView.insertSubview(headerBackground, atIndex: 0)
@@ -159,7 +159,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     // MARK: - Delegate
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
-        view.backgroundColor = MalaProfileBackgroundColor
+        view.backgroundColor = MalaColor_F2F2F2_0
         return view
     }
     

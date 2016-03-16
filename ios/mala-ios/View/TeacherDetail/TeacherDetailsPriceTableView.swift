@@ -59,7 +59,7 @@ class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableVie
         dataSource = self
         scrollEnabled = false
         estimatedRowHeight = 60
-        separatorColor = MalaDetailsButtonBorderColor
+        separatorColor = MalaColor_E5E5E5_0
         registerClass(TeacherDetailsPriceTableViewCell.self, forCellReuseIdentifier: TeacherDetailsPriceTableViewCellReuseId)
     }
 }
@@ -82,14 +82,14 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     private lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
         subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        subjectLabel.textColor = MalaDetailsCellLabelColor
+        subjectLabel.textColor = MalaColor_636363_0
         return subjectLabel
     }()
     /// 价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(14)
-        priceLabel.textColor = MalaDetailsPriceRedColor
+        priceLabel.textColor = MalaColor_E36A5D_0
         return priceLabel
     }()
     /// 折扣label
@@ -101,12 +101,12 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     private lazy var signupButton: UIButton = {
         let signupButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 22))
         signupButton.setTitle("报名", forState: .Normal)
-        signupButton.setTitleColor(MalaDetailsButtonBlueColor, forState: .Normal)
+        signupButton.setTitleColor(MalaColor_82B4D9_0, forState: .Normal)
         signupButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         signupButton.layer.cornerRadius = 3.0
         signupButton.layer.masksToBounds = true
         signupButton.layer.borderWidth = MalaScreenOnePixel
-        signupButton.layer.borderColor = MalaDetailsButtonBlueColor.CGColor
+        signupButton.layer.borderColor = MalaColor_82B4D9_0.CGColor
         return signupButton
     }()
     

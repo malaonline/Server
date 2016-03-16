@@ -23,7 +23,7 @@ extension UIButton {
         self.init()
         titleLabel?.font = UIFont.systemFontOfSize(15)
         setTitle(title, forState: .Normal)
-        setTitleColor(MalaAppearanceTextColor, forState: .Normal)
+        setTitleColor(MalaColor_WhiteColor, forState: .Normal)
         if imageName != nil {
             setImage(UIImage(named: imageName!), forState: .Normal)
         }

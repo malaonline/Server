@@ -32,8 +32,8 @@ class InfoModifyViewController: UIViewController {
         let inputField = UITextField()
         inputField.textAlignment = .Center
         inputField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        inputField.textColor = MalaDetailsCellLabelColor
-        inputField.tintColor = MalaDetailsButtonBlueColor
+        inputField.textColor = MalaColor_636363_0
+        inputField.tintColor = MalaColor_82B4D9_0
         inputField.addTarget(self, action: "inputFieldDidChange", forControlEvents: .EditingChanged)
         return inputField
     }()
@@ -41,11 +41,11 @@ class InfoModifyViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let saveButton = UIButton(
             title: "保存",
-            titleColor: MalaDetailsButtonBlueColor,
+            titleColor: MalaColor_82B4D9_0,
             target: self,
             action: "saveChange"
         )
-        saveButton.setTitleColor(MalaLoginVerifyButtonDisableColor, forState: .Disabled)
+        saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
     }()
     
@@ -71,7 +71,7 @@ class InfoModifyViewController: UIViewController {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        self.view.backgroundColor = MalaProfileBackgroundColor
+        self.view.backgroundColor = MalaColor_F2F2F2_0
         
         // SubViews
         view.addSubview(inputBackground)

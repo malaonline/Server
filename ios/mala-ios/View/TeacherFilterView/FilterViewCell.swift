@@ -33,7 +33,7 @@ public class FilterViewCell: UICollectionViewCell {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         button.titleLabel?.textAlignment = .Center
-        button.setTitleColor(MalaDetailsCellSubTitleColor, forState: .Normal)
+        button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         button.setTitle("小学一年级", forState: .Normal)
         button.setImage(UIImage(named: "radioButton_normal"), forState: .Normal)
         button.setImage(UIImage(named: "radioButton_selected"), forState: .Selected)

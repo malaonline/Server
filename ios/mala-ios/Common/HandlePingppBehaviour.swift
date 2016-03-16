@@ -91,7 +91,7 @@ class HandlePingppBehaviour: NSObject {
             return
         }
         
-        let alert = JSSAlertView().show(currentViewController!,
+        _ = JSSAlertView().show(currentViewController!,
             title: "支付已取消",
             buttonText: "我知道了",
             iconImage: UIImage(named: "alert_PaymentFail")

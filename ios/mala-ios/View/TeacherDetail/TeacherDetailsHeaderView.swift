@@ -88,14 +88,14 @@ class TeacherDetailsHeaderView: UIView {
     /// 老师性别label
     private lazy var genderLabel: UILabel = {
         let label = UILabel()
-        label.textColor = MalaDetailsCellSubTitleColor
+        label.textColor = MalaColor_939393_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return label
     }()
     /// 价格label
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = MalaDetailsCellSubTitleColor
+        label.textColor = MalaColor_939393_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         return label
     }()

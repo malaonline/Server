@@ -24,7 +24,7 @@ class TeacherTableViewCell: UITableViewCell {
             let rangeLocation = (string as NSString).rangeOfString("元").location
             attrString.addAttribute(
                 NSForegroundColorAttributeName,
-                value: MalaDetailsButtonBlueColor,
+                value: MalaColor_82B4D9_0,
                 range: NSMakeRange(0, rangeLocation)
             )
             attrString.addAttribute(
@@ -34,7 +34,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSForegroundColorAttributeName,
-                value: MalaAppearanceTextColor,
+                value: MalaColor_WhiteColor,
                 range: NSMakeRange(rangeLocation, 4)
             )
             attrString.addAttribute(
@@ -76,13 +76,13 @@ class TeacherTableViewCell: UITableViewCell {
         let levelLabel = UILabel()
         levelLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_13)
         levelLabel.backgroundColor = UIColor.whiteColor()
-        levelLabel.textColor = MalaTeacherCellLevelColor
+        levelLabel.textColor = MalaColor_E26254_0
         return levelLabel
     }()
     /// 级别所在分割线
     private lazy var separator: UIView = {
         let separator = UIView()
-        separator.backgroundColor = MalaTeacherCellSeparatorColor
+        separator.backgroundColor = MalaColor_DADADA_0
         return separator
     }()
     /// 老师头像ImageView
@@ -100,14 +100,14 @@ class TeacherTableViewCell: UITableViewCell {
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)
-        priceLabel.textColor = MalaAppearanceTextColor
+        priceLabel.textColor = MalaColor_WhiteColor
         return priceLabel
     }()
     /// 风格标签label
     private lazy var tagsLabel: UILabel = {
         let tagsLabel = UILabel()
         tagsLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_11)
-        tagsLabel.textColor = MalaDetailsCellSubTitleColor
+        tagsLabel.textColor = MalaColor_939393_0
         return tagsLabel
     }()
     
@@ -126,7 +126,7 @@ class TeacherTableViewCell: UITableViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        contentView.backgroundColor = MalaTeacherCellBackgroundColor
+        contentView.backgroundColor = MalaColor_EDEDED_0
         
         // SubViews
         contentView.addSubview(content)

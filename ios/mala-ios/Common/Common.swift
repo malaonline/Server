@@ -35,33 +35,31 @@ let MalaErrorDetail_InvalidPage = "Invalid page"
 
 
 // MARK: - Appearance TintColor
-let MalaAppearanceTintColor = UIColor.whiteColor()
-let MalaAppearanceTextColor = UIColor(rgbHexValue: 0x6C6C6C, alpha: 1.0)
-let MalaTeacherCellBackgroundColor = UIColor(rgbHexValue: 0xEDEDED, alpha: 1.0)
-let MalaTeacherCellSeparatorColor = UIColor(rgbHexValue: 0xDADADA, alpha: 1.0)
-let MalaTeacherCellLevelColor = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
-let MalaDetailsCellTitleColor = UIColor(rgbHexValue: 0x333333, alpha: 1.0)
-let MalaDetailsCellLabelColor = UIColor(rgbHexValue: 0x636363, alpha: 1.0)
-let MalaDetailsCellSubTitleColor = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
-let MalaDetailsButtonBlueColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
-let MalaDetailsButtonBorderColor = UIColor(rgbHexValue: 0xE5E5E5, alpha: 1.0)
-let MalaDetailsBottomViewColor = UIColor(rgbHexValue: 0xF6F6F6, alpha: 0.96)
-let MalaDetailsPriceRedColor = UIColor(rgbHexValue: 0xE36A5D, alpha: 1.0)
-let MalaLoginPhonePlaceHolderColor = UIColor(rgbHexValue: 0xCECECE, alpha: 1.0)
-let MalaLoginCodeGetButtonColor = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
-let MalaLoginVerifyButtonDisableColor = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
-let MalaLoginVerifyButtonNormalColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.95)
-let MalaClassScheduleSelectedColor = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.50)
-let MalaFilterViewTagsTextColor = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
-let MalaFilterHeaderTextColor = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
-let MalaFilterHeaderBorderColor = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
-let MalaFilterPageControlColor = UIColor(rgbHexValue: 0xC7DEEE, alpha: 1.0)
-let MalaFilterPageControlSelectedColor = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
-let MalaProfileCellDetailTextColor = UIColor(rgbHexValue: 0xD4D4D4, alpha: 1.0)
-let MalaProfileBackgroundColor = UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
+let MalaColor_WhiteColor = UIColor.whiteColor()
+let MalaColor_6C6C6C_0 = UIColor(rgbHexValue: 0x6C6C6C, alpha: 1.0)
+let MalaColor_EDEDED_0 = UIColor(rgbHexValue: 0xEDEDED, alpha: 1.0)
+let MalaColor_DADADA_0 = UIColor(rgbHexValue: 0xDADADA, alpha: 1.0)
+let MalaColor_E26254_0 = UIColor(rgbHexValue: 0xE26254, alpha: 1.0)
+let MalaColor_333333_0 = UIColor(rgbHexValue: 0x333333, alpha: 1.0)
+let MalaColor_636363_0 = UIColor(rgbHexValue: 0x636363, alpha: 1.0)
+let MalaColor_939393_0 = UIColor(rgbHexValue: 0x939393, alpha: 1.0)
+let MalaColor_E5E5E5_0 = UIColor(rgbHexValue: 0xE5E5E5, alpha: 1.0)
+let MalaColor_F6F6F6_96 = UIColor(rgbHexValue: 0xF6F6F6, alpha: 0.96)
+let MalaColor_E36A5D_0 = UIColor(rgbHexValue: 0xE36A5D, alpha: 1.0)
+let MalaColor_CECECE_0 = UIColor(rgbHexValue: 0xCECECE, alpha: 1.0)
+let MalaColor_8DBEDF_0 = UIColor(rgbHexValue: 0x8DBEDF, alpha: 1.0)
+let MalaColor_E0E0E0_95 = UIColor(rgbHexValue: 0xE0E0E0, alpha: 0.95)
+let MalaColor_88BCDE_95 = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.95)
+let MalaColor_88BCDE_5 = UIColor(rgbHexValue: 0x88BCDE, alpha: 0.5)
+let MalaColor_9D9D9D_0 = UIColor(rgbHexValue: 0x9D9D9D, alpha: 1.0)
+let MalaColor_8BBADC_0 = UIColor(rgbHexValue: 0x8BBADC, alpha: 1.0)
+let MalaColor_8FBCDD_0 = UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0)
+let MalaColor_C7DEEE_0 = UIColor(rgbHexValue: 0xC7DEEE, alpha: 1.0)
+let MalaColor_82B4D9_0 = UIColor(rgbHexValue: 0x82B4D9, alpha: 1.0)
+let MalaColor_D4D4D4_0 = UIColor(rgbHexValue: 0xD4D4D4, alpha: 1.0)
+let MalaColor_F2F2F2_0 = UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
 let MalaColor_FFFFFF_9 = UIColor(rgbHexValue: 0xFFFFFF, alpha: 0.9)
-let MalaColor_4A4A4A_0 = UIColor(rgbHexValue: 0x4A4A4A, alpha: 0.9)
-//let MalaLegendTitleColor = UIColor(rgbHexValue: 0xC9C9C9, alpha: 1.0)
+let MalaColor_4A4A4A_0 = UIColor(rgbHexValue: 0x4A4A4A, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -154,7 +152,7 @@ let MalaScreenOnePixel = 1/UIScreen.mainScreen().scale
 // MARK: - Common TextAttribute
 public func commonTextStyle() -> [String: AnyObject]? {
     let AttributeDictionary = NSMutableDictionary()
-    AttributeDictionary[NSForegroundColorAttributeName] = MalaAppearanceTextColor
+    AttributeDictionary[NSForegroundColorAttributeName] = MalaColor_6C6C6C_0
     return AttributeDictionary.copy() as? [String : AnyObject]
 }
 

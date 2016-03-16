@@ -26,7 +26,7 @@ extension UILabel {
     ///  - returns: UILabel
     class func subTitleLabel() -> UILabel {
         let label = UILabel()
-        label.textColor = MalaDetailsCellSubTitleColor
+        label.textColor = MalaColor_939393_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         label.textAlignment = .Center
         return label

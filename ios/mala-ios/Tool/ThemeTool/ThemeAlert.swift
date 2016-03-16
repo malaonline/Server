@@ -72,13 +72,13 @@ public class ThemeAlert: UIViewController {
         let themeTitle = UILabel()
         themeTitle.font = UIFont(name: "PingFangSC", size: MalaLayout_FontSize_15)
         themeTitle.backgroundColor = UIColor.whiteColor()
-        themeTitle.textColor = MalaDetailsCellSubTitleColor
+        themeTitle.textColor = MalaColor_939393_0
         themeTitle.text = self.tTitle
         return themeTitle
     }()
     private lazy var separator: UIView = {
         let separator = UIView()
-        separator.backgroundColor = MalaTeacherCellSeparatorColor
+        separator.backgroundColor = MalaColor_DADADA_0
         return separator
     }()
     private lazy var contentContainer: UIView = {
@@ -90,8 +90,8 @@ public class ThemeAlert: UIViewController {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
         pageControl.numberOfPages = 3
-        pageControl.pageIndicatorTintColor = MalaFilterPageControlColor
-        pageControl.currentPageIndicatorTintColor = MalaFilterPageControlSelectedColor
+        pageControl.pageIndicatorTintColor = MalaColor_C7DEEE_0
+        pageControl.currentPageIndicatorTintColor = MalaColor_82B4D9_0
         
         // 添加横线
         let view = UIView()
@@ -102,7 +102,7 @@ public class ThemeAlert: UIViewController {
             make.height.equalTo(MalaScreenOnePixel)
             make.centerY.equalTo(pageControl.snp_centerY)
         }
-        view.backgroundColor = MalaFilterPageControlColor
+        view.backgroundColor = MalaColor_C7DEEE_0
         return pageControl
     }()
     

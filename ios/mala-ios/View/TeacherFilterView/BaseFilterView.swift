@@ -144,7 +144,7 @@ class FilterSectionHeaderView: UICollectionReusableView {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        titleLabel.textColor = MalaDetailsCellSubTitleColor
+        titleLabel.textColor = MalaColor_939393_0
         titleLabel.text = "小学"
         titleLabel.sizeToFit()
         return titleLabel

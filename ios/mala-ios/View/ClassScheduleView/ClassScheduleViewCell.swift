@@ -12,7 +12,7 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
 
     // MARK: - Property
     /// 分隔线颜色
-    var separatorLineColor: UIColor = MalaDetailsButtonBorderColor {
+    var separatorLineColor: UIColor = MalaColor_E5E5E5_0 {
         didSet {
             separatorLine.backgroundColor = separatorLineColor
         }
@@ -23,7 +23,7 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
     /// 分隔线
     private lazy var separatorLine: UIView = {
         let separatorLine = UIView()
-        separatorLine.backgroundColor = MalaDetailsButtonBorderColor
+        separatorLine.backgroundColor = MalaColor_E5E5E5_0
         return separatorLine
     }()
 
@@ -44,7 +44,7 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
     // MARK: - Private Method
     private func configure() {
         circleTodayColor = UIColor.orangeColor()
-        circleSelectedColor = MalaDetailsButtonBlueColor
+        circleSelectedColor = MalaColor_82B4D9_0
     }
     
     private func setupUserInterface() {

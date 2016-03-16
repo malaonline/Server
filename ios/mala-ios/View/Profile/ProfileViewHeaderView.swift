@@ -67,7 +67,7 @@ class ProfileViewHeaderView: UIView {
     /// 底部分隔视图
     private lazy var sectionView: UIView = {
         let sectionView = UIView()
-        sectionView.backgroundColor = MalaProfileBackgroundColor
+        sectionView.backgroundColor = MalaColor_F2F2F2_0
         return sectionView
     }()
     /// 头像刷新指示器

@@ -21,7 +21,7 @@ class PaymentBottomView: UIView {
     /// 确定按钮
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
-        confirmButton.backgroundColor = MalaTeacherCellLevelColor
+        confirmButton.backgroundColor = MalaColor_E26254_0
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_17)
         confirmButton.setTitle("支付", forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)

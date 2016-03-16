@@ -98,7 +98,7 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
     private lazy var admittedLabel: UILabel = UILabel.subTitleLabel()
     private lazy var separator: UIView = {
         let separatorLine = UIView()
-        separatorLine.backgroundColor = MalaDetailsButtonBorderColor
+        separatorLine.backgroundColor = MalaColor_E5E5E5_0
         return separatorLine
     }()
     
@@ -168,8 +168,8 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
         schoolLabel.text = titles[2]
         admittedLabel.text = titles[3]
         for view in self.contentView.subviews {
-            (view as? UILabel)?.textColor = MalaDetailsCellTitleColor
+            (view as? UILabel)?.textColor = MalaColor_333333_0
         }
-        self.contentView.backgroundColor = MalaDetailsBottomViewColor
+        self.contentView.backgroundColor = MalaColor_F6F6F6_96
     }
 }

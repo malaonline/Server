@@ -25,7 +25,7 @@ class AboutTitleView: UIView {
     private var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        titleLabel.textColor = MalaAppearanceTextColor
+        titleLabel.textColor = MalaColor_WhiteColor
         return titleLabel
     }()
     /// 左侧装饰线

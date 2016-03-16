@@ -79,7 +79,7 @@ class MalaBaseCell: UITableViewCell {
     /// 标题label
     lazy var title: UILabel = {
         let label = UILabel(title: MalaCommonString_Title)
-        label.textColor = MalaDetailsCellTitleColor
+        label.textColor = MalaColor_333333_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         return label
     }()
@@ -110,7 +110,7 @@ class MalaBaseCell: UITableViewCell {
     lazy var subTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
-        label.textColor = MalaDetailsCellSubTitleColor
+        label.textColor = MalaColor_939393_0
         label.textAlignment = .Right
         return label
     }()

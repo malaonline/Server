@@ -52,7 +52,7 @@ class CouponViewController: UITableViewController {
     // MARK: - Private Method
     private func configure() {
         title = "奖学金"
-        tableView.backgroundColor = MalaTeacherCellBackgroundColor
+        tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
         
         // leftBarButtonItem
