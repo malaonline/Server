@@ -131,8 +131,6 @@
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
-		F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
-		F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -174,7 +172,6 @@
 		F4402EC21C5A1A1800E7D3DB /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFF01C44A86200B37DD9 /* SchoolModel.swift */; };
 		F4402EC31C5A1A1800E7D3DB /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		F4402EC41C5A1A1800E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
-		F4402ECA1C5A1A1800E7D3DB /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */; };
 		F4402ECB1C5A1A1800E7D3DB /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
 		F4402ECC1C5A1A1800E7D3DB /* CourseChoosingGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */; };
 		F4402ECD1C5A1A1800E7D3DB /* CourseChoosingPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EF1C51DFD00048D93F /* CourseChoosingPlaceCell.swift */; };
@@ -267,6 +264,9 @@
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
 		F4B58F751C9822ED009B5B8D /* AboutTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */; };
+		F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */; };
+		F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */; };
+		F4B58F7D1C990274009B5B8D /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
 		F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
 		F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */; };
 		F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
@@ -440,7 +440,6 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -506,6 +505,9 @@
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
 		F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTitleView.swift; sourceTree = "<group>"; };
+		F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewCell.swift; sourceTree = "<group>"; };
+		F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewHeader.swift; sourceTree = "<group>"; };
+		F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshOption.swift; sourceTree = "<group>"; };
 		F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
 		F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
@@ -698,7 +700,8 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F4402D591C523BCE00E7D3DB /* MalaBaseCell.swift */,
+				F4B58F7B1C990274009B5B8D /* Base */,
+				F4B58F761C990247009B5B8D /* ClassScheduleView */,
 				F414FFEC1C916ACE0038D7A7 /* Profile */,
 				F40B53C61C83F96300C20037 /* PaymentView */,
 				F4C5C23A1C75CD4D00FB833B /* OtherService */,
@@ -1024,6 +1027,23 @@
 			path = Refresher;
 			sourceTree = "<group>";
 		};
+		F4B58F761C990247009B5B8D /* ClassScheduleView */ = {
+			isa = PBXGroup;
+			children = (
+				F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */,
+				F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */,
+			);
+			path = ClassScheduleView;
+			sourceTree = "<group>";
+		};
+		F4B58F7B1C990274009B5B8D /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		F4C5C23A1C75CD4D00FB833B /* OtherService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1311,7 +1331,6 @@
 				357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */,
 				3077884F1C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				F45871F91C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
-				F4402D5A1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
 				F45871ED1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
@@ -1369,7 +1388,6 @@
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
-				F4402D5B1C523BCE00E7D3DB /* MalaBaseCell.swift in Sources */,
 				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
 				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
@@ -1432,6 +1450,7 @@
 				F45E69DD1C8D278A00BD0859 /* ThemeAlert.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
+				F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */,
 				F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */,
 				F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */,
 				F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */,
@@ -1442,6 +1461,7 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
+				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
@@ -1458,6 +1478,7 @@
 				30445B1A1C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
 				F460650A1C96D363004056B1 /* AvatarPod.swift in Sources */,
+				F4B58F7D1C990274009B5B8D /* MalaBaseCell.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				F46065281C97B168004056B1 /* LoginViewController.swift in Sources */,
 				F45871F71C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
@@ -1552,7 +1573,6 @@
 				F4402EC21C5A1A1800E7D3DB /* SchoolModel.swift in Sources */,
 				F4402EC31C5A1A1800E7D3DB /* MemberServiceModel.swift in Sources */,
 				F4402EC41C5A1A1800E7D3DB /* ClassScheduleDayModel.swift in Sources */,
-				F4402ECA1C5A1A1800E7D3DB /* MalaBaseCell.swift in Sources */,
 				F4402ECB1C5A1A1800E7D3DB /* CourseChoosingTableView.swift in Sources */,
 				F4402ECC1C5A1A1800E7D3DB /* CourseChoosingGradeCell.swift in Sources */,
 				F4402ECD1C5A1A1800E7D3DB /* CourseChoosingPlaceCell.swift in Sources */,
