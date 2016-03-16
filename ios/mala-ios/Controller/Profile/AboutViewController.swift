@@ -24,7 +24,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
     /// 应用logoView
     private lazy var appLogoView: UIImageView = {
         let appLogoView = UIImageView()
-        appLogoView.image = UIImage(named: "applogo")
+        appLogoView.image = UIImage(named: "AppIcon60x60")
         return appLogoView
     }()
     /// 应用版本号label
@@ -32,7 +32,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         let appVersionLabel = UILabel()
         appVersionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         appVersionLabel.textColor = MalaDetailsCellTitleColor
-        appVersionLabel.text = String(format: "版本 V%.1f", MalaConfig.aboutAPPVersion())
+        appVersionLabel.text = String(format: "版本 V%@", MalaConfig.aboutAPPVersion() ?? "1.0")
         return appVersionLabel
     }()
     /// 版权信息label

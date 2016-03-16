@@ -37,8 +37,9 @@ public class MalaConfig {
         return 100
     }
     ///  app版本号
-    class func aboutAPPVersion() -> CGFloat {
-        return 1.0
+    class func aboutAPPVersion() -> String {
+        let version = String(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]!)
+        return version
     }
     ///  版权信息
     class func aboutCopyRightString() -> String {
