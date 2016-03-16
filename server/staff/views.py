@@ -910,9 +910,6 @@ class TeacherActionView(BaseStaffActionView):
                     if cert.type == models.Certificate.ID_HELD:
                         if cert.name is None or cert.name == '':
                             errmsg += '身份证不能为空，'
-                    elif cert.type == models.Certificate.ID_FRONT:
-                        if not cert.verified:
-                            errmsg += '身份证认证未通过，'
                     elif cert.type == models.Certificate.ACADEMIC:
                         if not cert.verified:
                             errmsg += '学历证认证未通过，'
