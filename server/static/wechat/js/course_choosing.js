@@ -451,8 +451,8 @@ $(function(){
                             $.post(location.pathname, verify_params, function(verify_ret){
                                 if (verify_ret) {
                                     if (verify_ret.ok) {
-                                        location.href = teacher_detail_page;
                                         //showAlertDialog('支付成功');
+                                        wx.closeWindow();
                                         return;
                                     } else {
                                         showAlertDialog(result.msg);
