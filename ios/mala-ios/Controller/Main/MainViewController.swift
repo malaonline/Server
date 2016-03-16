@@ -52,9 +52,31 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBar() {
-        addSubViewController(HomeViewController(), title: MalaCommonString_FindTeacher, imageName: "verifyCode")
-        addSubViewController(ClassScheduleViewController(), title: MalaCommonString_ClassSchedule, imageName: "schedule_normal")
-        addSubViewController(ProfileViewController(style: .Grouped), title: MalaCommonString_Profile, imageName: "profile_normal")
+        /// 首页
+        let homeViewController = getNaviController(
+            HomeViewController(),
+            title: MalaCommonString_FindTeacher,
+            imageName: "verifyCode"
+        )
+        
+        /// 课程表
+        var viewController = ClassScheduleViewController()
+        MalaConfig.setupClassSchedule(&viewController)
+        let classScheduleViewController = getNaviController(
+            viewController,
+            title: MalaCommonString_ClassSchedule,
+            imageName: "schedule_normal"
+        )
+        
+        /// 个人
+        let profileViewController = getNaviController(
+            ProfileViewController(style: .Grouped),
+            title: MalaCommonString_Profile,
+            imageName: "profile_normal"
+        )
+        
+        let viewControllers: [UIViewController] = [homeViewController, classScheduleViewController, profileViewController]
+        self.setViewControllers(viewControllers, animated: true)
     }
     
      ///  Convenience Function to Create SubViewControllers
@@ -63,11 +85,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
      ///  - parameter viewController: ViewController
      ///  - parameter title:          String for ViewController's Title
      ///  - parameter imageName:      String for ImageName
-    private func addSubViewController(viewController: UIViewController, title: String, imageName: String) {
+    private func getNaviController(viewController: UIViewController, title: String, imageName: String) -> UINavigationController {
         viewController.title = title
         viewController.tabBarItem.image = UIImage(named: imageName)
         let navigationController = MainNavigationController(rootViewController: viewController)
-        addChildViewController(navigationController)
+        return navigationController
     }
     
     

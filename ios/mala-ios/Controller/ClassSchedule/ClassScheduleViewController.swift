@@ -9,28 +9,33 @@
 import UIKit
 import PDTSimpleCalendar
 
-class ClassScheduleViewController: PDTSimpleCalendarViewController {
+private let ClassScheduleViewCellReuseID = "ClassScheduleViewCellReuseID"
+private let ClassScheduleViewHeaderReuseID = "ClassScheduleViewHeaderReuseID"
 
-    override func viewDidLoad() {
+public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate {
+
+    // MARK: - Life Cycle
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        configure()
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Private Method
+    private func configure() {
+        delegate = self
+        weekdayHeaderEnabled = true
+        
+        collectionView?.registerClass(ClassScheduleViewCell.self, forCellWithReuseIdentifier: ClassScheduleViewCellReuseID)
+        collectionView?.registerClass(ClassScheduleViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: ClassScheduleViewHeaderReuseID)
     }
-    */
-
+    
+    
+    // MARK: - Delegate
+    
 }
