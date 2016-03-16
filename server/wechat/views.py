@@ -89,6 +89,33 @@ class SchoolsView(ListView):
         )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(SchoolsView, self).get_context_data(**kwargs)
+        openid = self.request.GET.get("openid", None) or self.request.POST.get("openid", None)
+        server_timestamp = int(time.time())
+        nonce_str = make_nonce_str()
+        access_token, msg = _get_wx_token()
+        jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
+        cur_url = self.request.build_absolute_uri()
+
+        # signature = _jssdk_sign(cur_url)
+        signature = wx_signature({'noncestr': nonce_str,
+                            'jsapi_ticket': jsapi_ticket,
+                            'timestamp': server_timestamp,
+                            'url': cur_url})
+
+        context['WX_OPENID'] = openid
+        context['WX_APPID'] = settings.WEIXIN_APPID
+        context['WX_NONCE_STR'] = nonce_str
+        context['WX_SIGNITURE'] = signature
+        context['server_timestamp'] = server_timestamp
+
+        return context
+
+
+
+
+
 
 class SchoolDetailView(ListView):
     models = models.School

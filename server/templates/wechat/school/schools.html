@@ -38,4 +38,30 @@
 {% block addition_js %}
 {#    <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>#}
     <script type='text/javascript' src='{% static 'wechat/js/schools.js' %}' charset='utf-8'></script>
+    <script>
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
+            timestamp: {{ server_timestamp }}, // 必填，生成签名的时间戳
+            nonceStr: '{{ WX_NONCE_STR }}', // 必填，生成签名的随机串
+            signature: '{{ WX_SIGNITURE }}',// 必填，签名，见附录1
+            jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.error(function(res){
+            alert(res);
+        });
+    wx.ready(function(res){
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function(res){
+                    console.log(res)
+{#                    ajaxLoadSchool(res.latitude, res.longitude);#}
+                },
+                fail: function(res){
+                    alert('地理位置错误：'+res);
+                }
+            });
+        });
+
+    </script>
 {% endblock %}
