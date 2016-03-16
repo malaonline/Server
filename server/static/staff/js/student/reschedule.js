@@ -51,35 +51,70 @@ $(function() {
         $("[data-action=suspend-class]").hide();
         $("[data-action=cancel-transfer][tid=" + timeSlotId + "]").show();
 
+        var contentElement = $("[data-action=course-content][tid=" + timeSlotId + "]");
+        var courseElement = contentElement.closest("td");
+        var courseContent = contentElement.html();
+        var oldDate = courseElement.attr("date");
+        var oldWeekday = courseElement.attr("weekday");
+        var oldStart = courseElement.attr("start");
+        var oldEnd = courseElement.attr("end");
+
         var params = {'action': 'view-available', 'tid': timeSlotId};
         $.post("/staff/students/schedule/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     var saDict = result.sa_dict;
+                    var nowDate = result.now_date;
+                    var nowTime = result.now_time;
                     for (i in saDict) {
                         var weekday = "[weekday='" + saDict[i].weekday + "']";
                         var start = "[start='" + saDict[i].start + "']";
                         var end = "[end='" + saDict[i].end + "']";
                         var selector = weekday + start + end;
-                        if (!saDict[i].available) {
+                        // 根据不同的时段, 显示对应状态
+                        if (!saDict[i].available ||
+                            (nowDate == $(selector).attr("date")
+                            && nowTime >= $(selector).attr("start"))) {
+                            // 不可用, 以及已经过去的时段
                             $(selector).attr("available", false);
-                            $(selector).css("background", "pink");
+                            $(selector).css("background", "#ff8080"); // %50 红色
                             $(selector).css("display", "none");
+                            $(selector).attr("title", "不可用");
+                            $(selector).css("cursor", "no-drop");
+                            if (nowTime <= $(selector).attr("end")) {
+                                // 处理下当前的时间段为特殊颜色
+                                $(selector).css("background", "#FFC080"); // 浅橙色
+                                $(selector).attr("title", "当前时段,不可用");
+                            }
                             $(selector).fadeIn();
                         } else {
+                            // 可用时段
                             $(selector).attr("available", true);
+                            $(selector).html(courseContent);
                             $(selector).css("opacity", "0");
-                            $(selector).css("background", "green");
+                            $(selector).css("background", "green"); // 绿色, 整体半透明
+                            $(selector).css("color", "white");
+                            $(selector).css("cursor", "pointer");
                         }
                     }
                     $("[available=true]").mouseenter(function (e) {
-                        $(this).fadeTo(200, 1);
+                        $(this).fadeTo(200, 0.5);
                     });
                     $("[available=true]").mouseleave(function (e) {
                         $(this).fadeTo(50, 0);
                     });
                     $("[available=true]").click(function (e) {
-                        console.log($(this).attr("weekday"), $(this).attr("start"), $(this).attr("end"));
+                        var newDate = $(this).attr("date");
+                        var newWeekday = $(this).attr("weekday");
+                        var newStart = $(this).attr("start");
+                        var newEnd = $(this).attr("end");
+                        var msg = "原上课时间:\n" + oldDate
+                            + " 周" + oldWeekday + " "
+                            + oldStart + " - " + oldEnd + "\n\n"
+                            + "调课后上课时间:\n" + newDate
+                            + " 周" + newWeekday + " "
+                            + newStart + " - " + newEnd;
+                        alert(msg);
                     });
                 } else {
                     alert(result.msg);
@@ -94,12 +129,22 @@ $(function() {
 
     // 取消调课按钮点击
     $("[data-action=cancel-transfer]").click(function (e) {
-        //location.reload()
-        $("[available]").css("background", "none")
+        // location.reload()
+        // 恢复之前的状态
+        $("[available]").css("cursor", "auto");
+        $("[available]").css("background", "none");
+        $("[available]").removeAttr("title");
         $("[available]").unbind();
-        $("[available]").removeAttr("available")
+        $("[available]").removeAttr("available");
         $(this).hide();
         $("[data-action=view-available]").fadeIn();
         $("[data-action=suspend-class]").fadeIn();
+    });
+
+    $(document).keyup(function (e) {
+        // ESC 按键取消调课
+        if (e.keyCode == 27) {
+            $("[data-action=cancel-transfer]").click();
+        }
     });
 });

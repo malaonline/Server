@@ -54,8 +54,8 @@
                 {% for weekday_dict in weekdays %}
                     <th class="text-center" width="200">
                         {{ weekday_dict.weekday|weekday_format }}
-                        {{ weekday_dict.day|date:"m-d" }}
-                        {% if weekday_dict.day == today %}
+                        {{ weekday_dict.date|date:"m-d" }}
+                        {% if weekday_dict.date == today %}
                             (今天)
                         {% endif %}
                     </th>
@@ -69,10 +69,14 @@
                         <br/><br/><br/>
                     </td>
                     {% for weekday_dict in weekdays %}
-                        <td align="center" class="form-inline" weekday="{{ weekday_dict.weekday }}" start="{{ one_weekly_slot.start|time:"H:i:s" }}" end="{{ one_weekly_slot.end|time:"H:i:s" }}">
+                        <td align="center" class="form-inline"
+                            date="{{ weekday_dict.date|date:"Y-m-d" }}"
+                            weekday="{{ weekday_dict.weekday }}"
+                            start="{{ one_weekly_slot.start|time:"H:i:s" }}"
+                            end="{{ one_weekly_slot.end|time:"H:i:s" }}">
                             {% for one_slot in timeslots %}
-                                {% if one_slot.start.astimezone.time == one_weekly_slot.start and one_slot.start.astimezone.weekday|add:1 == weekday_dict.weekday %}
-                                    <div align="left">
+                                {% if one_slot.start.astimezone.time == one_weekly_slot.start and one_slot.start.astimezone.isoweekday == weekday_dict.weekday %}
+                                    <div align="left" data-action="course-content" tid="{{ one_slot.id }}">
                                         科目：{{ one_slot.order.subject }}<br/>
                                         老师：{{ one_slot.order.teacher.name }}<br/>
                                         手机：{{ one_slot.order.teacher.user.profile.phone }}<br/>

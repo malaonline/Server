@@ -1181,9 +1181,9 @@ class StudentScheduleManageView(BaseStaffView):
         weekdays = []
         for i in range(7):
             weekdays_dict = {}
-            time = start_search_time + datetime.timedelta(days=i)
-            weekdays_dict['weekday'] = time.weekday() + 1
-            weekdays_dict['day'] = time
+            date = start_search_time + datetime.timedelta(days=i)
+            weekdays_dict['weekday'] = date.weekday() + 1
+            weekdays_dict['date'] = date
             weekdays.append(weekdays_dict)
 
         # 只获取一周内数据
@@ -1302,7 +1302,10 @@ class StudentScheduleActionView(BaseStaffActionView):
             ('available', sa_dict[(one[0], one[1], one[2])])
         ]) for one in sa_dict]
 
-        return JsonResponse({'ok': True, 'sa_dict': data})
+        now_date = timezone.now().astimezone().strftime("%Y-%m-%d")
+        now_time = timezone.now().astimezone().strftime("%H:%M:%S")
+
+        return JsonResponse({'ok': True, 'sa_dict': data, 'now_date': now_date, 'now_time': now_time})
 
 
 class SchoolsView(BaseStaffView):
