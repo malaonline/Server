@@ -70,7 +70,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
-    private CourseDetailDialog(){
+    public CourseDetailDialog(){
     }
 
     public static CourseDetailDialog newInstance(ArrayList<Cource> courses) {

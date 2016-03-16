@@ -64,7 +64,7 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
         return cource;
     }
 
-    private CourseDetailFragment(){
+    public CourseDetailFragment(){
     }
 
     public static CourseDetailFragment newInstance(String courseSubId){
