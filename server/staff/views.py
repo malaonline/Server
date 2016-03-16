@@ -1659,9 +1659,9 @@ class OrderRefundActionView(BaseStaffActionView):
             models.Order.objects.refund(order, reason)
             return JsonResponse({'ok': True})
         except OrderStatusIncorrect as e:
-            return JsonResponse({'ok': False, 'msg': e})
+            return JsonResponse({'ok': False, 'msg': '%s' % e})
         except RefundError as e:
-            return JsonResponse({'ok': False, 'msg': e})
+            return JsonResponse({'ok': False, 'msg': '%s' % e})
 
     def refund_approve(self, request):
         order_id = request.POST.get('order_id')

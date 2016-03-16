@@ -1306,14 +1306,6 @@ class OrderManager(models.Manager):
                 # 短信通知老师
                 teacher = order.teacher
                 _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username':teacher.name}, 2)
-                # 回显给前端, 刚刚记录的退费信息内容
-                return JsonResponse({
-                    'ok': True,
-                    'remainingHours': record.remaining_hours,  # 剩余小时
-                    'refundHours': record.refund_hours,         # 退费小时
-                    'refundAmount': record.refund_amount/100,  # 退费金额
-                    'reason': record.reason  # 退费原因
-                })
         except IntegrityError as err:
             logger.error(err)
             raise RefundError('退费失败, 请稍后重试或联系管理员')
