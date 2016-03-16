@@ -658,8 +658,10 @@ data:
 ```
 {
     "id": 6,
+    "start": 12341234123,
     "end": 1457883000,
     "subject": "语文",
+    "school": "洛阳社区三店",
     "is_passed": false,
     "teacher": {
         "id": 20,
@@ -673,8 +675,10 @@ or
 ```
 {
     "id": 6,
+    "start": 12341234123,
     "end": 1457883000,
     "subject": "语文",
+    "school": "洛阳社区三店",
     "is_passed": false,
     "teacher": {
         "id": 20,

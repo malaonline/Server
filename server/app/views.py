@@ -661,6 +661,7 @@ class TimeSlotListSerializer(serializers.ModelSerializer):
 
 class TimeSlotSerializer(serializers.ModelSerializer):
     subject = SubjectNameSerializer()
+    start = serializers.SerializerMethodField()
     end = serializers.SerializerMethodField()
     teacher = TeacherShortSerializer()
     comment = CommentSerializer()
@@ -669,6 +670,9 @@ class TimeSlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TimeSlot
         fields = ('id', 'start', 'end', 'subject', 'school', 'is_passed', 'teacher', 'comment')
+
+    def get_start(self, obj):
+        return int(obj.start.timestamp())
 
     def get_end(self, obj):
         return int(obj.end.timestamp())
