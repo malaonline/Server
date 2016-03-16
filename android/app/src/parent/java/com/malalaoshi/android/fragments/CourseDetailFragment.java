@@ -11,10 +11,14 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,8 +54,15 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
     protected View loadingView;
     protected View loadFailedView;
 
+
     //本节课ID
     private String courceSubId;
+
+    private Cource cource = null;
+
+    public Cource getCource(){
+        return cource;
+    }
 
     private CourseDetailFragment(){
     }
@@ -118,12 +129,12 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
         NetworkSender.getCourseInfo(courceSubId, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                if (json!=null){
-                    //JsonUtil.parseStringData(json.toString(),)
-                    //if (!=null){
+                if (json != null) {
+                    cource = JsonUtil.parseStringData(json.toString(), Cource.class);
+                    if (cource != null) {
                         updateUI();
                         return;
-                    //}
+                    }
                 }
                 setLoadFailedUi();
             }
@@ -138,6 +149,24 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
     private void updateUI() {
         setLoadSucceedUi();
         //设置数据
+        SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(cource.getEnd());
+        if (calendarDay!=null){
+            tvCourseDate.setText(calendarDay.getYear()+"."+calendarDay.getMonth()+"."+calendarDay.getDay());
+        }
+        tvSubject.setText(cource.getSubject());
+
+        tvAddress.setText(cource.getSchool());
+
+        Calendar start = CalendarUtils.timestampToCalendar(cource.getStart());
+        Calendar end = CalendarUtils.timestampToCalendar(cource.getEnd());
+        if(start!=null&&end!=null){
+            String strStart = start.get(Calendar.HOUR)+":"+ start.get(Calendar.MINUTE);
+            String strEnd = end.get(Calendar.HOUR) +":" + end.get(Calendar.MINUTE);
+            tvTime.setText(strStart+"-"+strEnd);
+        }else{
+            tvTime.setText("时间异常");
+        }
+        //tvResidualClass;
     }
 
     @Override

@@ -53,14 +53,14 @@ public class CommentDialog extends DialogFragment{
     private static String ARGS_DIALOG_TEACHER_NAME   = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
     private static String ARGS_DIALOG_COURSE_NAME    = "course name";
-    private static String ARGS_DIALOG_COMMENT_ID     = "course_id";
+    private static String ARGS_DIALOG_COMMENT        = "comment";
     private static String ARGS_DIALOG_TIMESLOT       = "timeslot";
 
     private String teacherName;
     private String teacherAvatarUrl;
     private String courseName;
     private Long timeslot;
-    private String commentId;
+    private Comment comment;
 
     @Bind(R.id.iv_teacher_avater)
     CircleNetworkImage teacherAvater;
@@ -96,13 +96,13 @@ public class CommentDialog extends DialogFragment{
     //图片缓存
     private ImageLoader mImageLoader;
 
-    public static CommentDialog newInstance(String teacherName,String teacherAvatarUrl,String courseName, Long timeslot, String commentId) {
+    public static CommentDialog newInstance(String teacherName,String teacherAvatarUrl,String courseName, Long timeslot, Comment comment) {
         CommentDialog f = new CommentDialog();
         Bundle args = new Bundle();
         args.putString(ARGS_DIALOG_TEACHER_NAME, teacherName);
         args.putString(ARGS_DIALOG_TEACHER_AVATAR, teacherAvatarUrl);
         args.putString(ARGS_DIALOG_COURSE_NAME, courseName);
-        args.putString(ARGS_DIALOG_COMMENT_ID, commentId);
+        args.putParcelable(ARGS_DIALOG_COMMENT, comment);
         args.putLong(ARGS_DIALOG_TIMESLOT, timeslot);
         f.setArguments(args);
         return f;
@@ -115,7 +115,7 @@ public class CommentDialog extends DialogFragment{
         teacherName = getArguments().getString(ARGS_DIALOG_TEACHER_NAME,"");
         teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
         courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
-        commentId = getArguments().getString(ARGS_DIALOG_COMMENT_ID,"");
+        comment = getArguments().getParcelable(ARGS_DIALOG_COMMENT);
         timeslot = getArguments().getLong(ARGS_DIALOG_TIMESLOT, 0L);
         init();
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -144,16 +144,19 @@ public class CommentDialog extends DialogFragment{
         ButterKnife.bind(this, view);
         initViews();
         tvSubmit.setEnabled(false);
-        initDatas();
+        //initDatas();
         return view;
     }
 
 
     private void initViews() {
         //查看课程评价
-        if (commentId!=null&&!commentId.isEmpty()){
+        if (comment!=null){  //已评价
+            //不需要下载
+            updateLoadSuccessedUI();
             //查看课程评价
-            updateLoadingUI();
+            updateUI(comment);
+            //updateLoadingUI();
             //控件不可编辑
             editComment.setEnabled(false);
             ratingbar.setIsIndicator(true);
@@ -211,7 +214,7 @@ public class CommentDialog extends DialogFragment{
     }
 
     private void initDatas() {
-        if (commentId!=null&&!commentId.isEmpty()){
+        if (comment!=null){
             //开始下载
             loadDatas();
         }
@@ -219,7 +222,7 @@ public class CommentDialog extends DialogFragment{
 
     private void loadDatas() {
 
-        NetworkSender.getComment(commentId, new NetworkListener() {
+        NetworkSender.getComment("", new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
                 Comment comment = JsonUtil.parseStringData(json.toString(), Comment.class);

@@ -1,9 +1,12 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by kang on 16/3/7.
  */
-public class Comment {
+public class Comment implements Parcelable {
     private Long id;
     private Long timeslot;
     private Integer score;
@@ -51,4 +54,35 @@ public class Comment {
     public void setContent(String content) {
         this.content = content;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeValue(this.timeslot);
+        dest.writeValue(this.score);
+        dest.writeString(this.content);
+    }
+
+    protected Comment(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.timeslot = (Long) in.readValue(Long.class.getClassLoader());
+        this.score = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.content = in.readString();
+    }
+
+    public static final Parcelable.Creator<Comment> CREATOR = new Parcelable.Creator<Comment>() {
+        public Comment createFromParcel(Parcel source) {
+            return new Comment(source);
+        }
+
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
 }

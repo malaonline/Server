@@ -18,7 +18,47 @@ public class Cource implements Parcelable {
     private Integer id;
     private String subject;
     private boolean is_passed;
+    private Long start;
     private Long end;
+    private boolean is_commentted;
+    private String school;
+    private Teacher teacher;
+    private Comment comment;
+
+    public Cource() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public boolean is_passed() {
+        return is_passed;
+    }
+
+    public void setIs_passed(boolean is_passed) {
+        this.is_passed = is_passed;
+    }
+
+    public Long getStart() {
+        return start;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
+    }
 
     public Long getEnd() {
         return end;
@@ -28,27 +68,36 @@ public class Cource implements Parcelable {
         this.end = end;
     }
 
-    public void setIs_passed(boolean is_passed) {
-        this.is_passed = is_passed;
-    }
-    public boolean is_passed() {
-        return is_passed;
-    }
-    public Integer getId() {
-        return id;
+    public boolean is_commentted() {
+        return is_commentted;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIs_commentted(boolean is_commentted) {
+        this.is_commentted = is_commentted;
     }
 
-
-    public String getSubject() {
-        return subject;
+    public String getSchool() {
+        return school;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public static List<Cource> getCources(List<Cource> cources,SimpleMonthAdapter.CalendarDay data) {
@@ -76,6 +125,7 @@ public class Cource implements Parcelable {
         return mapCourse;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -86,17 +136,24 @@ public class Cource implements Parcelable {
         dest.writeValue(this.id);
         dest.writeString(this.subject);
         dest.writeByte(is_passed ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.start);
         dest.writeValue(this.end);
-    }
-
-    public Cource() {
+        dest.writeByte(is_commentted ? (byte) 1 : (byte) 0);
+        dest.writeString(this.school);
+        dest.writeParcelable(this.teacher, 0);
+        dest.writeParcelable(this.comment, flags);
     }
 
     protected Cource(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.subject = in.readString();
         this.is_passed = in.readByte() != 0;
+        this.start = (Long) in.readValue(Long.class.getClassLoader());
         this.end = (Long) in.readValue(Long.class.getClassLoader());
+        this.is_commentted = in.readByte() != 0;
+        this.school = in.readString();
+        this.teacher = in.readParcelable(Teacher.class.getClassLoader());
+        this.comment = in.readParcelable(Comment.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Cource> CREATOR = new Parcelable.Creator<Cource>() {

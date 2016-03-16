@@ -77,6 +77,26 @@ public class CalendarUtils {
         return calendarDay;
     }
 
+    public static Calendar timestampToCalendar(Long timestamp) {
+        if (timestamp==null) return null;
+        Calendar calendar = null;
+        //时间戳转化为Sting或Date
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d = format.format(timestamp * 1000);
+        try {
+            Date date = format.parse(d);
+            // 初始化 (重置) Calendar 对象
+            calendar = Calendar.getInstance();
+            // 或者用 Date 来初始化 Calendar 对象
+            calendar.setTime(date);
+           /* calendarDay = new SimpleMonthAdapter.CalendarDay();
+            calendarDay.setDay(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));*/
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar;
+    }
+
 
     /**
      * Format

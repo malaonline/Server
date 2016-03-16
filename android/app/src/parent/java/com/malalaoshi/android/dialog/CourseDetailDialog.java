@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.CourseDetailFragment;
 import com.malalaoshi.android.view.Indicator.RubberIndicator;
 
@@ -58,12 +59,13 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @Bind(R.id.course_viewpager)
     protected ViewPager CourseViewPager;
+    private FragmentGroupAdapter fragmentGroupAdapter;
 
     @Bind(R.id.course_rubber)
     protected RubberIndicator courseRubber;
 
     private int pagerIndex = 0;
-    private List<Cource> listCourses;
+    private List<Cource> listShortCourse;
 
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -86,9 +88,9 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 
         if (getArguments()!=null){
-            listCourses = getArguments().getParcelableArrayList(ARGS_FRAGEMENT_COURSE);
+            listShortCourse = getArguments().getParcelableArrayList(ARGS_FRAGEMENT_COURSE);
         }else{
-            listCourses = new ArrayList<>();
+            listShortCourse = new ArrayList<>();
         }
     }
 
@@ -118,15 +120,16 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     }
 
     private void initViews() {
-        CourseViewPager.setAdapter(new FragmentGroupAdapter(getContext(), getChildFragmentManager(), this));
+        fragmentGroupAdapter = new FragmentGroupAdapter(getContext(), getChildFragmentManager(), this);
+        CourseViewPager.setAdapter(fragmentGroupAdapter);
         CourseViewPager.addOnPageChangeListener(this);
-        if(listCourses.size()>1){
-            courseRubber.setCount(listCourses.size(), 0);
+        if(listShortCourse.size()>1){
+            courseRubber.setCount(listShortCourse.size(), 0);
         }else{
             courseRubber.setVisibility(View.GONE);
         }
 
-        Cource cource = listCourses.get(0);
+        Cource cource = listShortCourse.get(0);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -169,7 +172,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     public Fragment createFragment(int position) {
         Fragment fragment = fragments.get(position);
         if (fragment == null) {
-            fragment = CourseDetailFragment.newInstance(listCourses.get(position).getId() + "");
+            fragment = CourseDetailFragment.newInstance(listShortCourse.get(position).getId() + "");
         }
         fragments.put(position, fragment);
         return fragment;
@@ -177,7 +180,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @Override
     public int getFragmentCount() {
-        return listCourses.size();
+        return listShortCourse.size();
     }
 
 
@@ -190,7 +193,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     public void onPageSelected(int position) {
         pagerIndex = position;
         courseRubber.setFocusPosition(position);
-        Cource cource = listCourses.get(position);
+        Cource cource = listShortCourse.get(position);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -257,10 +260,14 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @OnClick(R.id.tv_commit)
     public void onClickCommit(View v){
-        Cource cource = listCourses.get(pagerIndex);
-        CommentDialog commentDialog = CommentDialog.newInstance("名字", "头像地址", cource.getSubject(), Long.valueOf(cource.getId()), "");
-        commentDialog.show(getFragmentManager(), CommentDialog.class.getName());
-        dismiss();
+        Cource currentCource = ((CourseDetailFragment) fragmentGroupAdapter.getItem(pagerIndex)).getCource();
+        if (currentCource!=null){
+            Teacher teacher = currentCource.getTeacher();
+            Cource cource = listShortCourse.get(pagerIndex);
+            CommentDialog commentDialog = CommentDialog.newInstance(teacher != null ? teacher.getName() : "", teacher != null ? teacher.getAvatar() : "", currentCource.getSubject(), Long.valueOf(currentCource.getId()), currentCource.getComment());
+            commentDialog.show(getFragmentManager(), CommentDialog.class.getName());
+            dismiss();
+        }
     }
 
 }

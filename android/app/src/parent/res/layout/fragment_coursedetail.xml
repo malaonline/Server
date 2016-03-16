@@ -90,6 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:layout_marginTop="11dp"

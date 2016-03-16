@@ -1,5 +1,8 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -184,5 +187,63 @@ public class Teacher extends BaseEntity {
                 '}';
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.avatar);
+        dest.writeString(this.gender);
+        dest.writeString(this.degree);
+        dest.writeParcelable(this.user, flags);
+        dest.writeValue(this.min_price);
+        dest.writeValue(this.max_price);
+        dest.writeValue(this.teaching_age);
+        dest.writeString(this.level);
+        dest.writeString(this.subject);
+        dest.writeString(this.grades_shortname);
+        dest.writeStringArray(this.grades);
+        dest.writeStringArray(this.tags);
+        dest.writeStringArray(this.photo_set);
+        dest.writeTypedList(achievement_set);
+        dest.writeList(this.highscore_set);
+        dest.writeTypedList(prices);
+    }
+
+    public Teacher() {
+    }
+
+    protected Teacher(Parcel in) {
+        super(in);
+        this.avatar = in.readString();
+        this.gender = in.readString();
+        this.degree = in.readString();
+        this.user = in.readParcelable(User.class.getClassLoader());
+        this.min_price = (Double) in.readValue(Double.class.getClassLoader());
+        this.max_price = (Double) in.readValue(Double.class.getClassLoader());
+        this.teaching_age = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.level = in.readString();
+        this.subject = in.readString();
+        this.grades_shortname = in.readString();
+        this.grades = in.createStringArray();
+        this.tags = in.createStringArray();
+        this.photo_set = in.createStringArray();
+        this.achievement_set = in.createTypedArrayList(Achievement.CREATOR);
+        this.highscore_set = new ArrayList<HighScore>();
+        in.readList(this.highscore_set, List.class.getClassLoader());
+        this.prices = in.createTypedArrayList(CoursePrice.CREATOR);
+    }
+
+    public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
+        public Teacher createFromParcel(Parcel source) {
+            return new Teacher(source);
+        }
+
+        public Teacher[] newArray(int size) {
+            return new Teacher[size];
+        }
+    };
 }
