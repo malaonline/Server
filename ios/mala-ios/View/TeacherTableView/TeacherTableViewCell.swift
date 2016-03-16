@@ -22,8 +22,26 @@ class TeacherTableViewCell: UITableViewCell {
             let string = String(format: "%@-%@元/小时", model!.min_price.money, model!.max_price.money)
             let attrString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             let rangeLocation = (string as NSString).rangeOfString("元").location
-            attrString.addAttribute(NSForegroundColorAttributeName, value: MalaDetailsButtonBlueColor, range: NSMakeRange(0, rangeLocation))
-            attrString.addAttribute(NSForegroundColorAttributeName, value: MalaAppearanceTextColor, range: NSMakeRange(rangeLocation, 4))
+            attrString.addAttribute(
+                NSForegroundColorAttributeName,
+                value: MalaDetailsButtonBlueColor,
+                range: NSMakeRange(0, rangeLocation)
+            )
+            attrString.addAttribute(
+                NSFontAttributeName,
+                value: UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_14)!,
+                range: NSMakeRange(0, rangeLocation)
+            )
+            attrString.addAttribute(
+                NSForegroundColorAttributeName,
+                value: MalaAppearanceTextColor,
+                range: NSMakeRange(rangeLocation, 4)
+            )
+            attrString.addAttribute(
+                NSFontAttributeName,
+                value: UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)!,
+                range: NSMakeRange(rangeLocation, 4)
+            )
             priceLabel.attributedText = attrString
             
             tagsLabel.text = model!.tags?.joinWithSeparator("｜")
@@ -38,7 +56,7 @@ class TeacherTableViewCell: UITableViewCell {
         view.backgroundColor = UIColor.whiteColor()
         return view
     }()
-    /// 授课类型label
+    /// 授课年级及科目label
     private lazy var courseLabel: UIButton = {
         let courseLabel = UIButton()
         courseLabel.setBackgroundImage(UIImage(named: "tagsTitle"), forState: .Normal)
@@ -49,14 +67,14 @@ class TeacherTableViewCell: UITableViewCell {
     /// 老师姓名label
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_17)
-        nameLabel.textColor = MalaDetailsCellTitleColor
+        nameLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_17)
+        nameLabel.textColor = MalaColor_4A4A4A_0
         return nameLabel
     }()
     /// 老师级别label
     private lazy var levelLabel: UILabel = {
         let levelLabel = UILabel()
-        levelLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_13)
+        levelLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_13)
         levelLabel.backgroundColor = UIColor.whiteColor()
         levelLabel.textColor = MalaTeacherCellLevelColor
         return levelLabel
@@ -81,15 +99,15 @@ class TeacherTableViewCell: UITableViewCell {
     /// 授课价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont(name: "PingFangSC", size: MalaLayout_FontSize_12)
+        priceLabel.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)
         priceLabel.textColor = MalaAppearanceTextColor
         return priceLabel
     }()
     /// 风格标签label
     private lazy var tagsLabel: UILabel = {
         let tagsLabel = UILabel()
-        tagsLabel.font = UIFont(name: "PingFangSC-Thin", size: MalaLayout_FontSize_11)
-        tagsLabel.textColor = MalaDetailsCellTitleColor
+        tagsLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_11)
+        tagsLabel.textColor = MalaDetailsCellSubTitleColor
         return tagsLabel
     }()
     
