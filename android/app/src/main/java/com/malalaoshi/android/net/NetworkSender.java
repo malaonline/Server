@@ -1,5 +1,7 @@
 package com.malalaoshi.android.net;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,7 +53,7 @@ public class NetworkSender {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private static final String URL_TIMES_LOTS_BY_ID = "/api/v1/timeslots/%s";
-    private static List<CouponEntity> couponList;
+    //private static List<CouponEntity> couponList;
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
     }
@@ -283,7 +285,7 @@ public class NetworkSender {
         httpPatch(String.format(URL_SAVE_CHILD_SCHOOL, parentId), params.toString(), listener);
     }
 
-    public static void setUserAvator(String strAvatorLocPath, NetworkListener networkListener) {
+    public static void setUserAvatar(String strAvatorLocPath, NetworkListener networkListener) {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         //headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
