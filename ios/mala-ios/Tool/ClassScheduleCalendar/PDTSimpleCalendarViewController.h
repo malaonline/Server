@@ -101,6 +101,17 @@
  */
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
 
+///  Public
+- (NSDate *)firstOfMonthForSection:(NSInteger)section;
+- (BOOL)isTodayDate:(NSDate *)date;
+- (NSDate *)dateForCellAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isSelectedDate:(NSDate *)date;
+- (NSInteger)sectionForDate:(NSDate *)date;
+- (BOOL)isEnabledDate:(NSDate *)date;
+- (void)refreshCellColors;
+
+
+
 @end
 
 

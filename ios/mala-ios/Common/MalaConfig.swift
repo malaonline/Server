@@ -71,13 +71,13 @@ public class MalaConfig {
         ///  月份头视图
         PDTSimpleCalendarViewHeader.appearance().textColor = MalaDetailsButtonBlueColor
         PDTSimpleCalendarViewHeader.appearance().textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        PDTSimpleCalendarViewHeader.appearance().separatorColor = MalaDetailsButtonBorderColor
+        PDTSimpleCalendarViewHeader.appearance().separatorColor = UIColor.clearColor()
         
         ///  日期视图
         PDTSimpleCalendarViewCell.appearance().circleDefaultColor = UIColor.whiteColor()
         PDTSimpleCalendarViewCell.appearance().circleSelectedColor = UIColor.orangeColor()
         PDTSimpleCalendarViewCell.appearance().circleTodayColor = UIColor.whiteColor()
-        PDTSimpleCalendarViewCell.appearance().textDefaultColor = MalaDetailsCellTitleColor
+        PDTSimpleCalendarViewCell.appearance().textDefaultColor = UIColor.blackColor()
         PDTSimpleCalendarViewCell.appearance().textSelectedColor = UIColor.whiteColor()
         PDTSimpleCalendarViewCell.appearance().textTodayColor = MalaDetailsButtonBlueColor
         PDTSimpleCalendarViewCell.appearance().textDisabledColor = UIColor.whiteColor()

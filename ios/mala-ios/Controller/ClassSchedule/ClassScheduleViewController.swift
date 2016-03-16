@@ -10,8 +10,9 @@ import UIKit
 
 private let ClassScheduleViewCellReuseID = "ClassScheduleViewCellReuseID"
 private let ClassScheduleViewHeaderReuseID = "ClassScheduleViewHeaderReuseID"
+private let kCalendarUnitYMD: NSCalendarUnit = [.Year, .Month, .Day]
 
-public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate {
+public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate, PDTSimpleCalendarViewCellDelegate {
 
 //    override 
     
@@ -38,7 +39,47 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     
     
     // MARK: - DataSource
-    
+    override public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ClassScheduleViewCellReuseID, forIndexPath: indexPath) as! ClassScheduleViewCell
+        cell.delegate = self
+        
+        let firstOfMonth = self.firstOfMonthForSection(indexPath.section)
+        let cellDate = self.dateForCellAtIndexPath(indexPath)
+        
+        let cellDateComponents = self.calendar.components(kCalendarUnitYMD, fromDate: cellDate)
+        let firstOfMonthsComponents = self.calendar.components(kCalendarUnitYMD, fromDate: firstOfMonth)
+
+        var isToday = false
+        var isSelected = false
+        var isCustomDate: Bool? = false
+        
+        if cellDateComponents.month == firstOfMonthsComponents.month {
+            isSelected = self.isSelectedDate(cellDate) && (indexPath.section == self.sectionForDate(cellDate))
+            isToday = self.isTodayDate(cellDate)
+            cell.setDate(cellDate, calendar: self.calendar)
+            
+            isCustomDate = self.delegate?.simpleCalendarViewController?(self, shouldUseCustomColorsForDate: cellDate)
+        }else {
+            cell.setDate(nil, calendar: nil)
+        }
+        
+        if isToday {
+            cell.isToday = isToday
+        }
+
+        if isSelected {
+            cell.selected = isSelected
+        }
+        
+        if self.isEnabledDate(cellDate) || (isCustomDate == true) {
+            cell.refreshCellColors()
+        }
+        
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
+
+        return cell
+    }
     
     
     // MARK: - Delegate

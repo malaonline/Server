@@ -10,12 +10,30 @@ import UIKit
 
 class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
 
+    // MARK: - Property
+    /// 分隔线颜色
+    var separatorLineColor: UIColor = MalaDetailsButtonBorderColor {
+        didSet {
+            separatorLine.backgroundColor = separatorLineColor
+        }
+    }
+    
+    
+    // MARK: - Components
+    /// 分隔线
+    private lazy var separatorLine: UIView = {
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = MalaDetailsButtonBorderColor
+        return separatorLine
+    }()
+
     
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         configure()
+        setupUserInterface()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,5 +45,44 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
     private func configure() {
         circleTodayColor = UIColor.orangeColor()
         circleSelectedColor = MalaDetailsButtonBlueColor
+    }
+    
+    private func setupUserInterface() {
+        // Style 
+        
+        
+        // SubViews
+
+        
+        // Autolayout
+        
+    }
+    
+    private func setSeparatorLine() {
+        // SubViews
+        contentView.addSubview(separatorLine)
+        
+        // Autolayout
+        separatorLine.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(contentView.snp_top)
+            make.centerX.equalTo(contentView.snp_centerX)
+            make.width.equalTo(contentView.snp_width).offset(2)
+            make.height.equalTo(MalaScreenOnePixel)
+        }
+    }
+    
+    
+    // MARK: - Override
+    override func setDate(date: NSDate!, calendar: NSCalendar!) {
+        super.setDate(date, calendar: calendar)
+        
+        if dayLabel.text != "" {
+            setSeparatorLine()
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        separatorLine.removeFromSuperview()
     }
 }

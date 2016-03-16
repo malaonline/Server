@@ -54,6 +54,9 @@
  */
 @interface PDTSimpleCalendarViewCell : UICollectionViewCell
 
+@property (nonatomic, strong) UILabel *dayLabel;
+@property (nonatomic, strong) NSDate *date;
+
 /**
  *  The delegate of the cell.
  *  Must adopt the `PDTSimpleCalendarViewCellDelegate` protocol.
