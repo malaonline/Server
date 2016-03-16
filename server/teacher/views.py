@@ -2161,7 +2161,7 @@ class WalletView(BaseTeacherView):
         if bankcards.count() > 0:
             bankcard = bankcards[0]
             context['bankcard'] = bankcard
-        histories = models.AccountHistory.objects.filter(account=account, done=True).order_by("-submit_time")
+        histories = models.AccountHistory.objects.filter(account=account, valid=True).order_by("-submit_time")
         # paginate
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
         context['histories'] = histories

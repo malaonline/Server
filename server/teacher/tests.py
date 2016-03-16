@@ -356,6 +356,10 @@ class TestWebPage(TestCase):
         # 提现界面
         self.check_page_accesibility("teacher:my-wallet-withdrawal")
 
+    def test_wallet(self):
+        # 我的钱包界面
+        self.check_page_accesibility("teacher:wallet")
+
     def test_withdrawal_request(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
