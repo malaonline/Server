@@ -809,52 +809,45 @@ class Account(BaseModel):
     用户(老师)财务账户
     """
     user = models.OneToOneField(User)
-    balance = models.PositiveIntegerField(default=0)
 
-    @property
-    def implicit_balance(self):
-        # 隐含的余额
-        AccountHistory = apps.get_model('app', 'AccountHistory')
-        ret = AccountHistory.objects.filter(
-                account=self, done=True).aggregate(models.Sum('amount'))
-        return ret['amount__sum'] or 0
+    # @property
+    # def implicit_balance(self):
+    #     # 隐含的余额,
+    #     AccountHistory = apps.get_model('app', 'AccountHistory')
+    #     ret = AccountHistory.objects.filter(
+    #             account=self, done=True).aggregate(models.Sum('amount'))
+    #     return ret['amount__sum'] or 0
 
     @property
     def calculated_balance(self):
         # 可用余额, 减去提现申请中的部分
-        sum = self.implicit_balance
-        sum -= self.withdrawing_amount
-        return max(sum, 0)
-
-    @property
-    def withdrawing_amount(self):
-        wding = Withdrawal.objects.filter(account=self, status=Withdrawal.PENDING).aggregate(models.Sum('amount'))
-        return wding['amount__sum'] or 0
+        return self.accounthistory_set.all().filter(valid=True).aggregate(models.Sum('amount'))["amount__sum"] or 0
 
     @property
     def withdrawable_amount(self):
         """
         可提现金额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
+        TODO: 这里计算有问题
         """
         now = timezone.localtime(timezone.now())
         end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
         end_day = end_day.replace(hour=0, minute=0, second=0, microsecond=0)
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
-                account=self, done=True).filter(
+                account=self).filter(
                         models.Q(submit_time__lt=end_day) | (
                             models.Q(submit_time__gte=end_day) & models.Q(
                                 amount__lt=0))).aggregate(models.Sum('amount'))
         sum = ret['amount__sum'] or 0
-        sum -= self.withdrawing_amount
+        # sum -= self.withdrawing_amount
         return max(sum, 0)
 
     @property
     def accumulated_income(self):
-        # 累计收入
+        # 累计收入,统计AccountHistory中大于0的记录,求和
         AccountHistory = apps.get_model('app', 'AccountHistory')
         ret = AccountHistory.objects.filter(
-                account=self, amount__gt=0, done=True).aggregate(
+                account=self, amount__gt=0, valid=True).aggregate(
                         models.Sum('amount'))
         sum = ret['amount__sum']
         return sum or 0
@@ -863,6 +856,7 @@ class Account(BaseModel):
     def anticipated_income(self):
         """
         预计收入, 完成未来所有课时后将会得到的金额
+        TODO: 这里需要重新计算
         :return:
         """
         Order = apps.get_model('app', 'Order')
@@ -911,6 +905,7 @@ class BankCodeInfo(BaseModel):
 
 
 class Withdrawal(BaseModel):
+    # 记录用户提现申请
     PENDING = 'u'
     APPROVED = 'a'
     REJECTED = 'r'
@@ -919,16 +914,13 @@ class Withdrawal(BaseModel):
         (APPROVED, '已通过'),
         (REJECTED, '已驳回')
     )
-    account = models.ForeignKey(Account)
-    amount = models.PositiveIntegerField()
+    # 这些字段都是无效的, account, amount, bankcard, submit_time, comment
     bankcard = models.ForeignKey(BankCard, null=True, blank=True)
     status = models.CharField(max_length=2,
                               choices=STATUS_CHOICES,
                               default=PENDING, )
-    submit_time = models.DateTimeField(auto_now_add=True)
     audit_by = models.ForeignKey(User, null=True, blank=True)
     audit_at = models.DateTimeField(null=True, blank=True)
-    comment = models.CharField(max_length=100, null=True, blank=True)
 
     @property
     def status_des(self):
@@ -941,25 +933,85 @@ class Withdrawal(BaseModel):
 
 
 class AccountHistory(BaseModel):
+    # 老师课程完成,就记录一条增值记录
+    # 钱转到银行卡,会记录一条减值记录
+    # 这里的记录都是被审核通过的记录
     account = models.ForeignKey(Account)
+    # 本条记录的收入具体金额,正表示入账(比如,老师上课后获得收入),负表示出账(比如,提现)
     amount = models.IntegerField()
-    bankcard = models.ForeignKey(
-            BankCard, null=True, blank=True, on_delete=models.SET_NULL)
     submit_time = models.DateTimeField(auto_now_add=True)
-    done = models.BooleanField(default=False)
-    # NOTE: done_by, done_at isn't in use
-    done_by = models.ForeignKey(User, related_name='processed_withdraws',
-                                null=True, blank=True)
-    done_at = models.DateTimeField(null=True, blank=True)
+    # 备注
     comment = models.CharField(max_length=100, null=True, blank=True)
-    timeslot = models.ForeignKey(
+    # 如果这条account history是从timeslot中转来的,就记录timeslot
+    timeslot = models.OneToOneField(
             'TimeSlot', null=True, blank=True, on_delete=models.SET_NULL)
-    withdrawal = models.ForeignKey(
+    # 如果这条account history是从withdrawal提现中创建出来的,就在模型中建立withdrawal外键
+    withdrawal = models.OneToOneField(
             Withdrawal, null=True, blank=True, on_delete=models.SET_NULL)
+    # 用来说明本条account_history是否参与求和或者其它统计运算,
+    # False表示因为提现或者其它原因,比如审核被驳回,这样就不参与求和和其它统计计算
+    valid = models.BooleanField(default=True)
+
+    def audit_withdrawal(self, approve: bool):
+        """
+        设置提现流程通过或者不通过,进行操作后,就不需要再save
+        :param approve: True,表示通过,False,表示不通过
+        :return: 没有返回
+        """
+        if approve:
+            # 审核通过
+            self.withdrawal.status = Withdrawal.APPROVED
+            self.valid = True
+            self.op_by_function = True
+        else:
+            # 审核不通过
+            self.withdrawal.status = Withdrawal.REJECTED
+            self.valid = False
+            self.op_by_function = True
+        self.save()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 用来检查,不可以裸写account history
+        if not hasattr(self, "op_by_function"):
+            raise Exception("不可以裸操作save函数,请用AccountHistory的指定函数来进行调用")
+        super().save()
 
     def __str__(self):
         return '%s %s : %s' % (self.account.user, self.amount,
                                'D' if self.done else '')
+
+    @staticmethod
+    def build_withdrawal_history(withdrawal: Withdrawal, account: Account, amount: int):
+        """
+        创建提现历史记录
+        :param withdrawal: 提现对象
+        :param account: 指定账户
+        :param amount: 提现金额,注意,这里金额必须为负
+        :return: 新的account_history
+        """
+        if amount > 0:
+            raise Exception("转账金额记录入AccountHistory必须为负")
+        new_acc_history = AccountHistory(account=account, withdrawal=withdrawal, amount=amount)
+        new_acc_history.op_by_function = True
+        new_acc_history.save()
+        return new_acc_history
+
+    @staticmethod
+    def build_timeslot_history(timeslot, account: Account, amount: int):
+        """
+        创建因为上课产生收入的记录
+        :param timeslot: 上课记录
+        :param account: 指定账户
+        :param amount: 存入金额,注意,这里的金额必须为正
+        :return:
+        """
+        if amount < 0:
+            raise Exception("上课报酬必须为正")
+        new_acc_history = AccountHistory(account=account, timeslot=timeslot, amount=amount)
+        new_acc_history.op_by_function = True
+        new_acc_history.save()
+        return new_acc_history
 
 
 class Feedback(BaseModel):

@@ -412,7 +412,7 @@ class FirstPage(BasicTeacherView):
             "comprehensive_evaluation": "{:2.1f}".format(gce.average_score()),
             "bad_review": gce.bad_commit_count(),
             "account_balance": self.account_balance(teacher),
-            "total_revenue": self.total_revenue(order_set),
+            "total_revenue": self.total_revenue(teacher),
             "teacher_level": self.teacher_level(),
             "information_complete_percent": self.information_complete_percent(teacher, profile)[0],
             "complete_url": self.complete_url(),
@@ -546,17 +546,14 @@ class FirstPage(BasicTeacherView):
 
     def account_balance(self, teacher: models.Teacher):
         # 账户余额
-        account_balance = teacher.safe_get_account().balance
-        return "¥{price}".format(price=account_balance)
+        account_balance = teacher.safe_get_account().calculated_balance/100
+        return "¥{:.2f}".format(account_balance)
 
-    def total_revenue(self, order_set):
+    def total_revenue(self, teacher: models.Teacher):
         # 累计收入
-        revenue = 0
-        for one_order in order_set:
-            if one_order.fit_statistical():
-                revenue += one_order.price * one_order.total
-        revenue = revenue / 10000
-        return "¥{revenue}万".format(revenue=revenue)
+        revenue = teacher.safe_get_account().accumulated_income
+        revenue = revenue / 100
+        return "¥{:.2f}".format(revenue)
 
     def teacher_level(self):
         # 教师等级
@@ -1356,8 +1353,8 @@ class WithdrawalRequest(BasicTeacherView):
                 # 如果TEST_WITHDRAW为True,则余额为0也可以转账.
                 if balance > 0 or settings.TEST_WITHDRAW:
                     withdraw = models.Withdrawal()
-                    withdraw.account = user.account
-                    withdraw.amount = balance
+                    # withdraw.account = user.account
+                    # withdraw.amount = balance
                     bankcard_list = user.account.bankcard_set.all()
                     if bankcard_list:
                         bankcard = bankcard_list[0]
@@ -1367,7 +1364,10 @@ class WithdrawalRequest(BasicTeacherView):
                             "verify": False, "msg": "没有可用的银行卡",
                         })
                     withdraw.save()
-                    request.session["withdraw_amount"] = withdraw.amount
+                    models.AccountHistory.build_withdrawal_history(withdrawal=withdraw,
+                                                                   account=user.account,
+                                                                   amount=-balance)
+                    request.session["withdraw_amount"] = balance
                     request.session["bank_name"] = bankcard.bank_name
                     request.session["bank_card_end_number"] = bankcard.mask_card_number()[-1]
                     request.session["expect_time"] = localtime(withdraw.submit_time + datetime.timedelta(days=2)).strftime("%Y-%m-%d %H:%M")
@@ -1467,7 +1467,7 @@ class MyWalletWithdrawalRecord(MyWalletBase):
     def record_list(self, teacher: models.Teacher):
         account = teacher.user.account
         result = []
-        for withdraw_item in models.Withdrawal.objects.filter(account=account).order_by("submit_time"):
+        for withdraw_item in models.Withdrawal.objects.filter(accounthistory__account=account).order_by("accounthistory__submit_time"):
             result.append([
                 localtime(withdraw_item.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
                 "¥%.2f" % (withdraw_item.amount/100),
