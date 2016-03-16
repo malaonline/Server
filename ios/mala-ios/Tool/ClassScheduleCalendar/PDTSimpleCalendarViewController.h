@@ -17,6 +17,9 @@
  */
 @interface PDTSimpleCalendarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
+///  星期数 视图
+@property (nonatomic, strong) PDTSimpleCalendarViewWeekdayHeader *weekdayHeader;
+
 /** @name Calendar Setup */
 
 /**
@@ -71,7 +74,6 @@
  */
 @property (nonatomic, assign) PDTSimpleCalendarViewWeekdayTextType weekdayTextType;
 
-
 /** @name Getting Notified of changes */
 
 /**
@@ -81,7 +83,6 @@
  *  @see PDTSimpleCalendarViewDelegate
  */
 @property (nonatomic, weak) id<PDTSimpleCalendarViewDelegate> delegate;
-
 
 /**
  *  Scroll to the current selected date in the calendar.

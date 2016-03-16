@@ -24,7 +24,6 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 @property (nonatomic, strong) UILabel *overlayView;
 @property (nonatomic, strong) NSDateFormatter *headerDateFormatter; //Will be used to format date in header view and on scroll.
 
-@property (nonatomic, strong) PDTSimpleCalendarViewWeekdayHeader *weekdayHeader;
 
 // First and last date of the months based on the public properties first & lastDate
 @property (nonatomic) NSDate *firstDateMonth;

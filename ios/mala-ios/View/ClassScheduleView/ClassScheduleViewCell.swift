@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import PDTSimpleCalendar
 
 class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
 

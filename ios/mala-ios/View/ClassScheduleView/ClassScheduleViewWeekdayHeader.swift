@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import PDTSimpleCalendar
 
 class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
 
@@ -29,7 +28,11 @@ class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
     
     // MARK: - Private
     private func setupUserInterface() {
+        // SubViews
+        
+        
+        // Autolayout
+        
         
     }
-
 }
