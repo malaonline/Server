@@ -1795,8 +1795,13 @@ class TimeSlot(BaseModel):
                 break
 
         if last_slot is None:
-            semaphore.release()
-            raise TimeSlotConflict()
+            # 找不到"这个老师"最后一个 weekday 和 start, end 的 time 相同的 slot
+            # 说明该课程肯定是调课过来的, 原始课程,即是最后一个 slot
+            if self.transferred_from:
+                last_slot = old_timeslot
+            else:  # 不是调来的, 肯定有问题
+                semaphore.release()
+                raise TimeSlotConflict()
 
         # 增加事务处理
         try:
