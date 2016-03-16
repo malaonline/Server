@@ -26,6 +26,7 @@ from app.pingpp import pingpp
 from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.algorithm import verify_sig
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 
 logger = logging.getLogger('app')
 
