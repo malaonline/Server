@@ -1760,7 +1760,6 @@ class TimeSlot(BaseModel):
         semaphore.release()
         return True
 
-
     def reschedule_for_transfer(self, new_start, new_end, user):
         semaphore = posix_ipc.Semaphore(
                 'reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
