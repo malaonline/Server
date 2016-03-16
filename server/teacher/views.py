@@ -178,6 +178,10 @@ class TeacherLogin(View):
         new_user = True
         try:
             profile = Profile.objects.get(phone=phone)
+            if not profile.user.groups.filter(name="老师").exists():
+                # 这是一个很罕见的手动修改数据库,导致数据破损的情况,这种情况为没有老师组的用户添加一个老师组
+                teacher_group = models.Group.objects.get(name="老师")
+                profile.user.groups.add(teacher_group)
         except Profile.DoesNotExist:
             # new user
             user = Teacher.new_teacher(phone)
