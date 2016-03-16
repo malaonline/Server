@@ -235,10 +235,10 @@ class TestWebPage(TestCase):
         hours = 5
         coupon = None
         # 创建订单
-        om = OrderManager()
         # TODO: 这个地方的OrderManager有问题
-        # new_order = om.create(parent, teacher, school, grade, subject, hours, coupon)
+        new_order = Order.objects.create(parent, teacher, school, grade, subject, hours, coupon)
         # 对订单进行退费
+
         for student_type in range(3):
             response = client.get(reverse("teacher:my-students", kwargs={
                 "student_type": student_type, "page_offset": 1
