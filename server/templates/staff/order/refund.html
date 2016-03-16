@@ -70,7 +70,7 @@
         <tr>
             <th>申请退费时间</th>
             <th>订单号</th>
-            <th>家长姓名</th>
+{#          <th>家长姓名</th>  #}
             <th>家长手机号</th>
             <th>学生姓名</th>
             <th>老师姓名</th>
@@ -93,7 +93,7 @@
             <!-- todo: 部分字段需要修改, 暂时显示替代数据 -->
 {# 申请时间 #}    <td>{{ order.refund_info.refunded_at|date:"Y/m/d H:i" }}</td>
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
-{# 家长姓名 #}    <td></td><!--{{ order.parent.user.username }} 先不显示-->
+{# 家长姓名 <td></td>{{ order.parent.user.username }} 先不显示 #}
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
