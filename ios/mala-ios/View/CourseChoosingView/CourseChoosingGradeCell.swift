@@ -122,6 +122,7 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
         dataSource = self
         delegate = self
         backgroundColor = UIColor.whiteColor()
+        scrollEnabled = false
         
         registerClass(GradeSelectionCell.self, forCellWithReuseIdentifier: GradeSelectionCellReuseId)
     }
