@@ -274,6 +274,14 @@ class SchoolSerializer(serializers.ModelSerializer):
                   'longitude', 'latitude',)
 
 
+class SchoolNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.School
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
+
+
 class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.School.objects.all()
     serializer_class = SchoolSerializer
@@ -645,7 +653,7 @@ class TimeSlotListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.TimeSlot
-        fields = ('id', 'end', 'subject', 'is_passed',)
+        fields = ('id', 'end', 'subject', 'is_passed', 'is_commented')
 
     def get_end(self, obj):
         return int(obj.end.timestamp())
@@ -656,10 +664,11 @@ class TimeSlotSerializer(serializers.ModelSerializer):
     end = serializers.SerializerMethodField()
     teacher = TeacherShortSerializer()
     comment = CommentSerializer()
+    school = SchoolNameSerializer()
 
     class Meta:
         model = models.TimeSlot
-        fields = ('id', 'end', 'subject', 'is_passed', 'teacher', 'comment')
+        fields = ('id', 'start', 'end', 'subject', 'school', 'is_passed', 'teacher', 'comment')
 
     def get_end(self, obj):
         return int(obj.end.timestamp())

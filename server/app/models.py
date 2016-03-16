@@ -1711,6 +1711,14 @@ class TimeSlot(BaseModel):
         return False
 
     @property
+    def is_commented(self):
+        return self.comment is not None
+
+    @property
+    def school(self):
+        return self.order.school
+
+    @property
     def subject(self):
         return self.order.subject
 
