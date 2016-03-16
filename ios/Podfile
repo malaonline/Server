@@ -10,7 +10,7 @@ pod 'SnapKit', '~> 0.18.0'
 pod 'Kingfisher', '~> 1.8.5'
 pod 'IQKeyboardManagerSwift', '~> 3.3.6'
 pod 'DateTools', '~> 1.7.0'
-pod 'PDTSimpleCalendar', '~> 0.9.1'
+#pod 'ClassScheduleCalendar', :git => 'https://github.com/Elors/PDTSimpleCalendar.git'
 
 pod 'UMengAnalytics-NO-IDFA'
 
