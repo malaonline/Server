@@ -8,7 +8,7 @@ from django.utils.timezone import make_aware
 from django.conf import settings
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot, Ability, Highscore
-from app.models import Tag, Certificate, Achievement, Account, Checkcode
+from app.models import Tag, Certificate, Achievement, Account, Checkcode, OrderManager, Price, Level
 from teacher.views import FirstPage, split_list
 from teacher.views import information_complete_percent
 from teacher.management.commands import create_fake_order
@@ -94,6 +94,7 @@ class TestWebPage(TestCase):
         teacher.save()
         teacher_account = Account(user=teacher_user)
         teacher_account.save()
+        # 为老师创建能力
         grade = Grade.objects.get(name="高三")
         subject = Subject.objects.get(name="英语")
         ability = Ability.objects.get(grade=grade, subject=subject)
@@ -107,8 +108,15 @@ class TestWebPage(TestCase):
         # 设置区域
         other_region = Region.objects.get(name="其他")
         teacher.region = other_region
+        # 设置老师级别
+        teacher_level = Level.objects.all()[0]
+        teacher.level = teacher_level
+        # 为老师创建对应价格
+        price = Price(region=other_region, ability=ability, level=teacher_level,
+                      price=1, salary=2, commission_percentage=3)
+        price.save()
         # 设置老师名称
-        teacher.name = "单元测试老师"
+        teacher.name = self.teacher_name
         teacher.save()
         # 创建家长
         parent_user = User.objects.create(username=self.parent_name)
@@ -128,6 +136,8 @@ class TestWebPage(TestCase):
                         address="逗比路", region=Region.objects.get(name="其他"),
                         center=True, longitude=0, latitude=0, opened=False)
         school.save()
+        # 为老师添加学校
+        teacher.schools.add(school)
         order = Order(parent=parent, teacher=teacher, school=school,
                       grade=Grade.objects.get(name="一年级"),
                       subject=Subject.objects.get(name="数学"),
@@ -208,9 +218,27 @@ class TestWebPage(TestCase):
         self.assertEqual(1, len(time_slot_data["20151230"]))
         self.assertEqual(response.status_code, 200)
 
+    def the_parent(self):
+        return User.objects.get(username=self.parent_name).parent
+
+    def the_teacher(self):
+        return User.objects.get(username=self.teacher_name).teacher
+
     def test_my_students(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
+        teacher = self.the_teacher()
+        parent = self.the_parent()
+        school = teacher.schools.all()[0]
+        grade = teacher.abilities.all()[0].grade
+        subject = teacher.abilities.all()[0].subject
+        hours = 5
+        coupon = None
+        # 创建订单
+        om = OrderManager()
+        # TODO: 这个地方的OrderManager有问题
+        # new_order = om.create(parent, teacher, school, grade, subject, hours, coupon)
+        # 对订单进行退费
         for student_type in range(3):
             response = client.get(reverse("teacher:my-students", kwargs={
                 "student_type": student_type, "page_offset": 1

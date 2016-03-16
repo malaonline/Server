@@ -1181,7 +1181,8 @@ class OrderManager(models.Manager):
 
         order_id = orderid()
 
-        order = super(OrderManager, self).create(
+
+        order = super().create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours,
                 total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)

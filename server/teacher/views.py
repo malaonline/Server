@@ -989,6 +989,12 @@ class MyStudents(BasicTeacherView):
         """
         # 先获得不同学生在这个老师下的最新订单
         student_list = models.Parent.objects.filter(order__teacher=teacher)
+        write = logger.info
+        write("==============")
+        write("当前老师的所有学生: {student_list}".format(student_list=
+            ", ".join(["{name}({id})".format(
+                name=one_student.student_name, id=one_student.pk) for one_student in student_list]))
+        )
         refund_count = 0
         session_count = 0
         current_count = 0
@@ -1002,6 +1008,10 @@ class MyStudents(BasicTeacherView):
                 refund_count += 1
                 if student_type == 2:
                     page_student_list.append((one_student, the_order))
+                    logger.info("退费学生:{name} [{phone}], {created_at}".format(
+                        name=one_student.student_name, phone=one_student.user.profile.phone,
+                        created_at=the_order.created_at
+                    ))
             elif the_order.status == models.Order.PAID:
                 # 都是付费学生
                 if the_order.timeslot_set.filter(end__gt=timezone.now(), order__teacher=teacher).exists():
@@ -1009,11 +1019,21 @@ class MyStudents(BasicTeacherView):
                     current_count += 1
                     if student_type == 0:
                         page_student_list.append((one_student, the_order))
+                        logger.info("正常上课学生:{name} [{phone}], {created_at}".format(
+                            name=one_student.student_name, phone=one_student.user.profile.phone,
+                            created_at=the_order.created_at
+                        ))
                 else:
                     # 所有的课都上完了
                     session_count += 1
                     if student_type == 1:
                         page_student_list.append((one_student, the_order))
+                        write("结课学生:{name} [{phone}], {created_at}".format(
+                            name=one_student.student_name, phone=one_student.user.profile.phone,
+                            created_at=localtime(the_order.created_at)
+                        ))
+        write("===========")
+        write("当前页面")
         p = Paginator(page_student_list, per_page)
         page_student_details = []
         # 找到特定分页进行详细处理
@@ -1041,7 +1061,12 @@ class MyStudents(BasicTeacherView):
                 one_details["state"] = "结课"
             elif student_type == 2:
                 one_details["state"] = "退费"
+            logger.info("{name} {phone} student_id:{si} order_id:{order_id}         ".format(
+                name=one_details["name"], phone=one_student.user.profile.phone,
+                si=one_student.pk, order_id=one_order.pk
+            ))
             page_student_details.append(one_details)
+        write("===========结束========")
         return {
             "student_statistics": [current_count, session_count, refund_count],
             "student_details": page_student_details,
