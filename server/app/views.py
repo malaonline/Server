@@ -318,6 +318,7 @@ class TagNameSerializer(serializers.ModelSerializer):
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    pagination_class = LargeResultsSetPagination
     queryset = models.Tag.objects.all()
     serializer_class = TagSerializer
 
