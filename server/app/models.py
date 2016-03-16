@@ -482,7 +482,7 @@ class Teacher(BaseModel):
             account = self.user.account
         except AttributeError:
             # 新建一个账户
-            account = Account(user=self.user, balance=0)
+            account = Account(user=self.user)
             account.save()
         return account
 

@@ -538,6 +538,10 @@ class TestModels(TestCase):
     def tearDown(self):
         pass
 
+    def test_get_save_account(self):
+        new_teacher = Teacher.new_teacher("12345")
+        new_teacher.teacher.safe_get_account()
+
     def test_new_teacher(self):
         new_teacher = Teacher.new_teacher("12345")
         self.assertTrue(isinstance(new_teacher, User))
