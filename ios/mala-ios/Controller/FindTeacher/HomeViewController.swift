@@ -74,6 +74,8 @@ class HomeViewController: UIViewController {
     private func setupUserInterface() {
         // Style
         self.title = MalaCommonString_Malalaoshi
+        self.tabBarItem.title = MalaCommonString_FindTeacher
+        
         // 下拉刷新组件
         self.tableView.addPullToRefresh({ [weak self] in
             self?.loadTeachers()

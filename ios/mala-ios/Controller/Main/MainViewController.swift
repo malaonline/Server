@@ -52,11 +52,13 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBar() {
+        tabBar.tintColor = MalaDetailsButtonBlueColor
+        
         /// 首页
         let homeViewController = getNaviController(
             HomeViewController(),
             title: MalaCommonString_FindTeacher,
-            imageName: "verifyCode"
+            imageName: "search_normal"
         )
         
         /// 课程表
@@ -76,7 +78,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         )
         
         let viewControllers: [UIViewController] = [homeViewController, classScheduleViewController, profileViewController]
-        self.setViewControllers(viewControllers, animated: true)
+        self.setViewControllers(viewControllers, animated: false)
     }
     
      ///  Convenience Function to Create SubViewControllers
