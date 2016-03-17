@@ -882,7 +882,7 @@ class Account(BaseModel):
         return sum
 
     def __str__(self):
-        return '%s : %d' % (self.user, self.balance)
+        return '%s' % (self.user)
 
 
 class BankCard(BaseModel):
@@ -1002,7 +1002,7 @@ class AccountHistory(BaseModel):
 
     def __str__(self):
         return '%s %s : %s' % (self.account.user, self.amount,
-                               'D' if self.done else '')
+                               'OK' if self.valid else '')
 
     @staticmethod
     def build_withdrawal_history(
@@ -1035,6 +1035,7 @@ class AccountHistory(BaseModel):
             raise Exception("上课报酬必须为正")
         new_acc_history = AccountHistory(
                 account=account, timeslot=timeslot, amount=amount)
+        new_acc_history.valid = True;
         new_acc_history.op_by_function = True
         new_acc_history.save()
         return new_acc_history
