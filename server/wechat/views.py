@@ -358,10 +358,6 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
             raise e
         return # 没有其他错误, 直接返回
 
-    # 设置代金券为已使用
-    if order.coupon:
-        order.coupon.used = True
-        order.coupon.save()
     # 微信通知用户购课成功信息
     send_pay_info_to_user(open_id, order_id)
 

@@ -1334,6 +1334,12 @@ class OrderManager(models.Manager):
                         deleted=False,
                         end__gt=record.created_at - TimeSlot.CONFIRM_TIME
                     ).update(deleted=True)
+                else:
+                    coupon = order.coupon
+                    if coupon is not None:
+                        coupon.used = False
+                        coupon.save()
+
         except IntegrityError as err:
             logger.error(err)
             raise RefundError('退费失败, 请稍后重试或联系管理员')
