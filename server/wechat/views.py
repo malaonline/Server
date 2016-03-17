@@ -20,6 +20,7 @@ from django.utils.decorators import method_decorator
 # local modules
 from app import models
 from app.utils.types import parseInt
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from .wxapi import *
 
 logger = logging.getLogger('app')
@@ -255,7 +256,10 @@ class CourseChoosingView(View):
             trade_state = query_ret['data']['trade_state']
             if trade_state == WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
-                set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
+                try:
+                    set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
+                except:
+                    pass # 忽略错误, 微信端直接关闭页面
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == WX_PAYERROR:
@@ -303,38 +307,40 @@ def _jssdk_sign(url):
 
 
 def set_order_paid(prepay_id=None, order_id=None, open_id=None):
-    # 支付成功, 设置订单支付成功, 并且生成课程安排
+    """
+    支付成功, 设置订单支付成功, 并且生成课程安排
+    有两个地方调用:
+        1, 刚支付完, verify order 主动去微信查询订单状态, 当支付成功时调用
+        2, 接受微信支付结果异步通知中, 当支付成功时调用
+    """
     charge = None
     if prepay_id:
         charge = models.Charge.objects.get(ch_id=prepay_id)
     elif order_id:
         charge = models.Charge.objects.get(order__order_id=order_id)
     if charge.paid:
-        return
+        return # 已经处理过了, 直接返回
     charge.paid = True
     charge.time_paid = timezone.now()
     # charge.transaction_no = ''
     charge.save()
 
     order = charge.order
+    if not order_id:
+        order_id = order.order_id
     if order.status == models.Order.PAID:
-        return
+        return # 已经处理过了, 直接返回
     order.status = models.Order.PAID
     order.paid_at = timezone.now()
     order.save()
-    # 设置代金券为已使用
-    if order.coupon:
-        order.coupon.used = True
-        order.coupon.save()
-    if not order_id:
-        order_id = order.order_id
-    send_pay_info_to_user(open_id, order_id)
 
     try:
         models.Order.objects.allocate_timeslots(order)
         return JsonResponse({'ok': 1})
     except TimeSlotConflict:
-        logger.info('timeslot conflict, do refund')
+        logger.warning('timeslot conflict, do refund, order_id: '+order_id)
+        # 微信通知用户失败信息
+        send_pay_fail_to_user(open_id, order_id)
         try:
             models.Order.objects.refund(
                     order, '课程被抢占，自动退款', order.parent.user)
@@ -344,6 +350,13 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         except RefundError as e:
             logger.error(e)
             raise e
+
+    # 设置代金券为已使用
+    if order.coupon:
+        order.coupon.used = True
+        order.coupon.save()
+    # 微信通知用户购课成功信息
+    send_pay_info_to_user(open_id, order_id)
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -396,7 +409,10 @@ def wx_pay_notify_view(request):
     openid = data['openid']
     wx_order_id = data['transaction_id']
     order_id = data['out_trade_no']
-    set_order_paid(order_id=order_id, open_id=openid)
+    try:
+        set_order_paid(order_id=order_id, open_id=openid)
+    except:
+        pass # 忽略错误, 微信端直接关闭页面
     return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
 
 
@@ -576,6 +592,9 @@ def template_msg_data_pay_info(request):
 
 
 def send_pay_info_to_user(openid, order_no):
+    """
+    给微信用户发送购课成功信息
+    """
     order = models.Order.objects.get(order_id=order_no)
     data = {
         "first": {
@@ -607,6 +626,32 @@ def send_pay_info_to_user(openid, order_no):
         return ret_json['msgid']
     return False
 
+
+def send_pay_fail_to_user(openid, order_no):
+    """
+    给微信用户发送购课失败信息
+    """
+    order = models.Order.objects.get(order_id=order_no)
+    data = {
+        "first": {
+            "value": "您好，该老师该时段课程已被抢购，您可重新选择课时进行购买。"
+        },
+        "keyword1": {
+            "value": order.grade.name + order.subject.name
+        },
+        "keyword2": {
+            "value": order.order_id
+        },
+        "remark": {
+            "value": '我们将在24小时内为您退款。退款事宜请联系客服：'+settings.SERVICE_SUPPORT_TEL
+        }
+    }
+    tpl_id = settings.WECHAT_PAY_FAIL_TEMPLATE
+    access_token, msg = _get_wx_token()
+    ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
+    if 'msgid' in ret_json:
+        return ret_json['msgid']
+    return False
 
 
 @csrf_exempt
