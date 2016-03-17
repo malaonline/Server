@@ -129,6 +129,7 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
             case PAY_SUCCESS:
                 iconView.setImageResource(R.drawable.ic_pay_success);
                 desView.setText("恭喜您支付成功！您的课表已经安排好，快去查看吧！");
+                this.setCancelable(false);  //强制只能点击知道了进入首页
                 break;
             case INVALID:
                 iconView.setImageResource(R.drawable.ic_pay_failed);

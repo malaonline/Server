@@ -111,7 +111,7 @@ public class CommentDialog extends DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setCancelable(false);          // 设置点击屏幕Dialog不消失
+        //this.setCancelable(false);          // 设置点击屏幕Dialog不消失
         teacherName = getArguments().getString(ARGS_DIALOG_TEACHER_NAME,"");
         teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
         courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
@@ -128,8 +128,7 @@ public class CommentDialog extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener()
-        {
+        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
                 // TODO Auto-generated method stub 返回键关闭dialog
@@ -143,7 +142,7 @@ public class CommentDialog extends DialogFragment{
         View view = inflater.inflate(R.layout.dialog_comment, container, false);
         ButterKnife.bind(this, view);
         initViews();
-        tvSubmit.setEnabled(false);
+        //tvSubmit.setEnabled(false);
         //initDatas();
         return view;
     }
@@ -161,6 +160,7 @@ public class CommentDialog extends DialogFragment{
             editComment.setEnabled(false);
             ratingbar.setIsIndicator(true);
         }else{
+            this.setCancelable(false);          // 设置点击屏幕Dialog不消失
             //评价课程
             llContent.setVisibility(View.VISIBLE);
             llLoading.setVisibility(View.GONE);
@@ -258,7 +258,8 @@ public class CommentDialog extends DialogFragment{
         llLoading.setVisibility(View.GONE);
         llContent.setVisibility(View.VISIBLE);
         llLoadFail.setVisibility(View.GONE);
-        tvSubmit.setEnabled(false);
+        //tvSubmit.setEnabled(false);
+        tvSubmit.setText("知道了");
     }
 
     private void updateLoadFailedUI() {
@@ -343,6 +344,10 @@ public class CommentDialog extends DialogFragment{
 
     @OnClick(R.id.tv_submit)
     public void onClickSubmit(View v){
+        if(comment!=null){
+            dismiss();;
+            return;
+        }
         String content = editComment.getText().toString();
         float scorce = ratingbar.getRating();
         if (content==null){

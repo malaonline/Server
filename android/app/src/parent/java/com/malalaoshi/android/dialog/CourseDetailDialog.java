@@ -84,7 +84,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setCancelable(false);          // 设置点击屏幕Dialog不消失
+        //this.setCancelable(false);          // 设置点击屏幕Dialog不消失
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 
         if (getArguments()!=null){
@@ -97,7 +97,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+        /*this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
                 // TODO Auto-generated method stub 返回键关闭dialog
@@ -107,7 +107,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
                 }
                 return false;
             }
-        });
+        });*/
         View view = inflater.inflate(R.layout.dialog_course, container, false);
         ButterKnife.bind(this, view);
         initViews();

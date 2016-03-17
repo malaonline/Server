@@ -130,22 +130,22 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
     @Override
     public void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Cource> courses) {
-        StringBuilder stringBuilder = new StringBuilder(" ");
+       /* StringBuilder stringBuilder = new StringBuilder(" ");
         for (int i=0;courses!=null&&i<courses.size();i++){
             String str = " 课未上 ";
             courses.get(i).setIs_passed(!courses.get(i).is_passed());
             if (courses.get(i).is_passed()){
-                /*str = " 课已上 ";
+                *//*str = " 课已上 ";
                 CommentDialog commentDialog = CommentDialog.newInstance("teacherName" ,"teacherAvatar", courses.get(i).getSubject(), Long.valueOf(courses.get(i).getId()), "");
-                commentDialog.show(getFragmentManager(), CommentDialog.class.getName());*/
+                commentDialog.show(getFragmentManager(), CommentDialog.class.getName());*//*
             }
             stringBuilder.append(courses.get(i).getSubject() + str);
-        }
+        }*/
         if (courses!=null&&courses.size()>0){
             CourseDetailDialog courseDetailDialog = CourseDetailDialog.newInstance((ArrayList<Cource>) courses);
             courseDetailDialog.show(getFragmentManager(), CourseDetailDialog.class.getName());
         }
-        Toast.makeText(getContext(), calendarDay.getYear() + "年" + calendarDay.getMonth() + "月" + calendarDay.getDay() + " 课程:" + stringBuilder.toString() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), calendarDay.getYear() + "年" + calendarDay.getMonth() + "月" + calendarDay.getDay() + " 课程:" + stringBuilder.toString() , Toast.LENGTH_SHORT).show();
     }
 
 
