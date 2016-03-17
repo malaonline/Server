@@ -450,7 +450,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             }
             //头像
             string = teacher.getAvatar();
-            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.default_avatar, R.drawable.default_avatar));
 
             //性别
             String grender = teacher.getGender();
@@ -603,7 +603,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     startActivity(intent);
                 }
             });
-            mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+            mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.default_img, R.drawable.default_error_img));
             mGallery.addView(imageView, i);
         }
     }

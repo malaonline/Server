@@ -69,7 +69,7 @@
                 android:layout_width="@dimen/avatar_width"
                 android:layout_height="@dimen/avatar_width"
                 android:layout_alignParentBottom="true"
-                android:src="@drawable/user_detail_header_bg"
+                android:src="@drawable/default_avatar"
                 app:civ_border_width="@dimen/avatar_border_width"
                 app:civ_border_color="@color/colorWhite"
                 />

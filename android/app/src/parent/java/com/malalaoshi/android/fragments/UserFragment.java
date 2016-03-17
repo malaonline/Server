@@ -200,10 +200,10 @@ public class UserFragment extends Fragment {
         if (UserManager.getInstance().isLogin()){
             String string = UserManager.getInstance().getAvatorUrl();
             if (!TextUtils.isEmpty(string)){
-                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.default_avatar, R.drawable.default_avatar));
             }
         }else{
-            //ivAvatar.setImageResource(R.drawable.user_detail_header_bg);
+            //ivAvatar.setImageResource(R.drawable.default_avatar);
         }
 
     }

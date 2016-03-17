@@ -98,7 +98,7 @@ public class GalleryActivity extends BaseActivity {
 				//imageView.setImageResource(mImgs[position]);
 				String imgUrl = mImgUrls[position];
 				if (imgUrl != null && !imgUrl.equals("")) {
-					imageLoader.get(imgUrl, ImageLoader.getImageListener(imageView, R.drawable.user_detail_header_bg, R.drawable.user_detail_header_bg));
+					imageLoader.get(imgUrl, ImageLoader.getImageListener(imageView, R.drawable.default_img, R.drawable.default_error_img));
 				}
 				container.addView(imageView);
 				mImaViews[position] = imageView;
