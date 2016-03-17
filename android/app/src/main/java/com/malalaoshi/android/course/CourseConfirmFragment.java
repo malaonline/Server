@@ -42,6 +42,7 @@ import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.Number;
 
 import org.json.JSONObject;
 
@@ -377,7 +378,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             coupon = data.getParcelableExtra("coupon");
-            scholarView.setText("-￥" + coupon.getAmount());
+            String sum = Number.subZeroAndDot(Double.valueOf(coupon.getAmount()) * 0.01d);
+            scholarView.setText("-￥" + sum);
             calculateSum();
         }
     }
@@ -444,7 +446,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         if (coupon != null) {
             sum -= Integer.valueOf(coupon.getAmount());
         }
-        sum = sum < 0 ? 0 : sum;
+        sum = sum <= 0 ? 1 : sum;
         sum = sum / 100f;
         amountView.setText(String.valueOf(sum));
     }

@@ -23,6 +23,7 @@ import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.EventDispatcher;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.Number;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class CouponListFragment extends Fragment {
                 coupon.setName(entity.getName());
                 coupon.setDescription("");
                 coupon.setUseType("线上使用");
-                coupon.setAmount(entity.getAmount() + "");
+                coupon.setAmount(Number.subZeroAndDot(entity.getAmount() * 0.01d));
                 coupon.setExpired_at(entity.getExpired_at() * 1000);
                 coupon.setId(entity.getId());
                 entities.add(coupon);

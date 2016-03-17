@@ -68,7 +68,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         wxpayLayout.setOnClickListener(this);
         payView.setOnClickListener(this);
         if (resultEntity != null) {
-            double value = Double.valueOf(resultEntity.getTotal()) * 0.01d;
+            double value = Double.valueOf(resultEntity.getPrice()) * 0.01d;
             totalView.setText(com.malalaoshi.android.util.Number.subZeroAndDot(value));
         }
         return view;
