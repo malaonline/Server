@@ -731,7 +731,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
                   'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
-                  'status', 'order_id', 'to_pay')
+                  'status', 'order_id', 'to_pay', 'is_timeslot_allocated')
         read_only_fields = (
                 'parent', 'price', 'total', 'status', 'order_id', 'to_pay')
 

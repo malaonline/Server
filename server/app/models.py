@@ -1250,7 +1250,7 @@ class OrderManager(models.Manager):
     def allocate_timeslots(self, order, force=False):
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
-        if order.timeslot_set.count() > 0:
+        if order.is_timeslot_allocated():
             logger.warn('Time slot already allocated for order %s' % order.id)
             return
 
@@ -1379,6 +1379,9 @@ class Order(BaseModel):
         return '%s %s %s %s %s %s: %s' % (
                 self.school, self.parent, self.teacher, self.grade,
                 self.subject, self.total, self.to_pay)
+
+    def is_timeslot_allocated(self):
+        return self.timeslot_set.filter(deleted=False).count() > 0
 
     def fit_statistical(self):
         # 主要用于FirstPage中

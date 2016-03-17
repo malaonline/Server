@@ -141,7 +141,7 @@
                     {% endif %}
                   </td>
                   <td>
-                      {% if order.timeslot_set.count > 0 %}
+                      {% if order.is_timeslot_allocated %}
                       是
                       {% else %}
                       否
