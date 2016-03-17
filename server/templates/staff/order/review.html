@@ -132,21 +132,24 @@
                             {{ chagre.channel }}<br/>
                         {% endfor %}
                     {% endif %}
-                  </td>
+                </td>
 {# 订单状态 #}    <td>
+                    {% if order.is_student_first_subject %}
+                        <div style="color: #c9302c; font-weight: bold">首单</div>
+                    {% endif %}
                     {% if order.refund_status %}
                         {{ order.get_refund_status_display }}
                     {% else %}
                         {{ order.get_status_display }}
                     {% endif %}
-                  </td>
-                  <td>
+                </td>
+{# 是否排课 #}    <td>
                       {% if order.is_timeslot_allocated %}
                       是
                       {% else %}
                       否
                       {% endif %}
-                  </td>
+                </td>
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>

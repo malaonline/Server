@@ -1481,6 +1481,17 @@ class Order(BaseModel):
         else:
             super(Order, self).save(*args, **kwargs)
 
+    def is_student_first_subject(self):
+        # 首单必须是已支付的
+        if self.status == Order.PAID:
+            # 获取同一家长(学生), 同一科目, 且已经支付的订单数量
+            count = Order.objects.filter(parent=self.parent, subject=self.subject, status=Order.PAID).count()
+            # 如果只有一条记录, 则为该科目首单
+            if count == 1:
+                return True
+        # 其余情况都不是首单
+        return False
+
 
 class OrderRefundRecord(BaseModel):
     status = models.CharField(max_length=2,
