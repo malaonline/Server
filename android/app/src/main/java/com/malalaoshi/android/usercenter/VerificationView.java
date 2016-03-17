@@ -276,6 +276,7 @@ public class VerificationView extends RelativeLayout implements MaClickableSpan.
         if (json.optBoolean(Constants.FIRST_LOGIN, false)) {
             if (controller != null) {
                 controller.onChangeView(this, false, VerifyStudentNameView.class);
+                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_UPDATE_USERCENTER_UI));
             }
         } else {
             ((SmsAuthActivity) context).setActivityResult(null);
