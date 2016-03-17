@@ -19,16 +19,14 @@
                     <span class="card-label">
                         {{ teacher.grades_shortname }}:{{ teacher.subject }}
                     </span>
-                        <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}" class="link">
+{#                        <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}" class="link">#}
                             <h3>{{ teacher.name }}</h3>
-                        </a>
+{#                        </a>#}
                         <div class="ui horizontal divider">{{ teacher.level }}</div>
                         <div class="card-content">
                             <img class="card-image img-circle img-center" src="{{ teacher.user.profile.avatar_url }}" alt="">
                             {#                         <img class="card-images img-circle img-center" src="{{ teacher.user.profile.avatar }}" alt="">#}
-                            <a href="{% url 'wechat:order-course-choosing' %}?teacher_id={{ teacher.pk }}">
                             <p class="price"><em>{% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}</em> 元/小时</p>
-                            </a>
                             <p class="color-gray teacher-tag">
                                 {% for tag in teacher.tags.all %}
                                     <span>{{ tag.name }}</span>
