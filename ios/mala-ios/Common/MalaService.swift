@@ -422,6 +422,17 @@ func isHasBeenEvaluatedWithSubject(subjectID: Int, failureHandler: ((Reason, Str
 ///  - parameter completion:     成功处理闭包
 func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: [StudentCourseModel] -> Void) {
     
+    let parse: JSONDictionary -> [StudentCourseModel] = { data in
+        return parseStudentCourse(data)
+    }
+    
+    let resource = authJsonResource(path: "/timeslots", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
 }
 
 
@@ -637,4 +648,28 @@ let parseClassSchedule: JSONDictionary -> [[ClassScheduleDayModel]] = { schedule
         }
     }
     return weekSchedule
+}
+/// 学生上课时间表JSON解析器
+let parseStudentCourse: JSONDictionary -> [StudentCourseModel] = { courseInfos in
+    
+    /// 学生上课时间数组
+    var courseList: [StudentCourseModel] = []
+    
+    /// 确保相应格式正确，且存在数据
+    guard let courses = courseInfos["results"] as? [JSONDictionary] where courses.count != 0 else {
+        return courseList
+    }
+    
+    ///  遍历字典数组，转换为模型
+    for course in courses {
+        if let
+            id = course["id"] as? Int,
+            end = course["end"] as? NSTimeInterval,
+            subject = course["subject"] as? String,
+            is_passed = course["is_passed"] as? Bool,
+            is_commened = course["is_commened"] as? Bool {
+                courseList.append(StudentCourseModel(dict: course))
+        }
+    }
+    return courseList
 }

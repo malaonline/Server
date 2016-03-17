@@ -33,6 +33,7 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         super.viewDidLoad()
 
         configure()
+        loadStudentCourseTable()
     }
 
     override public func didReceiveMemoryWarning() {
@@ -55,6 +56,15 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         // register
         collectionView?.registerClass(ClassScheduleViewCell.self, forCellWithReuseIdentifier: ClassScheduleViewCellReuseID)
         collectionView?.registerClass(ClassScheduleViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: ClassScheduleViewHeaderReuseID)
+    }
+    
+    private func loadStudentCourseTable() {
+        ///  获取学生可用时间表
+        getStudentCourseTable(failureHandler: { (reason, errorMessage) -> Void in
+            
+            }, completion: { (courseList) -> Void in
+                
+        })
     }
     
     
