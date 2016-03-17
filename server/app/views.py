@@ -5,10 +5,10 @@ import itertools
 from collections import OrderedDict
 
 from django.contrib.auth.models import User, Group
-from django.shortcuts import get_object_or_404
-from django.views.generic import View
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import View, TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Q
 from django.core import exceptions
 from django.utils.decorators import method_decorator
@@ -27,6 +27,7 @@ from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.algorithm import verify_sig
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
+# from .forms import autoConfirmForm
 
 from .tasks import autoConfirmClasses
 
@@ -129,9 +130,14 @@ class ConcreteTimeSlots(View):
 
         return JsonResponse({'data': data})
 
-class autoConfirmClasses(View):
-    # def get(self, request):
-    pass
+
+class autoConfirmClassesView(View):
+    # template_name="app/test_auto_confirm_classes.html"
+
+    def get(self, request):
+        autoConfirmClasses()
+        return HttpResponse('<h1>完成</h1>')
+
 
 
 

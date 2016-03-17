@@ -1757,7 +1757,7 @@ class TimeSlot(BaseModel):
     def teacher(self):
         return self.order.teacher
 
-    def confirm(self,commentText):
+    def confirm(self):
         try:
             """
             确认课时, 老师收入入账
@@ -1768,23 +1768,21 @@ class TimeSlot(BaseModel):
             amount = amount * (100 - self.order.commission_percentage) // 100
             if amount < 0:
                 amount = 0
-            ah = AccountHistory(
-                    account=account, submit_time=timezone.now(), done=True)
-            ah.amount = amount
-            ah.comment = commentText
-            ah.timeslot = self
-            ah.save()
+            try:
+                ah = AccountHistory.build_timeslot_history(self,account,amount)
+                # 短信通知老师
+                try:
+                    tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
+                except Exception as ex:
+                    logger.error(ex)
+                return True
+            except Exception as ex:
+                logger.warning(ex)
             attendance = TimeSlotAttendance.objects.create(
-            record_type = 'a'
-            )
+                record_type = 'a'
+                )
             self.attendance = attendance
             self.save()
-            # 短信通知老师
-            try:
-                tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
-            except Exception as ex:
-                logger.error(ex)
-            return True
         except IntegrityError as err:
             logger.error(err)
             return False
