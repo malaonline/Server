@@ -105,6 +105,8 @@ class SchoolsView(ListView):
                             'timestamp': server_timestamp,
                             'url': cur_url})
 
+        # 为轮播图片定义一个photos
+
         context['WX_OPENID'] = openid
         context['WX_APPID'] = settings.WEIXIN_APPID
         context['WX_NONCE_STR'] = nonce_str
