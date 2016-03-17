@@ -99,12 +99,18 @@ class School(BaseModel):
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
 
+    @property
     def get_thumbnail(self):
         if self.schoolphoto_set.first():
             return self.schoolphoto_set.first().img.url
         else:
             return ""
 
+    def get_photo_url_list(self):
+        if self.schoolphoto_set.first():
+            return list(map(lambda x:x.img_url(),self.schoolphoto_set.all()))
+        else:
+            return ""
 
 class SchoolPhoto(BaseModel):
     school = models.ForeignKey(School)

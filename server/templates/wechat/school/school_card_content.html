@@ -8,7 +8,7 @@
                 <img src="{% static 'wechat/images/expr_center_icon.png' %}" alt="">
             {% endif %}
         </div>
-        <div class="album-count-div" data-action="open-image-modal">
+        <div class="album-count-div" data-schoolid="{{ school.id }}">
             <img src="{% static 'wechat/images/album_icon.png' %}" alt="">
             <span>{{ school.num_photos }}</span>
         </div>

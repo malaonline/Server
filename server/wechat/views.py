@@ -99,19 +99,23 @@ class SchoolsView(ListView):
         jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
         cur_url = self.request.build_absolute_uri()
 
-        # signature = _jssdk_sign(cur_url)
+        schools = self.model.objects.all()
+        photosdic = {}
+        for school in schools:
+            photosdic[school.id] = school.get_photo_url_list()
+        # photosdic = json.dumps(photosdic)
+
         signature = wx_signature({'noncestr': nonce_str,
                             'jsapi_ticket': jsapi_ticket,
                             'timestamp': server_timestamp,
                             'url': cur_url})
-
-        # 为轮播图片定义一个photos
 
         context['WX_OPENID'] = openid
         context['WX_APPID'] = settings.WEIXIN_APPID
         context['WX_NONCE_STR'] = nonce_str
         context['WX_SIGNITURE'] = signature
         context['server_timestamp'] = server_timestamp
+        context['photosdic'] = photosdic
 
         return context
 
