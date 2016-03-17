@@ -132,11 +132,15 @@ class ConcreteTimeSlots(View):
 
 
 class autoConfirmClassesView(View):
-    # template_name="app/test_auto_confirm_classes.html"
+    template_name="app/test_auto_confirm_classes.html"
 
     def get(self, request):
-        autoConfirmClasses()
-        return HttpResponse('<h1>完成</h1>')
+        res = autoConfirmClasses()
+        if res:
+            res_str = '成功'
+        else:
+            res_str = '失败'
+        return HttpResponse('<h1>'+res_str+'</h1>')
 
 
 
