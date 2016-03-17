@@ -1471,10 +1471,10 @@ class MyWalletWithdrawalRecord(MyWalletBase):
     def record_list(self, teacher: models.Teacher):
         account = teacher.user.account
         result = []
-        for withdraw_item in models.Withdrawal.objects.filter(accounthistory__account=account).order_by("accounthistory__submit_time"):
+        for withdraw_item in models.Withdrawal.objects.filter(accounthistory__account=account).order_by("-accounthistory__submit_time"):
             result.append([
-                localtime(withdraw_item.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
-                "¥%.2f" % (withdraw_item.amount/100),
+                localtime(withdraw_item.accounthistory.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
+                "¥%.2f" % (withdraw_item.accounthistory.amount/100),
                 "{bank_name} 储蓄卡 ({last_code})".format(bank_name=withdraw_item.bankcard.bank_name,
                                                      last_code=withdraw_item.bankcard.mask_card_number()[-1]),
                 withdraw_item.status_des,

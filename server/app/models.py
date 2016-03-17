@@ -928,7 +928,7 @@ class Withdrawal(BaseModel):
         if self.status == Withdrawal.PENDING:
             return "处理中"
         if self.status == Withdrawal.APPROVED:
-            return self.audit_at.strftime("%Y-%m-%d %H:%M:%S")
+            return localtime(self.audit_at).strftime("%Y-%m-%d %H:%M:%S")
         if self.status == Withdrawal.REJECTED:
             return "被驳回"
 
