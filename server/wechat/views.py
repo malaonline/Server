@@ -255,8 +255,7 @@ class CourseChoosingView(View):
             trade_state = query_ret['data']['trade_state']
             if trade_state == WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
-                set_order_paid(prepay_id=prepay_id)
-                send_pay_info_to_user(query_ret['data']['openid'], query_ret['data']['out_trade_no'])
+                set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == WX_PAYERROR:
@@ -303,7 +302,7 @@ def _jssdk_sign(url):
             'signature': signature}
 
 
-def set_order_paid(prepay_id=None, order_id=None):
+def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     # 支付成功, 设置订单支付成功, 并且生成课程安排
     charge = None
     if prepay_id:
@@ -322,11 +321,15 @@ def set_order_paid(prepay_id=None, order_id=None):
         return
     models.Order.objects.allocate_timeslots(order)
     order.status = models.Order.PAID
+    order.paid_at = timezone.now()
     order.save()
     # 设置代金券为已使用
     if order.coupon:
         order.coupon.used = True
         order.coupon.save()
+    if not order_id:
+        order_id = order.order_id
+    send_pay_info_to_user(open_id, order_id)
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -379,7 +382,7 @@ def wx_pay_notify_view(request):
     openid = data['openid']
     wx_order_id = data['transaction_id']
     order_id = data['out_trade_no']
-    set_order_paid(order_id=order_id)
+    set_order_paid(order_id=order_id, open_id=openid)
     return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
 
 
@@ -562,10 +565,10 @@ def send_pay_info_to_user(openid, order_no):
     order = models.Order.objects.get(order_id=order_no)
     data = {
         "first": {
-            "value": "亲爱的家长，你好，你的课已经报名成功"
+            "value": "感谢您购买麻辣老师课程！"
         },
         "keyword1": {
-            "value": order.subject.name
+            "value": order.grade.name + order.subject.name
         },
         "keyword2": {
             "value": order.teacher.name
@@ -574,13 +577,13 @@ def send_pay_info_to_user(openid, order_no):
             "value": '课时费'
         },
         "keyword4": {
-            "value": order.parent.student_name
+            "value": order.parent.student_name or order.parent.user.profile.mask_phone()
         },
         "keyword5": {
             "value": "%.2f元"%(order.to_pay/100)
         },
         "remark": {
-            "value": '如有任何疑问，请拨打客服电话'+settings.SERVICE_SUPPORT_TEL
+            "value": '有任何疑问请拨打客服电话'+settings.SERVICE_SUPPORT_TEL
         }
     }
     tpl_id = settings.WECHAT_PAY_INFO_TEMPLATE
