@@ -31,6 +31,13 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def local_time_str(self, date, time_formula="%Y-%m-%d %H:%M:%S"):
+        # 格式化一个本地时间
+        return localtime(date).strftime(time_formula)
+
+    def money_str(self, money):
+        return "¥{0:.2f}".format(money/100)
+
 
 class Policy(BaseModel):
     content = models.TextField()
@@ -216,12 +223,16 @@ class LevelRecord(BaseModel):
         operation = {}
         for key, val in self.OPERATION_CHOICE:
             operation[key] = val
-        msg = "{time} {name}{operation}{level}".format(
-            time=self.create_at.strftime("%Y-%m-%d"),
-            name=self.teacher.name,
-            operation=operation.get(self.operation, "未知"),
-            level=self.to_level.name
-        )
+        try:
+            msg = "{time} {name}{operation}{level}".format(
+                time=self.create_at.strftime("%Y-%m-%d"),
+                name=self.teacher.name,
+                operation=operation.get(self.operation, "未知"),
+                level=self.to_level.name
+            )
+        except Exception as e:
+            msg = "异常记录, <{pk}>{create_at}, {err}".format(pk=self.pk, err=e,
+                                                          create_at=self.local_time_str(self.create_at))
         return msg
 
 
@@ -280,8 +291,16 @@ class Profile(BaseModel):
             max_length=100, default=None, null=True, blank=True)
 
     def __str__(self):
-        return '%s : %s (%s)' % (
-                self.phone, self.user, self.get_gender_display())
+        teacher_name = ""
+        student_name = ""
+        if hasattr(self.user, "teacher"):
+            teacher_name = self.user.teacher.name
+        if hasattr(self.user, "parent"):
+            student_name = self.user.parent.student_name
+
+        return 'phone:{phone} user_id:{user_id} ({gender}). 老师名称:{teacher_name} 学生名称:{student_name}'.format(
+            phone=self.phone, user_id=self.user.pk, gender=self.get_gender_display(),
+            teacher_name=teacher_name, student_name=student_name)
 
     # 带有掩码的手机号码
     def mask_phone(self):
@@ -729,7 +748,8 @@ class Highscore(BaseModel):
     admitted_to = models.CharField(max_length=300)
 
     def __str__(self):
-        return '%s %s (%s => %s)' % (
+        return '%s: %s %s (%s => %s)' % (
+                self.teacher.name,
                 self.name, self.increased_scores, self.school_name,
                 self.admitted_to)
 
@@ -787,8 +807,13 @@ class Certificate(BaseModel):
     verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s, %s : %s' % (self.teacher, self.name,
-                                'V' if self.verified else '')
+        msg = ""
+        for key, val in self.TYPE_CHOICES:
+            if self.type == key:
+                msg = val
+                break
+        return '%s, 证书名称:%s [%s][%s]' % (self.teacher, self.name, msg,
+                                         '已认证' if self.verified else '未认证')
 
     def img_url(self):
         return self.img and self.img.url or ''
@@ -882,7 +907,15 @@ class Account(BaseModel):
         return sum
 
     def __str__(self):
-        return '%s' % (self.user)
+        if hasattr(self.user, "teacher"):
+            return "{teacher_name} 可用余额:{cal_bal} 可提现金额:{withdrawable_amount} 累计收入:{acc_incom} 预计收入:{anti_income}".format(
+                teacher_name=self.user.teacher.name, cal_bal=self.calculated_balance/100,
+                withdrawable_amount=self.withdrawable_amount/100,
+                acc_incom=self.accumulated_income/100, anti_income=self.anticipated_income/100)
+        else:
+            return "非法帐户 user_id:{user_id}".format(
+                user_id=self.user_id,
+            )
 
 
 class BankCard(BaseModel):
@@ -898,7 +931,7 @@ class BankCard(BaseModel):
 
     def __str__(self):
         return '%s %s (%s)' % (self.bank_name, self.card_number,
-                               self.account.user)
+                               self.account.user.teacher.name)
 
     def mask_number(self):
         return " ".join(self.mask_card_number())
@@ -953,6 +986,8 @@ class Withdrawal(BaseModel):
 
 
 class AccountHistory(BaseModel):
+    class Meta:
+        ordering=["-submit_time"]
     # 老师课程完成,就记录一条增值记录
     # 钱转到银行卡,会记录一条减值记录
     # 这里的记录都是被审核通过的记录
@@ -1001,8 +1036,26 @@ class AccountHistory(BaseModel):
         super().save()
 
     def __str__(self):
-        return '%s %s : %s' % (self.account.user, self.amount,
-                               'OK' if self.valid else '')
+        teacher_name = self.account.user.teacher.name
+        operation = "未知操作"
+        if hasattr(self, "withdrawal"):
+            # 老师提现
+            operation = "提款获得"
+        if hasattr(self, "timeslot"):
+            # 老师上课收入
+            try:
+                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end}".format(
+                    student_name=self.timeslot.order.parent.student_name or self.timeslot.order.parent.user.profile.phone,
+                    subject=self.timeslot.order.subject.name,
+                    grade=self.timeslot.order.grade.name,
+                    start=self.local_time_str(self.timeslot.start), end=self.local_time_str(self.timeslot.end)
+                )
+            except Exception as e:
+                operation = "上课收入, 异常记录 {msg}".format(msg=e)
+        return "{teacher_name} 创建于:{create_at} {operation}  金额:{amount} [{valid}]".format(
+            teacher_name=teacher_name, operation=operation, amount=self.money_str(self.amount), valid="有效" if self.valid else "无效",
+            create_at=self.local_time_str(self.submit_time)
+        )
 
     @staticmethod
     def build_withdrawal_history(
@@ -1062,8 +1115,14 @@ class Parent(BaseModel):
         return self.order_set.filter(created_at__gt=one_month_before)
 
     def __str__(self):
-        return "{child_name}'s parent [{parent_name}]".format(
-                child_name=self.student_name, parent_name=self.user.username)
+        try:
+            return "<{pk}>{student_name}同学,手机{phone}".format(
+                pk=self.pk, student_name=self.student_name, phone=self.user.profile.phone
+            )
+        except Exception as e:
+            return "<{pk}>!!!异常记录,{student_name}同学,手机{msg}".format(
+                pk=self.pk, student_name=self.student_name, msg=e
+            )
 
     # 新建一个空白parent
     @staticmethod
@@ -1406,9 +1465,11 @@ class Order(BaseModel):
     refund_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return '%s %s %s %s %s %s: %s' % (
-                self.school, self.parent, self.teacher, self.grade,
-                self.subject, self.total, self.to_pay)
+        return "<{pk}> {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单".format(
+            pk=self.pk, student_name=self.parent.student_name, submit_time=self.local_time_str(self.created_at),
+            teacher_name=self.teacher.name, local=self.school, subject=self.subject.name, grade=self.grade.name,
+            teacher_phone=self.teacher.user.profile.phone, student_phone=self.parent.user.profile.phone
+        )
 
     def is_timeslot_allocated(self):
         return self.timeslot_set.filter(deleted=False).count() > 0
@@ -1541,6 +1602,9 @@ class OrderRefundRecord(BaseModel):
     refund_amount = models.PositiveIntegerField(default=0)
     reason = models.CharField(max_length=100, default="退费原因", blank=True)
 
+    class Meta:
+        ordering=["-created_at"]
+
     def approve_refund(self):
         if self.status == Order.REFUND_PENDING:
             self.status = Order.REFUND_APPROVED
@@ -1560,6 +1624,14 @@ class OrderRefundRecord(BaseModel):
             self.save()
             return True
         return False
+
+    def __str__(self):
+        return "<{pk}> {student_name}同学于{create_at} 退了 {teacher_name}老师 {subject} {grade} order_id<{order_pk}>".format(
+            pk=self.pk, student_name=self.order.parent.student_name,
+            teacher_name=self.order.teacher.name, subject=self.order.subject.name,
+            grade=self.order.grade.name, order_pk=self.order_id,
+            create_at=self.local_time_str(self.created_at)
+        )
 
 
 class Charge(BaseModel):
@@ -1655,9 +1727,21 @@ class Comment(BaseModel):
     # 回复
     reply = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering=["-created_at"]
 
     def __str__(self):
-        return '%s : %d' % (self.pk, self.score)
+        try:
+            return "老师:{teacher_name} 学生:{student_name}:[{score}星] {created_at} comment:{comment} reply:{reply}".format(
+                teacher_name=self.timeslot.order.teacher.name,
+                student_name=self.timeslot.order.parent.student_name,
+                score=self.score, comment=self.content, reply=self.reply,
+                created_at=self.local_time_str(self.created_at),
+            )
+        except Exception as e:
+            return "异常评论, <{pk}>, comment:{comment} [{score}星] {created_at} [{msg}]".format(pk=self.pk, comment=self.content,
+                                                                                  score=self.score, created_at=self.local_time_str(self.created_at),
+                                                                                          msg=e)
 
     def is_bad_comment(self):
         # 差评
@@ -1688,6 +1772,8 @@ class TimeSlotShouldAutoConfirmManager(models.Manager):
 
 
 class TimeSlot(BaseModel):
+    class Meta:
+        ordering=["-start", "-created_at"]
     TRAFFIC_TIME = datetime.timedelta(hours=1)
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
@@ -1721,7 +1807,17 @@ class TimeSlot(BaseModel):
     should_auto_confirmed_objects = TimeSlotShouldAutoConfirmManager()
 
     def __str__(self):
-        return '<%s> from %s to %s' % (self.pk, self.start, self.end)
+        try:
+            return '<{id}> from {start} to {end} 老师:{teacher_name}[{teacher_phone}] 学生:{student_name}[{student_phone}] {subject} {grade} {order_status} 创建于{create_at}'.format(
+                id=self.pk, start=self.local_time_str(self.start), end=self.local_time_str(self.end), teacher_name=self.order.teacher.name,
+                student_name=self.order.parent.student_name, teacher_phone=self.order.teacher.user.profile.phone,
+                student_phone=self.order.parent.user.profile.phone, create_at=self.local_time_str(self.created_at),
+                subject=self.order.subject.name, grade=self.order.grade.name, order_status=self.order.status
+            )
+        except:
+            return "异常timeslot <{id}> {create_at}".format(
+                id=self.pk, create_at=localtime(self.created_at)
+            )
 
     def is_complete(self, given_time=timezone.now()):
         # 对于给定的时间,课程是否结束, 附加自动确认的那两小时
