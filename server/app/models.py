@@ -1775,8 +1775,8 @@ class TimeSlot(BaseModel):
     def teacher(self):
         return self.order.teacher
 
-    def confirm(self):
-        try:
+        def confirm(self):
+            # try:
             """
             确认课时, 老师收入入账
             """
@@ -1786,25 +1786,23 @@ class TimeSlot(BaseModel):
             amount = amount * (100 - self.order.commission_percentage) // 100
             if amount < 0:
                 amount = 0
-
+            ah = AccountHistory.build_timeslot_history(self,account,amount)
+            # 短信通知老师
             try:
-                ah = AccountHistory.build_timeslot_history(self,account,amount)
-                # 短信通知老师
-                try:
-                    tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
-                except Exception as ex:
-                    logger.error(ex)
-                return True
+                tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
             except Exception as ex:
-                logger.warning(ex)
+                logger.error(ex)
+                return False
             attendance = TimeSlotAttendance.objects.create(
                 record_type = 'a'
                 )
             self.attendance = attendance
             self.save()
-        except IntegrityError as err:
-            logger.error(err)
-            return False
+            return True
+            # except IntegrityError as err:
+            #     print('2')
+            #     logger.error(err)
+            #     return False
 
     def suspend(self):
         # 用 suspended 字段表示停课, 但为了兼容性, 同时也要设置课程状态为被删除
