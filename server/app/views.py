@@ -95,7 +95,8 @@ class ChargeSucceeded(View):
         except TimeSlotConflict:
             logger.info('timeslot conflict, do refund')
             try:
-                models.Order.objects.refund(order, '课程被抢占，自动退款')
+                models.Order.objects.refund(
+                        order, '课程被抢占，自动退款', order.parent.user)
             except OrderStatusIncorrect as e:
                 logger.error(e)
                 raise e

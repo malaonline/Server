@@ -99,6 +99,7 @@
             <th>下单时间</th>
             <th>支付平台</th>
             <th>订单状态</th>
+            <th>是否排课</th>
             <th>家长手机号</th>
             <th>学生姓名</th>
             <th>老师姓名</th>
@@ -131,14 +132,21 @@
                             {{ chagre.channel }}<br/>
                         {% endfor %}
                     {% endif %}
-                </td>
+                  </td>
 {# 订单状态 #}    <td>
                     {% if order.refund_status %}
                         {{ order.get_refund_status_display }}
                     {% else %}
                         {{ order.get_status_display }}
                     {% endif %}
-                </td>
+                  </td>
+                  <td>
+                      {% if order.timeslot_set.count > 0 %}
+                      是
+                      {% else %}
+                      否
+                      {% endif %}
+                  </td>
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>

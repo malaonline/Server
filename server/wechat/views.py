@@ -319,7 +319,6 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     order = charge.order
     if order.status == models.Order.PAID:
         return
-    models.Order.objects.allocate_timeslots(order)
     order.status = models.Order.PAID
     order.paid_at = timezone.now()
     order.save()
@@ -330,6 +329,21 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     if not order_id:
         order_id = order.order_id
     send_pay_info_to_user(open_id, order_id)
+
+    try:
+        models.Order.objects.allocate_timeslots(order)
+        return JsonResponse({'ok': 1})
+    except TimeSlotConflict:
+        logger.info('timeslot conflict, do refund')
+        try:
+            models.Order.objects.refund(
+                    order, '课程被抢占，自动退款', order.parent.user)
+        except OrderStatusIncorrect as e:
+            logger.error(e)
+            raise e
+        except RefundError as e:
+            logger.error(e)
+            raise e
 
 
 def _get_wx_jsapi_ticket(access_token):
