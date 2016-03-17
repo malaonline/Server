@@ -142,7 +142,7 @@
                 android:isIndicator="false"
                 android:numStars="5"
                 style="@style/mala.ratingbar"
-                android:rating="2"
+                android:rating="0"
                 android:stepSize="1" />
 
         </LinearLayout>

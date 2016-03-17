@@ -160,8 +160,8 @@ public class CourseDetailFragment extends Fragment implements View.OnClickListen
         Calendar start = CalendarUtils.timestampToCalendar(cource.getStart());
         Calendar end = CalendarUtils.timestampToCalendar(cource.getEnd());
         if(start!=null&&end!=null){
-            String strStart = String.format("%02d",start.get(Calendar.HOUR))+":"+ String.format("%02d", start.get(Calendar.MINUTE));
-            String strEnd = String.format("%02d",end.get(Calendar.HOUR)) +":" + String.format("%02d", end.get(Calendar.MINUTE));
+            String strStart = String.format("%02d",start.get(Calendar.HOUR_OF_DAY))+":"+ String.format("%02d", start.get(Calendar.MINUTE));
+            String strEnd = String.format("%02d",end.get(Calendar.HOUR_OF_DAY)) +":" + String.format("%02d", end.get(Calendar.MINUTE));
             tvTime.setText(strStart+"-"+strEnd);
         }else{
             tvTime.setText("时间异常");

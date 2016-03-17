@@ -24,8 +24,8 @@
             android:id="@+id/course_rubber"
             android:layout_width="30dp"
             android:layout_height="6dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             app:smallCircleColor="#c7deee"
             app:largeCircleColor="#8fbcdd"
             />

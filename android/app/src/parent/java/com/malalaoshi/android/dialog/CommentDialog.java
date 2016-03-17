@@ -25,6 +25,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.Comment;
+import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -44,6 +45,7 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/3/2.
@@ -161,6 +163,7 @@ public class CommentDialog extends DialogFragment{
             ratingbar.setIsIndicator(true);
         }else{
             this.setCancelable(false);          // 设置点击屏幕Dialog不消失
+            tvSubmit.setEnabled(false);
             //评价课程
             llContent.setVisibility(View.VISIBLE);
             llLoading.setVisibility(View.GONE);
@@ -386,6 +389,8 @@ public class CommentDialog extends DialogFragment{
     }
 
     private void commentSucceed() {
+        //跟新课表
+        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
         MiscUtil.toast(R.string.comment_succeed);
         dismiss();
     }

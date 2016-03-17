@@ -191,13 +191,18 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @Override
     public void onPageSelected(int position) {
+        if (pagerIndex>position){
+            courseRubber.moveToLeft();
+        }else{
+            courseRubber.moveToRight();
+        }
         pagerIndex = position;
-        courseRubber.setFocusPosition(position);
+
         Cource cource = listShortCourse.get(position);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
-            if (true){
+            if (!cource.is_commented()){
                 setUIType(Type.PASS_NO_COMMENTED);
             }else{
                 setUIType(Type.PASS_COMMENTED);
