@@ -29,7 +29,6 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 是否为今天标记
     public var isToday: Bool = false {
         didSet {
-            println("是今天吗？ \(isToday)")
             setCircleColor(isToday: isToday, selected: self.selected)
         }
     }

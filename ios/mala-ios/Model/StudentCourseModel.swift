@@ -49,7 +49,7 @@ class StudentCourseModel: BaseObjectModel {
     // MARK: - Description
     override var description: String {
         let keys = ["id", "end", "subject", "is_passed", "is_commented"]
-        return dictionaryWithValuesForKeys(keys).description
+        return "\n"+dictionaryWithValuesForKeys(keys).description+"\n"
     }
     
 }

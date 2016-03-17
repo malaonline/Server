@@ -420,9 +420,9 @@ func isHasBeenEvaluatedWithSubject(subjectID: Int, failureHandler: ((Reason, Str
 ///  - parameter page:           页数
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: [StudentCourseModel] -> Void) {
+func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: [StudentCourseModel]? -> Void) {
     
-    let parse: JSONDictionary -> [StudentCourseModel] = { data in
+    let parse: JSONDictionary -> [StudentCourseModel]? = { data in
         return parseStudentCourse(data)
     }
     
@@ -650,14 +650,14 @@ let parseClassSchedule: JSONDictionary -> [[ClassScheduleDayModel]] = { schedule
     return weekSchedule
 }
 /// 学生上课时间表JSON解析器
-let parseStudentCourse: JSONDictionary -> [StudentCourseModel] = { courseInfos in
+let parseStudentCourse: JSONDictionary -> [StudentCourseModel]? = { courseInfos in
     
     /// 学生上课时间数组
     var courseList: [StudentCourseModel] = []
     
     /// 确保相应格式正确，且存在数据
     guard let courses = courseInfos["results"] as? [JSONDictionary] where courses.count != 0 else {
-        return courseList
+        return nil
     }
     
     ///  遍历字典数组，转换为模型
@@ -667,8 +667,10 @@ let parseStudentCourse: JSONDictionary -> [StudentCourseModel] = { courseInfos i
             end = course["end"] as? NSTimeInterval,
             subject = course["subject"] as? String,
             is_passed = course["is_passed"] as? Bool,
-            is_commened = course["is_commened"] as? Bool {
+            is_commened = course["is_commented"] as? Bool {
                 courseList.append(StudentCourseModel(dict: course))
+        }else {
+            return nil
         }
     }
     return courseList
