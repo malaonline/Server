@@ -32,13 +32,13 @@ import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.pay.ResultCallback;
-import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -395,7 +395,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                Times times = JsonUtil.parseStringData(json.toString(), Times.class);
+                TimesModel times = JsonUtil.parseStringData(json.toString(), TimesModel.class);
                 timesAdapter.clear();
                 if (times != null) {
                     timesAdapter.addAll(times.getDisplayTimes());
@@ -609,35 +609,5 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             ((TextView) convertView).setText(data);
         }
 
-    }
-
-    private static class Times {
-        private List<List<String>> data;
-        private List<String> displayTimes;
-
-        public List<List<String>> getData() {
-            return data;
-        }
-
-        public void setData(List<List<String>> data) {
-            this.data = data;
-        }
-
-        public List<String> getDisplayTimes() {
-            if (MiscUtil.isEmpty(data)) {
-                return new ArrayList<>();
-            }
-            displayTimes = new ArrayList<>();
-            for (List<String> item : data) {
-                try {
-                    String[] begins = CalendarUtils.format(item.get(0));
-                    String[] ends = CalendarUtils.format(item.get(1));
-                    displayTimes.add(String.format("%s (%s-%s)", begins[0], begins[1], ends[1]));
-                } catch (Exception e) {
-
-                }
-            }
-            return displayTimes;
-        }
     }
 }
