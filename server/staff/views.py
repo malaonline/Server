@@ -1510,7 +1510,7 @@ class OrderReviewView(BaseStaffView):
                 continue
             else:
                 kwargs['status'].append((key, text))
-        kwargs['schools'] = models.School.objects.filter(center=True)
+        kwargs['schools'] = models.School.objects.filter()
         kwargs['grades'] = models.Grade.objects.all()
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序

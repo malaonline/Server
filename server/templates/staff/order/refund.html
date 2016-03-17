@@ -86,6 +86,7 @@
             <th>退费金额</th>
             <th>状态</th>
             <th>退费原因</th>
+            <th>是否排课</th>
             <th>操作</th>
         </tr>
         {% for order in orders %}
@@ -115,6 +116,13 @@
 {# 退费金额 #}    <td>{{ order.refund_info.refund_amount|money_format:'/' }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
+{# 是否排课 #}    <td>
+                      {% if order.is_timeslot_allocated %}
+                      是
+                      {% else %}
+                      否
+                      {% endif %}
+                </td>
 {# 操作 #}       <td>
                     {% if order.refund_status == order.REFUND_PENDING %}
                         <a class="" data-action="refund-approve" orderId={{ order.id }}>审核通过</a>
