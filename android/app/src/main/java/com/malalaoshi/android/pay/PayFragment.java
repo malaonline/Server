@@ -176,7 +176,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 } else {
                     pendingDailog = dialog;
                 }
-                Log.e("AABB", "On activity result end");
             }
         }
     }

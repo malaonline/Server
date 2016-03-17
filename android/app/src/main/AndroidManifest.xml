@@ -146,7 +146,7 @@
 
         <!-- 微信支付 -->
         <activity-alias
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name="com.malalaoshi.android.parent.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
 
