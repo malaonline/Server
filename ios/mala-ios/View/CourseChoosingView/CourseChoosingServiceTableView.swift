@@ -44,8 +44,12 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let viewController = (services[indexPath.row].viewController) as? UIViewController.Type {
-            self.viewController()?.navigationController?.pushViewController(viewController.init(), animated: true)
+        // 跳转到对应的ViewController
+        if let type = (services[indexPath.row].viewController) as? UIViewController.Type {
+            let viewController = type.init()
+            (viewController as? CouponViewController)?.justShow = false
+            viewController.hidesBottomBarWhenPushed = true
+            self.viewController()?.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     

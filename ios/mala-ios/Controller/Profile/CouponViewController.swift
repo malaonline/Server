@@ -112,6 +112,11 @@ class CouponViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        ///  若只用于显示，直接return
+        if justShow {
+            return
+        }
+        
         let cell = tableView.cellForRowAtIndexPath(indexPath) as? CouponViewCell
 
         // 只有未使用的才可选中
@@ -133,10 +138,6 @@ class CouponViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return justShow ? false : true
-    }
-    
     
     // MARK: - DataSource
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
