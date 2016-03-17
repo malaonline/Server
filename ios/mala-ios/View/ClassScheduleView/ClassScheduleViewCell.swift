@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: ClassScheduleViewCellDelegate
 @objc public protocol ClassScheduleViewCellDelegate: NSObjectProtocol {
     ///  是否使用自定义颜色
     optional func classScheduleViewCell(cell: ClassScheduleViewCell, shouldUseCustomColorsForDate date: NSDate) -> Bool
@@ -18,12 +19,19 @@ import UIKit
 }
 
 
+// MARK: - ClassScheduleViewCell
 public class ClassScheduleViewCell: UICollectionViewCell {
 
     /// 圆心直径
     private let ClassScheduleViewCellCircleSize: CGFloat = 30.0
     
-    // MARK: - Property
+    // MARK: Property
+    public var models: [StudentCourseModel] = [] {
+        didSet {
+            self.dayLabel.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
+    
     /// 代理
     public weak var delegate: ClassScheduleViewCellDelegate?
     /// 是否为今天标记
@@ -44,7 +52,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 图形默认日期颜色
     public var circleDefaultColor: UIColor = MalaColor_FFFFFF_9
     /// 图形日期为今天时的颜色
-    public var circleTodayColor: UIColor = UIColor.orangeColor()
+    public var circleTodayColor: UIColor = UIColor.orangeColor() // useless
     /// cell被选中时的图形颜色
     public var circleSelectedColor: UIColor = MalaColor_82B4D9_0
     /// 文字默认颜色
@@ -79,7 +87,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
 
     // MARK: - Components
     /// 日期文字Label
-    private lazy var dayLabel: UILabel = {
+    lazy var dayLabel: UILabel = {
         let dayLabel = UILabel()
         dayLabel.font = self.textDefaultFont
         dayLabel.textAlignment = .Center

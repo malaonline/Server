@@ -14,6 +14,19 @@ private let kCalendarUnitYMD: NSCalendarUnit = [.Year, .Month, .Day]
 
 public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate, ClassScheduleViewCellDelegate {
 
+    // MARK: - Property
+    /// 上课时间表数据模型
+    var model: [Int:[Int:[StudentCourseModel]]]? {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+                self?.collectionView?.reloadData()
+            }
+        }
+    }
+    /// 当前月份
+    private let currentMonth = NSDate().month()
+    
+    
 
     // MARK: - Components
     /// 保存按钮
@@ -70,8 +83,13 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
             if let errorMessage = errorMessage {
                 println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
             }
-        }, completion: { (courseList) -> Void in
-                println("学生课程表: \(courseList)")
+        }, completion: { [weak self] (courseList) -> Void in
+            println("学生课程表: \(courseList)")
+            guard courseList != nil else {
+                println("学生上课时间表为空！")
+                return
+            }
+            self?.model = parseStudentCourseTable(courseList!)  
         })
     }
     
@@ -112,9 +130,16 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
             cell.refreshCellColors()
         }
         
+        // 若存在上课时间数据, 渲染Cell样式
+        let month = indexPath.section+currentMonth
+        let day = ((cell.date?.day() ?? 0))
+        if let model = model?[month]?[day] {
+            cell.models = model
+        }
+        
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.mainScreen().scale
-
+        
         return cell
     }
     

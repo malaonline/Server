@@ -131,6 +131,19 @@ class TestFactory {
         print(resultArray)
     }
     
+    class func testStudentCourseData() -> [StudentCourseModel] {
+        return [
+            StudentCourseModel(id: 1, end: NSTimeInterval(1457298000), subject: "数学", is_passed: true, is_commented: true), //2016.3.7
+            StudentCourseModel(id: 2, end: NSTimeInterval(1458334800), subject: "语文", is_passed: true, is_commented: true), //2016.3.19
+            StudentCourseModel(id: 3, end: NSTimeInterval(1458338400), subject: "语文", is_passed: true, is_commented: true), //2016.3.19
+            StudentCourseModel(id: 4, end: NSTimeInterval(1458324000), subject: "语文", is_passed: true, is_commented: true), //2016.3.19
+            StudentCourseModel(id: 5, end: NSTimeInterval(1458928800), subject: "英语", is_passed: true, is_commented: true), //2016.3.30
+            StudentCourseModel(id: 6, end: NSTimeInterval(1459951200), subject: "物理", is_passed: true, is_commented: true), //2016.4.6
+            StudentCourseModel(id: 7, end: NSTimeInterval(1459911600), subject: "物理", is_passed: true, is_commented: true), //2016.4.6
+            StudentCourseModel(id: 8, end: NSTimeInterval(1462935600), subject: "生物", is_passed: true, is_commented: true), //2016.5.11
+        ]
+    }
+    
     class func testDateInThisWeek() {
         print(NSDate().weekday())
         print("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))

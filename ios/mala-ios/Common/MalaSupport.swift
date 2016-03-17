@@ -70,9 +70,40 @@ func showSaveResult(viewController: UIViewController?, result: Bool, property: S
     
     dispatch_async(dispatch_get_main_queue()) { () -> Void in
         let string = result ? "成功" : "失败"
-        _ = JSSAlertView().show(viewController!,
-            title: String(format: "%@保存%@",
-                property, string)
+        _ = JSSAlertView().show(
+            viewController!,
+            title: String(format: "%@保存%@", property, string)
         )
     }
+}
+
+///  解析学生上课时间表
+///
+///  - returns: ClassScheduleViewController.model数据
+func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [Int:[Int:[StudentCourseModel]]] {
+    
+    var monthDicts = [Int:[Int:[StudentCourseModel]]]()
+    
+    ///  遍历上课时间表
+    for course in courseTable {
+        
+        let day = course.date.day()
+        let month = course.date.month()
+        
+        println("当前遍历 - 月份: \(course.date.month()) - 日期:\(day)")
+        
+        if monthDicts[month] == nil {
+            // 没有月份字典
+            monthDicts[month] = [Int:[StudentCourseModel]]()
+            monthDicts[month]![day] = [StudentCourseModel]()
+            
+        }else if monthDicts[month]![day] == nil {
+            // 没有日期字典
+            monthDicts[month]![day] = [StudentCourseModel]()
+        }
+        
+        // 月份与日期均存在，添加数据到list
+        monthDicts[month]![day]!.append(course)
+    }
+    return monthDicts
 }
