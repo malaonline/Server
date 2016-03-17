@@ -39,7 +39,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 class TimeSlotAdmin(admin.ModelAdmin):
     raw_id_fields = (
-            'order', 'confirmed_by', 'transferred_from', 'last_updated_by')
+            'order', 'confirmed_by', 'transferred_from', 'last_updated_by',
+            'comment', 'complaint', 'attendance')
     search_fields = ['order__teacher__name', 'order__parent__student_name']
 
 
