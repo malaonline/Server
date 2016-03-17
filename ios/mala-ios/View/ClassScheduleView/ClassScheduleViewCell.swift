@@ -78,6 +78,6 @@ class ClassScheduleViewCell: PDTSimpleCalendarViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        separatorLine.removeFromSuperview()
+        
     }
 }
