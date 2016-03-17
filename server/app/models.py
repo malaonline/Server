@@ -1251,7 +1251,8 @@ class OrderManager(models.Manager):
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
         if order.timeslot_set.count() > 0:
-            raise TimeSlotConflict()
+            logger.warn('Time slot already allocated for order %s' % order.id)
+            return
 
         name = '/teacher_%d' % order.teacher.id
         semaphore = posix_ipc.Semaphore(
