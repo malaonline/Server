@@ -238,8 +238,11 @@ $(function(){
 
     var $weeklyTable = $('#weeklyTable');
     var renderWeeklyTableBySchool = function(school_id) {
-        $weeklyTable.find('tbody > tr > td').each(function(){
-            $(this).removeClass('available').addClass('unavailable');
+        $weeklyTable.find('tbody > tr').each(function(){
+            $(this).find('td').each(function(i) {
+                if (i == 0) return;
+                $(this).removeClass('available').addClass('unavailable');
+            });
         });
         var params = {'school_id': school_id};
         $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
