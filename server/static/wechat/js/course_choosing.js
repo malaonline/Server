@@ -101,7 +101,7 @@ $(function(){
         var $schoolsCon = $('#schoolsContainer');
         $schools.remove();
         $schoolsCon.prepend(scs);
-        $chosenone.css('display', 'flex');
+        $chosenone.show();
         hideOtherSchools($chosenone);
     };
 
@@ -152,7 +152,7 @@ $(function(){
     $('#showMoreSchoolsBtn').click(function(e){
         $(this).hide();
         var $schools = $('.school');
-        $schools.css('display', 'flex');
+        $schools.show();
         $schools.last().addClass('last');
     });
 
@@ -238,7 +238,7 @@ $(function(){
         var params = {'school_id': school_id};
         $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
             var _map = _makeWeeklyTimeSlotToMap(json);
-            $weeklyTable.find('tbody > tr').each(function(){
+            $weeklyTable.find('tbody > tr').each(function(r){
                 var $row = $(this);
                 var timespan = $row.attr('start')+'_'+$row.attr('end');
                 $row.find('td').each(function(i, ele){
@@ -249,7 +249,7 @@ $(function(){
                     var $td = $(ele);
                     if (ts && ts.available) {
                         $td.attr('tsid', ts.id);
-                        $td.addClass('available');
+                        $td.removeClass('unavailable').addClass('available');
                     } else {
                         $td.removeClass('available').addClass('unavailable');
                     }

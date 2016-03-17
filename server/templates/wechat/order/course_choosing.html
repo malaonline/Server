@@ -33,10 +33,10 @@
 {#          选择上课地点#}
             <div class="weui_panel">
                 <div class="title_row">选择上课地点</div>
-                <div class="weui_cells weui_cells_radio schools-panel" id="schoolsContainer">
+                <div class="schools-panel" id="schoolsContainer">
 {#                    {% for school in schools %}#}
-                        <div class="weui_cell school" scid="{{ schools.0.id }}">
-                            <div class="weui_cell_bd weui_cell_primary school-body">
+                        <div class="school" scid="{{ schools.0.id }}">
+                            <div class="school-body">
                                 <div class="school-head">
                                     <span class="school-name">{{ schools.0.name }}</span>
                                     <span class="distance"></span>
@@ -45,7 +45,7 @@
                                     {{ schools.0.address }}
                                 </div>
                             </div>
-                            <div class="weui_cell_ft icons-area">
+                            <div class="icons-area">
                                 <i class="yes weui_icon_success"></i>
                                 <i class="no weui_icon_circle"></i>
                             </div>
@@ -53,8 +53,8 @@
 {#                    {% endfor %}#}
                     {% if schools|length > 0 %}
                         {% for school in schools|sub_list:'1:' %}
-                            <div class="weui_cell school" style="display: none;" scid="{{ school.id }}">
-                                <div class="weui_cell_bd weui_cell_primary school-body">
+                            <div class=" school" style="display: none;" scid="{{ school.id }}">
+                                <div class="school-body">
                                     <div class="school-head">
                                         <span class="school-name">{{ school.name }}</span>
                                         <span class="distance"></span>
@@ -63,7 +63,7 @@
                                         {{ school.address }}
                                     </div>
                                 </div>
-                                <div class="weui_cell_ft icons-area">
+                                <div class="icons-area">
                                     <i class="yes weui_icon_success"></i>
                                     <i class="no weui_icon_circle"></i>
                                 </div>

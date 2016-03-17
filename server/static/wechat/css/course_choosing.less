@@ -76,8 +76,13 @@
       }
     }
   }
+  @schoolHeight: 64pt;
   .schools-panel {
+    padding: 0 12px;
     .school {
+      position: relative;
+      height: @schoolHeight;
+      .clearfix();
       border-bottom: 1px solid @borderGray;
       &.last {
         border-bottom: 0;
@@ -86,23 +91,29 @@
         }
       }
       .school-body {
-        padding-right: 27px;
-      }
-      .school-head{
-        padding: 10px 0 5px 0;
-        .school-name {
-          .subTitle();
+        position: absolute;
+        height: @schoolHeight;
+        width: 100%;
+        padding-right: 27pt;
+        .school-head{
+          padding: 10px 0 5px 0;
+          .school-name {
+            .subTitle();
+          }
+          .distance {
+            float: right;
+            .note();
+          }
         }
-        .distance {
-          float: right;
+        .address {
+          padding: 5px 0 10px 0;
           .note();
         }
       }
-      .address {
-        padding: 5px 0 10px 0;
-        .note();
-      }
       .icons-area {
+        height: @schoolHeight;
+        line-height: @schoolHeight;
+        float: right;
         .weui_icon_success {
           color: @mainRed;
           &:before {
