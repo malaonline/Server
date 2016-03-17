@@ -108,9 +108,10 @@ class School(BaseModel):
 
     def get_photo_url_list(self):
         if self.schoolphoto_set.first():
-            return list(map(lambda x:x.img_url(),self.schoolphoto_set.all()))
+            return list(map(lambda x: x.img_url(), self.schoolphoto_set.all()))
         else:
             return ""
+
 
 class SchoolPhoto(BaseModel):
     school = models.ForeignKey(School)
@@ -196,7 +197,8 @@ class LevelRecord(BaseModel):
     to_level = models.ForeignKey(Level, null=True, on_delete=models.SET_NULL)
     # 最后一条记录,即当前老师的级别评定时间
     create_at = models.DateTimeField(auto_now=True)
-    teacher = models.ForeignKey("Teacher", null=True, on_delete=models.SET_NULL)
+    teacher = models.ForeignKey(
+            "Teacher", null=True, on_delete=models.SET_NULL)
 
     DEGRADE = 'd'
     UPGRADE = 'u'
@@ -207,7 +209,8 @@ class LevelRecord(BaseModel):
         (BECOME, "成为")
     )
     # 升级,降级,设成choice
-    operation = models.CharField(max_length=1, choices=OPERATION_CHOICE, default=UPGRADE)
+    operation = models.CharField(
+            max_length=1, choices=OPERATION_CHOICE, default=UPGRADE)
 
     def __str__(self):
         operation = {}
@@ -388,7 +391,8 @@ class Teacher(BaseModel):
         abilities = self.abilities.all()
         return Price.objects.filter(
                 level=self.level, region=self.region,
-                ability__grade__leaf=True, ability__in=abilities).order_by('pk')
+                ability__grade__leaf=True,
+                ability__in=abilities).order_by('pk')
 
     def min_price(self):
         prices = list(self.prices())
@@ -430,7 +434,9 @@ class Teacher(BaseModel):
     def set_status(self, operator: User, new_status: int):
         # operator: 操作人
         # new_status: 新的状态
-        AuditRecord.new_audit_record(operator, teacher=self, old_statue=self.status, new_statue=new_status)
+        AuditRecord.new_audit_record(
+                operator, teacher=self, old_statue=self.status,
+                new_statue=new_status)
         self.status = new_status
         self.save()
 
@@ -641,6 +647,7 @@ class Teacher(BaseModel):
         user.save()
         return teacher
 
+
 class AuditRecord(BaseModel):
     # 新老师审核记录
     # 记录创建时间
@@ -675,9 +682,13 @@ class AuditRecord(BaseModel):
     operation = models.CharField(max_length=3, choices=OPERATION_CHOICE)
 
     @staticmethod
-    def new_audit_record(operator: User, teacher: Teacher, old_statue: int, new_statue: int):
+    def new_audit_record(
+            operator: User, teacher: Teacher, old_statue: int,
+            new_statue: int):
         # 创建一个新的审核记录
-        new_audit_record = AuditRecord(teacher=teacher, operator=operator, operation=AuditRecord.OPERATION_PATH[(old_statue, new_statue)])
+        new_audit_record = AuditRecord(
+                teacher=teacher, operator=operator,
+                operation=AuditRecord.OPERATION_PATH[(old_statue, new_statue)])
         new_audit_record.save()
         return new_audit_record
 
@@ -691,11 +702,6 @@ class AuditRecord(BaseModel):
         return msg
 
     def __str__(self):
-        msg = "未知操作"
-        for key, val in self.OPERATION_CHOICE:
-            if self.operation == key:
-                msg = val
-                break
         time_str = localtime(self.create_at).strftime("%Y-%m-%d %H:%M:%S")
         return "{time} {operator}对{teacher}进行{operation}操作".format(
             time=time_str,
@@ -828,7 +834,8 @@ class Account(BaseModel):
     @property
     def calculated_balance(self):
         # 可用余额, 减去提现申请中的部分
-        return self.accounthistory_set.all().filter(valid=True).aggregate(models.Sum('amount'))["amount__sum"] or 0
+        return self.accounthistory_set.all().filter(valid=True).aggregate(
+                models.Sum('amount'))["amount__sum"] or 0
 
     @property
     def withdrawable_amount(self):
@@ -998,7 +1005,8 @@ class AccountHistory(BaseModel):
                                'D' if self.done else '')
 
     @staticmethod
-    def build_withdrawal_history(withdrawal: Withdrawal, account: Account, amount: int):
+    def build_withdrawal_history(
+            withdrawal: Withdrawal, account: Account, amount: int):
         """
         创建提现历史记录
         :param withdrawal: 提现对象
@@ -1008,7 +1016,8 @@ class AccountHistory(BaseModel):
         """
         if amount > 0:
             raise Exception("转账金额记录入AccountHistory必须为负")
-        new_acc_history = AccountHistory(account=account, withdrawal=withdrawal, amount=amount)
+        new_acc_history = AccountHistory(
+                account=account, withdrawal=withdrawal, amount=amount)
         new_acc_history.op_by_function = True
         new_acc_history.save()
         return new_acc_history
@@ -1024,7 +1033,8 @@ class AccountHistory(BaseModel):
         """
         if amount < 0:
             raise Exception("上课报酬必须为正")
-        new_acc_history = AccountHistory(account=account, timeslot=timeslot, amount=amount)
+        new_acc_history = AccountHistory(
+                account=account, timeslot=timeslot, amount=amount)
         new_acc_history.op_by_function = True
         new_acc_history.save()
         return new_acc_history
@@ -1085,10 +1095,14 @@ class Parent(BaseModel):
 
             couponGenerators = CouponGenerator.objects.order_by('-id')
             couponGenerator = list(couponGenerators) and couponGenerators[0]
-            if couponGenerator and couponGenerator.activated and (couponGenerator.expired_at > timezone.now()):
-                Coupon.objects.get_or_create(parent=self, name='新生奖学金', amount=couponGenerator.amount,
-                                mini_course_count=couponGenerator.mini_course_count,validated_start=couponGenerator.validated_start,
-                                expired_at=couponGenerator.expired_at,used=False)
+            if couponGenerator and couponGenerator.activated and (
+                    couponGenerator.expired_at > timezone.now()):
+                Coupon.objects.get_or_create(
+                        parent=self, name='新生奖学金',
+                        amount=couponGenerator.amount,
+                        mini_course_count=couponGenerator.mini_course_count,
+                        validated_start=couponGenerator.validated_start,
+                        expired_at=couponGenerator.expired_at, used=False)
         else:
             super(Parent, self).save(*args, **kwargs)
 
@@ -1181,7 +1195,6 @@ class OrderManager(models.Manager):
 
         order_id = orderid()
 
-
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours,
@@ -1205,7 +1218,8 @@ class OrderManager(models.Manager):
         date += datetime.timedelta(minutes=1)
 
         cur_min = self._weekly_date_to_minutes(date)
-        wtss = sorted(weekly_time_slots,
+        wtss = sorted(
+                weekly_time_slots,
                 key=lambda x: self._delta_minutes(x, cur_min))
 
         occupied_dict = {}
@@ -1494,7 +1508,9 @@ class Order(BaseModel):
         # 首单必须是已支付的
         if self.status == Order.PAID:
             # 获取同一家长(学生), 同一科目, 且已经支付的订单数量
-            count = Order.objects.filter(parent=self.parent, subject=self.subject, status=Order.PAID).count()
+            count = Order.objects.filter(
+                    parent=self.parent, subject=self.subject,
+                    status=Order.PAID).count()
             # 如果只有一条记录, 则为该科目首单
             if count == 1:
                 return True
@@ -1654,14 +1670,15 @@ class Comment(BaseModel):
             return True
         return False
 
+
 class TimeSlotShouldAutoConfirmManager(models.Manager):
     def get_queryset(self):
         now = timezone.localtime(timezone.now())
         autoConfirmDeltaTime = TimeSlot.CONFIRM_TIME
-        return super(TimeSlotShouldAutoConfirmManager, self).get_queryset().filter(
-            attendance__isnull=True).filter(
-            end__lt = now - autoConfirmDeltaTime
-        )
+        return super(TimeSlotShouldAutoConfirmManager, self).get_queryset(
+                ).filter(attendance__isnull=True).filter(
+                        end__lt=now - autoConfirmDeltaTime)
+
 
 class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
@@ -1768,6 +1785,7 @@ class TimeSlot(BaseModel):
             amount = amount * (100 - self.order.commission_percentage) // 100
             if amount < 0:
                 amount = 0
+
             try:
                 ah = AccountHistory.build_timeslot_history(self,account,amount)
                 # 短信通知老师
@@ -1870,7 +1888,10 @@ class TimeSlot(BaseModel):
 
                 # 校验成功
                 # 生成新的调课后课程, transferred_from 为最原始的课程(如果原课程已经被调过)
-                transferred_from = self.transferred_from if self.transferred_from is not None else self
+                transferred_from = (
+                        self.transferred_from
+                        if self.transferred_from is not None else self)
+
                 new_timeslot = TimeSlot(
                     order=self.order,
                     start=new_start,
