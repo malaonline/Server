@@ -104,8 +104,13 @@
                 </div>
             </div>
 {#          上课时间预览#}
-            <div class="weui_panel">
-                <div class="title_row">上课时间</div>
+            <div class="weui_panel closed" id="courseTimePreviewPanel">
+                <div class="title_row">上课时间
+                    <div class="icons-area">
+                        <img class="down" src="{% static 'wechat/images/down_chevron.png' %}">
+                        <img class="up" src="{% static 'wechat/images/up_chevron.png' %}">
+                    </div>
+                </div>
                 <div class="m-panel" id="courseTimePreview">
 
                 </div>

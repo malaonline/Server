@@ -262,7 +262,28 @@
   }
 }
 
+#courseTimePreviewPanel {
+  .icons-area {
+    float: right;
+    .up {
+      display: none;
+    }
+  }
+  &.closed {
+    .down {
+      display: none;
+    }
+    .up {
+      display: inline;
+    }
+    #courseTimePreview {
+      display: none;
+    }
+  }
+}
+
 #courseTimePreview {
+  //margin-top: 6px;
   font-size: @subTitleSize;
   color: @grayLight;
 }

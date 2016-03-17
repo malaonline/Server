@@ -349,6 +349,16 @@ $(function(){
         }
     });
 
+    $('#courseTimePreviewPanel').click(function(){
+        var $panel = $(this);
+        $panel.toggleClass('closed');
+        if ($panel.hasClass('closed')) {
+            $('#courseTimePreview').hide();
+        } else {
+            $('#courseTimePreview').show();
+        }
+    });
+
     $('#decHoursBtn').click(function(e){
         var hours = parseInt($('#courseHours').text());
         if (hours <= chosen_weekly_time_slots.length * 2) {
