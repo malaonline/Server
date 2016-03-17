@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
 from django.core import urlresolvers
@@ -36,6 +37,12 @@ class OrderAdmin(admin.ModelAdmin):
                 ) or ''
 
 
+class TimeSlotAdmin(admin.ModelAdmin):
+    raw_id_fields = (
+            'order', 'confirmed_by', 'transferred_from', 'last_updated_by')
+    search_fields = ['order__teacher__name', 'order__parent__student_name']
+
+
 admin.site.register(Region, RegionAdmin)
 admin.site.register(School)
 admin.site.register(Grade)
@@ -62,7 +69,7 @@ admin.site.register(WeeklyTimeSlot)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderRefundRecord)
 admin.site.register(Charge)
-admin.site.register(TimeSlot)
+admin.site.register(TimeSlot, TimeSlotAdmin)
 admin.site.register(TimeSlotAttendance)
 admin.site.register(Comment)
 admin.site.register(Message)

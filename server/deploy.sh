@@ -21,7 +21,7 @@ fi
 if [ -n "`ps aux | grep celery | grep python | awk '{ print $2 }'`" ]
 then
     echo 'Restarting celery...'
-    sudo /etc/init.d/celerybeat stop
+    #sudo /etc/init.d/celerybeat stop
     celery multi restart autoconfirm --pidfile=/var/run/celery/%n.pid  --beat
     echo 'Restarted.'
 else
