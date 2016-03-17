@@ -47,12 +47,19 @@ function checkSMS(){
     itm.removeClass('ext_btn_disabled');
     return false;
   }
+  $('.msg-error').html('验证码错误');
+  $('.msg-error').css('display', 'none');
   $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: openid},
     function(data){
       console.log(data);
       if(data.result == false){
         //    验证码错误
-        alert("验证码失败！")
+        $('.msg-error').css('display', 'block');
+        if(data.code == '-1'){
+          $('.msg-error').html('openid错误');
+        }else if(data.code == '-2'){
+          $('.msg-error').html('验证码错误');
+        }
       }else{
         console.log("验证码正确")
         if(nextpage != "None"){

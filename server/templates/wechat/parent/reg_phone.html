@@ -32,22 +32,22 @@
                 <div class="weui_cell_hd">
                     <img src="{% static 'common/icons/user_phone.png' %}" />
                 </div>
-                <div class="weui_cell_bd weui_cell_primary set-margin">
-                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" id="phoneCode"/>
-                </div>
                 <div class="weui_cell_ft">
                     <a href="javascript:;" class="weui_btn ext_btn_primary">获取验证码</a>
+                </div>
+                <div>
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入手机号" id="phoneCode"/>
                 </div>
             </div>
             <div class="weui_cell">
                 <div class="weui_cell_hd">
                     <img src="{% static 'common/icons/user_code.png' %}" />
                 </div>
-                <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入验证码" id="smsCode"/>
-                </div>
                 <div class="msg-error">
                     <img src="{% static 'common/icons/warn.png' %}" /> 验证码错误
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" pattern="[0-9]*" placeholder="请输入验证码" id="smsCode"/>
                 </div>
             </div>
         </div>

@@ -822,7 +822,8 @@ def add_openid(request):
     else:
         # 验证失败
         return JsonResponse({
-            "result": False
+            "result": False,
+            "code": -2
         })
 
 @csrf_exempt

@@ -26,7 +26,32 @@ body{
 .set-margin{
   margin-left: 5px;
 }
-
+.weui_cell{
+  display: block;
+  height: 42px;
+  line-height: 42px;
+  >div:first-child{
+    float: left;
+  }
+  >div:nth-child(2){
+    float: right;
+  }
+  >div:last-child{
+    width: auto;
+    margin-left: 32px;
+    margin-right: 122px;
+    input{
+      margin-top: 14px;
+    }
+  }
+}
+.weui_cell_hd{
+  height: 45px;
+  line-height: 45px;
+  >img{
+    vertical-align: middle;
+  }
+}
 .ext_btn_primary{
     background-color: #86bedd;
     &:not(.weui_btn_disabled):visited{
