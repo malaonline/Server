@@ -301,7 +301,8 @@ def wx_send_tpl_msg(token, tpl_id, openid, data, detail_url=''):
     resp = requests.post(wx_url, data=json.dumps(ct))
     if resp.status_code == 200:
         ret_json = json.loads(resp.content.decode('utf-8'))
-        logger.debug(ret_json)
     else:
         ret_json = {'ok': False}
+    logger.debug("wx_send_tpl_msg:")
+    logger.debug(ret_json)
     return ret_json

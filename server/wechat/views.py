@@ -342,7 +342,7 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
 
     try:
         models.Order.objects.allocate_timeslots(order)
-        return JsonResponse({'ok': 1})
+        # return JsonResponse({'ok': 1})
     except TimeSlotConflict:
         logger.warning('timeslot conflict, do refund, order_id: '+order_id)
         # 微信通知用户失败信息
@@ -356,6 +356,7 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         except RefundError as e:
             logger.error(e)
             raise e
+        return # 没有其他错误, 直接返回
 
     # 设置代金券为已使用
     if order.coupon:
