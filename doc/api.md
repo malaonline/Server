@@ -825,8 +825,10 @@ result:
 {
     "id": 123,
     "status": "p"
+    "is_timeslot_allocated": true
 }
 ```
+If `is_timeslot_allocated` is `false`, should notify user courses have been preempted.
 
 ### Get if user has been evaluated for this subject
 
