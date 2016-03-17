@@ -113,8 +113,10 @@ class ConcreteTimeSlots(View):
         teacher = get_object_or_404(
                 models.Teacher, pk=request.GET.get('teacher'))
         assert hours % 2 == 0
-        if hours > 100:
-            return JsonResponse({'error': 'too many hours'})
+        assert hours > 0
+
+        hours = min(hours, 35)  # Only return first 35 timeslots
+
         weekly_time_slots = request.GET.get('weekly_time_slots').split()
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
                              for x in weekly_time_slots]
