@@ -130,7 +130,7 @@ class ConcreteTimeSlots(View):
 
         return JsonResponse({'data': data})
 
-
+# TODO: 在生产环境去掉!
 class autoConfirmClassesView(View):
     template_name="app/test_auto_confirm_classes.html"
 
@@ -141,8 +141,6 @@ class autoConfirmClassesView(View):
         else:
             res_str = '失败'
         return HttpResponse('<h1>'+res_str+'</h1>')
-
-
 
 
 class Sms(View):
