@@ -13,7 +13,7 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+    <script src="http://172.16.0.33:9974/target/target-script-min.js#anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}">
     <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
@@ -44,6 +44,8 @@
         var userPhotos = [];
         var schoolPhotos = [];
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
+        var pullDownImg = '{% static 'common/icons/pull_down.png' %}';
+        var moreImg = '{% static 'common/icons/more.png' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url|safe }}";
@@ -61,6 +63,8 @@
         {%endif%}
         function pageload(){
             $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%}');
+            $('#moreSchoolDown').attr('src', pullDownImg);
+            $('#morePhotos').attr('src', moreImg);
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img>');
               nimg.attr('src', userPhotos[i]);
@@ -144,6 +148,7 @@
                     <div>
                         个人相册
                         <div class="weui_cell_ft">
+                            <img id="morePhotos">
                         </div>
                     </div>
                     <div class="teacher_images">
@@ -180,7 +185,7 @@
                                 </div>
                                 {%if forloop.counter == 1%}
                                 <div class="more_schools" id="more_schools">
-                                    其他社区中心 <label class="more_school_down"></label>
+                                    其他社区中心 <img id="moreSchoolDown">
                                 </div>
                                 {%endif%}
                             {%endfor%}
@@ -206,8 +211,10 @@
                     </div>
                 </div>
             </div>
-            <div class="weui_tabbar">
-                <a href="javascript:;" class="weui_btn ext_weui_btn_primary">马上报名</a>
+            <div class="submit_content">
+                <div>
+                    <div class="ext_weui_btn_submit">马上报名</div>
+                </div>
             </div>
         </div>
     </div>
