@@ -1,5 +1,3 @@
-//console.log(photosdic)
-
 //测试用:大望路附近坐标:39.913608,116.482342
 
 $(function(){
@@ -15,4 +13,4 @@ $(function(){
 
         schoolPhotosPopup.open()
     });
-})
+});
