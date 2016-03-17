@@ -1298,18 +1298,20 @@ class OrderManager(models.Manager):
                 # 记录申请时间, 用于 query
                 order.refund_at = record.created_at
                 order.save()
-                # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
-                assert TimeSlot.objects.all().filter(
-                    order=order,
-                    deleted=False,
-                    end__gt=record.created_at - TimeSlot.CONFIRM_TIME
-                ).count() * 2 == record.remaining_hours
-                # 释放该订单内的所有未完成的课程时间
-                TimeSlot.objects.all().filter(
-                    order=order,
-                    deleted=False,
-                    end__gt=record.created_at - TimeSlot.CONFIRM_TIME
-                ).update(deleted=True)
+                if TimeSlot.objects.filter(
+                        order=order, deleted=False).count() > 0:
+                    # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
+                    assert TimeSlot.objects.all().filter(
+                        order=order,
+                        deleted=False,
+                        end__gt=record.created_at - TimeSlot.CONFIRM_TIME
+                    ).count() * 2 == record.remaining_hours
+                    # 释放该订单内的所有未完成的课程时间
+                    TimeSlot.objects.all().filter(
+                        order=order,
+                        deleted=False,
+                        end__gt=record.created_at - TimeSlot.CONFIRM_TIME
+                    ).update(deleted=True)
         except IntegrityError as err:
             logger.error(err)
             raise RefundError('退费失败, 请稍后重试或联系管理员')

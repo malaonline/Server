@@ -72,6 +72,7 @@ class ChargeSucceeded(View):
                 raise PermissionDenied()
 
         data = json.loads(body.decode('utf-8'))
+        logger.info(data)
 
         if data['type'] != 'charge.succeeded':
             raise PermissionDenied()
