@@ -129,7 +129,7 @@ DATABASES = {
 
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # 自动确认课时使用的间隔
-CELERY_AUTOCONFIRM_CLASSES_INTERVAL = 10
+CELERY_AUTOCONFIRM_CLASSES_INTERVAL = 10*60
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
