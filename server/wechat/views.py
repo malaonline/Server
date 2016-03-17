@@ -750,7 +750,7 @@ def getSchoolsWithDistance(request):
         pointB = None
         sc = {
             'name': school.name,
-            'img': school.get_thumbnail(),
+            'img': school.get_thumbnail,
             'address': school.address,
             'region': school.region.name
         }
