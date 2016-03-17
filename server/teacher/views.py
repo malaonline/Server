@@ -978,7 +978,7 @@ class MyStudents(BasicTeacherView):
     TW-5-2, 我的学生
     """
 
-    def get_student_statistics(self, teacher: models.Teacher, student_type: int, per_page: int, offset: int):
+    def get_student_statistics2(self, teacher: models.Teacher, student_type: int, per_page: int, offset: int):
         """
         不同类型的学生统计
         :param teacher: 老师
@@ -988,52 +988,140 @@ class MyStudents(BasicTeacherView):
         :return: { "student_statistics": [当前学生,结课学生,退费学生],}
         """
         # 先获得不同学生在这个老师下的最新订单
-        student_list = models.Parent.objects.filter(order__teacher=teacher)
-        write = logger.info
-        write("==============")
-        write("当前老师的所有学生: {student_list}".format(student_list=
-            ", ".join(["{name}({id})".format(
-                name=one_student.student_name, id=one_student.pk) for one_student in student_list]))
-        )
+        # 退费统计
+        refund_count = 0
+        # 结课统计
+        session_count = 0
+        # 当前正在上课
+        current_count = 0
+        page_student_list = []
+
+        refund_student_list = models.Parent.objects.filter(order__teacher=teacher, order__status=models.Order.REFUND,
+                                                           order__timeslot__isnull=False).distinct("pk")
+        # 统计退费学生
+        refund_count = refund_student_list.count()
+        # 不存在退费的学生
+        student_list = models.Parent.objects.filter(order__teacher=teacher, order__status=models.Order.PAID,
+                                                    order__timeslot__isnull=False).distinct("pk")
+        if student_type == 2:
+            # 填充退费学生信息
+            page_student_list = refund_student_list
+        for one_student in student_list:
+            if models.TimeSlot.objects.filter(order__teacher=teacher, order__parent=one_student,
+                                              order__status=models.Order.PAID, end__gt=timezone.now()).exists():
+                # 统计上课学生
+                current_count += 1
+                # 填充上课学生信息
+                if student_type == 0:
+                    page_student_list.append(one_student)
+            else:
+                # 统计结课学生
+                session_count += 1
+                # 填充结课学生信息
+                if student_type == 1:
+                    page_student_list.append(one_student)
+        # 填充信息
+        p = Paginator(page_student_list, per_page)
+        page_student_details = []
+        # 找到特定分页进行详细处理
+        for one_student in p.page(offset).object_list:
+            one_order = one_student.order_set.all()[0]
+            one_details = {
+                "name": one_student.student_name or one_student.user.profile.phone,
+                "grade": one_order.grade,
+                "price": "￥{price}/小时".format(price=one_order.price),
+                "mail": True
+            }
+
+            if student_type == 0:
+                # 当前学生需要检查新生,续费,和正常三种情况
+                one_details["state"] = "正常"
+            elif student_type == 1:
+                one_details["state"] = "结课"
+            elif student_type == 2:
+                one_details["state"] = "退费"
+            page_student_details.append(one_details)
+        return {
+            "student_statistics": [current_count, session_count, refund_count],
+            "student_details": page_student_details,
+            "num_pages": p.num_pages
+        }
+
+    def get_student_statistics(self, teacher: models.Teacher, student_type: int, per_page: int, offset: int):
+        """
+        不同类型的学生统计
+        :param teacher: 老师
+        :param student_type: 0 - 当前学生, 1 - 结课学生, 2 - 退费学生
+        :param per_page: 分页每页显示的学生数目
+        :param offset: 当前位置
+        :return: { "student_statistics": [当前学生,结课学生,退费学生],}
+        """
+        #
+        student_list = models.Parent.objects.filter(order__teacher=teacher).distinct("pk")
+        if student_type == 2:
+            # 显示退费学生
+            student_list = models.Parent.objects.filter(order__teacher=teacher, order__status=models.Order.REFUND).distinct("pk")
+        else:
+            # 不存在退费的学生
+            student_list = models.Parent.objects.filter(order__teacher=teacher, order__status=models.Order.PAID).distinct("pk")
+            for one_student in student_list:
+                if models.TimeSlot.objects.filter(order__teacher=teacher, order__parent=one_student,
+                                                  order__status=models.Order.PAID, end__gt=timezone.now()).exists():
+                    # 还有课没上
+                    pass
+                else:
+                    # 所有课都上了
+                    pass
+
+        # write = logger.info
+        # write("==============")
+        # write("当前老师的所有学生: {student_list}".format(student_list=
+        #     ", ".join(["{name}({id})".format(
+        #         name=one_student.student_name, id=one_student.pk) for one_student in student_list]))
+        # )
         refund_count = 0
         session_count = 0
         current_count = 0
         page_student_list = []
         for one_student in student_list:
             # 最新的订单
-            the_order = one_student.order_set.filter(teacher=teacher).latest("created_at")
-
-            if the_order.status == models.Order.REFUND:
-                # 退费学生
-                refund_count += 1
-                if student_type == 2:
-                    page_student_list.append((one_student, the_order))
-                    logger.info("退费学生:{name} [{phone}], {created_at}".format(
-                        name=one_student.student_name, phone=one_student.user.profile.phone,
-                        created_at=the_order.created_at
-                    ))
-            elif the_order.status == models.Order.PAID:
-                # 都是付费学生
-                if the_order.timeslot_set.filter(end__gt=timezone.now(), order__teacher=teacher).exists():
-                    # 还有没上完的课
-                    current_count += 1
-                    if student_type == 0:
+            try:
+                the_order = one_student.order_set.filter(Q(teacher=teacher),
+                                                         Q(status=models.Order.PAID)|Q(status=models.Order.REFUND)).latest("created_at")
+            except models.Order.DoesNotExist:
+                continue
+            if the_order.timeslot_set.all().exists():
+                if the_order.status == models.Order.REFUND:
+                    # 退费学生
+                    refund_count += 1
+                    if student_type == 2:
                         page_student_list.append((one_student, the_order))
-                        logger.info("正常上课学生:{name} [{phone}], {created_at}".format(
-                            name=one_student.student_name, phone=one_student.user.profile.phone,
-                            created_at=the_order.created_at
-                        ))
-                else:
-                    # 所有的课都上完了
-                    session_count += 1
-                    if student_type == 1:
-                        page_student_list.append((one_student, the_order))
-                        write("结课学生:{name} [{phone}], {created_at}".format(
-                            name=one_student.student_name, phone=one_student.user.profile.phone,
-                            created_at=localtime(the_order.created_at)
-                        ))
-        write("===========")
-        write("当前页面")
+                        # logger.info("退费学生:{name} [{phone}], {created_at}".format(
+                        #     name=one_student.student_name, phone=one_student.user.profile.phone,
+                        #     created_at=the_order.created_at
+                        # ))
+                elif the_order.status == models.Order.PAID:
+                    # 都是付费学生
+                    if the_order.timeslot_set.filter(end__gt=timezone.now(), order__teacher=teacher).exists():
+                        # 还有没上完的课
+                        current_count += 1
+                        if student_type == 0:
+                            page_student_list.append((one_student, the_order))
+                            # logger.info("正常上课学生:{name} [{phone}], {created_at}".format(
+                            #     name=one_student.student_name, phone=one_student.user.profile.phone,
+                            #     created_at=the_order.created_at
+                            # ))
+                    else:
+                        # 所有的课都上完了
+                        session_count += 1
+                        if student_type == 1:
+                            page_student_list.append((one_student, the_order))
+                            # write("结课学生:{name} [{phone}], {created_at}".format(
+                            #     name=one_student.student_name, phone=one_student.user.profile.phone,
+                            #     created_at=localtime(the_order.created_at)
+                            # ))
+        # write("===========")
+        # write("当前页面")
         p = Paginator(page_student_list, per_page)
         page_student_details = []
         # 找到特定分页进行详细处理
@@ -1061,12 +1149,12 @@ class MyStudents(BasicTeacherView):
                 one_details["state"] = "结课"
             elif student_type == 2:
                 one_details["state"] = "退费"
-            logger.info("{name} {phone} student_id:{si} order_id:{order_id}         ".format(
-                name=one_details["name"], phone=one_student.user.profile.phone,
-                si=one_student.pk, order_id=one_order.pk
-            ))
+            # logger.info("{name} {phone} student_id:{si} order_id:{order_id}         ".format(
+            #     name=one_details["name"], phone=one_student.user.profile.phone,
+            #     si=one_student.pk, order_id=one_order.pk
+            # ))
             page_student_details.append(one_details)
-        write("===========结束========")
+        # write("===========结束========")
         return {
             "student_statistics": [current_count, session_count, refund_count],
             "student_details": page_student_details,
@@ -1080,7 +1168,7 @@ class MyStudents(BasicTeacherView):
         # filter_student_state = student_state[int(student_type)]
         # student_list, total_page = self.current_student(teacher, filter_student_state, 11, offset)
 
-        ss = self.get_student_statistics(teacher, int(student_type), 11, offset)
+        ss = self.get_student_statistics2(teacher, int(student_type), 11, offset)
         student_list = ss["student_details"]
         total_page = ss["num_pages"]
 
