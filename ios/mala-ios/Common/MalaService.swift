@@ -415,6 +415,15 @@ func isHasBeenEvaluatedWithSubject(subjectID: Int, failureHandler: ((Reason, Str
     }
 }
 
+///  获取学生上课时间表
+///
+///  - parameter page:           页数
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: [StudentCourseModel] -> Void) {
+    
+}
+
 
 // MARK: - Teacher
 ///  获取[指定老师]在[指定上课地点]的可用时间表
