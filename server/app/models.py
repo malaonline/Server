@@ -444,11 +444,11 @@ class Teacher(BaseModel):
         Certificate = apps.get_model('app', 'Certificate')
         if self.is_english_teacher():
             cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC,
-                          Certificate.TEACHING, Certificate.OTHER]
-        else:
-            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC,
                           Certificate.TEACHING, Certificate.ENGLISH,
                           Certificate.OTHER]
+        else:
+            cert_types = [Certificate.ID_HELD, Certificate.ACADEMIC,
+                          Certificate.TEACHING, Certificate.OTHER]
         return Certificate.objects.filter(
                 teacher=self, verified=True, type__in=cert_types).distinct(
                         'type').count()
