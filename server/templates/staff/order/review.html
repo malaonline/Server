@@ -93,7 +93,7 @@
         </div>
     </form>
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped table-hover">
         <tr>
             <th>订单号</th>
             <th>下单时间</th>
@@ -108,18 +108,18 @@
             <th>报课科目</th>
             <th>上课地点</th>
             <th>上课时间</th>
-            <th>小时单价</th>
-            <th>购买小时</th>
-            <th bgcolor="#00bfff">订单金额</th>
-            <th>奖学金</th>
-            <th>消耗小时</th>
-            <th bgcolor="#00bfff">消耗订单金额</th>
-            <th>剩余小时</th>
-            <th bgcolor="#00bfff">剩余订单金额</th>
-            <th>退费小时</th>
-            <th bgcolor="#00bfff">退费金额</th>
-            <th>实际上课小时</th>
-            <th bgcolor="#00bfff">实际订单金额</th>
+            <th class="text-right">小时单价</th>
+            <th class="text-right">购买小时</th>
+            <th class="text-right" bgcolor="#00bfff">订单金额</th>
+            <th class="text-right">奖学金</th>
+            <th class="text-right">消耗小时</th>
+            <th class="text-right" bgcolor="#00bfff">消耗订单金额</th>
+            <th class="text-right">剩余小时</th>
+            <th class="text-right" bgcolor="#00bfff">剩余订单金额</th>
+            <th class="text-right">退费小时</th>
+            <th class="text-right" bgcolor="#00bfff">退费金额</th>
+            <th class="text-right">实际上课小时</th>
+            <th class="text-right" bgcolor="#00bfff">实际订单金额</th>
             <th>操作</th>
         </tr>
         {% for order in orders %}
@@ -164,21 +164,21 @@
                         <br/><br/>
                     {% endfor %}
                 </td>
-{# 小时单价 #}    <td>{{ order.price|money_format:'/' }}</td>
-{# 购买小时 #}    <td>{{ order.hours }}</td>
-{# 订单金额 #}    <td>{{ order.total|money_format:'/' }}</td>
-{# 奖学金额 #}    <td>
+{# 小时单价 #}    <td class="text-right">{{ order.price|money_format:'/' }}</td>
+{# 购买小时 #}    <td class="text-right">{{ order.hours }}</td>
+{# 订单金额 #}    <td class="text-right">{{ order.total|money_format:'/' }}</td>
+{# 奖学金额 #}    <td class="text-right">
                     {% if order.coupon.amount %}
                         {{ order.coupon.amount|money_format:'/' }}
                     {% else %}
                         0
                     {% endif %}
                 </td>
-{# 消耗小时 #}    <td>{{ order.completed_hours }}</td>
-{# 消耗订单金额 #} <td>{{ order.completed_amount|money_format:'/' }}</td>
-{# 剩余小时 #}    <td>{{ order.remaining_hours }}</td>
-{# 剩余订单金额 #} <td>{{ order.remaining_amount|money_format:'/' }}</td>
-{# 退费小时 #}    <td>
+{# 消耗小时 #}    <td class="text-right">{{ order.completed_hours }}</td>
+{# 消耗订单金额 #} <td class="text-right">{{ order.completed_amount|money_format:'/' }}</td>
+{# 剩余小时 #}    <td class="text-right">{{ order.remaining_hours }}</td>
+{# 剩余订单金额 #} <td class="text-right">{{ order.remaining_amount|money_format:'/' }}</td>
+{# 退费小时 #}    <td class="text-right">
                     <!--退费成功才显示此项, 否则显示0-->
                     {% if order.status == order.REFUND %}
                         {{ order.refund_info.refund_hours }}
@@ -186,7 +186,7 @@
                         0
                     {% endif %}
                 </td>
-{# 退费金额 #}    <td>
+{# 退费金额 #}    <td class="text-right">
                     <!--退费成功才显示此项, 否则显示0-->
                     {% if order.status == order.REFUND %}
                         {{ order.refund_info.refund_amount|money_format:'/' }}
@@ -194,8 +194,8 @@
                         0
                     {% endif %}
                 </td>
-{# 实际上课小时 #} <td>{{ order.real_completed_hours }}</td>
-{# 实际订单金额 #} <td>{{ order.real_order_amount|money_format:'/' }}</td>
+{# 实际上课小时 #} <td class="text-right">{{ order.real_completed_hours }}</td>
+{# 实际订单金额 #} <td class="text-right">{{ order.real_order_amount|money_format:'/' }}</td>
 {# 操作 #}       <td>
                     {% if order.status == order.PAID and not order.refund_status %}
                         <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>

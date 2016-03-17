@@ -78,12 +78,12 @@
             <th>报课年级</th>
             <th>报课科目</th>
             <th>上课地址</th>
-            <th>购买小时</th>
-            <th>小时单价</th>
-            <th>剩余小时</th>
-            <th>退费小时</th>
-            <th>奖学金</th>
-            <th>退费金额</th>
+            <th class="text-right">购买小时</th>
+            <th class="text-right">小时单价</th>
+            <th class="text-right">剩余小时</th>
+            <th class="text-right">退费小时</th>
+            <th class="text-right">奖学金</th>
+            <th class="text-right">退费金额</th>
             <th>状态</th>
             <th>退费原因</th>
             <th>是否排课</th>
@@ -102,18 +102,18 @@
 {# 报课年级 #}    <td>{{ order.grade }}</td>
 {# 报课科目 #}    <td>{{ order.subject }}</td>
 {# 上课地址 #}    <td>{{ order.school }}</td>
-{# 购买小时 #}    <td>{{ order.hours }}</td>
-{# 小时单价 #}    <td>{{ order.price|money_format:'/' }}</td>
-{# 剩余小时 #}    <td>{{ order.refund_info.remaining_hours }}</td>
-{# 退费小时 #}    <td>{{ order.refund_info.refund_hours }}</td>
-{# 奖学金额 #}    <td>
+{# 购买小时 #}    <td class="text-right">{{ order.hours }}</td>
+{# 小时单价 #}    <td class="text-right">{{ order.price|money_format:'/' }}</td>
+{# 剩余小时 #}    <td class="text-right">{{ order.refund_info.remaining_hours }}</td>
+{# 退费小时 #}    <td class="text-right">{{ order.refund_info.refund_hours }}</td>
+{# 奖学金额 #}    <td class="text-right">
                     {% if order.coupon.amount %}
                         {{ order.coupon.amount|money_format:'/' }}
                     {% else %}
                         0
                     {% endif %}
                 </td>
-{# 退费金额 #}    <td>{{ order.refund_info.refund_amount|money_format:'/' }}</td>
+{# 退费金额 #}    <td class="text-right">{{ order.refund_info.refund_amount|money_format:'/' }}</td>
 {# 退费状态 #}    <td>{{ order.get_refund_status_display }}</td>
 {# 退费原因 #}    <td>{{ order.refund_info.reason }}</td>
 {# 是否排课 #}    <td>
