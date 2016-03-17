@@ -354,11 +354,18 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         PayManager.getInstance().createOrder(entity, new ResultCallback<Object>() {
             @Override
             public void onResult(Object entity) {
+                if (entity == null) {
+                    MiscUtil.toast("创建订单失败");
+                    return;
+                }
                 CreateCourseOrderResultEntity result = JsonUtil.parseStringData(
                         entity.toString(), CreateCourseOrderResultEntity.class);
                 if (result == null) {
                     MiscUtil.toast("创建订单失败");
                 } else {
+                    coupon = null;
+                    scholarView.setText("未使用奖学金");
+                    calculateSum();
                     openPayActivity(result);
                 }
             }

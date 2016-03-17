@@ -27,6 +27,10 @@ import butterknife.ButterKnife;
  */
 public class PayResultDialog extends DialogFragment implements View.OnClickListener {
 
+    public interface OnDismissListener {
+        void onDismiss();
+    }
+
     public enum Type {
         PAY_SUCCESS,
         CANCEL,
@@ -44,6 +48,12 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
 
     @Bind(R.id.tv_confirm)
     protected TextView okView;
+
+    private OnDismissListener listener;
+
+    public void setOnDismissListener(OnDismissListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -70,7 +80,7 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
         if (v.getId() == R.id.tv_confirm) {
             dismiss();
             //支付成功,跳转首页
-            if (type==Type.PAY_SUCCESS){
+            if (type == Type.PAY_SUCCESS) {
                 Intent i = new Intent(getContext(), MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 getContext().startActivity(i);
@@ -112,6 +122,9 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
         if (getFragmentManager() != null) {
             // Avoid NPE
             super.dismiss();
+            if (listener != null) {
+                listener.onDismiss();
+            }
         }
     }
 

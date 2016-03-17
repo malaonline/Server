@@ -62,8 +62,8 @@ public class PayManager {
         payer.createOrder(entity, callback);
     }
 
-    public void getOrderInfo(String orderId, String channle, UIResultCallback<String> callback) {
-        payer.createOrderInfo(orderId, channle, callback);
+    public void getOrderInfo(String orderId, String channel, UIResultCallback<String> callback) {
+        payer.createOrderInfo(orderId, channel, callback);
     }
 
     public void pay(String charge, Activity activity) {

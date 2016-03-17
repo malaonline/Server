@@ -2,8 +2,6 @@ package com.malalaoshi.android.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-
 /**
  * Create course order entity
  * Created by tianwei on 2/27/16.
@@ -15,6 +13,7 @@ public class CreateCourseOrderResultEntity extends CreateCourseOrderEntity {
     private String total;
     private String price;
     private String status;
+    private long to_pay;
 
     public String getOrder_id() {
         return order_id;
@@ -62,6 +61,14 @@ public class CreateCourseOrderResultEntity extends CreateCourseOrderEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getTo_pay() {
+        return to_pay;
+    }
+
+    public void setTo_pay(long to_pay) {
+        this.to_pay = to_pay;
     }
 
     public static CreateCourseOrderResultEntity parse(Object obj) {

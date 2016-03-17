@@ -114,7 +114,7 @@ public class CouponListFragment extends Fragment {
                 coupon.setName(entity.getName());
                 coupon.setDescription("");
                 coupon.setUseType("线上使用");
-                coupon.setAmount(Number.subZeroAndDot(entity.getAmount() * 0.01d));
+                coupon.setAmount(entity.getAmount() + "");
                 coupon.setExpired_at(entity.getExpired_at() * 1000);
                 coupon.setId(entity.getId());
                 entities.add(coupon);
@@ -176,7 +176,8 @@ public class CouponListFragment extends Fragment {
                 holder.titleView.setTextColor(titleColor);
                 holder.statusView.setTextColor(redColor);
             }
-            holder.amountView.setText(data.getAmount());
+            String amount = Number.subZeroAndDot(Double.valueOf(data.getAmount()) * 0.01);
+            holder.amountView.setText(amount);
             holder.conditionView.setText(data.getDescription());
             holder.expireView.setText(MiscUtil.formatDate(data.getExpired_at()));
             holder.titleView.setText(data.getName());

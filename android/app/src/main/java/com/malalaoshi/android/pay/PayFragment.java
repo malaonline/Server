@@ -68,7 +68,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         wxpayLayout.setOnClickListener(this);
         payView.setOnClickListener(this);
         if (resultEntity != null) {
-            double value = Double.valueOf(resultEntity.getPrice()) * 0.01d;
+            double value = Double.valueOf(resultEntity.getTo_pay()) * 0.01d;
             totalView.setText(com.malalaoshi.android.util.Number.subZeroAndDot(value));
         }
         return view;
@@ -136,7 +136,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
      * 处理返回值
      * "success" - payment succeed
      * "fail"    - payment failed
-     * "cancel"  - user canceld
+     * "cancel"  - user cancel
      * "invalid" - payment plugin not installed
      * TODO 现在只能模拟两种，一种失败，一种成功。其它每一支付或是支付重复我现在没有模拟出来。以后加上
      */
@@ -148,8 +148,17 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 String result = data.getExtras().getString("pay_result");
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-                Log.e("AABB", "On activity result: " + result);
+                Log.e("MALA", "On activity result: " + result);
                 PayResultDialog dialog = new PayResultDialog();
+                dialog.setOnDismissListener(new PayResultDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        try {
+                            PayFragment.this.getActivity().finish();
+                        } catch (Exception e) {
+                        }
+                    }
+                });
                 if (result == null) {
                     dialog.setType(PayResultDialog.Type.PAY_FAILED);
                 } else if (result.equals("success")) {
