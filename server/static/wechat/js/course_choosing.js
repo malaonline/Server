@@ -11,6 +11,7 @@ $(function(){
     var chosen_coupon_id = '';
     var HOUR = 60*60*1000;
     var DAY = 24*HOUR;
+    var MAX_PREVIEW_HOURS = 100;
     var is_first_buy = $("#isFirstBuy").val()=='True';
     var evaluate_time = parseInt($("#evaluateTime").val())*1000; // 原单位秒
     var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
@@ -104,9 +105,9 @@ $(function(){
         hideOtherSchools($chosenone);
     };
 
-    $(document).on('ajaxError', function(e, xhr, options){
-        showAlertDialog('请求失败, 请重试');
-    });
+    //$(document).on('ajaxError', function(e, xhr, options){
+    //    showAlertDialog('请求失败, 请重试');
+    //});
     wx.ready(function(res){
         console.log("wx.ready");
         wx.getLocation({
@@ -116,7 +117,6 @@ $(function(){
                 console.log(res);
                 var reqparams = {'action': 'schools_dist', 'lat': res.latitude, 'lng': res.longitude};
                 $.post(location.href, reqparams, function(result){
-                    console.log(result);
                     if (result && result.ok) {
                         sortSchools(result.list);
                     }
@@ -156,39 +156,12 @@ $(function(){
         $schools.last().addClass('last');
     });
 
+    var previewCourseTimeUrl = '/api/v1/concrete/timeslots';
+    var $courseTimePreviewPanel = $('#courseTimePreviewPanel');
     var $courseTimePreview = $("#courseTimePreview");
-    var _updateCourseTimePreview = function(hours) {
-        if (hours==0 || chosen_weekly_time_slots.length==0) {
-            return $("#courseTimePreview").html('');
-        }
-        chosen_weekly_time_slots.sort(function(a,b){
-            var dayA = weekday >= a.day?(7+a.day):a.day,
-                dayB = weekday >= b.day?(7+b.day):b.day;
-            var dd = dayA - dayB;
-            return (dd != 0) ? dd : (a.start - b.start);
-        });
-        var courseTimes = [];
-        var count = hours/ 2, loop = 0;
-        while(count>0) {
-            for (var i = 0; i < chosen_weekly_time_slots.length && count>0; i++) {
-                var wts = chosen_weekly_time_slots[i], day = wts.day, s = wts.start, e = wts.end;
-                var weekoffset = (weekday < day?0:1) + loop;
-                var date = todayTime + (day-weekday + weekoffset * 7)*DAY;
-                if (date<courseStartTime) {
-                    continue;
-                }
-                courseTimes.push({'date': date, 'start': s, 'end': e});
-                count--;
-            }
-            loop++;
-        }
-        courseTimes.sort(function(a,b){
-            var diff = a.date - b.date;
-            return (diff != 0) ? diff : (a.start - b.start);
-        });
-        $courseTimePreview.html('');
+    var __showCourseTime = function(courseTimes){
         for (var i in courseTimes) {
-            var obj = courseTimes[i], start = new Date(obj.date+obj.start), end = new Date(obj.date+obj.end);
+            var obj = courseTimes[i], start = new Date(obj[0]*1000), end = new Date(obj[1]*1000);
             var m = start.getMonth()+ 1, d = start.getDate(),
                 sh = start.getHours(), sm = start.getMinutes(), eh = end.getHours(), em = end.getMinutes();
             $courseTimePreview.append('<div>'
@@ -197,6 +170,25 @@ $(function(){
                 +'</div>'
             );
         }
+    };
+    var _updateCourseTimePreview = function(hours) {
+        if (hours==0 || chosen_weekly_time_slots.length==0) {
+            return $("#courseTimePreview").html('');
+        }
+        if ($courseTimePreviewPanel.hasClass('closed')) {
+            return;
+        }
+        var weekly_time_slot_ids = [];
+        for (var i in chosen_weekly_time_slots) {
+            weekly_time_slot_ids.push(chosen_weekly_time_slots[i].id)
+        }
+        $courseTimePreview.html('');
+        var preview_hours = hours > 100 ? MAX_PREVIEW_HOURS : hours;
+        $.getJSON(previewCourseTimeUrl, {'hours':preview_hours, 'weekly_time_slots':weekly_time_slot_ids.join(' '), 'teacher': teacherId}, function(json){
+            if (json && json.data) {
+                __showCourseTime(json.data);
+            }
+        });
     };
 
     var updateCourseTimePreview = function() {
@@ -211,7 +203,6 @@ $(function(){
             var e = end * HOUR;
             chosen_weekly_time_slots.push({'id': $td.attr('tsid'), 'day': day, 'start': s, 'end': e})
         });
-        console.log(chosen_weekly_time_slots);
         var hours = parseInt($('#courseHours').text());
         if (chosen_weekly_time_slots.length==0) {
             hours = 0;
@@ -246,7 +237,6 @@ $(function(){
         });
         var params = {'school_id': school_id};
         $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
-            //console.log(json);
             var _map = _makeWeeklyTimeSlotToMap(json);
             $weeklyTable.find('tbody > tr').each(function(){
                 var $row = $(this);
@@ -352,13 +342,14 @@ $(function(){
         }
     });
 
-    $('#courseTimePreviewPanel').click(function(){
+    $courseTimePreviewPanel.click(function(){
         var $panel = $(this);
         $panel.toggleClass('closed');
         if ($panel.hasClass('closed')) {
             $('#courseTimePreview').hide();
         } else {
             $('#courseTimePreview').show();
+            _updateCourseTimePreview(parseInt($('#courseHours').text()));
         }
     });
 
