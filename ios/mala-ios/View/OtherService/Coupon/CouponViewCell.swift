@@ -97,7 +97,7 @@ class CouponViewCell: UITableViewCell {
     private lazy var descLabel: UILabel = {
         let descLabel = UILabel()
         descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
-        descLabel.textColor = MalaColor_WhiteColor
+        descLabel.textColor = MalaColor_6C6C6C_0
         descLabel.hidden = true
         return descLabel
     }()
@@ -245,11 +245,11 @@ class CouponViewCell: UITableViewCell {
     
     ///  设置过期样式
     private func setStyleExpired() {
-        self.moneySymbol.textColor = MalaColor_WhiteColor
-        self.priceLabel.textColor = MalaColor_WhiteColor
-        self.titleLabel.textColor = MalaColor_WhiteColor
-        self.descLabel.textColor = MalaColor_WhiteColor
-        self.statusLabel.textColor = MalaColor_WhiteColor
+        self.moneySymbol.textColor = MalaColor_6C6C6C_0
+        self.priceLabel.textColor = MalaColor_6C6C6C_0
+        self.titleLabel.textColor = MalaColor_6C6C6C_0
+        self.descLabel.textColor = MalaColor_6C6C6C_0
+        self.statusLabel.textColor = MalaColor_6C6C6C_0
         self.content.image = UIImage(named: "scholarship_expired")
         self.statusLabel.text = "已过期"
     }
@@ -259,7 +259,7 @@ class CouponViewCell: UITableViewCell {
         self.moneySymbol.textColor = MalaColor_E26254_0
         self.priceLabel.textColor = MalaColor_E26254_0
         self.titleLabel.textColor = MalaColor_333333_0
-        self.descLabel.textColor = MalaColor_WhiteColor
+        self.descLabel.textColor = MalaColor_6C6C6C_0
         self.statusLabel.textColor = MalaColor_E26254_0
         self.content.image = UIImage(named: "scholarship_unused")
         self.statusLabel.text = ""

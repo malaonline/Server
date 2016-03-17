@@ -106,7 +106,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        titleLabel.textColor = MalaColor_WhiteColor
+        titleLabel.textColor = MalaColor_6C6C6C_0
         return titleLabel
     }()
     /// 右箭头标示

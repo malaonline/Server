@@ -112,7 +112,7 @@ class EvaluationFilingServiceCell: MalaBaseCell {
     private lazy var contentLabel: UILabel = {
         let contentLabel = UILabel()
         contentLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        contentLabel.textColor = MalaColor_WhiteColor
+        contentLabel.textColor = MalaColor_6C6C6C_0
         contentLabel.numberOfLines = 0
         return contentLabel
     }()

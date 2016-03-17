@@ -193,7 +193,7 @@ class TimeScheduleCellTableViewCell: UITableViewCell {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: MalaLayout_FontSize_14/2, width: 0, height: 0)
         label.font = UIFont(name: "Courier New", size: MalaLayout_FontSize_14)
-        label.textColor = MalaColor_WhiteColor
+        label.textColor = MalaColor_6C6C6C_0
         label.sizeToFit()
         return label
     }()

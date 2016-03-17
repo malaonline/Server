@@ -44,7 +44,7 @@ class PaymentChannelCell: UITableViewCell {
     private lazy var subTitleLabel: UILabel = {
         let subTitleLabel = UILabel()
         subTitleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        subTitleLabel.textColor = MalaColor_WhiteColor
+        subTitleLabel.textColor = MalaColor_6C6C6C_0
         return subTitleLabel
     }()
     /// 选择按钮

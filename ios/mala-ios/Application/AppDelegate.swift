@@ -92,12 +92,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func customAppearance() {
         
         // NavigationBar
-        UINavigationBar.appearance().tintColor = MalaColor_WhiteColor
+        UINavigationBar.appearance().tintColor = MalaColor_6C6C6C_0
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         //UINavigationBar.appearance().shadowImage = UIImage()
         
         // TabBar
-        UITabBar.appearance().tintColor = MalaColor_WhiteColor
+        UITabBar.appearance().tintColor = MalaColor_6C6C6C_0
     }
     
     

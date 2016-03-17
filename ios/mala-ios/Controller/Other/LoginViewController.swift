@@ -73,7 +73,7 @@ class LoginViewController: UIViewController {
         phoneTextField.keyboardType = .NumberPad
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        phoneTextField.textColor = MalaColor_WhiteColor
+        phoneTextField.textColor = MalaColor_6C6C6C_0
         phoneTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
         phoneTextField.clearButtonMode = .Never
         return phoneTextField
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController {
     private lazy var codeTextField: UITextField = {
         let codeTextField = UITextField()
         codeTextField.keyboardType = .NumberPad
-        codeTextField.textColor = MalaColor_WhiteColor
+        codeTextField.textColor = MalaColor_6C6C6C_0
         codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         codeTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
         return codeTextField

@@ -34,7 +34,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSForegroundColorAttributeName,
-                value: MalaColor_WhiteColor,
+                value: MalaColor_6C6C6C_0,
                 range: NSMakeRange(rangeLocation, 4)
             )
             attrString.addAttribute(
@@ -100,7 +100,7 @@ class TeacherTableViewCell: UITableViewCell {
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)
-        priceLabel.textColor = MalaColor_WhiteColor
+        priceLabel.textColor = MalaColor_6C6C6C_0
         return priceLabel
     }()
     /// 风格标签label
