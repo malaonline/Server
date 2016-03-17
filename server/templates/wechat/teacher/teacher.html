@@ -8,6 +8,7 @@
     </title>
     {% load staticfiles%}
     {% load compile_static %}
+    {% load custom_tags %}
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -85,7 +86,9 @@
                     <div class="teacher_name">
                         <div>{{teacher.name}}</div>
                         <div>{%if not gender%}保密{%else%}{{gender}}{%endif%}
-                            {{teacher.min_price|default_if_none:""}}-{{teacher.max_price|default_if_none:""}}元/小时
+                            {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %}
+                            -
+                            {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}元/小时
                         </div>
                     </div>
                     <img class="teacher_avatar" src="">
