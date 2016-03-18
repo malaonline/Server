@@ -1,8 +1,11 @@
+import logging
 from django.conf import settings
 import requests
 import re
 import json
 from urllib.parse import urlencode
+
+logger = logging.getLogger('app')
 
 
 def isValidPhone(phone):
@@ -67,6 +70,7 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
 
 
 def tpl_send_sms(phone, tpl_id, params={}):
+    logger.debug("send sms to "+phone+', '+tpl_id+': '+str(params))
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
 
