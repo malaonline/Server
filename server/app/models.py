@@ -2144,7 +2144,7 @@ class Checkcode(BaseModel):
             delta = now - obj.updated_at
             if delta > datetime.timedelta(minutes=cls.EXPIRED_TIME):
                 # 过期就创建一个新的smsCODE
-                print("expired")
+                # print("expired")
                 obj.checkcode = _generate_code(is_test)
                 obj.updated_at = now
                 obj.verify_times = 0
