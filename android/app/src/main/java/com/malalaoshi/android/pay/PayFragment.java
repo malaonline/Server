@@ -15,9 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
+import com.malalaoshi.android.entity.OrderStatusModel;
 import com.malalaoshi.android.event.BusEvent;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.*;
 
 import butterknife.Bind;
@@ -101,7 +106,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         } else if (view.getId() == R.id.rl_wx) {
             setCurrentPay(PayManager.Pay.wx);
         } else if (view.getId() == R.id.tv_pay) {
-            //payView.setOnClickListener(null);
             pay();
         }
     }
@@ -149,35 +153,101 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
                 Log.e("MALA", "On activity result: " + result);
-                PayResultDialog dialog = new PayResultDialog();
-                dialog.setOnDismissListener(new PayResultDialog.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        try {
-                            PayFragment.this.getActivity().finish();
-                        } catch (Exception e) {
-                        }
-                    }
-                });
+
                 if (result == null) {
-                    dialog.setType(PayResultDialog.Type.PAY_FAILED);
+                    showResultDialog(PayResultDialog.Type.PAY_FAILED);
                 } else if (result.equals("success")) {
                     EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-                    dialog.setType(PayResultDialog.Type.PAY_SUCCESS);
+                    getOrderStatusFromOurServer();
                 } else if (result.equals("cancel")) {
-                    dialog.setType(PayResultDialog.Type.CANCEL);
+                    showResultDialog(PayResultDialog.Type.CANCEL);
                 } else if (result.equals("invalid")) {
-                    dialog.setType(PayResultDialog.Type.INVALID);
+                    showResultDialog(PayResultDialog.Type.INVALID);
                 } else {
-                    dialog.setType(PayResultDialog.Type.PAY_FAILED);
+                    showResultDialog(PayResultDialog.Type.PAY_FAILED);
                 }
-                if (isResumed()) {
-                    showDialog(dialog);
-                } else {
-                    pendingDailog = dialog;
-                }
+
             }
         }
+    }
+
+    private void showResultDialog(PayResultDialog.Type type) {
+        PayResultDialog dialog = new PayResultDialog();
+        dialog.setOnDismissListener(new PayResultDialog.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                try {
+                    PayFragment.this.getActivity().finish();
+                } catch (Exception e) {
+                }
+            }
+        });
+        dialog.setType(type);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            pendingDailog = dialog;
+        }
+    }
+
+    private void showAllocateDialog() {
+        PayTimeAllocateDialog dialog = new PayTimeAllocateDialog();
+        dialog.setOnDismissListener(new PayTimeAllocateDialog.OnCloseListener() {
+            @Override
+            public void onLeftClick() {
+                goToHome();
+            }
+
+            @Override
+            public void onRightClick() {
+                //
+            }
+        });
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            pendingDailog = dialog;
+        }
+    }
+
+    private void goToHome() {
+        Intent i = new Intent(getContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        getContext().startActivity(i);
+    }
+
+    private void getOrderStatusFromOurServer() {
+        if (resultEntity == null) {
+            return;
+        }
+        String orderId = resultEntity.getOrder_id();
+        NetworkSender.getOrderStatus(orderId, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                try {
+                    Log.i("MALA", json.toString());
+                    OrderStatusModel model = JsonUtil.parseStringData(json.toString(), OrderStatusModel.class);
+                    //支付失败
+                    if (!model.getStatus().equals("p")) {
+                        showResultDialog(PayResultDialog.Type.PAY_FAILED);
+                        return;
+                    }
+                    if (model.is_timeslot_allocated()) {
+                        showResultDialog(PayResultDialog.Type.PAY_SUCCESS);
+                    } else {
+                        //课程被占用
+                        showAllocateDialog();
+                    }
+                } catch (Exception e) {
+                    showResultDialog(PayResultDialog.Type.NETWORK_ERROR);
+                }
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                showResultDialog(PayResultDialog.Type.NETWORK_ERROR);
+            }
+        });
     }
 
     private void showDialog(DialogFragment fragment) {

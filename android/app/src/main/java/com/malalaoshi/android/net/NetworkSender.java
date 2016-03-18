@@ -49,10 +49,12 @@ public class NetworkSender {
     private static final String URL_SET_PROFILE = "/api/v1/profiles/%s";
     private static final String URL_PARENT = "/api/v1/parents";
     private static final String URL_SAVE_CHILD_SCHOOL = "/api/v1/parents/%s";
+    private static final String URL_ORDER_STATUS = "/api/v1/orders/%s";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private static final String URL_TIMES_LOTS_BY_ID = "/api/v1/timeslots/%s";
+
     //private static List<CouponEntity> couponList;
     public static void verifyCode(final Map<String, String> params, final NetworkListener listener) {
         postStringRequest(URL_FETCH_VERIFY_CODE, params, listener);
@@ -285,17 +287,22 @@ public class NetworkSender {
         httpPatch(String.format(URL_SAVE_CHILD_SCHOOL, parentId), params.toString(), listener);
     }
 
-    public static void setUserAvatar(String strAvatorLocPath, NetworkListener networkListener) {
+    public static void setUserAvatar(String strAvatarLocPath, NetworkListener networkListener) {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
-        //headers.put(Constants.CAP_CONTENT_TYPE, Constants.JSON);
         String profileId = UserManager.getInstance().getProfileId();
-        UploadFile.uploadImg(strAvatorLocPath, String.format(URL_SET_PROFILE, profileId), headers, networkListener);
+        UploadFile.uploadImg(strAvatarLocPath, String.format(URL_SET_PROFILE, profileId), headers, networkListener);
     }
 
     public static void getCourseInfo(String courseSubId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         stringRequest(Request.Method.GET, String.format(URL_TIMES_LOTS_BY_ID, courseSubId), headers, listener);
+    }
+
+    public static void getOrderStatus(String orderId, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.GET, String.format(URL_ORDER_STATUS, orderId), headers, listener);
     }
 }

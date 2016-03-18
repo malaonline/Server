@@ -1,6 +1,5 @@
 package com.malalaoshi.android.pay;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 
@@ -25,35 +21,23 @@ import butterknife.ButterKnife;
  * PayResult dialog
  * Created by tianwei on 2/28/16.
  */
-public class PayResultDialog extends DialogFragment implements View.OnClickListener {
+public class PayTimeAllocateDialog extends DialogFragment implements View.OnClickListener {
 
-    public interface OnDismissListener {
-        void onDismiss();
+    public interface OnCloseListener {
+        void onLeftClick();
+
+        void onRightClick();
     }
 
-    public enum Type {
-        PAY_SUCCESS,
-        CANCEL,
-        INVALID,
-        NETWORK_ERROR,
-        PAY_TIME_NOT_ALLOCATED,
-        PAY_FAILED
-    }
+    @Bind(R.id.btn_left)
+    protected View leftView;
 
-    private Type type;
+    @Bind(R.id.tv_right)
+    protected View rightView;
 
-    @Bind(R.id.icon_view)
-    protected ImageView iconView;
+    private OnCloseListener listener;
 
-    @Bind(R.id.tv_description)
-    protected TextView desView;
-
-    @Bind(R.id.tv_confirm)
-    protected TextView okView;
-
-    private OnDismissListener listener;
-
-    public void setOnDismissListener(OnDismissListener listener) {
+    public void setOnDismissListener(OnCloseListener listener) {
         this.listener = listener;
     }
 
@@ -73,20 +57,17 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
         setCancelable(true);
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tv_confirm) {
+        if (v.getId() == R.id.btn_left) {
             dismiss();
-            //支付成功,跳转首页
-            if (type == Type.PAY_SUCCESS) {
-                Intent i = new Intent(getContext(), MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                getContext().startActivity(i);
+            if (listener != null) {
+                listener.onLeftClick();
             }
+        } else if (v.getId() == R.id.btn_right) {
+            dismiss();
+            listener.onRightClick();
         }
     }
 
@@ -124,9 +105,6 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
         if (getFragmentManager() != null) {
             // Avoid NPE
             super.dismiss();
-            if (listener != null) {
-                listener.onDismiss();
-            }
         }
     }
 
@@ -135,26 +113,8 @@ public class PayResultDialog extends DialogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_pay_result, container, false);
         ButterKnife.bind(this, view);
-        okView.setOnClickListener(this);
-        switch (type) {
-            case PAY_FAILED:
-                iconView.setImageResource(R.drawable.ic_pay_failed);
-                desView.setText("支付失败，请重试!");
-                break;
-            case PAY_SUCCESS:
-                iconView.setImageResource(R.drawable.ic_pay_success);
-                desView.setText("恭喜您支付成功！您的课表已经安排好，快去查看吧！");
-                this.setCancelable(false);  //强制只能点击知道了进入首页
-                break;
-            case INVALID:
-                iconView.setImageResource(R.drawable.ic_pay_failed);
-                desView.setText("微信支付要先安装微信");
-                break;
-            case CANCEL:
-                iconView.setImageResource(R.drawable.ic_pay_failed);
-                desView.setText("支付用户已取消");
-                break;
-        }
+        leftView.setOnClickListener(this);
+        rightView.setOnClickListener(this);
         return view;
     }
 }
