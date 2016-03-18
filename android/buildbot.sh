@@ -2,5 +2,6 @@
 
 # gradle build
 cp /opt/keys-pros/*.properties ./
-gradle assembleRelease
+# no teacher client temporarily
+gradle assembleParentRelease
 
