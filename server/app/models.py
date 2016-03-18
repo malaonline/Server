@@ -1765,11 +1765,14 @@ class Comment(BaseModel):
 
 class TimeSlotShouldAutoConfirmManager(models.Manager):
     def get_queryset(self):
-        now = timezone.localtime(timezone.now())
+        now = timezone.now()
         autoConfirmDeltaTime = TimeSlot.CONFIRM_TIME
         return super(TimeSlotShouldAutoConfirmManager, self).get_queryset(
-                ).filter(attendance__isnull=True).filter(
-                        end__lt=now - autoConfirmDeltaTime)
+                ).filter(attendance__isnull=True,
+                         end__lt=now - autoConfirmDeltaTime,
+                         order__status=Order.PAID,
+                         deleted=False,
+                         accounthistory__isnull=True)
 
 
 class TimeSlot(BaseModel):
@@ -1888,6 +1891,8 @@ class TimeSlot(BaseModel):
         """
         确认课时, 老师收入入账
         """
+        # 检查这个timeslot是否需要被记账
+
         teacher = self.order.teacher
         account = teacher.safe_get_account()
         amount = self.duration_hours() * self.order.price
