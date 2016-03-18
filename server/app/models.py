@@ -1526,13 +1526,13 @@ class Order(BaseModel):
         discount_amount = self.coupon.amount if self.coupon is not None else 0
         # 退费小时 = 剩余小时 - (奖学金 / 课程单价)(向下取整)
         hours = self.remaining_hours() - int(discount_amount / self.price)
-        return hours if hours >= 0 else 0
+        return max(hours, 0)
 
     # 计算退费金额(预览, 不是记录)
     def preview_refund_amount(self):
         discount_amount = self.coupon.amount if self.coupon is not None else 0
         amount = self.total - discount_amount - self.completed_amount()
-        return amount if amount >= 0 else 0
+        return max(amount, 0)
 
     # 计算实际上课小时
     def real_completed_hours(self):
