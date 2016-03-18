@@ -576,21 +576,23 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     void loadGallery(String[] gallery) {
         mGallery.setFocusable(false);
         mGallery.removeAllViews();
-        int width = mGallery.getWidth() / 3;
+        int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
+        int width = (mGallery.getWidth()-4*margin) / 3;
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
                     width, width));
-            int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
-
             if (i == 0) {
-                imageView.setPadding(0, 0, margin, 0);
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
+                layoutParams.setMargins(0, 0, margin, 0);
             } else if (i == 1) {
-                imageView.setPadding(margin, 0, margin, 0);
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
+                layoutParams.setMargins(margin, 0, margin, 0);
             } else {
-                imageView.setPadding(margin, 0, 0, 0);
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
+                layoutParams.setMargins(margin, 0, 0, 0);
             }
 
             final int finalI = i;
