@@ -4,6 +4,7 @@ import requests
 import datetime
 import math
 import time
+from urllib.parse import urlencode
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
@@ -19,6 +20,7 @@ from django.utils.decorators import method_decorator
 
 # local modules
 from app import models
+from app.utils import get_server_host
 from app.utils.smsUtil import tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.types import parseInt
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
@@ -125,6 +127,19 @@ class SchoolDetailView(ListView):
     models = models.School
 
 
+def _get_auth_redirect_url(request, teacher_id):
+    checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')
+    params_str = {
+        'redirect_uri': checkPhoneURI,
+        'response_type': "code",
+        'scope': "snsapi_base",
+        'state': teacher_id,
+        'connect_redirect': "1"
+    }
+    redirect_url = WX_AUTH_URL + '&' + urlencode(params_str) + '#wechat_redirect'
+    return redirect_url
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class CourseChoosingView(View):
     template_name = 'wechat/order/course_choosing.html'
@@ -144,7 +159,9 @@ class CourseChoosingView(View):
         else:
             parent = _get_parent(request)
         if parent is None:
-            return HttpResponseRedirect(WX_AUTH_URL)
+            redirect_url = _get_auth_redirect_url(request, teacher_id)
+            logger.debug(redirect_url)
+            return HttpResponseRedirect(redirect_url)
         kwargs['parent'] = parent
         subject = teacher.subject()  # 目前老师只有一个科目
         order_count = models.Order.objects.filter(
