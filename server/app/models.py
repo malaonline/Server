@@ -1040,15 +1040,18 @@ class AccountHistory(BaseModel):
         operation = "未知操作"
         if hasattr(self, "withdrawal"):
             # 老师提现
-            operation = "提款获得"
+            operation = "提现获得 {withdrawal_status}".format(
+                withdrawal_status=self.withdrawal.status
+            )
         if hasattr(self, "timeslot"):
             # 老师上课收入
             try:
-                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end}".format(
+                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end} {order_status}".format(
                     student_name=self.timeslot.order.parent.student_name or self.timeslot.order.parent.user.profile.phone,
                     subject=self.timeslot.order.subject.name,
                     grade=self.timeslot.order.grade.name,
-                    start=self.local_time_str(self.timeslot.start), end=self.local_time_str(self.timeslot.end)
+                    start=self.local_time_str(self.timeslot.start), end=self.local_time_str(self.timeslot.end),
+                    order_status=self.timeslot.order.status
                 )
             except Exception as e:
                 operation = "上课收入, 异常记录 {msg}".format(msg=e)
