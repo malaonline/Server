@@ -71,9 +71,16 @@ class HandlePingppBehaviour: NSObject {
         }, completion: { order -> Void in
             println("订单状态获取成功 \(order.status)")
             
-            // 订单状态为已付款，则支付成功
+            // 根据[订单状态]和[课程是否被抢占标记]来判断支付结果
             dispatch_async(dispatch_get_main_queue()) {
-                if (order.status == MalaOrderStatus.Paid.rawValue) {
+                
+                // 判断是否被抢买
+                if order.is_timeslot_allocated == false {
+                    self.showHasBeenPreemptedAlert()
+                }
+                
+                // 若订单状态为已付款则表示支付成功，否则支付失败
+                if order.status == MalaOrderStatus.Paid.rawValue {
                     self.showSuccessAlert()
                 }else {
                     self.showFailAlert()
@@ -82,6 +89,21 @@ class HandlePingppBehaviour: NSObject {
             
             ThemeHUD.hideActivityIndicator()
         })
+    }
+    
+    ///  课程被抢买弹窗
+    func showHasBeenPreemptedAlert() {
+        ThemeHUD.hideActivityIndicator()
+        guard self.currentViewController != nil else {
+            return
+        }
+        
+        let alert = JSSAlertView().show(currentViewController!,
+            title: "您想要购买的课程已被他人抢买，支付金额将原路退回",
+            buttonText: "我知道了",
+            iconImage: UIImage(named: "alert_CourseBeenSeized")
+        )
+        alert.addAction(popToCourseChoosingViewController)
     }
     
     ///  支付取消弹窗
@@ -129,11 +151,19 @@ class HandlePingppBehaviour: NSObject {
         alert.addAction(popToRootViewController)
     }
     
-    ///  退回到根视图
+    ///  退回首页
     func popToRootViewController() {
         guard self.currentViewController != nil else {
             return
         }
         currentViewController!.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    ///  退回到选课页面
+    func popToCourseChoosingViewController() {
+        guard self.currentViewController != nil else {
+            return
+        }
+        currentViewController!.navigationController?.popViewControllerAnimated(true)
     }
 }

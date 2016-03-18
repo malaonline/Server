@@ -559,7 +559,8 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         price = orderInfo["price"] as? Int,
         total = orderInfo["total"] as? Int,
         status = orderInfo["status"] as? String,
-        order_id = orderInfo["order_id"] as? String {
+        order_id = orderInfo["order_id"] as? String,
+        is_timeslot_allocated = orderInfo["is_timeslot_allocated"] as? Bool {
             return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
                 subject: subject, coupon: nil, hours: hours, timeSchedule: weekly_time_slots,
                 order_id: order_id, parent: parent, total: total, price: price, status: status)

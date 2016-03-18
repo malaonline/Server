@@ -336,6 +336,10 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         
         // 跳转到支付页面
         let viewController = PaymentViewController()
+        // 设置支付页面弹栈闭包（用于[课程被抢买]时的回调刷新选课条件）
+        viewController.popAction = { [weak self] in
+            self?.loadClassSchedule()
+        }
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

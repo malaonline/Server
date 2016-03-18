@@ -26,6 +26,8 @@ class OrderForm: BaseObjectModel {
     var total: Int = 0
     var price: Int = 0
     var status: String?
+    /// 若支付过程中课程被抢买，此参数应为为false
+    var is_timeslot_allocated: Bool?
     
     // 其他
     var channel: MalaPaymentChannel = .Alipay {

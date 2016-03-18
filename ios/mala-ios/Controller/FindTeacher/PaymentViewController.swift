@@ -24,6 +24,8 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
         let paymentConfirmView = PaymentBottomView()
         return paymentConfirmView
     }()
+    /// 弹栈闭包
+    var popAction: (()->())?
 
     
     // MARK: - Life Cycle
@@ -132,5 +134,10 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
                 let handler = HandlePingppBehaviour()
                 handler.handleResult(result, error: error, currentViewController: self)
         }
+    }
+    
+    deinit {
+        popAction?()
+        println("Payment  ViewController  deinit")
     }
 }
