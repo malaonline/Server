@@ -998,7 +998,7 @@ class MyStudents(BasicTeacherView):
             one_details = {
                 "name": one_student.student_name or one_student.user.profile.phone,
                 "grade": one_order.grade,
-                "price": "￥{price}/小时".format(price=one_order.price),
+                "price": "￥%.2f/小时" %(one_order.price/100),
                 "mail": True
             }
 
