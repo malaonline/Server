@@ -12,7 +12,11 @@ public class StudentCourseModel: BaseObjectModel {
 
     // MARK: - Property
     /// 结束时间 时间戳
-    var end: NSTimeInterval = 0
+    var end: NSTimeInterval = 0 {
+        didSet {
+            println("当前为\(date.month())月\(date.day())日 - 状态为: \(self.status)")
+        }
+    }
     /// 学科名称
     var subject: String = ""
     /// 是否完成标记
@@ -23,6 +27,22 @@ public class StudentCourseModel: BaseObjectModel {
     var date: NSDate {
         get {
             return NSDate(timeIntervalSince1970: end)
+        }
+    }
+    /// 课程状态
+    var status: CourseStatus? {
+        get {
+            // 设置课程状态
+            if date.isYesterday() {
+                return .Past
+                
+            }else if date.isTomorrow() {
+                return .Future
+                
+            }else if date.isToday() {
+                return .Today
+            }
+            return nil
         }
     }
     

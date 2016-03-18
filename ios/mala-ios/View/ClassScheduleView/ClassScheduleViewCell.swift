@@ -29,6 +29,9 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     public var models: [StudentCourseModel] = [] {
         didSet {
             self.dayLabel.backgroundColor = UIColor.lightGrayColor()
+
+            let subjectString = models[0].subject
+            self.subjectLabel.text = subjectString
         }
     }
     
@@ -52,7 +55,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 图形默认日期颜色
     public var circleDefaultColor: UIColor = MalaColor_FFFFFF_9
     /// 图形日期为今天时的颜色
-    public var circleTodayColor: UIColor = UIColor.orangeColor() // useless
+    public var circleTodayColor: UIColor = UIColor.orangeColor() //UIColor(patternImage: UIImage(named: "dayBackground_unpassed")!)   // useless
     /// cell被选中时的图形颜色
     public var circleSelectedColor: UIColor = MalaColor_82B4D9_0
     /// 文字默认颜色
@@ -64,7 +67,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// cell被冻结时的文字颜色
     public var textDisabledColor: UIColor = MalaColor_333333_0
     /// 文字默认字体
-    public var textDefaultFont: UIFont = UIFont.systemFontOfSize(15)
+    public var textDefaultFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_15) ?? UIFont()
     /// 分隔线颜色
     var separatorLineColor: UIColor = MalaColor_E5E5E5_0 {
         didSet {
@@ -93,6 +96,27 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         dayLabel.textAlignment = .Center
         return dayLabel
     }()
+    /// 视图容器
+    lazy var contentButton: UIButton = {
+        let contentButton = UIButton()
+        contentButton.titleLabel?.font = self.textDefaultFont
+        contentButton.titleLabel?.textAlignment = .Center
+        return contentButton
+    }()
+    /// 课程数量指示器
+    lazy var courseIndicator: UIImageView = {
+        let courseIndicator = UIImageView()
+        return courseIndicator
+    }()
+    /// 科目label
+    lazy var subjectLabel: UILabel = {
+        let subjectLabel = UILabel()
+        subjectLabel.text = ""
+        subjectLabel.font = self.textDefaultFont
+        subjectLabel.textAlignment = .Center
+        return subjectLabel
+    }()
+    
     /// 分隔线
     private lazy var separatorLine: UIView = {
         let separatorLine = UIView()
@@ -123,6 +147,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     ///  设置UI
     private func setupUserInterface() {
         // Style 
+//        contentView.backgroundColor = UIColor.lightGrayColor()
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         dayLabel.backgroundColor = UIColor.clearColor()
         dayLabel.layer.cornerRadius = ClassScheduleViewCellCircleSize/2
@@ -131,10 +156,13 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         // SubViews
         contentView.addSubview(dayLabel)
         contentView.addSubview(separatorLine)
+//        contentView.addSubview(courseIndicator)
+        contentView.addSubview(subjectLabel)
         
         // Autolayout
         dayLabel.snp_makeConstraints { (make) -> Void in
-            make.center.equalTo(contentView.snp_center)
+            make.top.equalTo(contentView.snp_top).offset(MalaLayout_Margin_15)
+            make.centerX.equalTo(contentView.snp_centerX)
             make.height.equalTo(ClassScheduleViewCellCircleSize)
             make.width.equalTo(ClassScheduleViewCellCircleSize)
         }
@@ -143,6 +171,12 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             make.centerX.equalTo(contentView.snp_centerX)
             make.width.equalTo(contentView.snp_width).offset(2)
             make.height.equalTo(MalaScreenOnePixel)
+        }
+        subjectLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(dayLabel.snp_bottom).offset(10)
+            make.height.equalTo(MalaLayout_FontSize_15)
+            make.centerX.equalTo(contentView.snp_centerX)
+//            make.bottom.equalTo(contentView.snp_bottom).offset(-MalaLayout_Margin_14)
         }
         
         setCircleColor(isToday: false, selected: false)
@@ -182,9 +216,12 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     
     ///  设置Cell样式为今天
     private func setTodayUI() {
+        self.dayLabel.backgroundColor = UIColor(patternImage: UIImage(named: "dayBackground_unpassed")!)
         self.dayLabel.layer.borderColor = textTodayColor.CGColor
         self.dayLabel.layer.borderWidth = MalaScreenOnePixel
         self.dayLabel.textColor = textTodayColor
+        self.subjectLabel.text = "今天"
+        self.subjectLabel.textColor = circleSelectedColor
     }
     
     
@@ -241,6 +278,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         date = nil
         isToday = false
         dayLabel.text = ""
+        subjectLabel.text = ""
         dayLabel.backgroundColor = circleDefaultColor
         dayLabel.textColor = textDefaultColor
         dayLabel.layer.borderColor = UIColor.clearColor().CGColor

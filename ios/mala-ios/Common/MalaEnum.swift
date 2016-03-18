@@ -92,3 +92,17 @@ public enum userInfoType {
     case StudentName
     case StudentSchoolName
 }
+
+
+// MARK: - ClassSchedule
+///  课程进度状态
+///
+///  - past:   已过去
+///  - today:  今天
+///  - future: 未上
+public enum CourseStatus: String {
+    case Past = "past"
+    case Today = "today"
+    case Future = "future"
+}
+

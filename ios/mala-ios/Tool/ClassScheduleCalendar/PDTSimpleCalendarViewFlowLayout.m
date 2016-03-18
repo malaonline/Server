@@ -14,7 +14,7 @@ const CGFloat PDTSimpleCalendarFlowLayoutInsetTop = 5.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetLeft = 0.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetBottom = 5.0f;
 const CGFloat PDTSimpleCalendarFlowLayoutInsetRight = 0.0f;
-const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 30.0f;
+const CGFloat PDTSimpleCalendarFlowLayoutHeaderHeight = 32.0f;
 
 @implementation PDTSimpleCalendarViewFlowLayout
 
