@@ -91,7 +91,6 @@ class TeacherTableViewCell: UITableViewCell {
         avatarView.frame = CGRect(x: 0, y: 0, width: MalaLayout_AvatarSize, height: MalaLayout_AvatarSize)
         avatarView.layer.cornerRadius = MalaLayout_AvatarSize * 0.5
         avatarView.layer.masksToBounds = true
-        avatarView.backgroundColor = UIColor.lightGrayColor()
         avatarView.image = UIImage(named: "avatar_placeholder")
         avatarView.contentMode = .ScaleAspectFill
         return avatarView

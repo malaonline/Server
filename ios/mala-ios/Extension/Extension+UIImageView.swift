@@ -14,9 +14,9 @@ extension UIImageView {
     ///
     ///  - returns: UIImageView
     class func placeHolder() -> UIImageView {
-        let placeHolder = UIImageView()
-        placeHolder.backgroundColor = UIColor.lightGrayColor()
-        placeHolder.contentMode = .ScaleAspectFill
+        let placeHolder = UIImageView(image: UIImage(named: "detailPicture_placeholder"))
+        // placeHolder.contentMode = .ScaleAspectFill
+        placeHolder.contentMode = .ScaleAspectFit
         return placeHolder
     }
 }

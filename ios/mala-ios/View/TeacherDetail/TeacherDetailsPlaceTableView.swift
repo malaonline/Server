@@ -117,8 +117,7 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     
     // MARK: - Components
     private lazy var photoView: UIImageView = {
-        let photoView = UIImageView()
-        photoView.backgroundColor = UIColor.lightGrayColor()
+        let photoView = UIImageView(image: UIImage(named: "detailPicture_placeholder"))
         return photoView
     }()
     private lazy var titleLabel: UILabel = {

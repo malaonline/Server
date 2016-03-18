@@ -83,7 +83,6 @@ class CouponViewCell: UITableViewCell {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_37)
         priceLabel.textColor = MalaColor_E26254_0
-        //        priceLabel.backgroundColor = UIColor.lightGrayColor()
         return priceLabel
     }()
     /// 名称文本框

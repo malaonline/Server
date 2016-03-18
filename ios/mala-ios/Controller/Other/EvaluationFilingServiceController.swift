@@ -104,8 +104,7 @@ class EvaluationFilingServiceCell: MalaBaseCell {
     // MARK: - Components
     /// 内容展示图片容器
     private lazy var contentImageView: UIImageView = {
-        let contentImageView = UIImageView()
-        contentImageView.backgroundColor = UIColor.lightGrayColor()
+        let contentImageView = UIImageView(image: UIImage(named: "detailPicture_placeholder"))
         return contentImageView
     }()
     /// 简介文本框

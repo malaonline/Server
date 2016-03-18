@@ -16,12 +16,9 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
         didSet {
             // 老师详情中照片最少为3张
             if photos.count >= 3 {
-                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0])!,
-                    placeholderImage: nil)
-                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1])!,
-                    placeholderImage: nil)
-                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2])!,
-                    placeholderImage: nil)
+                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0])!, placeholderImage: nil)
+                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1])!, placeholderImage: nil)
+                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2])!, placeholderImage: nil)
             }
         }
     }

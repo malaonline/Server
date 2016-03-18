@@ -63,11 +63,11 @@ class TeacherDetailsHeaderView: UIView {
     /// 头像显示控件
     private lazy var avatarView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage.withColor(UIColor.lightGrayColor())
         imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2.5
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
+        imageView.contentMode = .ScaleAspectFill
         return imageView
     }()
     /// 会员图标显示控件
