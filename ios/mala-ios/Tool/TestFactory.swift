@@ -134,6 +134,7 @@ class TestFactory {
     class func testStudentCourseData() -> [StudentCourseModel] {
         return [
             StudentCourseModel(id: 1, end: NSTimeInterval(1457298000), subject: "数学", is_passed: true, is_commented: true), //2016.3.7
+            StudentCourseModel(id: 11, end: NSTimeInterval(1457298030), subject: "数学", is_passed: true, is_commented: true), //2016.3.7
             StudentCourseModel(id: 2, end: NSTimeInterval(1458334800), subject: "语文", is_passed: true, is_commented: true), //2016.3.19
             StudentCourseModel(id: 3, end: NSTimeInterval(1458338400), subject: "语文", is_passed: true, is_commented: true), //2016.3.19
             StudentCourseModel(id: 4, end: NSTimeInterval(1458324000), subject: "语文", is_passed: true, is_commented: true), //2016.3.19

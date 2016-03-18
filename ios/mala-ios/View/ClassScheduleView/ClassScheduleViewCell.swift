@@ -42,7 +42,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
                 
                 break
             case .Today:
-                // self.isToday = true
+                 self.isToday = true
                 
                 break
             case .Future:
@@ -56,7 +56,20 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             self.subjectLabel.text = subjectString
             
             // 设置多节课指示器
-            
+            if models.count > 1 {
+                
+                // 若当天课程大于一节，隐藏科目文字信息，显示多课程指示器
+                self.subjectLabel.hidden = true
+                self.courseIndicator.hidden = false
+                
+                if self.isPast {
+                    self.courseIndicator.image = UIImage(named: "course indicators_normal")
+                }
+                
+                if self.isFuture {
+                    self.courseIndicator.image = UIImage(named: "course indicators_selected")
+                }
+            }
         }
     }
     
@@ -159,9 +172,10 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         contentButton.titleLabel?.textAlignment = .Center
         return contentButton
     }()
-    /// 课程数量指示器
+    /// 多课程指示器
     lazy var courseIndicator: UIImageView = {
-        let courseIndicator = UIImageView()
+        let courseIndicator = UIImageView(image: UIImage(named: "course indicators_normal"))
+        courseIndicator.hidden = true
         return courseIndicator
     }()
     /// 科目label
@@ -211,7 +225,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         // SubViews
         contentView.addSubview(dayLabel)
         contentView.addSubview(separatorLine)
-//        contentView.addSubview(courseIndicator)
+        contentView.addSubview(courseIndicator)
         contentView.addSubview(subjectLabel)
         
         // Autolayout
@@ -231,6 +245,9 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             make.top.equalTo(dayLabel.snp_bottom).offset(10)
             make.height.equalTo(MalaLayout_FontSize_15)
             make.centerX.equalTo(contentView.snp_centerX)
+        }
+        courseIndicator.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(subjectLabel.snp_center)
         }
         
         setCircleColor(isToday: false, selected: false)
@@ -319,13 +336,17 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     ///  Cell重用准备
     override public func prepareForReuse() {
         super.prepareForReuse()
+        
         date = nil
         isToday = false
-        dayLabel.text = ""
         subjectLabel.text = ""
+        
+        dayLabel.text = ""
         dayLabel.backgroundColor = circleDefaultColor
         dayLabel.textColor = textDefaultColor
         dayLabel.layer.borderColor = UIColor.clearColor().CGColor
         dayLabel.layer.borderWidth = 0
+        
+        courseIndicator.hidden = true
     }
 }
