@@ -1656,7 +1656,8 @@ class OrderRefundActionView(BaseStaffActionView):
             models.Order.objects.refund(order, reason, self.request.user)
             # 短信通知家长
             parent = order.parent
-            _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname': parent.student_name}, 3)
+            student_name = parent.student_name or parent.user.profile.mask_phone()
+            _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname': student_name}, 3)
             # 短信通知老师
             teacher = order.teacher
             _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username': teacher.name}, 2)
@@ -1677,8 +1678,9 @@ class OrderRefundActionView(BaseStaffActionView):
                 order.save()
                 # 短信通知家长
                 parent = order.parent
+                student_name = parent.student_name or parent.user.profile.mask_phone()
                 amount_str = "%.2f"%(order.last_refund_record().refund_amount/100)
-                _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname':parent.student_name, 'amount': amount_str}, 3)
+                _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 
