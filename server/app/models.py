@@ -1019,21 +1019,23 @@ class AccountHistory(BaseModel):
     def __str__(self):
         teacher_name = self.account.user.teacher.name
         operation = "未知操作"
-        if hasattr(self, "withdrawal"):
+        if self.withdrawal_id:
             # 老师提现
-            operation = "提现获得"
-            # operation = "提现获得 {withdrawal_status}".format(
-            #     withdrawal_status=self.withdrawal.status
-            # )
-        if hasattr(self, "timeslot"):
+            # operation = "提现获得"
+            operation = "提现获得 {withdrawal_status}{des}".format(
+                withdrawal_status=self.withdrawal.status,
+                des=self.withdrawal.status_des
+            )
+        if self.timeslot_id:
             # 老师上课收入
             try:
-                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end} {order_status}".format(
+                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end} {order_status}{order_des}".format(
                     student_name=self.timeslot.order.parent.student_name or self.timeslot.order.parent.user.profile.phone,
                     subject=self.timeslot.order.subject.name,
                     grade=self.timeslot.order.grade.name,
                     start=self.local_time_str(self.timeslot.start), end=self.local_time_str(self.timeslot.end),
-                    order_status=self.timeslot.order.status
+                    order_status=self.timeslot.order.status,
+                    order_des=self.timeslot.order.status_des
                 )
             except Exception as e:
                 operation = "上课收入, 异常记录 {msg}".format(msg=e)
@@ -1465,6 +1467,15 @@ class Order(BaseModel):
                                      blank=True)
     # 保存的最后退费申请时间
     refund_at = models.DateTimeField(null=True, blank=True)
+
+    @property
+    def status_des(self):
+        msg = "未知状态"
+        for key, val in self.STATUS_CHOICES:
+            if self.status == key:
+                msg = val
+                break
+        return msg
 
     def __str__(self):
         return "<{pk}> {order_status} {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单".format(
@@ -1902,7 +1913,7 @@ class TimeSlot(BaseModel):
         amount = amount * (100 - self.order.commission_percentage) // 100
         if amount < 0:
             amount = 0
-        if not hasattr(self, "accounthistory"):
+        if not AccountHistory.objects.filter(timeslot=self).exists():
             AccountHistory.build_timeslot_history(self,account,amount)
             # 短信通知老师
             try:
