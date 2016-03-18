@@ -846,6 +846,11 @@ def check_phone(request):
     req = requests.get(get_openid_url)
     ret = None
     openid = None
+
+    logger.debug("..............................获取的wx_code：1..............")
+    logger.debug(wx_code)
+    logger.debug("..............................获取的wx_code：2..............")
+
     if req.status_code == 200:
         ret = json.loads(req.text)
         if "openid" in ret:
