@@ -320,13 +320,14 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         1, 刚支付完, verify order 主动去微信查询订单状态, 当支付成功时调用
         2, 接受微信支付结果异步通知中, 当支付成功时调用
     """
+    logger.debug('wx_pub_pay try to set_order_paid, order_no: '+order_id+', prepay_id: '+prepay_id+', open_id: '+open_id)
     charge = None
     if prepay_id:
         charge = models.Charge.objects.get(ch_id=prepay_id)
     elif order_id:
         charge = models.Charge.objects.get(order__order_id=order_id)
-    if charge.paid:
-        return # 已经处理过了, 直接返回
+    # if charge.paid:
+    #     return # 已经处理过了, 直接返回
     charge.paid = True
     charge.time_paid = timezone.now()
     # charge.transaction_no = ''
@@ -335,12 +336,14 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     order = charge.order
     if not order_id:
         order_id = order.order_id
+
     if order.status == models.Order.PAID:
         return # 已经处理过了, 直接返回
     order.status = models.Order.PAID
     order.paid_at = timezone.now()
     order.save()
 
+    logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+order_id)
     try:
         models.Order.objects.allocate_timeslots(order)
         # return JsonResponse({'ok': 1})
