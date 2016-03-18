@@ -605,6 +605,19 @@ def template_msg_data_pay_info(request):
     }
 
 
+def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
+    while (times > 0):
+        try:
+            access_token, msg = _get_wx_token()
+            ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
+            if 'msgid' in ret_json:
+                return ret_json['msgid']
+        except Exception as ex:
+            logger.error(ex)
+        times -= 1
+    return False
+
+
 def send_pay_info_to_user(openid, order_no):
     """
     给微信用户发送购课成功信息
@@ -634,11 +647,7 @@ def send_pay_info_to_user(openid, order_no):
         }
     }
     tpl_id = settings.WECHAT_PAY_INFO_TEMPLATE
-    access_token, msg = _get_wx_token()
-    ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
-    if 'msgid' in ret_json:
-        return ret_json['msgid']
-    return False
+    _try_send_wx_tpl_msg(tpl_id, openid, data, 3)
 
 
 def send_pay_fail_to_user(openid, order_no):
@@ -661,11 +670,7 @@ def send_pay_fail_to_user(openid, order_no):
         }
     }
     tpl_id = settings.WECHAT_PAY_FAIL_TEMPLATE
-    access_token, msg = _get_wx_token()
-    ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
-    if 'msgid' in ret_json:
-        return ret_json['msgid']
-    return False
+    _try_send_wx_tpl_msg(tpl_id, openid, data, 3)
 
 
 @csrf_exempt
