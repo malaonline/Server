@@ -797,7 +797,7 @@ def add_openid(request):
     phone = request.POST.get("phone", None)
     code = request.POST.get("code", None)
     openid = request.POST.get("openid", None)
-    if not openid:
+    if not openid or openid == 'None':
         return JsonResponse({
             "result": False,
             "code": -1
