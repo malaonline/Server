@@ -201,6 +201,10 @@ public class PayFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onRightClick() {
                 //
+                try {
+                    PayFragment.this.getActivity().finish();
+                } catch (Exception e) {
+                }
             }
         });
         if (isResumed()) {
@@ -220,7 +224,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (resultEntity == null) {
             return;
         }
-        String orderId = resultEntity.getOrder_id();
+        String orderId = resultEntity.getId();
         NetworkSender.getOrderStatus(orderId, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {

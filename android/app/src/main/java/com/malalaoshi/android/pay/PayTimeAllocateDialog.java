@@ -32,7 +32,7 @@ public class PayTimeAllocateDialog extends DialogFragment implements View.OnClic
     @Bind(R.id.btn_left)
     protected View leftView;
 
-    @Bind(R.id.tv_right)
+    @Bind(R.id.btn_right)
     protected View rightView;
 
     private OnCloseListener listener;
@@ -111,7 +111,7 @@ public class PayTimeAllocateDialog extends DialogFragment implements View.OnClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_pay_result, container, false);
+        View view = inflater.inflate(R.layout.dialog_pay_allocate, container, false);
         ButterKnife.bind(this, view);
         leftView.setOnClickListener(this);
         rightView.setOnClickListener(this);

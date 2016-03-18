@@ -23,7 +23,7 @@ public class MiscUtil {
     private static Handler handler = new Handler(Looper.getMainLooper());
 
     public static boolean isMobilePhone(String phone) {
-        Pattern p = Pattern.compile("^((17[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Pattern p = Pattern.compile("^((17[0-9])|(13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
         Matcher m = p.matcher(phone);
         return m.matches();
     }

@@ -85,8 +85,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder)holder).tvClassAddress.setText(schedule.getAddress());
             String avatarUrl = schedule.getAvatar();
             if (avatarUrl != null && !avatarUrl.equals("")) {
-                ((ItemViewHolder)holder).ivTeacherAvatar.setDefaultImageResId(R.drawable.default_img);
-                ((ItemViewHolder)holder).ivTeacherAvatar.setErrorImageResId(R.drawable.default_error_img);
+                ((ItemViewHolder)holder).ivTeacherAvatar.setDefaultImageResId(R.drawable.ic_default_img);
+                ((ItemViewHolder)holder).ivTeacherAvatar.setErrorImageResId(R.drawable.ic_default_img);
                 ((ItemViewHolder)holder).ivTeacherAvatar.setImageUrl(avatarUrl, mImageLoader);
             }
 

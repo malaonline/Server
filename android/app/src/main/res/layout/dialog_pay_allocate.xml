@@ -4,22 +4,34 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/icon_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_timeallocate"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:text="课程被占用"
-        android:textColor="#333"
-        android:textSize="18sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
+        android:layout_marginLeft="37dp"
+        android:layout_marginRight="37dp"
+        android:textColor="#939393"
+        android:lineSpacingExtra="5dp"
+        android:gravity="center_horizontal|top"
         android:text="课程被抢占，稍后会自动退款。请重新选择时间段"
-        android:textColor="#666" />
-
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#8f8cdd" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -32,7 +44,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="回到首页" />
-
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#8f8cdd" />
         <TextView
             android:id="@+id/btn_right"
             android:layout_width="0dp"

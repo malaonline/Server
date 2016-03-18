@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -602,7 +603,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         protected View createView(int position, ViewGroup parent) {
             View view = View.inflate(context, R.layout.view_course_selected_times, null);
             int height = context.getResources().getDimensionPixelOffset(R.dimen.course_time_height);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+            AbsListView.LayoutParams params = new AbsListView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, height);
             view.setLayoutParams(params);
             return view;

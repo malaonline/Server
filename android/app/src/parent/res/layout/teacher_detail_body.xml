@@ -155,7 +155,7 @@
                 android:id="@+id/parent_teacher_detail_photo"
                 android:layout_width="96dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/default_img"
+                android:src="@drawable/ic_default_img"
                 android:visibility="visible" />
         </com.malalaoshi.android.view.FlowLayout>
 

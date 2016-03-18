@@ -604,7 +604,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     startActivity(intent);
                 }
             });
-            mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.default_img, R.drawable.default_error_img));
+            mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.ic_default_img, R.drawable.ic_default_img));
             mGallery.addView(imageView, i);
         }
     }

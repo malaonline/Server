@@ -166,7 +166,7 @@
         <!-- umeng begin -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5680e9b3e0f55a72ce00358f"/>
+            android:value="56eb8018e0f55a61df0017e6"/>
         <!-- umeng end -->
 
         <!--       jpush begin        -->

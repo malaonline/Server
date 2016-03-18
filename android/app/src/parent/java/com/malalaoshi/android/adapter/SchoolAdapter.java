@@ -75,12 +75,12 @@ public class SchoolAdapter extends BaseAdapter {
 
         String imgUrl = data.getThumbnail();
         if (imgUrl != null && !imgUrl.equals("")) {
-            viewHolder.ivSchoolPic.setDefaultImageResId(R.drawable.default_img);
-            viewHolder.ivSchoolPic.setErrorImageResId(R.drawable.default_error_img);
+            viewHolder.ivSchoolPic.setDefaultImageResId(R.drawable.ic_default_img);
+            viewHolder.ivSchoolPic.setErrorImageResId(R.drawable.ic_default_img);
             viewHolder.ivSchoolPic.setImageUrl(imgUrl, imageLoader);
         }else{
-            viewHolder.ivSchoolPic.setDefaultImageResId(R.drawable.default_img);
-            viewHolder.ivSchoolPic.setErrorImageResId(R.drawable.default_img);
+            viewHolder.ivSchoolPic.setDefaultImageResId(R.drawable.ic_default_img);
+            viewHolder.ivSchoolPic.setErrorImageResId(R.drawable.ic_default_img);
             viewHolder.ivSchoolPic.setImageUrl("", imageLoader);
         }
         viewHolder.tvSchoolName.setText(data.getName());
