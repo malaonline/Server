@@ -109,8 +109,9 @@
                 android:layout_marginBottom="9dp"
                 android:layout_width="69dp"
                 android:layout_height="69dp"
+                android:visibility="visible"
                 android:gravity="center"
-                android:src="@drawable/default_avatar" />
+                android:src="@drawable/ic_default_teacher_avatar" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

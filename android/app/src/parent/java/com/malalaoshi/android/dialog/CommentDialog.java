@@ -198,7 +198,10 @@ public class CommentDialog extends DialogFragment{
 
         }
         //初始化控件
-        mImageLoader.get(teacherAvatarUrl != null ? teacherAvatarUrl : "", ImageLoader.getImageListener(teacherAvater, R.drawable.ic_default_teacher_avatar, R.drawable.ic_default_teacher_avatar));
+        teacherAvater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
+        teacherAvater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
+        teacherAvater.setImageUrl(teacherAvatarUrl != null ? teacherAvatarUrl : "", mImageLoader);
+        //mImageLoader.get(teacherAvatarUrl != null ? teacherAvatarUrl : "", ImageLoader.getImageListener(teacherAvater, R.drawable.ic_default_teacher_avatar, R.drawable.ic_default_teacher_avatar));
         tvTeacherName.setText(teacherName);
         tvCourse.setText(courseName);
     }
