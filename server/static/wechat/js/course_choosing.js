@@ -12,11 +12,6 @@ $(function(){
     var HOUR = 60*60*1000;
     var DAY = 24*HOUR;
     var MAX_PREVIEW_HOURS = 100;
-    var is_first_buy = $("#isFirstBuy").val()=='True';
-    var evaluate_time = parseInt($("#evaluateTime").val())*1000; // 原单位秒
-    var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
-    var courseStartTime = is_first_buy?(todayTime+evaluate_time+DAY):todayTime;
 
     var pre_chosen_coupon_id = $("#preChosenCoupon").val();
     var $coupons = $('.coupon');
@@ -109,12 +104,9 @@ $(function(){
     //    showAlertDialog('请求失败, 请重试');
     //});
     wx.ready(function(res){
-        console.log("wx.ready");
         wx.getLocation({
             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
             success: function(res){
-                console.log('wx.getLocation success');
-                console.log(res);
                 var reqparams = {'action': 'schools_dist', 'lat': res.latitude, 'lng': res.longitude};
                 $.post(location.href, reqparams, function(result){
                     if (result && result.ok) {
@@ -123,13 +115,11 @@ $(function(){
                 }, 'json')
             },
             fail: function(res){
-                console.log('wx.getLocation fail');
             }
         });
     });
 
     wx.error(function(){
-        console.log("wx.config错误");
     });
 
     $('.grade-box > .grade').click(function(e){
@@ -448,8 +438,6 @@ $(function(){
                         signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                         paySign: data.paySign, // 支付签名
                         success: function (res) {
-                            console.log('wx.chooseWXPay success');
-                            console.log(res);
                             var verify_params = {
                                 'action': 'verify',
                                 'prepay_id': prepay_id,
@@ -470,7 +458,6 @@ $(function(){
                             });
                         },
                         fail: function(res){
-                            console.log('wx.chooseWXPay fail');
                         }
                     });
                 } else {

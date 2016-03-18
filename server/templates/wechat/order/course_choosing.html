@@ -34,7 +34,6 @@
             <div class="weui_panel">
                 <div class="title_row">选择上课地点</div>
                 <div class="schools-panel" id="schoolsContainer">
-{#                    {% for school in schools %}#}
                         <div class="school" scid="{{ schools.0.id }}">
                             <div class="school-body">
                                 <div class="school-head">
@@ -50,7 +49,6 @@
                                 <i class="no weui_icon_circle"></i>
                             </div>
                         </div>
-{#                    {% endfor %}#}
                     {% if schools|length > 0 %}
                         {% for school in schools|sub_list:'1:' %}
                             <div class=" school" style="display: none;" scid="{{ school.id }}">
@@ -144,8 +142,7 @@
                                     <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
                                 </div>
                                 <div class="icons-area">
-                                    <img class="yes" src="{% static 'wechat/images/coupon-checked.png' %}">
-                                    <img class="no" src="{% static 'wechat/images/coupon-unchecked.png' %}">
+                                    <img src="{% static 'wechat/images/coupon-checked.png' %}">
                                 </div>
                             </div>
                             <div class="coupon-footer">
@@ -178,7 +175,6 @@
             <div class="weui_mask"></div>
             <div class="weui_dialog">
                 <div class="weui_dialog_hd" id="alertDialogBody"></div>
-{#                <div class="weui_dialog_bd"></div>#}
                 <div class="weui_dialog_ft">
                     <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
                 </div>
@@ -214,8 +210,6 @@
 
 {% block addition_js %}
     <script>
-{#        alert(location.href);#}
-{#        alert(wx);#}
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
         var evaluateItems = [
             {'id':1, 'title':'在线答疑', 'photo':'{% static 'common/img/evaluate/photo1.png' %}', 'desc':'智能组卷，检测学生知识漏洞，并找出具体详细报告'},
@@ -223,12 +217,12 @@
             {'id':3, 'title':'顾问答疑', 'photo':'{% static 'common/img/evaluate/photo3.png' %}', 'desc':'学习顾问解答您对“麻辣老师”、师资力量学习规划等一切问题'},
         ];
         wx.config({
-            debug: false, // 开启调试模式?
-            appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
-            timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
-            nonceStr: '{{ noncestr }}', // 必填，生成签名的随机串
-            signature: '{{ signature }}',// 必填，签名
-            jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow'] // 必填，需要使用的JS接口列表
+            debug: false,
+            appId: '{{ WX_APPID }}',
+            timestamp: '{{ timestamp }}',
+            nonceStr: '{{ noncestr }}',
+            signature: '{{ signature }}',
+            jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow']
         });
     </script>
     <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
