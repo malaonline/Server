@@ -126,6 +126,7 @@
             android:id="@+id/parent_teacher_signup_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:enabled="false"
             android:layout_marginBottom="@dimen/teacher_body_margin_button"
             android:layout_marginLeft="@dimen/teacher_body_padding_normal"
             android:layout_marginRight="@dimen/teacher_body_padding_normal"

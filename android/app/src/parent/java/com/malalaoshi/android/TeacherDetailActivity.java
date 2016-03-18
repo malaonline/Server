@@ -366,15 +366,16 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                mTeacher = JsonUtil.parseStringData(response, Teacher.class);
-                //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class, TeacherDetailActivity.this);
-                if (mTeacher != null) {
-                    updateUI(mTeacher);
-                } else {
-                    //数据请求失败
-
+                if (response!=null&&!response.isEmpty()){
+                    mTeacher = JsonUtil.parseStringData(response, Teacher.class);
+                    //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class, TeacherDetailActivity.this);
+                    if (mTeacher != null) {
+                        updateUI(mTeacher);
+                        mSignUp.setEnabled(true);
+                        return;
+                    }
                 }
-                //停止进度条
+                dealRequestError("");
             }
         }, new Response.ErrorListener() {
             @Override
