@@ -53,7 +53,7 @@ public class UserProtocolView extends LinearLayout {
             public void onSucceed(Object json) {
                 try {
                     JSONObject jo = new JSONObject(json.toString());
-                    String content = jo.optString(Constants.RESULT);
+                    String content = jo.optString(Constants.CONTENT);
                     if (!TextUtils.isEmpty(content)) {
                         loadData(content);
                         saveCache(content);
@@ -88,7 +88,8 @@ public class UserProtocolView extends LinearLayout {
     }
 
     private void loadData(String content) {
-        webView.loadData(content, CONTENT_TYPE, UTF8);
+        //webView.loadData(content, CONTENT_TYPE, UTF8);
+        webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
     }
 
     private class MLWebViewClient extends WebViewClient {
