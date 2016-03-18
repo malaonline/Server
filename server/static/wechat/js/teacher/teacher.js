@@ -460,7 +460,7 @@ $('#photoContent').click(function(){
   var $slide = $('#slide');
   var $imgCont = $slide.find('.swipe-wrap');
   $imgCont.empty();
-  var newImgs = $('#photoContent').find('img').clone();
+  var newImgs = $('.teacher_images').find('img').clone();
   for(var i=0;i<newImgs.length;i++){
     var nDiv = $('<div></div>');
     nDiv.append(newImgs[i]);
