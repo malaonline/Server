@@ -843,11 +843,13 @@ def check_phone(request):
         if "openid" in ret:
             openid = ret["openid"]
         if "errcode" in ret:
-            pass
+            logger.debug("..............................获取openid错误................")
+            logger.debug(ret)
     if openid:
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
+            logger.debug("..............................openid验证通过................")
             return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid)
 
     context = {
@@ -855,4 +857,5 @@ def check_phone(request):
         "teacherId": teacherId,
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)
     }
+    logger.debug("..............................openid验证不通过，继续验证................")
     return render(request, 'wechat/parent/reg_phone.html', context)
