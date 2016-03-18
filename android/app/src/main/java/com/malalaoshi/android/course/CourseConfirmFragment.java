@@ -395,15 +395,19 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                TimesModel times = JsonUtil.parseStringData(json.toString(), TimesModel.class);
-                timesAdapter.clear();
-                if (times != null) {
-                    timesAdapter.addAll(times.getDisplayTimes());
-                    timesAdapter.notifyDataSetChanged();
+                try{
+                    TimesModel times = JsonUtil.parseStringData(json.toString(), TimesModel.class);
+                    timesAdapter.clear();
+                    if (times != null) {
+                        timesAdapter.addAll(times.getDisplayTimes());
+                        timesAdapter.notifyDataSetChanged();
+                    }
+                    timesListView.setVisibility(View.VISIBLE);
+                    shouldUpdateTimes = false;
+                    isShowingTimes = true;
+                }catch (Exception e){
+
                 }
-                timesListView.setVisibility(View.VISIBLE);
-                shouldUpdateTimes = false;
-                isShowingTimes = true;
             }
 
             @Override
