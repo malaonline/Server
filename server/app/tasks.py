@@ -8,14 +8,17 @@ from django.conf import settings
 import jpush
 
 from .models import TimeSlot, TimeSlotAttendance
+import logging
+
+logger = logging.getLogger('app')
 
 @shared_task
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
-    print("target amount:%d" %(len(operateTargets)))
+    logger.debug("target amount:%d" %(len(operateTargets)))
     for timeslot in operateTargets:
         timeslot.confirm()
-        print("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+        logger.debug("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
     return True
 
 @shared_task

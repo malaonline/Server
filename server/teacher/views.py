@@ -385,8 +385,8 @@ class RegisterProgress(BasicTeacherView):
         teacher.status_confirm = True
         teacher.save()
         next_url = request.GET.get("next", "")
-        print(request)
-        print("the next_url is {next}".format(next=next_url))
+        logger.debug(request)
+        logger.debug("the next_url is {next}".format(next=next_url))
         if next_url:
             return HttpResponseRedirect(next_url)
         else:
@@ -1141,8 +1141,8 @@ class MyEvaluation(BasicTeacherView):
         cres = CommentReply.CommentReplyErrorSession(request)
         if cres.is_error:
             context["comment_reply_error"] = cres.error["reply"][0]
-            print("comment_reply_error is {error}".format(error=cres.error))
-            print("comment-reply-error-id is {id}".format(id=cres.id))
+            logger.debug("comment_reply_error is {error}".format(error=cres.error))
+            logger.debug("comment-reply-error-id is {id}".format(id=cres.id))
         else:
             context["comment_reply_error"] = None
         comments_array, count_package, avg_score = self.get_comments(cres, teacher, comment_type)

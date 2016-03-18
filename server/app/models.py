@@ -1918,7 +1918,7 @@ class TimeSlot(BaseModel):
             AccountHistory.build_timeslot_history(self,account,amount)
             # 短信通知老师
             try:
-                print("send sms success."+teacher.phone())
+                logger.debug("send sms success."+teacher.phone())
                 # tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
             except Exception as ex:
                 logger.error(ex)

@@ -108,7 +108,7 @@ class TestApi(TestCase):
         response = client.get(url)
         response_content = json.loads(response.content.decode())
         if response_content['results'] is []:
-            print(response_content)
+            logger.debug(response_content)
         pk = json.loads(response.content.decode())['results'][0]['id']
         url = "/api/v1/teachers/%d" % pk
         response = client.get(url)

@@ -11,6 +11,9 @@ from .settings import CELERY_AUTOCONFIRM_CLASSES_INTERVAL
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
 from django.conf import settings  # noqa
+import logging
+
+logger = logging.getLogger('app')
 
 celery_app = Celery('server')
 
@@ -38,4 +41,4 @@ if __name__ == "__main__":
 
 @celery_app.task(bind=True)
 def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
+    logger.debug('Request: {0!r}'.format(self.request))

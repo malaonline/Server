@@ -96,7 +96,7 @@ class Command(BaseCommand):
         for one_teacher in Teacher.objects.all():
             if len(Order.objects.filter(teacher=one_teacher).all()) == 0:
                 if not one_teacher.abilities.all():
-                    print("{name} has no ability.".format(name=one_teacher.name))
+                    # print("{name} has no ability.".format(name=one_teacher.name))
                     continue
                 subject = one_teacher.abilities.all()[0].subject
                 grade = one_teacher.abilities.all()[0].grade
