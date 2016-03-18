@@ -525,7 +525,7 @@ function ajaxLoadSchool(lat, lng){
       }
     });
 }
-$('.ext_weui_btn_primary').click(function(){
+$('.ext_weui_btn_submit').click(function(){
   var href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wx_appid
               +'&redirect_uri=' + encodeURI(checkPhoneURI)
               +'&response_type=code'
