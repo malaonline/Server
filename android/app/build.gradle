@@ -46,7 +46,7 @@ android {
         versionCode 1
         def buildID = System.getenv("BUILD_NUMBER") + "_" + System.getenv("JOB_NAME")
         versionName "1.0" + (buildID == null ? "" : "." + buildID)
-        buildConfigField("String", "API_HOST", "\"" + LOCAL_SERVER + "\"")
+
     }
     buildTypes {
         debug {
@@ -56,8 +56,19 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_DEBUG]
+            buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
         }
 
+        devrelease {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
+            buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
+        }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
@@ -66,6 +77,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
+            buildConfigField("String", "API_HOST", "\"" + PRD_SERVER + "\"")
         }
     }
 
