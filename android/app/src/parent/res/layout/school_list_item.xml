@@ -8,8 +8,10 @@
     android:layout_height="wrap_content">
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/iv_school_pic"
+        android:scaleType="centerCrop"
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_height"
+        android:src="@drawable/ic_default_img"
         />
     <RelativeLayout
         android:layout_width="match_parent"

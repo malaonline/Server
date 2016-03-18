@@ -451,7 +451,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             }
             //头像
             string = teacher.getAvatar();
-            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.default_avatar, R.drawable.default_avatar));
+            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.ic_default_teacher_avatar, R.drawable.ic_default_teacher_avatar));
 
             //性别
             String grender = teacher.getGender();
@@ -580,7 +580,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
                     width, width));
             int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);

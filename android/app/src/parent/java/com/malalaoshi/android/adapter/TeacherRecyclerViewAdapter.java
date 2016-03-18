@@ -219,12 +219,12 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             }
             String imgUrl = teacher.getAvatar();
             if (imgUrl != null && !imgUrl.isEmpty()) {
-                avater.setDefaultImageResId(R.drawable.default_avatar);
-                avater.setErrorImageResId(R.drawable.default_avatar);
+                avater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
+                avater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
                 avater.setImageUrl(imgUrl, mImageLoader);
             }else{
-                avater.setDefaultImageResId(R.drawable.default_avatar);
-                avater.setErrorImageResId(R.drawable.default_avatar);
+                avater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
+                avater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
                 avater.setImageUrl("", mImageLoader);
             }
 
