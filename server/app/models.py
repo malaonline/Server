@@ -1548,7 +1548,7 @@ class Order(BaseModel):
         else:
             discount_amount = (
                     self.coupon.amount if self.coupon is not None else 0)
-            return self.total - discount_amount
+            return max(self.total - discount_amount, 0)
 
     # 最后退费申请记录
     def last_refund_record(self):
