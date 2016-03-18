@@ -337,7 +337,7 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         1, 刚支付完, verify order 主动去微信查询订单状态, 当支付成功时调用
         2, 接受微信支付结果异步通知中, 当支付成功时调用
     """
-    logger.debug('wx_pub_pay try to set_order_paid, order_no: '+order_id+', prepay_id: '+prepay_id+', open_id: '+open_id)
+    logger.debug('wx_pub_pay try to set_order_paid, order_no: '+str(order_id)+', prepay_id: '+str(prepay_id)+', open_id: '+str(open_id))
     charge = None
     if prepay_id:
         charge = models.Charge.objects.get(ch_id=prepay_id)
@@ -360,12 +360,12 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     order.paid_at = timezone.now()
     order.save()
 
-    logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+order_id)
+    logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+str(order_id))
     try:
         models.Order.objects.allocate_timeslots(order)
         # return JsonResponse({'ok': 1})
     except TimeSlotConflict:
-        logger.warning('timeslot conflict, do refund, order_id: '+order_id)
+        logger.warning('timeslot conflict, do refund, order_id: '+str(order_id))
         # 微信通知用户失败信息
         send_pay_fail_to_user(open_id, order_id)
         # 短信通知家长

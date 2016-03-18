@@ -153,7 +153,7 @@ def wx_pay_unified_order(order, request, wx_openid):
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_sign_for_pay(resp_dict)
-        logger.debug('check wx_pay_order sign: '+given_resp_sign==calculated_resp_sign)
+        logger.debug('check wx_pay_order sign: '+str(given_resp_sign==calculated_resp_sign))
         if given_resp_sign!=calculated_resp_sign:
             return {'ok': False, 'msg': '签名失败'}
         result_code = resp_dict['result_code']
@@ -228,7 +228,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
         calculated_resp_sign = wx_sign_for_pay(resp_dict)
-        logger.debug('check wx_pay_query sign: '+given_resp_sign==calculated_resp_sign)
+        logger.debug('check wx_pay_query sign: '+str(given_resp_sign==calculated_resp_sign))
         if given_resp_sign!=calculated_resp_sign:
             return {'ok': False, 'msg': '签名失败'}
         result_code = resp_dict['result_code']
@@ -272,7 +272,7 @@ def resolve_wx_pay_notify(request):
         return {'ok': False, 'msg': msg, 'code': 1}
     given_resp_sign = req_dict.pop('sign', None)
     calculated_resp_sign = wx_sign_for_pay(req_dict)
-    logger.debug('check wx_pay_notify sign: '+given_resp_sign==calculated_resp_sign)
+    logger.debug('check wx_pay_notify sign: '+str(given_resp_sign==calculated_resp_sign))
     if given_resp_sign!=calculated_resp_sign:
         return {'ok': False, 'msg': '签名失败'}
     result_code = req_dict['result_code']

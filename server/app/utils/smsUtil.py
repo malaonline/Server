@@ -70,7 +70,7 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
 
 
 def tpl_send_sms(phone, tpl_id, params={}):
-    logger.debug("send sms to "+phone+', '+tpl_id+': '+str(params))
+    logger.debug("send sms to "+str(phone)+', '+str(tpl_id)+': '+str(params))
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
 
