@@ -863,25 +863,6 @@ class Account(BaseModel):
                 models.Sum('amount'))["amount__sum"] or 0
 
     @property
-    def withdrawable_amount(self):
-        """
-        可提现金额, 截止到上周日23:59:59(即本周一0点之前)的收入, 并减去之后的支出
-        TODO: 这里计算有问题
-        """
-        now = timezone.localtime(timezone.now())
-        end_day = now - datetime.timedelta(days=now.weekday())  # 本周一
-        end_day = end_day.replace(hour=0, minute=0, second=0, microsecond=0)
-        AccountHistory = apps.get_model('app', 'AccountHistory')
-        ret = AccountHistory.objects.filter(
-                account=self).filter(
-                        models.Q(submit_time__lt=end_day) | (
-                            models.Q(submit_time__gte=end_day) & models.Q(
-                                amount__lt=0))).aggregate(models.Sum('amount'))
-        sum = ret['amount__sum'] or 0
-        # sum -= self.withdrawing_amount
-        return max(sum, 0)
-
-    @property
     def accumulated_income(self):
         # 累计收入,统计AccountHistory中大于0的记录,求和
         AccountHistory = apps.get_model('app', 'AccountHistory')
@@ -1483,10 +1464,11 @@ class Order(BaseModel):
     refund_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return "<{pk}> {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单".format(
+        return "<{pk}> {order_status} {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单".format(
             pk=self.pk, student_name=self.parent.student_name, submit_time=self.local_time_str(self.created_at),
             teacher_name=self.teacher.name, local=self.school, subject=self.subject.name, grade=self.grade.name,
-            teacher_phone=self.teacher.user.profile.phone, student_phone=self.parent.user.profile.phone
+            teacher_phone=self.teacher.user.profile.phone, student_phone=self.parent.user.profile.phone,
+            order_status=self.status
         )
 
     def is_timeslot_allocated(self):
@@ -1508,7 +1490,7 @@ class Order(BaseModel):
     def completed_hours(self):
         completed_hours = 0
         for one_timeslot in self.timeslot_set.filter(deleted=False):
-            if one_timeslot.is_complete():
+            if one_timeslot.is_settled():
                 completed_hours += one_timeslot.duration_hours()
         return completed_hours
 
@@ -1518,9 +1500,10 @@ class Order(BaseModel):
 
     # 计算剩余小时
     def remaining_hours(self):
-        return self.hours - self.completed_hours()
+        total_hours = self.timeslot_set.filter(deleted=False).count()*2
+        return total_hours - self.completed_hours()
 
-    # 计算剩余金额
+    # 计算剩余金额,单位是分
     def remaining_amount(self):
         return self.price * self.remaining_hours()
 
@@ -1837,8 +1820,13 @@ class TimeSlot(BaseModel):
                 id=self.pk, create_at=localtime(self.created_at)
             )
 
+    def is_settled(self):
+        # 课程是否结束并被结算
+        # 条件:delete是False,同时被课程审核批处理处理过
+        return not self.deleted and hasattr(self, "accounthistory")
+
     def is_complete(self, given_time=timezone.now()):
-        # 对于给定的时间,课程是否结束, 附加自动确认的那两小时
+        # 课程是否已经上过
         return self.end < given_time - TimeSlot.CONFIRM_TIME
 
     def is_waiting(self, given_time):
@@ -1889,7 +1877,7 @@ class TimeSlot(BaseModel):
 
     @property
     def is_passed(self):
-        return timezone.now() > self.end
+        return self.is_complete()
 
     @property
     def teacher(self):

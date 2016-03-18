@@ -18,6 +18,7 @@ from django.utils import timezone
 from urllib.parse import urlparse
 from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator
+from django.conf import settings
 
 from dateutil import relativedelta
 
@@ -1352,7 +1353,7 @@ class WithdrawalRequest(BasicTeacherView):
             verify_result, verify_code = models.Checkcode.verify(phone, code)
             if verify_result is True:
                 # 验证通过,进行转账操作,注意,这里要重新计算金额,然后转账
-                balance = user.account.withdrawable_amount
+                balance = user.account.calculated_balance
                 # 如果TEST_WITHDRAW为True,则余额为0也可以转账.
                 if balance > 0 or settings.TEST_WITHDRAW:
                     withdraw = models.Withdrawal()
@@ -1367,13 +1368,13 @@ class WithdrawalRequest(BasicTeacherView):
                             "verify": False, "msg": "没有可用的银行卡",
                         })
                     withdraw.save()
-                    models.AccountHistory.build_withdrawal_history(withdrawal=withdraw,
-                                                                   account=user.account,
-                                                                   amount=-balance)
+                    acc = models.AccountHistory.build_withdrawal_history(withdrawal=withdraw,
+                                                                         account=user.account,
+                                                                         amount=-balance)
                     request.session["withdraw_amount"] = balance
                     request.session["bank_name"] = bankcard.bank_name
                     request.session["bank_card_end_number"] = bankcard.mask_card_number()[-1]
-                    request.session["expect_time"] = localtime(withdraw.submit_time + datetime.timedelta(days=2)).strftime("%Y-%m-%d %H:%M")
+                    request.session["expect_time"] = localtime(acc.submit_time + datetime.timedelta(days=2)).strftime("%Y-%m-%d %H:%M")
                     # 转账成功后,把数字存在session里
                     return JsonResponse({
                         "verify": True, "url": reverse("teacher:my-wallet-withdrawal-result")
@@ -1433,7 +1434,7 @@ class MyWalletWithdrawal(MyWalletBase):
             context["bank_card_number"] = "还没有绑定储蓄卡"
             context["bank_name"] = ""
 
-        context["balance"] = "%.2f" % (account.withdrawable_amount/100)
+        context["balance"] = "%.2f" % (account.calculated_balance/100)
         context["phone"] = json.dumps({"code": teacher.user.profile.mask_phone()})
         # pp(context)
 
@@ -2245,6 +2246,6 @@ class WalletBankcardView(BaseTeacherView):
         account = teacher.safe_get_account()
         bankcard = models.BankCard(account=account)
         bankcard.card_number = card_number
-        bankcard.bank_name = '中国银行' # TODO: 获得银行卡对应银行名称
+        bankcard.bank_name = settings.DEFAULT_BANK_NAME # TODO: 获得银行卡对应银行名称
         bankcard.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})

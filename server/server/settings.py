@@ -255,6 +255,9 @@ FIX_TEACHER_STATUS = False
 # 转账限制,True的话就没有周二限制,0元转账限制,False表示有限制
 TEST_WITHDRAW = False
 
+# 缺省银行
+DEFAULT_BANK_NAME = "招商银行"
+
 SERVICE_SUPPORT_TEL = '010-88888888'
 
 

@@ -24,7 +24,7 @@
     <div class="clearfix panel summary">
         <div class="col-sm-8 amounts">
             <div class="panel-body balance-box">
-                <div class="col-sm-5">可用余额: <span class="balance">￥{{ calculated_balance|money_format:'/' }}</span></div>
+                <div class="col-sm-5">可提现金额: <span class="balance">￥{{ calculated_balance|money_format:'/' }}</span></div>
                 <div class="col-sm-7 text-right actions">
                     <a class="btn btn-small btn-default
                     {% if can_withdrawal == False %}
