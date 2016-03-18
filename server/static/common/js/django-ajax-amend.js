@@ -18,6 +18,10 @@ function getCookie(name) {
     }else{
         throw "can't get cookies";
     }
+    if(cookieValue == null ){
+        cookieValue = $.cookie(name);
+    }
+
     return cookieValue;
 }
 function csrfSafeMethod(method) {
