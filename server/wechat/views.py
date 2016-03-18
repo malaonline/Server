@@ -851,8 +851,13 @@ def check_phone(request):
         if "openid" in ret:
             openid = ret["openid"]
         if "errcode" in ret:
-            logger.debug("..............................获取openid错误................")
+            logger.debug("..............................获取openid错误..1..............")
             logger.debug(ret)
+            logger.debug("..............................获取openid错误..2..............")
+    else:
+        logger.debug("..............................获取openid, status_code错误................")
+        logger.debug(req.status_code)
+
     if openid:
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
