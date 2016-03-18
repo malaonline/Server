@@ -26,12 +26,37 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     private let ClassScheduleViewCellCircleSize: CGFloat = 30.0
     
     // MARK: Property
+    /// 当天课程数据模型列表
     public var models: [StudentCourseModel] = [] {
         didSet {
-            self.dayLabel.backgroundColor = UIColor.lightGrayColor()
-
+            
+            // 过滤掉无数据情况
+            guard models.count != 0 else {
+                return
+            }
+            
+            // 设置背景颜色
+            switch models[0].status {
+            case .Past:
+                self.isPast = true
+                
+                break
+            case .Today:
+                // self.isToday = true
+                
+                break
+            case .Future:
+                self.isFuture = true
+                
+                break
+            }
+            
+            // 设置科目名称
             let subjectString = models[0].subject
             self.subjectLabel.text = subjectString
+            
+            // 设置多节课指示器
+            
         }
     }
     
@@ -40,7 +65,38 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 是否为今天标记
     public var isToday: Bool = false {
         didSet {
-            setCircleColor(isToday: isToday, selected: self.selected)
+            if isToday {
+                self.dayLabel.layer.borderColor = textTodayColor.CGColor
+                self.dayLabel.layer.borderWidth = MalaScreenOnePixel
+                self.dayLabel.textColor = textTodayColor
+                self.subjectLabel.text = "今天"
+                self.subjectLabel.textColor = circleSelectedColor
+            }else {
+            
+            }
+        }
+    }
+    /// 是否为过去标记
+    public var isPast: Bool = false {
+        didSet {
+            if isPast {
+                self.dayLabel.backgroundColor = MalaColor_DEE0E0_0
+                self.dayLabel.textColor = MalaColor_FFFFFF_9
+            }else {
+                
+            }
+        }
+    }
+    /// 是否为未来标记
+    public var isFuture: Bool = false {
+        didSet {
+            if isFuture {
+                self.dayLabel.backgroundColor = MalaColor_82B4D9_0
+                self.dayLabel.textColor = MalaColor_FFFFFF_9
+                self.subjectLabel.textColor = MalaColor_82B4D9_0
+            }else {
+                
+            }
         }
     }
     /// cell选择标记
@@ -55,7 +111,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 图形默认日期颜色
     public var circleDefaultColor: UIColor = MalaColor_FFFFFF_9
     /// 图形日期为今天时的颜色
-    public var circleTodayColor: UIColor = UIColor.orangeColor() //UIColor(patternImage: UIImage(named: "dayBackground_unpassed")!)   // useless
+    public var circleTodayColor: UIColor = UIColor.orangeColor() // useless
     /// cell被选中时的图形颜色
     public var circleSelectedColor: UIColor = MalaColor_82B4D9_0
     /// 文字默认颜色
@@ -67,7 +123,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// cell被冻结时的文字颜色
     public var textDisabledColor: UIColor = MalaColor_333333_0
     /// 文字默认字体
-    public var textDefaultFont: UIFont = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_15) ?? UIFont()
+    public var textDefaultFont: UIFont = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
     /// 分隔线颜色
     var separatorLineColor: UIColor = MalaColor_E5E5E5_0 {
         didSet {
@@ -112,7 +168,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
         subjectLabel.text = ""
-        subjectLabel.font = self.textDefaultFont
+        subjectLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_15) ?? UIFont()
         subjectLabel.textAlignment = .Center
         return subjectLabel
     }()
@@ -147,7 +203,6 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     ///  设置UI
     private func setupUserInterface() {
         // Style 
-//        contentView.backgroundColor = UIColor.lightGrayColor()
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         dayLabel.backgroundColor = UIColor.clearColor()
         dayLabel.layer.cornerRadius = ClassScheduleViewCellCircleSize/2
@@ -176,7 +231,6 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             make.top.equalTo(dayLabel.snp_bottom).offset(10)
             make.height.equalTo(MalaLayout_FontSize_15)
             make.centerX.equalTo(contentView.snp_centerX)
-//            make.bottom.equalTo(contentView.snp_bottom).offset(-MalaLayout_Margin_14)
         }
         
         setCircleColor(isToday: false, selected: false)
@@ -201,7 +255,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         }
         
         if today {
-            setTodayUI()
+            self.isToday = today
             labelColor = textTodayColor
         }
         
@@ -212,16 +266,6 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         
         self.dayLabel.backgroundColor = circleColor
         self.dayLabel.textColor = labelColor
-    }
-    
-    ///  设置Cell样式为今天
-    private func setTodayUI() {
-        self.dayLabel.backgroundColor = UIColor(patternImage: UIImage(named: "dayBackground_unpassed")!)
-        self.dayLabel.layer.borderColor = textTodayColor.CGColor
-        self.dayLabel.layer.borderWidth = MalaScreenOnePixel
-        self.dayLabel.textColor = textTodayColor
-        self.subjectLabel.text = "今天"
-        self.subjectLabel.textColor = circleSelectedColor
     }
     
     

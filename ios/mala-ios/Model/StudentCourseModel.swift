@@ -30,19 +30,16 @@ public class StudentCourseModel: BaseObjectModel {
         }
     }
     /// 课程状态
-    var status: CourseStatus? {
+    var status: CourseStatus {
         get {
             // 设置课程状态
-            if date.isYesterday() {
+            if date.isEarlierThan(NSDate()) {
                 return .Past
-                
-            }else if date.isTomorrow() {
-                return .Future
-                
             }else if date.isToday() {
                 return .Today
+            }else {
+                return .Future
             }
-            return nil
         }
     }
     
