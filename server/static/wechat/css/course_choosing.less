@@ -248,20 +248,19 @@
         float: right;
         img {
           max-height: 24pt;
-          -webkit-filter: grayscale(100%);
-          -moz-filter: grayscale(100%);
-          -ms-filter: grayscale(100%);
-          -o-filter: grayscale(100%);
-          filter: grayscale(100%);
+          &.yes {
+            display: none;
+          }
         }
       }
     }
     &.chosen .icons-area img{
-        -webkit-filter: initial;
-        -moz-filter: initial;
-        -ms-filter: initial;
-        -o-filter: initial;
-        filter: initial;
+      &.yes{
+        display: inline;
+      }
+      &.no{
+        display: none;
+      }
     }
     .coupon-footer{
       .clearfix();

@@ -144,7 +144,8 @@
                                     <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
                                 </div>
                                 <div class="icons-area">
-                                    <img src="{% static 'wechat/images/coupon-checked.png' %}">
+                                    <img class="yes" src="{% static 'wechat/images/coupon-checked.png' %}">
+                                    <img class="no" src="{% static 'wechat/images/coupon-unchecked.png' %}">
                                 </div>
                             </div>
                             <div class="coupon-footer">
@@ -184,6 +185,7 @@
             </div>
         </div>
 
+        {% if first_buy %}
         <div class="weui_dialog_alert" id="evaluateItemsDialog" style="display: none;">
             <div class="weui_mask"></div>
             <div class="weui_dialog">
@@ -195,6 +197,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
