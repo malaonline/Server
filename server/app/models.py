@@ -1945,6 +1945,11 @@ class TimeSlot(BaseModel):
                 'reschedule', flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
 
+        # 防止重复停课
+        if self.deleted:
+            semaphore.release()
+            return False
+
         # 如果是已调课后的, 先获取原始课程
         old_timeslot = (
                 self.transferred_from
@@ -2003,6 +2008,12 @@ class TimeSlot(BaseModel):
 
         # 0 代表成功
         ret_code = 0
+
+        # 防止重复调课
+        if self.deleted:
+            ret_code = -1
+            semaphore.release()
+            return ret_code
         try:
             with transaction.atomic():
                 # 首先, 校验这个课有没有冲突
