@@ -351,7 +351,7 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         # 短信通知家长
         try:
             phone = order.parent.user.profile.phone
-            tpl_send_sms(phone, TPL_STU_PAY_FAIL, {})
+            tpl_send_sms(phone, TPL_STU_PAY_FAIL)
         except Exception as ex:
             logger.error(ex)
         # 退款事宜操作

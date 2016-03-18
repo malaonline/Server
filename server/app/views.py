@@ -24,7 +24,7 @@ from rest_framework.pagination import PageNumberPagination
 from app import models
 from app.pingpp import pingpp
 from app.utils import random_name
-from app.utils.smsUtil import isValidPhone, isValidCode
+from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.algorithm import verify_sig
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 # from .forms import autoConfirmForm
@@ -98,6 +98,12 @@ class ChargeSucceeded(View):
             return JsonResponse({'ok': 1})
         except TimeSlotConflict:
             logger.info('timeslot conflict, do refund')
+            # 短信通知家长失败信息
+            try:
+                phone = order.parent.user.profile.phone
+                tpl_send_sms(phone, TPL_STU_PAY_FAIL)
+            except Exception as ex:
+                logger.error(ex)
             try:
                 models.Order.objects.refund(
                         order, '课程被抢占，自动退款', order.parent.user)

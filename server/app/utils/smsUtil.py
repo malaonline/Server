@@ -66,7 +66,7 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
     return response
 
 
-def tpl_send_sms(phone, tpl_id, params):
+def tpl_send_sms(phone, tpl_id, params={}):
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
 
