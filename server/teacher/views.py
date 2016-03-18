@@ -16,7 +16,7 @@ from django.conf import settings
 from django.utils.timezone import make_aware, localtime
 from django.utils import timezone
 from urllib.parse import urlparse
-from django.db.models import Q, Count, Sum
+from django.db.models import Q, Count, Sum, Avg
 from django.core.paginator import Paginator
 from django.conf import settings
 
@@ -406,16 +406,18 @@ class FirstPage(BasicTeacherView):
         # user = request.user
         # teacher = models.Teacher.objects.get(user=user)
         profile = models.Profile.objects.get(user=user)
-        order_set = models.Order.objects.filter(teacher=teacher)
-        gce = self.comprehensive_evaluation(order_set)
+        # order_set = models.Order.objects.filter(teacher=teacher,
+        #                                         status=models.Order.PAID)
+        # gce = self.comprehensive_evaluation(order_set)
+        current_student, complete_student = self.student_on_class(teacher)
         context = {
             "avatar": self.avatar(profile),
-            "class_complete": self.class_complete(order_set),
-            "class_waiting": self.class_waiting(order_set),
-            "student_on_class": self.student_on_class(order_set),
-            "student_complete": self.student_complete(order_set),
-            "comprehensive_evaluation": "{:2.1f}".format(gce.average_score()),
-            "bad_review": gce.bad_commit_count(),
+            "class_complete": self.class_complete(teacher),
+            "class_waiting": self.class_waiting(teacher),
+            "student_on_class": current_student,
+            "student_complete": complete_student,
+            "comprehensive_evaluation": "{:2.1f}".format(self.get_evaluation_avg_score(teacher)),
+            "bad_review": self.get_bad_comment(teacher),
             "account_balance": self.account_balance(teacher),
             "total_revenue": self.total_revenue(teacher),
             "teacher_level": self.teacher_level(),
@@ -433,89 +435,55 @@ class FirstPage(BasicTeacherView):
         else:
             return 'common/icons/none_body_profile.png'
 
-    def class_complete(self, order_set, current_data=make_aware(datetime.datetime.now())):
+    def class_complete(self, teacher, current_data=make_aware(datetime.datetime.now())):
         # 已上课数量
-        complete_count = 0
-        for one_order in order_set:
-            if one_order.fit_statistical():
-                # 处于PAID状态的单子才统计
-                time_slot_set = one_order.timeslot_set.filter(deleted=False)
-                for one_time_slot in time_slot_set:
-                    if one_time_slot.is_complete(current_data):
-                        complete_count += 1
-        class_complete = complete_count
-        return class_complete
+        return models.TimeSlot.objects.filter(
+            order__status=models.Order.PAID,
+            order__teacher=teacher,
+            end__lt=current_data,
+            deleted=False,
+        ).count()
 
-    def class_waiting(self, order_set, current_data=make_aware(datetime.datetime.now())):
+    def class_waiting(self, teacher: models.Teacher, current_data=make_aware(datetime.datetime.now())):
         # 待上课数量
-        waiting_count = 0
-        for one_order in order_set:
-            if one_order.fit_statistical():
-                # 处于PAID状态的单子才统计
-                time_slot_set = one_order.timeslot_set.filter(deleted=False)
-                for one_time_slot in time_slot_set:
-                    if one_time_slot.is_waiting(current_data):
-                        waiting_count += 1
-        class_waiting = waiting_count
-        return class_waiting
+        return models.TimeSlot.objects.filter(
+            order__status=models.Order.PAID,
+            order__teacher=teacher,
+            start__gt=current_data,
+            deleted=False,
+        ).count()
 
-    def student_on_class(self, order_set, current_data=make_aware(datetime.datetime.now())):
-        # 上课中的学生,需要先汇总学生的所有订单,然后判断学生是否在上课
-        parent_set = set()
-        parent_dict = {}
-        for one_order in order_set:
-            # 遍历所有的单子
-            if one_order.fit_statistical():
-                # 处于PAID状态的单子才统计
-                parent_id = one_order.parent.id
-                parent_time_slot = parent_dict.get(parent_id, [])
-                parent_time_slot += list(one_order.timeslot_set.filter(deleted=False))
-                parent_dict[parent_id] = parent_time_slot
-        for parent_id, timeslot_list in parent_dict.items():
-            time_slot_set = timeslot_list
-            has_waiting_class = False
-            has_complete_class = False
-            for one_time_slot in time_slot_set:
-                if has_waiting_class is True and has_complete_class is True:
-                    # Order符合上课中的要求
-                    parent_set.add(parent_id)
-                    # 记录下来后直接跳出,看下一个order
-                    break
-                if one_time_slot.is_waiting(current_data):
-                    # 找到一堂没有上的课
-                    has_waiting_class = True
-                if one_time_slot.is_complete(current_data):
-                    # 找到一堂已经上的课
-                    has_complete_class = True
+    def student_on_class(self, teacher: models.Teacher, current_data=make_aware(datetime.datetime.now())):
+        # 上课中的学生,需要先汇总学生的所有订单,然后判断学生是否在上课'
+        student_list = models.Parent.objects.filter(order__teacher=teacher, order__status=models.Order.PAID,
+                                                    order__timeslot__isnull=False).distinct("pk")
+        current_count = 0
+        session_count = 0
+        for one_student in student_list:
+            if models.TimeSlot.objects.filter(order__teacher=teacher, order__parent=one_student,
+                                              order__status=models.Order.PAID, end__gt=current_data).exists():
+                # 统计上课学生
+                current_count += 1
+            else:
+                # 统计结课学生
+                session_count += 1
+        return current_count, session_count
 
-        student_on_class = len(parent_set)
+    def get_evaluation_avg_score(self, teacher: models.Teacher):
+        # 获得平均评分
+        avg_score = models.Comment.objects.filter(
+            timeslot__order__teacher=teacher,
+            timeslot__order__status=models.Order.PAID,
+        ).aggregate(Avg("score"))
+        return avg_score["score__avg"] or 0
 
-        return student_on_class
-
-    def student_complete(self, order_set, current_data=make_aware(datetime.datetime.now())):
-        # 已结课的学生,所有的time_slot都是完成的就算结课了,要先合并订单
-        parent_set = set()
-        parent_dict = {}
-        for one_order in order_set:
-            # 遍历所有的单子
-            if one_order.fit_statistical():
-                # 处于PAID状态的单子才统计
-                parent_id = one_order.parent.id
-                parent_time_slot = parent_dict.get(parent_id, [])
-                parent_time_slot += list(one_order.timeslot_set.filter(deleted=False))
-                parent_dict[parent_id] = parent_time_slot
-        for parent_id, timeslot_list in parent_dict.items():
-            time_slot_set = timeslot_list
-            complete_order = True
-            for one_time_slot in time_slot_set:
-                if one_time_slot.is_complete(current_data) is False:
-                    # 只要有一堂课处于未完成状态,就不符合要求
-                    complete_order = False
-                    break
-            if complete_order is True:
-                parent_set.add(parent_id)
-        student_complete = len(parent_set)
-        return student_complete
+    def get_bad_comment(self, teacher: models.Teacher):
+        # 获得差评数
+        return models.Comment.objects.filter(
+            timeslot__order__teacher=teacher,
+            timeslot__order__status=models.Order.PAID,
+            score__lt=3,
+        ).count()
 
     class CollectOrderInfo:
         def __init__(self, current_data=make_aware(datetime.datetime.now())):

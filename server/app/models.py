@@ -1826,11 +1826,12 @@ class TimeSlot(BaseModel):
 
     def __str__(self):
         try:
-            return '<{id}> from {start} to {end} 老师:{teacher_name}[{teacher_phone}] 学生:{student_name}[{student_phone}] {subject} {grade} {order_status} 创建于{create_at}'.format(
+            return '<{id}> from {start} to {end} 老师:{teacher_name}[{teacher_phone}] 学生:{student_name}[{student_phone}] {subject} {grade} {order_status} 创建于{create_at} [{is_valid}]'.format(
                 id=self.pk, start=self.local_time_str(self.start), end=self.local_time_str(self.end), teacher_name=self.order.teacher.name,
                 student_name=self.order.parent.student_name, teacher_phone=self.order.teacher.user.profile.phone,
                 student_phone=self.order.parent.user.profile.phone, create_at=self.local_time_str(self.created_at),
-                subject=self.order.subject.name, grade=self.order.grade.name, order_status=self.order.status
+                subject=self.order.subject.name, grade=self.order.grade.name, order_status=self.order.status,
+                is_valid="无效" if self.deleted else "有效"
             )
         except:
             return "异常timeslot <{id}> {create_at}".format(

@@ -253,12 +253,13 @@ class TestWebPage(TestCase):
         teacher = Teacher.objects.get(user=user)
         order_set = Order.objects.filter(teacher=teacher)
         first_page = FirstPage()
-        self.assertEqual(3, first_page.class_complete(order_set))
-        self.assertEqual(2, first_page.class_waiting(order_set,
+        self.assertEqual(3, first_page.class_complete(teacher))
+        self.assertEqual(2, first_page.class_waiting(teacher,
                                                      make_aware(datetime.datetime(2015, 12, 20, 16, 0, 0))))
-        self.assertEqual(1, first_page.class_waiting(order_set,
+        self.assertEqual(1, first_page.class_waiting(teacher,
                                                      make_aware(datetime.datetime(2016, 1, 1, 5, 0, 0))))
-        self.assertEqual(1, first_page.student_complete(order_set))
+        current_student, complete_student = first_page.student_on_class(teacher)
+        self.assertEqual(1, complete_student)
 
     def test_create_new_teacher(self):
         """
