@@ -15,6 +15,8 @@ function getCookie(name) {
                 break;
             }
         }
+    }else{
+        throw "can't get cookies";
     }
     return cookieValue;
 }
@@ -26,6 +28,9 @@ $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             var csrftoken = getCookie('csrftoken');
+            if (csrftoken==null){
+                throw "can't get csrftoken from cookies";
+            }
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     }
