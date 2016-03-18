@@ -59,7 +59,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }()
     /// TableView头部视图
     private lazy var tableHeaderView: TeacherDetailsHeaderView = {
-        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_DetailHeaderHeight))
+        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 110))
         tableHeaderView.avatar = ""
         tableHeaderView.name = "----"
         tableHeaderView.gender = "m"
@@ -67,7 +67,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }()
     /// 顶部背景图
     private lazy var headerBackground: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "headerBackground"))
+        let image = UIImageView(image: UIImage(named: "teacherDetailHeader_placeholder"))
         image.contentMode = .ScaleAspectFill
         return image
     }()
