@@ -170,7 +170,7 @@ class CourseChoosingView(View):
         kwargs['coupons'] = coupons
         pre_chosen_coupon = None
         for coupon in coupons:
-            if coupon.name.startswith('新生'):
+            if coupon.mini_course_count==0:
                 pre_chosen_coupon = coupon
                 break
         # pre_chosen_coupon = pre_chosen_coupon or coupons.first()

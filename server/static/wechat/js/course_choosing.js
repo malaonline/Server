@@ -290,25 +290,17 @@ $(function(){
                 $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
                 var min_count = parseInt($coupon.find('.ccount').text());
                 if (hours < min_count) {
-                    chosen_coupon_id = 0;
+                    chosen_coupon_id = '';
                     $coupon.removeClass('chosen');
                     $('#discountCost').html('0');
                 }
-            }
-            if (!chosen_coupon_id) {
-                // auto choose another one
-                $coupons.each(function () {
-                    var _$cp = $(this), _min_count = parseInt(_$cp.find('.ccount').text());
-                    if (hours >= _min_count) {
-                        _$cp.addClass('chosen');
-                        chosen_coupon_id = _$cp.attr('couponId');
-                        return false;
-                    }
-                });
+                //if (!chosen_coupon_id) { // auto choose another one, 以后再说
             }
             if (chosen_coupon_id) { // get discount
                 $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
                 $('#discountCost').html($coupon.find('.amount').text());
+            } else {
+                $('#discountCost').html('0');
             }
         }
         var discount = parseFloat($('#discountCost').text()); // 单位是元
@@ -365,6 +357,11 @@ $(function(){
         updateCost();
     });
 
+    var hide_coupons = function(){
+        setTimeout(function(){
+            $coupons.hide();
+        }, 453);
+    };
     $('#couponRow').click(function(){
         if ($coupons.length==0) {
             showAlertDialog('您没有可用奖学金');
@@ -377,6 +374,7 @@ $(function(){
         }
     });
     $coupons.click(function(){
+        /// NOTE: 更新discount不在这里做, 在后面的updateCost()方法里
         var hours = parseInt($('#courseHours').text());
         if (hours==0) {
             showAlertDialog('请先选择上课时间');
@@ -384,7 +382,10 @@ $(function(){
         }
         var $this = $(this), cpid = $this.attr('couponId');
         if (cpid==chosen_coupon_id) {
-            $coupons.hide();
+            chosen_coupon_id = '';
+            $this.removeClass('chosen');
+            updateCost();
+            hide_coupons();
             return;
         }
         var min_count = parseInt($this.find('.ccount').text());
@@ -402,9 +403,8 @@ $(function(){
                 _$this.removeClass('chosen');
             }
         });
-        // 更新discount不在这里做, 在后面的updateCost()方法里
         updateCost();
-        $coupons.hide();
+        hide_coupons();
     });
 
     $('#confirmBtn').click(function(e){

@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <a class="weui_cell weui_cells_access coupon-row" id="couponRow" href="javascript:;">
-                        <input type="hidden" id="preChosenCoupon" value="{{ pre_chosen_coupon.id }}"/>
+                        <input type="hidden" id="preChosenCoupon" value="{% if pre_chosen_coupon %}{{ pre_chosen_coupon.id }}{% endif %}"/>
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">奖学金</p>
                         </div>
