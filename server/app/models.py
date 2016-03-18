@@ -889,9 +889,9 @@ class Account(BaseModel):
 
     def __str__(self):
         if hasattr(self.user, "teacher"):
-            return "{teacher_name} 可用余额:{cal_bal} 可提现金额:{withdrawable_amount} 累计收入:{acc_incom} 预计收入:{anti_income}".format(
+            return "{teacher_name} 可用余额:{cal_bal} 累计收入:{acc_incom} 预计收入:{anti_income}".format(
                 teacher_name=self.user.teacher.name, cal_bal=self.calculated_balance/100,
-                withdrawable_amount=self.withdrawable_amount/100,
+                # withdrawable_amount=self.withdrawable_amount/100,
                 acc_incom=self.accumulated_income/100, anti_income=self.anticipated_income/100)
         else:
             return "非法帐户 user_id:{user_id}".format(
@@ -1021,9 +1021,10 @@ class AccountHistory(BaseModel):
         operation = "未知操作"
         if hasattr(self, "withdrawal"):
             # 老师提现
-            operation = "提现获得 {withdrawal_status}".format(
-                withdrawal_status=self.withdrawal.status
-            )
+            operation = "提现获得"
+            # operation = "提现获得 {withdrawal_status}".format(
+            #     withdrawal_status=self.withdrawal.status
+            # )
         if hasattr(self, "timeslot"):
             # 老师上课收入
             try:
