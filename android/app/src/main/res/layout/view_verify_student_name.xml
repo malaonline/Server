@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:gravity="left"
-        android:text="请认真填写姓名，不得超过4个汉字"
+        android:text="请认真填写姓名，不得超过30个汉字"
         android:textColor="#939393"
         android:textSize="12dp" />
 
