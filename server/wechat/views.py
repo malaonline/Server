@@ -857,6 +857,7 @@ def check_phone(request):
 
     logger.debug("..............................获取的wx_code：1..............")
     logger.debug(wx_code)
+    logger.debug(get_openid_url)
     logger.debug("..............................获取的wx_code：2..............")
 
     if req.status_code == 200:
