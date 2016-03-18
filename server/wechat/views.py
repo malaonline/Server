@@ -19,6 +19,7 @@ from django.utils.decorators import method_decorator
 
 # local modules
 from app import models
+from app.utils.smsUtil import tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.types import parseInt
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from .wxapi import *
@@ -347,6 +348,13 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         logger.warning('timeslot conflict, do refund, order_id: '+order_id)
         # 微信通知用户失败信息
         send_pay_fail_to_user(open_id, order_id)
+        # 短信通知家长
+        try:
+            phone = order.parent.user.profile.phone
+            tpl_send_sms(phone, TPL_STU_PAY_FAIL, {})
+        except Exception as ex:
+            logger.error(ex)
+        # 退款事宜操作
         try:
             models.Order.objects.refund(
                     order, '课程被抢占，自动退款', order.parent.user)

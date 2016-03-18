@@ -22,7 +22,7 @@ from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string, classproperty
 from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError,\
-        tpl_send_sms, TPL_COURSE_INCOME
+        tpl_send_sms, TPL_COURSE_INCOME, TPL_STU_PAY_SUCCESS, TPL_TEACHER_COURSE_PAID
 
 logger = logging.getLogger('app')
 
@@ -1352,6 +1352,21 @@ class OrderManager(models.Manager):
             raise e
         finally:
             semaphore.release()
+        # 短信通知老师, 以及家长
+        teacher_name = order.teacher.name
+        student_name = order.parent.student_name
+        grade = order.grade.name + order.subject.name
+        try:
+            tpl_send_sms(order.teacher.phone(), TPL_TEACHER_COURSE_PAID, {
+                'username': teacher_name, 'studentname': student_name, 'grade': grade, 'number': order.hours})
+        except Exception as ex:
+            logger.error(ex)
+        try:
+            amount_str = "%.2f"%(order.to_pay/100)
+            tpl_send_sms(order.parent.user.profile.phone, TPL_STU_PAY_SUCCESS, {
+                'studentname': student_name, 'orderid': order.order_id, 'amount': amount_str})
+        except Exception as ex:
+            logger.error(ex)
         return timeslots
 
     def refund(self, order, reason, user):
@@ -1899,7 +1914,6 @@ class TimeSlot(BaseModel):
                 # tpl_send_sms(teacher.phone(), TPL_COURSE_INCOME, {'money': "%.2f"%(amount/100)})
             except Exception as ex:
                 logger.error(ex)
-                return False
         attendance = TimeSlotAttendance.objects.create(
             record_type = 'a'
             )
