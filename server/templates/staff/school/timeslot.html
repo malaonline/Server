@@ -34,7 +34,7 @@
     <table class="table table-bordered table-hover">
         <tr>
             <th class="text-center">{{weekday}}（{{ searchTime | date:"n.j" }}）</th>
-            <th class="text-center">家长姓名</th>
+{#            <th class="text-center">家长姓名</th>#}
             <th class="text-center">家长电话</th>
             <th class="text-center">学生姓名</th>
             <th class="text-center">报课年级</th>
@@ -52,7 +52,7 @@
                     共{{timeslot.eqCount|add:1}}对
                 </td>
                 {%endif%}
-                <td>{{timeslot.order.parent.user.username}}</td>
+{#                <td>{{timeslot.order.parent.user.username}}</td>#}
                 <td>{{timeslot.order.parent.user.profile.phone}}</td>
                 <td>{{timeslot.order.parent.student_name}}</td>
                 <td>{{timeslot.order.grade.name }}</td>

@@ -75,7 +75,7 @@
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                         <tr>
-                            <th>领取人</th>
+{#                            <th>领取人</th>#}
                             <th>手机号</th>
                             <th>奖学金名称</th>
                             <th>金额</th>
@@ -89,7 +89,7 @@
                         <tbody>
                         {% for coupon in coupons_list %}
                             <tr>
-                                <td>{{ coupon.parent.user.username }}</td>
+{#                                <td>{{ coupon.parent.user.username }}</td>#}
                                 <td>{{ coupon.parent.user.profile.phone}}</td>
                                 <td>{{ coupon.name }}</td>
                                 <td>{{ coupon.amount }}</td>
