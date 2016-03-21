@@ -1156,6 +1156,17 @@ class Parent(BaseModel):
             super(Parent, self).save(*args, **kwargs)
 
 
+class TeacherVistParent(BaseModel):
+    # 这个模型用来记录老师和家长一对一产生的关系
+    teacher = models.ForeignKey(Teacher)
+    parent = models.ForeignKey(Parent)
+    # 记录老师是否已经访问过这个家长
+    web_visited = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ("teacher", "parent",)
+
+
 class CouponRule(BaseModel):
     """
     奖学金使用规则
@@ -1746,6 +1757,9 @@ class Comment(BaseModel):
     # 回复
     reply = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+    # 页面浏览过的comments,如果没有浏览过,就会在边栏显示出来
+    web_visited = models.BooleanField(default=False)
+
     class Meta:
         ordering=["-created_at"]
 
@@ -1827,6 +1841,9 @@ class TimeSlot(BaseModel):
     objects = models.Manager()
     # 返回应该被自动确认的TimeSlot
     should_auto_confirmed_objects = TimeSlotShouldAutoConfirmManager()
+
+    # 用于记录侧边栏的显示,没有访问过的新课程,会被记录
+    web_visited = models.BooleanField(default=False)
 
     def __str__(self):
         try:

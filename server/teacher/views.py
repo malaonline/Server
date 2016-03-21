@@ -651,20 +651,39 @@ class SideBarContent:
     def _my_course_badge(self):
         # 我的课表旁边的徽章
         # 这里先不做
-        my_course = None
-        return my_course
+        return models.TimeSlot.objects.filter(
+            order__teacher = self.teacher,
+            web_visited = False,
+            deleted=False,
+            order__status=models.Order.PAID,
+            start__gt=timezone.now()
+        ).count()
 
     def _my_student_badge(self):
         # 我的学生旁边的徽章
-        # 这里先不做
-        my_student = None
+        # 这里先注释掉,等李鑫想清楚再做
+        # visited_parent = models.TeacherVistParent.objects.filter(
+        #     teacher=self.teacher, web_visited=False
+        # ).values("parent").count()
+        # teachers_parent = models.Parent.objects.filter(
+        #     order__teacher=self.teacher,
+        #     order__status=models.Order.PAID,
+        #     order__timeslot__isnull=False,
+        # ).distinct("pk").count()
+        # my_student = teachers_parent-visited_parent
+        my_student=None
         return my_student
 
     def _my_evaluation_badge(self):
         # 我的评价旁边的徽章
         # 这里先不做
-        my_evaluation = None
-        return my_evaluation
+        return models.Comment.objects.filter(
+            web_visited=False,
+            timeslot__order__teacher=self.teacher,
+            timeslot__order__status=models.Order.PAID,
+        ).count()
+        # my_evaluation = None
+        # return my_evaluation
 
     def is_teacher_information_not_complete(self, teacher: models.Teacher):
         # 老师基本资料没有填完就返回False,否则返回True
@@ -867,6 +886,14 @@ class MySchoolTimetable(BasicTeacherView):
 
     def handle_get(self, request, user, teacher, year, month):
         # 思路,集中订单中的每堂课,映射到当月的日期中,由每天上课的数量来日期的状态.
+        # 浏览完这个页面,所有老师为浏览的课程就显示成已浏览
+        models.TimeSlot.objects.filter(
+            order__teacher=teacher,
+            web_visited = False,
+            deleted=False,
+            order__status=models.Order.PAID,
+            start__gt=timezone.now()
+        ).update(web_visited=True)
         # 获得这个老师的每堂课
         order_set = models.Order.objects.filter(teacher=teacher)
         # 用于记录页面右边的数据
@@ -1135,6 +1162,12 @@ class MyEvaluation(BasicTeacherView):
                         3: BuildBadCommentList}
 
     def handle_get(self, request, user, teacher, comment_type, page_offset):
+        # 一进来就把所有评价提示里的评价都设置为已阅读
+        models.Comment.objects.filter(
+            web_visited=False,
+            timeslot__order__teacher=teacher,
+            timeslot__order__status=models.Order.PAID,
+        ).update(web_visited=True)
         context = {}
         page_offset = int(page_offset)
         comment_type = int(comment_type)
