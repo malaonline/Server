@@ -140,6 +140,7 @@
             android:id="@+id/parent_teacher_detail_gallery_more_iv"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:scaleType="center"
             android:layout_alignBottom="@id/grallery_title"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_more" />
