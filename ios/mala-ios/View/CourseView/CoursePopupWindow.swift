@@ -18,9 +18,9 @@ public class CoursePopupWindow: UIViewController {
     /// 布局容器（窗口）
     var window = UIView()
     /// 标题文字
-    var tTitle: String = NSDate().formattedDateWithFormat("yyyy.MM.dd") {
+    var titleDate: NSDate = NSDate() {
         didSet {
-            self.courseDateLabel.text = tTitle
+            self.courseDateLabel.text = titleDate.formattedDateWithFormat("yyyy.MM.dd")
         }
     }
     /// 课程已上标识
@@ -88,7 +88,7 @@ public class CoursePopupWindow: UIViewController {
         let courseDateLabel = UILabel()
         courseDateLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         courseDateLabel.textColor = MalaColor_B7B7B7_0
-        courseDateLabel.text = self.tTitle
+        courseDateLabel.text = ""
         return courseDateLabel
     }()
     private lazy var contentContainer: UIView = {
