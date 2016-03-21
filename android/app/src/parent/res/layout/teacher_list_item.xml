@@ -14,7 +14,7 @@
             android:text=""
             android:typeface="serif"
             android:textColor="@color/text_color_darkgray"
-            android:textSize="@dimen/text_size_xxxlarge" />
+            android:textSize="@dimen/text_size_xlarge_x" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +96,7 @@
             android:text=""
             android:typeface="serif"
             android:textColor="@color/text_color_darkgray"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_small_x" />
     </LinearLayout>
 
     <TextView
