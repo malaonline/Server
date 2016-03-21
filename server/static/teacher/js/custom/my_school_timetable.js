@@ -8,8 +8,14 @@ $(
     }
 );
 
-function day_cell_hover(day_id, today_date, today_week_day){
-    //console.log(day_id);
+function day_cell_hover(cell, day_id, today_date, today_week_day){
+    console.log(day_id);
+    console.log(cell);
+    if (window.select_cell != undefined){
+        $(window.select_cell).attr("attrSelect", false);
+    }
+    $(cell).attr("attrSelect", true);
+    window.select_cell = cell;
     $("#today-date").html(today_date);
     $("#today-week-day").html(today_week_day);
     var header_template = $("#time_slot_header_template").html();

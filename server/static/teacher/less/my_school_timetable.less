@@ -129,6 +129,13 @@
       .normal[attrStatue="pass"], .normal-last[attrStatue="pass"]{
         color: @border_gray;
       }
+      .normal[attrStatue="today"], .normal-last[attrStatue="today"]{
+        background-color: #bebebe;
+      }
+      .normal[attrSelect=true], .normal-last[attrSelect=true],
+      .normal[attrSelect=true][attrStatue="pass"], .normal-last[attrSelect=true][attrStatue="today"] {
+        background-color: #898989;
+      }
       .today {
 
       }

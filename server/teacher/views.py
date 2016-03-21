@@ -894,25 +894,28 @@ class MySchoolTimetable(BasicTeacherView):
                                         datetime.datetime(one_month[-1].year, one_month[-1].month, one_month[-1].day,
                                                           23, 59, 59)), )
         week_day_map = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日", ]
+
+        def compare_by_day(given_day: datetime.datetime, today: datetime):
+            # 1-过去, 2-今天, 3-未来
+            new_given_day = datetime.date(given_day.year, given_day.month, given_day.day)
+            new_today = datetime.date(today.year, today.month, today.day)
+            if new_given_day > new_today:
+                return 3
+            elif new_given_day == new_today:
+                return 2
+            elif new_given_day < new_today:
+                return 1
+
         for index, day_item in enumerate(one_month):
             # 0-当天没课, 1-已经上过, 2-正在上,3-还没上
             day_statue = 0
             given_day = make_aware(datetime.datetime(day_item.year, day_item.month, day_item.day, 23, 59, 59))
+
             if cts.specific_day_count(given_day) > 0:
-                if given_day > today:
-                    day_statue = 3
-                if given_day == today:
-                    day_statue = 2
-                if given_day < today:
-                    day_statue = 1
+                day_statue = compare_by_day(given_day, today)
             else:
                 day_statue = 0
-            # 以今天为准,是不是过去的日子
-            is_pass = False
-            if given_day < today:
-                is_pass = True
-            else:
-                is_pass = False
+            is_pass = compare_by_day(given_day, today)
             one_week.append(("{day:02d}".format(day=day_item.day), day_statue, is_pass,
                              day_item.strftime(MySchoolTimetable.CollectTimeSlot.time_formula),
                              day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)], len(one_week)

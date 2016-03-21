@@ -65,20 +65,26 @@
                                         <div class="day-row">
                                         {% for one_day in one_week %}
                                             {% if one_day.6 == 6 %}
-                                                {% if one_day.2 == True %}
+                                                {% if one_day.2 == 1 %}
                                                     <div class="normal-last" attrStatue="pass"
-                                                         onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% elif one_day.2 == 2 %}
+                                                    <div class="normal-last" attrStatue="today"
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
                                                 {% else %}
                                                     <div class="normal-last"
-                                                         onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
                                                 {% endif %}
                                             {% else %}
-                                                {% if one_day.2 == True %}
+                                                {% if one_day.2 == 1 %}
                                                     <div class="normal" attrStatue="pass"
-                                                         onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                {% elif one_day.2 == 2 %}
+                                                    <div class="normal" attrStatue="today"
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
                                                 {% else %}
                                                     <div class="normal"
-                                                         onmouseover="day_cell_hover('{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
+                                                         onclick="day_cell_hover(this, '{{ one_day.3 }}', '{{ one_day.4 }}', '{{ one_day.5 }}')">
                                                 {% endif %}
                                             {% endif %}
 
@@ -105,7 +111,7 @@
                                     <div class="caleder-annotation">
                                         <i class="complete-icon"></i><span>已完成</span>
                                         <i class="waiting-icon" attrType="secondIcon"></i><span>待上课</span>
-{#                                        <i class="working-icon" attrType="thirdIcon"></i><span>上课中</span>#}
+                                        <i class="working-icon" attrType="thirdIcon"></i><span>上课中</span>
                                     </div>
                                     </div>
                                     <script id="time_slot_header_template" type="text/template">
