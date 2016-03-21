@@ -467,6 +467,28 @@ func loadTeachersWithConditions(conditions: JSONDictionary?, failureHandler: ((R
 }
 
 
+// MARK: - Course
+///  获取课程信息
+///
+///  - parameter id:             课程id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getCourseInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: CourseModel -> Void) {
+    
+    let parse: JSONDictionary -> CourseModel? = { data in
+        return parseCourseInfo(data)
+    }
+    
+    let resource = authJsonResource(path: "timeslots/\(id)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+
 // MARK: - Payment
 ///  创建订单
 ///
@@ -676,4 +698,23 @@ let parseStudentCourse: JSONDictionary -> [StudentCourseModel]? = { courseInfos 
         }
     }
     return courseList
+}
+/// 课程信息JSON解析器
+let parseCourseInfo: JSONDictionary -> CourseModel? = { courseInfo in
+    
+    guard let id = courseInfo["id"] as? Int else {
+        return nil
+    }
+    
+    if let
+        id = courseInfo["id"] as? Int,
+        start = courseInfo["start"] as? NSTimeInterval,
+        end = courseInfo["end"] as? NSTimeInterval,
+        subject = courseInfo["subject"] as? String,
+        school = courseInfo["school"] as? String,
+        is_passed = courseInfo["is_passed"] as? Bool,
+        teacher = courseInfo["teacher"] as? JSONDictionary {
+            return CourseModel(dict: courseInfo)
+    }
+    return nil
 }

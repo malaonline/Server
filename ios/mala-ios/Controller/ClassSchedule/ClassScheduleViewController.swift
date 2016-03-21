@@ -146,8 +146,10 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     
     // MARK: - Delegate
     public override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ClassScheduleViewCell
+        
         let contentView = CourseContentView()
-        contentView.models = TestFactory.testCourseModels()
+        contentView.studentCourses =  cell.models
         
         CoursePopupWindow(contentView: contentView).show()
     }

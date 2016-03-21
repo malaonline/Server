@@ -14,9 +14,27 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     /// 课程数据模型数组
     var models: [CourseModel] = [] {
         didSet {
-            models = TestFactory.testCourseModels()
-            self.setupCoursePanels()
-            container?.pageControl.numberOfPages = models.count
+            if models.count == studentCourses.count {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+                    self?.setupCoursePanels()
+                }
+            }
+        }
+    }
+    /// 学生课程集合
+    var studentCourses: [StudentCourseModel] = [] {
+        didSet {
+            
+            self.loadCourseInfo()
+            
+            dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+                if self?.studentCourses.count <= 1 {
+                    self?.container?.pageControl.hidden = true
+                }else {
+                    self?.container?.pageControl.numberOfPages = self?.studentCourses.count ?? 1
+                }
+                
+            }
         }
     }
     /// 课程面板集合
@@ -59,6 +77,26 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         // Autolayout
     }
     
+    ///  根据课程id获取课程详细信息
+    private func loadCourseInfo() {
+        
+        // 遍历学生课程数组，根据课程id获取课程详细信息
+        for studentCourse in studentCourses {
+            
+            getCourseInfo(studentCourse.id, failureHandler: { (reason, errorMessage) -> Void in
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+                
+                // 错误处理
+                if let errorMessage = errorMessage {
+                    println("CourseContentView - loadCourseInfo Error \(errorMessage)")
+                }
+                }, completion: { [weak self] (courseInfoModel) -> Void in
+                    println("课程详细信息: \(courseInfoModel)")
+                    self?.models.append(courseInfoModel)
+                })
+        }
+    }
+    
     ///  设置课程面板
     private func setupCoursePanels() {
         
@@ -91,10 +129,8 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: - Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         // 当前页数
-        let currentPage = Int(floor((scrollView.contentOffset.x - MalaLayout_CourseContentWidth / 2) / MalaLayout_CourseContentWidth))+2
-        println("当前页数:\(currentPage)")
+        let currentPage = Int(floor((scrollView.contentOffset.x - MalaLayout_CourseContentWidth / 2) / MalaLayout_CourseContentWidth))+1
         container?.pageControl.currentPage = Int(currentPage)
     }
 }
