@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^login$', views.TeacherLogin.as_view(), name="register"),
     url(r'^logout/$', auth_views.logout_then_login, {"login_url": "/teacher/login"}, name="logout"),
     url(r'^doc/agree/$', TemplateView.as_view(template_name="teacher/doc/policy.html"), name="doc-agree"),
-    url(r'^information/complete$', views.CompleteInformation.as_view(), name="complete-information"),
+    url(r'^information/complete$', views.InformationComplete.as_view(), name="complete-information"),
     url(r'^register/progress$', views.RegisterProgress.as_view(), name="register-progress"),
     url(r'^first_page/$', views.FirstPage.as_view(), name="first-page"),
     url(r'^$', views.FirstPage.as_view(), name="default-page"),

@@ -72,9 +72,9 @@ $(
             var region = $("#city_input").val();
             var subclass = $("#subclass_input").val();
             var grade = selected_grand();
-            //console.log(grade);
-            //var post_url = "/teacher/information/complete/";
             var post_url = window.location.href;
+            //关闭 beforeunload 监听
+            $(window).off('beforeunload');
             $.post(post_url,
                 {
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
@@ -84,6 +84,10 @@ $(
                 window.location.href =  data.url;
             });
 
+        });
+        window.inFormOrLink = false;
+        $(window).on('beforeunload', function(){
+            return "您确定要退出吗?";
         });
     }
 );

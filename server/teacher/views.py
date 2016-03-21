@@ -262,7 +262,7 @@ def information_complete_percent(user: User):
 
 
 # 完善老师的个人信息 TW-2-1
-class CompleteInformation(BasicTeacherView):
+class InformationComplete(BasicTeacherView):
     need_check_percent = False
     need_check_qualifield_audit = False
 
@@ -305,7 +305,7 @@ class CompleteInformation(BasicTeacherView):
             "grade": json.dumps(grade),
             "phone_name": phone
         }
-        return render(request, 'teacher/complete_information.html', context)
+        return render(request, 'teacher/information_complete.html', context)
 
     def handle_post(self, request, user, teacher, *args, **kwargs):
         next_url = request.GET.get("next", "")
