@@ -144,6 +144,15 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     }
     
     
+    // MARK: - Delegate
+    public override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let contentView = CourseContentView()
+        contentView.models = TestFactory.testCourseModels()
+        
+        CoursePopupWindow(contentView: contentView).show()
+    }
+    
+    
     // MARK: - ClassScheduleViewCell Delegate
     public func classScheduleViewCell(cell: ClassScheduleViewCell, shouldUseCustomColorsForDate date: NSDate) -> Bool {
         if self.isEnabledDate(date) {

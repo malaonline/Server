@@ -62,6 +62,10 @@ let MalaColor_F2F2F2_0 = UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
 let MalaColor_FFFFFF_9 = UIColor(rgbHexValue: 0xFFFFFF, alpha: 0.9)
 let MalaColor_4A4A4A_0 = UIColor(rgbHexValue: 0x4A4A4A, alpha: 1.0)
 let MalaColor_DEE0E0_0 = UIColor(rgbHexValue: 0xDEE0E0, alpha: 1.0)
+let MalaColor_B7B7B7_0 = UIColor(rgbHexValue: 0xB7B7B7, alpha: 1.0)
+let MalaColor_A5C9E4_0 = UIColor(rgbHexValue: 0xA5C9E4, alpha: 1.0)
+let MalaColor_D0D0D0_0 = UIColor(rgbHexValue: 0xD0D0D0, alpha: 1.0)
+
 
 
 // MARK: - Common String
@@ -103,6 +107,7 @@ let MalaLayout_Margin_16: CGFloat = 16.0
 let MalaLayout_Margin_18: CGFloat = 18.0
 let MalaLayout_Margin_20: CGFloat = 20.0
 let MalaLayout_Margin_21: CGFloat = 21.0
+let MalaLayout_Margin_22: CGFloat = 22.0
 let MalaLayout_Margin_24: CGFloat = 24.0
 let MalaLayout_Margin_26: CGFloat = 26.0
 let MalaLayout_Margin_27: CGFloat = 27.0
@@ -140,6 +145,10 @@ let MalaLayout_OtherServiceCellHeight: CGFloat = 46
 let MalaLayout_ProfileHeaderViewHeight: CGFloat = 165
 let MalaLayout_ProfileModifyViewHeight: CGFloat = 48
 let MalaLayout_AboutAPPLogoViewHeight: CGFloat = 62
+let MalaLayout_CoursePopupWindowWidth: CGFloat = 272
+let MalaLayout_CoursePopupWindowHeight: CGFloat = 300
+let MalaLayout_CoursePopupWindowTitleViewHeight: CGFloat = 69
+let MalaLayout_CourseContentWidth: CGFloat = MalaLayout_CoursePopupWindowWidth - MalaLayout_Margin_26*2
 
 
 // MARK: - Device

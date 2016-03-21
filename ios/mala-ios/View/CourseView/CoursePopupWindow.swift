@@ -18,40 +18,48 @@ public class CoursePopupWindow: UIViewController {
     /// 布局容器（窗口）
     var window = UIView()
     /// 标题文字
-    var tTitle: String = "  筛选年级  " {
+    var tTitle: String = NSDate().formattedDateWithFormat("yyyy.MM.dd") {
         didSet {
-            self.themeTitle.text = "  "+tTitle+"  "
+            self.courseDateLabel.text = tTitle
         }
     }
-    /// 图标名称
-    var tIcon: String = "grade" {
+    /// 课程已上标识
+    var isPassed: Bool = false {
         didSet {
-            self.themeIcon.image = UIImage(named: tIcon)
+            if isPassed {
+                iconView.text = "已上"
+                iconView.backgroundColor = MalaColor_D0D0D0_0
+            }else {
+                iconView.text = "待上"
+                iconView.backgroundColor = MalaColor_A5C9E4_0
+            }
         }
     }
     /// 内容视图
     var contentView: UIView?
     /// 单击背景close窗口
-    var closeWhenTap: Bool = false
+    var closeWhenTap: Bool = true
     
     
     // MARK: - Components
-    private lazy var themeIcon: UIImageView = {
-        let themeIcon = UIImageView()
-        themeIcon.frame = CGRect(x: 0, y: 0, width: 64, height: 64)
-        themeIcon.layer.cornerRadius = 32
-        themeIcon.layer.masksToBounds = true
-        themeIcon.backgroundColor = UIColor.lightGrayColor()
-        themeIcon.image = UIImage(named: self.tIcon)
-        return themeIcon
+    /// 图标
+    private lazy var iconView: UILabel = {
+        let iconView = UILabel()
+        iconView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: MalaLayout_CoursePopupWindowTitleViewHeight,
+            height: MalaLayout_CoursePopupWindowTitleViewHeight
+        )
+        iconView.layer.cornerRadius = MalaLayout_CoursePopupWindowTitleViewHeight/2
+        iconView.layer.masksToBounds = true
+        iconView.backgroundColor = MalaColor_A5C9E4_0
+        iconView.text = "待上"
+        iconView.textAlignment = .Center
+        iconView.textColor = MalaColor_FFFFFF_9
+        return iconView
     }()
-    private lazy var closeButton: UIButton = {
-        let closeButton = UIButton()
-        closeButton.setBackgroundImage(UIImage(named: "close_normal"), forState: .Normal)
-        closeButton.setBackgroundImage(UIImage(named: "close_press"), forState: .Selected)
-        closeButton.addTarget(self, action: "pressed:", forControlEvents: .TouchUpInside)
-        return closeButton
-    }()
+    /// 取消按钮.[知道了][取消]
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.setBackgroundImage(UIImage(named: "leftArrow_normal"), forState: .Normal)
@@ -60,6 +68,7 @@ public class CoursePopupWindow: UIViewController {
         cancelButton.hidden = true
         return cancelButton
     }()
+    /// 确认按钮.[去评价]
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
         confirmButton.setBackgroundImage(UIImage(named: "confirm_normal"), forState: .Normal)
@@ -68,18 +77,13 @@ public class CoursePopupWindow: UIViewController {
         confirmButton.hidden = true
         return confirmButton
     }()
-    private lazy var themeTitle: UILabel = {
-        let themeTitle = UILabel()
-        themeTitle.font = UIFont(name: "PingFangSC", size: MalaLayout_FontSize_15)
-        themeTitle.backgroundColor = UIColor.whiteColor()
-        themeTitle.textColor = MalaColor_939393_0
-        themeTitle.text = self.tTitle
-        return themeTitle
-    }()
-    private lazy var separator: UIView = {
-        let separator = UIView()
-        separator.backgroundColor = MalaColor_DADADA_0
-        return separator
+    /// 上课日期
+    private lazy var courseDateLabel: UILabel = {
+        let courseDateLabel = UILabel()
+        courseDateLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        courseDateLabel.textColor = MalaColor_B7B7B7_0
+        courseDateLabel.text = self.tTitle
+        return courseDateLabel
     }()
     private lazy var contentContainer: UIView = {
         let contentContainer = UIView()
@@ -129,7 +133,7 @@ public class CoursePopupWindow: UIViewController {
         view.frame = window.bounds
         // 设置属性
         self.contentView = contentView
-        if let view = contentView as? FilterView {
+        if let _ = contentView as? FilterView {
 //            view.container = self
         }
         updateUserInterface()
@@ -165,7 +169,6 @@ public class CoursePopupWindow: UIViewController {
     }
     
     public func setButtonStatus(showClose showClose: Bool, showCancel: Bool, showConfirm: Bool) {
-        closeButton.hidden = !showClose
         cancelButton.hidden = !showCancel
         confirmButton.hidden = !showConfirm
     }
@@ -187,49 +190,38 @@ public class CoursePopupWindow: UIViewController {
         
         // SubViews
         view.addSubview(window)
-        window.addSubview(themeIcon)
-        window.addSubview(closeButton)
+        window.addSubview(iconView)
         window.addSubview(cancelButton)
         window.addSubview(confirmButton)
-        window.addSubview(themeTitle)
-        window.insertSubview(separator, belowSubview: themeTitle)
+        window.addSubview(courseDateLabel)
         window.addSubview(pageControl)
         window.addSubview(contentContainer)
         
         // Autolayout
         window.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(self.view.snp_center)
-            make.width.equalTo(MalaLayout_FilterWindowWidth)
-            make.height.equalTo(MalaLayout_FilterWindowHeight)
+            make.width.equalTo(MalaLayout_CoursePopupWindowWidth)
+            make.height.equalTo(MalaLayout_CoursePopupWindowHeight)
         }
-        themeIcon.snp_makeConstraints { (make) -> Void in
+        iconView.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.window.snp_centerX)
             make.top.equalTo(self.window.snp_top).offset(-MalaLayout_FontSize_20)
-            make.width.equalTo(64)
-            make.height.equalTo(64)
-        }
-        closeButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
+            make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
+            make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
         }
         cancelButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
         }
         confirmButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
+            make.bottom.equalTo(self.window.snp_bottom)
+            make.left.equalTo(self.window.snp_left)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_5)
         }
-        themeTitle.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.themeIcon.snp_bottom).offset(MalaLayout_Margin_16)
-            make.centerX.equalTo(self.themeIcon.snp_centerX)
+        courseDateLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.iconView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.centerX.equalTo(self.iconView.snp_centerX)
             make.height.equalTo(MalaLayout_FontSize_15)
-        }
-        separator.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self.themeTitle.snp_centerY)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
-            make.height.equalTo(MalaScreenOnePixel)
         }
         pageControl.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(36)
@@ -238,7 +230,7 @@ public class CoursePopupWindow: UIViewController {
             make.centerX.equalTo(self.window.snp_centerX)
         }
         contentContainer.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.themeTitle.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.courseDateLabel.snp_bottom).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
             make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)

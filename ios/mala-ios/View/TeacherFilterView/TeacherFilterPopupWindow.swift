@@ -70,7 +70,7 @@ public class TeacherFilterPopupWindow: UIViewController {
     }()
     private lazy var themeTitle: UILabel = {
         let themeTitle = UILabel()
-        themeTitle.font = UIFont(name: "PingFangSC", size: MalaLayout_FontSize_15)
+        themeTitle.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_15)
         themeTitle.backgroundColor = UIColor.whiteColor()
         themeTitle.textColor = MalaColor_939393_0
         themeTitle.text = self.tTitle

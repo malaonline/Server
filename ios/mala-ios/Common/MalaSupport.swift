@@ -107,3 +107,12 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [Int:[Int:[St
     }
     return monthDicts
 }
+
+///  根据时间戳获取时间字符串（例如12:00）
+///
+///  - parameter timeStamp: 时间戳
+///
+///  - returns: 时间字符串
+func getTimeString(timeStamp: NSTimeInterval) -> String {
+    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("HH:mm")
+}

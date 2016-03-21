@@ -145,6 +145,14 @@ class TestFactory {
         ]
     }
     
+    class func testCourseModels() -> [CourseModel] {
+        return [
+            CourseModel(id: 65, start: 1457942400, end: 1457989600, subject: "物理", school: "洛阳社区三店", is_passed: true, teacher: TeacherModel(), comment: CommentModel(id: 15, timeslot: 65, score: 2, content: "这个老师还行")),
+            CourseModel(id: 66, start: 1457943400, end: 1457889600, subject: "物理", school: "洛阳社区三店", is_passed: true, teacher: TeacherModel(), comment: CommentModel(id: 15, timeslot: 65, score: 2, content: "这个老师还行")),
+            CourseModel(id: 67, start: 1457952400, end: 1457989600, subject: "物理", school: "洛阳社区三店", is_passed: true, teacher: TeacherModel(), comment: CommentModel(id: 15, timeslot: 65, score: 2, content: "这个老师还行")),
+        ]
+    }
+    
     class func testDateInThisWeek() {
         print(NSDate().weekday())
         print("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))
