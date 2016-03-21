@@ -114,8 +114,14 @@ $(function(){
     if(obj.value.charAt(obj.value.length-1) == '.'){
       str += "0";
     }
+    if(str == ""){
+      $(obj).attr("data-old", "");
+      return;
+    }
     if(!reg.test(str)){
-      obj.value = '';
+      obj.value = $(obj).attr("data-old");
+    }else{
+      $(obj).attr("data-old", obj.value);
     }
   }
   $('#longitude').keyup(function(e){
