@@ -198,7 +198,7 @@ class HomeViewController: UIViewController {
     }
 
     @objc private func filterButtonDidClick() {
-        TeacherFilterAlert(contentView: FilterView(frame: CGRectZero)).show()
+        TeacherFilterPopupWindow(contentView: FilterView(frame: CGRectZero)).show()
     }
     
     

@@ -154,14 +154,6 @@
 		F4402EA81C5A19FC00E7D3DB /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
 		F4402EA91C5A19FC00E7D3DB /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
 		F4402EAA1C5A19FC00E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
-		F4402EAC1C5A1A1800E7D3DB /* teacher-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5871C3B7341005672D9 /* teacher-Bridging-Header.h */; };
-		F4402EAD1C5A1A1800E7D3DB /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
-		F4402EAF1C5A1A1800E7D3DB /* KMSwizzle.h in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA11C5768F600E7D3DB /* KMSwizzle.h */; };
-		F4402EB01C5A1A1800E7D3DB /* KMSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA21C5768F600E7D3DB /* KMSwizzle.m */; };
-		F4402EB11C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.h in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA31C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.h */; };
-		F4402EB21C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
-		F4402EB31C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.h in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA51C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.h */; };
-		F4402EB41C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
 		F4402EB51C5A1A1800E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
 		F4402EB61C5A1A1800E7D3DB /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		F4402EB81C5A1A1800E7D3DB /* OperatorOverload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307788571C2A58B1007AF6B0 /* OperatorOverload.swift */; };
@@ -233,7 +225,6 @@
 		F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */; };
 		F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
 		F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */; };
-		F45E69DD1C8D278A00BD0859 /* ThemeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D81C8D278A00BD0859 /* ThemeAlert.swift */; };
 		F45E69DE1C8D278A00BD0859 /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */; };
 		F45E69DF1C8D278A00BD0859 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */; };
 		F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */; };
@@ -292,15 +283,14 @@
 		F4D0D1491C9A4F3E00B25704 /* StudentCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1481C9A4F3E00B25704 /* StudentCourseModel.swift */; };
 		F4D0D14B1C9FA60A00B25704 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
+		F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */; };
+		F4D0D1521C9FADA700B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
 		F4DA31A11C8FFAB100E70D39 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */; };
 		F4DA31A21C8FFAB100E70D39 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
 		F4DA31A31C8FFAB100E70D39 /* ThemeRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FCF1C745C0900488613 /* ThemeRefreshView.swift */; };
-		F4DA31A41C8FFAB100E70D39 /* AnimatedGIFImageSerialization.h in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */; };
-		F4DA31A51C8FFAB100E70D39 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
-		F4DA31A61C8FFAB100E70D39 /* ThemeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D81C8D278A00BD0859 /* ThemeAlert.swift */; };
 		F4DA31A71C8FFAB100E70D39 /* ThemeClassSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */; };
 		F4DA31A81C8FFAB100E70D39 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */; };
 		F4DA31A91C8FFAB100E70D39 /* ThemeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */; };
@@ -488,7 +478,6 @@
 		F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaDataCenter.swift; sourceTree = "<group>"; };
 		F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandlePingppBehaviour.swift; sourceTree = "<group>"; };
 		F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@2x.gif"; sourceTree = "<group>"; };
-		F45E69D81C8D278A00BD0859 /* ThemeAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeAlert.swift; sourceTree = "<group>"; };
 		F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeClassSchedule.swift; sourceTree = "<group>"; };
 		F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHUD.swift; sourceTree = "<group>"; };
@@ -548,6 +537,8 @@
 		F4D0D1481C9A4F3E00B25704 /* StudentCourseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentCourseModel.swift; sourceTree = "<group>"; };
 		F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterPopupWindow.swift; sourceTree = "<group>"; };
+		F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -728,6 +719,7 @@
 			isa = PBXGroup;
 			children = (
 				F4B58F7B1C990274009B5B8D /* Base */,
+				F4D0D1501C9FAD8800B25704 /* CourseView */,
 				F4B58F761C990247009B5B8D /* ClassScheduleView */,
 				F414FFEC1C916ACE0038D7A7 /* Profile */,
 				F40B53C61C83F96300C20037 /* PaymentView */,
@@ -743,6 +735,7 @@
 		30AE092E1C2AC92000FD607D /* TeacherFilterView */ = {
 			isa = PBXGroup;
 			children = (
+				F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */,
 				30445B151C4A3959002CD290 /* FilterView.swift */,
 				307DA2031C4A59CD00891F22 /* BaseFilterView.swift */,
 				30445B181C4A3AC8002CD290 /* GradeFilterView.swift */,
@@ -975,7 +968,6 @@
 		F45E69D71C8D278A00BD0859 /* ThemeTool */ = {
 			isa = PBXGroup;
 			children = (
-				F45E69D81C8D278A00BD0859 /* ThemeAlert.swift */,
 				F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */,
 				F45E69DA1C8D278A00BD0859 /* ThemeDate.swift */,
 				F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */,
@@ -1111,6 +1103,14 @@
 				F4C5C2441C75D35400FB833B /* EvaluationFiling.plist */,
 			);
 			path = EvaluationFiling;
+			sourceTree = "<group>";
+		};
+		F4D0D1501C9FAD8800B25704 /* CourseView */ = {
+			isa = PBXGroup;
+			children = (
+				F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */,
+			);
+			path = CourseView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1429,6 +1429,8 @@
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
+				F4D0D1521C9FADA700B25704 /* CoursePopupWindow.swift in Sources */,
+				F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */,
@@ -1499,7 +1501,6 @@
 				F46065251C97B168004056B1 /* MainNavigationController.swift in Sources */,
 				F46065211C97B168004056B1 /* FilterResultController.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
-				F45E69DD1C8D278A00BD0859 /* ThemeAlert.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
 				F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */,
@@ -1578,9 +1579,6 @@
 				F4DA31A11C8FFAB100E70D39 /* PullToRefreshView.swift in Sources */,
 				F4DA31A21C8FFAB100E70D39 /* UIScrollViewExtension.swift in Sources */,
 				F4DA31A31C8FFAB100E70D39 /* ThemeRefreshView.swift in Sources */,
-				F4DA31A41C8FFAB100E70D39 /* AnimatedGIFImageSerialization.h in Sources */,
-				F4DA31A51C8FFAB100E70D39 /* AnimatedGIFImageSerialization.m in Sources */,
-				F4DA31A61C8FFAB100E70D39 /* ThemeAlert.swift in Sources */,
 				F4DA31A71C8FFAB100E70D39 /* ThemeClassSchedule.swift in Sources */,
 				F4DA31A81C8FFAB100E70D39 /* ThemeDate.swift in Sources */,
 				F4DA31A91C8FFAB100E70D39 /* ThemeHUD.swift in Sources */,
@@ -1606,14 +1604,6 @@
 				F4DA31C11C8FFAB100E70D39 /* CourseChoosingObject.swift in Sources */,
 				F4DA31C21C8FFAB100E70D39 /* OrderForm.swift in Sources */,
 				F4DA31C31C8FFAB100E70D39 /* PaymentChannel.swift in Sources */,
-				F4402EAC1C5A1A1800E7D3DB /* teacher-Bridging-Header.h in Sources */,
-				F4402EAD1C5A1A1800E7D3DB /* parent-Bridging-Header.h in Sources */,
-				F4402EAF1C5A1A1800E7D3DB /* KMSwizzle.h in Sources */,
-				F4402EB01C5A1A1800E7D3DB /* KMSwizzle.m in Sources */,
-				F4402EB11C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.h in Sources */,
-				F4402EB21C5A1A1800E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
-				F4402EB31C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.h in Sources */,
-				F4402EB41C5A1A1800E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
 				F4402EB51C5A1A1800E7D3DB /* KWStepper.swift in Sources */,
 				F4402EB61C5A1A1800E7D3DB /* MATabListView.swift in Sources */,
 				F4402EB81C5A1A1800E7D3DB /* OperatorOverload.swift in Sources */,

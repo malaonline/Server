@@ -12,7 +12,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: - Property
     /// 父容器
-    weak var container: TeacherFilterAlert?
+    weak var container: TeacherFilterPopupWindow?
     /// 年级及下属科目数据源
     var grades: [GradeModel]? = nil {
         didSet {
