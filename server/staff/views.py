@@ -1357,6 +1357,7 @@ class SchoolView(BaseStaffView):
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
         schoolId = self.request.GET.get('schoolId', None)
+        memberservices = models.Memberservice.objects.all().values('id','name')
         if not schoolId:
             schoolId = self.request.POST.get('schoolId', None)
 
@@ -1365,6 +1366,7 @@ class SchoolView(BaseStaffView):
 
         context['region_list'] = models.Region.objects.filter(opened=True)
         context['schoolId'] = schoolId
+        context['memberservices'] = memberservices
         return context
 
     def get(self, request):
