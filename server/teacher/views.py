@@ -1752,16 +1752,19 @@ class CertificateForOnePicView(BaseTeacherView):
         self.setSidebarContent(teacher, context)
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
                                                                  defaults={'name': "", 'verified': False})
-        context = self.buildContextData(context, cert)
+        context = self.buildContextData(context, cert, teacher)
         return render(request, self.template_path, context)
 
-    def buildContextData(self, context, cert):
+    def buildContextData(self, context, cert, teacher=None):
         context['cert_title'] = self.cert_title
         context['cert_name'] = self.cert_name
-        context['name_val'] = cert.name
+        context['name_val'] = self.get_cert_name(cert, teacher)
         context['cert_img_url'] = cert.img_url()
         context['hint_content'] = self.hint_content
         return context
+
+    def get_cert_name(self, cert, teacher):
+        return cert.name
 
     def post(self, request):
         context, teacher = self.getContextTeacher(request)
@@ -1792,7 +1795,7 @@ class CertificateForOnePicView(BaseTeacherView):
             if isJsonReq:
                 return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
             context['error_msg'] = error_msg
-            return render(request, self.template_path, self.buildContextData(context, teacher))
+            return render(request, self.template_path, self.buildContextData(context, cert))
         if certImgFile:
             cert_img_content = ContentFile(certImgFile.read())
             cert.img.save("certImg" + str(self.cert_type) + str(teacher.id), cert_img_content)
@@ -1810,6 +1813,9 @@ class CertificateAcademicView(CertificateForOnePicView):
     cert_title = '学历认证'
     cert_name = '毕业院校'
     hint_content = "请上传最新的毕业证或学位证书照片"
+
+    def get_cert_name(self, cert, teacher):
+        return cert.name or teacher.graduate_school
 
 
 class CertificateTeachingView(CertificateForOnePicView):
