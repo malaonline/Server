@@ -276,6 +276,18 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             labelColor = textTodayColor
         }
         
+        ///  若此Cell对应课程为[已上]，重新渲染样式
+        if isPast {
+            self.isPast = true
+            return
+        }
+        
+        ///  若此Cell对应课程为[未上]，重新渲染样式
+        if isFuture {
+            self.isFuture = true
+            return
+        }
+        
         if selected {
             circleColor = circleSelectedColor
             labelColor = textSelectedColor
@@ -339,6 +351,9 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         
         date = nil
         isToday = false
+        isFuture = false
+        isPast = false
+        
         subjectLabel.text = ""
         
         dayLabel.text = ""
