@@ -119,6 +119,11 @@
             android:divider="@color/backgrounp"
             android:listSelector="#00000000">
         </com.malalaoshi.android.view.ScrollListView>
+        <View
+            android:background="@color/backgrounp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_divider"/>
+
 
     </LinearLayout>
 

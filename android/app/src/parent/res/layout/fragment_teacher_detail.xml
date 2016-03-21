@@ -95,8 +95,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/teacher_body_margin_bottom"
-            android:layout_gravity="bottom|left"
-            android:alpha="0.96"
+            android:layout_gravity="bottom"
             android:background="@color/backgrounp"
             android:orientation="vertical">
 
