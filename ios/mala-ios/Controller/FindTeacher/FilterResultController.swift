@@ -289,7 +289,7 @@ class FilterBar: UIView {
                 return subject
             })
         
-        let alertView = ThemeAlert(contentView: filterView)
+        let alertView = TeacherFilterAlert(contentView: filterView)
         alertView.closeWhenTap = true
         
         switch sender.tag {

@@ -1,5 +1,5 @@
 //
-//  ThemeAlert.swift
+//  TeacherFilterAlert.swift
 //  mala-ios
 //
 //  Created by Elors on 1/16/16.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class ThemeAlert: UIViewController {
+public class TeacherFilterAlert: UIViewController {
 
     // MARK: - Property
     /// 自身强引用
-    var strongSelf: ThemeAlert?
+    var strongSelf: TeacherFilterAlert?
     /// 遮罩层透明度
     let tBakcgroundTansperancy: CGFloat = 0.7
     /// 布局容器（窗口）

@@ -198,7 +198,7 @@ class HomeViewController: UIViewController {
     }
 
     @objc private func filterButtonDidClick() {
-        ThemeAlert(contentView: FilterView(frame: CGRectZero)).show()
+        TeacherFilterAlert(contentView: FilterView(frame: CGRectZero)).show()
     }
     
     
