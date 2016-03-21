@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // NavigationBar
         UINavigationBar.appearance().tintColor = MalaColor_6C6C6C_0
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        //UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().shadowImage = UIImage()
         
         // TabBar
         UITabBar.appearance().tintColor = MalaColor_6C6C6C_0
