@@ -1386,7 +1386,9 @@ class SchoolView(BaseStaffView):
         else:
             school = models.School()
 
+
         service_list = self.request.POST.getlist('services')
+
 
         school.phone = self.request.POST.get('phone', None)
         school.name = self.request.POST.get('schoolName', None)
