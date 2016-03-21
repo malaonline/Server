@@ -1702,15 +1702,29 @@ class CertificateIDView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
         certIdHeld.name = id_num
 
+        idHeldImgFile = None
+        idFrontImgFile = None
         if request.FILES:
             idHeldImgFile = request.FILES.get('idHeldImg')
-            if idHeldImgFile:
-                held_img_content = ContentFile(idHeldImgFile.read())
-                certIdHeld.img.save("idHeld" + str(teacher.id), held_img_content)
             idFrontImgFile = request.FILES.get('idFrontImg')
-            if idFrontImgFile:
-                front_img_content = ContentFile(idFrontImgFile.read())
-                certIdFront.img.save("idFrontImg" + str(teacher.id), front_img_content)
+        if not idHeldImgFile and not certIdHeld.img:
+            error_msg = '手持身份证照片不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
+            context['error_msg'] = error_msg
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
+        if not idFrontImgFile and not certIdFront.img:
+            error_msg = '身份证正面图片不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': -1})
+            context['error_msg'] = error_msg
+            return render(request, self.template_path, self.buildContextData(context, certIdHeld, certIdFront))
+        if idHeldImgFile:
+            held_img_content = ContentFile(idHeldImgFile.read())
+            certIdHeld.img.save("idHeld" + str(teacher.id), held_img_content)
+        if idFrontImgFile:
+            front_img_content = ContentFile(idFrontImgFile.read())
+            certIdFront.img.save("idFrontImg" + str(teacher.id), front_img_content)
 
         certIdHeld.save()
         certIdFront.save()
@@ -1770,11 +1784,18 @@ class CertificateForOnePicView(BaseTeacherView):
             return render(request, self.template_path, self.buildContextData(context, cert))
         cert.name = name
 
+        certImgFile = None
         if request.FILES:
             certImgFile = request.FILES.get('certImg')
-            if certImgFile:
-                cert_img_content = ContentFile(certImgFile.read())
-                cert.img.save("certImg" + str(self.cert_type) + str(teacher.id), cert_img_content)
+        if not certImgFile and not cert.img:
+            error_msg = '证书照片不能为空'
+            if isJsonReq:
+                return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
+            context['error_msg'] = error_msg
+            return render(request, self.template_path, self.buildContextData(context, teacher))
+        if certImgFile:
+            cert_img_content = ContentFile(certImgFile.read())
+            cert.img.save("certImg" + str(self.cert_type) + str(teacher.id), cert_img_content)
 
         cert.save()
 

@@ -61,7 +61,7 @@ def check_id_number(id_num):
 
     r = c[s%11]
     e = id_num[17]
-    return (e.isdigit() and int(e)==r or e=='x' and r=='X')
+    return (e.isdigit() and int(e)==r or (e=='x' or e=='X') and r=='X')
 
 
 def check_bankcard_number(card_number):

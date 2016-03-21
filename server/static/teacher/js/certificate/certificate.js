@@ -102,7 +102,17 @@ $(function(){
         var $form = $('#certEditForm');
         var isOtherCertPage = $form.find('input[name=id]')[0]; // 是否是其他认证页面
         var isIdCertPage = $form.find('input[name=id_num]')[0]; // 是否是身份证认证页面
-        if (isOtherCertPage) {
+        if (isIdCertPage) {
+            if (!$.trim($('#id_num').val())) {
+                return alert("身份证号不能为空");
+            }
+            if (!hasImg($form.find('.img-upload-box[imgName="idHeldImg"]'))) {
+                return alert("手持身份证照片不能为空");
+            }
+            if (!hasImg($form.find('.img-upload-box[imgName="idFrontImg"]'))) {
+                return alert("身份证正面图片不能为空");
+            }
+        } else {
             if (!$.trim($('#name').val())) {
                 return alert("证书名称不能为空");
             }
