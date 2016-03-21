@@ -25,9 +25,6 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     weak var container: CoursePopupWindow?
     
     
-    // MARK: - Components
-    
-    
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +37,9 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        contentSize = CGSize(width: MalaLayout_CourseContentWidth*CGFloat(panels.count), height: 0)
+    }
     
     // MARK: - Private
     private func configure() {

@@ -35,7 +35,6 @@ class CourseInfoView: UIView {
         let subjectString = UILabel()
         subjectString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         subjectString.textColor = MalaColor_939393_0
-        subjectString.text = "初中数学"
         return subjectString
     }()
     /// 上课地点label
@@ -53,7 +52,6 @@ class CourseInfoView: UIView {
         schoolString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         schoolString.textColor = MalaColor_939393_0
         schoolString.numberOfLines = 0
-        schoolString.text = "河西区 黄河路113A号9层39011室内麻辣老师"
         return schoolString
     }()
     /// 上课时间label
@@ -69,7 +67,6 @@ class CourseInfoView: UIView {
         let classtimeString = UILabel()
         classtimeString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         classtimeString.textColor = MalaColor_939393_0
-        classtimeString.text = "10:30-12:30"
         return classtimeString
     }()
     /*
@@ -86,7 +83,6 @@ class CourseInfoView: UIView {
         let residualString = UILabel()
         residualString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         residualString.textColor = MalaColor_939393_0
-        residualString.text = "4课时"
         return residualString
     }()
     */

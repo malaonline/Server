@@ -38,7 +38,7 @@ public class CoursePopupWindow: UIViewController {
     /// 内容视图
     var contentView: UIView?
     /// 单击背景close窗口
-    var closeWhenTap: Bool = true
+    var closeWhenTap: Bool = false
     
     
     // MARK: - Components
