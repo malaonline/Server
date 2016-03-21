@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         tabTimetableIndicator = (View)findViewById(R.id.view_tab_indicator_timetable);
         tabUserCenterIndicator = (View)findViewById(R.id.view_tab_indicator_usercenter);
 
-        homeScrollView = (HomeScrollView)findViewById(R.id.home_pager);
+        //homeScrollView = (HomeScrollView)findViewById(R.id.home_pager);
         vpHome = (ViewPager) findViewById(R.id.viewpage);
     }
 
