@@ -74,5 +74,4 @@ public class StudentCourseModel: BaseObjectModel {
         let keys = ["id", "end", "subject", "is_passed", "is_commented", "date"]
         return "\n"+dictionaryWithValuesForKeys(keys).description+"\n"
     }
-    
 }
