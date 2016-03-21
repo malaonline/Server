@@ -827,11 +827,23 @@ def add_openid(request):
             "result": False,
             "code": -1
         })
+    if not CheckCode.verify(phone, code)[0]:
+        # 验证失败
+        return JsonResponse({
+            "result": False,
+            "code": -2
+        })
+
     Profile = models.Profile
     CheckCode = models.Checkcode
     Parent = models.Parent
     try:
         profile = Profile.objects.get(phone=phone)
+        if profile.wx_openid == openid:
+            return JsonResponse({
+                "result": False,
+                "code": -3
+            })
         profile.wx_openid = openid
         profile.save()
         user = profile.user
@@ -848,16 +860,11 @@ def add_openid(request):
     except Parent.DoesNotExist:
         parent = Parent(user=user)
         parent.save()
-    if CheckCode.verify(phone, code)[0]:
-        return JsonResponse({
-            "result": True
-        })
-    else:
-        # 验证失败
-        return JsonResponse({
-            "result": False,
-            "code": -2
-        })
+
+    return JsonResponse({
+        "result": True
+    })
+
 
 @csrf_exempt
 def check_phone(request):

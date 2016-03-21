@@ -1,3 +1,14 @@
+function showToast(txt){
+  var $toast = $('#toast');
+  if ($toast.css('display') != 'none'){
+    return;
+  }
+  $('.weui_toast').html(txt)
+  $toast.show();
+  setTimeout(function(){
+    $toast.hide();
+  }, 1500);
+}
 $('.ext_btn_primary').click(function(){
   var itm = $('.ext_btn_primary');
   if(!itm.hasClass('ext_btn_disabled')){
@@ -8,14 +19,7 @@ $('.ext_btn_primary').click(function(){
       getSMSFromServer();
     }else{
       itm.removeClass('ext_btn_disabled');
-      var $toast = $('#toast');
-      if ($toast.css('display') != 'none'){
-        return;
-      }
-      $toast.show();
-      setTimeout(function(){
-        $toast.hide();
-      }, 1500);
+      showToast('请输入正确手机号');
     }
   }
 });
@@ -59,6 +63,8 @@ function checkSMS(){
           $('.msg-error').html('openid错误');
         }else if(data.code == '-2'){
           $('.msg-error').html('验证码错误');
+        }else if(data.code == '-3'){
+          showToast('该手机号已绑定其他微信号');
         }
       }else{
         console.log("验证码正确")
