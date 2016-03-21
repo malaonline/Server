@@ -15,6 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:singleLine="true"
             android:gravity="center"
             android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_normal" />
@@ -34,6 +35,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:singleLine="true"
             android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_normal" />
 
@@ -43,6 +45,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:singleLine="true"
             android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
