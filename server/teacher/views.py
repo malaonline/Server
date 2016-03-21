@@ -753,7 +753,7 @@ class MySchoolTimetable(BasicTeacherView):
         def __init__(self):
             self.complete_class = 0
             self.total_class = 0
-            self.today = make_aware(datetime.datetime.now())
+            self.today = timezone.now()
 
         def __call__(self, one_time_slot: models.TimeSlot):
             if one_time_slot.is_complete(self.today):
@@ -788,13 +788,15 @@ class MySchoolTimetable(BasicTeacherView):
             # 评价状态, 0-未评价, 1-已评价
             self.comment_state = 0
             # 上课状态, 0-待上课, 1-上课中, 2-已完成
+            print(time_slot)
+            print(today)
             if time_slot.is_waiting(today):
                 # 等待中的课程
                 self.class_state = 0
             if time_slot.is_running(today):
                 # 进行中的课程
                 self.class_state = 1
-            if time_slot.is_complete(today):
+            if time_slot.is_passed:
                 # 结束的课程
                 self.class_state = 2
                 # 上完课才做评价检查
@@ -849,7 +851,7 @@ class MySchoolTimetable(BasicTeacherView):
 
     def get_course_plan(self, order: models.Order):
         # 得到一个订单里所有TimeSlot的映射
-        cs = MySchoolTimetable.CourseSet(order)
+        cs = MySchoolTimetable.CourseSet(order, timezone.now())
         order.enum_timeslot(cs)
         return cs.time_slot_dict
 
