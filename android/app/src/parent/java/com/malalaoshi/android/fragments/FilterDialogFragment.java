@@ -214,21 +214,21 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             if (g.getSupersetId() == Grade.PRIMARY_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", primary.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects1);
                 mSubGrages1List.add(item);
             }
             if (g.getSupersetId() == Grade.MIDDLE_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", middle.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects2);
                 mSubGrages2List.add(item);
             }
             if (g.getSupersetId() == Grade.SENIOR_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", senior.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects2);
                 mSubGrages3List.add(item);
             }
@@ -285,21 +285,21 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
             if (g.getSupersetId() == Grade.PRIMARY_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", primary.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects1);
                 mSubGrages1List.add(item);
             }
             if (g.getSupersetId() == Grade.MIDDLE_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", middle.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects2);
                 mSubGrages2List.add(item);
             }
             if (g.getSupersetId() == Grade.SENIOR_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", senior.getName() + g.getName());
+                item.put("name",  g.getName());
                 item.put("subjects", subjects2);
                 mSubGrages3List.add(item);
             }

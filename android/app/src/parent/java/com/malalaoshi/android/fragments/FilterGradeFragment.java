@@ -130,7 +130,7 @@ public class FilterGradeFragment extends Fragment {
             if (g.getSupersetId() == Grade.PRIMARY_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", primary.getName() + g.getName());
+                item.put("name",  g.getName());
                 if (extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
@@ -142,7 +142,7 @@ public class FilterGradeFragment extends Fragment {
             if (g.getSupersetId() == Grade.MIDDLE_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", middle.getName() + g.getName());
+                item.put("name",  g.getName());
                 if (extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
@@ -154,7 +154,7 @@ public class FilterGradeFragment extends Fragment {
             if (g.getSupersetId() == Grade.SENIOR_ID) {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
-                item.put("name", senior.getName() + g.getName());
+                item.put("name",  g.getName());
                 if (extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
