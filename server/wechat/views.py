@@ -329,7 +329,6 @@ def _jssdk_sign(url):
             'timestamp': now_timestamp,
             'signature': signature}
 
-
 def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     """
     支付成功, 设置订单支付成功, 并且生成课程安排
