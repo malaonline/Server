@@ -119,6 +119,8 @@ class School(BaseModel):
         else:
             return ""
 
+    def get_member_service_list(self):
+        return self.member_services.all().values_list('id',flat=True) or []
 
 class SchoolPhoto(BaseModel):
     school = models.ForeignKey(School)

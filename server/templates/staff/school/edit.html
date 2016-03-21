@@ -91,15 +91,20 @@
             </div>
             <div class="form-row member-service">
                 <label>会员服务</label>
-                <div>
-                    <input type="text" class="form-control" id="" name="" value="问题答疑" readonly>
-                    <input type="text" class="form-control" id="" name="" value="心里辅导" readonly>
-                    <input type="text" class="form-control" id="" name="" value="实时答疑" readonly>
-                    <input type="text" class="form-control" id="" name="" value="自习陪读" readonly>
-                    <input type="text" class="form-control" id="" name="" value="考前串讲" readonly>
-                    <input type="text" class="form-control" id="" name="" value="茶水饮料" readonly>
-                    <input type="text" class="form-control" id="" name="" value="实习报告" readonly>
-                    <input type="text" class="form-control" id="" name="" value="作业辅导" readonly>
+                <div class="checkbox">
+                    {% for service in memberservices %}
+                        <label>
+                            {% if service.id in school.get_member_service_list %}
+                                <input type="checkbox" name="services" value={{ service.id }} checked>
+                            {% else %}
+                                <input type="checkbox" name="services" value={{ service.id }}>
+                            {% endif %}
+
+                            {{ service.name }}
+                        </label>
+
+                    {% endfor %}
+
                 </div>
             </div>
             <div class="image-view">

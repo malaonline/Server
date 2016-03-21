@@ -1386,6 +1386,7 @@ class SchoolView(BaseStaffView):
         else:
             school = models.School()
 
+        service_list = self.request.POST.getlist('services')
 
         school.phone = self.request.POST.get('phone', None)
         school.name = self.request.POST.get('schoolName', None)
@@ -1404,12 +1405,8 @@ class SchoolView(BaseStaffView):
         school.address = self.request.POST.get('address', None)
         regionId = self.request.POST.get('regionId', None)
         school.region = models.Region.objects.get(id=regionId)
+        school.member_services = service_list
         school.save()
-
-        # 这个版本写死
-        for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
-            mbService, created = models.Memberservice.objects.get_or_create(name=serviceName)
-            school.member_services.add(mbService)
 
         context['school'] = school
 
