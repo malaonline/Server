@@ -15,7 +15,7 @@ class CourseInfoView: UIView {
     var model: CourseModel? {
         didSet {
             subjectString.text = model?.subject
-            schoolString.text = model?.school
+            schoolString.attributedText = getLineSpacingAttrString(model?.school ?? "")
             classtimeString.text = String(format: "%@-%@", getTimeString(model?.start ?? 0), getTimeString(model?.end ?? 0))
         }
     }
@@ -122,6 +122,7 @@ class CourseInfoView: UIView {
         addSubview(residualLabel)
         addSubview(residualString)
         */
+        
         // Autolayout
         subjectLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_12)

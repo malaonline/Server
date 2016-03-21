@@ -62,19 +62,25 @@ public class CoursePopupWindow: UIViewController {
     /// 取消按钮.[知道了][取消]
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setBackgroundImage(UIImage(named: "leftArrow_normal"), forState: .Normal)
-        cancelButton.setBackgroundImage(UIImage(named: "leftArrow_press"), forState: .Selected)
+        cancelButton.setTitle("取消", forState: .Normal)
+        cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
+        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
+        cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
-        cancelButton.hidden = true
         return cancelButton
     }()
     /// 确认按钮.[去评价]
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
-        confirmButton.setBackgroundImage(UIImage(named: "confirm_normal"), forState: .Normal)
-        confirmButton.setBackgroundImage(UIImage(named: "confirm_press"), forState: .Selected)
+        confirmButton.setTitle("去评价", forState: .Normal)
+        confirmButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
+        confirmButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
+        confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
-        confirmButton.hidden = true
         return confirmButton
     }()
     /// 上课日期
@@ -90,7 +96,7 @@ public class CoursePopupWindow: UIViewController {
         return contentContainer
     }()
     /// 页标指示器
-    private lazy var pageControl: UIPageControl = {
+    lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
         pageControl.numberOfPages = 3
@@ -109,7 +115,18 @@ public class CoursePopupWindow: UIViewController {
         view.backgroundColor = MalaColor_C7DEEE_0
         return pageControl
     }()
-    
+    /// 按钮顶部装饰线
+    private lazy var buttonTopLine: UIView = {
+        let buttonTopLine = UIView()
+        buttonTopLine.backgroundColor = MalaColor_8FBCDD_0
+        return buttonTopLine
+    }()
+    /// 按钮间隔装饰线
+    private lazy var buttonSeparatorLine: UIView = {
+        let buttonSeparatorLine = UIView()
+        buttonSeparatorLine.backgroundColor = MalaColor_8FBCDD_0
+        return buttonSeparatorLine
+    }()
     
     
     // MARK: - Constructed
@@ -133,8 +150,8 @@ public class CoursePopupWindow: UIViewController {
         view.frame = window.bounds
         // 设置属性
         self.contentView = contentView
-        if let _ = contentView as? FilterView {
-//            view.container = self
+        if let view = contentView as? CourseContentView {
+            view.container = self
         }
         updateUserInterface()
     }
@@ -173,10 +190,6 @@ public class CoursePopupWindow: UIViewController {
         confirmButton.hidden = !showConfirm
     }
     
-    public func setPageControl(number: Int) {
-        self.pageControl.currentPage = number
-    }
-    
     public func close() {
         closeAlert(0)
     }
@@ -196,6 +209,8 @@ public class CoursePopupWindow: UIViewController {
         window.addSubview(courseDateLabel)
         window.addSubview(pageControl)
         window.addSubview(contentContainer)
+        window.addSubview(buttonTopLine)
+        window.addSubview(buttonSeparatorLine)
         
         // Autolayout
         window.snp_makeConstraints { (make) -> Void in
@@ -209,31 +224,46 @@ public class CoursePopupWindow: UIViewController {
             make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
             make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
         }
-        cancelButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
-        }
-        confirmButton.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.window.snp_bottom)
-            make.left.equalTo(self.window.snp_left)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_5)
-        }
         courseDateLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.iconView.snp_bottom).offset(MalaLayout_Margin_10)
             make.centerX.equalTo(self.iconView.snp_centerX)
             make.height.equalTo(MalaLayout_FontSize_15)
-        }
-        pageControl.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(36)
-            make.height.equalTo(6)
-            make.bottom.equalTo(self.window.snp_bottom).offset(-MalaLayout_Margin_10)
-            make.centerX.equalTo(self.window.snp_centerX)
         }
         contentContainer.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.courseDateLabel.snp_bottom).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
             make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
+        }
+        pageControl.snp_makeConstraints { (make) -> Void in
+            make.width.equalTo(36)
+            make.height.equalTo(6)
+            make.bottom.equalTo(self.cancelButton.snp_top).offset(-MalaLayout_Margin_10)
+            make.centerX.equalTo(self.window.snp_centerX)
+        }
+        cancelButton.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.window.snp_bottom)
+            make.left.equalTo(self.window.snp_left)
+            make.height.equalTo(44)
+            make.width.equalTo(self.window.snp_width).multipliedBy(0.5)
+        }
+        confirmButton.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.window.snp_bottom)
+            make.right.equalTo(self.window.snp_right)
+            make.height.equalTo(44)
+            make.width.equalTo(self.window.snp_width).multipliedBy(0.5)
+        }
+        buttonTopLine.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(cancelButton.snp_top)
+            make.height.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(self.window.snp_left)
+            make.right.equalTo(self.window.snp_right)
+        }
+        buttonSeparatorLine.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.cancelButton.snp_top)
+            make.bottom.equalTo(self.window.snp_bottom)
+            make.width.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(cancelButton.snp_right)
         }
     }
     
@@ -274,11 +304,10 @@ public class CoursePopupWindow: UIViewController {
     }
     
     @objc private func cancelButtonDidTap() {
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PopFilterView, object: nil)
+        close()
     }
     
     @objc private func confirmButtonDidTap() {
-        confirmButton.userInteractionEnabled = false
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ConfirmFilterView, object: nil)
+        
     }
 }

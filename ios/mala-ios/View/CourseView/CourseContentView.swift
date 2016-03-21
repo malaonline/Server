@@ -16,41 +16,22 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         didSet {
             models = TestFactory.testCourseModels()
             self.setupCoursePanels()
-            
+            container?.pageControl.numberOfPages = models.count
         }
     }
     /// 课程面板集合
     var panels: [CourseInfoView] = []
+    /// 父容器
+    weak var container: CoursePopupWindow?
     
     
     // MARK: - Components
-    private lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
-        pageControl.currentPage = 0
-        pageControl.numberOfPages = 3
-        pageControl.pageIndicatorTintColor = MalaColor_C7DEEE_0
-        pageControl.currentPageIndicatorTintColor = MalaColor_82B4D9_0
-        
-        // 添加横线
-        let view = UIView()
-        pageControl.addSubview(view)
-        view.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(pageControl.snp_left)
-            make.right.equalTo(pageControl.snp_right)
-            make.height.equalTo(MalaScreenOnePixel)
-            make.centerY.equalTo(pageControl.snp_centerY)
-        }
-        view.backgroundColor = MalaColor_C7DEEE_0
-        return pageControl
-    }()
     
     
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
-        println("CourseContentView ddiset")
         configure()
         setupUserInterface()
     }
@@ -74,15 +55,8 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         backgroundColor = UIColor.whiteColor()
         
         // SubViews
-        addSubview(pageControl)
         
         // Autolayout
-        pageControl.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(36)
-            make.height.equalTo(6)
-            make.bottom.equalTo(self.snp_bottom).offset(-MalaLayout_Margin_10)
-            make.centerX.equalTo(self.snp_centerX)
-        }
     }
     
     ///  设置课程面板
@@ -117,6 +91,10 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: - Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        println(scrollView.contentOffset)
+        
+        // 当前页数
+        let currentPage = Int(floor((scrollView.contentOffset.x - MalaLayout_CourseContentWidth / 2) / MalaLayout_CourseContentWidth))+2
+        println("当前页数:\(currentPage)")
+        container?.pageControl.currentPage = Int(currentPage)
     }
 }

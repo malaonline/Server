@@ -116,3 +116,16 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [Int:[Int:[St
 func getTimeString(timeStamp: NSTimeInterval) -> String {
     return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("HH:mm")
 }
+
+///  获取行距为8的文本
+///
+///  - parameter string: 文字
+///
+///  - returns: 文本样式
+func getLineSpacingAttrString(string: String) -> NSAttributedString {
+    let attrString = NSMutableAttributedString(string: string)
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 8
+    attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: string.characters.count))
+    return attrString
+}
