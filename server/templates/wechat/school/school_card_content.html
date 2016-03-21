@@ -2,13 +2,13 @@
 {% load compile_static %}
 
 <div class="card demo-card-header-pic">
-    <div valign="bottom" class="card-header color-white no-border no-padding">
+    <div valign="bottom" class="card-header color-white no-border no-padding"  data-schoolid="{{ school.id }}">
         <div class="school-isexpr-flag">
             {% if school.center %}
                 <img src="{% static 'wechat/images/expr_center_icon.png' %}" alt="">
             {% endif %}
         </div>
-        <div class="album-count-div" data-schoolid="{{ school.id }}">
+        <div class="album-count-div">
             <img src="{% static 'wechat/images/album_icon.png' %}" alt="">
             <span>{{ school.num_photos }}</span>
         </div>
