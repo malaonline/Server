@@ -1156,15 +1156,16 @@ class Parent(BaseModel):
             super(Parent, self).save(*args, **kwargs)
 
 
-class TeacherVistParent(BaseModel):
-    # 这个模型用来记录老师和家长一对一产生的关系
-    teacher = models.ForeignKey(Teacher)
-    parent = models.ForeignKey(Parent)
-    # 记录老师是否已经访问过这个家长
-    web_visited = models.BooleanField(default=False)
-
-    class Meta:
-        unique_together = ("teacher", "parent",)
+# 因为李鑫还没想好,就先不要这个model,以后再放出来
+# class TeacherVistParent(BaseModel):
+#     # 这个模型用来记录老师和家长一对一产生的关系
+#     teacher = models.ForeignKey(Teacher)
+#     parent = models.ForeignKey(Parent)
+#     # 记录老师是否已经访问过这个家长
+#     web_visited = models.BooleanField(default=False)
+#
+#     class Meta:
+#         unique_together = ("teacher", "parent",)
 
 
 class CouponRule(BaseModel):
