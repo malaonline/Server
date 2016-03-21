@@ -19,6 +19,7 @@ import com.malalaoshi.android.fragments.FilterTagFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.StringUtil;
+import com.malalaoshi.android.view.TitleBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,14 @@ import butterknife.OnClick;
 /**
  * Created by zl on 15/12/17.
  */
-public class TeacherListFilterActivity  extends BaseActivity{
+public class TeacherListFilterActivity  extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
     public static final String EXTRA_GRADE = "grade";
     public static final String EXTRA_SUBJECT = "subject";
     public static final String EXTRA_TAGS = "tags";
 
-    @Bind(R.id.tv_title)
-    protected TextView tvTitle;
+    @Bind(R.id.title_view)
+    protected TitleBarView titleBarView;
 
     @Bind(R.id.tv_filter_grade)
     protected TextView tvFilterGrade;
@@ -81,10 +82,10 @@ public class TeacherListFilterActivity  extends BaseActivity{
 
 
     private void setEvent() {
+        titleBarView.setOnTitleBarClickListener(this);
     }
 
     private void initDatas() {
-        tvTitle.setText("筛选结果");
         Intent intent = getIntent();
         grade = intent.getParcelableExtra(EXTRA_GRADE);
         subject = intent.getParcelableExtra(EXTRA_SUBJECT);
@@ -251,8 +252,13 @@ public class TeacherListFilterActivity  extends BaseActivity{
 
     }
 
-    @OnClick(R.id.iv_titlebar_left)
-    public void onClickLeft(View v){
+    @Override
+    public void onTitleLeftClick() {
         this.finish();
+    }
+
+    @Override
+    public void onTitleRightClick() {
+
     }
 }

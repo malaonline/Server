@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/teacer_list_filter_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teacher_main_bg"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
-    <include layout="@layout/app_title_bar"></include>
+    <com.malalaoshi.android.view.TitleBarView
+        android:id="@+id/title_view"
+        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusLeftShow="true"
+        app:cusTitleText="筛选结果"
+        app:cusLeftBackgroud="@drawable/back_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.malalaoshi.android.view.TitleBarView>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -59,6 +69,7 @@
     </LinearLayout>
     <FrameLayout
         android:id="@+id/teacher_list_fragment"
+        android:background="@color/teacher_main_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 
