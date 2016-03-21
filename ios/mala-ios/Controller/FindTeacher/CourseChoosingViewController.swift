@@ -50,7 +50,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     }()
     
     
-    // MARK: - Contructed
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -339,7 +339,9 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         // 设置支付页面弹栈闭包（用于[课程被抢买]时的回调刷新选课条件）
         viewController.popAction = { [weak self] in
             self?.loadClassSchedule()
+            MalaIsPaymentIn = false
         }
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

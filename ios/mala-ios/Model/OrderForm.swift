@@ -43,7 +43,7 @@ class OrderForm: BaseObjectModel {
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,
-        order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?) {
+        order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?) {
             self.init()
             self.id = id ?? 0
             self.name = name
@@ -60,6 +60,7 @@ class OrderForm: BaseObjectModel {
             self.total = total ?? 0
             self.price = price ?? 0
             self.status = status
+            self.is_timeslot_allocated = is_timeslot_allocated
     }
     
     

@@ -72,18 +72,18 @@ class HandlePingppBehaviour: NSObject {
             println("订单状态获取成功 \(order.status)")
             
             // 根据[订单状态]和[课程是否被抢占标记]来判断支付结果
-            dispatch_async(dispatch_get_main_queue()) {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 
                 // 判断是否被抢买
                 if order.is_timeslot_allocated == false {
-                    self.showHasBeenPreemptedAlert()
+                    self?.showHasBeenPreemptedAlert()
                 }
-                
+            
                 // 若订单状态为已付款则表示支付成功，否则支付失败
                 if order.status == MalaOrderStatus.Paid.rawValue {
-                    self.showSuccessAlert()
+                    self?.showSuccessAlert()
                 }else {
-                    self.showFailAlert()
+                    self?.showFailAlert()
                 }
             }
             

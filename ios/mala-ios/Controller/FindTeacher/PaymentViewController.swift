@@ -91,6 +91,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Delegate
     func paymentDidConfirm() {
         println("确认支付")
+        MalaIsPaymentIn = true
         
         ThemeHUD.showActivityIndicator()
         
@@ -137,7 +138,11 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     }
     
     deinit {
-        popAction?()
+        
+        if MalaIsPaymentIn {
+            popAction?()
+        }
+        
         println("Payment  ViewController  deinit")
     }
 }

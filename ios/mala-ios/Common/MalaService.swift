@@ -563,7 +563,8 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         is_timeslot_allocated = orderInfo["is_timeslot_allocated"] as? Bool {
             return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
                 subject: subject, coupon: nil, hours: hours, timeSchedule: weekly_time_slots,
-                order_id: order_id, parent: parent, total: total, price: price, status: status)
+                order_id: order_id, parent: parent, total: total, price: price, status: status,
+                is_timeslot_allocated: is_timeslot_allocated)
     }
     return nil
 }
