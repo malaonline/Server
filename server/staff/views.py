@@ -1386,23 +1386,30 @@ class SchoolView(BaseStaffView):
         else:
             school = models.School()
 
-        # 这个版本写死
-        for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
-            mbService, created = models.Memberservice.objects.get_or_create(name=serviceName)
-            school.member_services.add(mbService)
 
         school.phone = self.request.POST.get('phone', None)
         school.name = self.request.POST.get('schoolName', None)
         school.center = True if self.request.POST.get('center', '0') == '1' else False
         school.opened = True if self.request.POST.get('opened', '0') == '1' else False
-        school.class_seat = self.request.POST.get('class_seat', None)
-        school.study_seat = self.request.POST.get('study_seat', None)
+        class_seat = self.request.POST.get('class_seat', None)
+        if class_seat == '':
+            class_seat = 0
+        school.class_seat = class_seat
+        study_seat = self.request.POST.get('study_seat', None)
+        if study_seat == '':
+            study_seat = 0
+        school.study_seat = study_seat
         school.longitude = self.request.POST.get('longitude', None)
         school.latitude = self.request.POST.get('latitude', None)
         school.address = self.request.POST.get('address', None)
         regionId = self.request.POST.get('regionId', None)
         school.region = models.Region.objects.get(id=regionId)
         school.save()
+
+        # 这个版本写死
+        for serviceName in ["问题答疑", "心里辅导", "实时答疑", "自习陪读", "考前串讲", "茶水饮料", "实习报告", "作业辅导"]:
+            mbService, created = models.Memberservice.objects.get_or_create(name=serviceName)
+            school.member_services.add(mbService)
 
         context['school'] = school
 
