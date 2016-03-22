@@ -26,6 +26,24 @@
     <div class="certificate-box">
         <form class="form-horizontal" id="certEditForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+         {% if cert.is_to_audit or cert.is_approved %}
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">{{ cert_name }}</label>
+                <div class="col-sm-5">
+                    <p class="form-control-static">{{ name_val }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">{# empty #}</div>
+                <div class="col-sm-3">
+                    <div class="img-upload-box">
+                        <div class="img-box">
+                            <img src={{ cert_img_url }}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         {% else %}
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">{{ cert_name }}</label>
                 <div class="col-sm-5">
@@ -60,6 +78,7 @@
                     <button type="button" class="btn btn-default" data-action="cancel">取消</button>
                 </div>
             </div>
+         {% endif %}
         </form>
     </div>
 {% endblock %}

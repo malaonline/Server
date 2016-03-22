@@ -31,6 +31,31 @@
                     <p class="form-control-static">{{ teacherName }}</p>
                 </div>
             </div>
+         {% if cert_id_held.is_to_audit or cert_id_held.is_approved %}
+            <div class="form-group">
+                <label for="id_num" class="col-sm-2 control-label">身份证号</label>
+                <div class="col-sm-5">
+                    <p class="form-control-static">{{ cert_id_held.mask_id_num }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">{# empty #}</div>
+                <div class="col-sm-2">
+                    <div class="img-upload-box" imgName="idHeldImg">
+                        <div class="img-box">
+                            <img src={{ idHeldUrl }}>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="img-upload-box" imgName="idFrontImg">
+                        <div class="img-box">
+                            <img src={{idFrontUrl}}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         {% else %}
             <div class="form-group">
                 <label for="id_num" class="col-sm-2 control-label">身份证号</label>
                 <div class="col-sm-5">
@@ -94,6 +119,7 @@
                     <button type="button" class="btn btn-default" data-action="cancel">取消</button>
                 </div>
             </div>
+         {% endif %}
         </form>
     </div>
 {% endblock %}

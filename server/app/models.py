@@ -785,6 +785,7 @@ class Photo(BaseModel):
 class Certificate(BaseModel):
     """
     身份认证用了两条记录(手持照和正面照), 因为身份认证有手持照, 判断是否通过认证以手持照记录为准, 正面照只是一个图片
+    以手持照记录的name作为ID Card NO.
     """
     ID_HELD = 1
     ID_FRONT = 2
@@ -824,13 +825,18 @@ class Certificate(BaseModel):
         return self.img and self.img.url or ''
 
     def is_to_audit(self):
-        return (not self.audited) and (not self.verified) and (self.img is not None)
+        return (not self.audited) and (not self.verified) and bool(self.img)
 
     def is_approved(self):
         return self.verified
 
     def is_rejected(self):
         return self.audited and (not self.verified)
+
+    def mask_id_num(self):
+        if self.type == self.ID_HELD and self.name:
+            return ('* ' * 10) + str(self.name[-4:])
+        return ''
 
 
 class InterviewRecord(BaseModel):

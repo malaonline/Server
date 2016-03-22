@@ -1704,6 +1704,8 @@ class CertificateIDView(BaseTeacherView):
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, certIdHeld, certIdFront):
+        context['cert_id_held'] = certIdHeld
+        context['cert_id_front'] = certIdFront
         context['id_num'] = certIdHeld.name
         context['idHeldUrl'] = certIdHeld.img_url()
         context['idFrontUrl'] = certIdFront.img_url()
@@ -1794,6 +1796,7 @@ class CertificateForOnePicView(BaseTeacherView):
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, cert, teacher=None):
+        context['cert'] = cert
         context['cert_title'] = self.cert_title
         context['cert_name'] = self.cert_name
         context['name_val'] = self.get_cert_name(cert, teacher)
