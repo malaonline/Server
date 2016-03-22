@@ -80,14 +80,7 @@ $(function(){
     });
     //form取消操作
     $("#certEditForm [data-action=cancel]").click(function(e){
-        var $form = $('#certEditForm');
-        $form[0].reset();
-        $form.find('.img-preview-box img').attr('src', '');
-        $form.find('.img-preview-box').hide();
-        var isOtherCertPage = $form.find('input[name=id]')[0];
-        if (isOtherCertPage) { // 其他认证页面,需要清空图片
-            $form.find('.img-box img').attr('src', '');
-        }
+        location.href = certOverviewPageUrl;
     });
     var hasImg = function($editBox) {
         var hasImg = !!$editBox.find('.img-box img').attr('src');
