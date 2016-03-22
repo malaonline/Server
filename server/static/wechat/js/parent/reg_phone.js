@@ -3,7 +3,7 @@ function showToast(txt){
   if ($toast.css('display') != 'none'){
     return;
   }
-  $('.weui_toast').html(txt)
+  $('.weui_toast').html(txt);
   $toast.show();
   setTimeout(function(){
     $toast.hide();
