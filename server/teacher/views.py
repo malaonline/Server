@@ -1140,7 +1140,7 @@ class MyEvaluation(BasicTeacherView):
                             the_form = forms.CommentReplyForm()
                         one_comment = {
                             "name": self.name,
-                            "publish_date": comment.created_at.strftime("%Y-%M-%d %H:%M"),
+                            "publish_date": comment.created_at.strftime("%Y-%m-%d %H:%M"),
                             "full_star": range(comment.score),
                             "empty_star": range(5 - comment.score),
                             "comment": comment.content,
