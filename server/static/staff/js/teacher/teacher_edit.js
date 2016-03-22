@@ -252,18 +252,15 @@ $(function(){
             return;
         }
         var $flagSpan = $editBox.find('.cert-verify-flag');
-        $flagSpan.removeClass('False').removeClass('Fail').addClass('True');
         $flagSpan.find('input').val('True');
         $editBox.removeClass('cert-fail').addClass('cert-ok');
     });
     var declineCert = function($editBox, fail) {
         var $flagSpan = $editBox.find('.cert-verify-flag');
         if (fail) {
-            $flagSpan.removeClass('True').removeClass('False').addClass('Fail');
             $flagSpan.find('input').val('Fail');
             $editBox.addClass('cert-fail');
         } else {
-            $flagSpan.removeClass('True').removeClass('Fail').addClass('False');
             $flagSpan.find('input').val('False');
             $editBox.removeClass('cert-fail');
         }

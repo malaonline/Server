@@ -81,64 +81,54 @@ hr {
       display: none;
     }
   }
+
+  .cert-verify-flag {
+    > span {
+      font-size:12px;
+      border: 1px solid gray;
+      border-radius: 2px;
+      &.ok {
+        display: none;
+        color:green;
+        border-color:green;
+      }
+      &.fail {
+        display: none;
+        color:red;
+        border-color:red;
+      }
+    }
+  }
   &.cert-ok {
+    .cert-verify-flag > span{
+      &.todo {
+        display: none;
+      }
+      &.ok {
+        display: inline-block;
+      }
+      &.fail {
+        display: none;
+      }
+    }
     [data-action="approve-cert"] {
       display: none;
     }
   }
   &.cert-fail {
+    .cert-verify-flag > span{
+      &.todo {
+        display: none;
+      }
+      &.ok {
+        display: none;
+      }
+      &.fail {
+        display: inline-block;
+      }
+    }
     [data-action="decline-cert"] {
       display: none;
-    }
-  }
-}
-.cert-verify-flag {
-  > span {
-    font-size:12px;
-    border: 1px solid gray;
-    border-radius: 2px;
-    &.ok {
-      display: none;
-      color:green;
-      border-color:green;
-    }
-    &.fail {
-      display: none;
-      color:red;
-      border-color:red;
-    }
-  }
-  &.False > span{
-    &.todo {
-      display: inline-block;
-    }
-    &.ok {
-      display: none;
-    }
-    &.fail {
-      display: none;
-    }
-  }
-  &.True > span{
-    &.todo {
-      display: none;
-    }
-    &.ok {
-      display: inline-block;
-    }
-    &.fail {
-      display: none;
-    }
-  }
-  &.Fail > span{
-    &.todo {
-      display: none;
-    }
-    &.ok {
-      display: none;
-    }
-    &.fail {
-      display: inline-block;
     }
   }
 }

@@ -327,11 +327,11 @@
 
 {#证书#}
     <div class="clearfix certification">
-        <div class="pull-left img-edit {% if cert_id_held.verified %}cert-ok{% endif %}" for="idHeld">
+        <div class="pull-left img-edit {% if cert_id_held.verified %}cert-ok{% elif cert_id_held.is_rejected %}cert-fail{% endif %}" for="idHeld">
             <div class="title">
                 身份证手持照
                 <input type="hidden" name="toDeleteCertIdHeld">
-                <span class="cert-verify-flag {{ cert_id_held.verified }}">
+                <span class="cert-verify-flag">
                     <input type="hidden" name="certIdHeldOk" value="{{ cert_id_held.verified }}"/>
                     <span class="todo">未认证</span>
                     <span class="ok">已认证</span>
@@ -377,7 +377,7 @@
                 <a class="btn btn-default" data-action="delete-cert">删除</a>
             </div>
         </div>
-        <div class="pull-left img-edit {% if cert_academic.verified %}cert-ok{% endif %}" for="academic">
+        <div class="pull-left img-edit {% if cert_academic.verified %}cert-ok{% elif cert_academic.is_rejected %}cert-fail{% endif %}" for="academic">
             <div class="title">
                 学历证书
                 <input type="hidden" name="toDeleteCertAcademic">
@@ -406,7 +406,7 @@
                 <a class="btn btn-default" data-action="decline-cert">认证失败</a>
             </div>
         </div>
-        <div class="pull-left img-edit {% if cert_teaching.verified %}cert-ok{% endif %}" for="teaching">
+        <div class="pull-left img-edit {% if cert_teaching.verified %}cert-ok{% elif cert_teaching.is_rejected %}cert-fail{% endif %}" for="teaching">
             <div class="title">
                 教师资格证
                 <input type="hidden" name="toDeleteCertTeaching">
@@ -436,7 +436,7 @@
             </div>
         </div>
         {% if teacher.is_english_teacher %}
-            <div class="pull-left img-edit {% if cert_english.verified %}cert-ok{% endif %}" for="english">
+            <div class="pull-left img-edit {% if cert_english.verified %}cert-ok{% elif cert_english.is_rejected %}cert-fail{% endif %}" for="english">
                 <div class="title">
                     英语水平证书
                     <input type="hidden" name="toDeleteCertEnglish">
@@ -504,7 +504,7 @@
                 </div>
             {% else %}
                 {% for cert in cert_others %}
-                    <div class="pull-left img-edit {% if cert.verified %}cert-ok{% endif %}" for="otherCert">
+                    <div class="pull-left img-edit {% if cert.verified %}cert-ok{% elif cert.is_rejected %}cert-fail{% endif %}" for="otherCert">
                         <input type="hidden" name="certOtherId" value="{{ cert.id }}"/>
                         <div>
                             <input type="text" name="{{ cert.id }}certName" value="{{ cert.name }}" placeholder="证书标题">
