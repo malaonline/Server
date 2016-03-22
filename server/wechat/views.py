@@ -827,6 +827,8 @@ def add_openid(request):
             "result": False,
             "code": -1
         })
+
+    CheckCode = models.Checkcode
     if not CheckCode.verify(phone, code)[0]:
         # 验证失败
         return JsonResponse({
@@ -835,7 +837,6 @@ def add_openid(request):
         })
 
     Profile = models.Profile
-    CheckCode = models.Checkcode
     Parent = models.Parent
     try:
         profile = Profile.objects.get(phone=phone)
