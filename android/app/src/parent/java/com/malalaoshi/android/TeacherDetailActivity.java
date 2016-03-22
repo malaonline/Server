@@ -1,6 +1,6 @@
 package com.malalaoshi.android;
 
-
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -48,6 +48,7 @@ import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.util.ThemeUtils;
 import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
@@ -68,6 +69,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private static final String TAG = "TeacherDetailActivity";
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
+
+    //拍照相关权限
+    public static final int PERMISSIONS_REQUEST_LOCATION = 0x07;
 
     //教师id
     private Long mTeacherId;
@@ -190,6 +194,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //定位相关对象
     private LocManager locManager;
 
+    private boolean isLocation = true;
+
     //当前经纬度
     private double longitude = 0.0f;
     private double latitude = 0.0f;
@@ -259,9 +265,47 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //初始化定位
     private void initLocation() {
-        locManager.initLocation();
+
         //注册定位结果回调
         locManager.registerLocationListener(this);
+
+        //检测获取位置权限
+        List<String> permissions = PermissionUtil.checkPermission(TeacherDetailActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
+        if (permissions==null){
+            return ;
+        }
+        if (permissions.size()==0){
+            initLocManager();
+        }else{
+            PermissionUtil.requestPermissions(TeacherDetailActivity.this,permissions, PERMISSIONS_REQUEST_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults); switch (requestCode) {
+            case PERMISSIONS_REQUEST_LOCATION: {
+                permissionsResultLocation(grantResults);
+                break;
+            }
+        }
+    }
+
+
+    private void permissionsResultLocation(int[] grantResults) {
+        //如果请求被取消，那么 result 数组将为空
+        boolean res = PermissionUtil.permissionsResult(grantResults);
+        if (res) {
+            // 已经获取对应权限
+            initLocManager();
+        } else {
+            // 未获取到授权，取消需要该权限的方法
+            //Toast.makeText(this,"缺少定位相关权限",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initLocManager(){
+        locManager.initLocation();
         loadLocation();
     }
 

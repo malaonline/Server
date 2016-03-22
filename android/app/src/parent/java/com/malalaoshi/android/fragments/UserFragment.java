@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +43,7 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.util.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
 
@@ -69,7 +68,10 @@ public class UserFragment extends Fragment {
     public static final int REQUEST_CODE_PICK_IMAGE = 0x03;
     public static final int REQUEST_CODE_CAPTURE_CAMEIA = 0x04;
 
+    //拍照相关权限
     public static final int PERMISSIONS_REQUEST_CAMERA = 0x05;
+    //打开相册权限
+    public static final int PERMISSIONS_REQUEST_GALLAY = 0x06;
 
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
@@ -280,7 +282,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onChoiceClick(View view, BaseEntity entity) {
                 if (entity.getId() == 1L) {
-                    requestPermission();
+                    getPhotoFromCamera();
                     //
                 } else if (entity.getId() == 2L) {
                     getPhotoFromGallay();
@@ -290,8 +292,25 @@ public class UserFragment extends Fragment {
         dailog.show(getFragmentManager(), SingleChoiceDialog.class.getName());
     }
 
-    //拍照
+
     private void getPhotoFromCamera() {
+        //检测权限
+        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
+
+       if (permStrings==null){
+           Toast.makeText(getContext(),"权限设置错误!",Toast.LENGTH_SHORT).show();
+           return;
+        }
+        if (permStrings.size()==0){
+            takePhoto();
+        }else{
+            //请求权限
+            PermissionUtil.requestPermissions(this, permStrings, PERMISSIONS_REQUEST_CAMERA);
+        }
+    }
+
+    //拍照
+    private void takePhoto(){
         String cachePath  = ImageUtil.getAppDir("cache");
         if (cachePath!=null) {
             try{
@@ -309,7 +328,7 @@ public class UserFragment extends Fragment {
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                 this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
             } catch (ActivityNotFoundException e) {
-               Toast.makeText(getContext(), "没有找到储存目录",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "没有找到储存目录",Toast.LENGTH_LONG).show();
             }
 
         }
@@ -318,24 +337,27 @@ public class UserFragment extends Fragment {
         }
     }
 
+    //从相册获取照片
+    private void getPhotoFromGallay(){
+        //检测权限
+        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
-    protected void requestPermission(){
-        int hasWritePermission = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int hasCameraPermission = ContextCompat.checkSelfPermission(getContext(),Manifest.permission.CAMERA);
-        List<String> permissions = new ArrayList<String>();
-        if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
-            permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permStrings==null){
+            Toast.makeText(getContext(),"权限设置错误!",Toast.LENGTH_SHORT).show();
+            return;
         }
-
-        if (hasCameraPermission != PackageManager.PERMISSION_GRANTED ) {
-            permissions.add( Manifest.permission.CAMERA );
-        }
-        if( !permissions.isEmpty() ) {
-            requestPermissions( permissions.toArray( new String[permissions.size()] ), PERMISSIONS_REQUEST_CAMERA );
+        if (permStrings.size()==0){
+            openSysGallay();
         }else{
-            //有权限
-            getPhotoFromCamera();
+            //请求权限
+            PermissionUtil.requestPermissions(this, permStrings, PERMISSIONS_REQUEST_GALLAY);
         }
+    }
+
+    private void openSysGallay(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");//相片类型
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
 
     @Override
@@ -343,28 +365,38 @@ public class UserFragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CAMERA: {
-                //如果请求被取消，那么 result 数组将为空
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // 已经获取对应权限
-                    getPhotoFromCamera();
-                } else {
-                    // 未获取到授权，取消需要该权限的方法
-                    //shouldShowRequestPermissionRationale( Manifest.permission.CAMERA))
-                    Toast.makeText(getContext(),"缺少拍照相关权限",Toast.LENGTH_SHORT).show();
-                }
-                return;
+                permissionsResultCamera(grantResults);
+                break;
             }
+            case PERMISSIONS_REQUEST_GALLAY:
+                permissionsResultGallay(grantResults);
+                break;
         }
     }
 
-    //从相册获取照片
-    private void getPhotoFromGallay(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");//相片类型
-        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+    private void permissionsResultGallay(int[] grantResults) {
+        //如果请求被取消，那么 result 数组将为空
+        boolean res = PermissionUtil.permissionsResult(grantResults);
+        if (res) {
+            // 已经获取对应权限
+            getPhotoFromCamera();
+        } else {
+            // 未获取到授权，取消需要该权限的方法
+            Toast.makeText(getContext(),"缺少拍照相关权限",Toast.LENGTH_SHORT).show();
+        }
     }
 
+    private void permissionsResultCamera(int[] grantResults) {
+        //如果请求被取消，那么 result 数组将为空
+        boolean res = PermissionUtil.permissionsResult(grantResults);
+        if (res) {
+            // 已经获取对应权限
+            getPhotoFromCamera();
+        } else {
+            // 未获取到授权，取消需要该权限的方法
+            Toast.makeText(getContext(),"缺少读取系统相册相关权限",Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @OnClick(R.id.rl_user_name)
     public void OnClickUserName(View view){
