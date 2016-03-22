@@ -1740,7 +1740,7 @@ class CertificateIDView(BaseTeacherView):
                                                                         type=models.Certificate.ID_FRONT,
                                                                         defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, certIdHeld, certIdFront)
-        context['next_url'] = self.getNextStepUrl(teacher)
+        context['next_url'] = self.getNextStepUrl(teacher, 'cert_id')
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, certIdHeld, certIdFront):
