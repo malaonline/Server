@@ -454,6 +454,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
             oldCertIdVerify = certIdHeld.verified
             if certIdHeldOk and certIdHeldOk=='True':
                 certIdHeld.verified = True
+                certIdHeld.show_hint = True
+            elif certIdHeldOk and certIdHeldOk=='Fail':
+                certIdHeld.audited = True
+                certIdHeld.verified = False
+                certIdHeld.show_hint = True
             else:
                 certIdHeld.verified = False
             certIdHeldImg = None
@@ -506,6 +511,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 cert.name = name
                 if certOk and certOk=='True':
                     cert.verified = True
+                    cert.show_hint = True
+                elif certOk and certOk=='Fail':
+                    cert.audited = True
+                    cert.verified = False
+                    cert.show_hint = True
                 else:
                     cert.verified = False
                 if certImg:
@@ -526,6 +536,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 newCert = models.Certificate(teacher=teacher,name=name,type=models.Certificate.OTHER,verified=False)
                 if certOk and certOk=='True':
                     newCert.verified = True
+                    newCert.show_hint = True
+                elif certOk and certOk=='Fail':
+                    newCert.audited = True
+                    newCert.verified = False
+                    newCert.show_hint = True
                 _img_content = ContentFile(certImg.read())
                 newCert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 newCert.save()
@@ -592,6 +607,11 @@ class TeacherUnpublishedEditView(BaseStaffView):
         certOk = request.POST.get('cert'+type_str+'Ok')
         if certOk and certOk=='True':
             cert.verified = True
+            cert.show_hint = True
+        elif certOk and certOk=='Fail':
+            cert.audited = True
+            cert.verified = False
+            cert.show_hint = True
         else:
             cert.verified = False
         certImg = None
