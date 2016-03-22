@@ -912,7 +912,7 @@ def check_phone(request):
     context = {
         "openid": openid,
         "teacherId": teacherId,
-        "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)
+        "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid
     }
     logger.debug(openid)
     logger.debug("..............................openid验证不通过，继续验证................")
