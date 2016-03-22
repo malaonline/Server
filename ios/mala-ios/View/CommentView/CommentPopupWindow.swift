@@ -1,5 +1,5 @@
 //
-//  CoursePopupWindow.swift
+//  CommentPopupWindow.swift
 //  mala-ios
 //
 //  Created by Elors on 1/16/16.
@@ -9,11 +9,11 @@
 import UIKit
 
 
-public class CoursePopupWindow: UIViewController {
+public class CommentPopupWindow: UIViewController {
 
     // MARK: - Property
     /// 自身强引用
-    var strongSelf: CoursePopupWindow?
+    var strongSelf: CommentPopupWindow?
     /// 遮罩层透明度
     let tBakcgroundTansperancy: CGFloat = 0.7
     /// 布局容器（窗口）
@@ -77,8 +77,8 @@ public class CoursePopupWindow: UIViewController {
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.setTitle("取消", forState: .Normal)
-        // cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
-        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Normal)
+        cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
@@ -177,9 +177,9 @@ public class CoursePopupWindow: UIViewController {
         view.frame = window.bounds
         // 设置属性
         self.contentView = contentView
-        if let view = contentView as? CourseContentView {
-            view.container = self
-        }
+//        if let view = contentView as? CourseContentView {
+//            view.container = self
+//        }
         updateUserInterface()
     }
     

@@ -288,6 +288,7 @@
 		F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */; };
 		F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */; };
 		F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */; };
+		F4D0D1811CA1508500B25704 /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
@@ -549,6 +550,7 @@
 		F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoView.swift; sourceTree = "<group>"; };
 		F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
 		F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPopupWindow.swift; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -730,6 +732,7 @@
 			children = (
 				F4B58F7B1C990274009B5B8D /* Base */,
 				F4D0D1501C9FAD8800B25704 /* CourseView */,
+				F4D0D17F1CA14F7900B25704 /* CommentView */,
 				F4B58F761C990247009B5B8D /* ClassScheduleView */,
 				F414FFEC1C916ACE0038D7A7 /* Profile */,
 				F40B53C61C83F96300C20037 /* PaymentView */,
@@ -1130,6 +1133,14 @@
 			path = CourseView;
 			sourceTree = "<group>";
 		};
+		F4D0D17F1CA14F7900B25704 /* CommentView */ = {
+			isa = PBXGroup;
+			children = (
+				F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */,
+			);
+			path = CommentView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1480,6 +1491,7 @@
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */,
+				F4D0D1811CA1508500B25704 /* CommentPopupWindow.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
 				F460651F1C97B168004056B1 /* ClassScheduleViewController.swift in Sources */,

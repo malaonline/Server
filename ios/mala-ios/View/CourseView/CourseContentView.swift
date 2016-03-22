@@ -16,11 +16,17 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         didSet {
             if models.count == studentCourses.count && models.count != 0 {
                 
-                // 设置弹窗页面的[是否评价标记], 更改评价按钮样式
-                container?.isComment = (models[currentIndex].comment != nil)
+                // 数据排序
+                models.sortInPlace({ (courseModel1, courseModel2) -> Bool in
+                    return courseModel1.start < courseModel2.start
+                })
                 
                 // 加载课程页面
                 dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+                    
+                    // 设置弹窗页面的[是否评价标记], 更改评价按钮样式
+                    self?.container?.isComment = (self?.models[(self?.currentIndex) ?? 0].comment != nil)
+                    
                     // 隐藏loading指示器
                     self?.activityIndicator.stopAnimating()
                     self?.scrollEnabled = true
@@ -32,7 +38,7 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     /// 学生课程集合
     var studentCourses: [StudentCourseModel] = [] {
         didSet {
-            
+
             self.loadCourseInfo()
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
@@ -111,7 +117,7 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     private func loadCourseInfo() {
         
         // 遍历学生课程数组，根据课程id获取课程详细信息
-        for studentCourse in studentCourses {
+        for (index,studentCourse) in studentCourses.enumerate() {
             
             getCourseInfo(studentCourse.id, failureHandler: { (reason, errorMessage) -> Void in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -121,8 +127,8 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
                     println("CourseContentView - loadCourseInfo Error \(errorMessage)")
                 }
                 }, completion: { [weak self] (courseInfoModel) -> Void in
-                    println("课程详细信息: \(courseInfoModel)")
                     self?.models.append(courseInfoModel)
+                    println("课程详细信息: \(courseInfoModel) _ \(index)")
                 })
         }
     }
