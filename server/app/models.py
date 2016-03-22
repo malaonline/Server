@@ -838,6 +838,13 @@ class Certificate(BaseModel):
             return ('* ' * 10) + str(self.name[-4:])
         return ''
 
+    def show_hint_once(self):
+        if self.show_hint:
+            self.show_hint = False
+            self.save()
+            return True
+        return False
+
 
 class InterviewRecord(BaseModel):
     PENDING = 'p'

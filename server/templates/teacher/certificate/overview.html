@@ -30,15 +30,15 @@
             <div class="col-md-5 note">成为麻辣老师必须通过真实身份认证同时保障您的合法权益</div>
             <div class="pull-right">
                 {% if cert_id and cert_id.is_approved %}
-                    {% if cert_id.show_hint %}
+                    {% if cert_id.show_hint_once %}
                         <span class="hint yes">审核通过!</span>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-id' %}">查看</a>
                 {% elif cert_id and cert_id.is_rejected %}
-                    {% if cert_id.show_hint %}
+                    {% if cert_id.show_hint_once %}
                         <span class="hint no">未通过审核!</span>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'teacher:certificate-id' %}">重新认证</a>
+                    <a class="btn btn-success" href="{% url 'teacher:certificate-id' %}">重新认证</a>
                 {% elif cert_id and cert_id.is_to_audit %}
                     <span class="fake-btn">认证中</span>
                 {% else %}
@@ -58,15 +58,15 @@
             <div class="col-md-5 note">进行学历认证可以提升学生对您的信任度</div>
             <div class="pull-right">
                 {% if cert_academic and cert_academic.is_approved %}
-                    {% if cert_academic.show_hint %}
+                    {% if cert_academic.show_hint_once %}
                         <span class="hint yes">审核通过!</span>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-academic' %}">查看</a>
                 {% elif cert_academic and cert_academic.is_rejected %}
-                    {% if cert_academic.show_hint %}
+                    {% if cert_academic.show_hint_once %}
                         <span class="hint no">未通过审核!</span>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'teacher:certificate-academic' %}">重新认证</a>
+                    <a class="btn btn-success" href="{% url 'teacher:certificate-academic' %}">重新认证</a>
                 {% elif cert_academic and cert_academic.is_to_audit %}
                     <span class="fake-btn">认证中</span>
                 {% else %}
@@ -86,15 +86,15 @@
             <div class="col-md-5 note">证明您的教师身份资格获得更多学生的关注</div>
             <div class="pull-right">
                 {% if cert_teaching and cert_teaching.is_approved %}
-                    {% if cert_teaching.show_hint %}
+                    {% if cert_teaching.show_hint_once %}
                         <span class="hint yes">审核通过!</span>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-teaching' %}">查看</a>
                 {% elif cert_teaching and cert_teaching.is_rejected %}
-                    {% if cert_teaching.show_hint %}
+                    {% if cert_teaching.show_hint_once %}
                         <span class="hint no">未通过审核!</span>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'teacher:certificate-teaching' %}">重新认证</a>
+                    <a class="btn btn-success" href="{% url 'teacher:certificate-teaching' %}">重新认证</a>
                 {% elif cert_teaching and cert_teaching.is_to_audit %}
                     <span class="fake-btn">认证中</span>
                 {% else %}
@@ -114,15 +114,15 @@
             <div class="col-md-5 note">其他认证信息可以提升学生对您的认可度</div>
             <div class="pull-right">
                 {% if cert_other and cert_other.is_approved %}
-                    {% if cert_other.show_hint %}
+                    {% if cert_other.show_hint_once %}
                         <span class="hint yes">审核通过!</span>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-others' %}">查看</a>
                 {% elif cert_other and cert_other.is_rejected %}
-                    {% if cert_other.show_hint %}
+                    {% if cert_other.show_hint_once %}
                         <span class="hint no">未通过审核!</span>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'teacher:certificate-others' %}">重新认证</a>
+                    <a class="btn btn-success" href="{% url 'teacher:certificate-others' %}">重新认证</a>
                 {% elif cert_other and cert_other.is_to_audit %}
                     <span class="fake-btn">认证中</span>
                 {% else %}
@@ -144,15 +144,15 @@
             <div class="col-md-5 note">英语水平认证可以展现您的英语实力获得更多认可度</div>
             <div class="pull-right">
                 {% if cert_english and cert_english.is_approved %}
-                    {% if cert_english.show_hint %}
+                    {% if cert_english.show_hint_once %}
                         <span class="hint yes">审核通过!</span>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-english' %}">查看</a>
                 {% elif cert_english and cert_english.is_rejected %}
-                    {% if cert_english.show_hint %}
+                    {% if cert_english.show_hint_once %}
                         <span class="hint no">未通过审核!</span>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'teacher:certificate-english' %}">重新认证</a>
+                    <a class="btn btn-success" href="{% url 'teacher:certificate-english' %}">重新认证</a>
                 {% elif cert_english and cert_english.is_to_audit %}
                     <span class="fake-btn">认证中</span>
                 {% else %}
