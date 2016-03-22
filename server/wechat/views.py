@@ -145,26 +145,20 @@ class CourseChoosingView(View):
     template_name = 'wechat/order/course_choosing.html'
 
     def get(self, request):
-        print('........................................1...')
         teacher_id = request.GET.get('teacher_id', -1)
         kwargs = {}
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
-        print('........................................2...')
         kwargs['teacher'] = teacher
         current_user = self.request.user
         kwargs['current_user'] = current_user
-        print('........................................3...')
         if settings.TESTING:
-            print('........................................4...')
             # the below line is only for testing
             parent = models.Parent.objects.get(pk=3)
             parent.user.backend = _get_default_bankend_path()
             login(request, parent.user)
         else:
-            print('........................................5...')
             parent = _get_parent(request)
         if parent is None:
-            print('........................................6...')
             redirect_url = _get_auth_redirect_url(request, teacher_id)
             logger.debug(redirect_url)
             return HttpResponseRedirect(redirect_url)
