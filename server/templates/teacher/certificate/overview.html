@@ -114,17 +114,7 @@
             <div class="col-md-5 note">其他认证信息可以提升学生对您的认可度</div>
             <div class="pull-right">
                 {% if cert_other and cert_other.is_approved %}
-                    {% if cert_other.show_hint_once %}
-                        <span class="hint yes">审核通过!</span>
-                    {% endif %}
                     <a class="btn btn-default" href="{% url 'teacher:certificate-others' %}">查看</a>
-                {% elif cert_other and cert_other.is_rejected %}
-                    {% if cert_other.show_hint_once %}
-                        <span class="hint no">未通过审核!</span>
-                    {% endif %}
-                    <a class="btn btn-success" href="{% url 'teacher:certificate-others' %}">重新认证</a>
-                {% elif cert_other and cert_other.is_to_audit %}
-                    <span class="fake-btn">认证中</span>
                 {% else %}
                     <a class="btn btn-success" href="{% url 'teacher:certificate-others' %}">认证</a>
                 {% endif %}
