@@ -287,6 +287,7 @@
 		F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1771CA0F8EE00B25704 /* CourseContentView.swift */; };
 		F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */; };
 		F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */; };
+		F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
@@ -547,6 +548,7 @@
 		F4D0D1771CA0F8EE00B25704 /* CourseContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentView.swift; sourceTree = "<group>"; };
 		F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoView.swift; sourceTree = "<group>"; };
 		F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
+		F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -779,6 +781,7 @@
 				307788571C2A58B1007AF6B0 /* OperatorOverload.swift */,
 				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 				F47C2ABC1C85785A0051A880 /* MalaAlert.swift */,
+				F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1469,6 +1472,7 @@
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
+				F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */,
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
 				F46065291C97B168004056B1 /* CouponViewController.swift in Sources */,
