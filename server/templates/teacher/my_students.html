@@ -53,27 +53,26 @@
                         <div class="list-header">
                             <span class="header-name">学生姓名</span>
                             <span class="header-grade">年级</span>
-{#                            <span class="header-subclass-progress">已完成课时/总课时</span>#}
+                            <span class="header-subclass-progress">已完成课时/总课时</span>
                             <span class="header-subclass-price">课时单价</span>
-                            <span class="header-student-status">学生状态</span>
-                            <span class="header-operation">操作</span>
+                            <span class="header-student-status">提醒</span>
+                            <span class="header-operation">给学生写信</span>
                         </div>
                         {% for one_student in student_list %}
                         <div class="list-body">
                             <span class="name">{{ one_student.name }}</span>
                             <span class="grade">{{ one_student.grade }}</span>
 {#                            <span class="subclass-progress"> </span>#}
-{#                            <span class="subclass-progress">{{ one_student.2 }}</span>#}
+                            <span class="subclass-progress">{{ one_student.progress }}</span>
                             <span class="subclass-price">{{ one_student.price }}</span>
                             <span class="student-state">
                             {% if one_student.state == "新生" %}
-                                <span class="state-new" data-toggle="tooltip" data-placement="right" title="首次上课的学生,得好好准备">新生</span>
-                            {% endif %}
-                            {% if one_student.state == "续费" %}
-                                <span class="state-renewal" data-toggle="tooltip" data-placement="right" title="课都快上完了,提醒他续费吧">续费</span>
-                            {% endif %}
-                            {% if one_student.state == "正常" %}
-                                <span class="state-normal" data-toggle="tooltip" data-placement="right" title="正常上课ing">正常</span>
+                                <span class="state-new" data-toggle="tooltip" data-placement="right" title="首次上课的学生,得好好准备">首次上课</span>
+                            {% elif one_student.state == "续费" %}
+                                <span class="state-renewal" data-toggle="tooltip" data-placement="right" title="课都快上完了,提醒他续费吧">提醒续费</span>
+                            {% elif one_student.state == "正常" %}
+{#                                正常就不再显示#}
+{#                                <span class="state-normal" data-toggle="tooltip" data-placement="right" title="正常上课ing">正常</span>#}
                             {% endif %}
                             {% if one_student.state == "退费" %}
                                 <span class="state-refund" data-toggle="tooltip" data-placement="right" title="已经退费了,他真的走了">退费</span>

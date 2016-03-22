@@ -642,10 +642,10 @@ class SideBarContent:
         context["side_bar_my_evaluation_url"] = reverse("teacher:my-evaluation",
                                                     kwargs={"comment_type": 0, "page_offset": 1})
         information_complete, msg = self.is_teacher_information_not_complete(self.teacher)
-        if information_complete:
-            logger.debug("资料填写检查: 完整, {tag}".format(tag=information_complete))
-        else:
-            logger.debug("资料填写检查: >{msg}<, {tag}".format(msg=msg, tag=information_complete))
+        # if information_complete:
+        #     logger.debug("资料填写检查: 完整, {tag}".format(tag=information_complete))
+        # else:
+        #     logger.debug("资料填写检查: >{msg}<, {tag}".format(msg=msg, tag=information_complete))
         context["information_not_complete"] = information_complete
 
     def _my_course_badge(self):
@@ -1009,7 +1009,7 @@ class MyStudents(BasicTeacherView):
             page_student_list = refund_student_list
         for one_student in student_list:
             if models.TimeSlot.objects.filter(order__teacher=teacher, order__parent=one_student,
-                                              order__status=models.Order.PAID, end__gt=timezone.now()).exists():
+                                              order__status=models.Order.PAID, start__gt=timezone.now()).exists():
                 # 统计上课学生
                 current_count += 1
                 # 填充上课学生信息
@@ -1028,14 +1028,38 @@ class MyStudents(BasicTeacherView):
         for one_student in p.page(offset).object_list:
             one_details = {
                 "name": one_student.student_name or one_student.user.profile.phone,
-                # "grade": one_order.grade,
-                # "price": "￥%.2f/小时" %(one_order.price/100),
                 "mail": True
             }
 
+            complete_time_slot = models.TimeSlot.objects.filter(
+                order__status=models.Order.PAID,
+                order__teacher=teacher,
+                order__parent=one_student,
+                end__lt=timezone.now()
+            ).count()
+            all_time_slot = models.TimeSlot.objects.filter(
+                order__status=models.Order.PAID,
+                order__teacher=teacher,
+                order__parent=one_student,
+            ).count()
+            # 设置进度
+            one_details["progress"] = "{complete}/{total}".format(
+                complete=complete_time_slot, total=all_time_slot
+            )
             if student_type == 0:
                 # 当前学生需要检查新生,续费,和正常三种情况
-                one_details["state"] = "正常"
+                if not models.TimeSlot.objects.filter(
+                    order__status=models.Order.PAID,
+                    order__teacher=teacher,
+                    order__parent=one_student,
+                    end__lt=timezone.now()
+                ).exists():
+                    one_details["state"] = "新生"
+                else:
+                    if complete_time_slot/all_time_slot > 0.8:
+                        one_details["state"] = "续费"
+                    else:
+                        one_details["state"] = "正常"
                 one_order = one_student.order_set.filter(
                     teacher=teacher,
                     status=models.Order.PAID
