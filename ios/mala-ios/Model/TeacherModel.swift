@@ -66,7 +66,7 @@ class TeacherModel: BaseObjectModel {
     
     // MARK: - Description
     override var description: String {
-        let keys = ["id", "name", "avatar", "gender", "degree", "min_price", "max_price", "subject", "grades_shortname", "tags"]
+        let keys = ["id", "name", "avatar", "gender", "level", "min_price", "max_price", "subject", "grades_shortname", "tags"]
         return dictionaryWithValuesForKeys(keys).description
     }
 }

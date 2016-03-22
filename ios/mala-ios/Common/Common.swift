@@ -66,6 +66,8 @@ let MalaColor_B7B7B7_0 = UIColor(rgbHexValue: 0xB7B7B7, alpha: 1.0)
 let MalaColor_A5C9E4_0 = UIColor(rgbHexValue: 0xA5C9E4, alpha: 1.0)
 let MalaColor_D0D0D0_0 = UIColor(rgbHexValue: 0xD0D0D0, alpha: 1.0)
 let MalaColor_F8F8F8_0 = UIColor(rgbHexValue: 0xF8F8F8, alpha: 1.0)
+let MalaColor_BCD7EB_0 = UIColor(rgbHexValue: 0xBCD7EB, alpha: 1.0)
+let MalaColor_BEBEBE_0 = UIColor(rgbHexValue: 0xBEBEBE, alpha: 1.0)
 
 
 
@@ -150,6 +152,8 @@ let MalaLayout_CoursePopupWindowWidth: CGFloat = 272
 let MalaLayout_CoursePopupWindowHeight: CGFloat = 300
 let MalaLayout_CoursePopupWindowTitleViewHeight: CGFloat = 69
 let MalaLayout_CourseContentWidth: CGFloat = MalaLayout_CoursePopupWindowWidth - MalaLayout_Margin_26*2
+let MalaLayout_CommentPopupWindowHeight: CGFloat = 420
+let MalaLayout_CommentPopupWindowWidth: CGFloat = 300
 
 
 // MARK: - Device

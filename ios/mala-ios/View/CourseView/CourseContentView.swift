@@ -65,6 +65,12 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
             }
         }
     }
+    /// 当前浏览课程
+    var currentCourse: CourseModel {
+        get {
+            return self.models[currentIndex]
+        }
+    }
     
     
     // MARK: - Components

@@ -51,6 +51,22 @@ public class CourseModel: BaseObjectModel {
     }
     
     // MARK: - Override
+    override public func setValue(value: AnyObject?, forKey key: String) {
+        if key == "teacher" {
+            if let dict = value as? [String: AnyObject] {
+                teacher = TeacherModel(dict: dict)
+            }
+            return
+        }
+        if key == "comment" {
+            if let dict = value as? [String: AnyObject] {
+                comment = CommentModel(dict: dict)
+            }
+            return
+        }
+        super.setValue(value, forKey: key)
+    }
+    
     override public func setValue(value: AnyObject?, forUndefinedKey key: String) {
         debugPrint("StudentCourseModel - Set for UndefinedKey: \(key)")
     }

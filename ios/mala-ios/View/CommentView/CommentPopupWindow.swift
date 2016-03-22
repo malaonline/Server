@@ -12,43 +12,21 @@ import UIKit
 public class CommentPopupWindow: UIViewController {
 
     // MARK: - Property
+    var model: CourseModel = CourseModel() {
+        didSet {
+            println("评论视图 - 放置模型: \(model)")
+            avatarView.kf_setImageWithURL(model.teacher?.avatar ?? NSURL())
+            teacherNameLabel.text = model.teacher?.name
+            subjectLabel.text = model.subject
+        }
+    }
+    
     /// 自身强引用
     var strongSelf: CommentPopupWindow?
     /// 遮罩层透明度
     let tBakcgroundTansperancy: CGFloat = 0.7
     /// 布局容器（窗口）
     var window = UIView()
-    /// 标题文字
-    var titleDate: NSDate = NSDate() {
-        didSet {
-            self.courseDateLabel.text = titleDate.formattedDateWithFormat("yyyy.MM.dd")
-        }
-    }
-    /// 课程已上标识
-    var isPassed: Bool = false {
-        didSet {
-            if isPassed {
-                iconView.text = "已上"
-                iconView.backgroundColor = MalaColor_D0D0D0_0
-
-            }else {
-                iconView.text = "待上"
-                iconView.backgroundColor = MalaColor_A5C9E4_0
-                dismissButton.hidden = false
-                buttonSeparatorLine.hidden = true
-            }
-        }
-    }
-    /// 课程已评价标识
-    var isComment: Bool = true {
-        didSet {
-            if isComment {
-                confirmButton.setTitle("查看评价", forState: .Normal)
-            }else {
-                confirmButton.setTitle("去评价", forState: .Normal)
-            }
-        }
-    }
     /// 内容视图
     var contentView: UIView?
     /// 单击背景close窗口
@@ -56,103 +34,77 @@ public class CommentPopupWindow: UIViewController {
     
     
     // MARK: - Components
-    /// 图标
-    private lazy var iconView: UILabel = {
-        let iconView = UILabel()
-        iconView.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: MalaLayout_CoursePopupWindowTitleViewHeight,
-            height: MalaLayout_CoursePopupWindowTitleViewHeight
-        )
-        iconView.layer.cornerRadius = MalaLayout_CoursePopupWindowTitleViewHeight/2
-        iconView.layer.masksToBounds = true
-        iconView.backgroundColor = MalaColor_A5C9E4_0
-        iconView.text = "待上"
-        iconView.textAlignment = .Center
-        iconView.textColor = MalaColor_FFFFFF_9
-        return iconView
+    /// 标题视图
+    private lazy var titleView: UILabel = {
+        let titleView = UILabel(title: "评价")
+        titleView.textColor = MalaColor_8FBCDD_0
+        titleView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        titleView.textAlignment = .Center
+        return titleView
     }()
-    /// 取消按钮.[取消]
-    private lazy var cancelButton: UIButton = {
+    /// 关闭按钮
+    private lazy var closeButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setTitle("取消", forState: .Normal)
-        cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
-        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
-        cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        cancelButton.setBackgroundImage(UIImage(named: "close"), forState: .Normal)
+        cancelButton.addTarget(self, action: "closeButtonDidTap", forControlEvents: .TouchUpInside)
         return cancelButton
     }()
-    /// 确认按钮.[去评价]
-    private lazy var confirmButton: UIButton = {
-        let confirmButton = UIButton()
-        confirmButton.setTitle("去评价", forState: .Normal)
-        confirmButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
-        confirmButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
-        confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
-        return confirmButton
+    /// 顶部装饰线
+    private lazy var titleLine: UIView = {
+        let titleLine = UIView()
+        titleLine.backgroundColor = MalaColor_8FBCDD_0
+        return titleLine
     }()
-    /// 取消按钮.[知道了]
-    private lazy var dismissButton: UIButton = {
-        let dismissButton = UIButton()
-        dismissButton.setTitle("知道了", forState: .Normal)
-        dismissButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
-        dismissButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
-        dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        dismissButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        dismissButton.hidden = true
-        dismissButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
-        return dismissButton
+    /// 老师头像
+    private lazy var avatarView: UIImageView = {
+        let avatarView = UIImageView(image: UIImage(named: "avatar_placeholder"))
+        avatarView.layer.cornerRadius = avatarView.frame.width/2
+        avatarView.layer.masksToBounds = true
+        return avatarView
     }()
-    /// 上课日期
-    private lazy var courseDateLabel: UILabel = {
-        let courseDateLabel = UILabel()
-        courseDateLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        courseDateLabel.textColor = MalaColor_B7B7B7_0
-        courseDateLabel.text = ""
-        return courseDateLabel
+    /// 老师姓名label
+    private lazy var teacherNameLabel: UILabel = {
+        let teacherNameLabel = UILabel()
+        teacherNameLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        teacherNameLabel.textColor = MalaColor_939393_0
+        teacherNameLabel.text = "老师姓名"
+        return teacherNameLabel
     }()
-    private lazy var contentContainer: UIView = {
-        let contentContainer = UIView()
-        return contentContainer
+    /// 教授科目label
+    private lazy var subjectLabel: UILabel = {
+        let subjectLabel = UILabel()
+        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        subjectLabel.textColor = MalaColor_BEBEBE_0
+        subjectLabel.text = "教授科目"
+        return subjectLabel
     }()
-    /// 页标指示器
-    lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
-        pageControl.currentPage = 0
-        pageControl.numberOfPages = 3
-        pageControl.pageIndicatorTintColor = MalaColor_C7DEEE_0
-        pageControl.currentPageIndicatorTintColor = MalaColor_82B4D9_0
-        
-        // 添加横线
-        let view = UIView()
-        pageControl.addSubview(view)
-        view.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(pageControl.snp_left)
-            make.right.equalTo(pageControl.snp_right)
-            make.height.equalTo(MalaScreenOnePixel)
-            make.centerY.equalTo(pageControl.snp_centerY)
-        }
-        view.backgroundColor = MalaColor_C7DEEE_0
-        return pageControl
+    /// 评分面板
+    private lazy var floatRating: FloatRatingView = {
+        let floatRating = FloatRatingView()
+        return floatRating
     }()
-    /// 按钮顶部装饰线
-    private lazy var buttonTopLine: UIView = {
-        let buttonTopLine = UIView()
-        buttonTopLine.backgroundColor = MalaColor_8FBCDD_0
-        return buttonTopLine
+    /// 输入文本框
+    private lazy var textView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = MalaColor_BEBEBE_0
+        return textView
     }()
-    /// 按钮间隔装饰线
+    /// 提交按钮装饰线
     private lazy var buttonSeparatorLine: UIView = {
         let buttonSeparatorLine = UIView()
         buttonSeparatorLine.backgroundColor = MalaColor_8FBCDD_0
         return buttonSeparatorLine
+    }()
+    /// 提交按钮
+    private lazy var commitButton: UIButton = {
+        let commitButton = UIButton()
+        commitButton.setTitle("提  交", forState: .Normal)
+        commitButton.setTitleColor(MalaColor_BCD7EB_0, forState: .Normal)
+        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
+        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        commitButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        commitButton.addTarget(self, action: "commitButtonDidTap", forControlEvents: .TouchUpInside)
+        return commitButton
     }()
     
     
@@ -218,87 +170,86 @@ public class CommentPopupWindow: UIViewController {
         
         // SubViews
         view.addSubview(window)
-        window.addSubview(iconView)
-        window.addSubview(courseDateLabel)
-        window.addSubview(pageControl)
-        window.addSubview(contentContainer)
-        window.addSubview(cancelButton)
-        window.addSubview(confirmButton)
-        window.addSubview(dismissButton)
-        window.addSubview(buttonTopLine)
+        window.addSubview(titleView)
+        window.addSubview(closeButton)
+        window.addSubview(titleLine)
+        window.addSubview(avatarView)
+        window.addSubview(teacherNameLabel)
+        window.addSubview(subjectLabel)
+        window.addSubview(floatRating)
+        window.addSubview(textView)
         window.addSubview(buttonSeparatorLine)
+        window.addSubview(commitButton)
         
         // Autolayout
         window.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(self.view.snp_center)
-            make.width.equalTo(MalaLayout_CoursePopupWindowWidth)
-            make.height.equalTo(MalaLayout_CoursePopupWindowHeight)
+            make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
+            make.height.equalTo(MalaLayout_CommentPopupWindowHeight)
         }
-        iconView.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self.window.snp_centerX)
-            make.top.equalTo(self.window.snp_top).offset(-MalaLayout_FontSize_20)
-            make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
-            make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
-        }
-        courseDateLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.iconView.snp_bottom).offset(MalaLayout_Margin_10)
-            make.centerX.equalTo(self.iconView.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_15)
-        }
-        contentContainer.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.courseDateLabel.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
-            make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
-        }
-        pageControl.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(6)
-            make.bottom.equalTo(self.cancelButton.snp_top).offset(-MalaLayout_Margin_10)
-            make.centerX.equalTo(self.window.snp_centerX)
-        }
-        cancelButton.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.window.snp_bottom)
-            make.left.equalTo(self.window.snp_left)
-            make.height.equalTo(44)
-            make.width.equalTo(self.window.snp_width).multipliedBy(0.5)
-        }
-        confirmButton.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.window.snp_bottom)
-            make.right.equalTo(self.window.snp_right)
-            make.height.equalTo(44)
-            make.width.equalTo(self.window.snp_width).multipliedBy(0.5)
-        }
-        dismissButton.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.window.snp_bottom)
+        titleView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.window.snp_top)
             make.left.equalTo(self.window.snp_left)
             make.right.equalTo(self.window.snp_right)
             make.height.equalTo(44)
         }
-        buttonTopLine.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(cancelButton.snp_top)
+        closeButton.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(titleView.snp_centerY)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_12)
+        }
+        titleLine.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(titleView.snp_bottom)
             make.height.equalTo(MalaScreenOnePixel)
             make.left.equalTo(self.window.snp_left)
             make.right.equalTo(self.window.snp_right)
         }
+        avatarView.snp_makeConstraints { (make) -> Void in
+            make.centerX.equalTo(self.window.snp_centerX)
+            make.top.equalTo(titleLine.snp_bottom).offset(MalaLayout_Margin_10)
+            make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
+            make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
+        }
+        teacherNameLabel.snp_makeConstraints { (make) -> Void in
+            make.right.equalTo(avatarView.snp_centerX).offset(-MalaLayout_Margin_5)
+            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.height.equalTo(MalaLayout_FontSize_13)
+        }
+        subjectLabel.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(avatarView.snp_centerX).offset(MalaLayout_Margin_5)
+            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.height.equalTo(MalaLayout_FontSize_13)
+        }
+        floatRating.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(subjectLabel.snp_bottom).offset(MalaLayout_Margin_12)
+            make.centerX.equalTo(avatarView.snp_centerX)
+            make.height.equalTo(30)
+            make.width.equalTo(120)
+        }
+        textView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(floatRating.snp_bottom).offset(MalaLayout_Margin_8)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
+            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
+        }
         buttonSeparatorLine.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.cancelButton.snp_top)
+            make.bottom.equalTo(commitButton.snp_top)
+            make.left.equalTo(self.window.snp_left)
+            make.right.equalTo(self.window.snp_right)
+            make.height.equalTo(MalaScreenOnePixel)
+        }
+        commitButton.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(self.window.snp_bottom)
-            make.width.equalTo(MalaScreenOnePixel)
-            make.left.equalTo(cancelButton.snp_right)
+            make.left.equalTo(self.window.snp_left)
+            make.right.equalTo(self.window.snp_right)
+            make.height.equalTo(44)
         }
     }
     
     private func updateUserInterface() {
         // SubViews
-        contentContainer.addSubview(self.contentView!)
         
         // Autolayout
-        contentView!.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentContainer.snp_top)
-            make.left.equalTo(self.contentContainer.snp_left)
-            make.right.equalTo(self.contentContainer.snp_right)
-            make.bottom.equalTo(self.contentContainer.snp_bottom)
-        }
+
     }
     
     private func animateAlert() {
@@ -330,11 +281,11 @@ public class CommentPopupWindow: UIViewController {
         }
     }
     
-    @objc private func cancelButtonDidTap() {
+    @objc private func closeButtonDidTap() {
         close()
     }
     
-    @objc private func confirmButtonDidTap() {
+    @objc private func commitButtonDidTap() {
         
     }
 }

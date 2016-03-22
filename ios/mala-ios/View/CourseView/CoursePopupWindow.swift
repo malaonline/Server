@@ -312,6 +312,17 @@ public class CoursePopupWindow: UIViewController {
         }
     }
     
+    private func animateDismiss() {
+        UIView.animateWithDuration(0.35, animations: { () -> Void in
+            
+            self.view.alpha = 0
+            self.window.transform = CGAffineTransform()
+            
+        }, completion: { [weak self] (bool) -> Void in
+                self?.closeAlert(0)
+        })
+    }
+    
     private func closeAlert(buttonIndex: Int) {
         self.view.removeFromSuperview()
         // 释放自身强引用
@@ -335,6 +346,13 @@ public class CoursePopupWindow: UIViewController {
     }
     
     @objc private func confirmButtonDidTap() {
+        let commentWindow = CommentPopupWindow(contentView: UIView())
+        self.animateDismiss()
         
+        if let courseView = contentView as? CourseContentView {
+            let model = courseView.currentCourse
+            commentWindow.model = model
+            commentWindow.show()
+        }
     }
 }
