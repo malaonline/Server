@@ -77,6 +77,7 @@ class HandlePingppBehaviour: NSObject {
                 // 判断是否被抢买
                 if order.is_timeslot_allocated == false {
                     self?.showHasBeenPreemptedAlert()
+                    return
                 }
             
                 // 若订单状态为已付款则表示支付成功，否则支付失败
