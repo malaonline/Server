@@ -126,6 +126,11 @@ class SchoolsView(ListView):
 class SchoolDetailView(ListView):
     models = models.School
 
+class SchoolMapView(DetailView):
+    model = models.School
+    context_object_name = 'school'
+    template_name = 'wechat/school/school_map.html'
+
 
 def _get_auth_redirect_url(request, teacher_id):
     checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')

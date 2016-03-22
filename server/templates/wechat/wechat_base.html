@@ -8,7 +8,7 @@
     </title>
     {% load staticfiles%}
     {% load compile_static %}
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 {#    <link rel="shortcut icon" href="/favicon.ico">#}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -17,10 +17,13 @@
     {% block addition_header %}
     {% endblock %}
 
-    <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
-    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
-    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
-    <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}">
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
+        <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+        <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+        <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}">
+    {% endblock %}
+
     {% block addition_css %}
     {% endblock %}
 
@@ -34,16 +37,20 @@
 
 {% endblock %}
 
-<script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-<script>
+{% block javascripts %}
+    <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script>
       //打开自动初始化页面的功能
       $.config = {
         autoInit: true
       }
     </script>
+{% endblock %}
+
+
 {% block addition_js %}
 {% endblock %}
 </body>

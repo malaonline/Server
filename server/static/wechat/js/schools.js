@@ -1,4 +1,4 @@
-//测试用:大望路附近坐标:39.913608,116.482342
+//测试用:大望路附近坐标:116.482342,39.913608
 
 $(function(){
     $(document).on('click','[data-schoolid]',function (evt) {

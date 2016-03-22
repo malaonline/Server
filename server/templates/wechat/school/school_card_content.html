@@ -29,7 +29,7 @@
     </div>
     <div class="card-content">
         <div class="card-content-inner">
-            <div class="card-content-inner-left">
+            <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">
                 <div class="column">
                     <p>{{ school.name }}</p>
                     <p class="color-gray" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
@@ -37,7 +37,7 @@
                 <div class="column">
                     <p class="color-gray">{{ school.address }}</p>
                 </div>
-            </div>
+            </a>
             <div class="card-content-inner-right">
                 <a href="tel:{{ school.phone }}">
                     <img src="{% static 'wechat/images/dail_icon.png' %}" alt="">
