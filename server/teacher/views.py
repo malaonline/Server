@@ -1656,6 +1656,45 @@ class BaseTeacherView(View):
         side_bar_content = SideBarContent(teacher)
         side_bar_content(context)
 
+    def getNextStepUrl(self, teacher, pre_step='basic_info'):
+        cert_items = None
+        def _get_cert_items():
+            return models.Certificate.objects.filter(teacher=teacher)
+        def _is_cert_to_upload(cert_type, cert_items):
+            for cert in cert_items:
+                if cert.type==cert_type and (not bool(cert.img) or (cert.audited and not cert.verified)):
+                    return True
+            return False
+        if pre_step=='basic_info':
+            cert_items = cert_items or _get_cert_items()
+            if _is_cert_to_upload(models.Certificate.ID_HELD, cert_items):
+                return reverse('teacher:certificate-id')
+            pre_step = 'cert_id' # 继续下一步
+        if pre_step=='cert_id':
+            cert_items = cert_items or _get_cert_items()
+            if _is_cert_to_upload(models.Certificate.ACADEMIC, cert_items):
+                return reverse('teacher:certificate-academic')
+            pre_step = 'cert_academic' # 继续下一步
+        if pre_step=='cert_academic':
+            cert_items = cert_items or _get_cert_items()
+            if _is_cert_to_upload(models.Certificate.TEACHING, cert_items):
+                return reverse('teacher:certificate-teaching')
+            pre_step = 'cert_teaching' # 继续下一步
+        if pre_step=='cert_teaching':
+            if teacher.is_english_teacher():
+                cert_items = cert_items or _get_cert_items()
+                if _is_cert_to_upload(models.Certificate.ENGLISH, cert_items):
+                    return reverse('teacher:certificate-english')
+            pre_step = 'cert_english' # 继续下一步
+        if pre_step=='cert_english':
+            if models.Achievement.objects.filter(teacher=teacher).count() == 0:
+                return reverse('teacher:achievement')
+            pre_step = 'achievement' # 继续下一步
+        if pre_step=='achievement':
+            if models.Highscore.objects.filter(teacher=teacher).count() == 0:
+                return reverse('teacher:highscore')
+        return reverse('teacher:first-page')
+
 
 class CertificateView(BaseTeacherView):
     """
@@ -1701,6 +1740,7 @@ class CertificateIDView(BaseTeacherView):
                                                                         type=models.Certificate.ID_FRONT,
                                                                         defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, certIdHeld, certIdFront)
+        context['next_url'] = self.getNextStepUrl(teacher)
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, certIdHeld, certIdFront):
@@ -1794,6 +1834,7 @@ class CertificateForOnePicView(BaseTeacherView):
         cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=self.cert_type,
                                                                  defaults={'name': "", 'verified': False})
         context = self.buildContextData(context, cert, teacher)
+        context['next_url'] = self.getNextStepUrl(teacher)
         return render(request, self.template_path, context)
 
     def buildContextData(self, context, cert, teacher=None):
@@ -1862,6 +1903,9 @@ class CertificateAcademicView(CertificateForOnePicView):
     def get_cert_name(self, cert, teacher):
         return cert.name or teacher.graduate_school
 
+    def getNextStepUrl(self, teacher):
+        return super(CertificateAcademicView, self).getNextStepUrl(teacher,'cert_academic')
+
 
 class CertificateTeachingView(CertificateForOnePicView):
     cert_type = models.Certificate.TEACHING
@@ -1869,12 +1913,18 @@ class CertificateTeachingView(CertificateForOnePicView):
     cert_name = '证书名称'
     hint_content = "请上传有效期内的教师资格证书或同等资格证明"
 
+    def getNextStepUrl(self, teacher):
+        return super(CertificateForOnePicView, self).getNextStepUrl(teacher,'cert_teaching')
+
 
 class CertificateEnglishView(CertificateForOnePicView):
     cert_type = models.Certificate.ENGLISH
     cert_title = '英语水平认证'
     cert_name = '证书名称'
     hint_content = "请上传你最具代表性的英语水平证书"
+
+    def getNextStepUrl(self, teacher):
+        return super(CertificateForOnePicView, self).getNextStepUrl(teacher,'cert_english')
 
 
 class CertificateOthersView(BaseTeacherView):
@@ -2100,6 +2150,7 @@ class BasicDocument(BaseTeacherView):
         context["profile"] = profile
         context["subclass"] = subclass
         context["phone"] = profile.mask_phone()
+        context['next_url'] = self.getNextStepUrl(teacher)
 
         return render(request, self.template_path, context)
 

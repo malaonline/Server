@@ -26,7 +26,7 @@
     {% csrf_token %}
     <script lang="javascript">
         window.grade_select_by_html = {{ grade | safe }};
-        var nextPage = "{% url 'teacher:certificate' %}";
+        var nextPage = "{{ next_url }}";
     </script>
     <div class="form-horizontal">
       <fieldset>

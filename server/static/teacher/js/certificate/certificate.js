@@ -126,6 +126,10 @@ $(function(){
                             location.reload();
                         } else {
                             alert('保存成功');
+                            if (nextPage) {
+                                location.href = nextPage;
+                                return;
+                            }
                             if (isIdCertPage) {
                                 var $idHeldImgBox = $form.find('.img-upload-box[imgName=idHeldImg] .img-box'),
                                     $idFrontImgBox = $form.find('.img-upload-box[imgName=idFrontImg] .img-box');
