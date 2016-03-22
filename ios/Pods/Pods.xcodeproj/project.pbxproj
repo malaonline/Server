@@ -1462,7 +1462,7 @@
 			};
 			name = Debug;
 		};
-		353A05EC1CA01AC1000C0E2A /* DevRelease */ = {
+		359810531CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1496,7 +1496,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05ED1CA01AC1000C0E2A /* DevRelease */ = {
+		359810541CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B92371130AD97069C84996B999E32669 /* Alamofire.xcconfig */;
 			buildSettings = {
@@ -1524,7 +1524,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05EE1CA01AC1000C0E2A /* DevRelease */ = {
+		359810551CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEF247BA3FC6C99C8E014E053D7A243E /* DateTools.xcconfig */;
 			buildSettings = {
@@ -1552,7 +1552,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05EF1CA01AC1000C0E2A /* DevRelease */ = {
+		359810561CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85AC762B866EF8B369CECAB9C1EEA33C /* IQKeyboardManagerSwift.xcconfig */;
 			buildSettings = {
@@ -1580,7 +1580,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05F01CA01AC1000C0E2A /* DevRelease */ = {
+		359810571CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63F03CA35A453899C92C35F0F8490E74 /* Kingfisher.xcconfig */;
 			buildSettings = {
@@ -1608,7 +1608,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05F11CA01AC1000C0E2A /* DevRelease */ = {
+		359810581CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1AB42E05E63C491B830BAD536CCB6B5B /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1639,7 +1639,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05F21CA01AC1000C0E2A /* DevRelease */ = {
+		359810591CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ECE807DF6314A54096C16D25D6C3B569 /* Pods-parent.release.xcconfig */;
 			buildSettings = {
@@ -1670,7 +1670,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05F31CA01AC1000C0E2A /* DevRelease */ = {
+		3598105A1CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24F2440229F5947A25562A0FB590F1BC /* Pods-teacher.release.xcconfig */;
 			buildSettings = {
@@ -1701,7 +1701,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05F41CA01AC1000C0E2A /* DevRelease */ = {
+		3598105B1CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 31222F533DD885072CF63EEB2199CB29 /* SnapKit.xcconfig */;
 			buildSettings = {
@@ -2192,7 +2192,7 @@
 			buildConfigurations = (
 				89C829CDEBA4A04ECE1A1A70BFF068D4 /* Debug */,
 				11E41E75A24221A260C59546CD79A936 /* Release */,
-				353A05F31CA01AC1000C0E2A /* DevRelease */,
+				3598105A1CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2202,7 +2202,7 @@
 			buildConfigurations = (
 				A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */,
 				FB45FFD90572718D82AB9092B750F0CA /* Release */,
-				353A05EC1CA01AC1000C0E2A /* DevRelease */,
+				359810531CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2212,7 +2212,7 @@
 			buildConfigurations = (
 				C738F6BDFDE0472974941CBDEF836D82 /* Debug */,
 				F41EC89BF16B4F3BEE1A639C80B266CE /* Release */,
-				353A05F01CA01AC1000C0E2A /* DevRelease */,
+				359810571CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2222,7 +2222,7 @@
 			buildConfigurations = (
 				8948F113691318BBBF4C96BD7F217221 /* Debug */,
 				FB85EB8E597FB4A0418D8F9459BB9144 /* Release */,
-				353A05F41CA01AC1000C0E2A /* DevRelease */,
+				3598105B1CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2232,7 +2232,7 @@
 			buildConfigurations = (
 				2044F11DBCD09B5B7459F43D73A547E3 /* Debug */,
 				8FD8024D0BE599348937E3EB7A1EFF0F /* Release */,
-				353A05EF1CA01AC1000C0E2A /* DevRelease */,
+				359810561CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2242,7 +2242,7 @@
 			buildConfigurations = (
 				8B6E206982958DD19E80514C21E4835E /* Debug */,
 				8B43FA4CE05837BA9AA6833BC7412480 /* Release */,
-				353A05F21CA01AC1000C0E2A /* DevRelease */,
+				359810591CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2252,7 +2252,7 @@
 			buildConfigurations = (
 				26A778ECBEA1D358E93F094762530172 /* Debug */,
 				759FE28C5DC235D3C626127A2AC5F937 /* Release */,
-				353A05F11CA01AC1000C0E2A /* DevRelease */,
+				359810581CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2262,7 +2262,7 @@
 			buildConfigurations = (
 				C993D8405F342C8E23BAD4EDF32D79E0 /* Debug */,
 				A3427C918F24207B5FD3A44958345D7E /* Release */,
-				353A05ED1CA01AC1000C0E2A /* DevRelease */,
+				359810541CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2272,7 +2272,7 @@
 			buildConfigurations = (
 				85E3AAA81FFF8A1417B1C5EF1230F665 /* Debug */,
 				CA2DDDAC4320B25C4BC413E8D80C0B4A /* Release */,
-				353A05EE1CA01AC1000C0E2A /* DevRelease */,
+				359810551CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

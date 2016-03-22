@@ -13,7 +13,7 @@ configuration="Release"
 buildPath="build/archive/${scheme}_release.xcarchive"
 ipaName="${ipaDir}${scheme}_release.ipa"
 
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} -derivedDataPath /tmp/build${configuration} archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} clean archive -archivePath ${buildPath}
 rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
 
@@ -22,6 +22,6 @@ configuration="DevRelease"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} -derivedDataPath /tmp/build${configuration} archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} clean archive -archivePath ${buildPath}
 rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"

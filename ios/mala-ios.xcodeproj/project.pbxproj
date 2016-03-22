@@ -1719,7 +1719,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		353A05E81CA019E2000C0E2A /* DevRelease */ = {
+		3598104F1CA13599003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1744,7 +1744,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = USE_DEV_SERVER;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1753,14 +1753,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_SWIFT_FLAGS = "";
+				OTHER_SWIFT_FLAGS = "-DUSE_DEV_SERVER";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = DevRelease;
 		};
-		353A05E91CA019E2000C0E2A /* DevRelease */ = {
+		359810501CA13599003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1779,7 +1779,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05EA1CA019E2000C0E2A /* DevRelease */ = {
+		359810511CA13599003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1796,7 +1796,7 @@
 			};
 			name = DevRelease;
 		};
-		353A05EB1CA019E2000C0E2A /* DevRelease */ = {
+		359810521CA13599003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1961,7 +1961,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = USE_PRD_SERVER;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1970,7 +1970,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_SWIFT_FLAGS = "";
+				OTHER_SWIFT_FLAGS = "-DUSE_PRD_SERVER";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2023,7 +2023,7 @@
 			buildConfigurations = (
 				35D7A3151C0FE82E007D7679 /* Debug */,
 				35D7A3161C0FE82E007D7679 /* Release */,
-				353A05EA1CA019E2000C0E2A /* DevRelease */,
+				359810511CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2033,7 +2033,7 @@
 			buildConfigurations = (
 				35D7A3471C0FE851007D7679 /* Debug */,
 				35D7A3481C0FE851007D7679 /* Release */,
-				353A05E91CA019E2000C0E2A /* DevRelease */,
+				359810501CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2043,7 +2043,7 @@
 			buildConfigurations = (
 				A5927BC41BEC8BD900E9BDB4 /* Debug */,
 				A5927BC51BEC8BD900E9BDB4 /* Release */,
-				353A05E81CA019E2000C0E2A /* DevRelease */,
+				3598104F1CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2053,7 +2053,7 @@
 			buildConfigurations = (
 				F4402E1C1C5A16A700E7D3DB /* Debug */,
 				F4402E1D1C5A16A700E7D3DB /* Release */,
-				353A05EB1CA019E2000C0E2A /* DevRelease */,
+				359810521CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
