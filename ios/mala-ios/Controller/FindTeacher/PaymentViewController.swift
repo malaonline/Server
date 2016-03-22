@@ -97,6 +97,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
         
         ///  创建订单
         createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
@@ -111,14 +112,14 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     
     func getChargeToken() {
         ///  获取支付信息
-        getChargeTokenWithChannel(MalaOrderObject.channel, orderID: ServiceResponseOrder.id,
-            failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-                // 错误处理
-                if let errorMessage = errorMessage {
-                    println("PaymentViewController - getGharge Error \(errorMessage)")
-                }
-            }, completion: { [weak self] (charges) -> Void in
+        getChargeTokenWithChannel(MalaOrderObject.channel, orderID: ServiceResponseOrder.id, failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("PaymentViewController - getGharge Error \(errorMessage)")
+            }
+        }, completion: { [weak self] (charges) -> Void in
                 println("获取支付信息:\(charges)")
                 self?.createPayment(charges)
         })

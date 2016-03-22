@@ -35,7 +35,6 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Setup UserInterface
         configure()
         setupTabBar()
     }

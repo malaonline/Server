@@ -113,7 +113,7 @@ class HandlePingppBehaviour: NSObject {
             return
         }
         
-        _ = JSSAlertView().show(currentViewController!,
+        let _ = JSSAlertView().show(currentViewController!,
             title: "支付已取消",
             buttonText: "我知道了",
             iconImage: UIImage(named: "alert_PaymentFail")
@@ -156,7 +156,13 @@ class HandlePingppBehaviour: NSObject {
         guard self.currentViewController != nil else {
             return
         }
-        currentViewController!.navigationController?.popToRootViewControllerAnimated(true)
+        
+        // 回调回App时若直接PopToRootViewController会出现TabBar莫名自动添加一个item的问题，暂时使用此方式解决问题。
+        ThemeHUD.showActivityIndicator()
+        delay(0.5) { () -> Void in
+            self.currentViewController!.navigationController?.popToRootViewControllerAnimated(true)
+            ThemeHUD.hideActivityIndicator()
+        }
     }
     
     ///  退回到选课页面
