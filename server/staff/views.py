@@ -1193,54 +1193,49 @@ class StudentScheduleChangelogView(BaseStaffView):
         kwargs['query_data'] = self.request.GET.dict()
         name = self.request.GET.get('name',None)
         phone = self.request.GET.get('phone',None)
-        status = self.request.GET.get('status',None)
+        type = self.request.GET.get('type',None)
         searchDateOri = self.request.GET.get('searchDateOri',None)
         searchDateNew = self.request.GET.get('searchDateNew',None)
+        page = self.request.GET.get('page')
 
-        # 默认 调课后的 和 已经停课的 都拿出来
-        query_set = models.TimeSlot.objects.filter(
-            Q(transferred_from__isnull = False) & Q(deleted=False) |
-            Q(suspended=True) & Q(deleted=True)
-        )
+        query_set = models.TimeSlotChangeLog.objects.all()
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
-                Q(order__parent__user__username__icontains=name) |
-                Q(order__parent__student_name__icontains=name) |
-                Q(order__teacher__name__icontains=name)
+                Q(old_timeslot__order__parent__user__username__icontains=name) |
+                Q(old_timeslot__order__parent__student_name__icontains=name) |
+                Q(old_timeslot__order__teacher__name__icontains=name)
             )
         # 家长手机 or 老师手机, 模糊匹配
         if phone:
             query_set = query_set.filter(
-                Q(order__parent__user__profile__phone__contains=phone) |
-                Q(order__teacher__user__profile__phone__contains=phone)
+                Q(old_timeslot__order__parent__user__profile__phone__contains=phone) |
+                Q(old_timeslot__order__teacher__user__profile__phone__contains=phone)
             )
         # 类型匹配
-        if status == "transferred":
-            query_set = query_set.filter(transferred_from__isnull=False, deleted=False)
-        elif status == "suspended":
-            query_set = query_set.filter(
-                Q(deleted=True) &
-                Q(suspended=True)
-            )
+        if type:
+            query_set = query_set.filter(record_type=type)
+
+        # 原上课时间
         if searchDateOri:
             stTime = datetime.datetime.strptime(searchDateOri, '%Y-%m-%d')
             query_set = query_set.filter(
-                Q(start__date=stTime.date())
+                Q(old_timeslot__start__date=stTime.date())
             )
+
+        # 现上课时间
         if searchDateNew:
             stTime = datetime.datetime.strptime(searchDateNew, '%Y-%m-%d')
             query_set = query_set.filter(
-                Q(start__date=stTime.date())
+                Q(new_timeslot__start__date=stTime.date())
             )
         # 可用筛选条件数据集
-        kwargs['statusList'] = [
-            {'text':"全部",'value':""},
-            {'text':"调课",'value':"transferred"},
-            {'text':"停课",'value':"suspended"},
-                                ]
+        kwargs['types'] = models.TimeSlotChangeLog.TYPE_CHOICES
+        # paginate
+        query_set, pager = paginate(query_set, page, 5)
         # 查询结果数据集
-        kwargs['timeslots'] = query_set
+        kwargs['changelogs'] = query_set
+        kwargs['pager'] = pager
         return super(StudentScheduleChangelogView, self).get_context_data(**kwargs)
 
     def get(self, request):

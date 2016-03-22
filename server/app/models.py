@@ -2028,6 +2028,14 @@ class TimeSlot(BaseModel):
                 # 把当前的课程停掉, 注意是 self, 不是 old_timeslot
                 self.last_updated_by = user
                 self.suspend()
+                # 添加停课记录
+                change_log = TimeSlotChangeLog(
+                    old_timeslot=self,
+                    new_timeslot=new_timeslot,
+                    record_type=TimeSlotChangeLog.SUSPEND,
+                    created_by=user
+                )
+                change_log.save()
         except IntegrityError as err:
             logger.error(err)
             semaphore.release()
@@ -2076,6 +2084,14 @@ class TimeSlot(BaseModel):
                 # 先把当前 slot 置为取消状态
                 self.deleted = True
                 self.save()
+                # 添加调课记录
+                change_log = TimeSlotChangeLog(
+                    old_timeslot=self,
+                    new_timeslot=new_timeslot,
+                    record_type=TimeSlotChangeLog.TRANSFER,
+                    created_by=user
+                )
+                change_log.save()
         except IntegrityError as err:
             logger.error(err)
             ret_code = -1
@@ -2095,10 +2111,14 @@ class TimeSlotChangeLog(BaseModel):
         (SUSPEND, '停课')
     )
 
-    record_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+    record_type = models.CharField(max_length=2, choices=TYPE_CHOICES)
     old_timeslot = models.ForeignKey(TimeSlot, related_name='old')
     new_timeslot = models.ForeignKey(TimeSlot, related_name='new')
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User)
+
+    class Meta:  # 添加默认排序使列表更合理
+        ordering = ["-created_at"]
 
 
 class Message(BaseModel):
