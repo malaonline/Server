@@ -1409,8 +1409,8 @@ class SchoolView(BaseStaffView):
         school.address = self.request.POST.get('address', None)
         regionId = self.request.POST.get('regionId', None)
         school.region = models.Region.objects.get(id=regionId)
-        school.member_services = service_list
         school.save()
+        school.member_services = service_list
 
         context['school'] = school
 
