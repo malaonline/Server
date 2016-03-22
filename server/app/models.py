@@ -807,6 +807,9 @@ class Certificate(BaseModel):
     type = models.IntegerField(null=True, blank=True, choices=TYPE_CHOICES)
     img = models.ImageField(null=True, blank=True, upload_to='certs')
     verified = models.BooleanField(default=False)
+    # 优化认证过程提示时添加: audited, show_hint
+    audited = models.BooleanField(default=False)    # 是否审核过
+    show_hint = models.BooleanField(default=False)  # 是否显示提示'审核成功!''未通过审核!',只显示一次
 
     def __str__(self):
         msg = ""
@@ -819,6 +822,15 @@ class Certificate(BaseModel):
 
     def img_url(self):
         return self.img and self.img.url or ''
+
+    def is_to_audit(self):
+        return (not self.audited) and (not self.verified) and (self.img is not None)
+
+    def is_approved(self):
+        return self.verified
+
+    def is_rejected(self):
+        return self.audited and (not self.verified)
 
 
 class InterviewRecord(BaseModel):
