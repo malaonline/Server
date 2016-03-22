@@ -31,7 +31,7 @@
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
 
-#-libraryjars libs/jpush-android-2.0.6.jar
+#-libraryjars libs/jpush-android-2.1.0.jar
 #-dontwarn cn.jpush.**
 #-keep class cn.jpush.** { *; }
 
