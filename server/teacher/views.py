@@ -420,9 +420,10 @@ class FirstPage(BasicTeacherView):
             "bad_review": self.get_bad_comment(teacher),
             "account_balance": self.account_balance(teacher),
             "total_revenue": self.total_revenue(teacher),
-            "teacher_level": self.teacher_level(),
+            "teacher_level": self.teacher_level(teacher),
             "information_complete_percent": self.information_complete_percent(teacher, profile)[0],
             "complete_url": self.complete_url(),
+
         }
         set_teacher_page_general_context(teacher, context)
         sider_bar_content = SideBarContent(teacher)
@@ -528,10 +529,10 @@ class FirstPage(BasicTeacherView):
         revenue = revenue / 100
         return "¥{:.2f}".format(revenue)
 
-    def teacher_level(self):
+    def teacher_level(self, teacher: models.Teacher):
         # 教师等级
-        teacher_level = "中级教师"
-        return "麻辣{teacher_level}".format(teacher_level=teacher_level)
+        teacher_level = teacher.level.name
+        return "麻辣{teacher_level}老师".format(teacher_level=teacher_level)
 
     def information_complete_percent(self, teacher: models.Teacher, profile: models.Profile):
         # 资料完成度
