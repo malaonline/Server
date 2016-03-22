@@ -45,22 +45,5 @@ $(function() {
         });
     });
 
-    $('[data-action=reject]').click(function(e){
-        var params = {'action': "reject", 'wid': $(this).closest('tr').data('wid')};
-        $.post(location.pathname, params, function( result ) {
-            if (result) {
-                if (result.ok) {
-                    location.reload()
-                } else {
-                    alert(result.msg);
-                }
-                return;
-            }
-            alert(defaultErrMsg);
-        }, 'json').fail(function() {
-            alert(defaultErrMsg);
-        });
-    });
-
     paginationInit();
 });

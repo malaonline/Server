@@ -818,8 +818,6 @@ class TeacherWithdrawalView(BaseStaffView):
             return JsonResponse({'ok': False, 'msg': '参数错误', 'code': 1})
         if action == 'approve':
             return self.approve_withdraw(request, wid)
-        if action == 'reject':
-            return self.reject_withdraw(request, wid)
         return HttpResponse("Not supported request.", status=403)
 
     def approve_withdraw(self, request, ahid):
@@ -838,24 +836,6 @@ class TeacherWithdrawalView(BaseStaffView):
             # 短信通知老师
             teacher = ah.account.user.teacher
             _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_APPROVE, {'username':teacher.name}, 2)
-        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
-
-    def reject_withdraw(self, request, ahid):
-        ok = False
-        try:
-            with transaction.atomic():
-                ah = models.AccountHistory.objects.get(id=ahid)
-                if not ah.withdrawal.is_pending():
-                    return JsonResponse({'ok': False, 'msg': '已经被审核过了', 'code': -1})
-                ah.audit_withdrawal(False, request.user)
-                ok = True
-        except IntegrityError as err:
-            logger.error(err)
-            return JsonResponse({'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
-        if ok:
-            # 短信通知老师
-            teacher = ah.account.user.teacher
-            _try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_REJECT, {'username':teacher.name}, 2)
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
