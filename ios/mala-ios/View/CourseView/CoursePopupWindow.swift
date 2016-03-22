@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 public class CoursePopupWindow: UIViewController {
 
     // MARK: - Property
@@ -35,6 +36,16 @@ public class CoursePopupWindow: UIViewController {
                 iconView.backgroundColor = MalaColor_A5C9E4_0
                 dismissButton.hidden = false
                 buttonSeparatorLine.hidden = true
+            }
+        }
+    }
+    /// 课程已评价标识
+    var isComment: Bool = true {
+        didSet {
+            if isComment {
+                confirmButton.setTitle("查看评价", forState: .Normal)
+            }else {
+                confirmButton.setTitle("去评价", forState: .Normal)
             }
         }
     }
@@ -67,6 +78,7 @@ public class CoursePopupWindow: UIViewController {
         let cancelButton = UIButton()
         cancelButton.setTitle("取消", forState: .Normal)
         cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
@@ -78,6 +90,7 @@ public class CoursePopupWindow: UIViewController {
         let confirmButton = UIButton()
         confirmButton.setTitle("去评价", forState: .Normal)
         confirmButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        confirmButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
@@ -89,6 +102,7 @@ public class CoursePopupWindow: UIViewController {
         let dismissButton = UIButton()
         dismissButton.setTitle("知道了", forState: .Normal)
         dismissButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        dismissButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         dismissButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
@@ -184,23 +198,10 @@ public class CoursePopupWindow: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK: - Override
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if closeWhenTap {
-            closeAlert(0)
-        }
-    }
-    
 
     // MARK: - API
     public func show() {
         animateAlert()
-    }
-    
-    public func setButtonStatus(showClose showClose: Bool, showCancel: Bool, showConfirm: Bool) {
-        cancelButton.hidden = !showCancel
-        confirmButton.hidden = !showConfirm
     }
     
     public func close() {
@@ -212,6 +213,7 @@ public class CoursePopupWindow: UIViewController {
     private func setupUserInterface() {
         // Style
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: tBakcgroundTansperancy)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "backgroundDidTap"))
         window.backgroundColor = UIColor.whiteColor()
         
         // SubViews
@@ -320,6 +322,12 @@ public class CoursePopupWindow: UIViewController {
     // MARK: - Event Response
     @objc private func pressed(sender: UIButton!) {
         self.closeAlert(sender.tag)
+    }
+    
+    @objc public  func backgroundDidTap() {
+        if closeWhenTap {
+            closeAlert(0)
+        }
     }
     
     @objc private func cancelButtonDidTap() {

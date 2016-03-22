@@ -14,7 +14,11 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     /// 课程数据模型数组
     var models: [CourseModel] = [] {
         didSet {
-            if models.count == studentCourses.count {
+            if models.count == studentCourses.count && models.count != 0 {
+                
+                // 设置弹窗页面的[是否评价标记], 更改评价按钮样式
+                container?.isComment = (models[currentIndex].comment != nil)
+                
                 // 加载课程页面
                 dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
                     // 隐藏loading指示器
@@ -45,6 +49,16 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     var panels: [CourseInfoView] = []
     /// 父容器
     weak var container: CoursePopupWindow?
+    /// 当前页面下标
+    private var currentIndex: Int = 0 {
+        didSet {
+            if currentIndex != oldValue {
+                container?.pageControl.currentPage = currentIndex
+                container?.isComment = (models[currentIndex].comment != nil)
+                println("页面滑动 - 当前是否评价：\((models[currentIndex].comment != nil))")
+            }
+        }
+    }
     
     
     // MARK: - Components
@@ -147,6 +161,6 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         // 当前页数
         let currentPage = Int(floor((scrollView.contentOffset.x - MalaLayout_CourseContentWidth / 2) / MalaLayout_CourseContentWidth))+1
-        container?.pageControl.currentPage = Int(currentPage)
+        currentIndex = currentPage
     }
 }
