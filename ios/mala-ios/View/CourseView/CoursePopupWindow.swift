@@ -29,9 +29,12 @@ public class CoursePopupWindow: UIViewController {
             if isPassed {
                 iconView.text = "已上"
                 iconView.backgroundColor = MalaColor_D0D0D0_0
+
             }else {
                 iconView.text = "待上"
                 iconView.backgroundColor = MalaColor_A5C9E4_0
+                dismissButton.hidden = false
+                buttonSeparatorLine.hidden = true
             }
         }
     }
@@ -59,13 +62,12 @@ public class CoursePopupWindow: UIViewController {
         iconView.textColor = MalaColor_FFFFFF_9
         return iconView
     }()
-    /// 取消按钮.[知道了][取消]
+    /// 取消按钮.[取消]
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.setTitle("取消", forState: .Normal)
         cancelButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
@@ -77,11 +79,22 @@ public class CoursePopupWindow: UIViewController {
         confirmButton.setTitle("去评价", forState: .Normal)
         confirmButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        confirmButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
         return confirmButton
+    }()
+    /// 取消按钮.[知道了]
+    private lazy var dismissButton: UIButton = {
+        let dismissButton = UIButton()
+        dismissButton.setTitle("知道了", forState: .Normal)
+        dismissButton.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
+        dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
+        dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        dismissButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        dismissButton.hidden = true
+        dismissButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        return dismissButton
     }()
     /// 上课日期
     private lazy var courseDateLabel: UILabel = {
@@ -204,11 +217,12 @@ public class CoursePopupWindow: UIViewController {
         // SubViews
         view.addSubview(window)
         window.addSubview(iconView)
-        window.addSubview(cancelButton)
-        window.addSubview(confirmButton)
         window.addSubview(courseDateLabel)
         window.addSubview(pageControl)
         window.addSubview(contentContainer)
+        window.addSubview(cancelButton)
+        window.addSubview(confirmButton)
+        window.addSubview(dismissButton)
         window.addSubview(buttonTopLine)
         window.addSubview(buttonSeparatorLine)
         
@@ -251,6 +265,12 @@ public class CoursePopupWindow: UIViewController {
             make.right.equalTo(self.window.snp_right)
             make.height.equalTo(44)
             make.width.equalTo(self.window.snp_width).multipliedBy(0.5)
+        }
+        dismissButton.snp_makeConstraints { (make) -> Void in
+            make.bottom.equalTo(self.window.snp_bottom)
+            make.left.equalTo(self.window.snp_left)
+            make.right.equalTo(self.window.snp_right)
+            make.height.equalTo(44)
         }
         buttonTopLine.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(cancelButton.snp_top)

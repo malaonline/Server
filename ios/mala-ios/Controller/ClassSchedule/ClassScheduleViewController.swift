@@ -147,16 +147,19 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     // MARK: - Delegate
     public override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ClassScheduleViewCell
+        let models = cell.models
         
         // 若cell存在日期数据，弹出课程窗口
-        if cell.models.count != 0 {
+        if models.count != 0 {
             
+            /// 当天课程视图
             let contentView = CourseContentView()
-            contentView.studentCourses =  cell.models
+            contentView.studentCourses = models
             
+            /// 弹出窗口
             let popupWindow = CoursePopupWindow(contentView: contentView)
-            popupWindow.isPassed = cell.models[0].is_passed
-            popupWindow.titleDate = cell.models[0].date
+            popupWindow.isPassed = models[0].is_passed
+            popupWindow.titleDate = models[0].date
             popupWindow.show()
         }
     }
