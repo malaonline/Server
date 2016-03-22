@@ -92,6 +92,11 @@ hr {
       color:green;
       border-color:green;
     }
+    &.fail {
+      display: none;
+      color:red;
+      border-color:red;
+    }
   }
   &.False > span{
     &.todo {
@@ -100,12 +105,29 @@ hr {
     &.ok {
       display: none;
     }
+    &.fail {
+      display: none;
+    }
   }
   &.True > span{
     &.todo {
       display: none;
     }
     &.ok {
+      display: inline-block;
+    }
+    &.fail {
+      display: none;
+    }
+  }
+  &.Fail > span{
+    &.todo {
+      display: none;
+    }
+    &.ok {
+      display: none;
+    }
+    &.fail {
       display: inline-block;
     }
   }

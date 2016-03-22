@@ -252,17 +252,22 @@ $(function(){
             return;
         }
         var $flagSpan = $editBox.find('.cert-verify-flag');
-        $flagSpan.removeClass('False').addClass('True');
+        $flagSpan.removeClass('False').removeClass('Fail').addClass('True');
         $flagSpan.find('input').val('True');
     });
-    var declineCert = function($editBox) {
+    var declineCert = function($editBox, fail) {
         var $flagSpan = $editBox.find('.cert-verify-flag');
-        $flagSpan.removeClass('True').addClass('False');
-        $flagSpan.find('input').val('False');
+        if (fail) {
+            $flagSpan.removeClass('True').removeClass('False').addClass('Fail');
+            $flagSpan.find('input').val('Fail');
+        } else {
+            $flagSpan.removeClass('True').removeClass('Fail').addClass('False');
+            $flagSpan.find('input').val('False');
+        }
     };
     $('[data-action=decline-cert]').click(function(e){
         var $editBox = $(this).closest('.img-edit');
-        declineCert($editBox);
+        declineCert($editBox, true);
     });
     $('[data-action=delete-cert]').click(function(e){
         var $editBox = $(this).closest('.img-edit'), type = $editBox.attr('for');
