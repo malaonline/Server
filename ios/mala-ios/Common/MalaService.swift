@@ -10,7 +10,12 @@ import Foundation
 import Alamofire
 
 // MARK: Api
+#if USE_PRD_SERVER
+public let MalaBaseUrl = "https://malalaoshi.com/api/v1"
+#else
 public let MalaBaseUrl = "https://dev.malalaoshi.com/api/v1"
+#endif
+
 public let MalaBaseURL = NSURL(string: MalaBaseUrl)!
 public let gradeList = "/grades"
 public let subjectList = "/subjects"

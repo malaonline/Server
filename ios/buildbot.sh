@@ -1,18 +1,27 @@
 #!/bin/sh
 
-buildTime=$(date +%Y%m%d%H%M)
-schema="parent"
+scheme="parent"
 provisioning="For test"
-buildPath="build/archive/${schema}_${buildTime}.xcarchive"
 ipaDir="build/ipa/"
-ipaName="${ipaDir}${schema}_${buildTime}.ipa"
-
 mkdir -p ${ipaDir}
 
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
 security list-keychains -s ${KEYCHAIN_PATH}
 
-xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release clean
-xctool -workspace mala-ios.xcworkspace -scheme ${schema} -configuration Release archive -archivePath ${buildPath}
+configuration="Release"
+buildPath="build/archive/${scheme}_release.xcarchive"
+ipaName="${ipaDir}${scheme}_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} -derivedDataPath /tmp/build${configuration} archive -archivePath ${buildPath}
+rm -f ${ipaName}
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
+
+
+configuration="DevRelease"
+buildPath="build/archive/${scheme}_dev_release.xcarchive"
+ipaName="${ipaDir}${scheme}_dev_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} -derivedDataPath /tmp/build${configuration} archive -archivePath ${buildPath}
+rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
