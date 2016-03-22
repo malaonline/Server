@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.malalaoshi.android.view.TitleBarView
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftShow="true"
+        app:cusTitleText="相册"
+        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextSize="@dimen/text_size_xlarge"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_gallerys"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

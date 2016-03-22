@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.activitys.GalleryActivity;
+import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
@@ -676,8 +677,8 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 break;
             case R.id.parent_teacher_detail_gallery_more_iv:
                 //查看更多照片
-                Intent intent = new Intent(this, GalleryActivity.class);
-                intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
+                Intent intent = new Intent(this, GalleryPreviewActivity.class);
+                intent.putExtra(GalleryPreviewActivity.GALLERY_URLS, mTeacher.getPhoto_set());
                 startActivity(intent);
                 break;
             case R.id.ll_school_more:
