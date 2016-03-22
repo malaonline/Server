@@ -65,6 +65,22 @@ class EvaluationFilingServiceController: UITableViewController {
     
     // MARK: - Private Method
     private func configure() {
+        // Style 
+        // 设置BarButtomItem间隔
+        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer.width = -MalaLayout_Margin_12
+        
+        // leftBarButtonItem
+        let leftBarButtonItem = UIBarButtonItem(customView:
+            UIButton(
+                imageName: "leftArrow_normal",
+                highlightImageName: "leftArrow_press",
+                target: self,
+                action: "popSelf"
+            )
+        )
+        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
+        
         self.title = MalaCommonString_EvaluationFiling
         self.tableView.backgroundColor = UIColor.whiteColor()
         self.tableView.estimatedRowHeight = 300
@@ -85,6 +101,11 @@ class EvaluationFilingServiceController: UITableViewController {
             }
         }
         self.introductions = modelDicts
+    }
+    
+    // MARK: - Event Response
+    @objc private func popSelf() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
 
