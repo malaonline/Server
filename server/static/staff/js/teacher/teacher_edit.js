@@ -254,6 +254,7 @@ $(function(){
         var $flagSpan = $editBox.find('.cert-verify-flag');
         $flagSpan.removeClass('False').removeClass('Fail').addClass('True');
         $flagSpan.find('input').val('True');
+        $editBox.addClass('cert-ok');
     });
     var declineCert = function($editBox, fail) {
         var $flagSpan = $editBox.find('.cert-verify-flag');
@@ -264,6 +265,7 @@ $(function(){
             $flagSpan.removeClass('True').removeClass('Fail').addClass('False');
             $flagSpan.find('input').val('False');
         }
+        $editBox.removeClass('cert-ok');
     };
     $('[data-action=decline-cert]').click(function(e){
         var $editBox = $(this).closest('.img-edit');
