@@ -109,6 +109,9 @@ $(function(){
             if (!$.trim($('#name').val())) {
                 return alert("证书名称不能为空");
             }
+            if ($('#name').val().length>15) {
+                return alert("证书名称不能超过15个字");
+            }
             if (!hasImg($form.find('.img-upload-box'))) {
                 return alert("没有证书照片");
             }

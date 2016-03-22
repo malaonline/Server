@@ -1766,6 +1766,7 @@ class CertificateIDView(BaseTeacherView):
             front_img_content = ContentFile(idFrontImgFile.read())
             certIdFront.img.save("idFrontImg" + str(teacher.id), front_img_content)
 
+        certIdHeld.audited = False
         certIdHeld.save()
         certIdFront.save()
 
@@ -1826,6 +1827,8 @@ class CertificateForOnePicView(BaseTeacherView):
                 return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
             context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, cert))
+        if len(name) > 15:
+            return JsonResponse({'ok': False, 'msg': '证书名称不能超过15个字', 'code': 1})
         cert.name = name
 
         certImgFile = None
@@ -1841,6 +1844,7 @@ class CertificateForOnePicView(BaseTeacherView):
             cert_img_content = ContentFile(certImgFile.read())
             cert.img.save("certImg" + str(self.cert_type) + str(teacher.id), cert_img_content)
 
+        cert.audited = False
         cert.save()
 
         if isJsonReq:
@@ -1909,6 +1913,8 @@ class CertificateOthersView(BaseTeacherView):
                 return JsonResponse({'ok': False, 'msg': error_msg, 'code': 1})
             context['error_msg'] = error_msg
             return render(request, self.template_path, self.buildContextData(context, teacher))
+        if len(name) > 15:
+            return JsonResponse({'ok': False, 'msg': '证书名称不能超过15个字', 'code': 1})
         cert.name = name
 
         certImgFile = None
@@ -1925,6 +1931,7 @@ class CertificateOthersView(BaseTeacherView):
             cert.img.save("certImg" + str(cert.type) + str(teacher.id) + '_' + str(cert_img_content.size),
                           cert_img_content)
 
+        cert.audited = False
         cert.save()
 
         if isJsonReq:
