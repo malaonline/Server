@@ -236,7 +236,6 @@ public class CoursePopupWindow: UIViewController {
             make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
         }
         pageControl.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(36)
             make.height.equalTo(6)
             make.bottom.equalTo(self.cancelButton.snp_top).offset(-MalaLayout_Margin_10)
             make.centerX.equalTo(self.window.snp_centerX)

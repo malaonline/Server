@@ -284,9 +284,9 @@
 		F4D0D14B1C9FA60A00B25704 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
 		F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */; };
-		F4D0D1521C9FADA700B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */; };
-		F4D0D1541C9FB20F00B25704 /* CourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1531C9FB20F00B25704 /* CourseInfoView.swift */; };
-		F4D0D1581C9FD44F00B25704 /* CourseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1571C9FD44F00B25704 /* CourseContentView.swift */; };
+		F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1771CA0F8EE00B25704 /* CourseContentView.swift */; };
+		F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */; };
+		F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
@@ -544,9 +544,9 @@
 		F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterPopupWindow.swift; sourceTree = "<group>"; };
-		F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
-		F4D0D1531C9FB20F00B25704 /* CourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoView.swift; sourceTree = "<group>"; };
-		F4D0D1571C9FD44F00B25704 /* CourseContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentView.swift; sourceTree = "<group>"; };
+		F4D0D1771CA0F8EE00B25704 /* CourseContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseContentView.swift; sourceTree = "<group>"; };
+		F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseInfoView.swift; sourceTree = "<group>"; };
+		F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1120,9 +1120,9 @@
 		F4D0D1501C9FAD8800B25704 /* CourseView */ = {
 			isa = PBXGroup;
 			children = (
-				F4D0D1511C9FADA700B25704 /* CoursePopupWindow.swift */,
-				F4D0D1571C9FD44F00B25704 /* CourseContentView.swift */,
-				F4D0D1531C9FB20F00B25704 /* CourseInfoView.swift */,
+				F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */,
+				F4D0D1771CA0F8EE00B25704 /* CourseContentView.swift */,
+				F4D0D1781CA0F8EE00B25704 /* CourseInfoView.swift */,
 			);
 			path = CourseView;
 			sourceTree = "<group>";
@@ -1443,7 +1443,6 @@
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
-				F4D0D1521C9FADA700B25704 /* CoursePopupWindow.swift in Sources */,
 				F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
@@ -1513,7 +1512,6 @@
 				F4C5C2571C76B87800FB833B /* CouponModel.swift in Sources */,
 				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				F46065251C97B168004056B1 /* MainNavigationController.swift in Sources */,
-				F4D0D1581C9FD44F00B25704 /* CourseContentView.swift in Sources */,
 				F46065211C97B168004056B1 /* FilterResultController.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
@@ -1529,8 +1527,10 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
+				F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */,
+				F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */,
 				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
-				F4D0D1541C9FB20F00B25704 /* CourseInfoView.swift in Sources */,
+				F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */,
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */,
 				30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */,
