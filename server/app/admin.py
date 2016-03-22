@@ -26,6 +26,7 @@ class ParentAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('timeslots', )
+    search_fields = ['teacher__name', 'parent__student_name']
 
     def timeslots(self, instance):
         return format_html_join(

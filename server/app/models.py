@@ -1504,11 +1504,11 @@ class Order(BaseModel):
         return msg
 
     def __str__(self):
-        return "<{pk}> {order_status} {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单".format(
+        return "<{pk}> {order_status} {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单,每小时价格{price}".format(
             pk=self.pk, student_name=self.parent.student_name, submit_time=self.local_time_str(self.created_at),
             teacher_name=self.teacher.name, local=self.school, subject=self.subject.name, grade=self.grade.name,
             teacher_phone=self.teacher.user.profile.phone, student_phone=self.parent.user.profile.phone,
-            order_status=self.status
+            order_status=self.status, price=self.money_str(self.price)
         )
 
     def is_timeslot_allocated(self):

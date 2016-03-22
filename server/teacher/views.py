@@ -1026,21 +1026,34 @@ class MyStudents(BasicTeacherView):
         page_student_details = []
         # 找到特定分页进行详细处理
         for one_student in p.page(offset).object_list:
-            one_order = one_student.order_set.all()[0]
             one_details = {
                 "name": one_student.student_name or one_student.user.profile.phone,
-                "grade": one_order.grade,
-                "price": "￥%.2f/小时" %(one_order.price/100),
+                # "grade": one_order.grade,
+                # "price": "￥%.2f/小时" %(one_order.price/100),
                 "mail": True
             }
 
             if student_type == 0:
                 # 当前学生需要检查新生,续费,和正常三种情况
                 one_details["state"] = "正常"
+                one_order = one_student.order_set.filter(
+                    teacher=teacher,
+                    status=models.Order.PAID
+                ).order_by("-created_at").first()
             elif student_type == 1:
                 one_details["state"] = "结课"
+                one_order = one_student.order_set.filter(
+                    teacher=teacher,
+                    status=models.Order.PAID
+                ).order_by("-created_at").first()
             elif student_type == 2:
                 one_details["state"] = "退费"
+                one_order = one_student.order_set.filter(
+                    teacher=teacher,
+                    status=models.Order.REFUND,
+                ).order_by("-created_at").first()
+            one_details["grade"] = one_order.grade.name
+            one_details["price"] = "￥%.2f/小时" %(one_order.price/100)
             page_student_details.append(one_details)
         return {
             "student_statistics": [current_count, session_count, refund_count],
