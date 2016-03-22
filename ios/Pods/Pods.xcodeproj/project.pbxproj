@@ -1370,7 +1370,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		11E41E75A24221A260C59546CD79A936 /* Release */ = {
+		11E41E75A24221A260C59546CD79A936 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 24F2440229F5947A25562A0FB590F1BC /* Pods-teacher.release.xcconfig */;
 			buildSettings = {
@@ -1399,9 +1399,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		2044F11DBCD09B5B7459F43D73A547E3 /* Debug */ = {
+		2044F11DBCD09B5B7459F43D73A547E3 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85AC762B866EF8B369CECAB9C1EEA33C /* IQKeyboardManagerSwift.xcconfig */;
 			buildSettings = {
@@ -1428,9 +1428,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		26A778ECBEA1D358E93F094762530172 /* Debug */ = {
+		26A778ECBEA1D358E93F094762530172 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 94C58F45C6060B7024BF450143399F92 /* Pods.debug.xcconfig */;
 			buildSettings = {
@@ -1460,7 +1460,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
 		359810531CA135A7003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
@@ -1489,7 +1489,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
@@ -1729,7 +1729,7 @@
 			};
 			name = DevRelease;
 		};
-		759FE28C5DC235D3C626127A2AC5F937 /* Release */ = {
+		759FE28C5DC235D3C626127A2AC5F937 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1AB42E05E63C491B830BAD536CCB6B5B /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1758,9 +1758,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		85E3AAA81FFF8A1417B1C5EF1230F665 /* Debug */ = {
+		85E3AAA81FFF8A1417B1C5EF1230F665 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEF247BA3FC6C99C8E014E053D7A243E /* DateTools.xcconfig */;
 			buildSettings = {
@@ -1786,9 +1786,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		8948F113691318BBBF4C96BD7F217221 /* Debug */ = {
+		8948F113691318BBBF4C96BD7F217221 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 31222F533DD885072CF63EEB2199CB29 /* SnapKit.xcconfig */;
 			buildSettings = {
@@ -1815,9 +1815,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		89C829CDEBA4A04ECE1A1A70BFF068D4 /* Debug */ = {
+		89C829CDEBA4A04ECE1A1A70BFF068D4 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84F14D943A47B9656EE097EE68942C12 /* Pods-teacher.debug.xcconfig */;
 			buildSettings = {
@@ -1847,9 +1847,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		8B43FA4CE05837BA9AA6833BC7412480 /* Release */ = {
+		8B43FA4CE05837BA9AA6833BC7412480 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ECE807DF6314A54096C16D25D6C3B569 /* Pods-parent.release.xcconfig */;
 			buildSettings = {
@@ -1878,9 +1878,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		8B6E206982958DD19E80514C21E4835E /* Debug */ = {
+		8B6E206982958DD19E80514C21E4835E /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1804CB2AFAD89B21B9B0CDFC4E35F6C6 /* Pods-parent.debug.xcconfig */;
 			buildSettings = {
@@ -1910,9 +1910,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		8FD8024D0BE599348937E3EB7A1EFF0F /* Release */ = {
+		8FD8024D0BE599348937E3EB7A1EFF0F /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 85AC762B866EF8B369CECAB9C1EEA33C /* IQKeyboardManagerSwift.xcconfig */;
 			buildSettings = {
@@ -1938,9 +1938,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		A3427C918F24207B5FD3A44958345D7E /* Release */ = {
+		A3427C918F24207B5FD3A44958345D7E /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B92371130AD97069C84996B999E32669 /* Alamofire.xcconfig */;
 			buildSettings = {
@@ -1966,9 +1966,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */ = {
+		A70CDAD61F90AC503C7D04CC22DA2923 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2001,14 +2001,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		C738F6BDFDE0472974941CBDEF836D82 /* Debug */ = {
+		C738F6BDFDE0472974941CBDEF836D82 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63F03CA35A453899C92C35F0F8490E74 /* Kingfisher.xcconfig */;
 			buildSettings = {
@@ -2035,9 +2035,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		C993D8405F342C8E23BAD4EDF32D79E0 /* Debug */ = {
+		C993D8405F342C8E23BAD4EDF32D79E0 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B92371130AD97069C84996B999E32669 /* Alamofire.xcconfig */;
 			buildSettings = {
@@ -2064,9 +2064,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		CA2DDDAC4320B25C4BC413E8D80C0B4A /* Release */ = {
+		CA2DDDAC4320B25C4BC413E8D80C0B4A /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEF247BA3FC6C99C8E014E053D7A243E /* DateTools.xcconfig */;
 			buildSettings = {
@@ -2092,9 +2092,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		F41EC89BF16B4F3BEE1A639C80B266CE /* Release */ = {
+		F41EC89BF16B4F3BEE1A639C80B266CE /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63F03CA35A453899C92C35F0F8490E74 /* Kingfisher.xcconfig */;
 			buildSettings = {
@@ -2120,9 +2120,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		FB45FFD90572718D82AB9092B750F0CA /* Release */ = {
+		FB45FFD90572718D82AB9092B750F0CA /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2149,14 +2149,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		FB85EB8E597FB4A0418D8F9459BB9144 /* Release */ = {
+		FB85EB8E597FB4A0418D8F9459BB9144 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 31222F533DD885072CF63EEB2199CB29 /* SnapKit.xcconfig */;
 			buildSettings = {
@@ -2182,7 +2182,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2190,92 +2190,92 @@
 		0B1A4825AA4DA87BFC1E13A5DFCC9591 /* Build configuration list for PBXNativeTarget "Pods-teacher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				89C829CDEBA4A04ECE1A1A70BFF068D4 /* Debug */,
-				11E41E75A24221A260C59546CD79A936 /* Release */,
+				89C829CDEBA4A04ECE1A1A70BFF068D4 /* DevDebug */,
+				11E41E75A24221A260C59546CD79A936 /* PrdRelease */,
 				3598105A1CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A70CDAD61F90AC503C7D04CC22DA2923 /* Debug */,
-				FB45FFD90572718D82AB9092B750F0CA /* Release */,
+				A70CDAD61F90AC503C7D04CC22DA2923 /* DevDebug */,
+				FB45FFD90572718D82AB9092B750F0CA /* PrdRelease */,
 				359810531CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		2F9192A8C8463ADD52DF5741858AF3C8 /* Build configuration list for PBXNativeTarget "Kingfisher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C738F6BDFDE0472974941CBDEF836D82 /* Debug */,
-				F41EC89BF16B4F3BEE1A639C80B266CE /* Release */,
+				C738F6BDFDE0472974941CBDEF836D82 /* DevDebug */,
+				F41EC89BF16B4F3BEE1A639C80B266CE /* PrdRelease */,
 				359810571CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		3B39FCE7F5CC63494066088F2A148EC9 /* Build configuration list for PBXNativeTarget "SnapKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8948F113691318BBBF4C96BD7F217221 /* Debug */,
-				FB85EB8E597FB4A0418D8F9459BB9144 /* Release */,
+				8948F113691318BBBF4C96BD7F217221 /* DevDebug */,
+				FB85EB8E597FB4A0418D8F9459BB9144 /* PrdRelease */,
 				3598105B1CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		53C9FFC5F6D8B6DA54A8DE78D76D98CA /* Build configuration list for PBXNativeTarget "IQKeyboardManagerSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2044F11DBCD09B5B7459F43D73A547E3 /* Debug */,
-				8FD8024D0BE599348937E3EB7A1EFF0F /* Release */,
+				2044F11DBCD09B5B7459F43D73A547E3 /* DevDebug */,
+				8FD8024D0BE599348937E3EB7A1EFF0F /* PrdRelease */,
 				359810561CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		6595C6B07BD0ABC4590D9CE3FCA7A0A7 /* Build configuration list for PBXNativeTarget "Pods-parent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8B6E206982958DD19E80514C21E4835E /* Debug */,
-				8B43FA4CE05837BA9AA6833BC7412480 /* Release */,
+				8B6E206982958DD19E80514C21E4835E /* DevDebug */,
+				8B43FA4CE05837BA9AA6833BC7412480 /* PrdRelease */,
 				359810591CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		67A411D5FBAA7ABC744074E7ABD63CB2 /* Build configuration list for PBXNativeTarget "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				26A778ECBEA1D358E93F094762530172 /* Debug */,
-				759FE28C5DC235D3C626127A2AC5F937 /* Release */,
+				26A778ECBEA1D358E93F094762530172 /* DevDebug */,
+				759FE28C5DC235D3C626127A2AC5F937 /* PrdRelease */,
 				359810581CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		8B2B2DA2F7F80D41B1FDB5FACFA4B3DE /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C993D8405F342C8E23BAD4EDF32D79E0 /* Debug */,
-				A3427C918F24207B5FD3A44958345D7E /* Release */,
+				C993D8405F342C8E23BAD4EDF32D79E0 /* DevDebug */,
+				A3427C918F24207B5FD3A44958345D7E /* PrdRelease */,
 				359810541CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		B43E01F5BF2588222B5923C17216C970 /* Build configuration list for PBXNativeTarget "DateTools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				85E3AAA81FFF8A1417B1C5EF1230F665 /* Debug */,
-				CA2DDDAC4320B25C4BC413E8D80C0B4A /* Release */,
+				85E3AAA81FFF8A1417B1C5EF1230F665 /* DevDebug */,
+				CA2DDDAC4320B25C4BC413E8D80C0B4A /* PrdRelease */,
 				359810551CA135A7003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 /* End XCConfigurationList section */
 	};

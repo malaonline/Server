@@ -1815,7 +1815,7 @@
 			};
 			name = DevRelease;
 		};
-		35D7A3151C0FE82E007D7679 /* Debug */ = {
+		35D7A3151C0FE82E007D7679 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
@@ -1831,9 +1831,9 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		35D7A3161C0FE82E007D7679 /* Release */ = {
+		35D7A3161C0FE82E007D7679 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1848,9 +1848,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		35D7A3471C0FE851007D7679 /* Debug */ = {
+		35D7A3471C0FE851007D7679 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 075DD8C5C398CF777FE8BF2C /* Pods.debug.xcconfig */;
 			buildSettings = {
@@ -1868,9 +1868,9 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		35D7A3481C0FE851007D7679 /* Release */ = {
+		35D7A3481C0FE851007D7679 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F23E4D30570AC246DCB565AE /* Pods.release.xcconfig */;
 			buildSettings = {
@@ -1887,9 +1887,9 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		A5927BC41BEC8BD900E9BDB4 /* Debug */ = {
+		A5927BC41BEC8BD900E9BDB4 /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1934,9 +1934,9 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		A5927BC51BEC8BD900E9BDB4 /* Release */ = {
+		A5927BC51BEC8BD900E9BDB4 /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1975,9 +1975,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = PrdRelease;
 		};
-		F4402E1C1C5A16A700E7D3DB /* Debug */ = {
+		F4402E1C1C5A16A700E7D3DB /* DevDebug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1994,9 +1994,9 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/parent.app/parent";
 			};
-			name = Debug;
+			name = DevDebug;
 		};
-		F4402E1D1C5A16A700E7D3DB /* Release */ = {
+		F4402E1D1C5A16A700E7D3DB /* PrdRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2013,7 +2013,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/parent.app/parent";
 			};
-			name = Release;
+			name = PrdRelease;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2021,42 +2021,42 @@
 		35D7A3141C0FE82E007D7679 /* Build configuration list for PBXNativeTarget "teacher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				35D7A3151C0FE82E007D7679 /* Debug */,
-				35D7A3161C0FE82E007D7679 /* Release */,
+				35D7A3151C0FE82E007D7679 /* DevDebug */,
+				35D7A3161C0FE82E007D7679 /* PrdRelease */,
 				359810511CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		35D7A3461C0FE851007D7679 /* Build configuration list for PBXNativeTarget "parent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				35D7A3471C0FE851007D7679 /* Debug */,
-				35D7A3481C0FE851007D7679 /* Release */,
+				35D7A3471C0FE851007D7679 /* DevDebug */,
+				35D7A3481C0FE851007D7679 /* PrdRelease */,
 				359810501CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		A5927B951BEC8BD900E9BDB4 /* Build configuration list for PBXProject "mala-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A5927BC41BEC8BD900E9BDB4 /* Debug */,
-				A5927BC51BEC8BD900E9BDB4 /* Release */,
+				A5927BC41BEC8BD900E9BDB4 /* DevDebug */,
+				A5927BC51BEC8BD900E9BDB4 /* PrdRelease */,
 				3598104F1CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 		F4402E1B1C5A16A700E7D3DB /* Build configuration list for PBXNativeTarget "parentTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F4402E1C1C5A16A700E7D3DB /* Debug */,
-				F4402E1D1C5A16A700E7D3DB /* Release */,
+				F4402E1C1C5A16A700E7D3DB /* DevDebug */,
+				F4402E1D1C5A16A700E7D3DB /* PrdRelease */,
 				359810521CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = PrdRelease;
 		};
 /* End XCConfigurationList section */
 	};
