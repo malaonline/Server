@@ -908,5 +908,6 @@ def check_phone(request):
         "teacherId": teacherId,
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)
     }
+    logger.debug(openid)
     logger.debug("..............................openid验证不通过，继续验证................")
     return render(request, 'wechat/parent/reg_phone.html', context)
