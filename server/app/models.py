@@ -2087,6 +2087,20 @@ class TimeSlot(BaseModel):
         return ret_code
 
 
+class TimeSlotChangeLog(BaseModel):
+    TRANSFER = 't'
+    SUSPEND = 's'
+    TYPE_CHOICES = (
+        (TRANSFER, '调课'),
+        (SUSPEND, '停课')
+    )
+
+    record_type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+    old_timeslot = models.ForeignKey(TimeSlot, related_name='old')
+    new_timeslot = models.ForeignKey(TimeSlot, related_name='new')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Message(BaseModel):
     SYSTEM = 's'
     FINANCE = 'f'
