@@ -15,7 +15,11 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     var models: [CourseModel] = [] {
         didSet {
             if models.count == studentCourses.count {
+                // 加载课程页面
                 dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+                    // 隐藏loading指示器
+                    self?.activityIndicator.stopAnimating()
+                    self?.scrollEnabled = true
                     self?.setupCoursePanels()
                 }
             }
@@ -43,6 +47,14 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     weak var container: CoursePopupWindow?
     
     
+    // MARK: - Components
+    /// loading指示器
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
+    
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,7 +73,7 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: - Private
     private func configure() {
-        self.scrollEnabled = true
+        self.scrollEnabled = false
         self.pagingEnabled = true
         self.delegate = self
         self.bounces = true
@@ -73,8 +85,12 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
         backgroundColor = UIColor.whiteColor()
         
         // SubViews
+        addSubview(activityIndicator)
         
         // Autolayout
+        activityIndicator.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(self.snp_center)
+        }
     }
     
     ///  根据课程id获取课程详细信息
