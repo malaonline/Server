@@ -36,38 +36,42 @@ body{
   }
   >div:nth-child(2){
     float: right;
+    margin-top: -2px;
   }
   >div:last-child{
     width: auto;
-    margin-left: 14px;
+    margin-left: 20px;
     margin-right: 122px;
     input{
-      margin-top: 3px;
+      margin-top: 0px;
     }
   }
 }
 .weui_cell_hd{
   height: 25px;
   line-height: 25px;
+  margin-top: -1px;
   >img{
     vertical-align: middle;
   }
 }
 .ext_btn_primary{
-    background-color: #86bedd;
-    &:not(.weui_btn_disabled):visited{
-        color: @weuiBtnActiveFontColor;
-        background-color: #467B98;
-    }
-    &:active{
-        color: @weuiBtnActiveFontColor;
-        background-color: #467B98;
-    }
+  width: 72px;
+  background-color: #86bedd;
+  &:not(.weui_btn_disabled):visited{
+    color: @weuiBtnActiveFontColor;
+    background-color: #467B98;
+  }
+  &:active{
+    color: @weuiBtnActiveFontColor;
+    background-color: #467B98;
+  }
 }
 .weui_cell_ft{
   .ext_btn_disabled{
-    color: @weuiBtnActiveFontColor;
-    background-color: #467B98;
+    border: solid 1px #8DBEDF;
+    color: #8DBEDF;
+    background-color: #FFFFFF;
   }
 }
 .ext_btn_default{
@@ -130,7 +134,7 @@ body{
 }
 #userPhoneImg{
   width: 10px;
-  height: 14px;
+  height: 15px;
 }
 #userCodeImg{
   width: 13px;
