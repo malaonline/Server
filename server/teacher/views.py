@@ -531,8 +531,11 @@ class FirstPage(BasicTeacherView):
 
     def teacher_level(self, teacher: models.Teacher):
         # 教师等级
-        teacher_level = teacher.level.name
-        return "麻辣{teacher_level}老师".format(teacher_level=teacher_level)
+        if teacher.level_id:
+            teacher_level = teacher.level.name
+            return "麻辣{teacher_level}老师".format(teacher_level=teacher_level)
+        else:
+            return "暂无级别"
 
     def information_complete_percent(self, teacher: models.Teacher, profile: models.Profile):
         # 资料完成度
