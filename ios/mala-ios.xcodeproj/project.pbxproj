@@ -286,6 +286,10 @@
 		F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */; };
 		F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */; };
 		F4D0D1811CA1508500B25704 /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
+		F4D0D19E1CA2BF0500B25704 /* jpush-ios-2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */; };
+		F4D0D19F1CA2BF5500B25704 /* JPUSHService.h in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D19D1CA2BF0500B25704 /* JPUSHService.h */; };
+		F4D0D1A11CA2BFFA00B25704 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D1A01CA2BFFA00B25704 /* libz.tbd */; };
+		F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D0D1A21CA2C02400B25704 /* PushConfig.plist */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 		F4DA319F1C8FFAB100E70D39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135821C23AE6400830C43 /* AppDelegate.swift */; };
 		F4DA31A01C8FFAB100E70D39 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
@@ -545,6 +549,10 @@
 		F4D0D1791CA0F8EE00B25704 /* CoursePopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePopupWindow.swift; sourceTree = "<group>"; };
 		F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPopupWindow.swift; sourceTree = "<group>"; };
+		F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.0.a"; sourceTree = "<group>"; };
+		F4D0D19D1CA2BF0500B25704 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		F4D0D1A01CA2BFFA00B25704 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		F4D0D1A21CA2C02400B25704 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -561,6 +569,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D0D1A11CA2BFFA00B25704 /* libz.tbd in Frameworks */,
+				F4D0D19E1CA2BF0500B25704 /* jpush-ios-2.1.0.a in Frameworks */,
+				F4D0D19F1CA2BF5500B25704 /* JPUSHService.h in Frameworks */,
 				F40B53C41C83EE0F00C20037 /* libsqlite3.dylib in Frameworks */,
 				F40B53C21C83EDEF00C20037 /* libz.1.dylib in Frameworks */,
 				F40B53C01C83EDDD00C20037 /* libc++.1.dylib in Frameworks */,
@@ -702,6 +713,7 @@
 			isa = PBXGroup;
 			children = (
 				F4C5C2431C75D35400FB833B /* EvaluationFiling */,
+				F4D0D19B1CA2BF0500B25704 /* JPush */,
 				F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */,
 				F45E69D31C8A85DC00BD0859 /* refreshImage@2x.gif */,
 				304135881C23AE6400830C43 /* Assets.xcassets */,
@@ -869,6 +881,7 @@
 		D07419656EA549B65E42E332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4D0D1A01CA2BFFA00B25704 /* libz.tbd */,
 				35E6CB401CA0E8E400BA9B38 /* Pods.framework */,
 				35E6CB3E1CA0E8C900BA9B38 /* libz.1.tbd */,
 				35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */,
@@ -1124,6 +1137,16 @@
 			path = CommentView;
 			sourceTree = "<group>";
 		};
+		F4D0D19B1CA2BF0500B25704 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */,
+				F4D0D19D1CA2BF0500B25704 /* JPUSHService.h */,
+				F4D0D1A21CA2C02400B25704 /* PushConfig.plist */,
+			);
+			path = JPush;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1249,6 +1272,7 @@
 				F4C5C2501C75D37000FB833B /* EvaluationFiling3@2x.png in Resources */,
 				F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */,
 				F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */,
+				F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */,
 				F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
@@ -1767,6 +1791,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
@@ -1857,6 +1885,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
@@ -1877,6 +1909,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
