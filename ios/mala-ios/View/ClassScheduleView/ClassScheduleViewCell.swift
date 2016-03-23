@@ -66,7 +66,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
                     self.courseIndicator.image = UIImage(named: "course indicators_normal")
                 }
                 
-                if self.isFuture {
+                if self.isFuture || self.isToday {
                     self.courseIndicator.image = UIImage(named: "course indicators_selected")
                 }
             }
@@ -82,6 +82,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
                 self.dayLabel.layer.borderColor = textTodayColor.CGColor
                 self.dayLabel.layer.borderWidth = MalaScreenOnePixel
                 self.dayLabel.textColor = textTodayColor
+                self.dayLabel.backgroundColor = circleDefaultColor
                 self.subjectLabel.text = "今天"
                 self.subjectLabel.textColor = circleSelectedColor
             }else {
@@ -271,21 +272,22 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             }
         }
         
-        if today {
-            self.isToday = today
-            labelColor = textTodayColor
-        }
-        
         ///  若此Cell对应课程为[已上]，重新渲染样式
-        if isPast {
+        if isPast && !today {
             self.isPast = true
             return
         }
         
         ///  若此Cell对应课程为[未上]，重新渲染样式
-        if isFuture {
+        if isFuture && !today {
             self.isFuture = true
             return
+        }
+        
+        if today {
+            self.isToday = today
+            circleColor = circleDefaultColor
+            labelColor = textTodayColor
         }
         
         if selected {
