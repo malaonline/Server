@@ -28,7 +28,7 @@ body{
   -webkit-text-size-adjust:none;
   font-family:sans-serif;
   min-height:416px;
-  background-color: #ededed;
+  background-color: #F6F6F6;
 }
 .weui_tab_bd {
     box-sizing: border-box;
@@ -63,15 +63,15 @@ body{
 .teacher_head_img{
   img{
     width: 100%;
-    height: 150px;
+    height: 110px;
     background-color: #CCBBBB;
   }
 }
 .teacher_avatar{
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 70px;
-  margin-left: 20px;
+  margin-left: 12px;
   margin-top: -30px;
   position: absolute;
 }
@@ -80,25 +80,33 @@ body{
   width: 100%;
   padding-bottom: 10px;
   >div{
-    margin-left: 120px;
+    margin-left: 94px;
   }
   >div:first-child{
     color: #333333;
-    font-size: 17px;
+    font-size: 16px;
+    font-family: FZLTXHK;
   }
   >div:nth-child(2){
     color: #939393;
-    font-size: 15px;
+    font-size: 12px;
+    font-family: FZLTXHK;
   }
 }
 .weui_panel{
   border-bottom: solid 1px #e6e0e0;
+  margin-top: 8px;
+}
+.weui_panel:first-child{
+  &:before{
+    border-top: none;
+  }
 }
 .teacher_panel{
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 20px;
-  padding-bottom: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   .weui_cell_ft{
     float: right;
     font-size: 20px;
@@ -110,11 +118,13 @@ body{
   }
   >div:first-child{
     color: #333333;
-    font-size: 17px;
+    font-size: 15px;
+    font-family: FZLTXHK;
   }
   >div:nth-child(2){
-    color: #939393;
-    font-size: 15px;
+    color: #636363;
+    font-size: 14px;
+    font-family: FZLTXHK;
   }
 }
 .teacher_highscore{
@@ -125,6 +135,7 @@ body{
     color: #636363;
     font-weight: normal;
     width: 25%;
+    font-size: 14px;
   }
   td{
     border-bottom: solid 1px #e5e5e5;
@@ -132,7 +143,7 @@ body{
     text-align: center;
     vertical-align: middle;
     color: #939393;
-    font-size: 14px;
+    font-size: 12px;
   }
   tr:first-child{
     background-color: #f6f6f6;
@@ -141,20 +152,17 @@ body{
   }
 }
 .teacher_images{
-  height: 142px;
-  line-height: 158px;
   text-align: left;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
   margin-top: 10px;
   img{
     display: inline-block;
-    width: 120px;
-    height: 120px;
+    width: 33%;
   }
   img:nth-child(n+2){
-    margin-left: 3px;
+    margin-left: 5px;
   }
 }
 .weui_toast{
@@ -236,7 +244,7 @@ a{
   }
 }
 .ext_weui_btn_submit{
-    margin: 10px 10px;
+    margin: 6px 12px;
     color: #82b4d9;
     background-color: #ffffff;
     &:not(.weui_btn_disabled):visited{
@@ -245,15 +253,15 @@ a{
     &:not(.weui_btn_disabled):active{
         background-color: #FDFAFA;
     }
-    line-height: 41px;
+    line-height: 35px;
     position: inherit;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid #E5E5E5;
     box-sizing: border-box;
     border-radius: 10px;
     position: relative;
     display: block;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     text-decoration: none;
     border-radius: 5px;
@@ -266,7 +274,7 @@ a{
   position: fixed;
   bottom: 0;
   background-color: #f7f7fa;
-  height: 62px;
+  height: 49px;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   >div{
     width: 100%;
@@ -325,4 +333,13 @@ a{
     height: 9px;
     width: 9px;
   }
+}
+.member_service{
+  display: inline-block;
+}
+.zltest{
+  border-top: none;
+}
+#photoContent{
+  padding-bottom: 8px;
 }

@@ -431,7 +431,6 @@ function Swipe(container, options){
 
       // removed event listeners
       if(browser.addEventListener){
-
         // remove current event listeners
         element.removeEventListener('touchstart', events, false);
         element.removeEventListener('webkitTransitionEnd', events, false);
@@ -440,7 +439,6 @@ function Swipe(container, options){
         element.removeEventListener('otransitionend', events, false);
         element.removeEventListener('transitionend', events, false);
         window.removeEventListener('resize', events, false);
-
       }else{
         window.onresize = null;
       }
@@ -460,12 +458,13 @@ $('#photoContent').click(function(){
   var $slide = $('#slide');
   var $imgCont = $slide.find('.swipe-wrap');
   $imgCont.empty();
-  var newImgs = $('.teacher_images').find('img').clone();
+  var newImgs = $('.teacher_images').find('img[name="teacherPhoto"]').clone();
   for(var i=0;i<newImgs.length;i++){
     var nDiv = $('<div></div>');
     nDiv.append(newImgs[i]);
     $imgCont.append(nDiv);
   }
+  $imgCont.find('img').css('height', 'auto');
   if($slide.css('display') == 'block'){
     return;
   }

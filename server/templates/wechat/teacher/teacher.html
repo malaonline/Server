@@ -43,8 +43,9 @@
         var userPhotos = [];
         var schoolPhotos = [];
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
-        var pullDownImg = '{% static 'common/icons/pull_down.png' %}';
-        var moreImg = '{% static 'common/icons/more.png' %}';
+        var pullDownImg = '{% static "common/icons/pull_down.png" %}';
+        var moreImg = '{% static "common/icons/more.png" %}';
+        var defaultTeacherPhoto = '{% static "common/img/teacher_photo_def.png" %}'
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url|safe }}";
@@ -62,17 +63,25 @@
         {%endif%}
         function pageload(){
             $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%}');
+            $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             $('#moreSchoolDown').attr('src', pullDownImg);
             $('#morePhotos').attr('src', moreImg);
             for(var i=0;i<userPhotos.length;i++){
-              var nimg = $('<img>');
+              var nimg = $('<img name="teacherPhoto">');
               nimg.attr('src', userPhotos[i]);
+              $('.teacher_images').append(nimg);
+            }
+            for(var i=3-userPhotos.length;i>0;i--){
+              var nimg = $('<img>');
+              nimg.attr('src', defaultTeacherPhoto);
               $('.teacher_images').append(nimg);
             }
             var schoolCont = $('.school_cont');
             for(var i=0;i<schoolCont.length;i++){
                 $(schoolCont[i]).find('img').attr('src', schoolPhotos[i]);
             }
+            var tPhotoHeight = ($('.teacher_images').width() - 10)/4;
+            $('.teacher_images img').css('height', tPhotoHeight);
         }
     </script>
 </head>
@@ -84,7 +93,7 @@
             <div class="weui_tab_bd">
                 <div class="weui_panel weui_panel_access">
                     <div class="teacher_head_img">
-                        <img src="" />
+                        <img id="teacherHeadBackImg"/>
                     </div>
                     <div class="teacher_name">
                         <div>{{teacher.name}}</div>
@@ -197,7 +206,7 @@
                     </div>
                     <div>
                         {%for mb in memberService%}
-                            {{mb.name}}
+                            <label class="member_service">{{mb.name}}</label>
                         {%endfor%}
                     </div>
                 </div>
