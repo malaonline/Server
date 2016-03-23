@@ -884,28 +884,19 @@ def check_phone(request):
     ret = None
     openid = None
 
-    logger.debug("..............................获取的wx_code：1..............")
-    logger.debug(wx_code)
-    logger.debug(get_openid_url)
-    logger.debug("..............................获取的wx_code：2..............")
-
     if req.status_code == 200:
         ret = json.loads(req.text)
         if "openid" in ret:
             openid = ret["openid"]
         if "errcode" in ret:
-            logger.debug("..............................获取openid错误..1..............")
             logger.debug(ret)
-            logger.debug("..............................获取openid错误..2..............")
     else:
-        logger.debug("..............................获取openid, status_code错误................")
         logger.debug(req.status_code)
 
     if openid:
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
-            logger.debug("..............................openid验证通过................")
             return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid)
 
     context = {
@@ -913,6 +904,4 @@ def check_phone(request):
         "teacherId": teacherId,
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid
     }
-    logger.debug(openid)
-    logger.debug("..............................openid验证不通过，继续验证................")
     return render(request, 'wechat/parent/reg_phone.html', context)
