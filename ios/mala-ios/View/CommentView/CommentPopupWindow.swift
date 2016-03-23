@@ -98,13 +98,19 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         let floatRating = FloatRatingView()
         return floatRating
     }()
+    /// 描述 文字背景
+    private lazy var textBackground: UIImageView = {
+        let textBackground = UIImageView(image: UIImage(named: "aboutText_Background"))
+        return textBackground
+    }()
     /// 输入文本框
     private lazy var textView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = MalaColor_BEBEBE_0
         textView.delegate = self
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        textView.text = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"
+        textView.textColor = MalaColor_D4D4D4_0
+        textView.text = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
         return textView
     }()
     /// 提交按钮装饰线
@@ -191,6 +197,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         window.addSubview(teacherNameLabel)
         window.addSubview(subjectLabel)
         window.addSubview(floatRating)
+        window.addSubview(textBackground)
         window.addSubview(textView)
         window.addSubview(buttonSeparatorLine)
         window.addSubview(commitButton)
@@ -250,11 +257,21 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             make.height.equalTo(30)
             make.width.equalTo(120)
         }
-        textView.snp_makeConstraints { (make) -> Void in
+        textBackground.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(floatRating.snp_bottom).offset(MalaLayout_Margin_8)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
             make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
+        }
+        textView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(textBackground).inset(
+                UIEdgeInsets(
+                    top: MalaLayout_Margin_12,
+                    left: MalaLayout_Margin_5,
+                    bottom: MalaLayout_Margin_12,
+                    right: MalaLayout_Margin_5
+                )
+            )
         }
         buttonSeparatorLine.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(commitButton.snp_top)
@@ -292,7 +309,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
             make.height.equalTo(MalaLayout_CommentPopupWindowHeight)
         }
-        textView.snp_updateConstraints(closure: { (make) -> Void in
+        textBackground.snp_updateConstraints(closure: { (make) -> Void in
             make.top.equalTo(titleLine.snp_bottom).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
@@ -364,16 +381,39 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         self.strongSelf = nil
     }
     
+    private func adjustTextViewPlaceholder(isShow isShow: Bool) {
+        if isShow {
+            textView.textColor = MalaColor_D4D4D4_0
+            textView.text = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
+        }else {
+            textView.textColor = MalaColor_939393_0
+            textView.text = ""
+        }
+    }
+    
     
     // MARK: - Delegate 
     public func textViewDidBeginEditing(textView: UITextView) {
         // 用户开始输入时，展开输入区域
         changeToEditingMode()
+        adjustTextViewPlaceholder(isShow: false)
+    }
+    
+    public func textViewDidChange(textView: UITextView) {
+        println("是否可以输入字符? - \(textView.text) - 字数为:\(textView.text.characters.count)")
+        if textView.text.characters.count > 200 {
+            textView.text.removeAtIndex(textView.text.endIndex)
+        }
     }
     
     public func textViewDidEndEditing(textView: UITextView) {
         // 用户停止输入时，恢复初始布局
         changeToNormalMode(animated: true)
+        
+        // 结束编辑时若没有输入，则显示占位文字
+        if let _ = textView.text {
+            adjustTextViewPlaceholder(isShow: true)
+        }
     }
     
     

@@ -162,7 +162,7 @@ public class FloatRatingView: UIView {
         self.minRating = 1
         self.rating = 0.0
         self.editable = true
-        self.halfRatings = true
+        self.halfRatings = false
         self.floatRatings = false
     }
     
