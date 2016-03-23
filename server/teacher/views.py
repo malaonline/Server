@@ -1664,9 +1664,14 @@ class BaseTeacherView(View):
         def _get_cert_items():
             return models.Certificate.objects.filter(teacher=teacher)
         def _is_cert_to_upload(cert_type, cert_items):
+            is_found = False
             for cert in cert_items:
-                if cert.type==cert_type and (not bool(cert.img) or (cert.audited and not cert.verified)):
-                    return True
+                if cert.type==cert_type:
+                    is_found = True
+                    if (not bool(cert.img) or (cert.audited and not cert.verified)):
+                        return True
+            if not is_found:
+                return True
             return False
         if pre_step=='basic_info':
             cert_items = cert_items or _get_cert_items()
