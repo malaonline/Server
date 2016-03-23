@@ -9,7 +9,7 @@
 import UIKit
 
 
-public class CommentPopupWindow: UIViewController {
+public class CommentPopupWindow: UIViewController, UITextViewDelegate {
 
     // MARK: - Property
     var model: CourseModel = CourseModel() {
@@ -20,7 +20,17 @@ public class CommentPopupWindow: UIViewController {
             subjectLabel.text = model.subject
         }
     }
-    
+    /// 评价编辑模式标记
+    var isEditingMode: Bool = false {
+        didSet {
+            // 切换为 [评价编辑模式] 或 [普通评价模式]
+            if isEditingMode && (isEditingMode != oldValue) {
+                changeToEditingMode()
+            }else {
+                changeToNormalMode(animated: true)
+            }
+        }
+    }
     /// 自身强引用
     var strongSelf: CommentPopupWindow?
     /// 遮罩层透明度
@@ -55,6 +65,11 @@ public class CommentPopupWindow: UIViewController {
         titleLine.backgroundColor = MalaColor_8FBCDD_0
         return titleLine
     }()
+    /// 老师信息及评分控件容器
+    private lazy var teacherContainer: UIView = {
+        let teacherContainer = UIView()
+        return teacherContainer
+    }()
     /// 老师头像
     private lazy var avatarView: UIImageView = {
         let avatarView = UIImageView(image: UIImage(named: "avatar_placeholder"))
@@ -87,6 +102,9 @@ public class CommentPopupWindow: UIViewController {
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = MalaColor_BEBEBE_0
+        textView.delegate = self
+        textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        textView.text = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"
         return textView
     }()
     /// 提交按钮装饰线
@@ -129,10 +147,6 @@ public class CommentPopupWindow: UIViewController {
         view.frame = window.bounds
         // 设置属性
         self.contentView = contentView
-//        if let view = contentView as? CourseContentView {
-//            view.container = self
-//        }
-        updateUserInterface()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -182,6 +196,17 @@ public class CommentPopupWindow: UIViewController {
         window.addSubview(commitButton)
         
         // Autolayout
+        changeToNormalMode(animated: false)
+    }
+    
+    ///  设置UI为普通模式
+    private func changeToNormalMode(animated animated: Bool) {
+        
+        if animated {
+            removeAllConstraints()
+        }
+        
+        // Autolayout
         window.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(self.view.snp_center)
             make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
@@ -227,8 +252,8 @@ public class CommentPopupWindow: UIViewController {
         }
         textView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(floatRating.snp_bottom).offset(MalaLayout_Margin_8)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
             make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
         }
         buttonSeparatorLine.snp_makeConstraints { (make) -> Void in
@@ -243,13 +268,83 @@ public class CommentPopupWindow: UIViewController {
             make.right.equalTo(self.window.snp_right)
             make.height.equalTo(44)
         }
+        
+        // Animate
+        if animated {
+            self.window.setNeedsUpdateConstraints()
+            UIView.animateWithDuration(0.35) { [weak self] () -> Void in
+                self?.avatarView.alpha = 1
+                self?.teacherNameLabel.alpha = 1
+                self?.subjectLabel.alpha = 1
+                self?.floatRating.alpha = 1
+                self?.window.layoutIfNeeded()
+            }
+        }
     }
     
-    private func updateUserInterface() {
-        // SubViews
+    ///  设置UI为编辑模式
+    private func changeToEditingMode() {
         
         // Autolayout
-
+        window.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.view.snp_top).offset(36)
+            make.centerX.equalTo(self.view.snp_centerX)
+            make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
+            make.height.equalTo(MalaLayout_CommentPopupWindowHeight)
+        }
+        textView.snp_updateConstraints(closure: { (make) -> Void in
+            make.top.equalTo(titleLine.snp_bottom).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
+            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
+            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
+        })
+        avatarView.snp_updateConstraints { (make) -> Void in
+            make.centerX.equalTo(self.window.snp_centerX)
+            make.top.equalTo(titleLine.snp_bottom)
+            make.width.equalTo(0)
+            make.height.equalTo(0)
+        }
+        teacherNameLabel.snp_updateConstraints { (make) -> Void in
+            make.right.equalTo(avatarView.snp_centerX).offset(-MalaLayout_Margin_5)
+            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.height.equalTo(0)
+        }
+        subjectLabel.snp_updateConstraints { (make) -> Void in
+            make.left.equalTo(avatarView.snp_centerX).offset(MalaLayout_Margin_5)
+            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.height.equalTo(0)
+        }
+        floatRating.snp_updateConstraints { (make) -> Void in
+            make.top.equalTo(subjectLabel.snp_bottom)
+            make.centerX.equalTo(avatarView.snp_centerX)
+            make.height.equalTo(0)
+            make.width.equalTo(0)
+        }
+        
+        // Animate
+        self.window.setNeedsUpdateConstraints()
+        UIView.animateWithDuration(0.35) { [weak self] () -> Void in
+            self?.avatarView.alpha = 0
+            self?.teacherNameLabel.alpha = 0
+            self?.subjectLabel.alpha = 0
+            self?.floatRating.alpha = 0
+            self?.window.layoutIfNeeded()
+        }
+    }
+    
+    ///  删除所有约束
+    private func removeAllConstraints() {
+        window.snp_removeConstraints()
+        titleView.snp_removeConstraints()
+        closeButton.snp_removeConstraints()
+        titleLine.snp_removeConstraints()
+        avatarView.snp_removeConstraints()
+        teacherNameLabel.snp_removeConstraints()
+        subjectLabel.snp_removeConstraints()
+        floatRating.snp_removeConstraints()
+        textView.snp_removeConstraints()
+        buttonSeparatorLine.snp_removeConstraints()
+        commitButton.snp_removeConstraints()
     }
     
     private func animateAlert() {
@@ -267,6 +362,18 @@ public class CommentPopupWindow: UIViewController {
         self.view.removeFromSuperview()
         // 释放自身强引用
         self.strongSelf = nil
+    }
+    
+    
+    // MARK: - Delegate 
+    public func textViewDidBeginEditing(textView: UITextView) {
+        // 用户开始输入时，展开输入区域
+        changeToEditingMode()
+    }
+    
+    public func textViewDidEndEditing(textView: UITextView) {
+        // 用户停止输入时，恢复初始布局
+        changeToNormalMode(animated: true)
     }
     
     
