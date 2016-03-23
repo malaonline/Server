@@ -352,6 +352,7 @@ public class CoursePopupWindow: UIViewController {
         if let courseView = contentView as? CourseContentView {
             let model = courseView.currentCourse
             commentWindow.model = model
+            commentWindow.isJustShow = isComment
             commentWindow.show()
         }
     }

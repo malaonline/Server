@@ -15,9 +15,19 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     var model: CourseModel = CourseModel() {
         didSet {
             println("评论视图 - 放置模型: \(model)")
+            
             avatarView.kf_setImageWithURL(model.teacher?.avatar ?? NSURL())
             teacherNameLabel.text = model.teacher?.name
             subjectLabel.text = model.subject
+            textView.text = model.comment?.content
+            floatRating.rating = Float((model.comment?.score) ?? 0)
+        }
+    }
+    /// 是否仅为展示标记
+    var isJustShow: Bool = true {
+        didSet {
+            // 若仅为展示用图，调整UI及交互样式
+            switchingModeWithJustShow(isJustShow: isJustShow)
         }
     }
     /// 评价编辑模式标记
@@ -31,6 +41,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             }
         }
     }
+    private var TextViewMaximumLength: Int = 200
     /// 自身强引用
     var strongSelf: CommentPopupWindow?
     /// 遮罩层透明度
@@ -96,6 +107,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     /// 评分面板
     private lazy var floatRating: FloatRatingView = {
         let floatRating = FloatRatingView()
+        floatRating.delegate = self
         return floatRating
     }()
     /// 描述 文字背景
@@ -364,6 +376,23 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         commitButton.snp_removeConstraints()
     }
     
+    ///  根据 [是否仅为展示标记] 调整 UI、UX
+    private func switchingModeWithJustShow(isJustShow justShow: Bool) {
+        if justShow {
+            // 提交按钮
+            commitButton.removeTarget(self, action: "commitButtonDidTap", forControlEvents: .TouchUpInside)
+            commitButton.addTarget(self, action: "closeButtonDidTap", forControlEvents: .TouchUpInside)
+            commitButton.setTitle("知道了", forState: .Normal)
+            // 评价文本框
+            textView.userInteractionEnabled = false
+            textView.textColor = MalaColor_939393_0
+            // 评分组件
+            floatRating.editable = false
+        }else {
+            
+        }
+    }
+    
     private func animateAlert() {
         view.alpha = 0;
         let originTransform = self.window.transform
@@ -387,12 +416,11 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             textView.text = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
         }else {
             textView.textColor = MalaColor_939393_0
-            textView.text = ""
         }
     }
     
     
-    // MARK: - Delegate 
+    // MARK: - Delegate
     public func textViewDidBeginEditing(textView: UITextView) {
         // 用户开始输入时，展开输入区域
         changeToEditingMode()
@@ -400,18 +428,36 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     }
     
     public func textViewDidChange(textView: UITextView) {
-        println("是否可以输入字符? - \(textView.text) - 字数为:\(textView.text.characters.count)")
-        if textView.text.characters.count > 200 {
-            textView.text.removeAtIndex(textView.text.endIndex)
+
+        // 保证用户联想词汇同样会被捕捉
+        if textView.text.characters.count > TextViewMaximumLength {
+            textView.text = textView.text.substringToIndex(textView.text.startIndex.advancedBy(TextViewMaximumLength-1))
         }
     }
+    
+    /*
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        // 限制字数为200
+        if text == "" && range.length > 0 {
+            return true
+        }else {
+            if (textView.text.characters.count - range.length + text.characters.count > TextViewMaximumLength) {
+                // 超出最大输入字数
+                return false
+            }else {
+                return true
+            }
+        }
+    }
+    */
     
     public func textViewDidEndEditing(textView: UITextView) {
         // 用户停止输入时，恢复初始布局
         changeToNormalMode(animated: true)
         
         // 结束编辑时若没有输入，则显示占位文字
-        if let _ = textView.text {
+        if textView.text == "" {
             adjustTextViewPlaceholder(isShow: true)
         }
     }
