@@ -63,7 +63,7 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
     private void initViews() {
         //设置布局管理器
-        recyclerViewGallery.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerViewGallery.setLayoutManager(new GridLayoutManager(this,1));
         //设置adapter
         recyclerViewGallery.setAdapter(new GalleryAdapter());
         //设置Item增加、移除动画
@@ -91,7 +91,8 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new GalleryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_list_item, null));
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_list_item, null);
+            return new GalleryViewHolder(view);
         }
 
         @Override
@@ -101,38 +102,56 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
         @Override
         public int getItemCount() {
-            return photoUrls.length;
+            int count = photoUrls.length/3;
+            return photoUrls.length%3==0?count:count+1;
         }
 
         class GalleryViewHolder extends RecyclerView.ViewHolder{
 
-            NetworkImageView networkImageView;
+            NetworkImageView[] networkImageViews = new NetworkImageView[3];
             public GalleryViewHolder(View itemView) {
                 super(itemView);
-                networkImageView = (NetworkImageView) itemView.findViewById(R.id.networkImageView);
-
+                networkImageViews[0] = (NetworkImageView) itemView.findViewById(R.id.networkImageView1);
+                networkImageViews[1] = (NetworkImageView) itemView.findViewById(R.id.networkImageView2);
+                networkImageViews[2] = (NetworkImageView) itemView.findViewById(R.id.networkImageView3);
             }
 
             public void update(final int position){
-                String imgUrl = photoUrls[position];
-                if (imgUrl != null && !imgUrl.isEmpty()) {
-                    networkImageView.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-                    networkImageView.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-                    networkImageView.setImageUrl(imgUrl, imageLoader);
-                }else{
-                    networkImageView.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-                    networkImageView.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-                    networkImageView.setImageUrl("", imageLoader);
-                }
-                networkImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
-                        intent.putExtra(GalleryActivity.GALLERY_URLS, photoUrls);
-                        intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
-                        startActivity(intent);
+
+                int count = photoUrls.length - position*3;
+                for (int i=0;i<count;i++){
+                    //重置图高度
+                    int width = networkImageViews[i].getMeasuredWidth();
+                    if (width>0){
+                        ViewGroup.LayoutParams layoutParamses = networkImageViews[i].getLayoutParams();
+                        layoutParamses.height = width;
+                        networkImageViews[i].setLayoutParams(layoutParamses);
                     }
-                });
+
+                    //加载图片
+                    updateNetworkImageView(networkImageViews[i],photoUrls[position*3+i]);
+                    networkImageViews[i].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
+                            intent.putExtra(GalleryActivity.GALLERY_URLS, photoUrls);
+                            intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+
+            private void updateNetworkImageView(NetworkImageView imageView,String url){
+                if (url != null && !url.isEmpty()) {
+                    imageView.setDefaultImageResId(R.drawable.ic_default_img);
+                    imageView.setErrorImageResId(R.drawable.ic_default_img);
+                    imageView.setImageUrl(url, imageLoader);
+                }else{
+                    imageView.setDefaultImageResId(R.drawable.ic_default_img);
+                    imageView.setErrorImageResId(R.drawable.ic_default_img);
+                    imageView.setImageUrl("", imageLoader);
+                }
             }
         }
     }

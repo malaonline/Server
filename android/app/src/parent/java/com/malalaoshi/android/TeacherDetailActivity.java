@@ -620,20 +620,23 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
-                    width, width));
+                    width, ViewGroup.MarginLayoutParams.MATCH_PARENT));
             if (i == 0) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
                 layoutParams.setMargins(0, 0, margin, 0);
+                imageView.setLayoutParams(layoutParams);
             } else if (i == 1) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
                 layoutParams.setMargins(margin, 0, margin, 0);
+                imageView.setLayoutParams(layoutParams);
             } else {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
                 layoutParams.setMargins(margin, 0, 0, 0);
+                imageView.setLayoutParams(layoutParams);
             }
-
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -645,6 +648,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     startActivity(intent);
                 }
             });
+
             mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.ic_default_img, R.drawable.ic_default_img));
             mGallery.addView(imageView, i);
         }
