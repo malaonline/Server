@@ -45,8 +45,6 @@
 		304135A61C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
 		304135A71C23AE6400830C43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
 		304135A81C23AE6400830C43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 304135891C23AE6400830C43 /* LaunchScreen.storyboard */; };
-		304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359E1C23AE6400830C43 /* LoginViewController.swift */; };
-		304135CA1C23AE6400830C43 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041359F1C23AE6400830C43 /* ModelController.swift */; };
 		30445B161C4A3959002CD290 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30445B151C4A3959002CD290 /* FilterView.swift */; };
 		30445B171C4A3959002CD290 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30445B151C4A3959002CD290 /* FilterView.swift */; };
 		30445B191C4A3AC8002CD290 /* GradeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30445B181C4A3AC8002CD290 /* GradeFilterView.swift */; };
@@ -86,7 +84,6 @@
 		30B5980F1C451A8900169390 /* MemberServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B5980D1C451A8900169390 /* MemberServiceModel.swift */; };
 		30B598181C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */; };
 		30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B598171C47ACCD00169390 /* TeacherTableViewCell.swift */; };
-		30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304135A11C23AE6400830C43 /* RootViewController.swift */; };
 		30D4AA051C23E07600C5A336 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F9E6C41C23BF6F0022A3BF /* Common.swift */; };
 		30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
 		30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D4AA121C2417A700C5A336 /* Extension+UIButton.swift */; };
@@ -365,9 +362,6 @@
 		304135821C23AE6400830C43 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		304135881C23AE6400830C43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3041358A1C23AE6400830C43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3041359E1C23AE6400830C43 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		3041359F1C23AE6400830C43 /* ModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
-		304135A11C23AE6400830C43 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		30445B151C4A3959002CD290 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		30445B181C4A3AC8002CD290 /* GradeFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeFilterView.swift; sourceTree = "<group>"; };
 		30445B1B1C4A3B3D002CD290 /* SubjectFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectFilterView.swift; sourceTree = "<group>"; };
@@ -717,16 +711,6 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		3041358B1C23AE6400830C43 /* TempFile */ = {
-			isa = PBXGroup;
-			children = (
-				3041359E1C23AE6400830C43 /* LoginViewController.swift */,
-				3041359F1C23AE6400830C43 /* ModelController.swift */,
-				304135A11C23AE6400830C43 /* RootViewController.swift */,
-			);
-			path = TempFile;
-			sourceTree = "<group>";
-		};
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -877,7 +861,6 @@
 				304135851C23AE6400830C43 /* Extension */,
 				304135861C23AE6400830C43 /* Model */,
 				304135871C23AE6400830C43 /* Resource */,
-				3041358B1C23AE6400830C43 /* TempFile */,
 				304135A31C23AE6400830C43 /* View */,
 			);
 			path = "mala-ios";
@@ -1383,8 +1366,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30D4AA041C23E03600C5A336 /* RootViewController.swift in Sources */,
-				304135C81C23AE6400830C43 /* LoginViewController.swift in Sources */,
 				3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				F402C9951C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */,
@@ -1408,7 +1389,6 @@
 				F45871F91C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
 				F45871ED1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB8A11C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
-				304135CA1C23AE6400830C43 /* ModelController.swift in Sources */,
 				307AB89F1C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				304D6D371C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				307788581C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
