@@ -649,4 +649,21 @@
         </div>
     </div>
 </form>
+
+{#    图片预览modal#}
+    <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center" id="imgLabel"></h4>
+              </div>
+              <div class="modal-body">
+                <div class="text-center">
+                    <img style="max-width:100%;max-height: 100%;vertical-align: middle;">
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

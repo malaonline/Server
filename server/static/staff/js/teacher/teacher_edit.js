@@ -119,6 +119,14 @@ $(function(){
         return true;
     });
 
+    // 预览图片
+    $('.img-edit img').click(function(e){
+        var src = $(this).attr('src');
+        var $modal = $("#imgModal");
+        $modal.find('img').attr('src', src);
+        $modal.modal();
+    });
+
     var clearImgEditBox = function($editBox) {
         $editBox.find('.img-box').hide().find('img').attr('src', '');
         $editBox.find('.img-preview-box').hide().find('img').attr('src', '');
