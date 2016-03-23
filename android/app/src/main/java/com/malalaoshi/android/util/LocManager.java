@@ -40,10 +40,12 @@ public class LocManager {
         return locationStatus;
     }
     public void unregisterLocationListener(ReceiveLocationListener listener) {
+        locationStatus = NOT_LOCATION;
         listenerList.remove(listener);
     }
 
     public void registerLocationListener(ReceiveLocationListener listener) {
+        locationStatus = NOT_LOCATION;
         listenerList.add(listener);
     }
 
@@ -92,7 +94,7 @@ public class LocManager {
     }
 
     public void stop() {
-        locationStatus = NOT_LOCATION;
+        //locationStatus = NOT_LOCATION;
         if (locationListener != null) {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling

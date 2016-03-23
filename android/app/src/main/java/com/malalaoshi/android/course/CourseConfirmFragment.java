@@ -561,10 +561,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             ViewHolder holder = (ViewHolder) convertView.getTag();
             holder.nameView.setText(data.getSchool().getName());
             holder.addressView.setText(data.getSchool().getAddress());
-            if (data.getSchool().getRegion() == null) {
+            if (data.getSchool().getDistance() == null) {
                 holder.distanceView.setText("未知");
             } else {
-                holder.distanceView.setText("< " + LocationUtil.formatRegion(data.getSchool().getRegion()));
+                holder.distanceView.setText("< " + LocationUtil.formatDistance(data.getSchool().getDistance()));
             }
             holder.checkView.setImageResource(data.isCheck() ? R.drawable.ic_check : R.drawable.ic_check_out);
         }

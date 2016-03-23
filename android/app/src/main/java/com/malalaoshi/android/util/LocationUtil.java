@@ -22,21 +22,21 @@ public class LocationUtil {
         }
     }
 
-    public static void sortByRegion(List<School> list, double latitude, double longitude) {
+    public static void sortByDistance(List<School> list, double latitude, double longitude) {
         for (int i = 0; i < list.size(); i++) {
             School data = list.get(i);
             double distance = LocationUtil.getDistance(latitude, longitude, data.getLatitude(), data.getLongitude());
-            data.setRegion(distance);
+            data.setDistance(distance);
         }
         Collections.sort(list);
     }
 
-    public static String formatRegion(double region) {
-        region = region < 0 ? 0 : region;
-        if (region < 1000) {
-            return ((int) region) + "m";
+    public static String formatDistance(double distance) {
+        distance = distance < 0 ? 0 : distance;
+        if (distance < 1000) {
+            return ((int) distance) + "m";
         } else {
-            return ((int) (region / 1000)) + "km";
+            return ((int) (distance / 1000)) + "km";
         }
     }
 

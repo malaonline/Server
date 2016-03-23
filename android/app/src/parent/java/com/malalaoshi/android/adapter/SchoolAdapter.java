@@ -85,16 +85,10 @@ public class SchoolAdapter extends BaseAdapter {
         }
         viewHolder.tvSchoolName.setText(data.getName());
         viewHolder.tvSchoolAddress.setText(data.getAddress());
-        double distance = data.getRegion();
-        if (distance>=0.0D){
-            String dis;
-            if (distance<=100){
-                dis = String.format("%.2f", distance);
-                viewHolder.tvSchoolDistance.setText(dis+"m");
-            }else{
-                dis = String.format("%.2f", distance/1000);
-                viewHolder.tvSchoolDistance.setText(dis+"km");
-            }
+        Double distance = data.getDistance();
+        if (distance!=null&&distance>=0.0D){
+            String dis = LocationUtil.formatDistance(distance);
+            viewHolder.tvSchoolDistance.setText(dis);
         }
         return convertView;
     }

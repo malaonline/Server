@@ -8,7 +8,8 @@ import android.os.Parcel;
 public class School extends BaseEntity implements Comparable<School>{
     private String address;
     private String thumbnail;
-    private Double region;
+    private Double distance;
+    private Double region;   //城市
     private boolean center;
     private Double longitude;
     private Double latitude;
@@ -61,11 +62,18 @@ public class School extends BaseEntity implements Comparable<School>{
         this.latitude = latitude;
     }
 
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
 
     @Override
     public int compareTo(School another) {
-        Double d = another.getRegion();
-        return this.region.compareTo(d);
+        Double d = another.getDistance();
+        return this.distance.compareTo(d);
     }
 
 
@@ -79,6 +87,7 @@ public class School extends BaseEntity implements Comparable<School>{
         super.writeToParcel(dest, flags);
         dest.writeString(this.address);
         dest.writeString(this.thumbnail);
+        dest.writeValue(this.distance);
         dest.writeValue(this.region);
         dest.writeByte(center ? (byte) 1 : (byte) 0);
         dest.writeValue(this.longitude);
@@ -92,6 +101,7 @@ public class School extends BaseEntity implements Comparable<School>{
         super(in);
         this.address = in.readString();
         this.thumbnail = in.readString();
+        this.distance = (Double) in.readValue(Double.class.getClassLoader());
         this.region = (Double) in.readValue(Double.class.getClassLoader());
         this.center = in.readByte() != 0;
         this.longitude = (Double) in.readValue(Double.class.getClassLoader());

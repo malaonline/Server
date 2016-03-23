@@ -256,6 +256,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         super.onStop();
         //volley联动,取消请求
         cancelAllRequestQueue();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         //停止定位sdk
         locManager.unregisterLocationListener(this);
     }
@@ -271,9 +276,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
         //注册定位结果回调
         locManager.registerLocationListener(this);
-
         //检测获取位置权限
-        List<String> permissions = PermissionUtil.checkPermission(TeacherDetailActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
+        List<String> permissions = PermissionUtil.checkPermission(TeacherDetailActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
         if (permissions==null){
             return ;
         }
@@ -373,7 +380,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void dealSchools() {
-
         //无数据
         if (mAllSchools.size() <= 0 && mFirstSchool.size() <= 0) {
             return;
@@ -382,33 +388,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //定位成功
         if (locManager.getLocationStatus() == LocManager.OK_LOCATION) {
             //排序
-            LocationUtil.sortByRegion(mAllSchools, latitude, longitude);
+            LocationUtil.sortByDistance(mAllSchools, latitude, longitude);
             Double dis;
             mFirstSchool.clear();
             mFirstSchool.add(mAllSchools.get(0));
-           /* if (mSchools.size() <= 0) {
-                dis = mOtherSchools.get(0).getRegion();
-            } else {
-                if (mOtherSchools.size() <= 0) {
-                    dis = mOtherSchools.get(0).getRegion();
-                } else {
-                    School school = mSchools.get(0);
-                    dis = mOtherSchools.get(0).getRegion() - mSchools.get(0).getRegion() > 0 ? mSchools.get(0).getRegion() : mOtherSchools.get(0).getRegion();
-                }
-            }*/
-
-            tvSchoolMore.setText("离您最近的社区中心 (" + mAllSchools.get(0).getRegion() + "m)");
-            //没有体验中心,取最近的教学中心展示
-           /* if (mSchools.size() <= 0) {
-                mSchools.add(mOtherSchools.get(0));
-                mOtherSchools.remove(0);
-            }*/
+            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s))",LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
         } else {
             tvSchoolMore.setText("其他社区中心");
-           /* if (mAllSchools.size() <= 0) {
-                mSchools.add(mOtherSchools.get(0));
-                mOtherSchools.remove(0);
-            }*/
         }
         updateUISchools();
     }
@@ -703,11 +689,19 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void changeSchoolsShow() {
+
         if (!isShowAllSchools){
             ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
+            tvSchoolMore.setText("收起");
             mSchoolAdapter.setSchools(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
         }else{
+            Double dis = mAllSchools.get(0).getDistance();
+            if (dis!=null&&dis>=0) {
+                tvSchoolMore.setText(String.format("离您最近的社区中心 (%s))",LocationUtil.formatDistance(dis)));
+            } else {
+                tvSchoolMore.setText("其他社区中心");
+            }
             ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_down));
             mSchoolAdapter.setSchools(mFirstSchool);
             mSchoolAdapter.notifyDataSetChanged();
