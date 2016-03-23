@@ -1040,12 +1040,12 @@ class MyStudents(BasicTeacherView):
                 order__teacher=teacher,
                 order__parent=one_student,
                 end__lt=timezone.now()
-            ).count()
+            ).count()*2
             all_time_slot = models.TimeSlot.objects.filter(
                 order__status=models.Order.PAID,
                 order__teacher=teacher,
                 order__parent=one_student,
-            ).count()
+            ).count()*2
             # 设置进度
             one_details["progress"] = "{complete}/{total}".format(
                 complete=complete_time_slot, total=all_time_slot
