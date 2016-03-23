@@ -83,6 +83,7 @@ let MalaCommonString_VerifyCode = "验证码"
 let MalaCommonString_FilterResult = "筛选结果"
 let MalaCommonString_CourseChoosing = "课程购买"
 let MalaCommonString_EvaluationFiling = "建档测评服务"
+let MalaCommonString_CommentPlaceholder = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
 
 
 // MARK: - Common Proportion

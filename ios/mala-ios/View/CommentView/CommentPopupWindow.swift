@@ -135,10 +135,12 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         let commitButton = UIButton()
         commitButton.setTitle("提  交", forState: .Normal)
         commitButton.setTitleColor(MalaColor_BCD7EB_0, forState: .Normal)
+        commitButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
         commitButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        commitButton.addTarget(self, action: "commitButtonDidTap", forControlEvents: .TouchUpInside)
+        commitButton.addTarget(self, action: "commitButtonDidTap:", forControlEvents: .TouchUpInside)
         return commitButton
     }()
     
@@ -379,16 +381,18 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private func switchingModeWithJustShow(isJustShow justShow: Bool) {
         if justShow {
             // 提交按钮
-            commitButton.removeTarget(self, action: "commitButtonDidTap", forControlEvents: .TouchUpInside)
+            commitButton.removeTarget(self, action: "commitButtonDidTap:", forControlEvents: .TouchUpInside)
             commitButton.addTarget(self, action: "closeButtonDidTap", forControlEvents: .TouchUpInside)
             commitButton.setTitle("知道了", forState: .Normal)
+            
             // 评价文本框
             textView.userInteractionEnabled = false
             textView.textColor = MalaColor_939393_0
+            
             // 评分组件
             floatRating.editable = false
         }else {
-            
+            adjustTextViewPlaceholder(isShow: true)
         }
     }
     
@@ -403,6 +407,17 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         }
     }
     
+    private func animateDismiss() {
+        UIView.animateWithDuration(0.35, animations: { () -> Void in
+            
+            self.view.alpha = 0
+            self.window.transform = CGAffineTransform()
+            
+            }, completion: { [weak self] (bool) -> Void in
+                self?.closeAlert(0)
+            })
+    }
+    
     private func closeAlert(buttonIndex: Int) {
         self.view.removeFromSuperview()
         // 释放自身强引用
@@ -412,10 +427,39 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private func adjustTextViewPlaceholder(isShow isShow: Bool) {
         if isShow {
             textView.textColor = MalaColor_D4D4D4_0
-            textView.text = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
+            textView.text = MalaCommonString_CommentPlaceholder
         }else {
             textView.textColor = MalaColor_939393_0
+            if textView.text == MalaCommonString_CommentPlaceholder {
+                textView.text = ""
+            }
         }
+    }
+    
+    private func saveComment() {
+        // 验证数据并创建评论模型
+        guard model.id != 0 else {
+            return
+        }
+        guard textView.text != MalaCommonString_CommentPlaceholder else {
+            return
+        }
+        let comment = CommentModel(id: 0, timeslot: model.id, score: Int(floatRating.rating), content: textView.text)
+        
+        /// 创建评论
+        createComment(comment, failureHandler: { [weak self] (reason, errorMessage) -> Void in
+            self?.commitButton.enabled = false
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CommentPopupWindow - saveComment Error \(errorMessage)")
+            }
+        }, completion: { [weak self] (bool) -> Void in
+                println("评论创建结果：\(bool)")
+                self?.commitButton.enabled = false
+                self?.animateDismiss()
+        })
     }
     
     
@@ -427,30 +471,12 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     }
     
     public func textViewDidChange(textView: UITextView) {
-
         // 保证用户联想词汇同样会被捕捉
         if textView.text.characters.count > TextViewMaximumLength {
             textView.text = textView.text.substringToIndex(textView.text.startIndex.advancedBy(TextViewMaximumLength-1))
         }
     }
-    
-    /*
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
-        // 限制字数为200
-        if text == "" && range.length > 0 {
-            return true
-        }else {
-            if (textView.text.characters.count - range.length + text.characters.count > TextViewMaximumLength) {
-                // 超出最大输入字数
-                return false
-            }else {
-                return true
-            }
-        }
-    }
-    */
-    
+
     public func textViewDidEndEditing(textView: UITextView) {
         // 用户停止输入时，恢复初始布局
         changeToNormalMode(animated: true)
@@ -477,7 +503,8 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         close()
     }
     
-    @objc private func commitButtonDidTap() {
-        
+    @objc private func commitButtonDidTap(sender: UIButton) {
+        sender.enabled = false
+        saveComment()
     }
 }
