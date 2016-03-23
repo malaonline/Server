@@ -31,7 +31,6 @@
             android:layout_height="@dimen/list_divider" />
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -49,6 +48,7 @@
                 android:textSize="@dimen/text_size_large" />
 
             <ImageView
+                android:id="@+id/iv_school_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_drop_down" />

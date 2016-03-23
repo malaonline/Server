@@ -85,11 +85,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //会员服务请求结果
     private MemberServiceListResult mMemberServicesResult;
 
-    //教学中心列表
-    private List<School> mSchools = null;
+    //所有教学中心
+    private List<School> mAllSchools = null;
 
-    //除体验中心剩余教学中心列表
-    private List<School> mOtherSchools = null;
+    //第一个显示的教学中心
+    private List<School> mFirstSchool = null;
 
     //教师信息请求结果
     private Teacher mTeacher;
@@ -186,15 +186,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     @Bind(R.id.ll_school_more)
     protected LinearLayout llSchoolMore;
 
+    @Bind(R.id.iv_school_more)
+    protected ImageView ivSchoolMore;
+
     @Bind(R.id.tv_school_more)
     protected TextView tvSchoolMore;
 
     private SchoolAdapter mSchoolAdapter;
 
+    private boolean isShowAllSchools = false;
+
     //定位相关对象
     private LocManager locManager;
-
-    private boolean isLocation = true;
 
     //当前经纬度
     private double longitude = 0.0f;
@@ -317,9 +320,9 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         requestQueue = MalaApplication.getHttpRequestQueue();
         hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        mSchools = new ArrayList<School>();
-        mOtherSchools = new ArrayList<>();
-        mSchoolAdapter = new SchoolAdapter(this, mSchools);
+        mAllSchools = new ArrayList<School>();
+        mFirstSchool = new ArrayList<>();
+        mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
         listviewSchool.setAdapter(mSchoolAdapter);
         mNestedScrollViewContent.fullScroll(ScrollView.FOCUS_UP);
         mNestedScrollViewContent.smoothScrollTo(0, 0);
@@ -341,19 +344,22 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     return;
                 }
                 //获取体验中心
-                School school = null;
-                mOtherSchools.addAll(schoolListResult.getResults());
-                if (mOtherSchools.size() > 0) {
-                    for (int i = 0; i < mOtherSchools.size(); i++) {
-                        if (true == mOtherSchools.get(i).isCenter()) {
-                            school = mOtherSchools.get(i);
-                            mOtherSchools.remove(i);
+                mAllSchools.addAll(schoolListResult.getResults());
+                if (mAllSchools.size() > 0) {
+                    School school = null;
+                    for (int i = 0; i < mAllSchools.size(); i++) {
+                        if (true == mAllSchools.get(i).isCenter()) {
+                            if (i==0){
+                                break;
+                            }
+                            school = mAllSchools.get(i);
+                            mAllSchools.set(i,mAllSchools.get(0));
+                            mAllSchools.set(0,school);
+                            //mOtherSchools.remove(i);
                             break;
                         }
                     }
-                    if (school != null) {
-                        mSchools.add(school);
-                    }
+                    mFirstSchool.add(mAllSchools.get(0));
                     dealSchools();
                 }
             }
@@ -369,16 +375,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private void dealSchools() {
 
         //无数据
-        if (mSchools.size() <= 0 && mOtherSchools.size() <= 0) {
+        if (mAllSchools.size() <= 0 && mFirstSchool.size() <= 0) {
             return;
         }
 
         //定位成功
         if (locManager.getLocationStatus() == LocManager.OK_LOCATION) {
             //排序
-            LocationUtil.sortByRegion(mOtherSchools, latitude, longitude);
+            LocationUtil.sortByRegion(mAllSchools, latitude, longitude);
             Double dis;
-            if (mSchools.size() <= 0) {
+            mFirstSchool.clear();
+            mFirstSchool.add(mAllSchools.get(0));
+           /* if (mSchools.size() <= 0) {
                 dis = mOtherSchools.get(0).getRegion();
             } else {
                 if (mOtherSchools.size() <= 0) {
@@ -387,20 +395,20 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     School school = mSchools.get(0);
                     dis = mOtherSchools.get(0).getRegion() - mSchools.get(0).getRegion() > 0 ? mSchools.get(0).getRegion() : mOtherSchools.get(0).getRegion();
                 }
-            }
+            }*/
 
-            tvSchoolMore.setText("离您最近的社区中心 (" + dis + "m)");
+            tvSchoolMore.setText("离您最近的社区中心 (" + mAllSchools.get(0).getRegion() + "m)");
             //没有体验中心,取最近的教学中心展示
-            if (mSchools.size() <= 0) {
+           /* if (mSchools.size() <= 0) {
                 mSchools.add(mOtherSchools.get(0));
                 mOtherSchools.remove(0);
-            }
+            }*/
         } else {
             tvSchoolMore.setText("其他社区中心");
-            if (mSchools.size() <= 0) {
+           /* if (mAllSchools.size() <= 0) {
                 mSchools.add(mOtherSchools.get(0));
                 mOtherSchools.remove(0);
-            }
+            }*/
         }
         updateUISchools();
     }
@@ -585,7 +593,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     String[] imgUrl = new String[datas.size()];
                     String[] imgDes = new String[datas.size()];
 
-                    for (int i=0;i<datas.size();i++){
+                    for (int i = 0; i < datas.size(); i++) {
                         imgUrl[i] = datas.get(i).getImg();
                         imgDes[i] = datas.get(i).getTitle();
                     }
@@ -688,11 +696,23 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 break;
             case R.id.ll_school_more:
                 //显示更多教学中心
-                llSchoolMore.setVisibility(View.GONE);
-                mSchools.addAll(mOtherSchools);
-                mSchoolAdapter.notifyDataSetChanged();
+                changeSchoolsShow();
+
                 break;
         }
+    }
+
+    private void changeSchoolsShow() {
+        if (!isShowAllSchools){
+            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
+            mSchoolAdapter.setSchools(mAllSchools);
+            mSchoolAdapter.notifyDataSetChanged();
+        }else{
+            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_down));
+            mSchoolAdapter.setSchools(mFirstSchool);
+            mSchoolAdapter.notifyDataSetChanged();
+        }
+        isShowAllSchools = !isShowAllSchools;
     }
 
     private void signUp() {
@@ -729,12 +749,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private void startCourseConfirmActivity() {
         Intent signIntent = new Intent(this, CourseConfirmActivity.class);
         List<School> schools = new ArrayList<>();
-        if (MiscUtil.isNotEmpty(mSchools)) {
-            schools.addAll(mSchools);
+        if (MiscUtil.isNotEmpty(mAllSchools)) {
+            schools.addAll(mAllSchools);
         }
-        if (MiscUtil.isNotEmpty(mOtherSchools)) {
+        /*if (MiscUtil.isNotEmpty(mOtherSchools)) {
             schools.addAll(mOtherSchools);
-        }
+        }*/
         signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
                 schools.toArray(new School[schools.size()]));
         if (mTeacher != null && mTeacher.getPrices() != null) {
