@@ -21,17 +21,19 @@
                 <span>距离交通优势,便捷轻松</span>
             {% endif %}
         </div>
-        {% if school.get_thumbnail %}
-            <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
-        {% else %}
-            <img class='card-cover' src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
-        {% endif %}
+        <div class="cover-retro-fixer">
+            {% if school.get_thumbnail %}
+                <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
+            {% else %}
+                <img class='card-cover' src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
+            {% endif %}
+        </div>
     </div>
     <div class="card-content">
         <div class="card-content-inner">
             <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">
                 <div class="column">
-                    <p>{{ school.name }}</p>
+                    <p class="color-malablue">{{ school.name }}</p>
                     <p class="color-gray" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
                 </div>
                 <div class="column">

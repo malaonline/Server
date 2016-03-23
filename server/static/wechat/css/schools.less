@@ -1,6 +1,7 @@
 #schoolList .card {
   position: relative;
   margin: 0 0 .8em 0;
+  box-shadow: 0 .05rem .1rem rgba(0,0,0,.1);
   .school-isexpr-flag {
     position: absolute;
     left: 10px;
@@ -15,7 +16,7 @@
     align-items: center;
 
     position: absolute;
-    padding: 6px;
+    padding: 2px 6px;
     right: 10px;
     top: 10px;
     background-color: rgba(0,0,0,.6);
@@ -47,7 +48,10 @@
 
     color: white;
     h6 {
-      font-size: 1.3em;
+      font-size: 15px;
+    }
+    span {
+      font-size: 12px;
     }
     h6,span {
       font-weight: 400;
@@ -59,17 +63,23 @@
     background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-9 */
   }
+  .cover-retro-fixer {
+    max-width: 100%;
+    height: 0;
+    padding-bottom: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+    }
+  }
   .card-content-inner {
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: stretch;
-    font-size: 1.6em;
+    font-size: 12px;
     //font-weight: 100;
     padding: 14px 0 14px 12px;
-    .color-gray {
-      font-size: .8em;
-    }
     .card-content-inner-left {
       flex: 1;
       display: flex;
@@ -84,18 +94,22 @@
           margin: 0;
           padding:0 21px 0 0 ;
         }
+        p.color-malablue {
+          font-size: 14px;
+          color: #88bcde;
+        }
       }
     }
     .card-content-inner-right {
       display: flex;
-      flex-basis: 60px;
+      flex-basis: 50px;
       justify-content: center;
       align-items: center;
       border-left: 1px solid #e5e5e5;
       padding: 12px;
       img {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
       }
     }
   }
