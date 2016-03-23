@@ -33,10 +33,10 @@ public class StudentCourseModel: BaseObjectModel {
     var status: CourseStatus {
         get {
             // 设置课程状态
-            if date.isEarlierThan(NSDate()) {
-                return .Past
-            }else if date.isToday() {
+            if date.isToday() {
                 return .Today
+            }else if date.isEarlierThan(NSDate()) {
+                return .Past
             }else {
                 return .Future
             }
