@@ -144,12 +144,12 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
             private void updateNetworkImageView(NetworkImageView imageView,String url){
                 if (url != null && !url.isEmpty()) {
-                    imageView.setDefaultImageResId(R.drawable.ic_default_img);
-                    imageView.setErrorImageResId(R.drawable.ic_default_img);
+                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
+                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
                     imageView.setImageUrl(url, imageLoader);
                 }else{
-                    imageView.setDefaultImageResId(R.drawable.ic_default_img);
-                    imageView.setErrorImageResId(R.drawable.ic_default_img);
+                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
+                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
                     imageView.setImageUrl("", imageLoader);
                 }
             }

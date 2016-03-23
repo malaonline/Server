@@ -7,7 +7,7 @@
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/networkImageView1"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_img"
+        android:src="@drawable/ic_default_photo"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
@@ -16,7 +16,7 @@
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/networkImageView2"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_img"
+        android:src="@drawable/ic_default_photo"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:layout_width="0dp"
@@ -24,7 +24,7 @@
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/networkImageView3"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_img"
+        android:src="@drawable/ic_default_photo"
         android:layout_marginLeft="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
