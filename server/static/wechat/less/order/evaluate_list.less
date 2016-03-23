@@ -1,0 +1,32 @@
+@import '../../css/variable_func.less';
+
+#evaluateItemsBody {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  text-align: left;
+  .evaluate-item {
+    margin-bottom: 7px;
+    padding: 16px 12px;
+    background-color: white;
+    border-bottom: 1px inset @borderGray;
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+    .evaluate-title {
+      padding-bottom: 8px;
+      .title();
+    }
+    .evaluate-photo {
+      img {
+        max-width: 100%;
+        vertical-align: middle;
+      }
+    }
+    .evaluate-note{
+      padding-top: 10px;
+      .note();
+    }
+  }
+}

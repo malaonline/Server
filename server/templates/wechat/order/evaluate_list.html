@@ -1,0 +1,41 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}测评建档服务{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/less/order/evaluate_list.less'|compile %}">
+{% endblock %}
+
+{% block content %}
+    <div class="page slideIn cell" id="courseChoosingContainer">
+        <div class="content">
+            <div class="weui_dialog_hd" id="evaluateItemsBody">
+
+            </div>
+        </div>
+
+        <div class="weui_dialog_alert" id="alertDialog" style="display: none;">
+            <div class="weui_mask"></div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd" id="alertDialogBody"></div>
+                <div class="weui_dialog_ft">
+                    <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block addition_js %}
+    <script>
+        var evaluateItems = [
+            {'id':1, 'title':'在线答疑', 'photo':'{% static 'common/img/evaluate/photo1.png' %}', 'desc':'智能组卷，检测学生知识漏洞，并找出具体详细报告'},
+            {'id':2, 'title':'了解老师', 'photo':'{% static 'common/img/evaluate/photo2.png' %}', 'desc':'课前与教师1对1交流，规划辅导方案'},
+            {'id':3, 'title':'顾问答疑', 'photo':'{% static 'common/img/evaluate/photo3.png' %}', 'desc':'学习顾问解答您对“麻辣老师”、师资力量学习规划等一切问题'},
+        ];
+    </script>
+    <script src="{% static 'wechat/js/order/evaluate_list.js' %}"></script>
+{% endblock %}

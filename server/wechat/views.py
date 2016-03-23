@@ -146,16 +146,13 @@ def _get_auth_redirect_url(request, teacher_id):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class CourseChoosingView(View):
-    template_name = 'wechat/order/course_choosing.html'
+class OrderBaseView(View):
 
-    def get(self, request):
+    def get_teacher(self, request):
         teacher_id = request.GET.get('teacher_id', -1)
-        kwargs = {}
-        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
-        kwargs['teacher'] = teacher
-        current_user = self.request.user
-        kwargs['current_user'] = current_user
+        return get_object_or_404(models.Teacher, pk=teacher_id)
+
+    def get_parent(self, request):
         if settings.TESTING:
             # the below line is only for testing
             parent = models.Parent.objects.get(pk=3)
@@ -163,9 +160,19 @@ class CourseChoosingView(View):
             login(request, parent.user)
         else:
             parent = _get_parent(request)
+        return parent
+
+
+class CourseChoosingView(OrderBaseView):
+    template_name = 'wechat/order/course_choosing.html'
+
+    def get(self, request):
+        kwargs = {}
+        kwargs['teacher'] = teacher = self.get_teacher(request)
+        parent = self.get_parent(request)
         if parent is None:
-            redirect_url = _get_auth_redirect_url(request, teacher_id)
-            logger.debug(redirect_url)
+            redirect_url = _get_auth_redirect_url(request, teacher.id)
+            logger.warning(redirect_url)
             return HttpResponseRedirect(redirect_url)
         kwargs['parent'] = parent
         subject = teacher.subject()  # 目前老师只有一个科目
@@ -175,8 +182,6 @@ class CourseChoosingView(View):
         first_buy = order_count <= 0  # 对于当前科目来说, 是第一次购买
         kwargs['first_buy'] = first_buy
         kwargs['evaluate_time'] = int(models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
-        # abilities = teacher.abilities.all()
-        # kwargs['abilities'] = abilities
         prices = teacher.prices()
         kwargs['prices'] = prices
         # schools = teacher.schools.all()
@@ -186,18 +191,6 @@ class CourseChoosingView(View):
         now = timezone.now()
         now_timestamp = int(now.timestamp())
         kwargs['server_timestamp'] = now_timestamp
-        date_from = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        date_to = now.replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
-        coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=date_from, expired_at__gt=date_to, used=False
-                                        ).order_by('-amount', 'expired_at')
-        kwargs['coupons'] = coupons
-        pre_chosen_coupon = None
-        for coupon in coupons:
-            if coupon.mini_course_count==0:
-                pre_chosen_coupon = coupon
-                break
-        # pre_chosen_coupon = pre_chosen_coupon or coupons.first()
-        kwargs['pre_chosen_coupon'] = pre_chosen_coupon
 
         url = request.build_absolute_uri()
         sign_data = _jssdk_sign(url)
@@ -216,20 +209,14 @@ class CourseChoosingView(View):
         return HttpResponse("Not supported request.", status=403)
 
     def confirm_order(self, request):
-        if settings.TESTING:
-            # the below line is only for testing
-            parent = models.Parent.objects.get(pk=3)
-        else:
-            parent = _get_parent(request)
+        parent = self.get_parent(request)
         if not parent:
             return JsonResponse({'ok': False, 'msg': '您还未登录', 'code': 403})
         if settings.TESTING:
             # the below line is real wx_openid, but not related with ours server
             wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
-            pass
         else:
             wx_openid = parent.user.profile.wx_openid
-            pass
         if not wx_openid:
             return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
         # get request params
@@ -317,6 +304,53 @@ class CourseChoosingView(View):
             dis = calculateDistance(p, sp)
             distances.append({'id': school.id, 'far': dis})
         return JsonResponse({'ok': True, 'list': distances})
+
+
+class CouponListView(OrderBaseView):
+    template_name = 'wechat/order/coupon_list.html'
+
+    def get(self, request):
+        kwargs = {}
+        kwargs['teacher'] = teacher = self.get_teacher(request)
+        parent = self.get_parent(request)
+        if parent is None:
+            redirect_url = _get_auth_redirect_url(request, teacher.id)
+            logger.warning(redirect_url)
+            return HttpResponseRedirect(redirect_url)
+        kwargs['parent'] = parent
+
+        now = timezone.now()
+        date_from = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        date_to = now.replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
+        coupons = models.Coupon.objects.filter(parent=parent, validated_start__lte=date_from, expired_at__gt=date_to, used=False
+                                        ).order_by('-amount', 'expired_at')
+        kwargs['coupons'] = coupons
+        pre_chosen_coupon = None
+        for coupon in coupons:
+            if coupon.mini_course_count==0:
+                pre_chosen_coupon = coupon
+                break
+        # pre_chosen_coupon = pre_chosen_coupon or coupons.first()
+        kwargs['pre_chosen_coupon'] = pre_chosen_coupon
+        return render(request, self.template_name, kwargs)
+
+
+class EvaluateListView(OrderBaseView):
+    """
+    测评建档服务列表
+    """
+    template_name = 'wechat/order/evaluate_list.html'
+
+    def get(self, request):
+        kwargs = {}
+        kwargs['teacher'] = teacher = self.get_teacher(request)
+        parent = self.get_parent(request)
+        if parent is None:
+            redirect_url = _get_auth_redirect_url(request, teacher.id)
+            logger.warning(redirect_url)
+            return HttpResponseRedirect(redirect_url)
+        kwargs['parent'] = parent
+        return render(request, self.template_name, kwargs)
 
 
 def _jssdk_sign(url):

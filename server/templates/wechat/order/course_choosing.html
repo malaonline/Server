@@ -127,29 +127,11 @@
                         </div>
                     </div>
                     <a class="weui_cell weui_cells_access coupon-row" id="couponRow" href="javascript:;">
-                        <input type="hidden" id="preChosenCoupon" value="{% if pre_chosen_coupon %}{{ pre_chosen_coupon.id }}{% endif %}"/>
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">奖学金</p>
                         </div>
                         <div class="weui_cell_ft"><span>-￥<span id="discountCost">0</span></span></div>
                     </a>
-                    {% for coupon in coupons %}
-                        <div class="weui_cell coupon" couponId="{{ coupon.id }}" style="display: none">
-                            <div class="coupon-upper">
-                                <div class="cost">￥<span class="amount">{{ coupon.amount|money_format:'/' }}</span></div>
-                                <div class="desc">
-                                    <div class="name">{{ coupon.name }}</div>
-                                    <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
-                                </div>
-                                <div class="icons-area">
-                                    <img src="{% static 'wechat/images/coupon-checked.png' %}">
-                                </div>
-                            </div>
-                            <div class="coupon-footer">
-                                有效期 {{ coupon.validated_start|date:'Y.m.d' }} - {{ coupon.expired_at|date:'Y.m.d' }}
-                            </div>
-                        </div>
-                    {% endfor %}
                     {% if first_buy %}
                     <a class="weui_cell weui_cells_access test-row" id="evaluateRow" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
@@ -211,11 +193,8 @@
 {% block addition_js %}
     <script>
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
-        var evaluateItems = [
-            {'id':1, 'title':'在线答疑', 'photo':'{% static 'common/img/evaluate/photo1.png' %}', 'desc':'智能组卷，检测学生知识漏洞，并找出具体详细报告'},
-            {'id':2, 'title':'了解老师', 'photo':'{% static 'common/img/evaluate/photo2.png' %}', 'desc':'课前与教师1对1交流，规划辅导方案'},
-            {'id':3, 'title':'顾问答疑', 'photo':'{% static 'common/img/evaluate/photo3.png' %}', 'desc':'学习顾问解答您对“麻辣老师”、师资力量学习规划等一切问题'},
-        ];
+        var coupon_list_page = '{% url 'wechat:order-coupon-list' %}?teacher_id={{ teacher.id }}';
+        var evaluate_list_page = '{% url 'wechat:order-evaluate-list' %}?teacher_id={{ teacher.id }}';
         wx.config({
             debug: false,
             appId: '{{ WX_APPID }}',
@@ -225,5 +204,5 @@
             jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow']
         });
     </script>
-    <script src="{% static 'wechat/js/course_choosing.js' %}"></script>
+    <script src="{% static 'wechat/js/order/course_choosing.js' %}"></script>
 {% endblock %}

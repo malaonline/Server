@@ -7,24 +7,11 @@ $(function(){
     var chosen_grade_id = '';
     var chosen_price = 0;
     var chosen_school_id = '';
-    var chosen_weekly_time_slots = [];
+    var weekly_time_slot_ids = [];
     var chosen_coupon_id = '';
-    var HOUR = 60*60*1000;
-    var DAY = 24*HOUR;
+    var chosen_coupon_amount = 0;
+    var chosen_coupon_min_count = 0;
     var MAX_PREVIEW_HOURS = 100;
-
-    var pre_chosen_coupon_id = $("#preChosenCoupon").val();
-    var $coupons = $('.coupon');
-    if (pre_chosen_coupon_id) {
-        chosen_coupon_id = pre_chosen_coupon_id;
-        $coupons.each(function () {
-            var $this = $(this), cpid = $this.attr('couponId');
-            if (cpid == pre_chosen_coupon_id) {
-                $this.addClass('chosen');
-                return false;
-            }
-        });
-    }
 
     var $payArea = $('#payArea');
     var $alertDialog = $('#alertDialog');
@@ -37,6 +24,13 @@ $(function(){
             $alertDialog.hide();
             $payArea.show();
         });
+    };
+
+    var _contains = function(list, v) {
+        for (var i in list) {
+            if (list[i]==v) return true;
+        }
+        return false;
     };
 
     var hideOtherSchools = function($school) {
@@ -119,9 +113,6 @@ $(function(){
         });
     });
 
-    wx.error(function(){
-    });
-
     $('.grade-box > .grade').click(function(e){
         var ele = e.target, $ele = $(ele);
         var val = $ele.data('gradeid');
@@ -135,6 +126,7 @@ $(function(){
         });
         chosen_grade_id = val;
         chosen_price = parseInt($(ele).find('input').val());
+        sessionStorage.chosen_grade_id = chosen_grade_id;
         updateCost();
         e.stopPropagation();
     });
@@ -162,15 +154,11 @@ $(function(){
         }
     };
     var _updateCourseTimePreview = function(hours) {
-        if (hours==0 || chosen_weekly_time_slots.length==0) {
+        if (hours==0 || weekly_time_slot_ids.length==0) {
             return $("#courseTimePreview").html('');
         }
         if ($courseTimePreviewPanel.hasClass('closed')) {
             return;
-        }
-        var weekly_time_slot_ids = [];
-        for (var i in chosen_weekly_time_slots) {
-            weekly_time_slot_ids.push(chosen_weekly_time_slots[i].id)
         }
         $courseTimePreview.html('');
         var preview_hours = hours > 100 ? MAX_PREVIEW_HOURS : hours;
@@ -183,23 +171,20 @@ $(function(){
 
     var updateCourseTimePreview = function() {
         var $chosenTimeSlot = $('#weeklyTable > tbody > tr > td.available.chosen');
-        chosen_weekly_time_slots.length=0;
+        weekly_time_slot_ids.length=0;
         $chosenTimeSlot.each(function(i, ele){
-            var $td = $(ele), $tr = $td.closest('tr');
-            var day = parseInt($td.attr('day')),
-                start = parseInt($tr.attr('start').split(':')[0]) + parseInt($tr.attr('start').split(':')[1])/60,
-                end = parseInt($tr.attr('end').split(':')[0]) + parseInt($tr.attr('end').split(':')[1])/60;
-            var s = start * HOUR;
-            var e = end * HOUR;
-            chosen_weekly_time_slots.push({'id': $td.attr('tsid'), 'day': day, 'start': s, 'end': e})
+            var $td = $(ele), tsid = $td.attr('tsid');
+            weekly_time_slot_ids.push(tsid);
         });
         var hours = parseInt($('#courseHours').text());
-        if (chosen_weekly_time_slots.length==0) {
+        if (weekly_time_slot_ids.length==0) {
             hours = 0;
         } else {
-            hours = Math.max(chosen_weekly_time_slots.length * 2, hours);
+            hours = Math.max(weekly_time_slot_ids.length * 2, hours);
         }
         $('#courseHours').html(hours);
+        sessionStorage.weekly_time_slot_ids = weekly_time_slot_ids.join('+');
+        sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
         updateCost();
     };
@@ -218,7 +203,7 @@ $(function(){
     };
 
     var $weeklyTable = $('#weeklyTable');
-    var renderWeeklyTableBySchool = function(school_id) {
+    var renderWeeklyTableBySchool = function(school_id, chosen_time_slot_ids) {
         $weeklyTable.find('tbody > tr').each(function(){
             $(this).find('td').each(function(i) {
                 if (i == 0) return;
@@ -240,6 +225,9 @@ $(function(){
                     if (ts && ts.available) {
                         $td.attr('tsid', ts.id);
                         $td.removeClass('unavailable').addClass('available');
+                        if (chosen_time_slot_ids && _contains(chosen_time_slot_ids, ts.id)) {
+                            $td.addClass('chosen');
+                        }
                     } else {
                         $td.removeClass('available').addClass('unavailable');
                     }
@@ -265,6 +253,7 @@ $(function(){
           }
         });
         chosen_school_id = val;
+        sessionStorage.chosen_school_id = chosen_school_id;
         renderWeeklyTableBySchool(val);
         hideOtherSchools($school);
         e.stopPropagation();
@@ -287,18 +276,15 @@ $(function(){
         } else {
             var $coupon = null;
             if (chosen_coupon_id) {
-                $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
-                var min_count = parseInt($coupon.find('.ccount').text());
+                var min_count = parseInt(chosen_coupon_min_count);
                 if (hours < min_count) {
                     chosen_coupon_id = '';
-                    $coupon.removeClass('chosen');
+                    sessionStorage.chosen_coupon_id = chosen_coupon_id;
                     $('#discountCost').html('0');
                 }
-                //if (!chosen_coupon_id) { // auto choose another one, 以后再说
             }
             if (chosen_coupon_id) { // get discount
-                $coupon = $('.coupon[couponId="' + chosen_coupon_id + '"]');
-                $('#discountCost').html($coupon.find('.amount').text());
+                $('#discountCost').html(chosen_coupon_amount);
             } else {
                 $('#discountCost').html('0');
             }
@@ -337,74 +323,36 @@ $(function(){
 
     $('#decHoursBtn').click(function(e){
         var hours = parseInt($('#courseHours').text());
-        if (hours <= chosen_weekly_time_slots.length * 2) {
+        if (hours <= weekly_time_slot_ids.length * 2) {
             return;
         }
         hours -= 2;
         $('#courseHours').html(hours);
+        sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
         updateCost();
     });
     $('#incHoursBtn').click(function(e){
-        if (chosen_weekly_time_slots.length==0) {
+        if (weekly_time_slot_ids.length==0) {
             showAlertDialog('请先选择上课时间');
             return;
         }
         var hours = parseInt($('#courseHours').text());
         hours += 2;
         $('#courseHours').html(hours);
+        sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
         updateCost();
     });
 
-    var hide_coupons = function(){
-        setTimeout(function(){
-            $coupons.hide();
-        }, 453);
-    };
+    // 去奖学金页面
     $('#couponRow').click(function(){
-        if ($coupons.length==0) {
-            showAlertDialog('您没有可用奖学金');
-            return;
-        }
-        if ($($coupons[0]).css('display')!='none') {
-            $coupons.hide();
-        } else {
-            $coupons.show();
-        }
+        location.href = coupon_list_page;
     });
-    $coupons.click(function(){
-        /// NOTE: 更新discount不在这里做, 在后面的updateCost()方法里
-        var hours = parseInt($('#courseHours').text());
-        if (hours==0) {
-            showAlertDialog('请先选择上课时间');
-            return;
-        }
-        var $this = $(this), cpid = $this.attr('couponId');
-        if (cpid==chosen_coupon_id) {
-            chosen_coupon_id = '';
-            $this.removeClass('chosen');
-            updateCost();
-            hide_coupons();
-            return;
-        }
-        var min_count = parseInt($this.find('.ccount').text());
-        if (hours<min_count){
-            showAlertDialog('课时数不足');
-            return;
-        }
-        // choose this one
-        chosen_coupon_id = cpid;
-        $coupons.each(function () {
-            var _$this = $(this), _cpid = _$this.attr('couponId');
-            if (_cpid == chosen_coupon_id) {
-                _$this.addClass('chosen');
-            } else {
-                _$this.removeClass('chosen');
-            }
-        });
-        updateCost();
-        hide_coupons();
+
+    // 去测评建档服务页面
+    $('#evaluateRow').click(function(e){
+        location.href = evaluate_list_page;
     });
 
     $('#confirmBtn').click(function(e){
@@ -412,10 +360,6 @@ $(function(){
         if (hours <= 0) {
             showAlertDialog('请先选择上课时间');
             return;
-        }
-        var weekly_time_slot_ids = [];
-        for (var i in chosen_weekly_time_slots) {
-            weekly_time_slot_ids.push(chosen_weekly_time_slots[i].id)
         }
         var params = {
             'action': 'confirm',
@@ -469,34 +413,41 @@ $(function(){
         }, 'json');
     });
 
-    // 初始化"测评建档服务"内容
-    var $evaluateRow = $('#evaluateRow');
-    if ($evaluateRow[0]) {
-        var $evaluateDialog = $('#evaluateItemsDialog');
-        var $evaluateItemsBody = $('#evaluateItemsBody');
-        var buf = [];
-        for (var i in evaluateItems) {
-            var obj = evaluateItems[i];
-            buf.push('<div class="evaluate-item">');
-            buf.push('<div class="evaluate-title">');
-            buf.push(obj.title);
-            buf.push('</div>');
-            buf.push('<div class="evaluate-photo">');
-            buf.push('<img src="'+obj.photo+'"/>');
-            buf.push('</div>');
-            buf.push('<div class="evaluate-note">');
-            buf.push(obj.desc);
-            buf.push('</div>');
-            buf.push('</div>');
+    // 从sessionStorage恢复数据
+    (function(){
+        if (sessionStorage.hours) {
+            $('#courseHours').html(sessionStorage.hours);
         }
-        $evaluateItemsBody.append(buf.join(''));
-        $evaluateRow.click(function(e){
-            $payArea.hide();
-            $evaluateDialog.show();
-            $evaluateDialog.one('click', function () {
-                $evaluateDialog.hide();
-                $payArea.show();
+        if (sessionStorage.chosen_coupon_id) {
+            chosen_coupon_id = sessionStorage.chosen_coupon_id;
+            chosen_coupon_min_count = sessionStorage.chosen_coupon_min_count;
+            chosen_coupon_amount = sessionStorage.chosen_coupon_amount;
+        }
+        if (sessionStorage.weekly_time_slot_ids) {
+            weekly_time_slot_ids = sessionStorage.weekly_time_slot_ids.split('+');
+        }
+        if (sessionStorage.chosen_grade_id) {
+            chosen_grade_id = sessionStorage.chosen_grade_id;
+            $('.grade').each(function(){
+                var $this = $(this), v = $this.data('gradeid');
+                if (v==chosen_grade_id) {
+                    chosen_price = parseInt($this.find('input').val());
+                    $this.addClass('chosen');
+                    return false;
+                }
             });
-        });
-    }
+        }
+        if (sessionStorage.chosen_school_id) {
+            chosen_school_id = sessionStorage.chosen_school_id;
+            $('.school').each(function(){
+                var $this = $(this), scid = $this.attr('scid');
+                if (scid==chosen_school_id) {
+                    $this.addClass('chosen');
+                    hideOtherSchools($this);
+                    renderWeeklyTableBySchool(chosen_school_id, weekly_time_slot_ids);
+                }
+            });
+        }
+        updateCost();
+    })();
 });
