@@ -28,9 +28,9 @@
             <tr>
                 <td field="name">{# 老师姓名 #} {{ bankcard.account.user.teacher.name }}</td>
                 <td>{# 手机号 #} {{ bankcard.account.user.profile.phone }}</td>
-                <td>{# 所属省市 #} TODO</td>
+                <td>{# 所属省市 #} {% if bankcard.region %}{{ bankcard.region.full_name }}{% endif %}</td>
                 <td>{# 所属银行 #} {{ bankcard.bank_name }}</td>
-                <td>{# 开户行 #} TODO</td>
+                <td>{# 开户行 #} {% if bankcard.opening_bank %}{{ bankcard.opening_bank }}{% endif %}</td>
                 <td>{# 银行卡号 #} {{ bankcard.mask_number }}</td>
                 <td field="action">{# 操作 #}
                     TODO
