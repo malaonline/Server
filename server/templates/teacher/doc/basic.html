@@ -36,9 +36,11 @@
           <div class="controls">
             <label for="">{{ teacher.name }}</label>
           </div>
+          {% if teacher.user.profile.avatar_url %}
           <div class="teacher-avatar">
-              <img src="{%if teacher.user.profile.avatar_url%}{{teacher.user.profile.avatar_url}}{%else%}{%static 'common/icons/none_body_profile.png' %}{%endif%}">
+              <img src="{{teacher.user.profile.avatar_url}}">
           </div>
+          {% endif %}
         </div>
         <div class="control-group">
           <label class="control-label" for="inscore">手机号</label>
