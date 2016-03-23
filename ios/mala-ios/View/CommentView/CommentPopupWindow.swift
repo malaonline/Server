@@ -107,7 +107,6 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     /// 评分面板
     private lazy var floatRating: FloatRatingView = {
         let floatRating = FloatRatingView()
-        floatRating.delegate = self
         return floatRating
     }()
     /// 描述 文字背景
