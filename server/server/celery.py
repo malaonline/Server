@@ -5,8 +5,6 @@ from datetime import timedelta
 
 from celery import Celery
 
-from .settings import CELERY_AUTOCONFIRM_CLASSES_INTERVAL
-
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
@@ -28,9 +26,10 @@ celery_app.conf.update(
         # 需要执行时指定队列 add.apply_async((2, 2), queue='hipri')
         },
     CELERYBEAT_SCHEDULE={
-        "add":{
+        "confirm-classes":{
             "task":"app.tasks.autoConfirmClasses",
-            "schedule":timedelta(seconds=CELERY_AUTOCONFIRM_CLASSES_INTERVAL),
+            "schedule":timedelta(
+                seconds=settings.CELERY_AUTOCONFIRM_CLASSES_INTERVAL),
             },
         },
     )
