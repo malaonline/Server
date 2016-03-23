@@ -2315,6 +2315,7 @@ class WalletView(BaseTeacherView):
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
         context['histories'] = histories
         context['pager'] = pager
+        context['unbind_hint'] = '目前无法解除绑定，如需解除绑定请联系麻辣老师客服人员或致电%s'%(settings.SERVICE_SUPPORT_TEL)
         return render(request, self.template_path, context)
 
     def listAccountHistories(self, request, teacher):

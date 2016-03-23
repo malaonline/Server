@@ -45,6 +45,10 @@
                 <div class="bank-card">
                     <div class="title">{{ bankcard.bank_name }}</div>
                     <div>{{ bankcard.mask_number }}</div>
+                    <div class="unbind-hint">
+                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left"
+                              title="<div class='text-left'>{{ unbind_hint }}</div>"></span>
+                    </div>
                 </div>
             {% else %}
                 <div class="bank-card-add text-center">
