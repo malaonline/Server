@@ -61,6 +61,7 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
             if currentIndex != oldValue {
                 container?.pageControl.currentPage = currentIndex
                 container?.isComment = (models[currentIndex].comment != nil)
+                container?.isPassed = models[currentIndex].is_passed
                 println("页面滑动 - 当前是否评价：\((models[currentIndex].comment != nil))")
             }
         }
