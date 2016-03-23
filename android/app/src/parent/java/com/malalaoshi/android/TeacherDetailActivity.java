@@ -688,7 +688,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             case R.id.ll_school_more:
                 //显示更多教学中心
                 changeSchoolsShow();
-
                 break;
         }
     }

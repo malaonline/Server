@@ -8,26 +8,30 @@
         android:id="@+id/networkImageView1"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_default_photo"
-        android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <View
+        android:layout_width="4dp"
+        android:layout_height="match_parent"/>
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/networkImageView2"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_default_photo"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <View
+        android:layout_width="4dp"
+        android:layout_height="match_parent"/>
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/networkImageView3"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_default_photo"
-        android:layout_marginLeft="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
