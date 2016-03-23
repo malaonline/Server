@@ -238,6 +238,30 @@ class TestApi(TestCase):
         # print(profile_after.avatar_url())
         self.assertTrue(profile_after.avatar.url.find(img_name) >= 0)
 
+    def test_modify_avatar_by_teacher(self):
+        # Teacher role not allowed to modify avatar.
+        username = "test1"
+        password = "123123"
+        user = User.objects.get(username=username)
+
+        change_profile_perm = Permission.objects.get(name='Can change profile')
+        user.user_permissions.add(change_profile_perm)
+        user.save()
+
+        client = Client()
+        client.login(username=username, password=password)
+        request_url = "/api/v1/profiles/%d" % (user.profile.pk,)
+        img_name = 'img0'  # NOTE: seq is 0 not 1, seq of the user 'parent1'
+        img_path = os.path.join(
+                app_path, 'migrations', 'avatars', img_name + '.jpg')
+        # print(img_path)
+        img_fd = open(img_path, 'rb')
+        data = {'avatar': img_fd}
+        encoded_data = encode_multipart(BOUNDARY, data)
+        response = client.patch(request_url, content_type=MULTIPART_CONTENT,
+                                data=encoded_data)
+        self.assertEqual(403, response.status_code)
+
     def test_concrete_time_slots(self):
         client = Client()
         url = ("/api/v1/concrete/timeslots" +

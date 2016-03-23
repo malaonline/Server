@@ -237,8 +237,6 @@ class Sms(View):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    # role = RoleSerializer()
-
     class Meta:
         model = models.Profile
         fields = ('id', 'gender', 'avatar',)
@@ -263,6 +261,13 @@ class ProfileViewSet(ProfileBasedMixin,
         if not self.request.user.is_superuser and (
                 self.get_profile() != self.get_object()):
             return HttpResponse(status=403)
+        try:
+            teacher = self.request.user.teacher
+            return HttpResponse(status=403)
+        except (AttributeError, exceptions.ObjectDoesNotExist):
+            # This is right
+            pass
+
         response = super(ProfileViewSet, self).update(request, *args, **kwargs)
         if response.status_code == 200:
             response.data = {"done": "true"}

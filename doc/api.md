@@ -397,9 +397,7 @@ content_type: multipart/form-data
 body data:
 
 ```
-{
-    avatar=image_file
-}
+avatar=image_file
 ```
 
 result:
@@ -409,6 +407,8 @@ result:
     "done": "true"
 }
 ```
+
+If user role is not correct, return HTTP code 403
 
 
 ### Get user policy
