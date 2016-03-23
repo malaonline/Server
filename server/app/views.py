@@ -290,8 +290,22 @@ class RegionSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RegionViewSet(viewsets.ReadOnlyModelViewSet):
+    pagination_class = LargeResultsSetPagination
     queryset = models.Region.objects.all()
     serializer_class = RegionSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        action = self.request.query_params.get('action', '') or ''
+        if action == 'sub-regions':
+            sid = self.request.query_params.get('sid', '') or ''
+            if sid:
+                queryset = queryset.filter(superset_id=sid)
+            else:
+                queryset = queryset.filter(superset_id__isnull=True)
+
+        return queryset
 
 
 class SchoolSerializer(serializers.ModelSerializer):

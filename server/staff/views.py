@@ -869,8 +869,6 @@ class TeacherActionView(BaseStaffActionView):
 
     def get(self, request):
         action = self.request.GET.get('action')
-        if action == 'list-region':
-            return self.listSubRegions(request)
         if action == 'list-highscore':
             return self.getTeacherHighscore(request)
         if action == 'list-achievement':
@@ -972,23 +970,6 @@ class TeacherActionView(BaseStaffActionView):
         # except Exception as err:
         #     logger.error(err)
         #     return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
-
-    def listSubRegions(self, request):
-        """
-        获取下级地区列表
-        :param request:
-        :return:
-        """
-        sid = request.GET.get('sid')
-        query_set = models.Region.objects.filter()
-        if not sid:
-            query_set = query_set.filter(superset_id__isnull=True)
-        else:
-            query_set = query_set.filter(superset_id=sid)
-        regions = []
-        for region in query_set:
-            regions.append({'id': region.id, 'name': region.name})
-        return JsonResponse({'list': regions})
 
     def getTeacherHighscore(self, request):
         """

@@ -14,32 +14,6 @@ $(function(){
         return true;
     });
 
-    $("select[name=province]").change(function(e){
-        var pro_id = $(this).val(), $city_sel = $("select[name=city]"), $dist_sel = $("select[name=district]");
-        $.getJSON('/staff/teachers/action/', {'action': 'list-region', 'sid': pro_id}, function(json){
-            if (json && json.list) {
-                $city_sel.find('option:gt(0)').remove();
-                $dist_sel.find('option:gt(0)').remove();
-                for (var i in json.list) {
-                    var reg = json.list[i];
-                    $city_sel.append('<option value="'+reg.id+'">'+reg.name+'</option>');
-                }
-            }
-        });
-    });
-    $("select[name=city]").change(function(e){
-        var dist_id = $(this).val(), $dist_sel = $("select[name=district]");
-        $.getJSON('/staff/teachers/action/', {'action': 'list-region', 'sid': dist_id}, function(json){
-            if (json && json.list) {
-                $dist_sel.find('option:gt(0)').remove();
-                for (var i in json.list) {
-                    var reg = json.list[i];
-                    $dist_sel.append('<option value="'+reg.id+'">'+reg.name+'</option>');
-                }
-            }
-        });
-    });
-
     paginationInit();
 
     // 预览头像

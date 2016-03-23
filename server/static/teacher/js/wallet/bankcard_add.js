@@ -8,6 +8,34 @@ $(function () {
         $(this).closest('.hint').hide();
     });
 
+    $("select[name=province]").change(function(e){
+        var pro_id = $(this).val(), $city_sel = $("select[name=city]"), $dist_sel = $("select[name=district]");
+        $city_sel.find('option:gt(0)').remove();
+        $dist_sel.find('option:gt(0)').remove();
+        if (!pro_id) return;
+        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': pro_id}, function(json){
+            if (json && json.results) {
+                for (var i in json.results) {
+                    var reg = json.results[i];
+                    $city_sel.append('<option value="'+reg.id+'">'+reg.name+'</option>');
+                }
+            }
+        });
+    });
+    $("select[name=city]").change(function(e){
+        var city_id = $(this).val(), $dist_sel = $("select[name=district]");
+        $dist_sel.find('option:gt(0)').remove();
+        if (!city_id) return;
+        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': city_id}, function(json){
+            if (json && json.results) {
+                for (var i in json.results) {
+                    var reg = json.results[i];
+                    $dist_sel.append('<option value="'+reg.id+'">'+reg.name+'</option>');
+                }
+            }
+        });
+    });
+
     // 检测身份证号
     var checkIdNum = function(ignoreBlank, hospitable){
         var $idNum = $('#id_num'), $formRow = $idNum.closest('.form-group'), id_num = $.trim($idNum.val());
@@ -60,6 +88,45 @@ $(function () {
         return ok;
     };
     checkPhone(true);
+    // 检测所在地区
+    var $province = $("#province"), $city = $("#city"), $district = $("#district");
+    var getRegion = function(){
+        var province = $.trim($province.val()), city = $.trim($city.val()), district = $.trim($district.val());
+        return district || city || province;
+    };
+    var checkRegion = function(hospitable){
+        var $formRow = $province.closest('.form-group'), region = getRegion();
+        var ok = !!region;
+        if (ok) {
+            $formRow.removeClass('has-error');
+            $formRow.find('.hint-block').html('');
+        } else {
+            if (!hospitable) {
+                $formRow.addClass('has-error');
+                $formRow.find('.hint-block').html('所属省市不能为空');
+            }
+        }
+        return ok;
+    };
+    // 检测开户行
+    var $openingBack = $('#opening_bank');
+    var getOpeningBack = function(){
+        return $.trim($openingBack.val());
+    };
+    var checkOpeningBank = function(hospitable){
+        var $formRow = $openingBack.closest('.form-group'), openingBack = getOpeningBack();
+        var ok = !!openingBack;
+        if (ok) {
+            $formRow.removeClass('has-error');
+            $formRow.find('.hint-block').html('');
+        } else {
+            if (!hospitable) {
+                $formRow.addClass('has-error');
+                $formRow.find('.hint-block').html('开户行不能为空');
+            }
+        }
+        return ok;
+    };
 
     var canGetCheckcode = function() {
         var ok = true;
@@ -67,6 +134,10 @@ $(function () {
         ok = ok ? ok && checkIdNum(): false;
         ok = ok && !!$.trim($('#card_number').val()); // check if has card number
         ok = ok ? ok && checkCardNum(): false;
+        ok = ok && !!getOpeningBack(); // check if has opening bank
+        ok = ok ? ok && checkOpeningBank(): false;
+        ok = ok && !!getRegion(); // check if has region
+        ok = ok ? ok && checkRegion(): false;
         ok = ok && !!$.trim($('#phone').val()); // check if has phone number
         ok = ok ? ok && checkPhone(): false;
         return ok;
@@ -148,6 +219,22 @@ $(function () {
     $('#card_number').bind("input propertychange change keyup", function(e){
         checkCardNum(false, true);
         formatCardNumber();
+        validateUI();
+    });
+    $('#opening_bank').blur(function(e){
+        checkOpeningBank();
+        validateUI();
+    });
+    $('#opening_bank').bind("input propertychange change keyup", function(e){
+        checkOpeningBank(true);
+        validateUI();
+    });
+    $('select').blur(function(e){
+        checkRegion();
+        validateUI();
+    });
+    $('select').bind("input propertychange change keyup", function(e){
+        checkRegion(true);
         validateUI();
     });
     $('#phone').blur(function(e){

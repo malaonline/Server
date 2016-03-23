@@ -2348,6 +2348,8 @@ class WalletBankcardView(BaseTeacherView):
             return render(request, self.success_template_path, context)
         context['id_num'] = certIdHeld.name # 身份证号
         context['phone'] = teacher.user.profile.phone
+         # 所属省市
+        context['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
         return render(request, self.template_path, context)
 
     def post(self, request):
@@ -2365,7 +2367,12 @@ class WalletBankcardView(BaseTeacherView):
         card_number = self.request.POST.get('card_number') and self.request.POST.get('card_number').replace(' ','',) or ''
         phone = self.request.POST.get('phone') and self.request.POST.get('phone').strip() or ''
         checkcode = self.request.POST.get('checkcode') and self.request.POST.get('checkcode').strip() or ''
-        if not id_num or not card_number or not phone or not checkcode:
+        province = request.POST.get('province', '').strip()
+        city = request.POST.get('city', '').strip()
+        district = request.POST.get('district', '').strip()
+        region_id = district or city or province
+        opening_bank = request.POST.get('opening_bank', '').strip()
+        if not id_num or not card_number or not phone or not checkcode or not region_id or not opening_bank:
             return JsonResponse({'ok': False, 'msg': '参数不能为空', 'code': 1})
         if not check_id_number(id_num):
             return JsonResponse({'ok': False, 'msg': '身份证号不合法', 'code': 2})
@@ -2377,6 +2384,7 @@ class WalletBankcardView(BaseTeacherView):
             return JsonResponse({'ok': False, 'msg': '验证码格式错误', 'code': 5})
         if not models.Checkcode.verify(phone, checkcode)[0]:
             return JsonResponse({'ok': False, 'msg': '验证码错误', 'code': 6})
+        region = get_object_or_404(models.Region, pk=region_id)
         # 重复检测
         oldone = models.BankCard.objects.filter(card_number=card_number).first()
         if oldone is not None:
@@ -2386,5 +2394,7 @@ class WalletBankcardView(BaseTeacherView):
         bankcard = models.BankCard(account=account)
         bankcard.card_number = card_number
         bankcard.bank_name = settings.DEFAULT_BANK_NAME # TODO: 获得银行卡对应银行名称
+        bankcard.region = region
+        bankcard.opening_bank = opening_bank
         bankcard.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})

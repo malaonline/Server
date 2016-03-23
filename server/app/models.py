@@ -930,6 +930,8 @@ class BankCard(BaseModel):
     bank_name = models.CharField(max_length=100)
     card_number = models.CharField(max_length=100, unique=True)
     account = models.ForeignKey(Account)
+    region = models.ForeignKey(Region, null=True, blank=True)
+    opening_bank = models.CharField(max_length=100, null=True, blank=True)
 
     # 显示的储蓄卡号,最后四位有,前面是 ****,每四个一分组
     # 返回数值为 ["****", "****", "****", "6607"],用返回结果,进一步自行拼接
