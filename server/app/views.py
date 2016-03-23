@@ -263,7 +263,7 @@ class ProfileViewSet(ProfileBasedMixin,
             return HttpResponse(status=403)
         try:
             teacher = self.request.user.teacher
-            return HttpResponse(status=403)
+            return HttpResponse(status=409)
         except (AttributeError, exceptions.ObjectDoesNotExist):
             # This is right
             pass

@@ -408,7 +408,7 @@ result:
 }
 ```
 
-If user role is not correct, return HTTP code 403
+If user role is not correct, return HTTP code 409
 
 
 ### Get user policy

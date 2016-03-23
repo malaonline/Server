@@ -260,7 +260,7 @@ class TestApi(TestCase):
         encoded_data = encode_multipart(BOUNDARY, data)
         response = client.patch(request_url, content_type=MULTIPART_CONTENT,
                                 data=encoded_data)
-        self.assertEqual(403, response.status_code)
+        self.assertEqual(409, response.status_code)
 
     def test_concrete_time_slots(self):
         client = Client()
