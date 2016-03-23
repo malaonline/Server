@@ -494,6 +494,54 @@ func getCourseInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, comple
 }
 
 
+// MARK: - Comment
+///  创建评价
+///
+///  - parameter comment:        评价对象
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func createComment(comment: CommentModel, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    let requestParameters = [
+        "timeslot": comment.timeslot,
+        "score": comment.score,
+        "content": comment.content
+    ]
+    
+    let parse: JSONDictionary -> Bool = { data in
+        return (data != nil)
+    }
+    
+    let resource = authJsonResource(path: "comments", method: .POST, requestParameters: (requestParameters as! JSONDictionary), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  获取评价信息
+///
+///  - parameter id:             评价id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getCommentInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: CommentModel -> Void) {
+    
+    let parse: JSONDictionary -> CommentModel? = { data in
+        return parseCommentInfo(data)
+    }
+    
+    let resource = authJsonResource(path: "comments/\(id)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+
 // MARK: - Payment
 ///  创建订单
 ///
@@ -720,6 +768,22 @@ let parseCourseInfo: JSONDictionary -> CourseModel? = { courseInfo in
         is_passed = courseInfo["is_passed"] as? Bool,
         teacher = courseInfo["teacher"] as? JSONDictionary {
             return CourseModel(dict: courseInfo)
+    }
+    return nil
+}
+/// 评论信息JSON解析器
+let parseCommentInfo: JSONDictionary -> CommentModel? = { commentInfo in
+    
+    guard let id = commentInfo["id"] as? Int else {
+        return nil
+    }
+    
+    if let
+        id = commentInfo["id"] as? Int,
+        timeslot = commentInfo["timeslot"] as? Int,
+        score = commentInfo["score"] as? Int,
+        content = commentInfo["content"] as? String {
+            return CommentModel(dict: commentInfo)
     }
     return nil
 }
