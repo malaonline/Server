@@ -62,26 +62,26 @@
             </div>
             <div class="page-right"></div>
             {% if information_complete_percent < 100 %}
-            <div class="complete-table-bar" role="alert" attrHidden="false" id="complete-table-bar">
-                <div class="close_row">
-                    <button id="close-complete-table-bar"><i></i></button>
-                </div>
-                <div class="percent_complete">
-                    <p class="percent_title">个人资料完成度 <span>{{ information_complete_percent }}%</span></p>
-                    <div class="custom_progress">
-                      <div class="custom_progress_bar" role="progressbar" aria-valuenow="{{ information_complete_percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ information_complete_percent }}%">
-                        <span class="sr-only">{{ information_complete_percent }}% Complete (success)</span>
-                      </div>
+                <div class="complete-table-bar" role="alert" attrHidden="false" id="complete-table-bar">
+                    <div class="close_row">
+                        <button id="close-complete-table-bar"><i></i></button>
+                    </div>
+                    <div class="percent_complete">
+                        <p class="percent_title">个人资料完成度 <span>{{ information_complete_percent }}%</span></p>
+                        <div class="custom_progress">
+                          <div class="custom_progress_bar" role="progressbar" aria-valuenow="{{ information_complete_percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ information_complete_percent }}%">
+                            <span class="sr-only">{{ information_complete_percent }}% Complete (success)</span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="information">
+                        <p class="title">你目前无法被学生搜索到!</p>
+                        <p class="details">完善详细的资料有助于帮助学生快速找到您</p>
+                    </div>
+                    <div class="complete_information">
+                        <a href="{{ complete_url }}">立刻完善资料</a>
                     </div>
                 </div>
-                <div class="information">
-                    <p class="title">你目前无法被学生搜索到!</p>
-                    <p class="details">完善详细的资料有助于帮助学生快速找到您</p>
-                </div>
-                <div class="complete_information">
-                    <a href="{{ complete_url }}">立刻完善资料</a>
-                </div>
-            </div>
             {% endif %}
         </div>
     </div>
