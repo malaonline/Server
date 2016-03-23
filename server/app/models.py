@@ -1942,7 +1942,9 @@ class TimeSlot(BaseModel):
 
     @property
     def is_passed(self):
-        return self.is_complete()
+        # 不再增加2小时延长时间
+        return self.end < timezone.now()
+        # return self.is_complete()
 
     @property
     def teacher(self):

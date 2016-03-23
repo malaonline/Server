@@ -792,8 +792,6 @@ class MySchoolTimetable(BasicTeacherView):
             # 评价状态, 0-未评价, 1-已评价
             self.comment_state = 0
             # 上课状态, 0-待上课, 1-上课中, 2-已完成
-            print(time_slot)
-            print(today)
             if time_slot.is_waiting(today):
                 # 等待中的课程
                 self.class_state = 0
@@ -1168,7 +1166,7 @@ class MyEvaluation(BasicTeacherView):
                             the_form = forms.CommentReplyForm()
                         one_comment = {
                             "name": self.name,
-                            "publish_date": comment.created_at.strftime("%Y-%m-%d %H:%M"),
+                            "publish_date": localtime(comment.created_at).strftime("%Y-%m-%d %H:%M"),
                             "full_star": range(comment.score),
                             "empty_star": range(5 - comment.score),
                             "comment": comment.content,
