@@ -13,13 +13,15 @@
             <span>{{ school.num_photos }}</span>
         </div>
         <div class="trans-mask">
-            {% if school.center %}
-                <h6>体验中心</h6>
-                <span>高配置教学环境,极佳学习体验</>
-            {% else %}
-                <h6>社区中心</h6>
-                <span>距离交通优势,便捷轻松</span>
-            {% endif %}
+            <div class="trans-mask-text">
+                {% if school.center %}
+                    <h6>体验中心</h6>
+                    <span>高配置教学环境,极佳学习体验</span>
+                {% else %}
+                    <h6>社区中心</h6>
+                    <span>距离交通优势,便捷轻松</span>
+                {% endif %}
+            </div>
         </div>
         <div class="cover-retro-fixer">
             {% if school.get_thumbnail %}
@@ -33,11 +35,11 @@
         <div class="card-content-inner">
             <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">
                 <div class="column">
-                    <p class="color-malablue">{{ school.name }}</p>
-                    <p class="color-gray" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
+                    <p class="color-malablue  column1-text">{{ school.name }}</p>
+                    <p class="color-gray column1-text" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
                 </div>
-                <div class="column">
-                    <p class="color-gray">{{ school.address }}</p>
+                <div class="column column2">
+                    <p class="color-gray column2-text">{{ school.address }}</p>
                 </div>
             </a>
             <div class="card-content-inner-right">
