@@ -19,17 +19,19 @@
 
     <table class="table table-bordered table-striped">
         <tr>
-            <th class="text-center">中心名称</th>
-            <th class="text-center">是否开放</th>
-            <th class="text-center">类型</th>
-            <th class="text-center">所在地区</th>
-            <th class="text-center">详细地址</th>
-            <th class="text-center">电话</th>
-            <th class="text-center">环境图片</th>
-            <th class="text-center">上课座位</th>
-            <th class="text-center">自习座位</th>
-            <th class="text-center">会员服务</th>
-            <th class="text-center">操作</th>
+            <th class="text-center type_auto">中心名称</th>
+            <th class="text-center type_small">是否开放</th>
+            <th class="text-center type_small">类型</th>
+            <th class="text-center type_auto">所在地区</th>
+            <th class="text-center type_auto">详细地址</th>
+            <th class="text-center type_auto">电话</th>
+            <th class="text-center type_small">环境图片</th>
+            <th class="text-center type_small">上课座位</th>
+            <th class="text-center type_small">自习座位</th>
+            <th class="text-center type_auto">会员服务</th>
+            <th class="text-center type_auto">描述标题</th>
+            <th class="text-center type_auto">描述内容</th>
+            <th class="text-center tb_action">操作</th>
         </tr>
         {% for school in schools %}
             <tr schoolId="{{ school.id }}">
@@ -50,6 +52,8 @@
                         {%endfor%}
                     {%endif%}
                 </td>
+                <td>{{ school.desc_title|default_if_none:"" }}</td>
+                <td>{{ school.desc_content|default_if_none:"" }}</td>
                 <td><a href="{% url 'staff:staff_school' %}?schoolId={{school.id}}">编辑</a></td>
             </tr>
             <div style="display: none;" id="hiddenImages{{school.id}}">
