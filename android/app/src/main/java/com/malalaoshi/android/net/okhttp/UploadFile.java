@@ -2,6 +2,7 @@ package com.malalaoshi.android.net.okhttp;
 
 
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.net.Constants;
@@ -70,19 +71,32 @@ public class UploadFile {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                MalaContext.postOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // OKHTTP
-                        if (networkListener!=null){
-                            try{
-                                networkListener.onSucceed(response.body()!=null?response.body().string():null);
-                            }catch (IOException e){
-                                networkListener.onFailed(new VolleyError());
+                if (response.code()==200){
+                    MalaContext.postOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // OKHTTP
+                            if (networkListener!=null){
+                                try{
+                                    networkListener.onSucceed(response.body()!=null?response.body().string():null);
+                                }catch (IOException e){
+                                    networkListener.onFailed(new VolleyError());
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }else{
+                    MalaContext.postOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // OKHTTP
+                            if (networkListener != null)
+                                networkListener.onFailed(new VolleyError(new NetworkResponse(response.code(),null,null,false)));
+                            }
+                        }
+                    );
+                }
+
             }
         });
     }

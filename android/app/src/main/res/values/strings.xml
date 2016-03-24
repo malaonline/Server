@@ -130,6 +130,8 @@
     <string name="usercenter_set_avator_failed">Set avator failed!</string>
     <string name="usercenter_set_avator_succeed">Set avator succeed!</string>
 
+    <string name="usercenter_set_avator_failed_no_permission">Cannot Set avator!</string>
+
     <string name="home_get_teachers_fialed">get teacher list fialed</string>
 
     <string name="load_timetable_info_failed">Timetabel Information download failed!</string>

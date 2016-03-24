@@ -93,6 +93,8 @@ public class UserFragment extends Fragment {
     //图片缓存
     private ImageLoader imageLoader;
 
+    private Bitmap bmpAvatar;
+
     private ProgressDialog progressDialog;
 
     @Nullable
@@ -511,11 +513,11 @@ public class UserFragment extends Fragment {
         {
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            Bitmap bitmap = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance(MalaApplication.getInstance()));
-            ivAvatar.setImageBitmap(bitmap);
+            bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance(MalaApplication.getInstance()));
+            //ivAvatar.setImageBitmap(bitmap);
             String cachePath = ImageUtil.getAppDir("cache");
             if (cachePath!=null){
-                strAvatorLocPath = ImageUtil.saveBitmap(cachePath,"avatar.png", bitmap);
+                strAvatorLocPath = ImageUtil.saveBitmap(cachePath,"avatar.png", bmpAvatar);
                 if (strAvatorLocPath!=null){
                     uploadFile();
                 }else{
@@ -535,33 +537,48 @@ public class UserFragment extends Fragment {
         NetworkSender.setUserAvatar(strAvatorLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
+                if (json==null||json.toString().isEmpty()){
+                    setAvatarFailed(-1);
+                    return;
+                }
                 try {
                     JSONObject jo = new JSONObject(json.toString());
-                    if (jo!=null&&jo.optBoolean(Constants.DONE, false)) {
+                    if (jo != null && jo.optBoolean(Constants.DONE, false)) {
                         Log.i("UserFragment", "Set user avator succeed : " + json.toString());
-                        setAvatorSucceeded();
+                        setAvatarSucceeded();
                         return;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                setAvatorFailed();
+                setAvatarFailed(-1);
             }
 
             @Override
             public void onFailed(VolleyError error) {
-                setAvatorFailed();
+                if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 409) {
+                    setAvatarFailed(error.networkResponse.statusCode);
+                    return;
+                }
+                setAvatarFailed(-1);
             }
         });
     }
 
-    private void setAvatorSucceeded() {
+    private void setAvatarSucceeded() {
+        if (bmpAvatar!=null){
+            ivAvatar.setImageBitmap(bmpAvatar);
+        }
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
         progressDialog.dismiss();
     }
 
-    private void setAvatorFailed() {
-        MiscUtil.toast(R.string.usercenter_set_avator_failed);
+    private void setAvatarFailed(int errorCode) {
+        if (errorCode==409){
+            MiscUtil.toast(R.string.usercenter_set_avator_failed_no_permission);
+        }else {
+            MiscUtil.toast(R.string.usercenter_set_avator_failed);
+        }
         progressDialog.dismiss();
     }
 
