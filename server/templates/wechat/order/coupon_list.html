@@ -2,32 +2,31 @@
 
 {% load staticfiles %}
 {% load compile_static %}
-{% load custom_tags %}
 {% block title %}奖学金{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'wechat/css/course_choosing.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'wechat/less/order/coupon_list.less'|compile %}">
 {% endblock %}
 
 {% block content %}
     <input type="hidden" id="preChosenCoupon" value="{% if pre_chosen_coupon %}{{ pre_chosen_coupon.id }}{% endif %}"/>
-    <div class="page slideIn cell" id="courseChoosingContainer">
+    <div class="page slideIn cell">
         <div class="content">
             <div class="weui_dialog_hd" id="couponList">
                 {% for coupon in coupons %}
                     <div class="weui_cell coupon" couponId="{{ coupon.id }}">
                         <div class="coupon-upper">
-                            <div class="cost">￥<span class="amount">{{ coupon.amount|money_format:'/' }}</span></div>
+                            <div class="cost">￥<span class="amount">{{ coupon.amount_yuan }}</span></div>
                             <div class="desc">
                                 <div class="name">{{ coupon.name }}</div>
                                 <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
                             </div>
-                            <div class="icons-area">
-                                <img src="{% static 'wechat/images/coupon-checked.png' %}">
-                            </div>
+                        </div>
+                        <div class="icons-area">
+                            <img src="{% static 'wechat/images/coupon-checked.png' %}">
                         </div>
                         <div class="coupon-footer">
-                            有效期 {{ coupon.validated_start|date:'Y.m.d' }} - {{ coupon.expired_at|date:'Y.m.d' }}
+                            有效期 &nbsp;&nbsp; {{ coupon.expired_at|date:'Y.m.d' }}
                         </div>
                     </div>
                 {% empty %}

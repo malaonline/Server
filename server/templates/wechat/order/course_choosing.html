@@ -6,7 +6,7 @@
 {% block title %}课程确认{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'wechat/css/course_choosing.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'wechat/less/order/course_choosing.less'|compile %}">
 {% endblock %}
 
 {% block content %}
@@ -68,7 +68,7 @@
                             </div>
                         {% endfor %}
                         <div class="m-row more-schools-hint" id="showMoreSchoolsBtn">
-                            展开查看其它地点<img src="{% static 'wechat/images/down_chevron.png' %}">
+                            展开查看其它地点 <img src="{% static 'wechat/images/down_chevron.png' %}">
                         </div>
                     {% endif %}
                 </div>
@@ -101,19 +101,7 @@
                     </div>
                 </div>
             </div>
-{#          上课时间预览#}
-            <div class="weui_panel closed" id="courseTimePreviewPanel">
-                <div class="title_row">上课时间
-                    <div class="icons-area">
-                        <img class="down" src="{% static 'wechat/images/down_chevron.png' %}">
-                        <img class="up" src="{% static 'wechat/images/up_chevron.png' %}">
-                    </div>
-                </div>
-                <div class="m-panel" id="courseTimePreview">
-
-                </div>
-            </div>
-{#          设置小时数,奖学金,测评建档#}
+{#          设置小时数#}
             <div class="weui_panel no-padding cost-panel">
                 <div class="weui_cells">
                     <div class="weui_cell adjust-hour-row">
@@ -126,6 +114,23 @@
                             <a id="incHoursBtn"><img src="{% static 'wechat/images/plus-icon.png' %}"></a>
                         </div>
                     </div>
+                </div>
+            </div>
+{#          上课时间预览#}
+            <div class="weui_panel closed" id="courseTimePreviewPanel">
+                <div class="title_row">上课时间
+                    <div class="icons-area">
+                        <img class="down" src="{% static 'wechat/images/down_chevron.png' %}">
+                        <img class="up" src="{% static 'wechat/images/up_chevron.png' %}">
+                    </div>
+                </div>
+                <div class="m-panel" id="courseTimePreview">
+
+                </div>
+            </div>
+{#          奖学金,测评建档#}
+            <div class="weui_panel no-padding cost-panel">
+                <div class="weui_cells">
                     <a class="weui_cell weui_cells_access coupon-row" id="couponRow" href="javascript:;">
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">奖学金</p>
@@ -137,7 +142,7 @@
                         <div class="weui_cell_bd weui_cell_primary">
                             <p class="sub-title">测评建档服务</p>
                         </div>
-                        <div class="weui_cell_ft"><s class="line-through">￥<span id="testCost">500.00</span></s> <span>￥<span id="realTestCost">0</span></span></div>
+                        <div class="weui_cell_ft"><s class="line-through">￥<span id="testCost">500</span></s>&nbsp;<span>￥<span id="realTestCost">0</span></span></div>
                     </a>
                     {% endif %}
                     <div class="weui_cell orig-cost-row" id="origTotalCostRow">

@@ -1284,6 +1284,9 @@ class Coupon(BaseModel):
         return '%s ~ %s' % (
                 self.validated_start.date(), self.expired_at.date())
 
+    def amount_yuan(self):
+        return self.amount and self.amount//100 or 0
+
     class Meta:  # 添加默认排序使列表更合理
         ordering = ["-created_at"]
 

@@ -1,4 +1,4 @@
-@import 'variable_func.less';
+@import '../variable_func.less';
 
 @timeUnavailableColor: #ededed;
 @timeAvailableColor: #fff;
@@ -22,7 +22,8 @@
     margin-bottom: 20px;
     padding: 16px 0;
     background-color: #fff;
-    border-bottom: 1px solid @borderGray;
+    border-bottom: 1px inset @borderGray;
+    .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
     &.no-padding {
       padding: 0;
     }
@@ -63,12 +64,19 @@
       margin-top: 14px;
       width: 50%;
       padding: 2px 6px;
+      &:nth-child(2n+1){
+        padding-left: 0;
+      }
+      &:nth-child(2n){
+        padding-right: 0;
+      }
       .grade {
-        padding: 6px 14px;
+        padding: 4px 0;
+        text-align: center;
         color: @textBlue;
         background-color: white;
         border: 1px solid @textBlue;
-        border-radius: 6px;
+        .border-radius(6px);
         &.chosen {
           color: white;
           background-color: @textBlue;
@@ -81,7 +89,7 @@
     padding: 0 12px;
     .school {
       position: relative;
-      height: @schoolHeight;
+      min-height: @schoolHeight;
       .clearfix();
       border-bottom: 1px solid @borderGray;
       &.last {
@@ -91,29 +99,36 @@
         }
       }
       .school-body {
-        position: absolute;
-        height: @schoolHeight;
+        min-height: @schoolHeight;
         width: 100%;
         padding-right: 27pt;
         .school-head{
-          padding: 10px 0 5px 0;
+          padding: 12px 0 4px 0;
           .school-name {
             .subTitle();
           }
           .distance {
             float: right;
             .note();
+            > span {
+              position: relative;
+              top: -1px;
+              font-size: 13pt;
+            }
           }
         }
         .address {
-          padding: 5px 0 10px 0;
+          padding: 4px 0 12px 0;
           .note();
+          line-height: 14pt;
         }
       }
       .icons-area {
+        position: absolute;
+        top: 0;
+        right: 0;
         height: @schoolHeight;
         line-height: @schoolHeight;
-        float: right;
         .weui_icon_success {
           color: @mainRed;
           &:before {
@@ -141,25 +156,23 @@
   }
   .course-time-panel {
     table {
+      margin: 12px 0;
       width: 100%;
       border: 1px solid @textBlue;
       td {
-        min-height: 33pt;
-        //min-width: 35pt;
-        padding: 0 8px;
+        padding: 4px 0;
+        line-height: 14pt;
+        text-align: center;
       }
       thead {
         background-color: @textBlue;
         color: white;
         font-size: @noteSize;
-        td {
-          padding: 10px 8px;
+        td{
+          padding: 12px 0;
         }
       }
       tbody {
-        td {
-          padding: 3px 8px;
-        }
         .hours-col {
           .note();
         }
@@ -208,6 +221,7 @@
   .cost-panel {
     //border-bottom: 0;
     .weui_cell {
+      height: 46pt;
       border-top: 1px solid @borderGray;
       &:first-child {
         border-top: 0;
@@ -219,45 +233,16 @@
     .weui_cell_ft {
       font-size: @subTitleSize;
       color: @grayDark;
+      &:after {
+        height: 15px;
+        width: 15px;
+        top: 3px;
+        left: -3px;
+        border-width: 1px 1px 0 0;
+      }
     }
     .orig-cost-row {
       height: 62px;
-    }
-  }
-  .coupon{
-    display: block;
-    .coupon-upper{
-      .clearfix();
-      min-height: 28pt;
-      .cost{
-        float: left;
-        .amount{
-          font-size: 24pt;
-        }
-      }
-      .desc{
-        float: left;
-        padding-left: 12px;
-        color: @gray;
-        .limit {
-          font-size: @noteSize;
-          color: @grayLight;
-        }
-      }
-      .icons-area{
-        float: right;
-        img {
-          max-height: 24pt;
-          display: none;
-        }
-      }
-    }
-    &.chosen .icons-area img{
-      display: inline;
-    }
-    .coupon-footer{
-      .clearfix();
-      color: @grayLight;
     }
   }
   .tail-padding {
@@ -286,7 +271,7 @@
 }
 
 #courseTimePreview {
-  //margin-top: 6px;
+  margin-top: 6px;
   font-size: @subTitleSize;
   color: @grayLight;
 }
@@ -297,7 +282,7 @@
     display: inline-block;
     width: 31pt;
     height: @adjustHourAreaHeight;
-    line-height: @adjustHourAreaHeight;
+    line-height: @adjustHourAreaHeight - 2pt;
     text-align: center;
     background-color: @lightGrayBg;
     .border-radius(6px);

@@ -68,9 +68,9 @@ $(function(){
             } else {
                 var ifar = parseInt(far);
                 if (ifar < 1000) {
-                    $this.find('.distance').html(ifar+"m");
+                    $this.find('.distance').html("<span>&lt;</span>"+ifar+"m");
                 } else {
-                    $this.find('.distance').html(parseInt(ifar/100)/10+"km");
+                    $this.find('.distance').html("<span>&lt;</span>"+parseInt(ifar/100)/10+"km");
                 }
             }
             new_list.push({'far': far, 'sc': $this});

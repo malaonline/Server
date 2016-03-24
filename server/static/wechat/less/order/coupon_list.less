@@ -1,0 +1,57 @@
+@import '../variable_func.less';
+
+#couponList {
+  padding: 0 12px;
+  margin: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  .coupon {
+    position: relative;
+    margin: 8px 0;
+    padding: 0;
+    display: block;
+    background-image: url(../../images/coupon_footer.png);
+    background-size: cover;
+    .coupon-upper {
+      .clearfix();
+      min-height: 28pt;
+      padding: 21px 20px;
+      .cost {
+        float: left;
+        width: 60pt;
+        color: @costRed;
+        .amount {
+          font-size: 24pt;
+        }
+      }
+      .desc {
+        float: left;
+        padding-left: 12px;
+        color: @gray;
+        .limit {
+          font-size: @noteSize;
+          color: @grayLight;
+        }
+      }
+    }
+    .icons-area {
+      position: absolute;
+      top: 0;
+      right: 0;
+      img {
+        max-height: 24pt;
+        display: none;
+      }
+    }
+    &.chosen .icons-area img {
+      display: inline;
+    }
+    .coupon-footer {
+      .clearfix();
+      padding: 12px 20px 8px;
+      width: 100%;
+      font-size: 12pt;
+      color: white;
+    }
+  }
+}
