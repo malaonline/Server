@@ -53,6 +53,7 @@ class ProfileViewHeaderView: UIView {
         imageView.layer.borderWidth = 2.5
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
         imageView.userInteractionEnabled = true
+        imageView.contentMode = .ScaleAspectFill
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "avatarViewDidTap:"))
         return imageView
     }()
