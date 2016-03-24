@@ -132,7 +132,7 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
             }
             public void update(final int position){
 
-                int count = photoUrls.length - position*3;
+                int count = (photoUrls.length - position*3)>3?3:photoUrls.length - position*3;
                 for (int i=0;i<count;i++){
                     final int newPos = position*3+i;
                     //重置图高度
