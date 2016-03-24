@@ -553,6 +553,7 @@
 		F4D0D19D1CA2BF0500B25704 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		F4D0D1A01CA2BFFA00B25704 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F4D0D1A21CA2C02400B25704 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		F4D0D1A41CA3947100B25704 /* parent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = parent.entitlements; sourceTree = "<group>"; };
 		F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -802,6 +803,7 @@
 		35D7A3221C0FE851007D7679 /* parent */ = {
 			isa = PBXGroup;
 			children = (
+				F4D0D1A41CA3947100B25704 /* parent.entitlements */,
 				357E6A131C0FF1FF0009AF9A /* Main.storyboard */,
 				2E65424A1C219781007AE628 /* TeacherListView */,
 				357E6A221C0FF3010009AF9A /* AddressListViewController.swift */,
@@ -1225,6 +1227,17 @@
 					35D7A3201C0FE851007D7679 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 85KXKD6J43;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					F4402E131C5A16A700E7D3DB = {
 						CreatedOnToolsVersion = 7.2;
@@ -1786,6 +1799,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
@@ -1880,6 +1894,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
@@ -1904,6 +1919,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";

@@ -9,24 +9,36 @@
 import UIKit
 import IQKeyboardManagerSwift
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var deviceToken: NSData?
 
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         // 全局的外观自定义
         customAppearance()
         registerThirdParty()
+        
+        // 配置JPush
+        #if USE_PRD_SERVER
+            let apsForProduction = false
+        #else
+            let apsForProduction = true
+        #endif
+        JPUSHService.setupWithOption(launchOptions, appKey: "273de02f3da48856d02acc3d", channel: "AppStore", apsForProduction: apsForProduction)
+        let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
+        JPUSHService.registerForRemoteNotificationTypes(kUserNotificationBSA.rawValue, categories: nil)
+        
         
         // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
         window?.rootViewController = MainViewController()
         window?.makeKeyAndVisible()
-        
-        
         
         return true
     }
@@ -51,6 +63,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    
+    // MARK: - APNs
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        JPUSHService.registerDeviceToken(deviceToken)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        println("didReceiveRemoteNotification: - \(userInfo)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        
+        println(String(format: "did Fail To Register For Remote Notifications With Error: %@", error))
     }
     
     
@@ -87,7 +114,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // IQKeyboardManager - 开启键盘自动管理
         IQKeyboardManager.sharedManager().enable = true
     }
-
+        
+    
+    // MARK: - UI
     /// 设置公共外观样式
     private func customAppearance() {
         
