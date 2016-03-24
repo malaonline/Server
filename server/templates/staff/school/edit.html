@@ -171,6 +171,18 @@
                 经纬度查询地址：<a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">点我</a>
             </div>
             <div class="form-row">
+                <label>描述标题</label>
+                <div>
+                    <input type="text" class="form-control" name="desc_title" value="{{school.desc_title|default_if_none:""}}" />
+                </div>
+            </div>
+            <div class="form-row">
+                <label>描述内容</label>
+                <div>
+                    <textarea class="form-control" cols="19" rows="5" name="desc_content" id="desc_content">{{school.desc_content|default_if_none:""}}</textarea>
+                </div>
+            </div>
+            <div class="form-row">
                 <button class="btn btn-default submit_button" id="subBtn">提交</button>
             </div>
         </form>

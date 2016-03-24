@@ -1387,6 +1387,8 @@ class SchoolView(BaseStaffView):
         school.longitude = self.request.POST.get('longitude', None)
         school.latitude = self.request.POST.get('latitude', None)
         school.address = self.request.POST.get('address', None)
+        school.desc_title = self.request.POST.get('desc_title', None)
+        school.desc_content = self.request.POST.get('desc_content', None)
         regionId = self.request.POST.get('regionId', None)
         school.region = models.Region.objects.get(id=regionId)
         school.save()

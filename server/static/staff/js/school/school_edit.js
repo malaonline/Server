@@ -65,6 +65,12 @@ $(function(){
       this.value = vl.substring(0, 50);
     }
   });
+  $('textarea').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 200){
+      this.value = vl.substring(0, 200);
+    }
+  });
   $('[name=phone]').bind("input propertychange change", function(){
     var vl = this.value;
     if(vl.length > 20){
