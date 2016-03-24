@@ -51,7 +51,7 @@ func cancel(cancelableTask: CancelableTask?) {
 ///  注销推送消息
 func unregisterThirdPartyPush() {
     dispatch_async(dispatch_get_main_queue()) {
-        //TODO: 注销推送消息
+        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 }
