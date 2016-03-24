@@ -21,12 +21,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
@@ -41,6 +37,8 @@ import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.NavigationFinishClickListener;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.usercenter.SmsAuthActivity;
@@ -71,20 +69,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
 
-    //拍照相关权限
+    //位置相关权限
     public static final int PERMISSIONS_REQUEST_LOCATION = 0x07;
 
     //教师id
     private Long mTeacherId;
-
-    //接口地址
-    private static final String TEACHING_ENVIRONMENT_PATH_V1 = "/api/v1/schools";
-    private static final String MEMBERSERVICES_PATH_V1 = "/api/v1/memberservices";
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
-
-
-    //会员服务请求结果
-    private MemberServiceListResult mMemberServicesResult;
 
     //所有教学中心
     private List<School> mAllSchools = null;
@@ -97,12 +86,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //图片缓存
     private ImageLoader mImageLoader;
-
-    //网络请求消息队列
-    private RequestQueue requestQueue;
-    private String hostUrl;
-    private List<String> requestQueueTags;
-
 
     @Bind(R.id.parent_teacher_detail_appbar)
     protected AppBarLayout mAppBarLayout;
@@ -252,12 +235,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         mAppBarLayout.removeOnOffsetChangedListener(this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //volley联动,取消请求
-        cancelAllRequestQueue();
-    }
 
     @Override
     protected void onDestroy() {
@@ -324,9 +301,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private void initData() {
         Intent intent = getIntent();
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
-        requestQueueTags = new ArrayList<String>();
-        requestQueue = MalaApplication.getHttpRequestQueue();
-        hostUrl = MalaApplication.getInstance().getMalaHost();
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         mAllSchools = new ArrayList<School>();
         mFirstSchool = new ArrayList<>();
@@ -341,12 +315,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     //请求教学环境信息
     void loadSchools() {
-        String url = hostUrl + "/" + TEACHING_ENVIRONMENT_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        NetworkSender.getSchoolList(new NetworkListener() {
             @Override
-            public void onResponse(String response) {
-                //Type listType = new TypeToken<ArrayList<MemberService>>(){}.getType();
-                SchoolListResult schoolListResult = JsonUtil.parseStringData(response, SchoolListResult.class);
+            public void onSucceed(Object json) {
+                if (json == null) {
+                    return;
+                }
+                SchoolListResult schoolListResult = JsonUtil.parseStringData(json.toString(), SchoolListResult.class);
                 if (schoolListResult == null || schoolListResult.getResults() == null) {
                     Log.e(LoginFragment.class.getName(), "school list request failed!");
                     return;
@@ -357,12 +332,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     School school = null;
                     for (int i = 0; i < mAllSchools.size(); i++) {
                         if (true == mAllSchools.get(i).isCenter()) {
-                            if (i==0){
+                            if (i == 0) {
                                 break;
                             }
                             school = mAllSchools.get(i);
-                            mAllSchools.set(i,mAllSchools.get(0));
-                            mAllSchools.set(0,school);
+                            mAllSchools.set(i, mAllSchools.get(0));
+                            mAllSchools.set(0, school);
                             //mOtherSchools.remove(i);
                             break;
                         }
@@ -371,13 +346,12 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     dealSchools();
                 }
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailed(VolleyError error) {
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
             }
         });
-        addRequestQueue(jstringRequest, TEACHING_ENVIRONMENT_PATH_V1);
     }
 
     private void dealSchools() {
@@ -401,12 +375,11 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void loadTeacherInfo() {
-        String url = hostUrl + TEACHERS_PATH_V1 + "/" + mTeacherId;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        NetworkSender.getTeacherInfo(String.format("%d", mTeacherId), new NetworkListener() {
             @Override
-            public void onResponse(String response) {
-                if (response!=null&&!response.isEmpty()){
-                    mTeacher = JsonUtil.parseStringData(response, Teacher.class);
+            public void onSucceed(Object json) {
+                if (json != null && !json.toString().isEmpty()) {
+                    mTeacher = JsonUtil.parseStringData(json.toString(), Teacher.class);
                     //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class, TeacherDetailActivity.this);
                     if (mTeacher != null) {
                         updateUI(mTeacher);
@@ -416,16 +389,13 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 }
                 dealRequestError("");
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailed(VolleyError error) {
                 dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                //停止进度条,数据请求失败
-
             }
         });
-        addRequestQueue(jstringRequest, TEACHERS_PATH_V1);
     }
 
     //启动定位
@@ -434,27 +404,26 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     }
 
     private void loadMemeberServices() {
-        //String url = hostUrl +MEMBERSERVICES_PATH_V1;
-        String url = hostUrl + MEMBERSERVICES_PATH_V1;
-        StringRequest jstringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        NetworkSender.getMemberService(new NetworkListener() {
             @Override
-            public void onResponse(String response) {
-                mMemberServicesResult = JsonUtil.parseStringData(response, MemberServiceListResult.class);
+            public void onSucceed(Object json) {
+                if (json == null) {
+                    return;
+                }
+                MemberServiceListResult memberServiceListResult = JsonUtil.parseStringData(json.toString(), MemberServiceListResult.class);
                 //mMemberServicesResult = JsonUtil.parseData(R.raw.memberservice, MemberServiceListResult.class, TeacherDetailActivity.this);
-                if (mMemberServicesResult != null && mMemberServicesResult.getResults() != null && mMemberServicesResult.getResults().size() > 0) {
-                    updateUIServices(mMemberServicesResult.getResults());
+                if (memberServiceListResult != null && memberServiceListResult.getResults() != null && memberServiceListResult.getResults().size() > 0) {
+                    updateUIServices(memberServiceListResult.getResults());
                 } else {
                     Log.e(LoginFragment.class.getName(), "member services request failed!");
                 }
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailed(VolleyError error) {
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
             }
         });
-
-        addRequestQueue(jstringRequest, MEMBERSERVICES_PATH_V1);
     }
 
     //更新教学环境UI
@@ -656,20 +625,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
 
     private void dealRequestError(String errorCode) {
         Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
-    }
-
-    //向请求队列添加请求
-    public void addRequestQueue(StringRequest stringRequest, String requestTag) {
-        requestQueueTags.add(requestTag);
-        stringRequest.setTag(requestTag);
-        requestQueue.add(stringRequest);
-    }
-
-    //取消说有网络请求
-    public void cancelAllRequestQueue() {
-        for (int i = 0; requestQueue != null && i < requestQueueTags.size(); i++) {
-            requestQueue.cancelAll(requestQueueTags.get(i));
-        }
     }
 
     @Override

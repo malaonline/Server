@@ -153,7 +153,6 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
                 } else {
                     //数据请求失败
                     loadTimeTableFailed();
-
                 }
             }
 

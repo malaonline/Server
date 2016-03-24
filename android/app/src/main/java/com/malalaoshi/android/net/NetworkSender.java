@@ -41,6 +41,7 @@ public class NetworkSender {
     private static final String URL_TEACHER_VALID_TIME = "/api/v1/teachers/%s/weeklytimeslots";
     private static final String URL_CREATE_COURSE_ORDER = "/api/v1/orders/%s";
     private static final String URL_GET_COMMENT = "/api/v1/comments/%s";
+    private static final String URL_GET_MEMBER_SERVICES = "/api/v1/memberservices";
     private static final String URL_CREATE_COMMENT = "/api/v1/comments";
     private static final String URL_TIMES_LOTS = "/api/v1/timeslots";
     private static final String URL_CONCRETE_TIME_SLOT = "/api/v1/concrete/timeslots";
@@ -254,6 +255,11 @@ public class NetworkSender {
     public static void getTeacherInfo(String teacherId, NetworkListener listener) {
         Map<String, String> headers = new HashMap<>();
         stringRequest(Request.Method.GET, String.format(URL_TEACHER, teacherId), headers, listener);
+    }
+
+    public static void getMemberService(NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, URL_GET_MEMBER_SERVICES, headers, listener);
     }
 
     public static void getComment(String commentId, NetworkListener listener) {
