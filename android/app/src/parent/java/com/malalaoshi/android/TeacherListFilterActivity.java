@@ -160,7 +160,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 updateConditions();
                 filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
-                filterFragment.loadDatas();
+                filterFragment.refreshTeachers();
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");
@@ -197,7 +197,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 updateConditions();
                 filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
-                filterFragment.loadDatas();
+                filterFragment.refreshTeachers();
             }
         });
         filterdialog.show(getSupportFragmentManager(), "dialog");
@@ -245,7 +245,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 updateConditions();
                 filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
                 //筛选结果
-                filterFragment.loadDatas();
+                filterFragment.refreshTeachers();
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");

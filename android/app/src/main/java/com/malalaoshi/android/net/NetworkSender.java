@@ -50,6 +50,7 @@ public class NetworkSender {
     private static final String URL_PARENT = "/api/v1/parents";
     private static final String URL_SAVE_CHILD_SCHOOL = "/api/v1/parents/%s";
     private static final String URL_ORDER_STATUS = "/api/v1/orders/%s";
+    private static final String URL_GET_TEACHER_LIST = "/api/v1/teachers%s";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -88,6 +89,32 @@ public class NetworkSender {
 
     private static void stringRequest(int method, String url, final Map<String, String> headers, final NetworkListener listener) {
         url = MalaApplication.getInstance().getMalaHost() + url;
+        RequestQueue queue = MalaApplication.getHttpRequestQueue();
+        StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (listener != null) {
+                    listener.onSucceed(s);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (listener != null) {
+                    listener.onFailed(volleyError);
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return headers;
+            }
+        };
+        queue.add(request);
+    }
+
+
+    private static void flipStringRequest(int method, String url, final Map<String, String> headers, final NetworkListener listener) {
         RequestQueue queue = MalaApplication.getHttpRequestQueue();
         StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
             @Override
@@ -304,5 +331,35 @@ public class NetworkSender {
         Map<String, String> headers = new HashMap<>();
         headers.put(Constants.AUTH, getToken());
         stringRequest(Request.Method.GET, String.format(URL_ORDER_STATUS, orderId), headers, listener);
+    }
+
+    public static void getTeachers(Long gradeId, Long subjectId,Long [] tagIds, NetworkListener listener){
+       String subUrl = "";
+        boolean hasParam = false;
+        if(gradeId != null && gradeId > 0){
+            subUrl += "?grade=" + gradeId;
+            hasParam = true;
+        }
+        if(subjectId != null && subjectId > 0){
+            subUrl += hasParam ? "&subject=" : "?subject=";
+            subUrl += subjectId;
+            hasParam = true;
+        }
+        if(tagIds != null && tagIds.length > 0){
+            subUrl += hasParam ? "&tags=" : "?tags=";
+            for(int i=0; i<tagIds.length;){
+                subUrl += tagIds[i];
+                if(++i < tagIds.length){
+                    subUrl += "+";
+                }
+            }
+        }
+        Map<String, String> headers = new HashMap<>();
+        stringRequest(Request.Method.GET, String.format(URL_GET_TEACHER_LIST, subUrl), headers, listener);
+    }
+
+    public static void getFlipTeachers(String nextUrl, NetworkListener listener){
+        Map<String, String> headers = new HashMap<>();
+        flipStringRequest(Request.Method.GET, nextUrl, headers, listener);
     }
 }

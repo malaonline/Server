@@ -1,31 +1,27 @@
 package com.malalaoshi.android.fragments;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.TeacherListResult;
 import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.MiscUtil;
 
 
 import java.util.ArrayList;
@@ -40,8 +36,6 @@ import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
     private TeacherRecyclerViewAdapter teacherListAdapter;
-
-    private static final String TEACHERS_PATH_V1 = "/api/v1/teachers";
 
     @Bind(R.id.teacher_list_refresh_layout)
     protected BGARefreshLayout mRefreshLayout;
@@ -124,61 +118,119 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         super.onDetach();
     }
 
-    public void loadDatas(){
+    public void refreshTeachers(){
         mRefreshLayout.beginRefreshing();
+    }
+
+
+    private void loadDatas(){
+        NetworkSender.getTeachers(gradeId, subjectId, tagIds, new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                if (json==null||json.toString().isEmpty()) {
+                    getTeachersFailed();
+                    return;
+                }
+                TeacherListResult teacherResult = null;
+                teacherResult = JsonUtil.parseStringData(json.toString(), TeacherListResult.class);
+                if (teacherResult!=null&&teacherResult.getResults()!=null&&teacherResult.getResults().size()>0) {
+                    getTeachersSucceed(teacherResult);
+                    return;
+                }
+                getTeachersFailed();
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                getTeachersFailed();
+            }
+        });
+    }
+
+    private void getTeachersSucceed(TeacherListResult teacherResult) {
+        List<Teacher> teachers = teacherResult.getResults();
+        if(teachers != null && teachers.size() > 0){
+            teachersList.clear();
+            teachersList.addAll(teachers);
+        }
+        nextUrl = teacherResult.getNext();
+        if (nextUrl==null||!nextUrl.isEmpty()){
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+        }else{
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
+        }
+        setRefreshing(false);
+    }
+
+    private void getTeachersFailed() {
+        if (nextUrl==null||!nextUrl.isEmpty()){
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+        }else{
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
+        }
+        setRefreshing(false);
+        MiscUtil.toast(R.string.home_get_teachers_fialed);
+    }
+    
+    public void loadMoreTeachers(){
+        if(nextUrl!=null&& !nextUrl.isEmpty() ) {
+            NetworkSender.getFlipTeachers(nextUrl, new NetworkListener() {
+                @Override
+                public void onSucceed(Object json) {
+                    if (json==null||json.toString().isEmpty()) {
+                        getTeachersFailed();
+                        return;
+                    }
+                    TeacherListResult teacherResult = null;
+                    teacherResult = JsonUtil.parseStringData(json.toString(), TeacherListResult.class);
+                    if (teacherResult!=null&&teacherResult.getResults()!=null&&teacherResult.getResults().size()>0) {
+                        getMoreTeachersSucceed(teacherResult);
+                        return;
+                    }
+                    getMoreTeachersSucceed(teacherResult);
+                }
+
+                @Override
+                public void onFailed(VolleyError error) {
+                    getMoreTeachersFailed();
+                }
+            });
+        }
+    }
+
+    private void getMoreTeachersFailed() {
+        if (nextUrl==null||!nextUrl.isEmpty()){
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+        }else{
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
+        }
+        MiscUtil.toast(R.string.home_get_teachers_fialed);
+    }
+
+    private void getMoreTeachersSucceed(TeacherListResult teacherResult) {
+        List<Teacher> teachers = teacherResult.getResults();
+        if(teachers != null && teachers.size() > 0){
+            teachersList.addAll(teachers);
+        }
+        nextUrl = teacherResult.getNext();
+        if (nextUrl==null||!nextUrl.isEmpty()){
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
+        }else{
+            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
+        }
     }
 
     @Override
     public void onLoadMore(){
         if(teacherListAdapter != null&&teacherListAdapter.getMoreStatus()!=TeacherRecyclerViewAdapter.LOADING_MORE && nextUrl!=null&& !nextUrl.isEmpty() ){
             teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.LOADING_MORE);
-            new LoadTeachersTask(){
-                @Override
-                public void afterTask(TeacherListResult response){
-                    if(response != null){
-                        try{
-                            nextUrl = response.getNext();
-                        }catch(Exception e){
-                            nextUrl = null;
-                        }
-                    }
-                    if(nextUrl == null){
-                    }
-                }
-            }.execute();
+            loadMoreTeachers();
         }
     }
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout){
-        //刷新
-        teachersList.clear();
-        nextUrl = MalaApplication.getInstance().getMalaHost()+TEACHERS_PATH_V1;
-        boolean hasParam = false;
-        if(gradeId != null && gradeId > 0){
-            nextUrl += "?grade=" + gradeId;
-            hasParam = true;
-        }
-        if(subjectId != null && subjectId > 0){
-            nextUrl += hasParam ? "&subject=" : "?subject=";
-            nextUrl += subjectId;
-            hasParam = true;
-        }
-        if(tagIds != null && tagIds.length > 0){
-            nextUrl += hasParam ? "&tags=" : "?tags=";
-            for(int i=0; i<tagIds.length;){
-                nextUrl += tagIds[i];
-                if(++i < tagIds.length){
-                    nextUrl += "+";
-                }
-            }
-        }
-        new LoadTeachersTask(){
-            @Override
-            public void afterTask(TeacherListResult response){
-                setRefreshing(false);
-            }
-        }.execute();
+        loadDatas();
     }
 
     @Override
@@ -199,58 +251,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     public void setRefreshing(boolean status){
         mRefreshLayout.endRefreshing();
-    }
-
-
-    private class LoadTeachersTask extends AsyncTask<String, Integer, String>{
-        public void afterTask(TeacherListResult response){
-        }
-        @Override
-        protected String doInBackground(String ...params){
-            String url = nextUrl;
-            RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-            StringRequest jsArrayRequest = new StringRequest(
-                    Request.Method.GET, url,
-                    new Response.Listener<String>(){
-                        @Override
-                        public void onResponse(String response){
-                            TeacherListResult teacherResult = null;
-                            try{
-                                teacherResult = JsonUtil.parseStringData(response, TeacherListResult.class);
-                                List<Teacher> teachers = teacherResult.getResults();
-                                if(teachers != null && teachers.size() > 0){
-                                    teachersList.addAll(teachers);
-                                }
-                                nextUrl = teacherResult.getNext();
-                                return;
-                            }catch (Exception e){
-                                Log.e(LoginFragment.class.getName(), e.getMessage(), e);
-                            }finally{
-                                afterTask(teacherResult);
-                                if (nextUrl==null||!nextUrl.isEmpty()){
-                                    teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
-                                }else{
-                                    teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
-                                }
-                            }
-
-                        }
-                    },
-                    new Response.ErrorListener(){
-                        @Override
-                        public void onErrorResponse(VolleyError error){
-                            afterTask(null);
-                            if (nextUrl==null||!nextUrl.isEmpty()){
-                                teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
-                            }else{
-                                teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
-                            }
-                            Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                        }
-                    });
-            requestQueue.add(jsArrayRequest);
-            return "ok";
-        }
     }
 
     class FooterSpanSizeLookup extends GridLayoutManager.SpanSizeLookup{
