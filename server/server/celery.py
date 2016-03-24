@@ -29,7 +29,7 @@ celery_app.conf.update(
         "confirm-classes":{
             "task":"app.tasks.autoConfirmClasses",
             "schedule":timedelta(
-                seconds=settings.CELERY_AUTOCONFIRM_CLASSES_INTERVAL),
+                seconds=15),
             },
         },
     )

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
+import raven
 
 TESTING = sys.argv[1:2] == ['test']
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'django_s3_storage',
+    'raven.contrib.django.raven_compat',
     'static_precompiler',
     'app',
     'teacher',
@@ -259,6 +261,11 @@ TEST_WITHDRAW = False
 DEFAULT_BANK_NAME = "招商银行"
 
 SERVICE_SUPPORT_TEL = '010-88888888'
+
+RAVEN_CONFIG = {
+    'dsn': 'http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1c822de398@sentry.malalaoshi.com/4',
+    'release': 'v1.0',
+}
 
 
 try:
