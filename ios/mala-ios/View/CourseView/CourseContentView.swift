@@ -25,7 +25,8 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
                     
                     // 设置弹窗页面的[是否评价标记], 更改评价按钮样式
-                    self?.container?.isComment = (self?.models[(self?.currentIndex) ?? 0].comment != nil)
+                    self?.currentIndex = 0
+                    self?.container?.isComment = (self?.models[0].comment != nil)
                     
                     // 隐藏loading指示器
                     self?.activityIndicator.stopAnimating()
@@ -58,7 +59,7 @@ class CourseContentView: UIScrollView, UIScrollViewDelegate {
     /// 当前页面下标
     private var currentIndex: Int = 0 {
         didSet {
-            if currentIndex != oldValue {
+            if currentIndex != oldValue || currentIndex == 0 {
                 container?.pageControl.currentPage = currentIndex
                 container?.isComment = (models[currentIndex].comment != nil)
                 container?.isPassed = models[currentIndex].is_passed
