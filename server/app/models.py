@@ -947,8 +947,14 @@ class BankCard(BaseModel):
         return card_text
 
     def __str__(self):
-        return '%s %s (%s)' % (self.bank_name, self.card_number,
-                               self.account.user.teacher.name)
+        teacher_name = ""
+        student_name = ""
+        if hasattr(self.account.user, "teacher"):
+            teacher_name = '老师:%s'%(self.account.user.teacher.name)
+        if hasattr(self.account.user, "parent"):
+            student_name = '学生:%s'%(self.account.user.parent.student_name)
+        return '%s (%s) %s (%s %s)' % (self.bank_name, self.opening_bank, self.card_number,
+                               teacher_name, student_name)
 
     def mask_number(self):
         return " ".join(self.mask_card_number())
