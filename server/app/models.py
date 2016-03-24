@@ -33,7 +33,9 @@ class BaseModel(models.Model):
 
     def local_time_str(self, date, time_formula="%Y-%m-%d %H:%M"):
         # 格式化一个本地时间
-        return localtime(date).strftime(time_formula)
+        if date:
+            return localtime(date).strftime(time_formula)
+        return "空白时间"
 
     def money_str(self, money):
         return "¥{0:.2f}".format(money/100)
@@ -949,14 +951,13 @@ class BankCard(BaseModel):
         return card_text
 
     def __str__(self):
-        teacher_name = ""
-        student_name = ""
-        if hasattr(self.account.user, "teacher"):
-            teacher_name = '老师:%s'%(self.account.user.teacher.name)
-        if hasattr(self.account.user, "parent"):
-            student_name = '学生:%s'%(self.account.user.parent.student_name)
-        return '%s (%s) %s (%s %s)' % (self.bank_name, self.opening_bank, self.card_number,
-                               teacher_name, student_name)
+        try:
+            return '%s %s (%s)' % (self.bank_name, self.card_number,
+                                   self.account.user.teacher.name)
+        except Teacher.DoesNotExist:
+            return "{bank_name} {card_number} (未绑定老师)".format(
+                bank_name=self.bank_name, card_number=self.card_number
+            )
 
     def mask_number(self):
         return " ".join(self.mask_card_number())
@@ -1071,7 +1072,7 @@ class AccountHistory(BaseModel):
                 withdrawal_status=self.withdrawal.status,
                 des=self.withdrawal.status_des
             )
-        if self.timeslot_id:
+        elif self.timeslot_id:
             # 老师上课收入
             try:
                 student_name = self.timeslot.order.parent.student_name or \
@@ -1087,8 +1088,15 @@ class AccountHistory(BaseModel):
                                 order_status=self.timeslot.order.status,
                                 order_des=self.timeslot.order.status_des
                 )
-            except Exception as e:
-                operation = "上课收入, 异常记录 {msg}".format(msg=e)
+            except Profile.DoesNotExist:
+                operation = "上课收入, 给{student_name}教学{subject}{grade}从{start}到{end} {order_status}{order_des}".format(
+                    student_name=self.timeslot.order.parent.student_name or "(用户没有profile model)",
+                    subject=self.timeslot.order.subject.name,
+                    grade=self.timeslot.order.grade.name,
+                    start=self.local_time_str(self.timeslot.start), end=self.local_time_str(self.timeslot.end),
+                    order_status=self.timeslot.order.status,
+                    order_des=self.timeslot.order.status_des
+                )
         return ("{teacher_name} 创建于:{create_at} {operation} " +
                 "金额:{amount} [{valid}]").format(
                         teacher_name=teacher_name, operation=operation,
@@ -1547,7 +1555,8 @@ class Order(BaseModel):
         return msg
 
     def __str__(self):
-        return ("<{pk}> {order_status} {student_name}同学{student_phone}于" +
+        try:
+            return ("<{pk}> {order_status} {student_name}同学{student_phone}于" +
                 "{submit_time}向{teacher_name}老师{teacher_phone}在{local}" +
                 ",下了一个{subject}{grade}订单,每小时价格{price}").format(
                         pk=self.pk, student_name=self.parent.student_name,
@@ -1558,7 +1567,14 @@ class Order(BaseModel):
                         student_phone=self.parent.user.profile.phone,
                         order_status=self.status,
                         price=self.money_str(self.price)
-        )
+            )
+        except Profile.DoesNotExist:
+            return "<{pk}> {order_status} {student_name}同学{student_phone}于{submit_time}向{teacher_name}老师{teacher_phone}在{local},下了一个{subject}{grade}订单,每小时价格{price}".format(
+                pk=self.pk, student_name=self.parent.student_name, submit_time=self.local_time_str(self.created_at),
+                teacher_name=self.teacher.name, local=self.school, subject=self.subject.name, grade=self.grade.name,
+                teacher_phone="角色没有Profile", student_phone="",
+                order_status=self.status, price=self.money_str(self.price)
+            )
 
     def is_timeslot_allocated(self):
         return self.timeslot_set.filter(deleted=False).count() > 0
@@ -1763,6 +1779,10 @@ class Charge(BaseModel):
     credential = models.TextField()
     description = models.CharField(max_length=255)
 
+    def __str__(self):
+        return "<{pk}>[通道:{channel}] [body:{body}] {order}".format(order=self.order, pk=self.pk, channel=self.channel,
+                                                             body=self.body)
+
 
 class Refund(BaseModel):
     charge = models.ForeignKey(Charge)
@@ -1878,6 +1898,8 @@ class TimeSlotShouldAutoConfirmManager(models.Manager):
 
 
 class TimeSlot(BaseModel):
+    class Meta:
+        ordering=["-start", "-created_at"]
     TRAFFIC_TIME = datetime.timedelta(hours=1)
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
@@ -2235,7 +2257,10 @@ class Checkcode(BaseModel):
     resend_at = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self):
-        return '%s, %s' % (self.phone, self.checkcode)
+        return "{phone} - {sms_code} 更新时间:{updated_at} 验证次数:{verify_times}次 阻止起始时间:{block_start_time} 重新发送时间:{resend_at}".format(
+            phone=self.phone, sms_code=self.checkcode, updated_at=self.local_time_str(self.updated_at),
+            verify_times=self.verify_times, block_start_time=self.local_time_str(self.block_start_time),
+            resend_at=self.local_time_str(self.resend_at))
 
     @staticmethod
     def has_sms(phone, code):
