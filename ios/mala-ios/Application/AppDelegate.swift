@@ -16,6 +16,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var deviceToken: NSData?
     var notRegisteredPush = true
+    
+    /// 通知类型键
+    private let kNotificationType = "notificationtype"
+    enum RemoteNotificationType: Int {
+        case Changed = 1
+        case Stoped = 2
+        case Finished = 3
+        case Starting = 4
+    }
+    /// 远程推送通知处理对象
+    private var remoteNotificationTypeHandler: RemoteNotificationType? {
+        willSet {
+            if let type = newValue {
+                
+                switch type {
+                    
+                case .Changed:
+                    switchTabBarControllerWithIndex(1)
+                    
+                case .Stoped:
+                    switchTabBarControllerWithIndex(1)
+                    
+                case .Finished:
+                    switchTabBarControllerWithIndex(1)
+                    
+                case .Starting:
+                    switchTabBarControllerWithIndex(1)
+
+                }
+            }
+        }
+    }
 
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -34,37 +66,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
         JPUSHService.registerForRemoteNotificationTypes(kUserNotificationBSA.rawValue, categories: nil)
         
-        
+        if MalaUserDefaults.isLogined {
+            
+            // 记录启动通知类型
+            if let
+                notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
+                userInfo = notification.userInfo,
+                type = Int(userInfo[kNotificationType] as? String ?? "0") {
+                    remoteNotificationTypeHandler = RemoteNotificationType(rawValue: type)
+            }
+            
+        }
         
         // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
         window?.rootViewController = MainViewController()
         window?.makeKeyAndVisible()
-        
+
         return true
     }
 
+    
+    // MARK: - Life Cycle
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        
+        println("Will Resign Active")
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        println("Did Become Active")
+        
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
     }
     
     
@@ -88,8 +136,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.deviceToken = deviceToken
     }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
+    }
+    
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         println("didReceiveRemoteNotification: - \(userInfo)")
+        JPUSHService.handleRemoteNotification(userInfo)
+        
+        if MalaUserDefaults.isLogined {
+            if let type = Int(userInfo[kNotificationType] as? String ?? "0"), remoteNotificationType = RemoteNotificationType(rawValue: type) {
+                remoteNotificationTypeHandler = remoteNotificationType
+                completionHandler(UIBackgroundFetchResult.NewData)
+            }
+        }
+        
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -148,7 +209,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     // MARK: - Public Method
+    ///  切换到首页
     func switchToStart() {
         window?.rootViewController = MainViewController()
+    }
+    
+    ///  切换到TabBarController指定控制器
+    ///
+    ///  - parameter index: 指定控制器下标
+    func switchTabBarControllerWithIndex(index: Int) {
+
+        guard let tabbarController = window?.rootViewController as? MainViewController
+            where index <= ((tabbarController.viewControllers?.count ?? 0)-1) && index >= 0 else {
+            return
+        }
+        
+        tabbarController.selectedIndex = index
     }
 }
