@@ -256,6 +256,7 @@
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
+		F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */; };
 		F4B58F751C9822ED009B5B8D /* AboutTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */; };
 		F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */; };
 		F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */; };
@@ -519,6 +520,7 @@
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
+		F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaRemoteNotificationHandler.swift; sourceTree = "<group>"; };
 		F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTitleView.swift; sourceTree = "<group>"; };
 		F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewCell.swift; sourceTree = "<group>"; };
 		F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewHeader.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */,
 				F45E69CF1C88293C00BD0859 /* MalaDataCenter.swift */,
 				F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */,
+				F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1490,6 +1493,7 @@
 				F45E69DF1C8D278A00BD0859 /* ThemeDate.swift in Sources */,
 				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
+				F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */,
 				F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */,
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,

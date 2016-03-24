@@ -17,37 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
     var notRegisteredPush = true
     
-    /// 通知类型键
-    private let kNotificationType = "notificationtype"
-    enum RemoteNotificationType: Int {
-        case Changed = 1
-        case Stoped = 2
-        case Finished = 3
-        case Starting = 4
-    }
-    /// 远程推送通知处理对象
-    private var remoteNotificationTypeHandler: RemoteNotificationType? {
-        willSet {
-            if let type = newValue {
-                
-                switch type {
-                    
-                case .Changed:
-                    switchTabBarControllerWithIndex(1)
-                    
-                case .Stoped:
-                    switchTabBarControllerWithIndex(1)
-                    
-                case .Finished:
-                    switchTabBarControllerWithIndex(1)
-                    
-                case .Starting:
-                    switchTabBarControllerWithIndex(1)
-
-                }
-            }
-        }
-    }
+    
 
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -71,11 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // 记录启动通知类型
             if let
                 notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
-                userInfo = notification.userInfo,
-                type = Int(userInfo[kNotificationType] as? String ?? "0") {
-                    remoteNotificationTypeHandler = RemoteNotificationType(rawValue: type)
+                userInfo = notification.userInfo {
+                    MalaRemoteNotificationHandler().handleRemoteNotification(userInfo)
             }
-            
         }
         
         // Setup Window
@@ -124,7 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
         println("didRegisterForRemoteNotificationsWithDeviceToken - \(MalaUserDefaults.parentID.value)")
+        
         if let parentID = MalaUserDefaults.parentID.value {
             if notRegisteredPush {
                 notRegisteredPush = false
@@ -136,21 +106,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.deviceToken = deviceToken
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        
-    }
-    
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
         println("didReceiveRemoteNotification: - \(userInfo)")
         JPUSHService.handleRemoteNotification(userInfo)
         
         if MalaUserDefaults.isLogined {
-            if let type = Int(userInfo[kNotificationType] as? String ?? "0"), remoteNotificationType = RemoteNotificationType(rawValue: type) {
-                remoteNotificationTypeHandler = remoteNotificationType
+            if MalaRemoteNotificationHandler().handleRemoteNotification(userInfo) {
                 completionHandler(UIBackgroundFetchResult.NewData)
             }
         }
-        
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -161,6 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - openURL
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        
         // 微信,支付宝 回调
         let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
             // 处理Ping++回调
@@ -171,6 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        
         // 微信,支付宝 回调
         let canHandleURL = Pingpp.handleOpenURL(url) { (result, error) -> Void in
             // 处理Ping++回调
@@ -183,6 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - SDK Configuration
     func registerThirdParty() {
+        
         // 友盟 - 发送启动通知(channelId 默认为 "App Store")
         MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
         
