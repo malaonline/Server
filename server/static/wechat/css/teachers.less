@@ -2,64 +2,86 @@
     /*text-align: center;*/
 /*}*/
 
-#teacherList .card {
-    position: relative;
-    padding: 0 15px 5px 15px;
-}
-
-#teacherList .card span.card-label {
-    margin: 10px 20px -5px -15px;
-    padding: 5px 30px 5px 5px;
-    position: absolute;
-    color: #ffffff;
-    background: linear-gradient(-45deg, transparent 22px, #8fb8db 0);
-    /*background-position: -20px;*/
-}
-
-#teacherList .card h3 {
-    text-align: center;
-    font-size: 1.85em;
-    font-weight: 100;
-    padding: 10px 0 0 0;
-    margin: 5px 0;
-
-}
-
-#teacherList .divider {
-    color: #d52248;
-}
-
-#teacherList .card-content {
-    text-align: center;
-}
-
-#teacherList img.card-image.img-circle.img-center {
-    width: 100px;
-    height: 100px;
-    margin: 5px auto;
-    border-radius: 50%;
-    border: 1px solid dodgerblue;
-    padding: 5px;
-}
-
-#teacherList .ui.divider {
-    margin: 0.5em 0;
-    font-weight: 100;
-}
-
-#teacherList .card-content p {
-    margin: 0;
-}
-
-
-#teacherList .card-content p.price {
-    font-size: 1.2em;
-    color: #777;
-}
-
-#teacherList .card-content p em {
-    font-size: 1.5em;
-    color: dodgerblue;
+#teacherList.page {
+    background: #ededed;
+    .card {
+        position: relative;
+        padding: 0 12px 10px 12px;
+        margin: 12px 12px 0;
+        box-shadow: 0 0.5px 1px rgba(0,0,0,.3);
+        span.card-label {
+            margin: 0 20px -5px -24px;
+            padding: 5px 30px 5px 12px;
+            position: absolute;
+            color: #ffffff;
+            background:22px, rgba(143,184,219,.9);  //fallback for andoid 4.4
+            background: linear-gradient(-45deg, transparent 22px, rgba(143,184,219,.9) 0);
+            /*background-position: -20px;*/
+        }
+        h3 {
+            text-align: center;
+            font-size: 17px;
+            line-height: 27px;
+            padding: 10px 0 0 0;
+            margin: 5px 0;
+            color: #333;
+            font-weight: 300;
+        }
+        .divider {
+            font-size: 13px;
+            color: #e26254;
+            margin: 5px 0;
+            font-weight: 200;
+        }
+        .ui.horizontal.divider:before { background-position: right 6px top 50%; }
+        .ui.horizontal.divider:after { background-position: left 6px top 50%; }
+        .card-content {
+            text-align: center;
+            p {
+                font-size: 12px;
+                margin: 0;
+                color: #6c6c6c;
+            }
+            p.price {
+                font-size: 12px;
+                color: #6c6c6c;
+                line-height: 24px;
+                margin-top: 6px;
+                em {
+                    font-size: 14px;
+                    line-height: 24px;
+                    color: #82b4d9;
+                }
+            }
+            p.teacher-tag {
+                font-size: 11px;
+                line-height: 21px;
+                color: #333;
+                font-weight: 200;
+                margin-top: 2px;
+            }
+            .img-border-wrapper {
+                margin-top: 7px;
+                height: 80px;
+                width: 80px;
+                padding: 4px;
+                display: inline-block;
+                border-radius: 50%;
+                border: 1px solid #C1DAEC;
+            }
+            .img-wrapper {
+                display: inline-block;
+                border-radius: 50%;
+                //border: 1px solid #C1DAEC;
+                overflow: hidden;
+                img.card-image.img-circle.img-center {
+                    vertical-align: top;
+                    width: 70px;
+                    height: 70px;
+                }
+            }
+        }
+    }
 }
 
 #teacherList .card-content p.teacher-tag span:not(:last-child):after {
