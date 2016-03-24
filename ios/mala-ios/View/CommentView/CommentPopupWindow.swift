@@ -84,7 +84,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     /// 老师头像
     private lazy var avatarView: UIImageView = {
         let avatarView = UIImageView(image: UIImage(named: "avatar_placeholder"))
-        avatarView.contentMode = .ScaleAspectFit
+        avatarView.contentMode = .ScaleAspectFill
         avatarView.layer.cornerRadius = avatarView.frame.width/2
         avatarView.layer.masksToBounds = true
         return avatarView
