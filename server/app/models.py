@@ -102,6 +102,8 @@ class School(BaseModel):
     study_seat = models.IntegerField(default=0, null=True)
     phone = models.CharField(max_length=20, default=None, null=True)
     member_services = models.ManyToManyField(Memberservice)
+    desc_title = models.CharField(max_length=200, null=True)
+    desc_content = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
