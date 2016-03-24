@@ -28,11 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 配置JPush
         #if USE_PRD_SERVER
-            let apsForProduction = false
+            JPUSHService.setupWithOption(launchOptions, appKey: "f22a395a332b87ef57a04b82", channel: "AppStore", apsForProduction: true)
         #else
-            let apsForProduction = true
+            JPUSHService.setupWithOption(launchOptions, appKey: "273de02f3da48856d02acc3d", channel: "AppStore", apsForProduction: false)
         #endif
-        JPUSHService.setupWithOption(launchOptions, appKey: "273de02f3da48856d02acc3d", channel: "AppStore", apsForProduction: apsForProduction)
+        
         let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
         JPUSHService.registerForRemoteNotificationTypes(kUserNotificationBSA.rawValue, categories: nil)
         
