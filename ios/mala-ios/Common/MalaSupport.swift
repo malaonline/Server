@@ -129,3 +129,38 @@ func getLineSpacingAttrString(string: String) -> NSAttributedString {
     attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: string.characters.count))
     return attrString
 }
+
+///  获取当前ViewController
+///
+///  - returns: UIViewController
+func getActivityViewController() -> UIViewController? {
+    
+    var activityViewController: UIViewController? = nil
+    var keyWindow = UIApplication.sharedApplication().keyWindow
+    
+    if keyWindow?.windowLevel != UIWindowLevelNormal {
+        let windows = UIApplication.sharedApplication().windows
+        for window in windows {
+            if window.windowLevel == UIWindowLevelNormal {
+                keyWindow = window
+                break
+            }
+        }
+    }
+    
+    let viewsArray = keyWindow?.subviews
+    
+    if viewsArray?.count > 0 {
+        
+        let frontView = viewsArray![0]
+        let nextResponder = frontView.nextResponder()
+        
+        if nextResponder is UIViewController {
+            activityViewController = nextResponder as? UIViewController
+        }else {
+            activityViewController = keyWindow!.rootViewController
+        }
+    }
+    
+    return activityViewController
+}

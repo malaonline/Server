@@ -12,6 +12,7 @@ import UIKit
 public class MalaRemoteNotificationHandler: NSObject {
 
     // MARK: - Property
+    
     /// 通知类型键
     public let kNotificationType = "notificationtype"
     
@@ -27,29 +28,63 @@ public class MalaRemoteNotificationHandler: NSObject {
         case Finished = 3
         case Starting = 4
     }
+    
     /// 远程推送通知处理对象
     private var remoteNotificationTypeHandler: RemoteNotificationType? {
         willSet {
-            if let type = newValue, appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-
+            
+            if let
+                type = newValue,
+                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                apsInfo = notificationInfo["aps"] as? [NSObject : AnyObject],
+                message = apsInfo["alert"] as? String {
+                
+                // 提示信息
+                var title: String = ""
+                // 提示框确认闭包
+                let action: () -> () = {
+                    appDelegate.switchTabBarControllerWithIndex(1)
+                }
+                
+                ///  匹配信息类型
                 switch type {
                     
                 case .Changed:
-                    appDelegate.switchTabBarControllerWithIndex(1)
-                    
+                    title = "调课完成"
+            
                 case .Stoped:
-                    appDelegate.switchTabBarControllerWithIndex(1)
-                    
+                    title = "停课完成"
+            
                 case .Finished:
-                    appDelegate.switchTabBarControllerWithIndex(1)
-                    
+                    title = "完课评价"
+            
                 case .Starting:
-                    appDelegate.switchTabBarControllerWithIndex(1)
+                    title = "课前通知"
+            
+                }
+                
+                // 若当前在前台，弹出提示
+                if MalaIsForeground {
                     
+                    // 获取当前控制器
+                    if let viewController = getActivityViewController() {
+                        
+                        MalaAlert.confirmOrCancel(
+                            title: title,
+                            message: message,
+                            confirmTitle: "前往课表",
+                            cancelTitle: "取消",
+                            inViewController: viewController,
+                            withConfirmAction: action, cancelAction: { () -> Void in
+                        })
+                    }
                 }
             }
         }
     }
+    
+    /// 通知信息字典
+    private var notificationInfo: [NSObject : AnyObject] = [NSObject : AnyObject]()
     
     
     // MARK: - Method
@@ -61,7 +96,8 @@ public class MalaRemoteNotificationHandler: NSObject {
         if let
             type = Int(userInfo[kNotificationType] as? String ?? "0"),
             remoteNotificationType = RemoteNotificationType(rawValue: type) {
-                
+            
+            notificationInfo = userInfo
             remoteNotificationTypeHandler = remoteNotificationType
                 
             return true

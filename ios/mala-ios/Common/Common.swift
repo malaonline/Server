@@ -17,6 +17,7 @@ var Mala_UserToken: String = "e3c4bbd3185d1d0b40df85e8b23b2c32e19db320"
 /// 课时选择步增数
 var MalaClassPeriod_StepValue: Double = 2
 var MalaIsPaymentIn: Bool = false
+var MalaIsForeground: Bool = true
 
 
 // MARK: - NotificationName

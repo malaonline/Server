@@ -66,10 +66,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(application: UIApplication) {
         
+        println("Did Enter Background")
+        
+        MalaIsForeground = false
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         
+        println("Will Enter Foreground")
+        
+        MalaIsForeground = true
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
