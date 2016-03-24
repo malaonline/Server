@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var deviceToken: NSData?
+    var notRegisteredPush = true
 
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         JPUSHService.setupWithOption(launchOptions, appKey: "273de02f3da48856d02acc3d", channel: "AppStore", apsForProduction: apsForProduction)
         let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
         JPUSHService.registerForRemoteNotificationTypes(kUserNotificationBSA.rawValue, categories: nil)
+        
         
         
         // Setup Window
@@ -67,8 +69,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     // MARK: - APNs
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
+        
         JPUSHService.registerDeviceToken(deviceToken)
+        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        println("didRegisterForRemoteNotificationsWithDeviceToken - \(MalaUserDefaults.parentID.value)")
+        if let parentID = MalaUserDefaults.parentID.value {
+            if notRegisteredPush {
+                notRegisteredPush = false
+                registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: String(parentID))
+            }
+        }
+        
+        // 纪录设备token，用于初次登录或注册有 pusherID 后，或“注销再登录”
+        self.deviceToken = deviceToken
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {

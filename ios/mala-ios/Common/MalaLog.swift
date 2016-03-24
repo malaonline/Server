@@ -9,7 +9,7 @@
 import Foundation
 
 func println(object: Any) {
-    #if DEBUG
+    #if USE_DEV_SERVER
         Swift.print(object)
     #endif
 }
