@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+
 
 // MARK: - Identifier
 let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
@@ -18,6 +20,7 @@ var Mala_UserToken: String = "e3c4bbd3185d1d0b40df85e8b23b2c32e19db320"
 var MalaClassPeriod_StepValue: Double = 2
 var MalaIsPaymentIn: Bool = false
 var MalaIsForeground: Bool = true
+var MalaLoginLocation: CLLocation? = nil
 
 
 // MARK: - NotificationName

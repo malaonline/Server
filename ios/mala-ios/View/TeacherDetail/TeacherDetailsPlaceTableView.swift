@@ -108,9 +108,21 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     // MARK: - Property
     var model: SchoolModel? {
         didSet {
+            
+            guard model != nil else {
+                return
+            }
+            
             photoView.kf_setImageWithURL(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: nil)
             titleLabel.text = model!.name
             addressLabel.text = model!.address
+            
+            let distance = (model?.distance ?? 0.0)
+            if distance > 1000 {
+                distanceLabel.text = String(format: "%.1fkm", distance/1000)
+            }else {
+                distanceLabel.text = String(format: "%.1fm", distance)
+            }
         }
     }
     

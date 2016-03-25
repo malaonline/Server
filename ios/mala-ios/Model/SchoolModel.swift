@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class SchoolModel: BaseObjectModel {
 
@@ -15,8 +16,17 @@ class SchoolModel: BaseObjectModel {
     var thumbnail: String?
     var region: Int = 0
     var center: Bool = false
-    var longitude: NSNumber?
-    var latitude: NSNumber?
+    var longitude: NSNumber? {
+        didSet {
+            getDistance()
+        }
+    }
+    var latitude: NSNumber? {
+        didSet {
+            getDistance()
+        }
+    }
+    var distance: Double = 0.0
     
     
     // MARK: - Constructed
@@ -46,6 +56,17 @@ class SchoolModel: BaseObjectModel {
         self.center = center ?? false
         self.longitude = longitude
         self.latitude = latitude
+    }
+    
+    private func getDistance() {
+        guard longitude != nil && latitude != nil && MalaLoginLocation != nil else {
+            return
+        }
+        
+        // 计算上课地点距用户当前位置距离
+        let targetLocation = CLLocation(latitude: latitude!.doubleValue, longitude: longitude!.doubleValue)
+        let distance: CLLocationDistance = MalaLoginLocation?.distanceFromLocation(targetLocation) ?? 0.0
+        self.distance = distance
     }
     
     

@@ -162,7 +162,7 @@ extension UIViewController {
     func alertCanNotAccessLocation() {
 
         dispatch_async(dispatch_get_main_queue()) {
-            MalaAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not get your Location!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+            MalaAlert.confirmOrCancel(title: "地理位置获取失败", message: "请在设置-隐私-定位服务里打开权限", confirmTitle: "去更改", cancelTitle: "取消", inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 

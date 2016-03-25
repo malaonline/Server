@@ -38,6 +38,8 @@ class HomeViewController: UIViewController {
         
         setupNotification()
         setupUserInterface()
+        getCurrentLocation()
+        
         // 开启下拉刷新
         self.tableView.startPullToRefresh() //loadTeachers()
     }
@@ -118,6 +120,16 @@ class HomeViewController: UIViewController {
             )
         )
         navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
+    }
+    
+    ///  获取当前地理位置信息
+    private func getCurrentLocation() {
+        proposeToAccess(.Location(.WhenInUse), agreed: {
+            
+            MalaLocationService.turnOn()
+            }, rejected: {
+                self.alertCanNotAccessLocation()
+        })
     }
     
     func loadTeachers(filters: [String: AnyObject]? = nil, isLoadMore: Bool = false, finish: (()->())? = nil) {
