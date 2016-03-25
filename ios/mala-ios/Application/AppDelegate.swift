@@ -17,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
     var notRegisteredPush = true
     
-    
 
-    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // 全局的外观自定义
@@ -175,7 +173,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // NavigationBar
         UINavigationBar.appearance().tintColor = MalaColor_6C6C6C_0
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        UINavigationBar.appearance().shadowImage = UIImage()
         
         // TabBar
         UITabBar.appearance().tintColor = MalaColor_6C6C6C_0

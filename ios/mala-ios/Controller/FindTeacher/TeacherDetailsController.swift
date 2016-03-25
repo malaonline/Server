@@ -99,6 +99,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         // 设置 NavigationBar 透明色
         makeStatusBarWhite()
         self.navigationController?.navigationBarHidden = false
+        navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     }
     
@@ -114,6 +115,11 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.shadowImage = UIImage.withColor(UIColor.blackColor())
     }
 
     override func didReceiveMemoryWarning() {
