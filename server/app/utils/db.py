@@ -25,7 +25,7 @@ class Pager:
 
     @property
     def page_range(self):
-        return range(1,self.total_page+1)
+        return self.total_page > 0 and range(1,self.total_page+1) or []
 
     def has_next(self):
         return self.page < self.total_page
