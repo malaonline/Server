@@ -6,6 +6,15 @@ from django.db import migrations, models
 import django.utils.timezone
 
 
+def copy_policy(apps, schema_editor):
+    Policy = apps.get_model('app', 'Policy')
+    StaticContent = apps.get_model('app', 'StaticContent')
+
+    queryset = Policy.objects.all()
+    for ply in queryset:
+        stcontent = StaticContent(name='policy', content=ply.content)
+        stcontent.save()
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -13,10 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='staticcontent',
-            name='updated_at',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-            preserve_default=False,
-        ),
+        migrations.RunPython(copy_policy),
     ]
