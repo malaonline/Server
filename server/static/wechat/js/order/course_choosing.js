@@ -439,14 +439,20 @@ $(function(){
         }
         if (sessionStorage.chosen_school_id) {
             chosen_school_id = sessionStorage.chosen_school_id;
+            var $chosenone = null;
             $('.school').each(function(){
                 var $this = $(this), scid = $this.attr('scid');
                 if (scid==chosen_school_id) {
-                    $this.addClass('chosen');
-                    hideOtherSchools($this);
-                    renderWeeklyTableBySchool(chosen_school_id, weekly_time_slot_ids);
+                    $chosenone = $this;
+                    return false;
                 }
             });
+            if ($chosenone) {
+                $chosenone.addClass('chosen');
+                $chosenone.show();
+                hideOtherSchools($chosenone);
+                renderWeeklyTableBySchool(chosen_school_id, weekly_time_slot_ids);
+            }
         }
         updateCost();
     })();
