@@ -2333,7 +2333,7 @@ class WalletView(BaseTeacherView):
         # paginate
         query_set, pager = paginate(query_set, page, page_size=self.PAGE_SIZE)
         histories = [{'submit_time': localtime(h.submit_time).strftime('%Y-%m-%d %H:%M'), 'positive': h.amount >=0, 'amount': money_format(h.amount), 'comment': h.comment} for h in query_set]
-        return JsonResponse({'ok': True, 'list': histories, 'pager': pager})
+        return JsonResponse({'ok': True, 'list': histories, 'pager': pager.dict()})
 
 
 class WalletBankcardView(BaseTeacherView):
