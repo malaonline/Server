@@ -9,7 +9,7 @@ $(function(){
         var schoolPhotosPopup = $.photoBrowser({
             photos : photoList,
             type: 'popup',
-            theme: 'dark',
+            //theme: 'dark',
         });
 
         schoolPhotosPopup.open()
