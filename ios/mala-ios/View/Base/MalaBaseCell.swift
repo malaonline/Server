@@ -86,7 +86,7 @@ class MalaBaseCell: UITableViewCell {
     /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
     lazy var content: UIView = UIView()
     /// 标签容器
-    private lazy var tagsView: MATabListView = {
+    lazy var tagsView: MATabListView = {
         let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: MalaLayout_FontSize_12))
         return tagsView
     }()

@@ -387,9 +387,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             
         case 4:
             let cell = reuseCell as! TeacherDetailsCertificateCell
-            cell.labels = self.model.achievement_set.map({ (model) -> String in
-                return model?.title ?? ""
-            })
+            cell.models = self.model.achievement_set
             return cell
             
         case 5:

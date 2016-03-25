@@ -110,7 +110,8 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
     public var enableZoomBlackArea = true
     /// Set nil to force the statusbar to be hidden
     public var statusBarStyle:UIStatusBarStyle?
-    
+    /// 是否使用渐隐式dismiss
+    public var forceDismiss = false
     // actions
     private var activityViewController: UIActivityViewController!
     
@@ -920,6 +921,11 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
         
         delegate?.willDismissAtPageIndex?(currentPageIndex)
         let scrollView = pageDisplayedAtIndex(currentPageIndex)
+        
+        if forceDismiss {
+            dismissPhotoBrowser()
+            return
+        }
         
         if currentPageIndex == initialPageIndex {
             performCloseAnimationWithScrollView(scrollView)
