@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.refresh.NormalRefreshViewHolder;
 import com.malalaoshi.android.result.TeacherListResult;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -30,7 +30,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
@@ -151,11 +150,19 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
     protected void initReshLayout() {
-        BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
+      /*  BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
         moocStyleRefreshViewHolder.setUltimateColor(R.color.tab_text_press_color);
         moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.teacher_main_bg);
         mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
+        */
+        /*BGAMeiTuanRefreshViewHolder meiTuanRefreshViewHolder = new BGAMeiTuanRefreshViewHolder(this.getActivity(), true);
+        meiTuanRefreshViewHolder.setPullDownImageResource(R.mipmap.bga_refresh_mt_pull_down);
+        meiTuanRefreshViewHolder.setChangeToReleaseRefreshAnimResId(R.anim.bga_refresh_mt_change_to_release_refresh);
+        meiTuanRefreshViewHolder.setRefreshingAnimResId(R.anim.bga_refresh_mt_refreshing);
+        mRefreshLayout.setRefreshViewHolder(meiTuanRefreshViewHolder);*/
+        mRefreshLayout.setRefreshViewHolder(new NormalRefreshViewHolder(this.getActivity(), true));
+
     }
 
     @Override
