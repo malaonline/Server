@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_s3_storage',
-    'raven.contrib.django.raven_compat',
     'static_precompiler',
     'app',
     'teacher',
