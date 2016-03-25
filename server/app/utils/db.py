@@ -1,7 +1,7 @@
 
 
 class Pager:
-    def __init__(self, cur_page, total_page, total_count, page_size, show_count=20):
+    def __init__(self, cur_page, total_page, total_count, page_size, show_count=15):
         self.page = cur_page
         self.total_page = total_page
         self.total_count = total_count
@@ -60,7 +60,7 @@ class Pager:
         return self.page_range[(self.show_start-1):self.show_end]
 
 
-def paginate(query_set, page=1, page_size=20, show_count=20):
+def paginate(query_set, page=1, page_size=20, show_count=15):
     """
     数据库分页
     :param query_set: 数据库QuerySet

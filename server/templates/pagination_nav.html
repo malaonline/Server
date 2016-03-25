@@ -7,11 +7,21 @@
         <li class="{% if not pager.page or pager.page <= 1 %}disabled{% endif %}">
             <a href="javascript:void(0)" aria-label="Previous" data-pageto="{{ pager.page|add:-1 }}"><span aria-hidden="true">&lt;</span></a>
         </li>
-        {% for i in pager.total_page|num_range %}
+        {% if pager.show_start > 1 %}
+            <li class="">
+                <span aria-hidden="true">...</span>
+            </li>
+        {% endif %}
+        {% for i in pager.show_page_range %}
             <li class="{% if pager.page == i %}active{% endif %}">
                 <a href="javascript:void(0)" data-pageto="{{ i }}">{{ i }}</a>
             </li>
         {% endfor %}
+        {% if pager.total_page and pager.show_end < pager.total_page %}
+            <li class="">
+                <span aria-hidden="true">...</span>
+            </li>
+        {% endif %}
         <li class="{% if not pager.page or pager.page >= pager.total_page %}disabled{% endif %}">
             <a href="javascript:void(0)" aria-label="Next" data-pageto="{{ pager.page|add:1 }}"> <span aria-hidden="true">&gt;</span></a>
         </li>
