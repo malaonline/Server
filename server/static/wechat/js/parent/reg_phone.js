@@ -27,7 +27,22 @@ $('#doCheck').click(function(){
   checkSMS();
 });
 $('#usePolic').click(function(){
-  location.href = policyHref;
+  var $dialog = $('#usePolicContent');
+  $dialog.show();
+  $('.weui_dialog_bd').css('height', $(window).height()-45);
+  if(!window.isLoadPolicy){
+    $.post("/wechat/policy/",null,
+      function(data){
+        if(data.result){
+          $('.weui_dialog_bd').html(JSON.parse(data.policy));
+          window.isLoadPolicy = true;
+        }
+      }
+    );
+  }
+  $dialog.find('.weui_btn_dialog').one('click', function(){
+    $dialog.hide();
+  });
 });
 function checkMobile(phone_val){
     var pattern=/(^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$)|(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;

@@ -939,3 +939,16 @@ def check_phone(request):
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid
     }
     return render(request, 'wechat/parent/reg_phone.html', context)
+
+@csrf_exempt
+def policy(request):
+    content = ''
+    try:
+        wxpolicy = models.StaticContent.objects.get(name='wxpolicy')
+        content = wxpolicy.content
+    except models.StaticContent.DoesNotExist:
+        logger.debug('models.StaticContent.DoesNotExist')
+    return JsonResponse({
+        "result": True,
+        "policy": json.dumps(content)
+    })
