@@ -2415,6 +2415,7 @@ class Config(BaseModel):
 class StaticContent(BaseModel):
     name = models.CharField(max_length=100, null=False)
     content = models.TextField()
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
