@@ -41,11 +41,6 @@ class BaseModel(models.Model):
         return "¥{0:.2f}".format(money/100)
 
 
-class Policy(BaseModel):
-    content = models.TextField()
-    updated_at = models.DateTimeField(auto_now=True)
-
-
 class Region(BaseModel):
     """
     Province, City & District
@@ -2413,7 +2408,7 @@ class Config(BaseModel):
         return 'withdraw on weekday %s' % self.withdraw_weekday
 
 class StaticContent(BaseModel):
-    name = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False, unique=True)
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now_add=True)
 
