@@ -49,11 +49,23 @@ var paginationUpdate = function(pager, $ctx) {
     $pagination.append('<li class="' + ((!pager.page || pager.page <= 1)?'disabled':'') + '">'
         + '<a href="javascript:void(0)" aria-label="Previous" data-pageto="' + (pager.page - 1) + '"><span aria-hidden="true">&lt;</span></a>'
         + '</li>');
-    for(var i = 1; i <= pager.total_page; i++) {
+
+    if (pager.show_start > 1) {
+        $pagination.append('<li class="">'
+            + '<span aria-hidden="true">...</span>'
+            + '</li>');
+    }
+    for(var i = pager.show_start; i <= pager.total_page && i <= pager.show_end; i++) {
         $pagination.append('<li class="' + (pager.page == i?'active':'') + '">'
             + '<a href="javascript:void(0)" data-pageto="' + i + '">' + i + '</a>'
             + '</li>');
     }
+    if (pager.total_page && pager.show_end < pager.total_page) {
+        $pagination.append('<li class="">'
+            + '<span aria-hidden="true">...</span>'
+            + '</li>');
+    }
+
     $pagination.append('<li class="' + ((!pager.page || pager.page >= pager.total_page)?'disabled':'') + '">'
         + '<a href="javascript:void(0)" aria-label="Next" data-pageto="' + (pager.page + 1) + '"> <span aria-hidden="true">&gt;</span></a>'
         + '</li>');

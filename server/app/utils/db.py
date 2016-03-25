@@ -11,7 +11,6 @@ class Pager:
     def dict(self):
         return {
             'page': self.page,
-            'number': self.number,
             'total_page': self.total_page,
             'total_count': self.total_count,
             'page_size': self.page_size,
