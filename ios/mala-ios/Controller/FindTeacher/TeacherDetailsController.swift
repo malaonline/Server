@@ -97,7 +97,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         // 设置 NavigationBar 透明色
-        makeStatusBarWhite()
+        // makeStatusBarWhite()
         self.navigationController?.navigationBarHidden = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
@@ -264,19 +264,17 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func showBackground() {
-        makeStatusBarBlack()
+        // makeStatusBarBlack()
         self.title = model.name
-        UIView.animateWithDuration(1) { [weak self] () -> Void in
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        }
+        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage.withColor(UIColor(rgbHexValue: 0x000000, alpha: 0.3))
     }
     
     private func hideBackground() {
-        makeStatusBarWhite()
+        // makeStatusBarWhite()
         self.title = ""
-        UIView.animateWithDuration(1) { [weak self] () -> Void in
-            self?.navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
-        }
+        navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     // 跳转到课程购买页
