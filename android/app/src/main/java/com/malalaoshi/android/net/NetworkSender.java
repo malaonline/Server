@@ -339,7 +339,7 @@ public class NetworkSender {
         stringRequest(Request.Method.GET, String.format(URL_ORDER_STATUS, orderId), headers, listener);
     }
 
-    public static void getTeachers(Long gradeId, Long subjectId,Long [] tagIds, NetworkListener listener){
+    public static void getTeachers(Long gradeId, Long subjectId,long [] tagIds, NetworkListener listener){
        String subUrl = "";
         boolean hasParam = false;
         if(gradeId != null && gradeId > 0){

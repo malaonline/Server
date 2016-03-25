@@ -100,7 +100,7 @@
 
     <string name="usercenter_set_avator_failed_no_permission">您的头像不能修改!</string>
 
-    <string name="home_get_teachers_fialed">教师列表加载失败</string>
+    <string name="home_get_teachers_fialed">教师信息加载失败,请检查网络</string>
 
     <string name="load_timetable_info_failed">课程表下载失败!</string>
 

@@ -59,7 +59,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     //筛选
     private Long gradeId;
     private Long subjectId;
-    private Long[] tagIds;
+    private long[] tagIds;
 
     public static void open(Context context, Grade grade, Subject subject, ArrayList<Tag> tags) {
         Intent intent = new Intent(context, TeacherListFilterActivity.class);
@@ -95,9 +95,8 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     }
 
     private void initViews() {
-        filterFragment = new TeacherListFragment().setSearchCondition(gradeId, subjectId, tagIds);
+        filterFragment = TeacherListFragment.newInstance(TeacherListFragment.FILTER_PAGE,gradeId, subjectId, tagIds);
         FragmentUtil.openFragment(R.id.teacher_list_fragment, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
-        filterFragment.setFiltertBtnVisiable(View.GONE);
     }
 
     private void updateConditions() {
@@ -121,7 +120,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
         if (tags!=null&&tags.size()>0){
             String str = StringUtil.joinEntityName(tags,"·");
             tvFilterTag.setText(str);
-            tagIds = new Long[tags.size()];
+            tagIds = new long[tags.size()];
             for (int i=0;i<tags.size();i++){
                 tagIds[i] = tags.get(i).getId();
             }
@@ -158,9 +157,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 TeacherListFilterActivity.this.grade = grade;
                 filterdialog.dismiss();
                 updateConditions();
-                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
-                //筛选结果
-                filterFragment.refreshTeachers();
+                filterFragment.searchTeachers(gradeId,subjectId,tagIds);
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");
@@ -195,9 +192,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 TeacherListFilterActivity.this.subject = subject;
                 filterdialog.dismiss();
                 updateConditions();
-                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
-                //筛选结果
-                filterFragment.refreshTeachers();
+                filterFragment.searchTeachers(gradeId,subjectId,tagIds);
             }
         });
         filterdialog.show(getSupportFragmentManager(), "dialog");
@@ -243,9 +238,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
                 //开始筛选
                 filterdialog.dismiss();
                 updateConditions();
-                filterFragment.setSearchCondition(gradeId,subjectId,tagIds);
-                //筛选结果
-                filterFragment.refreshTeachers();
+                filterFragment.searchTeachers(gradeId,subjectId,tagIds);
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");

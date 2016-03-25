@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
@@ -35,52 +36,106 @@ import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
 public class TeacherListFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener{
-    private TeacherRecyclerViewAdapter teacherListAdapter;
+    public static String ARGS_FRAGEMENT_PAGE_TYPE  = "pagetype";
+    public static String ARGS_FRAGEMENT_GRADE_ID   = "gradeId";
+    public static String ARGS_FRAGEMENT_SUBJECT_ID = "subjectId";
+    public static String ARGS_FRAGEMENT_TAG_IDS    = "tagIds";
+
+    public static int HOME_PAGE   = 0;
+    public static int FILTER_PAGE = 1;
+    //页面类型
+    private int pageType = HOME_PAGE;
+
+    @Bind(R.id.fl_teacher_list)
+    protected FrameLayout flTeacherList;
 
     @Bind(R.id.teacher_list_refresh_layout)
     protected BGARefreshLayout mRefreshLayout;
 
+    @Bind(R.id.teacher_list_recycler_view)
+    protected RecyclerView recyclerView;
+
     @Bind(R.id.teacher_filter_btn)
     protected Button teacherFilterBtn;
-    private int teacherFilterBtnVisiable = View.VISIBLE;
 
+    private View FilterEmptyView;
+
+    private TeacherRecyclerViewAdapter teacherListAdapter;
     private  List<Teacher> teachersList = new ArrayList<>();
 
     //筛选条件
     private Long gradeId;
     private Long subjectId;
-    private Long [] tagIds;
+    private long [] tagIds;
 
     private String nextUrl = null;
 
-    public TeacherListFragment(){
+    public static TeacherListFragment newInstance(int pageType){
+        TeacherListFragment f = new TeacherListFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARGS_FRAGEMENT_PAGE_TYPE, pageType);
+        f.setArguments(args);
+        return f;
     }
 
-    public TeacherListFragment setTeacherList(List<Teacher> teachers){
-        teachersList = teachers;
-        return this;
+    public static TeacherListFragment newInstance(int pageType, Long gradeId,Long subjectId,long[] tagIds){
+        TeacherListFragment f = new TeacherListFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARGS_FRAGEMENT_PAGE_TYPE, pageType);
+        args.putLong(ARGS_FRAGEMENT_GRADE_ID, gradeId);
+        args.putLong(ARGS_FRAGEMENT_SUBJECT_ID, subjectId);
+        args.putLongArray(ARGS_FRAGEMENT_TAG_IDS, tagIds);
+        f.setArguments(args);
+        return f;
     }
 
-    public TeacherListFragment setSearchCondition(Long gradeId, Long subjectId, Long [] tagIds){
+    public void searchTeachers(Long gradeId, Long subjectId, long [] tagIds){
+        if(pageType==FILTER_PAGE){
+            flTeacherList.removeAllViews();
+            flTeacherList.addView(mRefreshLayout);
+        }
+
         this.gradeId = gradeId;
         this.subjectId = subjectId;
         this.tagIds = tagIds;
-        return this;
+        mRefreshLayout.beginRefreshing();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        //
+        if (getArguments()!=null){
+            pageType = getArguments().getInt(ARGS_FRAGEMENT_PAGE_TYPE,0);
+            gradeId = getArguments().getLong(ARGS_FRAGEMENT_GRADE_ID);
+            subjectId = getArguments().getLong(ARGS_FRAGEMENT_SUBJECT_ID);
+            tagIds = getArguments().getLongArray(ARGS_FRAGEMENT_TAG_IDS);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.teacher_list, container, false);
         ButterKnife.bind(this, view);
-        teacherFilterBtn.setVisibility(teacherFilterBtnVisiable);
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.teacher_list_recycler_view);
+        initViews();
         setEvent();
-        Context context = view.getContext();
+        initData();
+        return view;
+    }
+
+    private void initData() {
+        mRefreshLayout.beginRefreshing();
+    }
+
+    private void initViews() {
+        if (pageType==HOME_PAGE){
+            teacherFilterBtn.setVisibility(View.VISIBLE);
+        }else{
+            teacherFilterBtn.setVisibility(View.GONE);
+        }
+
+        Context context = getContext();
+        FilterEmptyView = LayoutInflater.from(context).inflate(R.layout.view_load_empty,null);
         teacherListAdapter = new TeacherRecyclerViewAdapter(teachersList);
         GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
         recyclerView.setLayoutManager(layoutManager);
@@ -88,21 +143,11 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         recyclerView.addItemDecoration(new TeacherItemDecoration(context, TeacherItemDecoration.VERTICAL_LIST, getResources().getDimensionPixelSize(R.dimen.teacher_list_top_diver)));
         recyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(layoutManager, this, TeacherRecyclerViewAdapter.TEACHER_LIST_PAGE_SIZE));
         initReshLayout();
-        mRefreshLayout.beginRefreshing();
-        return view;
     }
 
 
     protected void setEvent(){
         mRefreshLayout.setDelegate(this);
-    }
-
-    public void setFiltertBtnVisiable(int visiable){
-        if (teacherFilterBtn==null){
-            teacherFilterBtnVisiable = visiable;
-        }else{
-            teacherFilterBtn.setVisibility(visiable);
-        }
     }
 
     protected void initReshLayout() {
@@ -122,19 +167,22 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         mRefreshLayout.beginRefreshing();
     }
 
-
     private void loadDatas(){
         NetworkSender.getTeachers(gradeId, subjectId, tagIds, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                if (json==null||json.toString().isEmpty()) {
+                if (json == null || json.toString().isEmpty()) {
                     getTeachersFailed();
                     return;
                 }
                 TeacherListResult teacherResult = null;
                 teacherResult = JsonUtil.parseStringData(json.toString(), TeacherListResult.class);
-                if (teacherResult!=null&&teacherResult.getResults()!=null&&teacherResult.getResults().size()>0) {
-                    getTeachersSucceed(teacherResult);
+                if (teacherResult != null) {
+                    if (teacherResult.getResults() != null && teacherResult.getResults().size() > 0) {
+                        getTeachersSucceed(teacherResult);
+                    } else {
+                        getTeacherSucceedEmpty(teacherResult);
+                    }
                     return;
                 }
                 getTeachersFailed();
@@ -147,27 +195,43 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
         });
     }
 
-    private void getTeachersSucceed(TeacherListResult teacherResult) {
-        List<Teacher> teachers = teacherResult.getResults();
-        if(teachers != null && teachers.size() > 0){
-            teachersList.clear();
-            teachersList.addAll(teachers);
+    private void getTeacherSucceedEmpty(TeacherListResult teacherResult){
+        if(pageType==FILTER_PAGE){
+            flTeacherList.removeAllViews();
+            flTeacherList.addView(FilterEmptyView);
         }
+        teachersList.clear();
         nextUrl = teacherResult.getNext();
+        notifyDataSetChanged();
+        setRefreshing(false);
+    }
+
+    private void notifyDataSetChanged(){
         if (nextUrl==null||!nextUrl.isEmpty()){
             teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
         }else{
             teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
         }
+    }
+
+
+    private void getTeachersSucceed(TeacherListResult teacherResult) {
+        if (pageType==FILTER_PAGE){
+            flTeacherList.removeAllViews();
+            flTeacherList.addView(mRefreshLayout);
+        }
+        List<Teacher> teachers = teacherResult.getResults();
+        teachersList.clear();
+        if (teachers!=null&&teachers.size()>0){
+            teachersList.addAll(teachers);
+        }
+        nextUrl = teacherResult.getNext();
+        notifyDataSetChanged();
         setRefreshing(false);
     }
 
     private void getTeachersFailed() {
-        if (nextUrl==null||!nextUrl.isEmpty()){
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
-        }else{
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
-        }
+        notifyDataSetChanged();
         setRefreshing(false);
         MiscUtil.toast(R.string.home_get_teachers_fialed);
     }
@@ -199,11 +263,8 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
     private void getMoreTeachersFailed() {
-        if (nextUrl==null||!nextUrl.isEmpty()){
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
-        }else{
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
-        }
+        notifyDataSetChanged();
+        setRefreshing(false);
         MiscUtil.toast(R.string.home_get_teachers_fialed);
     }
 
@@ -213,11 +274,8 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
             teachersList.addAll(teachers);
         }
         nextUrl = teacherResult.getNext();
-        if (nextUrl==null||!nextUrl.isEmpty()){
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.NODATA_LOADING);
-        }else{
-            teacherListAdapter.setMoreStatus(TeacherRecyclerViewAdapter.PULLUP_LOAD_MORE);
-        }
+        notifyDataSetChanged();
+        setRefreshing(false);
     }
 
     @Override
@@ -251,23 +309,6 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
 
     public void setRefreshing(boolean status){
         mRefreshLayout.endRefreshing();
-    }
-
-    class FooterSpanSizeLookup extends GridLayoutManager.SpanSizeLookup{
-        private final GridLayoutManager gridLayoutManager;
-
-        public FooterSpanSizeLookup(GridLayoutManager gridLayoutManager){
-            this.gridLayoutManager = gridLayoutManager;
-        }
-
-        @Override
-        public int getSpanSize(int position){
-            if(gridLayoutManager.getItemCount() - 1 == position){
-                return 2;
-            }else{
-                return 1;
-            }
-        }
     }
 
     //筛选

@@ -33,7 +33,6 @@ import butterknife.OnClick;
  * Created by kang on 16/1/15.
  */
 public class HomeActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup{
-    private List<Teacher> teachersList = new ArrayList<Teacher>();
 
     private NetworkStateReceiver mNetworkStateReceiver;
     private ViewPager vpHome;
@@ -128,7 +127,7 @@ public class HomeActivity extends BaseActivity implements FragmentGroupAdapter.I
         if (fragment == null) {
             switch (position) {
                 case 0:
-                    fragment = new TeacherListFragment().setTeacherList(teachersList);
+                    fragment = TeacherListFragment.newInstance(TeacherListFragment.HOME_PAGE);
                     break;
                 case 1:
                     fragment = new ScheduleFragment();
