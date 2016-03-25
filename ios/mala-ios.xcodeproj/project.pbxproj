@@ -257,6 +257,17 @@
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
 		F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */; };
+		F49BD59E1CA4131D00EB3CCF /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */; };
+		F49BD59F1CA4131D00EB3CCF /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */; };
+		F49BD5A01CA4131D00EB3CCF /* SKCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5951CA4131D00EB3CCF /* SKCaptionView.swift */; };
+		F49BD5A11CA4131D00EB3CCF /* SKDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5961CA4131D00EB3CCF /* SKDetectingImageView.swift */; };
+		F49BD5A21CA4131D00EB3CCF /* SKDetectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5971CA4131D00EB3CCF /* SKDetectingView.swift */; };
+		F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */; };
+		F49BD5A41CA4131D00EB3CCF /* SKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5991CA4131D00EB3CCF /* SKPhoto.swift */; };
+		F49BD5A51CA4131D00EB3CCF /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F49BD59A1CA4131D00EB3CCF /* SKPhotoBrowser.bundle */; };
+		F49BD5A61CA4131D00EB3CCF /* SKPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD59C1CA4131D00EB3CCF /* SKPhotoBrowser.swift */; };
+		F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */; };
+		F49BD5AA1CA413C000EB3CCF /* MalaPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */; };
 		F4B58F751C9822ED009B5B8D /* AboutTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */; };
 		F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */; };
 		F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */; };
@@ -521,6 +532,18 @@
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
 		F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaRemoteNotificationHandler.swift; sourceTree = "<group>"; };
+		F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotation.swift"; sourceTree = "<group>"; };
+		F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Radius.swift"; sourceTree = "<group>"; };
+		F49BD5951CA4131D00EB3CCF /* SKCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCaptionView.swift; sourceTree = "<group>"; };
+		F49BD5961CA4131D00EB3CCF /* SKDetectingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingImageView.swift; sourceTree = "<group>"; };
+		F49BD5971CA4131D00EB3CCF /* SKDetectingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingView.swift; sourceTree = "<group>"; };
+		F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKIndicatorView.swift; sourceTree = "<group>"; };
+		F49BD5991CA4131D00EB3CCF /* SKPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhoto.swift; sourceTree = "<group>"; };
+		F49BD59A1CA4131D00EB3CCF /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SKPhotoBrowser.bundle; sourceTree = "<group>"; };
+		F49BD59B1CA4131D00EB3CCF /* SKPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPhotoBrowser.h; sourceTree = "<group>"; };
+		F49BD59C1CA4131D00EB3CCF /* SKPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowser.swift; sourceTree = "<group>"; };
+		F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKZoomingScrollView.swift; sourceTree = "<group>"; };
+		F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaPhotoBrowser.swift; sourceTree = "<group>"; };
 		F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTitleView.swift; sourceTree = "<group>"; };
 		F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewCell.swift; sourceTree = "<group>"; };
 		F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewHeader.swift; sourceTree = "<group>"; };
@@ -771,6 +794,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F49BD5911CA4131D00EB3CCF /* SKPhotoBrowser */,
 				F46065041C96D363004056B1 /* Navi */,
 				F491A8BF1C7364C500B5D520 /* Refresher */,
 				F491A8BB1C734EB500B5D520 /* GIFImageSerialization */,
@@ -785,6 +809,7 @@
 				303BCFF31C44ABC900B37DD9 /* TestFactory.swift */,
 				F47C2ABC1C85785A0051A880 /* MalaAlert.swift */,
 				F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */,
+				F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1084,6 +1109,32 @@
 			path = Refresher;
 			sourceTree = "<group>";
 		};
+		F49BD5911CA4131D00EB3CCF /* SKPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				F49BD5921CA4131D00EB3CCF /* extensions */,
+				F49BD5951CA4131D00EB3CCF /* SKCaptionView.swift */,
+				F49BD5961CA4131D00EB3CCF /* SKDetectingImageView.swift */,
+				F49BD5971CA4131D00EB3CCF /* SKDetectingView.swift */,
+				F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */,
+				F49BD5991CA4131D00EB3CCF /* SKPhoto.swift */,
+				F49BD59A1CA4131D00EB3CCF /* SKPhotoBrowser.bundle */,
+				F49BD59B1CA4131D00EB3CCF /* SKPhotoBrowser.h */,
+				F49BD59C1CA4131D00EB3CCF /* SKPhotoBrowser.swift */,
+				F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */,
+			);
+			path = SKPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		F49BD5921CA4131D00EB3CCF /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */,
+				F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		F4B58F761C990247009B5B8D /* ClassScheduleView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1290,6 +1341,7 @@
 				F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */,
 				F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */,
 				F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */,
+				F49BD5A51CA4131D00EB3CCF /* SKPhotoBrowser.bundle in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
@@ -1476,6 +1528,7 @@
 				F42FBE991C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m in Sources */,
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
+				F49BD5A11CA4131D00EB3CCF /* SKDetectingImageView.swift in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
 				F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
@@ -1483,6 +1536,7 @@
 				F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
+				F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
@@ -1493,13 +1547,16 @@
 				F45E69DF1C8D278A00BD0859 /* ThemeDate.swift in Sources */,
 				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
+				F49BD5A01CA4131D00EB3CCF /* SKCaptionView.swift in Sources */,
 				F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */,
 				F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */,
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
+				F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				F46065241C97B168004056B1 /* TeacherDetailsController.swift in Sources */,
 				F460650C1C96D363004056B1 /* UIImageView+Navi.swift in Sources */,
 				F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */,
+				F49BD5A21CA4131D00EB3CCF /* SKDetectingView.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */,
@@ -1567,6 +1624,7 @@
 				F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */,
 				F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */,
 				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
+				F49BD59E1CA4131D00EB3CCF /* UIImage+Rotation.swift in Sources */,
 				F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */,
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
 				F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */,
@@ -1579,6 +1637,7 @@
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
 				F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */,
 				F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */,
+				F49BD5A61CA4131D00EB3CCF /* SKPhotoBrowser.swift in Sources */,
 				F45E69DE1C8D278A00BD0859 /* ThemeClassSchedule.swift in Sources */,
 				F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */,
 				30445B1A1C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
@@ -1594,6 +1653,7 @@
 				F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */,
 				F46065231C97B168004056B1 /* PaymentViewController.swift in Sources */,
 				30445B171C4A3959002CD290 /* FilterView.swift in Sources */,
+				F49BD59F1CA4131D00EB3CCF /* UIView+Radius.swift in Sources */,
 				307788591C2A58B1007AF6B0 /* OperatorOverload.swift in Sources */,
 				F4B58F751C9822ED009B5B8D /* AboutTitleView.swift in Sources */,
 				F45872001C51E0C40048D93F /* CourseChoosingConfirmView.swift in Sources */,
@@ -1604,8 +1664,10 @@
 				F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				F46064F81C941829004056B1 /* SaveNameView.swift in Sources */,
+				F49BD5AA1CA413C000EB3CCF /* MalaPhotoBrowser.swift in Sources */,
 				F40B53CC1C83FBCA00C20037 /* OrderForm.swift in Sources */,
 				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
+				F49BD5A41CA4131D00EB3CCF /* SKPhoto.swift in Sources */,
 				F42FBE9B1C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,

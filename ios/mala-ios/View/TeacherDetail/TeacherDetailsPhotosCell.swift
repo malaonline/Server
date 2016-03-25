@@ -12,16 +12,28 @@ import Kingfisher
 class TeacherDetailsPhotosCell: MalaBaseCell {
 
     // MARK: - Property
+    /// 图片URL数组
     var photos: [String] = [] {
         didSet {
+            
             // 老师详情中照片最少为3张
             if photos.count >= 3 {
-                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0])!, placeholderImage: nil)
-                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1])!, placeholderImage: nil)
-                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2])!, placeholderImage: nil)
+                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0]) ?? NSURL(), placeholderImage: nil)
+                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1]) ?? NSURL(), placeholderImage: nil)
+                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2]) ?? NSURL(), placeholderImage: nil)
+            }
+            
+            // 加载图片对象
+            images.removeAll()
+            for imageURL in photos {
+                let image = SKPhoto.photoWithImageURL(imageURL)
+                image.shouldCachePhotoURLImage = true
+                images.append(image)
             }
         }
     }
+    /// 图片浏览器 - 图片对象
+    var images: [SKPhoto] = [SKPhoto]()
     
     
     // MARK: - Components
@@ -33,6 +45,8 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        configure()
         setupUserInterface()
     }
     
@@ -68,5 +82,21 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
             make.left.equalTo(self.centerPhoto.snp_right).offset(MalaLayout_Margin_5)
             make.right.equalTo(self.content.snp_right)
         }
+    }
+    
+    private func configure() {
+        rightArrow.addTarget(self, action: "detailButtonDidTap", forControlEvents: .TouchUpInside)
+    }
+ 
+    
+    // MARK: - Events Response
+    ///  查看相册按钮点击事件
+    @objc private func detailButtonDidTap() {
+        
+        println("查看相册按钮点击事件")
+        
+        let browser = MalaPhotoBrowser()
+        browser.imageURLs = photos
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
     }
 }

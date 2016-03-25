@@ -98,6 +98,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         super.viewWillAppear(animated)
         // 设置 NavigationBar 透明色
         makeStatusBarWhite()
+        self.navigationController?.navigationBarHidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
     }
     
@@ -178,6 +179,16 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             // 展开 [教学环境] Cell
             self?.isOpenSchoolsCell = true
             self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+        }
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_PushPhotoBrowser,
+            object: nil,
+            queue: nil
+            ) { [weak self] (notification) -> Void in
+                // push图片浏览器
+                if let photoBrowser = notification.object as? MalaPhotoBrowser {
+                    self?.navigationController?.pushViewController(photoBrowser, animated: true)
+                }
         }
     }
     
@@ -412,5 +423,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         println("TeacherDetailController Deinit")
         // 移除观察者
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_OpenSchoolsCell, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushPhotoBrowser, object: nil)
     }
 }

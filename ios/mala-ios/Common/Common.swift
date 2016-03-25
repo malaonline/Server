@@ -22,6 +22,7 @@ var MalaIsForeground: Bool = true
 
 // MARK: - NotificationName
 let MalaNotification_OpenSchoolsCell = "com.malalaoshi.app.OpenSchoolsCell"
+let MalaNotification_PushPhotoBrowser = "com.malalaoshi.app.PushPhotoBrowser"
 let MalaNotification_PopFilterView = "com.malalaoshi.app.PopFilterView"
 let MalaNotification_ConfirmFilterView = "com.malalaoshi.app.ConfirmFilterView"
 let MalaNotification_CommitCondition = "com.malalaoshi.app.CommitCondition"
