@@ -45,7 +45,6 @@
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
         var pullDownImg = '{% static "common/icons/pull_down.png" %}';
         var moreImg = '{% static "common/icons/more.png" %}';
-        var defaultTeacherPhoto = '{% static "common/img/teacher_photo_def.png" %}'
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url|safe }}";
@@ -69,11 +68,6 @@
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<img name="teacherPhoto">');
               nimg.attr('src', userPhotos[i]);
-              $('.teacher_images').append(nimg);
-            }
-            for(var i=3-userPhotos.length;i>0;i--){
-              var nimg = $('<img>');
-              nimg.attr('src', defaultTeacherPhoto);
               $('.teacher_images').append(nimg);
             }
             var schoolCont = $('.school_cont');
@@ -111,9 +105,9 @@
                     </div>
                     <div>
                         {% for grade in grades_tree %}
-                            <div>
+                            <div class="item_distance">
                             {% for sub_grade in grade.children %}
-                                {% if sub_grade.id in teacher_grade_ids %}{{ sub_grade.name }}{% endif %}
+                                {% if sub_grade.id in teacher_grade_ids %}<label>{{ sub_grade.name }}</label>{% endif %}
                             {% endfor %}
                             </div>
                         {% endfor %}
@@ -123,9 +117,9 @@
                     <div>
                         风格标签
                     </div>
-                    <div>
+                    <div class="item_distance">
                         {%for tg in tags%}
-                            {{tg.name}}
+                            <label>{{tg.name}}</label>
                         {%endfor%}
                     </div>
                 </div>
@@ -166,7 +160,7 @@
                     <div>
                         特殊成就
                     </div>
-                    <div>
+                    <div class="item_distance">
                         {%for am in achievements%}
                             <label class="teacher_achievement">{{am.title}}</label>
                         {%endfor%}
@@ -204,18 +198,18 @@
                     <div>
                         会员服务
                     </div>
-                    <div>
+                    <div class="item_distance">
                         {%for mb in memberService%}
                             <label class="member_service">{{mb.name}}</label>
                         {%endfor%}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
-                    <div>
-                        教龄  级别
+                    <div class="item_distance">
+                        <label>教龄</label><label>级别</label>
                     </div>
-                    <div>
-                        {{teacher.teaching_age}}年 {%if teacher and teacher.level%}{{teacher.level.name}}{%endif%}
+                    <div class="item_distance">
+                        <label>{{teacher.teaching_age}}年</label> {%if teacher and teacher.level%}<label>{{teacher.level.name}}</label>{%endif%}
                     </div>
                 </div>
             </div>
