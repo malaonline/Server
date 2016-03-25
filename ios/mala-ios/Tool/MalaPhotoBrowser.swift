@@ -10,7 +10,7 @@ import UIKit
 
 private let MalaPhotoBrowserCellReuseID = "MalaPhotoBrowserCellReuseID"
 
-public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate {
 
     // MARK: - Property
     var imageURLs: [String] = [] {
@@ -50,6 +50,7 @@ public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UIC
     
     // MARK: - Private Method
     private func configure() {
+        self.title = "老师相册"
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -84,7 +85,28 @@ public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UIC
     
     
     // MARK: - Delegate
-    
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? MalaPhotoBrowserCell else {
+            return
+        }
+        
+        guard let originImage = cell.contentImageView.image else {
+            return
+        }
+        
+        /// 图片浏览器
+        let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell)
+        browser.initializePageIndex(indexPath.row)
+        browser.delegate = self
+        browser.statusBarStyle = nil
+        browser.displayAction = false
+        browser.bounceAnimation = false
+        browser.displayDeleteButton = false
+        browser.displayBackAndForwardButton = false
+        
+        presentViewController(browser, animated: true, completion: {})
+    }
 
 }
 
@@ -115,6 +137,7 @@ public class MalaPhotoBrowserFlowLayout: UICollectionViewFlowLayout {
 public class MalaPhotoBrowserCell: UICollectionViewCell {
     
     // MARK: - Property
+    /// 当前Cell图片URL
     var imageURL: String = "" {
         didSet {
             contentImageView.kf_setImageWithURL(NSURL(string: imageURL) ?? NSURL())
@@ -123,9 +146,9 @@ public class MalaPhotoBrowserCell: UICollectionViewCell {
     
     
     // MARK: - Components
+    /// 图片视图
     private lazy var contentImageView: UIImageView = {
         let contentImageView = UIImageView.placeHolder()
-        contentImageView.kf_showIndicatorWhenLoading = true
         return contentImageView
     }()
     

@@ -37,9 +37,27 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     
     
     // MARK: - Components
-    private lazy var leftPhoto: UIImageView = UIImageView.placeHolder()
-    private lazy var centerPhoto: UIImageView = UIImageView.placeHolder()
-    private lazy var rightPhoto: UIImageView = UIImageView.placeHolder()
+    private lazy var leftPhoto: UIImageView = {
+        let leftPhoto =  UIImageView.placeHolder()
+        leftPhoto.tag = 0
+        leftPhoto.userInteractionEnabled = true
+        leftPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        return leftPhoto
+    }()
+    private lazy var centerPhoto: UIImageView = {
+        let centerPhoto =  UIImageView.placeHolder()
+        centerPhoto.tag = 1
+        centerPhoto.userInteractionEnabled = true
+        centerPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        return centerPhoto
+    }()
+    private lazy var rightPhoto: UIImageView = {
+        let rightPhoto =  UIImageView.placeHolder()
+        rightPhoto.tag = 2
+        rightPhoto.userInteractionEnabled = true
+        rightPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        return rightPhoto
+    }()
     
     
     // MARK: - Constructed
@@ -57,6 +75,7 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        
         // SubViews
         content.addSubview(leftPhoto)
         content.addSubview(centerPhoto)
@@ -93,10 +112,29 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     ///  查看相册按钮点击事件
     @objc private func detailButtonDidTap() {
         
-        println("查看相册按钮点击事件")
-        
+        // 相册
         let browser = MalaPhotoBrowser()
         browser.imageURLs = photos
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
+    }
+    ///  图片点击事件
+    @objc private func imagesDidTap(gesture: UITapGestureRecognizer) {
+        
+        /// 确保是imageView触发手势，且imageView图片存在
+        guard let imageView = gesture.view as? UIImageView, originImage = imageView.image else {
+            return
+        }
+        
+        /// 图片浏览器
+        let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: imageView)
+        browser.initializePageIndex(imageView.tag)
+        browser.displayAction = false
+        browser.displayBackAndForwardButton = false
+        browser.displayDeleteButton = false
+        browser.statusBarStyle = nil
+        browser.bounceAnimation = false
+        browser.navigationController?.navigationBarHidden = true
+        
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
     }
 }

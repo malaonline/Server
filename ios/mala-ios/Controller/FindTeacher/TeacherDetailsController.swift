@@ -192,8 +192,13 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             queue: nil
             ) { [weak self] (notification) -> Void in
                 // push图片浏览器
-                if let photoBrowser = notification.object as? MalaPhotoBrowser {
-                    self?.navigationController?.pushViewController(photoBrowser, animated: true)
+                if let photoBrowser = notification.object as? SKPhotoBrowser {
+                    
+                    self?.navigationController?.presentViewController(photoBrowser, animated: true, completion: nil)
+                    
+                }else if let malaPhotoBrowser = notification.object as? MalaPhotoBrowser {
+                    
+                    self?.navigationController?.pushViewController(malaPhotoBrowser, animated: true)
                 }
         }
     }

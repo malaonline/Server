@@ -130,6 +130,8 @@ class MalaBaseCell: UITableViewCell {
     
     // MARK: - Private
     private func setupUserInterface() {
+        // Style 
+        
         // SubViews
         contentView.addSubview(title)
         contentView.addSubview(content)
