@@ -44,7 +44,7 @@ class PolicySerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
 
     class Meta:
-        model = models.Policy
+        model = models.StaticContent
         fields = ('content', 'updated_at',)
 
     def get_updated_at(self, obj):
@@ -52,11 +52,11 @@ class PolicySerializer(serializers.ModelSerializer):
 
 
 class Policy(generics.RetrieveAPIView):
-    queryset = models.Policy.objects.all()
+    queryset = models.StaticContent.objects.all()
     serializer_class = PolicySerializer
 
     def get_object(self):
-        obj = get_object_or_404(models.Policy, pk=1)
+        obj = get_object_or_404(models.StaticContent, name='policy')
         return obj
 
 
