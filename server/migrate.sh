@@ -13,7 +13,7 @@ pip install -r pip_install.txt
 
 cd $DES
 
-python manage.py migrate
+python manage.py migrate --noinput
 python manage.py compilestatic
 python manage.py collectstatic --noinput
 python manage.py mala_all

@@ -266,7 +266,5 @@ RAVEN_CONFIG = {
     'release': 'v1.0',
 }
 
-try:
-    from .local_settings import *
-except Exception as e:
-    raise e
+
+from .local_settings import *
