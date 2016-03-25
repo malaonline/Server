@@ -1553,7 +1553,7 @@ class MyLevel(MyWalletBase):
         # 显示所有等级
         context["all_level"] = [one_level.name for one_level in models.Level.objects.all().order_by("level_order")]
         # 显示当前等级
-        if hasattr(teacher, "level"):
+        if not teacher.level_id:
             context["current_level"] = ""
         else:
             context["current_level"] = teacher.level.name
@@ -1564,9 +1564,9 @@ class MyLevel(MyWalletBase):
         level_record_list = teacher.levelrecord_set.all().order_by("-create_at")
         # print(level_record_list)
 
+        splite_pos = 4
         level_record_list_str = []
-        # level_record_list_str = ["{time} 成为麻辣老师".format(time=timezone.now().strftime("%Y-%m-%d"))]
-        for one_level_record in level_record_list:
+        for one_level_record in level_record_list[:splite_pos]:
             level_record_list_str.append(
                 "{time} {operation}为{level}麻辣老师".format(
                     time=one_level_record.create_at.strftime("%Y-%m-%d"),
@@ -1574,7 +1574,17 @@ class MyLevel(MyWalletBase):
                     level=one_level_record.to_level.name
                 )
             )
-        context["level_record"] = level_record_list_str
+        context["first_level_record"] = level_record_list_str
+        level_record_list_str = []
+        for one_level_record in level_record_list[splite_pos:]:
+            level_record_list_str.append(
+                "{time} {operation}为{level}麻辣老师".format(
+                    time=one_level_record.create_at.strftime("%Y-%m-%d"),
+                    operation=operation[one_level_record.operation],
+                    level=one_level_record.to_level.name
+                )
+            )
+        context["rest_level_record"] = level_record_list_str
         # 显示等级权益, 权益按照老师的第几个能力算?暂定随便找一个老师拥有的能力
         all_level_rights = []
         for one_price in models.Price.objects.filter(region=teacher.region, ability=teacher.abilities.all()[0]).order_by("level__level_order"):

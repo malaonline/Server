@@ -72,10 +72,17 @@
     border-style: solid;
     padding-bottom: 10px;
   }
-  .record{
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 5px;
+  .first-part, .rest-part{
+    .record{
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+  .rest-part{
+  }
+  .rest-part[attrHidden="true"]{
+    display: none;
   }
 }
 

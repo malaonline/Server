@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_level.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_level.js' %}"></script>
 {% endblock %}
 {% block border_content %}
     <p class="my_level">我的级别</p>
@@ -32,9 +33,18 @@
     </div>
     <div class="level_change_record">
         <p class="title">级别变动记录</p>
-        {% for record in level_record %}
+        <div class="first-part">
+        {% for record in first_level_record %}
             <p class="record">{{ record }}</p>
         {% endfor %}
+        </div>
+        <div id="rest_part_record" class="rest-part" attrHidden="true">
+        {% for record in rest_level_record %}
+            <p class="record">{{ record }}</p>
+        {% endfor %}
+        </div>
+        <button id="expand_record">+</button>
+{#        <button id="expand_record" onclick="console.log('click');$('#rest_part_record').attr('attrHidden', false);">+</button>#}
 {#        <p class="record">2015-12-10 注册成为麻辣老师</p>#}
 {#        <p class="record">2015-12-10 升级为优秀麻辣老师</p>#}
 {#        <p class="record">2015-12-10 升级为中级麻辣老师</p>#}
