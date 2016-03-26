@@ -150,18 +150,18 @@ public class TeacherListFragment extends Fragment implements BGARefreshLayout.BG
     }
 
     protected void initReshLayout() {
-      /*  BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
+       /* BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(this.getActivity(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.bga_refresh_moooc);
         moocStyleRefreshViewHolder.setUltimateColor(R.color.tab_text_press_color);
         moocStyleRefreshViewHolder.setRefreshViewBackgroundColorRes(R.color.teacher_main_bg);
-        mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
-        */
-        /*BGAMeiTuanRefreshViewHolder meiTuanRefreshViewHolder = new BGAMeiTuanRefreshViewHolder(this.getActivity(), true);
+        mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);*/
+
+         /*BGAMeiTuanRefreshViewHolder meiTuanRefreshViewHolder = new BGAMeiTuanRefreshViewHolder(this.getActivity(), false);
         meiTuanRefreshViewHolder.setPullDownImageResource(R.mipmap.bga_refresh_mt_pull_down);
         meiTuanRefreshViewHolder.setChangeToReleaseRefreshAnimResId(R.anim.bga_refresh_mt_change_to_release_refresh);
         meiTuanRefreshViewHolder.setRefreshingAnimResId(R.anim.bga_refresh_mt_refreshing);
         mRefreshLayout.setRefreshViewHolder(meiTuanRefreshViewHolder);*/
-        mRefreshLayout.setRefreshViewHolder(new NormalRefreshViewHolder(this.getActivity(), true));
+       mRefreshLayout.setRefreshViewHolder(new NormalRefreshViewHolder(this.getActivity(), false));
 
     }
 
