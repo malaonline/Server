@@ -94,7 +94,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             <ImageView
-                android:src="@drawable/ic_white_back"
+                android:src="@drawable/core__ic_white_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView

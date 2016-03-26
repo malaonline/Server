@@ -1,5 +1,7 @@
 package com.malalaoshi.android.util;
 
+import com.malalaoshi.android.core.MalaContext;
+
 /**
  * UI result callback
  * Created by tianwei on 16-3-15.

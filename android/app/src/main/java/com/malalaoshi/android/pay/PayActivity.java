@@ -6,9 +6,9 @@ import android.os.Bundle;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.util.FragmentUtil;
-import com.malalaoshi.android.view.TitleBarView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -65,12 +65,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.malalaoshi.android.usercenter.SmsAuthActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-        <activity
             android:name="com.malalaoshi.android.activitys.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AnimationFullscreen">
@@ -109,6 +103,7 @@
         <activity
             android:name="com.malalaoshi.android.pay.PayActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity

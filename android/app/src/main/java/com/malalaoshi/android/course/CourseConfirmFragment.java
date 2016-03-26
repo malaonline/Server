@@ -352,9 +352,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         /**
          * 为什么把创建订单外面，因为创建订单时有加载时间，可以方便做加载动画
          */
+        submitView.setOnClickListener(null);
         PayManager.getInstance().createOrder(entity, new ResultCallback<Object>() {
             @Override
             public void onResult(Object entity) {
+                submitView.setOnClickListener(CourseConfirmFragment.this);
                 if (entity == null) {
                     MiscUtil.toast("创建订单失败");
                     return;
@@ -396,7 +398,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
-                try{
+                try {
                     TimesModel times = JsonUtil.parseStringData(json.toString(), TimesModel.class);
                     timesAdapter.clear();
                     if (times != null) {
@@ -406,7 +408,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                     timesListView.setVisibility(View.VISIBLE);
                     shouldUpdateTimes = false;
                     isShowingTimes = true;
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }

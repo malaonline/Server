@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.util.UserManager;
+import com.malalaoshi.android.core.usercenter.UserManager;
 
 import org.json.JSONObject;
 

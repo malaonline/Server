@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTitleBar">
+        <attr name="cusTitleText" format="string"/>
+        <attr name="cusTitleTextSize" format="dimension"/>
+        <attr name="cusTitleTextColor" format="color"/>
+        <attr name="cusLeftBackgroud" format="reference|color"/>
+        <attr name="cusRightTextColor" format="reference|color"/>
+        <attr name="cusRightTextSize" format="dimension"/>
+        <attr name="cusRightBackgroud" format="reference|color"/>
+        <attr name="cusRightText" format="string"/>
+        <attr name="cusLeftShow" format="boolean"/>
+        <attr name="cusRightShow" format="boolean"/>
+    </declare-styleable>
+</resources>

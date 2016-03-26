@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.dialog.FilterDialog;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
@@ -19,7 +19,6 @@ import com.malalaoshi.android.fragments.FilterTagFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.StringUtil;
-import com.malalaoshi.android.view.TitleBarView;
 
 import java.util.ArrayList;
 import java.util.List;

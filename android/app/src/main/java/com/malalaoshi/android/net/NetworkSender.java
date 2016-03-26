@@ -11,11 +11,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.core.MalaContext;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.entity.CreateChargeEntity;
 import com.malalaoshi.android.net.okhttp.UploadFile;
-import com.malalaoshi.android.util.MalaContext;
 import com.malalaoshi.android.util.UIResultCallback;
-import com.malalaoshi.android.util.UserManager;
 
 import org.json.JSONObject;
 
@@ -32,8 +32,6 @@ import okhttp3.RequestBody;
  */
 public class NetworkSender {
     private static final String URL_FETCH_VERIFY_CODE = "/api/v1/sms";
-    private static final String URL_GET_USER_POLICY = "/api/v1/policy";
-    private static final String URL_SAVE_CHILD_NAME = "/api/v1/parents/%s";
     private static final String URL_COUPON_LIST = "/api/v1/coupons";
     private static final String URL_SCHOOL = "/api/v1/schools";
     private static final String URL_TEACHER = "/api/v1/teachers/%s";
@@ -201,15 +199,6 @@ public class NetworkSender {
 
     private static String getToken() {
         return Constants.CAP_TOKEN + " " + UserManager.getInstance().getToken();
-    }
-
-    public static void getUserProtocol(NetworkListener listener) {
-        getStringRequest(URL_GET_USER_POLICY, new HashMap<String, String>(), listener);
-    }
-
-    public static void saveChildName(JSONObject params, UIResultCallback<String> listener) {
-        String parentId = UserManager.getInstance().getParentId();
-        httpPatch(String.format(URL_SAVE_CHILD_NAME, parentId), params.toString(), listener);
     }
 
     public static void getCouponList(NetworkListener listener) {

@@ -8,16 +8,15 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true">
-    <com.malalaoshi.android.view.TitleBarView
+    <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         app:cusTitleTextSize="@dimen/text_size_xlarge"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusLeftShow="true"
         app:cusTitleText="筛选结果"
-        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.malalaoshi.android.view.TitleBarView>
+        android:layout_height="wrap_content"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

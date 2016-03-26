@@ -18,12 +18,15 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.core.MalaContext;
+import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.OrderStatusModel;
-import com.malalaoshi.android.event.BusEvent;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
-import com.malalaoshi.android.util.*;
+import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.UIResultCallback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <com.malalaoshi.android.view.TitleBarView
+    <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         app:cusTitleTextSize="@dimen/text_size_xlarge"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusLeftShow="true"
         app:cusTitleText="课程确认"
-        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.malalaoshi.android.view.TitleBarView>
+    </com.malalaoshi.android.core.view.TitleBarView>
     <View
         android:layout_width="match_parent"
         android:background="@color/line_color"

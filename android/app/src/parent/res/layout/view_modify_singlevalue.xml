@@ -5,19 +5,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.malalaoshi.android.view.TitleBarView
+    <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/titleBar"
         app:cusTitleTextSize="@dimen/text_size_xlarge"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusLeftShow="true"
-        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusRightShow="true"
         app:cusRightText="保存"
         app:cusRightTextSize="@dimen/text_size_normal"
         app:cusRightTextColor="@color/title_right_color"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
-        android:layout_height="44dp"></com.malalaoshi.android.view.TitleBarView>
+        android:layout_height="44dp"/>
 
     <EditText
         android:id="@+id/et_value"

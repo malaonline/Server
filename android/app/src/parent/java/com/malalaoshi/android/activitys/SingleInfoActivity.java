@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
-import com.malalaoshi.android.view.TitleBarView;
+import com.malalaoshi.android.core.view.TitleBarView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

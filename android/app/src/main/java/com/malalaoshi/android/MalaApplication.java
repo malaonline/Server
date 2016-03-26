@@ -1,14 +1,11 @@
 package com.malalaoshi.android;
 
-import android.app.Application;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.malalaoshi.android.stat.StatReporter;
-import com.malalaoshi.android.util.MalaContext;
-import com.malalaoshi.android.util.UserManager;
+import com.malalaoshi.android.core.BaseApplication;
+import com.malalaoshi.android.core.usercenter.UserManager;
 
 import java.util.Set;
 
@@ -18,7 +15,7 @@ import cn.jpush.android.api.TagAliasCallback;
 /**
  * Created by liumengjun on 11/16/15.
  */
-public class MalaApplication extends Application {
+public class MalaApplication extends BaseApplication {
 
     private static String TAG = "MalaApplication";
     private static MalaApplication instance;
@@ -29,27 +26,29 @@ public class MalaApplication extends Application {
     // 运行信息
     private boolean isNetworkOk;
 
+    @Override
+    protected void initOnMainProcess() {
+
+    }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void initOnOtherProcess() {
+
+    }
+
+    @Override
+    protected void initAlways() {
         instance = this;
-        MalaContext.init();
         JPushInterface.requestPermission(this); //请求权限
-        JPushInterface.setDebugMode(true); 	    // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		    // 初始化 JPush
+        JPushInterface.setDebugMode(true);        // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);                // 初始化 JPush
         //设置tag和别名(在登录和登出处需要添加设置别名)
-        JPushInterface.setAliasAndTags(this, UserManager.getInstance().getUserId(),null,new TagAliasCallback() {
+        JPushInterface.setAliasAndTags(this, UserManager.getInstance().getUserId(), null, new TagAliasCallback() {
             @Override
-            public void gotResult ( int i, String s, Set < String > set){
-                Log.d(TAG, "status code:" + i + " alias:" + s );
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.d(TAG, "status code:" + i + " alias:" + s);
             }
         });
-
-        StatReporter.init();
-        StatReporter.onAppLaunch();
-
-
     }
 
     public static MalaApplication getInstance() {

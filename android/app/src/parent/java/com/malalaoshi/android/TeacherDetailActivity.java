@@ -28,6 +28,7 @@ import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.base.StatusBarActivity;
+import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
 import com.malalaoshi.android.entity.CoursePrice;
@@ -41,18 +42,17 @@ import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.usercenter.SmsAuthActivity;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.util.ThemeUtils;
-import com.malalaoshi.android.util.UserManager;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
-import com.malalaoshi.android.util.Number;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -684,7 +684,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_LOGIN) {
-            if (resultCode == SmsAuthActivity.RESULT_CODE_LOGIN_SUCCESSED) {
+            if (resultCode == LoginActivity.RESULT_CODE_LOGIN_SUCCESSED) {
                 //跳转到课程购买页
                 startCourseConfirmActivity();
             }
@@ -694,7 +694,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //启动登录页
     private void startSmsActivityRes() {
         Intent intent = new Intent();
-        intent.setClass(this, SmsAuthActivity.class);
+        intent.setClass(this, LoginActivity.class);
         startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 
@@ -733,18 +733,18 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         int len = (maxOffset + verticalOffset);
         if (len <= 0) {
             mRlTeacherHeadPortrait.setVisibility(View.GONE);
-            toolbar.setNavigationIcon(R.drawable.ic_black_back);
+            toolbar.setNavigationIcon(R.drawable.core__ic_black_back);
             //toolbarTitle.setTextColor(getResources().getColor(R.color.text_color_darkgray));
         } else if (len > 0 && len < toolbarHeight) {
             float ratio = (float) (len) / (float) toolbarHeight;
             mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
             mRlTeacherHeadPortrait.setAlpha(ratio);
-            toolbar.setNavigationIcon(R.drawable.ic_black_back);
+            toolbar.setNavigationIcon(R.drawable.core__ic_black_back);
             //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
         } else {
             mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
             mRlTeacherHeadPortrait.setAlpha(1.0f);
-            toolbar.setNavigationIcon(R.drawable.ic_white_back);
+            toolbar.setNavigationIcon(R.drawable.core__ic_white_back);
             //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
         }
     }

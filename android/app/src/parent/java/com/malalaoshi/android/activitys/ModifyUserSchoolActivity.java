@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.Grade;
@@ -16,8 +18,6 @@ import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.UIResultCallback;
-import com.malalaoshi.android.util.UserManager;
-import com.malalaoshi.android.view.TitleBarView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
-import com.malalaoshi.android.usercenter.SmsAuthActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
         } else if (v.getId() == R.id.btn_pay) {
             pay();
         } else if (v.getId() == R.id.btn_login) {
-            Intent intent = new Intent(this, SmsAuthActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btn_coupong) {
             startActivity(new Intent(this, CouponActivity.class));

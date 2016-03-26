@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.malalaoshi.android.view.TitleBarView
+    <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

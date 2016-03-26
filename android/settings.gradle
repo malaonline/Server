@@ -1,1 +1,1 @@
-include ':app', ':pingpp', ':pingpp_one'
+include ':app', ':pingpp', ':pingpp_one', ':core'

@@ -92,7 +92,7 @@
     <style name="mala.widget.usercenter.button" parent="android:Widget.Button">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:background">@drawable/btn_post_verify_code_bk</item>
+        <item name="android:background">@drawable/core__btn_post_verify_code_bk</item>
     </style>
 
     <style name="mala.widget.usercenter.edit" parent="android:Widget.EditText">

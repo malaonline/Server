@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_user_close" />
+            android:src="@drawable/core__ic_user_close" />
 
         <TextView
             style="@style/mala.widget.usercenter.title.text"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_toLeftOf="@+id/tv_warn_phone"
-                android:drawableLeft="@drawable/ic_user_phone"
+                android:drawableLeft="@drawable/core__ic_user_phone"
                 android:drawablePadding="10dp"
                 android:hint="请输入手机号"
                 android:inputType="number"
@@ -63,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="4dp"
                 android:layout_toLeftOf="@+id/btn_fetch_code"
-                android:drawableLeft="@drawable/ic_user_warn"
+                android:drawableLeft="@drawable/core__ic_user_warn"
                 android:drawablePadding="2dp"
                 android:text="手机号不正确"
                 android:visibility="gone" />
@@ -74,10 +74,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_fetch_verify_code_bk"
+                android:background="@drawable/core__btn_fetch_verify_code_bk"
                 android:padding="8dp"
                 android:text="获取验证码"
-                android:textColor="@drawable/btn_fetch_verify_code_bk"
+                android:textColor="@drawable/core__btn_fetch_verify_code_bk"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_toLeftOf="@+id/tv_warn"
-                android:drawableLeft="@drawable/ic_user_code"
+                android:drawableLeft="@drawable/core__ic_user_code"
                 android:drawablePadding="10dp"
                 android:inputType="number"
                 android:hint="验证码" />
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/ic_user_warn"
+                android:drawableLeft="@drawable/core__ic_user_warn"
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:text="验证码错误"
@@ -134,7 +134,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/usercenter_blue_btn_bk"
+            android:background="@drawable/core__usercenter_blue_btn_bk"
             android:enabled="false"
             android:text="@string/usercenter_verify" />
 

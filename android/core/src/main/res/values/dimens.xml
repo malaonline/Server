@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="core__title_bar_height">44dp</dimen>
+</resources>

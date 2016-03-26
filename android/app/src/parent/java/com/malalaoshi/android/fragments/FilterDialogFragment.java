@@ -643,7 +643,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
 
     private void selectGrade(int stage, int position, View view) {
         mRubberIndicator.moveToRight();
-        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
+        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
         mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
         Log.d(TAG, "OnItemClick{" + stage + "}: " + position);
 
@@ -679,7 +679,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     @OnItemClick(R.id.filter_subjects_list)
     protected void onClickSubjectsList(AdapterView<?> parent, View view, int position, long id) {
         mRubberIndicator.moveToRight();
-        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.back_btn));
+        mLeftIcon.setImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
         mIvDialogIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));
         mRightIcon.setVisibility(View.VISIBLE);
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/core__gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:paddingLeft="12dp">
+
+        <TextView
+            style="@style/mala.widget.usercenter.title.text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="填写姓名" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e5e5e5" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="16dp"
+        android:background="#e5e5e5" />
+
+    <EditText
+        android:id="@+id/et_name"
+        style="@style/mala.widget.usercenter.edit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff"
+        android:hint="请输入学生姓名"
+        android:maxLength="30"
+        android:paddingLeft="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:gravity="left"
+        android:text="请认真填写姓名，不得超过30个汉字"
+        android:textColor="#939393"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/btn_submit"
+        style="@style/mala.widget.usercenter.button"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/core__usercenter_blue_btn_bk"
+        android:enabled="false"
+        android:text="确认" />
+</LinearLayout>

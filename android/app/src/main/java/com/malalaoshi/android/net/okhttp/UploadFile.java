@@ -1,31 +1,26 @@
 package com.malalaoshi.android.net.okhttp;
 
 
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.util.MalaContext;
-import com.malalaoshi.android.util.UserManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 
 
 /**
@@ -87,13 +82,13 @@ public class UploadFile {
                     });
                 }else{
                     MalaContext.postOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // OKHTTP
-                            if (networkListener != null)
-                                networkListener.onFailed(new VolleyError(new NetworkResponse(response.code(),null,null,false)));
-                            }
-                        }
+                                                     @Override
+                                                     public void run() {
+                                                         // OKHTTP
+                                                         if (networkListener != null)
+                                                             networkListener.onFailed(new VolleyError(new NetworkResponse(response.code(), null, null, false)));
+                                                     }
+                                                 }
                     );
                 }
 

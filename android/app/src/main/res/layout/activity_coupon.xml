@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.malalaoshi.android.view.TitleBarView
+    <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cusLeftBackgroud="@drawable/back_btn"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
         app:cusTitleText="@string/scholarship"
         app:cusTitleTextColor="@color/title_bar_text_color"
