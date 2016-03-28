@@ -10,7 +10,7 @@ function showToast(txt){
   }, 1500);
 }
 function checkStatus(){
-  if(checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined && $('#smsCode').val().length > 0){
+  if(checkMobile($('#phoneCode').val()) && $('#smsCode').val().length > 0){
     $('#doCheck').addClass('submit_btn_active');
   }else{
     $('#doCheck').removeClass('submit_btn_active');
