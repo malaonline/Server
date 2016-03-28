@@ -17,6 +17,8 @@ class ThemeTags: UIView {
     }
     
     // MARK: - Property
+    /// 按钮字典
+    var buttons: [String: UIButton] = [String: UIButton]()
     /// 标签高度
     var itemHeight: CGFloat = 26
     /// 水平间距
@@ -132,13 +134,20 @@ class ThemeTags: UIView {
     private func setupItem(arrayType: TagsArray) {
         let buttonWidth = arrayType == .HigherArray ? highWidth : lowWidth
         // 创建一个标签并布局、设置变量之后，从数组中remove这个标签文字
+        let title = (arrayType == .HigherArray ? higherArray : lowerArray)[0]
         let button = UIButton(
-            title: (arrayType == .HigherArray ? higherArray : lowerArray)[0],
+            title: title,
             borderColor: MalaRandomColor(),
             target: self,
             action: "buttonDidTap:"
         )
         self.addSubview(button)
+        self.buttons[title] = button
+        
+        // 若此风格标签已被选中，则渲染选中样式
+        if MalaFilterIndexObject.tags.contains(title) {
+            button.selected = true
+        }
         
         // 每行首个按钮无Margin
         let x = currentWidth == 0 ? currentWidth+1 : currentWidth + verticalMargin

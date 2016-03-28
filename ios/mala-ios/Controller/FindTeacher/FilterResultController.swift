@@ -334,6 +334,10 @@ class FilterBar: UIView {
     }
     
     deinit {
+        
+        // 重置选择条件模型
+        MalaFilterIndexObject = filterSelectedIndexObject()
+        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }
 }

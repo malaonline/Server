@@ -31,11 +31,17 @@ class GradeFilterView: BaseFilterView {
     // MARK: - Override
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+        
+        if indexPath == MalaFilterIndexObject.gradeIndexPath {
+            cell.selected = true
+        }
+
         return cell
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         super.collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
+        MalaFilterIndexObject.gradeIndexPath = indexPath
         didTapCallBack?(model: self.gradeModel(indexPath.section, row: indexPath.row)!)
     }
 }

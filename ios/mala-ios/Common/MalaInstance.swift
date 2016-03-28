@@ -28,3 +28,5 @@ var MalaIsHasBeenEvaluatedThisSubject: Bool? = nil
 
 /// 支付页面控制器，用于APPDelegate处理回调
 weak var MalaPaymentController: PaymentViewController?
+/// 筛选条件选择下标记录
+var MalaFilterIndexObject = filterSelectedIndexObject()

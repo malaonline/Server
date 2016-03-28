@@ -181,6 +181,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     }
                     return tagObject
                 })
+                MalaFilterIndexObject.tags = self?.styleView.selectedItems ?? []
                 self?.filterObject.tags = tagsCondition ?? []
                 self?.commitCondition()
         }
@@ -317,4 +318,11 @@ class ConditionObject: NSObject {
         )
         return string
     }
+}
+
+/// 筛选条件选择下标
+public class filterSelectedIndexObject: NSObject {
+    var gradeIndexPath = NSIndexPath()
+    var subjectIndexPath = NSIndexPath()
+    var tags: [String] = []
 }
