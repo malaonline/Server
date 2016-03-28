@@ -15,12 +15,18 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     /// 图片URL数组
     var photos: [String] = [] {
         didSet {
+
+            // 加载图片展示在老师详情页面
+            if photos.count >= 1 {
+                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0]) ?? NSURL(), placeholderImage: UIImage(named: "detailPicture_placeholder"))
+            }
             
-            // 老师详情中照片最少为3张
+            if photos.count >= 2 {
+                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1]) ?? NSURL(), placeholderImage: UIImage(named: "detailPicture_placeholder"))
+            }
+            
             if photos.count >= 3 {
-                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0]) ?? NSURL(), placeholderImage: nil)
-                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1]) ?? NSURL(), placeholderImage: nil)
-                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2]) ?? NSURL(), placeholderImage: nil)
+                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2]) ?? NSURL(), placeholderImage: UIImage(named: "detailPicture_placeholder"))
             }
             
             // 加载图片对象
