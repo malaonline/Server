@@ -2407,6 +2407,7 @@ class Config(BaseModel):
     def __str__(self):
         return 'withdraw on weekday %s' % self.withdraw_weekday
 
+
 class StaticContent(BaseModel):
     name = models.CharField(max_length=100, null=False, unique=True)
     content = models.TextField()
@@ -2414,3 +2415,29 @@ class StaticContent(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class Evaluation(BaseModel):
+    PENDING = 'p'
+    SCHEDULED = 's'
+    COMPLETED = 'c'
+    STATUS_CHOICES = (
+        (PENDING, '待处理'),
+        (SCHEDULED, '已安排时间'),
+        (COMPLETED, '已完成测评')
+    )
+
+    order = models.OneToOneField(Order)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    status = models.CharField(
+        max_length=2,
+        choices=STATUS_CHOICES,
+        default=PENDING
+    )
+
+    @property
+    def status_display(self):
+        if self.order.status == Order.REFUND:
+            return '已退费'
+        return self.get_status_display()
