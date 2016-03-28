@@ -7,4 +7,8 @@
   ga('create', 'UA-65644538-3', 'auto');
   ga('send', 'pageview');
 
+  {% if user.is_authenticated %}
+  ga('set', 'userId', '{{user.id}}');
+  {% endif %}
+
 </script>
