@@ -301,7 +301,7 @@ class Profile(BaseModel):
         if hasattr(self.user, "parent"):
             student_name = '%s(家长)' % self.user.parent.student_name
 
-        return 'phone:{phone} {userr_id} {teacher_name}{student_name}'.format(
+        return 'phone:{phone} {user_id} {teacher_name}{student_name}'.format(
                 phone=self.phone, user_id=self.user.pk,
                 teacher_name=teacher_name, student_name=student_name)
 
