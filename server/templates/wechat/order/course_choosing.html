@@ -31,9 +31,9 @@
                 </div>
             </div>
 {#          选择上课地点#}
-            <div class="weui_panel">
+            <div class="weui_panel school-panel">
                 <div class="title_row">选择上课地点</div>
-                <div class="schools-panel" id="schoolsContainer">
+                <div class="schools-list" id="schoolsContainer">
                         <div class="school" scid="{{ schools.0.id }}">
                             <div class="school-body">
                                 <div class="school-head">
@@ -95,9 +95,9 @@
                         </tbody>
                     </table>
                     <div class="flags">
-                        <span class="flag"><span class="rect unavailable"></span>已占</span>
-                        <span class="flag"><span class="rect available"></span>可选</span>
-                        <span class="flag"><span class="rect chosen"></span>已选</span>
+                        <span class="flag"><span class="rect unavailable"></span>已被约课</span>
+                        <span class="flag"><span class="rect available"></span>可授课</span>
+                        <span class="flag"><span class="rect chosen"></span>已选课时</span>
                     </div>
                 </div>
             </div>
