@@ -904,12 +904,17 @@ def add_openid(request):
         "result": True
     })
 
-
 @csrf_exempt
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
     wx_code = request.GET.get('code', None)
     teacherId = request.GET.get('state', None)
+
+    if wx_code is None or wx_code == 'None' or wx_code == '':
+        return HttpResponse(json.dumps({
+            "msg": '请关注麻辣老师公众号, 通过公众号访问！',
+            "code": -1
+        }, ensure_ascii=False))
 
     get_openid_url += '&appid=' + settings.WEIXIN_APPID
     get_openid_url += '&secret=' + settings.WEIXIN_APP_SECRET
