@@ -135,6 +135,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private lazy var commitButton: UIButton = {
         let commitButton = UIButton()
         commitButton.setTitle("提  交", forState: .Normal)
+        commitButton.setTitle("提交中", forState: .Disabled)
         commitButton.setTitleColor(MalaColor_BCD7EB_0, forState: .Normal)
         commitButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
@@ -446,20 +447,33 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             return
         }
         let comment = CommentModel(id: 0, timeslot: model.id, score: Int(floatRating.rating), content: textView.text)
-        
+
         /// 创建评论
         createComment(comment, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-            self?.commitButton.enabled = false
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
             if let errorMessage = errorMessage {
                 println("CommentPopupWindow - saveComment Error \(errorMessage)")
             }
+            
+            self?.ShowTost("评价失败，请重试")
+            self?.commitButton.enabled = true
+            
         }, completion: { [weak self] (bool) -> Void in
-                println("评论创建结果：\(bool)")
-                self?.commitButton.enabled = false
-                self?.animateDismiss()
+            println("评论创建结果：\(bool)")
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if bool {
+                    self?.ShowTost("评价成功")
+                    delay(1.0, work: { () -> Void in
+                        self?.animateDismiss()
+                    })
+                }else {
+                    self?.ShowTost("评价失败，请重试")
+                    self?.commitButton.enabled = true
+                }
+            }) 
         })
     }
     

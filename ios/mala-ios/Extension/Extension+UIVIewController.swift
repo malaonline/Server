@@ -11,6 +11,30 @@ import Foundation
 extension UIViewController {
     
     public func ShowTost(message: String) {
-        self.navigationController?.view.makeToast(message)
+        
+        if let naviView = self.navigationController?.view {
+            naviView.makeToast(message)
+        }else if let view = self.view {
+            view.makeToast(message)
+        }
     }
+    
+    public func showActivity() {
+        
+        if let naviView = self.navigationController?.view {
+            naviView.makeToastActivity(.Center)
+        }else if let view = self.view {
+            view.makeToastActivity(.Center)
+        }
+    }
+    
+    public func hideActivity() {
+        
+        if let naviView = self.navigationController?.view {
+            naviView.hideToastActivity()
+        }else if let view = self.view {
+            view.hideToastActivity()
+        }
+    }
+    
 }
