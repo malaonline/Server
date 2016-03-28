@@ -1,13 +1,13 @@
 .app-redirect-box {
-    height: 60px;
+    height: 40px;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
-    padding: 18px 20px 18px 15px;
-    font-size: 16px;
+    padding: 10px 12px;
+    font-size: 12px;
 }
 
 .app-redirect-box a {
@@ -17,27 +17,38 @@
 .app-redirect-box a.left-desc {
     /*color: red;*/
     position: relative;
-    padding-left: 42px;
+    padding-left: 32px;
+    span {
+        line-height: 20px;
+    }
 }
 
 .app-redirect-box a.left-desc img {
     position: absolute;
     left: 0;
-    top: -9px;
-    width: 24px;
-    height: 24px;
+    //top: -9px;
+    width: 16px;
+    height: 16px;
 }
 
 
 .app-redirect-box div.right-buttons {
     //background-color: #ffffff;
     position: absolute;
-    top: 17px;
-    right: 20px;
+    top: 8px;
+    right: 12px;
+    width: 60px;
+    height: 24px;
+    line-height: 24px;
     a.button.button-fill {
+        height: 24px;
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+        line-height: 24px;
         background-color: #fff;
         color: #88bcde;
-        border-radius: 3px;
+        border-radius: 2px;
     }
 }
 
