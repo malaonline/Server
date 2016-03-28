@@ -9,6 +9,14 @@ function showToast(txt){
     $toast.hide();
   }, 1500);
 }
+function checkStatus(){
+  if(checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined && $('#smsCode').val().length > 0){
+    $('#doCheck').addClass('submit_btn_active');
+  }else{
+    $('#doCheck').removeClass('submit_btn_active');
+  }
+}
+$('#smsCode, #phoneCode').bind('input propertychange', checkStatus);
 $('.ext_btn_primary').click(function(){
   var itm = $('.ext_btn_primary');
   if(!itm.hasClass('ext_btn_disabled')){
@@ -64,6 +72,9 @@ function checkSMS(){
   var sms_code = $('#smsCode').val();
   if(!checkMobile(phone_code)){
     itm.removeClass('ext_btn_disabled');
+    return false;
+  }
+  if(!$('#doCheck').hasClass('submit_btn_active')){
     return false;
   }
   $('.msg-error').html('验证码错误');
