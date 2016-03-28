@@ -25,7 +25,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
             self.reloadData()
         }
     }
-    var controller: UIViewController?
+    weak var controller: UIViewController?
     /// 上拉刷新视图
     private lazy var reloadView: ThemeReloadView = {
         let reloadView = ThemeReloadView(frame: CGRect(x: 0, y: 0, width: 0, height: 30))

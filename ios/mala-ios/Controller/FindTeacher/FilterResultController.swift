@@ -191,6 +191,12 @@ class FilterResultController: UIViewController {
     @objc private func popSelf() {
         self.navigationController?.popViewControllerAnimated(true)
     }
+    
+    deinit {
+        println("FilterResultController - Deinit")
+        // 重置选择条件模型
+        MalaFilterIndexObject = filterSelectedIndexObject()
+    }
 }
 
 
@@ -335,8 +341,7 @@ class FilterBar: UIView {
     
     deinit {
         
-        // 重置选择条件模型
-        MalaFilterIndexObject = filterSelectedIndexObject()
+        println("FilterBar - Deinit")
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CommitCondition, object: nil)
     }

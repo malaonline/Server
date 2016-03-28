@@ -289,4 +289,8 @@ public class TeacherFilterPopupWindow: UIViewController {
         confirmButton.userInteractionEnabled = false
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ConfirmFilterView, object: nil)
     }
+    
+    deinit{
+        println("TeacherFilterPopupWindow - Deinit")
+    }
 }
