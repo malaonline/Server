@@ -228,6 +228,8 @@
 		F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */; };
 		F45E69E31C8D2EAF00BD0859 /* Extension+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */; };
 		F45F27EC1CA53A2900F0012C /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
+		F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F31CA8DC5C00F0012C /* Toast.swift */; };
+		F45F27F61CA8E07E00F0012C /* Extension+UIVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F51CA8E07E00F0012C /* Extension+UIVIewController.swift */; };
 		F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F11C926E16004056B1 /* ProfileElementModel.swift */; };
 		F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F51C93C375004056B1 /* ThemeReloadView.swift */; };
 		F46064F81C941829004056B1 /* SaveNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F71C941829004056B1 /* SaveNameView.swift */; };
@@ -503,6 +505,8 @@
 		F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTags.swift; sourceTree = "<group>"; };
 		F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+Int.swift"; sourceTree = "<group>"; };
 		F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLocationService.swift; sourceTree = "<group>"; };
+		F45F27F31CA8DC5C00F0012C /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		F45F27F51CA8E07E00F0012C /* Extension+UIVIewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIVIewController.swift"; sourceTree = "<group>"; };
 		F46064F11C926E16004056B1 /* ProfileElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileElementModel.swift; sourceTree = "<group>"; };
 		F46064F51C93C375004056B1 /* ThemeReloadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeReloadView.swift; sourceTree = "<group>"; };
 		F46064F71C941829004056B1 /* SaveNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveNameView.swift; sourceTree = "<group>"; };
@@ -706,6 +710,7 @@
 				F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */,
 				F40B53AF1C7EEA2800C20037 /* Extension+NSURLRequest.swift */,
 				F45E69E21C8D2EAF00BD0859 /* Extension+Int.swift */,
+				F45F27F51CA8E07E00F0012C /* Extension+UIVIewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -802,6 +807,7 @@
 				F491A8BF1C7364C500B5D520 /* Refresher */,
 				F491A8BB1C734EB500B5D520 /* GIFImageSerialization */,
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
+				F45F27EF1CA8D5AD00F0012C /* Toast */,
 				F45E69D71C8D278A00BD0859 /* ThemeTool */,
 				F42FBE891C993C0C00AE6FC6 /* ClassScheduleCalendar */,
 				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
@@ -1021,6 +1027,14 @@
 				F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */,
 			);
 			path = ThemeTool;
+			sourceTree = "<group>";
+		};
+		F45F27EF1CA8D5AD00F0012C /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				F45F27F31CA8DC5C00F0012C /* Toast.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 		F46065041C96D363004056B1 /* Navi */ = {
@@ -1554,6 +1568,7 @@
 				F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */,
 				F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */,
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
+				F45F27F61CA8E07E00F0012C /* Extension+UIVIewController.swift in Sources */,
 				F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				F46065241C97B168004056B1 /* TeacherDetailsController.swift in Sources */,
@@ -1597,6 +1612,7 @@
 				F4D0D1491C9A4F3E00B25704 /* StudentCourseModel.swift in Sources */,
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */,
+				F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
