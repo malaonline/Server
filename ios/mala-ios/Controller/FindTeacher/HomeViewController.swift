@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
     
     
     // MARK: - Components
+    /// 老师信息tableView
     private lazy var tableView: TeacherTableView = {
         let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
         tableView.controller = self

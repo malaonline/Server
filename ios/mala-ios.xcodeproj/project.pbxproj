@@ -230,6 +230,7 @@
 		F45F27EC1CA53A2900F0012C /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
 		F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F31CA8DC5C00F0012C /* Toast.swift */; };
 		F45F27F61CA8E07E00F0012C /* Extension+UIVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F51CA8E07E00F0012C /* Extension+UIVIewController.swift */; };
+		F45F27F81CA9135A00F0012C /* MalaDefaultPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */; };
 		F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F11C926E16004056B1 /* ProfileElementModel.swift */; };
 		F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F51C93C375004056B1 /* ThemeReloadView.swift */; };
 		F46064F81C941829004056B1 /* SaveNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F71C941829004056B1 /* SaveNameView.swift */; };
@@ -507,6 +508,7 @@
 		F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLocationService.swift; sourceTree = "<group>"; };
 		F45F27F31CA8DC5C00F0012C /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		F45F27F51CA8E07E00F0012C /* Extension+UIVIewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+UIVIewController.swift"; sourceTree = "<group>"; };
+		F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaDefaultPanel.swift; sourceTree = "<group>"; };
 		F46064F11C926E16004056B1 /* ProfileElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileElementModel.swift; sourceTree = "<group>"; };
 		F46064F51C93C375004056B1 /* ThemeReloadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeReloadView.swift; sourceTree = "<group>"; };
 		F46064F71C941829004056B1 /* SaveNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveNameView.swift; sourceTree = "<group>"; };
@@ -1166,6 +1168,7 @@
 			isa = PBXGroup;
 			children = (
 				F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */,
+				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1688,6 +1691,7 @@
 				F40B53CC1C83FBCA00C20037 /* OrderForm.swift in Sources */,
 				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				F49BD5A41CA4131D00EB3CCF /* SKPhoto.swift in Sources */,
+				F45F27F81CA9135A00F0012C /* MalaDefaultPanel.swift in Sources */,
 				F42FBE9B1C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,

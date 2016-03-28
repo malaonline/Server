@@ -24,16 +24,26 @@ class FilterResultController: UIViewController {
     
     
     // MARK: - Components
+    /// 老师列表
     private lazy var tableView: TeacherTableView = {
         let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
         tableView.controller = self
         return tableView
     }()
+    /// 筛选条件面板
     private lazy var filterBar: FilterBar = {
         let filterBar = FilterBar(frame: CGRectZero)
         filterBar.backgroundColor = MalaColor_EDEDED_0
         filterBar.controller = self
         return filterBar
+    }()
+    /// 无筛选结果缺省面板
+    private lazy var defaultView: UIView = {
+        let defaultView = MalaDefaultPanel()
+        defaultView.imageName = "filter_no_result"
+        defaultView.text = "请重新设定筛选条件！"
+        defaultView.hidden = true
+        return defaultView
     }()
     
     
@@ -65,6 +75,7 @@ class FilterResultController: UIViewController {
         // SubViews
         self.view.addSubview(filterBar)
         self.view.addSubview(tableView)
+        self.view.addSubview(defaultView)
         
         // AutoLayout
         filterBar.snp_makeConstraints { (make) -> Void in
@@ -78,6 +89,10 @@ class FilterResultController: UIViewController {
             make.left.equalTo(self.view.snp_left)
             make.right.equalTo(self.view.snp_right)
             make.bottom.equalTo(self.view.snp_bottom)
+        }
+        defaultView.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(tableView.snp_size)
+            make.center.equalTo(tableView.snp_center)
         }
         
         // 设置BarButtomItem间隔
@@ -94,6 +109,14 @@ class FilterResultController: UIViewController {
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
+    }
+    
+    private func showDefatultViewWhenModelIsEmpty() {
+        if tableView.teachers.count == 0 {
+            defaultView.hidden = false
+        }else {
+            defaultView.hidden = true
+        }
     }
     
     ///  根据筛选条件字典，请求老师列表
@@ -158,7 +181,8 @@ class FilterResultController: UIViewController {
                 self?.tableView.reloadData()
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.showDefatultViewWhenModelIsEmpty()
                 finish?()
             })
         }
