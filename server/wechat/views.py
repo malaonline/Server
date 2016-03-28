@@ -936,7 +936,7 @@ def check_phone(request):
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
-            return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid))
+            return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid)
 
     context = {
         "openid": openid,
