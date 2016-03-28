@@ -84,7 +84,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
                 self.dayLabel.textColor = textTodayColor
                 self.dayLabel.backgroundColor = circleDefaultColor
                 self.subjectLabel.text = "今天"
-                self.subjectLabel.textColor = circleSelectedColor
+                self.subjectLabel.textColor = MalaColor_82B4D9_0
             }else {
             
             }
@@ -96,6 +96,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             if isPast {
                 self.dayLabel.backgroundColor = MalaColor_DEE0E0_0
                 self.dayLabel.textColor = MalaColor_FFFFFF_9
+                self.subjectLabel.textColor = MalaColor_333333_0
             }else {
                 
             }
@@ -352,6 +353,8 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         date = nil
+        models = []
+        
         isToday = false
         isFuture = false
         isPast = false
