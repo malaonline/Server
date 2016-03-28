@@ -12,13 +12,13 @@ $(
             //    展开
             //     console.log("展开");
                 window.expand_record_tag = true;
-                expand_button.html("-");
+                expand_button.html("收起 <i class='glyphicon glyphicon-chevron-up'></i>");
                 rest_part_record.attr('attrHidden', false);
             }else{
             //    收起
             //     console.log("收起");
                 window.expand_record_tag = false;
-                expand_button.html("+");
+                expand_button.html("更多 <i class='glyphicon glyphicon-chevron-down'></i>");
                 rest_part_record.attr('attrHidden', true);
             }
         });
