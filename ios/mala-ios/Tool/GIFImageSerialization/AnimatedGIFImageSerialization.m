@@ -36,7 +36,7 @@ __attribute__((overloadable)) UIImage * UIImageWithAnimatedGIFData(NSData *data,
         return nil;
     }
 
-    NSDictionary *userInfo = nil;
+    //NSDictionary *userInfo = nil;
     {
         NSMutableDictionary *mutableOptions = [NSMutableDictionary dictionary];
         [mutableOptions setObject:@(YES) forKey:(NSString *)kCGImageSourceShouldCache];
@@ -68,9 +68,9 @@ __attribute__((overloadable)) UIImage * UIImageWithAnimatedGIFData(NSData *data,
         }
     }
     _error: {
-        if (error) {
+        /*if (error) {
             *error = [[NSError alloc] initWithDomain:AnimatedGIFImageErrorDomain code:-1 userInfo:userInfo];
-        }
+        }*/
 
         return nil;
     }
