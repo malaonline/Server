@@ -79,7 +79,10 @@ def queryset_to_workbook(queryset, columns, headers=None, header_style=None,
 
     for x, obj in enumerate(queryset, start=1):
         for y, column in enumerate(columns):
-            value = get_column_cell(obj, column)
+            if callable(column):
+                value = column(obj)
+            else:
+                value = get_column_cell(obj, column)
             style = default_style
             for value_type, cell_style in cell_style_map:
                 if isinstance(value, value_type):

@@ -708,9 +708,9 @@ class TeacherIncomeView(BaseStaffView):
                        'user.teacher.grades',
                        'user.teacher.subject',
                        'user.teacher.region.full_name',
-                       'calculated_balance',
-                       'calculated_balance',
-                       'accumulated_income',
+                       lambda x: (x.calculated_balance/100),
+                       lambda x: (x.calculated_balance/100),
+                       lambda x: (x.calculated_balance/100),
                        )
             return excel_response(query_set, columns, headers, '老师收入列表.xls')
         return super(TeacherIncomeView, self).get(request, *args, **kwargs)
