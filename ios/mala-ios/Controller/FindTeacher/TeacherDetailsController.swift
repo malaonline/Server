@@ -59,7 +59,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }()
     /// TableView头部视图
     private lazy var tableHeaderView: TeacherDetailsHeaderView = {
-        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 110))
+        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 80))
         tableHeaderView.avatar = ""
         tableHeaderView.name = "----"
         tableHeaderView.gender = "m"
