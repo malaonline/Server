@@ -14,6 +14,10 @@ class TeacherDetailsCertificateCell: MalaBaseCell, MATabListViewDelegate {
     var models: [AchievementModel?] = [] {
         didSet {
             
+            guard models.count != oldValue.count else {
+                return
+            }
+            
             labels.removeAll()
             
             for model in models {
