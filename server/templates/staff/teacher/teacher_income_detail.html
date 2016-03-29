@@ -9,17 +9,17 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form">
+    <form name="query_form" class="form-inline">
         日期
         <input type="text" name="date_from" value="{{ query_data.date_from }}" size="10" />
          -
         <input type="text"  name="date_to" value="{{ query_data.date_to }}" size="10" />
         订单号 <input type="text" name="order_id" value="{{ query_data.order_id }}" size="12" />
-        <input type="submit" value="查询"/>
-        <input type="button" value="导出"/>
+        <input type="submit" class="btn btn-sm btn-success" value="查询"/>
+        <input type="button" class="btn btn-sm btn-danger" data-action="export-excel" value="导出"/>
     </form>
 
-    <table class="text-center" align="center" border="1" cellspacing="0" width="100%">
+    <table class="table table-bordered table-striped" align="center" border="1" cellspacing="0" width="100%">
         <tr>
             <th class="text-center">日期</th>
             <th class="text-center">订单号</th>

@@ -2,7 +2,6 @@ import xlwt
 import datetime
 
 from django.forms.forms import pretty_name
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 
 from .algorithm import str_urlencode
@@ -11,9 +10,9 @@ HEADER_STYLE = xlwt.easyxf('font: bold on')
 HEADER_STYLE.font.height = 0x0118
 DEFAULT_STYLE = xlwt.easyxf()
 CELL_STYLE_MAP = (
-    (datetime.datetime, xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm')),
     (datetime.date, xlwt.easyxf(num_format_str='yyyy-mm-dd')),
     (datetime.time, xlwt.easyxf(num_format_str='hh:mm')),
+    (datetime.datetime, xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm')),  # NOTE: datetime is also date
     (bool, xlwt.easyxf(num_format_str='BOOLEAN')),
 )
 
@@ -34,15 +33,18 @@ def multi_getattr(obj, attr, default=None):
 
 
 def get_column_head(name):
-    name = name.rsplit('.', 1)[-1]
-    return pretty_name(name)
+    if callable(name):
+        return 'method()'
+    else:
+        name = name.rsplit('.', 1)[-1]
+        return pretty_name(name)
 
 
-def get_column_cell(obj, name):
+def get_column_cell(obj, name, default=None):
     try:
         attr = multi_getattr(obj, name)
-    except ObjectDoesNotExist:
-        return None
+    except:
+        return default
     if hasattr(attr, '_meta'):
         # A Django Model (related object)
         return str(attr)
@@ -55,19 +57,20 @@ def get_column_cell(obj, name):
     return attr
 
 
-def queryset_to_workbook(queryset, columns, headers=None, header_style=None,
-                         default_style=None, cell_style_map=None):
+def get_style_by_value(value, cell_style_map=CELL_STYLE_MAP, default_style=DEFAULT_STYLE):
+    style = default_style
+    for value_type, cell_style in cell_style_map:
+        if isinstance(value, value_type):
+            style = cell_style
+    return style
+
+
+def queryset_to_workbook(queryset, columns, headers=None, header_style=HEADER_STYLE,
+                         default_style=DEFAULT_STYLE, cell_style_map=CELL_STYLE_MAP):
     workbook = xlwt.Workbook()
     report_date = datetime.date.today()
     sheet_name = 'Export {0}'.format(report_date.strftime('%Y-%m-%d'))
     sheet = workbook.add_sheet(sheet_name)
-
-    if not header_style:
-        header_style = HEADER_STYLE
-    if not default_style:
-        default_style = DEFAULT_STYLE
-    if not cell_style_map:
-        cell_style_map = CELL_STYLE_MAP
 
     if headers:
         for y, th in enumerate(headers):
@@ -83,10 +86,7 @@ def queryset_to_workbook(queryset, columns, headers=None, header_style=None,
                 value = column(obj)
             else:
                 value = get_column_cell(obj, column)
-            style = default_style
-            for value_type, cell_style in cell_style_map:
-                if isinstance(value, value_type):
-                    style = cell_style
+            style = get_style_by_value(value, cell_style_map, default_style)
             sheet.write(x, y, value, style)
 
     return workbook
@@ -94,6 +94,10 @@ def queryset_to_workbook(queryset, columns, headers=None, header_style=None,
 
 def excel_response(queryset, columns, headers=None, filename='export.xls'):
     workbook = queryset_to_workbook(queryset, columns, headers)
+    return wb_excel_response(workbook, filename)
+
+
+def wb_excel_response(workbook, filename='export.xls'):
     response = HttpResponse(content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="%s"' % (str_urlencode(filename),)
     workbook.save(response)

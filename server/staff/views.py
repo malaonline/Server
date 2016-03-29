@@ -2,6 +2,7 @@ import logging
 import datetime
 import json
 from collections import OrderedDict
+import xlwt
 
 # django modules
 from django.conf import settings
@@ -23,7 +24,7 @@ from app.utils import smsUtil
 from app.utils.algorithm import check_id_number
 from app.utils.types import parseInt
 from app.utils.db import paginate
-from app.utils.excel import excel_response
+from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 
@@ -712,7 +713,7 @@ class TeacherIncomeView(BaseStaffView):
                        lambda x: (x.calculated_balance/100),
                        lambda x: (x.calculated_balance/100),
                        )
-            return excel_response(query_set, columns, headers, '老师收入列表.xls')
+            return excel.excel_response(query_set, columns, headers, '老师收入列表.xls')
         return super(TeacherIncomeView, self).get(request, *args, **kwargs)
 
 
@@ -734,7 +735,7 @@ class TeacherIncomeDetailView(BaseStaffView):
         #
         date_from = self.request.GET.get('date_from', '')
         date_to = self.request.GET.get('date_to', '')
-        order_id = self.request.GET.get('order_id', '') # TODO: 根据订单查询
+        order_id = self.request.GET.get('order_id', '')
         page = self.request.GET.get('page')
         account = teacher.safe_get_account()
         query_set = models.AccountHistory.objects.select_related('timeslot__order').filter(account=account, amount__gt=0)
@@ -809,6 +810,75 @@ class TeacherIncomeDetailView(BaseStaffView):
             histories.append(obj)
         histories.sort(key=lambda x: x['day'], reverse=True)
         return histories
+
+    def _excel_of_histories(self, histories, filename):
+        headers = ('日期', '订单号', '上课年级', '科目', '教师级别', '上课时间', '课时单价', '消耗课时', '佣金比例', '收入金额', '当日收入',)
+        columns = (
+            lambda x: x.timeslot and x.timeslot.order.order_id or (x.comment or '非课时收入'),
+            'timeslot.order.grade',
+            'timeslot.order.subject',
+            'timeslot.order.level',
+            lambda x: x.timeslot and ('%s-%s' % (x.timeslot.start.strftime('%H:%M'), x.timeslot.end.strftime('%H:%M'),)) or '',
+            lambda x: x.timeslot and (x.timeslot.order.price / 100) or '',
+            lambda x: x.timeslot and x.timeslot.duration_hours() or '',
+            lambda x: x.timeslot and ('%s%%' % (x.timeslot.order.commission_percentage),) or '',
+            lambda x: x.amount and (x.amount / 100) or '',
+        )
+        workbook = xlwt.Workbook()
+        sheet_name = 'Export {0}'.format(datetime.date.today().strftime('%Y-%m-%d'))
+        sheet = workbook.add_sheet(sheet_name)
+        for y, th in enumerate(headers):
+            sheet.write(0, y, th, excel.HEADER_STYLE)
+        x = 1
+        for history in histories:
+            y = 0
+            day_val = history['day'].date()
+            sheet.write_merge(x, x + history['count'] - 1, y, y, day_val, excel.get_style_by_value(day_val))
+            x_sub = x
+            records = history['records']
+            for record in records:
+                y_sub = y+1
+                for column in columns:
+                    value = callable(column) and column(record) or excel.get_column_cell(record, column)
+                    sheet.write(x_sub, y_sub, value, excel.get_style_by_value(value))
+                    y_sub += 1
+                x_sub += 1
+            income = history['income'] / 100
+            y += len(columns) + 1
+            sheet.write_merge(x, x + history['count'] - 1, y, y, income, excel.get_style_by_value(income))
+            x += len(records)
+        return excel.wb_excel_response(workbook, filename)
+
+    def get(self, request, *args, **kwargs):
+        export = request.GET.get('export')
+        if export == 'true':
+            teacherId = kwargs['tid']
+            teacher = get_object_or_404(models.Teacher, id=teacherId)
+            #
+            date_from = self.request.GET.get('date_from', '')
+            date_to = self.request.GET.get('date_to', '')
+            order_id = self.request.GET.get('order_id', '')
+            account = teacher.safe_get_account()
+            query_set = models.AccountHistory.objects.select_related('timeslot__order').filter(account=account, amount__gt=0)
+            if date_from:
+                try:
+                    date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                    query_set = query_set.filter(submit_time__gte = date_from)
+                except:
+                    pass
+            if date_to:
+                try:
+                    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+                    date_to += datetime.timedelta(days=1)
+                    query_set = query_set.filter(submit_time__lt = date_to)
+                except:
+                    pass
+            if order_id:
+                query_set = query_set.filter(timeslot__order__order_id__icontains=order_id)
+            query_set = query_set.order_by('-submit_time')
+            histories = self.arrange_by_day(query_set, account, order_id)
+            return self._excel_of_histories(histories, teacher.name+'老师收入明细列表.xls')
+        return super(TeacherIncomeDetailView, self).get(request, *args, **kwargs)
 
 
 class TeacherWithdrawalView(BaseStaffView):
