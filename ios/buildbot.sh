@@ -14,7 +14,7 @@ configuration="DevRelease"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} test
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} -sdk iphonesimulator test
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 rm -f ${ipaName}
