@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 scheme="parent"
 provisioning="For test"
@@ -13,7 +14,9 @@ configuration="DevRelease"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} test archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} test
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
 
@@ -22,6 +25,6 @@ configuration="PrdRelease"
 buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
 
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} test archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"

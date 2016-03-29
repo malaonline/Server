@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 DES=/opt/jenkins/mala/server
 ENV=/opt/jenkins/env

@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 ENV=/opt/jenkins/env
 SET=/opt/keys-pros
