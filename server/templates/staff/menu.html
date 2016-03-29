@@ -21,16 +21,16 @@
       </div>
     </div>
   </div>
-{#  <div class="panel panel-info">#}
-{#    <div class="panel-heading" role="tab" id="heading_pretest">#}
-{#      课前测评#}
-{#    </div>#}
-{#    <div id="collapse_pretest" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_pretest">#}
-{#      <div>#}
-{#        <span>测评建档列表</span>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
+  <div class="panel panel-info">
+    <div class="panel-heading" role="tab" id="heading_pretest">
+      课前测评
+    </div>
+    <div id="collapse_pretest" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_pretest">
+      <div>
+        <a href="{% url 'staff:evaluations' %}"><span>测评建档列表</span></a>
+      </div>
+    </div>
+  </div>
   <div class="panel panel-info">
     <div class="panel-heading" role="tab" id="heading_student">
       学生管理

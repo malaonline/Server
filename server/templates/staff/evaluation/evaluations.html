@@ -1,0 +1,88 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}测评建档列表{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'common/js/moment.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'common/js/locales/zh-cn.js' %}"></script>
+
+    <script src="{% static 'staff/js/order/orders.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="form-inline">
+        <div class="form-group">
+            <label>姓名</label>
+            <input type="text" class="form-control" name="name" value="{{ query_data.name }}" size="10"/>
+        </div>
+
+        <div class="form-group">
+            <label>手机号</label>
+            <input type="text" class="form-control" name="phone" value="{{ query_data.phone }}" size="15"/>
+        </div>
+
+        <div class="form-group">
+            <label>状态</label>
+            <select name="status" class="form-control">
+                <option value="">全部</option>
+                {% for val,text in status %}
+                    <option value="{{ val }}" {% if val == query_data.status %}
+                            selected="selected"{% endif %}>{{ text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>下单时间</label>
+            <input type="text" class="datetimeInput form-control" name="order_date" value="{{ query_data.order_date }}" size="10"/>
+        </div>
+
+        <div class="form-group">
+            <label>测评时间</label>
+            <input type="text" class="datetimeInput form-control" name="order_date" value="{{ query_data.evaluation_date }}" size="10"/>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="form-control btn-success" value="查询"/>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>学生姓名</th>
+            <th>家长手机号</th>
+            <th>老师姓名</th>
+            <th>老师手机号</th>
+            <th>报课年级</th>
+            <th>报课科目</th>
+            <th>下单时间</th>
+            <th>状态</th>
+            <th>测评时间</th>
+            <th>操作</th>
+        </tr>
+        {% for evaluation in evaluations %}
+            <tr align="center">
+                <td>{{ evaluation.order.parent.student_name }}</td>
+                <td>{{ evaluation.order.parent.user.profile.phone }}</td>
+                <td>{{ evaluation.order.teacher.name }}</td>
+                <td>{{ evaluation.order.teacher.user.profile.phone }}</td>
+                <td>{{ evaluation.order.grade }}</td>
+                <td>{{ evaluation.order.subject }}</td>
+                <td>{{ evaluation.order.created_at|date:"Y/m/d H:i" }}</td>
+                <td>{{ evaluation.status_display }}</td>
+                <td>{% if evaluation.start %}
+                        {{ evaluation.start|date:"Y-m-d" }}
+                        <br/>
+                        {{ evaluation.start|date:"H:i" }}-{{ evaluation.end|date:"H:i" }}
+                    {% endif %}
+                </td>
+                <td>N/A</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+{% endblock %}

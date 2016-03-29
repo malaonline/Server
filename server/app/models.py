@@ -2418,9 +2418,9 @@ class StaticContent(BaseModel):
 
 
 class Evaluation(BaseModel):
-    PENDING = 'p'
-    SCHEDULED = 's'
-    COMPLETED = 'c'
+    PENDING = 'ep'
+    SCHEDULED = 'es'
+    COMPLETED = 'ec'
     STATUS_CHOICES = (
         (PENDING, '待处理'),
         (SCHEDULED, '已安排时间'),
@@ -2428,8 +2428,8 @@ class Evaluation(BaseModel):
     )
 
     order = models.OneToOneField(Order)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
     status = models.CharField(
         max_length=2,
         choices=STATUS_CHOICES,

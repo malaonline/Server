@@ -1917,3 +1917,70 @@ class CouponConfigView(BaseStaffView):
             cp.save()
 
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
+
+
+class EvaluationView(BaseStaffView):
+    template_name = 'staff/evaluation/evaluations.html'
+
+    def get_context_data(self, **kwargs):
+
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        status = self.request.GET.get('status')
+        order_date = self.request.GET.get('order_date')
+        evaluation_date = self.request.GET.get('evaluation_date')
+        page = self.request.GET.get('page')
+
+        query_set = models.Evaluation.objects.filter()
+        # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
+        if name:
+            query_set = query_set.filter(
+                Q(order__parent__user__username__icontains=name) |
+                Q(order__parent__student_name__icontains=name) |
+                Q(order__teacher__name__icontains=name)
+            )
+        # 家长手机 or 老师手机, 模糊匹配
+        if phone:
+            query_set = query_set.filter(
+                Q(order__parent__user__profile__phone__contains=phone) |
+                Q(order__teacher__user__profile__phone__contains=phone)
+            )
+        # 测评状态
+        if status:
+            # 此处 status 是前端传过来的值, 需要进一步判断具体状态
+            if status == models.Order.REFUND:
+                # 已退费
+                query_set = query_set.filter(order__status=models.Order.REFUND)
+            else:
+                query_set = query_set.filter(status=status)
+
+        # 下单日期
+        if order_date:
+            try:
+                date = datetime.datetime.strptime(order_date, '%Y-%m-%d')
+                query_set = query_set.filter(order__created_at__date=date.date())
+            except:
+                pass
+        # 测评时间
+        if evaluation_date:
+            try:
+                date = datetime.datetime.strptime(evaluation_date, '%Y-%m-%d')
+                query_set = query_set.filter(start__date=date.date())
+            except:
+                pass
+
+        # 可用筛选条件数据集
+        all_status = models.Evaluation.STATUS_CHOICES
+        kwargs['status'] = []
+        for key, text in all_status:
+            kwargs['status'].append((key, text))
+        kwargs['status'].append((models.Order.REFUND, '已退费'))
+        # 查询结果数据集, 默认按下单时间排序
+        query_set = query_set.order_by('-order__created_at')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['evaluations'] = query_set
+        kwargs['pager'] = pager
+        return super(EvaluationView, self).get_context_data(**kwargs)
