@@ -26,6 +26,10 @@ def orderid():
     return ans
 
 
+def str_urlencode(s, encoding='utf-8') :
+    return str(s.encode(encoding)).replace(r'\x','%')[2:-1]
+
+
 def decode_base64(data):
     missing_padding = 4 - len(data) % 4
     if missing_padding:

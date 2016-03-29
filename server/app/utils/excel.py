@@ -5,7 +5,10 @@ from django.forms.forms import pretty_name
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 
+from .algorithm import str_urlencode
+
 HEADER_STYLE = xlwt.easyxf('font: bold on')
+HEADER_STYLE.font.height = 0x0118
 DEFAULT_STYLE = xlwt.easyxf()
 CELL_STYLE_MAP = (
     (datetime.datetime, xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm')),
@@ -25,6 +28,8 @@ def multi_getattr(obj, attr, default=None):
                 return default
             else:
                 raise
+    if callable(obj):
+        obj = obj()
     return obj
 
 
@@ -44,6 +49,9 @@ def get_column_cell(obj, name):
     elif hasattr(attr, 'all'):
         # A Django queryset (ManyRelatedManager)
         return ', '.join(str(x) for x in attr.all())
+    elif isinstance(attr, list) or isinstance(attr, tuple) or isinstance(attr, set) or isinstance(attr, frozenset):
+        # A list or set
+        return ', '.join(str(e) for e in attr)
     return attr
 
 
@@ -81,9 +89,9 @@ def queryset_to_workbook(queryset, columns, headers=None, header_style=None,
     return workbook
 
 
-def excel_response(queryset, columns, headers):
+def excel_response(queryset, columns, headers=None, filename='export.xls'):
     workbook = queryset_to_workbook(queryset, columns, headers)
-    response = HttpResponse(mimetype='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="export.xls"'
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % (str_urlencode(filename),)
     workbook.save(response)
     return response

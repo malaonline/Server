@@ -29,5 +29,11 @@ $(function() {
         return true;
     });
 
+    $('[data-action="export-excel"]').click(function(e){
+        var $form = $(this).closest('form');
+        var params_str = $form.serialize();
+        window.open(location.pathname+"?export=true&"+params_str);
+    });
+
     paginationInit();
 });

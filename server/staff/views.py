@@ -23,6 +23,7 @@ from app.utils import smsUtil
 from app.utils.algorithm import check_id_number
 from app.utils.types import parseInt
 from app.utils.db import paginate
+from app.utils.excel import excel_response
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 
@@ -689,6 +690,30 @@ class TeacherIncomeView(BaseStaffView):
         kwargs['accounts'] = query_set
         kwargs['pager'] = pager
         return super(TeacherIncomeView, self).get_context_data(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        export = request.GET.get('export')
+        if export == 'true':
+            name = self.request.GET.get('name')
+            phone = self.request.GET.get('phone')
+            query_set = models.Account.objects.select_related('user__teacher', 'user__profile').filter(user__teacher__isnull=False)
+            if name:
+                query_set = query_set.filter(user__teacher__name__contains = name)
+            if phone:
+                query_set = query_set.filter(user__profile__phone__contains = phone)
+            query_set = query_set.order_by('user__teacher__name')
+            headers = ('老师姓名', '手机号', '授课年级', '科目', '所在地区', '账户余额', '可提现金额', '累计收入',)
+            columns = ('user.teacher.name',
+                       'user.profile.phone',
+                       'user.teacher.grades',
+                       'user.teacher.subject',
+                       'user.teacher.region.full_name',
+                       'calculated_balance',
+                       'calculated_balance',
+                       'accumulated_income',
+                       )
+            return excel_response(query_set, columns, headers, '老师收入列表.xls')
+        return super(TeacherIncomeView, self).get(request, *args, **kwargs)
 
 
 class TeacherIncomeDetailView(BaseStaffView):

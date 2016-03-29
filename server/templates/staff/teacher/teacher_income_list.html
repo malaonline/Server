@@ -13,7 +13,7 @@
         姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
         手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
         <input type="submit" class="btn btn-success" value="查询"/>
-        <input type="button" class="btn btn-danger" value="导出"/>
+        <input type="button" class="btn btn-danger" data-action="export-excel" value="导出"/>
     </form>
 
     <table class="table table-bordered table-striped">
@@ -36,7 +36,7 @@
                 <td>{# 科目 #} {% if account.user.teacher.subject %}{{ account.user.teacher.subject }}{% else %}未填{% endif %}</td>
                 <td>{# 所在地区 #} {% if account.user.teacher.region %}{{ account.user.teacher.region.full_name }}{% else %}未填{% endif %}</td>
                 <td class="text-right">{# 账户余额 #} {{ account.calculated_balance|money_format:'/' }}</td>
-                <td class="text-right">{# 可提现金额 #} {{ account.withdrawable_amount|money_format:'/' }}</td>
+                <td class="text-right">{# 可提现金额 #} {{ account.calculated_balance|money_format:'/' }}</td>
                 <td class="text-right">{# 累计收入 #} {{ account.accumulated_income|money_format:'/' }}</td>
                 <td class="text-center">{# 收入明细 #}
                     <a data-action="show-detail" href="{% url 'staff:teachers_income_detail' tid=account.user.teacher.id %}">查看</a>
