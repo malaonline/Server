@@ -16,3 +16,4 @@ celery[redis]
 jpush==3.1.2
 xmltodict
 raven
+xlwt
