@@ -22,8 +22,8 @@
     margin-bottom: 14px;
     padding: 14px 0;
     background-color: #fff;
-    border-bottom: 1px inset @borderGray;
-    .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+    border-bottom: 1px solid @borderGray;
+    //.box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
     &.no-padding {
       padding: 0;
     }
@@ -113,6 +113,7 @@
             > span {
               position: relative;
               top: -1px;
+              padding-right: 1px;
               font-size: @noteLargeSize;
             }
           }
@@ -149,9 +150,12 @@
       }
     }
     .more-schools-hint {
-      padding: 14px 0;
+      padding: 10px 0;
       text-align: center;
       .subTitle();
+      img{
+        height: 8px;
+      }
     }
   }
   .course-time-panel {
@@ -190,12 +194,12 @@
     .flags {
       .flag {
         margin-right: 10px;
-        font-size: 16px;
+        font-size: 14px;
         color: #333;
         .rect {
           display: inline-block;
-          width: 14px;
-          height: 14px;
+          width: 13px;
+          height: 13px;
           margin-right: 7px;
           vertical-align: -1px;
           @flagBorderRadius: 2px;
@@ -227,6 +231,11 @@
       &:first-child {
         border-top: 0;
       }
+      &.adjust-hour-row{
+        .sub-title{
+          .title();
+        }
+      }
     }
     .sub-title {
       .subTitle();
@@ -235,8 +244,8 @@
       font-size: @subTitleSize;
       color: @grayDark;
       &:after {
-        height: 15px;
-        width: 15px;
+        height: 12px;
+        width: 12px;
         top: 3px;
         left: -3px;
         border-width: 1px 1px 0 0;
@@ -254,6 +263,9 @@
 #courseTimePreviewPanel {
   .icons-area {
     float: right;
+    img{
+      height: 10px;
+    }
     .down {
       display: none;
     }
@@ -278,24 +290,25 @@
 }
 
 @adjustHourAreaHeight: 27px;
+@adjustHourBtnWidth: 27px;
 #adjustHourArea {
   a {
     display: inline-block;
-    width: 31px;
+    width: @adjustHourBtnWidth;
     height: @adjustHourAreaHeight;
     line-height: @adjustHourAreaHeight - 2px;
     text-align: center;
     background-color: @lightGrayBg;
     .border-radius(6px);
     img {
-      max-height: 100%;
-      max-width: 100%;
+      max-height: 14px;
+      max-width: 14px;
       vertical-align: middle;
     }
   }
   span {
     display: inline-block;
-    width: 35px;
+    min-width: @adjustHourBtnWidth;
     height: @adjustHourAreaHeight;
     line-height: @adjustHourAreaHeight;
     text-align: center;
