@@ -115,11 +115,23 @@ class LoginViewController: UIViewController {
         verifyButton.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
         return verifyButton
     }()
-    // 协议文字
+    // 协议label
     private lazy var protocolLabel: UILabel = {
         let protocolLabel = UILabel()
         protocolLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        protocolLabel.textColor = MalaColor_939393_0
+        protocolLabel.text = "轻触上面验证\"按钮\"即表示你同意"
         return protocolLabel
+    }()
+    // 协议文字label
+    private lazy var protocolString: UILabel = {
+        let protocolString = UILabel()
+        protocolString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        protocolString.textColor = MalaColor_88BCDE_95
+        protocolString.text = "麻辣老师用户协议"
+        protocolString.userInteractionEnabled = true
+        protocolString.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "protocolDidTap"))
+        return protocolString
     }()
     
     private var callMeInSeconds = MalaConfig.callMeInSeconds()
@@ -140,7 +152,6 @@ class LoginViewController: UIViewController {
     private func setupUserInterface() {
         // Style
         self.title = "验证"
-        self.navigationController!.navigationBar.shadowImage = UIImage()
         self.view.backgroundColor = MalaColor_EDEDED_0
         let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: "closeButtonDidClick"))
         navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -160,6 +171,7 @@ class LoginViewController: UIViewController {
         contentView.addSubview(codeTextField)
         view.addSubview(verifyButton)
         view.addSubview(protocolLabel)
+        view.addSubview(protocolString)
         
         // Autolayout
         contentView.snp_makeConstraints { (make) -> Void in
@@ -235,7 +247,13 @@ class LoginViewController: UIViewController {
         protocolLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.verifyButton.snp_bottom).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.view.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.view.snp_right).offset(MalaLayout_Margin_12)
+            make.right.equalTo(self.protocolString.snp_left)
+        }
+        protocolString.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self.protocolLabel.snp_centerY)
+            make.left.equalTo(self.protocolLabel.snp_right)
+            // 增加高度，扩大热区
+            make.height.equalTo(self.protocolLabel.snp_height).offset(10)
         }
     }
     
@@ -271,6 +289,15 @@ class LoginViewController: UIViewController {
     
     
     // MARK: - Event Response
+    ///  用户协议点击事件
+    @objc private func protocolDidTap() {
+        print("用户协议点击事件")
+        
+        let webViewController = MalaSingleWebViewController()
+        webViewController.url = ""
+        self.navigationController?.pushViewController(webViewController, animated: true)
+    }
+    
     @objc private func textDidChange(textField: UITextField) {
         // 若当前有错误信息出现，用户开始编辑时移除错误显示
         if !phoneError.hidden {

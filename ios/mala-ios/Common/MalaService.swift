@@ -617,6 +617,27 @@ func getOrderInfo(orderID: Int, failureHandler: ((Reason, String?) -> Void)?, co
 }
 
 
+// MARK: - Other
+///  获取用户协议HTML
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getUserProtocolHTML(failureHandler: ((Reason, String?) -> Void)?, completion: String? -> Void) {
+    
+    let parse: JSONDictionary -> String? = { data in
+        return parseUserProtocolHTML(data)
+    }
+    
+    let resource = authJsonResource(path: "/policy", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+
 
 // MARK: - Parse
 /// 订单JSON解析器
@@ -786,4 +807,13 @@ let parseCommentInfo: JSONDictionary -> CommentModel? = { commentInfo in
             return CommentModel(dict: commentInfo)
     }
     return nil
+}
+/// 评论信息JSON解析器
+let parseUserProtocolHTML: JSONDictionary -> String? = { htmlInfo in
+    
+    guard let updatedAt = htmlInfo["updated_at"] as? Int, htmlString = htmlInfo["content"] as? String else {
+        return nil
+    }
+
+    return htmlString
 }
