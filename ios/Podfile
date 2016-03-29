@@ -3,8 +3,9 @@ inhibit_all_warnings!
 platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
+inhibit_all_warnings!
 
-link_with 'teacher', 'parent'
+#link_with 'teacher', 'parent', 'parentTests'
 pod 'Alamofire', '~> 3.0.0'
 pod 'SnapKit', '~> 0.18.0'
 pod 'Kingfisher', '~> 1.8.5'
@@ -17,13 +18,20 @@ pod 'UMengAnalytics-NO-IDFA'
 pod 'Pingpp/Alipay', '~> 2.2.0'
 pod 'Pingpp/Wx', '~> 2.2.0'
 
-
-
 target 'teacher' do
-
 end
 
 target 'parent' do
+    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'PrdRelease' => :release
 
+    target 'parentTests' do
+        inherit! :search_paths
+    end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    puts target.name
+  end
 end
 
