@@ -23,10 +23,10 @@ end
 
 target 'parent' do
     project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'PrdRelease' => :release
+end
 
-    target 'parentTests' do
-        inherit! :search_paths
-    end
+target 'parentTests' do
+    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'PrdRelease' => :release
 end
 
 post_install do |installer|

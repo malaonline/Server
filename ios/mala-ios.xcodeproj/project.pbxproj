@@ -103,6 +103,8 @@
 		357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */; };
 		357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */; };
 		357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */; };
+		35B134181CAAE767001D2D34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B134171CAAE767001D2D34 /* CoreTelephony.framework */; };
+		35B134191CAAE773001D2D34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B134171CAAE767001D2D34 /* CoreTelephony.framework */; };
 		35CAE40F1CAAB2C60071772D /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065191C97B168004056B1 /* EvaluationFilingServiceController.swift */; };
 		35CAE4101CAAB2C60071772D /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */; };
 		35CAE4111CAAB2C60071772D /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */; };
@@ -534,6 +536,7 @@
 		357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCommentListViewController.swift; sourceTree = "<group>"; };
 		357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailViewController.swift; sourceTree = "<group>"; };
 		357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherListViewController.swift; sourceTree = "<group>"; };
+		35B134171CAAE767001D2D34 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		35CAE4B31CAAB4360071772D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		35D7A2EF1C0FE82E007D7679 /* teacher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = teacher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D7A2F61C0FE82E007D7679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -724,6 +727,7 @@
 				F40B53C41C83EE0F00C20037 /* libsqlite3.dylib in Frameworks */,
 				F40B53C21C83EDEF00C20037 /* libz.1.dylib in Frameworks */,
 				F40B53C01C83EDDD00C20037 /* libc++.1.dylib in Frameworks */,
+				35B134181CAAE767001D2D34 /* CoreTelephony.framework in Frameworks */,
 				F40B53BC1C83ED3600C20037 /* Security.framework in Frameworks */,
 				F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */,
 				F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */,
@@ -739,6 +743,7 @@
 				35CAE4B41CAAB4360071772D /* libsqlite3.tbd in Frameworks */,
 				35CAE4B21CAAB4190071772D /* libz.1.tbd in Frameworks */,
 				35CAE4B11CAAB4090071772D /* libc++.1.tbd in Frameworks */,
+				35B134191CAAE773001D2D34 /* CoreTelephony.framework in Frameworks */,
 				35CAE4B01CAAB3FE0071772D /* Security.framework in Frameworks */,
 				35CAE4AF1CAAB3F60071772D /* SystemConfiguration.framework in Frameworks */,
 				35CAE4AE1CAAB3E90071772D /* CFNetwork.framework in Frameworks */,
@@ -1052,6 +1057,7 @@
 		D07419656EA549B65E42E332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35B134171CAAE767001D2D34 /* CoreTelephony.framework */,
 				35CAE4B31CAAB4360071772D /* libsqlite3.tbd */,
 				F4D0D1A01CA2BFFA00B25704 /* libz.tbd */,
 				35E6CB401CA0E8E400BA9B38 /* Pods.framework */,
