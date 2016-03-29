@@ -77,6 +77,12 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
     ///  获取学生可用时间表
     private func loadStudentCourseTable() {
         
+        // 课表页面允许用户未登录时查看，此时token为空不发送请求，只作为日历展示
+        guard let _ = MalaUserDefaults.userAccessToken.value else {
+            return
+        }
+        
+        // 发送网络请求
         getStudentCourseTable(failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理

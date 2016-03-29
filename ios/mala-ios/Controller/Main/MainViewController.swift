@@ -102,9 +102,9 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         }
         
         
-        // 点击[课程表]或[我的]页面
-        if navi.topViewController is ProfileViewController ||
-           navi.topViewController is ClassScheduleViewController {
+        // 点击[我的]页面前需要登录校验
+        if navi.topViewController is ProfileViewController /*||
+           navi.topViewController is ClassScheduleViewController*/ {
             
             // 未登陆则进行登陆动作
             if !MalaUserDefaults.isLogined {
