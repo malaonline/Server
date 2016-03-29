@@ -61,7 +61,7 @@
             {%endfor%}
         {%endif%}
         function pageload(){
-            $('.teacher_avatar').attr('src', '{%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%}');
+            $('.teacher_avatar').css('backgroundImage', 'url({%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%})');
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             $('#moreSchoolDown').attr('src', pullDownImg);
             $('#morePhotos').attr('src', moreImg);
@@ -97,7 +97,7 @@
                             {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}元/小时
                         </div>
                     </div>
-                    <img class="teacher_avatar" src="">
+                    <div class="teacher_avatar"/>
                 </div>
                 <div class="weui_panel teacher_panel">
                     <div>
