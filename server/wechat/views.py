@@ -805,10 +805,13 @@ def getSchoolsWithDistance(request):
 
     point = None
     if lat is not None and lng is not None:
-        point = {
-            'lat': float(lat),
-            'lng': float(lng)
-        }
+        try:
+            point = {
+                'lat': float(lat),
+                'lng': float(lng)
+            }
+        except:
+            pass
 
     if not point:
         JsonResponse({'ok': False, 'msg': 'no lat,lng', 'code': -1})
