@@ -170,7 +170,6 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
             
         case 4:
             let cell = reuseCell as! CourseChoosingTimeScheduleCell
-            cell.accessory = .DropArrow
             cell.isOpen = self.isOpenTimeScheduleCell
             cell.timeScheduleResult = self.timeScheduleResult
             return cell

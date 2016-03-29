@@ -15,10 +15,13 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     var timeScheduleResult: [String] = [] {
         didSet {
             
-            // 若结果为空时，收起Cell
+            // 若结果为空时，收起Cell，隐藏指示器
             if timeScheduleResult.count == 0 {
                 self.tableView.timeSchedule = timeScheduleResult
                 self.isOpen = false
+                dropArrow.hidden = true
+            }else {
+                dropArrow.hidden = false
             }
             
             // 若下拉箭头显示且已经展开，加载时间表
@@ -47,7 +50,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             }
         }
     }
-    private var myContext = 0
     
     
     // MARK: - Components
@@ -63,7 +65,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUserInterface()
-        configura()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -87,17 +88,11 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         }
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        // 若当前选择课时数为零，隐藏下拉箭头
-        if let courseChoosingObject = object as? CourseChoosingObject  {
-            dropArrow.hidden = (courseChoosingObject.selectedTime.count == 0)
-        }
-    }
-    
     
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        accessory = .DropArrow
         dropArrow.userInteractionEnabled = false
         dropArrow.hidden = true
         
@@ -118,15 +113,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             make.height.equalTo(0)
         }
     }
-    
-    private func configura() {
-        // 通过观察originalPrice属性来监听筛选条件的变化
-        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
-    }
-    
-    deinit {
-        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
-    }
 }
 
 
@@ -136,7 +122,7 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     // MARK: - Property
     var timeSchedule: [String] = [] {
         didSet {
-            println("上课时间表结果 \(timeSchedule)")
+            
         }
     }
     
