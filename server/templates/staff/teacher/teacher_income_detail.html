@@ -47,11 +47,7 @@
                 <td>{# 科目 #} {{ hist.records.0.timeslot.order.subject.name }}</td>
                 <td>{# 教师级别 #}
                     {% if hist.records.0.timeslot %}
-                        {% if hist.records.0.timeslot.order.level.name %}
-                            {{ hist.records.0.timeslot.order.level.name }}
-                        {% else %}
-                            初级
-                        {% endif %}
+                        {{ hist.records.0.timeslot.order.level.name }}
                     {% endif %}
                 </td>
                 <td>{# 上课时间 #} {{ hist.records.0.timeslot.start|date:'H:i' }} - {{ hist.records.0.timeslot.end|date:'H:i' }}</td>
@@ -83,11 +79,7 @@
                         <td>{# 科目 #} {{ record.timeslot.order.subject.name }}</td>
                         <td>{# 教师级别 #}
                             {% if record.timeslot %}
-                                {% if record.timeslot.order.level.name %}
-                                    {{ record.timeslot.order.level.name }}
-                                {% else %}
-                                    初级
-                                {% endif %}
+                                {{ record.timeslot.order.level.name }}
                             {% endif %}
                         </td>
                         <td>{# 上课时间 #} {{ record.timeslot.start|date:'H:i' }} - {{ hist.records.0.timeslot.end|date:'H:i' }}</td>

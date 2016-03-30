@@ -6,13 +6,13 @@ from django.http import HttpResponse
 
 from .algorithm import str_urlencode
 
-HEADER_STYLE = xlwt.easyxf('font: bold on')
-HEADER_STYLE.font.height = 0x0118
-DEFAULT_STYLE = xlwt.easyxf()
+HEADER_STYLE = xlwt.easyxf('font: bold on; font: height 0x0118')
+DEFAULT_STYLE = xlwt.easyxf('font: height 0x00e0')
 CELL_STYLE_MAP = (
+    (float, xlwt.easyxf(num_format_str='0.00')),
+    (datetime.datetime, xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm')),  # NOTE: datetime is also date
     (datetime.date, xlwt.easyxf(num_format_str='yyyy-mm-dd')),
     (datetime.time, xlwt.easyxf(num_format_str='hh:mm')),
-    (datetime.datetime, xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm')),  # NOTE: datetime is also date
     (bool, xlwt.easyxf(num_format_str='BOOLEAN')),
 )
 
@@ -62,6 +62,7 @@ def get_style_by_value(value, cell_style_map=CELL_STYLE_MAP, default_style=DEFAU
     for value_type, cell_style in cell_style_map:
         if isinstance(value, value_type):
             style = cell_style
+            break
     return style
 
 
