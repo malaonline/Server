@@ -79,6 +79,12 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         
         // 课表页面允许用户未登录时查看，此时token为空不发送请求，只作为日历展示
         guard let _ = MalaUserDefaults.userAccessToken.value else {
+            
+            // 若在注销后存在课程数据残留，清除数据并刷新日历
+            if model != nil {
+                model = nil
+                collectionView?.reloadData()
+            }
             return
         }
         
