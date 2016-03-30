@@ -55,8 +55,9 @@ android {
             versionNameSuffix "-debug"
             minifyEnabled false
             zipAlignEnabled false
-            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_DEBUG]
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_DEBUG]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
+            resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
         }
 
         devrelease {
@@ -66,8 +67,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
+            resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -76,8 +78,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [jpush_key:PARENT_JPUSH_KEY_RELEASE]
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
             buildConfigField("String", "API_HOST", "\"" + PRD_SERVER + "\"")
+            resValue("string", "api_host", "\"" + PRD_SERVER + "\"")
         }
     }
 

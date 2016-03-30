@@ -3,8 +3,8 @@ package com.malalaoshi.android.core.network.api;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.malalaoshi.android.core.BuildConfig;
 import com.malalaoshi.android.core.MalaContext;
+import com.malalaoshi.android.core.R;
 import com.malalaoshi.android.core.network.Callback;
 import com.malalaoshi.android.core.network.Constants;
 import com.malalaoshi.android.core.usercenter.UserManager;
@@ -30,7 +30,7 @@ public abstract class BaseApi {
     private final OkHttpClient client = new OkHttpClient();
 
     protected String getHost() {
-        return BuildConfig.API_HOST;
+        return MalaContext.getContext().getString(R.string.api_host);
     }
 
     protected OkHttpClient getHttpClient() {
