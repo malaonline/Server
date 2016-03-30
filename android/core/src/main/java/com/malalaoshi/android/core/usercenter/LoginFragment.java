@@ -113,18 +113,30 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        handler = new Handler(Looper.getMainLooper());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (handler != null) {
+            handler.removeCallbacks(null);
+            handler = null;
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        handler = new Handler(Looper.getMainLooper());
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if (handler != null) {
-            handler.removeCallbacks(null);
-            handler = null;
-        }
+
     }
 
     protected void onFetchCodeClick() {
@@ -200,8 +212,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void countDown(final int time) {
-        btnFetchCodeView.setText(getResources().getString(R.string.seconds_count_down, time));
         if (handler != null) {
+            btnFetchCodeView.setText(getResources().getString(R.string.seconds_count_down, time));
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
