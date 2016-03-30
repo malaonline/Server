@@ -59,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println("Will Resign Active")
         
+        // 发生支付行为跳回时，取消遮罩
+        ThemeHUD.hideActivityIndicator()
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 

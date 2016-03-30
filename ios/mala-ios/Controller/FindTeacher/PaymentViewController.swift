@@ -34,6 +34,13 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
 
         setupUserInterface()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 创建订单
+        createOrder()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,6 +89,36 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     }
 
     
+    private func createOrder() {
+        
+        println("创建订单")
+        ThemeHUD.showActivityIndicator()
+        
+        ///  创建订单
+        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { [weak self] (reason, errorMessage) -> Void in
+            
+            ThemeHUD.hideActivityIndicator()
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("PaymentViewController - CreateOrder Error \(errorMessage)")
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.ShowTost("创建订单失败, 请重试！")
+                self?.navigationController?.popViewControllerAnimated(true)
+            })
+            
+        }, completion: { (order) -> Void in
+                
+            ThemeHUD.hideActivityIndicator()
+            println("创建订单成功:\(order)")
+            ServiceResponseOrder = order
+        })
+
+    }
+    
     // MARK: - Event Response
     @objc private func popSelf() {
         self.navigationController?.popViewControllerAnimated(true)
@@ -90,36 +127,30 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     
     // MARK: - Delegate
     func paymentDidConfirm() {
-        println("确认支付")
-        MalaIsPaymentIn = true
         
-        ThemeHUD.showActivityIndicator()
-        
-        ///  创建订单
-        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { (reason, errorMessage) -> Void in
-            ThemeHUD.hideActivityIndicator()
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-            // 错误处理
-            if let errorMessage = errorMessage {
-                println("PaymentViewController - CreateOrder Error \(errorMessage)")
-            }
-        }, completion: { [weak self] (order) -> Void in
-            println("创建订单成功:\(order)")
-            ServiceResponseOrder = order
-            self?.getChargeToken()
-        })
+        // 获取支付信息
+        getChargeToken()
     }
     
     func getChargeToken() {
+        
+        println("获取支付信息")
+        MalaIsPaymentIn = true
+        ThemeHUD.showActivityIndicator()
+        
         ///  获取支付信息
         getChargeTokenWithChannel(MalaOrderObject.channel, orderID: ServiceResponseOrder.id, failureHandler: { (reason, errorMessage) -> Void in
+            
             ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
+            
             // 错误处理
             if let errorMessage = errorMessage {
                 println("PaymentViewController - getGharge Error \(errorMessage)")
             }
+            
         }, completion: { [weak self] (charges) -> Void in
+            
                 println("获取支付信息:\(charges)")
                 self?.createPayment(charges)
         })

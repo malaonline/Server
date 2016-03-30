@@ -26,7 +26,12 @@ class HandlePingppBehaviour: NSObject {
     ///  - parameter currentViewController: 当前视图控制器
     func handleResult(result: String, error: PingppError?, currentViewController: UIViewController?) {
         
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            ThemeHUD.showActivityIndicator()
+        })
+        
         guard currentViewController != nil else {
+            ThemeHUD.hideActivityIndicator()
             println("HandlePingppBehaviour - 控制器为空")
             return
         }
