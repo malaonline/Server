@@ -371,10 +371,13 @@ class JSSAlertView: UIViewController {
         UIView.animateWithDuration(0.2, animations: {
             self.view.alpha = 1
         })
-        self.containerView.frame.origin.x = self.view.center.x
-        self.containerView.center.y = -500
+
+        let originalSize = self.containerView.frame.size
+        self.containerView.center = self.view.center
+        self.containerView.frame.size = CGSizeZero
+        
         UIView.animateWithDuration(0.5, delay: 0.05, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: [], animations: {
-            self.containerView.center = self.view.center
+            self.containerView.frame.size = originalSize
             }, completion: { finished in
                 
         })
@@ -400,8 +403,14 @@ class JSSAlertView: UIViewController {
     }
     
     func closeView(withCallback:Bool, source:ActionType = .Close) {
-        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
-            self.containerView.center.y = self.view.center.y + self.viewHeight!
+        
+        // Animate close it
+        UIView.animateWithDuration(0.2, animations: {
+            self.view.alpha = 0
+        })
+        
+        UIView.animateWithDuration(0.5, delay: 0.05, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: [], animations: {
+            self.containerView.frame.size = CGSizeZero
             }, completion: { finished in
                 UIView.animateWithDuration(0.1, animations: {
                     self.view.alpha = 0
@@ -416,7 +425,6 @@ class JSSAlertView: UIViewController {
                         }
                         self.removeView()
                 })
-                
         })
     }
     
