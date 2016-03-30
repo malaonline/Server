@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.view.ObservableScrollView;
 
 import java.util.HashMap;
 import java.util.Map;
