@@ -293,16 +293,22 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     // MARK: - Deleagte
     func signupButtonDidTap(sender: UIButton) {
+        
         // 未登陆则进行登陆动作
         if !MalaUserDefaults.isLogined {
+            
+            let loginController = LoginViewController()
+            loginController.popAction = { [weak self] in
+                if MalaUserDefaults.isLogined {
+                    self?.pushToCourseChoosingView()
+                }
+            }
+            
             self.presentViewController(
-                UINavigationController(rootViewController: LoginViewController()),
+                UINavigationController(rootViewController: loginController),
                 animated: true,
-                completion: { [weak self] () -> Void in
-                    if MalaUserDefaults.isLogined {
-                        self?.pushToCourseChoosingView()
-                    }
-            })
+                completion: nil)
+        
         }else {
             self.pushToCourseChoosingView()
         }

@@ -10,6 +10,11 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Property
+    /// 弹栈闭包
+    var popAction: (()->())?
+    
+    
     // MARK: - Components
     /// 主要布局容器
     private lazy var contentView: UIView = {
@@ -395,5 +400,10 @@ class LoginViewController: UIViewController {
             view.controller = self
             self?.view = view
         }
+    }
+    
+    deinit {
+        popAction?()
+        println("LoginViewController - Deinit")
     }
 }
