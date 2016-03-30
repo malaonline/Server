@@ -23,3 +23,4 @@ dev上的local_setting是
 
 查看远端服务器上的日志
 ssh ec2-user@54.223.238.201 'tail /opt/jenkins/mala/server/log.log'
+ssh ec2-user@54.223.238.201 'cat /opt/jenkins/mala/server/server/local_settings.py'

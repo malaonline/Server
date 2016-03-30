@@ -22,7 +22,7 @@
                 {% include 'teacher/side_bar.html' %}
                 <div class="the_content">
                     <div class="teacher_info_pan">
-                        <div class="avatar"><img src="{% static avatar %}"></div>
+                        <div class="avatar"><img src="{{ avatar }}"></div>
                         <div class="info">
                             <p class="edit_button"><a href="{{ complete_url }}">编辑</a></p>
                             <p class="name">{{ user_name }}</p>
