@@ -309,19 +309,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         self.observers.append(observerOpenTimeScheduleCell)
     }
     
-    /// 设置订单模型
-    private func setupOrderForm() {
-        MalaOrderObject.teacher = (teacherModel?.id) ?? 0
-        MalaOrderObject.school  = (MalaCourseChoosingObject.school?.id) ?? 0
-        MalaOrderObject.grade = (MalaCourseChoosingObject.gradePrice?.grade?.id) ?? 0
-        MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
-        MalaOrderObject.coupon = MalaCourseChoosingObject.coupon?.id ?? 0
-        MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
-        MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in
-            return model.id
-        }
-    }
-    
     
     // MARK: - Event Response
     @objc private func popSelf() {
@@ -332,8 +319,38 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     // MARK: - Delegate
     func OrderDidconfirm() {
         
-        // 设置订单模型
-        setupOrderForm()
+        // 条件校验, 设置订单模型
+        // 选择授课年级
+        guard let gradeCourseID = MalaCourseChoosingObject.gradePrice?.grade?.id else {
+            ShowTost("请选择授课年级！")
+            return
+        }
+        // 选择上课地点
+        guard let schoolID = MalaCourseChoosingObject.school?.id else {
+            ShowTost("请选择上课地点！")
+            return
+        }
+        // 选择上课时间
+        guard MalaCourseChoosingObject.selectedTime.count != 0 else {
+            ShowTost("请选择上课时间！")
+            return
+        }
+        // 课时数应不小于已选上课时间（此情况文案暂时自定，通常情况此Toast不会触发）
+        guard MalaCourseChoosingObject.classPeriod >= MalaCourseChoosingObject.selectedTime.count*2 else {
+            ShowTost("课时数不得少于已选上课时间！")
+            return
+        }
+        
+        
+        MalaOrderObject.teacher = (teacherModel?.id) ?? 0
+        MalaOrderObject.grade = gradeCourseID
+        MalaOrderObject.school  = schoolID
+        MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
+        MalaOrderObject.coupon = MalaCourseChoosingObject.coupon?.id ?? 0
+        MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
+        MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in
+            return model.id
+        }
         
         // 跳转到支付页面
         let viewController = PaymentViewController()
