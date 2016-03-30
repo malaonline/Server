@@ -44,6 +44,11 @@ class MATabListView: UIView {
         
         previousFrame = CGRectZero
         for string in tags ?? [] {
+            
+            guard string != "" else {
+                continue
+            }
+            
             let label = UILabel(frame: CGRectZero)
             label.textAlignment = .Left
             label.textColor = MalaColor_636363_0
