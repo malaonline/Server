@@ -3,22 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <!--  <com.malalaoshi.android.view.HomeScrollView
-        android:id="@+id/home_pager"
-        android:scrollbars="none"
-        android:paddingTop="44dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:paddingTop="44dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="44dp" />
-    </LinearLayout>
-    </com.malalaoshi.android.view.HomeScrollView>-->
     <include
         android:id="@+id/home_title"
         layout="@layout/home_title_layout"

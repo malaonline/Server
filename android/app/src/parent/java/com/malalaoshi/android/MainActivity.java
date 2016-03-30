@@ -22,21 +22,19 @@ import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.view.HomeScrollView;
+import com.malalaoshi.android.view.ObservableScrollView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup , HomeScrollView.ScrollViewListener, View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup , View.OnClickListener, ViewPager.OnPageChangeListener {
 
     public static String EXTRAS_PAGE_INDEX = "page index";
     public static final int PAGE_INDEX_TEACHERS = 0;
     public static final int PAGE_INDEX_COURSES = 1;
     public static final int PAGE_INDEX_USER = 2;
     private int pageIndex = PAGE_INDEX_TEACHERS;
-
-    protected HomeScrollView homeScrollView;
 
     //标题栏
     protected RelativeLayout rlHomeTitle;
@@ -52,21 +50,11 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected TextView tvTitleTady;
 
     //tabs
-    private float tabSY;
     protected RelativeLayout rlTabBar;
     //tab
     protected RelativeLayout rlTabTeacher;
-    private float tabTeacherX;
-    private int tabTeacherWidth;
-    private float tabTeacherTextSize;
     protected RelativeLayout rlTabTimetable;
-    private float tabTimetableX;
-    private int tabTimetableWidth;
-    private float tabTimetableTextSize;
     protected RelativeLayout rlTabUser;
-    private float tabUserCenterX;
-    private int tabUserCenterWidth;
-    private float tabUserCenterTextSize;
     //tab textview
     protected TextView tvTabTeacher;
     protected TextView tvTabTimetable;
@@ -137,12 +125,10 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         tabTimetableIndicator = (View)findViewById(R.id.view_tab_indicator_timetable);
         tabUserCenterIndicator = (View)findViewById(R.id.view_tab_indicator_usercenter);
 
-        //homeScrollView = (HomeScrollView)findViewById(R.id.home_pager);
         vpHome = (ViewPager) findViewById(R.id.viewpage);
     }
 
     private void setEvent() {
-        //homeScrollView.setOnScrollViewListener(this);
         rlTabTeacher.setOnClickListener(this);
         rlTabTimetable.setOnClickListener(this);
         rlTabUser.setOnClickListener(this);
@@ -176,185 +162,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     @Override
-    public void onScrollChanged(HomeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (initOnce==true){
-            initOnce = false;
-            tabTeacherX = rlTabTeacher.getX();
-            tabTeacherWidth = rlTabTeacher.getWidth();
-            tabTeacherTextSize = tvTabTeacher.getTextSize();
-            tabTimetableX = rlTabTimetable.getX();
-            tabTimetableWidth = rlTabTimetable.getWidth();
-            tabTimetableTextSize = tvTabTimetable.getTextSize();
-            tabUserCenterX= rlTabUser.getX();
-            tabUserCenterWidth= rlTabUser.getWidth();
-            tabUserCenterTextSize = tvTabUserCenter.getTextSize();
-            tabSY = rlTabBar.getY();
-        }
-        //titleTabs显隐
-        transformTitleTabAlpha(y);
-        //title text显隐
-        transformTitleTextAlpha(y);
-        //tab text显隐
-        transformTabTextAlpha(y);
-        //tab text缩放
-        transformTabTextScale(y);
-        //tabBar位移
-        transformTabbarPos(y);
-        //tab位移
-        transformTabPos(y);
-        //指示器显隐
-        transformTabIndicatorAlpha(y);
-    }
-
-    void transformTitleTabAlpha(int y) {
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.title_tab_appear_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.title_tab_disappear_boundary_bottom);
-        //完全显示
-        if (y>=topBoundary){
-            llTitleTabs.setVisibility(View.VISIBLE);
-            llTitleTabs.setAlpha(1);
-        }else if (y<topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float)(y-bottomBoundary)/(float)dis;
-            llTitleTabs.setVisibility(View.VISIBLE);
-            llTitleTabs.setAlpha(ratio);
-        }else{
-            llTitleTabs.setVisibility(View.GONE);
-            llTitleTabs.setAlpha(0);
-        }
-    }
-
-
-
-    void transformTitleTextAlpha(int y){
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.title_text_disappear_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.title_text_appear_boundary_bottom);
-        //彻底消失
-        if (y>=topBoundary){
-            tvTitle.setAlpha(0);
-        }else if (y<topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float)(y-bottomBoundary)/(float)dis;
-            tvTitle.setAlpha(1 - ratio);
-        }else{
-            tvTitle.setAlpha(1);
-        }
-    }
-
-    void transformTabTextAlpha(int y){
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_disappear_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_appear_boundary_bottom);
-        //彻底消失
-        if (y>=topBoundary) {
-            rlTabTeacher.setAlpha(0);
-            rlTabTimetable.setAlpha(0);
-            rlTabUser.setAlpha(0);
-        }else if (y<topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float)(y-bottomBoundary)/(float)dis;
-            rlTabTeacher.setAlpha(1 - ratio);
-            rlTabTimetable.setAlpha(1 - ratio);
-            rlTabUser.setAlpha(1 - ratio);
-        }else {
-            rlTabTeacher.setAlpha(1);
-            rlTabTimetable.setAlpha(1);
-            rlTabUser.setAlpha(1);
-        }
-    }
-
-    void transformTabTextScale(int y){
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_scale_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_scale_boundary_bottom);
-        //最小
-
-        if (y>=topBoundary){
-            //重置tab文字大小
-            tvTabTeacher.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabTeacherTextSize * 0.8));
-            tvTabTimetable.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabTimetableTextSize * 0.8));
-            tvTabUserCenter.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabUserCenterTextSize * 0.8));
-        }else if (y<topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float)(y-bottomBoundary)/(float)dis;
-            tvTabTeacher.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabTeacherTextSize * (0.8 + 0.2 * (1 - ratio))));
-            tvTabTimetable.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabTimetableTextSize * (0.8 + 0.2 * (1 - ratio))));
-            tvTabUserCenter.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (tabUserCenterTextSize * (0.8 + 0.2 * (1 - ratio))));
-        }else{
-            //重置tab文字大小
-            tvTabTeacher.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTeacherTextSize);
-            tvTabTimetable.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTimetableTextSize);
-            tvTabUserCenter.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabUserCenterTextSize);
-        }
-    }
-
-    void transformTabbarPos(int y) {
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_move_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.tab_bar_move_boundary_bottom);
-        //完全显示
-        if (y>=topBoundary) {
-            rlTabBar.setVisibility(View.GONE);
-            rlTabBar.setY(tabSY - (topBoundary - bottomBoundary));
-        }else if (y<topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float)(y-bottomBoundary)/(float)dis;
-            float dis1 = y - bottomBoundary;
-            rlTabBar.setVisibility(View.VISIBLE);
-            rlTabBar.setY(tabSY - dis1);
-
-        }else {
-            rlTabBar.setVisibility(View.VISIBLE);
-            rlTabBar.setY(tabSY);
-        }
-    }
-
-    void transformTabPos(int y) {
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.tab_move_left_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.tab_move_left_boundary_bottom);
-        int tabDivider = getResources().getDimensionPixelSize(R.dimen.tab_divider);
-        int tabPadding = getResources().getDimensionPixelSize(R.dimen.tab_text_padding);
-        if (y>=topBoundary){
-            //重置tab位置
-            rlTabTeacher.setX(tabTeacherX);
-            rlTabTimetable.setX(tabTeacherX + tvTabTeacher.getWidth() + tabDivider - 2 * tabPadding);
-            rlTabUser.setX(tabTeacherX + tvTabTeacher.getWidth() + tvTabTimetable.getWidth() + 2 * tabDivider - 4 * tabPadding);
-        }else if (y < topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float) (y-bottomBoundary)/(float)dis;
-            float dis1 = tabTimetableX-(tabTeacherX + tvTabTeacher.getWidth()+tabDivider - 2*tabPadding);
-            float dis2 = tabUserCenterX - (tabTeacherX + tvTabTeacher.getWidth()+tvTabTimetable.getWidth()+2*tabDivider - 4*tabPadding);
-            //重置tab位置
-            rlTabTeacher.setX(tabTeacherX);
-            rlTabTimetable.setX(tabTeacherX + tvTabTeacher.getWidth() + tabDivider - 2 * tabPadding + dis1 * (1 - ratio));
-            rlTabUser.setX(tabTeacherX + tvTabTeacher.getWidth() + 2 * tabDivider - 4 * tabPadding + tvTabTimetable.getWidth() + dis2 * (1 - ratio));
-        }else{
-            //重置tab位置
-            rlTabTeacher.setX(tabTeacherX);
-            rlTabTimetable.setX(tabTimetableX);
-            rlTabUser.setX(tabUserCenterX);
-        }
-    }
-
-    void transformTabIndicatorAlpha(int y) {
-        int topBoundary = getResources().getDimensionPixelSize(R.dimen.indicator_move_boundary_top);
-        int bottomBoundary = getResources().getDimensionPixelSize(R.dimen.indicator_move_boundary_bottom);
-        if (y>=topBoundary){
-            tabTeacherIndicator.setAlpha(0);
-            tabTimetableIndicator.setAlpha(0);
-            tabUserCenterIndicator.setAlpha(0);
-        }else if (y < topBoundary&&y>bottomBoundary){
-            int dis = topBoundary - bottomBoundary;
-            float ratio = (float) (y-bottomBoundary)/(float)dis;
-            //重置tab位置
-            tabTeacherIndicator.setAlpha(1 - ratio);
-            tabTimetableIndicator.setAlpha(1 - ratio);
-            tabUserCenterIndicator.setAlpha(1 - ratio);
-        }else{
-            tabTeacherIndicator.setAlpha(1);
-            tabTimetableIndicator.setAlpha(1);
-            tabUserCenterIndicator.setAlpha(1);
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_title_tab_teacher:
@@ -377,7 +184,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 break;
             case R.id.tv_title_tady:
                 scrollToTady();
-
                 break;
         }
     }
@@ -525,4 +331,5 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             Toast.makeText(this,"再按一次退出",Toast.LENGTH_SHORT).show();
         }
     }
+
 }

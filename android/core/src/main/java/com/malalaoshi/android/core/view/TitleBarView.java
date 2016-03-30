@@ -84,6 +84,10 @@ public class TitleBarView extends LinearLayout implements View.OnClickListener {
         }
     }
 
+    public void setLeftImageDrawable(Drawable leftBackground){
+        leftView.setImageDrawable(leftBackground);
+    }
+
     public void setOnTitleBarClickListener(OnTitleBarClickListener listener) {
         this.listener = listener;
     }

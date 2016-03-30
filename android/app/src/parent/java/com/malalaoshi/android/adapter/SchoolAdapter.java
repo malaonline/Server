@@ -6,13 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.TeacherDetailActivity;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.LocationUtil;

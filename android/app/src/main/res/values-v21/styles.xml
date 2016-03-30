@@ -3,6 +3,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/prices_name_text_color</item>
+    </style>
+    <style name="statusBarStyle" parent="@android:style/Theme.DeviceDefault.Light">
+          <item name="android:statusBarColor">@color/button_border</item>
+          <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

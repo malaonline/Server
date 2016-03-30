@@ -7,6 +7,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
+    <color name="alpheWhite">#00ffffff</color>
+
     <color name="main_color_bg">#f2f2f2</color>
     <color name="item_line_bg">#dadada</color>
     <color name="user_item_line_bg">#f2f2f2</color>

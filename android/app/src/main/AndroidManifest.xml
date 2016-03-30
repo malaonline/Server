@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-            android:name="com.malalaoshi.android.TeacherDetailActivity"
+            android:name="com.malalaoshi.android.TeacherInfoActivity"
             android:label="老师详情"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

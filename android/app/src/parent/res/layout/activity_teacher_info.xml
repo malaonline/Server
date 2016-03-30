@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.malalaoshi.android.view.ObservableScrollView
+        android:id="@+id/scroll_view"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/header_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_teacher_bg" />
+            </RelativeLayout>
+
+
+            <include layout="@layout/teacher_info_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-35dp"
+                android:layout_below="@id/header_image_view"
+                />
+        </RelativeLayout>
+
+    </com.malalaoshi.android.view.ObservableScrollView>
+    <com.malalaoshi.android.core.view.TitleBarView
+        android:id="@+id/titleBar"
+        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusLeftShow="true"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
+        app:cusRightShow="false"
+        android:background="@color/alpheWhite"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"/>
+    <View
+        android:layout_marginTop="44dp"
+        android:id="@+id/view_line"
+        android:alpha="0"
+        android:layout_width="match_parent"
+        android:background="@color/line_color"
+        android:layout_height="0.5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/teacher_body_margin_bottom"
+        android:layout_gravity="bottom|left"
+        android:alpha="0.96"
+        android:background="@color/backgrounp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:alpha="0.25"
+            android:background="@color/colorBlack" />
+
+        <Button
+            android:id="@+id/parent_teacher_signup_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/teacher_body_margin_button"
+            android:layout_marginLeft="@dimen/teacher_body_padding_normal"
+            android:layout_marginRight="@dimen/teacher_body_padding_normal"
+            android:layout_marginTop="@dimen/teacher_body_margin_button"
+            android:background="@drawable/signup_button"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="@string/sign_up_immediately"
+            android:textColor="@color/button_border"
+            android:textSize="@dimen/text_size_xlarge" />
+    </LinearLayout>
+</FrameLayout>

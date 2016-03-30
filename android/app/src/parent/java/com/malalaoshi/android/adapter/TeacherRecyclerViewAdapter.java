@@ -1,5 +1,6 @@
 package com.malalaoshi.android.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.TeacherDetailActivity;
+import com.malalaoshi.android.TeacherInfoActivity;
 import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
@@ -240,7 +240,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
         @OnClick(R.id.teacher_list_item_body)
         protected void onItemClick(){
-            TeacherDetailActivity.open(this.view.getContext(), teacher!=null?teacher.getId():null);
+            TeacherInfoActivity.open(this.view.getContext(), teacher != null ? teacher.getId() : null);
         }
     }
 }

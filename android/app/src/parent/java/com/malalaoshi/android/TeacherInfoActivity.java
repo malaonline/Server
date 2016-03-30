@@ -1,14 +1,10 @@
 package com.malalaoshi.android;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +21,10 @@ import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
-import com.malalaoshi.android.base.StatusBarActivity;
+import com.malalaoshi.android.base.BaseActivity;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
+import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
 import com.malalaoshi.android.entity.CoursePrice;
@@ -37,35 +33,29 @@ import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
-import com.malalaoshi.android.listener.NavigationFinishClickListener;
+import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.util.JsonUtil;
-import com.malalaoshi.android.util.LocManager;
-import com.malalaoshi.android.util.LocationUtil;
-import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.*;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.util.PermissionUtil;
-import com.malalaoshi.android.util.ThemeUtils;
-import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
+import com.malalaoshi.android.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
- * Created by zl on 15/11/30.
+ * Created by kang on 16/3/29.
  */
-public class TeacherDetailActivity extends StatusBarActivity implements View.OnClickListener, AppBarLayout.OnOffsetChangedListener, LocManager.ReceiveLocationListener {
+public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, LocManager.ReceiveLocationListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener {
 
-    private static final String TAG = "TeacherDetailActivity";
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
 
@@ -87,17 +77,20 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     //图片缓存
     private ImageLoader mImageLoader;
 
-    @Bind(R.id.parent_teacher_detail_appbar)
-    protected AppBarLayout mAppBarLayout;
+    //标题栏
+    @Bind(R.id.titleBar)
+    protected TitleBarView titleBarView;
 
-    @Bind(R.id.parent_teacher_detail_toolbar)
-    protected Toolbar toolbar;
+    @Bind(R.id.view_line)
+    protected View viewLine;
 
-    @Bind(R.id.nestedscrollview_content)
-    protected NestedScrollView mNestedScrollViewContent;
+    //
+    @Bind(R.id.scroll_view)
+    protected ObservableScrollView scrollView;
 
-    @Bind(R.id.rl_teacher_head_portrait)
-    protected RelativeLayout mRlTeacherHeadPortrait;
+    //背景图
+    @Bind(R.id.header_image_view)
+    protected View headerImage;
 
     //头像
     @Bind(R.id.parent_teacher_detail_head_portrait)
@@ -187,32 +180,22 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
     private double longitude = 0.0f;
     private double latitude = 0.0f;
 
+
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
-            Intent intent = new Intent(context, TeacherDetailActivity.class);
+            Intent intent = new Intent(context, TeacherInfoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(EXTRA_TEACHER_ID, teacherId);
             context.startActivity(intent);
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.fragment_teacher_detail);
+        setContentView(R.layout.activity_teacher_info);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this), 0, 0);
-        } else {
-            ThemeUtils.setMargins(toolbar, 0, ThemeUtils.getStatusBarHeight(this) / 2, 0, 5);
-        }
-
-        toolbar.setNavigationOnClickListener(new NavigationFinishClickListener(this));
+        initViews();
         //得到LocationManager
         locManager = LocManager.getInstance(this);
 
@@ -221,32 +204,36 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //初始化数据
         initData();
         setEvent();
+
+        BounceTouchListener bounceTouchListener = new BounceTouchListener(scrollView, R.id.layout_teacher_info_body);
+        bounceTouchListener.setOnTranslateListener(new BounceTouchListener.OnTranslateListener() {
+            @Override
+            public void onTranslate(float translation) {
+                if (translation > 0) {
+                    float scale = ((2 * translation) / headerImage.getMeasuredHeight()) + 1;
+                    headerImage.setScaleX(scale);
+                    headerImage.setScaleY(scale);
+                }else{
+                    headerImage.setScaleX(1);
+                    headerImage.setScaleY(1);
+                }
+            }
+        });
+
+        scrollView.setOnTouchListener(bounceTouchListener);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAppBarLayout.addOnOffsetChangedListener(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mAppBarLayout.removeOnOffsetChangedListener(this);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //停止定位sdk
-        locManager.unregisterLocationListener(this);
+    private void initViews() {
+        mHighScoreList.setFocusable(false);
+        listviewSchool.setFocusable(false);
     }
 
     private void setEvent() {
         mMoreGallery.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
         llSchoolMore.setOnClickListener(this);
+        scrollView.setScrollViewListener(this);
+        titleBarView.setOnTitleBarClickListener(this);
     }
 
     //初始化定位
@@ -255,17 +242,17 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         //注册定位结果回调
         locManager.registerLocationListener(this);
         //检测获取位置权限
-        List<String> permissions = PermissionUtil.checkPermission(TeacherDetailActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
+        List<String> permissions = PermissionUtil.checkPermission(TeacherInfoActivity.this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
         if (permissions==null){
             return ;
         }
         if (permissions.size()==0){
             initLocManager();
         }else{
-            PermissionUtil.requestPermissions(TeacherDetailActivity.this,permissions, PERMISSIONS_REQUEST_LOCATION);
+            PermissionUtil.requestPermissions(TeacherInfoActivity.this,permissions, PERMISSIONS_REQUEST_LOCATION);
         }
     }
 
@@ -306,8 +293,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         mFirstSchool = new ArrayList<>();
         mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
         listviewSchool.setAdapter(mSchoolAdapter);
-        mNestedScrollViewContent.fullScroll(ScrollView.FOCUS_UP);
-        mNestedScrollViewContent.smoothScrollTo(0, 0);
         loadTeacherInfo();
         loadMemeberServices();
         loadSchools();
@@ -380,7 +365,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             public void onSucceed(Object json) {
                 if (json != null && !json.toString().isEmpty()) {
                     mTeacher = JsonUtil.parseStringData(json.toString(), Teacher.class);
-                    //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class, TeacherDetailActivity.this);
+                    //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class);
                     if (mTeacher != null) {
                         updateUI(mTeacher);
                         mSignUp.setEnabled(true);
@@ -411,7 +396,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                     return;
                 }
                 MemberServiceListResult memberServiceListResult = JsonUtil.parseStringData(json.toString(), MemberServiceListResult.class);
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.memberservice, MemberServiceListResult.class, TeacherDetailActivity.this);
+                //mMemberServicesResult = JsonUtil.parseData(R.raw.memberservice, MemberServiceListResult.class);
                 if (memberServiceListResult != null && memberServiceListResult.getResults() != null && memberServiceListResult.getResults().size() > 0) {
                     updateUIServices(memberServiceListResult.getResults());
                 } else {
@@ -456,6 +441,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             string = teacher.getName();
             if (string != null) {
                 mTeacherName.setText(string);
+                //titleBarView.setTitle(string);
             }
             //头像
             string = teacher.getAvatar();
@@ -476,7 +462,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             String region = null;
             if (minPrice != null && maxPrice != null) {
 
-                region = Number.subZeroAndDot(minPrice * 0.01d) + "-" + Number.subZeroAndDot(maxPrice * 0.01d) + "元/小时";
+                region = com.malalaoshi.android.util.Number.subZeroAndDot(minPrice * 0.01d) + "-" + Number.subZeroAndDot(maxPrice * 0.01d) + "元/小时";
             } else if (minPrice != null) {
                 region = Number.subZeroAndDot(minPrice * 0.01d) + "元/小时";
             } else if (maxPrice != null) {
@@ -553,7 +539,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                         imgUrl[i] = datas.get(i).getImg();
                         imgDes[i] = datas.get(i).getTitle();
                     }
-                    Intent intent = new Intent(TeacherDetailActivity.this, GalleryActivity.class);
+                    Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
                     intent.putExtra(GalleryActivity.GALLERY_URLS, imgUrl);
                     intent.putExtra(GalleryActivity.GALLERY_DES, imgDes);
                     intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, finalI);
@@ -611,7 +597,7 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
                 @Override
                 public void onClick(View v) {
                     //查看更多照片
-                    Intent intent = new Intent(TeacherDetailActivity.this, GalleryActivity.class);
+                    Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
                     intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
                     intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, finalI);
                     startActivity(intent);
@@ -718,38 +704,6 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
         }
         startActivity(signIntent);
     }
-
-    //设置上滑头像消失
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        //设置头像上滑缩小消失
-        int toolbarHeight = toolbar.getHeight();
-        int headPortraitHeight = mRlTeacherHeadPortrait.getHeight();
-        //最大上滑距离
-        int maxOffset = mAppBarLayout.getHeight() - toolbarHeight;
-        //头像彻底消失临界点
-        int criticalPoint = headPortraitHeight * 35 / 75;
-        Log.e(TAG, "toolbar_height:" + toolbarHeight + " appBarLayout_height:" + mAppBarLayout.getHeight() + " Offset:" + verticalOffset);
-        int len = (maxOffset + verticalOffset);
-        if (len <= 0) {
-            mRlTeacherHeadPortrait.setVisibility(View.GONE);
-            toolbar.setNavigationIcon(R.drawable.core__ic_black_back);
-            //toolbarTitle.setTextColor(getResources().getColor(R.color.text_color_darkgray));
-        } else if (len > 0 && len < toolbarHeight) {
-            float ratio = (float) (len) / (float) toolbarHeight;
-            mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
-            mRlTeacherHeadPortrait.setAlpha(ratio);
-            toolbar.setNavigationIcon(R.drawable.core__ic_black_back);
-            //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
-        } else {
-            mRlTeacherHeadPortrait.setVisibility(View.VISIBLE);
-            mRlTeacherHeadPortrait.setAlpha(1.0f);
-            toolbar.setNavigationIcon(R.drawable.core__ic_white_back);
-            //toolbarTitle.setTextColor(getResources().getColor(R.color.colorWhite));
-        }
-    }
-
-
     @Override
     public void onReceiveLocation(Location location) {
         if (location == null) {
@@ -762,5 +716,42 @@ public class TeacherDetailActivity extends StatusBarActivity implements View.OnC
             //定位成功后更新school列表,定位失败则不做处理
             dealSchools();
         }
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        //最大上滑距离
+        int maxOffset = headerImage.getMeasuredHeight() - titleBarView.getMeasuredHeight();
+        //开始变色位置
+        int startOffset = maxOffset/2;
+        if (y > startOffset&&y<maxOffset-10) {  //开始变色
+            int ratio = (int) (255*((float) (y - startOffset) / (float) (maxOffset- startOffset+10)));
+            titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
+            titleBarView.setBackgroundColor(Color.argb(ratio, 255, 255, 255));
+            viewLine.setAlpha(0);
+            titleBarView.setTitle("");
+        } else if (y>=maxOffset-10) {        //白色背景
+            titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
+            titleBarView.setBackgroundColor(Color.argb(255, 255, 255, 255));
+            viewLine.setAlpha(1);
+            if (mTeacher != null) {
+                titleBarView.setTitle(mTeacher.getName());
+            }
+        } else {                            //无背景
+            titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__white_btn));
+            titleBarView.setBackgroundColor(Color.argb(0, 255, 255, 255));
+            viewLine.setAlpha(0);
+            titleBarView.setTitle("");
+        }
+    }
+
+    @Override
+    public void onTitleLeftClick() {
+        this.finish();
+    }
+
+    @Override
+    public void onTitleRightClick() {
+
     }
 }
