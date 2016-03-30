@@ -76,9 +76,113 @@
                         {{ evaluation.start|date:"H:i" }}-{{ evaluation.end|date:"H:i" }}
                     {% endif %}
                 </td>
-                <td>N/A</td>
+                <td>{% if evaluation.status == evaluation.PENDING %}
+                        <a data-action="show-refund-preview" evaluationId={{ evaluation.id }}>安排时间</a>
+                    {% endif %}
+                    {% if evaluation.order.status == evaluation.order.PAID and not evaluation.order.refund_status %}
+                        <a data-action="show-refund-preview" orderId={{ evaluation.order.id }}>申请退款</a>
+                    {% elif evaluation.order.status == evaluation.order.PAID and evaluation.order.refund_status == evaluation.order.REFUND_PENDING %}
+                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看记录</a>
+                    {% elif evaluation.order.status == evaluation.order.REFUND and evaluation.order.refund_status == evaluation.order.REFUND_APPROVED %}
+                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看记录</a>
+                    {% elif evaluation.order.status == evaluation.order.PAID and evaluation.order.refund_status == evaluation.order.REFUND_REJECTED %}
+                        <a data-action="show-refund-preview" orderId={{ evaluation.order.id }}>重新申请退款</a>
+                    {% else %}
+                        无
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>
     {% include 'pagination_nav.html' %}
+
+    <div id="refundModal" class="modal fade" role="dialog" style="margin: 0 auto;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center">退费确认</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <p>剩余 <label id="remainingHours"></label> 小时</p>
+                        <p>共退 <label id="refundHours"></label> 小时</p>
+                        <p>退费金额 <label id="refundAmount"></label> 元</p>
+                        <input type="button" value="刷新" data-action="refresh-refund-preview" class="btn btn-default"/>
+                        <input type="hidden" id="orderId"/>
+                        <fieldset>
+                            <div class="control-group">
+                                <textarea name="refundReason" id="refundReason" rows="5" cols="36" placeholder="请输入退费原因"></textarea>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="取消" data-dismiss="modal" class="btn btn-default">
+                    <input type="button" data-action="submit-refund" value="确定" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="refundInfoModal" class="modal fade" role="dialog" style="margin: 0 auto;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center">查看记录</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <p>剩余 <label id="remainingHoursRecord"></label> 小时</p>
+                        <p>共退 <label id="refundHoursRecord"></label> 小时</p>
+                        <p>退费金额 <label id="refundAmountRecord"></label> 元</p>
+                        <fieldset>
+                            <div class="control-group">
+                                <textarea name="refundReason" id="refundReasonRecord" rows="5" cols="36" readonly="readonly"></textarea>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scheduleModal" class="modal fade" role="dialog" style="margin: 0 auto;">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center">安排时间</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <p>测评日期 <input type="text" class="datetimeInput form-control" name="schedule_date" size="10"/></p>
+                        <p>
+                            测评时间
+                            <select name="schedule_time" class="form-control">
+                                {% for daily_timeslot in daily_timeslots %}
+                                    <option value="{{ daily_timeslot }}">
+                                        {{ daily_timeslot }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

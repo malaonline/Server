@@ -2070,4 +2070,5 @@ class EvaluationView(BaseStaffView):
         query_set, pager = paginate(query_set, page)
         kwargs['evaluations'] = query_set
         kwargs['pager'] = pager
+        kwargs['daily_timeslots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         return super(EvaluationView, self).get_context_data(**kwargs)
