@@ -226,7 +226,7 @@ let MalaSubjectName = [
     "生物": 9
 ]
 let MalaTeacherDetailsCellTitle = [
-    1: "教授科目",
+    1: "教授年级",
     2: "风格标签",
     3: "提分榜",
     4: "个人相册",

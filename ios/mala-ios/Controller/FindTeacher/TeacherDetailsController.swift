@@ -368,11 +368,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         case 0:
             
             let cell = reuseCell as! TeacherDetailsSubjectCell
-            var set: [String] = []
-            for string in self.model.grades {
-                set.append(string + (self.model.subject ?? ""))
-            }
-            cell.labels = set
+            cell.gradeStrings = self.model.grades
             return cell
             
         case 1:
