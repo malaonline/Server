@@ -129,4 +129,22 @@ $(function(){
             });
         }
     });
+
+    // 测评建档, 安排时间
+    $("[data-action=show-schedule]").click(function(e) {
+        $('#scheduleModal').modal();
+    });
+
+    // 确定安排时间
+    $("[data-action=schedule-evaluation]").click(function(e) {
+        // todo: 发请求
+    });
+
+    // 测评建档, 测评完成
+    $("[data-action=complete-evaluation]").click(function(e) {
+        //$('#scheduleModal').modal();
+        if(confirm("确定测评完成?")) {
+            // todo: 发请求
+        }
+    });
 });

@@ -76,15 +76,22 @@
                         {{ evaluation.start|date:"H:i" }}-{{ evaluation.end|date:"H:i" }}
                     {% endif %}
                 </td>
-                <td>{% if evaluation.status == evaluation.PENDING %}
-                        <a data-action="show-refund-preview" evaluationId={{ evaluation.id }}>安排时间</a>
+                <td>
+                    {% if evaluation.status == evaluation.PENDING %}
+                        <a data-action="show-schedule" evaluationId={{ evaluation.id }}>安排时间</a>
+                        |
+                    {% elif evaluation.status == evaluation.SCHEDULED %}
+                        <a data-action="show-schedule" evaluationId={{ evaluation.id }}>重新安排时间</a>
+                        |
+                        <a data-action="complete-evaluation" evaluationId={{ evaluation.id }}>测评完成</a>
+                        |
                     {% endif %}
                     {% if evaluation.order.status == evaluation.order.PAID and not evaluation.order.refund_status %}
                         <a data-action="show-refund-preview" orderId={{ evaluation.order.id }}>申请退款</a>
                     {% elif evaluation.order.status == evaluation.order.PAID and evaluation.order.refund_status == evaluation.order.REFUND_PENDING %}
-                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看记录</a>
+                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看退款记录</a>
                     {% elif evaluation.order.status == evaluation.order.REFUND and evaluation.order.refund_status == evaluation.order.REFUND_APPROVED %}
-                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看记录</a>
+                        <a data-action="show-refund-record" orderId={{ evaluation.order.id }}>查看退款记录</a>
                     {% elif evaluation.order.status == evaluation.order.PAID and evaluation.order.refund_status == evaluation.order.REFUND_REJECTED %}
                         <a data-action="show-refund-preview" orderId={{ evaluation.order.id }}>重新申请退款</a>
                     {% else %}
@@ -166,13 +173,16 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
-                        <p>测评日期 <input type="text" class="datetimeInput form-control" name="schedule_date" size="10"/></p>
+                        <p>
+                            测评日期
+                            <input type="text" class="datetimeInput form-control" name="schedule_date" placeholder="请选择日期" size="10"/>
+                        </p>
                         <p>
                             测评时间
                             <select name="schedule_time" class="form-control">
                                 {% for daily_timeslot in daily_timeslots %}
-                                    <option value="{{ daily_timeslot }}">
-                                        {{ daily_timeslot }}
+                                    <option value="{{ forloop.counter0 }}">
+                                        {{ daily_timeslot.start|time:"H:i" }} - {{ daily_timeslot.end|time:"H:i" }}
                                     </option>
                                 {% endfor %}
                             </select>
@@ -181,6 +191,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" value="关闭" data-dismiss="modal" class="btn btn-default">
+                    <input type="button" data-action="schedule-evaluation" value="确定" class="btn btn-primary">
                 </div>
             </div>
         </div>
