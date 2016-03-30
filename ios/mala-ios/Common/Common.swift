@@ -233,7 +233,7 @@ let MalaTeacherDetailsCellTitle = [
     5: "特殊成就",
     6: "教学环境",
     7: "会员服务",
-    8: "级别",
+    8: "教龄 级别",
     9: "价格表"
 ]
 let MalaCourseChoosingCellTitle = [
