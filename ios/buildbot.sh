@@ -15,7 +15,7 @@ buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
 # xctool should upgrade to 0.2.9 or above
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevDebug -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.3' clean test
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevDebug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.3' clean test
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 rm -f ${ipaName}
