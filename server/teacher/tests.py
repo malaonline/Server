@@ -389,6 +389,14 @@ class TestWebPage(TestCase):
         # 我的钱包界面
         self.check_page_accesibility("teacher:wallet")
 
+    def test_basic_doc(self):
+        # 基本信息页面
+        self.check_page_accesibility("teacher:basic_doc")
+
+    def test_highscore(self):
+        # 提分榜页面
+        self.check_page_accesibility("teacher:highscore")
+
     def test_withdrawal_request(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
