@@ -33,6 +33,7 @@ class TeacherDetailsSignupView: UIView {
             titleColor: MalaColor_82B4D9_0,
             backgroundColor: UIColor(rgbHexValue: 0xFFFFFF, alpha: 0.95)
         )
+        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
         button.layer.cornerRadius = 5.0
         button.layer.masksToBounds = true
         button.layer.borderColor = MalaColor_E5E5E5_0.CGColor
