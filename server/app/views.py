@@ -160,11 +160,11 @@ class Sms(View):
         if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
             try:
                 jsonData = json.loads(request.body.decode())
-                action = jsonData.get('action')
-                phone = jsonData.get('phone')
-                code = jsonData.get('code')
-            except:
+            except ValueError:
                 return HttpResponse(status=400)
+            action = jsonData.get('action')
+            phone = jsonData.get('phone')
+            code = jsonData.get('code')
         else:
             action = request.POST.get('action')
             phone = request.POST.get('phone')

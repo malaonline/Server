@@ -40,7 +40,7 @@ logger = logging.getLogger('app')
 # Create your views here.
 
 # 目前老师端的公共登录url,这里不能用reverse,不然会发生循环引用
-LOGIN_URL = "teacher:register"
+LOGIN_URL = "teacher:login"
 
 
 # 判断是否是已登录老师
@@ -73,7 +73,7 @@ class BasicTeacherView(LoginRequiredMixin, View):
 
     # 基础类,用于一些特定测试
     def not_teacher_role(self):
-        return HttpResponseRedirect(reverse("teacher:register"))
+        return HttpResponseRedirect(reverse("teacher:login"))
 
     need_check_percent = True
 
@@ -103,7 +103,7 @@ class BasicTeacherView(LoginRequiredMixin, View):
             if teacher.status != models.Teacher.INTERVIEW_OK or not teacher.status_confirm:
                 raise BasicTeacherView.TeacherQualifieldNotAudit()
 
-    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:login'))
     def get(self, request, *args, **kwargs):
         user = request.user
         try:
@@ -131,7 +131,7 @@ class BasicTeacherView(LoginRequiredMixin, View):
     def handle_get(self, request, user, teacher, *args, **kwargs):
         raise Exception("get not implement")
 
-    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:login'))
     def post(self, request, *args, **kwargs):
         user = request.user
         try:
@@ -1647,7 +1647,7 @@ class BaseTeacherView(View):
     Base View for Teacher web client, require teacher being logined
     """
 
-    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:register'))
+    @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:login'))
     @method_decorator(user_passes_test(is_information_complete, login_url='teacher:complete-information',
                                        redirect_field_name="next"))
     @method_decorator(user_passes_test(does_teacher_pass_qualifield_audit, login_url='teacher:register-progress',

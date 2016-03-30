@@ -6,7 +6,7 @@ from . import views
 LOGIN_URL = "/teacher/login/"
 
 urlpatterns = [
-    url(r'^login$', views.TeacherLogin.as_view(), name="register"),
+    url(r'^login$', views.TeacherLogin.as_view(), name="login"),
     url(r'^logout/$', auth_views.logout_then_login, {"login_url": "/teacher/login"}, name="logout"),
     url(r'^doc/agree/$', TemplateView.as_view(template_name="teacher/doc/policy.html"), name="doc-agree"),
     url(r'^information/complete$', views.InformationComplete.as_view(), name="complete-information"),

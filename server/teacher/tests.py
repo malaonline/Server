@@ -32,7 +32,7 @@ class TestTeacherWeb(TestCase):
         sms_code = Checkcode.generate(phone)
         client = Client()
         # 第一次
-        response = client.post(reverse("teacher:register"),
+        response = client.post(reverse("teacher:login"),
                                {
                                    "phone": phone,
                                    "code": sms_code
@@ -43,7 +43,7 @@ class TestTeacherWeb(TestCase):
         # 第二次
         sms_code = Checkcode.generate(phone)
         second_client = Client()
-        response = second_client.post(reverse("teacher:register"),
+        response = second_client.post(reverse("teacher:login"),
                                       {
                                           "phone": phone,
                                           "code": sms_code
@@ -170,10 +170,10 @@ class TestWebPage(TestCase):
 
     def test_register_show(self):
         client = Client()
-        register_url = reverse("teacher:register")
+        register_url = reverse("teacher:login")
         response = client.get(register_url)
-        # response.render()
         self.assertEqual(response.status_code, 200)
+
 
     def test_information_complete(self):
         client = Client()
@@ -408,6 +408,32 @@ class TestWebPage(TestCase):
             'code': checkcode.checkcode,
             })
         self.assertEqual(response.status_code, 200)
+
+    def test_sms_generate(self):
+        # 检查api生成是否正确
+        client = Client()
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
+        self.assertEqual(response.status_code, 200)
+        response = client.post(reverse("sms"), json.dumps({"action": "send", "phone": "18922405996"}),
+                               "application/json")
+        self.assertEqual(response.status_code, 200)
+        # 错误数据输入后的检测
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"},
+                               "application/json")
+        self.assertEqual(400, response.status_code)
+
+    def test_teacher_login(self):
+        client = Client()
+        # 未获得验证码的时候,进行的验证
+        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(json.loads(response.content.decode())["result"])
+        # 获得验证码以后,进行的验证
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
+        self.assertEqual(response.status_code, 200)
+        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(json.loads(response.content.decode())["result"])
 
 
 class TestCommands(TestCase):
