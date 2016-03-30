@@ -138,6 +138,11 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
     public var toolbarTintColor : UIColor?
 
     /**
+     Toolbar done button icon, If nothing is provided then check toolbarDoneBarButtonItemText to draw done button.
+     */
+    public var toolbarDoneBarButtonItemImage : UIImage?
+    
+    /**
      Toolbar done button text, If nothing is provided then system default 'UIBarButtonSystemItemDone' will be used.
      */
     public var toolbarDoneBarButtonItemText : String?
@@ -343,7 +348,7 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
     }
     
     /**	previousAction. */
-    internal func previousAction (segmentedControl : AnyObject?) {
+    internal func previousAction (barButton : UIBarButtonItem?) {
         
         //If user wants to play input Click sound.
         if shouldPlayInputClicks == true {
@@ -365,7 +370,7 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
     }
     
     /**	nextAction. */
-    internal func nextAction (segmentedControl : AnyObject?) {
+    internal func nextAction (barButton : UIBarButtonItem?) {
         
         //If user wants to play input Click sound.
         if shouldPlayInputClicks == true {
@@ -744,7 +749,9 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
         
         if let unwrappedController = controller {
             //frame size needs to be adjusted on iOS8 due to orientation structure changes.
-            frame.size = unwrappedController.view.frame.size
+            if #available(iOS 8.0, *) {
+                frame.size = unwrappedController.view.frame.size
+            }
             
             //Used UIViewAnimationOptionBeginFromCurrentState to minimize strange animations.
             UIView.animateWithDuration(_animationDuration, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState.union(_animationCurve), animations: { () -> Void in
@@ -803,13 +810,14 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
         let textFieldViewRect = optionalTextFieldViewRect!
         
         //If it's iOS8 then we should do calculations according to portrait orientations.   //  (Bug ID: #64, #66)
-        var interfaceOrientation : UIInterfaceOrientation
+        let interfaceOrientation : UIInterfaceOrientation
         
-        interfaceOrientation = UIInterfaceOrientation.Portrait
-        if (true) {
+        if #available(iOS 8.0, *) {
             interfaceOrientation = UIInterfaceOrientation.Portrait
+        } else {
+            interfaceOrientation = rootController.interfaceOrientation
         }
-        
+
         //  Getting RootViewRect.
         var rootViewRect = rootController.view.frame
         //Getting statusBarFrame
@@ -1440,7 +1448,9 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
             if let rootViewController = _rootViewController {
                 
                 //frame size needs to be adjusted on iOS8 due to orientation API changes.
-                _topViewBeginRect.size = rootViewController.view.frame.size
+                if #available(iOS 8.0, *) {
+                    _topViewBeginRect.size = rootViewController.view.frame.size
+                }
                 
                 //Used UIViewAnimationOptionBeginFromCurrentState to minimize strange animations.
                 UIView.animateWithDuration(_animationDuration, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState.union(_animationCurve), animations: { () -> Void in
@@ -1795,8 +1805,12 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
                 //setInputAccessoryView: check   (Bug ID: #307)
                 if textField.respondsToSelector(Selector("setInputAccessoryView:")) && (textField.inputAccessoryView == nil || textField.inputAccessoryView?.tag == IQKeyboardManager.kIQPreviousNextButtonToolbarTag) {
                     
+                    //Supporting Custom Done button image (Enhancement ID: #366)
+                    if let doneBarButtonItemImage = toolbarDoneBarButtonItemImage {
+                            textField.addRightButtonOnKeyboardWithImage(doneBarButtonItemImage, target: self, action: "doneAction:", shouldShowPlaceholder: shouldShowTextFieldPlaceholder)
+                    }
                     //Supporting Custom Done button text (Enhancement ID: #209, #411, Bug ID: #376)
-                    if let doneBarButtonItemText = toolbarDoneBarButtonItemText {
+                    else if let doneBarButtonItemText = toolbarDoneBarButtonItemText {
                         textField.addRightButtonOnKeyboardWithText(doneBarButtonItemText, target: self, action: "doneAction:", shouldShowPlaceholder: shouldShowTextFieldPlaceholder)
                     } else {
                         //Now adding textField placeholder text as title of IQToolbar  (Enhancement ID: #27)
@@ -1889,8 +1903,12 @@ public class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
                     //setInputAccessoryView: check   (Bug ID: #307)
                     if textField.respondsToSelector(Selector("setInputAccessoryView:")) && (textField.inputAccessoryView == nil || textField.inputAccessoryView?.tag == IQKeyboardManager.kIQDoneButtonToolbarTag) {
                         
+                        //Supporting Custom Done button image (Enhancement ID: #366)
+                        if let doneBarButtonItemImage = toolbarDoneBarButtonItemImage {
+                            textField.addPreviousNextRightOnKeyboardWithTarget(self, rightButtonImage: doneBarButtonItemImage, previousAction: "previousAction:", nextAction: "nextAction:", rightButtonAction: "doneAction:", shouldShowPlaceholder: shouldShowTextFieldPlaceholder)
+                        }
                         //Supporting Custom Done button text (Enhancement ID: #209, #411, Bug ID: #376)
-                        if let doneBarButtonItemText = toolbarDoneBarButtonItemText {
+                        else if let doneBarButtonItemText = toolbarDoneBarButtonItemText {
                             textField.addPreviousNextRightOnKeyboardWithTarget(self, rightButtonTitle: doneBarButtonItemText, previousAction: "previousAction:", nextAction: "nextAction:", rightButtonAction: "doneAction:", shouldShowPlaceholder: shouldShowTextFieldPlaceholder)
                         } else {
                             //Now adding textField placeholder text as title of IQToolbar  (Enhancement ID: #27)

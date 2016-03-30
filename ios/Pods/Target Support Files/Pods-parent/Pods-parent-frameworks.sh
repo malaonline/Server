@@ -16,7 +16,7 @@ install_framework()
     local source="$1"
   fi
 
-  local destination="${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+  local destination="${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
   if [ -L "${source}" ]; then
       echo "Symlinked..."
@@ -84,23 +84,23 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "DevDebug" ]]; then
-  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/DateTools/DateTools.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/Kingfisher/Kingfisher.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
+  install_framework "Pods-parent/Alamofire.framework"
+  install_framework "Pods-parent/DateTools.framework"
+  install_framework "Pods-parent/IQKeyboardManagerSwift.framework"
+  install_framework "Pods-parent/Kingfisher.framework"
+  install_framework "Pods-parent/SnapKit.framework"
 fi
 if [[ "$CONFIGURATION" == "PrdRelease" ]]; then
-  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/DateTools/DateTools.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/Kingfisher/Kingfisher.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
+  install_framework "Pods-parent/Alamofire.framework"
+  install_framework "Pods-parent/DateTools.framework"
+  install_framework "Pods-parent/IQKeyboardManagerSwift.framework"
+  install_framework "Pods-parent/Kingfisher.framework"
+  install_framework "Pods-parent/SnapKit.framework"
 fi
 if [[ "$CONFIGURATION" == "DevRelease" ]]; then
-  install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/DateTools/DateTools.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/Kingfisher/Kingfisher.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
+  install_framework "Pods-parent/Alamofire.framework"
+  install_framework "Pods-parent/DateTools.framework"
+  install_framework "Pods-parent/IQKeyboardManagerSwift.framework"
+  install_framework "Pods-parent/Kingfisher.framework"
+  install_framework "Pods-parent/SnapKit.framework"
 fi
