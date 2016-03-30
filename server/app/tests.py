@@ -663,3 +663,19 @@ class TestAlgorithm(TestCase):
         EQIDAQAB
         -----END PUBLIC KEY-----'''
         self.assertTrue(verify_sig(data, sig, pubkey))
+
+class TestWechat(TestCase):
+    def test_teacher(self):
+        teachers = Teacher.objects.filter(published=True)
+        one = list(teachers) and teachers[0]
+        if one:
+            client = Client()
+            response = client.get(reverse("wechat:teacher") + '?teacher_id=' + str(one.id))
+            self.assertEqual(response.status_code, 200)
+        else:
+            print('TestWechat.test_teacher: no teacher exist!')
+
+    def test_phone_page(self):
+        client = Client()
+        response = client.get(reverse("wechat:phone_page"))
+        self.assertEqual(response.status_code, 200)
