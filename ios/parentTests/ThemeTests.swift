@@ -14,6 +14,6 @@ class ThemeTests: parentTests {
     func testExtensionString() {
         let string = "周日"
         let date = string.dateInThisWeek()
-        XCTAssert(!(1<=date.weekday() && date.weekday()<=7), "'dateInThisWeek' method should in 1...7")
+        XCTAssert((1<=date.weekday() && date.weekday()<=7), "'dateInThisWeek' method should in 1...7")
     }
 }
