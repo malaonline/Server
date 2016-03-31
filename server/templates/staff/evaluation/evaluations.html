@@ -77,14 +77,16 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if evaluation.status == evaluation.PENDING %}
-                        <a data-action="show-schedule" evaluationId={{ evaluation.id }}>安排时间</a>
-                        |
-                    {% elif evaluation.status == evaluation.SCHEDULED %}
-                        <a data-action="show-schedule" evaluationId={{ evaluation.id }}>重新安排时间</a>
-                        |
-                        <a data-action="complete-evaluation" evaluationId={{ evaluation.id }}>测评完成</a>
-                        |
+                    {% if not evaluation.order.refund_status %}
+                        {% if evaluation.status == evaluation.PENDING %}
+                            <a data-action="show-schedule" evaluationId={{ evaluation.id }}>安排时间</a>
+                            |
+                        {% elif evaluation.status == evaluation.SCHEDULED %}
+                            <a data-action="show-schedule" evaluationId={{ evaluation.id }}>重新安排时间</a>
+                            |
+                            <a data-action="complete-evaluation" evaluationId={{ evaluation.id }}>测评完成</a>
+                            |
+                        {% endif %}
                     {% endif %}
                     {% if evaluation.order.status == evaluation.order.PAID and not evaluation.order.refund_status %}
                         <a data-action="show-refund-preview" orderId={{ evaluation.order.id }}>申请退款</a>
@@ -187,6 +189,7 @@
                                 {% endfor %}
                             </select>
                         </p>
+                        <input type="hidden" id="evaluationId"/>
                     </form>
                 </div>
                 <div class="modal-footer">

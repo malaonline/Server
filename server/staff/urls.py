@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^coupons/list/$', views.CouponsListView.as_view(), name="coupons_list"),
     url(r'^coupon/config/$', views.CouponConfigView.as_view(), name="coupon_config"),
     url(r'^evaluations/$', views.EvaluationView.as_view(), name="evaluations"),
+    url(r'^evaluations/action/$', views.EvaluationActionView.as_view(), name="evaluations_action"),
 ]

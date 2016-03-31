@@ -132,19 +132,60 @@ $(function(){
 
     // 测评建档, 安排时间
     $("[data-action=show-schedule]").click(function(e) {
+        var evaluationId = $(this).attr("evaluationId")
+        $('#evaluationId').val(evaluationId);
         $('#scheduleModal').modal();
     });
 
     // 确定安排时间
-    $("[data-action=schedule-evaluation]").click(function(e) {
-        // todo: 发请求
+    $("[data-action=schedule-evaluation]").click(function (e) {
+        var evaluationId = $('#evaluationId').val();
+        var scheduleDate = $("[name=schedule_date]").val();
+        if (!scheduleDate) {
+            alert("请先选择测评日期");
+            return;
+        }
+        // 这里只传递 Weekly Time Slots 的索引下标, 后台根据索引取具体值
+        var scheduleTime = $("[name=schedule_time]").val();
+        var params = {
+            'action': 'schedule-evaluation',
+            'eid': evaluationId,
+            'schedule_date': scheduleDate,
+            'schedule_time': scheduleTime
+        };
+        $.post("/staff/evaluations/action/", params, function (result) {
+            if (result) {
+                if (result.ok) {
+                    location.reload();
+                } else {
+                    alert(result.msg);
+                }
+                return;
+            }
+            alert(defaultErrMsg);
+        }, 'json').fail(function () {
+            alert(defaultErrMsg);
+        });
     });
 
     // 测评建档, 测评完成
     $("[data-action=complete-evaluation]").click(function(e) {
-        //$('#scheduleModal').modal();
         if(confirm("确定测评完成?")) {
-            // todo: 发请求
+            var evaluationId = $(this).attr("evaluationId");
+            var params = {'action': 'complete-evaluation', 'eid': evaluationId};
+            $.post("/staff/evaluations/action/", params, function (result) {
+                if (result) {
+                    if (result.ok) {
+                        location.reload();
+                    } else {
+                        alert(result.msg);
+                    }
+                    return;
+                }
+                alert(defaultErrMsg);
+            }, 'json').fail(function () {
+                alert(defaultErrMsg);
+            });
         }
     });
 });

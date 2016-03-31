@@ -2446,3 +2446,19 @@ class Evaluation(BaseModel):
             return '已退费'
         return self.get_status_display()
 
+    def schedule(self, start_datetime, end_datetime):
+        if self.status is not Evaluation.COMPLETED:
+            self.start = start_datetime
+            self.end = end_datetime
+            self.status = Evaluation.SCHEDULED
+            self.save()
+            return True
+        return False
+
+    def complete(self):
+        if self.status == Evaluation.SCHEDULED:
+            self.status = Evaluation.COMPLETED
+            self.save()
+            return True
+        return False
+

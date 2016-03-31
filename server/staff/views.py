@@ -2072,3 +2072,40 @@ class EvaluationView(BaseStaffView):
         kwargs['pager'] = pager
         kwargs['daily_timeslots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         return super(EvaluationView, self).get_context_data(**kwargs)
+
+
+class EvaluationActionView(BaseStaffActionView):
+    def post(self, request):
+        action = self.request.POST.get('action')
+        print(action)
+        if action == 'schedule-evaluation':
+            return self.schedule_evaluation(request)
+        if action == 'complete-evaluation':
+            return self.complete_evaluation(request)
+        return HttpResponse("Not supported action.", status=404)
+
+    def schedule_evaluation(self, request):
+        eid = request.POST.get('eid')
+        schedule_date = request.POST.get('schedule_date')
+        schedule_time_index = request.POST.get('schedule_time')
+        for index, slot in enumerate(models.WeeklyTimeSlot.DAILY_TIME_SLOTS, start=0):
+            if index == int(schedule_time_index):
+                date = datetime.datetime.strptime(schedule_date, '%Y-%m-%d')
+                start = timezone.make_aware(datetime.datetime.combine(date, slot['start']))
+                end = timezone.make_aware(datetime.datetime.combine(date, slot['end']))
+                evaluation = models.Evaluation.objects.get(id=eid)
+                if evaluation.schedule(start, end):
+                    return JsonResponse({'ok': True})
+                else:
+                    return JsonResponse({'ok': False, 'msg': '测评已完成, 无法再次安排时间', 'code': 'evaluation_status'})
+        return JsonResponse({'ok': False, 'msg': '安排测评时间失败, 请稍后重试或联系管理员', 'code': 'schedule_evaluation'})
+
+    def complete_evaluation(self, request):
+        eid = request.POST.get('eid')
+        evaluation = models.Evaluation.objects.get(id=eid)
+        if evaluation.complete():
+            return JsonResponse({'ok': True})
+        else:
+            return JsonResponse({'ok': False, 'msg': '未安排测评时间, 无法设置完成状态', 'code': 'evaluation_status'})
+            return JsonResponse({'ok': False, 'msg': '设置测评完成失败, 请稍后重试或联系管理员', 'code': 'complete_evaluation'})
+
