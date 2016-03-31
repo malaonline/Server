@@ -22,7 +22,13 @@
                 {% include 'teacher/side_bar.html' %}
                 <div class="the_content">
                     <div class="teacher_info_pan">
-                        <div class="avatar"><img src="{{ avatar }}"></div>
+                        <div class="avatar">
+                            {% if avatar %}
+                                <img src="{{ avatar }}">
+                            {% else %}
+                                <img src="{% static 'common/icons/none_body_profile.png' %}">
+                            {% endif %}
+                        </div>
                         <div class="info">
                             <p class="edit_button"><a href="{{ complete_url }}">编辑</a></p>
                             <p class="name">{{ user_name }}</p>

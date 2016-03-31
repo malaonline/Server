@@ -434,7 +434,7 @@ class FirstPage(BasicTeacherView):
         if profile.avatar:
             return profile.avatar.url
         else:
-            return 'common/icons/none_body_profile.png'
+            return None
 
     def class_complete(self, teacher, current_data=make_aware(datetime.datetime.now())):
         # 已上课数量
