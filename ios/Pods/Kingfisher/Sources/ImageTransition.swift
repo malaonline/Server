@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 15/9/18.
 //
-//  Copyright (c) 2015 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2016 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,27 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+#if os(OSX)
+// Not implemented for OSX and watchOS yet.
+    
+import AppKit
+    
+public enum ImageTransition {
+    case None
+    var duration: NSTimeInterval {
+        return 0
+    }
+}
+
+#elseif os(watchOS)
+import UIKit
+public enum ImageTransition {
+    case None
+    var duration: NSTimeInterval {
+        return 0
+    }
+}
+#else
 import UIKit
 
 /**
@@ -99,3 +120,4 @@ public enum ImageTransition {
         }
     }
 }
+#endif

@@ -2,7 +2,7 @@ PODS:
   - Alamofire (3.3.0)
   - DateTools (1.7.0)
   - IQKeyboardManagerSwift (3.3.7)
-  - Kingfisher (1.8.5)
+  - Kingfisher (2.2.0)
   - Pingpp/Alipay (2.2.0):
     - Pingpp/Core
   - Pingpp/Core (2.2.0):
@@ -17,7 +17,7 @@ DEPENDENCIES:
   - Alamofire (~> 3.3.0)
   - DateTools (~> 1.7.0)
   - IQKeyboardManagerSwift (~> 3.3.6)
-  - Kingfisher (~> 1.8.5)
+  - Kingfisher (~> 2.2.0)
   - Pingpp/Alipay (~> 2.2.0)
   - Pingpp/Wx (~> 2.2.0)
   - SnapKit (~> 0.20.0)
@@ -27,7 +27,7 @@ SPEC CHECKSUMS:
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   IQKeyboardManagerSwift: 7d06186460470f3f7e767630861a1303980ee5cf
-  Kingfisher: 780fed0fa82692a3bd59d53329ae2b85cdd354a5
+  Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
   Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
