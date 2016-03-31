@@ -300,38 +300,39 @@ class TestWebPage(TestCase):
         fp = FirstPage()
         # 空白
         # self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 0)
+        teaching_age_patch = 5
         # 电话
         profile.phone = "18922405996"
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 5)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 5+teaching_age_patch)
         # 姓名
         teacher.name = "曹亚文"
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 10)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 10+teaching_age_patch)
         # 性别
         profile.gender = "f"
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 12)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 12+teaching_age_patch)
         # 城市
         teacher.region = Region.objects.get(name="洛阳市")
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 17)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 17+teaching_age_patch)
         # 能力,包括年级和学科
         grade = Grade.objects.get(name="高二")
         subject = Subject.objects.get(name="英语")
         ability = Ability.objects.get(grade=grade, subject=subject)
         teacher.abilities.add(ability)
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25+teaching_age_patch)
         # 是英语老师
         self.assertTrue("is_english" in fp.information_complete_percent(teacher, profile)[1])
         # 自我简介,10个字以上
         teacher.introduce = "012345678"
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 25+teaching_age_patch)
         teacher.introduce = "0123456789"
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 35)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 35+teaching_age_patch)
         # 提分榜
         highscore = Highscore(teacher=teacher, name="好学生", increased_scores=200, school_name="好学校", admitted_to="高级好学校")
         highscore.save()
         teacher.highscore_set.add(highscore)
-        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 45)
+        self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 45+teaching_age_patch)
         # 教龄
-        teacher.experience = 5
+        teacher.teaching_age = 5
         self.assertEqual(fp.information_complete_percent(teacher, profile)[0], 50)
         # 风格
         teacher.tags.add(Tag.objects.get(name="幽默风趣"))
