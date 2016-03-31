@@ -2441,3 +2441,4 @@ class Evaluation(BaseModel):
         if self.order.status == Order.REFUND:
             return '已退费'
         return self.get_status_display()
+
