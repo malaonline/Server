@@ -17,7 +17,6 @@ class ThemeHUD: NSObject {
 
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
         return view
         }()
 
@@ -53,39 +52,13 @@ class ThemeHUD: NSObject {
                         self.sharedInstance.containerView.alpha = 1
 
                     }, completion: { (finished) -> Void in
-                        self.sharedInstance.containerView.addSubview(self.sharedInstance.activityIndicator)
-                        self.sharedInstance.activityIndicator.center = self.sharedInstance.containerView.center
-                        self.sharedInstance.activityIndicator.startAnimating()
-
-                        self.sharedInstance.activityIndicator.alpha = 0
-                        self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                            self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                            self.sharedInstance.activityIndicator.alpha = 1
-
-                        }, completion: { (finished) -> Void in
-                            self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
-
-                            if let dismissTimer = self.sharedInstance.dismissTimer {
-                                dismissTimer.invalidate()
-                            }
-                            
-//                            self.sharedInstance.dismissTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: "forcedHideActivityIndicator", userInfo: nil, repeats: false)
-                        })
+                        
+                        self.sharedInstance.containerView.makeToastActivity(self.sharedInstance.containerView.center)
+                        
                     })
             }
         }
     }
-//
-//    class func forcedHideActivityIndicator() {
-//        hideActivityIndicator() {
-//            if
-//                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
-//                let viewController = appDelegate.window?.rootViewController {
-//                    MalaAlert.alertSorry(message: NSLocalizedString("Wait too long, the operation may not be completed.", comment: ""), inViewController: viewController)
-//            }
-//        }
-//    }
 
     class func hideActivityIndicator() {
         hideActivityIndicator() {
