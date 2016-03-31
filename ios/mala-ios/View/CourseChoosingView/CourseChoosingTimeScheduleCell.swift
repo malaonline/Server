@@ -19,9 +19,9 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             if timeScheduleResult.count == 0 {
                 self.tableView.timeSchedule = timeScheduleResult
                 self.isOpen = false
-                dropArrow.hidden = true
+//                dropArrow.hidden = true
             }else {
-                dropArrow.hidden = false
+//                dropArrow.hidden = false
             }
             
             // 若下拉箭头显示且已经展开，加载时间表
@@ -94,7 +94,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         // Style
         accessory = .DropArrow
         dropArrow.userInteractionEnabled = false
-        dropArrow.hidden = true
+//        dropArrow.hidden = true
         
         // SubViews
         content.addSubview(tableView)

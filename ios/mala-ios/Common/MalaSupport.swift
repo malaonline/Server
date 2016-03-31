@@ -188,7 +188,7 @@ func getTimeSchedule(timeIntervals timeStamps: [[Int]]) -> [String] {
         let startDate = NSTimeInterval(timeStamp[0])
         let endDate = NSTimeInterval(timeStamp[1])
         
-        let string = String(format: "%@ ( %@-%@ )", getDateString(startDate), getTimeString(startDate), getTimeString(endDate))
+        let string = String(format: "%@ (%@-%@)", getDateString(startDate), getTimeString(startDate), getTimeString(endDate))
         timeSchedule.append(string)
     }
     

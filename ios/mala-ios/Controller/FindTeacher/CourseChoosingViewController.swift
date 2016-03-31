@@ -32,6 +32,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     }
     /// 上课地点Cell打开标识
     var isOpenSchoolsCell: Bool = false
+    /// 是否需要重新获取上课时间表标识
+    var isNeedReloadTimeSchedule: Bool = false
     /// 当前上课地点记录下标
     var selectedSchoolIndexPath: NSIndexPath  = NSIndexPath(forRow: 0, inSection: 0)
     /// 观察者对象数组
@@ -275,13 +277,10 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
-                // 上课时间
-                if MalaCourseChoosingObject.selectedTime.count != 0 {
-                    // let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
-                    // self?.tableView.timeScheduleResult = array
-                }else {
-                    self?.tableView.timeScheduleResult = []
-                }
+                
+                // 收起上课时间表
+                self?.tableView.isOpenTimeScheduleCell = false
+                self?.isNeedReloadTimeSchedule = true
         }
         self.observers.append(observerClassScheduleDidTap)
         
@@ -293,11 +292,10 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 let period = (notification.object as? Double) ?? 2
                 // 保存选择课时数
                 MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
-                // 上课时间
-                if MalaCourseChoosingObject.selectedTime.count != 0 {
-                    // let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
-                    // self?.tableView.timeScheduleResult = array
-                }
+                
+                // 收起上课时间表
+                self?.tableView.isOpenTimeScheduleCell = false
+                self?.isNeedReloadTimeSchedule = true
         }
         self.observers.append(observerClassPeriodDidChange)
         
@@ -306,11 +304,58 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
             MalaNotification_OpenTimeScheduleCell,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
-                if let bool = notification.object as? Bool {
-                    self?.tableView.isOpenTimeScheduleCell = bool
+                
+                guard let _ = self?.teacherModel?.id where MalaCourseChoosingObject.classPeriod != 0 else {
+                    return
                 }
+                
+                guard let bool = notification.object as? Bool else {
+                    return
+                }
+                
+                if bool && self?.isNeedReloadTimeSchedule == true {
+                    self?.loadConcreteTimeslots()
+                    self?.isNeedReloadTimeSchedule = false
+                }
+                
+                self?.tableView.isOpenTimeScheduleCell = bool
         }
         self.observers.append(observerOpenTimeScheduleCell)
+    }
+    
+    /// 获取上课时间表
+    private func loadConcreteTimeslots() {
+        
+        guard let id = teacherModel?.id where MalaCourseChoosingObject.classPeriod != 0 else {
+            return
+        }
+        
+        let hours = MalaCourseChoosingObject.classPeriod
+        let timeslots = MalaCourseChoosingObject.selectedTime.map{$0.id}
+        
+        ThemeHUD.showActivityIndicator()
+        
+        // 请求上课时间表
+        getConcreteTimeslots(id, hours: hours, timeSlots: timeslots, failureHandler: { (reason, errorMessage) in
+            ThemeHUD.hideActivityIndicator()
+            
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadConcreteTimeslots Error \(errorMessage)")
+            }
+            
+        }, completion: { [weak self] (timeSlots) in
+            ThemeHUD.hideActivityIndicator()
+            
+            guard let timesSchedule = timeSlots else {
+                self?.ShowTost("上课时间获取有误，请重试！")
+                return
+            }
+            
+            let array = getTimeSchedule(timeIntervals: timesSchedule)
+            self?.tableView.timeScheduleResult = array
+        })
     }
     
     
