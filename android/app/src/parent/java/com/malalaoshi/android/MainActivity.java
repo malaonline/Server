@@ -63,8 +63,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected View tabTimetableIndicator;
     protected View tabUserCenterIndicator;
 
-    private boolean initOnce = true;
-
     protected ViewPager vpHome;
 
     private NetworkStateReceiver mNetworkStateReceiver;
@@ -194,12 +192,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         }
     }
 
-    private void loadCourses(){
+/*    private void loadCourses(){
         UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
         if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
             userTimetableFragment.loadDatas();
         }
-    }
+    }*/
 
     private void setCurrentTab(int i) {
         switch (i){
@@ -235,7 +233,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTitleLocation.setVisibility(View.GONE);
                 tvTitleTady.setVisibility(View.VISIBLE);
                 //下载数据
-                loadCourses();
+                //loadCourses();
                 break;
             case PAGE_INDEX_USER:
                 ivTitleTabTeacher.setSelected(false);
