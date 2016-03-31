@@ -6,11 +6,11 @@ use_frameworks!
 inhibit_all_warnings!
 
 link_with 'teacher', 'parent', 'parentTests'
-pod 'Alamofire', '~> 3.3.0'
 pod 'SnapKit', '~> 0.20.0'
-pod 'Kingfisher', '~> 2.2.0'
-pod 'IQKeyboardManagerSwift', '~> 3.3.6'
 pod 'DateTools', '~> 1.7.0'
+pod 'Alamofire', '~> 3.3.0'
+pod 'Kingfisher', '~> 2.2.0'
+pod 'IQKeyboardManagerSwift', '~> 4.0.0'
 
 
 pod 'UMengAnalytics-NO-IDFA'

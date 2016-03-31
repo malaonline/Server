@@ -104,6 +104,62 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>04065129AB2ED8E375902CE8B9737DDC</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>PRODUCT_NAME</key>
+				<string>IQKeyboardManagerSwift</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
 		<key>0444D9F48534C399FE686908B04795E0</key>
 		<dict>
 			<key>fileRef</key>
@@ -146,6 +202,18 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>0692600354A84F589D52C639FEADBA14</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A7EC5D75321D2EF5951B51A127940BF0</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>06AC78A3D42481F7DDA3557A6E882453</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -176,19 +244,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>079A1F7ED0E0B3BD3AC1D76B939F99E4</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>8113C4C9753382BCA8F15D96C17DDD8B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
 		<key>07AB767DE3D1C9F607F71BB92AACE8B5</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -201,6 +256,19 @@
 			<string>Pods-acknowledgements.plist</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>07D81FCB14FA717FA36D7EB3F711EF0D</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>8C9286D7F5B6CD6F6ED146BD638B196A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
 		</dict>
 		<key>0818C3E86E459056E4770939AC6C7596</key>
 		<dict>
@@ -399,6 +467,18 @@
 				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
+		<key>0C76C9B5AC3C37FFF7AC1C52111ABACA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>371A4FACD7E424626A0866181E182546</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>0CFB6D20AB52F0E4312EDF6AB89C7C6A</key>
 		<dict>
 			<key>children</key>
@@ -501,6 +581,22 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>0FCB55E18C6D8E51373B69B9D91A67AF</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>B899550194B2C0950688B3E5E123BB7B</string>
+				<string>6EDA4212287407C5C0E1D05B7F506E2A</string>
+				<string>46455F354DA182E5E092CBACABBAD7D9</string>
+				<string>DCE7A56F25EACC8A383F6C814AE4B8A1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>iOS</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>100DAC36C6B00658A3D3FB012C0B5AA1</key>
 		<dict>
 			<key>isa</key>
@@ -575,13 +671,6 @@
 			<string>8B5212D5CE3F541C857D58FB31F9BF76</string>
 			<key>targetProxy</key>
 			<string>3225BC9901A9FDAE4FBDFF990D2431C6</string>
-		</dict>
-		<key>133D0A21D2AB65FC0DC5FB6B61387635</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
 		</dict>
 		<key>13756CCC4376D8C4D65E8D3E4C978BFD</key>
 		<dict>
@@ -713,6 +802,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>14B8B9B15ECBE87983FF987239AB2D7B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0FCB55E18C6D8E51373B69B9D91A67AF</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>14DC221AC18C1D77C12D988A92B501DE</key>
 		<dict>
 			<key>baseConfigurationReference</key>
@@ -813,6 +915,13 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>171C936C31BFC2998FED5D73419E9FAE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>177DC8BAA6581D3DB90F81642413F94C</key>
 		<dict>
 			<key>isa</key>
@@ -880,23 +989,10 @@
 			<key>name</key>
 			<string>Release</string>
 		</dict>
-		<key>1830145CF1F6809BE1B3D5F36CCC2BC2</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Foundation.framework</string>
-			<key>path</key>
-			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework</string>
-			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
-		</dict>
 		<key>18EB3E5D994082EDC4C4B4FAEBA9AA98</key>
 		<dict>
 			<key>fileRef</key>
-			<string>62BD1DE0DAC7AF9BD8C1EA3758E5F3AC</string>
+			<string>B899550194B2C0950688B3E5E123BB7B</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -976,22 +1072,9 @@
 			<key>name</key>
 			<string>IQKeyboardManagerSwift</string>
 			<key>target</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>targetProxy</key>
 			<string>7264C64AC9EB86BDB5259EA6BC21D568</string>
-		</dict>
-		<key>1B0206D30C50408D372712053B171EBC</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>133D0A21D2AB65FC0DC5FB6B61387635</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
 		</dict>
 		<key>1B2B7950F70E55A7861A5B64A066F39E</key>
 		<dict>
@@ -1087,61 +1170,17 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>1DD1CBEA48A483AE33BE1098F049FEE3</key>
+		<key>1DE61960B18B73FD8F8CF59890C9DBBE</key>
 		<dict>
-			<key>baseConfigurationReference</key>
-			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>IQKeyboardManagerSwift</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
+			<key>fileRef</key>
+			<string>FFBFF3ED793EB604210DF471ACAB02A5</string>
 			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>DevRelease</string>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>1E2D9152CC64DD2008DEC52533C44BBB</key>
 		<dict>
@@ -1173,7 +1212,7 @@
 		<key>1FA3E2DF8855F2781A89A04DE4F808D6</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -1247,7 +1286,7 @@
 			<key>name</key>
 			<string>IQKeyboardManagerSwift</string>
 			<key>target</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>targetProxy</key>
 			<string>74F487657DBC3F146B25921B2F45D86E</string>
 		</dict>
@@ -1263,18 +1302,6 @@
 			<string>Resources</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
-		</dict>
-		<key>24075CF6154962F243580FA2FF2071EA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9BDA6BC7FC8D68DBDF860A3F2D27A876</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>2451609E36A96462541B4BD8780AA262</key>
 		<dict>
@@ -1308,18 +1335,6 @@
 			<string>Pods.framework</string>
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>24EA972443F506B8A4D247DA771CE08B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>67FA09D26347E0566202170673992A4B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>24F70420862C9451580291362CEE6527</key>
 		<dict>
@@ -1730,32 +1745,6 @@
 			<key>remoteInfo</key>
 			<string>SnapKit</string>
 		</dict>
-		<key>2FED2298B72BCD765A4CB1A880A10575</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>8F3C0466B3FD322E54469286E4611D8F</string>
-			<key>buildPhases</key>
-			<array>
-				<string>5F7FC14E8D428C94E8C8F06759293DB6</string>
-				<string>1B0206D30C50408D372712053B171EBC</string>
-				<string>079A1F7ED0E0B3BD3AC1D76B939F99E4</string>
-				<string>40EA5572B8962A0907BD8C25451870F7</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>IQKeyboardManagerSwift</string>
-			<key>productName</key>
-			<string>IQKeyboardManagerSwift</string>
-			<key>productReference</key>
-			<string>39C0FEEADDD05DF74D8936553233E9E6</string>
-			<key>productType</key>
-			<string>com.apple.product-type.framework</string>
-		</dict>
 		<key>2FF966AC61D501A14B6764F84BEF6CE1</key>
 		<dict>
 			<key>children</key>
@@ -1850,6 +1839,13 @@
 			<key>name</key>
 			<string>Release</string>
 		</dict>
+		<key>30C68E18E43BC477C6B4D0892ED7D9CE</key>
+		<dict>
+			<key>fileRef</key>
+			<string>DCE7A56F25EACC8A383F6C814AE4B8A1</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>3225BC9901A9FDAE4FBDFF990D2431C6</key>
 		<dict>
 			<key>containerPortal</key>
@@ -1863,6 +1859,18 @@
 			<key>remoteInfo</key>
 			<string>SnapKit</string>
 		</dict>
+		<key>33EB79A6547ACA0D1BBD0213CA277DD4</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4BF6A7CA74B2D29C6B130065CDC8C5F3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>340056CC44606076B249E3CC1F939B29</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -1873,6 +1881,18 @@
 			<string>DateTools.modulemap</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>349DB3E6C7700A46646DC1BEF823AF1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F46500E8DBAEDFD4FA7FE1D97E9B8A3B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>355B8554F88FBB15C22A1B1DFA82743E</key>
 		<dict>
@@ -2003,18 +2023,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>382B35329BD5630DABFC7658FA956000</key>
-		<dict>
-			<key>fileRef</key>
-			<string>67FB8B046BF11DA2DECE054B6E8E992F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>39844EE0F2658FEC64E521D661F8F8E0</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -2058,18 +2066,6 @@
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
-		<key>39DE5D940B0D508061D8C9E933FB68FF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F4DEC67C1C1A63C4ED71BBE8DB746E85</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>3A0140F4A5A1D2260BD31432D91CB0C9</key>
 		<dict>
 			<key>fileRef</key>
@@ -2082,6 +2078,18 @@
 				<array>
 					<string>Public</string>
 				</array>
+			</dict>
+		</dict>
+		<key>3BB4C2264FB5FA887EB9C72469186567</key>
+		<dict>
+			<key>fileRef</key>
+			<string>29B31AAB25DBF8B685338A4872CCF389</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
 		<key>3DD026564133AAA994F954934E3FDC16</key>
@@ -2221,19 +2229,6 @@
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
-		<key>40EA5572B8962A0907BD8C25451870F7</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>B8BD0BFD69F2190797B657EA96B30E59</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
 		<key>418DF0C969B951874DB7A0D4FF123BE7</key>
 		<dict>
 			<key>buildActionMask</key>
@@ -2247,19 +2242,6 @@
 			<string>PBXFrameworksBuildPhase</string>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
-		</dict>
-		<key>433CD3331B6C3787F473C941B61FC68F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>FFF9046D2410B3E36331C4861D1F7945</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>438AE3B5149BD896ED77EF9354474B44</key>
 		<dict>
@@ -2376,10 +2358,23 @@
 				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
+		<key>46455F354DA182E5E092CBACABBAD7D9</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>Foundation.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
 		<key>4696CB101B0559228264FFCBEE7A4491</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -2743,6 +2738,62 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>4D134F064AED91D168E770C0C27DFD25</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>PRODUCT_NAME</key>
+				<string>IQKeyboardManagerSwift</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>DevDebug</string>
+		</dict>
 		<key>4D14C2C87EFC8EAD082CF51AFAF11C31</key>
 		<dict>
 			<key>buildConfigurations</key>
@@ -2804,18 +2855,6 @@
 				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
-		<key>4DF3E607042B5DC879A263C303132633</key>
-		<dict>
-			<key>fileRef</key>
-			<string>29B31AAB25DBF8B685338A4872CCF389</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>5181880B41F63F53AA28732637DCFA78</key>
 		<dict>
 			<key>fileRef</key>
@@ -2864,64 +2903,6 @@
 			<string>68612C18761470DFF7343089A51F5D3B</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
-		</dict>
-		<key>53E130B507753232C18913CB0B6ADAE9</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>PRODUCT_NAME</key>
-				<string>IQKeyboardManagerSwift</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>SWIFT_OPTIMIZATION_LEVEL</key>
-				<string>-Onone</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
 		</dict>
 		<key>5401750A532D40ADBA973C64A5663295</key>
 		<dict>
@@ -3450,34 +3431,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>5F7FC14E8D428C94E8C8F06759293DB6</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>CB99F113025ECCDCE06E95EDD55D0569</string>
-				<string>4DF3E607042B5DC879A263C303132633</string>
-				<string>87C9BE689D58B855B92B1A6C93127E74</string>
-				<string>39DE5D940B0D508061D8C9E933FB68FF</string>
-				<string>FFB27645D476E1AF25B95C4C4800ADC6</string>
-				<string>70AD6779E5D14F21D5FA9A70A4B42E16</string>
-				<string>FE4D4F287B457275D161EEF93B977A19</string>
-				<string>EA101D301F060B1667026684722683C1</string>
-				<string>CB138E825BE52D83A2B53E1DAD815C07</string>
-				<string>A8B2EB82688D86FB9A61960F77401056</string>
-				<string>382B35329BD5630DABFC7658FA956000</string>
-				<string>24075CF6154962F243580FA2FF2071EA</string>
-				<string>F5C0300E8B306F7954D87D3A161DCB53</string>
-				<string>24EA972443F506B8A4D247DA771CE08B</string>
-				<string>CF549A75E787E5E88B6899928C77F109</string>
-				<string>7BB9EE9849F9E6CF717D13352097C5D9</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
 		<key>5FA5A78BB95CF1DA694AA42D86A69EB7</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -3549,18 +3502,31 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>62BD1DE0DAC7AF9BD8C1EA3758E5F3AC</key>
+		<key>619D27A6EF47948571081D4D0AD94FED</key>
 		<dict>
+			<key>buildConfigurationList</key>
+			<string>F64ABEAFD4864A0B4ADCDF7095976CA3</string>
+			<key>buildPhases</key>
+			<array>
+				<string>D05989B61227F6079B1A90906753BD1E</string>
+				<string>6A726D83464F734C2E55FB5451B2A971</string>
+				<string>07D81FCB14FA717FA36D7EB3F711EF0D</string>
+				<string>DE7A448A5DA8DF9A91DD0642D319D44C</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
+			<string>PBXNativeTarget</string>
 			<key>name</key>
-			<string>CFNetwork.framework</string>
-			<key>path</key>
-			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CFNetwork.framework</string>
-			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
+			<string>IQKeyboardManagerSwift</string>
+			<key>productName</key>
+			<string>IQKeyboardManagerSwift</string>
+			<key>productReference</key>
+			<string>39C0FEEADDD05DF74D8936553233E9E6</string>
+			<key>productType</key>
+			<string>com.apple.product-type.framework</string>
 		</dict>
 		<key>62F387A50A3FD052961B5C7C78D46E58</key>
 		<dict>
@@ -3772,6 +3738,21 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>6A726D83464F734C2E55FB5451B2A971</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>7B63A53A4583C8031EF22BD9AD114ABC</string>
+				<string>171C936C31BFC2998FED5D73419E9FAE</string>
+				<string>30C68E18E43BC477C6B4D0892ED7D9CE</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
 		<key>6A8424CA4F1A618262B0753660A79C2D</key>
 		<dict>
 			<key>buildActionMask</key>
@@ -3885,6 +3866,18 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>6D4680FBD2E5E7659F7E5E9287EA8168</key>
+		<dict>
+			<key>fileRef</key>
+			<string>67FB8B046BF11DA2DECE054B6E8E992F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>6D6DA811B5434CE9534B2326356A4CA2</key>
 		<dict>
 			<key>buildActionMask</key>
@@ -3970,22 +3963,23 @@
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
+		<key>6EDA4212287407C5C0E1D05B7F506E2A</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>CoreGraphics.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CoreGraphics.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
 		<key>6FA9C1A068F4496B6C0799C2BED65FFC</key>
 		<dict>
 			<key>fileRef</key>
 			<string>9B4A073CC689B90C1C211CA0455DB6EC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
-		<key>70AD6779E5D14F21D5FA9A70A4B42E16</key>
-		<dict>
-			<key>fileRef</key>
-			<string>A7EC5D75321D2EF5951B51A127940BF0</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 			<key>settings</key>
@@ -4050,7 +4044,7 @@
 			<key>proxyType</key>
 			<string>1</string>
 			<key>remoteGlobalIDString</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>remoteInfo</key>
 			<string>IQKeyboardManagerSwift</string>
 		</dict>
@@ -4129,7 +4123,7 @@
 			<key>proxyType</key>
 			<string>1</string>
 			<key>remoteGlobalIDString</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>remoteInfo</key>
 			<string>IQKeyboardManagerSwift</string>
 		</dict>
@@ -4160,6 +4154,18 @@
 			<string>8B5212D5CE3F541C857D58FB31F9BF76</string>
 			<key>remoteInfo</key>
 			<string>SnapKit</string>
+		</dict>
+		<key>76CDF87F6197A52E6D7043C561954EB0</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F4DEC67C1C1A63C4ED71BBE8DB746E85</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>78618137D45E42F9108143478F90714A</key>
 		<dict>
@@ -4201,6 +4207,20 @@
 			<string>Pods-teacher.debug.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>79C3D3330B4473AAE6CA61A4CB2022DD</key>
+		<dict>
+			<key>fileRef</key>
+			<string>16F49FF8A7C16C78971C7AACA066C0A3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>ATTRIBUTES</key>
+				<array>
+					<string>Public</string>
+				</array>
+			</dict>
 		</dict>
 		<key>79E0D03A5460E32110436676FEE85FF2</key>
 		<dict>
@@ -4252,7 +4272,7 @@
 			<key>proxyType</key>
 			<string>1</string>
 			<key>remoteGlobalIDString</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>remoteInfo</key>
 			<string>IQKeyboardManagerSwift</string>
 		</dict>
@@ -4296,17 +4316,12 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>7BB9EE9849F9E6CF717D13352097C5D9</key>
+		<key>7B63A53A4583C8031EF22BD9AD114ABC</key>
 		<dict>
 			<key>fileRef</key>
-			<string>B328C4251EB8728A538BF44637FD51F4</string>
+			<string>6EDA4212287407C5C0E1D05B7F506E2A</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>7C504B41B835BA185FD00B799D48187D</key>
 		<dict>
@@ -4391,7 +4406,7 @@
 			<key>children</key>
 			<array>
 				<string>BA6428E9F66FD5A23C0A2E06ED26CD2F</string>
-				<string>433CD3331B6C3787F473C941B61FC68F</string>
+				<string>14B8B9B15ECBE87983FF987239AB2D7B</string>
 				<string>C36C9BAE0EF76FBB99844A155057048E</string>
 				<string>5A28A284C0771591B9F63CA8E0C456EC</string>
 				<string>B28697A21E1276B4337E1F643807CFA4</string>
@@ -4459,62 +4474,6 @@
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
 		</dict>
-		<key>7F6B0F55F5EA0F5788E1144CE0C582EE</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>IQKeyboardManagerSwift</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>PrdRelease</string>
-		</dict>
 		<key>7F8300CA0DBC16A25C91F9CE4B4CEF36</key>
 		<dict>
 			<key>containerPortal</key>
@@ -4527,13 +4486,6 @@
 			<string>C35A2AA3910AC116FDBAA3F9093C1147</string>
 			<key>remoteInfo</key>
 			<string>Kingfisher</string>
-		</dict>
-		<key>8113C4C9753382BCA8F15D96C17DDD8B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>05811F6357BBC47F69DB9BD8BCFB755D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
 		</dict>
 		<key>811BB119A2D64E44F360077E8CC7F162</key>
 		<dict>
@@ -4673,7 +4625,7 @@
 			<key>name</key>
 			<string>IQKeyboardManagerSwift</string>
 			<key>target</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>targetProxy</key>
 			<string>DD0E41D265C26218BC2098000057F0D0</string>
 		</dict>
@@ -4709,18 +4661,6 @@
 			<string>Pods-parent.devdebug.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
-		</dict>
-		<key>87C9BE689D58B855B92B1A6C93127E74</key>
-		<dict>
-			<key>fileRef</key>
-			<string>750032537E2DE104ECC6A7984D67BDC1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>88103E87DD77C0DEB86F49D9906A719A</key>
 		<dict>
@@ -4761,6 +4701,18 @@
 			<string>Pods-umbrella.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>89ECAE0757A190F4F18B9D1C6E767C45</key>
+		<dict>
+			<key>fileRef</key>
+			<string>67FA09D26347E0566202170673992A4B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>8A7DB3C657AE094A91D6E98D7B8A2AE5</key>
 		<dict>
@@ -4856,7 +4808,7 @@
 		<key>8B7D95D7F26B7AB6EE6D70893F660037</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -4892,6 +4844,13 @@
 			<string>IQKeyboardManagerSwift-dummy.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8C9286D7F5B6CD6F6ED146BD638B196A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>05811F6357BBC47F69DB9BD8BCFB755D</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>8CD84F1E13D45B28107E857ACE8E10F9</key>
 		<dict>
@@ -5021,23 +4980,6 @@
 			<string>PBXSourcesBuildPhase</string>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
-		</dict>
-		<key>8F3C0466B3FD322E54469286E4611D8F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>53E130B507753232C18913CB0B6ADAE9</string>
-				<string>FAA800FF682D3574476BBE6D62E57A99</string>
-				<string>1DD1CBEA48A483AE33BE1098F049FEE3</string>
-				<string>7F6B0F55F5EA0F5788E1144CE0C582EE</string>
-				<string>D4F7F7F6834FA0CD2A963192F051DD8F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
 		</dict>
 		<key>8F40F3EAF9398E60D6C8D83BC5379BC5</key>
 		<dict>
@@ -5312,6 +5254,18 @@
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
 		</dict>
+		<key>9583547D5085FDE77040C36D1024206D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>750032537E2DE104ECC6A7984D67BDC1</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>967CE947E5B9A4FB9C7525594535DBAB</key>
 		<dict>
 			<key>buildActionMask</key>
@@ -5544,7 +5498,7 @@
 			<key>name</key>
 			<string>IQKeyboardManagerSwift</string>
 			<key>target</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>targetProxy</key>
 			<string>7A62555E7DFDD80CDBA4BB67074A800F</string>
 		</dict>
@@ -5610,7 +5564,7 @@
 		<key>9FADDA081632CF37984ACFB1E1714C49</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -5785,7 +5739,7 @@
 		<key>A4F486F5A861F7B4A4BEE62274A9CEE6</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -5867,6 +5821,62 @@
 			<string>Pods-teacher.modulemap</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A6EEF3B611BDD066441D470C6C096AB3</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>PRODUCT_NAME</key>
+				<string>IQKeyboardManagerSwift</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>DevRelease</string>
 		</dict>
 		<key>A70CDAD61F90AC503C7D04CC22DA2923</key>
 		<dict>
@@ -5980,22 +5990,10 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>A8B2EB82688D86FB9A61960F77401056</key>
-		<dict>
-			<key>fileRef</key>
-			<string>016D3F111F23ACF0FF039C390396B26C</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>A9522F3AA202B606BCAA30F93F10B2FB</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -6400,7 +6398,7 @@
 		<key>B6900D7EFE0D4D5F0ACA52533E242F95</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -6504,19 +6502,18 @@
 				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
-		<key>B8BD0BFD69F2190797B657EA96B30E59</key>
+		<key>B899550194B2C0950688B3E5E123BB7B</key>
 		<dict>
-			<key>fileRef</key>
-			<string>16F49FF8A7C16C78971C7AACA066C0A3</string>
 			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>CFNetwork.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CFNetwork.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
 		</dict>
 		<key>BA6428E9F66FD5A23C0A2E06ED26CD2F</key>
 		<dict>
@@ -6982,18 +6979,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>CB138E825BE52D83A2B53E1DAD815C07</key>
-		<dict>
-			<key>fileRef</key>
-			<string>FFBFF3ED793EB604210DF471ACAB02A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>CB304614EE73C9730857A5AD3112F7E4</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -7019,18 +7004,6 @@
 			<string>IQKeyboardManagerSwift.modulemap</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
-		</dict>
-		<key>CB99F113025ECCDCE06E95EDD55D0569</key>
-		<dict>
-			<key>fileRef</key>
-			<string>587CCB86E620B9542762591A97C6EF84</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>CB9EB3EB282316B0610975FA5B426D73</key>
 		<dict>
@@ -7104,18 +7077,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>CF549A75E787E5E88B6899928C77F109</key>
-		<dict>
-			<key>fileRef</key>
-			<string>371A4FACD7E424626A0866181E182546</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>CF6F6C837EC835C5B03F6927AC3C09A1</key>
 		<dict>
 			<key>buildConfigurations</key>
@@ -7150,6 +7111,34 @@
 			<string>Pingpp</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D05989B61227F6079B1A90906753BD1E</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>D39291880D79C0AE83E5496610EED62B</string>
+				<string>3BB4C2264FB5FA887EB9C72469186567</string>
+				<string>9583547D5085FDE77040C36D1024206D</string>
+				<string>76CDF87F6197A52E6D7043C561954EB0</string>
+				<string>F145981D042DAA9B123ECE3A6612A907</string>
+				<string>0692600354A84F589D52C639FEADBA14</string>
+				<string>E119889D0C047C47BA01F52C6BD21BD0</string>
+				<string>33EB79A6547ACA0D1BBD0213CA277DD4</string>
+				<string>1DE61960B18B73FD8F8CF59890C9DBBE</string>
+				<string>E716EC4C3A40AD7CA24D1436A39B06C3</string>
+				<string>6D4680FBD2E5E7659F7E5E9287EA8168</string>
+				<string>F2299DAAD225FC947F1D137A9606D89B</string>
+				<string>349DB3E6C7700A46646DC1BEF823AF1A</string>
+				<string>89ECAE0757A190F4F18B9D1C6E767C45</string>
+				<string>0C76C9B5AC3C37FFF7AC1C52111ABACA</string>
+				<string>F1E912EF29AA0BA02613E893E41628F1</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
 		</dict>
 		<key>D150E4E2E20F1ACFE1FF5264C3848344</key>
 		<dict>
@@ -7235,6 +7224,18 @@
 			<key>name</key>
 			<string>DevDebug</string>
 		</dict>
+		<key>D39291880D79C0AE83E5496610EED62B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>587CCB86E620B9542762591A97C6EF84</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>D41D8CD98F00B204E9800998ECF8427E</key>
 		<dict>
 			<key>attributes</key>
@@ -7272,7 +7273,7 @@
 			<array>
 				<string>C418EA0E8CF3BA885B39C744414ADE15</string>
 				<string>C26AE3A0350292E8C4521D58B1836DC0</string>
-				<string>2FED2298B72BCD765A4CB1A880A10575</string>
+				<string>619D27A6EF47948571081D4D0AD94FED</string>
 				<string>C35A2AA3910AC116FDBAA3F9093C1147</string>
 				<string>60B4AE07A6403223CE5FD5DF4A7431B7</string>
 				<string>A2F7F9722C9C3CE67108635068EAC979</string>
@@ -7280,62 +7281,6 @@
 				<string>AA7BC7646D58D45BF52E8A781564EA4E</string>
 				<string>8B5212D5CE3F541C857D58FB31F9BF76</string>
 			</array>
-		</dict>
-		<key>D4F7F7F6834FA0CD2A963192F051DD8F</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>IQKeyboardManagerSwift</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
 		</dict>
 		<key>D59FBE57B712F5EA3FB1E7869D4B4725</key>
 		<dict>
@@ -7571,6 +7516,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>DCE7A56F25EACC8A383F6C814AE4B8A1</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>UIKit.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
 		<key>DD0E41D265C26218BC2098000057F0D0</key>
 		<dict>
 			<key>containerPortal</key>
@@ -7580,9 +7538,22 @@
 			<key>proxyType</key>
 			<string>1</string>
 			<key>remoteGlobalIDString</key>
-			<string>2FED2298B72BCD765A4CB1A880A10575</string>
+			<string>619D27A6EF47948571081D4D0AD94FED</string>
 			<key>remoteInfo</key>
 			<string>IQKeyboardManagerSwift</string>
+		</dict>
+		<key>DE7A448A5DA8DF9A91DD0642D319D44C</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>79C3D3330B4473AAE6CA61A4CB2022DD</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
 		</dict>
 		<key>E0147793F592F7ED3AA2DD6F36E3D348</key>
 		<dict>
@@ -7741,6 +7712,18 @@
 			<string>Sources/KingfisherManager.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E119889D0C047C47BA01F52C6BD21BD0</key>
+		<dict>
+			<key>fileRef</key>
+			<string>78618137D45E42F9108143478F90714A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
 		</dict>
 		<key>E132D05B5AEDD12BE24B3B6098DCD7A9</key>
 		<dict>
@@ -8005,6 +7988,18 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>E716EC4C3A40AD7CA24D1436A39B06C3</key>
+		<dict>
+			<key>fileRef</key>
+			<string>016D3F111F23ACF0FF039C390396B26C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
 		<key>E75359123809ACEA3EDAB6E6425440EE</key>
 		<dict>
 			<key>containerPortal</key>
@@ -8035,6 +8030,62 @@
 			<key>isa</key>
 			<string>XCConfigurationList</string>
 		</dict>
+		<key>E7F0DA9F2BC5921B6D3A5B883322CCDF</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>NO</string>
+				<key>PRODUCT_NAME</key>
+				<string>IQKeyboardManagerSwift</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>PrdRelease</string>
+		</dict>
 		<key>E81E2E09DA1EEBF0A7E5C9743FCFD1DD</key>
 		<dict>
 			<key>fileRef</key>
@@ -8052,7 +8103,7 @@
 		<key>E95669E822909192C58749B032C75ED7</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
+			<string>46455F354DA182E5E092CBACABBAD7D9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -8070,18 +8121,6 @@
 			<string>Source/Stream.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EA101D301F060B1667026684722683C1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4BF6A7CA74B2D29C6B130065CDC8C5F3</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
 		</dict>
 		<key>EAD53CE8524B0A96F2A5CEC2C62CAF4C</key>
 		<dict>
@@ -8206,6 +8245,13 @@
 				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
 			</dict>
 		</dict>
+		<key>F145981D042DAA9B123ECE3A6612A907</key>
+		<dict>
+			<key>fileRef</key>
+			<string>8C3F44647628FDA53B6677CC74ED2D22</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>F1484D93653F123BDF2DF129B8A6E9DC</key>
 		<dict>
 			<key>fileRef</key>
@@ -8222,6 +8268,30 @@
 		<dict>
 			<key>fileRef</key>
 			<string>A30708A2B165A5936E00916A3D0089FE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
+		<key>F1E912EF29AA0BA02613E893E41628F1</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B328C4251EB8728A538BF44637FD51F4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>settings</key>
+			<dict>
+				<key>COMPILER_FLAGS</key>
+				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+			</dict>
+		</dict>
+		<key>F2299DAAD225FC947F1D137A9606D89B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9BDA6BC7FC8D68DBDF860A3F2D27A876</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 			<key>settings</key>
@@ -8404,17 +8474,80 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>F5C0300E8B306F7954D87D3A161DCB53</key>
+		<key>F505B8BDC8BC3F38313E43ED084B0438</key>
 		<dict>
-			<key>fileRef</key>
-			<string>F46500E8DBAEDFD4FA7FE1D97E9B8A3B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
+			<key>baseConfigurationReference</key>
+			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
+			<key>buildSettings</key>
 			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
+				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
+				<string>iPhone Developer</string>
+				<key>CURRENT_PROJECT_VERSION</key>
+				<string>1</string>
+				<key>DEFINES_MODULE</key>
+				<string>YES</string>
+				<key>DYLIB_COMPATIBILITY_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_CURRENT_VERSION</key>
+				<string>1</string>
+				<key>DYLIB_INSTALL_NAME_BASE</key>
+				<string>@rpath</string>
+				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
+				<key>INSTALL_PATH</key>
+				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>MODULEMAP_FILE</key>
+				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
+				<key>MTL_ENABLE_DEBUG_INFO</key>
+				<string>YES</string>
+				<key>PRODUCT_NAME</key>
+				<string>IQKeyboardManagerSwift</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>SWIFT_OPTIMIZATION_LEVEL</key>
+				<string>-Onone</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1,2</string>
+				<key>VERSIONING_SYSTEM</key>
+				<string>apple-generic</string>
+				<key>VERSION_INFO_PREFIX</key>
+				<string></string>
 			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+		</dict>
+		<key>F64ABEAFD4864A0B4ADCDF7095976CA3</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>F505B8BDC8BC3F38313E43ED084B0438</string>
+				<string>4D134F064AED91D168E770C0C27DFD25</string>
+				<string>A6EEF3B611BDD066441D470C6C096AB3</string>
+				<string>E7F0DA9F2BC5921B6D3A5B883322CCDF</string>
+				<string>04065129AB2ED8E375902CE8B9737DDC</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
 		</dict>
 		<key>F6C50A49B3FE82D910E36D15418DDF1A</key>
 		<dict>
@@ -8512,62 +8645,6 @@
 					<string>Public</string>
 				</array>
 			</dict>
-		</dict>
-		<key>FAA800FF682D3574476BBE6D62E57A99</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>39844EE0F2658FEC64E521D661F8F8E0</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift-prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<array>
-					<string>$(inherited)</string>
-					<string>@executable_path/Frameworks</string>
-					<string>@loader_path/Frameworks</string>
-				</array>
-				<key>MODULEMAP_FILE</key>
-				<string>Target Support Files/IQKeyboardManagerSwift/IQKeyboardManagerSwift.modulemap</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_NAME</key>
-				<string>IQKeyboardManagerSwift</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>DevDebug</string>
 		</dict>
 		<key>FB45FFD90572718D82AB9092B750F0CA</key>
 		<dict>
@@ -8673,18 +8750,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>FE4D4F287B457275D161EEF93B977A19</key>
-		<dict>
-			<key>fileRef</key>
-			<string>78618137D45E42F9108143478F90714A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>COMPILER_FLAGS</key>
-				<string>-w -Xanalyzer -analyzer-disable-all-checks</string>
-			</dict>
-		</dict>
 		<key>FECA5C8E0492ACE62EE907D11C6F6C3C</key>
 		<dict>
 			<key>fileRef</key>
@@ -8708,13 +8773,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>FFB27645D476E1AF25B95C4C4800ADC6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8C3F44647628FDA53B6677CC74ED2D22</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
 		<key>FFBFF3ED793EB604210DF471ACAB02A5</key>
 		<dict>
 			<key>includeInIndex</key>
@@ -8727,20 +8785,6 @@
 			<string>IQTitleBarButtonItem.swift</string>
 			<key>path</key>
 			<string>IQKeyboardManagerSwift/IQToolbar/IQTitleBarButtonItem.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>FFF9046D2410B3E36331C4861D1F7945</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>62BD1DE0DAC7AF9BD8C1EA3758E5F3AC</string>
-				<string>1830145CF1F6809BE1B3D5F36CCC2BC2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>iOS</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
