@@ -26,10 +26,6 @@ class HandlePingppBehaviour: NSObject {
     ///  - parameter currentViewController: 当前视图控制器
     func handleResult(result: String, error: PingppError?, currentViewController: UIViewController?) {
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            ThemeHUD.showActivityIndicator()
-        })
-        
         guard currentViewController != nil else {
             ThemeHUD.hideActivityIndicator()
             println("HandlePingppBehaviour - 控制器为空")
@@ -66,8 +62,14 @@ class HandlePingppBehaviour: NSObject {
     ///  - returns: 支付结果
     func validateOrderStatus() {
         
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            ThemeHUD.showActivityIndicator()
+        })
+        
         // 获取订单信息
         getOrderInfo(ServiceResponseOrder.id, failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
+            
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
@@ -78,6 +80,7 @@ class HandlePingppBehaviour: NSObject {
             
             // 根据[订单状态]和[课程是否被抢占标记]来判断支付结果
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                ThemeHUD.hideActivityIndicator()
                 
                 // 判断是否被抢买
                 if order.is_timeslot_allocated == false {
@@ -93,7 +96,6 @@ class HandlePingppBehaviour: NSObject {
                 }
             }
             
-            ThemeHUD.hideActivityIndicator()
         })
     }
     
