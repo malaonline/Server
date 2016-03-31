@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C3474492FB497D8C7771558 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		3027F6521C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
@@ -286,11 +285,9 @@
 		35FDCF111CAD348900A25FE8 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F49BD59A1CA4131D00EB3CCF /* SKPhotoBrowser.bundle */; };
 		35FDCF121CAD349400A25FE8 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		35FDCF131CAD34A000A25FE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
-		46CC1F93580AD24C420D27F3 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		7DC31243A7C525D5771733D2 /* Pods_parent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD870B7A211A7AD7898C50C6 /* Pods_parent.framework */; };
 		8B2E01D3AFC48B4721BBB1CE /* Pods_parentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EF60E0C66EED5C2B5C6949 /* Pods_parentTests.framework */; };
 		DB6A5ABFEC45A9095B594497 /* Pods_teacher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A15B240ADE86D9B1070E1CCE /* Pods_teacher.framework */; };
-		ED44136F769609A374ADBAE8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA83160369F01018BE7B4A /* Pods.framework */; };
 		F402C9951C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
 		F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
 		F404D47F1C8436A700C19C44 /* PaymentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404D47E1C8436A700C19C44 /* PaymentBottomView.swift */; };
@@ -431,16 +428,6 @@
 		F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D0D1A21CA2C02400B25704 /* PushConfig.plist */; };
 		F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0E43B1C8426E0002CD297 /* PaymentChannel.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		F4402E191C5A16A700E7D3DB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A5927B921BEC8BD900E9BDB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 35D7A3201C0FE851007D7679;
-			remoteInfo = parent;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		25DA83160369F01018BE7B4A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -695,7 +682,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB6A5ABFEC45A9095B594497 /* Pods_teacher.framework in Frameworks */,
-				1C3474492FB497D8C7771558 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,7 +698,6 @@
 				F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */,
 				F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */,
 				7DC31243A7C525D5771733D2 /* Pods_parent.framework in Frameworks */,
-				46CC1F93580AD24C420D27F3 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,7 +714,6 @@
 				35CAE4AF1CAAB3F60071772D /* SystemConfiguration.framework in Frameworks */,
 				35CAE4AE1CAAB3E90071772D /* CFNetwork.framework in Frameworks */,
 				8B2E01D3AFC48B4721BBB1CE /* Pods_parentTests.framework in Frameworks */,
-				ED44136F769609A374ADBAE8 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,7 +1381,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				F4402E1A1C5A16A700E7D3DB /* PBXTargetDependency */,
 			);
 			name = parentTests;
 			productName = parentTests;
@@ -1955,14 +1938,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F4402E1A1C5A16A700E7D3DB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 35D7A3201C0FE851007D7679 /* parent */;
-			targetProxy = F4402E191C5A16A700E7D3DB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		304135891C23AE6400830C43 /* LaunchScreen.storyboard */ = {
