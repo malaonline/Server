@@ -513,7 +513,7 @@ func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureH
     let requestParameters = [
         "teacher": teacherID,
         "hours": hours,
-        "weekly_time_slots": timeSlotStrings.joinWithSeparator("+")
+        "weekly_time_slots": timeSlotStrings.joinWithSeparator(" ")
         ]
     
     let parse: JSONDictionary -> [[Int]]? = { data in
