@@ -541,30 +541,43 @@ class FirstPage(BasicTeacherView):
         # 资料完成度
         complete_percent = 0
         complete_list = []
+        unfinished_list = []
         # 手机号码 5%
         if hasattr(profile, "phone") is True and profile.phone:
             complete_percent += 5
             complete_list.append("phone is {phone}".format(phone=profile.phone))
+        else:
+            unfinished_list.append("phone not finished")
         # 姓名 5%
         if hasattr(teacher, "name") is True and teacher.name:
             complete_percent += 5
             complete_list.append("name is {name}".format(name=teacher.name))
+        else:
+            unfinished_list.append("name not finished")
         # 性别 2%
         if hasattr(profile, "gender") is True and profile.gender != "u":
             complete_percent += 2
             complete_list.append("gender is {gender}".format(gender=profile.gender))
+        else:
+            unfinished_list.append("gender not finished")
         # 授课年级 3%, 教授科目 5%
-        if teacher.abilities.all():
+        if teacher.abilities.all().exists():
             complete_percent += 8
             complete_list.append("abilities is {abilities}".format(abilities=teacher.abilities))
+        else:
+            unfinished_list.append("abilities not finished")
         # 所在城市, 5%
         if hasattr(teacher, "region") is True and teacher.region:
             complete_percent += 5
             complete_list.append("region is {region}".format(region=teacher.region))
+        else:
+            unfinished_list.append("region not finished")
         # 头像, 5%
         if profile.avatar_url():
             complete_percent += 5
             complete_list.append("avatar is {avatar}".format(avatar=profile.avatar_url()))
+        else:
+            unfinished_list.append("avatar not finished")
         # 判断是不是英语老师
         english_subject = models.Subject.get_english()
         # 证书权重
@@ -594,22 +607,35 @@ class FirstPage(BasicTeacherView):
         if hasattr(teacher, "tags") and teacher.tags.count() > 0:
             complete_percent += 5
             complete_list.append("tags is {tags}".format(tags=teacher.tags))
+        else:
+            unfinished_list.append("tags not finished")
         # 自我介绍,至少10个字符, 10%
         if teacher.introduce and len(teacher.introduce) > 9:
             complete_percent += 10
             complete_list.append("introduce is {introduce}".format(introduce=teacher.introduce))
+        else:
+            unfinished_list.append("introduce not finished")
         # 教龄, 5%
-        if hasattr(teacher, "experience") and teacher.experience:
-            complete_percent += 5
-            complete_list.append("experience is {experience}".format(experience=teacher.experience))
+        # 注意, 教龄情况特殊,现在model是0,无法判断老师教龄为0年还是老师没有填写教龄
+        # 所以目前先+5%,不做额外处理
+        complete_percent += 5
+        # if hasattr(teacher, "experience") and teacher.experience:
+        #     complete_percent += 5
+        #     complete_list.append("experience is {experience}".format(experience=teacher.experience))
+        # else:
+        #     unfinished_list.append("experience not finished")
         # 提分榜, 10%
         if teacher.highscore_set.all():
             complete_percent += 10
             complete_list.append("highscore is {highscore}".format(highscore=teacher.highscore_set))
+        else:
+            unfinished_list.append("highscore not finished")
         # 特殊成果, 5%
-        if teacher.achievement_set.all():
+        if teacher.achievement_set.all().exists():
             complete_percent += 5
             complete_list.append("achievement is {achievement}".format(achievement=teacher.achievement_set.all()))
+        else:
+            unfinished_list.append("achievement not finished")
 
         return complete_percent, complete_list
 
