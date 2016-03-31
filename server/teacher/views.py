@@ -926,7 +926,7 @@ class MySchoolTimetable(BasicTeacherView):
                                                           23, 59, 59)), )
         week_day_map = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日", ]
 
-        def compare_by_day(given_day: datetime.datetime, today: datetime):
+        def compare_by_day2(given_day: datetime.datetime, today: datetime):
             # 1-过去, 2-今天, 3-未来
             new_given_day = datetime.date(given_day.year, given_day.month, given_day.day)
             new_today = datetime.date(today.year, today.month, today.day)
@@ -934,6 +934,28 @@ class MySchoolTimetable(BasicTeacherView):
                 return 3
             elif new_given_day == new_today:
                 return 2
+            elif new_given_day < new_today:
+                return 1
+
+        def compare_by_day(given_day: datetime.datetime, today: datetime):
+            # 1-过去, 2-今天, 3-未来
+            new_given_day = datetime.date(given_day.year, given_day.month, given_day.day)
+            new_today = datetime.date(today.year, today.month, today.day)
+            if new_given_day > new_today:
+                return 3
+            elif new_given_day == new_today:
+                # 拆分成今天全上完了,就是上完了
+                # 没有上完,状态就是还没上
+                today_end = datetime.datetime(today.year, today.month, today.day, 23, 59, 59)
+                if models.TimeSlot.objects.filter(order__teacher=teacher,
+                                               end__range=(timezone.now(), today_end),
+                                               deleted=False, order__status=models.Order.PAID).exists():
+                    # 还有课要上
+                    return 3
+                else:
+                    # 课都上完了
+                    return 1
+                # return 2
             elif new_given_day < new_today:
                 return 1
 
@@ -946,7 +968,7 @@ class MySchoolTimetable(BasicTeacherView):
                 day_statue = compare_by_day(given_day, today)
             else:
                 day_statue = 0
-            is_pass = compare_by_day(given_day, today)
+            is_pass = compare_by_day2(given_day, today)
             one_week.append(("{day:02d}".format(day=day_item.day), day_statue, is_pass,
                              day_item.strftime(MySchoolTimetable.CollectTimeSlot.time_formula),
                              day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)], len(one_week)
