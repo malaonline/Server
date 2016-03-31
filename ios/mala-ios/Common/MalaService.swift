@@ -493,6 +493,42 @@ func getCourseInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, comple
     }
 }
 
+///  获取上课时间表
+///
+///  - parameter teacherID:      老师id
+///  - parameter hours:          课时
+///  - parameter timeSlots:      所选上课时间
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureHandler: ((Reason, String?) -> Void)?, completion: [[Int]]? -> Void) {
+    
+    guard timeSlots.count != 0 else {
+        return
+    }
+    
+    let timeSlotStrings = timeSlots.map { (id) -> String in
+        return String(id)
+    }
+    
+    let requestParameters = [
+        "teacher": teacherID,
+        "hours": hours,
+        "weekly_time_slots": timeSlotStrings.joinWithSeparator("+")
+        ]
+    
+    let parse: JSONDictionary -> [[Int]]? = { data in
+        return parseConcreteTimeslot(data)
+    }
+    
+    let resource = authJsonResource(path: "concrete/timeslots", method: .GET, requestParameters: (requestParameters as! JSONDictionary), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Comment
 ///  创建评价
@@ -816,4 +852,13 @@ let parseUserProtocolHTML: JSONDictionary -> String? = { htmlInfo in
     }
 
     return htmlString
+}
+/// 评论信息JSON解析器
+let parseConcreteTimeslot: JSONDictionary -> [[Int]]? = { timeSlotsInfo in
+    
+    guard let data = timeSlotsInfo["data"] as? [[Int]] where data.count != 0 else {
+        return nil
+    }
+    
+    return data
 }

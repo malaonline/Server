@@ -215,6 +215,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 }
         }
         self.observers.append(observerChoosingGrade)
+        
         // 选择上课地点
         let observerChoosingSchool = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ChoosingSchool,
@@ -248,6 +249,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 }
         }
         self.observers.append(observerChoosingSchool)
+        
         // 选择上课时间
         let observerClassScheduleDidTap = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ClassScheduleDidTap,
@@ -275,13 +277,14 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
-                    let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
-                    self?.tableView.timeScheduleResult = array
+                    // let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
+                    // self?.tableView.timeScheduleResult = array
                 }else {
                     self?.tableView.timeScheduleResult = []
                 }
         }
         self.observers.append(observerClassScheduleDidTap)
+        
         // 选择课时
         let observerClassPeriodDidChange = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ClassPeriodDidChange,
@@ -292,11 +295,12 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
-                    let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
-                    self?.tableView.timeScheduleResult = array
+                    // let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
+                    // self?.tableView.timeScheduleResult = array
                 }
         }
         self.observers.append(observerClassPeriodDidChange)
+        
         // 展开/收起 上课时间表
         let observerOpenTimeScheduleCell = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_OpenTimeScheduleCell,

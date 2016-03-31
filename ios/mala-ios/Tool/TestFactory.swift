@@ -120,17 +120,6 @@ class TestFactory {
         ]
     }
     
-    class func testDate() {
-        let array = [
-            ClassScheduleDayModel(id: 2, start: "08:00", end: "10:00", available: true, weekID: 1),
-            ClassScheduleDayModel(id: 3, start: "10:30", end: "12:30", available: true, weekID: 2),
-            ClassScheduleDayModel(id: 4, start: "08:00", end: "10:00", available: true, weekID: 3),
-        ]
-        
-        let resultArray = ThemeDate.dateArray(array, period: 6)
-        print(resultArray)
-    }
-    
     class func testStudentCourseData() -> [StudentCourseModel] {
         return [
             StudentCourseModel(id: 1, end: NSTimeInterval(1457298000), subject: "数学", is_passed: true, is_commented: true), //2016.3.7

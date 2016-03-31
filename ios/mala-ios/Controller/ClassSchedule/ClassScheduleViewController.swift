@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DateTools
 
 private let ClassScheduleViewCellReuseID = "ClassScheduleViewCellReuseID"
 private let ClassScheduleViewHeaderReuseID = "ClassScheduleViewHeaderReuseID"
