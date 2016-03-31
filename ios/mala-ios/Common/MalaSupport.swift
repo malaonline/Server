@@ -117,6 +117,15 @@ func getTimeString(timeStamp: NSTimeInterval) -> String {
     return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("HH:mm")
 }
 
+///  根据时间戳获取时间字符串（例如2000/10/10）
+///
+///  - parameter timeStamp: 时间戳
+///
+///  - returns: 时间字符串
+func getDateString(timeStamp: NSTimeInterval) -> String {
+    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("yyyy/MM/dd")
+}
+
 ///  获取行距为8的文本
 ///
 ///  - parameter string: 文字
@@ -163,4 +172,25 @@ func getActivityViewController() -> UIViewController? {
     }
     
     return activityViewController
+}
+
+///  根据一组成对的时间戳生成上课时间表
+///
+///  - parameter timeIntervals: 一组成对的时间戳（分别代表上课和结束的时间）
+///
+///  - returns: 文本样式
+func getTimeSchedule(timeIntervals timeStamps: [[Int]]) -> [String] {
+    
+    var timeSchedule: [String] = []
+    
+    for timeStamp in timeStamps {
+        
+        let startDate = NSTimeInterval(timeStamp[0])
+        let endDate = NSTimeInterval(timeStamp[1])
+        
+        let string = String(format: "%@ ( %@-%@ )", getDateString(startDate), getTimeString(startDate), getTimeString(endDate))
+        timeSchedule.append(string)
+    }
+    
+    return timeSchedule
 }
