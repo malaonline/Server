@@ -926,7 +926,8 @@ class MySchoolTimetable(BasicTeacherView):
                                                           23, 59, 59)), )
         week_day_map = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日", ]
 
-        def compare_by_day2(given_day: datetime.datetime, today: datetime):
+        def day_background_color(given_day: datetime.datetime, today: datetime):
+            # 用于描述每日的底色,过去为灰色,未来为白色,今天是一种特定的深色
             # 1-过去, 2-今天, 3-未来
             new_given_day = datetime.date(given_day.year, given_day.month, given_day.day)
             new_today = datetime.date(today.year, today.month, today.day)
@@ -937,7 +938,9 @@ class MySchoolTimetable(BasicTeacherView):
             elif new_given_day < new_today:
                 return 1
 
-        def compare_by_day(given_day: datetime.datetime, today: datetime):
+        def day_class_status(given_day: datetime.datetime, today: datetime):
+            # 用于描述每日课程状况,过去的是灰色方块,未来是深色方块
+            # 今天比较特殊,课程全部上完,为灰色,有课没上就是深色方块
             # 1-过去, 2-今天, 3-未来
             new_given_day = datetime.date(given_day.year, given_day.month, given_day.day)
             new_today = datetime.date(today.year, today.month, today.day)
@@ -965,10 +968,10 @@ class MySchoolTimetable(BasicTeacherView):
             given_day = make_aware(datetime.datetime(day_item.year, day_item.month, day_item.day, 23, 59, 59))
 
             if cts.specific_day_count(given_day) > 0:
-                day_statue = compare_by_day(given_day, today)
+                day_statue = day_class_status(given_day, today)
             else:
                 day_statue = 0
-            is_pass = compare_by_day2(given_day, today)
+            is_pass = day_background_color(given_day, today)
             one_week.append(("{day:02d}".format(day=day_item.day), day_statue, is_pass,
                              day_item.strftime(MySchoolTimetable.CollectTimeSlot.time_formula),
                              day_item.strftime("%Y年%m月%d日"), week_day_map[len(one_week)], len(one_week)
