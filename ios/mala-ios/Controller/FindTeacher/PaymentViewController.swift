@@ -61,7 +61,7 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
                 target: self,
-                action: "popSelf"
+                action: #selector(PaymentViewController.popSelf)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]

@@ -130,11 +130,11 @@ public class KWStepper: UIControl {
         self.incrementButton = incrementButton
         super.init(frame: CGRectZero)
 
-        self.decrementButton.addTarget(self, action: "decrementValue", forControlEvents: .TouchUpInside)
-        self.incrementButton.addTarget(self, action: "incrementValue", forControlEvents: .TouchUpInside)
+        self.decrementButton.addTarget(self, action: #selector(KWStepper.decrementValue), forControlEvents: .TouchUpInside)
+        self.incrementButton.addTarget(self, action: #selector(KWStepper.incrementValue), forControlEvents: .TouchUpInside)
 
-        self.decrementButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "didLongPress:"))
-        self.incrementButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "didLongPress:"))
+        self.decrementButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(KWStepper.didLongPress(_:))))
+        self.incrementButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(KWStepper.didLongPress(_:))))
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -180,7 +180,7 @@ public class KWStepper: UIControl {
             longPressTimer = NSTimer.scheduledTimerWithTimeInterval(
                 autoRepeatInterval,
                 target: self,
-                selector: sender.view == incrementButton ? "incrementValue" : "decrementValue",
+                selector: sender.view == incrementButton ? #selector(KWStepper.incrementValue) : #selector(KWStepper.decrementValue),
                 userInfo: nil,
                 repeats: true
             )

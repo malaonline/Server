@@ -42,7 +42,7 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
         button.setTitleColor(MalaColor_636363_0, forState: .Normal)
         button.setImage(UIImage(named: "dropArrow"), forState: .Normal)
-        button.addTarget(self, action: "buttonDidTap:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(CourseChoosingPlaceTableView.buttonDidTap(_:)), forControlEvents: .TouchUpInside)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
         return button
     }()

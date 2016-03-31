@@ -95,7 +95,7 @@ class MalaBaseCell: UITableViewCell {
         let rightArrow = UIButton()
         rightArrow.setImage(UIImage(named: "rightArrow"), forState: .Normal)
         rightArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
-        rightArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
+        rightArrow.addTarget(self, action: #selector(MalaBaseCell.accessoryViewDidTap(_:)), forControlEvents: .TouchUpInside)
         return rightArrow
     }()
     /// 详情箭头指示器——附加组件类型之一
@@ -104,7 +104,7 @@ class MalaBaseCell: UITableViewCell {
         dropArrow.setImage(UIImage(named: "dropArrow"), forState: .Normal)
         dropArrow.setImage(UIImage(named: "upArrow"), forState: .Selected)
         dropArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
-        dropArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
+        dropArrow.addTarget(self, action: #selector(MalaBaseCell.accessoryViewDidTap(_:)), forControlEvents: .TouchUpInside)
         return dropArrow
     }()
     /// 副标题label——附加组件类型之一

@@ -138,7 +138,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             image: UIImage(named: "leftArrow"),
             style: .Done,
             target: self,
-            action: "popSelf"
+            action: #selector(TeacherDetailsController.popSelf)
         )
         
         // TableView

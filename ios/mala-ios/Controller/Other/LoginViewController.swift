@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
         codeGetButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Normal)
         codeGetButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Disabled)
         codeGetButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
-        codeGetButton.addTarget(self, action: "codeGetButtonDidTap", forControlEvents: .TouchUpInside)
+        codeGetButton.addTarget(self, action: #selector(LoginViewController.codeGetButtonDidTap), forControlEvents: .TouchUpInside)
         return codeGetButton
     }()
     /// [手机号错误] 提示
@@ -79,7 +79,7 @@ class LoginViewController: UIViewController {
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         phoneTextField.textColor = MalaColor_6C6C6C_0
-        phoneTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
+        phoneTextField.addTarget(self, action: #selector(UITextInputDelegate.textDidChange(_:)), forControlEvents: .EditingChanged)
         phoneTextField.clearButtonMode = .Never
         return phoneTextField
     }()
@@ -105,7 +105,7 @@ class LoginViewController: UIViewController {
         codeTextField.keyboardType = .NumberPad
         codeTextField.textColor = MalaColor_6C6C6C_0
         codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        codeTextField.addTarget(self, action: "textDidChange:", forControlEvents: .EditingChanged)
+        codeTextField.addTarget(self, action: #selector(UITextInputDelegate.textDidChange(_:)), forControlEvents: .EditingChanged)
         return codeTextField
     }()
     /// [验证] 按钮
@@ -117,7 +117,7 @@ class LoginViewController: UIViewController {
         verifyButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         verifyButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Disabled)
         verifyButton.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Normal)
-        verifyButton.addTarget(self, action: "verifyButtonDidTap", forControlEvents: .TouchUpInside)
+        verifyButton.addTarget(self, action: #selector(LoginViewController.verifyButtonDidTap), forControlEvents: .TouchUpInside)
         return verifyButton
     }()
     // 协议label
@@ -135,7 +135,7 @@ class LoginViewController: UIViewController {
         protocolString.textColor = MalaColor_88BCDE_95
         protocolString.text = "麻辣老师用户协议"
         protocolString.userInteractionEnabled = true
-        protocolString.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "protocolDidTap"))
+        protocolString.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(LoginViewController.protocolDidTap)))
         return protocolString
     }()
     
@@ -158,7 +158,7 @@ class LoginViewController: UIViewController {
         // Style
         self.title = "验证"
         self.view.backgroundColor = MalaColor_EDEDED_0
-        let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: "closeButtonDidClick"))
+        let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: #selector(LoginViewController.closeButtonDidClick)))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         
@@ -286,7 +286,7 @@ class LoginViewController: UIViewController {
                     self?.codeGetButton.setTitle(String(format: " %02ds后获取 ", Int((self?.callMeInSeconds)!)), forState: .Normal)
                     self?.codeGetButton.enabled = false
                 })
-                self?.callMeInSeconds--
+                self?.callMeInSeconds -= 1
             }
         }
         dispatch_resume(timer)

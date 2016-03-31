@@ -61,7 +61,7 @@ class CourseChoosingConfirmView: UIView {
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         confirmButton.layer.cornerRadius = 5
         confirmButton.layer.masksToBounds = true
-        confirmButton.addTarget(self, action: "buttonDidTap", forControlEvents: .TouchUpInside)
+        confirmButton.addTarget(self, action: #selector(PaymentBottomView.buttonDidTap), forControlEvents: .TouchUpInside)
         return confirmButton
     }()
     

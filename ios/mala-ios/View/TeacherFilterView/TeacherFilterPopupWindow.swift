@@ -49,14 +49,14 @@ public class TeacherFilterPopupWindow: UIViewController {
         let closeButton = UIButton()
         closeButton.setBackgroundImage(UIImage(named: "close_normal"), forState: .Normal)
         closeButton.setBackgroundImage(UIImage(named: "close_press"), forState: .Selected)
-        closeButton.addTarget(self, action: "pressed:", forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(TeacherFilterPopupWindow.pressed(_:)), forControlEvents: .TouchUpInside)
         return closeButton
     }()
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.setBackgroundImage(UIImage(named: "leftArrow_normal"), forState: .Normal)
         cancelButton.setBackgroundImage(UIImage(named: "leftArrow_press"), forState: .Selected)
-        cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        cancelButton.addTarget(self, action: #selector(TeacherFilterPopupWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         cancelButton.hidden = true
         return cancelButton
     }()
@@ -64,7 +64,7 @@ public class TeacherFilterPopupWindow: UIViewController {
         let confirmButton = UIButton()
         confirmButton.setBackgroundImage(UIImage(named: "confirm_normal"), forState: .Normal)
         confirmButton.setBackgroundImage(UIImage(named: "confirm_press"), forState: .Selected)
-        confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
+        confirmButton.addTarget(self, action: #selector(TeacherFilterPopupWindow.confirmButtonDidTap), forControlEvents: .TouchUpInside)
         confirmButton.hidden = true
         return confirmButton
     }()

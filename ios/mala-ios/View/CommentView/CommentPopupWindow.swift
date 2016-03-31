@@ -67,7 +67,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private lazy var closeButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.setBackgroundImage(UIImage(named: "close"), forState: .Normal)
-        cancelButton.addTarget(self, action: "closeButtonDidTap", forControlEvents: .TouchUpInside)
+        cancelButton.addTarget(self, action: #selector(CommentPopupWindow.closeButtonDidTap), forControlEvents: .TouchUpInside)
         return cancelButton
     }()
     /// 顶部装饰线
@@ -142,7 +142,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
         commitButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        commitButton.addTarget(self, action: "commitButtonDidTap:", forControlEvents: .TouchUpInside)
+        commitButton.addTarget(self, action: #selector(CommentPopupWindow.commitButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return commitButton
     }()
     
@@ -200,7 +200,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private func setupUserInterface() {
         // Style
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: tBakcgroundTansperancy)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "backgroundDidTap"))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CommentPopupWindow.backgroundDidTap)))
         window.backgroundColor = UIColor.whiteColor()
         
         // SubViews
@@ -383,8 +383,8 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private func switchingModeWithJustShow(isJustShow justShow: Bool) {
         if justShow {
             // 提交按钮
-            commitButton.removeTarget(self, action: "commitButtonDidTap:", forControlEvents: .TouchUpInside)
-            commitButton.addTarget(self, action: "closeButtonDidTap", forControlEvents: .TouchUpInside)
+            commitButton.removeTarget(self, action: #selector(CommentPopupWindow.commitButtonDidTap(_:)), forControlEvents: .TouchUpInside)
+            commitButton.addTarget(self, action: #selector(CommentPopupWindow.closeButtonDidTap), forControlEvents: .TouchUpInside)
             commitButton.setTitle("知道了", forState: .Normal)
             
             // 评价文本框

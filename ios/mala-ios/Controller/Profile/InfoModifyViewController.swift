@@ -34,7 +34,7 @@ class InfoModifyViewController: UIViewController {
         inputField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         inputField.textColor = MalaColor_636363_0
         inputField.tintColor = MalaColor_82B4D9_0
-        inputField.addTarget(self, action: "inputFieldDidChange", forControlEvents: .EditingChanged)
+        inputField.addTarget(self, action: #selector(InfoModifyViewController.inputFieldDidChange), forControlEvents: .EditingChanged)
         return inputField
     }()
     /// 保存按钮
@@ -43,7 +43,7 @@ class InfoModifyViewController: UIViewController {
             title: "保存",
             titleColor: MalaColor_82B4D9_0,
             target: self,
-            action: "saveChange"
+            action: #selector(InfoModifyViewController.saveChange)
         )
         saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
@@ -101,7 +101,7 @@ class InfoModifyViewController: UIViewController {
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
                 target: self,
-                action: "popSelf"
+                action: #selector(InfoModifyViewController.popSelf)
             )
         )
         navigationItem.leftBarButtonItems = [spacerLeft, leftBarButtonItem]

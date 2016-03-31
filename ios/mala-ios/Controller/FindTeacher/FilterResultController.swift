@@ -105,7 +105,7 @@ class FilterResultController: UIViewController {
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
                 target: self,
-                action: "popSelf"
+                action: #selector(FilterResultController.popSelf)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -125,7 +125,7 @@ class FilterResultController: UIViewController {
     func loadTeachers(filters: [String: AnyObject]? = nil, isLoadMore: Bool = false, finish: (()->())? = nil) {
         
         if isLoadMore {
-            currentPageIndex++
+            currentPageIndex += 1
         }else {
             currentPageIndex = 1
         }
@@ -225,7 +225,7 @@ class FilterBar: UIView {
             title: "小学一年级",
             borderColor: MalaColor_8FBCDD_0,
             target: self,
-            action: "buttonDidTap:"
+            action: #selector(FilterBar.buttonDidTap(_:))
         )
         gradeButton.tag = 1
         return gradeButton
@@ -235,7 +235,7 @@ class FilterBar: UIView {
             title: "科  目",
             borderColor: MalaColor_8FBCDD_0,
             target: self,
-            action: "buttonDidTap:"
+            action: #selector(FilterBar.buttonDidTap(_:))
         )
         subjectButton.tag = 2
         return subjectButton
@@ -245,7 +245,7 @@ class FilterBar: UIView {
             title: "不  限",
             borderColor: MalaColor_8FBCDD_0,
             target: self,
-            action: "buttonDidTap:"
+            action: #selector(FilterBar.buttonDidTap(_:))
         )
         styleButton.titleLabel?.lineBreakMode = .ByTruncatingTail
         styleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 13)

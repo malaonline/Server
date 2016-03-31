@@ -36,7 +36,7 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
             title: "今天",
             titleColor: MalaColor_82B4D9_0,
             target: self,
-            action: "scrollToToday"
+            action: #selector(ClassScheduleViewController.scrollToToday)
         )
         saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton

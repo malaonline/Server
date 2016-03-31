@@ -51,7 +51,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
          logoutButton.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0xE5E5E5, alpha: 0.3)), forState: .Highlighted)
         logoutButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         
-        logoutButton.addTarget(self, action: "logoutButtonDidTap", forControlEvents: .TouchUpInside)
+        logoutButton.addTarget(self, action: #selector(ProfileViewController.logoutButtonDidTap), forControlEvents: .TouchUpInside)
         return logoutButton
     }()
     /// 照片选择器

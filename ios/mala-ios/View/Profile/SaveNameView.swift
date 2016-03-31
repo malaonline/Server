@@ -29,7 +29,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
         inputField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         inputField.textColor = MalaColor_636363_0
         inputField.tintColor = MalaColor_82B4D9_0
-        inputField.addTarget(self, action: "inputFieldDidChange", forControlEvents: .EditingChanged)
+        inputField.addTarget(self, action: #selector(SaveNameView.inputFieldDidChange), forControlEvents: .EditingChanged)
         return inputField
     }()
     /// 描述label
@@ -49,7 +49,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
         finishButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         finishButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Disabled)
         finishButton.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Normal)
-        finishButton.addTarget(self, action: "finishButtonDidTap", forControlEvents: .TouchUpInside)
+        finishButton.addTarget(self, action: #selector(SaveNameView.finishButtonDidTap), forControlEvents: .TouchUpInside)
         finishButton.enabled = false
         return finishButton
     }()

@@ -139,7 +139,7 @@ class ThemeTags: UIView {
             title: title,
             borderColor: MalaRandomColor(),
             target: self,
-            action: "buttonDidTap:"
+            action: #selector(ThemeTags.buttonDidTap(_:))
         )
         self.addSubview(button)
         self.buttons[title] = button

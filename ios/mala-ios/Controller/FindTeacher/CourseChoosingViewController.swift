@@ -91,7 +91,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
                 target: self,
-                action: "popSelf"
+                action: #selector(CourseChoosingViewController.popSelf)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]

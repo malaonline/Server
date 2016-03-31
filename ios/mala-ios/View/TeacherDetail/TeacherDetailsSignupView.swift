@@ -38,7 +38,7 @@ class TeacherDetailsSignupView: UIView {
         button.layer.masksToBounds = true
         button.layer.borderColor = MalaColor_E5E5E5_0.CGColor
         button.layer.borderWidth = 1.0
-        button.addTarget(self, action: "buttonDidTap", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.buttonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
     

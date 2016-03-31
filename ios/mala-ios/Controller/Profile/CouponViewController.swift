@@ -31,7 +31,7 @@ class CouponViewController: UITableViewController {
     /// 下拉刷新视图
     private lazy var refresher: UIRefreshControl = {
         let refresher = UIRefreshControl()
-        refresher.addTarget(self, action: "loadCoupons", forControlEvents: .ValueChanged)
+        refresher.addTarget(self, action: #selector(CouponViewController.loadCoupons), forControlEvents: .ValueChanged)
         return refresher
     }()
     
@@ -63,7 +63,7 @@ class CouponViewController: UITableViewController {
                 imageName: "leftArrow_normal",
                 highlightImageName: "leftArrow_press",
                 target: self,
-                action: "popSelf"
+                action: #selector(CouponViewController.popSelf)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]

@@ -154,7 +154,7 @@ class GradeSelectionCell: UICollectionViewCell {
             title: "年级——价格",
             borderColor: MalaColor_8FBCDD_0,
             target: self,
-            action: "buttonDidTap:"
+            action: nil
         )
         button.userInteractionEnabled = false
         return button

@@ -47,21 +47,21 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
         let leftPhoto =  UIImageView.placeHolder()
         leftPhoto.tag = 0
         leftPhoto.userInteractionEnabled = true
-        leftPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        leftPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
         return leftPhoto
     }()
     private lazy var centerPhoto: UIImageView = {
         let centerPhoto =  UIImageView.placeHolder()
         centerPhoto.tag = 1
         centerPhoto.userInteractionEnabled = true
-        centerPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        centerPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
         return centerPhoto
     }()
     private lazy var rightPhoto: UIImageView = {
         let rightPhoto =  UIImageView.placeHolder()
         rightPhoto.tag = 2
         rightPhoto.userInteractionEnabled = true
-        rightPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "imagesDidTap:"))
+        rightPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
         return rightPhoto
     }()
     
@@ -110,7 +110,7 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     }
     
     private func configure() {
-        rightArrow.addTarget(self, action: "detailButtonDidTap", forControlEvents: .TouchUpInside)
+        rightArrow.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
     }
  
     

@@ -106,7 +106,7 @@ class HomeViewController: UIViewController {
                 imageName: "location_normal",
                 highlightImageName: "location_press",
                 target: self,
-                action: "profileButtonDidClick"
+                action: #selector(HomeViewController.profileButtonDidClick)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -117,7 +117,7 @@ class HomeViewController: UIViewController {
                 imageName: "filter_normal",
                 highlightImageName: "filter_press",
                 target: self,
-                action: "filterButtonDidClick"
+                action: #selector(HomeViewController.filterButtonDidClick)
             )
         )
         navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
@@ -136,7 +136,7 @@ class HomeViewController: UIViewController {
     func loadTeachers(filters: [String: AnyObject]? = nil, isLoadMore: Bool = false, finish: (()->())? = nil) {
         
         if isLoadMore {
-            currentPageIndex++
+            currentPageIndex += 1
         }else {
             currentPageIndex = 1
         }

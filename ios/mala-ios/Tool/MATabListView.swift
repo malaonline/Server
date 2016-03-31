@@ -73,7 +73,7 @@ class MATabListView: UIView {
                 label.layer.masksToBounds = true
                 label.textAlignment = .Center
                 label.userInteractionEnabled = true
-                label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "labelDidTap:"))
+                label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MATabListView.labelDidTap(_:))))
                 label.tag = tagCount
                 tagCount += 1
             }

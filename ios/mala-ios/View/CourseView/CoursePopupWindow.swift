@@ -82,7 +82,7 @@ public class CoursePopupWindow: UIViewController {
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        cancelButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        cancelButton.addTarget(self, action: #selector(CoursePopupWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         return cancelButton
     }()
     /// 确认按钮.[去评价]
@@ -94,7 +94,7 @@ public class CoursePopupWindow: UIViewController {
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
-        confirmButton.addTarget(self, action: "confirmButtonDidTap", forControlEvents: .TouchUpInside)
+        confirmButton.addTarget(self, action: #selector(CoursePopupWindow.confirmButtonDidTap), forControlEvents: .TouchUpInside)
         return confirmButton
     }()
     /// 取消按钮.[知道了]
@@ -107,7 +107,7 @@ public class CoursePopupWindow: UIViewController {
         dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         dismissButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         dismissButton.hidden = true
-        dismissButton.addTarget(self, action: "cancelButtonDidTap", forControlEvents: .TouchUpInside)
+        dismissButton.addTarget(self, action: #selector(CoursePopupWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         return dismissButton
     }()
     /// 上课日期
@@ -213,7 +213,7 @@ public class CoursePopupWindow: UIViewController {
     private func setupUserInterface() {
         // Style
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: tBakcgroundTansperancy)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "backgroundDidTap"))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CoursePopupWindow.backgroundDidTap)))
         window.backgroundColor = UIColor.whiteColor()
         
         // SubViews

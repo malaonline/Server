@@ -82,7 +82,7 @@ extension UIButton {
     ///  - parameter borderColor: Normal状态边框颜色，Highlighted状态背景颜色
     ///
     ///  - returns: UIButton对象
-    convenience init(title: String, borderColor: UIColor, target: AnyObject?, action: Selector) {
+    convenience init(title: String, borderColor: UIColor, target: AnyObject?, action: Selector? = nil) {
         self.init()
         // 文字及其状态颜色
         self.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
@@ -99,7 +99,10 @@ extension UIButton {
         self.layer.masksToBounds = true
         self.layer.borderColor = borderColor.CGColor
         self.layer.borderWidth = MalaScreenOnePixel
-        self.addTarget(target, action: action, forControlEvents: .TouchUpInside)
+        
+        if let selector = action {
+            self.addTarget(target, action: selector, forControlEvents: .TouchUpInside)
+        }
     }
     
     ///  便利构造函数

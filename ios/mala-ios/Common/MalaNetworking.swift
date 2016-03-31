@@ -224,7 +224,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         
         ///  开启网络请求指示器
         dispatch_async(dispatch_get_main_queue()) {
-            MalaNetworkActivityCount--
+            MalaNetworkActivityCount -= 1
         }
     }
     
@@ -233,7 +233,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     
     ///  关闭网络请求指示器
     dispatch_async(dispatch_get_main_queue()) {
-        MalaNetworkActivityCount++
+        MalaNetworkActivityCount += 1
     }
 }
 
