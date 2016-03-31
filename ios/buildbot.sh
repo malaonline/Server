@@ -5,6 +5,7 @@ scheme="parent"
 provisioning="For test"
 ipaDir="build/ipa/"
 mkdir -p ${ipaDir}
+rm -rf ${ipaDir}*.ipa
 
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
@@ -18,7 +19,6 @@ ipaName="${ipaDir}${scheme}_dev_release.ipa"
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevDebug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.3' clean test
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
-rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
 
 
@@ -27,5 +27,4 @@ buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
-rm -f ${ipaName}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
