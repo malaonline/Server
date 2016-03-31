@@ -22,7 +22,7 @@ from rest_framework.renderers import JSONRenderer
 from app import models
 from app.utils import smsUtil
 from app.utils.algorithm import check_id_number
-from app.utils.types import parseInt
+from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.db import paginate
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
@@ -169,14 +169,13 @@ class CouponsListView(ListView):
         #     coupons_list = coupons_list.filter(created_at__range=(dateFrom, dateTo))
         if dateFrom:
             try:
-                date_from = datetime.datetime.strptime(dateFrom, '%Y-%m-%d')
+                date_from = parse_date(dateFrom)
                 coupons_list = coupons_list.filter(created_at__gte = date_from)
             except:
                 pass
         if dateTo:
             try:
-                date_to = datetime.datetime.strptime(dateTo, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(dateTo)
                 coupons_list = coupons_list.filter(created_at__lt = date_to)
             except:
                 pass
@@ -218,14 +217,13 @@ class TeacherView(BaseStaffView):
             query_set = query_set.filter(status = status)
         if reg_date_from:
             try:
-                date_from = datetime.datetime.strptime(reg_date_from, '%Y-%m-%d')
+                date_from = parse_date(reg_date_from)
                 query_set = query_set.filter(user__date_joined__gte = date_from)
             except:
                 pass
         if reg_date_to:
             try:
-                date_to = datetime.datetime.strptime(reg_date_to, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(reg_date_to)
                 query_set = query_set.filter(user__date_joined__lt = date_to)
             except:
                 pass
@@ -741,14 +739,13 @@ class TeacherIncomeDetailView(BaseStaffView):
         query_set = models.AccountHistory.objects.select_related('timeslot__order').filter(account=account, amount__gt=0)
         if date_from:
             try:
-                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                date_from = parse_date(date_from)
                 query_set = query_set.filter(submit_time__gte = date_from)
             except:
                 pass
         if date_to:
             try:
-                date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(date_to)
                 query_set = query_set.filter(submit_time__lt = date_to)
             except:
                 pass
@@ -862,14 +859,13 @@ class TeacherIncomeDetailView(BaseStaffView):
             query_set = models.AccountHistory.objects.select_related('timeslot__order').filter(account=account, amount__gt=0)
             if date_from:
                 try:
-                    date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                    date_from = parse_date(date_from)
                     query_set = query_set.filter(submit_time__gte = date_from)
                 except:
                     pass
             if date_to:
                 try:
-                    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-                    date_to += datetime.timedelta(days=1)
+                    date_to = parse_date_next(date_to)
                     query_set = query_set.filter(submit_time__lt = date_to)
                 except:
                     pass
@@ -904,14 +900,13 @@ class TeacherWithdrawalView(BaseStaffView):
             .filter(account__user__teacher__isnull=False, withdrawal__isnull=False)
         if date_from:
             try:
-                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+                date_from = parse_date(date_from)
                 query_set = query_set.filter(submit_time__gte = date_from)
             except:
                 pass
         if date_to:
             try:
-                date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(date_to)
                 query_set = query_set.filter(submit_time__lt = date_to)
             except:
                 pass
@@ -1572,14 +1567,13 @@ class OrderReviewView(BaseStaffView):
         # 下单日期区间
         if order_date_from:
             try:
-                date_from = datetime.datetime.strptime(order_date_from, '%Y-%m-%d')
+                date_from = parse_date(order_date_from)
                 query_set = query_set.filter(created_at__gte=date_from)
             except:
                 pass
         if order_date_to:
             try:
-                date_to = datetime.datetime.strptime(order_date_to, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(order_date_to)
                 query_set = query_set.filter(created_at__lt=date_to)
             except:
                 pass
@@ -1627,14 +1621,13 @@ class OrderRefundView(BaseStaffView):
         # 退费申请区间
         if refund_date_from:
             try:
-                date_from = datetime.datetime.strptime(refund_date_from, '%Y-%m-%d')
+                date_from = parse_date(refund_date_from)
                 query_set = query_set.filter(refund_at__gte=date_from)
             except:
                 pass
         if refund_date_to:
             try:
-                date_to = datetime.datetime.strptime(refund_date_to, '%Y-%m-%d')
-                date_to += datetime.timedelta(days=1)
+                date_to = parse_date_next(refund_date_to)
                 query_set = query_set.filter(refund_at__lt=date_to)
             except:
                 pass

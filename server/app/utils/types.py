@@ -1,4 +1,17 @@
+import datetime
 import re
+
+_re_number = re.compile(r'^-?\d+')
+
+_re_date = re.compile(r'^\d+-\d+-\d+$')
+_re_date_h = re.compile(r'^\d+-\d+-\d+ \d+$')
+_re_date_h_m = re.compile(r'^\d+-\d+-\d+ \d+:\d+$')
+_re_date_full = re.compile(r'^\d+-\d+-\d+ \d+:\d+:\d+$')
+
+DATE_P_FORMAT = '%Y-%m-%d'
+DATE_P_FORMAT_WITH_HH = '%Y-%m-%d %H'
+DATE_P_FORMAT_WITH_HH_MM = '%Y-%m-%d %H:%M'
+DATE_P_FORMAT_FULL = '%Y-%m-%d %H:%M:%S'
 
 def parseInt(nums, default='NaN'):
     """
@@ -23,5 +36,37 @@ def parseInt(nums, default='NaN'):
         return nums
     if isinstance(nums, float):
         return int(nums)
-    d = re.search(r'^-?\d+', nums)
+    d = _re_number.search(nums)
     return int(d.group(0)) if d else default
+
+
+def parse_date(s):
+    if _re_date.match(s):
+        return datetime.datetime.strptime(s, DATE_P_FORMAT)
+    if _re_date_h.match(s):
+        return datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH)
+    if _re_date_h_m.match(s):
+        return datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH_MM)
+    if _re_date_full.match(s):
+        return datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
+    return None
+
+
+def parse_date_next(s):
+    if _re_date.match(s):
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT)
+        d += datetime.timedelta(days=1)
+        return d
+    if _re_date_h.match(s):
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH)
+        d += datetime.timedelta(hours=1)
+        return d
+    if _re_date_h_m.match(s):
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH_MM)
+        d += datetime.timedelta(minutes=1)
+        return d
+    if _re_date_full.match(s):
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
+        d += datetime.timedelta(seconds=1)
+        return d
+    return None

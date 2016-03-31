@@ -17,7 +17,7 @@ from rest_framework.authtoken.models import Token
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         WeeklyTimeSlot, AuditRecord, Coupon
 from app.utils.algorithm import Tree, Node
-from app.utils.types import parseInt
+from app.utils.types import parseInt, parse_date, parse_date_next
 from app.models import Region
 from app.utils.algorithm import verify_sig
 from app.tasks import send_push
@@ -658,6 +658,24 @@ class TestAlgorithm(TestCase):
         self.assertTrue(parseInt('-234.234') == -234)
         self.assertTrue(parseInt('asd') == 'NaN')
         self.assertTrue(parseInt('-asd') == 'NaN')
+
+    def test_parse_date(self):
+        self.assertEqual(parse_date('2016-06-1'), datetime.datetime(2016,6,1))
+        self.assertEqual(parse_date('2016-06-18'), datetime.datetime(2016,6,18))
+        self.assertEqual(parse_date('2016-12-08'), datetime.datetime(2016,12,8))
+        self.assertEqual(parse_date('2016-12-08 4'), datetime.datetime(2016,12,8,4))
+        self.assertEqual(parse_date('2016-12-08 23'), datetime.datetime(2016,12,8,23))
+        self.assertEqual(parse_date('2016-12-08 05:24'), datetime.datetime(2016,12,8,5,24))
+        self.assertEqual(parse_date('2016-12-08 23:09:25'), datetime.datetime(2016,12,8,23,9,25))
+        self.assertEqual(parse_date_next('2016-06-1'), datetime.datetime(2016,6,2))
+        self.assertEqual(parse_date_next('2016-06-18'), datetime.datetime(2016,6,19))
+        self.assertEqual(parse_date_next('2016-12-31'), datetime.datetime(2017,1,1))
+        self.assertEqual(parse_date_next('2016-12-08 4'), datetime.datetime(2016,12,8,5))
+        self.assertEqual(parse_date_next('2016-12-08 23'), datetime.datetime(2016,12,9,0))
+        self.assertEqual(parse_date_next('2016-12-08 05:24'), datetime.datetime(2016,12,8,5,25))
+        self.assertEqual(parse_date_next('2016-12-08 05:59'), datetime.datetime(2016,12,8,6,0))
+        self.assertEqual(parse_date_next('2016-12-08 23:09:25'), datetime.datetime(2016,12,8,23,9,26))
+        self.assertEqual(parse_date_next('2016-12-08 23:09:59'), datetime.datetime(2016,12,8,23,10,0))
 
     def test_verify_sig(self):
         sig = (
