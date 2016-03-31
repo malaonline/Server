@@ -14,6 +14,7 @@ import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.AddStudentNameApi;
 import com.malalaoshi.android.core.usercenter.entity.AddStudentName;
 import com.malalaoshi.android.core.view.TitleBarView;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
 
 import butterknife.Bind;
@@ -85,6 +86,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
                 MiscUtil.toast(R.string.usercenter_set_student_failed);
             }
         }
+
     }
 
     private void postModifyUserName() {

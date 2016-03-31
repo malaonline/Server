@@ -44,6 +44,7 @@ import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.result.UserListResult;
 import com.malalaoshi.android.util.AuthUtils;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.JsonUtil;
@@ -99,8 +100,6 @@ public class UserFragment extends Fragment {
 
     private Bitmap bmpAvatar;
 
-    private ProgressDialog progressDialog;
-
     private final BroadcastReceiver loginReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -154,10 +153,6 @@ public class UserFragment extends Fragment {
     }
 
     private void initViews() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);   // 设置进度条的形式为圆形转动的进度条
-        progressDialog.setCancelable(true);                              // 设置是否可以通过点击Back键取消
-        progressDialog.setCanceledOnTouchOutside(false);                 // 设置在点击Dialog外是否取消Dialog进度条
         //先添加缓存数据
         updateUI();
     }
@@ -549,8 +544,8 @@ public class UserFragment extends Fragment {
 
 
     private void uploadFile() {
-        progressDialog.setMessage("正在上传头像...");
-        progressDialog.show();
+        DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
+
         NetworkSender.setUserAvatar(strAvatorLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
@@ -587,7 +582,7 @@ public class UserFragment extends Fragment {
             ivAvatar.setImageBitmap(bmpAvatar);
         }
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
-        progressDialog.dismiss();
+        DialogUtil.stopProcessDialog();
     }
 
     private void setAvatarFailed(int errorCode) {
@@ -596,7 +591,7 @@ public class UserFragment extends Fragment {
         } else {
             MiscUtil.toast(R.string.usercenter_set_avator_failed);
         }
-        progressDialog.dismiss();
+        DialogUtil.stopProcessDialog();
     }
 
     private boolean checkLogin() {
