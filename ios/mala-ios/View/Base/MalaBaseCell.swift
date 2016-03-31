@@ -102,6 +102,7 @@ class MalaBaseCell: UITableViewCell {
     lazy var dropArrow: UIButton = {
         let dropArrow = UIButton()
         dropArrow.setImage(UIImage(named: "dropArrow"), forState: .Normal)
+        dropArrow.setImage(UIImage(named: "upArrow"), forState: .Selected)
         dropArrow.imageEdgeInsets = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: -19)
         dropArrow.addTarget(self, action: "accessoryViewDidTap:", forControlEvents: .TouchUpInside)
         return dropArrow

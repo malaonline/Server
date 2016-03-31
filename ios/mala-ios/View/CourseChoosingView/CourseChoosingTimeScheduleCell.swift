@@ -19,9 +19,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             if timeScheduleResult.count == 0 {
                 self.tableView.timeSchedule = timeScheduleResult
                 self.isOpen = false
-//                dropArrow.hidden = true
-            }else {
-//                dropArrow.hidden = false
             }
             
             // 若下拉箭头显示且已经展开，加载时间表
@@ -48,6 +45,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
                     make.height.equalTo(0)
                 }
             }
+            dropArrow.selected = isOpen
         }
     }
     
@@ -83,7 +81,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     ///  cell点击事件
     func cellDidTap() {
         if dropArrow.hidden == false {
-//            isOpen = !isOpen
             NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
         }
     }
@@ -94,7 +91,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         // Style
         accessory = .DropArrow
         dropArrow.userInteractionEnabled = false
-//        dropArrow.hidden = true
         
         // SubViews
         content.addSubview(tableView)

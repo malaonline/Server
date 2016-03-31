@@ -313,12 +313,16 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                     return
                 }
                 
-                if bool && self?.isNeedReloadTimeSchedule == true {
-                    self?.loadConcreteTimeslots()
-                    self?.isNeedReloadTimeSchedule = false
-                }
+                // 若选课或课时已改变则请求上课时间表，并展开cell
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if bool && self?.isNeedReloadTimeSchedule == true {
+                        self?.loadConcreteTimeslots()
+                        self?.isNeedReloadTimeSchedule = false
+                    }else {
+                        self?.tableView.isOpenTimeScheduleCell = false
+                    }
+                })
                 
-                self?.tableView.isOpenTimeScheduleCell = bool
         }
         self.observers.append(observerOpenTimeScheduleCell)
     }
@@ -355,6 +359,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
             
             let array = getTimeSchedule(timeIntervals: timesSchedule)
             self?.tableView.timeScheduleResult = array
+            self?.tableView.isOpenTimeScheduleCell = true
         })
     }
     
