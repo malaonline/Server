@@ -1033,6 +1033,10 @@ class AccountHistory(BaseModel):
     # False表示因为提现或者其它原因,比如审核被驳回,这样就不参与求和和其它统计计算
     valid = models.BooleanField(default=True)
 
+    @property
+    def abs_amount(self):
+        return abs(self.amount)
+
     def audit_withdrawal(self, approve: bool, user: User=None):
         """
         设置提现流程通过或者不通过,进行操作后,就不需要再save

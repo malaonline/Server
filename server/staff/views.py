@@ -880,22 +880,12 @@ class TeacherIncomeDetailView(BaseStaffView):
 class TeacherWithdrawalView(BaseStaffView):
     template_name = 'staff/teacher/teacher_withdrawal_list.html'
 
-    def get_context_data(self, **kwargs):
-        # 把查询参数数据放到kwargs['query_data'], 以便template回显
-        query_data = {}
-        query_data['name'] = self.request.GET.get('name', '')
-        query_data['phone'] = self.request.GET.get('phone', '')
-        query_data['date_from'] = self.request.GET.get('date_from')
-        query_data['date_to'] = self.request.GET.get('date_to')
-        query_data['status'] = self.request.GET.get('status')
-        kwargs['query_data'] = query_data
-        #
+    def _get_query_set(self):
         date_from = self.request.GET.get('date_from')
         date_to = self.request.GET.get('date_to')
         status = self.request.GET.get('status')
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
-        page = self.request.GET.get('page')
         query_set = models.AccountHistory.objects.select_related('account__user__teacher', 'account__user__profile')\
             .filter(account__user__teacher__isnull=False, withdrawal__isnull=False)
         if date_from:
@@ -916,14 +906,44 @@ class TeacherWithdrawalView(BaseStaffView):
             query_set = query_set.filter(account__user__teacher__name__contains = name)
         if phone:
             query_set = query_set.filter(account__user__profile__phone__contains = phone)
-        query_set = query_set.order_by('-submit_time')
+        return query_set.order_by('-submit_time')
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        query_data = {}
+        query_data['name'] = self.request.GET.get('name', '')
+        query_data['phone'] = self.request.GET.get('phone', '')
+        query_data['date_from'] = self.request.GET.get('date_from')
+        query_data['date_to'] = self.request.GET.get('date_to')
+        query_data['status'] = self.request.GET.get('status')
+        kwargs['query_data'] = query_data
+        #
+        query_set = self._get_query_set()
         # paginate
+        page = self.request.GET.get('page')
         query_set, pager = paginate(query_set, page)
         kwargs['withdrawals'] = query_set
         kwargs['pager'] = pager
         # 一些固定数据
         kwargs['status_choices'] = models.Withdrawal.STATUS_CHOICES
         return super(TeacherWithdrawalView, self).get_context_data(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        export = request.GET.get('export')
+        if export == 'true':
+            query_set = self._get_query_set()
+            headers = ('提现申请时间', '姓名', '手机号', '提现金额', '所在银行', '银行卡号', '开户行', '状态',)
+            columns = (lambda x: timezone.make_naive(x.submit_time),
+                       'account.user.teacher.name',
+                       'account.user.profile.phone',
+                       lambda x: (x.abs_amount/100),
+                       'withdrawal.bankcard.bank_name',
+                       'withdrawal.bankcard.card_number',
+                       'withdrawal.bankcard.opening_bank',
+                       'withdrawal.get_status_display',
+                       )
+            return excel.excel_response(query_set, columns, headers, '老师提现审核列表.xls')
+        return super(TeacherWithdrawalView, self).get(request, *args, **kwargs)
 
     def post(self, request):
         action = self.request.POST.get('action')

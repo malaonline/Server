@@ -68,6 +68,16 @@ def get_style_by_value(value, cell_style_map=CELL_STYLE_MAP, default_style=DEFAU
 
 def queryset_to_workbook(queryset, columns, headers=None, header_style=HEADER_STYLE,
                          default_style=DEFAULT_STYLE, cell_style_map=CELL_STYLE_MAP):
+    '''
+    把django QuerySet里的数据写到excel的Workbook
+    :param queryset: django QuerySet对象
+    :param columns: 如 ('姓名', '手机号',        '账户余额')
+    :param headers: 如 ('name', 'profile.phone', lambda x: (x.balance/100),)
+    :param header_style: 标题行样式
+    :param default_style: 默认样式
+    :param cell_style_map: (数据类型,样式)映射集
+    :return: xlwt.Workbook
+    '''
     workbook = xlwt.Workbook()
     report_date = datetime.date.today()
     sheet_name = 'Export {0}'.format(report_date.strftime('%Y-%m-%d'))
