@@ -5,11 +5,6 @@ var pagedefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 $(function() {
     paginationInit();
 
-    $('input.datetimeInput').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
     $('form[name=query_form]').submit(function() {
         var phone = $.trim($(this).find('input[name=phone]').val());
         // 为了测试方便, 暂时允许纯数字手机号码, 不检查位数

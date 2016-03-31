@@ -21,9 +21,4 @@ $(function(){
         return true;
     });
 
-    $('input.datetimeInput').datetimepicker({
-      format: 'YYYY-MM-DD',
-      locale: 'zh-cn'
-  });
-
 });

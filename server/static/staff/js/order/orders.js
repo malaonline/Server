@@ -7,11 +7,6 @@ $(function(){
 
     paginationInit();
 
-    $('input.datetimeInput').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
     $('form[name=query_form]').submit(function() {
         var dateFrom = $('input[name=order_date_from]').val(), dateTo = $('input[name=order_date_to]').val();
         var refundDateFrom = $('input[name=refund_date_from]').val(), refundDateTo = $('input[name=refund_date_to]').val();

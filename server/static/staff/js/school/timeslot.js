@@ -1,10 +1,5 @@
 var pagedefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 $(function(){
-  $('input[name=searchDate]').datetimepicker({
-      format: 'YYYY-MM-DD',
-      locale: 'zh-cn'
-  });
-
   $('#saveComplaintItem').click(function(e){
     var complaintContent = $('#complaintContent').val();
     var complaintId = $('#complaintId').val();

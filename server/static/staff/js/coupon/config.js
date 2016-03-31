@@ -9,10 +9,6 @@ $(function(){
       $('.config-coupon-new').show();
     }
   });
-  $('input[name=validatedStart], input[name=expiredAt]').datetimepicker({
-      format: 'YYYY-MM-DD',
-      locale: 'zh-cn'
-  });
   $('[data-action=integer]').keyup(function(){
     if(this.value.length==1){
       this.value=this.value.replace(/[^1-9]/g,'');

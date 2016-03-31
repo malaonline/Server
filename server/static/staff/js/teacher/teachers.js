@@ -80,16 +80,6 @@ $(function(){
     };
     bindAction();
 
-    $('input[name=reg_date_from]').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
-    $('input[name=reg_date_to]').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
     $('form[name=query_form]').submit(function(){
         var dateFrom = $('input[name=reg_date_from]').val(), dateTo = $('input[name=reg_date_to]').val();
         if (dateFrom && dateTo && dateFrom>dateTo) {

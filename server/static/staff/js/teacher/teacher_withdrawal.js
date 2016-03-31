@@ -4,16 +4,6 @@
 $(function() {
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
 
-    $('input[name=date_from]').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
-    $('input[name=date_to]').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: 'zh-cn'
-    });
-
     $('form[name=query_form]').on('submit', function (e) {
         var dateFrom = $('input[name=date_from]').val(), dateTo = $('input[name=date_to]').val();
         if (dateFrom && dateTo && dateFrom>dateTo) {

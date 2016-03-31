@@ -66,9 +66,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
-                <input type="text" name="validatedStart" id="validatedStart_new" value="{%if couponGenerator%}{{ couponGenerator.validated_start | date:"Y-m-d" }}{%endif%}">
+                <input type="text" class="dateInput" name="validatedStart" id="validatedStart_new" value="{%if couponGenerator%}{{ couponGenerator.validated_start | date:"Y-m-d" }}{%endif%}">
                 <hr>
-                <input type="text" name="expiredAt" id="expiredAt_new" value="{%if couponGenerator%}{{ couponGenerator.expired_at | date:"Y-m-d" }}{%endif%}">
+                <input type="text" class="dateInput" name="expiredAt" id="expiredAt_new" value="{%if couponGenerator%}{{ couponGenerator.expired_at | date:"Y-m-d" }}{%endif%}">
               </div>
             </div>
             <div class="form-group table-group">
@@ -91,9 +91,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">奖学金有效期</label>
               <div class="form-input time-select">
-                <input type="text" name="validatedStart" id="validatedStart_give">
+                <input type="text" class="dateInput" name="validatedStart" id="validatedStart_give">
                 <hr>
-                <input type="text" name="expiredAt" id="expiredAt_give">
+                <input type="text" class="dateInput" name="expiredAt" id="expiredAt_give">
               </div>
             </div>
             <div class="form-group table-group">

@@ -15,7 +15,7 @@
 
 {% block content %}
     <form name="query_form" class="query_form form-inline" method="get" action="{% url 'staff:school_timeslot' %}">
-        <div class="time-select">时间 <input type="text" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}"></div>
+        <div class="time-select">时间 <input type="text" class="dateInput" name="searchDate" value="{{ searchTime | date:"Y-m-d" }}"></div>
         姓名 <input type="text" name="name" value="{{name | default_if_none:''}}">
         手机号 <input type="text" name="phone" value="{{phone | default_if_none:''}}">
         授课中心
