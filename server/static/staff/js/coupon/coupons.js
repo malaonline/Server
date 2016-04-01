@@ -21,4 +21,5 @@ $(function(){
         return true;
     });
 
+    paginationInit();
 });

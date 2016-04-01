@@ -23,7 +23,7 @@ from app import models
 from app.utils import smsUtil
 from app.utils.algorithm import check_id_number
 from app.utils.types import parseInt, parse_date, parse_date_next
-from app.utils.db import paginate
+from app.utils.db import paginate, Pager
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
@@ -124,24 +124,28 @@ class CouponsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CouponsListView, self).get_context_data(**kwargs)
-        kwargs['statusList'] = [
+        context['statusList'] = [
             {'text':"状态",'value':""},
             {'text':"已使用",'value':"used"},
             {'text':"未使用",'value':"unused"},
             {'text':"已过期",'value':"expired"},
                                 ]
-        kwargs['typesList'] = [
+        context['typesList'] = [
             {'text':"类型",'value':""},
             {'text':"注册",'value':"reg"},
             {'text':"抽奖",'value':"lotto"},
                                 ]
-        kwargs['name'] = self.request.GET.get('name',None)
-        kwargs['phone'] = self.request.GET.get('phone',None)
-        kwargs['dateFrom'] = self.request.GET.get('dateFrom',None)
-        kwargs['dateTo'] = self.request.GET.get('dateTo',None)
-        kwargs['type'] = self.request.GET.get('type',None)
-        kwargs['status'] = self.request.GET.get('status',None)
-        return super(CouponsListView, self).get_context_data(**kwargs)
+        context['name'] = self.request.GET.get('name', '')
+        context['phone'] = self.request.GET.get('phone', '')
+        context['dateFrom'] = self.request.GET.get('dateFrom', '')
+        context['dateTo'] = self.request.GET.get('dateTo', '')
+        context['type'] = self.request.GET.get('type', '')
+        context['status'] = self.request.GET.get('status', '')
+        page_obj = context.get('page_obj')
+        if page_obj:
+            paginator = page_obj.paginator
+            context['pager'] = Pager(page_obj.number, paginator.num_pages, paginator.count, self.paginate_by)
+        return context
 
     def get_queryset(self):
         coupons_list = self.model.objects.all()
@@ -158,7 +162,7 @@ class CouponsListView(ListView):
         status = self.request.GET.get('status',None)
 
         if name:
-            coupons_list = coupons_list.filter(parent__user__username__icontains=name)
+            coupons_list = coupons_list.filter(parent__student_name__icontains=name)
         if phone:
             coupons_list = coupons_list.filter(parent__user__profile__phone__contains=phone)
         # if dateFrom:

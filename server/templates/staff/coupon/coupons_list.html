@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 {% block title %}奖学金领用列表{% endblock %}
 
 {% block addition_header %}
@@ -75,7 +76,7 @@
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                         <tr>
-{#                            <th>领取人</th>#}
+                            <th>领取人</th>
                             <th>手机号</th>
                             <th>奖学金名称</th>
                             <th>金额</th>
@@ -89,10 +90,10 @@
                         <tbody>
                         {% for coupon in coupons_list %}
                             <tr>
-{#                                <td>{{ coupon.parent.user.username }}</td>#}
+                                <td>{{ coupon.parent.student_name }}</td>
                                 <td>{{ coupon.parent.user.profile.phone}}</td>
                                 <td>{{ coupon.name }}</td>
-                                <td>{{ coupon.amount }}</td>
+                                <td>{{ coupon.amount|money_format:'/' }}</td>
                                 <td> 购买{{ coupon.mini_course_count }}课时 </td>
                                 <td>{{ coupon.print_validate_period }}</td>
                                 <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
@@ -110,42 +111,7 @@
                         </tbody>
                     </table>
                     {% if is_paginated %}
-                        <ul class="pagination">
-                          <li>
-                            {% if page_obj.has_previous %}
-                              <a href="?page={{ page_obj.previous_page_number }}">
-                                前一页
-                              </a>
-                            {% else %}
-                              <span>前一页</span>
-                            {% endif %}
-                          </li>
-
-                          {% for page_number in paginator.page_range %}
-                            {% if page_number == page_obj.number %}
-                              <li class="active">
-                                <span>{{ page_number }}</span>
-                              </li>
-                            {% else %}
-                              <li>
-                                <a href="?page={{ page_number }}">
-                                  {{ page_number }}
-                                </a>
-                          </li>
-                        {% endif %}
-                      {% endfor %}
-
-
-                      <li>
-                        {% if page_obj.has_next %}
-                          <a href="?page={{ page_obj.next_page_number }}">
-                            后一页
-                          </a>
-                        {% else %}
-                          <span>后一页</span>
-                        {% endif %}
-                      </li>
-                    </ul>
+                        {% include 'pagination_nav.html' %}
                     {% endif %}
                 </div>
             </div>
