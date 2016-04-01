@@ -1445,9 +1445,9 @@ class OrderManager(models.Manager):
         # 课时分配成功, 判断是否生成 测评建档
         order_count = Order.objects.filter(
             parent=order.parent, subject=order.subject,
-            status=Order.PAID).count()
-        if order_count == 1:
-            # 首单, 创建 测评建档
+            status=Order.PAID, evaluation__isnull=False).count()
+        if order_count == 0:
+            # 已经支付的订单中, 无测评建档, 创建 测评建档
             evaluation = Evaluation(order=order)
             evaluation.save()
         return timeslots
