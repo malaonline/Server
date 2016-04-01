@@ -10,7 +10,7 @@ rsync -r --delete * $DES/
 cp -Rf $SET/local_settings.py $DES/server/
 
 . $ENV/bin/activate
-pip install -r pip_install.txt
+pip install -r pip_install.txt --upgrade
 
 cd $DES
 
