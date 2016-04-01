@@ -70,9 +70,21 @@
                             weekday="{{ weekday_dict.weekday }}"
                             start="{{ one_weekly_slot.start|time:"H:i:s" }}"
                             end="{{ one_weekly_slot.end|time:"H:i:s" }}">
+                            {% for evaluation in evaluations %}
+                                {% if evaluation.start.astimezone.time == one_weekly_slot.start and evaluation.start.astimezone.isoweekday == weekday_dict.weekday %}
+                                    <div align="left" data-action="course-content">
+                                        <div align="center"><label>测评建档</label></div>
+                                        科目：{{ evaluation.order.subject }}<br/>
+                                        老师：{{ evaluation.order.teacher.name }}<br/>
+                                        手机：{{ evaluation.order.teacher.user.profile.phone }}<br/>
+                                        中心：{{ evaluation.order.school }}<br/>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                             {% for one_slot in timeslots %}
                                 {% if one_slot.start.astimezone.time == one_weekly_slot.start and one_slot.start.astimezone.isoweekday == weekday_dict.weekday %}
                                     <div align="left" data-action="course-content" tid="{{ one_slot.id }}">
+                                        <div align="center"><label>1对1课程</label></div>
                                         科目：{{ one_slot.order.subject }}<br/>
                                         老师：{{ one_slot.order.teacher.name }}<br/>
                                         手机：{{ one_slot.order.teacher.user.profile.phone }}<br/>

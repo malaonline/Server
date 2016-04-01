@@ -1434,6 +1434,14 @@ class OrderManager(models.Manager):
                         'amount': amount_str})
         except Exception as ex:
             logger.error(ex)
+        # 课时分配成功, 判断是否生成 测评建档
+        order_count = Order.objects.filter(
+            parent=order.parent, subject=order.subject,
+            status=models.Order.PAID).count()
+        if order_count == 1:
+            # 首单, 创建 测评建档
+            evaluation = Evaluation(order=order)
+            evaluation.save()
         return timeslots
 
     def refund(self, order, reason, user):
@@ -1687,15 +1695,9 @@ class Order(BaseModel):
             super(Order, self).save(*args, **kwargs)
 
     def is_student_first_subject(self):
-        # 首单必须是已支付的
-        if self.status == Order.PAID:
-            # 获取同一家长(学生), 同一科目, 且已经支付的订单数量
-            count = Order.objects.filter(
-                    parent=self.parent, subject=self.subject,
-                    status=Order.PAID).count()
-            # 如果只有一条记录, 则为该科目首单
-            if count == 1:
-                return True
+        # 首单必须是已支付的, 而且存在测评建档的订单
+        if self.status == Order.PAID and self.evaluation is not None:
+            return True
         # 其余情况都不是首单
         return False
 
