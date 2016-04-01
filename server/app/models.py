@@ -1279,6 +1279,10 @@ class Coupon(BaseModel):
         else:
             return 'unused'
 
+    @property
+    def usable(self):
+        return self.status == 'unused'
+
     def print_validate_period(self):
         return '%s ~ %s' % (
                 self.validated_start.date(), self.expired_at.date())

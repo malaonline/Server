@@ -30,6 +30,7 @@ from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 # from .forms import autoConfirmForm
 
 from .tasks import autoConfirmClasses
+from app.utils.db import QuerySetChain
 
 logger = logging.getLogger('app')
 
@@ -579,11 +580,24 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Coupon.objects.filter()
 
     def get_queryset(self):
+        only_valid = self.request.query_params.get('only_valid', '')
+        only_valid = only_valid == 'true'
         user = self.request.user
         try:
             queryset = user.parent.coupon_set.all()
         except exceptions.ObjectDoesNotExist:
             raise PermissionDenied(detail='Role incorrect')
+
+        now = timezone.now()
+        query_unexpired = queryset.filter(
+                expired_at__gt=now).order_by('created_at')
+        query_expired = queryset.filter(
+                expired_at__lte=now).order_by('created_at')
+        if only_valid:
+            queryset = query_unexpired.filter(used=False)
+        else:
+            queryset = QuerySetChain(query_unexpired, query_expired)
+
         return queryset
     serializer_class = CouponSerializer
     permission_classes = (permissions.IsAuthenticated,)

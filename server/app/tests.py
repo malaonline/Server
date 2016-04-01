@@ -238,6 +238,7 @@ class TestApi(TestCase):
         # print(profile_after.avatar_url())
         self.assertTrue(profile_after.avatar.url.find(img_name) >= 0)
 
+
     def test_modify_avatar_by_teacher(self):
         # Teacher role not allowed to modify avatar.
         username = "test1"
@@ -271,6 +272,38 @@ class TestApi(TestCase):
 
     def test_send_push(self):
         send_push('Hello')
+
+    def test_coupons(self):
+        done = False
+        for i in range(5):
+            client = Client()
+            username = "parent%d" % i
+            password = "123123"
+            client.login(username=username, password=password)
+
+            request_url = "/api/v1/coupons"
+            response = client.get(request_url, content_type='application/json')
+            self.assertEqual(200, response.status_code)
+
+            json_ret = json.loads(response.content.decode())
+            for coupon in json_ret['results']:
+                if coupon['used']:
+                    done = True
+                if coupon['expired_at'] <= timezone.now().timestamp():
+                    done = True
+
+            request_url = "/api/v1/coupons?only_valid=true"
+            response = client.get(request_url, content_type='application/json')
+            self.assertEqual(200, response.status_code)
+
+            json_ret = json.loads(response.content.decode())
+            for coupon in json_ret['results']:
+                self.assertFalse(coupon['used'])
+                self.assertTrue(
+                        coupon['expired_at'] > timezone.now().timestamp())
+            if done:
+                break
+        self.assertTrue(done)
 
     def test_create_order(self):
         client = Client()
