@@ -1437,7 +1437,7 @@ class OrderManager(models.Manager):
         # 课时分配成功, 判断是否生成 测评建档
         order_count = Order.objects.filter(
             parent=order.parent, subject=order.subject,
-            status=models.Order.PAID).count()
+            status=Order.PAID).count()
         if order_count == 1:
             # 首单, 创建 测评建档
             evaluation = Evaluation(order=order)
