@@ -140,7 +140,7 @@ class CouponsListView(ListView):
         context['dateFrom'] = self.request.GET.get('dateFrom', '')
         context['dateTo'] = self.request.GET.get('dateTo', '')
         context['type'] = self.request.GET.get('type', '')
-        context['status'] = self.request.GET.get('status', '')
+        context['req_status'] = self.request.GET.get('status', '')
         page_obj = context.get('page_obj')
         if page_obj:
             paginator = page_obj.paginator

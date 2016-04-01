@@ -1283,8 +1283,16 @@ class Coupon(BaseModel):
         return '%s ~ %s' % (
                 self.validated_start.date(), self.expired_at.date())
 
+    @property
     def amount_yuan(self):
         return self.amount and self.amount//100 or 0
+
+    @property
+    def used_at(self):
+        if self.used:
+            order =  self.order_set.filter(Q(status=Order.PAID)|Q(status=Order.REFUND)).first()
+            return order and order.paid_at
+        return None
 
     class Meta:  # 添加默认排序使列表更合理
         ordering = ["-created_at"]

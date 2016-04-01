@@ -39,11 +39,11 @@
                     </div>
                     <div class="form-group">
                         <label for="dateFromFilterInput">领取日期</label>
-                        <input class="dateInput" id="dateFromFilterInput" type="text" name="dateFrom" value="{{ dateFrom | date:"Y-m-d" }}">
+                        <input class="dateInput" id="dateFromFilterInput" type="text" name="dateFrom" value="{{ dateFrom }}">
                     </div>
                     <div class="form-group">
                         <label for="dateToFilterInput"> - </label>
-                        <input class="dateInput" id="dateToFilterInput" type="text" name="dateTo" value="{{ dateTo | date:"Y-m-d" }}">
+                        <input class="dateInput" id="dateToFilterInput" type="text" name="dateTo" value="{{ dateTo }}">
                     </div>
 {#                类型暂时不做筛选#}
 {#                    <div class="form-group">#}
@@ -62,7 +62,7 @@
                                 id="statusFilterInput"
                                 class="form-control">
                             {% for status in statusList %}
-                                <option value={{ status.value }}>{{ status.text }}</option>
+                                <option value={{ status.value }} {% if req_status == status.value %} selected="selected"{% endif %}>{{ status.text }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -97,7 +97,7 @@
                                 <td> 购买{{ coupon.mini_course_count }}课时 </td>
                                 <td>{{ coupon.print_validate_period }}</td>
                                 <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
-                                <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
+                                <td>{{ coupon.used_at|date:"Y-m-d" }}</td>
                                 <td>
                                     {% if coupon.status == 'used' %}
                                         已使用
