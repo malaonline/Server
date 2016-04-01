@@ -81,7 +81,11 @@ $(
                 },
             function(data){
                 console.log(data);
-                window.location.href =  data.url;
+                if(data.post == true) {
+                    window.location.href = data.url;
+                }else{
+                    output_error(data.msg);
+                }
             });
 
         });
@@ -91,6 +95,11 @@ $(
         });
     }
 );
+
+function output_error(msg){
+    console.log(msg);
+    $("#error_output").html(msg);
+}
 
 //获得已经选择的年级
 function selected_grand(){

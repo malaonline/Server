@@ -307,17 +307,41 @@ class InformationComplete(BasicTeacherView):
         }
         return render(request, 'teacher/information_complete.html', context)
 
+    class ParameterInvalid(Exception):
+        pass
+
     def handle_post(self, request, user, teacher, *args, **kwargs):
         next_url = request.GET.get("next", "")
         profile = models.Profile.objects.get(user=user)
 
-        name = request.POST.get("name", "")
-        gender = request.POST.get("gender", "")
-        region = request.POST.get("region")
-        subject = request.POST.get("subclass")
-        grade = request.POST.get("grade")
+        name = request.POST.get("name", None)
+        gender = request.POST.get("gender", None)
+        region = request.POST.get("region", None)
+        subject = request.POST.get("subclass", None)
+        grade = request.POST.get("grade", None)
+
+        def _check_parameter(target, msg):
+            if not target:
+                raise InformationComplete.ParameterInvalid(msg)
+
+        check_list = [
+            [name, "姓名未填写"],
+            [gender, "性别未填写"],
+            [region, "地区未填写"],
+            [subject, "课目未填写"],
+        ]
+
+        try:
+            for target, msg in check_list:
+                _check_parameter(target=target, msg=msg)
+        except InformationComplete.ParameterInvalid as e:
+            # 存在没有填写的项目
+            return JsonResponse({"post": False, "msg": str(e)})
 
         grade_list = json.loads(grade)
+
+        if len(grade_list) == 0:
+            return JsonResponse({"post": False, "msg": "授课年级没有选择"})
 
         teacher.name = name
         gender_dict = {"男": "m", "女": "f"}
@@ -355,9 +379,9 @@ class InformationComplete(BasicTeacherView):
         profile.save()
 
         if next_url:
-            return JsonResponse({"url": next_url})
+            return JsonResponse({"post": True, "url": next_url})
         else:
-            return JsonResponse({"url": reverse("teacher:register-progress")})
+            return JsonResponse({"post": True, "url": reverse("teacher:register-progress")})
 
 
 class RegisterProgress(BasicTeacherView):
