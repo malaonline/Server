@@ -188,4 +188,13 @@ $(function(){
             });
         }
     });
+    
+    // 导出按钮点击
+    $("[data-action=export]").click(function(e) {
+        if (window.location.search) {
+            window.open(window.location.href + "&export=true");
+        } else {
+            window.open(window.location.href + "?export=true");
+        }
+    });
 });

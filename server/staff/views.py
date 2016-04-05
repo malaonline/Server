@@ -1644,6 +1644,7 @@ class OrderRefundView(BaseStaffView):
         subject = self.request.GET.get('subject')
         status = self.request.GET.get('status')
         page = self.request.GET.get('page')
+        export = self.request.GET.get('export', None)
 
         query_set = models.Order.objects.filter()
         # 退费申请区间
@@ -1697,11 +1698,62 @@ class OrderRefundView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
         query_set = query_set.order_by('-refund_at')
-        # paginate
+        if export is not None:
+            # 导出操作, 直接给 query_set
+            return query_set
+        # 非导出操作, 继续分页显示
         query_set, pager = paginate(query_set, page)
         kwargs['pager'] = pager
         kwargs['orders'] = query_set
         return super(OrderRefundView, self).get_context_data(**kwargs)
+
+    def get(self, request):
+        context = self.get_context_data()
+        export = self.request.GET.get('export', None)
+        if export:
+            query_set = context
+            headers = (
+                '申请时间',
+                '订单号',
+                '家长手机号',
+                '学生姓名',
+                '老师姓名',
+                '老师手机号',
+                '报课年级',
+                '报课科目',
+                '上课地址',
+                '购买小时',
+                '小时单价',
+                '剩余小时',
+                '退费小时',
+                '奖学金',
+                '退费金额',
+                '状态',
+                '退费原因',
+                '是否排课',
+            )
+            columns = (
+                lambda x: timezone.make_naive(x.refund_info().refunded_at),
+                'order_id',
+                'parent.user.profile.phone',
+                'parent.student_name',
+                'teacher.name',
+                'teacher.user.profile.phone',
+                'grade',
+                'subject',
+                'school',
+                'hours',
+                lambda x: x.price/100,
+                'refund_info.remaining_hours',
+                'refund_info.refund_hours',
+                lambda x: x.coupon.amount/100 if x.coupon is not None else 0,
+                lambda x: x.refund_info().refund_amount/100,
+                'get_refund_status_display',
+                'refund_info.reason',
+                lambda x: '是' if x.is_timeslot_allocated else '否',
+            )
+            return excel.excel_response(query_set, columns, headers, '退费审核记录.xls')
+        return render(request, self.template_name, context)
 
 
 class OrderRefundActionView(BaseStaffActionView):

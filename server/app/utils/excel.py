@@ -22,13 +22,13 @@ def multi_getattr(obj, attr, default=None):
     for i in attributes:
         try:
             obj = getattr(obj, i)
+            if callable(obj):
+                obj = obj()
         except AttributeError:
             if default:
                 return default
             else:
                 raise
-    if callable(obj):
-        obj = obj()
     return obj
 
 
