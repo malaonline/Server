@@ -263,7 +263,7 @@ SERVICE_SUPPORT_TEL = '010-88888888'
 
 RAVEN_CONFIG = {
     'dsn': 'http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1c822de398@sentry.malalaoshi.com/4',
-    'release': 'v1.0',
+    'release': 'v1.0.1',
 }
 
 

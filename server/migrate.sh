@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 
-DES=/opt/jenkins/mala/server
+DES=/opt/jenkins/mala
 ENV=/opt/jenkins/env
 SET=/opt/keys-pros
 
 mkdir -p $DES
-rsync -r --delete * $DES/
+rsync -rv --delete .. $DES --exclude=ios --exclude=android
 cp -Rf $SET/local_settings.py $DES/server/
 
 . $ENV/bin/activate

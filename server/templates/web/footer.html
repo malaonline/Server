@@ -2,56 +2,55 @@
 {% load compile_static %}
 
 <div class="section fp-auto-height" id="section-footer">
-{#    <div class="intro">#}
-        <div class="container">
-            <div class="row footer-aboutus">
-                <div class="col-md-6 col-xs-12">
-                    <div class="col-xs-6">
-                        <h4><a href="http://www.lagou.com/gongsi/87792.html">加入我们</a></h4>
-                        <p>
-                            无论你是工程师,产品经理或还是设计师<br>
-                            只要你热爱互联网<br>
-                            就快来麻辣一起创造新的教育体验吧
-                        </p>
-                    </div>
-                    <div class="col-xs-6">
-                        <h4><a href="#"  data-toggle="modal" data-target="#aboutUsModal">关于我们</a></h4>
-                        <p>
-                            一群沉浸颠覆教育行业的年轻人<br>
-                            一群80后<br>
-                            势必打造全新教育理念
-                        </p>
-                    </div>
+    <div class="container">
+        <div class="row footer-aboutus">
+            <div class="col-md-6 col-xs-12">
+                <div class="col-xs-6">
+                    <h4><a href="http://www.lagou.com/gongsi/87792.html">加入我们</a></h4>
+                    <p>
+                    无论你是工程师,产品经理或还是设计师<br>
+                    只要你热爱互联网<br>
+                    就快来麻辣一起创造新的教育体验吧
+                    </p>
                 </div>
-                <div class="col-md-6 col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <h4>联系电话</h4>
-                            <span class="text-green">010-5333749</span>
-                        </div>
-                        <div class="col-xs-4 text-center">
-                            <a href="http://weibo.com/u/5697570927">
-                                <h4>官方微博</h4>
-                                <img class="footer-icon-image" src="{% static 'web/images/weibo_icon.png' %}" alt="">
-                            </a>
-                        </div>
-                        <div class="col-xs-4 text-center">
-                            <a href="#"  data-toggle="modal" data-target="#wechatQrModal">
-                                <h4>官方微信</h4>
-                                <img class="footer-icon-image" src="{% static 'web/images/wechat_icon.png' %}" alt="">
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xs-6">
+                    <h4><a href="#"  data-toggle="modal" data-target="#aboutUsModal">关于我们</a></h4>
+                    <p>
+                    一群沉浸颠覆教育行业的年轻人<br>
+                    一群80后<br>
+                    势必打造全新教育理念
+                    </p>
                 </div>
             </div>
-            <div class="footer-copyright">
+            <div class="col-md-6 col-xs-12">
                 <div class="row">
-                    <p class="copyright text-center">COPYRIGHT © 2015-2016 京ICP备14027590号-1</p>
-                </div>
-                <div class="row">
-                    <p class="copyright text-center">北京麻辣在线网络科技有限公司 版权所有</p>
+                    <div class="col-xs-4">
+                        <h4>联系电话</h4>
+                        <span class="text-green">010-5333749</span>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <a href="http://weibo.com/u/5697570927">
+                            <h4>官方微博</h4>
+                            <img class="footer-icon-image" src="{% static 'web/images/weibo_icon.png' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <a href="#"  data-toggle="modal" data-target="#wechatQrModal">
+                            <h4>官方微信</h4>
+                            <img class="footer-icon-image" src="{% static 'web/images/wechat_icon.png' %}" alt="">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-{#    </div>#}
+        <div class="footer-copyright">
+            <div class="row">
+                <p class="copyright text-center">COPYRIGHT © 2015-2016 京ICP备14027590号-1</p>
+            </div>
+            <div class="row">
+                <p class="copyright text-center">北京麻辣在线网络科技有限公司 版权所有</p>
+                <p class="sm copyright text-center">当前版本：{{rev}}</p>
+            </div>
+        </div>
+    </div>
 </div>
