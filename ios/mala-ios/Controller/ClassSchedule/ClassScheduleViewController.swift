@@ -89,14 +89,26 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
             return
         }
         
+        ThemeHUD.showActivityIndicator()
+        
         // 发送网络请求
         getStudentCourseTable(failureHandler: { (reason, errorMessage) -> Void in
+            
+            delay(0.35, work: {
+                ThemeHUD.hideActivityIndicator()
+            })
+            
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
                 println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
             }
         }, completion: { [weak self] (courseList) -> Void in
+            
+            delay(0.35, work: {
+                ThemeHUD.hideActivityIndicator()
+            })
+            
             println("学生课程表: \(courseList)")
             guard courseList != nil else {
                 println("学生上课时间表为空！")

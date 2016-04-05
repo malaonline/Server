@@ -38,7 +38,15 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     var selectedSchoolIndexPath: NSIndexPath  = NSIndexPath(forRow: 0, inSection: 0)
     /// 观察者对象数组
     var observers: [AnyObject] = []
-    
+    /// 必要数据加载完成计数
+    private var requiredCount: Int = 0 {
+        didSet {
+            // [老师可用时间表][奖学金][是否首次购买]三个必要数据加载完成才激活界面
+            if requiredCount == 3 {
+                ThemeHUD.hideActivityIndicator()
+            }
+        }
+    }
     
     
     // MARK: - Compontents
@@ -55,6 +63,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ThemeHUD.showActivityIndicator()
         
         setupUserInterface()
 //        loadSchoolsData()
@@ -157,7 +167,8 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 println("CourseChoosingViewController - getTeacherAvailableTimeInSchool Error \(errorMessage)")
             }
         },completion: { [weak self] (timeSchedule) -> Void in
-                self?.classScheduleModel = timeSchedule
+            self?.classScheduleModel = timeSchedule
+            self?.requiredCount += 1
         })
     }
     
@@ -171,10 +182,11 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 println("CourseChoosingViewController - loadCoupons Error \(errorMessage)")
             }
         }, completion: { [weak self] (coupons) -> Void in
-                println("优惠券列表 \(coupons)")
-                MalaUserCoupons = coupons
-                self?.selectDefalutCoupon()
-            })
+            println("优惠券列表 \(coupons)")
+            MalaUserCoupons = coupons
+            self?.selectDefalutCoupon()
+            self?.requiredCount += 1
+        })
     }
     
     private func loadUserEvaluatedStatus() {
@@ -186,9 +198,10 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
             if let errorMessage = errorMessage {
                 println("CourseChoosingViewController - loadUserEvaluatedStatus Error \(errorMessage)")
             }
-        }, completion: { (bool) -> Void in
-                println("用户是否首次购买此学科课程？ \(bool)")
-                MalaIsHasBeenEvaluatedThisSubject = bool
+        }, completion: { [weak self] (bool) -> Void in
+            println("用户是否首次购买此学科课程？ \(bool)")
+            MalaIsHasBeenEvaluatedThisSubject = bool
+            self?.requiredCount += 1
         })
     }
     

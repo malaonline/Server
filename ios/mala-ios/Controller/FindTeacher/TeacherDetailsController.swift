@@ -48,6 +48,15 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     }
     var isOpenSchoolsCell: Bool = false
     var isNavigationBarShow: Bool = false
+    /// 必要数据加载完成计数
+    private var requiredCount: Int = 0 {
+        didSet {
+            // [老师详情][上课地点][会员服务]三个必要数据加载完成才激活界面
+            if requiredCount == 3 {
+                ThemeHUD.hideActivityIndicator()
+            }
+        }
+    }
 
     
     // MARK: - Components
@@ -82,6 +91,8 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ThemeHUD.showActivityIndicator()
         
         setupUserInterface()
         loadTeacherDetail()
@@ -215,6 +226,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
             }
             
             self?.model = TeacherDetailModel(dict: dict)
+            self?.requiredCount += 1
             })
     }
     
@@ -240,6 +252,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
                 }
             }
             self?.schoolArray = tempArray
+            self?.requiredCount += 1
         }
     }
     
@@ -265,6 +278,7 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
                 }
             }
             self?.memberServiceArray = tempArray
+            self?.requiredCount += 1
         }
     }
     
