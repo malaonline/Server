@@ -1285,7 +1285,9 @@ class Coupon(BaseModel):
 
     def print_validate_period(self):
         return '%s ~ %s' % (
-                self.validated_start.date(), self.expired_at.date())
+            self.validated_start and timezone.localtime(self.validated_start).strftime('%Y-%m-%d') or '',
+            self.expired_at and timezone.localtime(self.expired_at).strftime('%Y-%m-%d') or ''
+        )
 
     @property
     def amount_yuan(self):
