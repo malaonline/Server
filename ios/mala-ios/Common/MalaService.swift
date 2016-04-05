@@ -503,6 +503,7 @@ func getCourseInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, comple
 func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureHandler: ((Reason, String?) -> Void)?, completion: [[Int]]? -> Void) {
     
     guard timeSlots.count != 0 else {
+        ThemeHUD.hideActivityIndicator()
         return
     }
     

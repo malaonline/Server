@@ -330,12 +330,20 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     /// 获取上课时间表
     private func loadConcreteTimeslots() {
         
+        // 老师id
         guard let id = teacherModel?.id where MalaCourseChoosingObject.classPeriod != 0 else {
             return
         }
         
-        let hours = MalaCourseChoosingObject.classPeriod
+        // 上课时间
         let timeslots = MalaCourseChoosingObject.selectedTime.map{$0.id}
+        guard timeslots.count != 0 else {
+            ShowTost("请先选择上课时间")
+            return
+        }
+        
+        // 课时
+        let hours = MalaCourseChoosingObject.classPeriod
         
         ThemeHUD.showActivityIndicator()
         
