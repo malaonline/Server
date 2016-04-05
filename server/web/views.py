@@ -7,8 +7,12 @@ def get_git_revision_hash():
     return subprocess.check_output(['git', 'rev-parse', 'HEAD'])
 
 
-class Index(View):
+class PatriarchIndex(View):
     def get(self, request):
-        # 官网的初始页面
         return render(
-                request, 'web/index.html', dict(rev=get_git_revision_hash()))
+                request, 'web/patriarch_index.html', dict(rev=get_git_revision_hash()))
+
+class TeacherIndex(View):
+    def get(self, request):
+        return render(
+                request, 'web/teacher_index.html', dict(rev=get_git_revision_hash()))

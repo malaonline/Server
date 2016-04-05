@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import sys
 import raven
+import subprocess
 
 TESTING = sys.argv[1:2] == ['test']
 
@@ -125,6 +126,10 @@ DATABASES = {
         'PASSWORD': 'mala123',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'TEST': {
+            'NAME': 'test_%s' % subprocess.check_output(
+                ['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode().strip(),
+        }
     }
 }
 

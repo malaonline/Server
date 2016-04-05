@@ -3,6 +3,6 @@ from . import views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    url(r'^$', views.Index.as_view(), name="index"), #家长页
-    url(r'^web/teacher', TemplateView.as_view(template_name="web/teacher_index.html"),name='teacher-index'),
+    url(r'^$', views.PatriarchIndex.as_view(), name="patriarch-index"),
+    url(r'^web/teacher', views.TeacherIndex.as_view(), name='teacher-index'),
 ]
