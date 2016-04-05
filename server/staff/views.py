@@ -1544,6 +1544,7 @@ class OrderReviewView(BaseStaffView):
         order_date_from = self.request.GET.get('order_date_from')
         order_date_to = self.request.GET.get('order_date_to')
         page = self.request.GET.get('page')
+        export = self.request.GET.get('export', None)
 
         query_set = models.Order.objects.filter()
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
@@ -1622,11 +1623,66 @@ class OrderReviewView(BaseStaffView):
         kwargs['subjects'] = models.Subject.objects.all()
         # 查询结果数据集, 默认按下单时间排序
         query_set = query_set.order_by('-created_at')
-        # paginate
+        if export is not None:
+            # 导出操作, 直接给 query_set
+            return query_set
+        # 非导出操作, 继续分页显示
         query_set, pager = paginate(query_set, page, 5)
         kwargs['orders'] = query_set
         kwargs['pager'] = pager
         return super(OrderReviewView, self).get_context_data(**kwargs)
+
+    def get(self, request):
+        context = self.get_context_data()
+        export = self.request.GET.get('export', None)
+        if export:
+            query_set = context
+            headers = (
+                '订单号',
+                '下单时间',
+                '支付平台',
+                '订单状态',
+                '家长手机号',
+                '学生姓名',
+                '老师姓名',
+                '老师手机号',
+                '报课年级',
+                '报课科目',
+                '上课地址',
+                '购买小时',
+                '小时单价',
+                '剩余小时',
+                '退费小时',
+                '奖学金',
+                '退费金额',
+                '状态',
+                '退费原因',
+                '是否排课',
+            )
+            columns = (
+                'order_id',
+                lambda x: timezone.make_naive(x.created_at),
+                lambda x: 'N/A',
+                lambda x: x.get_refund_status_display() if x.refund_status else x.get_status_display(),
+                # 'parent.user.profile.phone',
+                # 'parent.student_name',
+                # 'teacher.name',
+                # 'teacher.user.profile.phone',
+                # 'grade',
+                # 'subject',
+                # 'school',
+                # 'hours',
+                # lambda x: x.price / 100,
+                # 'refund_info.remaining_hours',
+                # 'refund_info.refund_hours',
+                # lambda x: x.coupon.amount / 100 if x.coupon is not None else 0,
+                # lambda x: x.refund_info().refund_amount / 100,
+                # 'get_refund_status_display',
+                # 'refund_info.reason',
+                # lambda x: '是' if x.is_timeslot_allocated else '否',
+            )
+            return excel.excel_response(query_set, columns, headers, '订单记录.xls')
+        return render(request, self.template_name, context)
 
 
 class OrderRefundView(BaseStaffView):
