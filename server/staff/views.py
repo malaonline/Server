@@ -1750,7 +1750,7 @@ class OrderRefundView(BaseStaffView):
                 lambda x: x.refund_info().refund_amount/100,
                 'get_refund_status_display',
                 'refund_info.reason',
-                lambda x: '是' if x.is_timeslot_allocated else '否',
+                lambda x: '是' if x.is_timeslot_allocated() else '否',
             )
             return excel.excel_response(query_set, columns, headers, '退费审核记录.xls')
         return render(request, self.template_name, context)
