@@ -93,6 +93,7 @@ class ChargeSucceeded(View):
 
         order = charge.order
         order.status = order.PAID
+        order.paid_at = timezone.now()
         order.save()
         try:
             models.Order.objects.allocate_timeslots(order)

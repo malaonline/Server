@@ -1294,8 +1294,8 @@ class Coupon(BaseModel):
     @property
     def used_at(self):
         if self.used:
-            order =  self.order_set.filter(Q(status=Order.PAID)|Q(status=Order.REFUND)).first()
-            return order and order.paid_at
+            order =  self.order_set.filter().first()
+            return order and order.created_at
         return None
 
     class Meta:  # 添加默认排序使列表更合理
