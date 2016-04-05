@@ -80,9 +80,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Override
     ///  cell点击事件
     func cellDidTap() {
-        if dropArrow.hidden == false {
-            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
-        }
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
     }
     
     

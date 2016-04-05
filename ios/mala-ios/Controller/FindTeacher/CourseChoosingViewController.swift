@@ -278,9 +278,16 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
                 
-                // 收起上课时间表
-                self?.tableView.isOpenTimeScheduleCell = false
-                self?.isNeedReloadTimeSchedule = true
+                // 请求上课时间表，并展开cell
+                if let isOpen = self?.tableView.isOpenTimeScheduleCell where isOpen {
+                    // 请求上课时间表，并展开cell
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self?.loadConcreteTimeslots()
+                        self?.tableView.isOpenTimeScheduleCell = true
+                    })
+                }else {
+                    self?.isNeedReloadTimeSchedule = true
+                }
         }
         self.observers.append(observerClassScheduleDidTap)
         
@@ -293,9 +300,16 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 // 保存选择课时数
                 MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
                 
-                // 收起上课时间表
-                self?.tableView.isOpenTimeScheduleCell = false
-                self?.isNeedReloadTimeSchedule = true
+                // 请求上课时间表，并展开cell
+                if let isOpen = self?.tableView.isOpenTimeScheduleCell where isOpen {
+                    // 请求上课时间表，并展开cell
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self?.loadConcreteTimeslots()
+                        self?.tableView.isOpenTimeScheduleCell = true
+                    })
+                }else {
+                    self?.isNeedReloadTimeSchedule = true
+                }
         }
         self.observers.append(observerClassPeriodDidChange)
         
@@ -314,15 +328,18 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
                 }
                 
                 // 若选课或课时已改变则请求上课时间表，并展开cell
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if bool && self?.isNeedReloadTimeSchedule == true {
-                        self?.loadConcreteTimeslots()
-                        self?.isNeedReloadTimeSchedule = false
-                    }else {
-                        self?.tableView.isOpenTimeScheduleCell = false
-                    }
-                })
-                
+                if let isOpen = self?.tableView.isOpenTimeScheduleCell where isOpen != bool && bool {
+                    // 请求上课时间表，并展开cell
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        if bool && self?.isNeedReloadTimeSchedule == true {
+                            self?.loadConcreteTimeslots()
+                            self?.isNeedReloadTimeSchedule = false
+                        }
+                        self?.tableView.isOpenTimeScheduleCell = true
+                    })
+                }else {
+                    self?.tableView.isOpenTimeScheduleCell = false
+                }
         }
         self.observers.append(observerOpenTimeScheduleCell)
     }
