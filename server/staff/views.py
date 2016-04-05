@@ -1298,6 +1298,8 @@ class StudentScheduleManageView(BaseStaffView):
         # 查询结果数据集
         kwargs['timeslots'] = query_set
         kwargs['evaluations'] = models.Evaluation.objects.filter(
+            start__gte=start_search_time,
+            end__lte=end_search_time,
             status=models.Evaluation.SCHEDULED,
             order__parent__user__profile__phone=parent_phone)
         return super(StudentScheduleManageView, self).get_context_data(**kwargs)
