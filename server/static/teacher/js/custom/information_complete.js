@@ -80,8 +80,7 @@ $(
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
                 },
             function(data){
-                console.log(data);
-                if(data.post == true) {
+                if(data.done == true) {
                     window.location.href = data.url;
                 }else{
                     output_error(data.msg);

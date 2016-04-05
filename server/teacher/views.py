@@ -336,12 +336,12 @@ class InformationComplete(BasicTeacherView):
                 _check_parameter(target=target, msg=msg)
         except InformationComplete.ParameterInvalid as e:
             # 存在没有填写的项目
-            return JsonResponse({"post": False, "msg": str(e)})
+            return JsonResponse({"done": False, "msg": str(e)})
 
         grade_list = json.loads(grade)
 
         if len(grade_list) == 0:
-            return JsonResponse({"post": False, "msg": "授课年级没有选择"})
+            return JsonResponse({"done": False, "msg": "授课年级没有选择"})
 
         teacher.name = name
         gender_dict = {"男": "m", "女": "f"}
@@ -379,9 +379,9 @@ class InformationComplete(BasicTeacherView):
         profile.save()
 
         if next_url:
-            return JsonResponse({"post": True, "url": next_url})
+            return JsonResponse({"done": True, "url": next_url})
         else:
-            return JsonResponse({"post": True, "url": reverse("teacher:register-progress")})
+            return JsonResponse({"done": True, "url": reverse("teacher:register-progress")})
 
 
 class RegisterProgress(BasicTeacherView):

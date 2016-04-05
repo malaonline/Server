@@ -192,7 +192,7 @@ class TestWebPage(TestCase):
                                          })
         self.assertEqual(post_response.status_code, 200)
         self.assertEqual(json.loads(post_response.content.decode("utf-8")),
-                         {"url": "/teacher/register/progress", "post": True})
+                         {"url": "/teacher/register/progress", "done": True})
 
     def test_register_progress(self):
         client = Client()
