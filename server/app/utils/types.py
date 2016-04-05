@@ -1,6 +1,8 @@
 import datetime
 import re
 
+from django.utils.timezone import make_aware
+
 _re_number = re.compile(r'^-?\d+')
 
 _re_date = re.compile(r'^\d+-\d+-\d+$')
@@ -40,19 +42,23 @@ def parseInt(nums, default='NaN'):
     return int(d.group(0)) if d else default
 
 
-def parse_date(s):
+def parse_date(s, to_aware=True):
+    d = None
     if _re_date.match(s):
-        return datetime.datetime.strptime(s, DATE_P_FORMAT)
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT)
     if _re_date_h.match(s):
-        return datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH)
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH)
     if _re_date_h_m.match(s):
-        return datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH_MM)
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH_MM)
     if _re_date_full.match(s):
-        return datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
-    return None
+        d = datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
+    if d is not None and to_aware:
+        return make_aware(d)
+    return d
 
 
-def parse_date_next(s):
+def parse_date_next(s, to_aware=True):
+    d = None
     if _re_date.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT)
         d += datetime.timedelta(days=1)
@@ -68,5 +74,6 @@ def parse_date_next(s):
     if _re_date_full.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
         d += datetime.timedelta(seconds=1)
-        return d
-    return None
+    if d is not None and to_aware:
+        return make_aware(d)
+    return d
