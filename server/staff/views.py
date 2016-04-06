@@ -1637,6 +1637,15 @@ class OrderReviewView(BaseStaffView):
         export = self.request.GET.get('export', None)
         if export:
             query_set = context
+            _weekday_dict = {
+                1: "周一",
+                2: "周二",
+                3: "周三",
+                4: "周四",
+                5: "周五",
+                6: "周六",
+                7: "周日",
+            }
             headers = (
                 '订单号',
                 '下单时间',
@@ -1667,7 +1676,7 @@ class OrderReviewView(BaseStaffView):
             columns = (
                 'order_id',
                 lambda x: timezone.make_naive(x.created_at),
-                lambda x: 'N/A',
+                lambda x: '\n'.join(c.channel for c in x.charge_set.all()),
                 'status_display',
                 lambda x: '是' if x.is_timeslot_allocated() else '否',
                 'parent.user.profile.phone',
@@ -1677,7 +1686,13 @@ class OrderReviewView(BaseStaffView):
                 'grade',
                 'subject',
                 'school',
-                'weekly_time_slots',
+                lambda x: '\n'.join(
+                    _weekday_dict.get(w.weekday, '') +
+                    w.start.strftime('%H:%M') +
+                    '-' +
+                    w.end.strftime('%H:%M')
+                    for w in x.weekly_time_slots.all()
+                ),
                 lambda x: x.price / 100,
                 'hours',
                 lambda x: x.total / 100,
