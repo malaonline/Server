@@ -1353,6 +1353,8 @@ class OrderManager(models.Manager):
                 weekly_ts.start.minute - cur_min + 7 * 24 * 60) % (7 * 24 * 60)
 
     def concrete_timeslots(self, hours, weekly_time_slots, teacher):
+        if len(weekly_time_slots) == 0:
+            return []
         grace_time = TimeSlot.GRACE_TIME
         date = timezone.localtime(timezone.now()) + grace_time
         date = date.replace(second=0, microsecond=0)
