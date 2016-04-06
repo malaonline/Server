@@ -204,7 +204,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
-                if httpResponse.statusCode == 401 {
+                if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
                     
                     // 确保是自家服务
                     if let requestHost = request.URL?.host where requestHost == NSURL(string: MalaBaseUrl)!.host {
