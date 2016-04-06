@@ -38,7 +38,7 @@
                                         <barButtonItem key="leftBarButtonItem" image="location_normal" id="N9b-Kr-Qpy">
                                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" image="filter_normal" style="plain" id="wyj-A8-GT1">
+                                        <barButtonItem key="rightBarButtonItem" image="filter_normal" id="wyj-A8-GT1">
                                             <color key="tintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         </barButtonItem>
                                     </navigationItem>

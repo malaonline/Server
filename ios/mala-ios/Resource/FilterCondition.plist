@@ -23,7 +23,7 @@
 				<key>id</key>
 				<integer>13</integer>
 				<key>name</key>
-				<string>高中一年级</string>
+				<string>高一</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -43,7 +43,7 @@
 				<key>id</key>
 				<integer>14</integer>
 				<key>name</key>
-				<string>高中二年级</string>
+				<string>高二</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -63,7 +63,7 @@
 				<key>id</key>
 				<integer>15</integer>
 				<key>name</key>
-				<string>高中三年级</string>
+				<string>高三</string>
 			</dict>
 		</array>
 		<key>subjects</key>
@@ -104,7 +104,7 @@
 				<key>id</key>
 				<integer>9</integer>
 				<key>name</key>
-				<string>初中一年级</string>
+				<string>初一</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -124,7 +124,7 @@
 				<key>id</key>
 				<integer>10</integer>
 				<key>name</key>
-				<string>初中二年级</string>
+				<string>初二</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -144,7 +144,7 @@
 				<key>id</key>
 				<integer>11</integer>
 				<key>name</key>
-				<string>初中三年级</string>
+				<string>初三</string>
 			</dict>
 		</array>
 		<key>subjects</key>
@@ -179,7 +179,7 @@
 				<key>id</key>
 				<integer>2</integer>
 				<key>name</key>
-				<string>小学一年级</string>
+				<string>一年级</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -193,7 +193,7 @@
 				<key>id</key>
 				<integer>3</integer>
 				<key>name</key>
-				<string>小学二年级</string>
+				<string>二年级</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -207,7 +207,7 @@
 				<key>id</key>
 				<integer>4</integer>
 				<key>name</key>
-				<string>小学三年级</string>
+				<string>三年级</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -221,7 +221,7 @@
 				<key>id</key>
 				<integer>5</integer>
 				<key>name</key>
-				<string>小学四年级</string>
+				<string>四年级</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -235,7 +235,7 @@
 				<key>id</key>
 				<integer>6</integer>
 				<key>name</key>
-				<string>小学五年级</string>
+				<string>五年级</string>
 			</dict>
 			<dict>
 				<key>subset</key>
@@ -249,7 +249,7 @@
 				<key>id</key>
 				<integer>7</integer>
 				<key>name</key>
-				<string>小学六年级</string>
+				<string>六年级</string>
 			</dict>
 		</array>
 		<key>subjects</key>
