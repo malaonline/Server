@@ -160,6 +160,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
         let schoolID = MalaCourseChoosingObject.school?.id ?? 1
         
         getTeacherAvailableTimeInSchool(teacherID, schoolID: schoolID, failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
@@ -175,6 +176,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     private func loadCoupons() {
         ///  获取优惠券信息
         getCouponList({ (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
@@ -192,6 +194,7 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     private func loadUserEvaluatedStatus() {
         ///  判断用户是否首次购买此学科课程
         isHasBeenEvaluatedWithSubject(MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理

@@ -216,6 +216,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     
     private func loadTeacherDetail() {
         MalaNetworking.sharedTools.loadTeacherDetail(self.teacherID, finished: {[weak self] (result, error) -> () in
+            
+            ThemeHUD.hideActivityIndicator()
+            
             if error != nil {
                 debugPrint("TeahcerDeatilsController - loadTeacherDetail Request Error")
                 return
@@ -233,6 +236,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     private func loadSchoolsData() {
         // // 获取 [教学环境] 数据
         MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
+            
+            ThemeHUD.hideActivityIndicator()
+            
             if error != nil {
                 debugPrint("TeacherDetailsController - loadSchools Request Error")
                 return
@@ -259,6 +265,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     private func loadMemberServices() {
         // 获取 [会员服务] 数据
         MalaNetworking.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
+            
+            ThemeHUD.hideActivityIndicator()
+            
             if error != nil {
                 debugPrint("TeacherDetailsController - loadMemberServices Request Error")
                 return
