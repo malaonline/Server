@@ -7,12 +7,12 @@ SET=/opt/keys-pros
 
 mkdir -p $DES
 rsync -rv --delete .. $DES --exclude=ios --exclude=android
-cp -Rf $SET/local_settings.py $DES/server/
+cp -Rf $SET/local_settings.py $DES/server/server/
 
 . $ENV/bin/activate
 pip install -r pip_install.txt --upgrade
 
-cd $DES
+cd $DES/server
 
 python manage.py migrate --noinput
 python manage.py compilestatic
