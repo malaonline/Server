@@ -27,8 +27,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
             self.tableHeaderView.avatar = model.avatar ?? ""
-            self.tableHeaderView.name = model.name  ?? "----"
+            self.tableHeaderView.name = model.name  ?? "——"
             self.tableHeaderView.gender = model.gender ?? "m"
+            self.tableHeaderView.subject = model.subject ?? "——"
             self.tableHeaderView.minPrice = model.min_price
             self.tableHeaderView.maxPrice = model.max_price
             self.tableView.reloadData()

@@ -27,16 +27,23 @@ class TeacherDetailsHeaderView: UIView {
     var name: String = "----" {
         didSet{
             self.nameLabel.text = name
+            self.nameLabel.sizeToFit()
         }
     }
     /// 教师性别
-    var gender: String = ""{
+    var gender: String = "" {
         didSet{
             switch gender {
-            case "m": genderLabel.text = "男"
-            case "f": genderLabel.text = "女"
-            default: genderLabel.text = "暂无"
+            case "m": genderIcon.image = UIImage(named: "gender_female")
+            case "f": genderIcon.image = UIImage(named: "gender_male")
+            default: genderIcon.image = UIImage(named: "")
             }
+        }
+    }
+    /// 教授学科
+    var subject: String = "" {
+        didSet {
+            subjectLabel.text = subject
         }
     }
     /// 最小价格
@@ -85,8 +92,13 @@ class TeacherDetailsHeaderView: UIView {
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         return label
     }()
-    /// 老师性别label
-    private lazy var genderLabel: UILabel = {
+    /// 老师性别Icon
+    private lazy var genderIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "gender_female"))
+        return imageView
+    }()
+    /// 科目label
+    private lazy var subjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaColor_939393_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
@@ -97,6 +109,7 @@ class TeacherDetailsHeaderView: UIView {
         let label = UILabel()
         label.textColor = MalaColor_939393_0
         label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.textAlignment = .Left
         return label
     }()
 
@@ -122,7 +135,8 @@ class TeacherDetailsHeaderView: UIView {
         self.contentView.addSubview(avatarView)
         self.contentView.addSubview(vipIconView)
         self.contentView.addSubview(nameLabel)
-        self.contentView.addSubview(genderLabel)
+        self.contentView.addSubview(genderIcon)
+        self.contentView.addSubview(subjectLabel)
         self.contentView.addSubview(priceLabel)
         
         // Autolayout
@@ -147,18 +161,23 @@ class TeacherDetailsHeaderView: UIView {
         nameLabel.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_12)
             make.left.equalTo(self.avatarView.snp_right).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
             make.height.equalTo(MalaLayout_FontSize_16)
         })
-        genderLabel.snp_makeConstraints(closure: { (make) -> Void in
+        genderIcon.snp_makeConstraints(closure: { (make) -> Void in
+            make.centerY.equalTo(self.nameLabel.snp_centerY)
+            make.left.equalTo(self.nameLabel.snp_right).offset(MalaLayout_Margin_12)
+            make.width.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(MalaLayout_FontSize_13)
+        })
+        subjectLabel.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_8)
-            make.left.equalTo(self.avatarView.snp_right).offset(MalaLayout_Margin_12)
-            make.width.equalTo(MalaLayout_FontSize_12)
+            make.left.equalTo(self.nameLabel.snp_left)
+            make.width.equalTo(MalaLayout_FontSize_12*2)
             make.height.equalTo(MalaLayout_FontSize_12)
         })
         priceLabel.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_8)
-            make.left.equalTo(self.genderLabel.snp_right).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.subjectLabel.snp_right).offset(MalaLayout_Margin_12)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
             make.height.equalTo(MalaLayout_FontSize_12)
         })
