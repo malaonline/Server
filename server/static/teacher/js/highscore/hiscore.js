@@ -1,5 +1,11 @@
 $(function(){
   var hiscorepageDefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+  $('#admittedTo, #schoolname').bind("blur", function(){
+    var vl = this.value;
+    if(vl.length > 6){
+      this.value = vl.substring(0, 6);
+    }
+  });
   $('#checkboxSelectAll').change(function(e){
     var ck = false;
     if($('#checkboxSelectAll').is(':checked')){
@@ -71,6 +77,13 @@ $(function(){
       $saveBtn.removeClass('disabled');
       isSaving = false;
       return false;
+    }
+
+    if(schoolname.length > 6){
+      schoolname = schoolname.substring(0, 6);
+    }
+    if(admittedTo.length > 6){
+      admittedTo = admittedTo.substring(0, 6);
     }
 
     var params = {
