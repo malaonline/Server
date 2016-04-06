@@ -133,11 +133,7 @@
                     {% if order.is_student_first_subject %}
                         <div style="color: #c9302c; font-weight: bold">首单</div>
                     {% endif %}
-                    {% if order.refund_status %}
-                        {{ order.get_refund_status_display }}
-                    {% else %}
-                        {{ order.get_status_display }}
-                    {% endif %}
+                    {{ order.status_display }}
                 </td>
 {# 是否排课 #}    <td>
                       {% if order.is_timeslot_allocated %}
@@ -150,7 +146,7 @@
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
 {# 老师手机 #}    <td>{{ order.teacher.user.profile.phone }}</td>
-{# 报课年级 #}    <td>{{ order.grade }}</td>
+{# 报课年级 #}    <td><span class="label label-default">{{ order.grade }}</span></td>
 {# 报课科目 #}    <td>{{ order.subject }}</td>
 {# 上课地点 #}    <td>{{ order.school }}</td>
 {# 上课时间 #}    <td>

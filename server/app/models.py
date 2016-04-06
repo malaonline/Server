@@ -1715,6 +1715,12 @@ class Order(BaseModel):
         # 其余情况都不是首单
         return False
 
+    @property
+    def status_display(self):
+        if self.refund_status:
+            return self.get_refund_status_display()
+        return self.get_status_display()
+
 
 class OrderRefundRecord(BaseModel):
     status = models.CharField(max_length=2,
