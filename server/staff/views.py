@@ -1058,6 +1058,10 @@ class TeacherActionView(BaseStaffActionView):
                 if teacher.tags.all() is None or len(teacher.tags.all()) == 0:
                     errmsg += '风格标记至少选择一个，'
 
+                highscores = models.Highscore.objects.filter(teacher=teacher)
+                if highscores.count() == 0:
+                    errmsg += '提分榜至少填一个，'
+
                 if len(errmsg) > 0:
                     return JsonResponse({'ok': False, 'msg': errmsg, 'code': -1})
 
@@ -2245,4 +2249,3 @@ class EvaluationActionView(BaseStaffActionView):
         else:
             return JsonResponse({'ok': False, 'msg': '未安排测评时间, 无法设置完成状态', 'code': 'evaluation_status'})
             return JsonResponse({'ok': False, 'msg': '设置测评完成失败, 请稍后重试或联系管理员', 'code': 'complete_evaluation'})
-
