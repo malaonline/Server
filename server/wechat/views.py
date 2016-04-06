@@ -131,6 +131,11 @@ class SchoolMapView(DetailView):
     context_object_name = 'school'
     template_name = 'wechat/school/school_map.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(SchoolMapView, self).get_context_data(**kwargs)
+        context['amap_api_key'] = settings.AMAP_API_KEY
+        return context
+
 
 def _get_auth_redirect_url(request, teacher_id):
     checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')
