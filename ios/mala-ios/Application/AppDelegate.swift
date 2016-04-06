@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #if USE_PRD_SERVER
             JPUSHService.setupWithOption(launchOptions, appKey: "f22a395a332b87ef57a04b82", channel: "AppStore", apsForProduction: true)
         #else
-            JPUSHService.setupWithOption(launchOptions, appKey: "273de02f3da48856d02acc3d", channel: "AppStore", apsForProduction: false)
+            JPUSHService.setupWithOption(launchOptions, appKey: "f22a395a332b87ef57a04b82", channel: "AppStore", apsForProduction: false)
         #endif
         
         let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
