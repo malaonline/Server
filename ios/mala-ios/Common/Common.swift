@@ -12,8 +12,7 @@ import CoreLocation
 
 // MARK: - Identifier
 let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
-var Mala_UserToken: String = "e3c4bbd3185d1d0b40df85e8b23b2c32e19db320"
-
+let Mala_JPush_AppKey: String = "f22a395a332b87ef57a04b82"
 
 // MARK: - Variables
 /// 课时选择步增数

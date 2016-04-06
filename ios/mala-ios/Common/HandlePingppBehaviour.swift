@@ -107,9 +107,9 @@ class HandlePingppBehaviour: NSObject {
         }
         
         let alert = JSSAlertView().show(currentViewController!,
-            title: "您想要购买的课程已被他人抢买，支付金额将原路退回",
-            buttonText: "我知道了",
-            iconImage: UIImage(named: "alert_CourseBeenSeized")
+                                        title: "您想要购买的课程已被他人抢买，支付金额将原路退回",
+                                        buttonText: "我知道了",
+                                        iconImage: UIImage(named: "alert_CourseBeenSeized")
         )
         alert.addAction(popToCourseChoosingViewController)
     }
@@ -122,9 +122,9 @@ class HandlePingppBehaviour: NSObject {
         }
         
         let _ = JSSAlertView().show(currentViewController!,
-            title: "支付已取消",
-            buttonText: "我知道了",
-            iconImage: UIImage(named: "alert_PaymentFail")
+                                    title: "支付已取消",
+                                    buttonText: "我知道了",
+                                    iconImage: UIImage(named: "alert_PaymentFail")
         )
         // alert.addAction(popToRootViewController)
     }
@@ -136,12 +136,22 @@ class HandlePingppBehaviour: NSObject {
             return
         }
         
-        let alert = JSSAlertView().show(currentViewController!,
-            title: "恭喜您已支付成功！",
-            buttonText: "知道了",
-            iconImage: UIImage(named: "alert_PaymentSuccess")
-        )
-        alert.addAction(popToRootViewController)
+        // 若首次购买该科目课程，跳转到首页。否则跳转到课表页。
+        if MalaIsHasBeenEvaluatedThisSubject == true {
+            let alert = JSSAlertView().show(currentViewController!,
+                                            title: "恭喜您已支付成功！您的课表已经安排好，快去查看吧！",
+                                            buttonText: "知道了",
+                                            iconImage: UIImage(named: "alert_PaymentSuccess")
+            )
+            alert.addAction(switchToClassSchedule)
+        }else {
+            let alert = JSSAlertView().show(currentViewController!,
+                                        title: "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前评测时间",
+                                        buttonText: "知道了",
+                                        iconImage: UIImage(named: "alert_PaymentSuccess_firstTime")
+            )
+            alert.addAction(popToRootViewController)
+        }
     }
     
     ///  支付失败弹窗
@@ -152,9 +162,9 @@ class HandlePingppBehaviour: NSObject {
         }
         
         let alert = JSSAlertView().show(currentViewController!,
-            title: "支付失败，请重试！",
-            buttonText: "刷新",
-            iconImage: UIImage(named: "alert_PaymentFail")
+                                        title: "支付失败，请重试！",
+                                        buttonText: "刷新",
+                                        iconImage: UIImage(named: "alert_PaymentFail")
         )
         alert.addAction(popToRootViewController)
     }
@@ -171,6 +181,25 @@ class HandlePingppBehaviour: NSObject {
             self.currentViewController!.navigationController?.popToRootViewControllerAnimated(true)
             ThemeHUD.hideActivityIndicator()
         }
+    }
+    
+    /// 切换到课程表页面
+    func switchToClassSchedule() {
+        
+        guard self.currentViewController != nil else {
+            return
+        }
+        
+        ThemeHUD.showActivityIndicator()
+        
+        delay(0.5) { () -> Void in
+            
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                appDelegate.window?.rootViewController = MainViewController()
+                appDelegate.switchTabBarControllerWithIndex(1)
+            }
+            ThemeHUD.hideActivityIndicator()
+          }
     }
     
     ///  退回到选课页面
