@@ -50,7 +50,12 @@ $(function(){
       });
     }
   });
+  var isSaving = false;
   $('#saveNewItem').click(function(e){
+    if (isSaving) return;
+    isSaving = true;
+    var $saveBtn = $(this);
+    $saveBtn.addClass('disabled');
     var teacherId = $('#teacherId').val();
     var stname = $('#stname').val();
     var inscore = $('#inscore').val();
@@ -63,6 +68,8 @@ $(function(){
       admittedTo == ''
     ){
       alert("必须填写所有内容！");
+      $saveBtn.removeClass('disabled');
+      isSaving = false;
       return false;
     }
 
@@ -85,9 +92,13 @@ $(function(){
         }else{
           alert(hiscorepageDefaultErrMsg);
         }
+      $saveBtn.removeClass('disabled');
+      isSaving = false;
     }, 'json').fail(function(){
       $('#addItemsModal').modal('hide');
       alert(hiscorepageDefaultErrMsg);
+      $saveBtn.removeClass('disabled');
+      isSaving = false;
     });
   });
   $('#addHighscore').click(function(e){
