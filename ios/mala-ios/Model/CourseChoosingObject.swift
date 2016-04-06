@@ -27,7 +27,7 @@ class CourseChoosingObject: NSObject {
     /// 已选上课时间
     dynamic var selectedTime: [ClassScheduleDayModel] = [] {
         didSet {
-
+            originalPrice = getPrice()
         }
     }
     /// 上课小时数
