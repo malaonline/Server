@@ -141,8 +141,9 @@ static const NSCalendarUnit kCalendarUnitYMD = NSCalendarUnitYear | NSCalendarUn
 - (NSDate *)firstDate
 {
     if (!_firstDate) {
-        NSDateComponents *components = [self.calendar components:kCalendarUnitYMD
-                                                        fromDate:[NSDate date]];
+        NSDateComponents *components = [self.calendar components:kCalendarUnitYMD fromDate:[NSDate date]];
+        
+        components.month = 3;
         components.day = 1;
         _firstDate = [self.calendar dateFromComponents:components];
     }

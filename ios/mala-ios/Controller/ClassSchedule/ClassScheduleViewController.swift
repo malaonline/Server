@@ -25,7 +25,7 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         }
     }
     /// 当前月份
-    private let currentMonth = NSDate().month()
+    private let currentMonth = NSDate().month()-1
     
     
 
