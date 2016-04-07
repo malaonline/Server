@@ -52,7 +52,7 @@
             jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
         wx.error(function(res){
-            alert(res);
+            console.log(res);
         });
         wx.ready(function(res){
                 wx.getLocation({
@@ -61,10 +61,10 @@
                         refreshDistance(res.latitude,res.longitude);
                     },
                     fail: function(res){
-                        alert('地理位置错误：'+res);
+                        console.log(res);
                     }
                 });
             });
     </script>
-    <script type='text/javascript' src='{% static 'wechat/js/schools.js' %}' charset='utf-8'></script>
+    <script type='text/javascript' src='{% static 'wechat/js/school/schools.js' %}' charset='utf-8'></script>
 {% endblock %}
