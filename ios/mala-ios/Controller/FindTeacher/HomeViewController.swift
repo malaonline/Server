@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
         let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
         tableView.controller = self
         // 底部Tabbar留白
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 48 + 10, right: 0)
         return tableView
     }()
     
