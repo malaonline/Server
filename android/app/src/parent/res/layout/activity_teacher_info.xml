@@ -6,6 +6,7 @@
     <com.malalaoshi.android.view.ObservableScrollView
         android:id="@+id/scroll_view"
         android:scrollbars="none"
+        android:background="@color/backgrounp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -42,7 +43,7 @@
         app:cusTitleTextSize="@dimen/text_size_xlarge"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusLeftShow="true"
-        app:cusLeftBackgroud="@drawable/core__back_btn"
+        app:cusLeftBackgroud="@drawable/core__white_btn"
         app:cusRightShow="false"
         android:background="@color/alpheWhite"
         android:layout_width="match_parent"

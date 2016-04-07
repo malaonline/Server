@@ -185,6 +185,10 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private double latitude = 0.0f;
 
 
+    private boolean teacherInfoFlag = false;
+    private boolean schoolFlag = false;
+    private boolean memberFlag = false;
+
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
             Intent intent = new Intent(context, TeacherInfoActivity.class);
@@ -209,6 +213,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         initData();
         setEvent();
 
+        DialogUtil.startCircularProcessDialog(this,"正在加载数据",true,false);
         BounceTouchListener bounceTouchListener = new BounceTouchListener(scrollView, R.id.layout_teacher_info_body);
         bounceTouchListener.setOnTranslateListener(new BounceTouchListener.OnTranslateListener() {
             @Override
@@ -225,6 +230,12 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         });
 
         scrollView.setOnTouchListener(bounceTouchListener);
+    }
+
+    private void stopProcess(){
+        if (teacherInfoFlag&&schoolFlag&&memberFlag){
+            DialogUtil.stopProcessDialog();
+        }
     }
 
     private void initViews() {
@@ -307,12 +318,15 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         NetworkSender.getSchoolList(new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
+                schoolFlag = true;
                 if (json == null) {
+                    dealSchoolsError();
                     return;
                 }
                 SchoolListResult schoolListResult = JsonUtil.parseStringData(json.toString(), SchoolListResult.class);
                 if (schoolListResult == null || schoolListResult.getResults() == null) {
                     Log.e(LoginFragment.class.getName(), "school list request failed!");
+                    dealSchoolsError();
                     return;
                 }
                 //获取体验中心
@@ -333,14 +347,22 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     }
                     mFirstSchool.add(mAllSchools.get(0));
                     dealSchools();
+                    return;
                 }
+                dealSchoolsError();
             }
 
             @Override
             public void onFailed(VolleyError error) {
+                schoolFlag = true;
+                dealSchoolsError();
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
             }
         });
+    }
+
+    private void dealSchoolsError() {
+        stopProcess();
     }
 
     private void dealSchools() {
@@ -361,12 +383,14 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             tvSchoolMore.setText("其他社区中心");
         }
         updateUISchools();
+        stopProcess();
     }
 
     private void loadTeacherInfo() {
         NetworkSender.getTeacherInfo(String.format("%d", mTeacherId), new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
+                teacherInfoFlag = true;
                 if (json != null && !json.toString().isEmpty()) {
                     mTeacher = JsonUtil.parseStringData(json.toString(), Teacher.class);
                     //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class);
@@ -381,6 +405,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onFailed(VolleyError error) {
+                teacherInfoFlag = true;
                 dealRequestError(error.getMessage());
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
             }
@@ -396,7 +421,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         NetworkSender.getMemberService(new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
+                memberFlag = true;
                 if (json == null) {
+                    dealMemberServiceError();
                     return;
                 }
                 MemberServiceListResult memberServiceListResult = JsonUtil.parseStringData(json.toString(), MemberServiceListResult.class);
@@ -404,15 +431,23 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 if (memberServiceListResult != null && memberServiceListResult.getResults() != null && memberServiceListResult.getResults().size() > 0) {
                     updateUIServices(memberServiceListResult.getResults());
                 } else {
+                    dealMemberServiceError();
                     Log.e(LoginFragment.class.getName(), "member services request failed!");
                 }
             }
 
             @Override
             public void onFailed(VolleyError error) {
+                memberFlag = true;
+                dealMemberServiceError();
                 Log.e(LoginFragment.class.getName(), error.getMessage(), error);
             }
         });
+    }
+
+    private void dealMemberServiceError() {
+        stopProcess();
+
     }
 
     //更新教学环境UI
@@ -434,6 +469,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
             setFlowDatas(mMemberServiceFl, datas);
         }
+        stopProcess();
     }
 
     //跟新教师详情
@@ -520,6 +556,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 mTeacherLevel.setText(teachAge.toString() + "年");
             }
         }
+        stopProcess();
     }
 
     private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
@@ -617,6 +654,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void dealRequestError(String errorCode) {
+        stopProcess();
         Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
     }
 
