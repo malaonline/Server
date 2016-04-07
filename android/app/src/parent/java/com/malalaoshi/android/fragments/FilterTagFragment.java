@@ -1,11 +1,13 @@
 package com.malalaoshi.android.fragments;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,6 +41,11 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
 
     @Bind(R.id.tags_loading)
     protected View mTagsLoading;
+
+    @Bind(R.id.iv_load_anim)
+    protected ImageView ivLoadAnim;
+
+    private AnimationDrawable loadAnim;
 
     @Bind(R.id.tags_load_again)
     protected View mTagsLoadAgain;
@@ -85,6 +92,8 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_tag_filter, container, false);
         ButterKnife.bind(this, view);
         extraTagIds = getArguments().getLongArray(ARGMENTS_TAGS_ID);
+        loadAnim = (AnimationDrawable) ivLoadAnim.getDrawable();
+
         initDatas();
         return view;
     }
@@ -279,12 +288,14 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
     }
 
     private void loadDatas() {
+        loadAnim.start();
         String url = MalaApplication.getInstance().getMalaHost() + API_TAGS_URL;
         RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
         StringRequest jsonRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        loadAnim.stop();
                         TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
                         List<Tag> tags = tagsResult.getResults();
                         setDatas(tags);
@@ -296,6 +307,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                loadAnim.stop();
                 if (!MalaApplication.getInstance().isNetworkOk()) {
                     mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后加载");
                 }
