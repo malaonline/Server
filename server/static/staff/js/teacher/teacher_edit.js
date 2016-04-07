@@ -199,6 +199,14 @@ $(function(){
         if (!newSeq) {
             newSeq = 1;
         }
+
+        if(schoolname.length > 6){
+          schoolname = schoolname.substring(0, 6);
+        }
+        if(admittedTo.length > 6){
+          admittedTo = admittedTo.substring(0, 6);
+        }
+
         var newHsSeq = "newHS"+newSeq;
         var $newHsRow = $('<tr>'
                 + '<td><input type="checkbox" name="highscore"/>'
@@ -416,5 +424,12 @@ $(function(){
                 $this.removeClass('disabled');
             }
         });
+    });
+
+    $('#admittedTo, #schoolname').bind("blur", function(){
+      var vl = this.value;
+      if(vl.length > 6){
+        this.value = vl.substring(0, 6);
+      }
     });
 });
