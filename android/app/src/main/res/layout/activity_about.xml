@@ -95,6 +95,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_below="@id/ll_title"
                     android:lineSpacingExtra="3dp"
                     android:text="@string/app_protocol"
