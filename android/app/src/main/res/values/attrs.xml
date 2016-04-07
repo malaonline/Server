@@ -48,6 +48,7 @@
         <attr name="selectColor" format="color" />
         <attr name="textNormalColor" format="color" />
         <attr name="previousSelectColor" format="color" />
+        <attr name="firstYear" format="dimension" />
         <attr name="firstMonth" format="enum">
             <enum name="january" value="0" />
             <enum name="february" value="1" />

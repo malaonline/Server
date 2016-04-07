@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.entity.Cource;
@@ -31,10 +30,8 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
 	private final DatePickerController mController;
     private final Calendar calendar;
     private final Integer firstMonth;
-    private final Integer lastMonth;
-    private final Integer startYear;
+    private final Integer firstYear;
     private boolean isDragging = false;
-    private HashMap<CalendarDay, Integer> countMap;
     private HashMap<CalendarMonth, HashMap<CalendarDay, Integer>> monthCountMap =
             new HashMap<>();
     private HashMap<String,List<Cource>> mapCourse;
@@ -43,10 +40,9 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
         this.typedArray = typedArray;
         calendar = Calendar.getInstance();
         firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
-        lastMonth = typedArray.getInt(R.styleable.DayPickerView_lastMonth, 11);
+        firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
 		mContext = context;
 		mController = datePickerController;
-        startYear = 2015;
 		init();
 	}
 
@@ -71,8 +67,7 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
 
         month = (firstMonth + (position % MONTHS_IN_YEAR)) % MONTHS_IN_YEAR;
         int y = calendar.get(Calendar.YEAR);
-        //year = position / MONTHS_IN_YEAR - 1 + calendar.get(Calendar.YEAR);
-        year = position / MONTHS_IN_YEAR - (calendar.get(Calendar.YEAR)- startYear) + calendar.get(Calendar.YEAR);
+        year = position / MONTHS_IN_YEAR - (calendar.get(Calendar.YEAR)- firstYear) + calendar.get(Calendar.YEAR);
 
         int week = calendar.getFirstDayOfWeek();
         v.reuse();
@@ -120,7 +115,7 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     @Override
     public int getItemCount()
     {
-        int itemCount = (calendar.get(Calendar.YEAR)-startYear+2) * MONTHS_IN_YEAR;
+        int itemCount = (calendar.get(Calendar.YEAR)- firstYear) * MONTHS_IN_YEAR  - firstMonth + 1 + calendar.get(Calendar.MONTH) + MONTHS_IN_YEAR;
         return itemCount;
     }
 
@@ -161,7 +156,6 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     }
 
     public void setCountMap(HashMap<CalendarDay, Integer> countMap) {
-        this.countMap = countMap;
 
         monthCountMap.clear();
         Iterator it = countMap.entrySet().iterator();

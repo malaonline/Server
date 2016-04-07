@@ -25,6 +25,9 @@ public class DayPickerView extends RecyclerView{
 	protected long mPreviousScrollPosition;
 	protected int mPreviousScrollState = 0;
     private TypedArray typedArray;
+    private final Integer firstMonth;
+    private final Integer firstYear;
+
     private OnScrollListener onScrollListener;
 
     private OnListScrollListener onListScrollListener;
@@ -42,12 +45,18 @@ public class DayPickerView extends RecyclerView{
     public DayPickerView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
+
         if (!isInEditMode())
         {
             typedArray = context.obtainStyledAttributes(attrs, R.styleable.DayPickerView);
+            firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
+            firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
             setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             this.setOverScrollMode(OVER_SCROLL_NEVER);
             init(context);
+        }else{
+            firstMonth = 2;
+            firstYear = 2016;
         }
     }
 
@@ -56,7 +65,7 @@ public class DayPickerView extends RecyclerView{
         this.mController = mController;
         setUpAdapter();
         setAdapter(mAdapter);
-        scrollToPosition(12 + Calendar.getInstance().get(Calendar.MONTH));
+        scrollToPosition(Calendar.getInstance().get(Calendar.MONTH)+(Calendar.getInstance().get(Calendar.YEAR)-firstYear)*12-firstMonth);
     }
 
     public void setOnListScrollListener(OnListScrollListener onListScrollListener){
@@ -65,7 +74,7 @@ public class DayPickerView extends RecyclerView{
 
     //移动到今天
     public void scrollToToday() {
-        smoothScrollToPosition(12 + Calendar.getInstance().get(Calendar.MONTH));
+        smoothScrollToPosition(Calendar.getInstance().get(Calendar.MONTH)+(Calendar.getInstance().get(Calendar.YEAR)-firstYear)*12-firstMonth);
     }
 
 
@@ -208,9 +217,6 @@ public class DayPickerView extends RecyclerView{
 
     public interface OnListScrollListener{
         public void onScrolled(RecyclerView recyclerView, int dx, int dy, Calendar calendar);
-
         public void onScrollStateChanged(RecyclerView recyclerView, int newState);
-
-
     }
 }

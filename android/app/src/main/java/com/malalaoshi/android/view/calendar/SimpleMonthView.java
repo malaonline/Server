@@ -162,7 +162,6 @@ public class SimpleMonthView extends View {
         textNormalColor = typedArray.getColor(R.styleable.DayPickerView_textNormalColor, resources.getColor(R.color.calendar_text_normal_color));
         previousSelectColor = typedArray.getColor(R.styleable.DayPickerView_previousSelectColor, resources.getColor(R.color.calendar_previous_select_color));
 
-        //testData();
         initView();
 
     }
@@ -171,40 +170,6 @@ public class SimpleMonthView extends View {
         this.courses = courses;
     }
 
-    public void testData() {
-        courses = new HashMap<>();
-        List<Cource> daycourses = new ArrayList<>();
-        Cource daycourse = new Cource();
-        daycourse.setSubject("语文");
-        daycourse.setId(1);
-        daycourse.setIs_passed(false);
-        daycourses.add(daycourse);
-        daycourse = new Cource();
-        daycourse.setSubject("数学");
-        daycourse.setId(2);
-        daycourse.setIs_passed(true);
-        daycourses.add(daycourse);
-        daycourse = new Cource();
-        daycourse.setSubject("英语");
-        daycourse.setId(3);
-        daycourse.setIs_passed(false);
-        daycourses.add(daycourse);
-        courses.put(1, daycourses);
-        daycourses = new ArrayList<>();
-        daycourse = new Cource();
-        daycourse.setSubject("化学");
-        daycourse.setId(1);
-        daycourse.setIs_passed(true);
-        daycourses.add(daycourse);
-        courses.put(2, daycourses);
-        daycourses = new ArrayList<>();
-        daycourse = new Cource();
-        daycourse.setSubject("化学");
-        daycourse.setId(1);
-        daycourse.setIs_passed(true);
-        daycourses.add(daycourse);
-        courses.put(23, daycourses);
-    }
 
     private int calculateNumRows() {
         int offset = findDayOffset();
