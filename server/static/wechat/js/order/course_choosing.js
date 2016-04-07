@@ -25,6 +25,15 @@ $(function(){
             $payArea.show();
         });
     };
+    var $loadingToast = $('#loadingToast');
+    var $loadingToastText = $("#loadingToastBody");
+    var showLoading = function(msg) {
+        $loadingToastText.html(msg?msg:"");
+        $loadingToast.show();
+    };
+    var hideLoading = function() {
+        $loadingToast.hide();
+    };
 
     var _contains = function(list, v) {
         for (var i in list) {
@@ -94,9 +103,6 @@ $(function(){
         hideOtherSchools($chosenone);
     };
 
-    //$(document).on('ajaxError', function(e, xhr, options){
-    //    showAlertDialog('请求失败, 请重试');
-    //});
     wx.ready(function(res){
         wx.getLocation({
             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
@@ -162,10 +168,16 @@ $(function(){
         }
         $courseTimePreview.html('');
         var preview_hours = hours > 100 ? MAX_PREVIEW_HOURS : hours;
-        $.getJSON(previewCourseTimeUrl, {'hours':preview_hours, 'weekly_time_slots':weekly_time_slot_ids.join(' '), 'teacher': teacherId}, function(json){
+        var params = {'hours':preview_hours, 'weekly_time_slots':weekly_time_slot_ids.join(' '), 'teacher': teacherId};
+        $.ajax({'type':"GET", 'url': previewCourseTimeUrl, 'data': params, 'success': function(json){
             if (json && json.data) {
                 __showCourseTime(json.data);
             }
+            hideLoading();
+        }, 'dataType': 'json', 'error': function() {
+            hideLoading();
+            $courseTimePreview.html('<p>&nbsp;加载失败</p>');
+        }
         });
     };
 
@@ -210,8 +222,9 @@ $(function(){
                 $(this).removeClass('available').addClass('unavailable');
             });
         });
+        showLoading();
         var params = {'school_id': school_id};
-        $.getJSON('/api/v1/teachers/'+teacherId+'/weeklytimeslots', params, function(json){
+        $.ajax({'type':"GET", 'url': '/api/v1/teachers/'+teacherId+'/weeklytimeslots', 'data': params, 'success': function(json){
             var _map = _makeWeeklyTimeSlotToMap(json);
             $weeklyTable.find('tbody > tr').each(function(r){
                 var $row = $(this);
@@ -233,7 +246,12 @@ $(function(){
                     }
                 });
             });
+            hideLoading();
             updateCourseTimePreview();
+        }, 'dataType': 'json', 'error': function() {
+            showAlertDialog('获取上课时间安排失败, 请重试');
+            hideLoading();
+        }
         });
     };
 
@@ -318,12 +336,28 @@ $(function(){
     });
 
     $courseTimePreviewPanel.click(function(){
+        var hours = parseInt($('#courseHours').text());
+        var msg_pre = '请先选择', need_list=[];
+        if (!chosen_grade_id) {
+            need_list.push('授课年级');
+        }
+        if (!chosen_school_id) {
+            need_list.push('上课地点');
+        }
+        if (hours<=0) {
+            need_list.push('上课时间');
+        }
+        if (need_list.length) {
+            showAlertDialog(msg_pre+need_list.join('和'));
+            return;
+        }
         var $panel = $(this);
         $panel.toggleClass('closed');
         if ($panel.hasClass('closed')) {
             $('#courseTimePreview').hide();
         } else {
             $('#courseTimePreview').show();
+            showLoading();
             _updateCourseTimePreview(parseInt($('#courseHours').text()));
         }
     });
@@ -372,7 +406,19 @@ $(function(){
         location.href = evaluate_list_page;
     });
 
-    $('#confirmBtn').click(function(e){
+    var isPaying = false;
+    var $payBtn = $('#confirmBtn');
+    var beginPaying = function() {
+        isPaying = true;
+        $payBtn.addClass('weui_btn_disabled');
+        showLoading();
+    };
+    var stopPaying = function() {
+        hideLoading();
+        $payBtn.removeClass('weui_btn_disabled');
+        isPaying = false;
+    };
+    $payBtn.click(function(e){
         var hours = parseInt($('#courseHours').text());
         var msg_pre = '请先选择', need_list=[];
         if (!chosen_grade_id) {
@@ -388,6 +434,10 @@ $(function(){
             showAlertDialog(msg_pre+need_list.join('和'));
             return;
         }
+        if (isPaying) {
+            return;
+        }
+        beginPaying();
         var params = {
             'action': 'confirm',
             'teacher': teacherId,
@@ -398,7 +448,7 @@ $(function(){
             'weekly_time_slots': weekly_time_slot_ids.join('+')
         };
         var defaultErrMsg = '请求失败, 请稍后重试或联系客户人员!';
-        $.post(location.pathname, params, function (result) {
+        $.ajax({'type': "POST", 'url': location.pathname, 'data': params, 'success': function (result) {
             if (result) {
                 if (result.ok) {
                     var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
@@ -414,7 +464,7 @@ $(function(){
                                 'prepay_id': prepay_id,
                                 'order_id': order_id
                             };
-                            $.post(location.pathname, verify_params, function(verify_ret){
+                            $.ajax({'type': "POST", 'url': location.pathname, 'data': verify_params, 'success': function(verify_ret){
                                 if (verify_ret) {
                                     if (verify_ret.ok) {
                                         //showAlertDialog('支付成功');
@@ -426,18 +476,29 @@ $(function(){
                                 } else {
                                     showAlertDialog(defaultErrMsg);
                                 }
+                                stopPaying();
+                            }, 'dataType': 'json', 'error': function() {
+                                showAlertDialog('获取支付结果失败');
+                                stopPaying();
+                            }
                             });
                         },
                         fail: function(res){
+                            stopPaying();
                         }
                     });
                 } else {
                     showAlertDialog(result.msg);
+                    stopPaying();
                 }
             } else {
                 showAlertDialog(defaultErrMsg);
+                stopPaying();
             }
-        }, 'json');
+        }, 'dataType': 'json', 'error': function() {
+            stopPaying();
+        }
+        });
     });
 
     // 从sessionStorage恢复数据
