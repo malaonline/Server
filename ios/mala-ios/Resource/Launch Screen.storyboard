@@ -34,14 +34,7 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="麻辣老师" id="QRR-LL-LZa">
-                                        <barButtonItem key="leftBarButtonItem" image="location_normal" id="N9b-Kr-Qpy">
-                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" image="filter_normal" id="wyj-A8-GT1">
-                                            <color key="tintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem title="麻辣老师" id="QRR-LL-LZa"/>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -58,8 +51,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="filter_normal" width="30" height="30"/>
-        <image name="location_normal" width="30" height="30"/>
         <image name="profile_normal" width="30" height="30"/>
         <image name="schedule_normal" width="30" height="30"/>
         <image name="search_normal" width="30" height="30"/>
