@@ -52,7 +52,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
         backgroundColor = MalaColor_EDEDED_0
         estimatedRowHeight = 200
         separatorStyle = .None
-        contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+        contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
         registerClass(TeacherTableViewCell.self, forCellReuseIdentifier: TeacherTableViewCellReusedId)
         registerClass(ThemeReloadView.self, forCellReuseIdentifier: TeacherTableViewLoadmoreCellReusedId)
