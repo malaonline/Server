@@ -139,18 +139,18 @@ class HandlePingppBehaviour: NSObject {
         // 若首次购买该科目课程，跳转到首页。否则跳转到课表页。
         if MalaIsHasBeenEvaluatedThisSubject == true {
             let alert = JSSAlertView().show(currentViewController!,
+                                            title: "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前评测时间",
+                                            buttonText: "知道了",
+                                            iconImage: UIImage(named: "alert_PaymentSuccess_firstTime")
+            )
+        }else {
+            alert.addAction(popToRootViewController)
+            let alert = JSSAlertView().show(currentViewController!,
                                             title: "恭喜您已支付成功！您的课表已经安排好，快去查看吧！",
                                             buttonText: "知道了",
                                             iconImage: UIImage(named: "alert_PaymentSuccess")
             )
             alert.addAction(switchToClassSchedule)
-        }else {
-            let alert = JSSAlertView().show(currentViewController!,
-                                        title: "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前评测时间",
-                                        buttonText: "知道了",
-                                        iconImage: UIImage(named: "alert_PaymentSuccess_firstTime")
-            )
-            alert.addAction(popToRootViewController)
         }
     }
     
