@@ -30,9 +30,18 @@
                 android:layout_marginLeft="@dimen/teacher_name_margin_left"
                 android:textColor="@color/teacher_title_text_color"
                 android:textSize="@dimen/text_size_large_x" />
+            <ImageView
+                android:id="@+id/parent_teacher_detail_gender_iv"
+                android:layout_marginLeft="@dimen/teacher_body_padding_normal"
+                android:scaleType="center"
+                android:layout_alignTop="@id/parent_teacher_detail_name_tv"
+                android:layout_alignBottom="@id/parent_teacher_detail_name_tv"
+                android:layout_toRightOf="@id/parent_teacher_detail_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/parent_teacher_detail_gender_tv"
+                android:id="@+id/parent_teacher_detail_subject_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/parent_teacher_detail_name_tv"
@@ -45,9 +54,9 @@
                 android:id="@+id/parent_teaching_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/parent_teacher_detail_gender_tv"
+                android:layout_alignBottom="@id/parent_teacher_detail_subject_tv"
                 android:layout_marginLeft="@dimen/teacher_body_padding_normal"
-                android:layout_toRightOf="@id/parent_teacher_detail_gender_tv"
+                android:layout_toRightOf="@id/parent_teacher_detail_subject_tv"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_normal" />
         </RelativeLayout>

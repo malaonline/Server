@@ -101,8 +101,12 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     protected TextView mTeacherName;
 
     //教师性别
-    @Bind(R.id.parent_teacher_detail_gender_tv)
-    protected TextView mTeacherGender;
+    @Bind(R.id.parent_teacher_detail_gender_iv)
+    protected ImageView mTeacherGender;
+
+    //教授科目
+    @Bind(R.id.parent_teacher_detail_subject_tv)
+    protected TextView mTeacherSubject;
 
     //价格区间
     @Bind(R.id.parent_teaching_price_tv)
@@ -450,11 +454,14 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             //性别
             String grender = teacher.getGender();
             if (grender != null && grender.equals("m")) {
-                mTeacherGender.setText("男");
+                mTeacherGender.setImageResource(R.drawable.ic_male_gender);
             } else if (grender != null && grender.equals("f")) {
-                mTeacherGender.setText("女");
-            } else {
-                mTeacherGender.setText("保密");
+                mTeacherGender.setImageResource(R.drawable.ic_female_gender);
+            }
+
+            //教授科目
+            if(!teacher.getSubject().isEmpty()){
+                mTeacherSubject.setText(teacher.getSubject());
             }
 
             Double minPrice = teacher.getMin_price();
