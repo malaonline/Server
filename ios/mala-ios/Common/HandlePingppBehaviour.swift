@@ -143,8 +143,8 @@ class HandlePingppBehaviour: NSObject {
                                             buttonText: "知道了",
                                             iconImage: UIImage(named: "alert_PaymentSuccess_firstTime")
             )
-        }else {
             alert.addAction(popToRootViewController)
+        }else {
             let alert = JSSAlertView().show(currentViewController!,
                                             title: "恭喜您已支付成功！您的课表已经安排好，快去查看吧！",
                                             buttonText: "知道了",
