@@ -147,6 +147,7 @@ $(function(){
     var previewCourseTimeUrl = '/api/v1/concrete/timeslots';
     var $courseTimePreviewPanel = $('#courseTimePreviewPanel');
     var $courseTimePreview = $("#courseTimePreview");
+    var $courseHours = $('#courseHours');
     var __showCourseTime = function(courseTimes){
         for (var i in courseTimes) {
             var obj = courseTimes[i], start = new Date(obj[0]*1000), end = new Date(obj[1]*1000);
@@ -161,7 +162,7 @@ $(function(){
     };
     var _updateCourseTimePreview = function(hours) {
         if (hours==0 || weekly_time_slot_ids.length==0) {
-            return $("#courseTimePreview").html('');
+            return $courseTimePreview.html('');
         }
         if ($courseTimePreviewPanel.hasClass('closed')) {
             return;
@@ -188,13 +189,13 @@ $(function(){
             var $td = $(ele), tsid = $td.attr('tsid');
             weekly_time_slot_ids.push(tsid);
         });
-        var hours = parseInt($('#courseHours').text());
+        var hours = parseInt($courseHours.text());
         if (weekly_time_slot_ids.length==0) {
             hours = 0;
         } else {
             hours = Math.max(weekly_time_slot_ids.length * 2, hours);
         }
-        $('#courseHours').html(hours);
+        $courseHours.html(hours);
         sessionStorage.weekly_time_slot_ids = weekly_time_slot_ids.join('+');
         sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
@@ -285,12 +286,15 @@ $(function(){
         return (parseInt(num)/100).toFixed(2);
     };
 
+    var $discountCost = $('#discountCost');
+    var $origTotalCost = $("#origTotalCost");
+    var $realCost = $("#realCost");
     var updateCost = function() {
-        var hours = parseInt($('#courseHours').text());
+        var hours = parseInt($courseHours.text());
         var origTotalCost = hours * chosen_price; // 单位是分
         // 检查奖学金
         if (hours==0) {
-            $('#discountCost').html('0');
+            $discountCost.html('0');
         } else {
             var $coupon = null;
             if (chosen_coupon_id) {
@@ -298,34 +302,47 @@ $(function(){
                 if (hours < min_count) {
                     chosen_coupon_id = '';
                     sessionStorage.chosen_coupon_id = chosen_coupon_id;
-                    $('#discountCost').html('0');
+                    $discountCost.html('0');
                 }
             }
             if (chosen_coupon_id) { // get discount
-                $('#discountCost').html(chosen_coupon_amount);
+                $discountCost.html(chosen_coupon_amount);
             } else {
-                $('#discountCost').html('0');
+                $discountCost.html('0');
             }
         }
-        var discount = parseFloat($('#discountCost').text()); // 单位是元
+        var discount = parseFloat($discountCost.text()); // 单位是元
         var realCost = origTotalCost - discount * 100;
         if (origTotalCost>0) {
             realCost = Math.max(realCost, 1); // 暂时不支持免费订单, 最少1分
         }
-        $("#origTotalCost").text(_format_money(origTotalCost));
-        $("#realCost").text(_format_money(realCost));
+        $origTotalCost.text(_format_money(origTotalCost));
+        $realCost.text(_format_money(realCost));
     };
 
-    $weeklyTable.find('tbody > tr > td').click(function(e) {
+    var valid_choose = function(keys) {
         var msg_pre = '请先选择', need_list=[];
-        if (!chosen_grade_id) {
+        if (_contains(keys, 'grade') && !chosen_grade_id) {
             need_list.push('授课年级');
         }
-        if (!chosen_school_id) {
+        if (_contains(keys, 'school') && !chosen_school_id) {
             need_list.push('上课地点');
+        }
+        if (_contains(keys, 'hour') && parseInt($courseHours.text())<=0) {
+            need_list.push('上课时间');
+        }
+        if (_contains(keys, 'time_slot') && weekly_time_slot_ids.length==0) {
+            need_list.push('上课时间');
         }
         if (need_list.length) {
             showAlertDialog(msg_pre+need_list.join('和'));
+            return false;
+        }
+        return true;
+    };
+
+    $weeklyTable.find('tbody > tr > td').click(function(e) {
+        if (!valid_choose(['grade', 'school'])) {
             return;
         }
         var $this = $(this);
@@ -336,61 +353,38 @@ $(function(){
     });
 
     $courseTimePreviewPanel.click(function(){
-        var hours = parseInt($('#courseHours').text());
-        var msg_pre = '请先选择', need_list=[];
-        if (!chosen_grade_id) {
-            need_list.push('授课年级');
-        }
-        if (!chosen_school_id) {
-            need_list.push('上课地点');
-        }
-        if (hours<=0) {
-            need_list.push('上课时间');
-        }
-        if (need_list.length) {
-            showAlertDialog(msg_pre+need_list.join('和'));
+        if (!valid_choose(['grade', 'school', 'hour'])) {
             return;
         }
         var $panel = $(this);
         $panel.toggleClass('closed');
         if ($panel.hasClass('closed')) {
-            $('#courseTimePreview').hide();
+            $courseTimePreview.hide();
         } else {
-            $('#courseTimePreview').show();
+            $courseTimePreview.show();
             showLoading();
-            _updateCourseTimePreview(parseInt($('#courseHours').text()));
+            _updateCourseTimePreview(parseInt($courseHours.text()));
         }
     });
 
     $('#decHoursBtn').click(function(e){
-        var hours = parseInt($('#courseHours').text());
+        var hours = parseInt($courseHours.text());
         if (hours <= weekly_time_slot_ids.length * 2) {
             return;
         }
         hours -= 2;
-        $('#courseHours').html(hours);
+        $courseHours.html(hours);
         sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
         updateCost();
     });
     $('#incHoursBtn').click(function(e){
-        var msg_pre = '请先选择', need_list=[];
-        if (!chosen_grade_id) {
-            need_list.push('授课年级');
-        }
-        if (!chosen_school_id) {
-            need_list.push('上课地点');
-        }
-        if (weekly_time_slot_ids.length==0) {
-            need_list.push('上课时间');
-        }
-        if (need_list.length) {
-            showAlertDialog(msg_pre+need_list.join('和'));
+        if (!valid_choose(['grade', 'school', 'time_slot'])) {
             return;
         }
-        var hours = parseInt($('#courseHours').text());
+        var hours = parseInt($courseHours.text());
         hours += 2;
-        $('#courseHours').html(hours);
+        $courseHours.html(hours);
         sessionStorage.hours = hours;
         _updateCourseTimePreview(hours);
         updateCost();
@@ -398,6 +392,9 @@ $(function(){
 
     // 去奖学金页面
     $('#couponRow').click(function(){
+        if (!valid_choose(['grade', 'school', 'hour'])) {
+            return;
+        }
         location.href = coupon_list_page;
     });
 
@@ -419,25 +416,14 @@ $(function(){
         isPaying = false;
     };
     $payBtn.click(function(e){
-        var hours = parseInt($('#courseHours').text());
-        var msg_pre = '请先选择', need_list=[];
-        if (!chosen_grade_id) {
-            need_list.push('授课年级');
-        }
-        if (!chosen_school_id) {
-            need_list.push('上课地点');
-        }
-        if (hours<=0) {
-            need_list.push('上课时间');
-        }
-        if (need_list.length) {
-            showAlertDialog(msg_pre+need_list.join('和'));
+        if (!valid_choose(['grade', 'school', 'hour'])) {
             return;
         }
         if (isPaying) {
             return;
         }
         beginPaying();
+        var hours = parseInt($courseHours.text());
         var params = {
             'action': 'confirm',
             'teacher': teacherId,
@@ -504,7 +490,7 @@ $(function(){
     // 从sessionStorage恢复数据
     (function(){
         if (sessionStorage.hours) {
-            $('#courseHours').html(sessionStorage.hours);
+            $courseHours.html(sessionStorage.hours);
         }
         if (sessionStorage.chosen_coupon_id) {
             chosen_coupon_id = sessionStorage.chosen_coupon_id;
