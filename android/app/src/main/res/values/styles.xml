@@ -181,7 +181,7 @@
     <style name="mala.widget.item.line" parent="android:Widget.TextView">
         <item name="android:background">@color/user_item_line_bg</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
+        <item name="android:layout_height">0.5dp</item>
     </style>
 
     <!-- item风格 -->

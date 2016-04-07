@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="core__blue">#8dbedf</color>
-    <color name="core__blue_press">#6badbc</color>
+    <color name="core__blue_press">#7aa9c7</color>
     <color name="core__white">#FFFFFF</color>
     <color name="core__gray_disable">#eee0e0e0</color>
     <color name="core__blue_light">#c5deee</color>
