@@ -299,8 +299,15 @@ $(function(){
     };
 
     $weeklyTable.find('tbody > tr > td').click(function(e) {
-        if (!chosen_grade_id || !chosen_school_id) {
-            showAlertDialog('请先选择授课年级和上课地点');
+        var msg_pre = '请先选择', need_list=[];
+        if (!chosen_grade_id) {
+            need_list.push('授课年级');
+        }
+        if (!chosen_school_id) {
+            need_list.push('上课地点');
+        }
+        if (need_list.length) {
+            showAlertDialog(msg_pre+need_list.join('和'));
             return;
         }
         var $this = $(this);
@@ -333,8 +340,18 @@ $(function(){
         updateCost();
     });
     $('#incHoursBtn').click(function(e){
+        var msg_pre = '请先选择', need_list=[];
+        if (!chosen_grade_id) {
+            need_list.push('授课年级');
+        }
+        if (!chosen_school_id) {
+            need_list.push('上课地点');
+        }
         if (weekly_time_slot_ids.length==0) {
-            showAlertDialog('请先选择上课时间');
+            need_list.push('上课时间');
+        }
+        if (need_list.length) {
+            showAlertDialog(msg_pre+need_list.join('和'));
             return;
         }
         var hours = parseInt($('#courseHours').text());
@@ -357,8 +374,18 @@ $(function(){
 
     $('#confirmBtn').click(function(e){
         var hours = parseInt($('#courseHours').text());
-        if (hours <= 0) {
-            showAlertDialog('请先选择上课时间');
+        var msg_pre = '请先选择', need_list=[];
+        if (!chosen_grade_id) {
+            need_list.push('授课年级');
+        }
+        if (!chosen_school_id) {
+            need_list.push('上课地点');
+        }
+        if (hours<=0) {
+            need_list.push('上课时间');
+        }
+        if (need_list.length) {
+            showAlertDialog(msg_pre+need_list.join('和'));
             return;
         }
         var params = {
