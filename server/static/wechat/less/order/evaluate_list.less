@@ -1,9 +1,22 @@
+@import "../../../common/less/weui/base/reset";
+// icon font
+@import "../../../common/less/weui/icon/weui_icon_font";
+// cell
+//@import "../../../common/less/weui/widget/weui_cell/weui_cell_global";
+// tips
+@import "../../../common/less/weui/widget/weui_tips/weui_dialog";
+@import "../../../common/less/weui/widget/weui_tips/weui_toast";
+@import "../../../common/less/weui/widget/weui_tips/weui_mask";
+
 @import '../variable_func.less';
+
+body{
+  background-color: @bodyBgColor;
+}
 
 #evaluateItemsBody {
   margin: 0;
   padding: 0;
-  overflow-y: scroll;
   text-align: left;
   .evaluate-item {
     margin-bottom: 7px;

@@ -1,4 +1,4 @@
-{% extends "wechat/wechat_base.html" %}
+{% extends "wechat/wechat_base_simple.html" %}
 
 {% load staticfiles %}
 {% load compile_static %}
@@ -6,6 +6,7 @@
 {% block title %}课程确认{% endblock %}
 
 {% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
     <link rel="stylesheet" href="{% static 'wechat/less/order/course_choosing.less'|compile %}">
 {% endblock %}
 
@@ -168,19 +169,6 @@
             </div>
         </div>
 
-        {% if first_buy %}
-        <div class="weui_dialog_alert" id="evaluateItemsDialog" style="display: none;">
-            <div class="weui_mask"></div>
-            <div class="weui_dialog">
-                <div class="weui_dialog_hd" id="evaluateItemsBody">
-
-                </div>
-                <div class="weui_dialog_ft">
-                    <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
     </div>
 {% endblock %}
 
@@ -196,6 +184,7 @@
 
 
 {% block addition_js %}
+    <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
         var coupon_list_page = '{% url 'wechat:order-coupon-list' %}?teacher_id={{ teacher.id }}';

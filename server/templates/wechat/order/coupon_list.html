@@ -1,10 +1,11 @@
-{% extends "wechat/wechat_base.html" %}
+{% extends "wechat/wechat_base_simple.html" %}
 
 {% load staticfiles %}
 {% load compile_static %}
 {% block title %}奖学金{% endblock %}
 
 {% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
     <link rel="stylesheet" href="{% static 'wechat/less/order/coupon_list.less'|compile %}">
 {% endblock %}
 
@@ -14,7 +15,7 @@
         <div class="content">
             <div class="weui_dialog_hd" id="couponList">
                 {% for coupon in coupons %}
-                    <div class="weui_cell coupon" couponId="{{ coupon.id }}">
+                    <div class="coupon" couponId="{{ coupon.id }}">
                         <div class="coupon-upper">
                             <div class="cost">￥<span class="amount">{{ coupon.amount_yuan }}</span></div>
                             <div class="desc">
