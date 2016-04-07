@@ -7,6 +7,8 @@
 
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles %}
+    {% load compile_static %}
+    <link href="{% static 'teacher/less/teacher-base.less'|compile %}" rel="stylesheet" type="text/css">
     {% block addition_header %}{% endblock %}
     <script src="{% static 'common/js/jquery-2.1.4.js' %}"></script>
     <script src="{% static 'common/js/bootstrap.js' %}"></script>
@@ -14,8 +16,13 @@
     {% block addition_js %}{% endblock %}
 </head>
 <body>
-{% block body %}
-{% endblock %}
-{% include 'ga.html' %}
+    <div class="wrapper">
+        <div class="content">
+            {% block body %}
+            {% endblock %}
+        </div>
+        {% include 'footer.html' %}
+        {% include 'ga.html' %}
+    </div>
 </body>
 </html>

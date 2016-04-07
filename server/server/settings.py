@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import re
 import sys
 import raven
+import datetime
 import subprocess
 
 TESTING = sys.argv[1:2] == ['test']
@@ -103,6 +105,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.context_processors.gitrev',
             ],
         },
     },
@@ -268,10 +271,17 @@ DEFAULT_BANK_NAME = "招商银行"
 
 SERVICE_SUPPORT_TEL = '010-88888888'
 
+GIT_REV = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode()
+GIT_DATE = subprocess.check_output(['git', 'log', '-1', '--format=%cd', '--date=iso8601']).decode()
+GIT_DATE = re.sub(r':\d{2} \+\d{4}', '', GIT_DATE)
+DEPLOYED_AT = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+
 RAVEN_CONFIG = {
     'dsn': 'http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1c822de398@sentry.malalaoshi.com/4',
-    'release': 'v1.0.1',
+    'release': 'v1.0.1-%s' % GIT_REV,
 }
+
+
 
 
 from .local_settings import *
