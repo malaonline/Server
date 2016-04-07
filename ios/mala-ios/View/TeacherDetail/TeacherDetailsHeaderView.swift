@@ -34,8 +34,8 @@ class TeacherDetailsHeaderView: UIView {
     var gender: String = "" {
         didSet{
             switch gender {
-            case "m": genderIcon.image = UIImage(named: "gender_female")
-            case "f": genderIcon.image = UIImage(named: "gender_male")
+            case "f": genderIcon.image = UIImage(named: "gender_female")
+            case "m": genderIcon.image = UIImage(named: "gender_male")
             default: genderIcon.image = UIImage(named: "")
             }
         }
