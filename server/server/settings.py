@@ -128,7 +128,7 @@ DATABASES = {
         'PORT': '5432',
         'TEST': {
             'NAME': 'test_%s' % subprocess.check_output(
-                ['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode().strip(),
+                ['git', 'rev-parse', '--short', 'HEAD']).decode().strip(),
         }
     }
 }
