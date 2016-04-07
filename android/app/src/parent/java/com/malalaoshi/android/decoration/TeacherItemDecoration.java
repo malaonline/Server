@@ -92,7 +92,7 @@ public class TeacherItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+      /*  if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
             if (mOrientation == VERTICAL_LIST) {
                 if (itemPosition==0){
                     outRect.set(0 , spacingTopPixels  , 0, 0);
@@ -103,7 +103,7 @@ public class TeacherItemDecoration extends RecyclerView.ItemDecoration {
             } else {
                 outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
             }
-        }else{
+        }else*/{
             if (mOrientation == VERTICAL_LIST) {
                 outRect.set(0, mDivider.getIntrinsicHeight() , 0, 0);
             } else {

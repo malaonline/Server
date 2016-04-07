@@ -1,6 +1,7 @@
 package com.malalaoshi.android.adapter;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,19 +143,25 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             }else{
                 iconLoading.setVisibility(View.VISIBLE);
             }
-
+            AnimationDrawable animationDrawable = null;
             switch (load_more_status){
                 case PULLUP_LOAD_MORE:
                     tvStatusText.setText("上拉加载更多...");
                     ivProgress.setVisibility(View.GONE);
+                    animationDrawable = (AnimationDrawable) ivProgress.getDrawable();
+                    animationDrawable.stop();
                     break;
                 case LOADING_MORE:
                     tvStatusText.setText("加载中...");
                     ivProgress.setVisibility(View.VISIBLE);
+                    animationDrawable = (AnimationDrawable) ivProgress.getDrawable();
+                    animationDrawable.start();
                     break;
                 case NODATA_LOADING:
                     tvStatusText.setText("到底了,没有更多数据了!");
                     ivProgress.setVisibility(View.GONE);
+                    animationDrawable = (AnimationDrawable) ivProgress.getDrawable();
+                    animationDrawable.stop();
                     break;
                 case GONE_LOADING:
                     //iconLoading.setVisibility(View.GONE);
