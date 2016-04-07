@@ -489,12 +489,12 @@ function ajaxLoadSchool(lat, lng){
               schoolDis.html(dis);
               schoolDis.addClass('school_dis');
               var schollReg = $('<div>');
-              schollReg.html(sc.region);
+              schollReg.html(sc.address);
               var disRegCont = $('<div>');
               disRegCont.append(schoolDis);
               disRegCont.append(schollReg);
               var wdCont = $('<div>');
-              wdCont.append(sc.name+sc.address);
+              wdCont.append(sc.name);
               wdCont.append(disRegCont);
               var nimg = $('<img>');
               nimg.attr('src', sc.img);

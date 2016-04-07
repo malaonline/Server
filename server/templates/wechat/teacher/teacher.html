@@ -97,7 +97,9 @@
                             {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}元/小时
                         </div>
                     </div>
-                    <div class="teacher_avatar"></div>
+                    <div class="teacher_avatar_cont">
+                        <div class="teacher_avatar"></div>
+                    </div>
                 </div>
                 <div class="weui_panel teacher_panel">
                     <div>
@@ -168,7 +170,7 @@
                 </div>
                 <div class="weui_panel teacher_panel school_panel">
                     <div>
-                        教学环境test
+                        教学环境
                     </div>
                     <div id="schoolsDiv">
                         {%if schools%}
