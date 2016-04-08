@@ -61,6 +61,7 @@ class TeacherTableViewCell: UITableViewCell {
         let courseLabel = UIButton()
         courseLabel.setBackgroundImage(UIImage(named: "tagsTitle"), forState: .Normal)
         courseLabel.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        courseLabel.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0)
         courseLabel.userInteractionEnabled = false
         return courseLabel
     }()

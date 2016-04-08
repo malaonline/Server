@@ -170,6 +170,7 @@ let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
 // ScreenHeight Without StatusBar,NavigationBar,TabBar
 let MalaContentHeight = UIScreen.mainScreen().bounds.size.height-20-44-48
 let MalaScreenOnePixel = 1/UIScreen.mainScreen().scale
+let MalaScreenScale = UIScreen.mainScreen().scale
 
 
 // MARK: - Common TextAttribute
