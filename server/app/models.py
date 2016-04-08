@@ -543,6 +543,13 @@ class Teacher(BaseModel):
         occupied = [
                 (x if x.transferred_from is None else x.transferred_from)
                 for x in occupied]
+        self_occupied = TimeSlot.objects.filter(
+                order__parent=parent, deleted=False).filter(
+                        ~Q(order__teacher=teacher))
+        self_occupied = [
+                (x if x.transferred_from is None else x.transferred_from)
+                for x in self_occupied]
+        occupied += self_occupied
 
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
         for occ in occupied:

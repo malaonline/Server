@@ -307,7 +307,7 @@ class TestApi(TestCase):
 
     def test_create_order(self):
         client = Client()
-        username = "parent0"
+        username = "parent2"
         password = "123123"
         client.login(username=username, password=password)
 
