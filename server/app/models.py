@@ -538,7 +538,8 @@ class Teacher(BaseModel):
         date = timezone.now() - renew_time
         occupied = TimeSlot.objects.filter(
                 order__teacher=teacher, start__gte=date, deleted=False)
-        occupied = occupied.filter(~Q(order__parent=parent))
+        occupied = occupied.filter(
+                ~Q(order__parent=parent, order__school=school))
         occupied = [
                 (x if x.transferred_from is None else x.transferred_from)
                 for x in occupied]
