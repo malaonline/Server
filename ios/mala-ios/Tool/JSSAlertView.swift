@@ -367,20 +367,14 @@ class JSSAlertView: UIViewController {
         }
         
         // Animate it in
-        self.view.alpha = 0
-        UIView.animateWithDuration(0.2, animations: {
-            self.view.alpha = 1
-        })
-
-        let originalSize = self.containerView.frame.size
-        self.containerView.center = self.view.center
-        self.containerView.frame.size = CGSizeZero
+        view.alpha = 0;
+        let originTransform = self.containerView.transform
+        self.containerView.layer.transform = CATransform3DMakeScale(0.7, 0.7, 0.0);
         
-        UIView.animateWithDuration(0.5, delay: 0.05, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: [], animations: {
-            self.containerView.frame.size = originalSize
-            }, completion: { finished in
-                
-        })
+        UIView.animateWithDuration(0.35) { () -> Void in
+            self.view.alpha = 1.0
+            self.containerView.transform = originTransform
+        }
         
         isAlertOpen = true
         return JSSAlertViewResponder(alertview: self)

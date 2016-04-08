@@ -20,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        // Setup Window
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.backgroundColor = UIColor.whiteColor()
+        window?.rootViewController = MainViewController()
+        window?.makeKeyAndVisible()
+        
         // 全局的外观自定义
         customAppearance()
         registerThirdParty()
@@ -43,12 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     MalaRemoteNotificationHandler().handleRemoteNotification(userInfo)
             }
         }
-        
-        // Setup Window
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.backgroundColor = UIColor.whiteColor()
-        window?.rootViewController = MainViewController()
-        window?.makeKeyAndVisible()
 
         return true
     }
