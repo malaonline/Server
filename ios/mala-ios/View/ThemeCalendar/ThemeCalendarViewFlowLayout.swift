@@ -31,6 +31,8 @@ public class ThemeCalendarViewFlowLayout: UICollectionViewFlowLayout {
             right: ThemeCalendarViewFlowLayoutInsetRight
         )
         self.headerReferenceSize = CGSize(width: 0, height: ThemeCalendarViewFlowLayoutHeaderHeight)
+        
+        //Note: Item Size is defined using the delegate to take into account the width of the view and calculate size dynamically
     }
 
     required public init?(coder aDecoder: NSCoder) {

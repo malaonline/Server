@@ -8,8 +8,11 @@
 
 import UIKit
 
+// 文字高度
 private let ThemeCalendarViewWeekdayHeaderSize: CGFloat = 12.0
-private let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 20.0
+// 视图高度
+private let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 42.0
+
 
 public enum ThemeCalendarViewWeekdayTextType: Int {
     case VeryShort = 0
@@ -17,19 +20,21 @@ public enum ThemeCalendarViewWeekdayTextType: Int {
     case StandAlone
 }
 
+
 public class ThemeCalendarViewWeekdayHeader: UIView {
     
     // MARK: - Property
+    /// 自定义文字颜色
     public var textColor: UIColor = UIColor.blackColor()
+    /// 自定义文字字体
     public var textFont: UIFont = UIFont.systemFontOfSize(ThemeCalendarViewWeekdayHeaderSize)
+    /// 背景颜色
     public var headerBackgroundColor: UIColor = UIColor.whiteColor()
     
 
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        configure()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -57,7 +62,7 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
         case .Short:
             weekdaySymbols = dateFormatter.shortWeekdaySymbols
             break
-        case .StandAlone:
+        default:
             weekdaySymbols = dateFormatter.standaloneWeekdaySymbols
             break
         }
@@ -68,8 +73,9 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
             let lastObject = adjustedSymbols.last ?? ""
             adjustedSymbols.removeLast()
             adjustedSymbols.insert(lastObject, atIndex: 0)
-            index++
+            index += 1
         }while index < (1 - calendar.firstWeekday + weekdaySymbols.count)
+        
         
         if adjustedSymbols.count == 0 {
             return
@@ -77,7 +83,8 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
         
         var firstWeekdaySymbolLabel: UILabel?
         var weekdaySymbolLabelNameArray: [String] = []
-        var weekdaySymbolLabelDict: NSDictionary = NSDictionary()
+        var weekdaySymbolLabelDict: [String: AnyObject] = [String: AnyObject]()
+        
         index = 0
         repeat {
             let labelName = String(format: "weekdaySymbolLabel%d", index)
@@ -92,21 +99,33 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
             weekdaySymbolLabel.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(weekdaySymbolLabel)
             
-            weekdaySymbolLabelDict.setValue(weekdaySymbolLabel, forKey: labelName)
-            weekdaySymbolLabel.snp_makeConstraints { (make) -> Void in
-                make.left.equalTo(self.snp_left)
-                make.right.equalTo(self.snp_right)
-                make.centerY.equalTo(self.snp_centerY)
-            }
+            weekdaySymbolLabelDict[labelName] = weekdaySymbolLabel
+            self.addConstraints(
+                NSLayoutConstraint.constraintsWithVisualFormat(
+                    "V:|[%@]|",
+                    options: .DirectionLeadingToTrailing,
+                    metrics: nil,
+                    views: weekdaySymbolLabelDict
+                )
+            )
+            
             
             if firstWeekdaySymbolLabel == nil {
                 firstWeekdaySymbolLabel = weekdaySymbolLabel
             }else {
-                weekdaySymbolLabel.snp_updateConstraints { (make) -> Void in
-                    make.width.equalTo(firstWeekdaySymbolLabel!.snp_width)
-                }
+                self.addConstraint(
+                    NSLayoutConstraint(
+                        item: weekdaySymbolLabel,
+                        attribute: .Width,
+                        relatedBy: .Equal,
+                        toItem: firstWeekdaySymbolLabel,
+                        attribute: .Width,
+                        multiplier: 1,
+                        constant: 0
+                    )
+                )
             }
-            index++
+            index += 1
         }while index < adjustedSymbols.count
   
         // Autolayout
@@ -114,15 +133,7 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(layoutString,
             options: .AlignAllCenterY,
             metrics: nil,
-            views: (weekdaySymbolLabelDict as! [String: AnyObject]))
+            views: (weekdaySymbolLabelDict))
         )
-    }
-    
-    
-    // MARK: - Private Method
-    private func configure() {
-        
-        
-        
     }
 }

@@ -61,16 +61,41 @@ public class ThemeCalendarViewHeader: UICollectionReusableView {
         
         
         // Autolayout
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.snp_left).offset(10)
-            make.right.equalTo(self.snp_right).offset(10)
-            make.centerY.equalTo(self.snp_centerY)
-        }
-        separatorView.snp_makeConstraints { (make) in
-            make.left.equalTo(self.snp_left)
-            make.right.equalTo(self.snp_right)
-            make.bottom.equalTo(self.snp_bottom)
-            make.height.equalTo(MalaScreenOnePixel)
-        }
+        let metricsDictionary: [String: AnyObject] = ["onePixel": MalaScreenOnePixel]
+        let viewsDictionary: [String: AnyObject] = ["titleLabel": titleLabel, "separatorView": separatorView]
+        
+        self.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "|-(==10)-[titleLabel]-(==10)-|",
+                options: .DirectionLeadingToTrailing,
+                metrics: nil,
+                views: viewsDictionary
+            )
+        )
+        self.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "V:|[titleLabel]|",
+                options: .DirectionLeadingToTrailing,
+                metrics: nil,
+                views: viewsDictionary
+            )
+        )
+        
+        self.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "|[separatorView]|",
+                options: .DirectionLeadingToTrailing,
+                metrics: nil,
+                views: viewsDictionary
+            )
+        )
+        self.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "V:[separatorView(==onePixel)]|",
+                options: .DirectionLeadingToTrailing,
+                metrics: metricsDictionary,
+                views: viewsDictionary
+            )
+        )
     }
 }
