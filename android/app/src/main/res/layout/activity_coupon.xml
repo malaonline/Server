@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teacher_main_bg"
     android:orientation="vertical">
 
     <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
         app:cusTitleText="@string/scholarship"
@@ -17,7 +19,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="#b4b4b4" />
 
     <FrameLayout
