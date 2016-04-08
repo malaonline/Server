@@ -46,7 +46,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by kang on 16/3/2.
  */
-public class CommentDialog extends DialogFragment{
+public class CommentDialog extends DialogFragment implements View.OnClickListener {
 
     private static String ARGS_DIALOG_TEACHER_NAME   = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
@@ -155,7 +155,9 @@ public class CommentDialog extends DialogFragment{
             updateUI(comment);
             //updateLoadingUI();
             //控件不可编辑
-            editComment.setEnabled(false);
+            editComment.setFocusableInTouchMode(false);
+            editComment.setCursorVisible(false);
+
             ratingbar.setIsIndicator(true);
         }else{
             this.setCancelable(false);          // 设置点击屏幕Dialog不消失
@@ -164,8 +166,13 @@ public class CommentDialog extends DialogFragment{
             llContent.setVisibility(View.VISIBLE);
             llLoading.setVisibility(View.GONE);
             llLoadFail.setVisibility(View.GONE);
-            editComment.setEnabled(true);
+            //可以编辑
+            editComment.setFocusableInTouchMode(true);
+            editComment.setCursorVisible(true);
+
             ratingbar.setIsIndicator(false);
+
+            editComment.setOnClickListener(this);
 
             editComment.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -321,8 +328,7 @@ public class CommentDialog extends DialogFragment{
     }
 
 
-    @OnClick(R.id.edit_review)
-    public void onClickCommentEdit(View v){
+    public void clickCommentEdit(View v){
         int llHeight = llCourse.getMeasuredHeight();
         if (!isOpenInputMethod) {
             editAnimation(0, llHeight);
@@ -398,5 +404,14 @@ public class CommentDialog extends DialogFragment{
     @OnClick(R.id.tv_Close)
     public void onClickClose(View v){
         dismiss();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.edit_review:
+                clickCommentEdit(v);
+                break;
+        }
     }
 }
