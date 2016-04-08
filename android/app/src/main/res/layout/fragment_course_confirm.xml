@@ -212,7 +212,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="16dp"
-                android:text="新生注册奖学金"
+                android:text="奖学金"
                 android:textColor="#6c6c6c"
                 android:textSize="14sp" />
 
