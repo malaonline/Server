@@ -4,7 +4,11 @@ body {
 div {
     font-size: 1rem;
 }
-
+@paddingX: 12px;
+@paddingY: 9px;
+@telBoxWidth: 50px;
+@coverImgHeight: 182px;
+// android微信内置浏览器不支持 display: flex
 #schoolList .card {
   position: relative;
   margin: 0 0 .8em 0;
@@ -82,32 +86,27 @@ div {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-9 */
   }
   .cover-retro-fixer {
-    max-width: 100%;
-    height: 0;
+    width: 100%;
+    max-height: @coverImgHeight;
     padding-bottom: 50%;
     overflow: hidden;
+    text-align: center;
     img {
-      width: 100%;
+      max-width: 100%;
+      //max-height: @coverImgHeight;
+      vertical-align: middle;
     }
   }
   .card-content-inner {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    // 学校名字位置信息
+    position: relative;
     font-size: 12px;
-    //font-weight: 100;
-    padding: 9px 0 9px 12px;
+    padding: @paddingY 0 @paddingY @paddingX;
     .card-content-inner-left {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      //justify-content: space-between;
+      display: block;
+      padding-right: @telBoxWidth;
       .column {
-        flex-basis: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        position: relative;
         p {
           margin: 0;
           padding:0 21px 0 0 ;
@@ -119,6 +118,11 @@ div {
         p.color-gray {
           font-size: 12px;
         }
+        .distance {
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
         .column1-text {
           line-height: 24px;
         }
@@ -128,14 +132,14 @@ div {
       }
     }
     .card-content-inner-right {
-      display: flex;
-      flex-basis: 50px;
-      justify-content: center;
-      align-items: center;
+      position: absolute;
+      top: @paddingY;
+      right: 0;
       border-left: 1px solid #e5e5e5;
-      padding: 7px 12px;
+      padding: 8px @paddingX + 2px;
       a {
         line-height: 22px;
+        vertical-align: middle;
       }
       img {
         width: 22px;

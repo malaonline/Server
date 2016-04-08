@@ -25,9 +25,9 @@
         </div>
         <div class="cover-retro-fixer">
             {% if school.get_thumbnail %}
-                <img class='card-cover' src="{{ school.get_thumbnail }}" alt="">
+                <img src="{{ school.get_thumbnail }}" alt="">
             {% else %}
-                <img class='card-cover' src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
+                <img src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
             {% endif %}
         </div>
     </div>
@@ -36,7 +36,7 @@
             <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">
                 <div class="column">
                     <p class="color-malablue  column1-text">{{ school.name }}</p>
-                    <p class="color-gray column1-text" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
+                    <p class="color-gray column1-text distance" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
                 </div>
                 <div class="column column2">
                     <p class="color-gray column2-text">{{ school.address }}</p>
