@@ -14,7 +14,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import re
 import sys
-import raven
 import datetime
 import subprocess
 
@@ -271,17 +270,18 @@ DEFAULT_BANK_NAME = "招商银行"
 
 SERVICE_SUPPORT_TEL = '010-88888888'
 
-GIT_REV = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode()
-GIT_DATE = subprocess.check_output(['git', 'log', '-1', '--format=%cd', '--date=iso8601']).decode()
-GIT_DATE = re.sub(r':\d{2} \+\d{4}', '', GIT_DATE)
+GIT_DATE = subprocess.check_output('git log -1 --format=%ci'.split()).decode()
+GIT_DATE = re.sub(r':\d{2} \+\d{4}$', '', GIT_DATE)
+
+GIT_REV = subprocess.check_output('git rev-parse HEAD'.split()).decode()[:16]
+GIT_REV += ' : %s' % GIT_DATE
+
 DEPLOYED_AT = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
 
 RAVEN_CONFIG = {
-    'dsn': 'http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1c822de398@sentry.malalaoshi.com/4',
+    'dsn': ('http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1' +
+            'c822de398@sentry.malalaoshi.com/4'),
     'release': 'v1.0.1-%s' % GIT_REV,
 }
-
-
-
 
 from .local_settings import *
