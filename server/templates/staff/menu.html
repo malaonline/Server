@@ -1,99 +1,74 @@
 <div role="tabpanel" class="tab-pane panel-group" id="staff_menu">
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_teacher">
-      老师管理
-    </div>
-    <div id="collapse_teacher" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_teacher">
-      <div>
-        <a href="{% url 'staff:teachers' %}"><span>新注册老师</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:teachers_unpublished' %}"><span>待上架老师</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:teachers_published' %}"><span>已上架老师</span></a>
-      </div>
-      <div>
-        <span>教师级别调整记录</span>
-      </div>
-      <div>
-        <a href="{% url 'staff:teachers_bankcard_list' %}"><span>老师银行卡查询</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_pretest">
-      课前测评
-    </div>
-    <div id="collapse_pretest" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_pretest">
-      <div>
-        <a href="{% url 'staff:evaluations' %}"><span>测评建档列表</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_student">
-      学生管理
-    </div>
-    <div id="collapse_student" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_student">
-      <div>
-        <a href="{% url 'staff:student_schedule_manage' %}"><span>调课与停课管理</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:student_schedule_changelog' %}"><span>调课停课记录</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_school">
-      中心管理
-    </div>
-    <div id="collapse_school" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_school">
-      <div>
-        <a href="{% url 'staff:school_timeslot' %}"><span>中心课程列表</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:schools' %}"><span>中心设置</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_orders">
-      订单管理
-    </div>
-    <div id="collapse_orders" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_orders">
-      <div>
-        <a href="{% url 'staff:orders_review' %}"><span>购买订单</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:orders_refund' %}"><span>退费审核</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_account">
-      老师资产
-    </div>
-    <div id="collapse_account" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_account">
-      <div>
-        <a href="{% url 'staff:teachers_income_list' %}"><span>老师收入</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:teachers_withdrawal_list' %}"><span>提现审核</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-info">
-    <div class="panel-heading" role="tab" id="heading_coupon">
-      奖学金
-    </div>
-    <div id="collapse_coupon" class="panel-collapse panel-body" role="tabpanel" aria-labelledby="heading_coupon">
-      <div>
-        <a href="{% url 'staff:coupon_config' %}"><span>奖学金设置</span></a>
-      </div>
-      <div>
-        <a href="{% url 'staff:coupons_list' %}"><span>奖学金领用列表</span></a>
-      </div>
-    </div>
-  </div>
+  <div class="mui-heading">老师管理</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:teachers' %}">新注册老师</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:teachers_unpublished' %}">待上架老师</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:teachers_published' %}">已上架老师</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:teachers_bankcard_list' %}">老师银行卡查询</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">课前测评</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:evaluations' %}">测评建档列表</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">学生管理</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:student_schedule_manage' %}">调课与停课管理</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:student_schedule_changelog' %}">调课停课记录</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">中心管理</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:school_timeslot' %}">中心课程列表</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:schools' %}">中心设置</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">订单管理</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:orders_review' %}">购买订单</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:orders_refund' %}">退费审核</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">老师资产</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:teachers_income_list' %}">老师收入</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:teachers_withdrawal_list' %}">提现审核</a>
+    </li>
+  </ul>
+
+  <div class="mui-heading">奖学金</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:coupon_config' %}">奖学金设置</a>
+    </li>
+    <li>
+      <a href="{% url 'staff:coupons_list' %}">奖学金领用列表</a>
+    </li>
+  </ul>
 </div>

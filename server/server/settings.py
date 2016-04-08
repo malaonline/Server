@@ -273,7 +273,7 @@ SERVICE_SUPPORT_TEL = '010-88888888'
 GIT_DATE = subprocess.check_output('git log -1 --format=%ci'.split()).decode()
 GIT_DATE = re.sub(r':\d{2} \+\d{4}$', '', GIT_DATE)
 
-GIT_REV = subprocess.check_output('git rev-parse HEAD'.split()).decode()[:16]
+GIT_REV = subprocess.check_output('git rev-parse HEAD'.split()).decode()[:8]
 GIT_REV += ' : %s' % GIT_DATE
 
 DEPLOYED_AT = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
