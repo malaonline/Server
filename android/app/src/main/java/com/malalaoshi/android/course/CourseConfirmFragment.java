@@ -395,6 +395,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void fetchCourseTimes() {
+        if (TextUtils.isEmpty(selectedTimeSlots)) {
+            return;
+        }
         NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
@@ -470,6 +473,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         gradeAdapter.addAll(coursePrices);
         gridView.setAdapter(gradeAdapter);
         gridView.setOnItemClickListener(this);
+        if (coursePrices.size() > 0) {
+            gradeAdapter.setCurrentItem(0);
+        }
     }
 
     private void initSchoolListView() {
@@ -492,6 +498,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         if (schoolList.size() > 0) {
             currentSchool = schoolList.get(0);
             schoolAdapter.clear();
+            currentSchool.setCheck(true);
             schoolAdapter.add(currentSchool);
         }
         placeListView.setAdapter(schoolAdapter);

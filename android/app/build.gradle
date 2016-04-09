@@ -57,7 +57,7 @@ android {
             zipAlignEnabled false
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_DEBUG]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
-            resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
+            resValue("string", "api_host", "\"" + PRD_SERVER + "\"")
         }
 
         devrelease {

@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="12dp"
-            android:text="已被约课"
+            android:text="可授课"
             android:textColor="#939393"
             android:textSize="12sp" />
 
