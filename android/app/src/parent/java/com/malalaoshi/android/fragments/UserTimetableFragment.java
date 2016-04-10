@@ -2,7 +2,6 @@ package com.malalaoshi.android.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +10,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
+import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.dialog.CourseDetailDialog;
 import com.malalaoshi.android.entity.Cource;
-import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.listener.DatePickerController;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -25,7 +26,6 @@ import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.view.calendar.DayPickerView;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
 
@@ -39,7 +39,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by kang on 16/1/28.
  */
-public class UserTimetableFragment extends Fragment implements DatePickerController {
+public class UserTimetableFragment extends BaseFragment implements DatePickerController {
     private DayPickerView calendarView;
     private TextView tvOffDate;
     private LinearLayout llWeek;
@@ -50,26 +50,26 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_usertimetable,container,false);
+        View v = inflater.inflate(R.layout.fragment_usertimetable, container, false);
 
         calendarView = (DayPickerView) v.findViewById(R.id.calendar_view);
         calendarView.setController(this);
 
-        llWeek = (LinearLayout)v.findViewById(R.id.ll_week);
+        llWeek = (LinearLayout) v.findViewById(R.id.ll_week);
 
         calendarView.setOnListScrollListener(new DayPickerView.OnListScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy, Calendar calendar) {
                 int month = calendar.get(Calendar.MONTH) + 1;
-                tvOffDate.setText(calendar.get(Calendar.YEAR)+"年"+month+"月");
+                tvOffDate.setText(calendar.get(Calendar.YEAR) + "年" + month + "月");
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState==RecyclerView.SCROLL_STATE_DRAGGING){
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     tvOffDate.setVisibility(View.VISIBLE);
                     llWeek.setVisibility(View.INVISIBLE);
-                }else if (newState==RecyclerView.SCROLL_STATE_IDLE){
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     tvOffDate.setVisibility(View.INVISIBLE);
                     llWeek.setVisibility(View.VISIBLE);
                 }
@@ -77,7 +77,7 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
             }
         });
 
-        tvOffDate = (TextView)v.findViewById(R.id.tv_off_date);
+        tvOffDate = (TextView) v.findViewById(R.id.tv_off_date);
         tvOffDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
     }
 
     public void onEventMainThread(BusEvent event) {
-        switch (event.getEventType()){
+        switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
                 loadDatas();
                 break;
@@ -111,7 +111,7 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
     }
 
 
-    public void scrollToTady(){
+    public void scrollToToday() {
         calendarView.scrollToToday();
     }
 
@@ -129,16 +129,17 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
     @Override
     public void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Cource> courses) {
 
-        if (courses!=null&&courses.size()>0){
+        if (courses != null && courses.size() > 0) {
             CourseDetailDialog courseDetailDialog = CourseDetailDialog.newInstance((ArrayList<Cource>) courses);
             courseDetailDialog.show(getFragmentManager(), CourseDetailDialog.class.getName());
+            StatReporter.courseTimePage();
         }
     }
 
 
     //加载数据
-    public void loadDatas(){
-        if (!UserManager.getInstance().isLogin()){
+    public void loadDatas() {
+        if (!UserManager.getInstance().isLogin()) {
             return;
         }
         NetworkSender.getTimetable(new NetworkListener() {
@@ -169,21 +170,26 @@ public class UserTimetableFragment extends Fragment implements DatePickerControl
 
     private void updateDatas(CourseListResult courses) {
         List<Cource> listCource = courses.getResults();
-        if (null!=listCource){
+        if (null != listCource) {
 
             HashMap<String, List<Cource>> mapCourse = new HashMap<>();
-            for (int i=0;i<listCource.size();i++){
+            for (int i = 0; i < listCource.size(); i++) {
                 Cource cource = listCource.get(i);
                 SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(cource.getEnd());
                 //指定月的课程信息
-                List<Cource> tempCourses = mapCourse.get(calendarDay.getYear() +""+ calendarDay.getMonth());
-                if (tempCourses==null){
+                List<Cource> tempCourses = mapCourse.get(calendarDay.getYear() + "" + calendarDay.getMonth());
+                if (tempCourses == null) {
                     tempCourses = new ArrayList<>();
-                    mapCourse.put(calendarDay.getYear()+ "" + calendarDay.getMonth() , tempCourses);
+                    mapCourse.put(calendarDay.getYear() + "" + calendarDay.getMonth(), tempCourses);
                 }
                 tempCourses.add(cource);
             }
             calendarView.setCourses(mapCourse);
         }
+    }
+
+    @Override
+    public String getStatName() {
+        return "学生课表页";
     }
 }

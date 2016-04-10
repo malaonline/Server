@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 
 import butterknife.Bind;
@@ -70,4 +70,8 @@ public class SingleInfoActivity extends BaseActivity implements TitleBarView.OnT
         setResult(RESULT_CODE_VALUE,intent);
     }
 
+    @Override
+    protected String getStatName() {
+        return "";
+    }
 }

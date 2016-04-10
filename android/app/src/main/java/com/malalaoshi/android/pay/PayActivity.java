@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.util.FragmentUtil;
@@ -62,5 +62,10 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         payFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected String getStatName() {
+        return "支付页面";
     }
 }

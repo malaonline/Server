@@ -14,7 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.util.ImageCache;
 
@@ -244,5 +244,10 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 }
             }
         }
+    }
+
+    @Override
+    protected String getStatName() {
+        return "相册预览";
     }
 }

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.util.FragmentUtil;
 
@@ -56,5 +56,10 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         fragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected String getStatName() {
+        return "课程确认";
     }
 }

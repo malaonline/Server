@@ -273,5 +273,9 @@
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <meta-data android:name="JPUSH_APPKEY" android:value="${jpush_key}" /> <!--  </>值来自开发者平台取得的AppKey-->
         <!--       jpush end        -->
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 </manifest>

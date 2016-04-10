@@ -92,4 +92,9 @@ public class UserProtocolActivity extends BaseActivity implements TitleBarView.O
             return false;
         }
     }
+
+    @Override
+    protected String getStatName() {
+        return "用户协议";
+    }
 }

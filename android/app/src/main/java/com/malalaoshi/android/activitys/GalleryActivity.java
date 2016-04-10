@@ -14,11 +14,9 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.view.ZoomImageView;
-
-import java.util.ArrayList;
 
 /**
  * Created by zk on 16/01/12.
@@ -160,5 +158,10 @@ public class GalleryActivity extends BaseActivity {
 		}
 		mImaViews = new ImageView[mImgUrls.length];
 		imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
+	}
+
+	@Override
+	protected String getStatName() {
+		return "相册";
 	}
 }

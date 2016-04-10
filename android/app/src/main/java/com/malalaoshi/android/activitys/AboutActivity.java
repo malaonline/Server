@@ -3,7 +3,7 @@ package com.malalaoshi.android.activitys;
 import android.os.Bundle;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 
 import butterknife.Bind;
@@ -31,5 +31,10 @@ public class AboutActivity extends BaseActivity implements TitleBarView.OnTitleB
     @Override
     public void onTitleRightClick() {
 
+    }
+
+    @Override
+    protected String getStatName() {
+        return "关于";
     }
 }

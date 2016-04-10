@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
@@ -100,5 +100,10 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
+    }
+
+    @Override
+    protected String getStatName() {
+        return "支付测试页面";
     }
 }

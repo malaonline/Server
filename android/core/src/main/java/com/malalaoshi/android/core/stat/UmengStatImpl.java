@@ -74,6 +74,7 @@ public class UmengStatImpl implements StatProxy {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onResume, context=" + context);
         }
+        contextRef = new WeakReference<>(context);
         MobclickAgent.onResume(context.getApplicationContext());
     }
 

@@ -20,6 +20,7 @@ import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.OrderStatusModel;
 import com.malalaoshi.android.net.NetworkListener;
@@ -54,7 +55,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     @Bind(R.id.tv_pay)
     protected TextView payView;
 
-    private DialogFragment pendingDailog;
+    private DialogFragment pendingDialog;
 
     private CreateCourseOrderResultEntity resultEntity;
 
@@ -85,8 +86,8 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (pendingDailog != null) {
-            showDialog(pendingDailog);
+        if (pendingDialog != null) {
+            showDialog(pendingDialog);
         }
     }
 
@@ -109,6 +110,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         } else if (view.getId() == R.id.rl_wx) {
             setCurrentPay(PayManager.Pay.wx);
         } else if (view.getId() == R.id.tv_pay) {
+            StatReporter.pay();
             pay();
         }
     }
@@ -189,7 +191,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (isResumed()) {
             showDialog(dialog);
         } else {
-            pendingDailog = dialog;
+            pendingDialog = dialog;
         }
     }
 
@@ -213,7 +215,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (isResumed()) {
             showDialog(dialog);
         } else {
-            pendingDailog = dialog;
+            pendingDialog = dialog;
         }
     }
 
@@ -269,7 +271,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        pendingDailog = null;
+        pendingDialog = null;
     }
 
 }

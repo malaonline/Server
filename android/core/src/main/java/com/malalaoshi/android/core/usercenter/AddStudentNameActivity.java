@@ -110,4 +110,9 @@ public class AddStudentNameActivity extends BaseActivity implements View.OnClick
             UserManager.getInstance().setStuName(name);
         }
     }
+
+    @Override
+    protected String getStatName() {
+        return "添加学生姓名";
+    }
 }

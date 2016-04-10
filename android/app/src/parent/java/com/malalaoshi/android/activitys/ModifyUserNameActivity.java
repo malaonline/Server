@@ -8,13 +8,12 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.network.UIResultCallback;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.AddStudentNameApi;
 import com.malalaoshi.android.core.usercenter.entity.AddStudentName;
 import com.malalaoshi.android.core.view.TitleBarView;
-import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
 
 import butterknife.Bind;
@@ -110,5 +109,10 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
         intent.putExtra(EXTRA_USER_NAME, userName);
         setResult(RESULT_CODE_NAME, intent);
         finish();
+    }
+
+    @Override
+    protected String getStatName() {
+        return "修改学生姓名";
     }
 }

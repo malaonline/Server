@@ -2,7 +2,6 @@ package com.malalaoshi.android.fragments;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +30,9 @@ import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.ModifyUserNameActivity;
 import com.malalaoshi.android.activitys.ModifyUserSchoolActivity;
 import com.malalaoshi.android.core.MalaContext;
+import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
@@ -68,7 +68,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by kang on 16/1/24.
  */
-public class UserFragment extends Fragment {
+public class UserFragment extends BaseFragment {
 
     public static final int REQUEST_CODE_PICK_IMAGE = 0x03;
     public static final int REQUEST_CODE_CAPTURE_CAMEIA = 0x04;
@@ -470,13 +470,15 @@ public class UserFragment extends Fragment {
 
     @OnClick(R.id.rl_user_schoolship)
     public void OnClickUserSchoolShip(View view) {
-        if (checkLogin() == false) return;
+        StatReporter.clickScholarship(getStatName());
+        if (!checkLogin()) return;
         Intent intent = new Intent(getContext(), CouponActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_about_mala)
     public void OnClickAboutMala(View view) {
+        StatReporter.aboutMalaTeacher();
         Intent intent = new Intent(getContext(), AboutActivity.class);
         startActivity(intent);
     }
@@ -489,6 +491,7 @@ public class UserFragment extends Fragment {
         updateUI();
         //跳转到登录页面
         AuthUtils.redirectLoginActivity(getContext());
+        StatReporter.userLogOut();
     }
 
     @Override
@@ -603,4 +606,8 @@ public class UserFragment extends Fragment {
         }
     }
 
+    @Override
+    public String getStatName() {
+        return "我的页面";
+    }
 }

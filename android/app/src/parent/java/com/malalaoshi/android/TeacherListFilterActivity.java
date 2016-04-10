@@ -7,7 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.dialog.FilterDialog;
 import com.malalaoshi.android.entity.Grade;
@@ -160,7 +161,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");
-
+        StatReporter.switchFilterGrade();
     }
 
     @OnClick(R.id.tv_filter_subject)
@@ -195,7 +196,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
             }
         });
         filterdialog.show(getSupportFragmentManager(), "dialog");
-
+        StatReporter.switchFilterSubject();
     }
 
     @OnClick(R.id.tv_filter_tag)
@@ -241,7 +242,7 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
             }
         });
         filterdialog.show(getSupportFragmentManager(),"dialog");
-
+        StatReporter.switchFilterFeature();
     }
 
     @Override
@@ -252,5 +253,10 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     @Override
     public void onTitleRightClick() {
 
+    }
+
+    @Override
+    protected String getStatName() {
+        return "老师过滤";
     }
 }

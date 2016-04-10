@@ -10,7 +10,7 @@ import com.malalaoshi.android.core.base.BaseActivity;
  * Created by tianwei on 3/26/16.
  */
 public class LoginActivity extends BaseActivity {
-    public static final int RESULT_CODE_LOGIN_SUCCESSED = 2;
+    public static final int RESULT_CODE_LOGIN_SUCCESS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +18,10 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.core__activity_login);
         LoginFragment fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commit();
+    }
+
+    @Override
+    protected String getStatName() {
+        return "短信登录";
     }
 }

@@ -1,13 +1,11 @@
 package com.malalaoshi.android.dialog;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.CourseDetailFragment;

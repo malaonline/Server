@@ -22,7 +22,8 @@ public class StatManager implements StatProxy {
     private StatManager() {
         proxies = new ArrayList<>();
         //Add umeng stat.
-        proxies.add(new UmengStatImpl());
+        //proxies.add(new UmengStatImpl());
+        //proxies.add(new GoogleStatImpl());
     }
 
     public static StatManager getInstance() {

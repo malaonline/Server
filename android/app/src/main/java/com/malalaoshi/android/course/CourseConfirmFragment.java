@@ -23,7 +23,8 @@ import com.android.volley.VolleyError;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
-import com.malalaoshi.android.base.BaseFragment;
+import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CourseDateEntity;
 import com.malalaoshi.android.entity.CoursePrice;
@@ -309,11 +310,14 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             }
             fetchCourseTimes();
         } else if (v.getId() == R.id.rl_scholarship_container) {
+            StatReporter.clickScholarship(getStatName());
             openScholarShipActivity();
         } else if (v.getId() == R.id.rl_review_layout) {
             startActivity(new Intent(getActivity(), SettingRecordActivity.class));
+            StatReporter.evaluatePage(getStatName());
         } else if (v.getId() == R.id.tv_submit) {
             onSubmit();
+            StatReporter.submitCourse(getStatName());
         }
     }
 
@@ -475,6 +479,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         gridView.setOnItemClickListener(this);
         if (coursePrices.size() > 0) {
             gradeAdapter.setCurrentItem(0);
+            currentGrade = (CoursePriceUI) gradeAdapter.getItem(0);
         }
     }
 
@@ -500,6 +505,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             schoolAdapter.clear();
             currentSchool.setCheck(true);
             schoolAdapter.add(currentSchool);
+            fetchWeekData();
         }
         placeListView.setAdapter(schoolAdapter);
         placeListView.setOnItemClickListener(this);
@@ -623,5 +629,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             ((TextView) convertView).setText(data);
         }
 
+    }
+
+    @Override
+    public String getStatName() {
+        return "课程确认";
     }
 }

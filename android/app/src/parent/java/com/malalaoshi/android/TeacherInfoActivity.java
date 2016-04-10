@@ -21,7 +21,8 @@ import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.view.TitleBarView;
@@ -38,8 +39,14 @@ import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.*;
+import com.malalaoshi.android.util.DialogUtil;
+import com.malalaoshi.android.util.ImageCache;
+import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.util.LocManager;
+import com.malalaoshi.android.util.LocationUtil;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
+import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
@@ -49,7 +56,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by kang on 16/3/29.
@@ -588,6 +594,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     intent.putExtra(GalleryActivity.GALLERY_DES, imgDes);
                     intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, finalI);
                     startActivity(intent);
+                    StatReporter.specialCertPage();
 
                 }
             });
@@ -674,6 +681,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_school_more:
                 //显示更多教学中心
                 changeSchoolsShow();
+                StatReporter.moreSchool();
                 break;
         }
     }
@@ -700,6 +708,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void signUp() {
+        StatReporter.soonRoll();
         //判断是否登录
         if (UserManager.getInstance().isLogin()){
             //跳转至报名页
@@ -715,7 +724,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_LOGIN) {
-            if (resultCode == LoginActivity.RESULT_CODE_LOGIN_SUCCESSED) {
+            if (resultCode == LoginActivity.RESULT_CODE_LOGIN_SUCCESS) {
                 //跳转到课程购买页
                 startCourseConfirmActivity();
             }
@@ -798,5 +807,10 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onTitleRightClick() {
 
+    }
+
+    @Override
+    protected String getStatName() {
+        return "老师详情页";
     }
 }

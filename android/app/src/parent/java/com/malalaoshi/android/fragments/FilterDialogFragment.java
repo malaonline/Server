@@ -27,6 +27,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.adapter.FilterAdapter;
 import com.malalaoshi.android.base.BaseDialogFragment;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
@@ -629,16 +630,19 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     @OnItemClick(R.id.filter_grages_list1)
     protected void onClickGradesList1(AdapterView<?> parent, View view, int position, long id) {
         selectGrade(1, position, view);
+        StatReporter.filterGrade();
     }
 
     @OnItemClick(R.id.filter_grages_list2)
     protected void onClickGradesList2(AdapterView<?> parent, View view, int position, long id) {
         selectGrade(2, position, view);
+        StatReporter.filterGrade();
     }
 
     @OnItemClick(R.id.filter_grages_list3)
     protected void onClickGradesList3(AdapterView<?> parent, View view, int position, long id) {
         selectGrade(3, position, view);
+        StatReporter.filterGrade();
     }
 
     private void selectGrade(int stage, int position, View view) {
@@ -694,6 +698,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
         mSelectedSubject.setName((String)mSubjectsList.get(position).get("name"));
 
         gotoNextFilterView();
+        StatReporter.filterSubject();
     }
 
     private void gotoNextFilterView() {
@@ -706,6 +711,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
     //筛选
     @OnClick(R.id.filter_bar_right)
     protected void onClickBtnSearch() {
+        StatReporter.filterFinish();
         dismiss();
         if (mAllTag!=null&&mAllTag.isSelected()){
             TeacherListFilterActivity.open(this.getActivity(), mSelectedGrade, mSelectedSubject, null);
@@ -749,6 +755,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
                     }
                 }
             }
+            StatReporter.ClickAllTag();
         }else{
             if (text.isSelected()){
                 text.setTextColor(getResources().getColor(R.color.text_color_dlg));
@@ -758,6 +765,7 @@ public class FilterDialogFragment extends BaseDialogFragment implements View.OnC
                     mAllTag.setSelected(false);
                 }
             }
+            StatReporter.ClickFilterTag(text.getText().toString());
         }
         v.setSelected(!v.isSelected());
     }

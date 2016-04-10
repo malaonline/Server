@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.dialog.RadioDailog;
@@ -216,5 +216,8 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
         setResult(RESULT_CODE_SCHOOL,intent);
     }
 
-
+    @Override
+    protected String getStatName() {
+        return "修改学校名称";
+    }
 }

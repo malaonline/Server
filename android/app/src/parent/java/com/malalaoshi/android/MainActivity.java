@@ -14,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup , View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPager.OnPageChangeListener {
 
     public static String EXTRAS_PAGE_INDEX = "page index";
     public static final int PAGE_INDEX_TEACHERS = 0;
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
     private long lastBackPressedTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,36 +92,36 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(mNetworkStateReceiver, filter);
         //获取待显示页索引
-        pageIndex = getIntent().getIntExtra(EXTRAS_PAGE_INDEX,0);
+        pageIndex = getIntent().getIntExtra(EXTRAS_PAGE_INDEX, 0);
 
         //标题栏
-        rlHomeTitle = (RelativeLayout)findViewById(R.id.home_title);
+        rlHomeTitle = (RelativeLayout) findViewById(R.id.home_title);
 
         tvTitle = (TextView) findViewById(R.id.tv_title_text);
 
-        llTitleTabs = (LinearLayout)findViewById(R.id.ll_home_title_tab);
+        llTitleTabs = (LinearLayout) findViewById(R.id.ll_home_title_tab);
 
-        ivTitleTabTeacher = (ImageView)findViewById(R.id.iv_title_tab_teacher);
-        ivTitleTabTimeTable = (ImageView)findViewById(R.id.iv_title_tab_timetable);
-        ivTitleTabUser = (ImageView)findViewById(R.id.iv_title_tab_user);
+        ivTitleTabTeacher = (ImageView) findViewById(R.id.iv_title_tab_teacher);
+        ivTitleTabTimeTable = (ImageView) findViewById(R.id.iv_title_tab_timetable);
+        ivTitleTabUser = (ImageView) findViewById(R.id.iv_title_tab_user);
 
         tvTitleLocation = (TextView) findViewById(R.id.tv_title_location);
         tvTitleTady = (TextView) findViewById(R.id.tv_title_tady);
 
         //tabs
-        rlTabBar = (RelativeLayout)findViewById(R.id.rl_home_tabs);
+        rlTabBar = (RelativeLayout) findViewById(R.id.rl_home_tabs);
         //tab
-        rlTabTeacher = (RelativeLayout)findViewById(R.id.rl_tab_findteacher);
-        rlTabTimetable = (RelativeLayout)findViewById(R.id.rl_tab_timetable);
-        rlTabUser = (RelativeLayout)findViewById(R.id.rl_tab_usercenter);
+        rlTabTeacher = (RelativeLayout) findViewById(R.id.rl_tab_findteacher);
+        rlTabTimetable = (RelativeLayout) findViewById(R.id.rl_tab_timetable);
+        rlTabUser = (RelativeLayout) findViewById(R.id.rl_tab_usercenter);
         //tab textView
-        tvTabTeacher = (TextView)findViewById(R.id.tv_tab_findteacher);
-        tvTabTimetable = (TextView)findViewById(R.id.tv_tab_timetable);
-        tvTabUserCenter = (TextView)findViewById(R.id.tv_tab_usercenter);
+        tvTabTeacher = (TextView) findViewById(R.id.tv_tab_findteacher);
+        tvTabTimetable = (TextView) findViewById(R.id.tv_tab_timetable);
+        tvTabUserCenter = (TextView) findViewById(R.id.tv_tab_usercenter);
         //tab Indicator
-        tabTeacherIndicator = (View)findViewById(R.id.view_tab_indicator_findteacher);
-        tabTimetableIndicator = (View)findViewById(R.id.view_tab_indicator_timetable);
-        tabUserCenterIndicator = (View)findViewById(R.id.view_tab_indicator_usercenter);
+        tabTeacherIndicator = findViewById(R.id.view_tab_indicator_findteacher);
+        tabTimetableIndicator = findViewById(R.id.view_tab_indicator_timetable);
+        tabUserCenterIndicator = findViewById(R.id.view_tab_indicator_usercenter);
 
         vpHome = (ViewPager) findViewById(R.id.viewpage);
     }
@@ -141,7 +143,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     private void initData() {
-        mHomeFragmentAdapter = new FragmentGroupAdapter(this,getSupportFragmentManager(), this);
+        mHomeFragmentAdapter = new FragmentGroupAdapter(this, getSupportFragmentManager(), this);
         vpHome.setAdapter(mHomeFragmentAdapter);
         vpHome.setOffscreenPageLimit(2);//缓存页面
         vpHome.setCurrentItem(pageIndex);
@@ -159,36 +161,41 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_title_tab_teacher:
             case R.id.rl_tab_findteacher:
                 setCurrentTab(PAGE_INDEX_TEACHERS);
                 vpHome.setCurrentItem(PAGE_INDEX_TEACHERS);
+                StatReporter.teacherListPage();
                 break;
             case R.id.iv_title_tab_timetable:
             case R.id.rl_tab_timetable:
                 setCurrentTab(PAGE_INDEX_COURSES);
                 vpHome.setCurrentItem(PAGE_INDEX_COURSES);
+                StatReporter.coursePage();
                 break;
             case R.id.iv_title_tab_user:
             case R.id.rl_tab_usercenter:
                 setCurrentTab(PAGE_INDEX_USER);
                 vpHome.setCurrentItem(PAGE_INDEX_USER);
+                StatReporter.myPage();
                 break;
             case R.id.tv_title_location:
                 onClickBarBtnLocation();
+                StatReporter.ClickCityLocation();
                 break;
             case R.id.tv_title_tady:
-                scrollToTady();
+                scrollToToady();
+                StatReporter.ClickToday();
                 break;
         }
     }
 
     //移动到今天
-    private void scrollToTady() {
+    private void scrollToToady() {
         UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
-        if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
-            userTimetableFragment.scrollToTady();
+        if (userTimetableFragment != null && userTimetableFragment.isResumed()) {
+            userTimetableFragment.scrollToToday();
         }
     }
 
@@ -200,7 +207,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }*/
 
     private void setCurrentTab(int i) {
-        switch (i){
+        switch (i) {
             case PAGE_INDEX_TEACHERS:
                 ivTitleTabTeacher.setSelected(true);
                 ivTitleTabTimeTable.setSelected(false);
@@ -274,7 +281,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了",R.drawable.ic_location);
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
@@ -324,8 +331,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             finish();
         } else {
             lastBackPressedTime = System.currentTimeMillis();
-            Toast.makeText(this,"再按一次退出",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    protected String getStatName() {
+        return "家长主界面";
+    }
 }

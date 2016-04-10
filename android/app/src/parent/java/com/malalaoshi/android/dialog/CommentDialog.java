@@ -22,8 +22,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -48,11 +49,11 @@ import de.greenrobot.event.EventBus;
  */
 public class CommentDialog extends DialogFragment implements View.OnClickListener {
 
-    private static String ARGS_DIALOG_TEACHER_NAME   = "teacher name";
+    private static String ARGS_DIALOG_TEACHER_NAME = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
-    private static String ARGS_DIALOG_COURSE_NAME    = "course name";
-    private static String ARGS_DIALOG_COMMENT        = "comment";
-    private static String ARGS_DIALOG_TIMESLOT       = "timeslot";
+    private static String ARGS_DIALOG_COURSE_NAME = "course name";
+    private static String ARGS_DIALOG_COMMENT = "comment";
+    private static String ARGS_DIALOG_TIMESLOT = "timeslot";
 
     private String teacherName;
     private String teacherAvatarUrl;
@@ -94,7 +95,7 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     //图片缓存
     private ImageLoader mImageLoader;
 
-    public static CommentDialog newInstance(String teacherName,String teacherAvatarUrl,String courseName, Long timeslot, Comment comment) {
+    public static CommentDialog newInstance(String teacherName, String teacherAvatarUrl, String courseName, Long timeslot, Comment comment) {
         CommentDialog f = new CommentDialog();
         Bundle args = new Bundle();
         args.putString(ARGS_DIALOG_TEACHER_NAME, teacherName);
@@ -110,9 +111,9 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.setCancelable(false);          // 设置点击屏幕Dialog不消失
-        teacherName = getArguments().getString(ARGS_DIALOG_TEACHER_NAME,"");
-        teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR,"");
-        courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME,"");
+        teacherName = getArguments().getString(ARGS_DIALOG_TEACHER_NAME, "");
+        teacherAvatarUrl = getArguments().getString(ARGS_DIALOG_TEACHER_AVATAR, "");
+        courseName = getArguments().getString(ARGS_DIALOG_COURSE_NAME, "");
         comment = getArguments().getParcelable(ARGS_DIALOG_COMMENT);
         timeslot = getArguments().getLong(ARGS_DIALOG_TIMESLOT, 0L);
         init();
@@ -148,7 +149,8 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
 
     private void initViews() {
         //查看课程评价
-        if (comment!=null){  //已评价
+        if (comment != null) {  //已评价
+            StatReporter.commentPage(true);
             //不需要下载
             updateLoadSuccessedUI();
             //查看课程评价
@@ -159,7 +161,8 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
             editComment.setCursorVisible(false);
 
             ratingbar.setIsIndicator(true);
-        }else{
+        } else {
+            StatReporter.commentPage(false);
             this.setCancelable(false);          // 设置点击屏幕Dialog不消失
             tvSubmit.setEnabled(false);
             //评价课程
@@ -211,15 +214,15 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
 
     private void checkSubmitButtonStatus() {
         boolean status = editComment.getText().length() > 0 && ratingbar.getRating() > 0;
-        if (status != true) {
+        if (!status) {
             tvSubmit.setEnabled(false);
-        }else{
+        } else {
             tvSubmit.setEnabled(true);
         }
     }
 
     private void initDatas() {
-        if (comment!=null){
+        if (comment != null) {
             //开始下载
             loadDatas();
         }
@@ -243,10 +246,10 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     }
 
     private void updateUI(Comment comment) {
-        if (comment!=null){
+        if (comment != null) {
             ratingbar.setRating(comment.getScore());
             editComment.setText(comment.getContent());
-        }else{
+        } else {
             ratingbar.setRating(0);
             editComment.setText("");
         }
@@ -275,11 +278,11 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     }
 
 
-    void editAnimation(int start, int end){
+    void editAnimation(int start, int end) {
         final int llY = (int) llCourse.getY();
         final int editY = (int) editComment.getY();
-        final LinearLayout.LayoutParams editLinearParams =(LinearLayout.LayoutParams) editComment.getLayoutParams(); //取控件textView当前的布局参数
-        final int editHeight =  editComment.getMeasuredHeight();
+        final LinearLayout.LayoutParams editLinearParams = (LinearLayout.LayoutParams) editComment.getLayoutParams(); //取控件textView当前的布局参数
+        final int editHeight = editComment.getMeasuredHeight();
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
         animator.setDuration(100).start();
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -295,24 +298,26 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     }
 
     /**
+     * @throws
      * @MethodName:closeInputMethod
      * @Description:关闭系统软键盘
-     * @throws
      */
-    public void closeInputMethod(){
+    public void closeInputMethod() {
         try {
             ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                     .hideSoftInputFromWindow(getDialog().getCurrentFocus().getWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) { }finally{ }
+        } catch (Exception e) {
+        } finally {
+        }
     }
 
     /**
+     * @throws
      * @MethodName:openInputMethod
      * @Description:打开系统软键盘
-     * @throws
      */
-    public void openInputMethod(final EditText editText){
+    public void openInputMethod(final EditText editText) {
 
         Timer timer = new Timer();
 
@@ -327,7 +332,6 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         }, 50);
     }
 
-
     public void clickCommentEdit(View v){
         int llHeight = llCourse.getMeasuredHeight();
         if (!isOpenInputMethod) {
@@ -341,20 +345,21 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     }
 
     @OnClick(R.id.tv_load_fail)
-    public void OnClickLoadFail(View v){
+    public void OnClickLoadFail(View v) {
         updateLoadingUI();
         loadDatas();
     }
 
     @OnClick(R.id.tv_submit)
-    public void onClickSubmit(View v){
-        if(comment!=null){
-            dismiss();;
+    public void onClickSubmit(View v) {
+        StatReporter.commentSubmit();
+        if (comment != null) {
+            dismiss();
             return;
         }
         String content = editComment.getText().toString();
         float scorce = ratingbar.getRating();
-        if (content==null){
+        if (content == null) {
             content = "";
         }
         JSONObject json = new JSONObject();
@@ -370,8 +375,8 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
             @Override
             public void onSucceed(Object json) {
                 try {
-                    Comment  comment = JsonUtil.parseStringData(json.toString(),Comment.class);
-                    if (comment!=null) {
+                    Comment comment = JsonUtil.parseStringData(json.toString(), Comment.class);
+                    if (comment != null) {
                         Log.i("CommentDialog", "Set student's name succeed : " + json.toString());
                         commentSucceed();
                         return;
@@ -402,7 +407,7 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
 
 
     @OnClick(R.id.tv_Close)
-    public void onClickClose(View v){
+    public void onClickClose(View v) {
         dismiss();
     }
 

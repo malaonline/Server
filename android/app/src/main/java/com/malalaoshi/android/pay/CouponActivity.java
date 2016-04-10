@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.event.ChoiceCouponEvent;
@@ -81,5 +81,10 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
     @Override
     public void onTitleRightClick() {
 
+    }
+
+    @Override
+    protected String getStatName() {
+        return "优惠劵";
     }
 }

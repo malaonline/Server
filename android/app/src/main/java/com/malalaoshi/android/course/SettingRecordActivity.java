@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
-import com.malalaoshi.android.base.BaseActivity;
+import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.SettingRecordUI;
 
@@ -98,5 +98,10 @@ public class SettingRecordActivity extends BaseActivity implements TitleBarView.
             TextView desView;
             ImageView imageView;
         }
+    }
+
+    @Override
+    protected String getStatName() {
+        return "个人评测建档";
     }
 }

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.malalaoshi.android.core.R;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.network.UIResultCallback;
+import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.api.VerifyCodeApi;
 import com.malalaoshi.android.core.usercenter.entity.AuthUser;
 import com.malalaoshi.android.core.usercenter.entity.SendSms;
@@ -140,6 +141,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     protected void onFetchCodeClick() {
+        StatReporter.fetchCode(getStatName());
         String phone = phoneEditView.getText().toString();
         // For Debug: close the phone verification
         if (TextUtils.isEmpty(phone) || !MiscUtil.isMobilePhone(phone)) {
@@ -152,6 +154,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onLinkClick(View view) {
         getActivity().startActivity(new Intent(getActivity(), UserProtocolActivity.class));
+        StatReporter.userProtocol(getStatName());
     }
 
     private void checkVerifyButtonStatus() {
@@ -248,6 +251,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void verify() {
+        StatReporter.verifyCode(getStatName());
         String phone = phoneEditView.getText().toString();
         String code = codeEditView.getText().toString();
         verifyCodeApi.check(phone, code, new CheckVerifyCodeCallback(this));
@@ -260,5 +264,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             startActivity(intent);
         }
         getActivity().finish();
+    }
+
+    @Override
+    public String getStatName() {
+        return "用户登录";
     }
 }
