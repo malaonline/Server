@@ -1105,6 +1105,7 @@ class MyStudents(BasicTeacherView):
         for one_student in p.page(offset).object_list:
             one_details = {
                 "name": one_student.student_name or one_student.user.profile.phone,
+                "id": one_student.id,
                 "mail": True
             }
 
@@ -1192,6 +1193,7 @@ class MyStudents(BasicTeacherView):
         context["class_ending_student_url"] = class_ending_student_url
         context["refund_student_url"] = refund_student_url
         context["student_type"] = student_type
+        context["page_offset"] = offset
         context["current_count"], context["session_count"], context["refund_count"] = ss["student_statistics"]
         # pp(context)
         return render(request, "teacher/my_students.html", context)
@@ -2483,3 +2485,26 @@ class WalletBankcardView(BaseTeacherView):
         bankcard.opening_bank = opening_bank
         bankcard.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
+
+class StudentLetter(BasicTeacherView):
+
+    def handle_get(self, request, user, teacher, student_type, page_offset, student_id):
+        context = {
+            'student_type': student_type,
+            'page_offset': page_offset,
+            'student_id': student_id
+        }
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
+        student = None
+        try:
+            student = models.Parent.objects.get(id=student_id)
+        except:
+            context["error_code"] = -1
+            return render(request, "teacher/letter/edit.html", context)
+
+        context["student_name"] = student.student_name or student.user.profile.phone
+
+
+        return render(request, "teacher/letter/edit.html", context)

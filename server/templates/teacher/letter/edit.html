@@ -1,0 +1,63 @@
+{% extends "teacher/teacher_base.html" %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    我的学生
+{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/letter/letter.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'teacher/js/custom/my_students.js' %}"></script>
+    <script src="{% static 'common/js/underscore.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% load teacher_page %}
+            {% mala_page_header_dark "" "张三 老师" %}
+            <div class="page-left"></div>
+            <div class="page-center">
+                {% include 'teacher/side_bar.html' %}
+                <div class="the_content">
+                    <div class="nav_bar">
+                        <span class="title">我的学生</span>
+                        &gt;
+                        <span>信件</span>
+                    </div>
+                    <div class="form-horizontal">
+                        {%if error_code%}
+                        <div class="error">家长不存在 <a href="{% url 'teacher:my-students' student_type page_offset %}">返回</a></div>
+                        {%endif%}
+                        <fieldset>
+                            <div class="control-group">
+                              <label class="control-label" for="stname">收件人</label>
+                              <div class="controls">
+                                <label>{{student_name}}</label>
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="inscore">主题</label>
+                              <div class="controls">
+                                <input type="text" class="form-control" id="graduate_school" name="graduate_school" value="">
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="inscore">正文</label>
+                              <div class="controls">
+                                <textarea class="form-control"></textarea>
+                              </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" class="btn btn-success">发送</button>
+                        <a href="{% url 'teacher:my-students' student_type page_offset %}" type="button" class="btn btn-default">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -81,7 +81,8 @@
                             {% endif %}
                             </span>
                             {% if one_student.mail == True %}
-                                <i class="operation" attrState="to-send" data-toggle="tooltip" data-placement="left" title="沟通很重要,快给家长写一封信吧"></i>
+                                <a href="{% url 'teacher:student-letter' student_type page_offset one_student.id %}" class="operation" attrState="to-send" data-toggle="tooltip" data-placement="left" title="沟通很重要,快给家长写一封信吧">
+                                </a>
                             {% endif %}
                             {% if one_student.mail == False %}
                                 <i class="operation" attrState="sent"></i>
