@@ -64,6 +64,10 @@ $(
         render_grand_button_list();
         render_grand_select_button_group();
 
+        $('#realName').bind("input propertychange change keyup blur", function(e){
+            validate_ui();
+        });
+
         $("#submit_page").click(function(eventObject){
             //console.log("submit_page");
             eventObject.preventDefault();
@@ -72,6 +76,7 @@ $(
             var region = $("#city_input").val();
             var subclass = $("#subclass_input").val();
             var grade = selected_grand();
+            if (!is_all_filled()) return;
             var post_url = window.location.href;
             //关闭 beforeunload 监听
             $(window).off('beforeunload');
@@ -98,6 +103,28 @@ $(
 function output_error(msg){
     console.log(msg);
     $("#error_output").html(msg);
+}
+
+function is_all_filled() {
+    var name = $("#realName").val();
+    if (!name) return false;
+    var gender = $("#gender-input").val();
+    if (!gender) return false;
+    var region = $("#city_input").val();
+    if (!region) return false;
+    var subclass = $("#subclass_input").val();
+    if (!subclass) return false;
+    var grade = selected_grand();
+    if (!grade || grade.length == 0) return false;
+    return true;
+}
+
+function validate_ui() {
+    if (is_all_filled()) {
+        $('#submit_page').removeClass('disabled');
+    } else {
+        $('#submit_page').addClass('disabled');
+    }
 }
 
 //获得已经选择的年级
@@ -149,6 +176,7 @@ function render_grander_warning(){
 //添加一个年级
 function add_button(args){
     set_grand_tag(args, true);
+    validate_ui();
 }
 
 //删除一个年级按钮
@@ -158,6 +186,7 @@ function remove_button(args){
     //window.button_list.remove(args);
     set_grand_tag(args, false);
     //render_grand_button_list();
+    validate_ui();
 }
 
 //设置年级是否被选择
@@ -207,6 +236,7 @@ function render_grand_select_button_group(){
 //通用设置输入选项
 function set_value(id, value){
     $("#"+id).val(value);
+    validate_ui();
 }
 
 //授课科目输入选项
@@ -224,6 +254,7 @@ function set_subclass_value(id, value){
     //再渲染设置
     render_grand_button_list();
     render_grand_select_button_group();
+    validate_ui();
 }
 
 //允许添加授课年级
