@@ -828,12 +828,14 @@ class OrderViewSet(ParentBasedMixin,
 
     def can_create(self, request):
         weekly_time_slots = request.data.get('weekly_time_slots')
+        if weekly_time_slots is None or len(weekly_time_slots) == 0:
+            return False
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
                              for x in weekly_time_slots]
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
 
-        school = models.School.objects.get(pk=request.data.get('school'))
-        teacher = models.Teacher.objects.get(pk=request.data.get('teacher'))
+        school = get_object_or_404(models.School, pk=request.data.get('school'))
+        teacher = get_object_or_404(models.Teacher, pk=request.data.get('teacher'))
         parent = self.get_parent()
         if not teacher.is_longterm_available(periods, school, parent):
             return False
