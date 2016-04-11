@@ -245,6 +245,10 @@ class CourseChoosingView(OrderBaseView):
         if coupon and coupon.used:
             return JsonResponse({'ok': False, 'msg': '您所选择代金券已使用, 请重新选择', 'code': 2})
 
+        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
+        if not teacher.is_longterm_available(periods, school, parent):
+            return JsonResponse({'ok': False, 'msg': '课程已经被购买', 'code': 3})
+
         # create order
         order = models.Order.objects.create(
                 parent=parent, teacher=teacher, school=school,
