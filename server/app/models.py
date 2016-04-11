@@ -2494,3 +2494,12 @@ class Evaluation(BaseModel):
             return True
         return False
 
+class Letter(BaseModel):
+    teacher = models.ForeignKey(Teacher)
+    parent = models.ForeignKey(Parent)
+    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return '%s %s' % (self.teacher.name, self.parent.name)
