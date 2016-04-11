@@ -45,9 +45,6 @@ class TeacherDetailsPriceTableView: UITableView, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsPriceTableViewCellReuseId, forIndexPath: indexPath)
         (cell as! TeacherDetailsPriceTableViewCell).price = prices[indexPath.row]
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
     
@@ -124,6 +121,11 @@ class TeacherDetailsPriceTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        // Style
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
+        
         // SubView
         contentView.addSubview(subjectLabel)
         contentView.addSubview(priceLabel)

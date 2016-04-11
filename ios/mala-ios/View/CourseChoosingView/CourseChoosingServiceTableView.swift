@@ -63,11 +63,6 @@ class CourseChoosingServiceTableView: UITableView, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseChoosingServiceTableViewCellReuseId, forIndexPath: indexPath)
         (cell as! CourseChoosingServiceTableViewCell).service = self.services[indexPath.row]
-        
-        cell.selectionStyle = .None
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
 }
@@ -149,6 +144,10 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        selectionStyle = .None
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
         
         // Subviews
         contentView.addSubview(titleLabel)

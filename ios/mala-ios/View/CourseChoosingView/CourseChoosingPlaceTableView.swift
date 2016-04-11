@@ -92,11 +92,6 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         if schools?.count != 0 {
             cell.model = schools?[indexPath.row]
         }
-        
-        cell.selectionStyle = .None
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
     
@@ -230,6 +225,12 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        // Style
+        selectionStyle = .None
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
+        
         // SubView
         contentView.addSubview(titleLabel)
         contentView.addSubview(addressLabel)

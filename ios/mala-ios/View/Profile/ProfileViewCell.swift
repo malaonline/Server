@@ -14,13 +14,19 @@ class ProfileViewCell: UITableViewCell {
     /// [个人中心]Cell数据模型
     var model: ProfileElementModel = ProfileElementModel() {
         didSet {
-            self.textLabel?.text = model.title
+            self.titleLabel.text = model.title
             self.infoLabel.text = model.detail
         }
     }
     
     
     // MARK: - Components
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.textColor = MalaColor_636363_0
+        return titleLabel
+    }()
     private lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
         infoLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
@@ -46,14 +52,18 @@ class ProfileViewCell: UITableViewCell {
         // Style
         self.accessoryType = .DisclosureIndicator
         self.selectionStyle = .None
-        
-        self.textLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        self.textLabel?.textColor = MalaColor_636363_0
+        self.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         
         // SubViews
+        contentView.addSubview(titleLabel)
         contentView.addSubview(infoLabel)
         
         // Autolayout
+        titleLabel.snp_makeConstraints { (make) in
+            make.height.equalTo(MalaLayout_FontSize_14)
+            make.centerY.equalTo(contentView.snp_centerY)
+            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_13)
+        }
         infoLabel.snp_makeConstraints { (make) in
             make.height.equalTo(MalaLayout_FontSize_13)
             make.centerY.equalTo(contentView.snp_centerY)

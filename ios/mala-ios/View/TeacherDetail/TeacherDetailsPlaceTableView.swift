@@ -66,9 +66,6 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsSchoolsTableViewCellReuseId, forIndexPath: indexPath)
         (cell as! TeacherDetailsSchoolsTableViewCell).model = model[indexPath.row]
-        cell.separatorInset = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
         return cell
     }
     
@@ -167,6 +164,11 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        // Style
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
+        preservesSuperviewLayoutMargins = false
+        
         // SubView
         contentView.addSubview(photoView)
         contentView.addSubview(titleLabel)
