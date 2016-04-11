@@ -65,12 +65,6 @@ class ProfileViewHeaderView: UIView {
         nameLabel.textAlignment = .Center
         return nameLabel
     }()
-    /// 底部分隔视图
-    private lazy var sectionView: UIView = {
-        let sectionView = UIView()
-        sectionView.backgroundColor = MalaColor_F2F2F2_0
-        return sectionView
-    }()
     /// 头像刷新指示器
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -101,7 +95,6 @@ class ProfileViewHeaderView: UIView {
         // SubViews
         addSubview(avatarView)
         addSubview(nameLabel)
-        addSubview(sectionView)
         avatarView.addSubview(activityIndicator)
         
         // Autolayout
@@ -116,12 +109,6 @@ class ProfileViewHeaderView: UIView {
             make.centerX.equalTo(avatarView.snp_centerX)
             make.width.equalTo(100)
             make.height.equalTo(MalaLayout_FontSize_14)
-        }
-        sectionView.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.snp_bottom)
-            make.left.equalTo(self.snp_left)
-            make.right.equalTo(self.snp_right)
-            make.height.equalTo(8)
         }
         activityIndicator.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(avatarView.snp_center)
