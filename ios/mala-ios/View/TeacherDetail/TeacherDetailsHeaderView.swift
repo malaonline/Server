@@ -24,7 +24,7 @@ class TeacherDetailsHeaderView: UIView {
         }
     }
     /// 教师姓名
-    var name: String = "----" {
+    var name: String = "老师姓名" {
         didSet{
             self.nameLabel.text = name
             self.nameLabel.sizeToFit()
@@ -41,7 +41,7 @@ class TeacherDetailsHeaderView: UIView {
         }
     }
     /// 教授学科
-    var subject: String = "" {
+    var subject: String = "学科" {
         didSet {
             subjectLabel.text = subject
         }
@@ -69,7 +69,7 @@ class TeacherDetailsHeaderView: UIView {
     }()
     /// 头像显示控件
     private lazy var avatarView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
         imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 2.5

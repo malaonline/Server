@@ -27,9 +27,9 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
             self.tableHeaderView.avatar = model.avatar ?? ""
-            self.tableHeaderView.name = model.name  ?? "——"
+            self.tableHeaderView.name = model.name  ?? "老师姓名"
             self.tableHeaderView.gender = model.gender ?? "m"
-            self.tableHeaderView.subject = model.subject ?? "——"
+            self.tableHeaderView.subject = model.subject ?? "学科"
             self.tableHeaderView.minPrice = model.min_price
             self.tableHeaderView.maxPrice = model.max_price
             self.tableView.reloadData()
@@ -70,9 +70,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
     /// TableView头部视图
     private lazy var tableHeaderView: TeacherDetailsHeaderView = {
         let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 80))
-        tableHeaderView.avatar = ""
-        tableHeaderView.name = "----"
-        tableHeaderView.gender = "m"
         return tableHeaderView
     }()
     /// 顶部背景图
@@ -351,11 +348,11 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         }
         
         // 上下滑动页面到一定程度且 NavigationBar 尚未显示，渲染NavigationBar样式
-        if displacement > 0 && !isNavigationBarShow {
+        if displacement > -40 && !isNavigationBarShow {
             showBackground()
             isNavigationBarShow = true
         }
-        if displacement < 0 && isNavigationBarShow {
+        if displacement < -40 && isNavigationBarShow {
             hideBackground()
             isNavigationBarShow = false
         }
