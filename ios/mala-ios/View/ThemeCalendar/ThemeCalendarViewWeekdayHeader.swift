@@ -11,7 +11,7 @@ import UIKit
 // 文字高度
 internal let ThemeCalendarViewWeekdayHeaderSize: CGFloat = 14.0
 // 视图高度
-internal let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 42.0
+internal let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 32.0
 
 
 public enum ThemeCalendarViewWeekdayTextType: Int {

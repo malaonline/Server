@@ -63,6 +63,7 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
             return date
         }
     }
+    /// 当前选择时间
     public var selectedDate: NSDate? {
         willSet {
             
@@ -116,12 +117,15 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
     public var weekdayTextType: ThemeCalendarViewWeekdayTextType = .VeryShort
     /// 代理对象
     public var delegate: ThemeCalendarViewDelegate?
-    
+    /// 日期显示视图
     internal var overlayView: UILabel = {
         let overlayView = UILabel()
+        overlayView.text = "2016年1月1日"
         overlayView.font = UIFont.systemFontOfSize(ThemeCalendarOverlaySize)
         overlayView.alpha = 0.0
         overlayView.textAlignment = .Center
+        overlayView.numberOfLines = 0
+        overlayView.sizeToFit()
         return overlayView
     }()
     /// 头部视图日期格式化组件(滑动时显示)
@@ -138,7 +142,7 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("M/M", options: 0, locale: self.calendar.locale)
         return formatter
     }()
-    
+    /// 星期信息显示视图
     internal var weekdayHeader: ThemeCalendarViewWeekdayHeader!
     internal lazy var firstDateMonth: NSDate = {
         let components = self.calendar.components(kCalendarUnitYMD, fromDate: self.firstDate)
@@ -153,6 +157,7 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         let date = self.calendar.dateFromComponents(components)!
         return date
     }()
+    /// 每周天数
     internal var daysPerWeek: Int = 7
     
     
@@ -185,29 +190,21 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         self.collectionView?.dataSource = self
         self.collectionView?.backgroundColor = self.backgroundColor
         
-        // 配置overlayView
-        self.overlayView.backgroundColor = self.overlayBackgroundColor
-        self.overlayView.textColor = self.overlayTextColor
-        self.view.addSubview(overlayView)
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-        
         // 配置weekdayHeader
         self.weekdayHeader = ThemeCalendarViewWeekdayHeader(calendar: self.calendar, textType: self.weekdayTextType)
         self.view.addSubview(weekdayHeader)
         weekdayHeader.translatesAutoresizingMaskIntoConstraints = false
         
+        // 配置overlayView
+        self.overlayView.backgroundColor = self.overlayBackgroundColor
+        self.overlayView.textColor = self.overlayTextColor
+        self.view.insertSubview(overlayView, aboveSubview: weekdayHeader)
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        
         let weekdayHeaderHeight = self.weekdayHeaderEnabled ? ThemeCalendarViewWeekdayHeaderHeight : 0
         let viewsDictionary: [String: AnyObject] = ["overlayView": self.overlayView, "weekdayHeader": self.weekdayHeader]
         let metricsDictionary: [String: AnyObject] = ["overlayViewHeight": ThemeCalendarViewFlowLayoutHeaderHeight, "weekdayHeaderHeight": weekdayHeaderHeight]
         
-        self.view.addConstraints(
-            NSLayoutConstraint.constraintsWithVisualFormat(
-                "|[overlayView]|",
-                options: .AlignAllTop,
-                metrics: nil,
-                views: viewsDictionary
-            )
-        )
         self.view.addConstraints(
             NSLayoutConstraint.constraintsWithVisualFormat(
                 "|[weekdayHeader]|",
@@ -218,7 +215,23 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         )
         self.view.addConstraints(
             NSLayoutConstraint.constraintsWithVisualFormat(
-                "V:|[weekdayHeader(weekdayHeaderHeight)][overlayView(overlayViewHeight)]",
+                "|[overlayView]|",
+                options: .AlignAllTop,
+                metrics: nil,
+                views: viewsDictionary
+            )
+        )
+        self.view.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "V:|[weekdayHeader(weekdayHeaderHeight)]",
+                options: .DirectionLeadingToTrailing,
+                metrics: metricsDictionary,
+                views: viewsDictionary
+            )
+        )
+        self.view.addConstraints(
+            NSLayoutConstraint.constraintsWithVisualFormat(
+                "V:|[overlayView(overlayViewHeight)]",
                 options: .DirectionLeadingToTrailing,
                 metrics: metricsDictionary,
                 views: viewsDictionary
@@ -344,18 +357,20 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         //We only display the overlay view if there is a vertical velocity
         if (fabs(velocity.y) > 0.0) {
             if (self.overlayView.alpha < 1.0) {
-                UIView.animateWithDuration(0.25, animations: { 
-                    self.overlayView.alpha = 1.0
-                })
+                self.overlayView.alpha = 1.0
             }
         }
     }
     
     public override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let duration = decelerate ? 1.5 : 0.0
-        delay(duration) {
-            self.hideOverlayView()
-        }
+//        let duration: NSTimeInterval = 2 /*decelerate ? 1.5 : 0.0*/
+//        delay(duration) {
+//            self.hideOverlayView()
+//        }
+    }
+    
+    public override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        self.hideOverlayView()
     }
     
     public override func scrollViewDidScroll(scrollView: UIScrollView) {
