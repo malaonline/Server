@@ -36,6 +36,11 @@ $(function(){
     var teachingAge = $('#teachingAge').html();
     var graduate_school = $('#graduate_school').val();
     var introduce = $('#introduce').val();
+    introduce = $.trim(introduce);
+    if (!introduce || introduce.length<10) {
+        alert('自我介绍不能少于10个字！');
+        return false;
+    }
 
     var params = {
       'birthday_y': birthday_y,
