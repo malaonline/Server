@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'teacher/less/achievement/achievement.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'teacher/js/achievement/achievement.js' %}"></script>
     <script>var listPageUrl = '{% url 'teacher:achievement' %}';</script>
 {% endblock %}

@@ -58,6 +58,7 @@ $(function(){
       return false;
     }
 
+    showLoading();
     $.post("/teacher/basic_doc/", params, function(result){
         if(result){
           if(result.ok){
@@ -69,9 +70,11 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
+        hideLoading();
     }, 'json').fail(function(){
       $('#complaintModal').modal('hide');
       alert(pagedefaultErrMsg);
+      hideLoading();
     });
   });
 

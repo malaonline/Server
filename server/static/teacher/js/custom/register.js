@@ -52,6 +52,7 @@ $(
             console.log(settings);
             console.log(thrownError);
             ErrorOutput("网络异常,请稍后再试");
+            hideLoading();
         });
         //追加网络超时限制,最多2秒
         $.ajaxSetup({
@@ -237,6 +238,7 @@ function checkSMS(){
     console.log(window.location.href);
     var post_url = window.location.href;
     //var post_url = "/teacher/verify_sms_code/";
+    showLoading();
     $.post(post_url, {phone:phone_code, code:sms_code},
         function(data){
             console.log(data);
@@ -253,6 +255,7 @@ function checkSMS(){
 
                 window.location.href = data.url;
             }
+            hideLoading();
         }
     );
 }

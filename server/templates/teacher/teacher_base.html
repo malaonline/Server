@@ -10,9 +10,11 @@
     {% load compile_static %}
     <link href="{% static 'teacher/less/teacher-base.less'|compile %}" rel="stylesheet" type="text/css">
     {% block addition_header %}{% endblock %}
+    <script src="{% static 'common/js/underscore.js' %}"></script>
     <script src="{% static 'common/js/jquery-2.1.4.js' %}"></script>
     <script src="{% static 'common/js/bootstrap.js' %}"></script>
     <script src="{% static 'common/js/django-ajax-amend.js' %}"></script>
+    <script src="{% static 'teacher/js/teacher_frame.js' %}"></script>
     {% block addition_js %}{% endblock %}
 </head>
 <body>
@@ -24,5 +26,6 @@
         {% include 'footer.html' %}
         {% include 'ga.html' %}
     </div>
+    {% include 'teacher/m_loading_dialog.html' %}
 </body>
 </html>

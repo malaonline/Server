@@ -105,12 +105,13 @@ $(function(){
                 }else{
                     alert(result.msg);
                 }
-                return;
+            } else {
+                alert(defaultErrMsg);
             }
-            alert(defaultErrMsg);
         },
-        error: function(e){
-          alert(defaultErrMsg);
+        error: function(jqXHR, errorType, errorDesc){
+            var errMsg = errorDesc?('['+errorDesc+'] '):'';
+            alert(errMsg+defaultErrMsg);
         }
     });
     return false;

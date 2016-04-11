@@ -116,6 +116,7 @@ $(function(){
                 return alert("没有证书照片");
             }
         }
+        showLoading();
         $form.ajaxSubmit({
             data: {'format': 'json'},
             dataType: 'json',
@@ -146,12 +147,15 @@ $(function(){
                     } else {
                         alert(result.msg);
                     }
-                    return;
+                } else {
+                    alert(defaultErrMsg);
                 }
-                alert(defaultErrMsg);
+                hideLoading();
             },
-            error: function(e){
-                alert(defaultErrMsg);
+            error: function(jqXHR, errorType, errorDesc){
+                var errMsg = errorType?('['+errorType+(errorDesc?(':'+errorDesc):'')+']'):'';
+                alert(errMsg+defaultErrMsg);
+                hideLoading();
             }
         });
     });

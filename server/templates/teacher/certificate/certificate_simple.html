@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'teacher/js/certificate/certificate.js' %}"></script>
     <script>
         var certOverviewPageUrl = "{% url 'teacher:certificate' %}";

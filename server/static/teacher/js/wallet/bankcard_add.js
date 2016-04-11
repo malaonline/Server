@@ -291,6 +291,7 @@ $(function () {
         if (!canNextStep()) {
             return alert('请确保以上信息填写完整');
         }
+        showLoading();
         var $form = $("#bankcardAddForm");
         $form.ajaxSubmit({
             dataType: 'json',
@@ -301,12 +302,15 @@ $(function () {
                     } else {
                         alert(result.msg);
                     }
-                    return;
+                } else {
+                    alert(defaultErrMsg);
                 }
-                alert(defaultErrMsg);
+                hideLoading();
             },
-            error: function(e){
-                alert(defaultErrMsg);
+            error: function(jqXHR, errorType, errorDesc){
+                var errMsg = errorDesc?('['+errorDesc+'] '):'';
+                alert(errMsg+defaultErrMsg);
+                hideLoading();
             }
         });
     });

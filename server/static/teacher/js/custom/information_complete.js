@@ -80,6 +80,7 @@ $(
             var post_url = window.location.href;
             //关闭 beforeunload 监听
             $(window).off('beforeunload');
+            showLoading();
             $.post(post_url,
                 {
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
@@ -90,6 +91,7 @@ $(
                 }else{
                     output_error(data.msg);
                 }
+                hideLoading();
             });
 
         });

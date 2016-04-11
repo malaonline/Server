@@ -94,6 +94,7 @@ $(function(){
       'school_name': schoolname,
       'admitted_to': admittedTo,
     };
+    showLoading();
     $.post("/teacher/highscore/", params, function(result){
         if(result){
           if(result.ok){
@@ -107,11 +108,13 @@ $(function(){
         }
       $saveBtn.removeClass('disabled');
       isSaving = false;
+      hideLoading();
     }, 'json').fail(function(){
       $('#addItemsModal').modal('hide');
       alert(hiscorepageDefaultErrMsg);
       $saveBtn.removeClass('disabled');
       isSaving = false;
+      hideLoading();
     });
   });
   $('#addHighscore').click(function(e){

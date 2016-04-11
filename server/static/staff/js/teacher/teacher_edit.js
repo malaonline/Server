@@ -419,8 +419,9 @@ $(function(){
                 alert(defaultErrMsg);
                 $this.removeClass('disabled');
             },
-            error: function(e){
-                alert(defaultErrMsg);
+            error: function(jqXHR, errorType, errorDesc){
+                var errMsg = errorDesc?('['+errorDesc+'] '):'';
+                alert(errMsg+defaultErrMsg);
                 $this.removeClass('disabled');
             }
         });

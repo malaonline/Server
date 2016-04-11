@@ -9,6 +9,7 @@ $(function(){
         if (!decided) return false;
         var $item = $(this).closest('.list-group-item'), achieveId = $item.attr('achieveId');
         if (achieveId) {
+            showLoading();
             $.post( "/teacher/achievement/delete/"+achieveId, function( result ) {
                 if (result) {
                     if (result.ok) {
@@ -16,11 +17,14 @@ $(function(){
                     } else {
                         alert(result.msg);
                     }
-                    return;
+                } else {
+                    alert(defaultErrMsg);
                 }
-                alert(defaultErrMsg);
-            }, 'json').fail(function() {
-                alert(defaultErrMsg);
+                hideLoading();
+            }, 'json').fail(function(jqXHR, errorType, errorDesc){
+                var errMsg = errorDesc?('['+errorDesc+'] '):'';
+                alert(errMsg+defaultErrMsg);
+                hideLoading();
             });
         }
     });
@@ -102,6 +106,7 @@ $(function(){
         if (!hasImg($form.find('.img-upload-box'))) {
             return alert("请上传图片");
         }
+        showLoading();
         $form.ajaxSubmit({
             dataType: 'json',
             success: function(result){
@@ -111,12 +116,15 @@ $(function(){
                     } else {
                         alert(result.msg);
                     }
-                    return;
+                } else {
+                    alert(defaultErrMsg);
                 }
-                alert(defaultErrMsg);
+                hideLoading();
             },
-            error: function(e){
-                alert(defaultErrMsg);
+            error: function(jqXHR, errorType, errorDesc){
+                var errMsg = errorDesc?('['+errorDesc+'] '):'';
+                alert(errMsg+defaultErrMsg);
+                hideLoading();
             }
         });
     });
