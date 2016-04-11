@@ -14,4 +14,10 @@ extension Int {
             return String(format: "%@", String(Double(self)/100))
         }
     }
+    
+    public var moneyInt: Int {
+        get {
+            return Int(Double(self)/100)
+        }
+    }
 }

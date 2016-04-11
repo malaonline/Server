@@ -15,7 +15,7 @@ class CouponViewCell: UITableViewCell {
     var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
-            self.priceLabel.text = String(format: "%@", (model?.amount ?? 0).money)
+            self.priceLabel.text = String(format: "%d", (model?.amount ?? 0).moneyInt)
             self.titleLabel.text = model?.name
             self.validityTermLabel.text = String(timeStamp: (model?.expired_at ?? 0))
             // 使用说明暂时写为常量
@@ -82,6 +82,7 @@ class CouponViewCell: UITableViewCell {
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_37)
+//        priceLabel.font = UIFont(name: "Damascus", size: MalaLayout_FontSize_37)
         priceLabel.textColor = MalaColor_E26254_0
         return priceLabel
     }()
@@ -195,19 +196,18 @@ class CouponViewCell: UITableViewCell {
             make.right.equalTo(content.snp_right)
             make.bottom.equalTo(content.snp_bottom)
         }
-        
         moneySymbol.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(content.snp_left).offset(MalaLayout_Margin_20)
-            make.bottom.equalTo(priceLabel.snp_bottom)
+            make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
             make.height.equalTo(MalaLayout_FontSize_17)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(moneySymbol.snp_right).offset(MalaLayout_Margin_3)
+            make.left.equalTo(moneySymbol.snp_right)
             make.height.equalTo(MalaLayout_FontSize_37)
             make.centerY.equalTo(topLayoutView.snp_centerY)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(priceLabel.snp_top)
+            make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
             make.left.equalTo(priceLabel.snp_right).offset(MalaLayout_FontSize_12)
             make.height.equalTo(MalaLayout_FontSize_16)
         }
