@@ -20,6 +20,8 @@ from rest_framework.views import APIView
 from rest_framework import serializers, viewsets, permissions, generics, mixins
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
+from rest_framework.response import Response
 
 from app import models
 from app.pingpp import pingpp
@@ -823,6 +825,28 @@ class OrderViewSet(ParentBasedMixin,
         parent = self.get_parent()
         queryset = models.Order.objects.filter(parent=parent).order_by('id')
         return queryset
+
+    def can_create(self, request):
+        weekly_time_slots = request.data.get('weekly_time_slots')
+        weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
+                             for x in weekly_time_slots]
+        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
+
+        school = models.School.objects.get(pk=request.data.get('school'))
+        teacher = models.Teacher.objects.get(pk=request.data.get('teacher'))
+        parent = self.get_parent()
+        if not teacher.is_longterm_available(periods, school, parent):
+            return False
+        return True
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if not self.can_create(request):
+            return JsonResponse({'ok': 'false', 'code': -1})
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         parent = self.get_parent()

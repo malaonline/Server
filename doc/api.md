@@ -603,7 +603,7 @@ data:
 
 result:
 
-HTTP Status Code 201
+(Success)HTTP Status Code 201
 ```
 {
     'teacher': 1,
@@ -619,6 +619,15 @@ HTTP Status Code 201
     'weekly_time_slots': [3, 8],
     'subject': 1,
     'school': 1
+}
+```
+
+(Fail)HTTP Status Code 200
+(One or more course in the order has been assigned to other parent)
+```
+{
+    'ok': false,
+    'code' -1
 }
 ```
 
