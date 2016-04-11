@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -67,7 +68,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     public CourseConfirmFragment() {
         coursePrices = new ArrayList<>();
-        schoolList = new ArrayList<>();
+            schoolList = new ArrayList<>();
     }
 
     @Bind(R.id.gv_course)
@@ -114,6 +115,12 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     @Bind(R.id.tv_cut_down)
     protected TextView cutReviewView;
+
+    @Bind(R.id.rl_price)
+    protected RelativeLayout rlPrice;
+
+    @Bind(R.id.tv_price)
+    protected TextView tvPrice;
 
     @Bind(R.id.tv_mount)
     protected TextView amountView;
@@ -465,11 +472,17 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
         float sum = currentGrade.getPrice().getPrice() * currentHours;
         if (coupon != null) {
+            rlPrice.setVisibility(View.VISIBLE);
+            float price = sum <= 0 ? 1 : sum;
+            price = price / 100f;
+            tvPrice.setText("¥ "+String.valueOf(price));
             sum -= Integer.valueOf(coupon.getAmount());
+        }else{
+            rlPrice.setVisibility(View.GONE);
         }
         sum = sum <= 0 ? 1 : sum;
         sum = sum / 100f;
-        amountView.setText(String.valueOf(sum));
+        amountView.setText("¥ "+String.valueOf(sum));
     }
 
     private void initGridView() {

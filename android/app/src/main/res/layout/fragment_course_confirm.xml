@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="奖学金"
                 android:textColor="#6c6c6c"
@@ -295,13 +295,46 @@
                 android:src="@drawable/ic_more_info" />
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/rl_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:visibility="gone">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color" />
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/theme_red_96"
+                android:textSize="13sp" />
+            <TextView
+                android:layout_toLeftOf="@id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:text="原价:"
+                android:textColor="#333"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:background="@color/line_color" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -314,7 +347,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:text="还需支付"
+                android:text="还需支付:"
                 android:textColor="#333"
                 android:textSize="14sp" />
 
