@@ -10,7 +10,7 @@ import UIKit
 
 private let EvaluationFilingServiceCellReuseId = "EvaluationFilingServiceCellReuseId"
 
-class EvaluationFilingServiceController: UITableViewController {
+class EvaluationFilingServiceController: BaseTableViewController {
 
     // MARK: - Property
     var introductions: [IntroductionModel]? {
@@ -66,25 +66,10 @@ class EvaluationFilingServiceController: UITableViewController {
     // MARK: - Private Method
     private func configure() {
         // Style 
-        // 设置BarButtomItem间隔
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_12
-        
-        // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(EvaluationFilingServiceController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
-        
-        self.title = MalaCommonString_EvaluationFiling
-        self.tableView.backgroundColor = UIColor.whiteColor()
-        self.tableView.estimatedRowHeight = 300
-        self.tableView.separatorStyle = .None
+        title = MalaCommonString_EvaluationFiling
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.estimatedRowHeight = 300
+        tableView.separatorStyle = .None
         
         self.tableView.registerClass(EvaluationFilingServiceCell.self, forCellReuseIdentifier: EvaluationFilingServiceCellReuseId)
     }
@@ -101,11 +86,6 @@ class EvaluationFilingServiceController: UITableViewController {
             }
         }
         self.introductions = modelDicts
-    }
-    
-    // MARK: - Event Response
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
     }
 }
 

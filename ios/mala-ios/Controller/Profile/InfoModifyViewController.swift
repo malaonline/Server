@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InfoModifyViewController: UIViewController {
+class InfoModifyViewController: BaseViewController {
     
     // MARK: - Property
     /// 修改信息类型
@@ -93,19 +93,6 @@ class InfoModifyViewController: UIViewController {
     
     
     private func configure() {
-        // leftBarButtonItem
-        let spacerLeft = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacerLeft.width = -MalaLayout_Margin_12
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(InfoModifyViewController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacerLeft, leftBarButtonItem]
-        
         // rightBarButtonItem
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         spacerRight.width = -MalaLayout_Margin_5
@@ -173,12 +160,6 @@ class InfoModifyViewController: UIViewController {
             return
         }
         saveButton.enabled = validateName(name)
-    }
-    
-    @objc private func popSelf() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
-            self?.navigationController?.popViewControllerAnimated(true)
-        }
     }
     
     @objc private func saveChange() {

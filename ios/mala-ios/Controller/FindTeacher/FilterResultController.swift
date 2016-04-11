@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterResultController: UIViewController {
+class FilterResultController: BaseViewController {
 
     // MARK: - Property
     weak var filterCondition: ConditionObject? {
@@ -94,21 +94,6 @@ class FilterResultController: UIViewController {
             make.size.equalTo(tableView.snp_size)
             make.center.equalTo(tableView.snp_center)
         }
-        
-        // 设置BarButtomItem间隔
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_5*2.3
-        
-        // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(FilterResultController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
     }
     
     private func showDefatultViewWhenModelIsEmpty() {
@@ -188,10 +173,7 @@ class FilterResultController: UIViewController {
         }
     }
     
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
+
     deinit {
         println("FilterResultController - Deinit")
         // 重置选择条件模型

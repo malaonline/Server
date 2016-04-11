@@ -10,7 +10,7 @@ import UIKit
 
 private let CouponViewCellReuseId = "ScholarshipTableViewCellReuseId"
 
-class CouponViewController: UITableViewController {
+class CouponViewController: BaseTableViewController {
 
     // MARK: - Property
     /// 优惠券模型数组
@@ -54,21 +54,7 @@ class CouponViewController: UITableViewController {
         title = "奖学金"
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
-        
-        // leftBarButtonItem
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_12
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(CouponViewController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
         refreshControl = refresher
-        
         tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
     }
     
@@ -154,10 +140,5 @@ class CouponViewController: UITableViewController {
             currentSelectedIndexPath = indexPath
         }
         return cell
-    }
-    
-    
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
     }
 }

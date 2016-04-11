@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewDelegate {
+class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmViewDelegate {
 
     // MARK: - Property
     /// 教师详情数据模型
@@ -90,21 +90,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
     private func setupUserInterface() {
         // Style
         makeStatusBarBlack()
-        
-        // 设置BarButtomItem间隔
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_12
-        
-        // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(CourseChoosingViewController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
         self.title = MalaCommonString_CourseChoosing
         
         // SubViews
@@ -402,12 +387,6 @@ class CourseChoosingViewController: UIViewController, CourseChoosingConfirmViewD
             self?.tableView.timeScheduleResult = array
             self?.tableView.isOpenTimeScheduleCell = true
         })
-    }
-    
-    
-    // MARK: - Event Response
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     

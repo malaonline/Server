@@ -20,7 +20,7 @@ private let TeacherDetailsCellReuseId = [
 //    8: "TeacherDetailsPriceCellReuseId"
 ]
 
-class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
+class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
 
     // MARK: - Property
     var teacherID: Int = 0
@@ -143,12 +143,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         tableView.estimatedRowHeight = 240
         tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
         tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "leftArrow"),
-            style: .Done,
-            target: self,
-            action: #selector(TeacherDetailsController.popSelf)
-        )
         
         // TableView
         view.addSubview(tableView)
@@ -444,9 +438,6 @@ class TeacherDetailsController: UIViewController, UIGestureRecognizerDelegate, U
         return reuseCell
     }
 
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
 
     deinit {
         

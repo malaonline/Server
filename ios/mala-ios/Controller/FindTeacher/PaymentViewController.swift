@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
+class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     
     // MARK: - Property
     
@@ -51,20 +51,6 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        // 设置BarButtomItem间隔
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -MalaLayout_Margin_12
-        
-        // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_normal",
-                highlightImageName: "leftArrow_press",
-                target: self,
-                action: #selector(PaymentViewController.popSelf)
-            )
-        )
-        navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
         title = "支付"
         view.backgroundColor = UIColor.whiteColor()
         paymentConfirmView.delegate = self
@@ -117,11 +103,6 @@ class PaymentViewController: UIViewController, PaymentBottomViewDelegate {
             ServiceResponseOrder = order
         })
 
-    }
-    
-    // MARK: - Event Response
-    @objc private func popSelf() {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     
