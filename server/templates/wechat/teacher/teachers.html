@@ -7,7 +7,6 @@
 
 {% block addition_header %}
     <link rel="stylesheet" href="{% static 'wechat/css/teachers.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'wechat/css/semantic/divider.min.less'|compile %}">
 {% endblock %}
 
 {% block content %}
@@ -22,7 +21,7 @@
 {#                        <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}" class="link">#}
                             <h3>{{ teacher.name }}</h3>
 {#                        </a>#}
-                        <div class="ui horizontal divider">{{ teacher.level }}</div>
+                        <div class="ui horizontal divider"><span class="text">{{ teacher.level }}</span></div>
                         <div class="card-content">
                             <div class="img-border-wrapper">
                                 <div class="img-wrapper">
