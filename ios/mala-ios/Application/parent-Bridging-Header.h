@@ -9,5 +9,4 @@
 
 #import "MobClick.h"
 #import "Pingpp.h"
-#import "PDTSimpleCalendar.h"
 #import "JPUSHService.h"

@@ -13,7 +13,7 @@ private let ClassScheduleViewCellReuseID = "ClassScheduleViewCellReuseID"
 private let ClassScheduleViewHeaderReuseID = "ClassScheduleViewHeaderReuseID"
 private let kCalendarUnitYMD: NSCalendarUnit = [.Year, .Month, .Day]
 
-public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSimpleCalendarViewDelegate, ClassScheduleViewCellDelegate {
+public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCalendarViewDelegate, ClassScheduleViewCellDelegate {
 
     // MARK: - Property
     /// 上课时间表数据模型
@@ -115,6 +115,7 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         let firstOfMonth = self.firstOfMonthForSection(indexPath.section)
         let cellDate = self.dateForCellAtIndexPath(indexPath)
         
+        
         let cellDateComponents = self.calendar.components(kCalendarUnitYMD, fromDate: cellDate)
         let firstOfMonthsComponents = self.calendar.components(kCalendarUnitYMD, fromDate: firstOfMonth)
 
@@ -126,7 +127,7 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
             isSelected = self.isSelectedDate(cellDate) && (indexPath.section == self.sectionForDate(cellDate))
             isToday = self.isTodayDate(cellDate)
             cell.setDate(date: cellDate, calendar: self.calendar)
-            isCustomDate = self.delegate?.simpleCalendarViewController?(self, shouldUseCustomColorsForDate: cellDate)
+            isCustomDate = self.delegate?.calendarViewControllerShouldUseCustomColorsForDate?(self, date: cellDate)
         }else {
             cell.setDate(date: nil, calendar: nil)
         }
@@ -183,24 +184,21 @@ public class ClassScheduleViewController: PDTSimpleCalendarViewController, PDTSi
         if self.isEnabledDate(date) {
             return true
         }
-        
-        return (self.delegate?.simpleCalendarViewController?(self, shouldUseCustomColorsForDate: date) ?? false)
+        return self.delegate?.calendarViewControllerShouldUseCustomColorsForDate?(self, date: date) ?? false
     }
     
     public func classScheduleViewCell(cell: ClassScheduleViewCell, circleColorForDate date: NSDate) -> UIColor? {
         if self.isEnabledDate(date) {
             return cell.circleDefaultColor
         }
-        
-        return (self.delegate?.simpleCalendarViewController?(self, circleColorForDate: date) ?? nil)
+        return self.delegate?.calendarViewControllerCircleColorForDate?(self, date: date)
     }
     
     public func classScheduleViewCell(cell: ClassScheduleViewCell, textColorForDate date: NSDate) -> UIColor? {
         if self.isEnabledDate(date) {
             return cell.textDisabledColor
         }
-        
-        return (self.delegate?.simpleCalendarViewController?(self, textColorForDate: date) ?? nil)
+        return self.delegate?.calendarViewControllerTextColorForDate?(self, date: date)
     }
     
     

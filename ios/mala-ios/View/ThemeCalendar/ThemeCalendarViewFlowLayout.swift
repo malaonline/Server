@@ -8,13 +8,13 @@
 
 import UIKit
 
-private let ThemeCalendarViewFlowLayoutMinInterItemSpacing: CGFloat = 0.0
-private let ThemeCalendarViewFlowLayoutMinLineSpacing: CGFloat = 0.0
-private let ThemeCalendarViewFlowLayoutInsetTop: CGFloat = 5.0
-private let ThemeCalendarViewFlowLayoutInsetLeft: CGFloat = 0.0
-private let ThemeCalendarViewFlowLayoutInsetBottom: CGFloat = 5.0
-private let ThemeCalendarViewFlowLayoutInsetRight: CGFloat = 0.0
-private let ThemeCalendarViewFlowLayoutHeaderHeight: CGFloat = 32.0
+internal let ThemeCalendarViewFlowLayoutMinInterItemSpacing: CGFloat = 0.0
+internal let ThemeCalendarViewFlowLayoutMinLineSpacing: CGFloat = 0.0
+internal let ThemeCalendarViewFlowLayoutInsetTop: CGFloat = 5.0
+internal let ThemeCalendarViewFlowLayoutInsetLeft: CGFloat = 0.0
+internal let ThemeCalendarViewFlowLayoutInsetBottom: CGFloat = 5.0
+internal let ThemeCalendarViewFlowLayoutInsetRight: CGFloat = 0.0
+internal let ThemeCalendarViewFlowLayoutHeaderHeight: CGFloat = 32.0
 
 public class ThemeCalendarViewFlowLayout: UICollectionViewFlowLayout {
 

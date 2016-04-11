@@ -8,16 +8,16 @@
 
 import UIKit
 
-class ClassScheduleViewWeekdayHeader: PDTSimpleCalendarViewWeekdayHeader {
+class ClassScheduleViewWeekdayHeader: ThemeCalendarViewWeekdayHeader {
 
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
     }
-    
-    override init(calendar: NSCalendar, weekdayTextType: PDTSimpleCalendarViewWeekdayTextType) {
-        super.init(calendar: calendar, weekdayTextType: weekdayTextType)
+
+    override init(calendar: NSCalendar, textType:ThemeCalendarViewWeekdayTextType) {
+        super.init(calendar: calendar, textType: textType)
         setupUserInterface()
     }
     

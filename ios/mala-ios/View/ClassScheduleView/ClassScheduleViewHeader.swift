@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ClassScheduleViewHeader: PDTSimpleCalendarViewHeader {
+class ClassScheduleViewHeader: ThemeCalendarViewHeader {
     
     // MARK: - Constructed
     override init(frame: CGRect) {

@@ -47,19 +47,19 @@ public class ThemeCalendarViewCell: UICollectionViewCell {
         }
     }
     /// 圆形区域默认颜色
-    public var circleDefaultColor: UIColor?
+    public var circleDefaultColor: UIColor? = UIColor.whiteColor()
     /// 关联日期为今天时的圆形区域显示颜色
-    public var circleTodayColor: UIColor?
+    public var circleTodayColor: UIColor? = UIColor.whiteColor()
     /// 圆形区域选中样式颜色
-    public var circleSelectedColor: UIColor?
+    public var circleSelectedColor: UIColor? = UIColor.orangeColor()
     /// 日期文字默认颜色
-    public var textDefaultColor: UIColor?
+    public var textDefaultColor: UIColor? = UIColor.blackColor()
     /// 关联日期为今天时的日期文字颜色
-    public var textTodayColor: UIColor?
+    public var textTodayColor: UIColor? = MalaColor_82B4D9_0
     /// 日期文字选中颜色
-    public var textSelectedColor: UIColor?
+    public var textSelectedColor: UIColor? = UIColor.whiteColor()
     /// 日期文字取消选中颜色
-    public var textDisabledColor: UIColor?
+    public var textDisabledColor: UIColor? = UIColor.whiteColor()
     /// 日期label控件
     internal var dayLabel: UILabel = {
         let dayLabel = UILabel()

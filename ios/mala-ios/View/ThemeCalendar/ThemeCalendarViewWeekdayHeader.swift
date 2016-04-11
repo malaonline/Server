@@ -9,9 +9,9 @@
 import UIKit
 
 // 文字高度
-private let ThemeCalendarViewWeekdayHeaderSize: CGFloat = 12.0
+internal let ThemeCalendarViewWeekdayHeaderSize: CGFloat = 14.0
 // 视图高度
-private let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 42.0
+internal let ThemeCalendarViewWeekdayHeaderHeight: CGFloat = 42.0
 
 
 public enum ThemeCalendarViewWeekdayTextType: Int {
@@ -25,11 +25,11 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
     
     // MARK: - Property
     /// 自定义文字颜色
-    public var textColor: UIColor = UIColor.blackColor()
+    public var textColor: UIColor = MalaColor_333333_0
     /// 自定义文字字体
     public var textFont: UIFont = UIFont.systemFontOfSize(ThemeCalendarViewWeekdayHeaderSize)
     /// 背景颜色
-    public var headerBackgroundColor: UIColor = UIColor.whiteColor()
+    public var headerBackgroundColor: UIColor = MalaColor_F2F2F2_0
     
 
     // MARK: - Constructed
@@ -43,7 +43,7 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
     
     
     // MARK: - Public Method
-    convenience init(calendar: NSCalendar, textType:ThemeCalendarViewWeekdayTextType) {
+    init(calendar: NSCalendar, textType:ThemeCalendarViewWeekdayTextType) {
         self.init()
         
         // 外观样式
@@ -100,15 +100,15 @@ public class ThemeCalendarViewWeekdayHeader: UIView {
             self.addSubview(weekdaySymbolLabel)
             
             weekdaySymbolLabelDict[labelName] = weekdaySymbolLabel
+            
             self.addConstraints(
                 NSLayoutConstraint.constraintsWithVisualFormat(
-                    "V:|[%@]|",
-                    options: .DirectionLeadingToTrailing,
+                    /*String("V:|[%@]|", labelName)*/"V:|[label]|",
+                    options: NSLayoutFormatOptions(rawValue: 0),
                     metrics: nil,
-                    views: weekdaySymbolLabelDict
+                    views: ["label": weekdaySymbolLabel]
                 )
             )
-            
             
             if firstWeekdaySymbolLabel == nil {
                 firstWeekdaySymbolLabel = weekdaySymbolLabel

@@ -115,7 +115,6 @@
 		35CAE4B51CAAB45F0071772D /* jpush-ios-2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */; };
 		35D7A2F71C0FE82E007D7679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35D7A2F51C0FE82E007D7679 /* Main.storyboard */; };
 		35FDCE6A1CAD0A2300A25FE8 /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065191C97B168004056B1 /* EvaluationFilingServiceController.swift */; };
-		35FDCE6B1CAD0A2300A25FE8 /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */; };
 		35FDCE6C1CAD0A2300A25FE8 /* ThemeTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */; };
 		35FDCE6D1CAD0A2300A25FE8 /* OtherServiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2381C759F0500FB833B /* OtherServiceModel.swift */; };
 		35FDCE6E1CAD0A2300A25FE8 /* SKDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5961CA4131D00EB3CCF /* SKDetectingImageView.swift */; };
@@ -177,7 +176,6 @@
 		35FDCEA61CAD0A2300A25FE8 /* TeacherDetailsPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */; };
 		35FDCEA71CAD0A2300A25FE8 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		35FDCEA81CAD0A2300A25FE8 /* UIImage+Navi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065071C96D363004056B1 /* UIImage+Navi.swift */; };
-		35FDCEA91CAD0A2300A25FE8 /* PDTSimpleCalendarViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE931C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m */; };
 		35FDCEAA1CAD0A2300A25FE8 /* CourseChoosingGradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871EC1C51DFB60048D93F /* CourseChoosingGradeCell.swift */; };
 		35FDCEAB1CAD0A2300A25FE8 /* GradePriceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB89A1C33CDD200D8397F /* GradePriceModel.swift */; };
 		35FDCEAC1CAD0A2300A25FE8 /* PaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CF1C841A9800C20037 /* PaymentChannelCell.swift */; };
@@ -189,7 +187,6 @@
 		35FDCEB21CAD0A2300A25FE8 /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
 		35FDCEB31CAD0A2300A25FE8 /* Extension+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3077884E1C297C34007AF6B0 /* Extension+UIImage.swift */; };
 		35FDCEB41CAD0A2300A25FE8 /* CourseChoosingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89671C7D9E4100BD6871 /* CourseChoosingObject.swift */; };
-		35FDCEB51CAD0A2300A25FE8 /* PDTSimpleCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */; };
 		35FDCEB61CAD0A2300A25FE8 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		35FDCEB71CAD0A2300A25FE8 /* ThemeReloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F51C93C375004056B1 /* ThemeReloadView.swift */; };
 		35FDCEB81CAD0A2300A25FE8 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
@@ -238,7 +235,6 @@
 		35FDCEE31CAD0A2300A25FE8 /* AvatarPod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065061C96D363004056B1 /* AvatarPod.swift */; };
 		35FDCEE41CAD0A2300A25FE8 /* ClassScheduleViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */; };
 		35FDCEE51CAD0A2300A25FE8 /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
-		35FDCEE61CAD0A2300A25FE8 /* PDTSimpleCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8F1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m */; };
 		35FDCEE71CAD0A2300A25FE8 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		35FDCEE81CAD0A2300A25FE8 /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
 		35FDCEE91CAD0A2300A25FE8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651A1C97B168004056B1 /* LoginViewController.swift */; };
@@ -262,7 +258,6 @@
 		35FDCEFB1CAD0A2300A25FE8 /* CourseChoosingClassScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871F21C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift */; };
 		35FDCEFC1CAD0A2300A25FE8 /* SKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5991CA4131D00EB3CCF /* SKPhoto.swift */; };
 		35FDCEFD1CAD0A2300A25FE8 /* MalaDefaultPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */; };
-		35FDCEFE1CAD0A2300A25FE8 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE951C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m */; };
 		35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
@@ -309,11 +304,6 @@
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
-		F42FBE971C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */; };
-		F42FBE981C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE8F1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m */; };
-		F42FBE991C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */; };
-		F42FBE9A1C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE931C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m */; };
-		F42FBE9B1C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F42FBE951C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -554,17 +544,6 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F42FBE8B1C993C0C00AE6FC6 /* PDTSimpleCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendar.h; sourceTree = "<group>"; };
-		F42FBE8C1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewCell.h; sourceTree = "<group>"; };
-		F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewCell.m; sourceTree = "<group>"; };
-		F42FBE8E1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewController.h; sourceTree = "<group>"; };
-		F42FBE8F1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewController.m; sourceTree = "<group>"; };
-		F42FBE901C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewFlowLayout.h; sourceTree = "<group>"; };
-		F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewFlowLayout.m; sourceTree = "<group>"; };
-		F42FBE921C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewHeader.h; sourceTree = "<group>"; };
-		F42FBE931C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewHeader.m; sourceTree = "<group>"; };
-		F42FBE941C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDTSimpleCalendarViewWeekdayHeader.h; sourceTree = "<group>"; };
-		F42FBE951C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDTSimpleCalendarViewWeekdayHeader.m; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -922,7 +901,6 @@
 				F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */,
 				F45F27EF1CA8D5AD00F0012C /* Toast */,
 				F45E69D71C8D278A00BD0859 /* ThemeTool */,
-				F42FBE891C993C0C00AE6FC6 /* ClassScheduleCalendar */,
 				F4402DAD1C58A64200E7D3DB /* KWStepper.swift */,
 				F46064F91C96C8EF004056B1 /* Proposer.swift */,
 				F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */,
@@ -1084,24 +1062,6 @@
 				F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		F42FBE891C993C0C00AE6FC6 /* ClassScheduleCalendar */ = {
-			isa = PBXGroup;
-			children = (
-				F42FBE8B1C993C0C00AE6FC6 /* PDTSimpleCalendar.h */,
-				F42FBE8C1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.h */,
-				F42FBE8D1C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m */,
-				F42FBE8E1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.h */,
-				F42FBE8F1C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m */,
-				F42FBE901C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.h */,
-				F42FBE911C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m */,
-				F42FBE921C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.h */,
-				F42FBE931C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m */,
-				F42FBE941C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.h */,
-				F42FBE951C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m */,
-			);
-			path = ClassScheduleCalendar;
 			sourceTree = "<group>";
 		};
 		F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */ = {
@@ -1755,7 +1715,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F46065271C97B168004056B1 /* EvaluationFilingServiceController.swift in Sources */,
-				F42FBE991C993C0C00AE6FC6 /* PDTSimpleCalendarViewFlowLayout.m in Sources */,
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
 				F49BD5A11CA4131D00EB3CCF /* SKDetectingImageView.swift in Sources */,
@@ -1819,7 +1778,6 @@
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
-				F42FBE9A1C993C0C00AE6FC6 /* PDTSimpleCalendarViewHeader.m in Sources */,
 				F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				307AB89E1C33CDD200D8397F /* GradePriceModel.swift in Sources */,
 				F40B53D01C841A9800C20037 /* PaymentChannelCell.swift in Sources */,
@@ -1832,7 +1790,6 @@
 				F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				F40D89681C7D9E4100BD6871 /* CourseChoosingObject.swift in Sources */,
-				F42FBE971C993C0C00AE6FC6 /* PDTSimpleCalendarViewCell.m in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */,
 				F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */,
@@ -1881,7 +1838,6 @@
 				F460650A1C96D363004056B1 /* AvatarPod.swift in Sources */,
 				F4B58F7F1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift in Sources */,
 				F4B58F7D1C990274009B5B8D /* MalaBaseCell.swift in Sources */,
-				F42FBE981C993C0C00AE6FC6 /* PDTSimpleCalendarViewController.m in Sources */,
 				F4D0D14B1C9FA60A00B25704 /* CourseModel.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				F46065281C97B168004056B1 /* LoginViewController.swift in Sources */,
@@ -1906,7 +1862,6 @@
 				F45871F41C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				F49BD5A41CA4131D00EB3CCF /* SKPhoto.swift in Sources */,
 				F45F27F81CA9135A00F0012C /* MalaDefaultPanel.swift in Sources */,
-				F42FBE9B1C993C0C00AE6FC6 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */,
 				3037B5841C3A84C2005672D9 /* SMSResultModel.swift in Sources */,
 				F45BDAEB1CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,
@@ -1924,7 +1879,6 @@
 				35FDCF051CAD0A4100A25FE8 /* parentTests.swift in Sources */,
 				35FDCF061CAD0A4100A25FE8 /* ThemeTests.swift in Sources */,
 				35FDCE6A1CAD0A2300A25FE8 /* EvaluationFilingServiceController.swift in Sources */,
-				35FDCE6B1CAD0A2300A25FE8 /* PDTSimpleCalendarViewFlowLayout.m in Sources */,
 				35FDCE6C1CAD0A2300A25FE8 /* ThemeTags.swift in Sources */,
 				35FDCE6D1CAD0A2300A25FE8 /* OtherServiceModel.swift in Sources */,
 				35FDCE6E1CAD0A2300A25FE8 /* SKDetectingImageView.swift in Sources */,
@@ -1986,7 +1940,6 @@
 				35FDCEA61CAD0A2300A25FE8 /* TeacherDetailsPlaceCell.swift in Sources */,
 				35FDCEA71CAD0A2300A25FE8 /* MalaUserDefaults.swift in Sources */,
 				35FDCEA81CAD0A2300A25FE8 /* UIImage+Navi.swift in Sources */,
-				35FDCEA91CAD0A2300A25FE8 /* PDTSimpleCalendarViewHeader.m in Sources */,
 				35FDCEAA1CAD0A2300A25FE8 /* CourseChoosingGradeCell.swift in Sources */,
 				35FDCEAB1CAD0A2300A25FE8 /* GradePriceModel.swift in Sources */,
 				35FDCEAC1CAD0A2300A25FE8 /* PaymentChannelCell.swift in Sources */,
@@ -1998,7 +1951,6 @@
 				35FDCEB21CAD0A2300A25FE8 /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				35FDCEB31CAD0A2300A25FE8 /* Extension+UIImage.swift in Sources */,
 				35FDCEB41CAD0A2300A25FE8 /* CourseChoosingObject.swift in Sources */,
-				35FDCEB51CAD0A2300A25FE8 /* PDTSimpleCalendarViewCell.m in Sources */,
 				35FDCEB61CAD0A2300A25FE8 /* TeacherDetailsSignupView.swift in Sources */,
 				35FDCEB71CAD0A2300A25FE8 /* ThemeReloadView.swift in Sources */,
 				35FDCEB81CAD0A2300A25FE8 /* CommentModel.swift in Sources */,
@@ -2047,7 +1999,6 @@
 				35FDCEE31CAD0A2300A25FE8 /* AvatarPod.swift in Sources */,
 				35FDCEE41CAD0A2300A25FE8 /* ClassScheduleViewWeekdayHeader.swift in Sources */,
 				35FDCEE51CAD0A2300A25FE8 /* MalaBaseCell.swift in Sources */,
-				35FDCEE61CAD0A2300A25FE8 /* PDTSimpleCalendarViewController.m in Sources */,
 				35FDCEE71CAD0A2300A25FE8 /* CourseModel.swift in Sources */,
 				35FDCEE81CAD0A2300A25FE8 /* TeacherDetailsCertificateCell.swift in Sources */,
 				35FDCEE91CAD0A2300A25FE8 /* LoginViewController.swift in Sources */,
@@ -2071,7 +2022,6 @@
 				35FDCEFB1CAD0A2300A25FE8 /* CourseChoosingClassScheduleCell.swift in Sources */,
 				35FDCEFC1CAD0A2300A25FE8 /* SKPhoto.swift in Sources */,
 				35FDCEFD1CAD0A2300A25FE8 /* MalaDefaultPanel.swift in Sources */,
-				35FDCEFE1CAD0A2300A25FE8 /* PDTSimpleCalendarViewWeekdayHeader.m in Sources */,
 				35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */,
 				35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */,
 				35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let ThemeCalendarViewHeaderTextSize: CGFloat = 12.0
+private let ThemeCalendarViewHeaderTextSize: CGFloat = 14.0
 
 /// 用于显示年月日
 public class ThemeCalendarViewHeader: UICollectionReusableView {
@@ -23,11 +23,23 @@ public class ThemeCalendarViewHeader: UICollectionReusableView {
         return titleLabel
     }()
     /// 文字颜色
-    var textColor: UIColor = MalaColor_939393_0
+    var textColor: UIColor = MalaColor_82B4D9_0 {
+        didSet {
+            titleLabel.textColor = textColor
+        }
+    }
     /// 文字字体
-    var textFont: UIFont = UIFont.systemFontOfSize(ThemeCalendarViewHeaderTextSize)
+    var textFont: UIFont = UIFont.systemFontOfSize(ThemeCalendarViewHeaderTextSize) {
+        didSet {
+            titleLabel.font = textFont
+        }
+    }
     /// 月份和日期之间的分割线颜色
-    var separatorColor: UIColor = UIColor.lightGrayColor()
+    var separatorColor: UIColor = UIColor.clearColor() {
+        didSet {
+            separatorView.backgroundColor = separatorColor
+        }
+    }
     /// 分割线
     private lazy var separatorView: UIView = {
         let separatorView = UIView()
