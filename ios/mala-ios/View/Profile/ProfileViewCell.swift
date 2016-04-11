@@ -15,9 +15,18 @@ class ProfileViewCell: UITableViewCell {
     var model: ProfileElementModel = ProfileElementModel() {
         didSet {
             self.textLabel?.text = model.title
-            self.detailTextLabel?.text = model.detail
+            self.infoLabel.text = model.detail
         }
     }
+    
+    
+    // MARK: - Components
+    private lazy var infoLabel: UILabel = {
+        let infoLabel = UILabel()
+        infoLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        infoLabel.textColor = MalaColor_D4D4D4_0
+        return infoLabel
+    }()
     
 
     // MARK: - Constructed
@@ -41,7 +50,14 @@ class ProfileViewCell: UITableViewCell {
         self.textLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         self.textLabel?.textColor = MalaColor_636363_0
         
-        self.detailTextLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        self.detailTextLabel?.textColor = MalaColor_D4D4D4_0
+        // SubViews
+        contentView.addSubview(infoLabel)
+        
+        // Autolayout
+        infoLabel.snp_makeConstraints { (make) in
+            make.height.equalTo(MalaLayout_FontSize_13)
+            make.centerY.equalTo(contentView.snp_centerY)
+            make.right.equalTo(contentView.snp_right)
+        }
     }
 }
