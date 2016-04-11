@@ -184,7 +184,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
         subjectLabel.text = ""
-        subjectLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_15) ?? UIFont()
+        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
         subjectLabel.textAlignment = .Center
         return subjectLabel
     }()

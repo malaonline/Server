@@ -25,7 +25,7 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
         }
     }
     /// 当前月份
-    private let currentMonth = NSDate().month()-1
+    private let currentMonth = 3
     
     
 
