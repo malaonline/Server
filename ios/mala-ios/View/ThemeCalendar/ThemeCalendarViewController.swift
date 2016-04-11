@@ -308,7 +308,7 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         let firstOfMonth = self.firstOfMonthForSection(indexPath.section)
         let cellDate = self.dateForCellAtIndexPath(indexPath)
         
-        if self.isEnabledDate(cellDate) {
+        if !self.isEnabledDate(cellDate) {
             return false
         }
         

@@ -102,7 +102,10 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
                 println("学生上课时间表为空！")
                 return
             }
-            self?.model = parseStudentCourseTable(courseList!)  
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self?.model = parseStudentCourseTable(courseList!)
+                self?.scrollToToday()
+            }
         })
     }
     
