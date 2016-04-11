@@ -134,7 +134,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// 日期为今天时的文字颜色
     public var textTodayColor: UIColor = MalaColor_82B4D9_0
     /// cell被选中时的文字颜色
-    public var textSelectedColor: UIColor = MalaColor_6C6C6C_0
+    public var textSelectedColor: UIColor = MalaColor_FFFFFF_9
     /// cell被冻结时的文字颜色
     public var textDisabledColor: UIColor = MalaColor_333333_0
     /// 文字默认字体

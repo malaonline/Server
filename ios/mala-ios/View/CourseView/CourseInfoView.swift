@@ -15,7 +15,9 @@ class CourseInfoView: UIView {
     var model: CourseModel? {
         didSet {
             subjectString.text = model?.subject
-            schoolString.attributedText = getLineSpacingAttrString(model?.school ?? "")
+            
+            let lines: CGFloat = model?.school.characters.count > 12 ? 8 : 0
+            schoolString.attributedText = getLineSpacingAttrString(model?.school ?? "", lineSpace: lines)
             classtimeString.text = String(format: "%@-%@", getTimeString(model?.start ?? 0), getTimeString(model?.end ?? 0))
         }
     }

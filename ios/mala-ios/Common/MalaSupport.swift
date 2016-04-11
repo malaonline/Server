@@ -131,10 +131,10 @@ func getDateString(timeStamp: NSTimeInterval) -> String {
 ///  - parameter string: 文字
 ///
 ///  - returns: 文本样式
-func getLineSpacingAttrString(string: String) -> NSAttributedString {
+func getLineSpacingAttrString(string: String, lineSpace: CGFloat) -> NSAttributedString {
     let attrString = NSMutableAttributedString(string: string)
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 8
+    paragraphStyle.lineSpacing = lineSpace
     attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: string.characters.count))
     return attrString
 }
