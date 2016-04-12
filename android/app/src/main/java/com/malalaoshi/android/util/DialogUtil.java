@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
 
 import com.malalaoshi.android.MalaApplication;
+import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.dialogs.PromptDialog;
 
 /**
  * Created by kang on 16/3/22.
@@ -53,5 +56,17 @@ public class DialogUtil {
                 .setNegativeButton("取消", null)
                 .create()
                 .show();
+    }
+
+    public static void showDoubleButtonPromptDialog(FragmentManager manager,int drawableId, String message, String leftText, String rightText,PromptDialog.OnCloseListener onCloseListener, boolean cancelable, boolean backable){
+        PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, leftText, rightText, cancelable,backable);
+        promptDialog.setOnCloseListener(onCloseListener);
+        promptDialog.show(manager, PromptDialog.class.getName());
+    }
+
+    public static void showPromptDialog(FragmentManager manager , int drawableId, String message, String btnText,PromptDialog.OnDismissListener onDismissListener , boolean cancelable, boolean backable){
+        PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, btnText,cancelable, backable);
+        promptDialog.setDismissListener(onDismissListener);
+        promptDialog.show(manager, PromptDialog.class.getName());
     }
 }

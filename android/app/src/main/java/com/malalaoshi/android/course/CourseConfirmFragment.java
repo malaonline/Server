@@ -26,6 +26,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CourseDateEntity;
 import com.malalaoshi.android.entity.CoursePrice;
@@ -42,12 +43,15 @@ import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.pay.ResultCallback;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -368,23 +372,53 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             @Override
             public void onResult(Object entity) {
                 submitView.setOnClickListener(CourseConfirmFragment.this);
-                if (entity == null) {
-                    MiscUtil.toast("创建订单失败");
-                    return;
-                }
+                dealOrder(entity);
+            }
+        });
+    }
+
+    private void dealOrder(Object entity) {
+        if (entity == null) {
+            MiscUtil.toast("创建订单失败");
+            return;
+        }
+        JSONTokener jsonParser = new JSONTokener(entity.toString());
+        // 此时还未读取任何json文本，直接读取就是一个JSONObject对象。
+        // 如果此时的读取位置在"name" : 了，那么nextValue就是"yuanzhifei89"（String）
+        JSONObject jsonObject = null;
+        boolean isOk = false;
+        int code = 0;
+        try {
+            jsonObject = (JSONObject) jsonParser.nextValue();
+            isOk = jsonObject.getBoolean("ok");
+            code = jsonObject.getInt("code");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }finally {
+            if (!isOk && code==-1) {
+                DialogUtil.showPromptDialog(getFragmentManager(), R.drawable.ic_timeallocate,"该老师部分时段已被占用，请重新选择上课时间!" , "知道了",  new PromptDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        //刷新数据
+                        fetchWeekData();
+                    }
+                },false, false);
+            }else{
                 CreateCourseOrderResultEntity result = JsonUtil.parseStringData(
                         entity.toString(), CreateCourseOrderResultEntity.class);
-                if (result == null) {
-                    MiscUtil.toast("创建订单失败");
-                } else {
+                if (result != null) {
                     coupon = null;
                     scholarView.setText("未使用奖学金");
                     calculateSum();
                     openPayActivity(result);
+                }else{
+                    MiscUtil.toast("创建订单失败");
                 }
             }
-        });
+        }
     }
+
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
         PayActivity.startPayActivity(entity, getActivity());

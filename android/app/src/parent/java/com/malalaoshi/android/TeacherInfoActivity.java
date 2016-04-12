@@ -696,7 +696,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }else{
             Double dis = mAllSchools.get(0).getDistance();
             if (dis!=null&&dis>=0) {
-                tvSchoolMore.setText(String.format("离您最近的社区中心 (%s))",LocationUtil.formatDistance(dis)));
+                tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)",LocationUtil.formatDistance(dis)));
             } else {
                 tvSchoolMore.setText("其他社区中心");
             }

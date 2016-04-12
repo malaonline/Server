@@ -111,7 +111,7 @@ public class PayTimeAllocateDialog extends DialogFragment implements View.OnClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_pay_allocate, container, false);
+        View view = inflater.inflate(R.layout.dialog_prompt, container, false);
         ButterKnife.bind(this, view);
         leftView.setOnClickListener(this);
         rightView.setOnClickListener(this);
