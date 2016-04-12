@@ -142,7 +142,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // Style
         tableView.estimatedRowHeight = 240
         tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
-        tableView.separatorColor = UIColor(rgbHexValue: 0xdbdbdb, alpha: 1.0)
+        tableView.separatorStyle = .None
         
         // TableView
         view.addSubview(tableView)
