@@ -10,8 +10,8 @@
 {% endblock %}
 
 {% block addition_js %}
-    <script src="{% static 'teacher/js/letter/edit.js' %}"></script>
     <script src="{% static 'common/js/underscore.js' %}"></script>
+    <script src="{% static 'teacher/js/letter/edit.js' %}"></script>
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -41,20 +41,20 @@
                             <div class="control-group">
                               <label class="control-label" for="inscore">主题</label>
                               <div class="controls">
-                                <input type="text" class="form-control" id="graduate_school" name="graduate_school" value="">
+                                <input type="text" class="form-control" id="title" name="graduate_school" value="">
                               </div>
                             </div>
                             <div class="control-group">
                               <label class="control-label" for="inscore">正文</label>
                               <div class="controls">
-                                <textarea class="form-control"></textarea>
+                                <textarea class="form-control" id="content"></textarea>
                               </div>
                             </div>
                         </fieldset>
                     </div>
                     <div class="action-btn">
-                        <button type="button" class="btn btn-success" onclick="send(this)">发送</button>
-                        <button onclick="docancle('{% url 'teacher:my-students' student_type page_offset %}')" type="button" class="btn btn-default">取消</button>
+                        <button type="button" class="btn btn-success" onclick="letterSend(this)">发送</button>
+                        <button onclick="letterDocancle('{% url 'teacher:my-students' student_type page_offset %}')" type="button" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>
