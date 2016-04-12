@@ -911,3 +911,15 @@ class OrderViewSet(ParentBasedMixin,
             charge.save()
 
         return JsonResponse(ch)
+
+
+class OrderCancel(ParentBasedMixin, APIView):
+    queryset = models.Order.objects.all()
+
+    def post(self, request):
+        parent = self.get_parent()
+        data = request.data
+        order = get_object_or_404(models.Order, parent=parent, pk=data['id'])
+        order.status = models.Order.CANCELED
+        order.save()
+        return JsonResponse({'ok': True})
