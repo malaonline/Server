@@ -40,7 +40,9 @@
             schoolDistanceNodeList.each(function() {
                 schoolLatitude = parseFloat($(this)[0].dataset.schoolLatitude);
                 schoolLongitude = parseFloat($(this)[0].dataset.schoolLongitude);
-                $(this).text('<'+CoolWPDistance(lat,lng,schoolLatitude,schoolLongitude)+'km')
+                console.log(schoolLatitude+','+schoolLongitude);
+                var distance = CoolWPDistance(lat,lng,schoolLatitude,schoolLongitude);
+                $(this).text((distance && !isNaN(distance))?('<' + distance + 'km'):'距离未知');
             })
         }
         wx.config({
@@ -58,6 +60,7 @@
                 wx.getLocation({
                     type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                     success: function(res){
+                        console.log(res);
                         refreshDistance(res.latitude,res.longitude);
                     },
                     fail: function(res){
