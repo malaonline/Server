@@ -1,6 +1,21 @@
 @import "../public.less";
 @import "../public_login.less";
 
+@icon-font-path: "../../../common/fonts/";
+.glyphicon-refresh-animate{
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2{
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin{
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
 .the_content{
   margin-left: 147px;
   float: none;
@@ -37,10 +52,10 @@ textarea.form-control{
 .action-btn{
   text-align: center;
   margin-top: 10px;
-  button, a{
+  button{
     width: 100px;
   }
-  a{
+  button:last-child{
     margin-left: 30px;
   }
 }
@@ -50,5 +65,19 @@ textarea.form-control{
   a{
     cursor: pointer;
     text-decoration: none;
+  }
+}
+.submit-action{
+  width: 100%;
+  top: 45%;
+  position: fixed;
+  display: none;
+  text-align: center;
+}
+.btn-warning{
+  .button-variant(#fff; #969492; #928572);
+  &:hover{
+    background-color: #969492;
+    border-color: #928572;
   }
 }

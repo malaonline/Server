@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% block title %}
-    我的学生
+    给家长写信
 {% endblock %}
 
 {% block addition_header %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block addition_js %}
-    <script src="{% static 'teacher/js/custom/my_students.js' %}"></script>
+    <script src="{% static 'teacher/js/letter/edit.js' %}"></script>
     <script src="{% static 'common/js/underscore.js' %}"></script>
 {% endblock %}
 {% block body %}
@@ -53,11 +53,14 @@
                         </fieldset>
                     </div>
                     <div class="action-btn">
-                        <button type="button" class="btn btn-success">发送</button>
-                        <a href="{% url 'teacher:my-students' student_type page_offset %}" type="button" class="btn btn-default">取消</a>
+                        <button type="button" class="btn btn-success" onclick="send(this)">发送</button>
+                        <button onclick="docancle('{% url 'teacher:my-students' student_type page_offset %}')" type="button" class="btn btn-default">取消</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="submit-action">
+        <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>邮件发送中</button>
     </div>
 {% endblock %}
