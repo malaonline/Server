@@ -1,0 +1,37 @@
+{% extends "wechat/wechat_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}{{ school.name }}照片{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'wechat/css/schools.less'|compile %}">
+{% endblock %}
+
+{% block addition_css %}
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+        .photo-browser.photo-browser-dark .bar.bar-nav a {display: none}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="page" id="schoolPhotos">
+        <div class="content">
+        </div>
+    </div>
+{% endblock %}
+
+{% block addition_js %}
+    <script>
+        $(function(){
+            var photoList = {{ school.get_photo_url_list|safe }};
+            var schoolPhotosPopup = $.photoBrowser({
+                photos : photoList,
+                type: 'popup',
+                theme: 'dark',
+            });
+            schoolPhotosPopup.open()
+        });
+    </script>
+{% endblock %}

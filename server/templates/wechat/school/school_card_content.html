@@ -2,6 +2,7 @@
 {% load compile_static %}
 
 <div class="card demo-card-header-pic">
+  <a href="{% url 'wechat:school-photos' school.id %}" >
     <div valign="bottom" class="card-header color-white no-border no-padding"  data-schoolid="{{ school.id }}">
         <div class="school-isexpr-flag">
             {% if school.center %}
@@ -31,6 +32,7 @@
             {% endif %}
         </div>
     </div>
+  </a>
     <div class="card-content">
         <div class="card-content-inner">
             <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">

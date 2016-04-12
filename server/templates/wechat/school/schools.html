@@ -32,7 +32,7 @@
 {#    <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>#}
     <script type='text/javascript' src='{% static 'wechat/js/calculate_distance.js' %}' charset='utf-8'></script>
     <script>
-        var photosdic = {{ photosdic|safe }};
+{#        var photosdic = {{ photosdic|safe }};#}
 
         function refreshDistance(lat,lng) {
             schoolDistanceNodeList = $("[data-school-latitude]");
@@ -66,5 +66,4 @@
                 });
             });
     </script>
-    <script type='text/javascript' src='{% static 'wechat/js/school/schools.js' %}' charset='utf-8'></script>
 {% endblock %}

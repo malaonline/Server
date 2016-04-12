@@ -148,3 +148,25 @@ div {
     }
   }
 }
+
+@photoNavBorderColor: #333;
+.photo-browser {
+  &.photo-browser-dark{
+    .bar{
+      background-color: black;
+      &.bar-nav{
+        &:after{
+          background-color: @photoNavBorderColor;
+        }
+        .title{
+          color: white;
+        }
+      }
+      &.bar-tab{
+        &:before {
+          background-color: @photoNavBorderColor;
+        }
+      }
+    }
+  }
+}

@@ -104,8 +104,8 @@ class SchoolsView(ListView):
 
         schools = self.model.objects.all()
         photosdic = {}
-        for school in schools:
-            photosdic[school.id] = school.get_photo_url_list()
+        # for school in schools:
+        #     photosdic[school.id] = school.get_photo_url_list()
         # photosdic = json.dumps(photosdic)
 
         signature = wx_signature({'noncestr': nonce_str,
@@ -118,13 +118,9 @@ class SchoolsView(ListView):
         context['WX_NONCE_STR'] = nonce_str
         context['WX_SIGNITURE'] = signature
         context['server_timestamp'] = server_timestamp
-        context['photosdic'] = photosdic
+        # context['photosdic'] = photosdic
 
         return context
-
-
-class SchoolDetailView(ListView):
-    models = models.School
 
 class SchoolMapView(DetailView):
     model = models.School
@@ -135,6 +131,11 @@ class SchoolMapView(DetailView):
         context = super(SchoolMapView, self).get_context_data(**kwargs)
         context['amap_api_key'] = settings.AMAP_API_KEY
         return context
+
+class SchoolPhotosView(DetailView):
+    model = models.School
+    context_object_name = 'school'
+    template_name = 'wechat/school/school_photo.html'
 
 
 def _get_auth_redirect_url(request, teacher_id):
