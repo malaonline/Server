@@ -128,7 +128,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navigationController?.navigationBar.shadowImage = UIImage.withColor(MalaColor_000000_3)
+        navigationController?.navigationBar.shadowImage = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -287,7 +287,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // makeStatusBarBlack()
         self.title = model.name
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage.withColor(MalaColor_000000_3)
+        navigationController?.navigationBar.shadowImage = nil
     }
     
     private func hideBackground() {
