@@ -43,7 +43,8 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         button.setTitleColor(MalaColor_636363_0, forState: .Normal)
         button.setImage(UIImage(named: "dropArrow"), forState: .Normal)
         button.addTarget(self, action: #selector(CourseChoosingPlaceTableView.buttonDidTap(_:)), forControlEvents: .TouchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -13, bottom: 0, right: 13)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 128, bottom: 0, right: -128)
         return button
     }()
     

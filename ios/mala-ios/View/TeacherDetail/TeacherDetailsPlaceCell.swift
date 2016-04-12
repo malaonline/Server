@@ -13,7 +13,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
     // MARK: - Property
     var schools: [SchoolModel]? {
         didSet {
-            tableView.model = schools!
+            tableView.model = schools ?? []
             tableView.snp_updateConstraints { (make) -> Void in
                 make.height.equalTo(152)
             }
