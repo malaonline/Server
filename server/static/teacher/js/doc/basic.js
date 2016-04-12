@@ -71,9 +71,10 @@ $(function(){
           alert(pagedefaultErrMsg);
         }
         hideLoading();
-    }, 'json').fail(function(){
+    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#complaintModal').modal('hide');
-      alert(pagedefaultErrMsg);
+      alert(errMsg+pagedefaultErrMsg);
       hideLoading();
     });
   });

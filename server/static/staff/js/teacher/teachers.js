@@ -60,8 +60,9 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function() {
-            alert(defaultErrMsg);
+        }, 'json').fail(function(jqXHR, errorType, errorDesc){
+            var errMsg = errorDesc?('['+errorDesc+'] '):'';
+            alert(errMsg+defaultErrMsg);
         });
     };
     var bindAction = function($ctx) {

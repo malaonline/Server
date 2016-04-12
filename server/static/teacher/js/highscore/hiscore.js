@@ -35,6 +35,7 @@ $(function(){
     }
     if(ids.length > 0){
       var params = {'action': 'delete', 'ids': ids.join(',')};
+      showLoading();
       $.post("/teacher/highscore/", params, function(result){
           if(result){
               if(result.ok){
@@ -48,11 +49,14 @@ $(function(){
               }else{
                   alert(result.msg);
               }
-              return;
+          } else {
+            alert(hiscorepageDefaultErrMsg);
           }
-          alert(hiscorepageDefaultErrMsg);
-      }, 'json').fail(function(){
-          alert(hiscorepageDefaultErrMsg);
+          hideLoading();
+      }, 'json').fail(function(jqXHR, errorType, errorDesc){
+          var errMsg = errorDesc?('['+errorDesc+'] '):'';
+          alert(errMsg+hiscorepageDefaultErrMsg);
+          hideLoading();
       });
     }
   });
@@ -109,9 +113,10 @@ $(function(){
       $saveBtn.removeClass('disabled');
       isSaving = false;
       hideLoading();
-    }, 'json').fail(function(){
+    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#addItemsModal').modal('hide');
-      alert(hiscorepageDefaultErrMsg);
+      alert(errMsg+hiscorepageDefaultErrMsg);
       $saveBtn.removeClass('disabled');
       isSaving = false;
       hideLoading();

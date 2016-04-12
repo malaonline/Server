@@ -29,9 +29,10 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-    }, 'json').fail(function(){
+    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#complaintModal').modal('hide');
-      alert(pagedefaultErrMsg);
+      alert(errMsg+pagedefaultErrMsg);
     });
   });
 
@@ -57,9 +58,10 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-    }, 'json').fail(function(){
+    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#attendanceModal').modal('hide');
-      alert(pagedefaultErrMsg);
+      alert(errMsg+pagedefaultErrMsg);
     });
   });
 });
