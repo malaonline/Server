@@ -50,12 +50,18 @@ class ProfileViewHeaderView: UIView {
         imageView.image = UIImage(named: "avatar_placeholder")
         imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 2.5
-        imageView.layer.borderColor = UIColor.whiteColor().CGColor
         imageView.userInteractionEnabled = true
         imageView.contentMode = .ScaleAspectFill
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProfileViewHeaderView.avatarViewDidTap(_:))))
         return imageView
+    }()
+    /// 头像背景
+    private lazy var avatarBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        view.layer.cornerRadius = MalaLayout_AvatarSize*0.5
+        view.layer.masksToBounds = true
+        return view
     }()
     /// 姓名label控件
     private lazy var nameLabel: UILabel = {
@@ -93,16 +99,21 @@ class ProfileViewHeaderView: UIView {
         self.avatarURL = MalaUserDefaults.avatar.value ?? ""
         
         // SubViews
+        addSubview(avatarBackground)
         addSubview(avatarView)
         addSubview(nameLabel)
         avatarView.addSubview(activityIndicator)
         
         // Autolayout
-        avatarView.snp_makeConstraints(closure: { (make) -> Void in
+        avatarBackground.snp_makeConstraints { (make) in
             make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_16)
             make.centerX.equalTo(self.snp_centerX)
             make.width.equalTo(MalaLayout_AvatarSize)
             make.height.equalTo(MalaLayout_AvatarSize)
+        }
+        avatarView.snp_makeConstraints(closure: { (make) -> Void in
+            make.center.equalTo(self.avatarBackground.snp_center)
+            make.size.equalTo(self.avatarBackground.snp_size).offset(-5)
         })
         nameLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_5)

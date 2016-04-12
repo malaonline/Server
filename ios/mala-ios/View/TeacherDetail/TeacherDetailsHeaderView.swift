@@ -72,10 +72,16 @@ class TeacherDetailsHeaderView: UIView {
         let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
         imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 2.5
-        imageView.layer.borderColor = UIColor.whiteColor().CGColor
         imageView.contentMode = .ScaleAspectFill
         return imageView
+    }()
+    /// 头像背景
+    private lazy var avatarBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        view.layer.cornerRadius = MalaLayout_AvatarSize*0.5
+        view.layer.masksToBounds = true
+        return view
     }()
     /// 会员图标显示控件
     private lazy var vipIconView: UIImageView = {
@@ -132,6 +138,7 @@ class TeacherDetailsHeaderView: UIView {
         
         // SubViews
         self.addSubview(contentView)
+        self.contentView.addSubview(avatarBackground)
         self.contentView.addSubview(avatarView)
         self.contentView.addSubview(vipIconView)
         self.contentView.addSubview(nameLabel)
@@ -146,11 +153,15 @@ class TeacherDetailsHeaderView: UIView {
             make.bottom.equalTo(self.snp_bottom)
             make.height.equalTo(MalaLayout_DetailHeaderContentHeight)
         })
-        avatarView.snp_makeConstraints(closure: { (make) -> Void in
+        avatarBackground.snp_makeConstraints { (make) in
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_7)
             make.width.equalTo(MalaLayout_AvatarSize)
             make.height.equalTo(MalaLayout_AvatarSize)
+        }
+        avatarView.snp_makeConstraints(closure: { (make) -> Void in
+            make.center.equalTo(self.avatarBackground.snp_center)
+            make.size.equalTo(self.avatarBackground.snp_size).offset(-5)
         })
         vipIconView.snp_makeConstraints(closure: { (make) -> Void in
             make.right.equalTo(self.avatarView.snp_right).offset(-MalaLayout_Margin_3)
