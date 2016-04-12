@@ -181,7 +181,7 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
     /// 上课地点名称label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.textColor = MalaColor_333333_0
+        titleLabel.textColor = MalaColor_636363_0
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         return titleLabel
     }()

@@ -31,10 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerThirdParty()
         
         // 配置JPush
-        #if USE_PRD_SERVER
-            JPUSHService.setupWithOption(launchOptions, appKey: Mala_JPush_AppKey, channel: "AppStore", apsForProduction: true)
-        #else
+        #if DevDebug
             JPUSHService.setupWithOption(launchOptions, appKey: Mala_JPush_AppKey, channel: "AppStore", apsForProduction: false)
+        #else
+            JPUSHService.setupWithOption(launchOptions, appKey: Mala_JPush_AppKey, channel: "AppStore", apsForProduction: true)
         #endif
         
         let kUserNotificationBSA: UIUserNotificationType = [.Badge, .Sound, .Alert]
