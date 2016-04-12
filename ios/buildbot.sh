@@ -2,7 +2,8 @@
 set -e
 
 scheme="parent"
-provisioning="For test"
+AppStoreProvisioning="com.malalaoshi.app-AppStore"
+AdHocProvisioning="com.malalaoshi.app-AdHoc"
 ipaDir="build/ipa/"
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
@@ -19,7 +20,7 @@ ipaName="${ipaDir}${scheme}_dev_release.ipa"
 #xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.4' test
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 
 configuration="PrdRelease"
@@ -27,4 +28,4 @@ buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${provisioning}"
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AppStoreProvisioning}"
