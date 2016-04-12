@@ -14,7 +14,7 @@ extension UIImageView {
     ///
     ///  - returns: UIImageView
     class func placeHolder() -> UIImageView {
-        let placeHolder = UIImageView(image: UIImage(named: "detailPicture_placeholder"))
+        let placeHolder = UIImageView()
         placeHolder.contentMode = .ScaleAspectFill
         placeHolder.clipsToBounds = true
         return placeHolder
