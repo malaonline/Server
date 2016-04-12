@@ -128,7 +128,12 @@
       color: white;
       border-color: #80b3da;
       background-color: #80b3da;
-
+      &.disabled {
+        background-color: lighten(#80b3da, 6.25%);
+        &:hover {
+          background: lighten(#80b3da, 6.25%);
+        }
+      }
     }
     button:hover {
       @hover_background_color: #6c96b3;

@@ -22,8 +22,18 @@ $(
                 });
             }
         });
+        $('#phone_input').bind("input propertychange change keyup blur", function(e){
+            validate_ui();
+        });
+        $('#sms_input').bind("input propertychange change keyup blur", function(e){
+            validate_ui();
+        });
+        $('#agree_checkbox').bind("input propertychange change keyup blur", function(e){
+            validate_ui();
+        });
         var verify_button = $("#verify_button");
         verify_button.click(function(){
+            if (!is_all_filled()) return;
             var phone_val = _.extend(_.clone(InputVal), {element: "phone_input"});
             var sms_val = _.extend(_.clone(InputVal), {element: "sms_input"});
             if(CheckAgree.check() == true){
@@ -166,4 +176,22 @@ var TimeEvent = {
         return this.duration - this.tick;
     }
 };
+
+function is_all_filled() {
+    var phone_input = $("#phone_input").val();
+    if (!phone_input || !checkMobile(phone_input)) return false;
+    var sms_input = $("#sms_input").val();
+    if (!sms_input) return false;
+    var check_input = $("#agree_checkbox");
+    if (!check_input.prop("checked")) return false;
+    return true;
+}
+
+function validate_ui() {
+    if (is_all_filled()) {
+        $('#verify_button').removeClass('disabled');
+    } else {
+        $('#verify_button').addClass('disabled');
+    }
+}
 
