@@ -476,6 +476,9 @@ $(function(){
                 } else {
                     showAlertDialog(result.msg);
                     stopPaying();
+                    if (result.code==3) {
+                        renderWeeklyTableBySchool(chosen_school_id);
+                    }
                 }
             } else {
                 showAlertDialog(defaultErrMsg);
