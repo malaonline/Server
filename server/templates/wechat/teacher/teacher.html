@@ -61,6 +61,12 @@
             {%endfor%}
         {%endif%}
         function pageload(){
+            {%if gender == '女'%}
+            $('.teacher_gender').attr('src', '{% static "common/icons/fmale.png" %}');
+            {%elif gender == '男'%}
+            $('.teacher_gender').attr('src', '{% static "common/icons/male.png" %}');
+            {%endif%}
+
             $('.teacher_avatar').css('backgroundImage', 'url({%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%})');
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             $('#moreSchoolDown').attr('src', pullDownImg);
@@ -90,8 +96,9 @@
                         <img id="teacherHeadBackImg"/>
                     </div>
                     <div class="teacher_name">
-                        <div>{{teacher.name}}</div>
-                        <div>{%if not gender%}保密{%else%}{{gender}}{%endif%}
+                        <div>{{teacher.name}} <img class="teacher_gender"></div>
+                        <div>
+                            {{teacher.subject.name}}
                             {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %}
                             -
                             {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}元/小时
