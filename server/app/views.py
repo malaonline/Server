@@ -229,8 +229,9 @@ class Sms(View):
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
                 # 强制刷新已经存在的 token
-                token.key = None
-                token.save()
+                if created:
+                    token.delete()
+                    token, created = Token.objects.get_or_create(user=profile.user)
                 return JsonResponse({
                     'verified': True,
                     'first_login': first_login, 'token': token.key,
