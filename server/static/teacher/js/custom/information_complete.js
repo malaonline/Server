@@ -80,19 +80,18 @@ $(
             var post_url = window.location.href;
             //关闭 beforeunload 监听
             $(window).off('beforeunload');
-            showLoading();
-            $.post(post_url,
+            malaAjaxPost(post_url,
                 {
                     name:name, gender:gender, region:region, subclass:subclass, grade:JSON.stringify(grade)
                 },
-            function(data){
-                if(data.done == true) {
-                    window.location.href = data.url;
-                }else{
-                    output_error(data.msg);
+                function(data){
+                    if(data.done == true) {
+                        window.location.href = data.url;
+                    }else{
+                        output_error(data.msg);
+                    }
                 }
-                hideLoading();
-            });
+            );
 
         });
         window.inFormOrLink = false;

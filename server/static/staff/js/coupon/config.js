@@ -99,7 +99,7 @@ $(function(){
       $('#amount_give').val("");
       $('#parent_phone').val("");
     }
-    $.post("/staff/coupon/config/", params, function(result){
+    malaAjaxPost("/staff/coupon/config/", params, function(result){
         if(result){
           if(result.ok){
             alert("保存成功");
@@ -111,7 +111,7 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+    }, 'json', function(jqXHR, errorType, errorDesc){
       var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#complaintModal').modal('hide');
       alert(errMsg+pagedefaultErrMsg);

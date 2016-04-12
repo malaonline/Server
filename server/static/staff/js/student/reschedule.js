@@ -24,7 +24,7 @@ $(function() {
         if(confirm("确定停课?")) {
             var timeSlotId = $(this).attr("tid")
             var params = {'action': 'suspend-course', 'tid': timeSlotId};
-            $.post("/staff/students/schedule/action/", params, function (result) {
+            malaAjaxPost("/staff/students/schedule/action/", params, function (result) {
                 if (result) {
                     if (result.ok) {
                         location.reload();
@@ -34,7 +34,7 @@ $(function() {
                     return;
                 }
                 alert(pagedefaultErrMsg);
-            }, 'json').fail(function () {
+            }, 'json', function () {
                 alert(pagedefaultErrMsg);
             });
         }
@@ -48,7 +48,7 @@ $(function() {
             'new_start': newStart,
             'new_end': newEnd
         };
-        $.post("/staff/students/schedule/action/", params, function (result) {
+        malaAjaxPost("/staff/students/schedule/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     location.reload();
@@ -62,7 +62,7 @@ $(function() {
             alert(pagedefaultErrMsg);
             // 请求失败刷新页面
             location.reload();
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(pagedefaultErrMsg);
             // 请求失败刷新页面
             location.reload();
@@ -86,7 +86,7 @@ $(function() {
         var oldEnd = courseElement.attr("end");
 
         var params = {'action': 'view-available', 'tid': timeSlotId};
-        $.post("/staff/students/schedule/action/", params, function (result) {
+        malaAjaxPost("/staff/students/schedule/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     var saDict = result.sa_dict;
@@ -157,7 +157,7 @@ $(function() {
                 return;
             }
             alert(pagedefaultErrMsg);
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(pagedefaultErrMsg);
         });
     });

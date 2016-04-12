@@ -35,8 +35,7 @@ $(function(){
     }
     if(ids.length > 0){
       var params = {'action': 'delete', 'ids': ids.join(',')};
-      showLoading();
-      $.post("/teacher/highscore/", params, function(result){
+      malaAjaxPost("/teacher/highscore/", params, function(result){
           if(result){
               if(result.ok){
                   var allItems = $('[name="checkboxSelect"]');
@@ -52,11 +51,9 @@ $(function(){
           } else {
             alert(hiscorepageDefaultErrMsg);
           }
-          hideLoading();
-      }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      }, 'json', function(jqXHR, errorType, errorDesc){
           var errMsg = errorDesc?('['+errorDesc+'] '):'';
           alert(errMsg+hiscorepageDefaultErrMsg);
-          hideLoading();
       });
     }
   });
@@ -98,8 +95,7 @@ $(function(){
       'school_name': schoolname,
       'admitted_to': admittedTo,
     };
-    showLoading();
-    $.post("/teacher/highscore/", params, function(result){
+    malaAjaxPost("/teacher/highscore/", params, function(result){
         if(result){
           if(result.ok){
             $('#addItemsModal').modal('hide');
@@ -112,14 +108,12 @@ $(function(){
         }
       $saveBtn.removeClass('disabled');
       isSaving = false;
-      hideLoading();
-    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+    }, 'json', function(jqXHR, errorType, errorDesc){
       var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#addItemsModal').modal('hide');
       alert(errMsg+hiscorepageDefaultErrMsg);
       $saveBtn.removeClass('disabled');
       isSaving = false;
-      hideLoading();
     });
   });
   $('#addHighscore').click(function(e){

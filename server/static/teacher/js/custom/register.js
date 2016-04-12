@@ -238,8 +238,7 @@ function checkSMS(){
     console.log(window.location.href);
     var post_url = window.location.href;
     //var post_url = "/teacher/verify_sms_code/";
-    showLoading();
-    $.post(post_url, {phone:phone_code, code:sms_code},
+    malaAjaxPost(post_url, {phone:phone_code, code:sms_code},
         function(data){
             console.log(data);
             if(data.result == false){
@@ -255,7 +254,6 @@ function checkSMS(){
 
                 window.location.href = data.url;
             }
-            hideLoading();
         }
     );
 }

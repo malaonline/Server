@@ -18,7 +18,7 @@ $(function(){
       'timeslotId': timeslotId,
       'complaintContent': complaintContent
     };
-    $.post("/staff/school/timeslot", params, function(result){
+    malaAjaxPost("/staff/school/timeslot", params, function(result){
         if(result){
           if(result.ok){
             $('#complaintModal').modal('hide');
@@ -29,7 +29,7 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+    }, 'json', function(jqXHR, errorType, errorDesc){
       var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#complaintModal').modal('hide');
       alert(errMsg+pagedefaultErrMsg);
@@ -47,7 +47,7 @@ $(function(){
       'timeslotId': timeslotId,
       'attendanceValue': attendanceValue
     };
-    $.post("/staff/school/timeslot", params, function(result){
+    malaAjaxPost("/staff/school/timeslot", params, function(result){
         if(result){
           if(result.ok){
             $('#attendanceModal').modal('hide');
@@ -58,7 +58,7 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+    }, 'json', function(jqXHR, errorType, errorDesc){
       var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#attendanceModal').modal('hide');
       alert(errMsg+pagedefaultErrMsg);

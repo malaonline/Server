@@ -17,8 +17,7 @@ $(
         next_page.click(function(){
             console.log("next page");
             var sms_code = $("#sms_code");
-            showLoading();
-            $.post("/teacher/withdrawal_request/", {code: sms_code.val()},
+            malaAjaxPost("/teacher/withdrawal_request/", {code: sms_code.val()},
                 function(data){
                     if (data.verify == true){
                         window.location.href = data.url;
@@ -27,7 +26,6 @@ $(
                         OutputInfo(data.msg);
                     }
                     console.log(data);
-                    hideLoading();
                 });
             });
     }

@@ -13,7 +13,7 @@ $(function () {
         $city_sel.find('option:gt(0)').remove();
         $dist_sel.find('option:gt(0)').remove();
         if (!pro_id) return;
-        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': pro_id}, function(json){
+        malaAjaxGet('/api/v1/regions', {'action': 'sub-regions', 'sid': pro_id}, function(json){
             if (json && json.results) {
                 for (var i in json.results) {
                     var reg = json.results[i];
@@ -26,7 +26,7 @@ $(function () {
         var city_id = $(this).val(), $dist_sel = $("select[name=district]");
         $dist_sel.find('option:gt(0)').remove();
         if (!city_id) return;
-        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': city_id}, function(json){
+        malaAjaxGet('/api/v1/regions', {'action': 'sub-regions', 'sid': city_id}, function(json){
             if (json && json.results) {
                 for (var i in json.results) {
                     var reg = json.results[i];

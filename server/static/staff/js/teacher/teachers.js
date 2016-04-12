@@ -47,7 +47,7 @@ $(function(){
         if (!decided) return;
         // do request server
         var params = {'action': action, 'teacherId': teacherId};
-        $.post( "/staff/teachers/action/", params, function( result ) {
+        malaAjaxPost( "/staff/teachers/action/", params, function( result ) {
             if (result) {
                 if (result.ok) {
                     if (result.code != 0) {
@@ -60,7 +60,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function(jqXHR, errorType, errorDesc){
+        }, 'json', function(jqXHR, errorType, errorDesc){
             var errMsg = errorDesc?('['+errorDesc+'] '):'';
             alert(errMsg+defaultErrMsg);
         });

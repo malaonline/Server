@@ -7,7 +7,7 @@ $(function(){
         $city_sel.find('option:gt(0)').remove();
         $dist_sel.find('option:gt(0)').remove();
         if (!pro_id) return;
-        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': pro_id}, function(json){
+        malaAjaxGet('/api/v1/regions', {'action': 'sub-regions', 'sid': pro_id}, function(json){
             if (json && json.results) {
                 for (var i in json.results) {
                     var reg = json.results[i];
@@ -20,7 +20,7 @@ $(function(){
         var city_id = $(this).val(), $dist_sel = $("select[name=district]");
         $dist_sel.find('option:gt(0)').remove();
         if (!city_id) return;
-        $.getJSON('/api/v1/regions', {'action': 'sub-regions', 'sid': city_id}, function(json){
+        malaAjaxGet('/api/v1/regions', {'action': 'sub-regions', 'sid': city_id}, function(json){
             if (json && json.results) {
                 for (var i in json.results) {
                     var reg = json.results[i];
@@ -36,7 +36,7 @@ $(function(){
         $allGrades.each(function(){
             this.disabled = true;
         });
-        $.getJSON('/staff/teachers/action/', {'action': 'get-subject-grades-range', 'sid': subjectId}, function(json){
+        malaAjaxGet('/staff/teachers/action/', {'action': 'get-subject-grades-range', 'sid': subjectId}, function(json){
             if (json && json.list) {
                 $allGrades.each(function(){
                     var curGradeVal = this.value;
@@ -403,6 +403,7 @@ $(function(){
         var $this = $(this);
         $this.addClass('disabled');
         $teacherEditForm = $("#teacherEditForm");
+        showLoading();
         $teacherEditForm.ajaxSubmit({
             dataType: 'json',
             success: function(result){
@@ -418,11 +419,13 @@ $(function(){
                 }
                 alert(defaultErrMsg);
                 $this.removeClass('disabled');
+                hideLoading();
             },
             error: function(jqXHR, errorType, errorDesc){
                 var errMsg = errorDesc?('['+errorDesc+'] '):'';
                 alert(errMsg+defaultErrMsg);
                 $this.removeClass('disabled');
+                hideLoading();
             }
         });
     });

@@ -58,8 +58,7 @@ $(function(){
       return false;
     }
 
-    showLoading();
-    $.post("/teacher/basic_doc/", params, function(result){
+    malaAjaxPost("/teacher/basic_doc/", params, function(result){
         if(result){
           if(result.ok){
             alert("保存成功");
@@ -70,12 +69,10 @@ $(function(){
         }else{
           alert(pagedefaultErrMsg);
         }
-        hideLoading();
-    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+    }, 'json', function(jqXHR, errorType, errorDesc){
       var errMsg = errorDesc?('['+errorDesc+'] '):'';
       $('#complaintModal').modal('hide');
       alert(errMsg+pagedefaultErrMsg);
-      hideLoading();
     });
   });
 

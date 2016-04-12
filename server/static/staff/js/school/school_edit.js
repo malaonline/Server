@@ -95,6 +95,7 @@ $(function(){
       return false;
     }
 
+    showLoading();
     fm.ajaxSubmit({
         dataType: 'json',
         success: function(result){
@@ -108,10 +109,12 @@ $(function(){
             } else {
                 alert(defaultErrMsg);
             }
+            hideLoading();
         },
         error: function(jqXHR, errorType, errorDesc){
             var errMsg = errorDesc?('['+errorDesc+'] '):'';
             alert(errMsg+defaultErrMsg);
+            hideLoading();
         }
     });
     return false;

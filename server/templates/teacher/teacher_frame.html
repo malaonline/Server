@@ -19,7 +19,7 @@
     <script src="{% static 'common/js/jquery.form.min.js' %}"></script>
     <script src="{% static 'common/js/django-ajax-amend.js' %}"></script>
     <script src="{% static 'common/js/pagination.js' %}"></script>
-    <script src="{% static 'teacher/js/teacher_frame.js' %}"></script>
+    <script src="{% static 'common/js/loading_dialog.js' %}"></script>
     {% block addition_js %}{% endblock %}
 </head>
 <body>
@@ -46,6 +46,6 @@
     </div>
 
 {#  加载动画#}
-    {% include 'teacher/m_loading_dialog.html' %}
+    {% include 'm_loading_dialog.html' %}
 </body>
 </html>

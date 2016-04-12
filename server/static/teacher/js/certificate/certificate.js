@@ -63,7 +63,7 @@ $(function(){
         var $row = $(this).closest('.row'), certId = $row.attr('certId');
         if (certId) {
             var params = {'action': 'delete', 'certId': certId};
-            $.post( "/teacher/certificate/others/", params, function( result ) {
+            malaAjaxPost( "/teacher/certificate/others/", params, function( result ) {
                 if (result) {
                     if (result.ok) {
                         $row.remove();
@@ -73,7 +73,7 @@ $(function(){
                     return;
                 }
                 alert(defaultErrMsg);
-            }, 'json').fail(function(jqXHR, errorType, errorDesc){
+            }, 'json', function(jqXHR, errorType, errorDesc){
                 var errMsg = errorDesc?('['+errorDesc+'] '):'';
                 alert(errMsg+defaultErrMsg);
             });

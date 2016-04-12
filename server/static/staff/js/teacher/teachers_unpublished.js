@@ -44,7 +44,7 @@ $(function(){
             fillTableAndShow(schools);
             return;
         }
-        $.getJSON('/api/v1/schools',function(data){
+        malaAjaxGet('/api/v1/schools',function(data){
             if (data && data.results)  {
                 $this.data('schools', data.results);
                 fillTableAndShow(data.results);
@@ -85,7 +85,7 @@ $(function(){
             return;
         }
         var teacherId = $(this).closest('tr').attr('teacherId');
-        $.getJSON('/staff/teachers/action/',{'action': 'get-weekly-schedule', 'tid': teacherId},function(data){
+        malaAjaxGet('/staff/teachers/action/',{'action': 'get-weekly-schedule', 'tid': teacherId},function(data){
             if (data && data.list)  {
                 $this.data('weeklySchedule', data);
                 fillTableAndShow(data);
@@ -145,7 +145,7 @@ $(function(){
             return;
         }
         var params = {'action': 'get-course-schedule', 'tid': teacherId, 'weekOffset': weekOffset};
-        $.getJSON('/staff/teachers/action/', params, function(data){
+        malaAjaxGet('/staff/teachers/action/', params, function(data){
             if (data && data.list)  {
                 $courseScheduleModal.data(dataKey, data);
                 fillTableAndShow(data);
@@ -198,7 +198,7 @@ $(function(){
             return;
         }
         var teacherId = $(this).closest('tr').attr('teacherId');
-        $.getJSON('/staff/teachers/action/',{'action': 'list-highscore', 'tid': teacherId},function(data){
+        malaAjaxGet('/staff/teachers/action/',{'action': 'list-highscore', 'tid': teacherId},function(data){
             if (data && data.list)  {
                 $this.data('highscores', data.list);
                 fillTableAndShow(data.list);
@@ -226,7 +226,7 @@ $(function(){
             return;
         }
         var teacherId = $(this).closest('tr').attr('teacherId');
-        $.getJSON('/staff/teachers/action/',{'action': 'list-achievement', 'tid': teacherId},function(data){
+        malaAjaxGet('/staff/teachers/action/',{'action': 'list-achievement', 'tid': teacherId},function(data){
             if (data && data.list)  {
                 $this.data('achievements', data.list);
                 fillTableAndShow(data.list);
@@ -264,7 +264,7 @@ $(function(){
         if (!decided) return;
         // do request server
         var params = {'action': 'publish-teacher', 'tid': teacherId, 'flag': flag};
-        $.post( "/staff/teachers/action/", params, function( result ) {
+        malaAjaxPost( "/staff/teachers/action/", params, function( result ) {
             if (result) {
                 if (result.ok) {
                     if (result.code != 0) {
@@ -277,7 +277,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function(jqXHR, errorType, errorDesc){
+        }, 'json', function(jqXHR, errorType, errorDesc){
             var errMsg = errorDesc?('['+errorDesc+'] '):'';
             alert(errMsg+defaultErrMsg);
         });

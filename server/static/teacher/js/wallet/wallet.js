@@ -7,8 +7,7 @@ $(function(){
         var $this = $(this), $li = $this.closest('li');
         if ($li.hasClass('disabled') || $li.hasClass('active')) return;
         var page_to = $this.data('pageto');
-        showLoading();
-        $.getJSON(histories_url, {'page': page_to} ,function(data){
+        malaAjaxGet(histories_url, {'page': page_to} ,function(data){
             if (data && data.list && data.pager) {
                 var $historyTable = $(".history table");
                 $historyTable.find('tr:gt(0)').remove();
@@ -22,7 +21,6 @@ $(function(){
                 }
                 paginationUpdate(data.pager);
             }
-            hideLoading();
         });
     });
     $('[data-toggle="tooltip"]').tooltip({'html':true});

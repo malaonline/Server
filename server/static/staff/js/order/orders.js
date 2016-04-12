@@ -31,7 +31,7 @@ $(function(){
 
         var orderId = $('#orderId').val();
         var params = {'action': 'preview-refund-info', 'order_id': orderId};
-        $.get("/staff/orders/action/", params, function (result) {
+        malaAjaxGet("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     var order = result;
@@ -49,7 +49,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(defaultErrMsg);
         });
     });
@@ -65,7 +65,7 @@ $(function(){
     $("[data-action=show-refund-record]").click(function(e){
         var orderId = $(this).attr("orderId")
         var params = {'action': 'get-refund-record', 'order_id': orderId};
-        $.get("/staff/orders/action/", params, function (result) {
+        malaAjaxGet("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     var order = result;
@@ -81,7 +81,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(defaultErrMsg);
         });
     });
@@ -91,7 +91,7 @@ $(function(){
         var orderId = $('#orderId').val();
         var reason = $('#refundReason').val();
         var params = {'action': 'request-refund', 'order_id': orderId, 'reason': reason};
-        $.post("/staff/orders/action/", params, function (result) {
+        malaAjaxPost("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     var order = result;
@@ -104,7 +104,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(defaultErrMsg);
         });
     });
@@ -114,7 +114,7 @@ $(function(){
         if(confirm("确定退费审核通过?")) {
             var orderId = $(this).attr("orderId")
             var params = {'action': 'refund-approve', 'order_id': orderId};
-            $.post("/staff/orders/action/", params, function (result) {
+            malaAjaxPost("/staff/orders/action/", params, function (result) {
                 if (result) {
                     if (result.ok) {
                         location.reload();
@@ -124,7 +124,7 @@ $(function(){
                     return;
                 }
                 alert(defaultErrMsg);
-            }, 'json').fail(function () {
+            }, 'json', function () {
                 alert(defaultErrMsg);
             });
         }
@@ -153,7 +153,7 @@ $(function(){
             'schedule_date': scheduleDate,
             'schedule_time': scheduleTime
         };
-        $.post("/staff/evaluations/action/", params, function (result) {
+        malaAjaxPost("/staff/evaluations/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
                     location.reload();
@@ -163,7 +163,7 @@ $(function(){
                 return;
             }
             alert(defaultErrMsg);
-        }, 'json').fail(function () {
+        }, 'json', function () {
             alert(defaultErrMsg);
         });
     });
@@ -173,7 +173,7 @@ $(function(){
         if(confirm("确定测评完成?")) {
             var evaluationId = $(this).attr("evaluationId");
             var params = {'action': 'complete-evaluation', 'eid': evaluationId};
-            $.post("/staff/evaluations/action/", params, function (result) {
+            malaAjaxPost("/staff/evaluations/action/", params, function (result) {
                 if (result) {
                     if (result.ok) {
                         location.reload();
@@ -183,7 +183,7 @@ $(function(){
                     return;
                 }
                 alert(defaultErrMsg);
-            }, 'json').fail(function () {
+            }, 'json', function () {
                 alert(defaultErrMsg);
             });
         }

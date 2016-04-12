@@ -3,14 +3,12 @@
  */
 $(function(){
     var defaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
-
     $("#achievementsList [data-action=delete-achievement]").click(function (e){
         var decided = confirm('确定要删除这个记录吗?');
         if (!decided) return false;
         var $item = $(this).closest('.list-group-item'), achieveId = $item.attr('achieveId');
         if (achieveId) {
-            showLoading();
-            $.post( "/teacher/achievement/delete/"+achieveId, function( result ) {
+            malaAjaxPost( "/teacher/achievement/delete/"+achieveId, function( result ) {
                 if (result) {
                     if (result.ok) {
                         $item.remove();
@@ -20,11 +18,9 @@ $(function(){
                 } else {
                     alert(defaultErrMsg);
                 }
-                hideLoading();
-            }, 'json').fail(function(jqXHR, errorType, errorDesc){
+            }, 'json', function(jqXHR, errorType, errorDesc){
                 var errMsg = errorDesc?('['+errorDesc+'] '):'';
                 alert(errMsg+defaultErrMsg);
-                hideLoading();
             });
         }
     });
