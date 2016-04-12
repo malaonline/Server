@@ -436,7 +436,7 @@ class TestApi(TestCase):
             self.assertEqual(
                     timezone.localtime(ts['start']).time(), wts.start)
 
-        # Available time for other teacher
+        # Available time for other parent
         client = Client()
         username = "parent1"
         password = "123123"
@@ -453,7 +453,7 @@ class TestApi(TestCase):
                 else:
                     self.assertTrue(d['available'])
 
-        # Available time for other teacher for different school
+        # Available time for other parent for different school
         request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=2"
         response = client.get(request_url)
         self.assertEqual(response.status_code, 200)
@@ -465,6 +465,25 @@ class TestApi(TestCase):
                     self.assertFalse(d['available'])
                 else:
                     self.assertTrue(d['available'])
+
+        # Timeslot in order creation has been occupied
+        client = Client()
+        username = "parent0"
+        password = "123123"
+        client.login(username=username, password=password)
+
+        request_url = "/api/v1/orders"
+        json_data = json.dumps({
+            'teacher': 2, 'school': 1, 'grade': 1, 'subject': 1,
+            'coupon': None, 'hours': 14, 'weekly_time_slots': [3, 6],
+        })
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data, )
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertFalse(json_ret['ok'])
+        self.assertEqual(-1, json_ret['code'])
+
 
     def test_subject_record(self):
         client = Client()

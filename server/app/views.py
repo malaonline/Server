@@ -845,7 +845,7 @@ class OrderViewSet(ParentBasedMixin,
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if not self.can_create(request):
-            return JsonResponse({'ok': 'false', 'code': -1})
+            return JsonResponse({'ok': False, 'code': -1})
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
