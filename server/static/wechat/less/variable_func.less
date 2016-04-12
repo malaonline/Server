@@ -56,3 +56,12 @@
   -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
           box-shadow: @shadow;
 }
+
+//prevent padding from making div larger
+.border-box() {
+  -moz-box-sizing: border-box; /*Firefox3.5+*/
+  -webkit-box-sizing: border-box; /*Safari3.2+*/
+  -o-box-sizing: border-box; /*Opera9.6*/
+  -ms-box-sizing: border-box; /*IE8*/
+  box-sizing: border-box;
+}

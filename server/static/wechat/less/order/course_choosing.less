@@ -23,10 +23,10 @@ body{
 
 #courseChoosingContainer {
   .weui_panel {
-    margin-bottom: 14px;
+    margin-bottom: 8px;
     padding: 14px 0;
     background-color: #fff;
-    border-bottom: 1px solid @borderGray;
+    //border-bottom: 1px solid @borderGray;
     //.box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
     &.no-padding {
       padding: 0;
@@ -168,7 +168,7 @@ body{
       border: 1px solid @textBlue;
       border-collapse: collapse;
       td {
-        padding: 4px 0;
+        padding: 3px 0;
         line-height: 14px;
         text-align: center;
         border: 0;
@@ -204,7 +204,7 @@ body{
       .flag {
         margin-right: 10px;
         font-size: 14px;
-        color: #333;
+        color: @grayLight;
         .rect {
           display: inline-block;
           width: 13px;
@@ -214,17 +214,20 @@ body{
           @flagBorderRadius: 2px;
           &.unavailable {
             background-color: @timeUnavailableColor;
-            border: 1px solid @timeUnavailableColor;
+            //border: 1px solid @timeUnavailableColor;
             border-radius: @flagBorderRadius;
           }
           &.available {
+            width: 12px;
+            height: 12px;
+            vertical-align: -2px;
             background-color: @timeAvailableColor;
             border: 1px solid @borderGray;
             border-radius: @flagBorderRadius;
           }
           &.chosen {
             background-color: @timeChosenColor;
-            border: 1px solid @timeChosenColor;
+            //border: 1px solid @timeChosenColor;
             border-radius: @flagBorderRadius;
           }
         }
@@ -324,8 +327,21 @@ body{
   }
 }
 
+.weui_dialog_alert {
+  .weui_dialog {
+    .weui_dialog_hd {
+      display: inline-table;
+      .dialog-inner {
+        padding: 0 12px;
+        text-align: left;
+      }
+    }
+  }
+}
+
 @payAreaLineHeight: 39px;
 .pay-action-area {
+  .border-box();
   padding: 6px 10px;
   background-color: rgba(255, 255, 255, 0.96);
   border-top: 1px solid @borderGray;
