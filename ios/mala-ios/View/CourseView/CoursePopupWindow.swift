@@ -30,7 +30,8 @@ public class CoursePopupWindow: UIViewController {
             if isPassed {
                 iconView.text = "已上"
                 iconView.backgroundColor = MalaColor_D0D0D0_0
-
+                dismissButton.hidden = true
+                buttonSeparatorLine.hidden = false
             }else {
                 iconView.text = "待上"
                 iconView.backgroundColor = MalaColor_A5C9E4_0
