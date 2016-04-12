@@ -484,7 +484,6 @@ class TestApi(TestCase):
         self.assertFalse(json_ret['ok'])
         self.assertEqual(-1, json_ret['code'])
 
-
     def test_subject_record(self):
         client = Client()
         username = "parent1"
