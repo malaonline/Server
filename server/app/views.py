@@ -228,6 +228,9 @@ class Sms(View):
                 first_login = not parent.student_name
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
+                # 强制刷新已经存在的 token
+                token.key = None
+                token.save()
                 return JsonResponse({
                     'verified': True,
                     'first_login': first_login, 'token': token.key,
