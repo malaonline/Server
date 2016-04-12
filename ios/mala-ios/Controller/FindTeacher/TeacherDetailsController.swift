@@ -288,6 +288,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         self.title = model.name
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = nil
+        turnBackButtonBlack()
     }
     
     private func hideBackground() {
@@ -295,6 +296,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         self.title = ""
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        turnBackButtonWhite()
     }
     
     // 跳转到课程购买页

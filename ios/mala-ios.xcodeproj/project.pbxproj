@@ -2127,9 +2127,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2226,9 +2229,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2252,9 +2258,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1246854f-f874-4d92-9388-e209eae157d0";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

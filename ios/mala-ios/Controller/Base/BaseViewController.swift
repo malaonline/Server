@@ -9,6 +9,18 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+    
+    // MARK: - Components
+    /// 导航栏返回按钮
+    lazy var backBarButton: UIButton = {
+        let backBarButton = UIButton(
+            imageName: "leftArrow_black",
+            highlightImageName: "leftArrow_black",
+            target: self,
+            action: #selector(BaseViewController.popSelf)
+        )
+        return backBarButton
+    }()
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -29,14 +41,7 @@ class BaseViewController: UIViewController {
         spacer.width = -2
         
         // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                imageName: "leftArrow_black",
-                highlightImageName: "leftArrow_black",
-                target: self,
-                action: #selector(BaseViewController.popSelf)
-            )
-        )
+        let leftBarButtonItem = UIBarButtonItem(customView: backBarButton)
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
     }
 
@@ -44,5 +49,13 @@ class BaseViewController: UIViewController {
     // MARK: - Event Response
     @objc func popSelf() {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @objc func turnBackButtonBlack() {
+        backBarButton.setImage(UIImage(named: "leftArrow_black"), forState: .Normal)
+    }
+    
+    @objc func turnBackButtonWhite() {
+        backBarButton.setImage(UIImage(named: "leftArrow"), forState: .Normal)
     }
 }
