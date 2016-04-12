@@ -631,6 +631,24 @@ result:
 }
 ```
 
+### Cancel Order
+
+```
+DELETE /api/v1/orders/1
+```
+
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+result:
+```
+{
+    "ok": true
+}
+```
+
 ### Get student course table
 
 ```

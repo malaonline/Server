@@ -816,6 +816,7 @@ class OrderViewSet(ParentBasedMixin,
                    mixins.UpdateModelMixin,
                    mixins.ListModelMixin,
                    mixins.RetrieveModelMixin,
+                   mixins.DestroyModelMixin,
                    viewsets.GenericViewSet):
     queryset = models.Order.objects.all()
     serializer_class = OrderSerializer
@@ -912,14 +913,12 @@ class OrderViewSet(ParentBasedMixin,
 
         return JsonResponse(ch)
 
-
-class OrderCancel(ParentBasedMixin, APIView):
-    queryset = models.Order.objects.all()
-
-    def post(self, request):
+    def destroy(self, request, *args, **kwargs):
+        order = self.get_object()
         parent = self.get_parent()
-        data = request.data
-        order = get_object_or_404(models.Order, parent=parent, pk=data['id'])
-        order.status = models.Order.CANCELED
-        order.save()
+        if order.parent == parent and order.status == models.Order.PENDING:
+            self.perform_destroy(order)
         return JsonResponse({'ok': True})
+
+    def perform_destroy(self, order):
+        order.save(status=models.Order.CANCELED)

@@ -42,8 +42,6 @@ urlpatterns = [
         name='charge_succeeded'),
     url(r'^api/v1/concrete/timeslots', views.ConcreteTimeSlots.as_view(),
         name='concrete_time_slot'),
-    url(r'^api/v1/order/cancel',
-        views.OrderCancel.as_view(), name='order_cancel'),
     url(r'^test/testAutoConfirmClasses', views.autoConfirmClassesView.as_view(),
         name='autoConfirmClasses'),
     url(r'^api/v1/', include(router.urls)),
