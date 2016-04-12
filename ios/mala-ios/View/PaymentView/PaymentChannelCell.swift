@@ -78,6 +78,7 @@ class PaymentChannelCell: UITableViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        self.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         
         // SubViews
         contentView.addSubview(iconView)
