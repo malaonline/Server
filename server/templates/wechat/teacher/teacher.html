@@ -98,7 +98,7 @@
                     <div class="teacher_name">
                         <div>{{teacher.name}} <img class="teacher_gender"></div>
                         <div>
-                            {{teacher.subject.name}}
+                            <label class="teacher_subject">{{teacher.subject.name}}</label>
                             {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %}
                             -
                             {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}元/小时
