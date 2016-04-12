@@ -38,7 +38,9 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     private func configure() {
         delegate = self
         dataSource = self
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = MalaColor_88BCDE_0
+        self.layer.borderColor = MalaColor_88BCDE_0.CGColor
+        self.layer.borderWidth = 1
         
         registerClass(ThemeClassScheduleCell.self, forCellWithReuseIdentifier: ThemeClassScheduleCellReuseId)
     }
@@ -116,6 +118,18 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         }
         return false
     }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: MalaScreenOnePixel, left: 0, bottom: MalaScreenOnePixel, right: 0)
+    }
 }
 
 
@@ -161,7 +175,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_EDEDED_0), forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_5), forState: .Selected)
-        button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_95), forState: .Highlighted)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_0), forState: .Highlighted)
         button.userInteractionEnabled = false
         return button
     }()
@@ -213,8 +227,6 @@ class ThemeClassScheduleCell: UICollectionViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        contentView.layer.borderColor = MalaColor_88BCDE_95.CGColor
-        contentView.layer.borderWidth = MalaScreenOnePixel
         
         // SubViews
         contentView.addSubview(button)
@@ -282,8 +294,8 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
     // MARK: - Private Method
     private func configure() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = frame.width / 8
-        let itemHeight: CGFloat = frame.height / 6
+        let itemWidth: CGFloat = frame.width / 8 - 1
+        let itemHeight: CGFloat = frame.height / 6 - 1
         itemSize = CGSizeMake(itemWidth, itemHeight)
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
