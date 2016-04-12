@@ -1226,6 +1226,14 @@ class Parent(BaseModel):
         else:
             super(Parent, self).save(*args, **kwargs)
 
+    def check_month_letter(self, teacher):
+        date = timezone.localtime(timezone.now())
+        date = date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        lts = Letter.objects.filter(created_at__gte=date, teacher=teacher, parent=self).order_by('-created_at')
+        if lts.count() == 0:
+            return True, None
+        else:
+            return False, lts[0].id
 
 # 因为李鑫还没想好,就先不要这个model,以后再放出来
 # class TeacherVistParent(BaseModel):
@@ -2512,5 +2520,9 @@ class Letter(BaseModel):
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=1000)
 
+    def save(self, *args, **kwargs):
+        super(Letter, self).save(*args, **kwargs)
+        return self.id
+
     def __str__(self):
-        return '%s %s' % (self.teacher.name, self.parent.name)
+        return '%s %s' % (self.teacher.name, self.parent.student_name)

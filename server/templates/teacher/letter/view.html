@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% block title %}
-    给家长写信
+    给家长的信件
 {% endblock %}
 
 {% block addition_header %}
@@ -11,7 +11,6 @@
 
 {% block addition_js %}
     <script src="{% static 'common/js/underscore.js' %}"></script>
-    <script src="{% static 'teacher/js/letter/edit.js' %}"></script>
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -31,7 +30,7 @@
                         {%if error_code == -1%}
                         <div class="error">家长不存在 <a href="{% url 'teacher:my-students' student_type page_offset %}">返回</a></div>
                         {%elif error_code == -2 %}
-                        <div class="error">邮件已经发送 <a href="{% url 'teacher:my-students' student_type page_offset %}">查看</a></div>
+                        <div class="error">邮件不存在 <a href="{% url 'teacher:my-students' student_type page_offset %}">返回</a></div>
                         {%endif%}
                         <fieldset>
                             <div class="control-group">
@@ -43,32 +42,22 @@
                             <div class="control-group">
                               <label class="control-label" for="inscore">主题</label>
                               <div class="controls">
-                                <input type="text" class="form-control" id="title" name="graduate_school" value="">
+                                  <label>{{letter.title}}</label>
                               </div>
                             </div>
                             <div class="control-group">
                               <label class="control-label" for="inscore">正文</label>
                               <div class="controls">
-                                <textarea class="form-control" id="content"></textarea>
+                                <label class="form-control" id="content">{{letter.content}}</label>
                               </div>
                             </div>
                         </fieldset>
                     </div>
                     <div class="action-btn">
-                        <button type="button" class="btn btn-success" onclick="letterSend(this)">发送</button>
-                        <button onclick="letterDocancle('{% url 'teacher:my-students' student_type page_offset %}')" type="button" class="btn btn-back">取消</button>
-                    </div>
-                    <div class="letter-send-ok">
-                        <p>您的信件发送成功</p>
-                        <p>此信件已经发送成功，并投递至家长手机端。</p>
-                        <p><a id="viewLetter" href="{% url 'teacher:student-letter' student_type page_offset student_id %}">查看此邮件</a></p>
-                        <button onclick="letterDocancle('{% url 'teacher:my-students' student_type page_offset %}')" type="button" class="btn btn-back">返回</button>
+                        <a href="{% url 'teacher:my-students' student_type page_offset %}" type="button" class="btn btn-back">返回</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="submit-action">
-        <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>邮件发送中</button>
     </div>
 {% endblock %}

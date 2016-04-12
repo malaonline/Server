@@ -46,7 +46,7 @@
   padding-top: 7px;
   margin-left: 80px;
 }
-textarea.form-control{
+textarea.form-control,label.form-control{
   height: 350px;
 }
 .action-btn{
@@ -80,4 +80,24 @@ textarea.form-control{
     background-color: #969492;
     border-color: #928572;
   }
+}
+.letter-send-ok{
+  display: none;
+  margin-top: 50px;
+  margin-left: 50px;
+  p:first-child{
+    font-weight: bold;
+    font-size: 18px;
+  }
+  p:nth-child(2){
+    font-size: 13px;
+    color: #9A9A9A;
+  }
+  a{
+    text-decoration: none;
+  }
+}
+.btn-back{
+  width: 100px;
+  .button-variant(#fff; #4a4a4a; #928572);
 }

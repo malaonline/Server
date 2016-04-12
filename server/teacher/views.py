@@ -1106,7 +1106,7 @@ class MyStudents(BasicTeacherView):
             one_details = {
                 "name": one_student.student_name or one_student.user.profile.phone,
                 "id": one_student.id,
-                "mail": True
+                "mail": one_student.check_month_letter(teacher)[0]
             }
 
             complete_time_slot = models.TimeSlot.objects.filter(
@@ -2486,10 +2486,62 @@ class WalletBankcardView(BaseTeacherView):
         bankcard.save()
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
-
 class StudentLetter(BasicTeacherView):
+    def setSidebarContent(self, teacher, context):
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
 
     def handle_get(self, request, user, teacher, student_type, page_offset, student_id):
+        context = {
+            'student_type': student_type,
+            'page_offset': page_offset,
+            'student_id': student_id
+        }
+        self.setSidebarContent(teacher, context)
+        student = None
+        try:
+            student = models.Parent.objects.get(id=student_id)
+        except:
+            context["error_code"] = -1
+            return render(request, "teacher/letter/edit.html", context)
+
+        if not student.check_month_letter(teacher):
+            context["error_code"] = -2
+            return render(request, "teacher/letter/edit.html", context)
+
+        context["student_name"] = student.student_name or student.user.profile.phone
+
+        return render(request, "teacher/letter/edit.html", context)
+
+    def handle_post(self, request, user, teacher, student_type, page_offset, student_id):
+        title = request.POST.get('title', None)
+        content = request.POST.get('content', None)
+
+        context = {
+            'student_type': student_type,
+            'page_offset': page_offset,
+            'student_id': student_id
+        }
+        self.setSidebarContent(teacher, context)
+
+        student = None
+        try:
+            student = models.Parent.objects.get(id=student_id)
+        except:
+            return JsonResponse({'ok': False, 'msg': 'student not find', 'code': -1})
+
+        canLetter, letterId = student.check_month_letter(teacher)
+        if not canLetter:
+            return JsonResponse({'ok': False, 'msg': 'already have letter', 'id': letterId, 'code': -2})
+
+        letter = models.Letter(teacher=teacher, parent=student, title=title, content=content)
+        letterId = letter.save()
+
+        return JsonResponse({'ok': True, 'id': letterId, 'code': 0})
+
+
+class StudentLetterView(BasicTeacherView):
+    def handle_get(self, request, user, teacher, student_type, page_offset, student_id, letter_id):
         context = {
             'student_type': student_type,
             'page_offset': page_offset,
@@ -2504,7 +2556,13 @@ class StudentLetter(BasicTeacherView):
             context["error_code"] = -1
             return render(request, "teacher/letter/edit.html", context)
 
+        letter = None
+        try:
+            context["letter"] = models.Letter.objects.get(id=letter_id)
+        except:
+            context["error_code"] = -2
+            return render(request, "teacher/letter/view.html", context)
+
         context["student_name"] = student.student_name or student.user.profile.phone
 
-
-        return render(request, "teacher/letter/edit.html", context)
+        return render(request, "teacher/letter/view.html", context)

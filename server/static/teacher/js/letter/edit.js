@@ -17,6 +17,36 @@ function letterSend(o){
     return false;
   }
   letterSetSendingView(o);
+  var params = {
+    'title': titleVal.trim(),
+    'content': contentVal.trim()
+  };
+  $.post(document.location.href, params, function(result){
+      if(result){
+        if(result.ok){
+          console.log(result);
+          alert("保存成功");
+          $('.form-horizontal').css('display', 'none');
+          $('.action-btn').css('display', 'none');
+          $('#viewLetter').attr('href', $('#viewLetter').attr('href')+result.id);
+          $('.letter-send-ok').css('display', 'block');
+        }else{
+          if(result.code == -1){
+            alert('家长不存在！');
+          }else if(result.code == -2){
+            alert('已经存在邮件，请返回查看！');
+            alert(result.id);
+          }else{
+            alert(result.msg);
+          }
+        }
+      }else{
+        alert(pagedefaultErrMsg);
+      }
+      $('.submit-action').css('display', 'none');
+  }, 'json').fail(function(){
+    $('.submit-action').css('display', 'none');
+  });
 }
 function letterDocancle(href){
   document.location.href = href;
