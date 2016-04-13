@@ -163,7 +163,11 @@ func sendVerifyCodeOfMobile(mobile: String, failureHandler: ((Reason, String?) -
     ]
     /// 返回值解析器
     let parse: JSONDictionary -> Bool? = { data in
-        return true
+        
+        if let result = data["sent"] as? Bool {
+            return result
+        }
+        return false
     }
     
     /// 请求资源对象
@@ -312,7 +316,10 @@ func saveStudentName(name: String, failureHandler: ((Reason, String?) -> Void)?,
     ]
     
     let parse: JSONDictionary -> Bool? = { data in
-        return true
+        if let result = data["done"] as? Bool {
+            return result
+        }
+        return false
     }
     
     let resource = authJsonResource(path: "/parents/\(parentID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
@@ -341,7 +348,10 @@ func saveStudentSchoolName(name: String, failureHandler: ((Reason, String?) -> V
     ]
     
     let parse: JSONDictionary -> Bool? = { data in
-        return true
+        if let result = data["done"] as? Bool {
+            return result
+        }
+        return false
     }
     
     let resource = authJsonResource(path: "/parents/\(parentID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
@@ -652,6 +662,30 @@ func getOrderInfo(orderID: Int, failureHandler: ((Reason, String?) -> Void)?, co
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
+
+///  取消订单
+///
+///  - parameter orderID:        订单id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func cancelOrderWithId(orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    /// 返回值解析器
+    let parse: JSONDictionary -> Bool = { data in
+        if let result = data["ok"] as? Bool {
+            return result
+        }
+        return false
+    }
+    
+    let resource = authJsonResource(path: "/orders/\(orderID)", method: .DELETE, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 
 // MARK: - Other

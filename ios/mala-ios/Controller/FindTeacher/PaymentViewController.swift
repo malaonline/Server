@@ -31,7 +31,8 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        configure()
         setupUserInterface()
     }
     
@@ -46,6 +47,11 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     
     
     // MARK: - Private Method
+    private func configure() {
+        // 冻结Pop手势识别
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+    }
+    
     private func setupUserInterface() {
         // Style
         title = "支付"
@@ -58,7 +64,7 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
         
         // Autolayout
         paymentConfirmView.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(37)
+            make.height.equalTo(47)
             make.left.equalTo(self.view.snp_left)
             make.right.equalTo(self.view.snp_right)
             make.bottom.equalTo(self.view.snp_bottom)
@@ -69,6 +75,45 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
             make.top.equalTo(self.view.snp_top)
             make.bottom.equalTo(self.view.snp_bottom)
         }
+    }
+    
+    private func cancelOrder() {
+        
+        println("取消订单")
+        ThemeHUD.showActivityIndicator()
+        
+        cancelOrderWithId(ServiceResponseOrder.id, failureHandler: { (reason, errorMessage) in
+            ThemeHUD.hideActivityIndicator()
+
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("PaymentViewController - cancelOrder Error \(errorMessage)")
+            }
+        }, completion:{ [weak self] (result) in
+            ThemeHUD.hideActivityIndicator()
+            println("取消订单结果 - \(result)")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.navigationController?.popViewControllerAnimated(true)
+            })
+        })
+    }
+
+    
+    // MARK: - Override
+    override func popSelf() {
+        
+        MalaAlert.confirmOrCancel(
+            title: "取消订单",
+            message: "确认取消订单吗？",
+            confirmTitle: "取消订单",
+            cancelTitle: "继续支付",
+            inViewController: self,
+            withConfirmAction: { [weak self] () -> Void in
+                self?.cancelOrder()
+            }, cancelAction: { () -> Void in
+        })
+  
     }
 
     

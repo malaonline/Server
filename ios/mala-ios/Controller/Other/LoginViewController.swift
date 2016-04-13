@@ -336,10 +336,10 @@ class LoginViewController: UIViewController {
             }
         }, completion: { [weak self] bool in
             ThemeHUD.hideActivityIndicator()
+            println("send Verifycode -  \(bool)")
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.codeTextField.becomeFirstResponder()
             })
-            println("send Verifycode -  \(bool)")
         })
     }
 
