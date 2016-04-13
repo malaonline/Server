@@ -426,7 +426,9 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                     ThemeHUD.hideActivityIndicator()
                     println("创建订单成功:\(order)")
                     ServiceResponseOrder = order
-                    self?.launchPaymentController()
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self?.launchPaymentController()
+                    })
                 }
             })
     }

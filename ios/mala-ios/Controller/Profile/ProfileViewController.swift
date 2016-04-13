@@ -316,8 +316,8 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     // MARK: - Event Response
     @objc private func logoutButtonDidTap() {
         MalaAlert.confirmOrCancel(
-            title: "注意",
-            message: "您确认要退出登录吗？",
+            title: "麻辣老师",
+            message: "确认退出当前账号吗？",
             confirmTitle: "退出登录",
             cancelTitle: "取消",
             inViewController: self,
