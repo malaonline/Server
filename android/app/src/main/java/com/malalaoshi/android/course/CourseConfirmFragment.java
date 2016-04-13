@@ -105,6 +105,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     @Bind(R.id.rl_show_time_container)
     protected View showTimesLayout;
 
+    @Bind(R.id.iv_show_times)
+    protected View showTimesImageView;
+
+
     @Bind(R.id.rl_scholarship_container)
     protected View scholarshipLayout;
 
@@ -200,7 +204,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
                 text = gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
-                text += " " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
+                text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
             }
@@ -287,6 +291,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             selectedTimeSlots = selectedTimeSlots.substring(0, selectedTimeSlots.length() - 1);
         }
         timesListView.setVisibility(View.GONE);
+        ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         isShowingTimes = false;
     }
 
@@ -304,18 +309,22 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                 setHoursText();
             }
             timesListView.setVisibility(View.GONE);
+            ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.iv_add) {
             currentHours += 2;
             setHoursText();
             timesListView.setVisibility(View.GONE);
+            ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.rl_show_time_container) {
             if (isShowingTimes) {
                 timesListView.setVisibility(View.GONE);
+                ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
                 isShowingTimes = false;
                 return;
             }
             if (!shouldUpdateTimes) {
                 timesListView.setVisibility(View.VISIBLE);
+                ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
                 isShowingTimes = true;
                 return;
             }
@@ -451,6 +460,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                         timesAdapter.notifyDataSetChanged();
                     }
                     timesListView.setVisibility(View.VISIBLE);
+                    ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
                     shouldUpdateTimes = false;
                     isShowingTimes = true;
                 } catch (Exception e) {

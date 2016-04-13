@@ -143,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:text="已被约课"
+            android:text="已选课时"
             android:textColor="#939393"
             android:textSize="12sp" />
     </LinearLayout>

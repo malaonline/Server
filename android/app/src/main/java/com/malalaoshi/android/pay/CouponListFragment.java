@@ -179,7 +179,7 @@ public class CouponListFragment extends Fragment {
             String amount = Number.subZeroAndDot(Double.valueOf(data.getAmount()) * 0.01);
             holder.amountView.setText(amount);
             holder.conditionView.setText(data.getDescription());
-            holder.expireView.setText("有效期 " + MiscUtil.formatDate(data.getExpired_at()));
+            holder.expireView.setText("有效期  " + MiscUtil.formatDate(data.getExpired_at()));
             holder.titleView.setText(data.getName());
             holder.useTypeView.setText(data.getUseType());
             holder.choiceView.setVisibility(data.isCheck() ? View.VISIBLE : View.GONE);

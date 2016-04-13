@@ -11,19 +11,19 @@
         android:id="@+id/parent_teacher_detail_info_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00ffffff"
-        >
+        android:background="#00ffffff">
 
         <RelativeLayout
             android:id="@+id/rl_baseinfo"
-            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
-            android:paddingTop="@dimen/teacher_body_padding_normal"
+            android:background="@color/white"
             android:paddingBottom="@dimen/teacher_body_padding_normal"
             android:paddingLeft="@dimen/teacher_body_padding_normal"
             android:paddingRight="@dimen/teacher_body_padding_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingTop="@dimen/teacher_body_padding_normal">
+
             <TextView
                 android:id="@+id/parent_teacher_detail_name_tv"
                 android:layout_width="wrap_content"
@@ -31,15 +31,16 @@
                 android:layout_marginLeft="@dimen/teacher_name_margin_left"
                 android:textColor="@color/teacher_title_text_color"
                 android:textSize="@dimen/text_size_large_x" />
+
             <ImageView
                 android:id="@+id/parent_teacher_detail_gender_iv"
-                android:layout_marginLeft="@dimen/teacher_body_padding_normal"
-                android:scaleType="center"
-                android:layout_alignTop="@id/parent_teacher_detail_name_tv"
-                android:layout_alignBottom="@id/parent_teacher_detail_name_tv"
-                android:layout_toRightOf="@id/parent_teacher_detail_name_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/parent_teacher_detail_name_tv"
+                android:layout_alignTop="@id/parent_teacher_detail_name_tv"
+                android:layout_marginLeft="@dimen/teacher_body_padding_normal"
+                android:layout_toRightOf="@id/parent_teacher_detail_name_tv"
+                android:scaleType="center" />
 
             <TextView
                 android:id="@+id/parent_teacher_detail_subject_tv"
@@ -61,15 +62,17 @@
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_normal" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rl_teacher_head_portrait"
             android:layout_width="@dimen/avatar_width"
             android:layout_height="@dimen/avatar_width"
-            android:layout_marginLeft="@dimen/teacher_body_padding_normal"
-            android:layout_marginBottom="12dp"
             android:layout_alignBottom="@id/rl_baseinfo"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="@dimen/teacher_body_padding_normal"
 
             >
+
             <com.malalaoshi.android.view.CircleImageView
                 android:id="@+id/parent_teacher_detail_head_portrait"
                 android:layout_width="@dimen/avatar_width"
@@ -89,6 +92,7 @@
                 android:src="@drawable/ic_member" />
         </RelativeLayout>
     </RelativeLayout>
+
     <View style="@style/AppWidget.ItemDivider" />
 
     <LinearLayout
@@ -106,14 +110,16 @@
             android:id="@+id/parent_teacher_detail_grade_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-6dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
 
     </LinearLayout>
+
     <View style="@style/AppWidget.ItemDivider" />
 
     <LinearLayout
@@ -131,9 +137,10 @@
             android:id="@+id/parent_teacher_detail_tag_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-6dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -149,67 +156,74 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_margin_top"
             android:text="@string/teacher_highscore"
             android:textColor="@color/teacher_title_text_color"
-            android:layout_marginBottom="@dimen/layout_margin_top"
-            android:textSize="@dimen/text_size_large_x"  />
+            android:textSize="@dimen/text_size_large_x" />
 
         <com.malalaoshi.android.view.ScrollListView
             android:id="@+id/parent_teacher_detail_highscore_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/list_divider_color"
             android:dividerHeight="@dimen/list_divider"
-            android:divider="@color/backgrounp"
-            android:listSelector="#00000000">
-        </com.malalaoshi.android.view.ScrollListView>
+            android:listSelector="#00000000"></com.malalaoshi.android.view.ScrollListView>
+
         <View
-            android:background="@color/backgrounp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/list_divider"/>
+            android:layout_height="@dimen/list_divider"
+            android:background="@color/list_divider_color" />
 
 
     </LinearLayout>
 
-    <View style="@style/AppWidget.ItemDivider" />
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/parent_teacher_detail_gallery_ll"
-        style="@style/AppWidget.ItemStyle">
+        android:visibility="visible"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/grallery_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/teacher_gallery"
-            android:textColor="@color/teacher_title_text_color"
-            android:textSize="@dimen/text_size_large_x" />
+        <View style="@style/AppWidget.ItemDivider" />
 
-        <ImageView
-            android:id="@+id/parent_teacher_detail_gallery_more_iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:scaleType="center"
-            android:layout_alignBottom="@id/grallery_title"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_more" />
-
-        <com.malalaoshi.android.view.FlowLayout
-            android:id="@+id/parent_teacher_detail_gallery_fl"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/gallery_height_small"
-            android:layout_below="@id/grallery_title"
-            android:layout_marginTop="@dimen/teacher_body_padding_bottom_normal">
+        <RelativeLayout
+            style="@style/AppWidget.ItemStyle">
+            <TextView
+                android:id="@+id/grallery_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/teacher_gallery"
+                android:textColor="@color/teacher_title_text_color"
+                android:textSize="@dimen/text_size_large_x" />
 
             <ImageView
-                android:id="@+id/parent_teacher_detail_photo"
-                android:layout_width="96dp"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_default_img"
-                android:visibility="visible" />
-        </com.malalaoshi.android.view.FlowLayout>
+                android:id="@+id/parent_teacher_detail_gallery_more_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@id/grallery_title"
+                android:layout_alignParentRight="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_more" />
 
-    </RelativeLayout>
+            <com.malalaoshi.android.view.FlowLayout
+                android:id="@+id/parent_teacher_detail_gallery_fl"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gallery_height_small"
+                android:layout_below="@id/grallery_title"
+                android:layout_marginTop="@dimen/teacher_body_padding_bottom_normal">
+
+                <ImageView
+                    android:id="@+id/parent_teacher_detail_photo"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_default_img"
+                    android:visibility="visible" />
+            </com.malalaoshi.android.view.FlowLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <View style="@style/AppWidget.ItemDivider" />
 
@@ -228,9 +242,10 @@
             android:id="@+id/parent_teacher_detail_achievement_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-6dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -273,9 +288,10 @@
                 android:id="@+id/parent_teacher_detail_memberservice_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-6dp"
                 android:layout_marginLeft="-6dp"
                 android:layout_marginRight="-6dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:singleLine="true"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_large" />

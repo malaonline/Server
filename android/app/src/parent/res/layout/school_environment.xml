@@ -14,7 +14,7 @@
         android:id="@+id/listview_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/backgrounp"
+        android:divider="@color/list_divider_color"
         android:dividerHeight="@dimen/list_divider"
         android:listSelector="#00000000">
 
@@ -28,6 +28,7 @@
 
         <View
             style="@style/AppWidget.ItemDivider"
+            android:background="@color/list_divider_color"
             android:layout_height="@dimen/list_divider" />
 
         <LinearLayout
@@ -42,7 +43,7 @@
                 android:id="@+id/tv_school_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/text_divider_margin_normal"
+                android:layout_marginRight="10dp"
                 android:text="其他社区中心"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_large" />

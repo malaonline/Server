@@ -135,6 +135,10 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     protected ListView mHighScoreList;
 
     //个人相册
+    @Bind(R.id.parent_teacher_detail_gallery_ll)
+    protected LinearLayout mLlGallery;
+
+    //个人相册
     @Bind(R.id.parent_teacher_detail_gallery_more_iv)
     protected ImageView mMoreGallery;
 
@@ -384,7 +388,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             Double dis;
             mFirstSchool.clear();
             mFirstSchool.add(mAllSchools.get(0));
-            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s))",LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
+            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)",LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
         } else {
             tvSchoolMore.setText("其他社区中心");
         }
@@ -577,6 +581,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             textView.setLayoutParams(layoutParams);
             textView.setPadding(padding, padding, padding, padding);
             textView.setText(datas.get(i).getTitle());
+            textView.setTextColor(getResources().getColor(R.color.prices_name_text_color));
             textView.setBackground(getResources().getDrawable(drawable));
             final int finalI = i;
             textView.setOnClickListener(new View.OnClickListener() {
@@ -613,12 +618,15 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
             textView.setPadding(padding, padding, padding, padding);
             textView.setText(datas[i]);
+            textView.setTextColor(getResources().getColor(R.color.item_text_color_normal));
             flowlayout.addView(textView, i);
         }
     }
 
 
     void loadGallery(String[] gallery) {
+        if (gallery==null||gallery.length<=0) return;
+        mLlGallery.setVisibility(View.VISIBLE);
         mGallery.setFocusable(false);
         mGallery.removeAllViews();
         int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
@@ -629,6 +637,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
                     width, ViewGroup.MarginLayoutParams.MATCH_PARENT));
+
             if (i == 0) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
                 layoutParams.setMargins(0, 0, margin, 0);
@@ -642,6 +651,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 layoutParams.setMargins(margin, 0, 0, 0);
                 imageView.setLayoutParams(layoutParams);
             }
+
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {

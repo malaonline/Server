@@ -59,7 +59,7 @@
     <dimen name="teacher_body_padding_normal">12dp</dimen>
 
     <dimen name="teacher_body_prices_padding_bottom">2dp</dimen>
-    <dimen name="list_divider">1dp</dimen>
+    <dimen name="list_divider">0.5dp</dimen>
     <dimen name="teacher_body_padding_top_normal">16dp</dimen>
     <dimen name="teacher_body_padding_bottom_normal">14dp</dimen>
     <dimen name="teacher_body_margin_bottom">49dp</dimen>
