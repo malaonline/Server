@@ -679,6 +679,15 @@ func getUserProtocolHTML(failureHandler: ((Reason, String?) -> Void)?, completio
 // MARK: - Parse
 /// 订单JSON解析器
 let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
+    
+    // 订单创建失败
+    if let
+        result = orderInfo["ok"] as? Bool,
+        errorCode = orderInfo["code"] as? Int {
+        return OrderForm(result: result, code: errorCode)
+    }
+    
+    // 订单创建成功
     if let
         id = orderInfo["id"] as? Int,
         teacher = orderInfo["teacher"] as? Int,

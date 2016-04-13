@@ -37,9 +37,6 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // 创建订单
-        createOrder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,37 +71,6 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
         }
     }
 
-    
-    private func createOrder() {
-        
-        println("创建订单")
-        ThemeHUD.showActivityIndicator()
-        
-        ///  创建订单
-        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { [weak self] (reason, errorMessage) -> Void in
-            
-            ThemeHUD.hideActivityIndicator()
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-            
-            // 错误处理
-            if let errorMessage = errorMessage {
-                println("PaymentViewController - CreateOrder Error \(errorMessage)")
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self?.ShowTost("创建订单失败, 请重试！")
-                self?.navigationController?.popViewControllerAnimated(true)
-            })
-            
-        }, completion: { (order) -> Void in
-                
-            ThemeHUD.hideActivityIndicator()
-            println("创建订单成功:\(order)")
-            ServiceResponseOrder = order
-        })
-
-    }
-    
     
     // MARK: - Delegate
     func paymentDidConfirm() {

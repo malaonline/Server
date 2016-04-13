@@ -30,6 +30,8 @@ class OrderForm: BaseObjectModel {
     var is_timeslot_allocated: Bool?
     
     // 其他
+    var result: Bool?
+    var code: Int?
     var channel: MalaPaymentChannel = .Alipay {
         didSet{
             println("OrderForm - Channel: \(channel.rawValue)")
@@ -40,6 +42,12 @@ class OrderForm: BaseObjectModel {
     // MARK: - Constructed
     override init() {
         super.init()
+    }
+    
+    convenience init(result: Bool, code: Int) {
+        self.init()
+        self.result = result
+        self.code = code
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,
