@@ -55,7 +55,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     private func filterViewFlowLayout() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = 120.0
+        let itemWidth: CGFloat = MalaLayout_FilterItemWidth
         let itemHeight: CGFloat = 38.0
         let itemMargin: CGFloat = 0.0
         itemSize = CGSizeMake(itemWidth, itemHeight)
@@ -68,7 +68,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     private func subjectViewFlowLayout() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = 120.0
+        let itemWidth: CGFloat = MalaLayout_FilterItemWidth
         let itemHeight: CGFloat = 38.0
         let itemMargin: CGFloat = 0.0
         itemSize = CGSizeMake(itemWidth, itemHeight)
