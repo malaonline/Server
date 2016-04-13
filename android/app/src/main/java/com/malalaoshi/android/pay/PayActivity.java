@@ -82,7 +82,7 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
 
     private void checkCancelCourseOrder() {
 
-        DialogUtil.showDoubleButtonPromptDialog(getSupportFragmentManager(), R.drawable.ic_pay_success, "确认取消订单吗?", "确认", "取消", new PromptDialog.OnCloseListener() {
+        DialogUtil.showDoubleButtonPromptDialog(getSupportFragmentManager(), R.drawable.ic_cancel_order, "确认取消订单吗?", "确认", "取消", new PromptDialog.OnCloseListener() {
             @Override
             public void onLeftClick() {
                 cancelCourseOrder();
