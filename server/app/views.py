@@ -229,7 +229,7 @@ class Sms(View):
                 # login(request, profile.user)
                 token, created = Token.objects.get_or_create(user=profile.user)
                 # 强制刷新已经存在的 token
-                if created:
+                if not created:
                     token.delete()
                     token, created = Token.objects.get_or_create(user=profile.user)
                 return JsonResponse({
