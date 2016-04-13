@@ -1525,6 +1525,14 @@ class OrderManager(models.Manager):
             logger.error(err)
             raise RefundError('退费失败, 订单剩余小时与将要退费的课程时间不符, 请稍后重试或联系管理员')
 
+    def should_auto_canceled_objects(self):
+        now = timezone.now()
+        autoCancelDeltaTime = Order.AUTO_CANCEL_TIME
+        Order.objects.filter(
+            status=Order.PENDING,
+            created_at__lt=now - autoCancelDeltaTime,
+        )
+
 
 class Order(BaseModel):
     PENDING = 'u'
@@ -1540,6 +1548,9 @@ class Order(BaseModel):
         (CANCELED, '已取消'),
         (REFUND, '退费成功')
     )
+
+    # todo: 为了方便测试, 先用5分钟自动取消订单
+    AUTO_CANCEL_TIME = datetime.timedelta(seconds=5*60)
 
     objects = OrderManager()
 

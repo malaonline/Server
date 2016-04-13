@@ -7,10 +7,11 @@ from django.conf import settings
 # from django.db.models import F
 import jpush
 
-from .models import TimeSlot, TimeSlotAttendance
+from .models import TimeSlot, TimeSlotAttendance, Order
 import logging
 
 logger = logging.getLogger('app')
+
 
 @shared_task
 def autoConfirmClasses():
@@ -20,6 +21,7 @@ def autoConfirmClasses():
         timeslot.confirm()
         logger.debug("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
     return True
+
 
 @shared_task
 def send_push(msg, user_ids=None, extras=None):
@@ -55,3 +57,14 @@ def send_push(msg, user_ids=None, extras=None):
                 jpush.alias(*user_ids)
                 )
         return str(push.send())
+
+
+@shared_task
+def autoCancelOrders():
+    operateTargets = Order.objects.should_auto_canceled_objects()
+    logger.debug("target amount:%d" %(len(operateTargets)))
+    for order in operateTargets:
+        order.status = Order.CANCELED
+        order.save()
+        logger.debug("The Order created at %s which order_id is %d, was been canceled automatically" %(order.created_at, order.order_id))
+    return True

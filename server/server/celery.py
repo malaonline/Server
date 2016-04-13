@@ -31,6 +31,11 @@ celery_app.conf.update(
             "schedule":timedelta(
                 seconds=15),
             },
+        "cancel-orders": {
+            "task": "app.tasks.autoCancelOrders",
+            "schedule": timedelta(
+                seconds=15),
+            },
         },
     )
 
