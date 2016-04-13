@@ -50,6 +50,8 @@ public class NetworkSender {
     private static final String URL_SAVE_CHILD_SCHOOL = "/api/v1/parents/%s";
     private static final String URL_ORDER_STATUS = "/api/v1/orders/%s";
     private static final String URL_GET_TEACHER_LIST = "/api/v1/teachers%s";
+    private static final String URL_CANCEL_ORDER = "/api/v1/orders/%s";
+
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -212,6 +214,13 @@ public class NetworkSender {
         headers.put(Constants.AUTH, getToken());
         postJsonRequest("/api/v1/orders", headers, json, listener);
     }
+
+    public static void cancelCourseOrder(String orderId, NetworkListener listener) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.AUTH, getToken());
+        stringRequest(Request.Method.DELETE, String.format(URL_CANCEL_ORDER, orderId), headers, listener);
+    }
+
 
     public static void getCharge(String orderId, CreateChargeEntity entity, final UIResultCallback callback) {
         if (entity == null) {

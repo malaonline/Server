@@ -4,11 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
+import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.FragmentUtil;
+import com.malalaoshi.android.util.MiscUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,7 +61,7 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
 
     @Override
     public void onTitleLeftClick() {
-        finish();
+        checkCancelCourseOrder();
     }
 
     @Override
@@ -62,6 +72,65 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         payFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        checkCancelCourseOrder();
+    }
+
+    private void checkCancelCourseOrder() {
+
+        DialogUtil.showDoubleButtonPromptDialog(getSupportFragmentManager(), R.drawable.ic_pay_success, "确认取消订单吗?", "确认", "取消", new PromptDialog.OnCloseListener() {
+            @Override
+            public void onLeftClick() {
+                cancelCourseOrder();
+            }
+
+            @Override
+            public void onRightClick() {
+
+            }
+        },false,true);
+    }
+
+    private void cancelCourseOrder() {
+        NetworkSender.cancelCourseOrder(orderEntity.getId(), new NetworkListener() {
+            @Override
+            public void onSucceed(Object json) {
+                finish();
+                if (json==null){
+                    MiscUtil.toast("订单状态取消失败!");
+                    return;
+                }
+                dealCancelCourseRes(json.toString());
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+                MiscUtil.toast("订单状态取消失败,请检查网络!");
+                finish();
+            }
+        });
+    }
+
+    private void dealCancelCourseRes(String json) {
+        JSONTokener jsonParser = new JSONTokener(json);
+        boolean isOk = false;
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
+            isOk = jsonObject.getBoolean("ok");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (isOk){
+                MiscUtil.toast("订单已取消!");;
+            }else{
+                MiscUtil.toast("订单状态取消失败!");;
+            }
+        }
     }
 
     @Override

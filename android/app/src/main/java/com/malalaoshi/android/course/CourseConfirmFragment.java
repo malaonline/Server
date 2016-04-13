@@ -383,13 +383,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             return;
         }
         JSONTokener jsonParser = new JSONTokener(entity.toString());
-        // 此时还未读取任何json文本，直接读取就是一个JSONObject对象。
-        // 如果此时的读取位置在"name" : 了，那么nextValue就是"yuanzhifei89"（String）
-        JSONObject jsonObject = null;
         boolean isOk = false;
         int code = 0;
         try {
-            jsonObject = (JSONObject) jsonParser.nextValue();
+            JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
             isOk = jsonObject.getBoolean("ok");
             code = jsonObject.getInt("code");
         } catch (JSONException e) {
