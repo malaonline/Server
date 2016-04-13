@@ -136,7 +136,7 @@
                     <div>
                         提分榜
                     </div>
-                    <div>
+                    <div class="highscore_tb">
                         <table class="teacher_highscore">
                             <tr>
                                 <th>姓&nbsp;&nbsp;&nbsp;名</th>
@@ -165,11 +165,11 @@
                     <div class="teacher_images">
                     </div>
                 </div>
-                <div class="weui_panel teacher_panel">
-                    <div>
+                <div class="weui_panel teacher_panel achievements_panel">
+                    <div class="achievements_head">
                         特殊成就
                     </div>
-                    <div class="item_distance">
+                    <div class="item_distance_ach">
                         {%for am in achievements%}
                             <label class="teacher_achievement">{{am.title}}</label>
                         {%endfor%}

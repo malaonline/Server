@@ -517,7 +517,7 @@ function ajaxLoadSchool(lat, lng){
                   moreBtn.addClass('more_schools');
                   moreBtn.click(function(){
                     $('.more_schools').css('display', 'none');
-                    $('.school_cont').css('display', '-webkit-box');
+                    $('.school_cont').css('display', 'block');
                   });
                   $('#schoolsDiv').append(moreBtn);
               }
