@@ -50,4 +50,8 @@ extension String {
         dateFormatter.dateFormat = "yyyy.MM.dd"
         self = dateFormatter.stringFromDate(date)
     }
+    
+    func subStringToIndex(index: Int) -> String {
+        return self.substringToIndex(self.startIndex.advancedBy(index))
+    }
 }

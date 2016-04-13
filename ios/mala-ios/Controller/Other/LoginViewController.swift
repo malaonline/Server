@@ -263,6 +263,13 @@ class LoginViewController: UIViewController {
     }
     
     private func validateMobile(mobile: String) -> Bool {
+        
+        // 演示账号处理
+        if mobile.subStringToIndex(3) == "000" && mobile.characters.count == 4 {
+            return true
+        }
+        
+        // 正式手机号
         let mobileRegex = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$"
         let mobileTest = NSPredicate(format: "SELF MATCHES %@", mobileRegex)
         return mobileTest.evaluateWithObject(mobile)
