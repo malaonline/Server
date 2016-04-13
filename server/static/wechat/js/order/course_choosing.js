@@ -438,6 +438,17 @@ $(function(){
             if (result) {
                 if (result.ok) {
                     var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
+                    if (data.TESTING) {
+                        $.ajax({ // 取消订单@TESTING
+                            'type': "DELETE", 'url': data.orders_api_url, 'success': function (result) {
+                                stopPaying();
+                            }, 'error': function (xhr, errorType, errorDesc) {
+                                console.log('[' + errorType + '] ' + errorDesc);
+                                stopPaying();
+                            }
+                        });
+                        return;
+                    }
                     wx.chooseWXPay({
                         timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                         nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
@@ -470,7 +481,13 @@ $(function(){
                             });
                         },
                         fail: function(res){
-                            stopPaying();
+                            $.ajax({ // 取消订单
+                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
+                                    stopPaying();
+                                }, 'error': function(){
+                                    stopPaying();
+                                }
+                            });
                         }
                     });
                 } else {

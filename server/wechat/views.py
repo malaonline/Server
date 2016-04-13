@@ -159,13 +159,12 @@ class OrderBaseView(View):
         return get_object_or_404(models.Teacher, pk=teacher_id)
 
     def get_parent(self, request):
-        if settings.TESTING:
+        parent = _get_parent(request)
+        if parent is None and settings.TESTING:
             # the below line is only for testing
             parent = models.Parent.objects.get(pk=3)
             parent.user.backend = _get_default_bankend_path()
             login(request, parent.user)
-        else:
-            parent = _get_parent(request)
         return parent
 
 
@@ -256,6 +255,12 @@ class CourseChoosingView(OrderBaseView):
                 grade=grade, subject=subject, hours=hours, coupon=coupon)
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
+        order_data = {}
+        order_data['order_id'] = order.order_id
+        order_data['orders_api_url'] = '/api/v1/orders/%s' % order.id
+        if settings.TESTING:
+            order_data['TESTING'] = settings.TESTING
+            return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': order_data})
         # get wx pay order
         ret_json = wx_pay_unified_order(order, request, wx_openid)
         if not ret_json['ok']:
@@ -269,7 +274,7 @@ class CourseChoosingView(OrderBaseView):
         data['appId'] = settings.WEIXIN_APPID
         data['paySign'] = wx_sign_for_pay(data)
         data['prepay_id'] = ret_json['data']['prepay_id']
-        data['order_id'] = order.order_id
+        data.update(order_data)
         logger.debug(data)
         return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
 
