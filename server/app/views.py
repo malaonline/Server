@@ -94,9 +94,24 @@ class ChargeSucceeded(View):
         charge.save()
 
         order = charge.order
+        order_charge_available = True
+        # 如果订单已经取消, 包括超时自动取消, 则走退款流程
+        if order.status == models.Order.CANCELED:
+            order_charge_available = False
         order.status = order.PAID
         order.paid_at = timezone.now()
         order.save()
+        if not order_charge_available:
+            try:
+                models.Order.objects.refund(
+                    order, '订单已取消，自动退款', order.parent.user)
+                return JsonResponse({'ok': 1})
+            except OrderStatusIncorrect as e:
+                logger.error(e)
+                raise e
+            except RefundError as e:
+                logger.error(e)
+                raise e
         try:
             models.Order.objects.allocate_timeslots(order)
             return JsonResponse({'ok': 1})
