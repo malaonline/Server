@@ -25,7 +25,8 @@
                         <div class="card-content">
                             <div class="img-border-wrapper">
                                 <div class="img-wrapper">
-                                    <div class="inner" style="background-image: url('{{ teacher.user.profile.avatar_url }}')"></div>
+                                    <div class="inner" data-avatarurl="{{ teacher.user.profile.avatar_url }}"></div>
+{#                                    根据data-avatarurl异步加载图片 style="background-image: url('{{ teacher.user.profile.avatar_url }}')"#}
 {#                                    <img class="card-image img-circle img-center" src="{{ teacher.user.profile.avatar_url }}" alt="">#}
                                 </div>
                             </div>
@@ -59,5 +60,12 @@
 
 
 {% block addition_js %}
-
+<script>
+    $(function(){
+        $('.img-wrapper .inner').each(function(){
+            var $div = $(this), avatarurl = $div.data('avatarurl');
+            $div.css('background-image', "url('"+avatarurl+"')")
+        });
+    });
+</script>
 {% endblock %}

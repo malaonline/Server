@@ -24,12 +24,8 @@
                 {% endif %}
             </div>
         </div>
-        <div class="cover-retro-fixer">
-            {% if school.get_thumbnail %}
-                <img src="{{ school.get_thumbnail }}" alt="">
-            {% else %}
-                <img src="{% static 'wechat/images/default_center_pic.jpg' %}" alt="">
-            {% endif %}
+        <div class="cover-retro-fixer" data-coversrc="{% if school.get_thumbnail %}{{ school.get_thumbnail }}{% else %}{% static 'wechat/images/default_center_pic.jpg' %}{% endif %}">
+            <img src="" alt="">{# 根据data-coversrc异步加载图片 #}
         </div>
     </div>
   </a>
