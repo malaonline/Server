@@ -102,8 +102,8 @@ class SchoolsView(ListView):
         jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
         cur_url = self.request.build_absolute_uri()
 
-        schools = self.model.objects.all()
-        photosdic = {}
+        # schools = self.model.objects.all()
+        # photosdic = {}
         # for school in schools:
         #     photosdic[school.id] = school.get_photo_url_list()
         # photosdic = json.dumps(photosdic)

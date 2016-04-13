@@ -24,8 +24,8 @@
 
 {% block addition_js %}
     <script>
+        var photoList = {{ school.get_photo_url_list|safe }};
         $(function(){
-            var photoList = {{ school.get_photo_url_list|safe }};
             var schoolPhotosPopup = $.photoBrowser({
                 photos : photoList,
                 type: 'popup',

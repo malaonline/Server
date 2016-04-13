@@ -33,18 +33,6 @@
     <script type='text/javascript' src='{% static 'wechat/js/calculate_distance.js' %}' charset='utf-8'></script>
     <script>
 {#        var photosdic = {{ photosdic|safe }};#}
-
-        function refreshDistance(lat,lng) {
-            schoolDistanceNodeList = $("[data-school-latitude]");
-            //console.log(schoolDistanceNodeList)
-            schoolDistanceNodeList.each(function() {
-                schoolLatitude = parseFloat($(this)[0].dataset.schoolLatitude);
-                schoolLongitude = parseFloat($(this)[0].dataset.schoolLongitude);
-                console.log(schoolLatitude+','+schoolLongitude);
-                var distance = CoolWPDistance(lat,lng,schoolLatitude,schoolLongitude);
-                $(this).text((distance && !isNaN(distance))?('<' + distance + 'km'):'距离未知');
-            })
-        }
         wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: '{{ WX_APPID }}', // 必填，公众号的唯一标识
@@ -53,20 +41,6 @@
             signature: '{{ WX_SIGNITURE }}',// 必填，签名，见附录1
             jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-        wx.error(function(res){
-            console.log(res);
-        });
-        wx.ready(function(res){
-                wx.getLocation({
-                    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                    success: function(res){
-                        console.log(res);
-                        refreshDistance(res.latitude,res.longitude);
-                    },
-                    fail: function(res){
-                        console.log(res);
-                    }
-                });
-            });
     </script>
+    <script type='text/javascript' src='{% static 'wechat/js/school/schools.js' %}' charset='utf-8'></script>
 {% endblock %}
