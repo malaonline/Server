@@ -922,9 +922,11 @@ class OrderViewSet(ParentBasedMixin,
         parent = self.get_parent()
         if order.parent == parent and order.status == models.Order.PENDING:
             if order.coupon is not None:
-                order.coupon.save(used=False)
+                order.coupon.used = False
+                order.coupon.save()
             self.perform_destroy(order)
         return JsonResponse({'ok': True})
 
     def perform_destroy(self, order):
-        order.save(status=models.Order.CANCELED)
+        order.status = models.Order.CANCELED
+        order.save()
