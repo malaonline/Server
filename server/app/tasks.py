@@ -62,8 +62,12 @@ def send_push(msg, user_ids=None, extras=None):
 @shared_task
 def autoCancelOrders():
     operateTargets = Order.objects.should_auto_canceled_objects()
-    logger.debug("target amount:%d" %(len(operateTargets)))
+    logger.debug("estimated target amount:%d" %(len(operateTargets)))
+    count = 0
     for order in operateTargets:
-        order.cancel()
-        logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
+        if Order.objects.filter(pk=order.id, status=Order.PENDING).update(status=Order.CANCELED):
+            order.cancel()
+            count += 1
+            logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
+    logger.debug("effected target amount:%d" % (len(operateTargets)))
     return True
