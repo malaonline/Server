@@ -207,7 +207,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 return;
             }
             teacher = teachersList.get(position);
-            level.setText("明星教师");//teacher.getLevel());
+            level.setText(teacher.getLevel());
             name.setText(teacher.getName());
             String sub = teacher.getSubject();
             String gradeStr = teacher.getGrades_shortname();
@@ -236,8 +236,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
             }
 
             String priceRange = "价格异常";
-            Double minPrice = 15000d;//teacher.getMin_price();
-            Double maxPrice = 30000d;//teacher.getMax_price();
+            Double minPrice = teacher.getMin_price();
+            Double maxPrice = teacher.getMax_price();
             if(minPrice!=null&&maxPrice!=null){
                 priceRange = Number.subZeroAndDot(minPrice*0.01d)+"-"+ Number.subZeroAndDot(maxPrice*0.01d);
             }
