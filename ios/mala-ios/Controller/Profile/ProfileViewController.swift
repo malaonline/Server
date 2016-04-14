@@ -99,6 +99,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         tableView.tableHeaderView = profileHeaderView
         tableView.tableFooterView = profileFooterView
         tableView.backgroundColor = MalaColor_F2F2F2_0
+        tableView.separatorStyle = .None
         
         // SubViews
         tableView.insertSubview(headerBackground, atIndex: 0)
@@ -152,6 +153,10 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewCellReuseID, forIndexPath: indexPath) as! ProfileViewCell
         cell.model =  model[indexPath.section][indexPath.row]
+        // Section的最后一个Cell隐藏分割线
+        if (indexPath.row+1) == model[indexPath.section].count {
+            cell.hideSeparator()
+        }
         return cell
     }
     

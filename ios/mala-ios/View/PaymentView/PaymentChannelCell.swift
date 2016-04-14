@@ -56,6 +56,12 @@ class PaymentChannelCell: UITableViewCell {
         selectButton.userInteractionEnabled = false
         return selectButton
     }()
+    /// 分割线
+    lazy var separatorLine: UIView = {
+        let separatorLine = UIView.line()
+        separatorLine.backgroundColor = MalaColor_C7C7CC_0
+        return separatorLine
+    }()
     
     
     // MARK: - Constructed
@@ -85,6 +91,7 @@ class PaymentChannelCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subTitleLabel)
         contentView.addSubview(selectButton)
+        contentView.addSubview(separatorLine)
         
         // Autolayout
         iconView.snp_makeConstraints { (make) -> Void in
@@ -106,6 +113,12 @@ class PaymentChannelCell: UITableViewCell {
         selectButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(contentView.snp_centerY)
             make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
+        }
+        separatorLine.snp_makeConstraints { (make) in
+            make.bottom.equalTo(contentView.snp_bottom)
+            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.height.equalTo(MalaScreenOnePixel)
         }
     }
 }

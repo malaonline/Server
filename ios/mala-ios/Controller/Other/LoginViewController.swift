@@ -103,6 +103,7 @@ class LoginViewController: UIViewController {
     private lazy var codeTextField: UITextField = {
         let codeTextField = UITextField()
         codeTextField.keyboardType = .NumberPad
+        codeTextField.placeholder = "请输入验证码"
         codeTextField.textColor = MalaColor_6C6C6C_0
         codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         codeTextField.addTarget(self, action: #selector(UITextInputDelegate.textDidChange(_:)), forControlEvents: .EditingChanged)

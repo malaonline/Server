@@ -21,17 +21,25 @@ class ProfileViewCell: UITableViewCell {
     
     
     // MARK: - Components
+    /// 标题label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         titleLabel.textColor = MalaColor_636363_0
         return titleLabel
     }()
+    /// 信息label
     private lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
         infoLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         infoLabel.textColor = MalaColor_D4D4D4_0
         return infoLabel
+    }()
+    /// 分割线
+    lazy var separatorLine: UIView = {
+        let separatorLine = UIView.line()
+        separatorLine.backgroundColor = MalaColor_C7C7CC_0
+        return separatorLine
     }()
     
 
@@ -57,6 +65,7 @@ class ProfileViewCell: UITableViewCell {
         // SubViews
         contentView.addSubview(titleLabel)
         contentView.addSubview(infoLabel)
+        contentView.addSubview(separatorLine)
         
         // Autolayout
         titleLabel.snp_makeConstraints { (make) in
@@ -69,5 +78,15 @@ class ProfileViewCell: UITableViewCell {
             make.centerY.equalTo(contentView.snp_centerY)
             make.right.equalTo(contentView.snp_right)
         }
+        separatorLine.snp_makeConstraints { (make) in
+            make.bottom.equalTo(contentView.snp_bottom)
+            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.right.equalTo(contentView.snp_right).offset(MalaLayout_Margin_12)
+            make.height.equalTo(MalaScreenOnePixel)
+        }
+    }
+    
+    func hideSeparator() {
+        self.separatorLine.hidden = true
     }
 }

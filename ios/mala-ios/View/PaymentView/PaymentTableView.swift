@@ -24,7 +24,7 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        configureTableView()
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -33,10 +33,11 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
     
     
     // MARK: - Private Method
-    private func configureTableView() {
+    private func configure() {
         dataSource = self
         delegate = self
         bounces = false
+        separatorStyle = .None
         
         registerClass(PaymentAmountCell.self, forCellReuseIdentifier: paymentAmountCellIdentifier)
         registerClass(PaymentChannelCell.self, forCellReuseIdentifier: paymentChannelCellIdentifier)
