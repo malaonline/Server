@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/home_margin_top_large"
+            android:layout_marginTop="@dimen/home_margin_top_normal"
             android:orientation="horizontal">
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="-"
-                android:textStyle="bold"
+                android:typeface="monospace"
                 android:textColor="@color/text_color_home_price"
                 android:textSize="@dimen/text_size_xxlarge" />
 
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="元/小时"
+                android:text="元/课时"
                 android:textColor="@color/text_color_home_price_unit"
                 android:textSize="@dimen/text_size_xlarge" />
         </LinearLayout>
@@ -91,11 +91,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/home_margin_xxlarge"
-            android:layout_marginTop="@dimen/home_margin_top_xlarge"
+            android:layout_marginTop="@dimen/home_margin_top_large"
             android:gravity="center"
             android:text=""
             android:typeface="serif"
-            android:textColor="@color/text_color_darkgray"
+            android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_small_x" />
     </LinearLayout>
 

@@ -154,6 +154,7 @@ public class CouponListFragment extends Fragment {
             ViewHolder holder = (ViewHolder) convertView.getTag();
             if (data.getExpired_at() < System.currentTimeMillis() && !data.isUsed()) {
                 holder.layout.setImageResource(R.drawable.ic_coupon_exp);
+                holder.ivCouponBottom.setImageResource(R.drawable.ic_coupon_bottom_exp);
                 holder.currencyView.setTextColor(grayColor);
                 holder.amountView.setTextColor(grayColor);
                 holder.conditionView.setTextColor(grayColor);
@@ -164,9 +165,11 @@ public class CouponListFragment extends Fragment {
             } else {
                 if (data.isUsed()) {
                     holder.layout.setImageResource(R.drawable.ic_coupon_used);
+                    holder.ivCouponBottom.setImageResource(R.drawable.ic_coupon_bottom);
                     holder.statusView.setVisibility(View.GONE);
                 } else {
-                    holder.layout.setImageResource(R.drawable.ic_coupon_nor);
+                    holder.layout.setImageResource(R.drawable.ic_coupon_exp);
+                    holder.ivCouponBottom.setImageResource(R.drawable.ic_coupon_bottom);
                     holder.statusView.setVisibility(View.VISIBLE);
                     holder.statusView.setText(R.string.coupon_not_use);
                 }
@@ -213,6 +216,8 @@ public class CouponListFragment extends Fragment {
             TextView useTypeView;
             @Bind(R.id.rl_layout)
             ImageView layout;
+            @Bind(R.id.iv_coupon_bottom)
+            ImageView ivCouponBottom;
             @Bind(R.id.iv_currency)
             TextView currencyView;
 

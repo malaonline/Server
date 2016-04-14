@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -49,4 +49,8 @@
             android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider"
+        android:background="@color/list_divider_color"/>
 </LinearLayout>

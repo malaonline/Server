@@ -3,6 +3,7 @@ package com.malalaoshi.android.activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_modify_singlevalue);
         ButterKnife.bind(this);
+        etUserName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
         titleBar.setOnTitleBarClickListener(this);
         initDatas();
     }

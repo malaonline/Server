@@ -8,10 +8,8 @@
         android:layout_height="match_parent"
         android:background="@color/teacher_main_bg"
         android:divider="@color/teacher_main_bg"
-        android:dividerHeight="8dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="8dp"
         android:scrollbarStyle="outsideOverlay" />
 
 </FrameLayout>

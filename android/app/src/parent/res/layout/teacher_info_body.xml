@@ -110,10 +110,10 @@
             android:id="@+id/parent_teacher_detail_grade_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-6dp"
+            android:layout_marginBottom="-5dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="7dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -137,10 +137,10 @@
             android:id="@+id/parent_teacher_detail_tag_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-6dp"
+            android:layout_marginBottom="-5dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="7dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -166,14 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/list_divider_color"
-            android:dividerHeight="@dimen/list_divider"
             android:listSelector="#00000000"></com.malalaoshi.android.view.ScrollListView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/list_divider"
-            android:background="@color/list_divider_color" />
-
 
     </LinearLayout>
 
@@ -208,17 +201,10 @@
             <com.malalaoshi.android.view.FlowLayout
                 android:id="@+id/parent_teacher_detail_gallery_fl"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/gallery_height_small"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/grallery_title"
                 android:layout_marginTop="@dimen/teacher_body_padding_bottom_normal">
 
-                <ImageView
-                    android:id="@+id/parent_teacher_detail_photo"
-                    android:layout_width="96dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_default_img"
-                    android:visibility="visible" />
             </com.malalaoshi.android.view.FlowLayout>
 
         </RelativeLayout>
@@ -242,10 +228,10 @@
             android:id="@+id/parent_teacher_detail_achievement_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-6dp"
+            android:layout_marginBottom="-5dp"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="7dp"
             android:singleLine="true"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large" />
@@ -288,10 +274,10 @@
                 android:id="@+id/parent_teacher_detail_memberservice_fl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-6dp"
+                android:layout_marginBottom="-5dp"
                 android:layout_marginLeft="-6dp"
                 android:layout_marginRight="-6dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="7dp"
                 android:singleLine="true"
                 android:textColor="@color/item_text_color_normal"
                 android:textSize="@dimen/text_size_large" />

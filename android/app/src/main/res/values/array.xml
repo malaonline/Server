@@ -2,20 +2,20 @@
 <resources>
     <array name="grade_list">
         <item>小学</item>
-        <item>小学一年级</item>
-        <item>小学二年级</item>
-        <item>小学三年级</item>
-        <item>小学四年级</item>
-        <item>小学五年级</item>
-        <item>小学六年级</item>
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
+        <item>四年级</item>
+        <item>五年级</item>
+        <item>六年级</item>
         <item>初中</item>
-        <item>初中一年级</item>
-        <item>初中二年级</item>
-        <item>初中三年级</item>
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
         <item>高中</item>
-        <item>高中一年级</item>
-        <item>高中二年级</item>
-        <item>高中三年级</item>
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
     </array>
     <array name="week">
         <item>周一</item>

@@ -61,7 +61,7 @@
 
     <color name="button_border">#82B4D9</color>
     <color name="prices_name_text_color">#939393</color>
-    <color name="prices_price_text_color">@color/theme_red</color>
+    <color name="prices_price_text_color">#f16765</color>
     <color name="teacher_title_text_color">#333333</color>
     <color name="item_text_color_normal">#636363</color>
     <color name="item_text_color_light">#d4d4d4</color>

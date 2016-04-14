@@ -52,7 +52,7 @@
                 android:id="@+id/iv_school_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_drop_down" />
+                android:src="@drawable/ic_list_down" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

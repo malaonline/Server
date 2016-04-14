@@ -470,12 +470,12 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     //跟新会员服务接口
-    private void updateUIServices(List<MemberService> mMemberServices) {
-        if (mMemberServices != null && mMemberServices.size() > 0) {
+    private void updateUIServices(List<MemberService> memberServices) {
+        if (memberServices != null && memberServices.size() > 0) {
             mMemberServiceLayout.setVisibility(View.VISIBLE);
-            String[] datas = new String[mMemberServices.size()];
-            for (int i = 0; i < mMemberServices.size(); i++) {
-                datas[i] = mMemberServices.get(i).getName();
+            String[] datas = new String[memberServices.size()];
+            for (int i = 0; i < memberServices.size(); i++) {
+                datas[i] = memberServices.get(i).getName();
             }
             setFlowDatas(mMemberServiceFl, datas);
         }
@@ -572,14 +572,16 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
+        int topButtomPadding = getResources().getDimensionPixelSize(R.dimen.item_text_top_bottom_padding);
+        int leftRightPadding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
         for (int i = 0; datas != null && i < datas.size(); i++) {
             TextView textView = new TextView(this);
             ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
-            layoutParams.setMargins(padding, padding, padding, padding);
+            //int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
+            layoutParams.setMargins(leftRightPadding, topButtomPadding, leftRightPadding, topButtomPadding);
             textView.setLayoutParams(layoutParams);
-            textView.setPadding(padding, padding, padding, padding);
+            textView.setPadding(leftRightPadding, leftRightPadding, leftRightPadding, leftRightPadding);
             textView.setText(datas.get(i).getTitle());
             textView.setTextColor(getResources().getColor(R.color.prices_name_text_color));
             textView.setBackground(getResources().getDrawable(drawable));
@@ -610,13 +612,15 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private void setFlowDatas(FlowLayout flowlayout, String[] datas) {
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
+
+        int topButtomPadding = getResources().getDimensionPixelSize(R.dimen.item_text_top_bottom_padding);
+        int leftRightPadding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
         for (int i = 0; datas != null && i < datas.length; i++) {
             TextView textView = new TextView(this);
             ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setLayoutParams(layoutParams);
-            int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
-            textView.setPadding(padding, padding, padding, padding);
+            textView.setPadding(leftRightPadding, topButtomPadding, leftRightPadding, topButtomPadding);
             textView.setText(datas[i]);
             textView.setTextColor(getResources().getColor(R.color.item_text_color_normal));
             flowlayout.addView(textView, i);
@@ -625,18 +629,21 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
 
     void loadGallery(String[] gallery) {
-        if (gallery==null||gallery.length<=0) return;
-        mLlGallery.setVisibility(View.VISIBLE);
+        if (gallery==null||gallery.length<=0) {
+            mLlGallery.setVisibility(View.GONE);
+            return;
+        }
         mGallery.setFocusable(false);
         mGallery.removeAllViews();
         int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
+        int height = getResources().getDimensionPixelSize(R.dimen.item_gallery_height);
         int width = (mGallery.getWidth()-4*margin) / 3;
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
 
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
-                    width, ViewGroup.MarginLayoutParams.MATCH_PARENT));
+                    width, height));
 
             if (i == 0) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
@@ -699,7 +706,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private void changeSchoolsShow() {
 
         if (!isShowAllSchools){
-            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
+            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_up));
             tvSchoolMore.setText("收起");
             mSchoolAdapter.setSchools(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
@@ -710,7 +717,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             } else {
                 tvSchoolMore.setText("其他社区中心");
             }
-            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_down));
+            ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_down));
             mSchoolAdapter.setSchools(mFirstSchool);
             mSchoolAdapter.notifyDataSetChanged();
         }
