@@ -1528,7 +1528,7 @@ class OrderManager(models.Manager):
     def should_auto_canceled_objects(self):
         now = timezone.now()
         autoCancelDeltaTime = Order.AUTO_CANCEL_TIME
-        Order.objects.filter(
+        return Order.objects.filter(
             status=Order.PENDING,
             created_at__lt=now - autoCancelDeltaTime,
         )

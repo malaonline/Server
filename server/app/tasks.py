@@ -66,5 +66,5 @@ def autoCancelOrders():
     for order in operateTargets:
         order.status = Order.CANCELED
         order.save()
-        logger.debug("The Order created at %s which order_id is %d, was been canceled automatically" %(order.created_at, order.order_id))
+        logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
     return True
