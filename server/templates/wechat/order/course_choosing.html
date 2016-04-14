@@ -23,8 +23,7 @@
                     {% for price in prices %}
                         <div class="grade-box">
                             <div class="grade" data-gradeid="{{ price.ability.grade.id }}">
-                                {{ price.ability.grade.name }}
-                                {{ price.price|money_format:'/' }}/小时
+                                {{ price.ability.grade.name }}&nbsp;&nbsp;{{ price.price|money_format:'/' }}/小时
                                 <input type="hidden" name="price" value="{{ price.price }}"/>
                             </div>
                         </div>

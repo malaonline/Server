@@ -162,6 +162,8 @@ $(function(){
     };
     var _updateCourseTimePreview = function(hours) {
         if (hours==0 || weekly_time_slot_ids.length==0) {
+            $courseTimePreviewPanel.addClass('closed');
+            $courseTimePreview.hide();
             return $courseTimePreview.html('');
         }
         if ($courseTimePreviewPanel.hasClass('closed')) {

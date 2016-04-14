@@ -33,8 +33,8 @@
         <div class="card-content-inner">
             <a href="{% url 'wechat:school-map' school.id %}" class="card-content-inner-left">
                 <div class="column">
-                    <p class="color-malablue  column1-text">{{ school.name }}</p>
-                    <p class="color-gray column1-text distance" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}">< ..km</p>
+                    <p class="{% if school.center %}color-malablue{% else %}color-malagray{% endif %}  column1-text">{{ school.name }}</p>
+                    <p class="color-gray column1-text distance" data-school-latitude="{{ school.latitude }}" data-school-longitude="{{ school.longitude }}"></p>
                 </div>
                 <div class="column column2">
                     <p class="color-gray column2-text">{{ school.address }}</p>
