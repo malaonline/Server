@@ -15,10 +15,9 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
-        WeeklyTimeSlot, AuditRecord, Coupon
+        WeeklyTimeSlot, AuditRecord, Coupon, School, Region
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt, parse_date, parse_date_next
-from app.models import Region
 from app.utils.algorithm import verify_sig
 from app.tasks import send_push
 
@@ -483,6 +482,52 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertFalse(json_ret['ok'])
         self.assertEqual(-1, json_ret['code'])
+
+    def test_cancel_order(self):
+        client = Client()
+        username = "parent2"
+        password = "123123"
+        client.login(username=username, password=password)
+
+        parent = Parent.objects.get(user__username=username)
+        teacher = Teacher.objects.order_by('?').first()
+        school = School.objects.order_by('?').first()
+        grade = teacher.grades()[0]
+        subject = teacher.subject()
+        hours = 2
+        order = Order.objects.create(
+                parent=parent, teacher=teacher, school=school,
+                grade=grade, subject=subject, hours=hours, coupon=None)
+        order.save()
+
+        request_url = "/api/v1/orders/%s" % order.id
+        response = client.delete(request_url)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret['ok'])
+        canceled_order = Order.objects.get(id=order.id)
+        self.assertEqual(canceled_order.status, Order.CANCELED)
+
+        # test with coupon
+        coupon = Coupon.objects.filter(parent=parent, used=False).order_by('?').first()
+        if coupon is None:
+            return
+        order = Order.objects.create(
+                parent=parent, teacher=teacher, school=school,
+                grade=grade, subject=subject, hours=hours, coupon=coupon)
+        order.save()
+        used_coupon = Coupon.objects.get(id=coupon.id)
+        self.assertTrue(used_coupon.used)
+
+        request_url = "/api/v1/orders/%s" % order.id
+        response = client.delete(request_url)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertTrue(json_ret['ok'])
+        canceled_order = Order.objects.get(id=order.id)
+        self.assertEqual(canceled_order.status, Order.CANCELED)
+        canceled_coupon = Coupon.objects.get(id=coupon.id)
+        self.assertFalse(canceled_coupon.used)
 
     def test_subject_record(self):
         client = Client()
