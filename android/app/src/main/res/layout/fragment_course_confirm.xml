@@ -340,6 +340,10 @@
                     android:textColor="#333"
                     android:textSize="14sp" />
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#f6f6f6" />
         </LinearLayout>
     </ScrollView>
 
