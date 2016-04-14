@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.management import call_command
 from django.utils.timezone import make_aware
 from django.conf import settings
+from django.utils import timezone
 
 from app.models import Teacher, Profile, Order, Parent, School, Region, Grade, Subject, TimeSlot, Ability, Highscore
 from app.models import Tag, Certificate, Achievement, Account, Checkcode, OrderManager, Price, Level
@@ -436,6 +437,42 @@ class TestWebPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(json.loads(response.content.decode())["result"])
 
+    def test_student_letter(self):
+        client = None
+        teacher = self.the_teacher()
+
+        for student_type in range(3):
+            student_list = []
+
+            if student_type == 2:
+                refund_student_list = Parent.objects.filter(order__teacher=teacher, order__status=Order.REFUND,
+                                                        order__timeslot__isnull=False).distinct("pk")
+                # 填充退费学生信息
+                student_list = refund_student_list
+            else:
+                # 不存在退费的学生
+                student_list_set = Parent.objects.filter(order__teacher=teacher, order__status=Order.PAID,
+                                                            order__timeslot__isnull=False).distinct("pk")
+
+                for one_student in student_list_set:
+                    if TimeSlot.objects.filter(order__teacher=teacher, order__parent=one_student,
+                                                      order__status=Order.PAID, start__gt=timezone.now()).exists():
+                        # 填充上课学生信息
+                        if student_type == 0:
+                            student_list.append(one_student)
+                    else:
+                        # 填充结课学生信息
+                        if student_type == 1:
+                            student_list.append(one_student)
+
+            if len(student_list) > 0:
+                if not client:
+                    client = Client()
+                    client.login(username=self.teacher_name, password=self.teacher_password)
+                response = client.get(reverse("teacher:student-letter", kwargs={
+                    "student_type": student_type, "page_offset": 1, "student_id": student_list[0].id
+                }))
+                self.assertEqual(response.status_code, 200)
 
 class TestCommands(TestCase):
     def setUp(self):
