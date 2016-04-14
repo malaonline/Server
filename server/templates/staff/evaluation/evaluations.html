@@ -78,6 +78,8 @@
                 </td>
                 <td>
                     {% if not evaluation.order.refund_status %}
+                        <a target="_blank" href="{% url 'staff:student_schedule_manage' %}?phone={{ evaluation.order.parent.user.profile.phone }}">查看课表</a>
+                        |
                         {% if evaluation.status == evaluation.PENDING %}
                             <a data-action="show-schedule" evaluationId={{ evaluation.id }}>安排时间</a>
                             |
