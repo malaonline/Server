@@ -1570,23 +1570,24 @@ class OrderReviewView(BaseStaffView):
         # 订单状态
         if status:
             # 此处 status 是前端传过来的值, 需要进一步判断具体状态
-            if status == models.Order.PAID:
-                # 已支付: 主状态 PAID, 最后审核状态 null
-                query_set = query_set.filter(status=models.Order.PAID)
-                query_set = query_set.filter(refund_status__isnull=True)
-            elif status == models.Order.REFUND_PENDING or status == models.Order.REFUND_REJECTED:
-                # 退费审核中/退费被驳回: 主状态 PAID, 最后审核状态 对应的审核状态
-                query_set = query_set.filter(status=models.Order.PAID)
+            if status == models.Order.REFUND:
+                # 退费成功:
+                query_set = query_set.filter(
+                    status=status,
+                    refund_status=models.Order.REFUND_APPROVED,
+                )
+            if status == models.Order.REFUND_PENDING or status == models.Order.REFUND_REJECTED:
+                # 退费审核中/退费被驳回: 最后审核状态
                 query_set = query_set.filter(refund_status=status)
             else:
                 """
                 其他状态, 直接判断 order 状态: 未支付(PENDING)
+                                           已支付(PAID)
                                            已取消(CANCELED)
-                                           退费成功(REFUND)
                                            已结束(???)(最后一节课已经完成)
                 """
                 # todo: 缺少一个已结束的状态, 后续完善
-                query_set = query_set.filter(status=status)
+                query_set = query_set.filter(status=status, refund_status__isnull=True)
 
         # 年级
         if grade:

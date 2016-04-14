@@ -1557,8 +1557,8 @@ class Order(BaseModel):
         (REFUND, '退费成功')
     )
 
-    # todo: 为了方便测试, 先用5分钟自动取消订单
-    AUTO_CANCEL_TIME = datetime.timedelta(seconds=5*60)
+    # 30分钟后, 自动取消未支付的订单
+    AUTO_CANCEL_TIME = datetime.timedelta(minutes=30)
 
     objects = OrderManager()
 
@@ -1749,6 +1749,13 @@ class Order(BaseModel):
         if self.refund_status:
             return self.get_refund_status_display()
         return self.get_status_display()
+
+    def cancel(self):
+        if self.coupon is not None:
+            self.coupon.used = False
+            self.coupon.save()
+        self.status = Order.CANCELED
+        self.save()
 
 
 class OrderRefundRecord(BaseModel):

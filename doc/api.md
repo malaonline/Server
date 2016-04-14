@@ -863,7 +863,11 @@ result:
     "is_timeslot_allocated": true
 }
 ```
-If `is_timeslot_allocated` is `false`, should notify user courses have been preempted.
+First, if `status` is `d`, should notify user order has been canceled.
+
+If `status` is `p` but `is_timeslot_allocated` is `false`, should notify user courses have been preempted.
+
+Both `status` is `p` and `is_timeslot_allocated` is `true` indicate success.
 
 ### Get if user has been evaluated for this subject
 

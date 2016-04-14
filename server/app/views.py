@@ -105,6 +105,8 @@ class ChargeSucceeded(View):
             try:
                 models.Order.objects.refund(
                     order, '订单已取消，自动退款', order.parent.user)
+                # 再次修改订单状态为已取消
+                order.cancel()
                 return JsonResponse({'ok': 1})
             except OrderStatusIncorrect as e:
                 logger.error(e)
@@ -936,12 +938,8 @@ class OrderViewSet(ParentBasedMixin,
         order = self.get_object()
         parent = self.get_parent()
         if order.parent == parent and order.status == models.Order.PENDING:
-            if order.coupon is not None:
-                order.coupon.used = False
-                order.coupon.save()
             self.perform_destroy(order)
         return JsonResponse({'ok': True})
 
     def perform_destroy(self, order):
-        order.status = models.Order.CANCELED
-        order.save()
+        order.cancel()
