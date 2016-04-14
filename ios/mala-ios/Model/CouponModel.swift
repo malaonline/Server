@@ -15,7 +15,7 @@ class CouponModel: NSObject {
     var id: Int = 0
     /// 名称
     var name: String = ""
-    /// 金额
+    /// 金额(包含小数位)
     var amount: Int = 0
     /// 有效期
     var expired_at: NSTimeInterval = 0
@@ -24,6 +24,12 @@ class CouponModel: NSObject {
     
     /// 状态
     var status: CouponStatus?
+    /// 金额字符串(保留以为小数)
+    var amountString: String {
+        get {
+            return String(format: "%.1f", Double(amount/100))
+        }
+    }
     
     
     ///  根据[有效期]、[使用标记] 生成状态
