@@ -424,7 +424,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [String(format: "%d年", self.model.teaching_age), (self.model.level) ?? ""]
+            cell.labels = [self.model.teachingAgeString, (self.model.level) ?? ""]
             return cell
             
         case 8:

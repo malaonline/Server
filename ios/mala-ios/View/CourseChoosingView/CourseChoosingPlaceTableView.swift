@@ -161,13 +161,7 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
             
             titleLabel.text = model!.name
             addressLabel.text = model!.address
-            
-            let distance = (model?.distance ?? 0.0)
-            if distance > 1000 {
-                positionLabel.text = String(format: "%.1fkm", distance/1000)
-            }else {
-                positionLabel.text = String(format: "%.1fm", distance)
-            }
+            positionLabel.text = String(showDistance: (model?.distance ?? 0.0))
         }
     }
     /// 选中状态

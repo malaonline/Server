@@ -14,7 +14,7 @@ class PaymentAmountCell: UITableViewCell {
     /// 金额
     private var amount: Int = 0 {
         didSet {
-            amountLabel.text = String(format: "￥%@", amount.money)
+            amountLabel.text = amount.money
             self.amountLabel.sizeToFit()
         }
     }
@@ -33,7 +33,7 @@ class PaymentAmountCell: UITableViewCell {
         let amountLabel = UILabel()
         amountLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         amountLabel.textColor = MalaColor_E36A5D_0
-        amountLabel.text = "￥0.00"
+        amountLabel.text = "￥0.01"
         return amountLabel
     }()
     

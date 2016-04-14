@@ -20,7 +20,7 @@ class CourseChoosingConfirmView: UIView {
     /// 需支付金额
     var price: Int = 0 {
         didSet{
-            self.priceLabel.text = String(format: "￥%@", price.money)
+            self.priceLabel.text = price.money
             self.priceLabel.sizeToFit()
         }
     }

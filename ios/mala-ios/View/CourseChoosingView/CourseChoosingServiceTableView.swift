@@ -84,7 +84,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             if service?.priceHandleType == .Discount {
              
                 self.priceHandleLabel.text = "-"
-                self.priceLabel.text = String(format: "￥%@", (service?.price ?? 0).money)
+                self.priceLabel.text = service?.price?.money
             }else if service?.priceHandleType == .Reduce {
 
                 let oldPrice = String(format: "￥%d", (service?.price ?? 0))

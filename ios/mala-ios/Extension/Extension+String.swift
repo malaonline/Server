@@ -54,4 +54,18 @@ extension String {
     func subStringToIndex(index: Int) -> String {
         return self.substringToIndex(self.startIndex.advancedBy(index))
     }
+    
+    
+    init(MinPrice min: String, MaxPrice max: String) {
+        self = String(format: "%@-%@元/小时", min, max)
+    }
+    
+    init(showDistance distance: Double) {
+        if distance > 1000 {
+            self = String(format: "%.1fkm", distance/1000)
+        }else {
+            self = String(format: "%.1fm", distance)
+        }
+    }
+    
 }

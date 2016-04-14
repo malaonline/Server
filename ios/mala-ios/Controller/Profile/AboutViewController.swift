@@ -32,7 +32,7 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
         let appVersionLabel = UILabel()
         appVersionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         appVersionLabel.textColor = MalaColor_333333_0
-        appVersionLabel.text = String(format: "版本 V%@", MalaConfig.aboutAPPVersion() ?? "1.0")
+        appVersionLabel.text = MalaConfig.aboutAPPVersion()
         return appVersionLabel
     }()
     /// 版权信息label

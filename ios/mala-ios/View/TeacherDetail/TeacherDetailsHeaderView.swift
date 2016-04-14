@@ -49,13 +49,13 @@ class TeacherDetailsHeaderView: UIView {
     /// 最小价格
     var minPrice: Int = 0 {
         didSet{
-            self.priceLabel.text = String(format: "%@-%@元/小时", minPrice.money, maxPrice.money)
+            self.priceLabel.text = String(MinPrice: minPrice.money, MaxPrice: maxPrice.money)
         }
     }
     /// 最大价格
     var maxPrice: Int = 0 {
         didSet{
-            self.priceLabel.text = String(format: "%@-%@元/小时", minPrice.money, maxPrice.money)
+            self.priceLabel.text = String(MinPrice: minPrice.money, MaxPrice: maxPrice.money)
         }
     }
     

@@ -26,6 +26,13 @@ class TeacherDetailModel: BaseObjectModel {
     var min_price: Int = 0
     var max_price: Int = 0
     
+    // 视图变量
+    var teachingAgeString: String {
+        get {
+            return String(format: "%d年", teaching_age)
+        }
+    }
+    
     
     // MARK: - Constructed
     override init() {
