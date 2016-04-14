@@ -1,3 +1,17 @@
+$(function(){
+  $('#title').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 100){
+      this.value = vl.substring(0, 100);
+    }
+  });
+  $('#content').bind("input propertychange change", function(){
+    var vl = this.value;
+    if(vl.length > 1000){
+      this.value = vl.substring(0, 1000);
+    }
+  });
+});
 var letterIsSending = false;
 function letterSend(o){
   if(letterIsSending){
