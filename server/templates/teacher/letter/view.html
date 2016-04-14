@@ -46,9 +46,15 @@
                               </div>
                             </div>
                             <div class="control-group">
-                              <label class="control-label" for="inscore">正文</label>
+                              <label class="control-label">正文</label>
                               <div class="controls">
-                                <label class="form-control" id="content">{{letter.content}}</label>
+                                  <textarea class="form-control" id="content" readonly="true">{{letter.content}}</textarea>
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label"></label>
+                              <div class="controls send-time">
+                                发送时间:&nbsp;&nbsp;{{letter.created_at|date:"Y-m-d H:i:s"}}
                               </div>
                             </div>
                         </fieldset>
