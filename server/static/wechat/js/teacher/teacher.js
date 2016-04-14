@@ -509,6 +509,7 @@ function ajaxLoadSchool(lat, lng){
 
               if(i==0 && schools.length > 1){
                   $('.school_panel').css('paddingBottom', '0');
+                  $('#schoolsDiv').css('marginBottom', '0');
                   var msDown = $('<img>');
                   msDown.attr('src', pullDownImg);
                   var moreBtn = $('<div>');
