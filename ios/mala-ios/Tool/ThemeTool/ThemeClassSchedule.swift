@@ -174,7 +174,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         let button = UIButton()
         button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_EDEDED_0), forState: .Disabled)
-        button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_5), forState: .Selected)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_ABD0E8_0), forState: .Selected)
         button.setBackgroundImage(UIImage.withColor(MalaColor_88BCDE_0), forState: .Highlighted)
         button.userInteractionEnabled = false
         return button
