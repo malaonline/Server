@@ -28,4 +28,4 @@ buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
-xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AppStoreProvisioning}"
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
