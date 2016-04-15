@@ -42,6 +42,9 @@ $(function(){
             return;
         }
         var $this = $(this), cpid = $this.attr('couponId');
+        if ($this.hasClass('used') || $this.hasClass('expired')) {
+            return;
+        }
         if (cpid==chosen_coupon_id) {
             chosen_coupon_id = '';
             sessionStorage.chosen_coupon_id = chosen_coupon_id;

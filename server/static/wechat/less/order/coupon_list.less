@@ -7,19 +7,43 @@ body{
 #couponList {
   padding: 0 12px;
   margin: 0;
-  overflow-y: scroll;
+  //overflow-y: scroll;
   overflow-x: hidden;
   .coupon {
     position: relative;
     margin: 8px 0;
     padding: 0;
     display: block;
-    background-image: url(../../images/coupon_footer.png);
+    background-image: url(../../images/coupon_bg.png);
+    &.unused {
+      .coupon-upper .status .flag.unused {
+        display: block;
+        color: @costRed;
+      }
+    }
+    &.used {
+      background-image: url(../../images/coupon_used_bg.png);
+      .coupon-upper .status .flag.used {
+        display: block;
+        color: @gray;
+      }
+    }
+    &.expired {
+      background-image: url(../../images/coupon_expired_bg.png);
+      .coupon-upper {
+        .flag.used {
+          display: block;
+        }
+        .cost, .cost.amount, .desc, .desc.name, .desc.limit, .status {
+          color: @grayLight;
+        }
+      }
+    }
     background-size: 100% 100%;
     .coupon-upper {
       .clearfix();
       min-height: 28pt;
-      padding: 21px 20px;
+      padding: 16px 20px 8px 20px;
       .cost {
         float: left;
         width: 60pt;
@@ -38,6 +62,14 @@ body{
         .limit {
           font-size: @subTitleSize;
           color: @grayLight;
+        }
+      }
+      .status {
+        float: left;
+        padding-top: 12px;
+        padding-left: 46px;
+        .flag {
+          display: none;
         }
       }
     }

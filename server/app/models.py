@@ -1290,7 +1290,7 @@ class Coupon(BaseModel):
         now = timezone.now()
         if self.used:
             return 'used'
-        elif (not self.used) and now > self.expired_at:
+        elif (not self.used) and now > localtime(self.expired_at):
             return 'expired'
         else:
             return 'unused'

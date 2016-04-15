@@ -13,14 +13,19 @@
     <input type="hidden" id="preChosenCoupon" value="{% if pre_chosen_coupon %}{{ pre_chosen_coupon.id }}{% endif %}"/>
     <div class="page slideIn cell">
         <div class="content">
-            <div class="weui_dialog_hd" id="couponList">
+            <div id="couponList">
                 {% for coupon in coupons %}
-                    <div class="coupon" couponId="{{ coupon.id }}">
+                    <div class="coupon {{ coupon.status }}" couponId="{{ coupon.id }}">
                         <div class="coupon-upper">
                             <div class="cost">￥<span class="amount">{{ coupon.amount_yuan }}</span></div>
                             <div class="desc">
                                 <div class="name">{{ coupon.name }}</div>
                                 <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
+                            </div>
+                            <div class="status">
+                                <div class="flag unused">未使用</div>
+{#                                <div class="flag used">已使用</div>#}
+                                <div class="flag expired">已过期</div>
                             </div>
                         </div>
                         <div class="icons-area">
