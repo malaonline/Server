@@ -71,6 +71,10 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
                 return
             }
             
+            if selectedDate!.isToday() {
+                return
+            }
+            
             //if newSelectedDate is nil, unselect the current selected cell
             if newValue == nil {
                 self.cellForItemAtDate(selectedDate!).selected = false

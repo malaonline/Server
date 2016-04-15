@@ -261,6 +261,11 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     ///  - parameter selected: 是否选中
     private func setCircleColor(isToday today: Bool, selected: Bool) {
         
+        // 时间为今天的不可设置选中样式
+        if today && selected {
+            return
+        }
+        
         var circleColor = today ? circleTodayColor : circleDefaultColor
         var labelColor = today ? textTodayColor : textDefaultColor
         
@@ -285,15 +290,15 @@ public class ClassScheduleViewCell: UICollectionViewCell {
             return
         }
         
+        if selected {
+            circleColor = circleSelectedColor
+            labelColor = textSelectedColor
+        }
+        
         if today {
             self.isToday = today
             circleColor = circleDefaultColor
             labelColor = textTodayColor
-        }
-        
-        if selected {
-            circleColor = circleSelectedColor
-            labelColor = textSelectedColor
         }
         
         self.dayLabel.backgroundColor = circleColor
