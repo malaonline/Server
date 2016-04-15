@@ -11,7 +11,7 @@ function refreshDistance(lat, lng) {
         schoolLatitude = parseFloat($(this)[0].dataset.schoolLatitude);
         schoolLongitude = parseFloat($(this)[0].dataset.schoolLongitude);
         var distance = CoolWPDistance(lat, lng, schoolLatitude, schoolLongitude);
-        $(this).text((distance && !isNaN(distance)) ? ('<' + distance + 'km') : '距离未知');
+        $(this).text((distance && !isNaN(distance)) ? ('<' + distance + 'km') : '');
     })
 }
 
