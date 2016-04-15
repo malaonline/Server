@@ -418,13 +418,14 @@ $(function(){
         isPaying = false;
     };
     $payBtn.click(function(e){
-        if (!valid_choose(['grade', 'school', 'hour'])) {
-            return;
-        }
         if (isPaying) {
             return;
         }
         beginPaying();
+        if (!valid_choose(['grade', 'school', 'hour'])) {
+            stopPaying();
+            return;
+        }
         var hours = parseInt($courseHours.text());
         var params = {
             'action': 'confirm',
@@ -483,6 +484,18 @@ $(function(){
                             });
                         },
                         fail: function(res){
+                            $.ajax({ // 取消订单
+                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
+                                    stopPaying();
+                                }, 'error': function(){
+                                    stopPaying();
+                                }
+                            });
+                        },
+                        //complete: function(){
+                        //    stopPaying();
+                        //},
+                        cancel: function(){
                             $.ajax({ // 取消订单
                                 'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
                                     stopPaying();
