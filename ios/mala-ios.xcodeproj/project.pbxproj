@@ -2138,7 +2138,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3a9e94b9-ad2a-478c-96ad-37128c074f4b";
+				PROVISIONING_PROFILE = "6a4c6a9c-9568-4418-8baa-a4087ddc4129";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -2240,7 +2240,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3a9e94b9-ad2a-478c-96ad-37128c074f4b";
+				PROVISIONING_PROFILE = "6a4c6a9c-9568-4418-8baa-a4087ddc4129";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -2269,7 +2269,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3a9e94b9-ad2a-478c-96ad-37128c074f4b";
+				PROVISIONING_PROFILE = "6a4c6a9c-9568-4418-8baa-a4087ddc4129";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
