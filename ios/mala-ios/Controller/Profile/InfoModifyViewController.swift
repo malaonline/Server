@@ -118,7 +118,9 @@ class InfoModifyViewController: BaseViewController {
             MalaUserDefaults.studentName.value = name
             getInfoWhenLoginSuccess()
             ThemeHUD.hideActivityIndicator()
-            self?.popSelf()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.popSelf()
+            })
         })
         
     }
@@ -141,7 +143,9 @@ class InfoModifyViewController: BaseViewController {
             MalaUserDefaults.schoolName.value = name
             getInfoWhenLoginSuccess()
             ThemeHUD.hideActivityIndicator()
-            self?.popSelf()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.popSelf()
+            })
         })
     }
     
