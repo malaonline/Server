@@ -88,7 +88,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
                 cell.button.selected = itemModel!.isSelected
             }
         }
-        
         return cell
     }
     
@@ -117,18 +116,6 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
             return itemModel?.available ?? false
         }
         return false
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: MalaScreenOnePixel, left: 0, bottom: MalaScreenOnePixel, right: 0)
     }
 }
 
@@ -294,10 +281,12 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
     // MARK: - Private Method
     private func configure() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = frame.width / 8 - 1
-        let itemHeight: CGFloat = frame.height / 6 - 1
+        let HeightInset: CGFloat = (UIScreen.mainScreen().scale == 3 ? 1 : -1 )
+        let itemWidth: CGFloat = frame.width / 8 - MalaScreenOnePixel*2
+        let itemHeight: CGFloat = (frame.height+(MalaScreenOnePixel*HeightInset)) / 6 - MalaScreenOnePixel*2
         itemSize = CGSizeMake(itemWidth, itemHeight)
-        minimumInteritemSpacing = 0
-        minimumLineSpacing = 0
+        sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: MalaScreenOnePixel, bottom: MalaScreenOnePixel, right: MalaScreenOnePixel)
+        minimumInteritemSpacing = MalaScreenOnePixel*2
+        minimumLineSpacing = MalaScreenOnePixel*2
     }
 }
