@@ -280,13 +280,44 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
     
     // MARK: - Private Method
     private func configure() {
-        scrollDirection = .Vertical
-        let HeightInset: CGFloat = (UIScreen.mainScreen().scale == 3 ? 1 : -1 )
-        let itemWidth: CGFloat = frame.width / 8 - MalaScreenOnePixel*2
-        let itemHeight: CGFloat = (frame.height+(MalaScreenOnePixel*HeightInset)) / 6 - MalaScreenOnePixel*2
-        itemSize = CGSizeMake(itemWidth, itemHeight)
-        sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: MalaScreenOnePixel, bottom: MalaScreenOnePixel, right: MalaScreenOnePixel)
-        minimumInteritemSpacing = MalaScreenOnePixel*2
-        minimumLineSpacing = MalaScreenOnePixel*2
+        let deviceName = UIDevice.currentDevice().modelName
+        
+        switch deviceName {
+        case "iPhone 5", "iPhone 5s":
+            
+            scrollDirection = .Vertical
+            let itemWidth: CGFloat = frame.width / 8 - 1
+            let itemHeight: CGFloat = (frame.height-MalaScreenOnePixel) / 6 - 1
+            itemSize = CGSizeMake(itemWidth, itemHeight)
+            sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: MalaScreenOnePixel, bottom: MalaScreenOnePixel, right: MalaScreenOnePixel)
+            minimumInteritemSpacing = 1
+            minimumLineSpacing = 1
+            
+            break
+        case "iPhone 6", "iPhone 6s":
+            
+            scrollDirection = .Vertical
+            let itemWidth: CGFloat = frame.width / 8 - 1
+            let itemHeight: CGFloat = frame.height / 6 - 1
+            itemSize = CGSizeMake(itemWidth, itemHeight)
+            sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: 0, bottom: MalaScreenOnePixel, right: 0)
+            minimumInteritemSpacing = 1
+            minimumLineSpacing = 1
+            
+            break
+        case "iPhone 6 Plus", "iPhone 6s Plus":
+            
+            scrollDirection = .Vertical
+            let itemWidth: CGFloat = frame.width / 8 - MalaScreenOnePixel*2
+            let itemHeight: CGFloat = (frame.height+MalaScreenOnePixel) / 6 - MalaScreenOnePixel*2
+            itemSize = CGSizeMake(itemWidth, itemHeight)
+            sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: MalaScreenOnePixel, bottom: MalaScreenOnePixel, right: MalaScreenOnePixel)
+            minimumInteritemSpacing = MalaScreenOnePixel*2
+            minimumLineSpacing = MalaScreenOnePixel*2
+            
+            break
+        default:
+            break
+        }
     }
 }
