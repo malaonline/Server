@@ -4,10 +4,10 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.api.CommentApi;
+import com.malalaoshi.android.api.PostCommentApi;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.view.CircleNetworkImage;
 
@@ -224,25 +224,36 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     private void initDatas() {
         if (comment != null) {
             //开始下载
-            loadDatas();
+            loadData();
         }
     }
 
-    private void loadDatas() {
+    private static final class FetchCommentRequest extends BaseApiContext<CommentDialog, Comment> {
 
-        NetworkSender.getComment("", new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                Comment comment = JsonUtil.parseStringData(json.toString(), Comment.class);
-                updateUI(comment);
-                updateLoadSuccessedUI();
-            }
+        private long commentId;
 
-            @Override
-            public void onFailed(VolleyError error) {
-                updateLoadFailedUI();
-            }
-        });
+        public FetchCommentRequest(CommentDialog commentDialog, long commnetId) {
+            super(commentDialog);
+            this.commentId = commnetId;
+        }
+
+        @Override
+        public Comment request() throws Exception {
+            return new CommentApi().get(commentId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull Comment comment) {
+            get().updateUI(comment);
+            get().updateLoadSuccessedUI();
+        }
+    }
+
+    private void loadData() {
+        //TODO 重构前参数也是空，为什么总为空？
+        if (comment != null) {
+            ApiExecutor.exec(new FetchCommentRequest(this, comment.getId()));
+        }
     }
 
     private void updateUI(Comment comment) {
@@ -332,7 +343,7 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         }, 50);
     }
 
-    public void clickCommentEdit(View v){
+    public void clickCommentEdit(View v) {
         int llHeight = llCourse.getMeasuredHeight();
         if (!isOpenInputMethod) {
             editAnimation(0, llHeight);
@@ -347,7 +358,32 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     @OnClick(R.id.tv_load_fail)
     public void OnClickLoadFail(View v) {
         updateLoadingUI();
-        loadDatas();
+        loadData();
+    }
+
+    private static final class PostCommentRequest extends BaseApiContext<CommentDialog, Comment> {
+
+        private String body;
+
+        public PostCommentRequest(CommentDialog commentDialog, String body) {
+            super(commentDialog);
+            this.body = body;
+        }
+
+        @Override
+        public Comment request() throws Exception {
+            return new PostCommentApi().post(body);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull Comment response) {
+            get().commentSucceed();
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().commentFailed();
+        }
     }
 
     @OnClick(R.id.tv_submit)
@@ -358,40 +394,17 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
             return;
         }
         String content = editComment.getText().toString();
-        float scorce = ratingbar.getRating();
-        if (content == null) {
-            content = "";
-        }
+        float score = ratingbar.getRating();
         JSONObject json = new JSONObject();
         try {
             json.put(Constants.TIMESLOT, timeslot);
-            json.put(Constants.SCORE, scorce);
+            json.put(Constants.SCORE, score);
             json.put(Constants.CONTENT, content);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
-        NetworkSender.submitComment(json, new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                try {
-                    Comment comment = JsonUtil.parseStringData(json.toString(), Comment.class);
-                    if (comment != null) {
-                        Log.i("CommentDialog", "Set student's name succeed : " + json.toString());
-                        commentSucceed();
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                commentFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                commentFailed();
-            }
-        });
+        ApiExecutor.exec(new PostCommentRequest(this, json.toString()));
     }
 
     private void commentSucceed() {
@@ -413,7 +426,7 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.edit_review:
                 clickCommentEdit(v);
                 break;

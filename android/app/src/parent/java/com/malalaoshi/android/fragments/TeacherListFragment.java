@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,19 +11,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.net.MoreTeacherListApi;
+import com.malalaoshi.android.net.TeacherListApi;
 import com.malalaoshi.android.refresh.NormalRefreshViewHolder;
 import com.malalaoshi.android.result.TeacherListResult;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 
 import java.util.ArrayList;
@@ -175,33 +177,6 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
         mRefreshLayout.beginRefreshing();
     }
 
-    private void loadDatas() {
-        NetworkSender.getTeachers(gradeId, subjectId, tagIds, new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                if (json == null || json.toString().isEmpty()) {
-                    getTeachersFailed();
-                    return;
-                }
-                TeacherListResult teacherResult = null;
-                teacherResult = JsonUtil.parseStringData(json.toString(), TeacherListResult.class);
-                if (teacherResult != null) {
-                    if (teacherResult.getResults() != null && teacherResult.getResults().size() > 0) {
-                        getTeachersSucceed(teacherResult);
-                    } else {
-                        getTeacherSucceedEmpty(teacherResult);
-                    }
-                    return;
-                }
-                getTeachersFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                getTeachersFailed();
-            }
-        });
-    }
 
     private void getTeacherSucceedEmpty(TeacherListResult teacherResult) {
         if (pageType == FILTER_PAGE) {
@@ -247,34 +222,17 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
 
     public void loadMoreTeachers() {
         if (nextUrl != null && !nextUrl.isEmpty()) {
-            NetworkSender.getFlipTeachers(nextUrl, new NetworkListener() {
-                @Override
-                public void onSucceed(Object json) {
-                    if (json == null || json.toString().isEmpty()) {
-                        getTeachersFailed();
-                        return;
-                    }
-                    TeacherListResult teacherResult = null;
-                    teacherResult = JsonUtil.parseStringData(json.toString(), TeacherListResult.class);
-                    if (teacherResult != null && teacherResult.getResults() != null && teacherResult.getResults().size() > 0) {
-                        getMoreTeachersSucceed(teacherResult);
-                        return;
-                    }
-                    getMoreTeachersSucceed(teacherResult);
-                }
-
-                @Override
-                public void onFailed(VolleyError error) {
-                    getMoreTeachersFailed();
-                }
-            });
+            ApiExecutor.exec(new FetchMoreTeacherListRequest(this, nextUrl));
         }
     }
 
     private void getMoreTeachersFailed() {
         notifyDataSetChanged();
-        setRefreshing(false);
         MiscUtil.toast(R.string.home_get_teachers_fialed);
+    }
+
+    private void getMoreTeachersFinished() {
+        setRefreshing(false);
     }
 
     private void getMoreTeachersSucceed(TeacherListResult teacherResult) {
@@ -284,7 +242,6 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
         }
         nextUrl = teacherResult.getNext();
         notifyDataSetChanged();
-        setRefreshing(false);
     }
 
     @Override
@@ -297,7 +254,7 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
-        loadDatas();
+        ApiExecutor.exec(new FetchTeacherListRequest(this, gradeId, subjectId, tagIds));
     }
 
     @Override
@@ -331,5 +288,69 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
     @Override
     public String getStatName() {
         return "老师列表页";
+    }
+
+    private static final class FetchMoreTeacherListRequest extends BaseApiContext<TeacherListFragment, TeacherListResult> {
+        private String nextUrl;
+
+        public FetchMoreTeacherListRequest(TeacherListFragment teacherListFragment, String nextUrl) {
+            super(teacherListFragment);
+            this.nextUrl = nextUrl;
+        }
+
+        @Override
+        public TeacherListResult request() throws Exception {
+            return new MoreTeacherListApi().getTeacherList(nextUrl);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull TeacherListResult result) {
+            if (EmptyUtils.isNotEmpty(result.getResults())) {
+                get().getMoreTeachersSucceed(result);
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().getMoreTeachersFailed();
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().getMoreTeachersFinished();
+        }
+    }
+
+    private static final class FetchTeacherListRequest extends BaseApiContext<TeacherListFragment, TeacherListResult> {
+        private long gradeId;
+        private long subjectId;
+        private long[] tagIds;
+
+        public FetchTeacherListRequest(TeacherListFragment teacherListFragment,
+                                       Long gradeId, Long subjectId, long[] tagIds) {
+            super(teacherListFragment);
+            this.gradeId = gradeId != null ? gradeId : 0;
+            this.subjectId = subjectId != null ? subjectId : 0;
+            this.tagIds = tagIds;
+        }
+
+        @Override
+        public TeacherListResult request() throws Exception {
+            return new TeacherListApi().getTeacherList(gradeId, subjectId, tagIds);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull TeacherListResult result) {
+            if (EmptyUtils.isNotEmpty(result.getResults())) {
+                get().getTeachersSucceed(result);
+            } else {
+                get().getTeacherSucceedEmpty(result);
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().getTeachersFailed();
+        }
     }
 }

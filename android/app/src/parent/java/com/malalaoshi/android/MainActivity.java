@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 /*    private void loadCourses(){
         UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
         if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
-            userTimetableFragment.loadDatas();
+            userTimetableFragment.loadData();
         }
     }*/
 

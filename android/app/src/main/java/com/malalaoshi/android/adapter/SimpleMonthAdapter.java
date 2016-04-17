@@ -9,7 +9,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.listener.DatePickerController;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
@@ -34,7 +34,7 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     private boolean isDragging = false;
     private HashMap<CalendarMonth, HashMap<CalendarDay, Integer>> monthCountMap =
             new HashMap<>();
-    private HashMap<String,List<Cource>> mapCourse;
+    private HashMap<String,List<Course>> mapCourse;
 
     public SimpleMonthAdapter(Context context, DatePickerController datePickerController, TypedArray typedArray) {
         this.typedArray = typedArray;
@@ -46,7 +46,7 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
 		init();
 	}
 
-    public void setMapCourse(HashMap<String, List<Cource>> mapCourse) {
+    public void setMapCourse(HashMap<String, List<Course>> mapCourse) {
         this.mapCourse = mapCourse;
     }
 
@@ -79,12 +79,12 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
         //设置课程信息
         if (mapCourse!=null){
             int tempMonth = month+1;
-            List<Cource> listCourse = mapCourse.get(year+""+tempMonth);
+            List<Course> listCourse = mapCourse.get(year+""+tempMonth);
             if (listCourse!=null&&listCourse.size()>0){
-                final Map<Integer, List<Cource>> mapCourse1 = new HashMap<>();
+                final Map<Integer, List<Course>> mapCourse1 = new HashMap<>();
                 for (int i =0;i<listCourse.size();i++){
-                    Cource cource = listCourse.get(i);
-                    List<Cource> listCource1 = mapCourse1.get((CalendarUtils.timestampToCalendarDay(cource.getEnd())).getDay());
+                    Course cource = listCourse.get(i);
+                    List<Course> listCource1 = mapCourse1.get((CalendarUtils.timestampToCalendarDay(cource.getEnd())).getDay());
                     if (listCource1==null){
                         listCource1 = new ArrayList<>();
                         mapCourse1.put((CalendarUtils.timestampToCalendarDay(cource.getEnd())).getDay(),listCource1);
@@ -120,7 +120,7 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     }
 
     @Override
-    public void onDayClick(SimpleMonthView simpleMonthView, CalendarDay calendarDay, List<Cource> courses) {
+    public void onDayClick(SimpleMonthView simpleMonthView, CalendarDay calendarDay, List<Course> courses) {
         if (mController!=null){
             mController.onDayClick(simpleMonthView,calendarDay,courses);
         }

@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.malalaoshi.android.BuildConfig;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
-import com.malalaoshi.android.util.UIResultCallback;
+import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.pingplusplus.android.PaymentActivity;
 import com.pingplusplus.android.PingppLog;
 import com.pingplusplus.libone.PingppOnePayment;
@@ -58,12 +58,12 @@ public class PayManager {
         payer = new PingppPayer();
     }
 
-    public void createOrder(CreateCourseOrderEntity entity, ResultCallback<Object> callback) {
-        payer.createOrder(entity, callback);
+    public CreateCourseOrderResultEntity createOrder(CreateCourseOrderEntity entity) throws Exception {
+        return payer.createOrder(entity);
     }
 
-    public void getOrderInfo(String orderId, String channel, UIResultCallback<String> callback) {
-        payer.createOrderInfo(orderId, channel, callback);
+    public String getOrderInfo(String orderId, String channel) throws Exception {
+        return payer.createOrderInfo(orderId, channel);
     }
 
     public void pay(String charge, Activity activity) {

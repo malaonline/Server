@@ -22,7 +22,6 @@ public final class Constants {
     public static final String DONE = "done";
     public static final String PARENT_ID = "parent_id";
     public static final String PROFILE_ID = "profile_id";
-    public static final String REGION = "region";
     public static final String TIMESLOT = "timeslot";
     public static final String SCORE = "score";
     public static final String CONTENT = "content";

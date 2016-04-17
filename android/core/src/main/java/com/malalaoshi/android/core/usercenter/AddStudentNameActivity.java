@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.malalaoshi.android.core.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.event.BusEvent;
-import com.malalaoshi.android.core.network.UIResultCallback;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.api.AddStudentNameApi;
 import com.malalaoshi.android.core.usercenter.entity.AddStudentName;
 import com.malalaoshi.android.core.utils.MiscUtil;
@@ -38,7 +39,9 @@ public class AddStudentNameActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.core__activity_add_student_name);
         nameEditView = (EditText) findViewById(R.id.et_name);
         submitView = (TextView) findViewById(R.id.btn_submit);
-        submitView.setOnClickListener(this);
+        if (submitView != null) {
+            submitView.setOnClickListener(this);
+        }
         nameEditView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -71,38 +74,56 @@ public class AddStudentNameActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private static final class AddStudentNameCallback extends UIResultCallback<AddStudentNameActivity, AddStudentName> {
-        public AddStudentNameCallback(AddStudentNameActivity addStudentNameActivity) {
-            super(addStudentNameActivity);
+    private void onAddStudentNameSuccess(@NonNull AddStudentName data) {
+        if (data.isDone()) {
+            MiscUtil.toast("设置学名名字成功");
+            updateStuName();
+            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA));
+        } else {
+            onAddStudentNameFailed();
         }
+        finish();
+    }
 
-        @Override
-        public void onResult(@NonNull AddStudentNameActivity activity, AddStudentName addStudentName) {
-            if (addStudentName != null && addStudentName.isDone()) {
-                MiscUtil.toast("设置学名名字成功");
-                activity.updateStuName();
-                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA));
-            } else {
-                activity.setStudentNameFailed();
-            }
-            activity.finish();
-        }
+    private void onAddStudentNameFailed() {
+        nameEditView.setText("");
+        Log.i(TAG, "Set student's name failed.");
+        MiscUtil.toast("设置学生姓名失败");
     }
 
     protected void onSubmitClick() {
-        AddStudentNameApi api = new AddStudentNameApi();
         name = nameEditView.getText().toString();
         if (TextUtils.isEmpty(name)) {
             MiscUtil.toast("姓名不能为空");
             return;
         }
-        api.get(name, new AddStudentNameCallback(this));
+        ApiExecutor.exec(new AddStudentNameRequest(this, name));
     }
 
-    private void setStudentNameFailed() {
-        Log.i(TAG, "Set student's name failed.");
-        MiscUtil.toast("设置学生姓名失败");
+    private static final class AddStudentNameRequest extends BaseApiContext<AddStudentNameActivity, AddStudentName> {
+
+        private String name;
+
+        public AddStudentNameRequest(AddStudentNameActivity addStudentNameActivity, String name) {
+            super(addStudentNameActivity);
+            this.name = name;
+        }
+
+        @Override
+        public AddStudentName request() throws Exception {
+            return new AddStudentNameApi().get(this.name);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull AddStudentName data) {
+            get().onAddStudentNameSuccess(data);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().onAddStudentNameFailed();
+        }
     }
 
     private void updateStuName() {

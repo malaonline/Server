@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
-import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.listener.DatePickerController;
 
 import java.util.Calendar;
@@ -200,7 +200,7 @@ public class DayPickerView extends RecyclerView{
         this.invalidate();
     }
 
-    public void setCourses(HashMap<String, List<Cource>> mapCourse){
+    public void setCourses(HashMap<String, List<Course>> mapCourse){
         mAdapter.setMapCourse(mapCourse);
         mAdapter.notifyDataSetChanged();
     }

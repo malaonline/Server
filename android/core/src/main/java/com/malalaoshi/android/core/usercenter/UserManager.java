@@ -17,9 +17,14 @@ import de.greenrobot.event.EventBus;
 public class UserManager {
 
     /**
-     * 登录成功以后发出空上广播
+     * 登录成功
      */
     public static final String ACTION_LOGINED = "com.malalaoshi.android.account.ACTION_LOGINED";
+
+    /**
+     * 登出
+     */
+    public static final String ACTION_LOGOUT = "com.malalaoshi.android.account.ACTION_LOGOUT";
 
     private static UserManager instance = new UserManager();
     // 用户信息
@@ -57,7 +62,7 @@ public class UserManager {
     }
 
     public String getToken() {
-        return token;
+        return token+"A";
     }
 
     public void setToken(String token) {
@@ -196,6 +201,10 @@ public class UserManager {
         userInfo.edit().putString("gradeId", "").apply();
         city = "";
         userInfo.edit().putString("city", "").apply();
+
+        //Login success broadcast
+        Intent intent = new Intent(ACTION_LOGOUT);
+        MalaContext.getLocalBroadcastManager().sendBroadcast(intent);
     }
 
     /**

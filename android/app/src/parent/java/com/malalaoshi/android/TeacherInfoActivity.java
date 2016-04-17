@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
+import com.malalaoshi.android.api.MemberServiceApi;
+import com.malalaoshi.android.api.SchoolListApi;
+import com.malalaoshi.android.api.TeacherInfoApi;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
@@ -35,13 +40,10 @@ import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.BounceTouchListener;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -207,6 +209,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             context.startActivity(intent);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,7 +226,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         initData();
         setEvent();
 
-        DialogUtil.startCircularProcessDialog(this,"正在加载数据",true,false);
+        DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
         BounceTouchListener bounceTouchListener = new BounceTouchListener(scrollView, R.id.layout_teacher_info_body);
         bounceTouchListener.setOnTranslateListener(new BounceTouchListener.OnTranslateListener() {
             @Override
@@ -232,7 +235,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     float scale = ((2 * translation) / headerImage.getMeasuredHeight()) + 1;
                     headerImage.setScaleX(scale);
                     headerImage.setScaleY(scale);
-                }else{
+                } else {
                     headerImage.setScaleX(1);
                     headerImage.setScaleY(1);
                 }
@@ -242,8 +245,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         scrollView.setOnTouchListener(bounceTouchListener);
     }
 
-    private void stopProcess(){
-        if (teacherInfoFlag&&schoolFlag&&memberFlag){
+    private void stopProcess() {
+        if (teacherInfoFlag && schoolFlag && memberFlag) {
             DialogUtil.stopProcessDialog();
         }
     }
@@ -271,19 +274,20 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
-        if (permissions==null){
-            return ;
+        if (permissions == null) {
+            return;
         }
-        if (permissions.size()==0){
+        if (permissions.size() == 0) {
             initLocManager();
-        }else{
-            PermissionUtil.requestPermissions(TeacherInfoActivity.this,permissions, PERMISSIONS_REQUEST_LOCATION);
+        } else {
+            PermissionUtil.requestPermissions(TeacherInfoActivity.this, permissions, PERMISSIONS_REQUEST_LOCATION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults); switch (requestCode) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
             case PERMISSIONS_REQUEST_LOCATION: {
                 permissionsResultLocation(grantResults);
                 break;
@@ -304,75 +308,47 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void initLocManager(){
+    private void initLocManager() {
         locManager.initLocation();
         loadLocation();
     }
 
-    //
     private void initData() {
         Intent intent = getIntent();
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
-        mAllSchools = new ArrayList<School>();
+        mAllSchools = new ArrayList<>();
         mFirstSchool = new ArrayList<>();
         mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
         listviewSchool.setAdapter(mSchoolAdapter);
+
+        //老师
         loadTeacherInfo();
-        loadMemeberServices();
-        loadSchools();
+        //Member services
+        ApiExecutor.exec(new LoadMemberServicesRequest(this));
+        //请求教学环境信息
+        ApiExecutor.exec(new LoadSchoolListRequest(this));
     }
 
-    //请求教学环境信息
-    void loadSchools() {
-        NetworkSender.getSchoolList(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                schoolFlag = true;
-                if (json == null) {
-                    dealSchoolsError();
-                    return;
-                }
-                SchoolListResult schoolListResult = JsonUtil.parseStringData(json.toString(), SchoolListResult.class);
-                if (schoolListResult == null || schoolListResult.getResults() == null) {
-                    Log.e(LoginFragment.class.getName(), "school list request failed!");
-                    dealSchoolsError();
-                    return;
-                }
-                //获取体验中心
-                mAllSchools.addAll(schoolListResult.getResults());
-                if (mAllSchools.size() > 0) {
-                    School school = null;
-                    for (int i = 0; i < mAllSchools.size(); i++) {
-                        if (true == mAllSchools.get(i).isCenter()) {
-                            if (i == 0) {
-                                break;
-                            }
-                            school = mAllSchools.get(i);
-                            mAllSchools.set(i, mAllSchools.get(0));
-                            mAllSchools.set(0, school);
-                            //mOtherSchools.remove(i);
-                            break;
-                        }
+    private void onLoadSchoolListSuccess(SchoolListResult result) {
+        //获取体验中心
+        mAllSchools.addAll(result.getResults());
+        if (mAllSchools.size() > 0) {
+            School school;
+            for (int i = 0; i < mAllSchools.size(); i++) {
+                if (mAllSchools.get(i).isCenter()) {
+                    if (i == 0) {
+                        break;
                     }
-                    mFirstSchool.add(mAllSchools.get(0));
-                    dealSchools();
-                    return;
+                    school = mAllSchools.get(i);
+                    mAllSchools.set(i, mAllSchools.get(0));
+                    mAllSchools.set(0, school);
+                    break;
                 }
-                dealSchoolsError();
             }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                schoolFlag = true;
-                dealSchoolsError();
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-            }
-        });
-    }
-
-    private void dealSchoolsError() {
-        stopProcess();
+            mFirstSchool.add(mAllSchools.get(0));
+            dealSchools();
+        }
     }
 
     private void dealSchools() {
@@ -385,41 +361,26 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         if (locManager.getLocationStatus() == LocManager.OK_LOCATION) {
             //排序
             LocationUtil.sortByDistance(mAllSchools, latitude, longitude);
-            Double dis;
             mFirstSchool.clear();
             mFirstSchool.add(mAllSchools.get(0));
-            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)",LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
+            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
         } else {
             tvSchoolMore.setText("其他社区中心");
         }
         updateUISchools();
-        stopProcess();
+    }
+
+    private void onLoadTeacherInfoSuccess(@NonNull Teacher teacher) {
+        mTeacher = teacher;
+        updateUI(mTeacher);
+        mSignUp.setEnabled(true);
     }
 
     private void loadTeacherInfo() {
-        NetworkSender.getTeacherInfo(String.format("%d", mTeacherId), new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                teacherInfoFlag = true;
-                if (json != null && !json.toString().isEmpty()) {
-                    mTeacher = JsonUtil.parseStringData(json.toString(), Teacher.class);
-                    //mTeacher = JsonUtil.parseData(R.raw.teacher, Teacher.class);
-                    if (mTeacher != null) {
-                        updateUI(mTeacher);
-                        mSignUp.setEnabled(true);
-                        return;
-                    }
-                }
-                dealRequestError("");
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                teacherInfoFlag = true;
-                dealRequestError(error.getMessage());
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-            }
-        });
+        if (mTeacherId == null) {
+            return;
+        }
+        ApiExecutor.exec(new LoadTeacherInfoRequest(this, mTeacherId));
     }
 
     //启动定位
@@ -427,37 +388,12 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         locManager.start();
     }
 
-    private void loadMemeberServices() {
-        NetworkSender.getMemberService(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                memberFlag = true;
-                if (json == null) {
-                    dealMemberServiceError();
-                    return;
-                }
-                MemberServiceListResult memberServiceListResult = JsonUtil.parseStringData(json.toString(), MemberServiceListResult.class);
-                //mMemberServicesResult = JsonUtil.parseData(R.raw.memberservice, MemberServiceListResult.class);
-                if (memberServiceListResult != null && memberServiceListResult.getResults() != null && memberServiceListResult.getResults().size() > 0) {
-                    updateUIServices(memberServiceListResult.getResults());
-                } else {
-                    dealMemberServiceError();
-                    Log.e(LoginFragment.class.getName(), "member services request failed!");
-                }
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                memberFlag = true;
-                dealMemberServiceError();
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-            }
-        });
-    }
-
-    private void dealMemberServiceError() {
-        stopProcess();
-
+    private void onLoadMemberServiceSuccess(MemberServiceListResult result) {
+        if (result != null && result.getResults() != null && result.getResults().size() > 0) {
+            updateUIServices(result.getResults());
+        } else {
+            Log.e(LoginFragment.class.getName(), "member services request failed!");
+        }
     }
 
     //更新教学环境UI
@@ -479,7 +415,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
             setFlowDatas(mMemberServiceFl, datas);
         }
-        stopProcess();
     }
 
     //跟新教师详情
@@ -506,7 +441,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
 
             //教授科目
-            if(!teacher.getSubject().isEmpty()){
+            if (!teacher.getSubject().isEmpty()) {
                 mTeacherSubject.setText(teacher.getSubject());
             }
 
@@ -566,7 +501,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 mTeacherLevel.setText(teachAge.toString() + "年");
             }
         }
-        stopProcess();
     }
 
     private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
@@ -629,7 +563,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
 
     void loadGallery(String[] gallery) {
-        if (gallery==null||gallery.length<=0) {
+        if (gallery == null || gallery.length <= 0) {
             mLlGallery.setVisibility(View.GONE);
             return;
         }
@@ -637,7 +571,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         mGallery.removeAllViews();
         int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
         int height = getResources().getDimensionPixelSize(R.dimen.item_gallery_height);
-        int width = (mGallery.getWidth()-4*margin) / 3;
+        int width = (mGallery.getWidth() - 4 * margin) / 3;
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
             ImageView imageView = new ImageView(this);
@@ -677,8 +611,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void dealRequestError(String errorCode) {
-        stopProcess();
+    private void dealRequestError() {
         Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
     }
 
@@ -705,15 +638,15 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     private void changeSchoolsShow() {
 
-        if (!isShowAllSchools){
+        if (!isShowAllSchools) {
             ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_up));
             tvSchoolMore.setText("收起");
             mSchoolAdapter.setSchools(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
-        }else{
+        } else {
             Double dis = mAllSchools.get(0).getDistance();
-            if (dis!=null&&dis>=0) {
-                tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)",LocationUtil.formatDistance(dis)));
+            if (dis != null && dis >= 0) {
+                tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(dis)));
             } else {
                 tvSchoolMore.setText("其他社区中心");
             }
@@ -727,7 +660,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private void signUp() {
         StatReporter.soonRoll();
         //判断是否登录
-        if (UserManager.getInstance().isLogin()){
+        if (UserManager.getInstance().isLogin()) {
             //跳转至报名页
             startCourseConfirmActivity();
         } else {
@@ -775,6 +708,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
         startActivity(signIntent);
     }
+
     @Override
     public void onReceiveLocation(Location location) {
         if (location == null) {
@@ -794,14 +728,14 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         //最大上滑距离
         int maxOffset = headerImage.getMeasuredHeight() - titleBarView.getMeasuredHeight();
         //开始变色位置
-        int startOffset = maxOffset/2;
-        if (y > startOffset&&y<maxOffset-10) {  //开始变色
-            int ratio = (int) (255*((float) (y - startOffset) / (float) (maxOffset- startOffset+10)));
+        int startOffset = maxOffset / 2;
+        if (y > startOffset && y < maxOffset - 10) {  //开始变色
+            int ratio = (int) (255 * ((float) (y - startOffset) / (float) (maxOffset - startOffset + 10)));
             titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
             titleBarView.setBackgroundColor(Color.argb(ratio, 255, 255, 255));
             viewLine.setAlpha(0);
             titleBarView.setTitle("");
-        } else if (y>=maxOffset-10) {        //白色背景
+        } else if (y >= maxOffset - 10) {        //白色背景
             titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
             titleBarView.setBackgroundColor(Color.argb(255, 255, 255, 255));
             viewLine.setAlpha(1);
@@ -830,4 +764,84 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     protected String getStatName() {
         return "老师详情页";
     }
+
+    private static final class LoadTeacherInfoRequest extends BaseApiContext<TeacherInfoActivity, Teacher> {
+
+        private long teacherId;
+
+        public LoadTeacherInfoRequest(TeacherInfoActivity teacherInfoActivity, long teacherId) {
+            super(teacherInfoActivity);
+            this.teacherId = teacherId;
+        }
+
+        @Override
+        public Teacher request() throws Exception {
+            return new TeacherInfoApi().get(teacherId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull Teacher response) {
+            get().onLoadTeacherInfoSuccess(response);
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().teacherInfoFlag = true;
+            get().stopProcess();
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().dealRequestError();
+        }
+    }
+
+    private static final class LoadMemberServicesRequest extends BaseApiContext<TeacherInfoActivity, MemberServiceListResult> {
+        public LoadMemberServicesRequest(TeacherInfoActivity teacherInfoActivity) {
+            super(teacherInfoActivity);
+        }
+
+        @Override
+        public MemberServiceListResult request() throws Exception {
+            return new MemberServiceApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull MemberServiceListResult response) {
+            get().onLoadMemberServiceSuccess(response);
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().memberFlag = true;
+            get().stopProcess();
+        }
+    }
+
+    private static final class LoadSchoolListRequest extends BaseApiContext<TeacherInfoActivity, SchoolListResult> {
+
+        public LoadSchoolListRequest(TeacherInfoActivity teacherInfoActivity) {
+            super(teacherInfoActivity);
+        }
+
+        @Override
+        public SchoolListResult request() throws Exception {
+            return new SchoolListApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull SchoolListResult response) {
+            if (response.getResults() != null) {
+                get().onLoadSchoolListSuccess(response);
+            }
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().schoolFlag = true;
+            get().stopProcess();
+        }
+
+    }
+
 }

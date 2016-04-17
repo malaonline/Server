@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,11 +30,16 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.ModifyUserNameActivity;
 import com.malalaoshi.android.activitys.ModifyUserSchoolActivity;
+import com.malalaoshi.android.api.StudentInfoApi;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.usercenter.api.UserProfileApi;
+import com.malalaoshi.android.core.usercenter.entity.UserProfile;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.entity.BaseEntity;
@@ -47,7 +53,6 @@ import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.view.CircleImageView;
@@ -114,7 +119,7 @@ public class UserFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
-        initDatas();
+        initData();
         initViews();
         EventBus.getDefault().register(this);
         return view;
@@ -139,16 +144,16 @@ public class UserFragment extends BaseFragment {
                 updateUI();
                 break;
             case BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA:
-                reloadDatas();
+                reloadData();
                 break;
 
         }
     }
 
-    private void initDatas() {
+    private void initData() {
         imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         if (UserManager.getInstance().isLogin()) {
-            loadDatas();
+            loadData();
         }
     }
 
@@ -159,63 +164,60 @@ public class UserFragment extends BaseFragment {
 
     private void updateUI() {
         updateUserInfoUI();
-        updateUserAvatorUI();
+        updateUserAvatarUI();
     }
 
-    public void reloadDatas() {
+    public void reloadData() {
         if (UserManager.getInstance().isLogin()) {
-            loadDatas();
+            loadData();
         } else {
             updateUI();
         }
     }
 
-    private void loadDatas() {
-        loadUserProfile();
-        loadUserInfo();
+    private void loadData() {
+        ApiExecutor.exec(new LoadUserProfileRequest(this));
+        ApiExecutor.exec(new FetchStudentInfoRequest(this));
     }
 
-    private void loadUserProfile() {
-        NetworkSender.getUserPolicy(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                if (json == null) {
-                    //失败
-                    loadProfoleFailed();
-                }
-                try {
-                    updateUserProfile(new JSONObject(json.toString()));
-                    updateUserAvatorUI();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //失败
-                    loadProfoleFailed();
-                }
-            }
+    private static final class LoadUserProfileRequest extends BaseApiContext<UserFragment, UserProfile> {
 
-            @Override
-            public void onFailed(VolleyError error) {
-                //失败
-                loadProfoleFailed();
-            }
-        });
-    }
+        public LoadUserProfileRequest(UserFragment userFragment) {
+            super(userFragment);
+        }
 
-    private void loadProfoleFailed() {
-        //MiscUtil.toast(R.string.load_user_info_failed);
-    }
+        @Override
+        public UserProfile request() throws Exception {
+            return new UserProfileApi().get();
+        }
 
-    private void updateUserProfile(JSONObject jsonObject) {
-        updateUserAvator(jsonObject.optString(Constants.AVATOR));
-    }
+        @Override
+        public void onApiSuccess(@NonNull UserProfile user) {
+            get().updateUserProfile(user);
+        }
 
-    private void updateUserAvator(String avatorUrl) {
-        if (!TextUtils.isEmpty(avatorUrl)) {
-            UserManager.getInstance().setAvatorUrl(avatorUrl);
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().loadProfileFailed();
         }
     }
 
-    private void updateUserAvatorUI() {
+    private void loadProfileFailed() {
+        //MiscUtil.toast(R.string.load_user_info_failed);
+    }
+
+    private void updateUserProfile(UserProfile user) {
+        updateUserAvatar(user.getAvatar());
+        updateUserAvatarUI();
+    }
+
+    private void updateUserAvatar(String avatarUrl) {
+        if (!TextUtils.isEmpty(avatarUrl)) {
+            UserManager.getInstance().setAvatorUrl(avatarUrl);
+        }
+    }
+
+    private void updateUserAvatarUI() {
         if (UserManager.getInstance().isLogin()) {
             String string = UserManager.getInstance().getAvatorUrl();
             if (!TextUtils.isEmpty(string)) {
@@ -227,29 +229,13 @@ public class UserFragment extends BaseFragment {
 
     }
 
-    private void loadUserInfo() {
-        NetworkSender.getStuInfo(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                if (json == null) {
-                    //失败
-                    loadInfoFailed();
-                }
-                UserListResult userListResult = JsonUtil.parseStringData(json.toString(), UserListResult.class);
-                if (userListResult != null && userListResult.getResults() != null && userListResult.getResults().get(0) != null) {
-                    Log.i("UserFragment", "UserFragment:" + json.toString());
-                    updateUserInfo(userListResult.getResults().get(0));
-                    updateUserInfoUI();
-                    return;
-                }
-                loadInfoFailed();
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                loadInfoFailed();
-            }
-        });
+    private void onLoadUserInfoSuccess(@NonNull UserListResult result) {
+        if (result.getResults() != null && result.getResults().get(0) != null) {
+            updateUserInfo(result.getResults().get(0));
+            updateUserInfoUI();
+        } else {
+            loadInfoFailed();
+        }
     }
 
     private void loadInfoFailed() {
@@ -290,7 +276,7 @@ public class UserFragment extends BaseFragment {
 
     @OnClick(R.id.iv_user_avatar)
     public void OnClickUserAvatar(View view) {
-        if (checkLogin() == false) return;
+        if (!checkLogin()) return;
         ArrayList<BaseEntity> datas = new ArrayList<>();
         datas.add(new BaseEntity(1L, "拍照"));
         datas.add(new BaseEntity(2L, "相册"));
@@ -546,6 +532,24 @@ public class UserFragment extends BaseFragment {
     }
 
 
+    private static final class UploadAvatar extends BaseApiContext<UserFragment, String> {
+
+        public UploadAvatar(UserFragment userFragment) {
+            super(userFragment);
+        }
+
+        @Override
+        public String request() throws Exception {
+            return null;
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull String response) {
+
+        }
+    }
+
+
     private void uploadFile() {
         DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
 
@@ -609,5 +613,27 @@ public class UserFragment extends BaseFragment {
     @Override
     public String getStatName() {
         return "我的页面";
+    }
+
+    private static final class FetchStudentInfoRequest extends BaseApiContext<UserFragment, UserListResult> {
+
+        public FetchStudentInfoRequest(UserFragment userFragment) {
+            super(userFragment);
+        }
+
+        @Override
+        public UserListResult request() throws Exception {
+            return new StudentInfoApi().getStudentInfo();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull UserListResult response) {
+            get().onLoadUserInfoSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().loadInfoFailed();
+        }
     }
 }

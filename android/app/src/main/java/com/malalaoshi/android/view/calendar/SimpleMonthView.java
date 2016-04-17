@@ -10,20 +10,18 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
-import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.ViewUtils;
 
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -119,7 +117,7 @@ public class SimpleMonthView extends View {
     private OnDayClickListener mOnDayClickListener;
 
     //当月课程信息,key:day,值:当日课程数组
-    private Map<Integer, List<Cource>> courses = new HashMap<>();
+    private Map<Integer, List<Course>> courses = new HashMap<>();
 
 
     public SimpleMonthView(Context context, TypedArray typedArray) {
@@ -166,7 +164,7 @@ public class SimpleMonthView extends View {
 
     }
 
-    public void setCourses(Map<Integer, List<Cource>> courses) {
+    public void setCourses(Map<Integer, List<Course>> courses) {
         this.courses = courses;
     }
 
@@ -198,7 +196,7 @@ public class SimpleMonthView extends View {
 
     private void onDayClick(SimpleMonthAdapter.CalendarDay calendarDay) {
         if (mOnDayClickListener != null && (isPrevDayEnabled || !((calendarDay.month == today.month) && (calendarDay.year == today.year) && calendarDay.day < today.monthDay))) {
-            List<Cource> listCource = null;
+            List<Course> listCource = null;
             if (courses!=null){
                 listCource = courses.get(calendarDay.day);
             }
@@ -310,11 +308,11 @@ public class SimpleMonthView extends View {
             int dayX = (2 * dayOffset + 1) * halfSpacing + leftPadding;
             int dayY = y + splitLineStrokeHeight + dayTopPadding + dayTextHeight;
             //判断当天有没有课程
-            List<Cource> dayCourses = getCourses(day);
+            List<Course> dayCourses = getCourses(day);
             //当天有课程
             if (dayCourses != null && dayCourses.size() > 0) {
                 String dayLabelText = null;
-                Cource cource = dayCourses.get(0);
+                Course cource = dayCourses.get(0);
 
                 if (mHasToday && (mToday == day)) {
                     dayTextPaint.setColor(selectColor);
@@ -382,8 +380,8 @@ public class SimpleMonthView extends View {
         canvas.drawLine(lineStartX, lineStartY, lineStartX + getWidth(), lineStartY, splitLinePaint);
     }
 
-    private List<Cource> getCourses(int day) {
-        List<Cource> dayCourses = null;
+    private List<Course> getCourses(int day) {
+        List<Course> dayCourses = null;
         if (courses != null) {
             dayCourses = courses.get(day);
         }
@@ -503,6 +501,6 @@ public class SimpleMonthView extends View {
     }
 
     public static abstract interface OnDayClickListener {
-        public abstract void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Cource> courses);
+        public abstract void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Course> courses);
     }
 }

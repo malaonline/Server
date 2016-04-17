@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by kang on 16/2/17.
  */
-public class Cource implements Parcelable {
+public class Course implements Parcelable {
     private Integer id;
     private String subject;
     private boolean is_passed;
@@ -25,7 +25,7 @@ public class Cource implements Parcelable {
     private Teacher teacher;
     private Comment comment;
 
-    public Cource() {
+    public Course() {
     }
 
     public Integer getId() {
@@ -100,8 +100,8 @@ public class Cource implements Parcelable {
         this.comment = comment;
     }
 
-    public static List<Cource> getCources(List<Cource> cources,SimpleMonthAdapter.CalendarDay data) {
-        List<Cource>  courceList = new ArrayList<>();
+    public static List<Course> getCources(List<Course> cources, SimpleMonthAdapter.CalendarDay data) {
+        List<Course>  courceList = new ArrayList<>();
         for (int i=0;i<cources.size();i++){
             if ((CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd())).equals(data)){
                 courceList.add(cources.get(i));
@@ -111,11 +111,11 @@ public class Cource implements Parcelable {
     }
 
     //将List<Cource>以"year+month"为Key方式存储
-    public static Map<String, List<Cource>> getCourses(List<Cource> cources){
-        Map<String, List<Cource>> mapCourse = new HashMap<>();
+    public static Map<String, List<Course>> getCourses(List<Course> cources){
+        Map<String, List<Course>> mapCourse = new HashMap<>();
         for (int i=0;i<cources.size();i++){
             SimpleMonthAdapter.CalendarDay calendar = (CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd()));
-            List<Cource> listCourse = mapCourse.get(calendar.getYear()+calendar.getMonth());
+            List<Course> listCourse = mapCourse.get(calendar.getYear()+calendar.getMonth());
             if (listCourse==null){
                 listCourse = new ArrayList<>();
                 mapCourse.put(calendar.getYear()+calendar.getMonth()+"",listCourse);
@@ -144,7 +144,7 @@ public class Cource implements Parcelable {
         dest.writeParcelable(this.comment, flags);
     }
 
-    protected Cource(Parcel in) {
+    protected Course(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.subject = in.readString();
         this.is_passed = in.readByte() != 0;
@@ -156,13 +156,13 @@ public class Cource implements Parcelable {
         this.comment = in.readParcelable(Comment.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Cource> CREATOR = new Parcelable.Creator<Cource>() {
-        public Cource createFromParcel(Parcel source) {
-            return new Cource(source);
+    public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
+        public Course createFromParcel(Parcel source) {
+            return new Course(source);
         }
 
-        public Cource[] newArray(int size) {
-            return new Cource[size];
+        public Course[] newArray(int size) {
+            return new Course[size];
         }
     };
 }

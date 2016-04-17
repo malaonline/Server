@@ -1,30 +1,28 @@
 package com.malalaoshi.android.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
+import com.malalaoshi.android.api.TimeTableApi;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
-import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.dialog.CourseDetailDialog;
-import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.listener.DatePickerController;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.CalendarUtils;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.view.calendar.DayPickerView;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
@@ -86,7 +84,7 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
         });
 
         //下载数据
-        initDatas();
+        initData();
         EventBus.getDefault().register(this);
         return v;
     }
@@ -100,14 +98,14 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
     public void onEventMainThread(BusEvent event) {
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
-                loadDatas();
+                loadData();
                 break;
         }
     }
 
 
-    private void initDatas() {
-        loadDatas();
+    private void initData() {
+        loadData();
     }
 
 
@@ -127,57 +125,57 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
     }
 
     @Override
-    public void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Cource> courses) {
+    public void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Course> courses) {
 
         if (courses != null && courses.size() > 0) {
-            CourseDetailDialog courseDetailDialog = CourseDetailDialog.newInstance((ArrayList<Cource>) courses);
+            CourseDetailDialog courseDetailDialog = CourseDetailDialog.newInstance((ArrayList<Course>) courses);
             courseDetailDialog.show(getFragmentManager(), CourseDetailDialog.class.getName());
             StatReporter.courseTimePage();
         }
     }
 
+    private static final class LoadTimeTable extends BaseApiContext<UserTimetableFragment, CourseListResult> {
+
+        public LoadTimeTable(UserTimetableFragment userTimetableFragment) {
+            super(userTimetableFragment);
+        }
+
+        @Override
+        public CourseListResult request() throws Exception {
+            return new TimeTableApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull CourseListResult response) {
+            get().updateData(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().loadTimeTableFailed();
+        }
+    }
+
 
     //加载数据
-    public void loadDatas() {
-        if (!UserManager.getInstance().isLogin()) {
-            return;
-        }
-        NetworkSender.getTimetable(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                courses = JsonUtil.parseStringData(json.toString(), CourseListResult.class);
-                //courses = JsonUtil.parseData(R.raw.courses, CourseListResult.class, getContext());
-                if (courses != null) {
-                    updateDatas(courses);
-                } else {
-                    //数据请求失败
-                    loadTimeTableFailed();
-                }
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                //dealRequestError(error.getMessage());
-                Log.e(LoginFragment.class.getName(), error.getMessage(), error);
-                loadTimeTableFailed();
-            }
-        });
+    public void loadData() {
+        ApiExecutor.exec(new LoadTimeTable(this));
     }
 
     private void loadTimeTableFailed() {
         MiscUtil.toast(R.string.load_timetable_info_failed);
     }
 
-    private void updateDatas(CourseListResult courses) {
-        List<Cource> listCource = courses.getResults();
-        if (null != listCource) {
+    private void updateData(CourseListResult courses) {
+        List<Course> listCourse = courses.getResults();
+        if (null != listCourse) {
 
-            HashMap<String, List<Cource>> mapCourse = new HashMap<>();
-            for (int i = 0; i < listCource.size(); i++) {
-                Cource cource = listCource.get(i);
+            HashMap<String, List<Course>> mapCourse = new HashMap<>();
+            for (int i = 0; i < listCourse.size(); i++) {
+                Course cource = listCourse.get(i);
                 SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(cource.getEnd());
                 //指定月的课程信息
-                List<Cource> tempCourses = mapCourse.get(calendarDay.getYear() + "" + calendarDay.getMonth());
+                List<Course> tempCourses = mapCourse.get(calendarDay.getYear() + "" + calendarDay.getMonth());
                 if (tempCourses == null) {
                     tempCourses = new ArrayList<>();
                     mapCourse.put(calendarDay.getYear() + "" + calendarDay.getMonth(), tempCourses);

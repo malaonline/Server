@@ -1,23 +1,21 @@
 package com.malalaoshi.android.core.network.api;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.R;
-import com.malalaoshi.android.core.network.Callback;
 import com.malalaoshi.android.core.network.Constants;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.JsonUtil;
 
-import org.json.JSONObject;
-
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Base api
@@ -33,86 +31,97 @@ public abstract class BaseApi {
         return MalaContext.getContext().getString(R.string.api_host);
     }
 
+    protected abstract String getPath();
+
+    /**
+     * 是否添加Token Header.
+     *
+     * @return true
+     */
+    protected boolean addAuthHeader() {
+        return true;
+    }
+
+    protected HashMap<String, String> getHeaders() {
+        return null;
+    }
+
     protected OkHttpClient getHttpClient() {
         return client;
     }
 
-    protected <T> void httpPost(final String url, String json, final Callback<T> callback, final Class<T> cls) {
-        if (TextUtils.isEmpty(json)) {
-            json = (new JSONObject()).toString();
-        }
-        final String requestBody = json;
-        RequestBody body = RequestBody.create(JSON, requestBody);
-        final okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(getHost() + url)
-                .post(body)
-                .build();
-        MalaContext.exec(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    okhttp3.Response response = getHttpClient().newCall(request).execute();
-                    String back = response.body().string();
-                    T t = JsonUtil.parseStringData(back, cls);
-                    if (callback != null) {
-                        callback.setResult(t);
-                    }
-                } catch (Exception e) {
-                    Log.e("MALA", " " + e.toString());
-                    if (callback != null) {
-                        callback.setResult(null);
-                    }
-                }
-            }
-        });
+    /**
+     * 构建URL
+     *
+     * @param url path
+     * @return url
+     */
+    protected String getUrl(String url) {
+        return getHost() + url;
     }
 
-    public <T> void httpPatch(final String url, String json, final Callback<T> callback, final Class<T> cls) {
-        if (TextUtils.isEmpty(json)) {
-            json = (new JSONObject()).toString();
+    private void addHeaders(Request.Builder builder) {
+        if (addAuthHeader()) {
+            builder.addHeader(Constants.AUTH, getToken());
         }
+        if (EmptyUtils.isNotEmpty(getHeaders())) {
+            for (Map.Entry<String, String> item : getHeaders().entrySet()) {
+                builder.addHeader(item.getKey(), item.getValue());
+            }
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private <T> T http(Request.Builder builder, Class<T> cls) throws IOException {
+        addHeaders(builder);
+        okhttp3.Response response = getHttpClient().newCall(builder.build()).execute();
+        checkAuthError(response);
+        String back = response.body().string();
+        //String类型直接返回
+        if (cls.isAssignableFrom(String.class)) {
+            return (T) back;
+        }
+        return JsonUtil.parseStringData(back, cls);
+    }
+
+    protected <T> T httpGet(String url, final Class<T> cls) throws Exception {
+        final Request.Builder builder = new Request.Builder().url(getUrl(url));
+        return http(builder, cls);
+    }
+
+    protected <T> T httpPost(final String url, String json, final Class<T> cls) throws Exception {
         RequestBody body = RequestBody.create(JSON, json);
-        final okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(getHost() + url)
-                .patch(body)
-                .addHeader(Constants.AUTH, getToken())
-                .build();
-        final OkHttpClient client = new OkHttpClient();
-        MalaContext.exec(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    okhttp3.Response response = client.newCall(request).execute();
-                    String back = response.body().string();
-                    T t = JsonUtil.parseStringData(back, cls);
-                    if (callback != null) {
-                        callback.setResult(t);
-                    }
-                } catch (Exception e) {
-                    if (callback != null) {
-                        callback.setResult(null);
-                    }
-                }
-            }
-        });
+        final Request.Builder builder = new okhttp3.Request.Builder()
+                .url(getUrl(url))
+                .post(body);
+        return http(builder, cls);
     }
 
-    protected <T> void httpGet(String url, final Callback<T> callback, final Class<T> cls) {
-        final Request request = new Request.Builder().url(getHost() + url).build();
-        MalaContext.exec(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    okhttp3.Response response = getHttpClient().newCall(request).execute();
-                    String back = response.body().string();
-                    T t = JsonUtil.parseStringData(back, cls);
-                    callback.setResult(t);
-                } catch (Exception e) {
-                    Log.e("MALA", " " + e.toString());
-                    callback.setResult(null);
-                }
-            }
-        });
+    public <T> T httpPatch(final String url, String json, final Class<T> cls) throws Exception {
+        RequestBody body = RequestBody.create(JSON, json);
+        final Request.Builder builder = new okhttp3.Request.Builder()
+                .url(getUrl(url))
+                .patch(body);
+        return http(builder, cls);
+    }
+
+    protected <T> T httpDelete(String url, final Class<T> cls) throws Exception {
+        final Request.Builder builder = new Request.Builder().url(getUrl(url)).delete();
+        return http(builder, cls);
+    }
+
+    /**
+     * 如果是403错误的吧，把用户登出。但是我不确定403一定要登出。暂时这样，如果以后有不合理的地方。就还要判读Message
+     */
+    private void checkAuthError(Response response) {
+        if (response == null || EmptyUtils.isEmpty(response.message())) {
+            return;
+        }
+        //TODO 服务器的接口还是有问题。暂时不处理
+        if (response.code() == 403 && response.message().equals("__wait_server_change__")) {
+            UserManager.getInstance().logout();
+        }
     }
 
     private String buildUrl(String url, Map<String, String> params) {

@@ -2,22 +2,24 @@ package com.malalaoshi.android.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.entity.DoneModel;
+import com.malalaoshi.android.api.SaveUserSchoolApi;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.util.UIResultCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by kang on 16/1/24.
  */
-public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener{
+public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
     public static int RESULT_CODE_SCHOOL = 0x003;
     public static String EXTRA_USER_GRADE = "grade";
     public static String EXTRA_USER_SCHOOL = "school";
@@ -61,11 +63,11 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
     private void initDatas() {
         Intent intent = getIntent();
         userGrade = intent.getParcelableExtra(EXTRA_USER_GRADE);
-        if (userGrade!=null){
-            tvUserGrade.setText(userGrade.getName()!=null?userGrade.getName():"");
+        if (userGrade != null) {
+            tvUserGrade.setText(userGrade.getName() != null ? userGrade.getName() : "");
         }
         userSchool = intent.getStringExtra(EXTRA_USER_SCHOOL);
-        if (userSchool==null){
+        if (userSchool == null) {
             userSchool = "";
         }
         titleBar.setTitle("学校信息");
@@ -73,7 +75,7 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
     }
 
     @OnClick(R.id.rl_user_grade)
-    public void onClickUserGrade(View view){
+    public void onClickUserGrade(View view) {
         int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
         int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
         ArrayList<BaseEntity> datas = new ArrayList<>();
@@ -104,7 +106,7 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
         Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
 
         BaseEntity entity = null;
-        for (Grade g: Grade.gradeList) {
+        for (Grade g : Grade.gradeList) {
             if (g.getSupersetId() == null) {
                 continue;
             }
@@ -130,11 +132,11 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
     }
 
     @OnClick(R.id.rl_user_school)
-    public void onClickUserSchool(View view){
-        if (userSchool==null){
+    public void onClickUserSchool(View view) {
+        if (userSchool == null) {
             userSchool = "";
         }
-        Intent intent = new Intent(this,SingleInfoActivity.class);
+        Intent intent = new Intent(this, SingleInfoActivity.class);
         intent.putExtra(SingleInfoActivity.EXTRA_TITLE, "所在学校");
         intent.putExtra(SingleInfoActivity.EXTRA_VALUE, userSchool);
         startActivityForResult(intent, SingleInfoActivity.RESULT_CODE_VALUE);
@@ -143,9 +145,9 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==SingleInfoActivity.RESULT_CODE_VALUE){
+        if (resultCode == SingleInfoActivity.RESULT_CODE_VALUE) {
             userSchool = data.getStringExtra(SingleInfoActivity.EXTRA_VALUE);
-            if (userSchool==null){
+            if (userSchool == null) {
                 userSchool = "";
             }
             tvUserSchool.setText(userSchool);
@@ -160,12 +162,12 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
 
     @Override
     public void onTitleRightClick() {
-         postModifySchool();
+        postModifySchool();
     }
 
     private void postModifySchool() {
         userSchool = tvUserSchool.getText().toString();
-        if (TextUtils.isEmpty(userSchool)){
+        if (TextUtils.isEmpty(userSchool)) {
             MiscUtil.toast(R.string.usercenter_school_empty);
             return;
         }
@@ -177,30 +179,47 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
             e.printStackTrace();
             return;
         }
-
-        NetworkSender.saveChildSchool(json, new UIResultCallback<String>() {
-            @Override
-            protected void onResult(String json) {
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    if (jo.optBoolean(Constants.DONE, false)) {
-                        Log.i(TAG, "Set student's name succeed : " + json);
-                        MiscUtil.toast(R.string.usercenter_set_school_succeed);
-                        updateStuSchool(userSchool);
-                        setActivityResult();
-                        finish();
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                setStudentNameFailed();
-            }
-        });
+        ApiExecutor.exec(new SaveChildSchoolRequest(this, json.toString()));
     }
 
-    private void setStudentNameFailed() {
+    private void onSaveSchoolSuccess(DoneModel data) {
+        MiscUtil.toast(R.string.usercenter_set_school_succeed);
+        updateStuSchool(userSchool);
+        setActivityResult();
+        finish();
+    }
+
+    private void onSaveSchoolFailed() {
         MiscUtil.toast(R.string.usercenter_set_school_failed);
+    }
+
+    private static final class SaveChildSchoolRequest extends BaseApiContext<ModifyUserSchoolActivity, DoneModel> {
+
+        private String body;
+
+        public SaveChildSchoolRequest(ModifyUserSchoolActivity modifyUserSchoolActivity, String body) {
+            super(modifyUserSchoolActivity);
+            this.body = body;
+        }
+
+        @Override
+        public DoneModel request() throws Exception {
+            return new SaveUserSchoolApi().saveUserSchoolApi(body);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull DoneModel response) {
+            if (response.isDone()) {
+                get().onSaveSchoolSuccess(response);
+            } else {
+                get().onSaveSchoolFailed();
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().onSaveSchoolFailed();
+        }
     }
 
     private void updateStuSchool(String name) {
@@ -209,11 +228,11 @@ public class ModifyUserSchoolActivity extends BaseActivity implements TitleBarVi
         }
     }
 
-    private void setActivityResult(){
+    private void setActivityResult() {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_USER_GRADE, userGrade);
-        intent.putExtra(EXTRA_USER_SCHOOL,userSchool);
-        setResult(RESULT_CODE_SCHOOL,intent);
+        intent.putExtra(EXTRA_USER_SCHOOL, userSchool);
+        setResult(RESULT_CODE_SCHOOL, intent);
     }
 
     @Override

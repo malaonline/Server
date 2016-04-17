@@ -2,6 +2,7 @@ package com.malalaoshi.android.pay;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,15 +13,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.ScholarshipResult;
 import com.malalaoshi.android.event.ChoiceCouponEvent;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
+import com.malalaoshi.android.pay.api.CouponListApi;
 import com.malalaoshi.android.util.EventDispatcher;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
@@ -77,7 +78,7 @@ public class CouponListFragment extends Fragment {
                 adapter.setCheck(position);
             }
         });
-        fetchData();
+        ApiExecutor.exec(new FetchCouponRequest(this));
         return view;
     }
 
@@ -86,17 +87,24 @@ public class CouponListFragment extends Fragment {
         super.onAttach(context);
     }
 
-    private void fetchData() {
-        NetworkSender.getCouponList(new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                parseData(json.toString());
-            }
+    /**
+     * TODO use list parser
+     */
+    private static final class FetchCouponRequest extends BaseApiContext<CouponListFragment, String> {
 
-            @Override
-            public void onFailed(VolleyError error) {
-            }
-        });
+        public FetchCouponRequest(CouponListFragment couponListFragment) {
+            super(couponListFragment);
+        }
+
+        @Override
+        public String request() throws Exception {
+            return new CouponListApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull String response) {
+            get().parseData(response);
+        }
     }
 
     private void parseData(String jsonStr) {

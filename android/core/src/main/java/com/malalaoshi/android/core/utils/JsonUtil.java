@@ -1,6 +1,7 @@
 package com.malalaoshi.android.core.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -75,7 +76,7 @@ public class JsonUtil {
             T t1 = gson.fromJson(strJson, t);
             return t1;
         } catch (Exception e) {
-            //throw new HttpMessageNotReadableException("Could not read JSON: " + e.getMessage(), e);
+            Log.e("MALA", "parseStringData Error: " + e.getMessage());
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.malalaoshi.android.pay;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -15,19 +16,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.OrderStatusModel;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
-import com.malalaoshi.android.util.JsonUtil;
+import com.malalaoshi.android.pay.api.OrderStatusApi;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.util.UIResultCallback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -115,21 +114,13 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+
     private void pay() {
         if (resultEntity == null || TextUtils.isEmpty(resultEntity.getOrder_id())) {
             return;
         }
-        PayManager.getInstance().getOrderInfo(resultEntity.getId(),
-                currentPay.name(), new UIResultCallback<String>() {
-                    @Override
-                    protected void onResult(String data) {
-                        if (data != null) {
-                            payInternal(data.toString());
-                        } else {
-                            MiscUtil.toast("订单状态不正确");
-                        }
-                    }
-                });
+        ApiExecutor.exec(new FetchOrderInfoRequest(this, resultEntity.getId(), currentPay.name()));
     }
 
     private void payInternal(final String charge) {
@@ -155,8 +146,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (requestCode == PayManager.REQUEST_CODE_PAYMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getExtras().getString("pay_result");
-                String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
-                String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
                 Log.e("MALA", "On activity result: " + result);
 
                 if (result == null) {
@@ -229,34 +218,24 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (resultEntity == null) {
             return;
         }
-        String orderId = resultEntity.getId();
-        NetworkSender.getOrderStatus(orderId, new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                try {
-                    Log.i("MALA", json.toString());
-                    OrderStatusModel model = JsonUtil.parseStringData(json.toString(), OrderStatusModel.class);
-                    //支付失败
-                    if (!model.getStatus().equals("p")) {
-                        showResultDialog(PayResultDialog.Type.PAY_FAILED);
-                        return;
-                    }
-                    if (model.is_timeslot_allocated()) {
-                        showResultDialog(PayResultDialog.Type.PAY_SUCCESS);
-                    } else {
-                        //课程被占用
-                        showAllocateDialog();
-                    }
-                } catch (Exception e) {
-                    showResultDialog(PayResultDialog.Type.NETWORK_ERROR);
-                }
-            }
+        ApiExecutor.exec(new FetchOrderStatusRequest(this, resultEntity.getId()));
+    }
 
-            @Override
-            public void onFailed(VolleyError error) {
-                showResultDialog(PayResultDialog.Type.NETWORK_ERROR);
-            }
-        });
+    private void getOrderStatusSuccess(@NonNull OrderStatusModel status) {
+        if ("p".equals(status.getStatus())) {
+            showResultDialog(PayResultDialog.Type.PAY_FAILED);
+            return;
+        }
+        if (status.is_timeslot_allocated()) {
+            showResultDialog(PayResultDialog.Type.PAY_SUCCESS);
+        } else {
+            //课程被占用
+            showAllocateDialog();
+        }
+    }
+
+    private void getOrderStatusFailed() {
+        showResultDialog(PayResultDialog.Type.NETWORK_ERROR);
     }
 
     private void showDialog(DialogFragment fragment) {
@@ -272,6 +251,58 @@ public class PayFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         pendingDialog = null;
+    }
+
+    private static final class FetchOrderInfoRequest extends BaseApiContext<PayFragment, String> {
+
+        private String orderId;
+        private String payment;
+
+        public FetchOrderInfoRequest(PayFragment payFragment, String orderId, String payChannel) {
+            super(payFragment);
+            this.orderId = orderId;
+            this.payment = payChannel;
+        }
+
+        @Override
+        public String request() throws Exception {
+            return PayManager.getInstance().getOrderInfo(orderId, payment);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull String response) {
+            get().payInternal(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("订单状态不正确");
+        }
+    }
+
+    private static final class FetchOrderStatusRequest extends BaseApiContext<PayFragment, OrderStatusModel> {
+
+        private String orderId;
+
+        public FetchOrderStatusRequest(PayFragment payFragment, String orderId) {
+            super(payFragment);
+            this.orderId = orderId;
+        }
+
+        @Override
+        public OrderStatusModel request() throws Exception {
+            return new OrderStatusApi().getOrderStatus(orderId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull OrderStatusModel response) {
+            get().getOrderStatusSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().getOrderStatusFailed();
+        }
     }
 
 }

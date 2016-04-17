@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,12 +21,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
+import com.malalaoshi.android.core.usercenter.entity.Evaluated;
+import com.malalaoshi.android.course.api.CourseTimesApi;
+import com.malalaoshi.android.course.api.CourseWeekDataApi;
 import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CourseDateEntity;
@@ -37,21 +43,13 @@ import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.TimesModel;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
-import com.malalaoshi.android.pay.ResultCallback;
 import com.malalaoshi.android.util.DialogUtil;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     public CourseConfirmFragment() {
         coursePrices = new ArrayList<>();
-            schoolList = new ArrayList<>();
+        schoolList = new ArrayList<>();
     }
 
     @Bind(R.id.gv_course)
@@ -142,7 +140,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private GradeAdapter gradeAdapter;
     private SchoolAdapter schoolAdapter;
     private TimesAdapter timesAdapter;
-    private ChoiceAdapter choiceAdapter;
     //学校FootView
     private View footView;
     //teacher id
@@ -167,7 +164,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_course_confirm, null);
+        View view = inflater.inflate(R.layout.fragment_course_confirm, container, false);
         ButterKnife.bind(this, view);
         initGridView();
         initSchoolListView();
@@ -218,7 +215,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void initChoiceListView() {
-        choiceAdapter = new ChoiceAdapter(getActivity());
+        ChoiceAdapter choiceAdapter = new ChoiceAdapter(getActivity());
         choiceListView.setAdapter(choiceAdapter);
     }
 
@@ -227,50 +224,54 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         timesListView.setAdapter(timesAdapter);
     }
 
+    private static final class FetchWeekDataRequest extends
+            BaseApiContext<CourseConfirmFragment, String> {
+
+        private long teacherId;
+        private long schoolId;
+
+        public FetchWeekDataRequest(CourseConfirmFragment courseConfirmFragment, long teacherId, long schoolId) {
+            super(courseConfirmFragment);
+            this.teacherId = teacherId;
+            this.schoolId = schoolId;
+        }
+
+        @Override
+        public String request() throws Exception {
+            return new CourseWeekDataApi().get(teacherId, schoolId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull String response) {
+            get().onFetchWeekDataSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("课表数据错误");
+        }
+    }
+
+    private void onFetchWeekDataSuccess(String response) {
+        try {
+            choiceView.setData(CourseDateEntity.format(response));
+            weekContainer.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MiscUtil.toast("课表数据错误");
+        }
+    }
+
     private void fetchWeekData() {
         if (teacher == null || currentSchool == null) {
             return;
         }
-        NetworkSender.getCourseWeek(teacher, currentSchool.getSchool().getId(), new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                try {
-                    choiceView.setData(CourseDateEntity.format(json.toString()));
-                    weekContainer.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    MiscUtil.toast("课表数据错误");
-                }
-
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-            }
-        });
+        ApiExecutor.exec(new FetchWeekDataRequest(this, teacher, currentSchool.getSchool().getId()));
     }
 
     private void fetchEvaluated() {
         if (subject != null) {
-            NetworkSender.getEvaluated(subject.getId(), new NetworkListener() {
-                @Override
-                public void onSucceed(Object json) {
-                    try {
-                        JSONObject js = new JSONObject(json.toString());
-                        if (!js.optBoolean("evaluated")) {
-                            reviewLayout.setVisibility(View.VISIBLE);
-                            evaluatedLine.setVisibility(View.VISIBLE);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailed(VolleyError error) {
-
-                }
-            });
+            ApiExecutor.exec(new FetchEvaluatedRequest(this, subject.getId()));
         }
     }
 
@@ -291,7 +292,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             selectedTimeSlots = selectedTimeSlots.substring(0, selectedTimeSlots.length() - 1);
         }
         timesListView.setVisibility(View.GONE);
-        ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
+        ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         isShowingTimes = false;
     }
 
@@ -309,22 +310,22 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                 setHoursText();
             }
             timesListView.setVisibility(View.GONE);
-            ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
+            ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.iv_add) {
             currentHours += 2;
             setHoursText();
             timesListView.setVisibility(View.GONE);
-            ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
+            ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.rl_show_time_container) {
             if (isShowingTimes) {
                 timesListView.setVisibility(View.GONE);
-                ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
+                ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
                 isShowingTimes = false;
                 return;
             }
             if (!shouldUpdateTimes) {
                 timesListView.setVisibility(View.VISIBLE);
-                ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
+                ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
                 isShowingTimes = true;
                 return;
             }
@@ -377,54 +378,27 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
          * 为什么把创建订单外面，因为创建订单时有加载时间，可以方便做加载动画
          */
         submitView.setOnClickListener(null);
-        PayManager.getInstance().createOrder(entity, new ResultCallback<Object>() {
-            @Override
-            public void onResult(Object entity) {
-                submitView.setOnClickListener(CourseConfirmFragment.this);
-                dealOrder(entity);
-            }
-        });
+        ApiExecutor.exec(new CreateOrderRequest(this, entity));
     }
 
-    private void dealOrder(Object entity) {
-        if (entity == null) {
-            MiscUtil.toast("创建订单失败");
-            return;
-        }
-        JSONTokener jsonParser = new JSONTokener(entity.toString());
-        boolean isOk = false;
-        int code = 0;
-        try {
-            JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
-            isOk = jsonObject.getBoolean("ok");
-            code = jsonObject.getInt("code");
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-        }finally {
-            if (!isOk && code==-1) {
-                DialogUtil.showPromptDialog(getFragmentManager(), R.drawable.ic_timeallocate,"该老师部分时段已被占用，请重新选择上课时间!" , "知道了",  new PromptDialog.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        //刷新数据
-                        fetchWeekData();
-                    }
-                },false, false);
-            }else{
-                CreateCourseOrderResultEntity result = JsonUtil.parseStringData(
-                        entity.toString(), CreateCourseOrderResultEntity.class);
-                if (result != null) {
-                    coupon = null;
-                    scholarView.setText("未使用奖学金");
-                    calculateSum();
-                    openPayActivity(result);
-                }else{
-                    MiscUtil.toast("创建订单失败");
-                }
-            }
+    private void dealOrder(@NonNull CreateCourseOrderResultEntity entity) {
+        if (!entity.isOk() && entity.getCode() == -1) {
+            DialogUtil.showPromptDialog(
+                    getFragmentManager(), R.drawable.ic_timeallocate,
+                    "该老师部分时段已被占用，请重新选择上课时间!", "知道了", new PromptDialog.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            //刷新数据
+                            fetchWeekData();
+                        }
+                    }, false, false);
+        } else {
+            coupon = null;
+            scholarView.setText("未使用奖学金");
+            calculateSum();
+            openPayActivity(entity);
         }
     }
-
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
         PayActivity.startPayActivity(entity, getActivity());
@@ -445,34 +419,49 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
     }
 
+    private static final class FetchCourseTimesRequest extends BaseApiContext<CourseConfirmFragment, TimesModel> {
+
+        private long teacherId;
+        private String times;
+        private long hours;
+
+        public FetchCourseTimesRequest(CourseConfirmFragment courseConfirmFragment,
+                                       long teacherId, long hours, String times) {
+            super(courseConfirmFragment);
+            this.teacherId = teacherId;
+            this.hours = hours;
+            this.times = times;
+        }
+
+        @Override
+        public TimesModel request() throws Exception {
+            return new CourseTimesApi().get(teacherId, hours, times);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull TimesModel response) {
+            get().onFetchCourseTimesSuccess(response);
+        }
+    }
+
+    private void onFetchCourseTimesSuccess(TimesModel times) {
+        timesAdapter.clear();
+        if (times != null) {
+            timesAdapter.addAll(times.getDisplayTimes());
+            timesAdapter.notifyDataSetChanged();
+        }
+        timesListView.setVisibility(View.VISIBLE);
+        ((ImageView) showTimesImageView).setImageDrawable(
+                getResources().getDrawable(R.drawable.ic_drop_up));
+        shouldUpdateTimes = false;
+        isShowingTimes = true;
+    }
+
     private void fetchCourseTimes() {
         if (TextUtils.isEmpty(selectedTimeSlots)) {
             return;
         }
-        NetworkSender.fetchCourseTimes(teacher, selectedTimeSlots, currentHours + "", new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                try {
-                    TimesModel times = JsonUtil.parseStringData(json.toString(), TimesModel.class);
-                    timesAdapter.clear();
-                    if (times != null) {
-                        timesAdapter.addAll(times.getDisplayTimes());
-                        timesAdapter.notifyDataSetChanged();
-                    }
-                    timesListView.setVisibility(View.VISIBLE);
-                    ((ImageView)showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
-                    shouldUpdateTimes = false;
-                    isShowingTimes = true;
-                } catch (Exception e) {
-
-                }
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-
-            }
-        });
+        ApiExecutor.exec(new FetchCourseTimesRequest(this, teacher, currentHours, selectedTimeSlots));
     }
 
     @Override
@@ -516,14 +505,14 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             rlPrice.setVisibility(View.VISIBLE);
             float price = sum <= 0 ? 1 : sum;
             price = price / 100f;
-            tvPrice.setText("¥ "+String.valueOf(price));
+            tvPrice.setText("¥ " + String.valueOf(price));
             sum -= Integer.valueOf(coupon.getAmount());
-        }else{
+        } else {
             rlPrice.setVisibility(View.GONE);
         }
         sum = sum <= 0 ? 1 : sum;
         sum = sum / 100f;
-        amountView.setText("¥ "+String.valueOf(sum));
+        amountView.setText("¥ " + String.valueOf(sum));
     }
 
     private void initGridView() {
@@ -688,5 +677,66 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     @Override
     public String getStatName() {
         return "课程确认";
+    }
+
+    private static final class CreateOrderRequest extends
+            BaseApiContext<CourseConfirmFragment, CreateCourseOrderResultEntity> {
+
+        private CreateCourseOrderEntity entity;
+
+        public CreateOrderRequest(CourseConfirmFragment courseConfirmFragment,
+                                  CreateCourseOrderEntity entity) {
+            super(courseConfirmFragment);
+            this.entity = entity;
+        }
+
+        @Override
+        public CreateCourseOrderResultEntity request() throws Exception {
+            return PayManager.getInstance().createOrder(entity);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull CreateCourseOrderResultEntity response) {
+            get().dealOrder(response);
+        }
+
+        @Override
+        public void onApiStarted() {
+            get().submitView.setOnClickListener(null);
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().submitView.setOnClickListener(get());
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("创建订单失败");
+        }
+    }
+
+
+    private static final class FetchEvaluatedRequest extends BaseApiContext<CourseConfirmFragment, Evaluated> {
+
+        private long subjectId;
+
+        public FetchEvaluatedRequest(CourseConfirmFragment courseConfirmFragment, Long subjectId) {
+            super(courseConfirmFragment);
+            this.subjectId = subjectId;
+        }
+
+        @Override
+        public Evaluated request() throws Exception {
+            return new EvaluatedApi().get(subjectId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull Evaluated response) {
+            if (response.isEvaluated()) {
+                get().reviewLayout.setVisibility(View.VISIBLE);
+                get().evaluatedLine.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

@@ -10,7 +10,8 @@ import android.webkit.WebViewClient;
 
 import com.malalaoshi.android.core.R;
 import com.malalaoshi.android.core.base.BaseActivity;
-import com.malalaoshi.android.core.network.UIResultCallback;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.api.UserProtocolApi;
 import com.malalaoshi.android.core.usercenter.entity.UserPolicy;
 import com.malalaoshi.android.core.view.TitleBarView;
@@ -21,7 +22,7 @@ import com.malalaoshi.android.core.view.TitleBarView;
  */
 public class UserProtocolActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
     private static final String CONTENT_TYPE = "text/html";
-    private static final String UTF8 = "UTF-8";
+    private static final String UTF8 = "utf-8";
     private static final String CACHE_NAME = "user_protocol_cache";
     private static final String CACHE_KEY = "content";
 
@@ -33,11 +34,14 @@ public class UserProtocolActivity extends BaseActivity implements TitleBarView.O
         setContentView(R.layout.core__activity_user_protocol);
         webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new MLWebViewClient());
-        UserProtocolApi protocolApi = new UserProtocolApi();
-        protocolApi.get(new FetchProtocolCallback(this));
         TitleBarView titleBarView = (TitleBarView) findViewById(R.id.title_bar_view);
-        titleBarView.setOnTitleBarClickListener(this);
+        if (titleBarView != null) {
+            titleBarView.setOnTitleBarClickListener(this);
+        }
+        //用户协议
+        ApiExecutor.exec(new FetchProtocolRequest(this));
     }
+
 
     @Override
     public void onTitleLeftClick() {
@@ -49,19 +53,12 @@ public class UserProtocolActivity extends BaseActivity implements TitleBarView.O
 
     }
 
-    private static final class FetchProtocolCallback extends UIResultCallback<UserProtocolActivity, UserPolicy> {
-        public FetchProtocolCallback(UserProtocolActivity userProtocolActivity) {
-            super(userProtocolActivity);
-        }
-
-        @Override
-        public void onResult(@NonNull UserProtocolActivity activity, UserPolicy userPolicy) {
-            if (userPolicy != null && userPolicy.getContent() != null) {
-                activity.loadData(userPolicy.getContent());
-                activity.saveCache(userPolicy.getContent());
-            } else {
-                activity.loadCache();
-            }
+    private void onFetchSuccess(@NonNull UserPolicy userPolicy) {
+        if (userPolicy.getContent() != null) {
+            loadData(userPolicy.getContent());
+            saveCache(userPolicy.getContent());
+        } else {
+            loadCache();
         }
     }
 
@@ -81,8 +78,7 @@ public class UserProtocolActivity extends BaseActivity implements TitleBarView.O
     }
 
     private void loadData(String content) {
-        //webView.loadData(content, CONTENT_TYPE, UTF8);
-        webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+        webView.loadDataWithBaseURL(null, content, CONTENT_TYPE, UTF8, null);
     }
 
     private class MLWebViewClient extends WebViewClient {
@@ -96,5 +92,22 @@ public class UserProtocolActivity extends BaseActivity implements TitleBarView.O
     @Override
     protected String getStatName() {
         return "用户协议";
+    }
+
+    private static final class FetchProtocolRequest extends BaseApiContext<UserProtocolActivity, UserPolicy> {
+
+        public FetchProtocolRequest(UserProtocolActivity userProtocolActivity) {
+            super(userProtocolActivity);
+        }
+
+        @Override
+        public UserPolicy request() throws Exception {
+            return new UserProtocolApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull UserPolicy userPolicy) {
+            get().onFetchSuccess(userPolicy);
+        }
     }
 }

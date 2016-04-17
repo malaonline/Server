@@ -10,7 +10,8 @@ import android.widget.EditText;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
-import com.malalaoshi.android.core.network.UIResultCallback;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.AddStudentNameApi;
 import com.malalaoshi.android.core.usercenter.entity.AddStudentName;
@@ -21,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Modify the name of student
  * Created by kang on 16/1/25.
  */
 public class ModifyUserNameActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
@@ -70,24 +72,35 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
 
     }
 
-    private static final class SaveChildNameCallback extends
-            UIResultCallback<ModifyUserNameActivity, AddStudentName> {
-        public SaveChildNameCallback(ModifyUserNameActivity modifyUserNameActivity) {
-            super(modifyUserNameActivity);
+    private static final class ModifyStudentNameRequest extends BaseApiContext<ModifyUserNameActivity, AddStudentName> {
+
+        private String name;
+
+        public ModifyStudentNameRequest(ModifyUserNameActivity activity, String name) {
+            super(activity);
+            this.name = name;
         }
 
         @Override
-        public void onResult(@NonNull ModifyUserNameActivity activity, AddStudentName student) {
-            if (student != null && student.isDone()) {
-                MiscUtil.toast(R.string.usercenter_set_student_succeed);
-                activity.updateStuName();
-                activity.setActivityResult();
-            } else {
-                Log.i(TAG, "Set student's name failed.");
-                MiscUtil.toast(R.string.usercenter_set_student_failed);
-            }
+        public AddStudentName request() throws Exception {
+            return new AddStudentNameApi().get(this.name);
         }
 
+        @Override
+        public void onApiSuccess(@NonNull AddStudentName data) {
+            get().onChangeStudentNameSuccess(data);
+        }
+    }
+
+    private void onChangeStudentNameSuccess(AddStudentName data) {
+        if (data.isDone()) {
+            MiscUtil.toast(R.string.usercenter_set_student_succeed);
+            updateStuName();
+            setActivityResult();
+        } else {
+            Log.i(TAG, "Set student's name failed.");
+            MiscUtil.toast(R.string.usercenter_set_student_failed);
+        }
     }
 
     private void postModifyUserName() {
@@ -96,8 +109,7 @@ public class ModifyUserNameActivity extends BaseActivity implements TitleBarView
             MiscUtil.toast(R.string.usercenter_student_empty);
             return;
         }
-        AddStudentNameApi api = new AddStudentNameApi();
-        api.get(userName, new SaveChildNameCallback(this));
+        ApiExecutor.exec(new ModifyStudentNameRequest(this,userName));
     }
 
     private void updateStuName() {

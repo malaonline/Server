@@ -15,6 +15,9 @@ public class CreateCourseOrderResultEntity extends CreateCourseOrderEntity {
     private String status;
     private long to_pay;
 
+    private boolean ok;
+    private int code;
+
     public String getOrder_id() {
         return order_id;
     }
@@ -69,6 +72,22 @@ public class CreateCourseOrderResultEntity extends CreateCourseOrderEntity {
 
     public void setTo_pay(long to_pay) {
         this.to_pay = to_pay;
+    }
+
+    public boolean isOk() {
+        return ok;
+    }
+
+    public void setOk(boolean ok) {
+        this.ok = ok;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public static CreateCourseOrderResultEntity parse(Object obj) {

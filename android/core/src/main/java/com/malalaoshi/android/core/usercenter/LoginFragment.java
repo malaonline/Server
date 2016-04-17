@@ -21,7 +21,8 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.core.R;
 import com.malalaoshi.android.core.base.BaseFragment;
-import com.malalaoshi.android.core.network.UIResultCallback;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.api.VerifyCodeApi;
 import com.malalaoshi.android.core.usercenter.entity.AuthUser;
@@ -34,7 +35,6 @@ import com.malalaoshi.android.core.view.MaClickableSpan;
  * Created by tianwei on 3/26/16.
  */
 public class LoginFragment extends BaseFragment implements View.OnClickListener, MaClickableSpan.OnLinkClickListener {
-    private static final String TAG = "VerificationView";
     private static final int SEND_VERIFY_INTERVAL = 60;
 
     private EditText codeEditView;
@@ -46,14 +46,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private TextView errorPhoneView;
     private boolean enableVerifyButton;
     private Handler handler;
-    private VerifyCodeApi verifyCodeApi;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.core__fragment_login, null);
+        View rootView = inflater.inflate(R.layout.core__fragment_login, container, false);
         initView(rootView);
-        verifyCodeApi = new VerifyCodeApi();
         return rootView;
     }
 
@@ -148,7 +146,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             errorPhoneView.setVisibility(View.VISIBLE);
             return;
         }
-        fetchVerifyCode(phone);
+        ApiExecutor.exec(new FetchVerifyCodeRequest(this, phone));
     }
 
     @Override
@@ -182,24 +180,29 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         userAgreeView.setMovementMethod(new LinkMovementMethod());
     }
 
-    private void fetchVerifyCode(String phone) {
-        verifyCodeApi.get(phone, new FetchVerifyCodeCallback(this));
-    }
-
     /**
      * 这样写的目的是防止内存溢出，同时可以不用主动去取消一个请求
      */
-    private static class FetchVerifyCodeCallback extends UIResultCallback<LoginFragment, SendSms> {
-        public FetchVerifyCodeCallback(LoginFragment fragment) {
-            super(fragment);
+    private static class FetchVerifyCodeRequest extends BaseApiContext<LoginFragment, SendSms> {
+
+        private String phone;
+
+        public FetchVerifyCodeRequest(LoginFragment loginFragment, String phone) {
+            super(loginFragment);
+            this.phone = phone;
         }
 
         @Override
-        public void onResult(@NonNull LoginFragment loginFragment, SendSms sendSms) {
-            if (sendSms == null || !sendSms.isSent()) {
-                loginFragment.fetchCodeFailed();
+        public SendSms request() throws Exception {
+            return new VerifyCodeApi().get(phone);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull SendSms sendSms) {
+            if (!sendSms.isSent()) {
+                get().fetchCodeFailed();
             } else {
-                loginFragment.fetchSucceeded();
+                get().fetchSucceeded();
             }
         }
     }
@@ -234,19 +237,34 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     /**
      * 这样写的目的是防止内存溢出，同时可以不用主动去取消一个请求
      */
-    private static class CheckVerifyCodeCallback extends UIResultCallback<LoginFragment, AuthUser> {
+    private static class CheckVerifyCodeRequest extends BaseApiContext<LoginFragment, AuthUser> {
 
-        public CheckVerifyCodeCallback(LoginFragment loginFragment) {
+        private String phone;
+        private String code;
+
+        public CheckVerifyCodeRequest(LoginFragment loginFragment, String phone, String code) {
             super(loginFragment);
+            this.phone = phone;
+            this.code = code;
         }
 
         @Override
-        public void onResult(@NonNull LoginFragment loginFragment, AuthUser user) {
-            if (user == null || !user.isVerified()) {
-                loginFragment.errorView.setVisibility(View.VISIBLE);
+        public AuthUser request() throws Exception {
+            return new VerifyCodeApi().check(phone, code);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull AuthUser user) {
+            if (!user.isVerified()) {
+                get().verifyFailed();
             } else {
-                loginFragment.verifySucceeded(user);
+                get().verifySucceeded(user);
             }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().verifyFailed();
         }
     }
 
@@ -254,7 +272,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         StatReporter.verifyCode(getStatName());
         String phone = phoneEditView.getText().toString();
         String code = codeEditView.getText().toString();
-        verifyCodeApi.check(phone, code, new CheckVerifyCodeCallback(this));
+        ApiExecutor.exec(new CheckVerifyCodeRequest(this, phone, code));
     }
 
     private void verifySucceeded(AuthUser user) {
@@ -264,6 +282,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             startActivity(intent);
         }
         getActivity().finish();
+    }
+
+    private void verifyFailed() {
+        errorView.setVisibility(View.VISIBLE);
     }
 
     @Override

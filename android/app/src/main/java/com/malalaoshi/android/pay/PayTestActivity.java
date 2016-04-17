@@ -88,18 +88,18 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
         times.add(3);
         times.add(8);
         entity.setWeekly_time_slots(times);
-        PayManager.getInstance().createOrder(entity, new ResultCallback<Object>() {
-            @Override
-            public void onResult(Object obj) {
-                CreateCourseOrderResultEntity result = CreateCourseOrderResultEntity.parse(obj);
-                if (result == null) {
-                    messageView.setText("创建订单失败");
-                } else {
-                    resultEntity = result;
-                    messageView.setText(result.getOrder_id());
-                }
-            }
-        });
+//        PayManager.getInstance().createOrder(entity, new ResultCallback<Object>() {
+//            @Override
+//            public void onResult(Object obj) {
+//                CreateCourseOrderResultEntity result = CreateCourseOrderResultEntity.parse(obj);
+//                if (result == null) {
+//                    messageView.setText("创建订单失败");
+//                } else {
+//                    resultEntity = result;
+//                    messageView.setText(result.getOrder_id());
+//                }
+//            }
+//        });
     }
 
     @Override

@@ -24,7 +24,7 @@
 package com.malalaoshi.android.listener;
 
 import com.malalaoshi.android.adapter.SimpleMonthAdapter;
-import com.malalaoshi.android.entity.Cource;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.view.calendar.SimpleMonthView;
 
 import java.util.List;
@@ -34,5 +34,5 @@ public interface DatePickerController {
 
 	public abstract void onDayOfMonthSelected(int year, int month, int day);
 
-	public abstract void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Cource> courses);
+	public abstract void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay, List<Course> courses);
 }
