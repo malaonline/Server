@@ -66,6 +66,16 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         
         ThemeHUD.showActivityIndicator()
         
+        MalaCurrentInitAction = {
+            self.loadClassSchedule()
+            self.loadCoupons()
+            self.loadUserEvaluatedStatus()
+        }
+        
+        MalaCurrentCancelAction = { [weak self] in
+            self?.popSelf()
+        }
+        
         setupUserInterface()
 //        loadSchoolsData()
         loadClassSchedule()

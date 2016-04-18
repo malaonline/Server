@@ -52,7 +52,11 @@ extension String {
     }
     
     func subStringToIndex(index: Int) -> String {
-        return self.substringToIndex(self.startIndex.advancedBy(index))
+        if self.characters.count != 0 {
+            return self.substringToIndex(self.startIndex.advancedBy(index))
+        }else {
+            return ""
+        }
     }
     
     

@@ -19,7 +19,12 @@ let Mala_JPush_AppKey: String = "f22a395a332b87ef57a04b82"
 var MalaClassPeriod_StepValue: Double = 2
 var MalaIsPaymentIn: Bool = false
 var MalaIsForeground: Bool = true
+/// 登陆后获取用户所在地理位置信息
 var MalaLoginLocation: CLLocation? = nil
+/// 当前加载闭包（用于请求失败或403时重试）
+var MalaCurrentInitAction: (()->())?
+/// 取消加载闭包（用于请求失败或403时返回）
+var MalaCurrentCancelAction: (()->())?
 
 
 // MARK: - NotificationName

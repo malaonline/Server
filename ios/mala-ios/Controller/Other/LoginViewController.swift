@@ -13,6 +13,8 @@ class LoginViewController: UIViewController {
     // MARK: - Property
     /// 弹栈闭包
     var popAction: (()->())?
+    /// 关闭闭包
+    var closeAction: (()->())?
     
     
     // MARK: - Components
@@ -392,13 +394,16 @@ class LoginViewController: UIViewController {
             if loginUser.firstLogin == true {
                 self?.switchViewToSaveName()
             }else {
-                self?.closeButtonDidClick()
+                self?.dismissViewControllerAnimated(true, completion: nil)
                 getInfoWhenLoginSuccess()
             }
+            
+            MalaCurrentInitAction?()
         })
     }
     
     @objc private func closeButtonDidClick() {
+        closeAction?()
         dismissViewControllerAnimated(true, completion: nil)
     }
     

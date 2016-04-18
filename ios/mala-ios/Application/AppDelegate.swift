@@ -186,8 +186,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// 显示登陆页面
     func showLoginView() {
         
+        let loginViewController = LoginViewController()
+        loginViewController.closeAction = MalaCurrentCancelAction
+        
         window?.rootViewController?.presentViewController(
-            UINavigationController(rootViewController: LoginViewController()),
+            UINavigationController(rootViewController: loginViewController),
             animated: true,
             completion: { () -> Void in
                 
