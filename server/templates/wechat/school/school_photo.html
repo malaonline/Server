@@ -28,8 +28,9 @@
         $(function(){
             var schoolPhotosPopup = $.photoBrowser({
                 photos : photoList,
-                type: 'popup',
+                type: 'standalone',
                 theme: 'dark',
+                swipeToClose: false,
             });
             schoolPhotosPopup.open()
         });
