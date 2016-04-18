@@ -218,4 +218,20 @@ class MalaUserDefaults {
         // 配置清空成功表示注销成功
         MalaUserDefaults.isLogouted = defaults.synchronize()
     }
+    
+    class func userNeedRelogin() {
+        
+        if let _ = userAccessToken.value {
+            
+            cleanAllUserDefaults()
+            
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if let rootViewController = appDelegate.window?.rootViewController {
+                    MalaAlert.alert(title: "麻辣老师", message: "用户验证错误，请重新登录！", dismissTitle: "重新登录", inViewController: rootViewController, withDismissAction: {
+                        appDelegate.showLoginView()
+                    })
+                }
+            }
+        }
+    }
 }

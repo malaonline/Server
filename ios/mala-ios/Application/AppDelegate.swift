@@ -182,6 +182,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     // MARK: - Public Method
+    
+    /// 显示登陆页面
+    func showLoginView() {
+        
+        window?.rootViewController?.presentViewController(
+            UINavigationController(rootViewController: LoginViewController()),
+            animated: true,
+            completion: { () -> Void in
+                
+        })
+    }
+    
     ///  切换到首页
     func switchToStart() {
         window?.rootViewController = MainViewController()

@@ -209,7 +209,8 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     // 确保是自家服务
                     if let requestHost = request.URL?.host where requestHost == NSURL(string: MalaBaseUrl)!.host {
                         dispatch_async(dispatch_get_main_queue()) {
-                            //TODO: 重新登陆
+                            // 重新登陆
+                            MalaUserDefaults.userNeedRelogin()
                         }
                     }
                 }

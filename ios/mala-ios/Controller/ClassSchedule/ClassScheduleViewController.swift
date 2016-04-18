@@ -55,6 +55,7 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        scrollToToday()
         loadStudentCourseTable()
     }
 
@@ -102,10 +103,8 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
                 println("学生上课时间表为空！")
                 return
             }
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self?.model = parseStudentCourseTable(courseList!)
-                self?.scrollToToday()
-            }
+            self?.model = parseStudentCourseTable(courseList!)
+            self?.scrollToToday()
         })
     }
     
@@ -209,6 +208,8 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
     
     // MARK: - Event Response
     @objc private func scrollToToday() {
-        scrollToDate(NSDate(), animated: true)
+        dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+            self?.scrollToDate(NSDate(), animated: true)
+        })
     }
 }
