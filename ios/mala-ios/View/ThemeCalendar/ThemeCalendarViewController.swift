@@ -44,10 +44,11 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
         }
         get {
             let components = self.calendar.components(kCalendarUnitYMD, fromDate: NSDate())
-            components.month = 3
             components.day = 1
             let date = self.calendar.dateFromComponents(components)!
-            return date
+            // 课表起始时间为当天起向前一年
+            let startDate = date.dateBySubtractingYears(1)
+            return startDate
         }
     }
     /// 结束时间
@@ -56,8 +57,9 @@ public class ThemeCalendarViewController: UICollectionViewController, ThemeCalen
             self.lastDate = self.clampDate(lastDate, unitFlags: kCalendarUnitYMD)
         }
         get {
+            // 课表结束时间为当天起向后两年
             let offsetComponents = NSDateComponents()
-            offsetComponents.year = 1
+            offsetComponents.year = 2
             offsetComponents.day = -1
             let date = self.calendar.dateByAddingComponents(offsetComponents, toDate: self.firstDateMonth, options: NSCalendarOptions())!
             return date

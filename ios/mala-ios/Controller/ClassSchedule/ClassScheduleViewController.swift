@@ -25,7 +25,7 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
         }
     }
     /// 当前月份
-    private let currentMonth = 3
+    private let currentMonth = NSDate().month()
     
     
 
@@ -148,10 +148,12 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
         }
         
         // 若存在上课时间数据, 渲染Cell样式
-        let month = indexPath.section+currentMonth
-        let day = ((cell.date?.day() ?? 0))
-        if let model = model?[month]?[day] {
-            cell.models = model
+        if
+            let year = cell.date?.year(),
+            let month = cell.date?.month(),
+            let day = cell.date?.day(),
+            let course = model?[month]?[day] where course.first?.date.year() == year {
+            cell.models = course
         }
         
         cell.layer.shouldRasterize = true

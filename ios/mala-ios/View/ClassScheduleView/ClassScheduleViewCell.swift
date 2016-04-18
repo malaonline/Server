@@ -69,6 +69,10 @@ public class ClassScheduleViewCell: UICollectionViewCell {
                 if self.isFuture || self.isToday {
                     self.courseIndicator.image = UIImage(named: "course indicators_selected")
                 }
+            }else {
+                // 若当天课程为一节，显示科目文字信息
+                self.courseIndicator.hidden = true
+                self.subjectLabel.hidden = false
             }
         }
     }
