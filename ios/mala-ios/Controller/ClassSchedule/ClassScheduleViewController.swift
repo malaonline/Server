@@ -26,6 +26,8 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
     }
     /// 当前月份
     private let currentMonth = NSDate().month()
+    /// 是否为App启动后首次显示
+    private var isFirstShow = true 
     
     
 
@@ -55,7 +57,10 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        scrollToToday()
+        if isFirstShow {
+            scrollToToday()
+            isFirstShow = false
+        }
         loadStudentCourseTable()
     }
 
@@ -104,7 +109,6 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
                 return
             }
             self?.model = parseStudentCourseTable(courseList!)
-            self?.scrollToToday()
         })
     }
     
