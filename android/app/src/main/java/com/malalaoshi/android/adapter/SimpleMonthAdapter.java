@@ -39,8 +39,10 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     public SimpleMonthAdapter(Context context, DatePickerController datePickerController, TypedArray typedArray) {
         this.typedArray = typedArray;
         calendar = Calendar.getInstance();
-        firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
-        firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
+        //firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
+        //firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
+        firstMonth = calendar.get(Calendar.MONTH);
+        firstYear = calendar.get(Calendar.YEAR) - 1;
 		mContext = context;
 		mController = datePickerController;
 		init();
@@ -66,10 +68,8 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
         int year;
 
         month = (firstMonth + (position % MONTHS_IN_YEAR)) % MONTHS_IN_YEAR;
-        int y = calendar.get(Calendar.YEAR);
-        year = position / MONTHS_IN_YEAR - (calendar.get(Calendar.YEAR)- firstYear) + calendar.get(Calendar.YEAR);
-
-        int week = calendar.getFirstDayOfWeek();
+        //year = position / MONTHS_IN_YEAR - (calendar.get(Calendar.YEAR)- firstYear) + calendar.get(Calendar.YEAR);
+        year = firstYear + (position+ firstMonth)/MONTHS_IN_YEAR;
         v.reuse();
 
         drawingParams.put(SimpleMonthView.VIEW_PARAMS_YEAR, year);
@@ -115,8 +115,8 @@ public class SimpleMonthAdapter extends RecyclerView.Adapter<SimpleMonthAdapter.
     @Override
     public int getItemCount()
     {
-        int itemCount = (calendar.get(Calendar.YEAR)- firstYear) * MONTHS_IN_YEAR  - firstMonth + 1 + calendar.get(Calendar.MONTH) + MONTHS_IN_YEAR;
-        return itemCount;
+        //int itemCount = (calendar.get(Calendar.YEAR)- firstYear) * MONTHS_IN_YEAR  - firstMonth + 1 + calendar.get(Calendar.MONTH) + MONTHS_IN_YEAR;//MONTHS_IN_YEAR*3;
+        return 3 * MONTHS_IN_YEAR;
     }
 
     @Override

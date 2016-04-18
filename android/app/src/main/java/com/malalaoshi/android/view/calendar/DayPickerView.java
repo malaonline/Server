@@ -49,8 +49,10 @@ public class DayPickerView extends RecyclerView{
         if (!isInEditMode())
         {
             typedArray = context.obtainStyledAttributes(attrs, R.styleable.DayPickerView);
-            firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
-            firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
+            //firstMonth = typedArray.getInt(R.styleable.DayPickerView_firstMonth, 0);
+            //firstYear = typedArray.getInt(R.styleable.DayPickerView_firstYear, 2016);
+            firstMonth = Calendar.getInstance().get(Calendar.MONTH);
+            firstYear = Calendar.getInstance().get(Calendar.YEAR) - 1;
             setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             this.setOverScrollMode(OVER_SCROLL_NEVER);
             init(context);
