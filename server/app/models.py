@@ -573,6 +573,9 @@ class Teacher(BaseModel):
             w2m(s.weekday, s.start), w2m(s.weekday, s.end) - 1) == 0)
             for s in weekly_time_slots
             }
+        # 如果家长和老师为同一用户, 不让选课
+        if parent.user == self.user:
+            data = {(s.weekday, s.start, s.end): False for s in weekly_time_slots}
         return data
 
     def is_longterm_available(self, periods, school, parent):
