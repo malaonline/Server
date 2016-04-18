@@ -16,12 +16,14 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
-import com.malalaoshi.android.entity.Course;
+import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.entity.Cource;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.CourseDetailFragment;
 import com.malalaoshi.android.view.Indicator.RubberIndicator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +65,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     protected RubberIndicator courseRubber;
 
     private int pagerIndex = 0;
-    private List<Course> listShortCourse;
+    private List<Cource> listShortCourse;
 
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -71,7 +73,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     public CourseDetailDialog(){
     }
 
-    public static CourseDetailDialog newInstance(ArrayList<Course> courses) {
+    public static CourseDetailDialog newInstance(ArrayList<Cource> courses) {
         CourseDetailDialog f = new CourseDetailDialog();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARGS_FRAGEMENT_COURSE, courses);
@@ -87,6 +89,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
         if (getArguments()!=null){
             listShortCourse = getArguments().getParcelableArrayList(ARGS_FRAGEMENT_COURSE);
+            //Collections.reverse(listShortCourse);
         }else{
             listShortCourse = new ArrayList<>();
         }
@@ -127,7 +130,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
             courseRubber.setVisibility(View.GONE);
         }
 
-        Course cource = listShortCourse.get(0);
+        Cource cource = listShortCourse.get(listShortCourse.size()-0-1);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -170,7 +173,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     public Fragment createFragment(int position) {
         Fragment fragment = fragments.get(position);
         if (fragment == null) {
-            fragment = CourseDetailFragment.newInstance(listShortCourse.get(position).getId() + "");
+            fragment = CourseDetailFragment.newInstance(listShortCourse.get(listShortCourse.size()-position-1).getId() + "");
         }
         fragments.put(position, fragment);
         return fragment;
@@ -196,7 +199,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
         }
         pagerIndex = position;
 
-        Course cource = listShortCourse.get(position);
+        Cource cource = listShortCourse.get(listShortCourse.size()-position-1);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -263,10 +266,10 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @OnClick(R.id.tv_commit)
     public void onClickCommit(View v){
-        Course currentCource = ((CourseDetailFragment) fragmentGroupAdapter.getItem(pagerIndex)).getCource();
+        Cource currentCource = ((CourseDetailFragment) fragmentGroupAdapter.getItem(pagerIndex)).getCource();
         if (currentCource!=null){
             Teacher teacher = currentCource.getTeacher();
-            Course cource = listShortCourse.get(pagerIndex);
+            Cource cource = listShortCourse.get(listShortCourse.size()-pagerIndex-1);
             CommentDialog commentDialog = CommentDialog.newInstance(teacher != null ? teacher.getName() : "", teacher != null ? teacher.getAvatar() : "", currentCource.getSubject(), Long.valueOf(currentCource.getId()), currentCource.getComment());
             commentDialog.show(getFragmentManager(), CommentDialog.class.getName());
             dismiss();
