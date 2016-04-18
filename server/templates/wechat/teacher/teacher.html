@@ -44,6 +44,7 @@
         var schoolPhotos = [];
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
         var pullDownImg = '{% static "common/icons/pull_down.png" %}';
+        var pullUpImg = '{% static "common/icons/pull_up.png" %}';
         var moreImg = '{% static "common/icons/more.png" %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
@@ -198,6 +199,9 @@
                                 <div class="more_schools" id="more_schools">
                                     其他社区中心 <img id="moreSchoolDown">
                                 </div>
+                                <div class="more_schools_collapse" id="more_schools_collapse">
+                                    收起 <img id="moreSchoolUp">
+                                </div>
                                 {%endif%}
                             {%endfor%}
                         {%endif%}
@@ -214,7 +218,7 @@
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
-                    <div class="item_distance">
+                    <div class="sub_title_head">
                         <label>教龄</label><label>级别</label>
                     </div>
                     <div class="item_distance">

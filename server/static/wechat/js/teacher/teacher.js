@@ -504,6 +504,9 @@ function ajaxLoadSchool(lat, lng){
               var school_cont = $('<div>');
               school_cont.append(allCont);
               school_cont.addClass('school_cont');
+              if(i > 0){
+                school_cont.addClass('more_school_cont');
+              }
 
               $('#schoolsDiv').append(school_cont);
 
@@ -519,10 +522,23 @@ function ajaxLoadSchool(lat, lng){
                   moreBtn.click(function(){
                     $('.more_schools').css('display', 'none');
                     $('.school_cont').css('display', 'block');
+                    $('.more_schools_collapse').css('display', 'block');
                   });
                   $('#schoolsDiv').append(moreBtn);
               }
           }
+          var msDown = $('<img>');
+          msDown.attr('src', pullUpImg);
+          var moreBtn = $('<div>');
+          moreBtn.append("收起&nbsp;");
+          moreBtn.append(msDown);
+          moreBtn.addClass('more_schools_collapse');
+          moreBtn.click(function(){
+            $('.more_schools').css('display', 'block');
+            $('.more_schools_collapse').css('display', 'none');
+            $('.more_school_cont').css('display', 'none');
+          });
+          $('#schoolsDiv').append(moreBtn);
       }
     });
 }
