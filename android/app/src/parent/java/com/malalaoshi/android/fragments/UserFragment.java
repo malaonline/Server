@@ -42,6 +42,7 @@ import com.malalaoshi.android.core.usercenter.api.UserProfileApi;
 import com.malalaoshi.android.core.usercenter.entity.UserProfile;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
+import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
 import com.malalaoshi.android.net.Constants;
@@ -471,13 +472,23 @@ public class UserFragment extends BaseFragment {
 
     @OnClick(R.id.btn_logout)
     public void OnClickLogout(View view) {
-        //清除本地登录信息
-        UserManager.getInstance().logout();
-        //更新UI
-        updateUI();
-        //跳转到登录页面
-        AuthUtils.redirectLoginActivity(getContext());
-        StatReporter.userLogOut();
+        DialogUtil.showDoubleButtonPromptDialog(getFragmentManager(), R.drawable.ic_pay_success, "确认退出?", "确认", "取消", new PromptDialog.OnCloseListener() {
+            @Override
+            public void onLeftClick() {
+                //清除本地登录信息
+                UserManager.getInstance().logout();
+                //更新UI
+                updateUI();
+                //跳转到登录页面
+                AuthUtils.redirectLoginActivity(getContext());
+                StatReporter.userLogOut();
+            }
+
+            @Override
+            public void onRightClick() {
+
+            }
+        },true,true);
     }
 
     @Override
