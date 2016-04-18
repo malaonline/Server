@@ -270,6 +270,13 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                     MalaCourseChoosingObject.selectedTime.removeAtIndex(index!)
                 }
                 
+                // 若当前没有选中上课时间，清空上课时间表并收起，课时数重置为2
+                if MalaCourseChoosingObject.selectedTime.count == 0 {
+                    self?.tableView.timeScheduleResult = []
+                    self?.tableView.isOpenTimeScheduleCell = false
+                    MalaCourseChoosingObject.classPeriod = 2
+                }
+                
                 // 若[所选上课时间]多于当前课时，则改变课时，并刷新课时选择Cell
                 let selectedTimePeriod = MalaCourseChoosingObject.selectedTime.count*2
                 if selectedTimePeriod > MalaCourseChoosingObject.classPeriod {
