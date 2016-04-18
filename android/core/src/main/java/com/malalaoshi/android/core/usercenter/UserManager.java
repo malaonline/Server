@@ -62,7 +62,7 @@ public class UserManager {
     }
 
     public String getToken() {
-        return token+"A";
+        return token;
     }
 
     public void setToken(String token) {
