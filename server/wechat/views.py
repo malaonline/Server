@@ -688,6 +688,9 @@ def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
             ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
             if 'msgid' in ret_json:
                 return ret_json['msgid']
+            errcode = ret_json.get('errcode')
+            if errcode == 40001: # access_token失效, 重新获取
+                wx_get_token()
         except Exception as ex:
             logger.error(ex)
         times -= 1
