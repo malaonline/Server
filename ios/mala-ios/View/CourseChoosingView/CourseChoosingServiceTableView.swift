@@ -187,7 +187,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         // 选择优惠券时更新UI
         self.titleLabel.text = MalaCourseChoosingObject.coupon?.name
-        self.priceLabel.text = MalaCourseChoosingObject.coupon?.amount.moneyCNY
+        self.priceLabel.text = MalaCourseChoosingObject.coupon?.amountString
     }
     
     
