@@ -106,7 +106,7 @@ body{
       }
       .school-body {
         min-height: @schoolHeight;
-        padding-right: 27px;
+        padding-right: 50px;
         .school-head{
           padding: 12px 0 4px 0;
           line-height: 14px;
@@ -135,7 +135,7 @@ body{
         top: 0;
         right: 0;
         height: @schoolHeight;
-        line-height: @schoolHeight;
+        line-height: @schoolHeight - 2px;
         .weui_icon_success {
           color: @mainRed;
           &:before {
@@ -311,8 +311,8 @@ body{
   }
 }
 
-@adjustHourAreaHeight: 27px;
-@adjustHourBtnWidth: 27px;
+@adjustHourAreaHeight: 26px;
+@adjustHourBtnWidth: 30px;
 #adjustHourArea {
   a {
     display: inline-block;
@@ -334,6 +334,7 @@ body{
     height: @adjustHourAreaHeight;
     line-height: @adjustHourAreaHeight;
     text-align: center;
+    vertical-align: middle;
   }
 }
 

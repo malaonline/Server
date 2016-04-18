@@ -24,7 +24,7 @@
                             </div>
                             <div class="status">
                                 <div class="flag unused">未使用</div>
-{#                                <div class="flag used">已使用</div>#}
+                                <div class="flag used"><img src="{% static 'wechat/images/coupon_used_icon.png' %}"></div>
                                 <div class="flag expired">已过期</div>
                             </div>
                         </div>
@@ -33,6 +33,7 @@
                         </div>
                         <div class="coupon-footer">
                             有效期 &nbsp;&nbsp; {{ coupon.expired_at|date:'Y.m.d' }}
+                            <div class="limit">仅在线支付使用</div>
                         </div>
                     </div>
                 {% empty %}

@@ -22,16 +22,23 @@ body{
       }
     }
     &.used {
-      background-image: url(../../images/coupon_used_bg.png);
       .coupon-upper .status .flag.used {
         display: block;
         color: @gray;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 64px;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
       }
     }
     &.expired {
       background-image: url(../../images/coupon_expired_bg.png);
       .coupon-upper {
-        .flag.used {
+        .flag.expired {
           display: block;
         }
         .cost, .cost.amount, .desc, .desc.name, .desc.limit, .status {
@@ -46,7 +53,7 @@ body{
       padding: 16px 20px 8px 20px;
       .cost {
         float: left;
-        width: 60pt;
+        width: 70px;
         color: @costRed;
         .amount {
           font-size: 24pt;
@@ -65,9 +72,9 @@ body{
         }
       }
       .status {
-        float: left;
+        float: right;
         padding-top: 12px;
-        padding-left: 46px;
+        padding-right: 6px;
         .flag {
           display: none;
         }
@@ -87,10 +94,14 @@ body{
     }
     .coupon-footer {
       .clearfix();
-      padding: 12px 20px 8px;
+      .border-box();
+      padding: 14px 20px 6px;
       width: 100%;
       font-size: @subTitleSize;
       color: white;
+      .limit {
+        float: right;
+      }
     }
   }
 }
