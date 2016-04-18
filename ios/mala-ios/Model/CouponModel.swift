@@ -27,7 +27,7 @@ class CouponModel: NSObject {
     /// 金额字符串(保留以为小数)
     var amountString: String {
         get {
-            return String(format: "%.1f", Double(amount/100))
+            return String(format: "%d", Int(amount/100))
         }
     }
     

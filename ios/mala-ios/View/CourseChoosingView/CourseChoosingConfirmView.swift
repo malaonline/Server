@@ -49,7 +49,7 @@ class CourseChoosingConfirmView: UIView {
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         priceLabel.textColor = MalaColor_E26254_0
         priceLabel.textAlignment = .Left
-        priceLabel.text = "￥0.00"
+        priceLabel.text = "￥0.01"
         return priceLabel
     }()
     /// 确定按钮

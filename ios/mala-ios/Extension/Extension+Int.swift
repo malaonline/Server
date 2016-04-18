@@ -17,6 +17,9 @@ extension Int {
     
     public var moneyCNY: String {
         get {
+            if self == 0 {
+                return "￥0.01"
+            }
             return String(format: "￥%@", String(Double(self)/100))
         }
     }
