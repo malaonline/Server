@@ -5,34 +5,34 @@
 <link rel="stylesheet" href="{% static 'teacher/less/teacher_frame_base.less'|compile %}">
 {% block addition_js %}{% endblock %}
 <div class="side_bar">
-    <p class="section-title"><a class="{% menu_light 'teacher:first-page' %}" href="{% url 'teacher:first-page' %}">首页</a></p>
+    <p class="section-title"><a class="{% menu_active 'teacher:first-page' %}" href="{% url 'teacher:first-page' %}">首页</a></p>
     <p class="section-title">我的课程</p>
-    <p class="section-link"><a class="{% menu_light 'teacher:my-school-timetable' %}" href="{{ side_bar_my_school_time_url }}">我的课表
+    <p class="section-link"><a class="{% menu_active 'teacher:my-school-timetable' %}" href="{{ side_bar_my_school_time_url }}">我的课表
         {% if side_bar_my_course > 0 %}
             <span class="badge_number">({{ side_bar_my_course }})</span>
         {% endif %}
     </a></p>
-    <p class="section-link"><a class="{% menu_light 'teacher:my-students' 'teacher:student-letter' 'teacher:student-letter-view' %}" href="{{ side_bar_my_student_url }}">我的学生
+    <p class="section-link"><a class="{% menu_active 'teacher:my-students' 'teacher:student-letter' 'teacher:student-letter-view' %}" href="{{ side_bar_my_student_url }}">我的学生
         {% if side_bar_my_student > 0 %}
         <span class="badge_number">({{ side_bar_my_student }})</span>
         {% endif %}
     </a></p>
-    <p class="section-link"><a class="{% menu_light 'teacher:my-evaluation' %}" href="{{ side_bar_my_evaluation_url }}">我的评价
+    <p class="section-link"><a class="{% menu_active 'teacher:my-evaluation' %}" href="{{ side_bar_my_evaluation_url }}">我的评价
         {% if side_bar_my_evaluation %}
         <span class="badge_number">({{ side_bar_my_evaluation }})</span>
         {% endif %}
     </a></p>
-    <p class="section-title"><a class="{% menu_light 'teacher:wallet' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>
+    <p class="section-title"><a class="{% menu_active 'teacher:wallet' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>
     <p class="section-title">个人设置</p>
-    <p class="section-link"><a class="{% menu_light 'teacher:basic_doc' %}" href="{% url 'teacher:basic_doc' %}">基本资料</a>
+    <p class="section-link"><a class="{% menu_active 'teacher:basic_doc' %}" href="{% url 'teacher:basic_doc' %}">基本资料</a>
         {% if information_not_complete == False %}
             {% load staticfiles %}
 {#        <i class="info_icon"></i>#}
             <img src="{% static 'teacher/images/teacher_info_not_complete.png' %}">
         {% endif %}
     </p>
-    <p class="section-link"><a class="{% menu_light 'teacher:certificate' %}" href="{% url 'teacher:certificate' %}">资质认证</a></p>
-    <p class="section-link"><a class="{% menu_light 'teacher:achievement' %}" href="{% url 'teacher:achievement' %}">特殊成果</a></p>
-    <p class="section-link"><a class="{% menu_light 'teacher:highscore' %}" href="{% url 'teacher:highscore' %}">提分榜设置</a></p>
-    <p class="section-link"><a class="{% menu_light 'teacher:my-level' %}" href="{% url 'teacher:my-level' %}">我的级别</a></p>
+    <p class="section-link"><a class="{% menu_active 'teacher:certificate' %}" href="{% url 'teacher:certificate' %}">资质认证</a></p>
+    <p class="section-link"><a class="{% menu_active 'teacher:achievement' %}" href="{% url 'teacher:achievement' %}">特殊成果</a></p>
+    <p class="section-link"><a class="{% menu_active 'teacher:highscore' %}" href="{% url 'teacher:highscore' %}">提分榜设置</a></p>
+    <p class="section-link"><a class="{% menu_active 'teacher:my-level' %}" href="{% url 'teacher:my-level' %}">我的级别</a></p>
 </div>

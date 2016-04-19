@@ -54,22 +54,20 @@ _weekday_dict = {
 def weekday_format(weekday):
     return _weekday_dict.get(weekday, "")
 
-@register.simple_tag(name='menu_light', takes_context=True)
-def menu_light_check(context, *args, **kwargs):
+@register.simple_tag(name='menu_active', takes_context=True)
+def menu_active_check(context, *args, **kwargs):
     request = context['request']
-    returnCss = 'menu_high_light'
+    returnCss = 'menu_active'
     try:
         resolver_match = urlresolvers.resolve(request.path_info)
         url_name = resolver_match.url_name
         namespaces = resolver_match.namespaces
         for arg in args:
-            tmpPath = ''
-            for namespace in namespaces:
-                if len(tmpPath) > 0:
-                    tmpPath += '.' + namespace
-                else:
-                    tmpPath += namespace
-            tmpPath += ':' + url_name
+            tmpPath = '.'.join(namespaces)
+            if len(tmpPath) > 0:
+                tmpPath += ':' + url_name
+            else:
+                tmpPath = url_name
             if tmpPath == arg:
                 return returnCss
     except:
