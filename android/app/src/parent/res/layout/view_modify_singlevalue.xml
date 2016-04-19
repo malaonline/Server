@@ -23,10 +23,12 @@
         android:id="@+id/et_value"
         style="@style/mala.widget.usercenter.item.text"
         android:background="@color/colorWhite"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:gravity="left|center"
         android:singleLine="true"
         android:text="信息" />
 
