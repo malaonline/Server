@@ -135,7 +135,7 @@ class CouponViewController: BaseTableViewController {
         cell.selectionStyle = .None
         cell.model = self.models[indexPath.row]
         // 如果是默认选中的优惠券，则设置选中样式
-        if models[indexPath.row].id == MalaCourseChoosingObject.coupon?.id {
+        if models[indexPath.row].id == MalaCourseChoosingObject.coupon?.id && !justShow {
             cell.showSelectedIndicator = true
             currentSelectedIndexPath = indexPath
         }
