@@ -11,7 +11,7 @@ $(function(){
     var showAlertDialog = function(msg) {
         $alertDialogBody.html(msg);
         $alertDialog.show();
-        $alertDialog.one('click', function () {
+        $alertDialog.find('.weui_dialog').one('click', function () {
             $alertDialog.hide();
         });
     };

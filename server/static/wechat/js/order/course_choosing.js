@@ -20,7 +20,7 @@ $(function(){
         $alertDialogBody.html(msg);
         $payArea.hide();
         $alertDialog.show();
-        $alertDialog.one('click', function () {
+        $alertDialog.find('.weui_dialog').one('click', function() {
             $alertDialog.hide();
             $payArea.show();
         });
@@ -418,6 +418,7 @@ $(function(){
         isPaying = false;
     };
     $payBtn.click(function(e){
+        e.preventDefault();
         if (isPaying) {
             return;
         }
@@ -520,6 +521,7 @@ $(function(){
             stopPaying();
         }
         });
+        e.stopPropagation();
     });
 
     // 从sessionStorage恢复数据
