@@ -177,7 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         
         // TabBar
-        UITabBar.appearance().tintColor = MalaColor_6C6C6C_0
+        UITabBar.appearance().tintColor = MalaColor_82B4D9_0
     }
     
     
