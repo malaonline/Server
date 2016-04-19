@@ -79,7 +79,6 @@ class PriceResultView: UIView {
     var price: Int = 0 {
         didSet{
             self.priceLabel.text = price.moneyCNY
-            self.priceLabel.sizeToFit()
         }
     }
     private var myContext = 0
@@ -89,6 +88,7 @@ class PriceResultView: UIView {
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
         stringLabel.textColor = MalaColor_333333_0
+        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         stringLabel.text = "原价:"
         return stringLabel
     }()
@@ -142,7 +142,7 @@ class PriceResultView: UIView {
         stringLabel.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(MalaLayout_FontSize_14)
             make.bottom.equalTo(self.priceLabel.snp_bottom)
-            make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(priceLabel.snp_left)
         }
     }
     

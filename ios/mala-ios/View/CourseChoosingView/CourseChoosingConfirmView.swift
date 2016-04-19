@@ -21,7 +21,6 @@ class CourseChoosingConfirmView: UIView {
     var price: Int = 0 {
         didSet{
             self.priceLabel.text = price.moneyCNY
-            self.priceLabel.sizeToFit()
         }
     }
     private var myContext = 0
