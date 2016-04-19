@@ -1270,7 +1270,8 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        setControlsHidden(true, animated: true, permanent: false)
+        // 第一个参数控制toolBar(页数)是否隐藏，而toolBar的alpha决定caption(图片描述名)是否显示
+        setControlsHidden(false, animated: true, permanent: false)
     }
     
     public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
