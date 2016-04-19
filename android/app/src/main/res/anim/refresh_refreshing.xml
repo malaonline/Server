@@ -3,23 +3,23 @@
     android:oneshot="false">
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_01"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_02"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_03"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_04"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_05"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_06"
-        android:duration="100" />
+        android:duration="165" />
     <item
         android:drawable="@mipmap/ic_refresh_refreshing_07"
-        android:duration="100" />
+        android:duration="165" />
 </animation-list>
