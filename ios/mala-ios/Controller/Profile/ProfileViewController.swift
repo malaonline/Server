@@ -91,6 +91,11 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     
     // MARK: - Private Method
     private func configure() {
+        
+        // navigation
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        // register
         tableView.registerClass(ProfileViewCell.self, forCellReuseIdentifier: ProfileViewTableViewCellReuseID)
     }
     
