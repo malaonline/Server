@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
-import com.malalaoshi.android.core.stat.StatReporter;
-import com.malalaoshi.android.entity.Cource;
+
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.CourseDetailFragment;
 import com.malalaoshi.android.view.Indicator.RubberIndicator;
@@ -65,7 +65,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     protected RubberIndicator courseRubber;
 
     private int pagerIndex = 0;
-    private List<Cource> listShortCourse;
+    private List<Course> listShortCourse;
 
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -73,7 +73,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     public CourseDetailDialog(){
     }
 
-    public static CourseDetailDialog newInstance(ArrayList<Cource> courses) {
+    public static CourseDetailDialog newInstance(ArrayList<Course> courses) {
         CourseDetailDialog f = new CourseDetailDialog();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARGS_FRAGEMENT_COURSE, courses);
@@ -130,7 +130,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
             courseRubber.setVisibility(View.GONE);
         }
 
-        Cource cource = listShortCourse.get(listShortCourse.size()-0-1);
+        Course cource = listShortCourse.get(listShortCourse.size()-0-1);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -199,7 +199,7 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
         }
         pagerIndex = position;
 
-        Cource cource = listShortCourse.get(listShortCourse.size()-position-1);
+        Course cource = listShortCourse.get(listShortCourse.size()-position-1);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
         }else{
@@ -266,10 +266,10 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @OnClick(R.id.tv_commit)
     public void onClickCommit(View v){
-        Cource currentCource = ((CourseDetailFragment) fragmentGroupAdapter.getItem(pagerIndex)).getCource();
+        Course currentCource = ((CourseDetailFragment) fragmentGroupAdapter.getItem(pagerIndex)).getCource();
         if (currentCource!=null){
             Teacher teacher = currentCource.getTeacher();
-            Cource cource = listShortCourse.get(listShortCourse.size()-pagerIndex-1);
+            Course cource = listShortCourse.get(listShortCourse.size()-pagerIndex-1);
             CommentDialog commentDialog = CommentDialog.newInstance(teacher != null ? teacher.getName() : "", teacher != null ? teacher.getAvatar() : "", currentCource.getSubject(), Long.valueOf(currentCource.getId()), currentCource.getComment());
             commentDialog.show(getFragmentManager(), CommentDialog.class.getName());
             dismiss();
