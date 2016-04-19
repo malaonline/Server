@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
+from django.core import urlresolvers
 
 register = template.Library()
 
@@ -52,3 +53,28 @@ _weekday_dict = {
 @register.filter('weekday_format')
 def weekday_format(weekday):
     return _weekday_dict.get(weekday, "")
+
+@register.simple_tag(name='menu_light', takes_context=True)
+def menu_light_check(context, *args, **kwargs):
+    request = context['request']
+    returnCss = 'menu_high_light'
+    try:
+        resolver_match = urlresolvers.resolve(request.path_info)
+        url_name = resolver_match.url_name
+        namespaces = resolver_match.namespaces
+        for arg in args:
+            tmpPath = ''
+            for namespace in namespaces:
+                if len(tmpPath) > 0:
+                    tmpPath += '.' + namespace
+                else:
+                    tmpPath += namespace
+            tmpPath += ':' + url_name
+            print(tmpPath)
+            print(tmpPath == arg)
+            if tmpPath == arg:
+                return returnCss
+    except:
+        return ''
+
+    return ''
