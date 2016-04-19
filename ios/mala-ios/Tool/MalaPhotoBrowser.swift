@@ -10,7 +10,7 @@ import UIKit
 
 private let MalaPhotoBrowserCellReuseID = "MalaPhotoBrowserCellReuseID"
 
-public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate {
+public class MalaPhotoBrowser: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate {
 
     // MARK: - Property
     var imageURLs: [String] = [] {
@@ -50,7 +50,7 @@ public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UIC
     
     // MARK: - Private Method
     private func configure() {
-        self.title = "老师相册"
+        title = "老师相册"
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -59,7 +59,7 @@ public class MalaPhotoBrowser: UIViewController, UICollectionViewDataSource, UIC
     
     private func setupUserInterface() {
         // Style
-        collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.backgroundColor = MalaColor_EDEDED_0
         
         // SubViews
         view.addSubview(collectionView)

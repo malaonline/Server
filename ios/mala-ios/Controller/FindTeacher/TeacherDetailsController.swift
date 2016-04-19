@@ -141,7 +141,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     private func setupUserInterface() {
         // Style
         tableView.estimatedRowHeight = 240
-        tableView.backgroundColor = UIColor(rgbHexValue: 0xededed, alpha: 1.0)
+        tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
         
         // TableView
