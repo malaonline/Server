@@ -37,6 +37,7 @@ $(function () {
             $img.css('max-width', new_width + 'px');
             if (new_width > out_width) {
                 var left = (w - new_width) / 2;
+                $img.css('width', new_width + 'px');
                 $img.css('margin-left', left + 'px');
             }
         } else {
