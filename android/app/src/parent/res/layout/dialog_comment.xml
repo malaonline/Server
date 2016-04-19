@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_dialog"
     android:layout_width="272dp"
     android:layout_height="wrap_content"
@@ -136,7 +137,8 @@
             </LinearLayout>
 
             <RatingBar
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="6dp"
                 android:id="@+id/ratingbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +147,6 @@
                 style="@style/mala.ratingbar"
                 android:rating="0"
                 android:stepSize="1" />
-
         </LinearLayout>
 
         <EditText

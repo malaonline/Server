@@ -12,12 +12,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
@@ -29,7 +33,10 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
+import com.malalaoshi.android.net.NetworkListener;
+import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.util.ImageCache;
+import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.view.CircleNetworkImage;
 
@@ -47,7 +54,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by kang on 16/3/2.
  */
-public class CommentDialog extends DialogFragment implements View.OnClickListener {
+public class CommentDialog extends DialogFragment  {
 
     private static String ARGS_DIALOG_TEACHER_NAME = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
@@ -141,6 +148,27 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.dialog_comment, container, false);
         ButterKnife.bind(this, view);
         initViews();
+
+        final View rootView = view;//view.findViewById(R.id.ll_dialog);
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            int lastY = 0;
+            @Override
+            public void onGlobalLayout() {
+                int[] location = new int[2];
+                rootView.getLocationOnScreen(location);
+                if (lastY==0){
+                    lastY = location[1];
+                }
+                int diff = location[1] - lastY;
+                Log.i("CommentDialog11", "layout height:" +diff+" x"+location[0]+" y"+location[1]);
+                if (diff>0) {
+                    setCommentLayout(false);
+                } else if (diff<0) {
+                    setCommentLayout(true);
+                }
+                lastY = location[1];
+            }
+        });
         //tvSubmit.setEnabled(false);
         //initDatas();
         return view;
@@ -174,8 +202,6 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
             editComment.setCursorVisible(true);
 
             ratingbar.setIsIndicator(false);
-
-            editComment.setOnClickListener(this);
 
             editComment.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -343,16 +369,17 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         }, 50);
     }
 
-    public void clickCommentEdit(View v) {
+    public void setCommentLayout(boolean isOpen){
         int llHeight = llCourse.getMeasuredHeight();
-        if (!isOpenInputMethod) {
+        if (isOpen&&!isOpenInputMethod){
             editAnimation(0, llHeight);
-            openInputMethod(editComment);
-        } else {
+            //openInputMethod(editComment);
+            isOpenInputMethod = !isOpenInputMethod;
+        }else if (!isOpen&&isOpenInputMethod){
             editAnimation(0, -llHeight);
-            closeInputMethod();
+            //closeInputMethod();
+            isOpenInputMethod = !isOpenInputMethod;
         }
-        isOpenInputMethod = !isOpenInputMethod;
     }
 
     @OnClick(R.id.tv_load_fail)
@@ -422,14 +449,5 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     @OnClick(R.id.tv_Close)
     public void onClickClose(View v) {
         dismiss();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.edit_review:
-                clickCommentEdit(v);
-                break;
-        }
     }
 }
