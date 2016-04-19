@@ -172,11 +172,17 @@ body{
   white-space: nowrap;
   margin-top: 10px;
   margin-bottom: 2px;
-  img{
+  .img_box{
     display: inline-block;
     width: 33%;
+    text-align: center;
+    overflow: hidden;
+    img {
+      width: 100%;
+      vertical-align: middle;
+    }
   }
-  img:nth-child(n+2){
+  .img_box:nth-child(n+2){
     margin-left: 5px;
   }
 }

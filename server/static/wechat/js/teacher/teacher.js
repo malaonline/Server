@@ -466,12 +466,12 @@ $('#photoContent').click(function(){
   var $imgCont = $slide.find('.swipe-wrap');
   $imgCont.empty();
   var newImgs = $('.teacher_images').find('img[name="teacherPhoto"]').clone();
+  newImgs.attr('style', '');
   for(var i=0;i<newImgs.length;i++){
     var nDiv = $('<div></div>');
     nDiv.append(newImgs[i]);
     $imgCont.append(nDiv);
   }
-  $imgCont.find('img').css('height', 'auto');
   $imgCont.find('img').each(function (e) {
       middlefyImg(this);
   });

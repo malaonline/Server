@@ -61,6 +61,24 @@
                 {%endif%}
             {%endfor%}
         {%endif%}
+        var cropCenterImg = function (img_ele) {
+            var w = img_ele.width, h = img_ele.height;
+            if (!img_ele.src || !w || !h || isNaN(w) || isNaN(h)) return;
+            var $img = $(img_ele), $imgBox = $img.closest('div'), out_width = $imgBox.width(), out_height = $imgBox.height();
+            if (h < out_height) {
+                $img.css('height', out_height + 'px');
+                var new_width = (w * out_height / h);
+                $img.css('max-width', new_width + 'px');
+                if (new_width > out_width) {
+                    var left = (w - new_width) / 2;
+                    $img.css('width', new_width + 'px');
+                    $img.css('margin-left', left + 'px');
+                }
+            } else {
+                var top = (out_height - h) / 2;
+                $img.css('margin-top', top + 'px');
+            }
+        };
         function pageload(){
             {%if gender == '女'%}
             $('.teacher_gender').attr('src', '{% static "common/icons/fmale.png" %}');
@@ -72,18 +90,25 @@
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             $('#moreSchoolDown').attr('src', pullDownImg);
             $('#morePhotos').attr('src', moreImg);
+            var $teacherImages = $('.teacher_images');
             for(var i=0;i<userPhotos.length;i++){
-              var nimg = $('<img name="teacherPhoto">');
-              nimg.attr('src', userPhotos[i]);
-              $('.teacher_images').append(nimg);
+              var nimg = $('<div class="img_box"><img name="teacherPhoto"></div>');
+              nimg.find('img').attr('src', userPhotos[i]);
+              $teacherImages.append(nimg);
             }
             var schoolCont = $('.school_cont');
             for(var i=0;i<schoolCont.length;i++){
                 $(schoolCont[i]).find('img').attr('src', schoolPhotos[i]);
             }
-            var tPhotoHeight = ($('.teacher_images').width() - 10)/4;
-            $('.teacher_images img').css('height', tPhotoHeight);
-            ajaxLoadSchool(119, 36);
+            var tPhotoWidth = ($teacherImages.width() - 10)/3, tPhotoHeight = ($teacherImages.width() - 10)/4;
+            $teacherImages.find('.img_box').css('width', tPhotoWidth);
+            $teacherImages.find('.img_box').css('height', tPhotoHeight);
+            $teacherImages.find('img').each(function (e) {
+                cropCenterImg(this);
+            });
+            $teacherImages.find('img').bind('load', function (e) {
+                cropCenterImg(this);
+            });
         }
     </script>
 </head>
