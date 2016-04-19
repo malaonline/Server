@@ -27,21 +27,20 @@ wx.ready(function (res) {
 });
 
 $(function () {
-    var COVER_IMG_HEIGHT = 182;
     var adjustImgSize = function (img_ele) {
         var w = img_ele.width, h = img_ele.height;
         if (!img_ele.src || !w || !h || isNaN(w) || isNaN(h)) return;
-        var $img = $(img_ele), out_width = $img.closest('div').width();
-        if (h < COVER_IMG_HEIGHT) {
-            $img.css('height', COVER_IMG_HEIGHT + 'px');
-            var new_width = (w * COVER_IMG_HEIGHT / h);
+        var $img = $(img_ele), $imgBox = $img.closest('div'), out_width = $imgBox.width(), out_height = $imgBox.height();
+        if (h < out_height) {
+            $img.css('height', out_height + 'px');
+            var new_width = (w * out_height / h);
             $img.css('max-width', new_width + 'px');
             if (new_width > out_width) {
                 var left = (w - new_width) / 2;
                 $img.css('margin-left', left + 'px');
             }
         } else {
-            var top = (COVER_IMG_HEIGHT - h) / 2;
+            var top = (out_height - h) / 2;
             $img.css('margin-top', top + 'px');
         }
     };
