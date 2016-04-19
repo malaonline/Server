@@ -89,7 +89,7 @@ class CourseChoosingConfirmView: UIView {
     // MARK: - Private method
     private func setupUserInterface() {
         // Style
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = MalaColor_FFFFFF_9
         
         // SubViews
         addSubview(topLine)
