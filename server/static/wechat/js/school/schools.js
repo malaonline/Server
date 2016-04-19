@@ -49,10 +49,10 @@ $(function () {
         var $div = $(this), coversrc = $div.data('coversrc');
         $div.find('img')[0].src = coversrc;
     });
-    $('.cover-retro-fixer img').each(function (e) {
+    $('.cover-retro-fixer img').bind('load', function (e) {
         adjustImgSize(this);
     });
-    $('.cover-retro-fixer img').bind('load', function (e) {
+    $('.cover-retro-fixer img').each(function (e) {
         adjustImgSize(this);
     });
 });

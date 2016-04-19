@@ -472,10 +472,10 @@ $('#photoContent').click(function(){
     nDiv.append(newImgs[i]);
     $imgCont.append(nDiv);
   }
-  $imgCont.find('img').each(function (e) {
+  $imgCont.find('img').bind('load', function (e) {
       middlefyImg(this);
   });
-  $imgCont.find('img').bind('load', function (e) {
+  $imgCont.find('img').each(function (e) {
       middlefyImg(this);
   });
   if($slide.css('display') == 'block'){

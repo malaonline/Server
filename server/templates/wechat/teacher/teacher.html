@@ -103,10 +103,10 @@
             var tPhotoWidth = ($teacherImages.width() - 10)/3, tPhotoHeight = ($teacherImages.width() - 10)/4;
             $teacherImages.find('.img_box').css('width', tPhotoWidth);
             $teacherImages.find('.img_box').css('height', tPhotoHeight);
-            $teacherImages.find('img').each(function (e) {
+            $teacherImages.find('img').bind('load', function (e) {
                 cropCenterImg(this);
             });
-            $teacherImages.find('img').bind('load', function (e) {
+            $teacherImages.find('img').each(function (e) {
                 cropCenterImg(this);
             });
         }
