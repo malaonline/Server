@@ -359,7 +359,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return MalaLayout_Margin_4
+        return section == TeacherDetailsCellReuseId.count-1 ? MalaLayout_Margin_4*2 : MalaLayout_Margin_4
     }
     
     func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
