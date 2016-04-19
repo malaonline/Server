@@ -454,6 +454,13 @@ if(window.jQuery || window.Zepto){
     }
   })( window.jQuery || window.Zepto )
 }
+var middlefyImg = function (img_ele) {
+    var w = img_ele.width, h = img_ele.height;
+    if (!img_ele.src || !w || !h || isNaN(w) || isNaN(h)) return;
+    var $img = $(img_ele), out_height = $img.closest('div').height();
+    var top = (out_height - h) / 2;
+    $img.css('margin-top', top + 'px');
+};
 $('#photoContent').click(function(){
   var $slide = $('#slide');
   var $imgCont = $slide.find('.swipe-wrap');
@@ -465,6 +472,12 @@ $('#photoContent').click(function(){
     $imgCont.append(nDiv);
   }
   $imgCont.find('img').css('height', 'auto');
+  $imgCont.find('img').each(function (e) {
+      middlefyImg(this);
+  });
+  $imgCont.find('img').bind('load', function (e) {
+      middlefyImg(this);
+  });
   if($slide.css('display') == 'block'){
     return;
   }
