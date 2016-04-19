@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
@@ -25,6 +26,8 @@ import com.malalaoshi.android.util.ImageCache;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPager.OnPageChangeListener {
@@ -199,12 +202,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         }
     }
 
-/*    private void loadCourses(){
-        UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
-        if (userTimetableFragment!=null&&userTimetableFragment.isResumed()){
-            userTimetableFragment.loadData();
-        }
-    }*/
+   private void loadCourses(){
+       EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+    }
 
     private void setCurrentTab(int i) {
         switch (i) {
@@ -240,7 +240,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTitleLocation.setVisibility(View.GONE);
                 tvTitleTady.setVisibility(View.VISIBLE);
                 //下载数据
-                //loadCourses();
+                loadCourses();
                 break;
             case PAGE_INDEX_USER:
                 ivTitleTabTeacher.setSelected(false);
