@@ -269,15 +269,14 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
                 let model = notification.object as! ClassScheduleDayModel
-                
+               
                 // 判断上课时间是否已经选择
-                let index = MalaCourseChoosingObject.selectedTime.indexOf(model)
-                // 如果上课时间尚未选择，加入课程购买模型
-                // 如果上课时间已经选择，从课程购买模型中移除
-                if index == nil {
-                    MalaCourseChoosingObject.selectedTime.append(model)
+                if let index = MalaCourseChoosingObject.selectedTime.indexOf(model) {
+                    // 如果上课时间已经选择，从课程购买模型中移除
+                    MalaCourseChoosingObject.selectedTime.removeAtIndex(index)
                 }else {
-                    MalaCourseChoosingObject.selectedTime.removeAtIndex(index!)
+                    // 如果上课时间尚未选择，加入课程购买模型
+                    MalaCourseChoosingObject.selectedTime.append(model)
                 }
                 
                 // 若当前没有选中上课时间，清空上课时间表并收起，课时数重置为2

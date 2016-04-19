@@ -117,10 +117,8 @@ class PriceResultView: UIView {
     
     // MARK: - Override
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        // 当选课条件改变时，更新原价
-        if let courseChoosingObject = object as? CourseChoosingObject  {
-            self.price = courseChoosingObject.originalPrice
-        }
+        // 当选课条件改变时，更新总价
+        self.price = MalaCourseChoosingObject.originalPrice
     }
     
     
