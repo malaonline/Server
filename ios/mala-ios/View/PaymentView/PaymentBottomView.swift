@@ -25,7 +25,7 @@ class PaymentBottomView: UIView {
         confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_17)
         confirmButton.setTitle("支付", forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        confirmButton.layer.cornerRadius = 10
+        confirmButton.layer.cornerRadius = 5
         confirmButton.layer.masksToBounds = true
         confirmButton.addTarget(self, action: #selector(PaymentBottomView.buttonDidTap), forControlEvents: .TouchUpInside)
         return confirmButton
