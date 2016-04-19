@@ -44,6 +44,7 @@ class TeacherDetailsHighScoreTableView: UITableView, UITableViewDelegate, UITabl
     private func setupTableHeaderView() {
         let headerView = TeacherDetailsHighScoreTableViewCell(style: .Default, reuseIdentifier: nil)
         headerView.setTableTitles(["姓  名", "提分区间", "所在学校", "考入学校"])
+        headerView.separator.hidden = true
         self.tableHeaderView = headerView
     }
     
@@ -96,7 +97,7 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
     private lazy var scoresLabel: UILabel = UILabel.subTitleLabel()
     private lazy var schoolLabel: UILabel = UILabel.subTitleLabel()
     private lazy var admittedLabel: UILabel = UILabel.subTitleLabel()
-    private lazy var separator: UIView = {
+    lazy var separator: UIView = {
         let separatorLine = UIView()
         separatorLine.backgroundColor = MalaColor_E5E5E5_0
         return separatorLine

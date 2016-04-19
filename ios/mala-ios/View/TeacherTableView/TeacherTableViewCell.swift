@@ -29,7 +29,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSFontAttributeName,
-                value: UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_14)!,
+                value: UIFont.systemFontOfSize(MalaLayout_FontSize_14),
                 range: NSMakeRange(0, rangeLocation)
             )
             attrString.addAttribute(
@@ -39,7 +39,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSFontAttributeName,
-                value: UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)!,
+                value: UIFont.systemFontOfSize(MalaLayout_FontSize_12),
                 range: NSMakeRange(rangeLocation, 4)
             )
             priceLabel.attributedText = attrString
@@ -99,7 +99,7 @@ class TeacherTableViewCell: UITableViewCell {
     /// 授课价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_12)
+        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         priceLabel.textColor = MalaColor_6C6C6C_0
         return priceLabel
     }()
