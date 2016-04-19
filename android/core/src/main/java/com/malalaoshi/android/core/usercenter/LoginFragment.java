@@ -281,6 +281,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             Intent intent = new Intent(getActivity(), AddStudentNameActivity.class);
             startActivity(intent);
         }
+        getActivity().setResult(LoginActivity.RESULT_CODE_LOGIN_SUCCESS);
         getActivity().finish();
     }
 
