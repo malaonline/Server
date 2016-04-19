@@ -70,8 +70,6 @@ def menu_light_check(context, *args, **kwargs):
                 else:
                     tmpPath += namespace
             tmpPath += ':' + url_name
-            print(tmpPath)
-            print(tmpPath == arg)
             if tmpPath == arg:
                 return returnCss
     except:
