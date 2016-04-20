@@ -1,5 +1,6 @@
 var pagedefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
-var isPostingData = false;
+var isAutoSaveData = false;
+var isManualSaveData = false;
 $(function(){
   $('#teachingAgeAdd').click(function(e){
     $('#teachingAge').html(parseInt($('#teachingAge').html()) + 1);
@@ -31,35 +32,13 @@ $(function(){
     if(!checkFlag(true) || !checkMinFlag()){
       return false;
     }
-    var birthday_y = $('#birthday_y').val();
-    var birthday_m = $('#birthday_m').val();
-    var birthday_d = $('#birthday_d').val();
-    var teachingAge = $('#teachingAge').html();
-    var graduate_school = $('#graduate_school').val();
-    var introduce = $('#introduce').val();
-    introduce = $.trim(introduce);
-    if (!introduce || introduce.length<10) {
-        alert('自我介绍不能少于10个字！');
-        return false;
+
+    var params = postValue();
+    if(params){
+      isManualSaveData = true;
+      doSave(params);
     }
-
-    var params = {
-      'birthday_y': birthday_y,
-      'birthday_m': birthday_m,
-      'birthday_d': birthday_d,
-      'teachingAge': teachingAge,
-      'graduate_school': graduate_school,
-      'introduce': introduce,
-      'selectedTags': JSON.stringify(getSelectedTags()),
-      'subclass': $('#subclass_input').html()
-    };
-
-    if(birthday_y <= 0 || birthday_m <= 0 || birthday_d <= 0){
-      alert("请选择出生日期！");
-      return false;
-    }
-
-    doSave(params);
+    return false;
   });
 
   //视图数据定义区
@@ -123,46 +102,100 @@ $(function(){
   });
 
   var doSave = function(params){
-    malaAjaxPost("/teacher/basic_doc/", params, function(result){
-        if(result){
-          if(result.ok){
-            alert("保存成功");
-            location.href=nextPage;
+    checkShowLoading();
+    $.post("/teacher/basic_doc/", params, function(result){
+        checkHideLoading();
+        if(isManualSaveData){
+          if(result){
+            if(result.ok){
+              alert("保存成功");
+              location.href=nextPage;
+            }else{
+              alert(result.msg);
+            }
           }else{
-            alert(result.msg);
+            alert(pagedefaultErrMsg);
           }
-        }else{
-          alert(pagedefaultErrMsg);
         }
-    }, 'json', function(jqXHR, errorType, errorDesc){
-      var errMsg = errorDesc?('['+errorDesc+'] '):'';
-      $('#complaintModal').modal('hide');
-      alert(errMsg+pagedefaultErrMsg);
+    }, 'json').fail(function(jqXHR, errorType, errorDesc){
+      checkHideLoading();
+      if(isManualSaveData){
+        var errMsg = errorDesc?('['+errorDesc+'] '):'';
+        $('#complaintModal').modal('hide');
+        alert(errMsg+pagedefaultErrMsg);
+      }
     });
   }
 
-  var TimeEvent = {
-      duration: 120,
-      start:function(){
-          this.interval = setInterval((function(){
-              this.tick += 1;
-              if(this.tick >= this.duration){
-                  clearInterval(this.interval);
-                  this.interval = undefined;
-                  this.tick = 0;
-                  var getMsgBtn = $('.ext_btn_primary');
-                  getMsgBtn.html("获取验证码");
-                  getMsgBtn.removeClass('ext_btn_disabled');
-              }else{
-                  $('.ext_btn_primary').html(this.rest_time() + "秒");
-              }
-          }).bind(this), 1000);
-      },
-      tick: 0,
-      rest_time: function(){
-          return this.duration - this.tick;
+  var checkShowLoading = function(){
+    if(isManualSaveData){
+      showLoading();
+    }
+  }
+
+  var checkHideLoading = function(){
+    if(isManualSaveData){
+      isManualSaveData = false;
+      hideLoading();
+    }
+    if(isAutoSaveData){
+      isAutoSaveData = false;
+      timeAutoSave();
+    }
+  }
+
+  var timeAutoSave = function(){
+    window.setTimeout(function(){
+      if(isManualSaveData){
+        return;
       }
-  };
+      isAutoSaveData = true;
+      var params = postValue(true);
+      if(params){
+        doSave(params);
+      }
+    }, 120000);
+  }
+
+  var postValue = function(silent){
+    var birthday_y = $('#birthday_y').val();
+    var birthday_m = $('#birthday_m').val();
+    var birthday_d = $('#birthday_d').val();
+    var teachingAge = $('#teachingAge').html();
+    var graduate_school = $('#graduate_school').val();
+    var introduce = $('#introduce').val();
+    introduce = $.trim(introduce);
+    if(!silent){
+      if (!introduce || introduce.length<10) {
+        alert('自我介绍不能少于10个字！');
+        return false;
+      }
+    }
+
+    var params = {
+      'birthday_y': birthday_y,
+      'birthday_m': birthday_m,
+      'birthday_d': birthday_d,
+      'teachingAge': teachingAge,
+      'graduate_school': graduate_school,
+      'introduce': introduce,
+      'selectedTags': JSON.stringify(getSelectedTags()),
+      'subclass': $('#subclass_input').html()
+    };
+
+    if(!silent){
+      if(birthday_y <= 0 || birthday_m <= 0 || birthday_d <= 0){
+        alert("请选择出生日期！");
+        return false;
+      }
+    }
+
+    return params;
+  }
+
+  isAutoSaveData = true;
+  timeAutoSave();
+
 });
 
 
