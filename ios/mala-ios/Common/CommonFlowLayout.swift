@@ -68,12 +68,12 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     private func subjectViewFlowLayout() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = MalaLayout_FilterItemWidth
+        let itemWidth: CGFloat = MalaLayout_FilterItemWidth-10
         let itemHeight: CGFloat = 38.0
         let itemMargin: CGFloat = 0.0
         itemSize = CGSizeMake(itemWidth, itemHeight)
         minimumInteritemSpacing = itemMargin
-        minimumLineSpacing = 0
+        minimumLineSpacing = itemMargin
         sectionInset = UIEdgeInsetsMake(itemMargin/2, itemMargin, itemMargin/2, itemMargin)
         headerReferenceSize = CGSize(width: 100, height: 0)
         footerReferenceSize = CGSize(width: 100, height: 0)
