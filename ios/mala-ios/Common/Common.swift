@@ -105,7 +105,7 @@ let MalaCommonString_CommentPlaceholder = "请写下对老师的感受吧，对�
 let MalaProportion_HomeCellWidthWithScreenWidth: CGFloat = 0.47
 let MalaProportion_HomeCellMarginWithScreenWidth: CGFloat = 0.02
 let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
-let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 1
+let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
 
 
 // MARK: - Common layout
