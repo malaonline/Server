@@ -455,8 +455,8 @@ if(window.jQuery || window.Zepto){
   })( window.jQuery || window.Zepto )
 }
 var middlefyImg = function (img_ele) {
-    var w = img_ele.width, h = img_ele.height;
-    if (!img_ele.src || !w || !h || isNaN(w) || isNaN(h)) return;
+    var h = img_ele.height;
+    if (!h || isNaN(h)) return;
     var $img = $(img_ele), out_height = $img.closest('div').height();
     var top = (out_height - h) / 2;
     $img.css('margin-top', top + 'px');
@@ -470,23 +470,55 @@ $('#photoContent').click(function(){
   for(var i=0;i<newImgs.length;i++){
     var nDiv = $('<div></div>');
     nDiv.append(newImgs[i]);
+    nDiv.append('<div>'+(i+1)+'/'+newImgs.length+'</div>');
     $imgCont.append(nDiv);
   }
+  if($slide.css('display') == 'block'){
+    return;
+  }
+  $slide.css('display', 'block');
+  window.mySwipe = Swipe(document.getElementById('slide'));
   $imgCont.find('img').bind('load', function (e) {
       middlefyImg(this);
   });
   $imgCont.find('img').each(function (e) {
       middlefyImg(this);
   });
-  if($slide.css('display') == 'block'){
-    return;
-  }
-  $slide.css('display', 'block');
-  window.mySwipe = Swipe(document.getElementById('slide'));
   $slide.click(function(){
     $slide.css('display', 'none');
   });
 });
+
+$("#achievementsPanel").click(function(){
+  var $achiements = $('#achievementsPanel .teacher_achievement');
+  if (!$achiements.length) return;
+  var $slide = $('#slide'), $imgCont = $slide.find('.swipe-wrap');
+  $imgCont.empty();
+  var achs = [];
+  $achiements.each(function(){
+    var $ach = $(this);
+    achs.push({'title': $ach.text(), 'img': $ach.data('img')})
+  });
+  for(var i=0;i<achs.length;i++){
+    var achHtm = '<div><img src="'+achs[i].img+'"><div><p class="seq">'+(i+1)+'/'+achs.length+'</p><p class="title">'+achs[i].title+'</p></div></div>';
+    $imgCont.append(achHtm);
+  }
+  if ($slide.css('display') == 'block') {
+    return;
+  }
+  $slide.css('display', 'block');
+  window.mySwipe = Swipe($slide[0]);
+  $imgCont.find('img').bind('load', function(e) {
+    middlefyImg(this);
+  });
+  $imgCont.find('img').each(function(e) {
+    middlefyImg(this);
+  });
+  $slide.click(function() {
+    $slide.css('display', 'none');
+  });
+});
+
 function ajaxLoadSchool(lat, lng){
   $.post("/wechat/teacher/schools/", {lat: lat, lng: lng},
     function(data){

@@ -192,13 +192,13 @@
                     <div class="teacher_images">
                     </div>
                 </div>
-                <div class="weui_panel teacher_panel achievements_panel">
+                <div class="weui_panel teacher_panel achievements_panel" id="achievementsPanel">
                     <div class="achievements_head">
                         特殊成就
                     </div>
                     <div class="item_distance_ach">
                         {%for am in achievements%}
-                            <label class="teacher_achievement">{{am.title}}</label>
+                            <label class="teacher_achievement" data-img="{{ am.img_url }}">{{am.title}}</label>
                         {%endfor%}
                     </div>
                 </div>
