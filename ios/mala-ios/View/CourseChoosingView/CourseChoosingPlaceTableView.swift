@@ -110,7 +110,7 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
         if !isOpen {
             addSubview(button)
             button.snp_makeConstraints { (make) -> Void in
-                make.height.equalTo(40)
+                make.height.equalTo(38)
                 make.width.equalTo(MalaScreenWidth - (MalaLayout_Margin_6*2))
                 make.top.equalTo(self.snp_top).offset(64)
             }

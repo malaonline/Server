@@ -15,7 +15,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
         didSet {
             tableView.model = schools ?? []
             tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+40)
+                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+35)
             }
         }
     }
@@ -30,7 +30,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
             }else {
                 button.selected = false
                 tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+40)
+                    make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+35)
                 }
             }
             tableView.isOpen = isOpen
@@ -91,7 +91,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
             make.left.equalTo(self.content.snp_left)
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
-            make.height.equalTo(40)
+            make.height.equalTo(38)
         }
     }
     
