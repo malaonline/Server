@@ -71,7 +71,6 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
         weekdayHeaderEnabled = true
         
         // Navigation
-        navigationController?.navigationBar.shadowImage = UIImage()
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         spacerRight.width = -MalaLayout_Margin_5
         let rightBarButtonItem = UIBarButtonItem(customView: saveButton)

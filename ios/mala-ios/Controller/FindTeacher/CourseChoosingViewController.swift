@@ -87,7 +87,6 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         makeStatusBarBlack()
-        navigationController?.navigationBar.shadowImage = nil
     }
 
     override func didReceiveMemoryWarning() {

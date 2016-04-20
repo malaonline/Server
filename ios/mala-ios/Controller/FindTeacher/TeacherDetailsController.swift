@@ -109,7 +109,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // makeStatusBarWhite()
         self.navigationController?.navigationBarHidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -128,7 +127,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navigationController?.navigationBar.shadowImage = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -290,7 +288,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // makeStatusBarBlack()
         self.title = model.name
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = nil
         turnBackButtonBlack()
     }
     
@@ -298,7 +295,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // makeStatusBarWhite()
         self.title = ""
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
         turnBackButtonWhite()
     }
     
