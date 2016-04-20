@@ -79,7 +79,7 @@ class InfoModifyViewController: BaseViewController {
         
         // Autolayout
         inputBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view.snp_top)
+            make.top.equalTo(view.snp_top).offset(MalaLayout_Margin_8)
             make.left.equalTo(view.snp_left)
             make.right.equalTo(view.snp_right)
             make.height.equalTo(MalaLayout_ProfileModifyViewHeight)
