@@ -59,7 +59,7 @@ class PaymentChannelCell: UITableViewCell {
     /// 分割线
     lazy var separatorLine: UIView = {
         let separatorLine = UIView.line()
-        separatorLine.backgroundColor = MalaColor_C7C7CC_0
+        separatorLine.backgroundColor = MalaColor_E5E5E5_0
         return separatorLine
     }()
     
@@ -120,5 +120,9 @@ class PaymentChannelCell: UITableViewCell {
             make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
             make.height.equalTo(MalaScreenOnePixel)
         }
+    }
+    
+    func hideSeparator() {
+        self.separatorLine.hidden = true
     }
 }
