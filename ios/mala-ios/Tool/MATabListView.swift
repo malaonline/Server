@@ -64,6 +64,8 @@ class MATabListView: UIView {
             
             if let isDisplayBorder = delegate?.tagShourldDisplayBorder?(label, tabListView: self) where isDisplayBorder {
                 
+                label.textColor = MalaColor_939393_0
+                
                 size.height += 10
                 x = CGRectGetMaxX(previousFrame) == 0 ? CGRectGetMaxX(previousFrame) : CGRectGetMaxX(previousFrame)+RightPadding
                 
