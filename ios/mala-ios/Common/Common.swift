@@ -81,6 +81,7 @@ let MalaColor_BCD7EB_0 = UIColor(rgbHexValue: 0xBCD7EB, alpha: 1.0)
 let MalaColor_BEBEBE_0 = UIColor(rgbHexValue: 0xBEBEBE, alpha: 1.0)
 let MalaColor_C4C4C4_0 = UIColor(rgbHexValue: 0xC4C4C4, alpha: 1.0)
 let MalaColor_000000_3 = UIColor(rgbHexValue: 0x000000, alpha: 0.3)
+let MalaColor_000000_0 = UIColor(rgbHexValue: 0x000000, alpha: 1.0)
 let MalaColor_ABD0E8_0 = UIColor(rgbHexValue: 0xABD0E8, alpha: 1.0)
 let MalaColor_C7C7CC_0 = UIColor(rgbHexValue: 0xC7C7CC, alpha: 1.0)
 
