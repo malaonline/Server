@@ -509,8 +509,9 @@ function ajaxLoadSchool(lat, lng){
               var wdCont = $('<div>');
               wdCont.append(sc.name);
               wdCont.append(disRegCont);
-              var nimg = $('<img>');
-              nimg.attr('src', sc.img);
+              var nimg = $('<div>');
+              nimg.addClass('school_img_cont');
+              nimg.css('backgroundImage', 'url('+sc.img+')');
               var allCont = $('<div>');
               allCont.append(nimg);
               allCont.append(wdCont);
@@ -556,8 +557,8 @@ function ajaxLoadSchool(lat, lng){
           var schImgWidth = contWidth/2.7;
           var schImgHeight = contWidth*3/10.8; //*3/4/2.7
           $('.school_cont > div > div > div').css('paddingTop', schImgHeight - 64);
-          $('.school_cont > div > img').css('width', schImgWidth).css('height', schImgHeight);
-          $('.school_cont > div > div').css('paddingLeft', schImgWidth + 10);
+          $('.school_img_cont').css('width', schImgWidth).css('height', schImgHeight);
+          $('.school_cont > div > div:not(.school_img_cont)').css('paddingLeft', schImgWidth + 10);
           $('.school_cont > div').css('marginBottom', schImgHeight - 68);
       }
     });

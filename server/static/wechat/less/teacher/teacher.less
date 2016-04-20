@@ -311,7 +311,7 @@ a{
     margin-top: 12px;
     margin-bottom: 17px;
   }
-  >div>div{
+  >div>div:not(.school_img_cont){
     padding-left: 110px;
     padding-top: 9px;
     color: #636363;
@@ -323,10 +323,12 @@ a{
   .school_dis{
     float: right;
   }
-  >div>img{
+  .school_img_cont{
     float: left;
     width: 100px;
     height: 55px;
+    background-size: cover;
+    background-position: center center;
   }
 }
 .school_cont:first-child{
