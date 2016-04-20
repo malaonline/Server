@@ -554,7 +554,7 @@ function ajaxLoadSchool(lat, lng){
           $('#schoolsDiv').append(moreBtn);
           var contWidth = $('.school_cont').width();
           var schImgWidth = contWidth/2.7;
-          var schImgHeight = contWidth*3/4/2.7;
+          var schImgHeight = contWidth*3/10.8; //*3/4/2.7
           $('.school_cont > div > div > div').css('paddingTop', schImgHeight - 64);
           $('.school_cont > div > img').css('width', schImgWidth).css('height', schImgHeight);
           $('.school_cont > div > div').css('paddingLeft', schImgWidth + 10);
