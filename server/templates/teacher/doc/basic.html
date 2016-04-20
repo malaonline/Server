@@ -78,7 +78,7 @@
         <div class="control-group">
           <label class="control-label" for="admittedTo">毕业院校</label>
           <div class="controls">
-            <input type="text" class="input-xlarge" id="graduate_school" name="graduate_school" value="{{teacher.graduate_school|default_if_none:""}}">
+            <input type="text" class="input-xlarge form-control" id="graduate_school" name="graduate_school" value="{{teacher.graduate_school|default_if_none:""}}">
           </div>
         </div>
         <div class="control-group">
@@ -115,10 +115,10 @@
 {#          <label class="control-label" for="admittedTo">自我介绍</label>#}
           <label class="control-label" for="admittedTo">自我介绍<br><small>(不少于10个字)</small></label>
           <div class="controls">
-            <textarea name="name" cols="50" rows="7" name="introduce" id="introduce">{{teacher.introduce|default_if_none:""}}</textarea>
+            <textarea name="name" cols="50" rows="7" name="introduce" id="introduce" class="form-control">{{teacher.introduce|default_if_none:""}}</textarea>
           </div>
         </div>
-        <div class="control-group">
+        <div class="control-group save-btn-cont">
             <input type="button" id="saveBtn" value="提交" class="btn btn-primary">
         </div>
 

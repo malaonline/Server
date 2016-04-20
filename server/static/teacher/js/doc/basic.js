@@ -1,4 +1,5 @@
 var pagedefaultErrMsg = '请求失败,请稍后重试,或联系管理员!';
+var isPostingData = false;
 $(function(){
   $('#teachingAgeAdd').click(function(e){
     $('#teachingAge').html(parseInt($('#teachingAge').html()) + 1);
@@ -58,22 +59,7 @@ $(function(){
       return false;
     }
 
-    malaAjaxPost("/teacher/basic_doc/", params, function(result){
-        if(result){
-          if(result.ok){
-            alert("保存成功");
-            location.href=nextPage;
-          }else{
-            alert(result.msg);
-          }
-        }else{
-          alert(pagedefaultErrMsg);
-        }
-    }, 'json', function(jqXHR, errorType, errorDesc){
-      var errMsg = errorDesc?('['+errorDesc+'] '):'';
-      $('#complaintModal').modal('hide');
-      alert(errMsg+pagedefaultErrMsg);
-    });
+    doSave(params);
   });
 
   //视图数据定义区
@@ -136,7 +122,50 @@ $(function(){
     });
   });
 
+  var doSave = function(params){
+    malaAjaxPost("/teacher/basic_doc/", params, function(result){
+        if(result){
+          if(result.ok){
+            alert("保存成功");
+            location.href=nextPage;
+          }else{
+            alert(result.msg);
+          }
+        }else{
+          alert(pagedefaultErrMsg);
+        }
+    }, 'json', function(jqXHR, errorType, errorDesc){
+      var errMsg = errorDesc?('['+errorDesc+'] '):'';
+      $('#complaintModal').modal('hide');
+      alert(errMsg+pagedefaultErrMsg);
+    });
+  }
+
+  var TimeEvent = {
+      duration: 120,
+      start:function(){
+          this.interval = setInterval((function(){
+              this.tick += 1;
+              if(this.tick >= this.duration){
+                  clearInterval(this.interval);
+                  this.interval = undefined;
+                  this.tick = 0;
+                  var getMsgBtn = $('.ext_btn_primary');
+                  getMsgBtn.html("获取验证码");
+                  getMsgBtn.removeClass('ext_btn_disabled');
+              }else{
+                  $('.ext_btn_primary').html(this.rest_time() + "秒");
+              }
+          }).bind(this), 1000);
+      },
+      tick: 0,
+      rest_time: function(){
+          return this.duration - this.tick;
+      }
+  };
 });
+
+
 
 //获得已经选择的年级
 function selected_grand(){
