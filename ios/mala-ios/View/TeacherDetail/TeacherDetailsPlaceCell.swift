@@ -15,15 +15,22 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
         didSet {
             tableView.model = schools ?? []
             tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(152)
+                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+40)
             }
         }
     }
     var isOpen: Bool = false {
         didSet {
             if isOpen {
+                button.selected = true
+                let height = (Int(MalaLayout_DetailSchoolsTableViewCellHeight) * schools!.count)+30
                 tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(Int(MalaLayout_DetailSchoolsTableViewCellHeight) * schools!.count)
+                    make.height.equalTo(height)
+                }
+            }else {
+                button.selected = false
+                tableView.snp_updateConstraints { (make) -> Void in
+                    make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+40)
                 }
             }
             tableView.isOpen = isOpen
@@ -35,6 +42,19 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
     private lazy var tableView: TeacherDetailsSchoolsTableView = {
         let tableView = TeacherDetailsSchoolsTableView(frame: CGRectZero, style: .Plain)
         return tableView
+    }()
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFontOfSize(15)
+        button.setTitleColor(MalaColor_636363_0, forState: .Normal)
+        button.setTitle("距您最近社区中心", forState: .Normal)
+        button.setTitle("收起教学环境列表", forState: .Selected)
+        button.setImage(UIImage(named: "dropArrow"), forState: .Normal)
+        button.setImage(UIImage(named: "upArrow"), forState: .Selected)
+        button.addTarget(self, action: #selector(TeacherDetailsPlaceCell.buttonDidTap), forControlEvents: .TouchUpInside)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -13, bottom: 0, right: 13)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 128, bottom: 0, right: -128)
+        return button
     }()
     
     
@@ -53,6 +73,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
     private func setupUserInterface() {
         // SubViews
         content.addSubview(tableView)
+        content.addSubview(button)
         
         // Autolayout
         // Remove margin
@@ -60,12 +81,23 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
             make.top.equalTo(self.title.snp_bottom)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
-        
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)
             make.left.equalTo(self.content.snp_left)
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
         }
+        button.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(self.content.snp_left)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.right.equalTo(self.content.snp_right)
+            make.height.equalTo(40)
+        }
+    }
+    
+    // MARK: - Event Response
+    @objc private func buttonDidTap() {
+        // 发送通知，刷新 [教师详情页面] 并展开Cell
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenSchoolsCell, object: !isOpen)
     }
 }

@@ -21,31 +21,15 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     var isOpen: Bool = false {
         didSet {
             if isOpen {
-                button.removeFromSuperview()
                 reloadData()
             }
         }
     }
-    
-    
-    // MARK: - Components
-    private lazy var button: UIButton = {
-        let button = UIButton()
-        button.setTitle("距离您最近的社区中心", forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(15)
-        button.setTitleColor(MalaColor_636363_0, forState: .Normal)
-        button.setImage(UIImage(named: "dropArrow"), forState: .Normal)        
-        button.addTarget(self, action: #selector(TeacherDetailsSchoolsTableView.buttonDidTap), forControlEvents: .TouchUpInside)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -13, bottom: 0, right: 13)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 158, bottom: 0, right: -158)
-        return button
-    }()
-    
-    
+
     // MARK: - Constructed
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
-        configuraTableView()
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,30 +56,13 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     
     
     // MARK: - Private Method
-    private func configuraTableView() {
+    private func configure() {
         delegate = self
         dataSource = self
         scrollEnabled = false
         estimatedRowHeight = 107
         separatorColor = MalaColor_E5E5E5_0
         registerClass(TeacherDetailsSchoolsTableViewCell.self, forCellReuseIdentifier: TeacherDetailsSchoolsTableViewCellReuseId)
-        
-        // 若Cell尚未展开，则显示展开按钮
-        if !isOpen {
-            addSubview(button)
-            button.snp_makeConstraints { (make) -> Void in
-                make.height.equalTo(40)
-                make.width.equalTo(MalaScreenWidth - (MalaLayout_Margin_6*2))
-                make.top.equalTo(self.snp_top).offset(108)
-            }
-        }
-    }
-    
-    
-    // MARK: - Event Response
-    @objc private func buttonDidTap() {
-        // 发送通知，刷新 [教师详情页面] 并展开Cell
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenSchoolsCell, object: nil)
     }
 }
 

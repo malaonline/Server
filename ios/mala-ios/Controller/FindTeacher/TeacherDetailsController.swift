@@ -186,8 +186,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             queue: nil
             ) { [weak self] (notification) -> Void in
             // 展开 [教学环境] Cell
-            self?.isOpenSchoolsCell = true
-            self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+                if let isOpen = notification.object as? Bool {
+                    self?.isOpenSchoolsCell = isOpen
+                    // self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 5), atScrollPosition: .Top, animated: true)
+                    self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+                }
         }
         NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_PushPhotoBrowser,
