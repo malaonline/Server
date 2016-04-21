@@ -12,8 +12,6 @@ security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
 security list-keychains -s ${KEYCHAIN_PATH}
 
 # UnitTest
-scheme="parentTests"
-
 # xctool should upgrade to 0.2.9 or above
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator test -freshInstall -freshSimulator
 
