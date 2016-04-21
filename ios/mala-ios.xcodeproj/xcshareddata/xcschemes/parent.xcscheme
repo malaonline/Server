@@ -34,6 +34,20 @@
                ReferencedContainer = "container:mala-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4402E131C5A16A700E7D3DB"
+               BuildableName = "parentTests.xctest"
+               BlueprintName = "parentTests"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
