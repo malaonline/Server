@@ -472,7 +472,7 @@ public class UserFragment extends BaseFragment {
 
     @OnClick(R.id.btn_logout)
     public void OnClickLogout(View view) {
-        DialogUtil.showDoubleButtonPromptDialog(getFragmentManager(), R.drawable.ic_pay_success, "确认退出?", "确认", "取消", new PromptDialog.OnCloseListener() {
+        DialogUtil.showDoubleButtonPromptDialog(getFragmentManager(), R.drawable.ic_logout, "确认退出?", "确认", "取消", new PromptDialog.OnCloseListener() {
             @Override
             public void onLeftClick() {
                 //清除本地登录信息

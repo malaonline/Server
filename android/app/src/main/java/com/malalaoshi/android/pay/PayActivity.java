@@ -29,16 +29,19 @@ import butterknife.ButterKnife;
 public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
     private static final String EXTRA_ORDER_ID = "order_id";
+    private static final String EXTRA_IS_EVALUATED = "is_evaluated";
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
 
     private CreateCourseOrderResultEntity orderEntity;
+    private boolean isEvaluated;
 
     private PayFragment payFragment;
 
-    public static void startPayActivity(CreateCourseOrderResultEntity entity, Activity context) {
+    public static void startPayActivity(CreateCourseOrderResultEntity entity, Activity context, boolean isEvaluated) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra(EXTRA_ORDER_ID, entity);
+        intent.putExtra(EXTRA_IS_EVALUATED,isEvaluated);
         context.startActivity(intent);
     }
 
@@ -49,10 +52,11 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
         ButterKnife.bind(this);
         titleBarView.setOnTitleBarClickListener(this);
         orderEntity = (CreateCourseOrderResultEntity) getIntent().getSerializableExtra(EXTRA_ORDER_ID);
+        isEvaluated = getIntent().getBooleanExtra(EXTRA_IS_EVALUATED,false);
         if (orderEntity == null) {
             finish();
         }
-        payFragment = PayFragment.newInstance(orderEntity);
+        payFragment = PayFragment.newInstance(orderEntity,isEvaluated);
         FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null,
                 payFragment, "payfragment");
     }

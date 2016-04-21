@@ -24,6 +24,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="37dp"
         android:layout_marginRight="37dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#939393"
         android:lineSpacingExtra="8dp"
         android:gravity="center_horizontal|top"

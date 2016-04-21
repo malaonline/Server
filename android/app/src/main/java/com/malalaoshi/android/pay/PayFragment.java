@@ -23,9 +23,11 @@ import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.OrderStatusModel;
 import com.malalaoshi.android.pay.api.OrderStatusApi;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
 
 import butterknife.Bind;
@@ -57,11 +59,12 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     private DialogFragment pendingDialog;
 
     private CreateCourseOrderResultEntity resultEntity;
+    private boolean isEvaluated = false;
 
-
-    public static PayFragment newInstance(CreateCourseOrderResultEntity orderEntity) {
+    public static PayFragment newInstance(CreateCourseOrderResultEntity orderEntity, boolean isEvaluated) {
         PayFragment fragment = new PayFragment();
         fragment.setOrderEntity(orderEntity);
+        fragment.setEvaluated(isEvaluated);
         return fragment;
     }
 
@@ -88,6 +91,10 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (pendingDialog != null) {
             showDialog(pendingDialog);
         }
+    }
+
+    public void setEvaluated(boolean evaluated) {
+        isEvaluated = evaluated;
     }
 
     private void setOrderEntity(CreateCourseOrderResultEntity entity) {
@@ -149,19 +156,36 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 Log.e("MALA", "On activity result: " + result);
 
                 if (result == null) {
-                    showResultDialog(PayResultDialog.Type.PAY_FAILED);
+                    showPayFialedDialog("支付失败，请重试！");
                 } else if (result.equals("success")) {
                     EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                     getOrderStatusFromOurServer();
                 } else if (result.equals("cancel")) {
-                    showResultDialog(PayResultDialog.Type.CANCEL);
+                    showPayFialedDialog("支付用户已取消！");
                 } else if (result.equals("invalid")) {
-                    showResultDialog(PayResultDialog.Type.INVALID);
+                    showPayFialedDialog("微信支付要先安装微信");
                 } else {
-                    showResultDialog(PayResultDialog.Type.PAY_FAILED);
+                    showPayFialedDialog("支付失败，请重试！");
                 }
 
             }
+        }
+    }
+
+    private void showPayFialedDialog(String message) {
+        //支付失败后
+        PromptDialog dialog = DialogUtil.createPromptDialog(R.drawable.ic_pay_failed
+                ,message, "知道了",
+                new PromptDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+
+                    }
+                },true,true);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            pendingDialog = dialog;
         }
     }
 
@@ -185,22 +209,27 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showAllocateDialog() {
-        PayTimeAllocateDialog dialog = new PayTimeAllocateDialog();
-        dialog.setOnDismissListener(new PayTimeAllocateDialog.OnCloseListener() {
+        PromptDialog dialog =  DialogUtil.createDoubleButtonPromptDialog( R.drawable.ic_timeallocate
+                , "课程被抢占，稍后会自动退款。请重新选择时间段！", "返回首页", "查看其他时间",
+                new PromptDialog.OnCloseListener() {
             @Override
             public void onLeftClick() {
-                goToHome();
+                try {
+                    PayFragment.this.getActivity().finish();
+                    goToHome();
+                } catch (Exception e) {
+                }
             }
 
             @Override
             public void onRightClick() {
-                //
                 try {
                     PayFragment.this.getActivity().finish();
                 } catch (Exception e) {
                 }
             }
-        });
+        },false,false);
+
         if (isResumed()) {
             showDialog(dialog);
         } else {
@@ -222,15 +251,87 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getOrderStatusSuccess(@NonNull OrderStatusModel status) {
-        if ("p".equals(status.getStatus())) {
-            showResultDialog(PayResultDialog.Type.PAY_FAILED);
+        if (status.getStatus().equals("d")){
+            //订单已经取消
+            if ("p".equals(status.getStatus())) {
+                showOrderFailedDialog("当前订单已取消,稍后会自动退款！");
+                return;
+            }
             return;
+        }else if (status.getStatus().equals("p")){
+            if (status.is_timeslot_allocated()) {
+                showPaySuccessDialog();
+            } else {
+                //课程被占用
+                showAllocateDialog();
+            }
+        }else{
+            //订单状态错误
+            showOrderFailedDialog("订单状态错误,稍后会自动退款！");
         }
-        if (status.is_timeslot_allocated()) {
-            showResultDialog(PayResultDialog.Type.PAY_SUCCESS);
+    }
+
+    private void showPaySuccessDialog() {
+        String message = "";
+        if (isEvaluated){
+            message = "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前测评时间！";
+        }else{
+            message = "恭喜您支付成功！您的课表已经安排好，快去查看吧！";
+        }
+        //支付成功后,强制选择返回首页或继续购买
+        PromptDialog dialog = DialogUtil.createDoubleButtonPromptDialog(R.drawable.ic_pay_success
+                ,message, "返回首页", "查看其他时间",
+                new PromptDialog.OnCloseListener() {
+                    @Override
+                    public void onLeftClick() {
+                        try {
+                            PayFragment.this.getActivity().finish();
+                            goToHome();
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        try {
+                            PayFragment.this.getActivity().finish();
+                        } catch (Exception e) {
+                        }
+                    }
+                },false,false);
+        if (isResumed()) {
+            showDialog(dialog);
         } else {
-            //课程被占用
-            showAllocateDialog();
+            pendingDialog = dialog;
+        }
+    }
+
+    //付款成功,各种原因不能上课处理
+    private void showOrderFailedDialog(String message) {
+        PromptDialog dialog = DialogUtil.createDoubleButtonPromptDialog( R.drawable.ic_timeallocate
+                , message, "返回首页", "查看其他时间",
+                new PromptDialog.OnCloseListener() {
+                    @Override
+                    public void onLeftClick() {
+                        try {
+                            PayFragment.this.getActivity().finish();
+                            goToHome();
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        try {
+                            PayFragment.this.getActivity().finish();
+                        } catch (Exception e) {
+                        }
+                    }
+                },false,false);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            pendingDialog = dialog;
         }
     }
 

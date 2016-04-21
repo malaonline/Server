@@ -160,6 +160,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private CouponEntity coupon;
     //当前的课程名
     private Subject subject;
+    //标识是否是第一次购买
+    private Evaluated evaluated;
 
     @Nullable
     @Override
@@ -401,7 +403,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
-        PayActivity.startPayActivity(entity, getActivity());
+        boolean isEvaluated = false;
+        if (evaluated!=null&&evaluated.isEvaluated()){
+            isEvaluated = true;
+        }
+        PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
     private void openScholarShipActivity() {
@@ -733,6 +739,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         public void onApiSuccess(@NonNull Evaluated response) {
+            get().evaluated = response;
             if (response.isEvaluated()) {
                 get().reviewLayout.setVisibility(View.VISIBLE);
                 get().evaluatedLine.setVisibility(View.VISIBLE);

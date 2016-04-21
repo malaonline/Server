@@ -59,14 +59,24 @@ public class DialogUtil {
     }
 
     public static void showDoubleButtonPromptDialog(FragmentManager manager,int drawableId, String message, String leftText, String rightText,PromptDialog.OnCloseListener onCloseListener, boolean cancelable, boolean backable){
-        PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, leftText, rightText, cancelable,backable);
-        promptDialog.setOnCloseListener(onCloseListener);
+        PromptDialog promptDialog = createDoubleButtonPromptDialog(drawableId,message,  leftText, rightText, onCloseListener, cancelable, backable);
         promptDialog.show(manager, PromptDialog.class.getName());
     }
 
     public static void showPromptDialog(FragmentManager manager , int drawableId, String message, String btnText,PromptDialog.OnDismissListener onDismissListener , boolean cancelable, boolean backable){
+        PromptDialog promptDialog = createPromptDialog(drawableId, message, btnText,onDismissListener , cancelable, backable);
+        promptDialog.show(manager, PromptDialog.class.getName());
+    }
+
+    public static PromptDialog createDoubleButtonPromptDialog(int drawableId, String message, String leftText, String rightText,PromptDialog.OnCloseListener onCloseListener, boolean cancelable, boolean backable){
+        PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, leftText, rightText, cancelable,backable);
+        promptDialog.setOnCloseListener(onCloseListener);
+        return promptDialog;
+    }
+
+    public static PromptDialog createPromptDialog(int drawableId, String message, String btnText,PromptDialog.OnDismissListener onDismissListener , boolean cancelable, boolean backable){
         PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, btnText,cancelable, backable);
         promptDialog.setDismissListener(onDismissListener);
-        promptDialog.show(manager, PromptDialog.class.getName());
+        return promptDialog;
     }
 }

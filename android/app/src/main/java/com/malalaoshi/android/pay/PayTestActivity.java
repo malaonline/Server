@@ -37,6 +37,8 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
 
     private CreateCourseOrderResultEntity resultEntity;
 
+    private boolean isEvaluated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
      */
     private void pay() {
         if (resultEntity != null) {
-            PayActivity.startPayActivity(resultEntity, this);
+            PayActivity.startPayActivity(resultEntity, this, isEvaluated);
         } else {
             messageView.setText("Order id is null");
         }
