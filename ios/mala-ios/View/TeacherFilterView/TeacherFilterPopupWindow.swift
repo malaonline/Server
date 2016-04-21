@@ -154,7 +154,10 @@ public class TeacherFilterPopupWindow: UIViewController {
     // MARK: - Override
     public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if closeWhenTap {
-            closeAlert(0)
+            // 若触摸点不位于Window视图，关闭弹窗
+            if let point = touches.first?.locationInView(window) where !window.pointInside(point, withEvent: nil) {
+                closeAlert(0)
+            }
         }
     }
     

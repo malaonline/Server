@@ -186,6 +186,17 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     }
     
 
+    // MARK: - Override
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if closeWhenTap {
+            // 若触摸点不位于Window视图，关闭弹窗
+            if let point = touches.first?.locationInView(window) where !window.pointInside(point, withEvent: nil) {
+                closeAlert(0)
+            }
+        }
+    }
+    
+    
     // MARK: - API
     public func show() {
         animateAlert()
@@ -200,7 +211,6 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private func setupUserInterface() {
         // Style
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: tBakcgroundTansperancy)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CommentPopupWindow.backgroundDidTap)))
         window.backgroundColor = UIColor.whiteColor()
         
         // SubViews
@@ -506,12 +516,6 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     // MARK: - Event Response
     @objc private func pressed(sender: UIButton!) {
         self.closeAlert(sender.tag)
-    }
-    
-    @objc public  func backgroundDidTap() {
-        if closeWhenTap {
-            closeAlert(0)
-        }
     }
     
     @objc private func closeButtonDidTap() {
