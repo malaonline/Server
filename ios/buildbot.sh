@@ -20,13 +20,9 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 
 # Unit Test
-echo Unit Test
-scheme="parentTests"
-xcodebuild test -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.4'
-
+xcodebuild test -workspace mala-ios.xcworkspace -scheme ${scheme} -sdk iphonesimulator -configuration "DevRelease" -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.4'
 
 # Compile Project DevRelease
-echo Building DevRelease Project
 scheme="parent"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
@@ -36,7 +32,6 @@ xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPat
 
 
 # Compile Project PrdRelease
-echo Building PrdRelease Project
 configuration="PrdRelease"
 buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
