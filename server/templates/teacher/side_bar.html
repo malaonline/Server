@@ -22,7 +22,7 @@
         <span class="badge_number">({{ side_bar_my_evaluation }})</span>
         {% endif %}
     </a></p>
-    <p class="section-title"><a class="{% menu_active 'teacher:wallet' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>
+    <p class="section-title"><a class="{% menu_active 'teacher:wallet' 'teacher:wallet' 'teacher:wallet-histories' 'teacher:wallet-bankcard-add' 'teacher:wallet-bankcard-add-success' 'teacher:my-wallet-withdrawal' 'teacher:my-wallet-withdrawal-result' 'teacher:my-wallet-withdrawal-record' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>
     <p class="section-title">个人设置</p>
     <p class="section-link"><a class="{% menu_active 'teacher:basic_doc' %}" href="{% url 'teacher:basic_doc' %}">基本资料</a>
         {% if information_not_complete == False %}
@@ -31,7 +31,7 @@
             <img src="{% static 'teacher/images/teacher_info_not_complete.png' %}">
         {% endif %}
     </p>
-    <p class="section-link"><a class="{% menu_active 'teacher:certificate' %}" href="{% url 'teacher:certificate' %}">资质认证</a></p>
+    <p class="section-link"><a class="{% menu_active 'teacher:certificate' 'teacher:certificate-id' 'teacher:certificate-academic' 'teacher:certificate-teaching' 'teacher:certificate-english' 'teacher:certificate-others' %}" href="{% url 'teacher:certificate' %}">资质认证</a></p>
     <p class="section-link"><a class="{% menu_active 'teacher:achievement' %}" href="{% url 'teacher:achievement' %}">特殊成果</a></p>
     <p class="section-link"><a class="{% menu_active 'teacher:highscore' %}" href="{% url 'teacher:highscore' %}">提分榜设置</a></p>
     <p class="section-link"><a class="{% menu_active 'teacher:my-level' %}" href="{% url 'teacher:my-level' %}">我的级别</a></p>
