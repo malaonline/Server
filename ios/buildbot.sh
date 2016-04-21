@@ -13,7 +13,7 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 # UnitTest
 # xctool should upgrade to 0.2.9 or above
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator test -freshInstall -freshSimulator
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.4' test -freshInstall
 
 
 # DevRelease
