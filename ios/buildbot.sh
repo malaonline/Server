@@ -1,16 +1,15 @@
 #!/bin/sh
 set -e
 
-## Build configurations
+# Build configurations
 scheme="parent"
 schemeSDK="iphoneos"
 configuration="DevRelease"
 ipaDir="build/ipa/"
-archs="armv7"
 appName="parent"
 
 
-## Provisioning configurations
+# Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AdHoc"
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
