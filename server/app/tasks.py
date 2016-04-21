@@ -1,14 +1,16 @@
 from __future__ import absolute_import
 
-from celery import shared_task
+import datetime
+import logging
 
 from django.conf import settings
+from django.utils import timezone
 # from django.utils import timezone
 # from django.db.models import F
 import jpush
 
-from .models import TimeSlot, TimeSlotAttendance, Order
-import logging
+from celery import shared_task
+from .models import TimeSlot, TimeSlotAttendance, Order, Teacher
 
 logger = logging.getLogger('app')
 
@@ -71,3 +73,23 @@ def autoCancelOrders():
             logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
     logger.debug("effected target amount:%d" % (len(operateTargets)))
     return True
+
+@shared_task
+def autoAddTeacherTeachingAge():
+    cpmStartDate = timezone.now()
+    try:
+        cpmStartDate = cpmStartDate.replace(year=int(cpmStartDate.strftime("%Y"))-1, hour=0, minute=0, second=0, microsecond=0)
+    except:
+        cpmStartDate -= datetime.timedelta(days=1)
+        cpmStartDate = cpmStartDate.replace(year=int(cpmStartDate.strftime("%Y"))-1, hour=0, minute=0, second=0, microsecond=0)
+
+    # cpmStartDate = cpmStartDate.replace(year=2015, month=12, day=31, hour=0, minute=0, second=0, microsecond=0)
+
+    cpmEndDate = cpmStartDate.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+    tempAll = Teacher.objects.filter(user__date_joined__gte=cpmStartDate, user__date_joined__lte=cpmEndDate)
+    for teacher in tempAll:
+        teacher.teaching_age += 1
+        teacher.save()
+
+    return True;
