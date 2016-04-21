@@ -591,7 +591,7 @@ function ajaxLoadSchool(lat, lng){
           $('.school_cont > div > div > div').css('paddingTop', schImgHeight - 64);
           $('.school_img_cont').css('width', schImgWidth).css('height', schImgHeight);
           $('.school_cont > div > div:not(.school_img_cont)').css('paddingLeft', schImgWidth + 10);
-          $('.school_cont > div').css('marginBottom', schImgHeight - 68);
+          $('.school_cont > div').css('marginBottom', schImgHeight - 69);
       }
     });
 }

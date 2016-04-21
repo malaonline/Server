@@ -136,7 +136,7 @@ body{
     margin-bottom: 4px;
   }
   >div:nth-child(2){
-    color: #636363;
+    color: #808080;
     font-size: 14px;
     font-family: FZLTXHK;
   }
@@ -296,13 +296,15 @@ a{
   }
 }
 .school_cont{
+  float: left;
+  width: 100%;
   display: block;
   clear: both;
-  margin: 13px 0px;
+  margin: 0px 0px;
   >div{
     clear: both;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 14px;
     margin-bottom: 17px;
   }
   >div>div:not(.school_img_cont){
@@ -326,7 +328,9 @@ a{
   }
 }
 .school_cont:first-child{
-  margin-bottom: 17px;
+  >div{
+    margin-top: 0px;
+  }
 }
 .school_cont:last-child{
   >div{
@@ -345,8 +349,10 @@ a{
   }
 }
 .more_schools{
+  float: left;
+  width: 100%;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0;
   border-top: solid 1px #e5e5e5;
   color: #636363;
   height: 45px;
@@ -356,7 +362,8 @@ a{
   }
 }
 .teacher_achievement{
-  border: solid 1px #a5a5a5;
+//  border: solid 1px #a5a5a5;
+  border: solid 1px rgba(165,165,165,0.5);
   padding: 2px 6px 0px 6px;
   border-radius: 4px;
   margin-top: 5px;
@@ -378,7 +385,7 @@ a{
   margin-left: -12px;
   clear: both;
   label{
-    color: #636363;
+    color: #808080;
     float: left;
     margin-left: 12px;
     margin-top: 2px;
@@ -421,7 +428,7 @@ a{
   padding-bottom: 0px;
 }
 #schoolsDiv{
-  margin-top: 4px;
+  margin-top: 10px;
   margin-bottom: 9px;
 }
 .more_schools_collapse{
