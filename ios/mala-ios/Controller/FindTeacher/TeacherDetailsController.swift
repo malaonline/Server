@@ -215,11 +215,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             ThemeHUD.hideActivityIndicator()
             
             if error != nil {
-                debugPrint("TeahcerDeatilsController - loadTeacherDetail Request Error")
+                println("TeahcerDeatilsController - loadTeacherDetail Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeahcerDeatilsController - loadTeacherDetail Format Error")
+                println("TeahcerDeatilsController - loadTeacherDetail Format Error")
                 return
             }
             
@@ -235,11 +235,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             ThemeHUD.hideActivityIndicator()
             
             if error != nil {
-                debugPrint("TeacherDetailsController - loadSchools Request Error")
+                println("TeacherDetailsController - loadSchools Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherDetailsController - loadSchools Format Error")
+                println("TeacherDetailsController - loadSchools Format Error")
                 return
             }
             
@@ -264,11 +264,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             ThemeHUD.hideActivityIndicator()
             
             if error != nil {
-                debugPrint("TeacherDetailsController - loadMemberServices Request Error")
+                println("TeacherDetailsController - loadMemberServices Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherDetailsController - loadMemberServices Format Error")
+                println("TeacherDetailsController - loadMemberServices Format Error")
                 return
             }
             

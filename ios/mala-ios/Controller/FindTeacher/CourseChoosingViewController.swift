@@ -66,10 +66,10 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         
         ThemeHUD.showActivityIndicator()
         
-        MalaCurrentInitAction = {
-            self.loadClassSchedule()
-            self.loadCoupons()
-            self.loadUserEvaluatedStatus()
+        MalaCurrentInitAction = { [weak self] in
+            self?.loadClassSchedule()
+            self?.loadCoupons()
+            self?.loadUserEvaluatedStatus()
         }
         
         MalaCurrentCancelAction = { [weak self] in
@@ -127,11 +127,11 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         // // 获取 [教学环境] 数据
         MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
-                debugPrint("CourseChoosingViewController - loadSchools Request Error")
+                println("CourseChoosingViewController - loadSchools Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("CourseChoosingViewController - loadSchools Format Error")
+                println("CourseChoosingViewController - loadSchools Format Error")
                 return
             }
             

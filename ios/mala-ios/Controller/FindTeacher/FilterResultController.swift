@@ -117,11 +117,11 @@ class FilterResultController: BaseViewController {
         
         MalaNetworking.sharedTools.loadTeachers(filters, page: currentPageIndex) { [weak self] result, error in
             if error != nil {
-                debugPrint("HomeViewController - loadTeachers Request Error")
+                println("HomeViewController - loadTeachers Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("HomeViewController - loadTeachers Format Error")
+                println("HomeViewController - loadTeachers Format Error")
                 return
             }
             

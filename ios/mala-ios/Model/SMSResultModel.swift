@@ -27,7 +27,7 @@ class SMSResultModel: NSObject {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("SMSResultModel - Set for UndefinedKey: \(key) -")
+        println("SMSResultModel - Set for UndefinedKey: \(key) -")
     }
     
     

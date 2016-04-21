@@ -35,7 +35,7 @@ class ResultModel: NSObject {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("ResultModel - Set for UndefinedKey: \(key) -")
+        println("ResultModel - Set for UndefinedKey: \(key) -")
     }
     
     

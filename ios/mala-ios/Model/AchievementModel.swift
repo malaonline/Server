@@ -33,7 +33,7 @@ class AchievementModel: NSObject {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("AchievementModel - Set for UndefinedKey: \(key)")
+        println("AchievementModel - Set for UndefinedKey: \(key)")
     }
     
     override func setValue(value: AnyObject?, forKey key: String) {

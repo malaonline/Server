@@ -143,8 +143,8 @@ class TestFactory {
     }
     
     class func testDateInThisWeek() {
-        print(NSDate().weekday())
-        print("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))
+        println(NSDate().weekday())
+        println("周一".dateInThisWeek().formattedDateWithFormat("YYYY/MM/dd"))
     }
     
     class func testPingppPayment(charge: JSONDictionary) {

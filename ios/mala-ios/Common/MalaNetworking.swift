@@ -473,7 +473,7 @@ extension MalaNetworking {
             
             println(response.request!.cURLString)
             if response.result.isFailure {
-                debugPrint("Network Request Failure - \(response.result.error)")
+                println("Network Request Failure - \(response.result.error)")
             }
             // Finished
             finished(result: response.result.value, error: response.result.error)

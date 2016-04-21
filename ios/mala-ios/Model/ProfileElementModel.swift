@@ -45,7 +45,7 @@ class ProfileElementModel: BaseObjectModel {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("ProfileElementModel - Set for UndefinedKey: \(key)")
+        println("ProfileElementModel - Set for UndefinedKey: \(key)")
     }
     
     

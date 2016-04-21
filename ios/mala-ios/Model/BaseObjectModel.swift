@@ -33,7 +33,7 @@ public class BaseObjectModel: NSObject {
     
     // MARK: - Override
     override public func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("BaseObjectModel - Set for UndefinedKey: \(key)")
+        println("BaseObjectModel - Set for UndefinedKey: \(key)")
     }
     
     

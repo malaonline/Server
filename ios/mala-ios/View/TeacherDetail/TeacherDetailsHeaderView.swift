@@ -17,7 +17,7 @@ class TeacherDetailsHeaderView: UIView {
     var avatar: String = "" {
         didSet{
             guard let url = NSURL(string: avatar) else {
-                debugPrint("TeacherDetailsHeaderView - AvatarURL Format Error")
+                println("TeacherDetailsHeaderView - AvatarURL Format Error")
                 return
             }
             self.avatarView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "avatar_placeholder"))

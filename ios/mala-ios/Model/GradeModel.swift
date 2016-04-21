@@ -28,7 +28,7 @@ class GradeModel: BaseObjectModel {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("GradeModel - Set for UndefinedKey: \(key)")
+        println("GradeModel - Set for UndefinedKey: \(key)")
     }
     
     override func setValue(value: AnyObject?, forKey key: String) {

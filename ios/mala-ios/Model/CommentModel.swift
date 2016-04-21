@@ -39,7 +39,7 @@ public class CommentModel: BaseObjectModel {
     
     // MARK: - Override
     override public func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("CommentModel - Set for UndefinedKey: \(key)")
+        println("CommentModel - Set for UndefinedKey: \(key)")
     }
     
     

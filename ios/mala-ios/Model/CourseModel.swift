@@ -68,7 +68,7 @@ public class CourseModel: BaseObjectModel {
     }
     
     override public func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("StudentCourseModel - Set for UndefinedKey: \(key)")
+        println("StudentCourseModel - Set for UndefinedKey: \(key)")
     }
     
     

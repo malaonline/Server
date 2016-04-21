@@ -46,7 +46,7 @@ class TeacherModel: BaseObjectModel {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("TeacherModel - Set for UndefinedKey: \(key)")
+        println("TeacherModel - Set for UndefinedKey: \(key)")
     }
     
     override func setValue(value: AnyObject?, forKey key: String) {

@@ -244,11 +244,11 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         // 获取风格标签
         MalaNetworking.sharedTools.loadTags{ [weak self] (result, error) -> () in
             if error != nil {
-                debugPrint("TeacherFilterView - loadTags Request Error")
+                println("TeacherFilterView - loadTags Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                debugPrint("TeacherFilterView - loadTags Format Error")
+                println("TeacherFilterView - loadTags Format Error")
                 return
             }
             

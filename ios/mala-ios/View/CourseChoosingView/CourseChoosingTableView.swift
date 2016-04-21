@@ -98,7 +98,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         separatorStyle = .None
         bounces = false
         contentInset = UIEdgeInsets(top: -40, left: 0, bottom: 4, right: 0)
-        
+         
         
         registerClass(CourseChoosingGradeCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[0]!)
         registerClass(CourseChoosingPlaceCell.self, forCellReuseIdentifier: CourseChoosingCellReuseId[1]!)
@@ -188,7 +188,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     
     
     deinit {
-        print("choosing TableView deinit")
+        println("choosing TableView deinit")
         ///  清空选课模型
         MalaCourseChoosingObject.reset()
     }

@@ -306,7 +306,7 @@ class LoginViewController: UIViewController {
     // MARK: - Event Response
     ///  用户协议点击事件
     @objc private func protocolDidTap() {
-        print("用户协议点击事件")
+        println("用户协议点击事件")
         
         let webViewController = MalaSingleWebViewController()
         webViewController.url = ""

@@ -38,7 +38,7 @@ class HighScoreModel: NSObject {
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        debugPrint("HighScoreModel - Set for UndefinedKey: \(key)")
+        println("HighScoreModel - Set for UndefinedKey: \(key)")
     }
     
     
