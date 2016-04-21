@@ -40,6 +40,7 @@ celery_app.conf.update(
         "add-teaching-age": {
             "task": "app.tasks.autoAddTeacherTeachingAge",
             "schedule": crontab(hour=0, minute=30),
+            },
         },
     )
 
