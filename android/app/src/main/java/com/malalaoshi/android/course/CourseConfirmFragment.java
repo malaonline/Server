@@ -25,6 +25,7 @@ import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
@@ -56,6 +57,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Course confirm fragment
@@ -183,7 +185,14 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         choiceView.setOnCourseDateChoiceListener(this);
         submitView.setOnClickListener(this);
         cutReviewView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        EventBus.getDefault().register(this);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void init(Object[] schools, Object[] prices, Object teacherId, Object subject) {
@@ -269,6 +278,14 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             return;
         }
         ApiExecutor.exec(new FetchWeekDataRequest(this, teacher, currentSchool.getSchool().getId()));
+    }
+
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()) {
+            case BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED:
+                fetchEvaluated();
+                break;
+        }
     }
 
     private void fetchEvaluated() {

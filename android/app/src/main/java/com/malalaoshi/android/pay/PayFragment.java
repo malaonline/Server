@@ -217,6 +217,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 try {
                     PayFragment.this.getActivity().finish();
                     goToHome();
+                    EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                 } catch (Exception e) {
                 }
             }
@@ -225,6 +226,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
             public void onRightClick() {
                 try {
                     PayFragment.this.getActivity().finish();
+                    EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED));
                 } catch (Exception e) {
                 }
             }
@@ -254,60 +256,31 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (status.getStatus().equals("d")){
             //订单已经取消
             if ("p".equals(status.getStatus())) {
-                showOrderFailedDialog("当前订单已取消,稍后会自动退款！");
+                showPayResultDialog("当前订单已取消,稍后会自动退款！");
                 return;
             }
             return;
         }else if (status.getStatus().equals("p")){
             if (status.is_timeslot_allocated()) {
-                showPaySuccessDialog();
+                String message = "";
+                if (!isEvaluated){
+                    message = "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前测评时间！";
+                }else{
+                    message = "恭喜您支付成功！您的课表已经安排好，快去查看吧！";
+                }
+                showPayResultDialog(message);
             } else {
                 //课程被占用
-                showAllocateDialog();
+                showPayResultDialog("课程被抢占，稍后会自动退款。请重新选择时间段！");
             }
         }else{
             //订单状态错误
-            showOrderFailedDialog("订单状态错误,稍后会自动退款！");
+            showPayResultDialog("订单状态错误,稍后会自动退款！");
         }
     }
 
-    private void showPaySuccessDialog() {
-        String message = "";
-        if (!isEvaluated){
-            message = "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前测评时间！";
-        }else{
-            message = "恭喜您支付成功！您的课表已经安排好，快去查看吧！";
-        }
-        //支付成功后,强制选择返回首页或继续购买
-        PromptDialog dialog = DialogUtil.createDoubleButtonPromptDialog(R.drawable.ic_pay_success
-                ,message, "返回首页", "查看其他时间",
-                new PromptDialog.OnCloseListener() {
-                    @Override
-                    public void onLeftClick() {
-                        try {
-                            PayFragment.this.getActivity().finish();
-                            goToHome();
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    @Override
-                    public void onRightClick() {
-                        try {
-                            PayFragment.this.getActivity().finish();
-                        } catch (Exception e) {
-                        }
-                    }
-                },false,false);
-        if (isResumed()) {
-            showDialog(dialog);
-        } else {
-            pendingDialog = dialog;
-        }
-    }
-
-    //付款成功,各种原因不能上课处理
-    private void showOrderFailedDialog(String message) {
+    //付款结果对话框
+    private void showPayResultDialog(String message) {
         PromptDialog dialog = DialogUtil.createDoubleButtonPromptDialog( R.drawable.ic_timeallocate
                 , message, "返回首页", "查看其他时间",
                 new PromptDialog.OnCloseListener() {
@@ -316,6 +289,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                         try {
                             PayFragment.this.getActivity().finish();
                             goToHome();
+                            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                         } catch (Exception e) {
                         }
                     }
@@ -324,6 +298,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                     public void onRightClick() {
                         try {
                             PayFragment.this.getActivity().finish();
+                            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED));
                         } catch (Exception e) {
                         }
                     }

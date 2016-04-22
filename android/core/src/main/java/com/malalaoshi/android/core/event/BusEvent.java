@@ -10,7 +10,7 @@ public class BusEvent {
     public static final int BUS_EVENT_RELOAD_USERCENTER_DATA = 0x02;
     public static final int BUS_EVENT_UPDATE_TIMETABLE_UI = 0x03;
     public static final int BUS_EVENT_RELOAD_TIMETABLE_DATA = 0x04;
-
+    public static final int BUS_EVENT_RELOAD_FETCHEVALUATED = 0x05;
     private int eventType = -1;
 
     public BusEvent(int eventType) {
