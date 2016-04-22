@@ -17,7 +17,6 @@ AdHocProvisioning="com.malalaoshi.app-AdHoc"
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings -l -u -t 3600 ${KEYCHAIN_PATH}
 security list-keychains -s ${KEYCHAIN_PATH}
-security authorizationdb write system.privilege.taskport allow
 
 
 # Unit Test
