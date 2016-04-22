@@ -52,7 +52,7 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
         ButterKnife.bind(this);
         titleBarView.setOnTitleBarClickListener(this);
         orderEntity = (CreateCourseOrderResultEntity) getIntent().getSerializableExtra(EXTRA_ORDER_ID);
-        isEvaluated = getIntent().getBooleanExtra(EXTRA_IS_EVALUATED,false);
+        isEvaluated = getIntent().getBooleanExtra(EXTRA_IS_EVALUATED,true);
         if (orderEntity == null) {
             finish();
         }

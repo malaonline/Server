@@ -59,7 +59,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     private DialogFragment pendingDialog;
 
     private CreateCourseOrderResultEntity resultEntity;
-    private boolean isEvaluated = false;
+    private boolean isEvaluated = true;
 
     public static PayFragment newInstance(CreateCourseOrderResultEntity orderEntity, boolean isEvaluated) {
         PayFragment fragment = new PayFragment();
@@ -273,7 +273,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
 
     private void showPaySuccessDialog() {
         String message = "";
-        if (isEvaluated){
+        if (!isEvaluated){
             message = "恭喜您已支付成功！销售顾问会稍后跟您电话确认课前测评时间！";
         }else{
             message = "恭喜您支付成功！您的课表已经安排好，快去查看吧！";

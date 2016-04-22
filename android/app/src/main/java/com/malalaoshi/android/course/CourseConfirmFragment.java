@@ -403,9 +403,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
-        boolean isEvaluated = false;
-        if (evaluated!=null&&evaluated.isEvaluated()){
-            isEvaluated = true;
+        boolean isEvaluated = true;
+        if (evaluated!=null&&!evaluated.isEvaluated()){
+            isEvaluated = false;
         }
         PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
@@ -740,7 +740,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         @Override
         public void onApiSuccess(@NonNull Evaluated response) {
             get().evaluated = response;
-            if (response.isEvaluated()) {
+            if (!response.isEvaluated()) {
                 get().reviewLayout.setVisibility(View.VISIBLE);
                 get().evaluatedLine.setVisibility(View.VISIBLE);
             }
