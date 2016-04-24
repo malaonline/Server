@@ -78,7 +78,6 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         checkCancelCourseOrder();
     }
 

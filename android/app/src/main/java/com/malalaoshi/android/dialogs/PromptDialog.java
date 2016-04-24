@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -224,7 +223,7 @@ public class PromptDialog extends DialogFragment implements View.OnClickListener
             case R.id.btn_close:
             {
                 dismiss();
-                if (listener != null){
+                if (onDismissListener != null){
                     onDismissListener.onDismiss();
                 }
             }

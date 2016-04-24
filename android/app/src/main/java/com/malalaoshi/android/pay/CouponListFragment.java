@@ -20,9 +20,7 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.ScholarshipResult;
-import com.malalaoshi.android.event.ChoiceCouponEvent;
 import com.malalaoshi.android.pay.api.CouponListApi;
-import com.malalaoshi.android.util.EventDispatcher;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 
@@ -38,9 +36,18 @@ import butterknife.ButterKnife;
  */
 public class CouponListFragment extends Fragment {
 
-    public static CouponListFragment newInstance() {
+    private static final String EXTRA_CAN_SELECT = "extra_can_select";
+    private static final String EXTRA_COUPON = "extra_coupon_selected";
+
+    public interface OnCouponSelectListener {
+        void onCouponSelect(CouponEntity entity);
+    }
+
+    public static CouponListFragment newInstance(boolean canSelect, CouponEntity couponEntity) {
         CouponListFragment fragment = new CouponListFragment();
         Bundle args = new Bundle();
+        args.putBoolean(EXTRA_CAN_SELECT, canSelect);
+        args.putParcelable(EXTRA_COUPON, couponEntity);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,6 +56,14 @@ public class CouponListFragment extends Fragment {
     protected ListView listView;
 
     private CouponAdapter adapter;
+
+    //Current selected
+    private CouponEntity coupon;
+
+    //Can select
+    private boolean canSelect;
+
+    private OnCouponSelectListener selectListener;
 
     public CouponListFragment() {
         // Required empty public constructor
@@ -71,15 +86,33 @@ public class CouponListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CouponEntity entity = (CouponEntity) adapter.getItem(position);
                 if (entity == null || entity.isUsed() ||
-                        entity.getExpired_at() < System.currentTimeMillis()) {
+                        entity.getExpired_at() < System.currentTimeMillis() || !canSelect) {
                     return;
                 }
-                EventDispatcher.getInstance().post(new ChoiceCouponEvent(entity));
-                adapter.setCheck(position);
+                entity.setCheck(!entity.isCheck());
+                if (selectListener != null) {
+                    selectListener.onCouponSelect(entity);
+                }
+                adapter.setCheck(position, entity.isCheck());
             }
         });
         ApiExecutor.exec(new FetchCouponRequest(this));
+        initBundle();
         return view;
+    }
+
+    private void initBundle() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            canSelect = bundle.getBoolean(EXTRA_CAN_SELECT, true);
+            coupon = bundle.getParcelable(EXTRA_COUPON);
+        } else {
+            canSelect = true;
+        }
+    }
+
+    public void setOnCouponSelectListener(OnCouponSelectListener listener) {
+        this.selectListener = listener;
     }
 
     @Override
@@ -103,11 +136,11 @@ public class CouponListFragment extends Fragment {
 
         @Override
         public void onApiSuccess(@NonNull String response) {
-            get().parseData(response);
+            get().parseData(response, get().coupon);
         }
     }
 
-    private void parseData(String jsonStr) {
+    private void parseData(String jsonStr, CouponEntity choice) {
         if (TextUtils.isEmpty(jsonStr)) {
             return;
         }
@@ -126,6 +159,11 @@ public class CouponListFragment extends Fragment {
                 coupon.setExpired_at(entity.getExpired_at() * 1000);
                 coupon.setId(entity.getId());
                 entities.add(coupon);
+                if (choice != null) {
+                    if (coupon.getId() == choice.getId()) {
+                        coupon.setCheck(true);
+                    }
+                }
             }
             adapter.addAll(entities);
             adapter.notifyDataSetChanged();
@@ -196,10 +234,10 @@ public class CouponListFragment extends Fragment {
             holder.choiceView.setVisibility(data.isCheck() ? View.VISIBLE : View.GONE);
         }
 
-        public void setCheck(int position) {
+        public void setCheck(int position, boolean check) {
             for (int i = 0; i < getCount(); i++) {
                 if (i == position) {
-                    getList().get(i).setCheck(true);
+                    getList().get(i).setCheck(check);
                 } else {
                     getList().get(i).setCheck(false);
                 }

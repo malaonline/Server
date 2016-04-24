@@ -17,11 +17,6 @@ public class TimeTableApi extends BaseApi {
         return URL_TIMES_LOTS;
     }
 
-    @Override
-    protected boolean addAuthHeader() {
-        return false;
-    }
-
     public CourseListResult get() throws Exception {
         return httpGet(getPath(), CourseListResult.class);
     }

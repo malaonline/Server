@@ -60,7 +60,7 @@ public class PayTestActivity extends BaseActivity implements View.OnClickListene
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btn_coupong) {
-            startActivity(new Intent(this, CouponActivity.class));
+            CouponActivity.launch(this, false);
         }
     }
 

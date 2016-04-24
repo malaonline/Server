@@ -459,8 +459,7 @@ public class UserFragment extends BaseFragment {
     public void OnClickUserSchoolShip(View view) {
         StatReporter.clickScholarship(getStatName());
         if (!checkLogin()) return;
-        Intent intent = new Intent(getContext(), CouponActivity.class);
-        startActivity(intent);
+        CouponActivity.launch(getActivity(), false);
     }
 
     @OnClick(R.id.rl_about_mala)
@@ -488,7 +487,7 @@ public class UserFragment extends BaseFragment {
             public void onRightClick() {
 
             }
-        },true,true);
+        }, true, true);
     }
 
     @Override

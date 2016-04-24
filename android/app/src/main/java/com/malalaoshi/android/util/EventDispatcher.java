@@ -1,7 +1,5 @@
 package com.malalaoshi.android.util;
 
-import com.malalaoshi.android.pay.CouponActivity;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -10,12 +8,12 @@ import de.greenrobot.event.EventBus;
  */
 public class EventDispatcher {
 
-    private static final class Holdder {
-        private static EventDispatcher instance = new EventDispatcher();
+    private static final class Holder {
+        private static final EventDispatcher instance = new EventDispatcher();
     }
 
     public static EventDispatcher getInstance() {
-        return Holdder.instance;
+        return Holder.instance;
     }
 
     private EventDispatcher() {
@@ -29,11 +27,11 @@ public class EventDispatcher {
         EventBus.getDefault().post(event);
     }
 
-    public void register(CouponActivity couponActivity) {
-        EventBus.getDefault().register(couponActivity);
+    public void register(Object obj) {
+        EventBus.getDefault().register(obj);
     }
 
-    public void unregister(CouponActivity couponActivity) {
-        EventBus.getDefault().unregister(couponActivity);
+    public void unregister(Object obj) {
+        EventBus.getDefault().unregister(obj);
     }
 }

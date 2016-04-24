@@ -172,15 +172,15 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
 
             HashMap<String, List<Course>> mapCourse = new HashMap<>();
             for (int i = 0; i < listCourse.size(); i++) {
-                Course cource = listCourse.get(i);
-                SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(cource.getEnd());
+                Course course = listCourse.get(i);
+                SimpleMonthAdapter.CalendarDay calendarDay = CalendarUtils.timestampToCalendarDay(course.getEnd());
                 //指定月的课程信息
                 List<Course> tempCourses = mapCourse.get(calendarDay.getYear() + "" + calendarDay.getMonth());
                 if (tempCourses == null) {
                     tempCourses = new ArrayList<>();
                     mapCourse.put(calendarDay.getYear() + "" + calendarDay.getMonth(), tempCourses);
                 }
-                tempCourses.add(cource);
+                tempCourses.add(course);
             }
             calendarView.setCourses(mapCourse);
         }

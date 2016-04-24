@@ -68,7 +68,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -210,7 +209,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
 
     private void showPaySuccessDialog(String message) {
         //支付成功
-        PromptDialog dialog = DialogUtil.createPromptDialog(R.drawable.ic_pay_failed
+        PromptDialog dialog = DialogUtil.createPromptDialog(R.drawable.ic_pay_success
                 ,message, "知道了",
                 new PromptDialog.OnDismissListener() {
                     @Override

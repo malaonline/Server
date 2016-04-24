@@ -64,6 +64,9 @@ import de.greenrobot.event.EventBus;
  * Created by tianwei on 3/5/16.
  */
 public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener, CourseDateChoiceView.OnCourseDateChoiceListener, View.OnClickListener {
+
+    private static final int REQUEST_CODE_COUPON = 0x10;
+
     public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object subject) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         fragment.init(schools, prices, teacherId, subject);
@@ -421,24 +424,37 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
         boolean isEvaluated = true;
-        if (evaluated!=null&&!evaluated.isEvaluated()){
+        if (evaluated != null && !evaluated.isEvaluated()) {
             isEvaluated = false;
         }
         PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
     private void openScholarShipActivity() {
-        Intent intent = new Intent(getActivity(), CouponActivity.class);
-        getActivity().startActivityForResult(intent, 10);
+        CouponActivity.launch(getActivity(), REQUEST_CODE_COUPON, coupon);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            coupon = data.getParcelableExtra("coupon");
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (REQUEST_CODE_COUPON == requestCode) {
+            CouponEntity coupon = data.getParcelableExtra(CouponActivity.EXTRA_COUPON);
+            refreshCoupon(coupon);
+        }
+    }
+
+    private void refreshCoupon(CouponEntity coupon) {
+        if (coupon != null && coupon.isCheck()) {
+            this.coupon = coupon;
             String sum = Number.subZeroAndDot(Double.valueOf(coupon.getAmount()) * 0.01d);
             scholarView.setText("-￥" + sum);
             calculateSum();
+        } else {
+            this.coupon = null;
+            calculateSum();
+            scholarView.setText("未使用奖学金");
         }
     }
 
