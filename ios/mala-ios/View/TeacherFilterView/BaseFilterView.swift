@@ -40,6 +40,9 @@ class BaseFilterView: UICollectionView, UICollectionViewDelegate, UICollectionVi
     // MARK: - Deleagte
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath)
+        if let currentIndexPath = selectedIndexPath {
+            collectionView.cellForItemAtIndexPath(currentIndexPath)?.selected = false
+        }
         cell?.selected = true
         self.selectedIndexPath = indexPath
     }
