@@ -46,8 +46,12 @@ class ThemeHUD: NSObject {
 
                     self.sharedInstance.containerView.alpha = 0
                     window.addSubview(self.sharedInstance.containerView)
-                    self.sharedInstance.containerView.frame = window.bounds
-
+                
+                    // 设置遮罩不遮盖导航栏
+                    let width = window.bounds.size.width
+                    let height = window.bounds.size.height - 64
+                    self.sharedInstance.containerView.frame = CGRect(x: 0, y: 64, width: width, height: height)
+                
                     UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                         self.sharedInstance.containerView.alpha = 1
 
