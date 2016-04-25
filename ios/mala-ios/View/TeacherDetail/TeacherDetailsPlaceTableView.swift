@@ -20,9 +20,7 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     }
     var isOpen: Bool = false {
         didSet {
-            if isOpen {
-                reloadData()
-            }
+            reloadData()
         }
     }
 
@@ -40,6 +38,10 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
     // MARK: - Delegate
     func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return MalaLayout_DetailSchoolsTableViewCellHeight
     }
     
     
@@ -60,7 +62,6 @@ class TeacherDetailsSchoolsTableView: UITableView, UITableViewDelegate, UITableV
         delegate = self
         dataSource = self
         scrollEnabled = false
-        estimatedRowHeight = 107
         separatorColor = MalaColor_E5E5E5_0
         registerClass(TeacherDetailsSchoolsTableViewCell.self, forCellReuseIdentifier: TeacherDetailsSchoolsTableViewCellReuseId)
     }
@@ -78,7 +79,7 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
                 return
             }
             
-            photoView.kf_setImageWithURL(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: nil)
+            photoView.kf_setImageWithURL(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: UIImage(named: "detailPicture_placeholder"))
             titleLabel.text = model!.name
             addressLabel.text = model!.address
             distanceLabel.text = String(showDistance: (model?.distance ?? 0.0))

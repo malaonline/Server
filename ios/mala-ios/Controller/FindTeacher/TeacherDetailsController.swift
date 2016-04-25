@@ -188,7 +188,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             // 展开 [教学环境] Cell
                 if let isOpen = notification.object as? Bool {
                     self?.isOpenSchoolsCell = isOpen
-                    // self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 5), atScrollPosition: .Top, animated: true)
+//                    self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 6), atScrollPosition: .Top, animated: true)
                     self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
                 }
         }

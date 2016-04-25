@@ -15,25 +15,25 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
         didSet {
             tableView.model = schools ?? []
             tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+35)
+                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight)
             }
         }
     }
     var isOpen: Bool = false {
         didSet {
+            tableView.isOpen = isOpen
             if isOpen {
                 button.selected = true
-                let height = (Int(MalaLayout_DetailSchoolsTableViewCellHeight) * schools!.count)+30
+                let height = (Int(MalaLayout_DetailSchoolsTableViewCellHeight) * schools!.count)
                 tableView.snp_updateConstraints { (make) -> Void in
                     make.height.equalTo(height)
                 }
             }else {
                 button.selected = false
                 tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight+35)
+                    make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight)
                 }
             }
-            tableView.isOpen = isOpen
         }
     }
     
@@ -84,10 +84,11 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)
             make.left.equalTo(self.content.snp_left)
-            make.bottom.equalTo(self.content.snp_bottom)
+            make.bottom.equalTo(self.button.snp_top)
             make.right.equalTo(self.content.snp_right)
         }
         button.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.tableView.snp_bottom)
             make.left.equalTo(self.content.snp_left)
             make.bottom.equalTo(self.content.snp_bottom)
             make.right.equalTo(self.content.snp_right)
