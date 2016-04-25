@@ -145,7 +145,7 @@ let MalaLayout_FontSize_37: CGFloat = 37.0
 
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (MalaLayout_Margin_12*2)
 let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - MalaLayout_Margin_12)/2
-let MalaLayout_AvatarSize: CGFloat = 70.0
+let MalaLayout_AvatarSize: CGFloat = 75.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
 let MalaLayout_DetailHeaderLayerHeight: CGFloat = 110 //MalaLayout_DetailHeaderHeight - 6.0
 let MalaLayout_DetailHeaderHeight: CGFloat = 146.0

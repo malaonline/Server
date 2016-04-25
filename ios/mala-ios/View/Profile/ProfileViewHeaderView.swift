@@ -45,10 +45,8 @@ class ProfileViewHeaderView: UIView {
     // MARK: - Components
     /// 头像ImageView控件
     private lazy var avatarView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.whiteColor()
-        imageView.image = UIImage(named: "avatar_placeholder")
-        imageView.layer.cornerRadius = MalaLayout_AvatarSize*0.5
+        let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
+        imageView.layer.cornerRadius = (MalaLayout_AvatarSize-5)*0.5
         imageView.layer.masksToBounds = true
         imageView.userInteractionEnabled = true
         imageView.contentMode = .ScaleAspectFill

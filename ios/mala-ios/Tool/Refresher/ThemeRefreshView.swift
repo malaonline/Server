@@ -55,12 +55,12 @@ class ThemeRefreshView: UIView {
         
         // Autolayout
         view.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(100)
-            make.width.equalTo(115)
+            make.height.equalTo(30)
+            make.width.equalTo(105)
             make.center.equalTo(self.snp_center)
         }
         imageView.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self.view.snp_centerY)
+            make.centerY.equalTo(self.view.snp_centerY).offset(-MalaScreenOnePixel*3)
             make.left.equalTo(self.view.snp_left)
         }
         label.snp_makeConstraints { (make) -> Void in
