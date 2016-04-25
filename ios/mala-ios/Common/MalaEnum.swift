@@ -70,9 +70,11 @@ enum CouponStatus: Int {
 ///
 ///  - Discount: 折扣 例如: [-] [￥400]
 ///  - Reduce:   免除 例如: [￥400(删除线)] [￥0]
-enum PriceHandleType {
+///  - None: 不显示
+enum PriceHandleType: Int {
     case Discount
     case Reduce
+    case None
 }
 
 ///  其他服务类型

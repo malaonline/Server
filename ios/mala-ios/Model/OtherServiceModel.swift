@@ -18,7 +18,7 @@ class OtherServiceModel: NSObject {
     /// 价格
     var price: Int?
     /// 价格处理类型
-    var priceHandleType: PriceHandleType = .Discount
+    var priceHandleType: PriceHandleType = .None
     /// 跳转控制器类型
     var viewController: AnyClass?
     

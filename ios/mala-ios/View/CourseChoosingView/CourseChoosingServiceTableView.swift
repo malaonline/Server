@@ -75,24 +75,37 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     var service: OtherServiceModel? {
         didSet{
             
-            if service?.type == .Coupon {
+            guard let model = service else {
+                return
+            }
+            
+            if model.type == .Coupon {
                 configure()
             }
             
             self.titleLabel.text = service?.title
 
-            if service?.priceHandleType == .Discount {
-             
-                self.priceHandleLabel.text = "-"
-                self.priceLabel.text = service?.price?.moneyCNY
-            }else if service?.priceHandleType == .Reduce {
-
-                let oldPrice = String(format: "￥%d", (service?.price ?? 0))
+            switch model.priceHandleType {
+            case .Discount:
+                
+                self.priceHandleLabel.text = model.price?.moneyCNY == nil ? "" : "-"
+                self.priceLabel.text = model.price?.moneyCNY
+                break
+                
+            case .Reduce:
+                
+                let oldPrice = String(format: "￥%d", (model.price ?? 0))
                 let attr = NSMutableAttributedString(string: oldPrice)
                 attr.addAttribute(NSStrikethroughStyleAttributeName, value: NSNumber(integer: 1), range: NSMakeRange(0, oldPrice.characters.count))
                 self.priceHandleLabel.attributedText = attr
-                
                 self.priceLabel.text = String(format: "￥%d", 0)
+                break
+                
+            case .None:
+                
+                self.priceHandleLabel.text = ""
+                self.priceLabel.text = ""
+                break
             }
         }
     }
@@ -186,8 +199,15 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     // MARK: - Override
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         // 选择优惠券时更新UI
+        if let title = MalaCourseChoosingObject.coupon?.name where title == "不使用奖学金" {
+            self.priceHandleLabel.text = ""
+            self.priceLabel.text = ""
+        }else {
+            self.priceHandleLabel.text = "-"
+            self.priceLabel.text = MalaCourseChoosingObject.coupon?.amount.moneyCNY
+        }
         self.titleLabel.text = MalaCourseChoosingObject.coupon?.name
-        self.priceLabel.text = MalaCourseChoosingObject.coupon?.amountString
+        
     }
     
     
