@@ -107,7 +107,7 @@ class TeacherTableViewCell: UITableViewCell {
     private lazy var tagsLabel: UILabel = {
         let tagsLabel = UILabel()
         tagsLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_11)
-        tagsLabel.textColor = MalaColor_333333_0
+        tagsLabel.textColor = MalaColor_333333_6
         return tagsLabel
     }()
     
