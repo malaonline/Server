@@ -214,6 +214,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 new PromptDialog.OnDismissListener() {
                     @Override
                     public void onDismiss() {
+                        PayFragment.this.getActivity().finish();
                         goToHome();
                         EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                     }
