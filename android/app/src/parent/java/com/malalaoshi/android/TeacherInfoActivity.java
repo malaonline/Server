@@ -201,6 +201,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private boolean schoolFlag = false;
     private boolean memberFlag = false;
 
+    private boolean loadFinish = false;
+
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
             Intent intent = new Intent(context, TeacherInfoActivity.class);
@@ -226,7 +228,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         initData();
         setEvent();
 
-        DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
+        //DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
         BounceTouchListener bounceTouchListener = new BounceTouchListener(scrollView, R.id.layout_teacher_info_body);
         bounceTouchListener.setOnTranslateListener(new BounceTouchListener.OnTranslateListener() {
             @Override
@@ -245,8 +247,25 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         scrollView.setOnTouchListener(bounceTouchListener);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loadFinish) {
+            DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!loadFinish) {
+            DialogUtil.stopProcessDialog();
+        }
+    }
+
     private void stopProcess() {
         if (teacherInfoFlag && schoolFlag && memberFlag) {
+            loadFinish = true;
             DialogUtil.stopProcessDialog();
         }
     }
@@ -644,6 +663,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             mSchoolAdapter.setSchools(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
         } else {
+            if (mAllSchools==null||mAllSchools.size()<=0){
+                return;
+            }
             Double dis = mAllSchools.get(0).getDistance();
             if (dis != null && dis >= 0) {
                 tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(dis)));
