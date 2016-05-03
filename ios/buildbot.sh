@@ -20,8 +20,8 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 
 # Unit Test
-# xcodebuild test -workspace mala-ios.xcworkspace -scheme ${scheme} -sdk iphonesimulator -configuration ${configuration} -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.4'
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.4' test 
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.4' test
+
 
 # Compile Project DevRelease
 scheme="parent"
