@@ -28,7 +28,7 @@ scheme="parent"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
-xcodebuild -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 
@@ -37,5 +37,5 @@ configuration="PrdRelease"
 buildPath="build/archive/${scheme}_prd_release.xcarchive"
 ipaName="${ipaDir}${scheme}_prd_release.ipa"
 
-xcodebuild -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
