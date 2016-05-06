@@ -984,3 +984,10 @@ def policy(request):
         "result": True,
         "policy": json.dumps(content)
     })
+
+
+class ReportSampleView(View):
+    template_name = 'wechat/report/sample.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, kwargs)

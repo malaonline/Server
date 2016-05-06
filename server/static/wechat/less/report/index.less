@@ -1,0 +1,69 @@
+@logo-red: #eb5055;
+@background-gray: #2f3440;
+
+body {
+  background-color: #e3eff2;
+}
+
+#fullpage {
+  .section {
+    //background-color: green;
+    margin: 0;
+    &.active {
+      top: -21px;
+    }
+  }
+  .content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 0 16pt;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .down-icon-box {
+    position: absolute;
+    bottom: 22px;
+    width: 100%;
+    text-align: center;
+    z-index: 99;
+    a {
+      display: inline-block;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  .stu-name {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .post-note-title {
+    text-align: left;
+    font-weight: bold;
+  }
+  .post-note {
+    text-align: left;
+  }
+
+  a.button.button-fill {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #adc9db;
+    border-radius: 2px;
+    text-decoration: none;
+  }
+}
