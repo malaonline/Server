@@ -29,6 +29,14 @@ class OrderForm: BaseObjectModel {
     /// 若支付过程中课程被抢买，此参数应为为false
     var is_timeslot_allocated: Bool?
     
+    // 订单显示信息
+    var teacherName: String?
+    var subjectName: String?
+    var gradeName: String?
+    var schoolName: String?
+    var avatarURL: String?
+    var amount: Int = 0
+    
     // 其他
     var result: Bool?
     var code: Int?
@@ -48,6 +56,19 @@ class OrderForm: BaseObjectModel {
         self.init()
         self.result = result
         self.code = code
+    }
+    
+    convenience init(orderId: String?, orderStatus: String?, teacherName: String?, subjectName: String?, gradeName: String?, schoolName: String?,
+                     avatarURL: String?, amount: Int) {
+        self.init()
+        self.order_id = orderId
+        self.status = orderStatus
+        self.teacherName = teacherName
+        self.subjectName = subjectName
+        self.gradeName = gradeName
+        self.schoolName = schoolName
+        self.avatarURL = avatarURL
+        self.amount = amount
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,

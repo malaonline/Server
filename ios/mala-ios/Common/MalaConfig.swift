@@ -137,6 +137,14 @@ public class MalaConfig {
                     type: nil
                 ),*/
                 ProfileElementModel(
+                    id: 2,
+                    title: "我的订单",
+                    detail: "",
+                    controller: OrderFormViewController.self,
+                    controllerTitle: "我的订单",
+                    type: nil
+                ),
+                ProfileElementModel(
                     id: 3,
                     title: "我的奖学金",
                     detail: "",
