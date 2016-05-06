@@ -8,14 +8,15 @@
 
 import UIKit
 
-private let CouponViewCellReuseId = "ScholarshipTableViewCellReuseId"
+private let OrderFormViewCellReuseId = "OrderFormViewCellReuseId"
 
 class OrderFormViewController: BaseTableViewController {
     
     // MARK: - Property
     /// 优惠券模型数组
-    var models: [CouponModel] = MalaUserCoupons {
+    var models: [OrderForm] = TestFactory.testOrderForms() {
         didSet {
+            models = TestFactory.testOrderForms() //TODO: 删除测试数据
             self.tableView.reloadData()
         }
     }
@@ -31,7 +32,7 @@ class OrderFormViewController: BaseTableViewController {
     /// 下拉刷新视图
     private lazy var refresher: UIRefreshControl = {
         let refresher = UIRefreshControl()
-        refresher.addTarget(self, action: #selector(OrderFormViewController.loadCoupons), forControlEvents: .ValueChanged)
+        refresher.addTarget(self, action: #selector(OrderFormViewController.loadOrderForm), forControlEvents: .ValueChanged)
         return refresher
     }()
     
@@ -41,7 +42,7 @@ class OrderFormViewController: BaseTableViewController {
         super.viewDidLoad()
         
         configure()
-        loadCoupons()
+//        loadOrderForm()
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,11 +55,11 @@ class OrderFormViewController: BaseTableViewController {
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
         refreshControl = refresher
-        tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
+        tableView.registerClass(OrderFormViewCell.self, forCellReuseIdentifier: OrderFormViewCellReuseId)
     }
     
     ///  获取优惠券信息
-    @objc private func loadCoupons() {
+    @objc private func loadOrderForm() {
         
         // 屏蔽[正在刷新]时的操作
         guard isFetching == false else {
@@ -74,16 +75,16 @@ class OrderFormViewController: BaseTableViewController {
             
             // 错误处理
             if let errorMessage = errorMessage {
-                println("CouponViewController - loadCoupons Error \(errorMessage)")
+                println("OrderFormViewController - loadOrderForm Error \(errorMessage)")
             }
             // 显示缺省值
-            self?.models = MalaUserCoupons
+            // self?.models = MalaUserCoupons
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
             }, completion: { [weak self] (coupons) -> Void in
                 println("优惠券列表 \(coupons)")
                 MalaUserCoupons = coupons
-                self?.models = MalaUserCoupons
+                // self?.models = MalaUserCoupons
                 self?.refreshControl?.endRefreshing()
                 self?.isFetching = false
             })
@@ -93,34 +94,11 @@ class OrderFormViewController: BaseTableViewController {
     
     // MARK: - Delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return MalaLayout_CardCellWidth*0.35
+        return MalaLayout_CardCellWidth*0.6
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        ///  若只用于显示，直接return
-        if justShow {
-            return
-        }
         
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as? CouponViewCell
-        
-        // 只有未使用的才可选中
-        guard cell?.model?.status == .Unused else {
-            return
-        }
-        
-        // 选中当前选择Cell，并取消其他Cell选择
-        if indexPath == currentSelectedIndexPath {
-            // 取消选中项
-            cell?.showSelectedIndicator = false
-            currentSelectedIndexPath = NSIndexPath(forItem: 0, inSection: 1)
-            MalaCourseChoosingObject.coupon = CouponModel(id: 0, name: "不使用奖学金", amount: 0, expired_at: 0, used: false)
-        }else {
-            (tableView.cellForRowAtIndexPath(currentSelectedIndexPath) as? CouponViewCell)?.showSelectedIndicator = false
-            cell?.showSelectedIndicator = true
-            currentSelectedIndexPath = indexPath
-            MalaCourseChoosingObject.coupon = cell?.model
-        }
     }
     
     
@@ -130,14 +108,9 @@ class OrderFormViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CouponViewCellReuseId, forIndexPath: indexPath) as! CouponViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(OrderFormViewCellReuseId, forIndexPath: indexPath) as! OrderFormViewCell
         cell.selectionStyle = .None
         cell.model = self.models[indexPath.row]
-        // 如果是默认选中的优惠券，则设置选中样式
-        if models[indexPath.row].id == MalaCourseChoosingObject.coupon?.id && !justShow {
-            cell.showSelectedIndicator = true
-            currentSelectedIndexPath = indexPath
-        }
         return cell
     }
 }
