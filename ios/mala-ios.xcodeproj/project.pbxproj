@@ -313,6 +313,8 @@
 		F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
 		F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
 		F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
+		F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
+		F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
 		F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
 		F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */; };
@@ -571,6 +573,8 @@
 		F4402E161C5A16A700E7D3DB /* parentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentTests.swift; sourceTree = "<group>"; };
 		F4402E181C5A16A700E7D3DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
+		F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewController.swift; sourceTree = "<group>"; };
+		F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewCell.swift; sourceTree = "<group>"; };
 		F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileChildNameView.swift; sourceTree = "<group>"; };
 		F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewHeaderView.swift; sourceTree = "<group>"; };
 		F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewCell.swift; sourceTree = "<group>"; };
@@ -871,6 +875,7 @@
 		304135A31C23AE6400830C43 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F452CD551CDC5823001A30E8 /* OrderForm */,
 				F45BDAE11CB75F4C0038CE3D /* ThemeCalendar */,
 				F4B58F7B1C990274009B5B8D /* Base */,
 				F4D0D1501C9FAD8800B25704 /* CourseView */,
@@ -1107,6 +1112,14 @@
 			path = parentTests;
 			sourceTree = "<group>";
 		};
+		F452CD551CDC5823001A30E8 /* OrderForm */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */,
+			);
+			path = OrderForm;
+			sourceTree = "<group>";
+		};
 		F45871E81C51D5CE0048D93F /* CourseChoosingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1208,6 +1221,7 @@
 			isa = PBXGroup;
 			children = (
 				F460651C1C97B168004056B1 /* CouponViewController.swift */,
+				F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */,
 				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
@@ -1787,6 +1801,7 @@
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
 				F46065291C97B168004056B1 /* CouponViewController.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
+				F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				F4E106201CBBA497001AD4AF /* BaseTableViewController.swift in Sources */,
@@ -1804,6 +1819,7 @@
 				F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */,
 				F40B53C81C83F98F00C20037 /* PaymentTableView.swift in Sources */,
 				F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */,
+				F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
