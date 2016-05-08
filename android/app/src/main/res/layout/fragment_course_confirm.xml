@@ -193,7 +193,7 @@
                     android:layout_below="@+id/ll_show_times"
                     android:layout_marginBottom="16dp"
                     android:paddingLeft="12dp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </RelativeLayout>
 
 

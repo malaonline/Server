@@ -7,6 +7,9 @@ import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.JsonUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,8 +79,8 @@ public abstract class BaseApi {
     private <T> T http(Request.Builder builder, Class<T> cls) throws IOException {
         addHeaders(builder);
         okhttp3.Response response = getHttpClient().newCall(builder.build()).execute();
-        checkAuthError(response);
         String back = response.body().string();
+        checkAuthError(response, back);
         //String类型直接返回
         if (cls.isAssignableFrom(String.class)) {
             return (T) back;
@@ -112,15 +115,19 @@ public abstract class BaseApi {
     }
 
     /**
-     * 如果是403错误的吧，把用户登出。但是我不确定403一定要登出。暂时这样，如果以后有不合理的地方。就还要判读Message
+     * 如果是403且错误消息是“Invalid token.”错误的话，强制用户登出。
      */
-    private void checkAuthError(Response response) {
-        if (response == null || EmptyUtils.isEmpty(response.message())) {
+    private void checkAuthError(Response response, String body) {
+        if (response == null || body == null) {
             return;
         }
-        //TODO 服务器的接口还是有问题。暂时不处理
-        if (response.code() == 403 && response.message().equals("__wait_server_change__")) {
-            UserManager.getInstance().logout();
+        try {
+            JSONObject json = new JSONObject(body);
+            if (response.code() == 403 && json.optString("detail").equals("Invalid token.")) {
+                UserManager.getInstance().logout();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

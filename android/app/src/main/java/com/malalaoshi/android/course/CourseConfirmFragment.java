@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
 import com.malalaoshi.android.core.usercenter.entity.Evaluated;
-import com.malalaoshi.android.course.api.CourseTimesApi;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.api.CourseWeekDataApi;
 import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CouponEntity;
@@ -43,7 +42,6 @@ import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
-import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
@@ -154,11 +152,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     //当前选择的小时数
     private int currentHours;
     //选择的时间段
-    private String selectedTimeSlots;
+    private List<CourseDateEntity> selectedTimeSlots;
     //是否要展示上课时间列表
     private boolean isShowingTimes;
-    //是否要更新上课时间列表
-    private boolean shouldUpdateTimes;
     //当前选择的上课年级
     private CoursePriceUI currentGrade;
     //当前选择的奖学金
@@ -178,8 +174,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         initChoiceListView();
         initTimesListView();
         minHours = 2;
-        currentHours = 2;
+        setCurrentHours(2);
         setHoursText();
+        isShowingTimes = true;
         minusView.setOnClickListener(this);
         addView.setOnClickListener(this);
         showTimesLayout.setOnClickListener(this);
@@ -231,6 +228,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private void initChoiceListView() {
         ChoiceAdapter choiceAdapter = new ChoiceAdapter(getActivity());
         choiceListView.setAdapter(choiceAdapter);
+        selectedTimeSlots = new ArrayList<>();
     }
 
     private void initTimesListView() {
@@ -298,28 +296,24 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     @Override
-    public void onCourseDateChoice(List<Long> sections) {
+    public void onCourseDateChoice(List<CourseDateEntity> sections) {
         minHours = sections.size() * 2;
         minHours = minHours < 2 ? 2 : minHours;
-        shouldUpdateTimes = true;
         if (currentHours < minHours) {
-            currentHours = minHours;
+            setCurrentHours(minHours);
             setHoursText();
         }
-        selectedTimeSlots = "";
-        for (Long time : sections) {
-            selectedTimeSlots += time + "+";
-        }
-        if (selectedTimeSlots.endsWith("+")) {
-            selectedTimeSlots = selectedTimeSlots.substring(0, selectedTimeSlots.length() - 1);
-        }
-        timesListView.setVisibility(View.GONE);
+        selectedTimeSlots = sections;
+        calculateCourseTimes();
         ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
-        isShowingTimes = false;
+    }
+
+    private void setCurrentHours(int hours) {
+        currentHours = hours;
+        calculateCourseTimes();
     }
 
     private void setHoursText() {
-        shouldUpdateTimes = true;
         hoursView.setText(String.valueOf(currentHours));
         calculateSum();
     }
@@ -328,30 +322,24 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     public void onClick(View v) {
         if (v.getId() == R.id.iv_minus) {
             if (currentHours - 2 >= minHours) {
-                currentHours -= 2;
+                setCurrentHours(currentHours - 2);
                 setHoursText();
             }
-            timesListView.setVisibility(View.GONE);
             ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.iv_add) {
-            currentHours += 2;
+            setCurrentHours(currentHours + 2);
             setHoursText();
-            timesListView.setVisibility(View.GONE);
             ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.rl_show_time_container) {
             if (isShowingTimes) {
-                timesListView.setVisibility(View.GONE);
                 ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
                 isShowingTimes = false;
-                return;
-            }
-            if (!shouldUpdateTimes) {
-                timesListView.setVisibility(View.VISIBLE);
+                timesListView.setVisibility(View.GONE);
+            } else {
                 ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
+                timesListView.setVisibility(View.VISIBLE);
                 isShowingTimes = true;
-                return;
             }
-            fetchCourseTimes();
         } else if (v.getId() == R.id.rl_scholarship_container) {
             StatReporter.clickScholarship(getStatName());
             openScholarShipActivity();
@@ -373,7 +361,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             MiscUtil.toast("请选择上课地点");
             return;
         }
-        if (TextUtils.isEmpty(selectedTimeSlots)) {
+        if (EmptyUtils.isEmpty(selectedTimeSlots)) {
             MiscUtil.toast("请选择上课时间");
             return;
         }
@@ -390,10 +378,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             entity.setSubject(0);
         }
         entity.setTeacher(teacher);
-        String[] array = selectedTimeSlots.split("\\+");
         List<Integer> list = new ArrayList<>();
-        for (String value : array) {
-            list.add(Integer.valueOf(value));
+        for (CourseDateEntity item : selectedTimeSlots) {
+            list.add((int) item.getId());
         }
         entity.setWeekly_time_slots(list);
         /**
@@ -458,49 +445,21 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
     }
 
-    private static final class FetchCourseTimesRequest extends BaseApiContext<CourseConfirmFragment, TimesModel> {
-
-        private long teacherId;
-        private String times;
-        private long hours;
-
-        public FetchCourseTimesRequest(CourseConfirmFragment courseConfirmFragment,
-                                       long teacherId, long hours, String times) {
-            super(courseConfirmFragment);
-            this.teacherId = teacherId;
-            this.hours = hours;
-            this.times = times;
-        }
-
-        @Override
-        public TimesModel request() throws Exception {
-            return new CourseTimesApi().get(teacherId, hours, times);
-        }
-
-        @Override
-        public void onApiSuccess(@NonNull TimesModel response) {
-            get().onFetchCourseTimesSuccess(response);
-        }
-    }
-
-    private void onFetchCourseTimesSuccess(TimesModel times) {
-        timesAdapter.clear();
-        if (times != null) {
-            timesAdapter.addAll(times.getDisplayTimes());
-            timesAdapter.notifyDataSetChanged();
-        }
-        timesListView.setVisibility(View.VISIBLE);
-        ((ImageView) showTimesImageView).setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_drop_up));
-        shouldUpdateTimes = false;
-        isShowingTimes = true;
-    }
-
-    private void fetchCourseTimes() {
-        if (TextUtils.isEmpty(selectedTimeSlots)) {
+    private void calculateCourseTimes() {
+        if (EmptyUtils.isEmpty(selectedTimeSlots)) {
             return;
         }
-        ApiExecutor.exec(new FetchCourseTimesRequest(this, teacher, currentHours, selectedTimeSlots));
+        updateCourseTimes(CourseHelper.calculateCourse(currentHours, selectedTimeSlots));
+    }
+
+    private void updateCourseTimes(List<String> times) {
+        timesAdapter.clear();
+        if (times != null) {
+            timesAdapter.addAll(times);
+            timesAdapter.notifyDataSetChanged();
+        }
+        ((ImageView) showTimesImageView).setImageDrawable(
+                getResources().getDrawable(R.drawable.ic_drop_up));
     }
 
     @Override
@@ -518,10 +477,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             schoolAdapter.add(currentSchool);
             weekContainer.setVisibility(View.GONE);
             minHours = 2;
-            currentHours = 2;
+            setCurrentHours(2);
             setHoursText();
             calculateSum();
-            selectedTimeSlots = "";
+            selectedTimeSlots = new ArrayList<>();
+            calculateCourseTimes();
             schoolAdapter.notifyDataSetChanged();
             fetchWeekData();
         }

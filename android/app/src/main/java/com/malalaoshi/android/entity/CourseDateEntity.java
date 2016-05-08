@@ -1,5 +1,7 @@
 package com.malalaoshi.android.entity;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -77,8 +79,8 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
     }
 
     @Override
-    public int compareTo(CourseDateEntity another) {
-        return this.id > another.id ? 1 : 0;
+    public int compareTo(@NonNull CourseDateEntity another) {
+        return this.id > another.id ? 1 : -1;
     }
 
     public static List<CourseDateEntity> format(String jsonStr) throws Exception {

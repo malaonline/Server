@@ -26,11 +26,10 @@ import butterknife.ButterKnife;
 public class CourseDateChoiceView extends LinearLayout {
 
     public interface OnCourseDateChoiceListener {
-        void onCourseDateChoice(List<Long> sections);
+        void onCourseDateChoice(List<CourseDateEntity> sections);
     }
 
     private OnCourseDateChoiceListener listener;
-    private List<CourseDateEntity> dateList;
     @Bind(R.id.grid_view)
     protected GridView gridView;
 
@@ -54,7 +53,6 @@ public class CourseDateChoiceView extends LinearLayout {
         View view = View.inflate(context, R.layout.view_course_date_choice, null);
         addView(view);
         ButterKnife.bind(this, view);
-        dateList = new ArrayList<>();
         adapter = new GridViewAdapter(context);
         gridView.setAdapter(adapter);
         titles = getResources().getStringArray(R.array.week);
@@ -101,10 +99,10 @@ public class CourseDateChoiceView extends LinearLayout {
         }
 
         public void choiceChanged() {
-            List<Long> list = new ArrayList<>();
+            List<CourseDateEntity> list = new ArrayList<>();
             for (CourseDateEntity entity : getList()) {
                 if (entity.isChoice()) {
-                    list.add(entity.getId());
+                    list.add(entity);
                 }
             }
             if (listener != null) {
