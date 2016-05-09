@@ -315,6 +315,10 @@
 		F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
 		F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
 		F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
+		F452CD7A1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD6E1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m */; };
+		F452CD7B1CE0313E001A30E8 /* UITabBarItem+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD701CE0313E001A30E8 /* UITabBarItem+WZLBadge.m */; };
+		F452CD7C1CE0313E001A30E8 /* CAAnimation+WAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD731CE0313E001A30E8 /* CAAnimation+WAnimation.m */; };
+		F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */; };
 		F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
 		F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */; };
@@ -575,6 +579,16 @@
 		F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewController.swift; sourceTree = "<group>"; };
 		F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewCell.swift; sourceTree = "<group>"; };
+		F452CD6D1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WZLBadge.h"; sourceTree = "<group>"; };
+		F452CD6E1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WZLBadge.m"; sourceTree = "<group>"; };
+		F452CD6F1CE0313E001A30E8 /* UITabBarItem+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarItem+WZLBadge.h"; sourceTree = "<group>"; };
+		F452CD701CE0313E001A30E8 /* UITabBarItem+WZLBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarItem+WZLBadge.m"; sourceTree = "<group>"; };
+		F452CD721CE0313E001A30E8 /* CAAnimation+WAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+WAnimation.h"; sourceTree = "<group>"; };
+		F452CD731CE0313E001A30E8 /* CAAnimation+WAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+WAnimation.m"; sourceTree = "<group>"; };
+		F452CD751CE0313E001A30E8 /* WZLBadgeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZLBadgeProtocol.h; sourceTree = "<group>"; };
+		F452CD771CE0313E001A30E8 /* UIView+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WZLBadge.h"; sourceTree = "<group>"; };
+		F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WZLBadge.m"; sourceTree = "<group>"; };
+		F452CD791CE0313E001A30E8 /* WZLBadgeImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZLBadgeImport.h; sourceTree = "<group>"; };
 		F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileChildNameView.swift; sourceTree = "<group>"; };
 		F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewHeaderView.swift; sourceTree = "<group>"; };
 		F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewCell.swift; sourceTree = "<group>"; };
@@ -918,6 +932,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F452CD6B1CE0313E001A30E8 /* WZLBadge */,
 				F49BD5911CA4131D00EB3CCF /* SKPhotoBrowser */,
 				F46065041C96D363004056B1 /* Navi */,
 				F491A8BF1C7364C500B5D520 /* Refresher */,
@@ -1118,6 +1133,55 @@
 				F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */,
 			);
 			path = OrderForm;
+			sourceTree = "<group>";
+		};
+		F452CD6B1CE0313E001A30E8 /* WZLBadge */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD6C1CE0313E001A30E8 /* BarItem */,
+				F452CD711CE0313E001A30E8 /* CategorySupport */,
+				F452CD741CE0313E001A30E8 /* Protocol */,
+				F452CD761CE0313E001A30E8 /* View */,
+				F452CD791CE0313E001A30E8 /* WZLBadgeImport.h */,
+			);
+			path = WZLBadge;
+			sourceTree = "<group>";
+		};
+		F452CD6C1CE0313E001A30E8 /* BarItem */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD6D1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.h */,
+				F452CD6E1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m */,
+				F452CD6F1CE0313E001A30E8 /* UITabBarItem+WZLBadge.h */,
+				F452CD701CE0313E001A30E8 /* UITabBarItem+WZLBadge.m */,
+			);
+			path = BarItem;
+			sourceTree = "<group>";
+		};
+		F452CD711CE0313E001A30E8 /* CategorySupport */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD721CE0313E001A30E8 /* CAAnimation+WAnimation.h */,
+				F452CD731CE0313E001A30E8 /* CAAnimation+WAnimation.m */,
+			);
+			path = CategorySupport;
+			sourceTree = "<group>";
+		};
+		F452CD741CE0313E001A30E8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD751CE0313E001A30E8 /* WZLBadgeProtocol.h */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		F452CD761CE0313E001A30E8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F452CD771CE0313E001A30E8 /* UIView+WZLBadge.h */,
+				F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		F45871E81C51D5CE0048D93F /* CourseChoosingView */ = {
@@ -1800,6 +1864,7 @@
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
 				F46065291C97B168004056B1 /* CouponViewController.swift in Sources */,
+				F452CD7B1CE0313E001A30E8 /* UITabBarItem+WZLBadge.m in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
@@ -1822,6 +1887,7 @@
 				F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
+				F452CD7C1CE0313E001A30E8 /* CAAnimation+WAnimation.m in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
@@ -1832,6 +1898,7 @@
 				F4D0D1491C9A4F3E00B25704 /* StudentCourseModel.swift in Sources */,
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */,
+				F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */,
 				F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				F45BDAE31CB75F980038CE3D /* ThemeCalendarViewController.swift in Sources */,
@@ -1904,6 +1971,7 @@
 				F46065261C97B168004056B1 /* MainViewController.swift in Sources */,
 				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */,
+				F452CD7A1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				F46064F81C941829004056B1 /* SaveNameView.swift in Sources */,
 				F49BD5AA1CA413C000EB3CCF /* MalaPhotoBrowser.swift in Sources */,
