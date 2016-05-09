@@ -75,8 +75,8 @@ REST_FRAMEWORK = {
         'app.throttles.SustainedRateThrottle'
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'burst': '60/min',
-        'sustained': '1000/day'
+        'burst': '2000/min',
+        'sustained': '20000/day'
     },
 }
 
