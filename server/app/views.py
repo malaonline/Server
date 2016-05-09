@@ -816,7 +816,7 @@ class ParentViewSet(ParentBasedMixin,
         return response
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderListSerializer(serializers.ModelSerializer):
     teacher = TeacherNameSerializer()
     grade = GradeNameSerializer()
     subject = SubjectNameSerializer()
@@ -825,11 +825,20 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Order
-        fields = ('id', 'teacher', 'teacher_avatar', 'parent', 'school', 'grade', 'subject',
+        fields = ('id', 'teacher', 'teacher_avatar', 'school',
+                  'grade', 'subject', 'hours', 'status',
+                  'order_id', 'to_pay',)
+        read_only_fields = ('teacher_avatar', 'status', 'order_id', 'to_pay',)
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
                   'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
                   'status', 'order_id', 'to_pay', 'is_timeslot_allocated')
         read_only_fields = (
-                'parent', 'price', 'total', 'status', 'order_id', 'to_pay', 'teacher_avatar')
+                'parent', 'price', 'total', 'status', 'order_id', 'to_pay')
 
     def validate_hours(self, value):
         value = int(value)
@@ -957,3 +966,9 @@ class OrderViewSet(ParentBasedMixin,
 
     def perform_destroy(self, order):
         order.cancel()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return OrderListSerializer
+        else:
+            return OrderSerializer

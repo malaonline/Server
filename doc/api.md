@@ -865,44 +865,25 @@ result:
             "id": 31,
             "teacher": "赵老师",
             "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img0_2uPu2TK.jpg",
-            "parent": 23,
             "school": "洛阳中心店",
             "grade": "初一",
             "subject": "化学",
-            "coupon": null,
             "hours": 6,
-            "weekly_time_slots": [
-                11,
-                16,
-                21
-            ],
-            "price": 190,
-            "total": 1140,
             "status": "u",
             "order_id": "1216664871711940",
-            "to_pay": 1140,
-            "is_timeslot_allocated": false
+            "to_pay": 1140
         },
         {
             "id": 32,
             "teacher": "李老师",
             "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
-            "parent": 23,
             "school": "洛阳中心店",
             "grade": "一年级",
             "subject": "语文",
-            "coupon": null,
             "hours": 4,
-            "weekly_time_slots": [
-                1,
-                31
-            ],
-            "price": 210,
-            "total": 840,
             "status": "u",
             "order_id": "1216670256607750",
-            "to_pay": 840,
-            "is_timeslot_allocated": false
+            "to_pay": 840
         }
     ]
 }
