@@ -931,3 +931,21 @@ result:
     "evaluated": true
 }
 ```
+
+### Get user unpaid orders count
+
+```
+GET /api/v1/unpaid
+```
+
+header data:
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+result:
+```
+{
+    "count": 1
+}
+```

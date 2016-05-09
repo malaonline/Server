@@ -972,3 +972,12 @@ class OrderViewSet(ParentBasedMixin,
             return OrderListSerializer
         else:
             return OrderSerializer
+
+
+class UnpaidCount(ParentBasedMixin, APIView):
+    queryset = models.Order.objects.all()
+
+    def get(self, request):
+        parent = self.get_parent()
+        order_count = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
+        return JsonResponse({'count': order_count})
