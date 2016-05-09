@@ -352,29 +352,86 @@ class OrderFormViewCell: UITableViewCell {
         }
     }
     
+    /// 根据当前订单状态，渲染对应UI样式
     private func changeDisplayMode() {
+        
+        // 解除绑定事件
+        cancelButton.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+        confirmButton.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+        
+        // 渲染UI样式
         switch orderStatus {
         case .Penging:
             
-            break
+            // 待付款
+            topLayoutView.backgroundColor = MalaColor_8FBCDD_0
+            statusString.text = "订单待支付"
+            statusString.textColor = MalaColor_E26254_0
             
+            confirmButton.setTitle("立即支付", forState: .Normal)
+            confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_E26254_0), forState: .Normal)
+            confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            
+            cancelButton.addTarget(self, action: #selector(OrderFormViewCell.cancelOrderForm), forControlEvents: .TouchUpInside)
+            confirmButton.addTarget(self, action: #selector(OrderFormViewCell.pay), forControlEvents: .TouchUpInside)
+            break
+        
         case .Paid:
+        
+            // 已付款
+            topLayoutView.backgroundColor = MalaColor_B1D0E8_0
+            statusString.text = "交易完成"
+            statusString.textColor = MalaColor_8FBCDD_0
             
+            confirmButton.setTitle("再次购买", forState: .Normal)
+            confirmButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+            confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
+            
+            cancelButton.hidden = true
+            confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
             break
-            
+        
         case .Canceled:
             
-            break
+            // 已取消
+            topLayoutView.backgroundColor = MalaColor_CFCFCF_0
+            statusString.text = "订单已关闭"
+            statusString.textColor = MalaColor_939393_0
             
+            confirmButton.setTitle("重新购买", forState: .Normal)
+            confirmButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+            confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
+            
+            cancelButton.hidden = true
+            confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
+            break
+        
         case .Refund:
             
+            // 已退款
+            topLayoutView.backgroundColor = MalaColor_B1D0E8_0
+            statusString.text = "退款成功"
+            statusString.textColor = MalaColor_83B84F_0
+            
+            cancelButton.hidden = true
+            confirmButton.hidden = true
             break
         }
     }
     
     
     // MARK: - Event Response
+    @objc private func pay() {
+        
+    }
     
+    @objc private func buyAgain() {
+        
+    }
+    
+    @objc private func cancelOrderForm() {
+        
+    }
     
     
     // MARK: - Override
