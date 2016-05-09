@@ -56,8 +56,9 @@ class ThemeHUD: NSObject {
                         self.sharedInstance.containerView.alpha = 1
 
                     }, completion: { (finished) -> Void in
-                        
-                        self.sharedInstance.containerView.makeToastActivity(self.sharedInstance.containerView.center)
+                        var point = self.sharedInstance.containerView.center
+                        point.y -= 64
+                        self.sharedInstance.containerView.makeToastActivity(point)
                         
                     })
             }
