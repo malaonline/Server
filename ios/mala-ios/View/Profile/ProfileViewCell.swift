@@ -16,6 +16,20 @@ class ProfileViewCell: UITableViewCell {
         didSet {
             self.titleLabel.text = model.title
             self.infoLabel.text = model.detail
+            
+            // 新消息样式
+            if let badge = model.badgeNumber where badge != 0 {
+                self.titleLabel.showBadge()
+                self.titleLabel.badgeBgColor = MalaColor_E26254_0
+                self.titleLabel.badge.snp_makeConstraints(closure: { (make) in
+                    make.top.equalTo(titleLabel.snp_top).offset(-1)
+                    make.right.equalTo(titleLabel.snp_right).offset(7)
+                    make.height.equalTo(7)
+                    make.width.equalTo(7)
+                })
+                
+                self.infoLabel.textColor = MalaColor_E26254_0
+            }
         }
     }
     
@@ -55,7 +69,7 @@ class ProfileViewCell: UITableViewCell {
     }
 
     
-    // MARK: - Private Metho
+    // MARK: - Private Method
     private func setupUserInterface() {
         // Style
         self.accessoryType = .DisclosureIndicator
@@ -88,5 +102,12 @@ class ProfileViewCell: UITableViewCell {
     
     func hideSeparator() {
         self.separatorLine.hidden = true
+    }
+    
+    
+    // MARK: -Override
+    override func prepareForReuse() {
+        self.titleLabel.clearBadge()
+        self.infoLabel.textColor = MalaColor_D4D4D4_0
     }
 }

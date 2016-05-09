@@ -21,6 +21,8 @@ class ProfileElementModel: BaseObjectModel {
     var controllerTitle: String?
     /// 信息类型
     var type: userInfoType?
+    /// 新消息数
+    var badgeNumber: Int? = 0
     
     
     // MARK: - Constructed
@@ -33,7 +35,7 @@ class ProfileElementModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, title: String, detail: String, controller: AnyClass?, controllerTitle: String, type: userInfoType?) {
+    convenience init(id: Int, title: String, detail: String, controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0) {
         self.init()
         self.id = id
         self.title = title
@@ -41,6 +43,7 @@ class ProfileElementModel: BaseObjectModel {
         self.controller = controller
         self.controllerTitle = controllerTitle
         self.type = type
+        self.badgeNumber = badgeNumber
     }
     
     // MARK: - Override

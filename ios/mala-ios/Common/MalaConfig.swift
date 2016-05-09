@@ -139,10 +139,11 @@ public class MalaConfig {
                 ProfileElementModel(
                     id: 2,
                     title: "我的订单",
-                    detail: "",
+                    detail: "待支付订单",
                     controller: OrderFormViewController.self,
                     controllerTitle: "我的订单",
-                    type: nil
+                    type: nil,
+                    badgeNumber: 1
                 ),
                 ProfileElementModel(
                     id: 3,

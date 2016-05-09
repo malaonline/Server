@@ -10,3 +10,4 @@
 #import "MobClick.h"
 #import "Pingpp.h"
 #import "JPUSHService.h"
+#import "WZLBadgeImport.h"
