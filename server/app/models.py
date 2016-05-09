@@ -1546,6 +1546,9 @@ class OrderManager(models.Manager):
 
 
 class Order(BaseModel):
+    class Meta:
+        ordering = ["-created_at"]
+
     PENDING = 'u'
     PAID = 'p'
     CANCELED = 'd'
@@ -1604,6 +1607,11 @@ class Order(BaseModel):
                                      blank=True)
     # 保存的最后退费申请时间
     refund_at = models.DateTimeField(null=True, blank=True)
+
+    def sort_key(self):
+        if self.status == self.PENDING:
+            return 1
+        return 2
 
     @property
     def status_des(self):

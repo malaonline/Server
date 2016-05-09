@@ -868,8 +868,8 @@ class OrderViewSet(ParentBasedMixin,
 
     def get_queryset(self):
         parent = self.get_parent()
-        queryset = self.queryset.filter(parent=parent).order_by('id')
-        return queryset
+        queryset = self.queryset.filter(parent=parent)
+        return sorted(queryset, key=lambda x: x.sort_key())
 
     def can_create(self, request):
         weekly_time_slots = request.data.get('weekly_time_slots')
