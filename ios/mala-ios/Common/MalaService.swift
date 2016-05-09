@@ -454,13 +454,17 @@ func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> 
 ///
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getOrderList(failureHandler: ((Reason, String?) -> Void)?, completion: [OrderForm] -> Void) {
+func getOrderList(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: ([OrderForm], Int) -> Void) {
     
-    let parse: JSONDictionary -> [OrderForm] = { data in
+    let requestParameters = [
+        "page": page,
+        ]
+    
+    let parse: JSONDictionary -> ([OrderForm], Int) = { data in
         return parseOrderList(data)
     }
     
-    let resource = authJsonResource(path: "/orders", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    let resource = authJsonResource(path: "/orders", method: .GET, requestParameters: requestParameters, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -926,12 +930,12 @@ let parseConcreteTimeslot: JSONDictionary -> [[Int]]? = { timeSlotsInfo in
     return data
 }
 /// 订单列表JSON解析器
-let parseOrderList: JSONDictionary -> [OrderForm] = { ordersInfo in
+let parseOrderList: JSONDictionary -> ([OrderForm], Int) = { ordersInfo in
     
     var orderList: [OrderForm] = []
     
     guard let orders = ordersInfo["results"] as? [JSONDictionary], count = ordersInfo["count"] as? Int where count != 0 else {
-        return orderList
+        return (orderList, 0)
     }
     
     for order in orders {
@@ -951,5 +955,5 @@ let parseOrderList: JSONDictionary -> [OrderForm] = { ordersInfo in
         }
     }
     
-    return orderList
+    return (orderList, count)
 }

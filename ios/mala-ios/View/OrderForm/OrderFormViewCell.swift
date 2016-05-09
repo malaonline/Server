@@ -368,6 +368,9 @@ class OrderFormViewCell: UITableViewCell {
             statusString.text = "订单待支付"
             statusString.textColor = MalaColor_E26254_0
             
+            cancelButton.hidden = false
+            confirmButton.hidden = false
+            
             confirmButton.setTitle("立即支付", forState: .Normal)
             confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_E26254_0), forState: .Normal)
             confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -388,6 +391,7 @@ class OrderFormViewCell: UITableViewCell {
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             
             cancelButton.hidden = true
+            confirmButton.hidden = false
             confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
             break
         
@@ -403,6 +407,7 @@ class OrderFormViewCell: UITableViewCell {
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             
             cancelButton.hidden = true
+            confirmButton.hidden = false
             confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
             break
         

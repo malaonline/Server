@@ -9,14 +9,22 @@
 import UIKit
 
 private let OrderFormViewCellReuseId = "OrderFormViewCellReuseId"
+private let OrderFormViewLoadmoreCellReusedId = "OrderFormViewLoadmoreCellReusedId"
 
 class OrderFormViewController: BaseTableViewController {
+    
+    private enum Section: Int {
+        case Teacher
+        case LoadMore
+    }
     
     // MARK: - Property
     /// 优惠券模型数组
     var models: [OrderForm] = [] {
         didSet {
-            self.tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.tableView.reloadData()
+            })
         }
     }
     /// 当前选择项IndexPath标记
@@ -26,6 +34,11 @@ class OrderFormViewController: BaseTableViewController {
     var justShow: Bool = true
     /// 是否正在拉取数据
     var isFetching: Bool = false
+    /// 当前显示页数
+    var currentPageIndex = 1
+    /// 所有老师数据总量
+    var allOrderFormCount = 0
+    
     
     // MARK: - Components
     /// 下拉刷新视图
@@ -55,10 +68,11 @@ class OrderFormViewController: BaseTableViewController {
         tableView.separatorStyle = .None
         refreshControl = refresher
         tableView.registerClass(OrderFormViewCell.self, forCellReuseIdentifier: OrderFormViewCellReuseId)
+        tableView.registerClass(ThemeReloadView.self, forCellReuseIdentifier: OrderFormViewLoadmoreCellReusedId)
     }
     
     ///  获取用户订单列表
-    @objc private func loadOrderForm() {
+    @objc private func loadOrderForm(page: Int = 1, isLoadMore: Bool = false, finish: (()->())? = nil) {
         
         // 屏蔽[正在刷新]时的操作
         guard isFetching == false else {
@@ -67,21 +81,46 @@ class OrderFormViewController: BaseTableViewController {
         isFetching = true
         refreshControl?.beginRefreshing()
         
+        if isLoadMore {
+            currentPageIndex += 1
+        }else {
+            currentPageIndex = 1
+        }
+        
         ///  获取用户订单列表
-        getOrderList({ [weak self] (reason, errorMessage) in
+        getOrderList(currentPageIndex, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
             if let errorMessage = errorMessage {
                 println("OrderFormViewController - loadOrderForm Error \(errorMessage)")
             }
-            self?.refreshControl?.endRefreshing()
-            self?.isFetching = false
-        }, completion: { [weak self] (orderList) in
-            println("用户订单信息 \(orderList)")
-            self?.models = orderList
-            self?.refreshControl?.endRefreshing()
-            self?.isFetching = false
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.refreshControl?.endRefreshing()
+                self?.isFetching = false
+            })
+        }, completion: { [weak self] (orderList, count) in
+            
+            /// 记录数据量
+            if count != 0 {
+                self?.allOrderFormCount = count
+            }
+            
+            ///  加载更多
+            if isLoadMore {
+                for order in orderList {
+                    self?.models.append(order)
+                }
+            ///  如果不是加载更多，则刷新数据
+            }else {
+                self?.models = orderList
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                finish?()
+                self?.refreshControl?.endRefreshing()
+                self?.isFetching = false
+            })
         })
     }
     
@@ -91,20 +130,72 @@ class OrderFormViewController: BaseTableViewController {
         return MalaLayout_CardCellWidth*0.6
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         
+        switch indexPath.section {
+            
+        case Section.Teacher.rawValue:
+            break
+            
+        case Section.LoadMore.rawValue:
+            if let cell = cell as? ThemeReloadView {
+                println("load more orderForm")
+                
+                if !cell.activityIndicator.isAnimating() {
+                    cell.activityIndicator.startAnimating()
+                }
+                
+                loadOrderForm(isLoadMore: true, finish: { 
+                    cell.activityIndicator.stopAnimating()
+                })
+            }
+            
+        default:
+            break
+        }
     }
     
     
     // MARK: - DataSource
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.models.count
+        
+        switch section {
+            
+        case Section.Teacher.rawValue:
+            return models.count ?? 0
+            
+        case Section.LoadMore.rawValue:
+            if allOrderFormCount == models.count {
+                return 0
+            }else {
+                return models.isEmpty ? 0 : 1
+            }
+            
+        default:
+            return 0
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(OrderFormViewCellReuseId, forIndexPath: indexPath) as! OrderFormViewCell
-        cell.selectionStyle = .None
-        cell.model = self.models[indexPath.row]
-        return cell
+        
+        switch indexPath.section {
+            
+        case Section.Teacher.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(OrderFormViewCellReuseId, forIndexPath: indexPath) as! OrderFormViewCell
+            cell.selectionStyle = .None
+            cell.model = self.models[indexPath.row]
+            return cell
+            
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(OrderFormViewLoadmoreCellReusedId, forIndexPath: indexPath) as! ThemeReloadView
+            return cell
+            
+        default:
+            return UITableViewCell()
+        }
     }
 }
