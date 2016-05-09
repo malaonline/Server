@@ -935,7 +935,7 @@ result:
 ### Get user unpaid orders count
 
 ```
-GET /api/v1/unpaid
+GET /api/v1/unpaid_count
 ```
 
 header data:
