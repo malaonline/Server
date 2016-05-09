@@ -450,6 +450,25 @@ func getStudentCourseTable(page: Int = 1, failureHandler: ((Reason, String?) -> 
     }
 }
 
+///  获取用户订单列表
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getOrderList(failureHandler: ((Reason, String?) -> Void)?, completion: [OrderForm] -> Void) {
+    
+    let parse: JSONDictionary -> [OrderForm] = { data in
+        return parseOrderList(data)
+    }
+    
+    let resource = authJsonResource(path: "/orders", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Teacher
 ///  获取[指定老师]在[指定上课地点]的可用时间表
@@ -888,7 +907,7 @@ let parseCommentInfo: JSONDictionary -> CommentModel? = { commentInfo in
     }
     return nil
 }
-/// 评论信息JSON解析器
+/// 用户协议JSON解析器
 let parseUserProtocolHTML: JSONDictionary -> String? = { htmlInfo in
     
     guard let updatedAt = htmlInfo["updated_at"] as? Int, htmlString = htmlInfo["content"] as? String else {
@@ -897,7 +916,7 @@ let parseUserProtocolHTML: JSONDictionary -> String? = { htmlInfo in
 
     return htmlString
 }
-/// 评论信息JSON解析器
+/// 上课时间表JSON解析器
 let parseConcreteTimeslot: JSONDictionary -> [[Int]]? = { timeSlotsInfo in
     
     guard let data = timeSlotsInfo["data"] as? [[Int]] where data.count != 0 else {
@@ -905,4 +924,32 @@ let parseConcreteTimeslot: JSONDictionary -> [[Int]]? = { timeSlotsInfo in
     }
     
     return data
+}
+/// 订单列表JSON解析器
+let parseOrderList: JSONDictionary -> [OrderForm] = { ordersInfo in
+    
+    var orderList: [OrderForm] = []
+    
+    guard let orders = ordersInfo["results"] as? [JSONDictionary], count = ordersInfo["count"] as? Int where count != 0 else {
+        return orderList
+    }
+    
+    for order in ordersInfo {
+        if let
+            id      = ordersInfo["id"] as? Int,
+            teacher = ordersInfo["teacher"] as? String,
+            avatar  = ordersInfo["teacher_avatar"] as? String,
+            school  = ordersInfo["school"] as? String,
+            grade   = ordersInfo["grade"] as? String,
+            subject = ordersInfo["subject"] as? String,
+            hours   = ordersInfo["hours"] as? Int,
+            status  = ordersInfo["status"] as? String,
+            orderId = ordersInfo["order_id"] as? String,
+            amount  = ordersInfo["to_pay"] as? Int {
+            orderList.append(OrderForm(orderId: orderId, teacherName: teacher, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject,
+                orderStatus: status, amount: amount))
+        }
+    }
+    
+    return orderList
 }

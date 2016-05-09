@@ -42,7 +42,7 @@ class OrderFormViewController: BaseTableViewController {
         super.viewDidLoad()
         
         configure()
-//        loadOrderForm()
+        loadOrderForm()
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,7 +58,7 @@ class OrderFormViewController: BaseTableViewController {
         tableView.registerClass(OrderFormViewCell.self, forCellReuseIdentifier: OrderFormViewCellReuseId)
     }
     
-    ///  获取优惠券信息
+    ///  获取用户订单列表
     @objc private func loadOrderForm() {
         
         // 屏蔽[正在刷新]时的操作
@@ -66,29 +66,24 @@ class OrderFormViewController: BaseTableViewController {
             return
         }
         isFetching = true
-        
         refreshControl?.beginRefreshing()
         
-        ///  获取优惠券信息
-        getCouponList({ [weak self] (reason, errorMessage) -> Void in
+        ///  获取用户订单列表
+        getOrderList({ [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
             if let errorMessage = errorMessage {
                 println("OrderFormViewController - loadOrderForm Error \(errorMessage)")
             }
-            // 显示缺省值
-            // self?.models = MalaUserCoupons
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
-            }, completion: { [weak self] (coupons) -> Void in
-                println("优惠券列表 \(coupons)")
-                MalaUserCoupons = coupons
-                // self?.models = MalaUserCoupons
-                self?.refreshControl?.endRefreshing()
-                self?.isFetching = false
-            })
-        
+        }, completion: { [weak self] (orderList) in
+            println("用户订单信息 \(orderList)")
+            self?.models = orderList
+            self?.refreshControl?.endRefreshing()
+            self?.isFetching = false
+        })
     }
     
     
