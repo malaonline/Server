@@ -1651,6 +1651,9 @@ class Order(BaseModel):
         for one_timeslot in self.timeslot_set.filter(deleted=False):
             handler(one_timeslot)
 
+    def teacher_avatar(self):
+        return self.teacher.avatar()
+
     # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0

@@ -547,6 +547,14 @@ class TeacherSerializer(serializers.ModelSerializer):
                   'max_price')
 
 
+class TeacherNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Teacher
+
+    def to_representation(self, instance):
+        return self.fields['name'].get_attribute(instance)
+
+
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Teacher.objects.filter(published=True)
 
@@ -809,13 +817,19 @@ class ParentViewSet(ParentBasedMixin,
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    teacher = TeacherNameSerializer()
+    grade = GradeNameSerializer()
+    subject = SubjectNameSerializer()
+    school = SchoolNameSerializer()
+    teacher_avatar = serializers.ImageField()
+
     class Meta:
         model = models.Order
-        fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
+        fields = ('id', 'teacher', 'teacher_avatar', 'parent', 'school', 'grade', 'subject',
                   'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
                   'status', 'order_id', 'to_pay', 'is_timeslot_allocated')
         read_only_fields = (
-                'parent', 'price', 'total', 'status', 'order_id', 'to_pay')
+                'parent', 'price', 'total', 'status', 'order_id', 'to_pay', 'teacher_avatar')
 
     def validate_hours(self, value):
         value = int(value)
@@ -845,7 +859,7 @@ class OrderViewSet(ParentBasedMixin,
 
     def get_queryset(self):
         parent = self.get_parent()
-        queryset = models.Order.objects.filter(parent=parent).order_by('id')
+        queryset = self.queryset.filter(parent=parent).order_by('id')
         return queryset
 
     def can_create(self, request):
