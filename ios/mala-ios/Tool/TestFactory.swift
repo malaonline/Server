@@ -134,16 +134,6 @@ class TestFactory {
         ]
     }
     
-    class func testOrderForms() -> [OrderForm] {
-        return [
-            OrderForm(orderId: "1127482942338491", orderStatus: "u", teacherName: "王新宇1", subjectName: "生物", gradeName: "高二", schoolName: "洛阳市麻辣社区中心1", avatarURL: "http://img1.dwstatic.com/bdota/1411/279379325368/1415442422209.jpg", amount: 300),
-            OrderForm(orderId: "1127482942338491", orderStatus: "p", teacherName: "王新宇2", subjectName: "物理", gradeName: "高二", schoolName: "洛阳市麻辣社区中心2", avatarURL: "http://img1.dwstatic.com/bdota/1411/279379325368/1415442422209.jpg", amount: 1200),
-            OrderForm(orderId: "1127482942338491", orderStatus: "d", teacherName: "王新宇2", subjectName: "化学", gradeName: "高二", schoolName: "洛阳市麻辣社区中心3", avatarURL: "http://img1.dwstatic.com/bdota/1411/279379325368/1415442422209.jpg", amount: 700),
-            OrderForm(orderId: "1127482942338491", orderStatus: "r", teacherName: "王新宇3", subjectName: "地理", gradeName: "高二", schoolName: "洛阳市麻辣社区中心4", avatarURL: "http://img1.dwstatic.com/bdota/1411/279379325368/1415442422209.jpg", amount: 900),
-        ]
-    }
-    
-    
     class func testCourseModels() -> [CourseModel] {
         return [
             CourseModel(id: 65, start: 1457942400, end: 1457949600, subject: "物理", school: "洛阳社区三店", is_passed: true, teacher: TeacherModel(), comment: CommentModel(id: 15, timeslot: 65, score: 2, content: "这个老师还行")),

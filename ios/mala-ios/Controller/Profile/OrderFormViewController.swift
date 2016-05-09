@@ -14,9 +14,8 @@ class OrderFormViewController: BaseTableViewController {
     
     // MARK: - Property
     /// 优惠券模型数组
-    var models: [OrderForm] = TestFactory.testOrderForms() {
+    var models: [OrderForm] = [] {
         didSet {
-            models = TestFactory.testOrderForms() //TODO: 删除测试数据
             self.tableView.reloadData()
         }
     }
