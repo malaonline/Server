@@ -319,6 +319,8 @@
 		F452CD7B1CE0313E001A30E8 /* UITabBarItem+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD701CE0313E001A30E8 /* UITabBarItem+WZLBadge.m */; };
 		F452CD7C1CE0313E001A30E8 /* CAAnimation+WAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD731CE0313E001A30E8 /* CAAnimation+WAnimation.m */; };
 		F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */; };
+		F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
+		F452CD7F1CE07BB2001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
 		F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
 		F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */; };
@@ -1993,6 +1995,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F452CD7F1CE07BB2001A30E8 /* OrderFormViewCell.swift in Sources */,
+				F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */,
 				F46CA2441CC8841C00457EA6 /* parent-Bridging-Header.h in Sources */,
 				F46CA2451CC8841C00457EA6 /* BaseViewController.swift in Sources */,
 				F46CA2461CC8841C00457EA6 /* BaseTableViewController.swift in Sources */,
