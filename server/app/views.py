@@ -836,6 +836,7 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
     teacher_avatar = serializers.ImageField()
     created_at = serializers.SerializerMethodField()
     paid_at = serializers.SerializerMethodField()
+    charge_channel = serializers.CharField()
 
     class Meta:
         model = models.Order
