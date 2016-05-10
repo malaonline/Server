@@ -1665,6 +1665,12 @@ class Order(BaseModel):
     def teacher_name(self):
         return self.teacher.name
 
+    def charge_channel(self):
+        if self.charge_set.exists():
+            # 如有多个支付平台, 只返回最后一个
+            return self.charge_set.last().channel
+        return None
+
     # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0
@@ -1756,10 +1762,15 @@ class Order(BaseModel):
 
     def is_student_first_subject(self):
         # 首单必须是已支付的, 而且存在测评建档的订单
-        if self.status == Order.PAID and self.evaluation is not None:
+        if self.status == Order.PAID and hasattr(self, 'evaluation'):
             return True
         # 其余情况都不是首单
         return False
+
+    def evaluated(self):
+        if self.is_student_first_subject():
+            return False
+        return True
 
     @property
     def status_display(self):

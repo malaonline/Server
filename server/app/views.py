@@ -827,8 +827,32 @@ class OrderListSerializer(serializers.ModelSerializer):
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
                   'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay',)
-        read_only_fields = ('teacher_avatar', 'teacher_name', 'status',
-                            'order_id', 'to_pay',)
+
+
+class OrderRetrieveSerializer(serializers.ModelSerializer):
+    grade = GradeNameSerializer()
+    subject = SubjectNameSerializer()
+    school = SchoolNameSerializer()
+    teacher_avatar = serializers.ImageField()
+    created_at = serializers.SerializerMethodField()
+    paid_at = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Order
+        fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
+                  'school', 'grade', 'subject', 'hours', 'status',
+                  'order_id', 'to_pay', 'created_at', 'paid_at',
+                  'charge_channel', 'evaluated', 'is_timeslot_allocated')
+
+    def get_created_at(self, obj):
+        if obj.created_at:
+            return int(obj.created_at.timestamp())
+        return None
+
+    def get_paid_at(self, obj):
+        if obj.paid_at:
+            return int(obj.paid_at.timestamp())
+        return None
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -972,6 +996,8 @@ class OrderViewSet(ParentBasedMixin,
     def get_serializer_class(self):
         if self.action == 'list':
             return OrderListSerializer
+        if self.action == 'retrieve':
+            return OrderRetrieveSerializer
         else:
             return OrderSerializer
 

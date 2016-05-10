@@ -903,17 +903,36 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 result:
 ```
 {
-    "id": 123,
-    "status": "p"
-    "is_timeslot_allocated": true
+    "id": 32,
+    "teacher": 4,
+    "teacher_name": "李老师",
+    "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
+    "school": "洛阳中心店",
+    "grade": "一年级",
+    "subject": "语文",
+    "hours": 4,
+    "status": "u",
+    "order_id": "1216670256607750",
+    "to_pay": 840,
+    "created_at": 1462528779,
+    "paid_at": null,
+    "charge_channel": null,
+    "evaluated": true,
+    "is_timeslot_allocated": false
 }
+```
+```
+For get order info after pay
 ```
 First, if `status` is `d`, should notify user order has been canceled.
 
 If `status` is `p` but `is_timeslot_allocated` is `false`, should notify user courses have been preempted.
 
 Both `status` is `p` and `is_timeslot_allocated` is `true` indicate success.
-
+```
+For get order info from order list
+```
+`paid_at` and `charge_channel` only available on the order which is paid(`status` is `p`)
 ### Get if user has been evaluated for this subject
 
 ```
