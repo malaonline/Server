@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:background="@color/white"
+        android:paddingRight="12dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/bg_rectangle_small"
+            android:drawablePadding="9dp"
+            android:textColor="@color/text_color_darkgray"
+            android:textSize="@dimen/text_size_large_x"
+            android:text="上课时间" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_total_hours"
+            android:textColor="@color/text_color_home_price_unit"
+            android:textSize="@dimen/text_size_normal_x"
+            android:text="共计" />
+        <TextView
+            android:id="@+id/tv_total_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_total_class_text"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/text_color_darkgray"
+            android:textSize="@dimen/text_size_normal_x"
+            android:text="8" />
+        <TextView
+            android:id="@+id/tv_total_class_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/text_color_home_price_unit"
+            android:textSize="@dimen/text_size_normal_x"
+            android:text="课时" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/list_divider_light" />
+    <android.support.v7.widget.RecyclerView
+              android:id="@+id/rv_class_time"
+              android:background="@color/white"
+              android:layout_marginBottom="6dp"
+              android:layout_marginTop="6dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+</merge>

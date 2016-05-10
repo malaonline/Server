@@ -81,6 +81,9 @@ public class StatReporter {
     public static void clickScholarship(String pageName) {
         sendClickEvent(pageName + "-我的奖学金");
     }
+    public static void clickOrders(String pageName) {
+        sendClickEvent(pageName + "-我的订单");
+    }
 
     public static void aboutMalaTeacher() {
         sendClickEvent("关于麻辣老师页面");

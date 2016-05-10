@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/rl_date"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_date"
+            android:text="5月2日"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_week"
+            android:gravity="center"
+            android:text="(周二)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_time_market"
+        android:layout_toRightOf="@id/rl_date"
+        android:src="@drawable/ic_default_teacher_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    <com.malalaoshi.android.view.FlowLayout
+        android:id="@+id/fl_time"
+        android:layout_toRightOf="@id/iv_time_market"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></com.malalaoshi.android.view.FlowLayout>
+</RelativeLayout>

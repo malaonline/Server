@@ -132,6 +132,18 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name="com.malalaoshi.android.activitys.OrderListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="com.malalaoshi.android.activitys.OrderInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <receiver
             android:name=".receiver.NetworkStateReceiver"
             android:label="NetworkConnection">

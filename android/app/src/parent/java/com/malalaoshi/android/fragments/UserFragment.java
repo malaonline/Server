@@ -30,6 +30,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.ModifyUserNameActivity;
 import com.malalaoshi.android.activitys.ModifyUserSchoolActivity;
+import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.api.StudentInfoApi;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseFragment;
@@ -454,6 +455,13 @@ public class UserFragment extends BaseFragment {
         datas.add(entity);
     }
 
+    @OnClick(R.id.rl_user_orders)
+    public void OnClickUserOrders(View view) {
+        StatReporter.clickOrders(getStatName());
+        if (!checkLogin()) return;
+        Intent intent = new Intent(getContext(), OrderListActivity.class);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.rl_user_schoolship)
     public void OnClickUserSchoolShip(View view) {
