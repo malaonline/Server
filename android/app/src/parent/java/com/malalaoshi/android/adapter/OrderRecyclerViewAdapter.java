@@ -204,6 +204,10 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         @Bind(R.id.tv_cancel_order)
         protected TextView tvCancelOrder;
 
+        @Bind(R.id.tv_cost)
+        protected TextView tvCost;
+
+
         protected Order order;
 
         protected View view;
@@ -224,6 +228,12 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             tvTeacherName.setText(order.getTeacher());
             tvCourseName.setText(order.getGrade()+" "+order.getSubject());
             tvCourseAddress.setText(order.getSchool());
+            String strTopay = "金额异常";
+            Double toPay = order.getTo_pay();
+            if(toPay!=null){
+                strTopay = Number.subZeroAndDot(toPay*0.01d);
+            };
+            tvCost.setText(strTopay);
             Resources resources = view.getContext().getResources();
             if ("u".equals(order.getStatus())){
                 rlOrderId.setBackgroundColor(resources.getColor(R.color.colorPrimary));
