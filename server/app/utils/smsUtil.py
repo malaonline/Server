@@ -8,16 +8,19 @@ from urllib.parse import urlencode
 logger = logging.getLogger('app')
 
 
+_re_valid_phone = re.compile(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$')
 def isValidPhone(phone):
-    return re.match(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$', phone) and True or False
+    return _re_valid_phone.match(phone) and True or False
 
 
+_re_test_phone = re.compile(r'^000\d+$')
 def isTestPhone(phone):
-    return re.match(r'^000\d+$', phone) and True or False
+    return _re_test_phone.match(phone) and True or False
 
 
+_re_valid_code = re.compile(r'^\d+$')
 def isValidCode(code):
-    return re.match(r'^\d+$', code)
+    return _re_valid_code.match(code) and True or False
 
 
 class SendSMSError(Exception):
@@ -25,6 +28,10 @@ class SendSMSError(Exception):
 
 
 def sendSms(phone, msg):
+    if not isValidPhone(phone):
+        return False
+    if isTestPhone(phone):
+        return False
     # 现在会检查返回结果,对于出错情况,将抛出一个SendSMSError异常
     apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
     params = {'apikey': apikey, 'mobile': phone, 'text': msg}
@@ -54,6 +61,10 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
     模板接口发短信
     tpl_value = {'#code#':'1234','#company#':'云片网'}
     """
+    if not isValidPhone(phone):
+        return False
+    if isTestPhone(phone):
+        return False
     apikey = settings.YUNPIAN_API_KEY # get apikey by global settings
     params = {'apikey': apikey, 'tpl_id': tpl_id, 'tpl_value': urlencode(tpl_value), 'mobile': phone}
     url = "https://sms.yunpian.com/v1/sms/tpl_send.json"
