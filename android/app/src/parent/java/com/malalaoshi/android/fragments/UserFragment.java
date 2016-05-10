@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,8 @@ import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
+import com.malalaoshi.android.events.EventType;
+import com.malalaoshi.android.events.UnpayOrderEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -96,6 +99,12 @@ public class UserFragment extends BaseFragment {
 
     @Bind(R.id.iv_user_avatar)
     protected CircleImageView ivAvatar;
+
+    @Bind(R.id.iv_unpaid_orders)
+    protected ImageView ivUnpaidOrders;
+
+    @Bind(R.id.tv_unpaid_orders)
+    protected TextView tvUnpaidOrders;
 
     @Bind(R.id.btn_logout)
     protected Button btnLogout;
@@ -152,6 +161,20 @@ public class UserFragment extends BaseFragment {
                 reloadData();
                 break;
 
+        }
+    }
+
+    public void onEventMainThread(UnpayOrderEvent event) {
+        switch (event.getEventType()) {
+            case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
+                if (event.getUnpayCount()>0){
+                    ivUnpaidOrders.setVisibility(View.VISIBLE);
+                    tvUnpaidOrders.setVisibility(View.VISIBLE);
+                }else{
+                    ivUnpaidOrders.setVisibility(View.GONE);
+                    tvUnpaidOrders.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -14,9 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
+import com.malalaoshi.android.api.UnpayOrderCountApi;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.entity.UnpayOrders;
+import com.malalaoshi.android.events.EventType;
+import com.malalaoshi.android.events.UnpayOrderEvent;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
@@ -67,6 +75,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected View tabTimetableIndicator;
     protected View tabUserCenterIndicator;
 
+    protected ImageView ivUnpaidOrders;
+
     protected ViewPager vpHome;
 
     private NetworkStateReceiver mNetworkStateReceiver;
@@ -87,6 +97,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         initData();
         initViews();
         setEvent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUnpayOrders();
     }
 
     private void init() {
@@ -126,6 +142,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         tabTimetableIndicator = findViewById(R.id.view_tab_indicator_timetable);
         tabUserCenterIndicator = findViewById(R.id.view_tab_indicator_usercenter);
 
+        ivUnpaidOrders = (ImageView) findViewById(R.id.iv_unpaid_orders);
+
         vpHome = (ViewPager) findViewById(R.id.viewpage);
     }
 
@@ -139,6 +157,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         vpHome.setOnPageChangeListener(this);
         tvTitleLocation.setOnClickListener(this);
         tvTitleTady.setOnClickListener(this);
+        EventBus.getDefault().register(this);
     }
 
     private void initViews() {
@@ -150,7 +169,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         vpHome.setAdapter(mHomeFragmentAdapter);
         vpHome.setOffscreenPageLimit(2);//缓存页面
         vpHome.setCurrentItem(pageIndex);
-
     }
 
     @Override
@@ -204,7 +222,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
    private void loadCourses(){
        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-    }
+   }
 
     private void setCurrentTab(int i) {
         switch (i) {
@@ -285,6 +303,19 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
+
+    public void onEventMainThread(UnpayOrderEvent event) {
+        switch (event.getEventType()) {
+            case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
+                if (event.getUnpayCount()>0){
+                    ivUnpaidOrders.setVisibility(View.VISIBLE);
+                }else{
+                    ivUnpaidOrders.setVisibility(View.INVISIBLE);
+                }
+                break;
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -298,6 +329,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             unregisterReceiver(mNetworkStateReceiver);
         }
         ImageCache.getInstance(this).close();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -323,6 +355,39 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     @Override
     public int getFragmentCount() {
         return 3;
+    }
+
+
+    public void loadUnpayOrders(){
+        if (UserManager.getInstance().isLogin()){
+            ApiExecutor.exec(new LoadUnpayOrdersRequest(this));
+        }
+    }
+
+    private static final class LoadUnpayOrdersRequest extends BaseApiContext<MainActivity, UnpayOrders> {
+
+        public LoadUnpayOrdersRequest(MainActivity mainActivity) {
+            super(mainActivity);
+        }
+
+        @Override
+        public UnpayOrders request() throws Exception {
+            return new UnpayOrderCountApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull UnpayOrders unpayOrders) {
+            if (unpayOrders!=null&&unpayOrders.getCount()!=null){
+                UnpayOrderEvent unpayOrderEvent = new UnpayOrderEvent(EventType.BUS_EVENT_UNPAY_ORDER_COUNT);
+                unpayOrderEvent.setUnpayCount(unpayOrders.getCount());
+                EventBus.getDefault().post(unpayOrderEvent);
+            }
+
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+        }
     }
 
     @Override
