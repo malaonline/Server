@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.util.FragmentUtil;
@@ -56,6 +57,10 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         titleBarView.setTitle(R.string.scholarship);
         titleBarView.setOnTitleBarClickListener(this);
         initFragment();
+        if (!UserManager.getInstance().isLogin()) {
+            finish();
+            UserManager.getInstance().startLoginActivity();
+        }
     }
 
     private void initFragment() {

@@ -2,13 +2,17 @@ package com.malalaoshi.android.course;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
 import com.malalaoshi.android.core.usercenter.entity.Evaluated;
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -45,6 +50,7 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
+import com.malalaoshi.android.receiver.WeakFragmentReceiver;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -61,11 +67,13 @@ import de.greenrobot.event.EventBus;
  * Course confirm fragment
  * Created by tianwei on 3/5/16.
  */
-public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener, CourseDateChoiceView.OnCourseDateChoiceListener, View.OnClickListener {
+public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener,
+        CourseDateChoiceView.OnCourseDateChoiceListener, View.OnClickListener {
 
     private static final int REQUEST_CODE_COUPON = 0x10;
 
-    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object subject) {
+    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object
+            subject) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         fragment.init(schools, prices, teacherId, subject);
         return fragment;
@@ -108,7 +116,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     @Bind(R.id.iv_show_times)
     protected View showTimesImageView;
-
 
     @Bind(R.id.rl_scholarship_container)
     protected View scholarshipLayout;
@@ -164,6 +171,22 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     //标识是否是第一次购买
     private Evaluated evaluated;
 
+    private BroadcastReceiver receiver;
+
+    private final class Receiver extends WeakFragmentReceiver {
+
+        public Receiver(Fragment fragment) {
+            super(fragment);
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (UserManager.ACTION_LOGOUT.equals(intent.getAction())) {
+                UserManager.getInstance().startLoginActivity();
+            }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -186,7 +209,26 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         submitView.setOnClickListener(this);
         cutReviewView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         EventBus.getDefault().register(this);
+        receiver = new Receiver(this);
+        if (!UserManager.getInstance().isLogin()) {
+            getActivity().finish();
+            UserManager.getInstance().startLoginActivity();
+        }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UserManager.ACTION_LOGOUT);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
     }
 
     @Override
@@ -684,7 +726,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         private CreateCourseOrderEntity entity;
 
         public CreateOrderRequest(CourseConfirmFragment courseConfirmFragment,
-                                  CreateCourseOrderEntity entity) {
+                CreateCourseOrderEntity entity) {
             super(courseConfirmFragment);
             this.entity = entity;
         }

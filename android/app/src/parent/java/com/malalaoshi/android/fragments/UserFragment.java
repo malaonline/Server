@@ -100,7 +100,7 @@ public class UserFragment extends BaseFragment {
     @Bind(R.id.btn_logout)
     protected Button btnLogout;
 
-    private String strAvatorLocPath;
+    private String strAvatarLocPath;
 
     //图片缓存
     private ImageLoader imageLoader;
@@ -110,7 +110,8 @@ public class UserFragment extends BaseFragment {
     private final BroadcastReceiver loginReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (UserManager.ACTION_LOGINED.equals(intent.getAction())) {
+            if (UserManager.ACTION_LOGINED.equals(intent.getAction()) ||
+                    UserManager.ACTION_LOGOUT.equals(intent.getAction())) {
                 updateUI();
             }
         }
@@ -131,6 +132,7 @@ public class UserFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         IntentFilter intentFilter = new IntentFilter(UserManager.ACTION_LOGINED);
+        intentFilter.addAction(UserManager.ACTION_LOGOUT);
         MalaContext.getLocalBroadcastManager().registerReceiver(loginReceiver, intentFilter);
     }
 
@@ -138,6 +140,7 @@ public class UserFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        MalaContext.getLocalBroadcastManager().unregisterReceiver(loginReceiver);
     }
 
     public void onEventMainThread(BusEvent event) {
@@ -153,7 +156,8 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initData() {
-        imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
+        imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication
+                .getInstance()));
         if (UserManager.getInstance().isLogin()) {
             loadData();
         }
@@ -223,7 +227,8 @@ public class UserFragment extends BaseFragment {
         if (UserManager.getInstance().isLogin()) {
             String string = UserManager.getInstance().getAvatorUrl();
             if (!TextUtils.isEmpty(string)) {
-                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable.default_avatar, R.drawable.default_avatar));
+                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable
+                        .default_avatar, R.drawable.default_avatar));
             }
         } else {
             //ivAvatar.setImageResource(R.drawable.default_avatar);
@@ -300,7 +305,8 @@ public class UserFragment extends BaseFragment {
 
     private void getPhotoFromCamera() {
         //检测权限
-        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
+        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission
+                .WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
 
         if (permStrings == null) {
             Toast.makeText(getContext(), "权限设置错误!", Toast.LENGTH_SHORT).show();
@@ -327,8 +333,8 @@ public class UserFragment extends BaseFragment {
                 String imageFileName = timeStamp + ".png";
 
                 File image = new File(dir, imageFileName);
-                strAvatorLocPath = image.getAbsolutePath();
-                //strAvatorLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
+                strAvatarLocPath = image.getAbsolutePath();
+                //strAvatarLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                 this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
@@ -344,7 +350,8 @@ public class UserFragment extends BaseFragment {
     //从相册获取照片
     private void getPhotoFromGallay() {
         //检测权限
-        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+        List<String> permStrings = PermissionUtil.checkPermission(getContext(), new String[]{Manifest.permission
+                .WRITE_EXTERNAL_STORAGE});
 
         if (permStrings == null) {
             Toast.makeText(getContext(), "权限设置错误!", Toast.LENGTH_SHORT).show();
@@ -479,23 +486,24 @@ public class UserFragment extends BaseFragment {
 
     @OnClick(R.id.btn_logout)
     public void OnClickLogout(View view) {
-        DialogUtil.showDoubleButtonPromptDialog(getFragmentManager(), R.drawable.ic_logout, "确认退出?", "确认", "取消", new PromptDialog.OnCloseListener() {
-            @Override
-            public void onLeftClick() {
-                //清除本地登录信息
-                UserManager.getInstance().logout();
-                //更新UI
-                updateUI();
-                //跳转到登录页面
-                AuthUtils.redirectLoginActivity(getContext());
-                StatReporter.userLogOut();
-            }
+        DialogUtil.showDoubleButtonPromptDialog(getFragmentManager(), R.drawable.ic_logout, "确认退出?", "确认", "取消", new
+                PromptDialog.OnCloseListener() {
+                    @Override
+                    public void onLeftClick() {
+                        //清除本地登录信息
+                        UserManager.getInstance().logout();
+                        //更新UI
+                        updateUI();
+                        //跳转到登录页面
+                        AuthUtils.redirectLoginActivity(getContext());
+                        StatReporter.userLogOut();
+                    }
 
-            @Override
-            public void onRightClick() {
+                    @Override
+                    public void onRightClick() {
 
-            }
-        }, true, true);
+                    }
+                }, true, true);
     }
 
     @Override
@@ -523,7 +531,7 @@ public class UserFragment extends BaseFragment {
                     postUserAvator(picturePath);
                     break;
                 case REQUEST_CODE_CAPTURE_CAMEIA:
-                    postUserAvator(strAvatorLocPath);
+                    postUserAvator(strAvatarLocPath);
                     break;
             }
         }
@@ -533,12 +541,13 @@ public class UserFragment extends BaseFragment {
         if (path != null && !path.isEmpty()) {
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance(MalaApplication.getInstance()));
+            bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance
+                    (MalaApplication.getInstance()));
             //ivAvatar.setImageBitmap(bitmap);
             String cachePath = ImageUtil.getAppDir("cache");
             if (cachePath != null) {
-                strAvatorLocPath = ImageUtil.saveBitmap(cachePath, "avatar.png", bmpAvatar);
-                if (strAvatorLocPath != null) {
+                strAvatarLocPath = ImageUtil.saveBitmap(cachePath, "avatar.png", bmpAvatar);
+                if (strAvatarLocPath != null) {
                     uploadFile();
                 } else {
                     Toast.makeText(getContext(), "文件读写错误", Toast.LENGTH_LONG).show();
@@ -571,7 +580,7 @@ public class UserFragment extends BaseFragment {
     private void uploadFile() {
         DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
 
-        NetworkSender.setUserAvatar(strAvatorLocPath, new NetworkListener() {
+        NetworkSender.setUserAvatar(strAvatarLocPath, new NetworkListener() {
             @Override
             public void onSucceed(Object json) {
                 if (json == null || json.toString().isEmpty()) {

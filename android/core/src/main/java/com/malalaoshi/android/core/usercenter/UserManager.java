@@ -227,4 +227,10 @@ public class UserManager {
         Intent intent = new Intent(ACTION_LOGINED);
         MalaContext.getLocalBroadcastManager().sendBroadcast(intent);
     }
+
+    public void startLoginActivity() {
+        Intent intent = new Intent(MalaContext.getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        MalaContext.getContext().startActivity(intent);
+    }
 }
