@@ -817,7 +817,6 @@ class ParentViewSet(ParentBasedMixin,
 
 
 class OrderListSerializer(serializers.ModelSerializer):
-    teacher = TeacherNameSerializer()
     grade = GradeNameSerializer()
     subject = SubjectNameSerializer()
     school = SchoolNameSerializer()
@@ -825,10 +824,11 @@ class OrderListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Order
-        fields = ('id', 'teacher', 'teacher_avatar', 'school',
-                  'grade', 'subject', 'hours', 'status',
+        fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
+                  'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay',)
-        read_only_fields = ('teacher_avatar', 'status', 'order_id', 'to_pay',)
+        read_only_fields = ('teacher_avatar', 'teacher_name', 'status',
+                            'order_id', 'to_pay',)
 
 
 class OrderSerializer(serializers.ModelSerializer):

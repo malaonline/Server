@@ -1662,6 +1662,9 @@ class Order(BaseModel):
     def teacher_avatar(self):
         return self.teacher.avatar()
 
+    def teacher_name(self):
+        return self.teacher.name
+
     # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0
