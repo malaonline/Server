@@ -49,7 +49,7 @@
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">Host</stringProp>
-            <stringProp name="Header.value">stage.malalaoshi.com</stringProp>
+            <stringProp name="Header.value">${__property(mala.host,,stage.malalaoshi.com)}</stringProp>
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
@@ -160,11 +160,11 @@
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Referer</stringProp>
-                <stringProp name="Header.value">https://stage.malalaoshi.com/</stringProp>
+                <stringProp name="Header.value">https://${__property(mala.host,,stage.malalaoshi.com)}/</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Origin</stringProp>
-                <stringProp name="Header.value">https://stage.malalaoshi.com</stringProp>
+                <stringProp name="Header.value">https://${__property(mala.host,,stage.malalaoshi.com)}</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">X-CSRFToken</stringProp>
