@@ -450,8 +450,9 @@ class OrderFormViewCell: UITableViewCell {
     
     /// 取消订单
     @objc private func cancelOrderForm() {
-        print("取消订单")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CancelOrderForm, object: self.model?.id)
     }
+    
     
     
     // MARK: - Override

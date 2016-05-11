@@ -41,6 +41,7 @@ let MalaNotification_ClassScheduleDidTap = "com.malalaoshi.app.ClassScheduleDidT
 let MalaNotification_ClassPeriodDidChange = "com.malalaoshi.app.ClassPeriodDidChange"
 let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeScheduleCell"
 let MalaNotification_PushTeacherDetailView = "com.malalaoshi.app.PushTeacherDetailView"
+let MalaNotification_CancelOrderForm = "com.malalaoshi.app.CancelOrderForm"
 
 
 // MARK: - Error Detail

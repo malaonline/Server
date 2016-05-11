@@ -146,6 +146,57 @@ class OrderFormViewController: BaseTableViewController {
                 self?.ShowTost("订单信息有误，请刷新后重试")
             }
         }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_CancelOrderForm,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            // 取消订单
+            if let id = notification.object as? Int {
+                
+                MalaAlert.confirmOrCancel(
+                    title: "取消订单",
+                    message: "确认取消订单吗？",
+                    confirmTitle: "取消订单",
+                    cancelTitle: "暂不取消",
+                    inViewController: self,
+                    withConfirmAction: { [weak self] () -> Void in
+                        self?.cancelOrder(id)
+                    }, cancelAction: { () -> Void in
+                })
+                
+            }else {
+                self?.ShowTost("订单信息有误，请刷新后重试")
+            }
+        }
+    }
+    
+    private func cancelOrder(orderId: Int) {
+        
+        println("取消订单")
+        ThemeHUD.showActivityIndicator()
+        
+        cancelOrderWithId(orderId, failureHandler: { (reason, errorMessage) in
+            ThemeHUD.hideActivityIndicator()
+            
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("OrderFormViewController - cancelOrder Error \(errorMessage)")
+            }
+            }, completion:{ [weak self] (result) in
+                ThemeHUD.hideActivityIndicator()
+                println("取消订单结果 - \(result)")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if result {
+                        self?.ShowTost("订单取消成功")
+                        self?.loadOrderForm()
+                    }else {
+                        self?.ShowTost("订单取消失败")
+                    }
+                })
+            })
     }
     
     
@@ -226,5 +277,6 @@ class OrderFormViewController: BaseTableViewController {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushTeacherDetailView, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CancelOrderForm, object: nil)
     }
 }

@@ -59,9 +59,10 @@ class OrderForm: BaseObjectModel {
         self.code = code
     }
     
-    convenience init(orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?,
+    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?,
                      orderStatus: String?, amount: Int, evaluated: Bool?) {
         self.init()
+        self.id = id
         self.order_id = orderId
         self.teacher = teacherId ?? -1
         self.teacherName = teacherName
