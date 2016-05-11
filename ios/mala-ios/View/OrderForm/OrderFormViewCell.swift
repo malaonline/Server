@@ -35,7 +35,9 @@ class OrderFormViewCell: UITableViewCell {
     /// 订单状态
     private var orderStatus: MalaOrderStatus = .Canceled {
         didSet {
-            changeDisplayMode()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.changeDisplayMode()
+            })
         }
     }
     
@@ -49,6 +51,7 @@ class OrderFormViewCell: UITableViewCell {
     /// 父布局容器
     private lazy var content: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "orderForm_background"))
+        imageView.userInteractionEnabled = true
         return imageView
     }()
     /// 顶部订单编号布局容器
@@ -176,6 +179,7 @@ class OrderFormViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         button.setTitle("再次购买", forState: .Normal)
         button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
+        button.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
         return button
     }()
     /// 取消按钮（取消订单）
@@ -190,6 +194,7 @@ class OrderFormViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         button.setTitle("取消订单", forState: .Normal)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
+        button.addTarget(self, action: #selector(OrderFormViewCell.cancelOrderForm), forControlEvents: .TouchUpInside)
         return button
     }()
     
@@ -355,14 +360,17 @@ class OrderFormViewCell: UITableViewCell {
     /// 根据当前订单状态，渲染对应UI样式
     private func changeDisplayMode() {
         
+        println("orderStatus : \(orderStatus)")
+        
         // 解除绑定事件
-        cancelButton.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-        confirmButton.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+        cancelButton.removeTarget(self, action: #selector(OrderFormViewCell.cancelOrderForm), forControlEvents: .TouchUpInside)
+        confirmButton.removeTarget(self, action: #selector(OrderFormViewCell.pay), forControlEvents: .TouchUpInside)
+        confirmButton.removeTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
         
         // 渲染UI样式
         switch orderStatus {
         case .Penging:
-            
+            println("orderStatus : Penging")
             // 待付款
             topLayoutView.backgroundColor = MalaColor_8FBCDD_0
             statusString.text = "订单待支付"
@@ -380,39 +388,41 @@ class OrderFormViewCell: UITableViewCell {
             break
         
         case .Paid:
-        
+            println("orderStatus : Paid")
             // 已付款
             topLayoutView.backgroundColor = MalaColor_B1D0E8_0
             statusString.text = "交易完成"
             statusString.textColor = MalaColor_8FBCDD_0
             
+            cancelButton.hidden = true
+            confirmButton.hidden = false
+            
             confirmButton.setTitle("再次购买", forState: .Normal)
             confirmButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             
-            cancelButton.hidden = true
-            confirmButton.hidden = false
             confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
             break
         
         case .Canceled:
-            
+            println("orderStatus : Canceled")
             // 已取消
             topLayoutView.backgroundColor = MalaColor_CFCFCF_0
             statusString.text = "订单已关闭"
             statusString.textColor = MalaColor_939393_0
             
+            cancelButton.hidden = true
+            confirmButton.hidden = false
+            
             confirmButton.setTitle("重新购买", forState: .Normal)
             confirmButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             
-            cancelButton.hidden = true
-            confirmButton.hidden = false
             confirmButton.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
             break
         
         case .Refund:
-            
+            println("orderStatus : Refund")
             // 已退款
             topLayoutView.backgroundColor = MalaColor_B1D0E8_0
             statusString.text = "退款成功"
@@ -426,16 +436,20 @@ class OrderFormViewCell: UITableViewCell {
     
     
     // MARK: - Event Response
+    /// 立即支付
     @objc private func pay() {
-        
+        print("立即支付")
     }
     
+    /// 再次购买（重复购买）
     @objc private func buyAgain() {
-        
+        print("再次购买")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushTeacherDetailView, object: self.model?.teacher)
     }
     
+    /// 取消订单
     @objc private func cancelOrderForm() {
-        
+        print("取消订单")
     }
     
     

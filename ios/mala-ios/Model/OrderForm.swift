@@ -36,6 +36,7 @@ class OrderForm: BaseObjectModel {
     var schoolName: String?
     var avatarURL: String?
     var amount: Int = 0
+    var evaluated: Bool?
     
     // 其他
     var result: Bool?
@@ -58,10 +59,11 @@ class OrderForm: BaseObjectModel {
         self.code = code
     }
     
-    convenience init(orderId: String?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?,
-                     orderStatus: String?, amount: Int) {
+    convenience init(orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?,
+                     orderStatus: String?, amount: Int, evaluated: Bool?) {
         self.init()
         self.order_id = orderId
+        self.teacher = teacherId ?? -1
         self.teacherName = teacherName
         self.avatarURL = avatarURL
         self.schoolName = schoolName
@@ -69,6 +71,7 @@ class OrderForm: BaseObjectModel {
         self.subjectName = subjectName
         self.status = orderStatus
         self.amount = amount
+        self.evaluated = evaluated
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,

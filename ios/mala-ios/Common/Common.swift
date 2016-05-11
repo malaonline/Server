@@ -38,6 +38,7 @@ let MalaNotification_ChoosingSchool = "com.malalaoshi.app.ChoosingSchool"
 let MalaNotification_ClassScheduleDidTap = "com.malalaoshi.app.ClassScheduleDidTap"
 let MalaNotification_ClassPeriodDidChange = "com.malalaoshi.app.ClassPeriodDidChange"
 let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeScheduleCell"
+let MalaNotification_PushTeacherDetailView = "com.malalaoshi.app.PushTeacherDetailView"
 
 
 // MARK: - Error Detail
@@ -113,6 +114,7 @@ let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
 
 
 // MARK: - Common layout
+let MalaLayout_Margin_2: CGFloat = 2.0
 let MalaLayout_Margin_3: CGFloat = 3.0
 let MalaLayout_Margin_4: CGFloat = 4.0
 let MalaLayout_Margin_5: CGFloat = 5.0

@@ -54,6 +54,7 @@ class OrderFormViewController: BaseTableViewController {
         super.viewDidLoad()
         
         configure()
+        setupNotification()
         loadOrderForm()
     }
     
@@ -122,6 +123,25 @@ class OrderFormViewController: BaseTableViewController {
                 self?.isFetching = false
             })
         })
+    }
+    
+    private func setupNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_PushTeacherDetailView,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            // 跳转到课程购买页
+            let viewController = TeacherDetailsController()
+            if let id = notification.object as? Int {
+                viewController.teacherID = id
+                viewController.hidesBottomBarWhenPushed = true
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }else {
+                self?.ShowTost("订单信息有误，请刷新后重试")
+            }
+        }
     }
     
     
@@ -197,5 +217,10 @@ class OrderFormViewController: BaseTableViewController {
         default:
             return UITableViewCell()
         }
+    }
+    
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushTeacherDetailView, object: nil)
     }
 }

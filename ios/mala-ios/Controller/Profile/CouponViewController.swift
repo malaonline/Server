@@ -58,6 +58,7 @@ class CouponViewController: BaseTableViewController {
         tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
     }
     
+    
     ///  获取优惠券信息
     @objc private func loadCoupons() {
         

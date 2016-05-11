@@ -1286,8 +1286,8 @@
 		F460651B1C97B168004056B1 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				F460651C1C97B168004056B1 /* CouponViewController.swift */,
 				F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */,
+				F460651C1C97B168004056B1 /* CouponViewController.swift */,
 				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
