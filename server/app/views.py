@@ -826,7 +826,7 @@ class OrderListSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
                   'school', 'grade', 'subject', 'hours', 'status',
-                  'order_id', 'to_pay',)
+                  'order_id', 'to_pay', 'evaluated',)
 
 
 class OrderRetrieveSerializer(serializers.ModelSerializer):
