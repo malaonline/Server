@@ -66,7 +66,6 @@ class OrderFormViewController: BaseTableViewController {
     // MARK: - Private Method
     private func configure() {
         title = "我的订单"
-        hidesBottomBarWhenPushed = true
         
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
@@ -190,6 +189,7 @@ class OrderFormViewController: BaseTableViewController {
                 println("取消订单结果 - \(result)")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if result {
+                        MalaUnpaidOrderCount -= 1
                         self?.ShowTost("订单取消成功")
                         self?.loadOrderForm()
                     }else {

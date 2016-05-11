@@ -101,7 +101,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
                     self?.popAlert()
                 })
             }else {
-                MalaUnpaidOrderCount = nil
+                MalaUnpaidOrderCount = 0
             }
         })
     }
@@ -118,6 +118,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     private func switchToProfile() {
         
         let viewController = OrderFormViewController()
+        viewController.hidesBottomBarWhenPushed = true
         
         if let naviVC = self.viewControllers?[0] as? UINavigationController {
             naviVC.pushViewController(viewController, animated: true)

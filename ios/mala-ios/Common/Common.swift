@@ -20,7 +20,7 @@ var MalaClassPeriod_StepValue: Double = 2
 var MalaIsPaymentIn: Bool = false
 var MalaIsForeground: Bool = true
 /// 用户未支付订单数
-var MalaUnpaidOrderCount: Int?
+var MalaUnpaidOrderCount: Int = 0
 /// 登陆后获取用户所在地理位置信息
 var MalaLoginLocation: CLLocation? = nil
 /// 当前加载闭包（用于请求失败或403时重试）
