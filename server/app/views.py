@@ -934,6 +934,16 @@ class OrderViewSet(ParentBasedMixin,
         data = request.data
         if data['action'] != 'pay':
             return JsonResponse({'err': 'action not allowed'})
+
+        # 支付前, 再次验证课程是否被占用
+        weekly_time_slots = list(order.weekly_time_slots.all())
+        periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
+        school = order.school
+        teacher = order.teacher
+        parent = self.get_parent()
+        if not teacher.is_longterm_available(periods, school, parent):
+            return JsonResponse({'ok': False, 'code': -1})
+
         ch = pingpp.Charge.create(
                 order_no=order.order_id,
                 amount=order.to_pay,

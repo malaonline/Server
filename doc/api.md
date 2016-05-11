@@ -802,6 +802,7 @@ data:
 
 result:
 
+(Success)
 ```
 {
   "id": "ch_Hm5uTSifDOuTy9iLeLPSurrD",
@@ -842,7 +843,15 @@ result:
   "description": null
 }
 ```
+(Fail)
 
+(One or more course in the order has been assigned to other parent)
+```
+{
+    'ok': false,
+    'code': -1
+}
+```
 ### Get order list
 
 ```
