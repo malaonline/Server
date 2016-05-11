@@ -18,7 +18,7 @@ class ProfileViewCell: UITableViewCell {
             self.infoLabel.text = model.detail
             
             // 新消息样式
-            if let badge = model.badgeNumber where badge != 0 {
+            if let _ = MalaUnpaidOrderCount where model.title == "我的订单" {
                 self.titleLabel.showBadge()
                 self.titleLabel.badgeBgColor = MalaColor_E26254_0
                 self.titleLabel.badge.snp_makeConstraints(closure: { (make) in

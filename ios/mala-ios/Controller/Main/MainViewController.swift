@@ -96,9 +96,12 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         }, completion: { (count) in
             println("未支付订单：\(count)")
             if count != 0 {
+                MalaUnpaidOrderCount = count
                 dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                     self?.popAlert()
                 })
+            }else {
+                MalaUnpaidOrderCount = nil
             }
         })
     }
