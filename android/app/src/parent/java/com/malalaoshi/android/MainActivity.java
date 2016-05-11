@@ -5,7 +5,9 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.api.UnpayOrderCountApi;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -22,6 +25,7 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.UnpayOrders;
 import com.malalaoshi.android.events.EventType;
 import com.malalaoshi.android.events.UnpayOrderEvent;
@@ -30,6 +34,7 @@ import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 
 import java.util.HashMap;
@@ -89,6 +94,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private long lastBackPressedTime;
 
+    private boolean isResume = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +110,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected void onResume() {
         super.onResume();
         loadUnpayOrders();
+        isResume = true;
     }
 
     private void init() {
@@ -309,17 +317,36 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
                 if (event.getUnpayCount()>0){
                     ivUnpaidOrders.setVisibility(View.VISIBLE);
+                    if (MalaApplication.getInstance().isFirstStartApp&&isResume){
+                        showUnpaidOrderTipDialog();
+                        MalaApplication.getInstance().isFirstStartApp = false;
+                    }
                 }else{
+                    MalaApplication.getInstance().isFirstStartApp = false;
                     ivUnpaidOrders.setVisibility(View.INVISIBLE);
                 }
                 break;
         }
     }
 
+    private void showUnpaidOrderTipDialog() {
+        //支付成功
+        DialogUtil.showPromptDialog(getSupportFragmentManager(),R.drawable.ic_pay_success
+                ,"您有订单尚未支付!", "查看订单",
+                new PromptDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Intent intent = new Intent(MainActivity.this, OrderListActivity.class);
+                        startActivity(intent);
+                    }
+                },true,true);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         ImageCache.getInstance(this).flush();
+        isResume = false;
     }
 
     @Override
