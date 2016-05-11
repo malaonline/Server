@@ -629,7 +629,7 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
         if only_valid:
             queryset = query_unexpired.filter(used=False)
         else:
-            queryset = user.parent.coupon_set.all()
+            queryset = user.parent.coupon_set.all().order_by('-amount', 'expired_at')
 
         # 奖学金列表排序
         if self.action == 'list':
