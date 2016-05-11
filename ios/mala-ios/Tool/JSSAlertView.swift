@@ -268,6 +268,7 @@ class JSSAlertView: UIViewController {
         self.rootViewController.view.addSubview(view)
         
         self.view.backgroundColor = UIColorFromHex(0x000000, alpha: 0.7)
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(JSSAlertView.buttonTap)))
         
         var baseColor:UIColor?
         if let customColor = color {

@@ -82,6 +82,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     /// 查询用户是否有未支付订单
     private func loadUnpaindOrder() {
+                
         if !MalaUserDefaults.isLogined {
             return
         }
@@ -106,11 +107,18 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         let alert = JSSAlertView().show(self,
                                         title: "您有订单尚未支付",
                                         buttonText: "查看订单",
-                                        cancelButtonText: "知道了",
                                         iconImage: UIImage(named: "alert_PaymentSuccess")
         )
-//        alert.addAction()
-//        alert.addCancelAction()
+        alert.addAction(switchToProfile)
+    }
+    
+    private func switchToProfile() {
+        
+        let viewController = OrderFormViewController()
+        
+        if let naviVC = self.viewControllers?[0] as? UINavigationController {
+            naviVC.pushViewController(viewController, animated: true)
+        }
     }
     
     

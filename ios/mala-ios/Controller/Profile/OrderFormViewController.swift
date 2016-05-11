@@ -65,9 +65,13 @@ class OrderFormViewController: BaseTableViewController {
     
     // MARK: - Private Method
     private func configure() {
+        title = "我的订单"
+        hidesBottomBarWhenPushed = true
+        
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
         refreshControl = refresher
+        
         tableView.registerClass(OrderFormViewCell.self, forCellReuseIdentifier: OrderFormViewCellReuseId)
         tableView.registerClass(ThemeReloadView.self, forCellReuseIdentifier: OrderFormViewLoadmoreCellReusedId)
     }
