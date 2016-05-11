@@ -9,6 +9,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.view.TitleBarView;
+import com.malalaoshi.android.dialog.CouponProtocolDialog;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.util.FragmentUtil;
 
@@ -111,7 +112,9 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
 
     @Override
     public void onTitleRightClick() {
-
+        //奖学金使用规则
+        CouponProtocolDialog couponProtocolDialog = CouponProtocolDialog.newInstance();
+        couponProtocolDialog.show(getSupportFragmentManager(),CouponProtocolDialog.class.getName());
     }
 
     @Override

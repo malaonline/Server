@@ -13,6 +13,10 @@
         android:background="@color/white"
         app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
+        app:cusRightShow="true"
+        app:cusRightTextSize="@dimen/text_size_normal_x"
+        app:cusRightTextColor="#7d7d7d"
+        app:cusRightText="使用规则"
         app:cusTitleText="@string/scholarship"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusTitleTextSize="@dimen/text_size_xlarge"/>

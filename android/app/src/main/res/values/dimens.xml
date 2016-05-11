@@ -174,4 +174,7 @@
     <!-- 查看课程 -->
     <dimen name="course_detail_dialog_width">272dp</dimen>
     <dimen name="course_detail_dialog_height">297dp</dimen>
+
+    <dimen name="coupon_protocol_dialog_width">272dp</dimen>
+    <dimen name="coupon_protocol_dialog_height">366dp</dimen>
 </resources>
