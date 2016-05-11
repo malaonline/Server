@@ -24,7 +24,9 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     /// 教师详情模型
     var teacherModel: TeacherDetailModel? {
         didSet {
-            
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.reloadData()
+                })
         }
     }
     /// 上课地点数据模型

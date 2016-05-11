@@ -11,6 +11,8 @@ import UIKit
 class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmViewDelegate {
 
     // MARK: - Property
+    /// 教师id
+    var teacherId: Int?
     /// 教师详情数据模型
     var teacherModel: TeacherDetailModel? {
         didSet {
@@ -41,8 +43,8 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     /// 必要数据加载完成计数
     private var requiredCount: Int = 0 {
         didSet {
-            // [老师可用时间表][奖学金][是否首次购买]三个必要数据加载完成才激活界面
-            if requiredCount == 3 {
+            // [老师模型][上课地点][老师可用时间表][奖学金][是否首次购买]三个必要数据加载完成才激活界面
+            if requiredCount == 4 {
                 ThemeHUD.hideActivityIndicator()
             }
         }
@@ -77,7 +79,8 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         } 
         
         setupUserInterface()
-//        loadSchoolsData()
+        loadTeacherDetail()
+        loadSchoolsData()
         loadClassSchedule()
         loadCoupons()
         loadUserEvaluatedStatus()
@@ -123,6 +126,30 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         }
     }
     
+    private func loadTeacherDetail() {
+        
+        guard let id = self.teacherId else {
+            return
+        }
+        
+        MalaNetworking.sharedTools.loadTeacherDetail(id, finished: {[weak self] (result, error) -> () in
+            
+            ThemeHUD.hideActivityIndicator()
+            
+            if error != nil {
+                println("TeahcerDeatilsController - loadTeacherDetail Request Error")
+                return
+            }
+            guard let dict = result as? [String: AnyObject] else {
+                println("TeahcerDeatilsController - loadTeacherDetail Format Error")
+                return
+            }
+            
+            self?.teacherModel = TeacherDetailModel(dict: dict)
+            self?.requiredCount += 1
+            })
+    }
+    
     private func loadSchoolsData() {
         // // 获取 [教学环境] 数据
         MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
@@ -146,6 +173,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             }
             self?.schoolArray = tempArray
             MalaCourseChoosingObject.school = tempArray[0]
+            self?.requiredCount += 1
         }
     }
     
@@ -187,6 +215,12 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     }
     
     private func loadUserEvaluatedStatus() {
+        
+        /// 若测评建档结果存在，则不发送请求
+        if let _ = MalaIsHasBeenEvaluatedThisSubject {
+            return
+        }
+        
         ///  判断用户是否首次购买此学科课程
         isHasBeenEvaluatedWithSubject(MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in
             ThemeHUD.hideActivityIndicator()

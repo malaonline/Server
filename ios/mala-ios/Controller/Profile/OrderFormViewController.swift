@@ -133,9 +133,9 @@ class OrderFormViewController: BaseTableViewController {
             queue: nil
         ) { [weak self] (notification) -> Void in
             // 跳转到课程购买页
-            let viewController = TeacherDetailsController()
+            let viewController = CourseChoosingViewController()
             if let id = notification.object as? Int {
-                viewController.teacherID = id
+                viewController.teacherId = id
                 viewController.hidesBottomBarWhenPushed = true
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }else {
