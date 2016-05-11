@@ -1,0 +1,102 @@
+@import '../variable_func.less';
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: @bodyBgColor;
+  font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+div {
+  .border-box();
+}
+
+a {
+  text-decoration: none;
+}
+
+#vipTop {
+  img {
+    width: 100%;
+  }
+}
+
+@minVipRowHeight: 45px;
+.panel {
+  &#getVipLink {
+    padding-top: 8px;
+    .row:first-child {
+      border-top: 1px solid @borderGray;
+    }
+  }
+
+  &#privilegeList {
+    padding-bottom: 8px;
+    .row .icon {
+      padding: 10px 15px;
+    }
+  }
+
+  .row {
+    position: relative;
+    width: 100%;
+    min-height: @minVipRowHeight;
+    background-color: #fff;
+    //border-top: 1px solid @borderGray;
+    border-bottom: 1px solid @borderGray;
+    .icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 59px;
+      padding: 8px 15px;
+      img {
+        width: 29px;
+        height: 29px;
+      }
+    }
+    .desc {
+      padding-top: 7px;
+      padding-bottom: 8px;
+      padding-left: 59px;
+      padding-right: 19px;
+      width: 100%;
+      .desc-title {
+        font-size: @subTitleSize;
+        color: @grayDark;
+      }
+      .desc-note {
+        .note();
+        line-height: 16px;
+      }
+    }
+    .arrow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 19px;
+      height: @minVipRowHeight;
+      line-height: @minVipRowHeight;
+      img {
+        display: inline-block;
+        width: 8px;
+      }
+    }
+
+    &#goToBuyCourse {
+      .desc {
+        padding-top: 0;
+        padding-bottom: 0;
+        line-height: @minVipRowHeight;
+        font-size: 16px;
+        color: #fd454d;
+      }
+    }
+    &#privilegeTitle {
+      padding-left: 15px;
+      height: @minVipRowHeight - 4px;
+      line-height: @minVipRowHeight - 2px;
+      background-color: @bodyBgColor;
+      color: @gray;
+    }
+  }
+}

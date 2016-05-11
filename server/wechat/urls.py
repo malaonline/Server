@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^pay/notify/', views.wx_pay_notify_view, name="wx_pay_notify"),
     url(r'^policy/', views.policy, name="policy"),
     url(r'^report/sample/$', views.ReportSampleView.as_view(), name="report-sample"),
+    url(r'^vip/$', views.VipView.as_view(), name="report-sample"),
 ]

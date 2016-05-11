@@ -1,0 +1,82 @@
+{% extends "wechat/wechat_base_simple.html" %}
+
+{% block title %}会员特权{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+
+{% block addition_css %}
+    <link href="{% static 'wechat/less/vip/privileges.less'|compile %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+{#    如引入任何js文件#}
+{% endblock %}
+
+{% block content %}
+    <div id="vipTop">
+        <img src="{% static 'wechat/images/vip/slogan.png' %}">
+    </div>
+    <div class="panel" id="getVipLink">
+        <a href="{% url 'wechat:teachers' %}">
+            <div class="row" id="goToBuyCourse">
+                <div class="icon"><img src="{% static 'wechat/images/vip/crown.png' %}"></div>
+                <div class="desc">报名既享受会员服务</div>
+                <div class="arrow"><img src="{% static 'wechat/images/left_chevron.png' %}"></div>
+            </div>
+        </a>
+    </div>
+    <div class="panel" id="privilegeList">
+        <div class="row" id="privilegeTitle">
+            会员专享
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/company.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">自习陪读</div>
+                <div class="desc-note">享受专业老师免费自习陪读服务，随时解决学习问题</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/report.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">学习报告</div>
+                <div class="desc-note">全面记录学生学习数据，方便家长随时查看，充分了解学员知识点掌握情况</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/light.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">心理辅导</div>
+                <div class="desc-note">免费获得专业心理咨询师1对1辅导，促进学员身心健康成长</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/lecture.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">特色讲座</div>
+                <div class="desc-note">特邀各领域专家进行多种特色讲座，营养健康、家庭教育、高效学习应有尽有</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/link.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">考前串讲</div>
+                <div class="desc-note">专业解读考试趋势，剖析考试难点，分享高分经验。还有命题专家进行中高考押题</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/errata.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">错题本</div>
+                <div class="desc-note">针对每个学员记录并生成错题本，方便查找知识漏洞，并生成针对性练习</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon"><img src="{% static 'wechat/images/vip/evaluation.png' %}"></div>
+            <div class="desc">
+                <div class="desc-title">SPPS测评</div>
+                <div class="desc-note">定期进行SPPS测评，充分了解学员学习情况</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

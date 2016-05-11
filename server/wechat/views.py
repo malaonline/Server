@@ -986,3 +986,10 @@ class ReportSampleView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, kwargs)
+
+
+class VipView(View):
+    template_name = 'wechat/vip/privileges.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, kwargs)
