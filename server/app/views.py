@@ -623,9 +623,6 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
         now = timezone.now()
         query_unexpired = queryset.filter(
                 expired_at__gt=now).order_by('-amount', 'expired_at')
-        # 暂时不需要了
-        # query_expired = queryset.filter(
-        #         expired_at__lte=now).order_by('-amount', 'expired_at')
         if only_valid:
             queryset = query_unexpired.filter(used=False)
         else:
