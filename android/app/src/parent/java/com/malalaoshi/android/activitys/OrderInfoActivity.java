@@ -10,6 +10,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.fragments.OrderDetailFragment;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.FragmentUtil;
 
 import butterknife.Bind;
@@ -43,6 +44,7 @@ public class OrderInfoActivity extends BaseActivity implements TitleBarView.OnTi
         initViews();
         titleView.setOnTitleBarClickListener(this);
     }
+
     private void initViews() {
         titleView.setTitle("订单详情");
         Intent intent = getIntent();

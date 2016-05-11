@@ -25,6 +25,7 @@ public class MalaApplication extends BaseApplication {
 
     // 运行信息
     private boolean isNetworkOk;
+    public boolean isFirstStartApp = true;
 
     @Override
     protected void initOnMainProcess() {

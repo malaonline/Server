@@ -6,6 +6,7 @@ package com.malalaoshi.android.entity;
 public class Order {
     private Long id;
     private String teacher;
+    private String teacher_name;
     private String teacher_avatar;
     private String school;
     private String grade;
@@ -14,6 +15,11 @@ public class Order {
     private String status;
     private String order_id;
     private Double to_pay;
+    private String created_at;
+    private String paid_at;
+    private String charge_channel;
+    private boolean evaluated;
+    private boolean is_timeslot_allocated;
 
     public Long getId() {
         return id;
@@ -29,6 +35,14 @@ public class Order {
 
     public void setTeacher(String teacher) {
         this.teacher = teacher;
+    }
+
+    public String getTeacher_name() {
+        return teacher_name;
+    }
+
+    public void setTeacher_name(String teacher_name) {
+        this.teacher_name = teacher_name;
     }
 
     public String getTeacher_avatar() {
@@ -93,5 +107,45 @@ public class Order {
 
     public void setTo_pay(Double to_pay) {
         this.to_pay = to_pay;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getPaid_at() {
+        return paid_at;
+    }
+
+    public void setPaid_at(String paid_at) {
+        this.paid_at = paid_at;
+    }
+
+    public String getCharge_channel() {
+        return charge_channel;
+    }
+
+    public void setCharge_channel(String charge_channel) {
+        this.charge_channel = charge_channel;
+    }
+
+    public boolean isEvaluated() {
+        return evaluated;
+    }
+
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
+    }
+
+    public boolean is_timeslot_allocated() {
+        return is_timeslot_allocated;
+    }
+
+    public void setIs_timeslot_allocated(boolean is_timeslot_allocated) {
+        this.is_timeslot_allocated = is_timeslot_allocated;
     }
 }

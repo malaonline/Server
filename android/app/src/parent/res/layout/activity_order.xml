@@ -24,7 +24,7 @@
         />
     <FrameLayout
         android:id="@+id/order_fragment"
-        android:background="@color/teacher_main_bg"
+        android:background="@color/main_color_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>

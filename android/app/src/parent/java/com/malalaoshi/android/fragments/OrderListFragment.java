@@ -154,11 +154,11 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
         MiscUtil.toast(R.string.home_get_teachers_fialed);
     }
 
-    private void getMoreTeachersFinished() {
+    private void getMoreOrdersFinished() {
         setRefreshing(false);
     }
 
-    private void getMoreTeachersSucceed(OrderListResult orderListResult) {
+    private void getMoreOrdersSucceed(OrderListResult orderListResult) {
         List<Order> orders = orderListResult.getResults();
         if (orders != null && orders.size() > 0) {
             orderList.addAll(orders);
@@ -212,7 +212,7 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
         @Override
         public void onApiSuccess(@NonNull OrderListResult result) {
             if (EmptyUtils.isNotEmpty(result.getResults())) {
-                get().getMoreTeachersSucceed(result);
+                get().getMoreOrdersSucceed(result);
             }
         }
 
@@ -223,7 +223,7 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
 
         @Override
         public void onApiFinished() {
-            get().getMoreTeachersFinished();
+            get().getMoreOrdersFinished();
         }
     }
 

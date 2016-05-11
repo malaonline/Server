@@ -1,7 +1,10 @@
 package com.malalaoshi.android.adapter;
 
+import android.content.Intent;
+import android.content.pm.ProviderInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,13 +19,24 @@ import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherInfoActivity;
 import com.malalaoshi.android.activitys.OrderInfoActivity;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
+import com.malalaoshi.android.course.CourseConfirmActivity;
+import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.Order;
+import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Teacher;
+import com.malalaoshi.android.pay.api.DeleteOrderApi;
+import com.malalaoshi.android.result.OkResult;
+import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
 import com.malalaoshi.android.view.CircleNetworkImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -224,8 +238,15 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
                 return;
             }
             order = orderList.get(position);
+            updateItem();
+        }
+
+        public void updateItem(){
+            if(order == null){
+                return;
+            }
             tvOrderId.setText(order.getOrder_id());
-            tvTeacherName.setText(order.getTeacher());
+            tvTeacherName.setText(order.getTeacher_name());
             tvCourseName.setText(order.getGrade()+" "+order.getSubject());
             tvCourseAddress.setText(order.getSchool());
             String strTopay = "金额异常";
@@ -260,7 +281,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.VISIBLE);
                 tvBuyCourse.setBackground(resources.getDrawable(R.drawable.bg_buy_course_btn));
-                tvBuyCourse.setText("重新购买");
+                tvBuyCourse.setText("再次购买");
                 tvBuyCourse.setTextColor(resources.getColor(R.color.theme_red));
 
             }else{
@@ -283,25 +304,85 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         @OnClick(R.id.tv_buy_course)
         protected void onClickBuyCourse(){
             if ("u".equals(order.getStatus())){
-                tvBuyCourse.setText("立即支付");
-            }else if ("p".equals(order.getStatus())){
-                tvOrderStatus.setText("支付成功");
-            }else if ("d".equals(order.getStatus())){
-                tvOrderStatus.setText("订单已关闭");
+                //订单详情页
+                OrderInfoActivity.open(this.view.getContext(), order.getId()+"", order.getStatus());
             }else{
-                tvOrderStatus.setText("退款成功");
+                //确认课程页
+                startCourseConfirmActivity();
+            }
+        }
+
+        //启动购买课程页
+        private void startCourseConfirmActivity() {
+            Intent signIntent = new Intent(view.getContext(), CourseConfirmActivity.class);
+            if (order != null && order.getTeacher() != null) {
+                signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, order.getTeacher());
+                view.getContext().startActivity(signIntent);
             }
         }
 
         @OnClick(R.id.tv_cancel_order)
         protected void onClickCancelOrder(){
-            //取消订单
+            if (order.getId()!=null){
+                //取消订单
+                startProcessDialog("正在取消订单...");
+                ApiExecutor.exec(new CancelCourseOrderRequest(this, order.getId()+""));
+            }else{
+                MiscUtil.toast("订单id错误!");
+            }
+
         }
 
         @OnClick(R.id.ll_order_item)
         protected void onItemClick(){
             //订单详情
-            //OrderInfoActivity.open(this.view.getContext(), order.getOrder_id(), order.getStatus());
+            OrderInfoActivity.open(this.view.getContext(), order.getId()+"", order.getStatus());
+        }
+
+        public void startProcessDialog(String message){
+            DialogUtil.startCircularProcessDialog(view.getContext(),message,true,true);
+        }
+
+        public void stopProcessDialog(){
+            DialogUtil.stopProcessDialog();
+        }
+    }
+
+
+    private static final class CancelCourseOrderRequest extends BaseApiContext<NormalViewHolder, OkResult> {
+
+        private String orderId;
+
+        public CancelCourseOrderRequest(NormalViewHolder viewHolder, String orderId) {
+            super(viewHolder);
+            this.orderId = orderId;
+        }
+
+        @Override
+        public OkResult request() throws Exception {
+            return new DeleteOrderApi().delete(orderId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull OkResult response) {
+            get().stopProcessDialog();
+            if (response.isOk()) {
+                get().order.setStatus("d");
+                get().updateItem();
+                MiscUtil.toast("订单已取消!");
+            } else {
+                MiscUtil.toast("订单取消失败,请下拉刷新订单列表!");
+            }
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().stopProcessDialog();
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("订单状态取消失败,请检查网络!");
         }
     }
 }
