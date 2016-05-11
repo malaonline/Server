@@ -622,13 +622,18 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
 
         now = timezone.now()
         query_unexpired = queryset.filter(
-                expired_at__gt=now).order_by('created_at')
-        query_expired = queryset.filter(
-                expired_at__lte=now).order_by('created_at')
+                expired_at__gt=now).order_by('-amount', 'expired_at')
+        # 暂时不需要了
+        # query_expired = queryset.filter(
+        #         expired_at__lte=now).order_by('-amount', 'expired_at')
         if only_valid:
             queryset = query_unexpired.filter(used=False)
         else:
-            queryset = QuerySetChain(query_unexpired, query_expired)
+            queryset = user.parent.coupon_set.all()
+
+        # 奖学金列表排序
+        if self.action == 'list':
+            return sorted(queryset, key=lambda x: x.sort_key())
 
         return queryset
     serializer_class = CouponSerializer

@@ -1288,6 +1288,14 @@ class Coupon(BaseModel):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
                                    'D' if self.used else '')
 
+    def sort_key(self):
+        now = timezone.now()
+        if (not self.used) and now > timezone.localtime(self.expired_at):
+            return 3
+        if self.used:
+            return 2
+        return 1
+
     @property
     def status(self):
         now = timezone.now()
