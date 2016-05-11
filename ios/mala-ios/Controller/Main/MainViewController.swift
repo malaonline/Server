@@ -37,6 +37,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
         configure()
         setupTabBar()
+        loadUnpaindOrder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,6 +79,40 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         let viewControllers: [UIViewController] = [homeViewController, classScheduleViewController, profileViewController]
         self.setViewControllers(viewControllers, animated: false)
     }
+    
+    /// 查询用户是否有未支付订单
+    private func loadUnpaindOrder() {
+        if !MalaUserDefaults.isLogined {
+            return
+        }
+        
+        getUnpaidOrderCount({ (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("MainViewController - loadUnpaindOrder Error \(errorMessage)")
+            }
+        }, completion: { (count) in
+            println("未支付订单：\(count)")
+            if count != 0 {
+                dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                    self?.popAlert()
+                })
+            }
+        })
+    }
+    
+    private func popAlert() {
+        let alert = JSSAlertView().show(self,
+                                        title: "您有订单尚未支付",
+                                        buttonText: "查看订单",
+                                        cancelButtonText: "知道了",
+                                        iconImage: UIImage(named: "alert_PaymentSuccess")
+        )
+//        alert.addAction()
+//        alert.addCancelAction()
+    }
+    
     
      ///  Convenience Function to Create SubViewControllers
      ///  And Add Into TabBarViewController

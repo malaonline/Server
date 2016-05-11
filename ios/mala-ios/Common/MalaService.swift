@@ -473,6 +473,29 @@ func getOrderList(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, c
     }
 }
 
+///  获取用户未订单数量
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getUnpaidOrderCount(failureHandler: ((Reason, String?) -> Void)?, completion: Int -> Void) {
+    
+    let parse: JSONDictionary -> Int = { data in
+        if let count = data["count"] as? Int {
+            return count
+        }else {
+            return 0
+        }
+    }
+    
+    let resource = authJsonResource(path: "/unpaid_count", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Teacher
 ///  获取[指定老师]在[指定上课地点]的可用时间表

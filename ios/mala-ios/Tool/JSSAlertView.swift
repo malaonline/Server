@@ -18,6 +18,8 @@ class JSSAlertView: UIViewController {
     var alertBackgroundView:UIView!
     var dismissButton:UIButton!
     var separatorLine:UIView!
+    var vSeparatorLine:UIView!
+    var separatorground:UIView!
     var cancelButton:UIButton!
     var buttonLabel:UILabel!
     var cancelButtonLabel:UILabel!
@@ -216,11 +218,11 @@ class JSSAlertView: UIViewController {
             self.buttonLabel.frame = CGRect(x: self.padding, y: (self.buttonHeight/2) - 15, width: buttonWidth - (self.padding*2), height: 30)
         }
         
-        self.separatorLine.frame = CGRect(x: 0, y: 0, width: dismissButton.frame.width, height: MalaScreenOnePixel)
         
         // set button fonts
         if self.buttonLabel != nil {
             buttonLabel.font = UIFont(name: self.buttonFont, size: 15)
+            
         }
         if self.cancelButtonLabel != nil {
             cancelButtonLabel.font = UIFont(name: self.buttonFont, size: 15)
@@ -230,6 +232,8 @@ class JSSAlertView: UIViewController {
         
         // size the background view
         self.alertBackgroundView.frame = CGRect(x: 0, y: 0, width: self.alertWidth, height: yPos)
+        
+        self.separatorground.frame = CGRect(x: 0, y: self.baseHeight-self.buttonHeight-4-MalaScreenOnePixel, width: self.alertWidth, height: self.buttonHeight+1)
         
         // size the container that holds everything together
         self.containerView.frame = CGRect(x: (self.viewWidth!-self.alertWidth)/2, y: (self.viewHeight! - yPos)/2, width: self.alertWidth, height: yPos)
@@ -319,6 +323,11 @@ class JSSAlertView: UIViewController {
             self.containerView.addSubview(textView)
         }
         
+        self.separatorground = UIView()
+        separatorground.backgroundColor = UIColorFromHex(0x8FBCDD)
+        alertBackgroundView.addSubview(separatorground)
+        
+        
         // Button
         self.dismissButton = UIButton()
         let buttonColor = UIImage.withColor(UIColor.whiteColor())
@@ -326,6 +335,7 @@ class JSSAlertView: UIViewController {
         dismissButton.setBackgroundImage(buttonColor, forState: .Normal)
         dismissButton.setBackgroundImage(buttonHighlightColor, forState: .Highlighted)
         dismissButton.addTarget(self, action: #selector(JSSAlertView.buttonTap), forControlEvents: .TouchUpInside)
+        dismissButton.clipsToBounds = false
         alertBackgroundView!.addSubview(dismissButton)
         
         // Button text
@@ -339,16 +349,18 @@ class JSSAlertView: UIViewController {
             buttonLabel.text = "OK"
         }
         dismissButton.addSubview(buttonLabel)
-        self.separatorLine = UIView()
-        separatorLine.backgroundColor = UIColorFromHex(0x8FBCDD)
-        dismissButton.addSubview(separatorLine)
+        
+        
+//        self.separatorLine = UIView()
+//        separatorLine.backgroundColor = UIColorFromHex(0x8FBCDD)
+//        alertBackgroundView.addSubview(separatorLine)
         
         
         // Second cancel button
         if let _ = cancelButtonText {
             self.cancelButton = UIButton()
-            let buttonColor = UIImage.withColor(adjustBrightness(baseColor!, amount: 0.8))
-            let buttonHighlightColor = UIImage.withColor(adjustBrightness(baseColor!, amount: 0.9))
+            let buttonColor = UIImage.withColor(UIColor.whiteColor())
+            let buttonHighlightColor = UIImage.withColor(UIColorFromHex(0xF8F8F8))
             cancelButton.setBackgroundImage(buttonColor, forState: .Normal)
             cancelButton.setBackgroundImage(buttonHighlightColor, forState: .Highlighted)
             cancelButton.addTarget(self, action: #selector(JSSAlertView.cancelButtonTap), forControlEvents: .TouchUpInside)
@@ -364,6 +376,9 @@ class JSSAlertView: UIViewController {
             }
             
             cancelButton.addSubview(cancelButtonLabel)
+            self.vSeparatorLine = UIView()
+            vSeparatorLine.backgroundColor = UIColorFromHex(0x8FBCDD)
+            dismissButton.addSubview(vSeparatorLine)
         }
         
         // Animate it in
