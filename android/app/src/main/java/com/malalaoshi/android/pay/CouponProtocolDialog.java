@@ -1,8 +1,7 @@
-package com.malalaoshi.android.dialog;
+package com.malalaoshi.android.pay;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.entity.Comment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
