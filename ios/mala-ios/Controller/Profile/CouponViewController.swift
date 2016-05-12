@@ -34,6 +34,17 @@ class CouponViewController: BaseTableViewController {
         refresher.addTarget(self, action: #selector(CouponViewController.loadCoupons), forControlEvents: .ValueChanged)
         return refresher
     }()
+    /// 保存按钮
+    private lazy var rulesButton: UIButton = {
+        let button = UIButton(
+            title: "使用规则",
+            titleColor: MalaColor_82B4D9_0,
+            target: self,
+            action: #selector(CouponViewController.showCouponRules)
+        )
+        button.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
+        return button
+    }()
     
     
     // MARK: - Life Cycle
@@ -56,6 +67,12 @@ class CouponViewController: BaseTableViewController {
         tableView.separatorStyle = .None
         refreshControl = refresher
         tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
+        
+        // rightBarButtonItem
+        let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacerRight.width = -MalaLayout_Margin_5
+        let rightBarButtonItem = UIBarButtonItem(customView: rulesButton)
+        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
     }
     
     
@@ -141,5 +158,11 @@ class CouponViewController: BaseTableViewController {
             currentSelectedIndexPath = indexPath
         }
         return cell
+    }
+    
+    
+    // MARK: - Events Response
+    @objc private func showCouponRules() {
+        CouponRulesPopupWindow(contentView: UIView()).show()
     }
 }

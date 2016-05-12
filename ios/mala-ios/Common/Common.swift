@@ -180,7 +180,7 @@ let MalaLayout_CoursePopupWindowTitleViewHeight: CGFloat = 69
 let MalaLayout_CourseContentWidth: CGFloat = MalaLayout_CoursePopupWindowWidth - MalaLayout_Margin_26*2
 let MalaLayout_CommentPopupWindowHeight: CGFloat = 420
 let MalaLayout_CommentPopupWindowWidth: CGFloat = 300
-let MalaLayout_CouponRulesPopupWindowHeight: CGFloat = 600
+let MalaLayout_CouponRulesPopupWindowHeight: CGFloat = 500
 
 
 // MARK: - Device

@@ -37,21 +37,19 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         return titleView
     }()
     /// 关于描述label
-    private lazy var aboutTextView: UILabel = {
-        let aboutTextView = UILabel()
-        aboutTextView.numberOfLines = 0
-        aboutTextView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        aboutTextView.textColor = MalaColor_939393_0
-        aboutTextView.text = MalaConfig.couponRulesDescriptionString()
-        aboutTextView.backgroundColor = MalaColor_F2F2F2_0
-        aboutTextView
-        return aboutTextView
+    private lazy var aboutTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        textView.textColor = MalaColor_939393_0
+        textView.text = MalaConfig.couponRulesDescriptionString()
+        textView
+        return textView
     }()
     /// 提交按钮装饰线
     private lazy var buttonSeparatorLine: UIView = {
-        let buttonSeparatorLine = UIView()
-        buttonSeparatorLine.backgroundColor = MalaColor_8FBCDD_0
-        return buttonSeparatorLine
+        let view = UIView()
+        view.backgroundColor = MalaColor_8FBCDD_0
+        return view
     }()
     /// 提交按钮
     private lazy var confirmButton: UIButton = {
@@ -135,8 +133,8 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         
         // SubViews
         view.addSubview(window)
-        window.addSubview(buttonSeparatorLine)
         window.addSubview(confirmButton)
+        confirmButton.addSubview(buttonSeparatorLine)
         window.addSubview(textBackground)
         window.addSubview(titleView)
         window.addSubview(aboutTextView)
@@ -144,16 +142,15 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         
         // Autolayout
         window.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.view.snp_top).offset(36)
-            make.centerX.equalTo(self.view.snp_centerX)
             make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
             make.height.equalTo(MalaLayout_CouponRulesPopupWindowHeight)
+            make.center.equalTo(self.view.snp_center)
         }
         buttonSeparatorLine.snp_makeConstraints { (make) in
             make.height.equalTo(MalaScreenOnePixel)
-            make.left.equalTo(self.window.snp_left)
-            make.right.equalTo(self.window.snp_right)
-            make.bottom.equalTo(self.confirmButton.snp_bottom)
+            make.left.equalTo(self.confirmButton.snp_left)
+            make.right.equalTo(self.confirmButton.snp_right)
+            make.top.equalTo(self.confirmButton.snp_top)
         }
         confirmButton.snp_makeConstraints { (make) in
             make.bottom.equalTo(self.window.snp_bottom)
@@ -162,7 +159,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
             make.height.equalTo(44)
         }
         textBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(-MalaLayout_Margin_18)
+            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_18)
             make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
             make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
             make.bottom.equalTo(self.confirmButton.snp_top).offset(-MalaLayout_Margin_18)
