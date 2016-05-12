@@ -75,9 +75,11 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     }
     
     private func setupLegends() {
-        legendView.addLegend(image: "legend_disabled", title: "已被约课")
-        legendView.addLegend(image: "legend_active", title: "可授课")
-        legendView.addLegend(image: "legend_selected", title: "已选课时")
+        legendView.addLegend(image: "legend_active", title: "可选")
+        legendView.addLegend(image: "legend_disabled", title: "已售")
+        legendView.addLegend(image: "legend_selected", title: "已选")
+        legendView.addLegend(image: "legend_bought", title: "已买")
+        legendView.addLegend(image: "desc_icon", title: "")
     }
 }
 
@@ -99,7 +101,7 @@ public class LegendView: UIView {
     }
     
  
-    public func addLegend(image imageName: String, title: String) {
+    public func addLegend(image imageName: String, title: String) -> UIButton {
         let button = UIButton()
         button.userInteractionEnabled = false
         
@@ -114,5 +116,7 @@ public class LegendView: UIView {
         button.frame.origin.x = (currentX == MalaLayout_Margin_6 ? currentX : currentX+MalaLayout_Margin_12)
         addSubview(button)
         currentX = CGRectGetMaxX(button.frame)
+        
+        return button
     }
 }
