@@ -24,10 +24,12 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.entity.ChargeOrder;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.OrderStatusModel;
 import com.malalaoshi.android.pay.api.OrderStatusApi;
 import com.malalaoshi.android.util.DialogUtil;
+import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
 
 import butterknife.Bind;
@@ -130,6 +132,22 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     }
 
     private void payInternal(final String charge) {
+        if (charge==null){
+            return;
+        }
+        ChargeOrder chargeOrder = JsonUtil.parseStringData(charge,ChargeOrder.class);
+        if (chargeOrder!=null&&chargeOrder.isOk()&&-1==chargeOrder.getCode()){
+            DialogUtil.showPromptDialog(
+                    getFragmentManager(), R.drawable.ic_timeallocate,
+                    "部分课程时间已被占用，请重新选择上课时间!", "确定", new PromptDialog.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            //刷新数据
+                            PayFragment.this.getActivity().finish();
+                            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED));
+                        }
+                    }, false, false);
+        }
         MalaContext.exec(new Runnable() {
             @Override
             public void run() {
