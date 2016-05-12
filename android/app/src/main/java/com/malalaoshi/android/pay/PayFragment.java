@@ -248,8 +248,8 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     private void goToHome() {
         Intent i = new Intent(getContext(), MainActivity.class);
         Bundle bundle = new Bundle();
-        //i.putExtra(MainActivity.EXTRAS_PAGE_INDEX, MainActivity.PAGE_INDEX_COURSES);
-        //i.putExtras(bundle);
+        i.putExtra(MainActivity.EXTRAS_PAGE_INDEX, MainActivity.PAGE_INDEX_COURSES);
+        i.putExtras(bundle);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         getContext().startActivity(i);
     }
