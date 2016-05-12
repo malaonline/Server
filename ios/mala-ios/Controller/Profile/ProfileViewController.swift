@@ -87,6 +87,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         model = MalaConfig.profileData()
         tableView.reloadData()
         profileHeaderView.refreshDataWithUserDefaults()
+        self.navigationController?.showTabBadgePoint = MalaUnpaidOrderCount > 0
     }
     
     // MARK: - Private Method

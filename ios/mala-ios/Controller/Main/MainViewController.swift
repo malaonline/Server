@@ -10,6 +10,34 @@ import UIKit
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
+    
+    // MARK: - Components
+    private lazy var homeViewController: MainNavigationController = {
+        let naviVC = self.getNaviController(
+            HomeViewController(),
+            title: MalaCommonString_FindTeacher,
+            imageName: "search_normal"
+        )
+        return naviVC
+    }()
+    private lazy var classScheduleViewController: MainNavigationController = {
+        let naviVC = self.getNaviController(
+            ClassScheduleViewController(),
+            title: MalaCommonString_ClassSchedule,
+            imageName: "schedule_normal"
+        )
+        return naviVC
+    }()
+    private lazy var profileViewController: MainNavigationController = {
+        let naviVC  = self.getNaviController(
+            ProfileViewController(style: .Grouped),
+            title: MalaCommonString_Profile,
+            imageName: "profile_normal"
+        )
+        return naviVC
+    }()
+    
+    
     // MARK: - Property
     private enum Tab: Int {
         
@@ -44,7 +72,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     
     // MARK: - Private Method
     private func configure() {
@@ -52,29 +80,6 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBar() {
-        
-        /// 首页
-        let homeViewController = getNaviController(
-            HomeViewController(),
-            title: MalaCommonString_FindTeacher,
-            imageName: "search_normal"
-        )
-        
-        /// 课程表
-        let viewController = ClassScheduleViewController()
-        let classScheduleViewController = getNaviController(
-            viewController,
-            title: MalaCommonString_ClassSchedule,
-            imageName: "schedule_normal"
-        )
-        
-        /// 个人
-        let profileViewController = getNaviController(
-            ProfileViewController(style: .Grouped),
-            title: MalaCommonString_Profile,
-            imageName: "profile_normal"
-        )
-        
         let viewControllers: [UIViewController] = [homeViewController, classScheduleViewController, profileViewController]
         self.setViewControllers(viewControllers, animated: false)
     }
@@ -92,19 +97,21 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             if let errorMessage = errorMessage {
                 println("MainViewController - loadUnpaindOrder Error \(errorMessage)")
             }
-        }, completion: { (count) in
+        }, completion: { [weak self] (count) in
             println("未支付订单：\(count)")
             if count != 0 {
                 MalaUnpaidOrderCount = count
-                dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self?.popAlert()
                 })
             }else {
                 MalaUnpaidOrderCount = 0
             }
+            self?.profileViewController.showTabBadgePoint = MalaUnpaidOrderCount > 0
         })
     }
     
+    /// 弹出未支付订单提示
     private func popAlert() {
         let alert = JSSAlertView().show(self,
                                         title: "您有订单尚未支付",
@@ -114,6 +121,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         alert.addAction(switchToProfile)
     }
     
+    
+    /// 切换到个人信息页面
     private func switchToProfile() {
         
         let viewController = OrderFormViewController()
@@ -131,7 +140,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
      ///  - parameter viewController: ViewController
      ///  - parameter title:          String for ViewController's Title
      ///  - parameter imageName:      String for ImageName
-    private func getNaviController(viewController: UIViewController, title: String, imageName: String) -> UINavigationController {
+    private func getNaviController(viewController: UIViewController, title: String, imageName: String) -> MainNavigationController {
         viewController.title = title
         viewController.tabBarItem.image = UIImage(named: imageName)
         let navigationController = MainNavigationController(rootViewController: viewController)
