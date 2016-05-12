@@ -317,6 +317,15 @@ class ThemeClassScheduleFlowLayout: UICollectionViewFlowLayout {
             
             break
         default:
+            
+            scrollDirection = .Vertical
+            let itemWidth: CGFloat = frame.width / 8 - 1
+            let itemHeight: CGFloat = frame.height / 6 - 1
+            itemSize = CGSizeMake(itemWidth, itemHeight)
+            sectionInset = UIEdgeInsets(top: MalaScreenOnePixel, left: 0, bottom: MalaScreenOnePixel, right: 0)
+            minimumInteritemSpacing = 1
+            minimumLineSpacing = 1
+            
             break
         }
     }
