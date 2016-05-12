@@ -163,6 +163,6 @@ class CouponViewController: BaseTableViewController {
     
     // MARK: - Events Response
     @objc private func showCouponRules() {
-        CouponRulesPopupWindow(contentView: UIView()).show()
+        CouponRulesPopupWindow(title: "奖学金使用规则", desc: MalaConfig.couponRulesDescriptionString()).show()
     }
 }

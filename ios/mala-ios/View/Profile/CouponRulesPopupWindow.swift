@@ -22,7 +22,8 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
     var contentView: UIView?
     /// 单击背景close窗口
     var closeWhenTap: Bool = false
-    
+    /// 弹窗高度
+    var windowHeight: CGFloat = 0
     
     // MARK: - Components
     /// 描述 文字背景
@@ -33,15 +34,13 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
     /// 描述标题
     private lazy var titleView: AboutTitleView = {
         let titleView = AboutTitleView()
-        titleView.title = "奖学金使用规则"
         return titleView
     }()
-    /// 关于描述label
-    private lazy var aboutTextView: UITextView = {
+    /// 描述label
+    private lazy var descTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
         textView.textColor = MalaColor_939393_0
-        textView.text = MalaConfig.couponRulesDescriptionString()
         textView
         return textView
     }()
@@ -73,6 +72,18 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         
         // 持有自己强引用，使自己在外界没有强引用时依然存在。
         strongSelf = self
+    }
+    
+    convenience init(title: String, desc: String) {
+        self.init(contentView: UIView())
+        self.titleView.title = title
+        self.descTextView.text = desc
+        
+        self.windowHeight = CGFloat((desc.characters.count / 16)+2)*MalaLayout_FontSize_14 + 90 + 14 + 44
+        self.windowHeight = windowHeight > MalaLayout_CouponRulesPopupWindowHeight ? MalaLayout_CouponRulesPopupWindowHeight : windowHeight
+        self.window.snp_updateConstraints { (make) in
+            make.height.equalTo(self.windowHeight)
+        }
     }
     
     convenience init(contentView: UIView) {
@@ -137,13 +148,13 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         confirmButton.addSubview(buttonSeparatorLine)
         window.addSubview(textBackground)
         window.addSubview(titleView)
-        window.addSubview(aboutTextView)
+        window.addSubview(descTextView)
         
         
         // Autolayout
         window.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(MalaLayout_CommentPopupWindowWidth)
-            make.height.equalTo(MalaLayout_CouponRulesPopupWindowHeight)
+            make.height.equalTo(self.windowHeight)
             make.center.equalTo(self.view.snp_center)
         }
         buttonSeparatorLine.snp_makeConstraints { (make) in
@@ -169,7 +180,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
             make.left.equalTo(textBackground.snp_left)
             make.right.equalTo(textBackground.snp_right)
         }
-        aboutTextView.snp_makeConstraints { (make) -> Void in
+        descTextView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(titleView.snp_bottom).offset(MalaLayout_Margin_18)
             make.left.equalTo(textBackground.snp_left).offset(MalaLayout_Margin_18)
             make.right.equalTo(textBackground.snp_right).offset(-MalaLayout_Margin_18)

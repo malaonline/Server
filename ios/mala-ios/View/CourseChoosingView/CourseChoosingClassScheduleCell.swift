@@ -68,7 +68,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         legendView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.classSchedule.snp_bottom).offset(MalaLayout_Margin_14)
             make.left.equalTo(classSchedule.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(MalaLayout_FontSize_15)
             make.right.equalTo(classSchedule.snp_right)
             make.bottom.equalTo(self.content.snp_bottom).offset(-MalaLayout_Margin_14)
         }
@@ -78,8 +78,17 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         legendView.addLegend(image: "legend_active", title: "可选")
         legendView.addLegend(image: "legend_disabled", title: "已售")
         legendView.addLegend(image: "legend_selected", title: "已选")
-        legendView.addLegend(image: "legend_bought", title: "已买")
-        legendView.addLegend(image: "desc_icon", title: "")
+        let buttonBought = legendView.addLegend(image: "legend_bought", title: "已买")
+        let ButtonDesc = legendView.addLegend(image: "desc_icon", title: "")
+        buttonBought.addTarget(self, action: #selector(CourseChoosingClassScheduleCell.showBoughtDescription), forControlEvents: .TouchUpInside)
+        ButtonDesc.addTarget(self, action: #selector(CourseChoosingClassScheduleCell.showBoughtDescription), forControlEvents: .TouchUpInside)
+    }
+    
+    
+    // MARK: - Events Response
+    @objc private func showBoughtDescription() {
+        println("图标点击")
+        CouponRulesPopupWindow(title: "预留课程", desc: MalaConfig.boughtDescriptionString()).show()
     }
 }
 
@@ -103,7 +112,7 @@ public class LegendView: UIView {
  
     public func addLegend(image imageName: String, title: String) -> UIButton {
         let button = UIButton()
-        button.userInteractionEnabled = false
+        button.adjustsImageWhenHighlighted = false
         
         button.setImage(UIImage(named: imageName), forState: .Normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -MalaLayout_Margin_6, bottom: 0, right: MalaLayout_Margin_6)
