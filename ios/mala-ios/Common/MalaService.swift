@@ -670,14 +670,14 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
 ///  - parameter orderID:        订单id
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary? -> Void) {
     let requestParameters = [
         "action": PaymentMethod.Pay.rawValue,
         "channel": channel.rawValue
     ]
     
-    let parse: JSONDictionary -> JSONDictionary = { data in
-        return data
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return parseChargeToken(data)
     }
     
     let resource = authJsonResource(path: "/orders/\(orderID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
@@ -760,6 +760,8 @@ func getUserProtocolHTML(failureHandler: ((Reason, String?) -> Void)?, completio
 /// 订单JSON解析器
 let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
     
+    println("结果：\(orderInfo)")
+    
     // 订单创建失败
     if let
         result = orderInfo["ok"] as? Bool,
@@ -769,24 +771,19 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
     
     // 订单创建成功
     if let
-        id = orderInfo["id"] as? Int,
-        teacher = orderInfo["teacher"] as? Int,
-        parent = orderInfo["parent"] as? Int,
-        school = orderInfo["school"] as? Int,
-        grade = orderInfo["grade"] as? Int,
-        subject = orderInfo["subject"] as? Int,
-        // coupon = orderInfo["coupon"] as? Int, // 返回优惠券id暂时无用，返回可能为null值。暂不处理
-        hours = orderInfo["hours"] as? Int,
-        weekly_time_slots = orderInfo["weekly_time_slots"] as? [Int],
-        price = orderInfo["price"] as? Int,
-        total = orderInfo["total"] as? Int,
-        status = orderInfo["status"] as? String,
-        order_id = orderInfo["order_id"] as? String,
-        is_timeslot_allocated = orderInfo["is_timeslot_allocated"] as? Bool {
-            return OrderForm(id: id, name: "", teacher: teacher, school: school, grade: grade,
-                subject: subject, coupon: nil, hours: hours, timeSchedule: weekly_time_slots,
-                order_id: order_id, parent: parent, total: total, price: price, status: status,
-                is_timeslot_allocated: is_timeslot_allocated)
+        id          = orderInfo["id"] as? Int,
+        teacher     = orderInfo["teacher"] as? Int,
+        teacherName = orderInfo["teacher_name"] as? String,
+        avatar      = orderInfo["teacher_avatar"] as? String,
+        school      = orderInfo["school"] as? String,
+        grade       = orderInfo["grade"] as? String,
+        subject     = orderInfo["subject"] as? String,
+        hours       = orderInfo["hours"] as? Int,
+        status      = orderInfo["status"] as? String,
+        orderId     = orderInfo["order_id"] as? String,
+        amount      = orderInfo["to_pay"] as? Int,
+        evaluated   = orderInfo["evaluated"] as? Bool {
+        return OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
     }
     return nil
 }
@@ -980,4 +977,19 @@ let parseOrderList: JSONDictionary -> ([OrderForm], Int) = { ordersInfo in
     }
     
     return (orderList, count)
+}
+/// 支付信息JSON解析器
+let parseChargeToken: JSONDictionary -> JSONDictionary? = { chargeInfo in
+    
+    // 支付信息获取失败（课程被占用）
+    if let
+        result = chargeInfo["ok"] as? Bool,
+        errorCode = chargeInfo["code"] as? Int
+       where
+        !result {
+        return nil
+    }
+    
+    // 支付信息获取成功
+    return chargeInfo
 }
