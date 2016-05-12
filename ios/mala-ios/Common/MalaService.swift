@@ -652,7 +652,7 @@ func createOrderWithForm(orderForm: JSONDictionary, failureHandler: ((Reason, St
     
     /// 返回值解析器
     let parse: JSONDictionary -> OrderForm? = { data in
-        return parseOrderForm(data)
+        return parseOrderCreateResult(data)
     }
     
     let resource = authJsonResource(path: "/orders", method: .POST, requestParameters: orderForm, parse: parse)
@@ -760,8 +760,6 @@ func getUserProtocolHTML(failureHandler: ((Reason, String?) -> Void)?, completio
 /// 订单JSON解析器
 let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
     
-    println("结果：\(orderInfo)")
-    
     // 订单创建失败
     if let
         result = orderInfo["ok"] as? Bool,
@@ -784,6 +782,27 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         amount      = orderInfo["to_pay"] as? Int,
         evaluated   = orderInfo["evaluated"] as? Bool {
         return OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
+    }
+    return nil
+}
+/// 订单创建返回结果JSON解析器
+let parseOrderCreateResult: JSONDictionary -> OrderForm? = { orderInfo in
+    
+    println("结果：\(orderInfo)")
+    
+    // 订单创建失败
+    if let
+        result = orderInfo["ok"] as? Bool,
+        errorCode = orderInfo["code"] as? Int {
+        return OrderForm(result: result, code: errorCode)
+    }
+    
+    // 订单创建成功
+    if let
+        id = orderInfo["id"] as? Int {
+        let order = OrderForm()
+        order.id = id
+        return order
     }
     return nil
 }
@@ -984,10 +1003,8 @@ let parseChargeToken: JSONDictionary -> JSONDictionary? = { chargeInfo in
     // 支付信息获取失败（课程被占用）
     if let
         result = chargeInfo["ok"] as? Bool,
-        errorCode = chargeInfo["code"] as? Int
-       where
-        !result {
-        return nil
+        errorCode = chargeInfo["code"] as? Int {
+        return ["result": result]
     }
     
     // 支付信息获取成功

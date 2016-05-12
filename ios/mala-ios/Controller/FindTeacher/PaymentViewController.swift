@@ -115,6 +115,11 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
         })
   
     }
+    
+    @objc private func forcePop() {
+        cancelOrder()
+        navigationController?.popViewControllerAnimated(true)
+    }
 
     
     // MARK: - Delegate
@@ -142,9 +147,30 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
             }
             
         }, completion: { [weak self] (charges) -> Void in
-            
                 println("获取支付信息:\(charges)")
-                self?.createPayment(charges)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                ThemeHUD.hideActivityIndicator()
+                
+                guard let charge = charges, success = charge["result"] as? Bool else {
+                    return
+                }
+                
+                if success {
+                    
+                    self?.createPayment(charge)
+                    
+                }else if let strongSelf = self {
+                    
+                    let alert = JSSAlertView().show(strongSelf,
+                        title: "部分课程时间已被占用，请重新选择上课时间",
+                        buttonText: "重新选课",
+                        iconImage: UIImage(named: "alert_PaymentFail")
+                    )
+                    alert.addAction(strongSelf.forcePop)
+                }
+            })
         })
     }
     
