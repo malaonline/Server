@@ -233,7 +233,7 @@ class JSSAlertView: UIViewController {
         // size the background view
         self.alertBackgroundView.frame = CGRect(x: 0, y: 0, width: self.alertWidth, height: yPos)
         
-        self.separatorground.frame = CGRect(x: 0, y: self.baseHeight-self.buttonHeight-4-MalaScreenOnePixel, width: self.alertWidth, height: self.buttonHeight+1)
+        self.separatorground.frame = CGRect(x: 0, y: self.dismissButton.frame.origin.y-MalaScreenOnePixel, width: self.alertWidth, height: self.dismissButton.frame.size.height+MalaScreenOnePixel)
         
         // size the container that holds everything together
         self.containerView.frame = CGRect(x: (self.viewWidth!-self.alertWidth)/2, y: (self.viewHeight! - yPos)/2, width: self.alertWidth, height: yPos)
@@ -268,7 +268,6 @@ class JSSAlertView: UIViewController {
         self.rootViewController.view.addSubview(view)
         
         self.view.backgroundColor = UIColorFromHex(0x000000, alpha: 0.7)
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(JSSAlertView.buttonTap)))
         
         var baseColor:UIColor?
         if let customColor = color {
