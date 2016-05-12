@@ -49,40 +49,9 @@ public class MalaConfig {
     class func aboutDescriptionHTMLString() -> String {
         return "        麻辣老师(MALALAOSHI.COM)成立于2015年6月，由众多资深教育人士和互联网顶尖人才组成，是专注于国内二三四线城市中小学K12课外辅导的O2O服务平台，以效果、费用、便捷为切入口，实现个性化教学和学生的个性发展，推动二三四线城市及偏远地区教育进步。\n\n        麻辣老师通过O2O的方式，以高效和精准的老师推荐，让中小学家长更加方便和经济地找到好老师，提升老师的收入，优化教、学、练、测、评五大环节, 提升教学与学习效率、创新服务模式，带给家长、老师及学生全新的学习体验。"
     }
-    
-    // MARK: - UI Config
-    class func colorF2F2F2() -> UIColor {
-        return UIColor(rgbHexValue: 0xF2F2F2, alpha: 1.0)
-    }
-    
-    class func setupClassSchedule(inout viewController: ClassScheduleViewController) {
-
-//        // 日历控制器
-//        viewController.weekdayHeaderEnabled = true
-//        viewController.weekdayTextType = .VeryShort
-//        viewController.overlayTextColor = MalaColor_333333_0
-//        viewController.overlayBackgroundColor = MalaColor_F2F2F2_0
-//        viewController.weekdayHeader = ClassScheduleViewWeekdayHeader(calendar: viewController.calendar, textType: viewController.weekdayTextType)
-//
-//        ///  星期数视图
-//        PDTSimpleCalendarViewWeekdayHeader.appearance().textColor = MalaColor_333333_0
-//        PDTSimpleCalendarViewWeekdayHeader.appearance().textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-//        PDTSimpleCalendarViewWeekdayHeader.appearance().headerBackgroundColor = MalaColor_F2F2F2_0
-//        
-//        ///  月份头视图
-//        PDTSimpleCalendarViewHeader.appearance().textColor = MalaColor_82B4D9_0
-//        PDTSimpleCalendarViewHeader.appearance().textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-//        PDTSimpleCalendarViewHeader.appearance().separatorColor = UIColor.clearColor()
-//        
-//        ///  日期视图
-//        PDTSimpleCalendarViewCell.appearance().circleDefaultColor = UIColor.whiteColor()
-//        PDTSimpleCalendarViewCell.appearance().circleSelectedColor = UIColor.orangeColor()
-//        PDTSimpleCalendarViewCell.appearance().circleTodayColor = UIColor.whiteColor()
-//        PDTSimpleCalendarViewCell.appearance().textDefaultColor = UIColor.blackColor()
-//        PDTSimpleCalendarViewCell.appearance().textSelectedColor = UIColor.whiteColor()
-//        PDTSimpleCalendarViewCell.appearance().textTodayColor = MalaColor_82B4D9_0
-//        PDTSimpleCalendarViewCell.appearance().textDisabledColor = UIColor.whiteColor()
-//        PDTSimpleCalendarViewCell.appearance().textDefaultFont = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+    ///  奖学金使用规则String
+    class func couponRulesDescriptionString() -> String {
+        return "奖学金券是什么\n1.奖学金券是由麻辣老师发行，使用户在麻辣老师购买课程的过程中，作为抵扣现金的一种虚拟券。\n二.使用规则\n1.不同的奖学金券面值、有效期和使用限制不尽相同，使用前请认真核对。\n2.一个订单只能使用一张奖学金券。\n3.奖学金券作为一种优惠手段，无法获得对应的积分。\n4.一个订单中的奖学金券部分不能退款或折现，使用奖学金券购买的订单发生退款后不能返还奖学金券。\n5.如取消订单，订单中所使用的奖学金券可再次使用。\n6.奖学金券面值大于订单金额，差额不予退回；如奖学金券面值小于订单金额，需由用户支付差额；奖学金券不可兑现，且不开发票。\n三.特别提示\n1.用户应当出于合法、正当目的，以合理方式使用奖学金券。\n2.麻辣老师将不定期的通过版本更新的方式修改使用规则，请您及时升级为最新版本。\n3.如果用户对使用规则存在任何疑问或需要任何帮助，请及时与麻辣老师客服联系。联系电话：010-57733349\n4.最终解释权归北京麻辣在线网络科技有限公司所有。"
     }
     
     

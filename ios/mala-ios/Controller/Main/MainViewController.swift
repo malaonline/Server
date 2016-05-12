@@ -61,8 +61,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         )
         
         /// 课程表
-        var viewController = ClassScheduleViewController()
-        MalaConfig.setupClassSchedule(&viewController)
+        let viewController = ClassScheduleViewController()
         let classScheduleViewController = getNaviController(
             viewController,
             title: MalaCommonString_ClassSchedule,
