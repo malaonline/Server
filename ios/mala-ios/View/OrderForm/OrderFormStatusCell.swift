@@ -116,7 +116,7 @@ class OrderFormStatusCell: UITableViewCell {
         // Autolayout
         // Remove margin
         titleLabel.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.height.equalTo(MalaLayout_FontSize_13)
         }
@@ -166,7 +166,7 @@ class OrderFormStatusCell: UITableViewCell {
         }
         avatarView.snp_makeConstraints { (make) in
             make.centerY.equalTo(subjectIcon.snp_centerY)
-            make.centerX.equalTo(statusLabel.snp_centerX)
+            make.right.equalTo(separatorLine.snp_right)
             make.height.equalTo(55)
             make.width.equalTo(55)
         }

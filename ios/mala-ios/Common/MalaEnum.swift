@@ -31,6 +31,7 @@ enum PaymentMethod: String {
 enum MalaPaymentChannel: String {
     case Wechat = "wx"
     case Alipay = "alipay"
+    case Other  = "other"
 }
 
 ///  跳转URLScheme

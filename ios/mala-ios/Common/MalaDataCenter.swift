@@ -55,7 +55,10 @@ func getURLScheme(channel: MalaPaymentChannel) -> String {
     case .Alipay:
         return MalaAppURLScheme.Alipay.rawValue
         
-    case .Wechat :
+    case .Wechat:
         return MalaAppURLScheme.Wechat.rawValue
+        
+    case .Other:
+        return ""
     }
 }

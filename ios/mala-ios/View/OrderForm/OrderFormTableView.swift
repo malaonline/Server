@@ -42,9 +42,9 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         delegate = self
         dataSource = self
         backgroundColor = MalaColor_EDEDED_0
-        estimatedRowHeight = 400
+        estimatedRowHeight = 500
         separatorStyle = .None
-        contentInset = UIEdgeInsets(top: -40, left: 0, bottom: 4, right: 0)
+        contentInset = UIEdgeInsets(top: -25, left: 0, bottom: 4, right: 0)
         
         registerClass(OrderFormStatusCell.self, forCellReuseIdentifier: OrderFormCellReuseId[0]!)
         registerClass(OrderFormTimeScheduleCell.self, forCellReuseIdentifier: OrderFormCellReuseId[1]!)
