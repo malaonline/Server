@@ -96,6 +96,7 @@
     <dimen name="school_margin_normal">10dp</dimen>
     <dimen name="toolbar_height">44dp</dimen>
 
+    <dimen name="item_text_left_padding">12dp</dimen>
     <dimen name="item_text_padding">6dp</dimen>
     <dimen name="item_text_top_bottom_padding">5dp</dimen>
     <dimen name="item_gallery_padding">2.5dp</dimen>

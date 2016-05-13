@@ -17,12 +17,17 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.adapter.OrderRecyclerViewAdapter;
+import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
+import com.malalaoshi.android.adapter.TimeLineAdapter;
 import com.malalaoshi.android.api.FetchOrderApi;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.course.CourseConfirmActivity;
+import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
+import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
@@ -31,10 +36,14 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.CircleNetworkImage;
+import com.malalaoshi.android.view.ScrollListView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
 public class OrderDetailFragment extends Fragment {
@@ -62,8 +71,8 @@ public class OrderDetailFragment extends Fragment {
      @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
 
-    @Bind(R.id.rv_class_time)
-    protected RecyclerView rvClassTime;
+    @Bind(R.id.listview)
+    protected ScrollListView listview;
 
     @Bind(R.id.rl_pay_way)
     protected RelativeLayout rlPayWay;
@@ -248,23 +257,8 @@ public class OrderDetailFragment extends Fragment {
         };
         tvMount.setText(strTopay);
         //rvClassTime;
-        rvClassTime.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return null;
-            }
+        listview.setAdapter(new TimeLineAdapter(getContext(),new ArrayList<Order>()));
 
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 0;
-            }
-        });
-        rvClassTime.setVisibility(View.GONE);
         if ("u".equals(order.getStatus())){
             tvOrderStatus.setText("订单待支付");
             rlPayWay.setVisibility(View.GONE);
