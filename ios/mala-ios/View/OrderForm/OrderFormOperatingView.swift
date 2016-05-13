@@ -35,7 +35,6 @@ class OrderFormOperatingView: UIView {
             })
         }
     }
-    private var myContext = 0
     weak var delegate: OrderFormOperatingViewDelegate?
     
     
@@ -60,7 +59,7 @@ class OrderFormOperatingView: UIView {
         priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
         priceLabel.textColor = MalaColor_E26254_0
         priceLabel.textAlignment = .Left
-        priceLabel.text = "￥0.01"
+        priceLabel.text = "￥0.00"
         return priceLabel
     }()
     /// 确定按钮（确认支付、再次购买、重新购买）
@@ -100,18 +99,10 @@ class OrderFormOperatingView: UIView {
         super.init(frame: frame)
         
         setupUserInterface()
-        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Override
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        // 当选课条件改变时，更新总价
-        self.price = MalaCourseChoosingObject.getAmount() ?? 0
     }
     
     
@@ -157,10 +148,6 @@ class OrderFormOperatingView: UIView {
             make.width.equalTo(75)
             make.height.equalTo(27)
         }
-    }
-    
-    private func configure() {
-        MalaCourseChoosingObject.addObserver(self, forKeyPath: "originalPrice", options: .New, context: &myContext)
     }
     
     /// 根据当前订单状态，渲染对应UI样式
@@ -235,10 +222,5 @@ class OrderFormOperatingView: UIView {
     /// 取消订单
     @objc func cancelOrderForm() {
         delegate?.OrderFormCancel()
-    }
-    
-    
-    deinit {
-        MalaCourseChoosingObject.removeObserver(self, forKeyPath: "originalPrice", context: &myContext)
     }
 }
