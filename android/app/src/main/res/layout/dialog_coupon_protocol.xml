@@ -36,7 +36,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:text="奖学金使用祥则"
+                    android:text="奖学金使用详则"
                     android:textColor="#666666"
                     android:textSize="@dimen/text_size_normal_x" />
 

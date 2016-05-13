@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.OrderRecyclerViewAdapter;
@@ -80,6 +81,8 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
 
         Context context = getContext();
         emptyView = LayoutInflater.from(context).inflate(R.layout.view_load_empty, null);
+        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_tip);
+        tvTip.setText("没有订单");
         orderRecyclerViewAdapter = new OrderRecyclerViewAdapter(orderList);
         GridScrollYLinearLayoutManager layoutManager = new GridScrollYLinearLayoutManager(context, 1);
         recyclerView.setLayoutManager(layoutManager);
@@ -106,6 +109,11 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
 
 
     private void getOrderListSucceedEmpty(OrderListResult orderListResult) {
+        if (emptyView==null){
+            emptyView = LayoutInflater.from(getContext()).inflate(R.layout.view_load_empty, null);
+            TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_tip);
+            tvTip.setText("没有订单");
+        }
         flOrderList.removeAllViews();
         flOrderList.addView(emptyView);
         orderList.clear();

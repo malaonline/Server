@@ -2,12 +2,15 @@ package com.malalaoshi.android.pay;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
@@ -24,36 +27,36 @@ public class CouponProtocolDialog extends DialogFragment {
     @Bind(R.id.tv_coupon_protocol)
     protected TextView tvCouponProtocol;
 
-    public static CouponProtocolDialog newInstance() {
-        CouponProtocolDialog f = new CouponProtocolDialog();
-        return f;
-    }
+      public static CouponProtocolDialog newInstance() {
+          CouponProtocolDialog f = new CouponProtocolDialog();
+          return f;
+      }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-    }
+      @Override
+      public void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+      }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-       /* this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
-                // TODO Auto-generated method stub 返回键关闭dialog
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });*/
-        View view = inflater.inflate(R.layout.dialog_coupon_protocol, container, false);
-        ButterKnife.bind(this, view);
-        //tvCouponProtocol.setMovementMethod(ScrollingMovementMethod.getInstance());
-        return view;
+      @Override
+      public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                               Bundle savedInstanceState) {
+         /* this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+              @Override
+              public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
+                  // TODO Auto-generated method stub 返回键关闭dialog
+                  if (keyCode == KeyEvent.KEYCODE_BACK) {
+                      dismiss();
+                      return true;
+                  }
+                  return false;
+              }
+          });*/
+          View view = inflater.inflate(R.layout.dialog_coupon_protocol, container, false);
+          ButterKnife.bind(this, view);
+          //tvCouponProtocol.setMovementMethod(ScrollingMovementMethod.getInstance());
+          return view;
     }
 
     @Override
