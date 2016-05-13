@@ -391,6 +391,13 @@
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
+		F48BBAD41CE57D1500774297 /* OrderFormTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD31CE57D1500774297 /* OrderFormTableView.swift */; };
+		F48BBAD61CE57F6E00774297 /* OrderFormStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD51CE57F6E00774297 /* OrderFormStatusCell.swift */; };
+		F48BBAD81CE57F8100774297 /* OrderFormTimeScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD71CE57F8100774297 /* OrderFormTimeScheduleCell.swift */; };
+		F48BBADA1CE57F9100774297 /* OrderFormPaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD91CE57F9100774297 /* OrderFormPaymentChannelCell.swift */; };
+		F48BBADC1CE57F9E00774297 /* OrderFormOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */; };
+		F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */; };
+		F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */; };
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
@@ -581,7 +588,7 @@
 		F4402E181C5A16A700E7D3DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewController.swift; sourceTree = "<group>"; };
-		F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewCell.swift; sourceTree = "<group>"; };
+		F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderFormViewCell.swift; path = ../OrderForm/OrderFormViewCell.swift; sourceTree = "<group>"; };
 		F452CD6D1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WZLBadge.h"; sourceTree = "<group>"; };
 		F452CD6E1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WZLBadge.m"; sourceTree = "<group>"; };
 		F452CD6F1CE0313E001A30E8 /* UITabBarItem+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarItem+WZLBadge.h"; sourceTree = "<group>"; };
@@ -645,6 +652,13 @@
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
+		F48BBAD31CE57D1500774297 /* OrderFormTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormTableView.swift; sourceTree = "<group>"; };
+		F48BBAD51CE57F6E00774297 /* OrderFormStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormStatusCell.swift; sourceTree = "<group>"; };
+		F48BBAD71CE57F8100774297 /* OrderFormTimeScheduleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormTimeScheduleCell.swift; sourceTree = "<group>"; };
+		F48BBAD91CE57F9100774297 /* OrderFormPaymentChannelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormPaymentChannelCell.swift; sourceTree = "<group>"; };
+		F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormOtherInfoCell.swift; sourceTree = "<group>"; };
+		F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormInfoViewController.swift; sourceTree = "<group>"; };
+		F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormOperatingView.swift; sourceTree = "<group>"; };
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
 		F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaEnum.swift; sourceTree = "<group>"; };
 		F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewCell.swift; sourceTree = "<group>"; };
@@ -1099,6 +1113,7 @@
 		F414FFEC1C916ACE0038D7A7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */,
 				F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */,
 				F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */,
 				F46064F71C941829004056B1 /* SaveNameView.swift */,
@@ -1135,7 +1150,12 @@
 		F452CD551CDC5823001A30E8 /* OrderForm */ = {
 			isa = PBXGroup;
 			children = (
-				F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */,
+				F48BBAD31CE57D1500774297 /* OrderFormTableView.swift */,
+				F48BBAD51CE57F6E00774297 /* OrderFormStatusCell.swift */,
+				F48BBAD71CE57F8100774297 /* OrderFormTimeScheduleCell.swift */,
+				F48BBAD91CE57F9100774297 /* OrderFormPaymentChannelCell.swift */,
+				F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */,
+				F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */,
 			);
 			path = OrderForm;
 			sourceTree = "<group>";
@@ -1289,6 +1309,7 @@
 		F460651B1C97B168004056B1 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */,
 				F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */,
 				F460651C1C97B168004056B1 /* CouponViewController.swift */,
 				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
@@ -1844,10 +1865,12 @@
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
 				F45BDAEA1CB760540038CE3D /* ThemeCalendarViewHeader.swift in Sources */,
+				F48BBAD61CE57F6E00774297 /* OrderFormStatusCell.swift in Sources */,
 				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
+				F48BBAD41CE57D1500774297 /* OrderFormTableView.swift in Sources */,
 				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
 				307AB8A01C33CDD200D8397F /* HighScoreModel.swift in Sources */,
 				F49BD5A01CA4131D00EB3CCF /* SKCaptionView.swift in Sources */,
@@ -1906,17 +1929,20 @@
 				F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */,
 				F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */,
 				F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */,
+				F48BBADA1CE57F9100774297 /* OrderFormPaymentChannelCell.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				F45BDAE31CB75F980038CE3D /* ThemeCalendarViewController.swift in Sources */,
 				F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				F40D89681C7D9E4100BD6871 /* CourseChoosingObject.swift in Sources */,
+				F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */,
 				F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				F46064FA1C96C8EF004056B1 /* Proposer.swift in Sources */,
 				F45F27FA1CAA600D00F0012C /* MalaSingleWebViewController.swift in Sources */,
+				F48BBADC1CE57F9E00774297 /* OrderFormOtherInfoCell.swift in Sources */,
 				F4C5C2571C76B87800FB833B /* CouponModel.swift in Sources */,
 				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				F46065251C97B168004056B1 /* MainNavigationController.swift in Sources */,
@@ -1938,6 +1964,7 @@
 				F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */,
 				F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */,
 				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
+				F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */,
 				F49BD59E1CA4131D00EB3CCF /* UIImage+Rotation.swift in Sources */,
 				F4D0D17B1CA0F8EE00B25704 /* CourseInfoView.swift in Sources */,
 				F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */,
@@ -1951,6 +1978,7 @@
 				F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
 				F45E69D01C88293C00BD0859 /* MalaDataCenter.swift in Sources */,
+				F48BBAD81CE57F8100774297 /* OrderFormTimeScheduleCell.swift in Sources */,
 				F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */,
 				F49BD5A61CA4131D00EB3CCF /* SKPhotoBrowser.swift in Sources */,
 				F45E69DE1C8D278A00BD0859 /* ThemeClassSchedule.swift in Sources */,

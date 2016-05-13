@@ -230,6 +230,11 @@ class OrderFormViewController: BaseTableViewController {
         }
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let viewController = OrderFormInfoViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     
     // MARK: - DataSource
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
