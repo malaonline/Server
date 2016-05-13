@@ -71,6 +71,17 @@ android {
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
         }
+        stagerelease {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
+            buildConfigField("String", "API_HOST", "\"" + STAGE_SERVER + "\"")
+            resValue("string", "api_host", "\"" + STAGE_SERVER + "\"")
+        }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
