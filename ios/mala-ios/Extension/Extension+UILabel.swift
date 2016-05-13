@@ -31,4 +31,11 @@ extension UILabel {
         label.textAlignment = .Center
         return label
     }
+    
+    convenience init(text: String = "", fontSize: CGFloat, textColor: UIColor) {
+        self.init()
+        self.text = text
+        self.font = UIFont.systemFontOfSize(fontSize)
+        self.textColor = textColor
+    }
 }
