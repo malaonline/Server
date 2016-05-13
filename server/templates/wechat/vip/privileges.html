@@ -17,19 +17,17 @@
         <img src="{% static 'wechat/images/vip/slogan.png' %}">
     </div>
     <div class="panel" id="getVipLink">
-        <a href="{% url 'wechat:teachers' %}">
-            <div class="row" id="goToBuyCourse">
-                <div class="icon"><img src="{% static 'wechat/images/vip/crown.png' %}"></div>
-                <div class="desc">报名既享受会员服务</div>
-                <div class="arrow"><img src="{% static 'wechat/images/left_chevron.png' %}"></div>
-            </div>
-        </a>
+        <div class="row first-row" id="goToBuyCourse" onclick="location.href='{% url 'wechat:teachers' %}'">
+            <div class="icon"><img src="{% static 'wechat/images/vip/crown.png' %}"></div>
+            <div class="desc">报名既享受会员服务</div>
+            <div class="arrow"><img src="{% static 'wechat/images/left_chevron.png' %}"></div>
+        </div>
     </div>
     <div class="panel" id="privilegeList">
-        <div class="row" id="privilegeTitle">
+        <div id="privilegeTitle">
             会员专享
         </div>
-        <div class="row">
+        <div class="row first-row">
             <div class="icon"><img src="{% static 'wechat/images/vip/company.png' %}"></div>
             <div class="desc">
                 <div class="desc-title">自习陪读</div>

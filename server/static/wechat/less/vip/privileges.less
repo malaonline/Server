@@ -24,15 +24,19 @@ a {
 .panel {
   &#getVipLink {
     padding-top: 8px;
-    .row:first-child {
-      border-top: 1px solid @borderGray;
-    }
   }
 
   &#privilegeList {
     padding-bottom: 8px;
-    .row .icon {
-      padding: 10px 15px;
+    .row {
+      .icon {
+        top: -1px;
+        padding: 11px 15px 0 15px;
+        background-color: #fff;
+      }
+      &.first-row .icon {
+        top: 0;
+      }
     }
   }
 
@@ -43,6 +47,9 @@ a {
     background-color: #fff;
     //border-top: 1px solid @borderGray;
     border-bottom: 1px solid @borderGray;
+    &.first-row {
+      border-top: 1px solid @borderGray;
+    }
     .icon {
       position: absolute;
       top: 0;
@@ -91,12 +98,12 @@ a {
         color: #fd454d;
       }
     }
-    &#privilegeTitle {
-      padding-left: 15px;
-      height: @minVipRowHeight - 4px;
-      line-height: @minVipRowHeight - 2px;
-      background-color: @bodyBgColor;
-      color: @gray;
-    }
+  }
+  #privilegeTitle {
+    padding-left: 15px;
+    height: @minVipRowHeight - 4px;
+    line-height: @minVipRowHeight - 2px;
+    background-color: @bodyBgColor;
+    color: @gray;
   }
 }
