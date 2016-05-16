@@ -28,6 +28,7 @@ class ThemeTimeLine: UIView {
     private var leftWidth: CGFloat = 0
     private var rightWidth: CGFloat = 0
     private var viewWidth: CGFloat = 0
+    private var dataCount: Int = 0
     
     private lazy var progressViewContainer: UIView = UIView()
     private lazy var timeViewContainer: UIView = UIView()
@@ -47,6 +48,7 @@ class ThemeTimeLine: UIView {
         self.addSubview(timeViewContainer)
         self.addSubview(progressDescriptionViewContainer)
         
+        self.dataCount = times.count
         self.addTimeDescriptionLabels(descs, times: times, currentStatus: currentStatus)
         self.setNeedsUpdateConstraints()
         self.addProgressBasedOnLabels(self.labelDscriptionsArray, currentStatus: currentStatus)
@@ -110,44 +112,38 @@ class ThemeTimeLine: UIView {
     
     private func addProgressBasedOnLabels(labels: [UILabel], currentStatus: Int) {
         var i = 0
-        var betweenLineOffset: CGFloat = 0
-        var totalHeight: CGFloat = 8
-        var lastpoint: CGPoint = CGPointZero
-        var yCenter: CGFloat = 0
-        var strokeColor: UIColor = UIColor.whiteColor()
-        var toPoint: CGPoint = CGPointZero
-        var fromPoint: CGPoint = CGPointZero
         
         for label in labels {
             
-            let fittingSize = label.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-            strokeColor = MalaColor_82B4D9_0
-            yCenter = totalHeight
+            let line = UIImageView(image: UIImage(named: "time_top"))
+            self.progressViewContainer.addSubview(line)
             
-            let circle = UIBezierPath()
-            self.configureBezierCircle(circle, centerY: yCenter)
-            let circleLayer = self.getLayerWithCircle(circle, strokeColor: strokeColor)
-            circleLayers.append(circleLayer)
-            
-            let grayStaticCircleLayer = self.getLayerWithCircle(circle, strokeColor: MalaColor_82B4D9_0)
-            self.progressViewContainer.layer.addSublayer(grayStaticCircleLayer)
-            
-            if i > 0 {
-                fromPoint = lastpoint
-                toPoint = CGPoint(x: lastpoint.x, y: (yCenter-CircleRadius))
-                lastpoint = CGPoint(x: lastpoint.x, y: (yCenter+CircleRadius))
-                
-                let line = self.getLineWithStartPoint(fromPoint, end: toPoint)
-                let lineLayer = self.getLayerWithCircle(line, strokeColor: strokeColor)
-                layers.append(lineLayer)
-                
-                let grayStaticLineLayer = self.getLayerWithLine(line, strokeColor: MalaColor_82B4D9_0)
-                self.progressViewContainer.layer.addSublayer(grayStaticLineLayer)
+            /// 最后一个时间点
+            if i == (self.dataCount-1) {
+                line.image = UIImage(named: "time_point")
+                line.snp_makeConstraints(closure: { (make) in
+                    make.centerX.equalTo(progressViewContainer)
+                    make.width.equalTo(9)
+                    make.top.equalTo(label.snp_top).offset(4)
+                    make.height.equalTo(9)
+                })
+            /// 描述字数多于一行的，下一个时间点以描述label为基准
+            }else if label.text?.characters.count > 26 {
+                line.snp_makeConstraints(closure: { (make) in
+                    make.centerX.equalTo(progressViewContainer)
+                    make.width.equalTo(9)
+                    make.top.equalTo(label.snp_top).offset(2)
+                    make.bottom.equalTo(label.snp_bottom).offset(24)
+                })
+            /// 描述字数少于一行的，下一个时间点以时间label为基准
             }else {
-                lastpoint = CGPoint(x: self.progressViewContainer.center.x + CircleRadius + InitProgressContainerWidth/2, y: yCenter+CircleRadius)
+                line.snp_makeConstraints(closure: { (make) in
+                    make.centerX.equalTo(progressViewContainer)
+                    make.width.equalTo(9)
+                    make.top.equalTo(label.snp_top).offset(2)
+                    make.bottom.equalTo(label.snp_bottom).offset(36)
+                })
             }
-            betweenLineOffset = BettweenLabelOffset
-            totalHeight += (fittingSize.height + betweenLineOffset)
             i += 1
         }
         self.startAnimatingLayer(circleLayers, currentStatus: currentStatus)

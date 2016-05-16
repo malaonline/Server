@@ -37,6 +37,7 @@ class OrderForm: BaseObjectModel {
     var avatarURL: String?
     var amount: Int = 0
     var evaluated: Bool?
+    var timeSlots: [[Int]]?
     
     // 其他
     var result: Bool?
@@ -76,7 +77,7 @@ class OrderForm: BaseObjectModel {
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,
-        order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?) {
+                     order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?, timeSlots: [[Int]]? = nil) {
             self.init()
             self.id = id ?? 0
             self.name = name
@@ -94,6 +95,7 @@ class OrderForm: BaseObjectModel {
             self.price = price ?? 0
             self.status = status
             self.is_timeslot_allocated = is_timeslot_allocated
+            self.timeSlots = timeSlots
     }
     
     
