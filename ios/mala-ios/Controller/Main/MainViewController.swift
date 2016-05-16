@@ -12,6 +12,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
     
     // MARK: - Components
+    /// 首页
     private lazy var homeViewController: MainNavigationController = {
         let naviVC = self.getNaviController(
             HomeViewController(),
@@ -20,6 +21,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         )
         return naviVC
     }()
+    /// 课程表
     private lazy var classScheduleViewController: MainNavigationController = {
         let naviVC = self.getNaviController(
             ClassScheduleViewController(),
@@ -28,6 +30,16 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         )
         return naviVC
     }()
+    /// 会员专享
+    private lazy var memberPrivilegesViewController: MainNavigationController = {
+        let naviVC  = self.getNaviController(
+            MemberPrivilegesViewController(),
+            title: MalaCommonString_MemberPrivileges,
+            imageName: "profile_normal"
+        )
+        return naviVC
+    }()
+    /// 个人
     private lazy var profileViewController: MainNavigationController = {
         let naviVC  = self.getNaviController(
             ProfileViewController(style: .Grouped),
@@ -43,6 +55,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         
         case Teacher
         case Schedule
+        case MemberPrivileges
         case Profile
         
         var title: String {
@@ -54,6 +67,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
                 return MalaCommonString_ClassSchedule
             case .Profile:
                 return MalaCommonString_Profile
+            case .MemberPrivileges:
+                return MalaCommonString_MemberPrivileges
             }
         }
     }
@@ -80,7 +95,13 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setupTabBar() {
-        let viewControllers: [UIViewController] = [homeViewController, classScheduleViewController, profileViewController]
+        let viewControllers: [UIViewController] = [
+            homeViewController,
+            classScheduleViewController,
+            memberPrivilegesViewController,
+            profileViewController
+        ]
+        
         self.setViewControllers(viewControllers, animated: false)
     }
     

@@ -99,6 +99,7 @@ let MalaColor_E36A5C_0 = UIColor(rgbHexValue: 0xE36A5C, alpha: 1.0)
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_FindTeacher = "找老师"
 let MalaCommonString_ClassSchedule = "课程表"
+let MalaCommonString_MemberPrivileges = "会员专享"
 let MalaCommonString_Profile = "我的"
 let MalaCommonString_Title = "标题"
 let MalaCommonString_PhoneNumber = "手机号"

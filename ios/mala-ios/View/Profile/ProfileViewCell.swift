@@ -107,7 +107,6 @@ class ProfileViewCell: UITableViewCell {
     
     // MARK: -Override
     override func prepareForReuse() {
-        self.titleLabel.clearBadge()
         self.infoLabel.textColor = MalaColor_D4D4D4_0
     }
 }

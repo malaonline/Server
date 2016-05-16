@@ -308,17 +308,10 @@
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
 		F4402D861C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
-		F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA21C5768F600E7D3DB /* KMSwizzle.m */; };
-		F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
-		F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA61C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m */; };
 		F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
 		F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
 		F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
 		F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
-		F452CD7A1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD6E1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m */; };
-		F452CD7B1CE0313E001A30E8 /* UITabBarItem+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD701CE0313E001A30E8 /* UITabBarItem+WZLBadge.m */; };
-		F452CD7C1CE0313E001A30E8 /* CAAnimation+WAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD731CE0313E001A30E8 /* CAAnimation+WAnimation.m */; };
-		F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */; };
 		F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
 		F452CD7F1CE07BB2001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
 		F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
@@ -399,11 +392,12 @@
 		F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */; };
 		F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */; };
 		F48BBAE61CE5C2AC00774297 /* ThemeTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */; };
+		F48BBAEB1CE9D6A800774297 /* MemberPrivilegesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAEA1CE9D6A800774297 /* MemberPrivilegesViewController.swift */; };
+		F48BBAEC1CE9DD4F00774297 /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
-		F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */; };
 		F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */; };
 		F49BD59E1CA4131D00EB3CCF /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */; };
 		F49BD59F1CA4131D00EB3CCF /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */; };
@@ -661,6 +655,7 @@
 		F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormInfoViewController.swift; sourceTree = "<group>"; };
 		F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormOperatingView.swift; sourceTree = "<group>"; };
 		F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTimeLine.swift; sourceTree = "<group>"; };
+		F48BBAEA1CE9D6A800774297 /* MemberPrivilegesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberPrivilegesViewController.swift; sourceTree = "<group>"; };
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
 		F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaEnum.swift; sourceTree = "<group>"; };
 		F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewCell.swift; sourceTree = "<group>"; };
@@ -835,6 +830,7 @@
 		304135841C23AE6400830C43 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F48BBAE71CE9D65500774297 /* memberPrivileges */,
 				F4E1061A1CBBA34D001AD4AF /* Base */,
 				F460650D1C97B168004056B1 /* ClassSchedule */,
 				F460650F1C97B168004056B1 /* FindTeacher */,
@@ -1320,6 +1316,14 @@
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		F48BBAE71CE9D65500774297 /* memberPrivileges */ = {
+			isa = PBXGroup;
+			children = (
+				F48BBAEA1CE9D6A800774297 /* MemberPrivilegesViewController.swift */,
+			);
+			path = memberPrivileges;
 			sourceTree = "<group>";
 		};
 		F48C5A021C87F7A80024EE17 /* Coupon */ = {
@@ -1851,6 +1855,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F48BBAEC1CE9DD4F00774297 /* parent-Bridging-Header.h in Sources */,
 				F46065271C97B168004056B1 /* EvaluationFilingServiceController.swift in Sources */,
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
@@ -1865,13 +1870,13 @@
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
+				F48BBAEB1CE9D6A800774297 /* MemberPrivilegesViewController.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
 				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
 				F45BDAEA1CB760540038CE3D /* ThemeCalendarViewHeader.swift in Sources */,
 				F48BBAD61CE57F6E00774297 /* OrderFormStatusCell.swift in Sources */,
 				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
-				F491A8BE1C734EB500B5D520 /* AnimatedGIFImageSerialization.m in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,
 				F48BBAD41CE57D1500774297 /* OrderFormTableView.swift in Sources */,
 				F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */,
@@ -1896,7 +1901,6 @@
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
 				F46065291C97B168004056B1 /* CouponViewController.swift in Sources */,
-				F452CD7B1CE0313E001A30E8 /* UITabBarItem+WZLBadge.m in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
@@ -1919,7 +1923,6 @@
 				F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
-				F452CD7C1CE0313E001A30E8 /* CAAnimation+WAnimation.m in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
@@ -1930,12 +1933,10 @@
 				F4D0D1491C9A4F3E00B25704 /* StudentCourseModel.swift in Sources */,
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
 				F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */,
-				F452CD7D1CE0313E001A30E8 /* UIView+WZLBadge.m in Sources */,
 				F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */,
 				F48BBADA1CE57F9100774297 /* OrderFormPaymentChannelCell.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
 				F45BDAE31CB75F980038CE3D /* ThemeCalendarViewController.swift in Sources */,
-				F4402DA81C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m in Sources */,
 				307788501C297C34007AF6B0 /* Extension+UIImage.swift in Sources */,
 				F40D89681C7D9E4100BD6871 /* CourseChoosingObject.swift in Sources */,
 				F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */,
@@ -1953,11 +1954,9 @@
 				F48BBAE61CE5C2AC00774297 /* ThemeTimeLine.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
-				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
 				F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */,
 				F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */,
 				F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */,
-				F4402DA71C5768F600E7D3DB /* KMSwizzle.m in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
@@ -2009,7 +2008,6 @@
 				F46065261C97B168004056B1 /* MainViewController.swift in Sources */,
 				304D6D351C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */,
-				F452CD7A1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.m in Sources */,
 				3037B59C1C3BAAB3005672D9 /* TeacherDetailsTagsCell.swift in Sources */,
 				F46064F81C941829004056B1 /* SaveNameView.swift in Sources */,
 				F49BD5AA1CA413C000EB3CCF /* MalaPhotoBrowser.swift in Sources */,
