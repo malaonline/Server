@@ -46,7 +46,7 @@
         android:layout_height="1px"
         android:background="@color/list_divider_light" />
     <com.malalaoshi.android.view.ScrollListView
-              android:id="@+id/listview"
+              android:id="@+id/lv_course_times"
               android:background="@color/white"
               android:layout_marginBottom="6dp"
               android:layout_marginTop="6dp"
