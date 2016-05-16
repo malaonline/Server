@@ -14,7 +14,35 @@ class OrderFormStatusCell: UITableViewCell {
     /// 订单详情模型
     var model: OrderForm? {
         didSet {
-
+            /// 老师头像
+            if let url = NSURL(string: (model?.avatarURL ?? "")) {
+                self.avatarView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "profileAvatar_placeholder"))
+            }
+            
+            /// 订单状态
+            if let status = MalaOrderStatus(rawValue: (model?.status ?? "")) {
+                switch status {
+                case .Penging:
+                    self.statusLabel.text = "订单待支付"
+                    break
+                    
+                case .Paid:
+                    self.statusLabel.text = "支付成功"
+                    break
+                    
+                case .Canceled:
+                    self.statusLabel.text = "订单已关闭"
+                    break
+                    
+                case .Refund:
+                    self.statusLabel.text = "退款成功"
+                    break
+                }
+            }
+            
+            self.teacherLabel.text = model?.teacherName
+            self.subjectLabel.text = (model?.gradeName ?? "") + " " + (model?.subjectName ?? "")
+            self.schoolLabel.text = model?.schoolName
         }
     }
     
