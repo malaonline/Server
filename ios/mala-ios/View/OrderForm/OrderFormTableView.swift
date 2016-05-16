@@ -89,11 +89,13 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 1:
             let cell = reuseCell as! OrderFormTimeScheduleCell
+            println("当前课时： \(self.model?.hours)")
             cell.classPeriod = self.model?.hours ?? 0
             return cell
             
         case 2:
             let cell = reuseCell as! OrderFormPaymentChannelCell
+            println("当前支付方式： \(self.model?.channel.rawValue)")
             cell.channel = (self.model?.channel ?? .Other)
             return cell
             

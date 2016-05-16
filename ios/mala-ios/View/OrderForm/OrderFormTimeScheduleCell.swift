@@ -14,7 +14,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     /// 课时
     var classPeriod: Int = 0 {
         didSet {
-            
+            periodLabel.text = String(format: "%d", classPeriod)
         }
     }
     /// 上课时间列表

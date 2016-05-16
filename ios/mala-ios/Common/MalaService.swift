@@ -697,7 +697,7 @@ func getChargeTokenWithChannel(channel: MalaPaymentChannel, orderID: Int, failur
 func getOrderInfo(orderID: Int, failureHandler: ((Reason, String?) -> Void)?, completion: OrderForm -> Void) {
     /// 返回值解析器
     let parse: JSONDictionary -> OrderForm? = { data in
-        return parseOrderForm(data)
+        return parseOrderFormInfo(data)
     }
     
     let resource = authJsonResource(path: "/orders/\(orderID)", method: .GET, requestParameters: nullDictionary(), parse: parse)
@@ -781,6 +781,38 @@ let parseOrderForm: JSONDictionary -> OrderForm? = { orderInfo in
         orderId     = orderInfo["order_id"] as? String,
         amount      = orderInfo["to_pay"] as? Int,
         evaluated   = orderInfo["evaluated"] as? Bool {
+        return OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
+    }
+    return nil
+}
+/// 订单JSON解析器
+let parseOrderFormInfo: JSONDictionary -> OrderForm? = { orderInfo in
+    
+    // 订单创建失败
+    if let
+        result = orderInfo["ok"] as? Bool,
+        errorCode = orderInfo["code"] as? Int {
+        return OrderForm(result: result, code: errorCode)
+    }
+    
+    // 订单创建成功
+    if let
+        id              = orderInfo["id"] as? Int,
+        teacher         = orderInfo["teacher"] as? Int,
+        teacherName     = orderInfo["teacher_name"] as? String,
+        avatar          = orderInfo["teacher_avatar"] as? String,
+        school          = orderInfo["school"] as? String,
+        grade           = orderInfo["grade"] as? String,
+        subject         = orderInfo["subject"] as? String,
+        hours           = orderInfo["hours"] as? Int,
+        status          = orderInfo["status"] as? String,
+        orderId         = orderInfo["order_id"] as? String,
+        amount          = orderInfo["to_pay"] as? Int,
+        createdAt       = orderInfo["created_at"] as? NSTimeInterval,
+        paidAt          = orderInfo["paid_at"] as? NSTimeInterval,
+        chargeChannle   = orderInfo["charge_channel"] as? String,
+        evaluated       = orderInfo["evaluated"] as? Bool,
+        isTimeAllocated = orderInfo["is_timeslot_allocated"] as? Bool {
         return OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
     }
     return nil
