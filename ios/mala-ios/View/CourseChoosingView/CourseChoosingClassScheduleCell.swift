@@ -87,8 +87,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     
     // MARK: - Events Response
     @objc private func showBoughtDescription() {
-        println("图标点击")
-        CouponRulesPopupWindow(title: "预留课程", desc: MalaConfig.boughtDescriptionString()).show()
+        CouponRulesPopupWindow(title: "已买课程", desc: MalaConfig.boughtDescriptionString()).show()
     }
 }
 
