@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Course date choice view
@@ -29,7 +30,12 @@ public class CourseDateChoiceView extends LinearLayout {
         void onCourseDateChoice(List<CourseDateEntity> sections);
     }
 
+    public interface onCourseNoteClickListener {
+        void onClick();
+    }
+
     private OnCourseDateChoiceListener listener;
+    private onCourseNoteClickListener noteClickListener;
     @Bind(R.id.grid_view)
     protected GridView gridView;
 
@@ -81,6 +87,17 @@ public class CourseDateChoiceView extends LinearLayout {
 
     public void setOnCourseDateChoiceListener(OnCourseDateChoiceListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnCourseNoteClickListener(onCourseNoteClickListener listener){
+        this.noteClickListener = listener;
+    }
+
+    @OnClick(R.id.iv_note)
+    protected void onNoteClick() {
+        if (noteClickListener != null) {
+            noteClickListener.onClick();
+        }
     }
 
     private class GridViewAdapter extends MalaBaseAdapter<CourseDateEntity> {

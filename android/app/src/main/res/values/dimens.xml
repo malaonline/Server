@@ -169,7 +169,7 @@
     <dimen name="calendar_small_circle_radius">2dp</dimen>
     <dimen name="calendar_small_circle_dis">5dp</dimen>
     <dimen name="course_date_height">36dp</dimen>
-    <dimen name="course_time_height">20dp</dimen>
+    <dimen name="course_time_height">48dp</dimen>
 
     <!-- 查看课程 -->
     <dimen name="course_detail_dialog_width">272dp</dimen>

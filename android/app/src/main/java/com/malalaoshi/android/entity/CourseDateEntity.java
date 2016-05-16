@@ -10,16 +10,22 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Course date entity
+ * 课程UI展示类。
  * Created by tianwei on 3/12/16.
  */
 public class CourseDateEntity implements Comparable<CourseDateEntity> {
+    //时间表id。从1到35
     private long id;
+    //开始时间
     private String start;
+    //结束时间
     private String end;
     private boolean available;
+    // the day of week. 周一到周日：1~7
     private int day;
+    //是否选中
     private boolean choice;
+    //是否是标题
     private boolean isTitle;
 
     public long getId() {

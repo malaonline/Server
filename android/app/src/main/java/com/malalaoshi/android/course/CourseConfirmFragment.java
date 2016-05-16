@@ -16,7 +16,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,8 +34,11 @@ import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
 import com.malalaoshi.android.core.usercenter.entity.Evaluated;
+import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
+import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseWeekDataApi;
+import com.malalaoshi.android.course.model.CourseTimeModel;
 import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CourseDateEntity;
@@ -149,7 +151,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private SchoolUI currentSchool;
     private GradeAdapter gradeAdapter;
     private SchoolAdapter schoolAdapter;
-    private TimesAdapter timesAdapter;
+    private CourseTimeAdapter timesAdapter;
     //学校FootView
     private View footView;
     //teacher id
@@ -206,6 +208,12 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         scholarshipLayout.setOnClickListener(this);
         reviewLayout.setOnClickListener(this);
         choiceView.setOnCourseDateChoiceListener(this);
+        choiceView.setOnCourseNoteClickListener(new CourseDateChoiceView.onCourseNoteClickListener() {
+            @Override
+            public void onClick() {
+                openCourseNoteDialog();
+            }
+        });
         submitView.setOnClickListener(this);
         cutReviewView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         EventBus.getDefault().register(this);
@@ -215,6 +223,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             UserManager.getInstance().startLoginActivity();
         }
         return view;
+    }
+
+    private void openCourseNoteDialog() {
+        NoteDialog dialog = new NoteDialog();
+        dialog.setTitle("课程保留规则");
+        dialog.setContent(R.string.course_expire_reserve);
+        DialogUtils.showDialog(getFragmentManager(), dialog, "course_note");
     }
 
     @Override
@@ -274,7 +289,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void initTimesListView() {
-        timesAdapter = new TimesAdapter(getActivity());
+        timesAdapter = new CourseTimeAdapter(getActivity());
         timesListView.setAdapter(timesAdapter);
     }
 
@@ -489,19 +504,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private void calculateCourseTimes() {
         if (EmptyUtils.isEmpty(selectedTimeSlots)) {
+            updateCourseTimes(null);
             return;
         }
         updateCourseTimes(CourseHelper.calculateCourse(currentHours, selectedTimeSlots));
-    }
-
-    private void updateCourseTimes(List<String> times) {
-        timesAdapter.clear();
-        if (times != null) {
-            timesAdapter.addAll(times);
-            timesAdapter.notifyDataSetChanged();
-        }
-        ((ImageView) showTimesImageView).setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_drop_up));
     }
 
     @Override
@@ -532,6 +538,18 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             currentGrade = (CoursePriceUI) gradeAdapter.getItem(position);
             calculateSum();
         }
+    }
+
+    private void updateCourseTimes(List<CourseTimeModel> times) {
+        timesAdapter.clear();
+        if (EmptyUtils.isEmpty(times)) {
+            timesAdapter.notifyDataSetChanged();
+            return;
+        }
+        timesAdapter.addAll(times);
+        timesAdapter.notifyDataSetChanged();
+        ((ImageView) showTimesImageView).setImageDrawable(
+                getResources().getDrawable(R.drawable.ic_drop_up));
     }
 
     /**
@@ -690,29 +708,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         protected void fillView(int position, View convertView, String data) {
 
         }
-    }
-
-    private static class TimesAdapter extends MalaBaseAdapter<String> {
-
-        public TimesAdapter(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected View createView(int position, ViewGroup parent) {
-            View view = View.inflate(context, R.layout.view_course_selected_times, null);
-            int height = context.getResources().getDimensionPixelOffset(R.dimen.course_time_height);
-            AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, height);
-            view.setLayoutParams(params);
-            return view;
-        }
-
-        @Override
-        protected void fillView(int position, View convertView, String data) {
-            ((TextView) convertView).setText(data);
-        }
-
     }
 
     @Override

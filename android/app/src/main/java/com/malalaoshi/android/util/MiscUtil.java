@@ -5,12 +5,9 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.malalaoshi.android.MalaApplication;
-import com.malalaoshi.android.entity.School;
-import com.malalaoshi.android.net.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -2,6 +2,7 @@ package com.malalaoshi.android.core.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import com.malalaoshi.android.core.MalaContext;
@@ -48,5 +49,27 @@ public class MiscUtil {
 
     public static <T> boolean isEmpty(Collection<T> list) {
         return list == null || list.size() == 0;
+    }
+
+    public static double getScreenWidth() {
+        return getDisplayMetrics().widthPixels;
+    }
+
+    public static double getScreenHeight() {
+        return getDisplayMetrics().heightPixels;
+    }
+
+    public static DisplayMetrics getDisplayMetrics() {
+        return MalaContext.getContext().getResources().getDisplayMetrics();
+    }
+
+    public static int dp2px(float dpValue) {
+        final float scale = MalaContext.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static int px2dp(float pxValue) {
+        final float scale = MalaContext.getContext().getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
     }
 }

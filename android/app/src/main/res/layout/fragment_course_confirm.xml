@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
-            android:paddingBottom="50dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,12 +55,12 @@
                 android:id="@+id/ll_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:divider="@color/line_bg"
                 android:dividerHeight="0.5dp"
-                android:listSelector="#00000000" />
+                android:listSelector="#00000000"
+                android:paddingBottom="2dp" />
 
 
             <LinearLayout
@@ -192,6 +192,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_show_times"
                     android:layout_marginBottom="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
                     android:paddingLeft="12dp"
                     android:visibility="visible" />
             </RelativeLayout>
@@ -340,6 +342,7 @@
                     android:textColor="#333"
                     android:textSize="14sp" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
@@ -347,59 +350,60 @@
         </LinearLayout>
     </ScrollView>
 
-  <!--  <LinearLayout
+    <!--  <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom|left"
+
+          android:orientation="vertical">
+          -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="#fff">
 
-        android:orientation="vertical">
-        -->
-        <RelativeLayout
+        <View
+            android:id="@+id/view_line"
             android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_height="50dp"
-            android:background="#fff"
-           >
-            <View
-                android:id="@+id/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color" />
-            <TextView
-                android:id="@+id/tv_mount_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="5dp"
-                android:text="还需支付:"
-                android:textColor="#333"
-                android:textSize="14sp" />
+            android:layout_height="0.5dp"
+            android:background="@color/line_color" />
 
-            <TextView
-                android:id="@+id/tv_mount"
-                android:layout_width="wrap_content"
-                android:layout_height="27dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="6dp"
-                android:layout_toRightOf="@+id/tv_mount_label"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/theme_red_96"
-                android:textSize="13sp" />
+        <TextView
+            android:id="@+id/tv_mount_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:text="还需支付:"
+            android:textColor="#333"
+            android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tv_submit"
-                android:layout_width="144dp"
-                android:layout_height="37dp"
-                android:layout_marginRight="12dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/btn_confirm"
-                android:gravity="center"
-                android:text="确认"
-                android:textColor="#fff"
-                android:textSize="16sp" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_mount"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/tv_mount_label"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/theme_red_96"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="144dp"
+            android:layout_height="37dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_confirm"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
     <!--</LinearLayout>-->
 </FrameLayout>

@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
-                android:textColor="#636363"
                 android:text="08:00\n10:00"
+                android:textColor="#636363"
                 app:BorderColor="@color/theme_blue"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
@@ -48,8 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
-                android:textColor="#636363"
                 android:text="10:30\n12:30"
+                android:textColor="#636363"
                 app:BorderColor="@color/theme_blue"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
@@ -61,8 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
-                android:textColor="#636363"
                 android:text="13:30\n15:30"
+                android:textColor="#636363"
                 app:BorderColor="@color/theme_blue"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
@@ -74,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
-                android:textColor="#636363"
                 android:text="15:30\n17:30"
+                android:textColor="#636363"
                 app:BorderColor="@color/theme_blue"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
@@ -87,8 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
-                android:textColor="#636363"
                 android:text="18:00\n20:00"
+                android:textColor="#636363"
                 app:BorderColor="@color/theme_blue"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
@@ -111,45 +111,74 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/bg_course_booked_thumb" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_course_valid" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_marginRight="12dp"
-            android:text="已被约课"
+            android:layout_marginRight="30dp"
+            android:text="可选"
             android:textColor="#939393"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/bg_course_valid_thumb" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_course_sold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_marginRight="12dp"
-            android:text="可授课"
+            android:layout_marginRight="30dp"
+            android:text="已售"
             android:textColor="#939393"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/bg_course_choice_thumb" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_course_select" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:text="已选课时"
+            android:layout_marginRight="30dp"
+            android:text="已选"
             android:textColor="#939393"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_course_buy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="2dp"
+            android:text="已买"
+            android:textColor="#939393"
+            android:textSize="14sp" />
+
+        <FrameLayout
+            android:id="@+id/iv_note"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@drawable/ic_course_note" />
+        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>
