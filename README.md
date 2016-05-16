@@ -9,7 +9,7 @@
 
 0. `git checkout -b BRANCH-NAME`. BRANCH-NAME should match regular expression `(AN|IOS|SERVER|WEC|BE|PM|OW|TWEB)-\d+`.
 1. Do modifications
-2. Utilize `git add` to add modified files
+2. Utilize <a href="https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-302811853.html">`git add`</a> to add modified files
 3. `git commit -m 'Your commit messages.'`
 4. `git push -u origin BRANCH-NAME`
 5. On bitbucket website (or with bitbucket cli), create a pull request
