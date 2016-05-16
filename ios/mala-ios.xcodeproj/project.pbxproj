@@ -398,6 +398,7 @@
 		F48BBADC1CE57F9E00774297 /* OrderFormOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */; };
 		F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */; };
 		F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */; };
+		F48BBAE61CE5C2AC00774297 /* ThemeTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */; };
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
@@ -659,6 +660,7 @@
 		F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormOtherInfoCell.swift; sourceTree = "<group>"; };
 		F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormInfoViewController.swift; sourceTree = "<group>"; };
 		F48BBADF1CE5829200774297 /* OrderFormOperatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormOperatingView.swift; sourceTree = "<group>"; };
+		F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTimeLine.swift; sourceTree = "<group>"; };
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
 		F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaEnum.swift; sourceTree = "<group>"; };
 		F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewCell.swift; sourceTree = "<group>"; };
@@ -1244,6 +1246,7 @@
 				F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */,
 				F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */,
 				F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */,
+				F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */,
 			);
 			path = ThemeTool;
 			sourceTree = "<group>";
@@ -1947,6 +1950,7 @@
 				F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */,
 				F46065251C97B168004056B1 /* MainNavigationController.swift in Sources */,
 				F46065211C97B168004056B1 /* FilterResultController.swift in Sources */,
+				F48BBAE61CE5C2AC00774297 /* ThemeTimeLine.swift in Sources */,
 				303BCFEC1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */,
 				303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */,
 				F4402DA91C5768F600E7D3DB /* UIViewController+KMNavigationBarTransition.m in Sources */,
