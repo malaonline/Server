@@ -9,6 +9,15 @@
 import UIKit
 
 class OrderFormStatusCell: UITableViewCell {
+    
+    // MARK: - Property
+    /// 订单详情模型
+    var model: OrderForm? {
+        didSet {
+
+        }
+    }
+    
 
     // MARK: - Components
     /// cell标题

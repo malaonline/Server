@@ -232,6 +232,7 @@ class OrderFormViewController: BaseTableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let viewController = OrderFormInfoViewController()
+        viewController.id = models[indexPath.row].id
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

@@ -18,13 +18,13 @@ class OrderFormOtherInfoCell: UITableViewCell {
         }
     }
     /// 订单创建时间
-    var createDate: NSTimeInterval = 0 {
+    var createDate: NSTimeInterval? {
         didSet {
             
         }
     }
     /// 订单支付时间
-    var paymentDate: NSTimeInterval = 0 {
+    var paymentDate: NSTimeInterval? {
         didSet {
             
         }

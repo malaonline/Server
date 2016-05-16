@@ -21,7 +21,9 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     /// 订单详情模型
     var model: OrderForm? {
         didSet {
-            
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.reloadData()
+            })
         }
     }
     
@@ -82,22 +84,24 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         switch indexPath.section {
         case 0:
             let cell = reuseCell as! OrderFormStatusCell
-            
+            cell.model = self.model
             return cell
             
         case 1:
             let cell = reuseCell as! OrderFormTimeScheduleCell
-
+            cell.classPeriod = self.model?.hours ?? 0
             return cell
             
         case 2:
             let cell = reuseCell as! OrderFormPaymentChannelCell
-
+            cell.channel = (self.model?.channel ?? .Other)
             return cell
             
         case 3:
             let cell = reuseCell as! OrderFormOtherInfoCell
-
+            cell.orderId = String(format: "%d", self.model?.id ?? 0)
+            cell.createDate = self.model?.createAt
+            cell.paymentDate = self.model?.createAt //TODO: 支付时间
             return cell
             
         default:

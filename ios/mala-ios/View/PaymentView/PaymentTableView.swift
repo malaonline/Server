@@ -119,6 +119,6 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         cell?.selected = true
         
         // 更改订单模型 - 支付方式
-        MalaOrderObject.channel = (cell?.model?.channel)!
+        MalaOrderObject.channel = cell?.model?.channel ?? .Other
     }
 }

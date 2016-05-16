@@ -12,7 +12,7 @@ class PaymentChannelCell: UITableViewCell {
 
     // MARK: - Property
     /// 支付方式
-    var channel: MalaPaymentChannel = .Alipay
+    var channel: MalaPaymentChannel = .Other
     /// 支付方式模型
     var model: PaymentChannel? {
         didSet {

@@ -38,13 +38,22 @@ class OrderForm: BaseObjectModel {
     var amount: Int = 0
     var evaluated: Bool?
     var timeSlots: [[Int]]?
+    var chargeChannel: String?
+    var createAt: NSTimeInterval?
     
     // 其他
     var result: Bool?
     var code: Int?
-    var channel: MalaPaymentChannel = .Alipay {
-        didSet{
-            println("OrderForm - Channel: \(channel.rawValue)")
+    var channel: MalaPaymentChannel {
+        set{
+            self.channel = newValue
+        }
+        get{
+            if let channel = MalaPaymentChannel(rawValue: self.chargeChannel ?? "other") {
+                return channel
+            }else {
+                return .Other
+            }
         }
     }
     
@@ -77,7 +86,8 @@ class OrderForm: BaseObjectModel {
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,
-                     order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?, timeSlots: [[Int]]? = nil) {
+                     order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?, timeSlots: [[Int]]? = nil,
+                     chargeChannel: String? = "other", createAt: NSTimeInterval? = 0) {
             self.init()
             self.id = id ?? 0
             self.name = name
@@ -96,6 +106,8 @@ class OrderForm: BaseObjectModel {
             self.status = status
             self.is_timeslot_allocated = is_timeslot_allocated
             self.timeSlots = timeSlots
+            self.chargeChannel = chargeChannel
+            self.createAt = createAt
     }
     
     

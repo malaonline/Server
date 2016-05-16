@@ -11,10 +11,13 @@ import UIKit
 class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDelegate {
 
     // MARK: - Property
+    /// 订单id
+    var id: Int = 0
     /// 订单详情模型
     var model: OrderForm? {
         didSet {
-            
+            /// 渲染订单UI样式
+            tableView.model = model
         }
     }
     
@@ -35,10 +38,9 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        ThemeHUD.showActivityIndicator()
-        
+                
         setupUserInterface()
+        loadOrderFormInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,6 +74,27 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         }
     }
     
+    /// 获取订单详情信息
+    private func loadOrderFormInfo() {
+        
+        // 获取订单信息
+        getOrderInfo(id, failureHandler: { (reason, errorMessage) -> Void in
+            ThemeHUD.hideActivityIndicator()
+            
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("HandlePingppBehaviour - validateOrderStatus Error \(errorMessage)")
+            }
+            }, completion: { [weak self] order -> Void in
+                println("订单获取成功 \(order)")
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    ThemeHUD.hideActivityIndicator()
+                    self?.model = order
+                }
+        })
+    }
     
     // MARK: - Delegate
     ///  立即支付
