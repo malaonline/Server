@@ -93,7 +93,7 @@ let MalaColor_B1D0E8_0 = UIColor(rgbHexValue: 0xB1D0E8, alpha: 1.0)
 let MalaColor_CFCFCF_0 = UIColor(rgbHexValue: 0xCFCFCF, alpha: 1.0)
 let MalaColor_83B84F_0 = UIColor(rgbHexValue: 0x83B84F, alpha: 1.0)
 let MalaColor_E36A5C_0 = UIColor(rgbHexValue: 0xE36A5C, alpha: 1.0)
-
+let MalaColor_8DC1DE_0 = UIColor(rgbHexValue: 0x8DC1DE, alpha: 1.0)
 
 // MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
