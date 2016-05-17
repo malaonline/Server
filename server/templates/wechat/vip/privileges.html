@@ -17,11 +17,11 @@
         <img src="{% static 'wechat/images/vip/slogan.png' %}">
     </div>
     <div class="panel" id="getVipLink">
-        <div class="row first-row" id="goToBuyCourse" onclick="location.href='{% url 'wechat:teachers' %}'">
+        <a class="row first-row" id="goToBuyCourse" href="{% url 'wechat:teachers' %}">
             <div class="icon"><img src="{% static 'wechat/images/vip/crown.png' %}"></div>
             <div class="desc">报名既享受会员服务</div>
             <div class="arrow"><img src="{% static 'wechat/images/left_chevron.png' %}"></div>
-        </div>
+        </a>
     </div>
     <div class="panel" id="privilegeList">
         <div id="privilegeTitle">
