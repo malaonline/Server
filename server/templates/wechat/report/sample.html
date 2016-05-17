@@ -19,22 +19,33 @@
         {#    首页#}
         <div class="section first-section" id="section0">
             <div class="content">
-                <h1>麻辣老师</h1>
-                <h1>《学生学习报告样本》</h1>
-                <p>
-                    数学
-                </p>
-                <br><br><br><br><br>
-                <div>
-                    <div class="stu-name">
-                        学生姓名：王琦
-                        <br>
-                        所在年级：初中二年级
+                <div class="inner cover-page">
+                    <div class="title">
+                        麻辣老师学生学习报告样本
+                        <div class="lb-corner"></div>
+                        <div class="rt-corner"></div>
+                    </div>
+                    <br>
+                    <p class="date-outer">
+                        2016年4月5日 ~ 2016年5月30日
+                    </p>
+                    <p class="img-outer">
+                        <img src="{% static 'wechat/images/report/folder.png' %}">
+                    </p>
+                    <div class="stu-name-outer">
+                        <div class="stu-name">
+                            <span class="key">学生姓名：</span><span class="value">王琦</span>
+                            <br>
+                            <span class="key">所在年级：</span><span class="value">初中二年级</span>
+                        </div>
+                        <div class="line left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="line right">
+                            <div class="circle"></div>
+                        </div>
                     </div>
                 </div>
-                <p>
-                    2016.03.02 - 2016.05.02
-                </p>
             </div>
             <div class="down-icon-box">
                 <a class="next-section">
@@ -45,15 +56,22 @@
         {#        作业数据分析#}
         <div class="section" id="section1">
             <div class="content">
-                <h1>作业数据分析</h1>
-                <p class="homework-summary">
-                    <span>累计答题：770道</span> &nbsp;&nbsp;&nbsp;&nbsp; <span>已超过85%</span>
-                </p>
-                <p>
-                    次数：60次 &nbsp;&nbsp;&nbsp;&nbsp; 完成率：80%
-                </p>
-                <div>
-                    <img src="{% static 'wechat/images/report/homework.png' %}">
+                <div class="inner report-page homework-page">
+                    <div class="title">作业数据分析</div>
+                    <div>
+                        <div class="homework-summary">
+                            <span>累计答题770道</span> &nbsp;&nbsp;&nbsp; <span>超过85%</span>
+                            <img src="{% static 'wechat/images/report/smile.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="homework-times">
+                            作业102次 &nbsp;&nbsp;&nbsp; 准确率78%
+                        </div>
+                    </div>
+                    <div class="img-outer">
+                        <img src="{% static 'wechat/images/report/homework.png' %}">
+                    </div>
                 </div>
             </div>
             <div class="down-icon-box">
@@ -65,14 +83,19 @@
         {#        题目数据分析#}
         <div class="section" id="section2">
             <div class="content">
-                <h1>题目数据分析</h1>
-                <div>
-                    <img src="{% static 'wechat/images/report/problems.png' %}" alt="题目数据分析图表">
+                <div class="inner report-page problems-page">
+                    <div class="title">题目数据分析</div>
+                    <div class="img-outer">
+                        <img src="{% static 'wechat/images/report/problems.png' %}" alt="题目数据分析图表">
+                    </div>
+                    <div class="ps">
+                        <img class="pin" src="{% static 'wechat/images/report/pin.png' %}">
+                        <p class="ps-title">解读：</p>
+                        <p class="ps-text">
+                            学生3月中旬正确率较低，经过针对性辅导练习正确率小幅提高，通过专项模块练习，4月上旬正确率已稳步提高，4月下旬学生正确率明显到了优秀水平。
+                        </p>
+                    </div>
                 </div>
-                <p class="post-note-title">解读：</p>
-                <p class="post-note">
-                    学生3月中旬正确率较低，经过针对性辅导练习正确率小幅提高，通过专项模块练习，4月上旬正确率已稳步提高，4月下旬学生正确率明显到了优秀水平。
-                </p>
             </div>
             <div class="down-icon-box">
                 <a class="next-section">
@@ -83,14 +106,19 @@
         {#        知识点分析#}
         <div class="section" id="section3">
             <div class="content">
-                <h1>知识点分析</h1>
-                <div>
-                    <img src="{% static 'wechat/images/report/key-points.png' %}" alt="知识点分析图表">
+                <div class="inner report-page key-points-page">
+                    <div class="title">知识点分析</div>
+                    <div class="img-outer">
+                        <img src="{% static 'wechat/images/report/key-points.png' %}" alt="知识点分析图表">
+                    </div>
+                    <div class="ps">
+                        <img class="pin" src="{% static 'wechat/images/report/pin.png' %}">
+                        <p class="ps-title">解读：</p>
+                        <p class="ps-text">
+                            学生各模块水平相差过大，应提前进行针对性练习，实数和相似等模块需提高，多边形模块可以适当减少练习量。
+                        </p>
+                    </div>
                 </div>
-                <p class="post-note-title">解读：</p>
-                <p class="post-note">
-                    学生各模块水平相差过大，应提前进行针对性练习，实数和相似等模块需提高，多边形模块可以适当减少练习量。
-                </p>
             </div>
             <div class="down-icon-box">
                 <a class="next-section">
@@ -101,14 +129,19 @@
         {#        能力结构分析#}
         <div class="section" id="section4">
             <div class="content">
-                <h1>能力结构分析</h1>
-                <div>
-                    <img src="{% static 'wechat/images/report/talents.png' %}" alt="能力结构分析图表">
+                <div class="inner report-page talents-page">
+                    <div class="title">能力结构分析</div>
+                    <div class="img-outer">
+                        <img src="{% static 'wechat/images/report/talents.png' %}" alt="能力结构分析图表">
+                    </div>
+                    <div class="ps">
+                        <img class="pin" src="{% static 'wechat/images/report/pin.png' %}">
+                        <p class="ps-title">解读：</p>
+                        <p class="ps-text">
+                            学生实际能力很强，数据分析能力运算求解能力较弱，应加强针对性练习，空间想象能力也需注意引导。
+                        </p>
+                    </div>
                 </div>
-                <p class="post-note-title">解读：</p>
-                <p class="post-note">
-                    学生实际能力很强，数据分析能力运算求解能力较弱，应加强针对性练习，空间想象能力也需注意引导。
-                </p>
             </div>
             <div class="down-icon-box">
                 <a class="next-section">
@@ -119,37 +152,44 @@
         {#        提分点分析#}
         <div class="section" id="section5">
             <div class="content">
-                <h1>提分点分析</h1>
-                <div>
-                    <img src="{% static 'wechat/images/report/promotes.png' %}" alt="提分点分析图表">
+                <div class="inner report-page promotes-page">
+                    <div class="title">提分点分析</div>
+                    <div class="img-outer">
+                        <img src="{% static 'wechat/images/report/promotes.png' %}" alt="提分点分析图表">
+                    </div>
+                    <div class="ps">
+                        <img class="pin" src="{% static 'wechat/images/report/pin.png' %}">
+                        <p class="ps-title">解读：</p>
+                        <p class="ps-text">
+                            学生对于圆的知识点和相似知识点和几何操作知识点能力突出，可减少练习。初步函数应进行大量的练习。
+                        </p>
+                    </div>
                 </div>
-                <p class="post-note-title">解读：</p>
-                <p class="post-note">
-                    学生对于圆的知识点和相似知识点和几何操作知识点能力突出，可减少练习。初步函数应进行大量的练习。
-                </p>
             </div>
-            <div class="down-icon-box">
-                <a class="next-section">
-                    <img class="img-icon" src="{% static 'wechat/images/report/down_arrow_icon.png' %}" alt="">
-                </a>
-            </div>
+{#            <div class="down-icon-box">#}
+{#                <a class="next-section">#}
+{#                    <img class="img-icon" src="{% static 'wechat/images/report/down_arrow_icon.png' %}" alt="">#}
+{#                </a>#}
+{#            </div>#}
         </div>
         {#        致家长的一封信#}
-        <div class="section" id="section6">
-            <div class="content">
-                <h1>致家长的一封信</h1>
-                <div class="post-note">
-                    <p>王琦家长：</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;您好！很高兴您选择了一对一教学专家－麻辣老师！</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;经过三个月的针对性学习与提高，王琦各项知识水平都得到了稳步提高，自主学习能力加强。针对王琦的弱势知识得分项，我们增加了专项题目遗迹教师针对性指导。学习报告里的各个图标方便您查看，一眼看出问题所在，针对弱项进行加强训练，通过练习，纠正错误解题习惯。</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;希望能继续选择麻辣老师，我们随时欢迎您的到来！</p>
-                </div>
-                <br>
-                <p>
-                    <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.tencent.android.qqdownloader" class="button button-fill">下载客户端查看更多课程</a>
-                </p>
-            </div>
-        </div>
+        {#        <div class="section" id="section6">#}
+        {#            <div class="content">#}
+        {#                <div class="inner report-page letters-page">#}
+        {#                    <div class="title">致家长的一封信</div>#}
+        {#                    <div class="ps-text">#}
+        {#                        <p>王琦家长：</p>#}
+        {#                        <p>&nbsp;&nbsp;&nbsp;&nbsp;您好！很高兴您选择了一对一教学专家－麻辣老师！</p>#}
+        {#                        <p>&nbsp;&nbsp;&nbsp;&nbsp;经过三个月的针对性学习与提高，王琦各项知识水平都得到了稳步提高，自主学习能力加强。针对王琦的弱势知识得分项，我们增加了专项题目遗迹教师针对性指导。学习报告里的各个图标方便您查看，一眼看出问题所在，针对弱项进行加强训练，通过练习，纠正错误解题习惯。</p>#}
+        {#                        <p>&nbsp;&nbsp;&nbsp;&nbsp;希望能继续选择麻辣老师，我们随时欢迎您的到来！</p>#}
+        {#                    </div>#}
+        {#                    <br>#}
+        {#                    <p>#}
+        {#                        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.tencent.android.qqdownloader" class="button button-fill">下载客户端查看更多课程</a>#}
+        {#                    </p>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
     </div>
 
 {% endblock %}

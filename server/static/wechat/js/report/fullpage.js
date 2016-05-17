@@ -1,5 +1,7 @@
 $(function() {
-
+    $('a.next-section').bind('click tap', function() {
+        fullpage.moveSectionDown();
+    });
 });
 
 fullpage.initialize('#fullpage', {
@@ -11,15 +13,5 @@ fullpage.initialize('#fullpage', {
     navigation: false,
     slidesNavigation: false,
     //keyboardScrolling: true,
-    recordHistory: false,
-    onLeave: function(last, dest, direction) {
-        console.log(dest-1);
-        var $section = $("#section"+(dest-1));
-        console.log($section.offset());
-        console.log($section.position());
-    }
-});
-
-$(document).on('click', 'a.next-section', function() {
-    fullpage.moveSectionDown();
+    recordHistory: false
 });

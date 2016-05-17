@@ -1,33 +1,52 @@
+@import '../variable_func.less';
+
 @logo-red: #eb5055;
 @background-gray: #2f3440;
+@title-size: 16px;
+@title-size-rem: 1.4rem;
 
 body {
-  background-color: #e3eff2;
+  margin: 0;
+  padding: 0;
+  background-color: @bodyBgColor;
+  font-family: "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+
+div {
+  .border-box();
+}
+
+p {
+  margin: 0;
 }
 
 #fullpage {
   .section {
     //background-color: green;
     margin: 0;
-    &.active {
-      top: -21px;
-    }
+    padding: 6px;
   }
   .content {
     position: relative;
-    top: 10%;
     //transform: translateY(-50%);
+    height: 100%;
+    width: 100%;
     text-align: center;
-    padding: 0 16px;
-
+    background-color: #fff;
+    //background-color: blue;
     img {
       max-width: 100%;
+    }
+    > .inner {
+      position: relative;
+      top: 1.8rem;
     }
   }
 
   .down-icon-box {
+    display: none;
     position: absolute;
-    bottom: 22px;
+    bottom: 1.2rem;
     width: 100%;
     text-align: center;
     z-index: 99;
@@ -35,22 +54,212 @@ body {
       display: inline-block;
       img {
         width: 30px;
-        height: 30px;
       }
     }
   }
 
-  .stu-name {
-    display: inline-block;
-    text-align: left;
+  .cover-page {
+    .title {
+      display: inline-block;
+      position: relative;
+      margin-top: 1.5rem;
+      padding: 2px 10px;
+      font-size: @title-size;
+      font-size: @title-size-rem;
+      @corner-size: 12px;
+      @corner-size-rem: 1rem;
+      .lb-corner {
+        position: absolute;
+        width: @corner-size;
+        height: @corner-size;
+        width: @corner-size-rem;
+        height: @corner-size-rem;
+        left: 0;
+        bottom: 0;
+        border-left: 1px solid #979797;
+        border-bottom: 1px solid #cbcbcb;
+      }
+      .rt-corner {
+        position: absolute;
+        width: @corner-size;
+        height: @corner-size;
+        width: @corner-size-rem;
+        height: @corner-size-rem;
+        top: 0;
+        right: 0;
+        border-top: 1px solid #979797;
+        border-right: 1px solid #cbcbcb;
+      }
+    }
+    .date-outer {
+      display: inline-block;
+      margin-top: 1.5rem;
+      height: 24px;
+      height: 1.6rem;
+      line-height: 24px;
+      line-height: 1.6rem;
+      padding: 0 6px;
+      padding: 0 0.5rem;
+      background-color: #FDAF6B;
+      color: #FFF;
+      font-size: 12px;
+      font-size: 1rem;
+    }
+    .img-outer {
+      margin-top: 8vh;
+      margin-bottom: 12vh;
+      img {
+        max-height: 280px;
+        max-height: 33vh;
+        max-width: 50%;
+      }
+    }
+    .stu-name-outer {
+      @line-height: 30px;
+      @line-height-rem: 2.4rem;
+      @circle-size: 6px;
+      @circle-size-rem: 0.5rem;
+      position: relative;
+      font-size: 1.2rem;
+      line-height: @line-height;
+      line-height: @line-height-rem;
+      .stu-name {
+        display: inline-block;
+        text-align: left;
+        .key {
+          color: #8dbede;
+        }
+        .value {
+          color: #939393;
+        }
+      }
+      .line {
+        position: absolute;
+        border-top: 1px solid #cbcbcb;
+        width: 78%;
+        .circle {
+          position: absolute;
+          top: -@circle-size / 2;
+          top: -@circle-size-rem / 2;
+          display: inline-block;
+          width: @circle-size;
+          height: @circle-size;
+          width: @circle-size-rem;
+          height: @circle-size-rem;
+          border-radius: 50%;
+          border: 1px solid #979797;
+        }
+        &.left {
+          left: 0;
+          top: @line-height;
+          top: @line-height-rem;
+          .circle {
+            right: -@circle-size;
+            right: -@circle-size-rem;
+          }
+        }
+        &.right {
+          right: 0;
+          top: @line-height * 2;
+          top: @line-height-rem * 2;
+          .circle {
+            left: -@circle-size;
+            left: -@circle-size-rem;
+          }
+        }
+      }
+    }
   }
 
-  .post-note-title {
-    text-align: left;
-    font-weight: bold;
+  .report-page {
+    .title {
+      display: inline-block;
+      position: relative;
+      padding: 2px 10px;
+      padding-bottom: 1.214rem;
+      width: 84%;
+      border-bottom: 1px solid #dadada;
+      font-size: @title-size;
+      font-size: @title-size-rem;
+    }
+    .homework-summary {
+      @hwsum-height: 26px;
+      @hwsum-height-rem: 2.2rem;
+      position: relative;
+      display: inline-block;
+      margin-top: 1.4rem;
+      padding-left: @hwsum-height-rem * 1.3;
+      padding-right: @hwsum-height-rem * 0.5;
+      height: @hwsum-height;
+      line-height: @hwsum-height;
+      height: @hwsum-height-rem;
+      line-height: @hwsum-height-rem;
+      border-radius: @hwsum-height / 2;
+      border-radius: @hwsum-height-rem / 2;
+      background-color: #e8f2f9;
+      font-size: 12px;
+      font-size: 1rem;
+      color: #5e5e5e;
+      img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: @hwsum-height;
+        width: @hwsum-height-rem;
+      }
+    }
+    .homework-times {
+      display: inline-block;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #8dbede;
+    }
+    .img-outer {
+      margin-top: 2rem;
+      img {
+        max-width: 97%;
+      }
+    }
+    &.homework-page .img-outer {
+      margin-top: 1rem;
+      img {
+        max-width: 84%;
+      }
+    }
+    &.talents-page .img-outer {
+      img {
+        max-width: 94%;
+      }
+    }
   }
-  .post-note {
+  .ps {
+    position: relative;
+    margin: 0.75rem;
+    padding: 1.1rem;
+    margin-top: 1.4rem;
+    background-color: #f8fafd;
+    border-left: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+    border-bottom: 1px solid #dcdcdc;
+    box-shadow: 0px 1px 2px #f8fafd;
+    img {
+      position: absolute;
+      top: -1.1rem;
+      right: 1.1rem;
+      width: 1.8rem;
+    }
+  }
+  .ps-title {
+    margin-bottom: 0.625rem;
+    font-size: 0.93rem;
+    line-height: 0.93rem;
     text-align: left;
+    color: #363b4e;
+  }
+  .ps-text {
+    text-align: left;
+    font-size: 0.87rem;
+    color: #5e5e5e;
   }
 
   a.button.button-fill {
@@ -61,6 +270,7 @@ body {
     height: 50px;
     line-height: 50px;
     font-size: 18px;
+    font-size: 1.4rem;
     color: #fff;
     background-color: #adc9db;
     border-radius: 2px;
