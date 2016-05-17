@@ -90,6 +90,10 @@ class MemberPrivilegesViewController: UITableViewController {
     
     
     // MARK: - Delegate
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
+    
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.01
     }
