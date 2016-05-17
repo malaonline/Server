@@ -7,6 +7,7 @@ cp /opt/keys-pros/*.properties ./
 java -version
 javac -version
 gradle --version
-# no teacher client temporarily
+gradle clean
+# only build apk for parents. currently not build apk for teachers.
 gradle assembleParentDevrelease assembleParentStagerelease assembleParentPrdrelease
 gradle testParentDevreleaseUnitTest testParentStagereleaseUnitTest testParentPrdreleaseUnitTest
