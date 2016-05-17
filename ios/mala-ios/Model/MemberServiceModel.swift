@@ -25,6 +25,12 @@ class MemberServiceModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
+    convenience init(name: String?, detail: String?) {
+        self.init()
+        self.name = name
+        self.detail = detail
+    }
+    
     
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

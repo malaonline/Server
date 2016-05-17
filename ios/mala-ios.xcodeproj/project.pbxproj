@@ -304,6 +304,7 @@
 		F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D89691C7DB50700BD6871 /* MalaUserDefaults.swift */; };
 		F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */; };
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
+		F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -570,6 +571,7 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -1461,6 +1463,7 @@
 			children = (
 				F4D678581CEACCF2009EC956 /* LearningReportCell.swift */,
 				F4D6785A1CEACD0E009EC956 /* MemberSerivceCell.swift */,
+				F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */,
 			);
 			path = MemberPrivilegesView;
 			sourceTree = "<group>";
@@ -1890,6 +1893,7 @@
 				F40B53AC1C7ED80800C20037 /* MalaService.swift in Sources */,
 				F45BDAEA1CB760540038CE3D /* ThemeCalendarViewHeader.swift in Sources */,
 				F48BBAD61CE57F6E00774297 /* OrderFormStatusCell.swift in Sources */,
+				F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */,
 				F4BD4FCE1C74559F00488613 /* AchievementModel.swift in Sources */,
 				30445B201C4A3B96002CD290 /* StyleFilterView.swift in Sources */,
 				30E336761C28061700DCF1C5 /* GradeModel.swift in Sources */,

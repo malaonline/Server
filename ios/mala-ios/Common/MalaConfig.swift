@@ -138,4 +138,17 @@ public class MalaConfig {
             ]
         ]
     }
+    
+    class func memberServiceData() -> [MemberServiceModel] {
+        return [
+            MemberServiceModel(name: "自习陪读", detail: "selfStudy"),
+            MemberServiceModel(name: "学习报告", detail: "learningReport"),
+            MemberServiceModel(name: "心理辅导", detail: "counseling"),
+            MemberServiceModel(name: "特色讲座", detail: "featuredLectures"),
+            MemberServiceModel(name: "考前串讲", detail: "examOutlineLecture"),
+            MemberServiceModel(name: "错题本", detail: "correctedNotebook"),
+            MemberServiceModel(name: "SPPS测评", detail: "SPPSTest"),
+            MemberServiceModel(name: "敬请期待", detail: "StayTuned")
+        ]
+    }
 }
