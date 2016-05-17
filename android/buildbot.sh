@@ -5,3 +5,4 @@ set -e
 cp /opt/keys-pros/*.properties ./
 # no teacher client temporarily
 gradle assembleParentDevrelease assembleParentStagerelease assembleParentRelease
+gradle testParentDevreleaseUnitTest testParentStagereleaseUnitTest testParentReleaseUnitTest
