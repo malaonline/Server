@@ -82,7 +82,7 @@ android {
             buildConfigField("String", "API_HOST", "\"" + STAGE_SERVER + "\"")
             resValue("string", "api_host", "\"" + STAGE_SERVER + "\"")
         }
-        release {
+        prdrelease {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             zipAlignEnabled true

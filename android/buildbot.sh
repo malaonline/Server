@@ -8,5 +8,5 @@ java -version
 javac -version
 gradle --version
 # no teacher client temporarily
-gradle assembleParentDevrelease assembleParentStagerelease assembleParentRelease
-gradle testParentDevreleaseUnitTest testParentStagereleaseUnitTest testParentReleaseUnitTest
+gradle assembleParentDevrelease assembleParentStagerelease assembleParentPrdrelease
+gradle testParentDevreleaseUnitTest testParentStagereleaseUnitTest testParentPrdreleaseUnitTest
