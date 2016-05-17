@@ -254,7 +254,7 @@ public class UserFragment extends BaseFragment {
                         .default_avatar, R.drawable.default_avatar));
             }
         } else {
-            //ivAvatar.setImageResource(R.drawable.default_avatar);
+            ivAvatar.setImageResource(R.drawable.default_avatar);
         }
 
     }
