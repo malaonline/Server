@@ -21,7 +21,7 @@ class LearningReportCell: UITableViewCell {
         
         button.backgroundColor = MalaColor_8DC1DE_0
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
-        button.setTitle("登陆", forState: .Normal)
+        button.setTitle("查看我的学习报告", forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         
         button.layer.cornerRadius = 5
