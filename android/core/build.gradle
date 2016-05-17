@@ -15,9 +15,6 @@ android {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_DEBUG]
         }
 
-        devrelease {
-            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
-        }
         release {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
         }
