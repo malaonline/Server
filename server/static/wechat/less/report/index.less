@@ -181,9 +181,9 @@ p {
       font-size: @title-size;
       font-size: @title-size-rem;
     }
+    @hwsum-height: 26px;
+    @hwsum-height-rem: 2.2rem;
     .homework-summary {
-      @hwsum-height: 26px;
-      @hwsum-height-rem: 2.2rem;
       position: relative;
       display: inline-block;
       margin-top: 1.4rem;
@@ -218,6 +218,14 @@ p {
       min-height: 46.8vh;
       img {
         max-width: 97%;
+      }
+    }
+    &.key-points-page {
+      .homework-summary {
+        margin-top: 0;
+        margin-bottom: 1.4rem;
+        padding-left: @hwsum-height-rem * 0.5;
+        padding-right: @hwsum-height-rem * 0.5;
       }
     }
     &.homework-page .img-outer {
