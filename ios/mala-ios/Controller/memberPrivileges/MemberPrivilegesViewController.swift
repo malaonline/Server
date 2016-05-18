@@ -27,6 +27,7 @@ class MemberPrivilegesViewController: UITableViewController {
         
         configure()
         setupUserInterface()
+        setupNotification()
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,6 +60,23 @@ class MemberPrivilegesViewController: UITableViewController {
         
         // Autolayout
 
+    }
+    
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_PushIntroduction,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            
+            if let index = notification.object as? Int {
+                // 跳转到简介页面
+                let viewController = ThemeIntroductionView()
+                viewController.hidesBottomBarWhenPushed = true
+                viewController.index = index
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
     
     
@@ -100,5 +118,9 @@ class MemberPrivilegesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.01
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushIntroduction, object: nil)
     }
 }

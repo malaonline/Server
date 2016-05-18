@@ -77,8 +77,7 @@ class MemberSerivceCollectionView: UICollectionView, UICollectionViewDelegate, U
         defer {
             collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         }
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(MemberSerivceCollectionViewCellReuseId, forIndexPath: indexPath) as! MemberSerivceCollectionViewCell
-        println("Cell选中 － \(cell.separator.hidden)")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushIntroduction, object: (indexPath.section*4+(indexPath.row)))
     }
     
     func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -218,8 +217,6 @@ class MemberSerivceCollectionViewCell: UICollectionViewCell {
     func hideSeparator(hide: Bool) {
         separator.hidden = hide
     }
-    
-    
 }
 
 
