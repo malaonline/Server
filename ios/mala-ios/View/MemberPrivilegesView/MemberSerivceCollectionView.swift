@@ -16,7 +16,7 @@ class MemberSerivceCollectionView: UICollectionView, UICollectionViewDelegate, U
     
     // MARK: - Property
     /// 会员专享服务数据
-    var model: [MemberServiceModel] = MalaConfig.memberServiceData() {
+    var model: [IntroductionModel] = MalaConfig.memberServiceData() {
         didSet {
             reloadData()
         }
@@ -132,10 +132,10 @@ class MemberSerivceCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
     /// 会员专享模型
-    var model: MemberServiceModel? {
+    var model: IntroductionModel? {
         didSet {
-            iconView.image = UIImage(named: model?.detail ?? "")
-            titleLabel.text = model?.name
+            iconView.image = UIImage(named: model?.image ?? "")
+            titleLabel.text = model?.title
         }
     }
     /// 选中状态

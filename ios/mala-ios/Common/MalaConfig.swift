@@ -139,16 +139,48 @@ public class MalaConfig {
         ]
     }
     
-    class func memberServiceData() -> [MemberServiceModel] {
+    class func memberServiceData() -> [IntroductionModel] {
         return [
-            MemberServiceModel(name: "自习陪读", detail: "selfStudy"),
-            MemberServiceModel(name: "学习报告", detail: "learningReport"),
-            MemberServiceModel(name: "心理辅导", detail: "counseling"),
-            MemberServiceModel(name: "特色讲座", detail: "featuredLectures"),
-            MemberServiceModel(name: "考前串讲", detail: "examOutlineLecture"),
-            MemberServiceModel(name: "错题本", detail: "correctedNotebook"),
-            MemberServiceModel(name: "SPPS测评", detail: "SPPSTest"),
-            MemberServiceModel(name: "敬请期待", detail: "StayTuned")
+            IntroductionModel(
+                title: "自习陪读",
+                image: "selfStudy",
+                subTitle: "享受专业老师免费陪读服务，随时解决学习问题"
+            ),
+            IntroductionModel(
+                title: "学习报告",
+                image: "learningReport",
+                subTitle: "全面记录学生学习数据，方便家长、随时查看，充分了解学员知识点掌握情况"
+            ),
+            IntroductionModel(
+                title: "心理辅导",
+                image: "counseling",
+                subTitle: "免费获得专业心理咨询师一对一心理辅导，促进学员身心健康成长"
+            ),
+            IntroductionModel(
+                title: "特色讲座",
+                image: "featuredLectures",
+                subTitle: "特邀各领域专家进行多种特色讲座，营养健康、家庭教育、高效学习应有尽有"
+            ),
+            IntroductionModel(
+                title: "考前串讲",
+                image: "examOutlineLecture",
+                subTitle: "专业解读考试趋势，剖析考试难点分享高分经验。还有命题专家进行中高考押题"
+            ),
+            IntroductionModel(
+                title: "错题本",
+                image: "correctedNotebook",
+                subTitle: "针对每个学员记录并生成错题本，方便查找知识漏洞，并生成针对性练习"
+            ),
+            IntroductionModel(
+                title: "SPPS测评",
+                image: "SPPSTest",
+                subTitle: "定期进行SPPS测评，充分了解学员学习情况"
+            ),
+            IntroductionModel(
+                title: "敬请期待",
+                image: "StayTuned",
+                subTitle: "敬请期待..."
+            )
         ]
     }
 }
