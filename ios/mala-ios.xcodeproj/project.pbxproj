@@ -306,6 +306,7 @@
 		F40D896E1C7EAFB100BD6871 /* MalaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D896D1C7EAFB100BD6871 /* MalaLog.swift */; };
 		F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */; };
 		F427FF9C1CEC1CE100EAB748 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
+		F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -574,6 +575,7 @@
 		F41B8A5E1C4DDCCA00A842E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F427FF9B1CEC1CE100EAB748 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
+		F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeIntroductionView.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -1253,6 +1255,7 @@
 				F45E69DB1C8D278A00BD0859 /* ThemeHUD.swift */,
 				F45E69DC1C8D278A00BD0859 /* ThemeTags.swift */,
 				F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */,
+				F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */,
 			);
 			path = ThemeTool;
 			sourceTree = "<group>";
@@ -1966,6 +1969,7 @@
 				F48BBAE01CE5829200774297 /* OrderFormOperatingView.swift in Sources */,
 				3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */,
 				F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */,
+				F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */,
 				F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				F46064FA1C96C8EF004056B1 /* Proposer.swift in Sources */,
