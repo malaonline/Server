@@ -1,0 +1,148 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Mala API",
+        "description": "Mala API for app",
+        "version": "1.2"
+    },
+    "host": "malalaoshi.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api/v1",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/study_report": {
+            "get": {
+                "summary": "Subjects Summary",
+                "description": "Get the student all subjects summary info",
+                "parameters": [
+                    {
+                        "name": "HTTP_AUTHORIZATION",
+                        "in": "header",
+                        "description": "auth token.",
+                        "required": true,
+                        "type": "string",
+                        "format": "Token XXXXXXXX"
+                    }
+                ],
+                "tags": [
+                    "Subjects Summary"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of subjects",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "integer",
+                                "description": "0 means ok. 见Error的code定义"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/definitions/ReportSummary"
+                                }
+                              }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/study_report/数学": {
+            "get": {
+                "summary": "Subjects Summary",
+                "description": "Get the student all subjects summary info",
+                "parameters": [
+                    {
+                        "name": "HTTP_AUTHORIZATION",
+                        "in": "header",
+                        "description": "auth token.",
+                        "required": true,
+                        "type": "string",
+                        "format": "Token XXXXXXXX"
+                    }
+                ],
+                "tags": [
+                    "One Subject Summary"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of subjects",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "integer",
+                                "description": "0 means ok. 见Error的code定义"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "$ref": "#/definitions/ReportSummary"
+                              }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+    },
+    "definitions": {
+        "ReportSummary": {
+            "type": "object",
+            "properties": {
+                "subject": {
+                    "type": "string",
+                    "description": "subject name. 数学, 英语, 等\n(Now only support 数学)"
+                },
+                "not_supported": {
+                    "type": "boolean",
+                    "description": "whether support not the subject or not. if null then supported"
+                },
+                "total_nums": {
+                    "type": "integer",
+                    "description": "total number of exercises. 0 means no report."
+                },
+                "right_nums": {
+                    "type": "string",
+                    "description": "number of exercises those were done correctly."
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "0 means ok. \n  -1: 从快乐学获取数据失败\n  -4: 参数错误\n  -5: 不支持的科目"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "error message"
+                }
+            }
+        }
+    }
+}

@@ -224,7 +224,7 @@ vars.put(&quot;subject&quot;, subject);</stringProp>
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">123.56.236.60</stringProp>
+              <stringProp name="HTTPSampler.domain">${__property(kuailexue.study.host,,123.57.152.57)}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>

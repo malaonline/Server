@@ -3,6 +3,7 @@ import logging
 import datetime
 import itertools
 from collections import OrderedDict
+import requests
 
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404, redirect
@@ -1023,3 +1024,105 @@ class UnpaidCount(ParentBasedMixin, APIView):
         parent = self.get_parent()
         order_count = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
         return JsonResponse({'count': order_count})
+
+
+class StudyReportView(ParentBasedMixin, APIView):
+    queryset = models.Parent.objects.all()
+
+    KUAILEXUE_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
+    COM_PARAMS = {
+        'api_id': settings.KUAILEXUE_API_ID,
+        'api_version': 1,
+        'from': settings.KUAILEXUE_PARTNER
+    }
+    # default params value
+    ALL = 'all'
+    SUMMARY = 'summary'
+
+    @classmethod
+    def get_subject_en(cls, name):
+        map = {
+            '数学': "math",
+            '英语': "english",
+            '语文': "chinese",
+            '物理': "physics",
+            '化学': "chemistry",
+            '地理': "geography",
+            '政治': "politics",
+            '生物': "biology",
+            '历史': "history",
+        }
+        return map.get(name)
+
+    def get(self, request, subject=None, category=None):
+        parent = self.get_parent()
+        phone = parent.user.profile.phone
+        params = self.COM_PARAMS.copy()
+        params.update({'uid': phone})
+        if subject is None or subject is '' or subject == '/':
+            subject = self.ALL
+        if category is None or category is '' or category == '/':
+            category = self.SUMMARY
+
+        ## to collect all ordered subjects info
+        subjects_list = []
+        if subject == self.ALL:
+            if category != self.SUMMARY:
+                return JsonResponse({'code': -4, 'message': '参数错误'})
+            # get subject from order
+            ordered_subjects = models.Order.objects.filter(parent=parent).values('subject').order_by('subject').distinct('subject')
+            for tmp_order in ordered_subjects:
+                # only support math presently
+                tmp_subject = models.Subject.objects.get(id=tmp_order['subject'])
+                s_name = tmp_subject.name
+                s_name_en = self.get_subject_en(s_name)
+                if s_name == '数学':
+                    url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+                    resp = requests.get(url + '/total-item-nums', params=params)
+                    if resp.status_code == 200:
+                        ret_json = json.loads(resp.content.decode('utf-8'))
+                        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+                            ret_nums = ret_json.get('data')
+                            subjects_list.append({
+                                'subject': s_name,
+                                'total_nums': ret_nums.get('total_item_nums'),
+                                'right_nums': ret_nums.get('total_right_item_nums'),
+                            })
+                        else:
+                            logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
+                            return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+                    else:
+                        logger.error('cannot get kuailexue study data')
+                        return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+                else:
+                    subjects_list.append({
+                        'subject': s_name,
+                        'not_supported': True
+                    })
+            return JsonResponse({'code': 0, 'message': '', 'data': subjects_list})
+
+        ## to get certain subject's info
+        if subject != '数学':
+            return JsonResponse({'code': -5, 'message': '暂时不支持该教学科目'})
+        s_name_en = self.get_subject_en(subject)
+        url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+        if category == self.SUMMARY:
+            resp = requests.get(url + '/total-item-nums', params=params)
+            if resp.status_code == 200:
+                ret_json = json.loads(resp.content.decode('utf-8'))
+                if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+                    ret_nums = ret_json.get('data')
+                    return JsonResponse({
+                        'code': 0, 'message': '', 'data': {
+                            'subject': subject,
+                            'total_nums': ret_nums.get('total_item_nums'),
+                            'right_nums': ret_nums.get('total_right_item_nums'),
+                        }
+                    })
+                else:
+                    logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
+                    return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+            else:
+                logger.error('cannot get kuailexue study data')
+                return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+        return JsonResponse({'code': -4, 'message': '参数错误'})

@@ -284,4 +284,8 @@ RAVEN_CONFIG = {
     'release': 'v1.0.1-%s' % GIT_REV,
 }
 
+KUAILEXUE_PARTNER = 'aotu'
+KUAILEXUE_API_ID = 'aotu'
+KUAILEXUE_SERVER = 'http://123.57.152.57'
+
 from .local_settings import *

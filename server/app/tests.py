@@ -649,6 +649,21 @@ class TestApi(TestCase):
             profile = user.profile
             self.assertIsNotNone(profile)
 
+    def test_kuailexue_study_report(self):
+        username = "parent1"
+        password = "123123"
+        client = Client()
+        client.login(username=username, password=password)
+        request_url = "/api/v1/study_report"
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        request_url = "/api/v1/study_report/数学"
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        request_url = "/api/v1/study_report/数学/summary"
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+
 
 class TestModels(TestCase):
     def setUp(self):

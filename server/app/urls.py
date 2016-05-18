@@ -46,5 +46,11 @@ urlpatterns = [
         name='unpaid_count'),
     url(r'^test/testAutoConfirmClasses', views.autoConfirmClassesView.as_view(),
         name='autoConfirmClasses'),
+    url(r'^api/v1/study_report(\/?)$', views.StudyReportView.as_view(),
+        name='study_report_api'),
+    url(r'^api/v1/study_report/(?P<subject>\w+)(\/?)$', views.StudyReportView.as_view(),
+        name="study_report_summary"),
+    url(r'^api/v1/study_report/(?P<subject>\w+)/(?P<category>\w+)(\/?)$', views.StudyReportView.as_view(),
+        name="study_report_category"),
     url(r'^api/v1/', include(router.urls)),
 ]
