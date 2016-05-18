@@ -125,11 +125,12 @@ class LearningReportCell: UITableViewCell {
         content.addSubview(correctRateLegend)
         
         // Autolayout
+//        let learningReportCellHeight: CGFloat = MalaContentHeight-(8*3)-229
         content.snp_makeConstraints { (make) in
             make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_8)
             make.left.equalTo(self.contentView.snp_left)
             make.right.equalTo(self.contentView.snp_right)
-            make.height.equalTo(200)
+            make.height.equalTo(212)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in
@@ -163,11 +164,11 @@ class LearningReportCell: UITableViewCell {
         }
         answerNumberLegend.snp_makeConstraints { (make) in
             make.centerX.equalTo(answerNumberLabel.snp_centerX)
-            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_12)
+            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_8)
         }
         correctRateLegend.snp_makeConstraints { (make) in
             make.centerX.equalTo(correctRateLabel.snp_centerX)
-            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_12)
+            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_8)
         }
         button.snp_makeConstraints { (make) in
             make.height.equalTo(37)
