@@ -50,6 +50,8 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     private func configure() {
         // 冻结Pop手势识别
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        /// 默认选中项
+        MalaOrderObject.channel = .Alipay
     }
     
     private func setupUserInterface() {
@@ -153,23 +155,26 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
                 
                 ThemeHUD.hideActivityIndicator()
                 
-                guard let charge = charges, success = charge["result"] as? Bool else {
-                    return
+                /// 验证返回值是否有效
+                if let charge = charges {
+                    /// 验证返回结果是否存在result(存在则表示失败)
+                    if let _ = charge["result"] as? Bool {
+                        /// 失败弹出提示
+                        if let strongSelf = self {
+                            let alert = JSSAlertView().show(strongSelf,
+                                title: "部分课程时间已被占用，请重新选择上课时间",
+                                buttonText: "重新选课",
+                                iconImage: UIImage(named: "alert_PaymentFail")
+                            )
+                            alert.addAction(strongSelf.forcePop)
+                        }
+                        
+                    }else {
+                        /// 成功跳转支付
+                        self?.createPayment(charge)
+                    }
                 }
                 
-                if success {
-                    
-                    self?.createPayment(charge)
-                    
-                }else if let strongSelf = self {
-                    
-                    let alert = JSSAlertView().show(strongSelf,
-                        title: "部分课程时间已被占用，请重新选择上课时间",
-                        buttonText: "重新选课",
-                        iconImage: UIImage(named: "alert_PaymentFail")
-                    )
-                    alert.addAction(strongSelf.forcePop)
-                }
             })
         })
     }

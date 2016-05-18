@@ -46,7 +46,7 @@ class OrderForm: BaseObjectModel {
     var code: Int?
     var channel: MalaPaymentChannel {
         set{
-            self.channel = newValue
+            self.chargeChannel = newValue.rawValue
         }
         get{
             if let channel = MalaPaymentChannel(rawValue: self.chargeChannel ?? "other") {
