@@ -109,3 +109,16 @@ public enum CourseStatus: String {
     case Future = "future"
 }
 
+///  学习报告状态
+///
+///  - UnLogged:     未登录
+///  - UnSigned:     登录未报名
+///  - UnSignedMath: 报名非数学
+///  - MathSigned:   报名数学
+enum MalaLearningReportStatus: String {
+    case LoggingIn = "li"
+    case UnLogged = "ul"
+    case UnSigned = "l"
+    case UnSignedMath = "us"
+    case MathSigned = "sm"
+}

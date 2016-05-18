@@ -9,6 +9,17 @@
 import UIKit
 
 class LearningReportCell: UITableViewCell {
+    
+    // MARK: - Property
+    /// 学习报告状态
+    private var reportStatus: MalaLearningReportStatus = .UnLogged {
+        didSet {
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.changeDisplayMode()
+            })
+        }
+    }
+    
     // MARK: - Components
     /// 父布局容器（白色卡片）
     private lazy var content: UIView = {
@@ -93,6 +104,26 @@ class LearningReportCell: UITableViewCell {
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 6)
         return button
     }()
+    /// 遮罩层（无数学学习报告样式）
+    private lazy var layerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        return view
+    }()
+    /// 遮罩层图片
+    private lazy var layerImage: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "noReport"))
+        return imageView
+    }()
+    /// 遮罩层说明标签
+    private lazy var layerLabel: UILabel = {
+        let label = UILabel(
+            text: "登录可查看专属学习报告哦",
+            fontSize: 12,
+            textColor: MalaColor_4DA3D9_0
+        )
+        return label
+    }()
     
     
     
@@ -100,6 +131,8 @@ class LearningReportCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
+        
+        self.reportStatus = .UnLogged
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -123,6 +156,10 @@ class LearningReportCell: UITableViewCell {
         content.addSubview(correctRateLabel)
         content.addSubview(answerNumberLegend)
         content.addSubview(correctRateLegend)
+        
+        content.addSubview(layerView)
+        layerView.addSubview(layerImage)
+        layerView.addSubview(layerLabel)
         
         // Autolayout
 //        let learningReportCellHeight: CGFloat = MalaContentHeight-(8*3)-229
@@ -176,8 +213,86 @@ class LearningReportCell: UITableViewCell {
             make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_12)
             make.bottom.equalTo(content.snp_bottom).offset(-MalaLayout_Margin_20)
         }
+        
+        layerView.snp_makeConstraints { (make) in
+            make.left.equalTo(content)
+            make.right.equalTo(content)
+            make.top.equalTo(content)
+            make.bottom.equalTo(button.snp_top)
+        }
+        layerLabel.snp_makeConstraints { (make) in
+            make.height.equalTo(12)
+            make.centerX.equalTo(layerView.snp_centerX)
+            make.bottom.equalTo(layerView.snp_bottom).offset(-15)
+        }
+        layerImage.snp_makeConstraints { (make) in
+            make.width.equalTo(92)
+            make.height.equalTo(95)
+            make.centerX.equalTo(layerView.snp_centerX)
+            make.bottom.equalTo(layerLabel.snp_top).offset(-15)
+        }
     }
     
+    /// 根据当前学习报告状态状态，渲染对应UI样式
+    private func changeDisplayMode() {
+        
+        /// 渲染UI样式
+        switch  self.reportStatus {
+           
+        case .LoggingIn:
+            
+            // 登录中
+            titleLabel.hidden = true
+            subjectLabel.hidden = true
+            layerView.hidden = false
+            
+            button.setTitle("获取状态中", forState: .Normal)
+            break
+            
+        case .UnLogged:
+            
+            // 未登录
+            titleLabel.hidden = true
+            subjectLabel.hidden = true
+            layerView.hidden = false
+            
+            layerLabel.text = "登录可查看专属学习报告哦"
+            button.setTitle("登录", forState: .Normal)
+            break
+            
+        case .UnSigned:
+            
+            // 未报名
+            titleLabel.hidden = true
+            subjectLabel.hidden = true
+            layerView.hidden = false
+            
+            layerLabel.text = "您还未报名，先看看其他样本报告把"
+            button.setTitle("查看学习报告样本", forState: .Normal)
+            break
+            
+        case .UnSignedMath:
+            
+            // 未报名数学
+            titleLabel.hidden = true
+            subjectLabel.hidden = true
+            layerView.hidden = false
+            
+            layerLabel.text = "当前学科暂未开通学习报告，敬请期待"
+            button.setTitle("查看数学学习报告样本", forState: .Normal)
+            break
+            
+        case .MathSigned:
+            
+            // 报名数学
+            titleLabel.hidden = false
+            subjectLabel.hidden = false
+            layerView.hidden = true
+            
+            button.setTitle("查看我的学习报告 ", forState: .Normal)
+            break
+        }
+    }
     
     
     // MARK: - Event Response
