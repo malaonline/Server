@@ -37,6 +37,9 @@ a {
       &.first-row .icon {
         top: 0;
       }
+      &.first-row .desc {
+        padding-top: 11px;
+      }
     }
   }
 
@@ -63,12 +66,14 @@ a {
       }
     }
     .desc {
-      padding-top: 7px;
+      padding-top: 10px;
       padding-bottom: 8px;
       padding-left: 59px;
       padding-right: 19px;
       width: 100%;
       .desc-title {
+        line-height: @subTitleSize;
+        margin-bottom: 2px;
         font-size: @subTitleSize;
         color: @grayDark;
       }
