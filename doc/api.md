@@ -931,7 +931,21 @@ result:
     "paid_at": null,
     "charge_channel": null,
     "evaluated": true,
-    "is_timeslot_allocated": false
+    "is_timeslot_allocated": false,
+    "timeslots": [
+        [
+            1464134400,
+            1464141600
+        ],
+        [
+            1464220800,
+            1464228000
+        ],
+        [
+            1464307200,
+            1464314400
+        ]
+    ]
 }
 ```
 ```
@@ -942,6 +956,8 @@ First, if `status` is `d`, should notify user order has been canceled.
 If `status` is `p` but `is_timeslot_allocated` is `false`, should notify user courses have been preempted.
 
 Both `status` is `p` and `is_timeslot_allocated` is `true` indicate success.
+
+If no `timeslots`, the `timeslots` will be `[]`
 ```
 For get order info from order list
 ```
