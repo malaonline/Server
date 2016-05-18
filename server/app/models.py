@@ -1687,12 +1687,12 @@ class Order(BaseModel):
             timeslots = self.timeslot_set.filter(deleted=False)
             data = [(int(x.start.timestamp()),
                      int(x.end.timestamp())) for x in timeslots]
-        elif self.status == self.PENDING:
+        elif self.status == self.PENDING or self.status == self.CANCELED:
             # 未排课(待支付)的订单课程计划列表, 目前不做冲突检测, 只做时间展示
             timeslots_dict_list = Order.objects.get_order_timeslots(self, False)
             data = [(int(x['start'].timestamp()),
                      int(x['end'].timestamp())) for x in timeslots_dict_list]
-        # 除上述情况, 已取消和已退款的订单, 不显示课程时间
+        # 已退款的订单, 目前不显示课程时间
         return data
 
     # 计算订单内已经完成课程的小时数(消耗小时)
