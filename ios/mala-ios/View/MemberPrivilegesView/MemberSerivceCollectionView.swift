@@ -204,7 +204,6 @@ class MemberSerivceCollectionViewCell: UICollectionViewCell {
             make.centerX.equalTo(self.contentView.snp_centerX)
             make.height.equalTo(13)
             make.top.equalTo(iconView.snp_bottom).offset(14)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-20)
         }
         separator.snp_makeConstraints { (make) in
             make.left.equalTo(self.contentView.snp_left)

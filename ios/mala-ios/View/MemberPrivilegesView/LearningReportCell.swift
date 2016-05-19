@@ -12,7 +12,7 @@ class LearningReportCell: UITableViewCell {
     
     // MARK: - Property
     /// 学习报告状态
-    private var reportStatus: MalaLearningReportStatus = .UnLogged {
+    private var reportStatus: MalaLearningReportStatus = .LoggingIn {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.changeDisplayMode()
@@ -37,8 +37,6 @@ class LearningReportCell: UITableViewCell {
         
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
-        
-        button.addTarget(self, action: #selector(LearningReportCell.login), forControlEvents: .TouchUpInside)
         return button
     }()
     /// 学科标签
@@ -124,15 +122,30 @@ class LearningReportCell: UITableViewCell {
         )
         return label
     }()
-    
+    /// loading指示器
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        view.startAnimating()
+        view.hidesWhenStopped = true
+        return view
+    }()
     
     
     // MARK: - Instance Method
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
+        changeDisplayMode()
         
-        self.reportStatus = .UnLogged
+//        delay(2) { [weak self] in
+//            self?.reportStatus = .LoggingIn
+//        }
+//        delay(4) { [weak self] in
+//            self?.reportStatus = .UnSigned
+//        }
+//        delay(6) { [weak self] in
+//            self?.reportStatus = .MathSigned
+//        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -160,6 +173,7 @@ class LearningReportCell: UITableViewCell {
         content.addSubview(layerView)
         layerView.addSubview(layerImage)
         layerView.addSubview(layerLabel)
+        button.addSubview(loadingView)
         
         // Autolayout
 //        let learningReportCellHeight: CGFloat = MalaContentHeight-(8*3)-229
@@ -231,10 +245,21 @@ class LearningReportCell: UITableViewCell {
             make.centerX.equalTo(layerView.snp_centerX)
             make.bottom.equalTo(layerLabel.snp_top).offset(-15)
         }
+        loadingView.snp_makeConstraints { (make) in
+            make.centerX.equalTo(button.snp_centerX).offset(-16*3.5)
+            make.centerY.equalTo(button.snp_centerY)
+        }
     }
     
     /// 根据当前学习报告状态状态，渲染对应UI样式
     private func changeDisplayMode() {
+        
+        println("渲染对应UI样式:")
+        
+        // 解除绑定事件
+        button.removeTarget(self, action: #selector(LearningReportCell.login), forControlEvents: .TouchUpInside)
+        button.removeTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
+        button.removeTarget(self, action: #selector(LearningReportCell.showMyReport), forControlEvents: .TouchUpInside)
         
         /// 渲染UI样式
         switch  self.reportStatus {
@@ -245,7 +270,10 @@ class LearningReportCell: UITableViewCell {
             titleLabel.hidden = true
             subjectLabel.hidden = true
             layerView.hidden = false
+            loadingView.hidden = false
+            loadingView.startAnimating()
             
+            layerLabel.text = "正在获取学习报告数据..."
             button.setTitle("获取状态中", forState: .Normal)
             break
             
@@ -255,9 +283,11 @@ class LearningReportCell: UITableViewCell {
             titleLabel.hidden = true
             subjectLabel.hidden = true
             layerView.hidden = false
+            loadingView.stopAnimating()
             
             layerLabel.text = "登录可查看专属学习报告哦"
             button.setTitle("登录", forState: .Normal)
+            button.addTarget(self, action: #selector(LearningReportCell.login), forControlEvents: .TouchUpInside)
             break
             
         case .UnSigned:
@@ -266,9 +296,11 @@ class LearningReportCell: UITableViewCell {
             titleLabel.hidden = true
             subjectLabel.hidden = true
             layerView.hidden = false
+            loadingView.stopAnimating()
             
             layerLabel.text = "您还未报名，先看看其他样本报告把"
             button.setTitle("查看学习报告样本", forState: .Normal)
+            button.addTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
             break
             
         case .UnSignedMath:
@@ -277,9 +309,11 @@ class LearningReportCell: UITableViewCell {
             titleLabel.hidden = true
             subjectLabel.hidden = true
             layerView.hidden = false
+            loadingView.stopAnimating()
             
             layerLabel.text = "当前学科暂未开通学习报告，敬请期待"
             button.setTitle("查看数学学习报告样本", forState: .Normal)
+            button.addTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
             break
             
         case .MathSigned:
@@ -288,15 +322,26 @@ class LearningReportCell: UITableViewCell {
             titleLabel.hidden = false
             subjectLabel.hidden = false
             layerView.hidden = true
+            loadingView.stopAnimating()
             
             button.setTitle("查看我的学习报告 ", forState: .Normal)
+            button.addTarget(self, action: #selector(LearningReportCell.showMyReport), forControlEvents: .TouchUpInside)
             break
         }
     }
     
     
     // MARK: - Event Response
+    /// 登录
     @objc private func login() {
-        
+        println("登录")
+    }
+    /// 显示学习报告样本
+    @objc private func showReportDemo() {
+        println("样本")
+    }
+    /// 显示我的学习报告
+    @objc private func showMyReport() {
+        println("报告")
     }
 }
