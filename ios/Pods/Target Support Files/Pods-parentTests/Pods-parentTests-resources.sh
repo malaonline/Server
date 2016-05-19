@@ -65,6 +65,10 @@ if [[ "$CONFIGURATION" == "PrdRelease" ]]; then
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"
 fi
+if [[ "$CONFIGURATION" == "StageRelease" ]]; then
+  install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
+  install_resource "Pingpp/lib/Pingpp.bundle"
+fi
 if [[ "$CONFIGURATION" == "DevRelease" ]]; then
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"

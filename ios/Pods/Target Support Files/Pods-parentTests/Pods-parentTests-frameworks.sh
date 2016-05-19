@@ -97,6 +97,13 @@ if [[ "$CONFIGURATION" == "PrdRelease" ]]; then
   install_framework "Pods-parentTests/Kingfisher.framework"
   install_framework "Pods-parentTests/SnapKit.framework"
 fi
+if [[ "$CONFIGURATION" == "StageRelease" ]]; then
+  install_framework "Pods-parentTests/Alamofire.framework"
+  install_framework "Pods-parentTests/DateTools.framework"
+  install_framework "Pods-parentTests/IQKeyboardManagerSwift.framework"
+  install_framework "Pods-parentTests/Kingfisher.framework"
+  install_framework "Pods-parentTests/SnapKit.framework"
+fi
 if [[ "$CONFIGURATION" == "DevRelease" ]]; then
   install_framework "Pods-parentTests/Alamofire.framework"
   install_framework "Pods-parentTests/DateTools.framework"

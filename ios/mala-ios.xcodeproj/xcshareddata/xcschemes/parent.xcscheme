@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "60B4AE07A6403223CE5FD5DF4A7431B7"
+               BlueprintIdentifier = "34669287CD22689F6F7BCB8A3CB5D7F3"
                BuildableName = "Pods.framework"
                BlueprintName = "Pods"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -123,7 +123,7 @@
       buildConfiguration = "DevDebug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "PrdRelease"
+      buildConfiguration = "StageRelease"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

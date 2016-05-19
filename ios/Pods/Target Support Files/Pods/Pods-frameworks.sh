@@ -97,6 +97,13 @@ if [[ "$CONFIGURATION" == "PrdRelease" ]]; then
   install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/SnapKit.framework"
 fi
+if [[ "$CONFIGURATION" == "StageRelease" ]]; then
+  install_framework "Pods/Alamofire.framework"
+  install_framework "Pods/DateTools.framework"
+  install_framework "Pods/IQKeyboardManagerSwift.framework"
+  install_framework "Pods/Kingfisher.framework"
+  install_framework "Pods/SnapKit.framework"
+fi
 if [[ "$CONFIGURATION" == "DevRelease" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/DateTools.framework"
