@@ -307,6 +307,14 @@
 		F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */; };
 		F427FF9C1CEC1CE100EAB748 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
 		F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
+		F427FFA21CED9A4300EAB748 /* LearningReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFA11CED9A4300EAB748 /* LearningReportViewController.swift */; };
+		F427FFA51CEDA1E900EAB748 /* LearningReportTitlePageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFA41CEDA1E900EAB748 /* LearningReportTitlePageCell.swift */; };
+		F427FFA71CEDA33700EAB748 /* LearningReportHomeworkDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFA61CEDA33700EAB748 /* LearningReportHomeworkDataCell.swift */; };
+		F427FFA91CEDA34700EAB748 /* LearningReportTopicDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFA81CEDA34700EAB748 /* LearningReportTopicDataCell.swift */; };
+		F427FFAB1CEDA35400EAB748 /* LearningReportKnowledgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAA1CEDA35400EAB748 /* LearningReportKnowledgeCell.swift */; };
+		F427FFAD1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAC1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift */; };
+		F427FFAF1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */; };
+		F427FFB11CEDA47700EAB748 /* MalaBaseCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -576,6 +584,14 @@
 		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F427FF9B1CEC1CE100EAB748 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeIntroductionView.swift; sourceTree = "<group>"; };
+		F427FFA11CED9A4300EAB748 /* LearningReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LearningReportViewController.swift; path = "mala-ios/Controller/MemberPrivileges/LearningReportViewController.swift"; sourceTree = SOURCE_ROOT; };
+		F427FFA41CEDA1E900EAB748 /* LearningReportTitlePageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportTitlePageCell.swift; sourceTree = "<group>"; };
+		F427FFA61CEDA33700EAB748 /* LearningReportHomeworkDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportHomeworkDataCell.swift; sourceTree = "<group>"; };
+		F427FFA81CEDA34700EAB748 /* LearningReportTopicDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportTopicDataCell.swift; sourceTree = "<group>"; };
+		F427FFAA1CEDA35400EAB748 /* LearningReportKnowledgeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportKnowledgeCell.swift; sourceTree = "<group>"; };
+		F427FFAC1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportAbilityStructureCell.swift; sourceTree = "<group>"; };
+		F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportAbilityImproveCell.swift; sourceTree = "<group>"; };
+		F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCardCell.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -1133,6 +1149,19 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		F427FFA31CEDA1D100EAB748 /* LearningReportCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				F427FFA41CEDA1E900EAB748 /* LearningReportTitlePageCell.swift */,
+				F427FFA61CEDA33700EAB748 /* LearningReportHomeworkDataCell.swift */,
+				F427FFA81CEDA34700EAB748 /* LearningReportTopicDataCell.swift */,
+				F427FFAA1CEDA35400EAB748 /* LearningReportKnowledgeCell.swift */,
+				F427FFAC1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift */,
+				F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */,
+			);
+			path = LearningReportCollectionViewCell;
+			sourceTree = "<group>";
+		};
 		F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */ = {
 			isa = PBXGroup;
 			children = (
@@ -1335,6 +1364,7 @@
 			isa = PBXGroup;
 			children = (
 				F48BBAEA1CE9D6A800774297 /* MemberPrivilegesViewController.swift */,
+				F427FFA11CED9A4300EAB748 /* LearningReportViewController.swift */,
 			);
 			name = MemberPrivileges;
 			path = memberPrivileges;
@@ -1410,6 +1440,7 @@
 			children = (
 				F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */,
 				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
+				F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1467,6 +1498,7 @@
 		F4D678571CEAC8E5009EC956 /* MemberPrivilegesView */ = {
 			isa = PBXGroup;
 			children = (
+				F427FFA31CEDA1D100EAB748 /* LearningReportCollectionViewCell */,
 				F4D678581CEACCF2009EC956 /* LearningReportCell.swift */,
 				F4D6785A1CEACD0E009EC956 /* MemberSerivceCell.swift */,
 				F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */,
@@ -1883,6 +1915,7 @@
 				F46065271C97B168004056B1 /* EvaluationFilingServiceController.swift in Sources */,
 				F45E69E11C8D278A00BD0859 /* ThemeTags.swift in Sources */,
 				F4C5C2391C759F0500FB833B /* OtherServiceModel.swift in Sources */,
+				F427FFAB1CEDA35400EAB748 /* LearningReportKnowledgeCell.swift in Sources */,
 				F49BD5A11CA4131D00EB3CCF /* SKDetectingImageView.swift in Sources */,
 				F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */,
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
@@ -1893,6 +1926,7 @@
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */,
+				F427FFAF1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				F48BBAEB1CE9D6A800774297 /* MemberPrivilegesViewController.swift in Sources */,
 				30B598191C47ACCD00169390 /* TeacherTableViewCell.swift in Sources */,
@@ -1914,6 +1948,7 @@
 				F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */,
 				F45BDAE81CB760540038CE3D /* ThemeCalendarViewCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
+				F427FFA91CEDA34700EAB748 /* LearningReportTopicDataCell.swift in Sources */,
 				F46065241C97B168004056B1 /* TeacherDetailsController.swift in Sources */,
 				F460650C1C96D363004056B1 /* UIImageView+Navi.swift in Sources */,
 				F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */,
@@ -1922,6 +1957,7 @@
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */,
 				30E336621C27A8AA00DCF1C5 /* BaseObjectModel.swift in Sources */,
+				F427FFA71CEDA33700EAB748 /* LearningReportHomeworkDataCell.swift in Sources */,
 				F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */,
 				F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				F4D0E43C1C8426E0002CD297 /* PaymentChannel.swift in Sources */,
@@ -1952,6 +1988,7 @@
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
+				F427FFAD1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
 				F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
 				F4E1061C1CBBA35B001AD4AF /* BaseViewController.swift in Sources */,
@@ -1971,6 +2008,7 @@
 				F46064F61C93C375004056B1 /* ThemeReloadView.swift in Sources */,
 				F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */,
 				F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */,
+				F427FFB11CEDA47700EAB748 /* MalaBaseCardCell.swift in Sources */,
 				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				F46064FA1C96C8EF004056B1 /* Proposer.swift in Sources */,
 				F45F27FA1CAA600D00F0012C /* MalaSingleWebViewController.swift in Sources */,
@@ -1994,6 +2032,8 @@
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
 				F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */,
 				F4D0D17A1CA0F8EE00B25704 /* CourseContentView.swift in Sources */,
+				F427FFA51CEDA1E900EAB748 /* LearningReportTitlePageCell.swift in Sources */,
+				F427FFA21CED9A4300EAB748 /* LearningReportViewController.swift in Sources */,
 				F4D678591CEACCF2009EC956 /* LearningReportCell.swift in Sources */,
 				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
 				F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */,
