@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xml:app="http://schemas.android.com/apk/auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,9 +14,13 @@
         android:background="#dadada"
         android:layout_width="match_parent"
         android:layout_height="1px"></View>
-    <include
-        android:id="@+id/rl_home_tabs"
-        layout="@layout/home_tab_layout" />
+    <com.malalaoshi.android.view.tabindicator.ViewPagerIndicator
+        android:id="@+id/indicator_tabs"
+        android:background="@color/white"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"/>
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"

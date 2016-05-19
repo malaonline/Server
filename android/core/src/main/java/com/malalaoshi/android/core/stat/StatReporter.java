@@ -25,6 +25,10 @@ public class StatReporter {
         sendBrowseEvent("我的页面");
     }
 
+    public static void memberServicePage() {
+        sendBrowseEvent("会员专享页面");
+    }
+
     public static void filterGrade() {
         sendClickEvent("年级标签");
     }

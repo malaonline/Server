@@ -3,37 +3,6 @@
     android:layout_width="match_parent"
     android:background="#ffffff"
     android:layout_height="44dp" >
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/ll_home_title_tab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/iv_title_tab_teacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/home_find_teacher_bg" />
-
-        <ImageView
-            android:id="@+id/iv_title_tab_timetable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/home_course_bg" />
-
-        <ImageView
-            android:id="@+id/iv_title_tab_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/home_usercenter_bg" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tv_title_text"
         android:layout_width="wrap_content"

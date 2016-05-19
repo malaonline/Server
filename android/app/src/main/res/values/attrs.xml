@@ -96,4 +96,11 @@
         <attr name="gifMoviewViewStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="vpTabVisiableCount" format="integer" />
+        <attr name="vpTabTextSize" format="dimension" />
+        <attr name="vpTabTextColor" format="color" />
+        <attr name="vpTabTextFocusColor" format="color" />
+        <attr name="vpTabFocusPos" format="integer" />
+    </declare-styleable>
 </resources>
