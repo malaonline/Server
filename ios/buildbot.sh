@@ -3,7 +3,6 @@ set -e
 
 # Build configurations
 scheme="parent"
-configuration="DevRelease"
 ipaDir="build/ipa/"
 
 
@@ -24,13 +23,20 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 
 # Compile Project DevRelease
-scheme="parent"
+configuration="DevRelease"
 buildPath="build/archive/${scheme}_dev_release.xcarchive"
 ipaName="${ipaDir}${scheme}_dev_release.ipa"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
+# Compile Project StageRelease
+configuration="StageRelease"
+buildPath="build/archive/${scheme}_stage_release.xcarchive"
+ipaName="${ipaDir}${scheme}_stage_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 # Compile Project PrdRelease
 configuration="PrdRelease"

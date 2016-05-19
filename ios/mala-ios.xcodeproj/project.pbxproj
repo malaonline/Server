@@ -2246,6 +2246,115 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		358CE1351CED755A001871A9 /* StageRelease */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xinyu Wang (F5J8Z7HHD2)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DUSE_STAGE_SERVER";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = StageRelease;
+		};
+		358CE1361CED755A001871A9 /* StageRelease */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63B63833EF5A505F2F5BDE1A /* Pods-parent.prdrelease.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: beijing mala online network technology Co.Ltd (85KXKD6J43)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: beijing mala online network technology Co.Ltd (85KXKD6J43)";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a20ee157-afc3-4aa5-baaf-2bb3b6387a02";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = StageRelease;
+		};
+		358CE1371CED755A001871A9 /* StageRelease */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77F30EAD28401D3E45375835 /* Pods-teacher.prdrelease.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/mala-ios/Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.ios.teacher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/teacher-Bridging-Header.h";
+			};
+			name = StageRelease;
+		};
+		358CE1381CED755A001871A9 /* StageRelease */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8553048D7D1F02EBB8541FA9 /* Pods-parentTests.prdrelease.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = parentTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mala-ios/Resource/JPush",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Elors.parentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/parent.app/parent";
+			};
+			name = StageRelease;
+		};
 		3598104F1CA13599003B9BAF /* DevRelease */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2589,6 +2698,7 @@
 			buildConfigurations = (
 				35D7A3151C0FE82E007D7679 /* DevDebug */,
 				35D7A3161C0FE82E007D7679 /* PrdRelease */,
+				358CE1371CED755A001871A9 /* StageRelease */,
 				359810511CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2599,6 +2709,7 @@
 			buildConfigurations = (
 				35D7A3471C0FE851007D7679 /* DevDebug */,
 				35D7A3481C0FE851007D7679 /* PrdRelease */,
+				358CE1361CED755A001871A9 /* StageRelease */,
 				359810501CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2609,6 +2720,7 @@
 			buildConfigurations = (
 				A5927BC41BEC8BD900E9BDB4 /* DevDebug */,
 				A5927BC51BEC8BD900E9BDB4 /* PrdRelease */,
+				358CE1351CED755A001871A9 /* StageRelease */,
 				3598104F1CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -2619,6 +2731,7 @@
 			buildConfigurations = (
 				F4402E1C1C5A16A700E7D3DB /* DevDebug */,
 				F4402E1D1C5A16A700E7D3DB /* PrdRelease */,
+				358CE1381CED755A001871A9 /* StageRelease */,
 				359810521CA13599003B9BAF /* DevRelease */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -22,9 +22,9 @@ target 'teacher' do
 end
 
 target 'parent' do
-    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'PrdRelease' => :release
+    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
 end
 
 target 'parentTests' do
-    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'PrdRelease' => :release
+    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
 end
