@@ -106,7 +106,7 @@
                     }
                 }
             }
-        },
+        }
     },
     "definitions": {
         "ReportSummary": {

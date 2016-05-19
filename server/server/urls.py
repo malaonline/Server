@@ -14,9 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 import django
+import os
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -27,5 +30,7 @@ urlpatterns = [
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^upload/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
+    url(r'^api/v1/(?P<path>.*)$', django.views.static.serve,
+        {'document_root': os.path.join(BASE_DIR, "app", "api")}),
     url(r'^', include('web.urls', namespace='web')),
 ]
