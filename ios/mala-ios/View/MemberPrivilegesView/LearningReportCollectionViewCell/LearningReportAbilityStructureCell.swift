@@ -8,6 +8,6 @@
 
 import UIKit
 
-class LearningReportAbilityStructureCell: UICollectionViewCell {
+class LearningReportAbilityStructureCell: MalaBaseCardCell {
     
 }

@@ -28,6 +28,12 @@ class MemberPrivilegesViewController: UITableViewController {
         configure()
         setupUserInterface()
         setupNotification()
+        
+        delay(2) {
+            let viewController = LearningReportViewController()
+            viewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
     override func didReceiveMemoryWarning() {

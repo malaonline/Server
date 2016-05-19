@@ -12,7 +12,7 @@ class LearningReportCell: UITableViewCell {
     
     // MARK: - Property
     /// 学习报告状态
-    private var reportStatus: MalaLearningReportStatus = .LoggingIn {
+    private var reportStatus: MalaLearningReportStatus = .MathSigned {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.changeDisplayMode()

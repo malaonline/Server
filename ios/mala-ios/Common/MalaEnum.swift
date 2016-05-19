@@ -111,6 +111,7 @@ public enum CourseStatus: String {
 
 ///  学习报告状态
 ///
+///  - LoggingIn:    登录中
 ///  - UnLogged:     未登录
 ///  - UnSigned:     登录未报名
 ///  - UnSignedMath: 报名非数学
