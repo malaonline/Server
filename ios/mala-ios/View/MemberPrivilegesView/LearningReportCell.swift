@@ -335,13 +335,16 @@ class LearningReportCell: UITableViewCell {
     /// 登录
     @objc private func login() {
         println("登录")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ShowLearningReport, object: -1)
     }
     /// 显示学习报告样本
     @objc private func showReportDemo() {
         println("样本")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ShowLearningReport, object: 0)
     }
     /// 显示我的学习报告
     @objc private func showMyReport() {
         println("报告")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ShowLearningReport, object: 1)
     }
 }

@@ -53,7 +53,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     /// 学生姓名标签
     private lazy var nameLabel: UILabel = {
         let label = UILabel(
-            text: "王新宇",
+            text: "姓名",
             fontSize: 12,
             textColor: MalaColor_939393_0
         )

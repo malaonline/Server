@@ -28,12 +28,6 @@ class MemberPrivilegesViewController: UITableViewController {
         configure()
         setupUserInterface()
         setupNotification()
-        
-        delay(2) {
-            let viewController = LearningReportViewController()
-            viewController.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,6 +69,63 @@ class MemberPrivilegesViewController: UITableViewController {
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ShowLearningReport,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            
+            /// 执行学习报告相关操作
+            if let index = notification.object as? Int {
+                
+                switch index {
+                case -1:
+                    
+                    // 登录
+                    self?.login()
+                    break
+                    
+                case 0:
+                    
+                    // 显示学习报告样本
+                    self?.showReportDemo()
+                    break
+                    
+                case 1:
+                    
+                    // 显示真实学习报告
+                    self?.showMyReport()
+                    break
+                    
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
+    
+    // MARK: - Event Response
+    /// 登录
+    @objc private func login() {
+        self.presentViewController(
+            UINavigationController(rootViewController: LoginViewController()),
+            animated: true,
+            completion: { () -> Void in
+                
+        })
+    }
+    /// 显示学习报告样本
+    @objc private func showReportDemo() {
+        let viewController = LearningReportViewController()
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    /// 显示我的学习报告
+    @objc private func showMyReport() {
+        let viewController = LearningReportViewController()
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     
@@ -120,5 +171,6 @@ class MemberPrivilegesViewController: UITableViewController {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushIntroduction, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ShowLearningReport, object: nil)
     }
 }

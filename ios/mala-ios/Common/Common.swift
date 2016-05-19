@@ -43,6 +43,7 @@ let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeSchedule
 let MalaNotification_PushTeacherDetailView = "com.malalaoshi.app.PushTeacherDetailView"
 let MalaNotification_CancelOrderForm = "com.malalaoshi.app.CancelOrderForm"
 let MalaNotification_PushIntroduction = "com.malalaoshi.app.PushIntroduction"
+let MalaNotification_ShowLearningReport = "com.malalaoshi.app.ShowLearningReport"
 
 
 // MARK: - Error Detail
