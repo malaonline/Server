@@ -1,7 +1,10 @@
 package com.malalaoshi.android.api;
 
 import com.malalaoshi.android.core.network.api.BaseApi;
+import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.entity.DoneModel;
+
+import java.util.Locale;
 
 /**
  * Save school name
@@ -17,6 +20,8 @@ public class SaveUserSchoolApi extends BaseApi {
     }
 
     public DoneModel saveUserSchoolApi(String body) throws Exception {
-        return httpPatch(getPath(), body, DoneModel.class);
+        String url = String.format(Locale.getDefault(),
+                getPath(), UserManager.getInstance().getParentId());
+        return httpPatch(url, body, DoneModel.class);
     }
 }
