@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.malalaoshi.android.activitys.MemberActivity">
+
+    <com.malalaoshi.android.core.view.TitleBarView
+        android:id="@+id/tbv_member_title"
+        app:cusLeftShow="true"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.malalaoshi.android.core.view.TitleBarView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_member"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tbv_member_title"></android.support.v4.view.ViewPager>
+
+    <com.malalaoshi.android.view.Indicator.RubberIndicator
+        android:id="@+id/ri_member_rubber"
+        android:layout_width="100dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:smallCircleColor="#c7deee"
+        app:largeCircleColor="#8fbcdd"
+        ></com.malalaoshi.android.view.Indicator.RubberIndicator>
+</RelativeLayout>

@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.malalaoshi.android.activitys.MemberActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.api.UnpayOrderCountApi;
@@ -306,9 +307,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
 
     protected void onClickBarBtnLocation() {
+
+        Intent intent  = new Intent(this, MemberActivity.class);
+        startActivity(intent);
 //        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
-        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
+      //  SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
+   //     d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
 
