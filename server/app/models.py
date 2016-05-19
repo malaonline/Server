@@ -1166,10 +1166,25 @@ class Feedback(BaseModel):
         return '%s %s %s' % (self.user, self.contact, self.created_at)
 
 
+class Student(BaseModel):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        try:
+            return "<{pk}>{name}同学,家长手机{phone}".format(
+                pk=self.pk, name=self.name,
+                phone=self.parent.user.profile.phone,
+            )
+        except Exception as e:
+            return "<{pk}>!!!异常记录,{name}同学,信息{msg}".format(
+                pk=self.pk, name=self.name, msg=e
+            )
+
+
 class Parent(BaseModel):
     user = models.OneToOneField(User)
 
-    student_name = models.CharField(max_length=50)
+    student = models.OneToOneField(Student)
     student_school_name = models.CharField(max_length=100, default='')
 
     def recent_orders(self):
@@ -1237,6 +1252,21 @@ class Parent(BaseModel):
             return True, None
         else:
             return False, lts[0].id
+
+    @property
+    def student_name(self):
+        if self.student is not None:
+            return self.student.name
+        return None
+
+    @student_name.setter
+    def student_name(self, new_value):
+        if self.student is None:
+            student = Student(name=new_value)
+            student.save()
+            self.student = student
+        else:
+            self.student.name = new_value
 
 # 因为李鑫还没想好,就先不要这个model,以后再放出来
 # class TeacherVistParent(BaseModel):
