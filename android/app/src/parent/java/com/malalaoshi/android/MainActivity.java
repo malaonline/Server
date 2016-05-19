@@ -5,9 +5,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +28,7 @@ import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.UnpayOrders;
 import com.malalaoshi.android.events.EventType;
 import com.malalaoshi.android.events.UnpayOrderEvent;
+import com.malalaoshi.android.fragments.MemberServiceFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
@@ -176,7 +175,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     private void initData() {
         mHomeFragmentAdapter = new FragmentGroupAdapter(this, getSupportFragmentManager(), this);
         vpHome.setAdapter(mHomeFragmentAdapter);
-        vpHome.setOffscreenPageLimit(2);//缓存页面
+        vpHome.setOffscreenPageLimit(3);//缓存页面
         vpHome.setCurrentItem(pageIndex);
     }
 
@@ -372,6 +371,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                     fragment = new UserTimetableFragment();
                     break;
                 case 2:
+                    fragment = new MemberServiceFragment();
+                    break;
+                case 3:
                     fragment = new UserFragment();
                     break;
             }
@@ -382,7 +384,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     @Override
     public int getFragmentCount() {
-        return 3;
+        return 4;
     }
 
 

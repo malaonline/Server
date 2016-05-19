@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/main_color_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_rootview"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_refresh_refreshing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_refresh_refreshing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@anim/refresh_refreshing" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/ic_data_empty"
+                android:text="加载失败.点击重试"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <ViewStub
+            android:id="@+id/sub_non_learning_report"
+            android:inflatedId="@+id/inflated_non_learning_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/sub_non_learning_report" />
+
+        <ViewStub
+            android:id="@+id/sub_learning_report"
+            android:inflatedId="@+id/inflated_learning_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/sub_learning_report" />
+
+        <include
+            android:layout_marginTop="8dp"
+            android:id="@+id/sub_member_service"
+            layout="@layout/sub_member_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
