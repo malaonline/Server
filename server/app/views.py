@@ -1056,6 +1056,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         return map.get(name)
 
     def get(self, request, subject=None, category=None):
+        '''
+        subject is one subject ID
+        '''
         parent = self.get_parent()
         phone = parent.user.profile.phone
         params = self.COM_PARAMS.copy()
@@ -1085,7 +1088,8 @@ class StudyReportView(ParentBasedMixin, APIView):
                         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
                             ret_nums = ret_json.get('data')
                             subjects_list.append({
-                                'subject': s_name_en,
+                                'subject_id': tmp_subject.id,
+                                'supported': True,
                                 'total_nums': ret_nums.get('total_item_nums'),
                                 'right_nums': ret_nums.get('total_right_item_nums'),
                             })
@@ -1097,15 +1101,18 @@ class StudyReportView(ParentBasedMixin, APIView):
                         return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
                 else:
                     subjects_list.append({
-                        'subject': s_name_en,
-                        'not_supported': True
+                        'subject_id': tmp_subject.id,
+                        'supported': False
                     })
-            return JsonResponse({'code': 0, 'message': '', 'data': subjects_list})
+            return JsonResponse({'code': 0, 'message': '', 'results': subjects_list})
 
         ## to get certain subject's info
-        if subject != self.MATH:
+        the_subject = get_object_or_404(models.Subject, id=subject)
+        s_name = the_subject.name
+        s_name_en = self.get_subject_en(s_name)
+        if s_name_en != self.MATH:
             return JsonResponse({'code': -5, 'message': '暂时不支持该教学科目'})
-        url = self.KUAILEXUE_URL_FMT.format(subject=subject)
+        url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
         if category == self.SUMMARY:
             resp = requests.get(url + '/total-item-nums', params=params)
             if resp.status_code == 200:
@@ -1113,8 +1120,9 @@ class StudyReportView(ParentBasedMixin, APIView):
                 if ret_json.get('code') == 0 and ret_json.get('data') is not None:
                     ret_nums = ret_json.get('data')
                     return JsonResponse({
-                        'code': 0, 'message': '', 'data': {
-                            'subject': subject,
+                        'code': 0, 'message': '', 'results': {
+                            'subject_id': the_subject.id,
+                            'supported': True,
                             'total_nums': ret_nums.get('total_item_nums'),
                             'right_nums': ret_nums.get('total_right_item_nums'),
                         }

@@ -45,10 +45,10 @@
                                 "type": "string",
                                 "description": "error message"
                               },
-                              "data": {
+                              "results": {
                                 "type": "array",
                                 "items": {
-                                  "$ref": "#/definitions/ReportSummary"
+                                  "$ref": "#/definitions/SimpleReportSummary"
                                 }
                               }
                             }
@@ -63,7 +63,7 @@
                 }
             }
         },
-        "/study_report/math": {
+        "/study_report/$subject_id": {
             "get": {
                 "summary": "Subjects Summary",
                 "description": "Get the student all subjects summary info",
@@ -94,8 +94,8 @@
                                 "type": "string",
                                 "description": "error message"
                               },
-                              "data": {
-                                "$ref": "#/definitions/ReportSummary"
+                              "results": {
+                                "$ref": "#/definitions/SimpleReportSummary"
                               }
                             }
                         }
@@ -111,24 +111,24 @@
         }
     },
     "definitions": {
-        "ReportSummary": {
+        "SimpleReportSummary": {
             "type": "object",
             "properties": {
-                "subject": {
-                    "type": "string",
-                    "description": "subject name. math, english, chinese, .etc\n(Now only support math)"
+                "subject_id": {
+                    "type": "integer",
+                    "description": "Subject ID.\n(Now only support math)"
                 },
-                "not_supported": {
+                "supported": {
                     "type": "boolean",
-                    "description": "whether support not the subject or not. if null then supported"
+                    "description": "whether support the subject or not. if null then supported"
                 },
                 "total_nums": {
                     "type": "integer",
-                    "description": "total number of exercises. 0 means no report."
+                    "description": "total number of exercises. 0 means no report.\n(Optional, if not supported, it's empty)"
                 },
                 "right_nums": {
-                    "type": "string",
-                    "description": "number of exercises those were done correctly."
+                    "type": "integer",
+                    "description": "number of exercises those were done correctly.\n(Optional, if not supported, it's empty)"
                 }
             }
         },
