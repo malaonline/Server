@@ -1,1 +1,0 @@
-../../../../Pingpp/lib/Channels/Alipay/AlipaySDK.framework/Headers/APayAuthInfo.h

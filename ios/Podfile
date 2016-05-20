@@ -5,23 +5,22 @@ platform :ios, '8.0'
 use_frameworks!
 inhibit_all_warnings!
 
-link_with 'teacher', 'parent', 'parentTests'
-pod 'SnapKit', '~> 0.20.0'
-pod 'DateTools', '~> 1.7.0'
-pod 'Alamofire', '~> 3.3.0'
-pod 'Kingfisher', '~> 2.2.0'
-pod 'IQKeyboardManagerSwift', '~> 4.0.0'
-
-
-pod 'UMengAnalytics-NO-IDFA'
-
-pod 'Pingpp/Alipay', '~> 2.2.0'
-pod 'Pingpp/Wx', '~> 2.2.0'
 
 target 'teacher' do
 end
 
 target 'parent' do
+    pod 'SnapKit', '~> 0.20.0'
+    pod 'DateTools', '~> 1.7.0'
+    pod 'Alamofire', '~> 3.3.0'
+    pod 'Kingfisher', '~> 2.2.0'
+    pod 'IQKeyboardManagerSwift', '~> 4.0.0'
+    pod 'Charts', '~> 2.2.4'
+    
+    pod 'UMengAnalytics-NO-IDFA'
+    pod 'Pingpp/Alipay', '~> 2.2.0'
+    pod 'Pingpp/Wx', '~> 2.2.0'
+    
     xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
 end
 

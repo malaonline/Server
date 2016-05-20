@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (3.3.0)
+  - Charts (2.2.4):
+    - Charts/Core (= 2.2.4)
+  - Charts/Core (2.2.4)
   - DateTools (1.7.0)
   - IQKeyboardManagerSwift (4.0.0)
   - Kingfisher (2.2.0)
@@ -15,6 +18,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.3.0)
+  - Charts (~> 2.2.4)
   - DateTools (~> 1.7.0)
   - IQKeyboardManagerSwift (~> 4.0.0)
   - Kingfisher (~> 2.2.0)
@@ -25,6 +29,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  Charts: a9e735c83c6d376ade20f6612dcf0ba217394a49
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   IQKeyboardManagerSwift: ede2a27b4e1ce053d03073b9c7fa439322f5e405
   Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
@@ -32,4 +37,6 @@ SPEC CHECKSUMS:
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
   UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 68db4788281df485530b24e3484da50d44631e49
+
+COCOAPODS: 1.0.0
