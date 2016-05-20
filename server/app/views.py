@@ -1085,7 +1085,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
                             ret_nums = ret_json.get('data')
                             subjects_list.append({
-                                'subject': s_name,
+                                'subject': s_name_en,
                                 'total_nums': ret_nums.get('total_item_nums'),
                                 'right_nums': ret_nums.get('total_right_item_nums'),
                             })
@@ -1097,7 +1097,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                         return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
                 else:
                     subjects_list.append({
-                        'subject': s_name,
+                        'subject': s_name_en,
                         'not_supported': True
                     })
             return JsonResponse({'code': 0, 'message': '', 'data': subjects_list})

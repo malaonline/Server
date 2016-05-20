@@ -33,7 +33,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "An array of subjects",
+                        "description": "An array of subjects those the user took or bought",
                         "schema": {
                             "type": "object",
                             "properties": {
@@ -42,7 +42,8 @@
                                 "description": "0 means ok. 见Error的code定义"
                               },
                               "message": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "error message"
                               },
                               "data": {
                                 "type": "array",
@@ -90,7 +91,8 @@
                                 "description": "0 means ok. 见Error的code定义"
                               },
                               "message": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "error message"
                               },
                               "data": {
                                 "$ref": "#/definitions/ReportSummary"
