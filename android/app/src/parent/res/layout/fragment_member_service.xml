@@ -12,11 +12,11 @@
         <LinearLayout
             android:id="@+id/ll_refresh_refreshing"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="205dp">
             <ImageView
                 android:id="@+id/iv_refresh_refreshing"
                 android:src="@anim/refresh_refreshing"

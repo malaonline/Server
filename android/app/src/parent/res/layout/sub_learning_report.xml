@@ -92,13 +92,14 @@
             android:layout_height="37dp"
             android:layout_below="@id/ll_report"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_course_price_pressed"
+            android:background="@drawable/bg_blue_btn"
             android:gravity="center"
             android:text="查看我的学习报告"
             android:textColor="@color/white" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

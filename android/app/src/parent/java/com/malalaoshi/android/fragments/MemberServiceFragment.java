@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.api.LearningReportApi;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.entity.Report;
+import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.result.ReportListResult;
 import com.malalaoshi.android.util.AuthUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/5/16.
@@ -47,6 +57,9 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     @Bind(R.id.sub_learning_report)
     protected RelativeLayout rlLearningReport;
+
+    @Bind(R.id.tv_subject)
+    protected TextView tvSubject;
 
     @Bind(R.id.tv_answer_number)
     protected TextView tvAnswerNumber;
@@ -74,10 +87,17 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_member_service,container, false);
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
         initView();
         initData();
         setEvent();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void setEvent() {
@@ -90,67 +110,24 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         loadData();
     }
 
+    private void initView() {
+        refreshAnimation = (AnimationDrawable)ivRefreshRefreshing.getDrawable();
+    }
+
     private void loadData() {
         if (!UserManager.getInstance().isLogin()){
             showNotSignInView();
         }else{
             showLoadingView();
-            new HttpThread(myHandler).start();
+            ApiExecutor.exec(new FetchReportRequest(this));
         }
     }
 
-    public Handler myHandler = new Handler(Looper.getMainLooper()){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            refreshAnimation.stop();
-            if (msg.arg1==0){
-               showEmptyReportView();
-            }else if (msg.arg1==1){
-             showLoadFailedView();
-            }else if (msg.arg1==2){
-               showNotSignInView();
-            }else if (msg.arg1==3){
-                showNotSignUpView();
-            } else{
-                showReportView();
-            }
-        }
-    };
-
-    public static class HttpThread extends Thread{
-        private WeakReference<Handler> handlerWeakReference;
-        public HttpThread(Handler handler){
-            handlerWeakReference = new WeakReference<Handler>(handler);
-        }
-        Message message ;
-        @Override
-        public void run() {
-            super.run();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            int res = (int)Math.random()%4;
-            message = new Message();
-            if (res==0){
-                message.arg1 = 0;
-                handlerWeakReference.get().sendMessage(message);
-            }else if (res==1){
-                message.arg1 = 1;
-                handlerWeakReference.get().sendMessage(message);
-            }else if (res==2){
-                message.arg1 = 2;
-                handlerWeakReference.get().sendMessage(message);
-            }else if (res==3){
-                message.arg1 = 3;
-                handlerWeakReference.get().sendMessage(message);
-            }else{
-                message.arg1 = 3;
-                handlerWeakReference.get().sendMessage(message);
-            }
-
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()) {
+            case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
+                reloadData();
+                break;
         }
     }
 
@@ -197,27 +174,59 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     private void showEmptyReportView(){
         refreshAnimation.stop();
-        rlNonLearningReport.setVisibility(View.GONE);
-        rlLearningReport.setVisibility(View.VISIBLE);
+        rlNonLearningReport.setVisibility(View.VISIBLE);
+        rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
         tvReportPrompt.setText("当前科目暂未开通学习报告,敬请期待···");
         tvReportSubmit.setText("查看数学学习报告样本");
         reportStatus = EnumReportStatus.EMPTYREPORT;
     }
 
-    private void showReportView(){
+    private void showReportView(Report report){
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.VISIBLE);
         llRefreshRefreshing.setVisibility(View.GONE);
-        tvAnswerNumber.setText("93");
-        tvCorrectRate.setText("93%");
+        Subject subject = Subject.getSubjectById(report.getSubject_id());
+        if (subject!=null){
+            tvSubject.setText(subject.getName());
+        }else{
+            tvSubject.setText("");
+        }
+        tvAnswerNumber.setText(report.getTotal_nums()+"");
+        int rate = 0;
+        if (report.getTotal_nums()>0){
+            rate = report.getRight_nums()*100/report.getTotal_nums();
+        }
+        tvCorrectRate.setText(rate+"%");
         reportStatus = EnumReportStatus.REPORT;
     }
 
-    private void initView() {
-        refreshAnimation = (AnimationDrawable)ivRefreshRefreshing.getDrawable();
+    private void dealResponse(ReportListResult response) {
+        if (response.getCode()==0){
+            List<Report> reports = response.getResults();
+            if (reports.size()>0){
+                Report report = null;
+                for (int i=0;i<reports.size();i++){
+                    if (reports.get(i).isSupported()){
+                        report = reports.get(i);
+                        break;
+                    }
+                }
+                if (report!=null&&report.getTotal_nums()>0){
+                    //update ui
+                    showReportView(report);
+                }else{
+                    showEmptyReportView();
+                }
+            }else{
+                showNotSignUpView();
+            }
+        }else{
+            showLoadFailedView();
+        }
     }
+
 
     //查看学习报告
     private void openLearningReport() {
@@ -295,6 +304,34 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         //intent.putExtra();
         //startActivity(intent);
     }
+
+    private static final class FetchReportRequest extends BaseApiContext<MemberServiceFragment, ReportListResult> {
+
+        public FetchReportRequest(MemberServiceFragment memberServiceFragment) {
+            super(memberServiceFragment);
+        }
+
+        @Override
+        public ReportListResult request() throws Exception {
+            return new LearningReportApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull ReportListResult response) {
+            if (response!=null){
+                get().dealResponse(response);
+            }else{
+                get().showLoadFailedView();
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().showLoadFailedView();
+        }
+
+    }
+
 
     @Override
     public String getStatName() {
