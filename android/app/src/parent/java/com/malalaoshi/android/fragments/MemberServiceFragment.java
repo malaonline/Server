@@ -1,5 +1,6 @@
 package com.malalaoshi.android.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.TeacherInfoActivity;
+import com.malalaoshi.android.activitys.MemberActivity;
 import com.malalaoshi.android.api.LearningReportApi;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -32,6 +35,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -39,7 +43,7 @@ import de.greenrobot.event.EventBus;
  * 会员专享
  */
 
-public class MemberServiceFragment extends BaseFragment implements View.OnClickListener {
+public class MemberServiceFragment extends BaseFragment {
 
     AnimationDrawable refreshAnimation = null;
 
@@ -101,9 +105,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     }
 
     private void setEvent() {
-        llRefreshRefreshing.setOnClickListener(this);
-        tvReportSubmit.setOnClickListener(this);
-        tvOpenLearReport.setOnClickListener(this);
+
     }
 
     private void initData() {
@@ -129,6 +131,50 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
                 reloadData();
                 break;
         }
+    }
+
+
+    @OnClick(R.id.ll_refresh_refreshing)//刷新
+    public void onClickRefresh(View view){
+        if (reportStatus==EnumReportStatus.LONGFAILED){
+            reloadData();
+        }
+    }
+
+    @OnClick(R.id.tv_report_submit)//登录或查看样本
+    public void onClickNoReport(View view){
+        if (reportStatus==EnumReportStatus.NOTSIGNIN){
+            openLoginActivity();
+        }else if (reportStatus==EnumReportStatus.NOTSIGNUP){
+            openSampleReport();
+        }else if (reportStatus==EnumReportStatus.EMPTYREPORT){
+            openSampleReport();
+        }
+    }
+
+    @OnClick(R.id.tv_open_learning_report)//查看样本
+    public void onClickOpenReport(View view){
+        if (reportStatus==EnumReportStatus.REPORT){
+            openLearningReport();
+        }
+    }
+
+    //查看学习报告
+    private void openLearningReport() {
+    }
+
+    //查看学习报告样本
+    private void openSampleReport() {
+    }
+
+    //登录
+    private void openLoginActivity() {
+        AuthUtils.redirectLoginActivity(getContext());
+    }
+
+    //重新加载
+    private void reloadData() {
+        loadData();
     }
 
     private void showLoadingView(){
@@ -228,83 +274,6 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    //查看学习报告
-    private void openLearningReport() {
-    }
-
-    //查看学习报告样本
-    private void openSampleReport() {
-    }
-
-    //登录
-    private void openLoginActivity() {
-        AuthUtils.redirectLoginActivity(getContext());
-    }
-
-    //重新加载
-    private void reloadData() {
-        loadData();
-    }
-
-    /*************************会员专享*************************/
-    public void onClick(View view){
-        int position = 0;
-        switch (view.getId()){
-            case R.id.ll_refresh_refreshing:
-                if (reportStatus==EnumReportStatus.LONGFAILED){
-                    reloadData();
-                }
-                return;
-            case R.id.tv_report_submit:
-                if (reportStatus==EnumReportStatus.NOTSIGNIN){
-                    openLoginActivity();
-                }else if (reportStatus==EnumReportStatus.NOTSIGNUP){
-                    openSampleReport();
-                }else if (reportStatus==EnumReportStatus.EMPTYREPORT){
-                    openSampleReport();
-                }
-                return;
-            case R.id.tv_open_learning_report:
-                if (reportStatus==EnumReportStatus.REPORT){
-                    openLearningReport();
-                }
-                return;
-            case R.id.tv_with_read://自习陪读
-                //position =
-                break;
-            case R.id.tv_learning_report://学习报告
-                //position =
-                break;
-            case R.id.tv_counseling://心理辅导
-                //position =
-                break;
-            case R.id.tv_lectures://特色讲座
-                //position =
-                break;
-            case R.id.tv_exam_explain://考前串讲
-                //position =
-                break;
-            case R.id.tv_mistake://错题本
-                //position =
-                break;
-            case R.id.tv_spps_evaluation://SPPS测评
-                //position =
-                break;
-            case R.id.tv_expect_more://敬请期待
-                //position =
-                break;
-            default:
-                return;
-        }
-        openMemberServiceAvtivity(position);
-    }
-
-    private void openMemberServiceAvtivity(int type){
-       // Intent intent = new Intent(getContext(), TeacherInfoActivity.class);
-        //intent.putExtra();
-        //startActivity(intent);
-    }
-
     private static final class FetchReportRequest extends BaseApiContext<MemberServiceFragment, ReportListResult> {
 
         public FetchReportRequest(MemberServiceFragment memberServiceFragment) {
@@ -332,6 +301,52 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     }
 
+    /*************************会员专享*************************/
+    @OnClick(R.id.tv_with_read)//自习陪读
+    public void onClickWithRead(View view){
+        openMemberServiceAvtivity(0);
+    }
+
+    @OnClick(R.id.tv_learning_report)//学习报告
+    public void onClickLearningReport(View view){
+        openMemberServiceAvtivity(1);
+    }
+
+    @OnClick(R.id.tv_counseling)//心理辅导
+    public void onClickCounseling(View view){
+        openMemberServiceAvtivity(3);
+    }
+
+    @OnClick(R.id.tv_lectures)//特色讲座
+    public void onClickLectures(View view){
+        openMemberServiceAvtivity(4);
+    }
+
+    @OnClick(R.id.tv_exam_explain)//考前串讲
+    public void onClickExamExplain(View view){
+        openMemberServiceAvtivity(5);
+    }
+
+    @OnClick(R.id.tv_mistake)//错题本
+    public void onClickMistake(View view){
+        openMemberServiceAvtivity(6);
+    }
+
+    @OnClick(R.id.tv_spps_evaluation)//SPPS测评
+    public void onClickSppsEvaluation(View view){
+        openMemberServiceAvtivity(7);
+    }
+
+    @OnClick(R.id.tv_expect_more)//敬请期待
+    public void onClickExpectMore(View view){
+        openMemberServiceAvtivity(8);
+    }
+
+    private void openMemberServiceAvtivity(int position){
+        Intent intent = new Intent(getContext(), MemberActivity.class);
+        intent.putExtra(MemberActivity.EXTRA_CURRETN_POSITION,position);
+        startActivity(intent);
+    }
 
     @Override
     public String getStatName() {

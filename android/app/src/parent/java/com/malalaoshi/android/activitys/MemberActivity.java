@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 
 public class MemberActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
+    public static String EXTRA_CURRETN_POSITION = "current pager";
     private List<Fragment> fragments;
 
     private MyPagerAdapter adapter;
@@ -152,9 +153,7 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
     //TODO
     public void getPagerPosition() {
         Intent intent = getIntent();
-        //  int position = intent.getIntExtra("PagerPosition",0);
-        int position = 3;
-        currentPagerposition = position;
+        currentPagerposition = intent.getIntExtra("EXTRA_CURRETN_POSITION",0);
     }
 
 
