@@ -102,6 +102,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <application>
+            <activity android:name="com.malalaoshi.android.activitys.MemberActivity"></activity>
+        </application>
+
         <activity
             android:name="com.malalaoshi.android.pay.PayActivity"
             android:screenOrientation="portrait"
