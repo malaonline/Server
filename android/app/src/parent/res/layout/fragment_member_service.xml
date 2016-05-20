@@ -9,40 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/rl_refresh_refreshing"
+        <LinearLayout
+            android:id="@+id/ll_refresh_refreshing"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <ImageView
                 android:id="@+id/iv_refresh_refreshing"
+                android:src="@anim/refresh_refreshing"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@anim/refresh_refreshing" />
-
+                android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_refresh_refreshing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:drawableTop="@drawable/ic_data_empty"
-                android:text="加载失败.点击重试"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <ViewStub
+                android:text="正在加载···"
+                android:visibility="visible" />
+        </LinearLayout>
+        <include
             android:id="@+id/sub_non_learning_report"
-            android:inflatedId="@+id/inflated_non_learning_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout="@layout/sub_non_learning_report" />
+            layout="@layout/sub_non_learning_report" />
 
-        <ViewStub
+        <include
             android:id="@+id/sub_learning_report"
-            android:inflatedId="@+id/inflated_learning_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout="@layout/sub_learning_report" />
+            layout="@layout/sub_learning_report" />
 
         <include
             android:layout_marginTop="8dp"
