@@ -16,14 +16,7 @@ import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
-import com.malalaoshi.android.fragments.MemberBookFragment;
-import com.malalaoshi.android.fragments.MemberCounselingFragment;
-import com.malalaoshi.android.fragments.MemberExpectFragment;
-import com.malalaoshi.android.fragments.MemberLectureFragment;
-import com.malalaoshi.android.fragments.MemberReportFragment;
-import com.malalaoshi.android.fragments.MemberSelfstudyFragment;
-import com.malalaoshi.android.fragments.MemberSppsFragment;
-import com.malalaoshi.android.fragments.MemberUniqueFragment;
+import com.malalaoshi.android.fragments.MemberRightFragment;
 import com.malalaoshi.android.view.Indicator.RubberIndicator;
 
 import java.util.ArrayList;
@@ -126,14 +119,14 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
 
     private void setAdapter() {
         fragments = new ArrayList<>();
-        fragments.add(new MemberSelfstudyFragment());
-        fragments.add(new MemberReportFragment());
-        fragments.add(new MemberCounselingFragment());
-        fragments.add(new MemberUniqueFragment());
-        fragments.add(new MemberLectureFragment());
-        fragments.add(new MemberBookFragment());
-        fragments.add(new MemberSppsFragment());
-        fragments.add(new MemberExpectFragment());
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_selfstudy, "自习陪读", "享受专业老师免费陪读服务,随时解决学习问题"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_report, "学习报告", "全面记录学生学习数据,方便家长,随时查看,充分了解学员知识点掌控情况"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_counseling, "心理辅导", "免费获得专业心理咨询师1对1心理辅导,促进学员身心健康成长"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_unique, "特色讲座", "特邀各领域专家进行多种特色讲座,营养健康、家庭教育、高效学习应有尽有"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_lecture, "考前串讲", "专业解读考试趋势,剖析考试难点分享高分经验.还有命题专家进行中高考押题"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_book, "错题本", "针对每个学员记录并生成错题本,方便查找知识漏洞,并生成针对性练习"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_spps, "SPPS测评", "定期进行SPPS评测,充分了解学员学习情况"));
+        fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_expect, "敬请期待...", ""));
         FragmentManager fm = getSupportFragmentManager();
         adapter = new MyPagerAdapter(fm);
         memberViewPager.setAdapter(adapter);

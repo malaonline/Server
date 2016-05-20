@@ -229,9 +229,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         }
     }
 
-   private void loadCourses(){
-       EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-   }
+    private void loadCourses() {
+        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+    }
 
     private void setCurrentTab(int i) {
         switch (i) {
@@ -307,8 +307,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
 
     protected void onClickBarBtnLocation() {
-
-        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
         SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
@@ -317,13 +316,13 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     public void onEventMainThread(UnpayOrderEvent event) {
         switch (event.getEventType()) {
             case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
-                if (event.getUnpayCount()>0){
+                if (event.getUnpayCount() > 0) {
                     ivUnpaidOrders.setVisibility(View.VISIBLE);
-                    if (MalaApplication.getInstance().isFirstStartApp&&isResume){
+                    if (MalaApplication.getInstance().isFirstStartApp && isResume) {
                         showUnpaidOrderTipDialog();
                         MalaApplication.getInstance().isFirstStartApp = false;
                     }
-                }else{
+                } else {
                     MalaApplication.getInstance().isFirstStartApp = false;
                     ivUnpaidOrders.setVisibility(View.INVISIBLE);
                 }
@@ -333,15 +332,15 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private void showUnpaidOrderTipDialog() {
         //支付成功
-        DialogUtil.showPromptDialog(getSupportFragmentManager(),R.drawable.ic_pay_success
-                ,"您有订单尚未支付!", "查看订单",
+        DialogUtil.showPromptDialog(getSupportFragmentManager(), R.drawable.ic_pay_success
+                , "您有订单尚未支付!", "查看订单",
                 new PromptDialog.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         Intent intent = new Intent(MainActivity.this, OrderListActivity.class);
                         startActivity(intent);
                     }
-                },true,true);
+                }, true, true);
     }
 
     @Override
@@ -387,8 +386,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
 
-    public void loadUnpayOrders(){
-        if (UserManager.getInstance().isLogin()){
+    public void loadUnpayOrders() {
+        if (UserManager.getInstance().isLogin()) {
             ApiExecutor.exec(new LoadUnpayOrdersRequest(this));
         }
     }
@@ -406,7 +405,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
         @Override
         public void onApiSuccess(@NonNull UnpayOrders unpayOrders) {
-            if (unpayOrders!=null&&unpayOrders.getCount()!=null){
+            if (unpayOrders != null && unpayOrders.getCount() != null) {
                 UnpayOrderEvent unpayOrderEvent = new UnpayOrderEvent(EventType.BUS_EVENT_UNPAY_ORDER_COUNT);
                 unpayOrderEvent.setUnpayCount(unpayOrders.getCount());
                 EventBus.getDefault().post(unpayOrderEvent);
