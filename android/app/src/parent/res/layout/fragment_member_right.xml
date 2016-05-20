@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
-        android:src="@drawable/ic_false_book" />
+        android:src="@drawable/ic_member_book" />
 
     <TextView
         android:id="@+id/tv_member_sort"
