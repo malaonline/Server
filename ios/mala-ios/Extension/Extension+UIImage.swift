@@ -15,9 +15,9 @@ extension UIImage {
     ///  - parameter color: UIImage's Color
     ///
     ///  - returns: UIImage
-    class func withColor(color: UIColor = UIColor.whiteColor()) -> UIImage {
+    class func withColor(color: UIColor = UIColor.whiteColor(), bounds: CGRect = CGRectMake(0, 0, 1, 1)) -> UIImage {
         
-        let rect = CGRectMake(0, 0, 1, 1)
+        let rect = bounds
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
         
