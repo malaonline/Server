@@ -1037,6 +1037,7 @@ class StudyReportView(ParentBasedMixin, APIView):
     }
     # default params value
     ALL = 'all'
+    MATH = 'math'
     SUMMARY = 'summary'
 
     @classmethod
@@ -1076,7 +1077,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                 tmp_subject = models.Subject.objects.get(id=tmp_order['subject'])
                 s_name = tmp_subject.name
                 s_name_en = self.get_subject_en(s_name)
-                if s_name == '数学':
+                if s_name_en == self.MATH:
                     url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
                     resp = requests.get(url + '/total-item-nums', params=params)
                     if resp.status_code == 200:
@@ -1102,10 +1103,9 @@ class StudyReportView(ParentBasedMixin, APIView):
             return JsonResponse({'code': 0, 'message': '', 'data': subjects_list})
 
         ## to get certain subject's info
-        if subject != '数学':
+        if subject != self.MATH:
             return JsonResponse({'code': -5, 'message': '暂时不支持该教学科目'})
-        s_name_en = self.get_subject_en(subject)
-        url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+        url = self.KUAILEXUE_URL_FMT.format(subject=subject)
         if category == self.SUMMARY:
             resp = requests.get(url + '/total-item-nums', params=params)
             if resp.status_code == 200:
