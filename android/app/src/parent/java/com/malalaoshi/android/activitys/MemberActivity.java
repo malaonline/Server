@@ -33,7 +33,6 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
     private MyPagerAdapter adapter;
 
 
-    //TODO  页面当前位置
     private int currentPagerposition = 0;
 
 
@@ -150,10 +149,9 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
 
     }
 
-    //TODO
     public void getPagerPosition() {
         Intent intent = getIntent();
-        currentPagerposition = intent.getIntExtra("EXTRA_CURRETN_POSITION",0);
+        currentPagerposition = intent.getIntExtra(EXTRA_CURRETN_POSITION,0);
     }
 
 

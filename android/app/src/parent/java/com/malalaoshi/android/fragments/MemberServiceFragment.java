@@ -314,32 +314,32 @@ public class MemberServiceFragment extends BaseFragment {
 
     @OnClick(R.id.tv_counseling)//心理辅导
     public void onClickCounseling(View view){
-        openMemberServiceAvtivity(3);
+        openMemberServiceAvtivity(2);
     }
 
     @OnClick(R.id.tv_lectures)//特色讲座
     public void onClickLectures(View view){
-        openMemberServiceAvtivity(4);
+        openMemberServiceAvtivity(3);
     }
 
     @OnClick(R.id.tv_exam_explain)//考前串讲
     public void onClickExamExplain(View view){
-        openMemberServiceAvtivity(5);
+        openMemberServiceAvtivity(4);
     }
 
     @OnClick(R.id.tv_mistake)//错题本
     public void onClickMistake(View view){
-        openMemberServiceAvtivity(6);
+        openMemberServiceAvtivity(5);
     }
 
     @OnClick(R.id.tv_spps_evaluation)//SPPS测评
     public void onClickSppsEvaluation(View view){
-        openMemberServiceAvtivity(7);
+        openMemberServiceAvtivity(6);
     }
 
     @OnClick(R.id.tv_expect_more)//敬请期待
     public void onClickExpectMore(View view){
-        openMemberServiceAvtivity(8);
+        openMemberServiceAvtivity(7);
     }
 
     private void openMemberServiceAvtivity(int position){
