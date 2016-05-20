@@ -15,7 +15,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
-        WeeklyTimeSlot, AuditRecord, Coupon, School, Region
+        WeeklyTimeSlot, AuditRecord, Coupon, School, Region, Subject
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.algorithm import verify_sig
@@ -657,10 +657,11 @@ class TestApi(TestCase):
         request_url = "/api/v1/study_report"
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
-        request_url = "/api/v1/study_report/数学"
+        math_id = Subject.objects.get(name='数学').id
+        request_url = "/api/v1/study_report/%s"%(math_id)
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
-        request_url = "/api/v1/study_report/数学/summary"
+        request_url = "/api/v1/study_report/%s/summary"%(math_id)
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
