@@ -1168,6 +1168,8 @@ class Feedback(BaseModel):
 
 class Student(BaseModel):
     name = models.CharField(max_length=50)
+    school_name = models.CharField(max_length=100, default='')
+    user = models.OneToOneField(User)
 
     def __str__(self):
         try:
@@ -1180,12 +1182,35 @@ class Student(BaseModel):
                 pk=self.pk, name=self.name, msg=e
             )
 
+    # 新建一个空白 student
+    @staticmethod
+    def new_student() -> User:
+        # 新建用户
+        username = random_string()[:30]
+        salt = random_string()[:5]
+        password = "malalaoshi"
+        user = User(username=username)
+        user.email = ""
+        user.password = make_password(password, salt)
+        user.save()
+        student_group = Group.objects.get(name="学生")
+        user.groups.add(student_group)
+        # 创建学生身份
+        profile = Profile(user=user, phone="")
+        profile.save()
+        student = Student(user=user)
+        student.save()
+        # 集体保存
+        user.save()
+        profile.save()
+        student.save()
+        ret_user = authenticate(username=username, password=password)
+        return ret_user
+
 
 class Parent(BaseModel):
     user = models.OneToOneField(User)
-
-    student = models.OneToOneField(Student)
-    student_school_name = models.CharField(max_length=100, default='')
+    students = models.ManyToManyField(Student)
 
     def recent_orders(self):
         one_month_before = timezone.now() - datetime.timedelta(days=90)
@@ -1253,20 +1278,41 @@ class Parent(BaseModel):
         else:
             return False, lts[0].id
 
+    def students_count(self):
+        # students 数量大于一的, 目前视为异常情况
+        if self.students.count() > 1:
+            raise Exception("more than 1 student that should not be happened")
+        return self.students.count()
+
     @property
     def student_name(self):
-        if self.student is not None:
-            return self.student.name
+        if self.students_count() == 1:
+            return self.students.first().name
         return None
 
     @student_name.setter
     def student_name(self, new_value):
-        if self.student is None:
-            student = Student(name=new_value)
+        if self.students_count() == 0:
+            user = Student.new_student()
+            student = user.student
+            student.name = new_value
             student.save()
-            self.student = student
+            self.students.add(student)
         else:
-            self.student.name = new_value
+            self.students.first().name = new_value
+
+    @property
+    def student_school_name(self):
+        if self.students_count() == 1:
+            return self.students.first().school_name
+        return None
+
+    @student_school_name.setter
+    def student_school_name(self, new_value):
+        if self.students_count() == 0:
+            raise Exception("will set school name but no student")
+        else:
+            self.students.first().school_name = new_value
 
 # 因为李鑫还没想好,就先不要这个model,以后再放出来
 # class TeacherVistParent(BaseModel):
