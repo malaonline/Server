@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.malalaoshi.android.core.view.TitleBarView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cusLeftBackgroud="@drawable/core__back_btn"
+        app:cusLeftShow="true"
+        app:cusTitleText="课程确认"
+        app:cusTitleTextColor="@color/core__title_bar_text_color"
+        app:cusTitleTextSize="@dimen/core__title_bar_text_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/core__title_bar_divider" />
+
+    <FrameLayout
+        android:id="@+id/core__fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6" />
+</LinearLayout>

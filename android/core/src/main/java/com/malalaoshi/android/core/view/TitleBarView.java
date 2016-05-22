@@ -31,7 +31,7 @@ public class TitleBarView extends LinearLayout implements View.OnClickListener {
     protected TextView rightView;
     protected TextView titleView;
 
-    public TitleBarView(Context context, AttributeSet attrs)  {
+    public TitleBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.core__title_bar, this);
         leftView = (ImageView) view.findViewById(R.id.iv_left);
@@ -73,19 +73,23 @@ public class TitleBarView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.iv_left){
+        if (v.getId() == R.id.iv_left) {
             if (listener != null) {
                 listener.onTitleLeftClick();
             }
-        }else if(v.getId() == R.id.tv_right){
+        } else if (v.getId() == R.id.tv_right) {
             if (listener != null) {
                 listener.onTitleRightClick();
             }
         }
     }
 
-    public void setLeftImageDrawable(Drawable leftBackground){
+    public void setLeftImageDrawable(Drawable leftBackground) {
         leftView.setImageDrawable(leftBackground);
+    }
+
+    public void setRightVisibility(int visible) {
+        rightView.setVisibility(visible);
     }
 
     public void setOnTitleBarClickListener(OnTitleBarClickListener listener) {

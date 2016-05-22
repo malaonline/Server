@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.adapter.MalaBaseAdapter;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.entity.CouponEntity;

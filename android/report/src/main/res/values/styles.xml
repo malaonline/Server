@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="report__page_title">
+        <item name="android:textSize">@dimen/core__text_size_xlarge</item>
+        <item name="android:textColor">@color/report__gray_5e</item>
+    </style>
+
+    <style name="report__page_content_label">
+        <item name="android:textSize">@dimen/core__text_size_xlarge</item>
+        <item name="android:textColor">@color/report__gray_5e</item>
+    </style>
+</resources>

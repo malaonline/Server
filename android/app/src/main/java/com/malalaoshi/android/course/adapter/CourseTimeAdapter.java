@@ -7,7 +7,7 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.adapter.MalaBaseAdapter;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.course.model.CourseTimeModel;
 
 /**

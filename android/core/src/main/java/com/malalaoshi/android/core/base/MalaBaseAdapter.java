@@ -1,4 +1,4 @@
-package com.malalaoshi.android.adapter;
+package com.malalaoshi.android.core.base;
 
 import android.content.Context;
 import android.view.View;

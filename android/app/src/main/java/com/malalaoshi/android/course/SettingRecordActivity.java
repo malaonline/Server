@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.adapter.MalaBaseAdapter;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.SettingRecordUI;

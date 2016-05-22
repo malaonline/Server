@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.adapter.MalaBaseAdapter;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.entity.CourseDateEntity;
 
 import java.util.ArrayList;

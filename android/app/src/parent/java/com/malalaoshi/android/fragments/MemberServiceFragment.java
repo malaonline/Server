@@ -3,9 +3,6 @@ package com.malalaoshi.android.fragments;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.TeacherInfoActivity;
 import com.malalaoshi.android.activitys.MemberActivity;
 import com.malalaoshi.android.api.LearningReportApi;
 import com.malalaoshi.android.core.base.BaseFragment;
@@ -27,10 +23,10 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.entity.Report;
 import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.report.ReportActivity;
 import com.malalaoshi.android.result.ReportListResult;
 import com.malalaoshi.android.util.AuthUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.Bind;
@@ -165,6 +161,7 @@ public class MemberServiceFragment extends BaseFragment {
 
     //查看学习报告样本
     private void openSampleReport() {
+        getActivity().startActivity(new Intent(getActivity(), ReportActivity.class));
     }
 
     //登录

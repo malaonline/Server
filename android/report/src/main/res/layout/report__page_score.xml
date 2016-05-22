@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.malalaoshi.android.report.page.ReportScorePage xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/report__page_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:text="题目数据分析" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/report__gray_divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:gravity="end|center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:drawableLeft="@drawable/report_ic_line_chart"
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/report_ic_line_chart"
+            android:text="平均评分"
+            android:textColor="#5E5E5E"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/view_blue_ring"
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/view_blue_ring"
+            android:text="平均评分"
+            android:textColor="#5E5E5E"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <com.malalaoshi.android.report.view.LineView
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="32dp" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/report__shadow_bk"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_des_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="解读："
+                android:textColor="#363b4e"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_des_title"
+                android:layout_marginTop="7dp"
+                android:text="学生对于圆的知识点和函数初步知识，以及几何变形知识点能力突出，可减少习题数。实数可加强练习。"
+                android:textColor="#363b4e"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/report__ic_pin" />
+    </FrameLayout>
+</com.malalaoshi.android.report.page.ReportScorePage>

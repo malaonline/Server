@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--core里面定义的只是命名规范， APP主模块里面必须定义相同的字段名字去覆盖-->
+
+    <!-- 标题栏标题的颜色-->
+    <color name="core__title_bar_text_color">#FF333333</color>
+
+    <!-- 标题栏标题的大小-->
+    <dimen name="core__title_bar_text_size">16sp</dimen>
+
+    <!-- 标题栏分割线-->
+    <drawable name="core__title_bar_divider">#FFDADADA</drawable>
+
+
+</resources>
