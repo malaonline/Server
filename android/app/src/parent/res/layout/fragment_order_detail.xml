@@ -3,64 +3,179 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ScrollView
+        android:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         >
         <LinearLayout
-            android:background="@color/background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
+            <LinearLayout
                 android:background="@color/white"
+                android:layout_marginTop="8dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="8dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/rl_order_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_order_status_txt"
+                        android:text="订单状态"
+                        android:textSize="@dimen/text_size_normal_x"
+                        android:textColor="@color/text_color_home_price_unit"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="aaaaa"
+                        android:id="@+id/tv_order_status"
+                        android:textColor="#e36a5c"
+                        android:textSize="@dimen/text_size_normal_x"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <View
+                        android:background="@color/line_bg"
+                        android:layout_below="@id/tv_order_status_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_teacher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_teacher"
+                        android:drawablePadding="10dp"
+                        android:layout_marginBottom="9dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_normal_x"
+                        android:textColor="@color/text_color_home_price_unit" />
+
+                    <TextView
+                        android:id="@+id/tv_course_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_teacher_name"
+                        android:drawableLeft="@drawable/ic_course"
+                        android:drawablePadding="10dp"
+                        android:layout_marginBottom="9dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_normal_x"
+                        android:textColor="@color/text_color_home_price_unit" />
+
+                    <LinearLayout
+                        android:layout_below="@+id/tv_course_name"
+                        android:layout_marginRight="61dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/ic_address"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_school"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_normal_x"
+                            android:textColor="@color/text_color_home_price_unit" />
+                    </LinearLayout>
+
+
+                    <com.malalaoshi.android.view.CircleNetworkImage
+                        android:id="@+id/iv_teacher_avator"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:paddingRight="12dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
                 <TextView
-                    android:text="订单状态"
-                    android:textSize="@dimen/text_size_normal_x"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/bg_rectangle_small"
+                    android:drawablePadding="9dp"
+                    android:textColor="@color/text_color_darkgray"
+                    android:textSize="@dimen/text_size_large_x"
+                    android:text="上课时间" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_total_hours"
                     android:textColor="@color/text_color_home_price_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_order_status"
-                    android:textColor="#e36a5c"
                     android:textSize="@dimen/text_size_normal_x"
-                    android:layout_alignParentRight="true"
+                    android:text="共计" />
+                <TextView
+                    android:id="@+id/tv_total_hours"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_total_class_text"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/text_color_darkgray"
+                    android:textSize="@dimen/text_size_normal_x" />
+                <TextView
+                    android:id="@+id/tv_total_class_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/text_color_home_price_unit"
+                    android:textSize="@dimen/text_size_normal_x"
+                    android:text="课时" />
             </RelativeLayout>
-            <View
-                android:background="@color/line_bg"
-                android:layout_width="match_parent"
-                android:layout_height="1px"/>
-            <include layout="@layout/sub_order_teacher_info"
-                android:id="@+id/sub_order_teacher_info"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/background" />
-           <include layout="@layout/sub_order_class_time"
-                android:id="@+id/sub_class_time" />
-            <View
+                android:layout_height="1px"
+                android:background="@color/list_divider_light" />
+            <com.malalaoshi.android.view.ScrollListView
+                android:id="@+id/lv_show_times"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/background" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_show_times"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:listSelector="#00000000"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="12dp"
+                android:background="@color/white"
+                android:visibility="visible" />
+
             <RelativeLayout
                 android:id="@+id/rl_pay_way"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="@color/white"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
                 android:paddingRight="12dp"
                 android:paddingLeft="12dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -78,19 +193,85 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-            <View
-                android:id="@+id/view_line_pay_way"
-                android:visibility="gone"
+
+            <RelativeLayout
+                android:id="@+id/rl_order_time"
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/background" />
-            <include layout="@layout/sub_order_time_info"
-                android:id="@+id/sub_order_time_info" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_order_id_text"
+                    android:text="订单编号:"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/comment_teacher_text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_order_id"
+                    android:text="123456789"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/comment_teacher_text_color"
+                    android:layout_alignTop="@id/tv_order_id_text"
+                    android:layout_toRightOf="@id/tv_order_id_text"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_create_order_time_text"
+                    android:text="创建时间:"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/comment_teacher_text_color"
+                    android:layout_below="@id/tv_order_id_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_create_order_time"
+                    android:text="2016-05-11 09:30:11"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/comment_teacher_text_color"
+                    android:layout_alignTop="@id/tv_create_order_time_text"
+                    android:layout_toRightOf="@id/tv_create_order_time_text"
+                    android:layout_marginLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/ll_pay_order_time"
+                    android:layout_below="@id/tv_create_order_time_text"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_pay_order_time_text"
+                        android:text="支付时间:"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/comment_teacher_text_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_pay_order_time"
+                        android:text="2016-05-11 09:30:11"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textColor="@color/comment_teacher_text_color"
+                        android:lineSpacingExtra="12dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/rl_operation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -136,7 +317,7 @@
             android:textColor="@color/theme_red_96"
             android:textSize="13sp" />
         <TextView
-            android:id="@+id/tv_cancel"
+            android:id="@+id/tv_cancel_order"
             android:layout_width="75dp"
             android:layout_height="27dp"
             android:layout_toLeftOf="@+id/tv_submit"
@@ -151,6 +332,20 @@
             android:id="@+id/tv_submit"
             android:layout_width="75dp"
             android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_confirm"
+            android:gravity="center"
+            android:text="提交订单"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/tv_submit_order"
+            android:visibility="gone"
+            android:layout_width="144dp"
+            android:layout_height="37dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"

@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,23 +15,20 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.adapter.OrderRecyclerViewAdapter;
-import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
-import com.malalaoshi.android.adapter.TimeLineAdapter;
 import com.malalaoshi.android.api.FetchOrderApi;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
+import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.model.CourseTimeModel;
-import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
-import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
+import com.malalaoshi.android.util.CalendarUtils;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
@@ -43,20 +37,24 @@ import com.malalaoshi.android.view.CircleNetworkImage;
 import com.malalaoshi.android.view.ScrollListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
 public class OrderDetailFragment extends Fragment {
     private static String TAG = "OrderDetailFragment";
-    private static final String ARG_ORDER_STATUS = "order status";
+    private static final String ARG_ORDER_INFO = "order info";
+    private static final String ARG_IS_CONFIRM_ORDER = "is confirm order";
     private static final String ARG_ORDER_ID = "order id";
-    private String orderStatus;
+    private boolean isConfirmOrder;
     private String orderId;
+
+    @Bind(R.id.rl_order_status)
+    protected RelativeLayout rlOrderStatus;
 
     @Bind(R.id.tv_order_status)
     protected TextView tvOrderStatus;
@@ -76,17 +74,17 @@ public class OrderDetailFragment extends Fragment {
      @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
 
-    @Bind(R.id.lv_course_times)
-    protected ScrollListView lvCourseTimes;
+    @Bind(R.id.lv_show_times)
+    protected ScrollListView lvShowTimes;
 
     @Bind(R.id.rl_pay_way)
     protected RelativeLayout rlPayWay;
 
-   @Bind(R.id.tv_pay_way)
+    @Bind(R.id.tv_pay_way)
     protected TextView tvPayWay;
 
-    @Bind(R.id.view_line_pay_way)
-    protected View viewLinePayWay;
+    @Bind(R.id.rl_order_time)
+    protected RelativeLayout rlOrderTime;
 
     @Bind(R.id.tv_order_id)
     protected TextView tvOrderId;
@@ -106,29 +104,54 @@ public class OrderDetailFragment extends Fragment {
     @Bind(R.id.tv_mount)
     protected TextView tvMount;
 
-    @Bind(R.id.tv_cancel)
-    protected TextView tvCancel;
+    @Bind(R.id.tv_cancel_order)
+    protected TextView tvCancelOrder;
 
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
+    @Bind(R.id.tv_submit_order)
+    protected TextView tvSubmitOrder;
 
     private ImageLoader mImageLoader;
 
-    CourseTimeAdapter timesAdapter;
+    private CourseTimeAdapter timesAdapter;
 
     private Order order;
 
     private boolean loadFinish = false;
 
-    public static OrderDetailFragment newInstance(String orderId,String orderStatus) {
-        if (TextUtils.isEmpty(orderStatus)|| TextUtils.isEmpty(orderId)){
-            Log.w(TAG,"args error");
+    /**
+     * 查看订单
+     * @param orderId
+     * @return
+     */
+    public static OrderDetailFragment newInstance(String orderId) {
+        if (TextUtils.isEmpty(orderId)){
             return null;
         }
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ORDER_STATUS, orderStatus);
+        args.putBoolean(ARG_IS_CONFIRM_ORDER, false);
+        args.putString(ARG_ORDER_ID, orderId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    /**
+     * 确认订单
+     * @param orderId
+     * @param order
+     * @return
+     */
+    public static OrderDetailFragment newInstance(String orderId,Order order) {
+        if (TextUtils.isEmpty(orderId)){
+            return null;
+        }
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_ORDER_INFO, order);
+        args.putBoolean(ARG_IS_CONFIRM_ORDER, true);
         args.putString(ARG_ORDER_ID, orderId);
         fragment.setArguments(args);
         return fragment;
@@ -141,8 +164,13 @@ public class OrderDetailFragment extends Fragment {
         if (args==null){
             throw new IllegalArgumentException("arguments can not been null");
         }
-        orderStatus = args.getString(ARG_ORDER_STATUS);
-        orderId = args.getString(ARG_ORDER_ID);
+        isConfirmOrder = args.getBoolean(ARG_IS_CONFIRM_ORDER);
+        if(isConfirmOrder){
+
+        }else{
+            orderId = args.getString(ARG_ORDER_ID);
+            order  = args.getParcelable(ARG_ORDER_INFO);
+        }
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
@@ -181,12 +209,29 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void initViews() {
+        if (isConfirmOrder){
+            rlOrderStatus.setVisibility(View.GONE);
+            rlPayWay.setVisibility(View.GONE);
+            rlOrderTime.setVisibility(View.GONE);
+            tvCancelOrder.setVisibility(View.GONE);
+            tvSubmit.setVisibility(View.GONE);
+            tvSubmitOrder.setVisibility(View.VISIBLE);
+        }else{
+            tvCancelOrder.setVisibility(View.GONE);
+            tvSubmit.setVisibility(View.GONE);
+            tvSubmitOrder.setVisibility(View.GONE);
+        }
+
         timesAdapter = new CourseTimeAdapter(getActivity());
-        lvCourseTimes.setAdapter(timesAdapter);
+        lvShowTimes.setAdapter(timesAdapter);
     }
 
     private void loadData() {
-        ApiExecutor.exec(new FetchOrderRequest(this, orderId));
+        if (isConfirmOrder){
+            ApiExecutor.exec(new FetchOrderRequest(this, orderId));
+        }else{
+            ApiExecutor.exec(new FetchOrderRequest(this, orderId));
+        }
     }
 
     @OnClick(R.id.tv_submit)
@@ -209,7 +254,7 @@ public class OrderDetailFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tv_cancel)
+    @OnClick(R.id.tv_cancel_order)
     public void onClickCancel(View view){
         //取消订单
         if (order!=null&&order.getId()!=null&&order.getTo_pay()!=null){
@@ -237,21 +282,32 @@ public class OrderDetailFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void getOrderFailed() {
+    private void getCourseTimeSuccess(){
+       /* Times times = JsonUtil.parseStringData(json.toString(), Times.class);
+        timesAdapter.clear();
+        if (times != null) {
+            timesAdapter.addAll(times.getDisplayTimes());
+            timesAdapter.notifyDataSetChanged();
+        }*/
     }
 
-    private void getOrderSuccess(Order response) {
+
+
+    private void getOrderInfoFailed() {
+
+    }
+
+    private void getOrderInfoSuccess(Order response) {
         if (response==null) {
             return;
         }
         else{
             order = response;
-            updateUI();
+            updateOrderInfoUI();
         }
     }
 
-
-    public void updateUI(){
+    public void updateOrderInfoUI(){
         if (order==null) return;
         tvTeacherName.setText(order.getTeacher_name());
         tvCourseName.setText(order.getGrade()+" "+order.getSubject());
@@ -263,17 +319,15 @@ public class OrderDetailFragment extends Fragment {
             strTopay = Number.subZeroAndDot(toPay*0.01d);
         };
         tvMount.setText(strTopay);
-        //
-        //updateCourseTimes(List<CourseTimeModel> times)
 
         if ("u".equals(order.getStatus())){
             tvOrderStatus.setText("订单待支付");
             rlPayWay.setVisibility(View.GONE);
-            viewLinePayWay.setVisibility(View.GONE);
+
             tvOrderId.setText(order.getOrder_id());
             tvCreateOrderTime.setText(order.getCreated_at());
             llPayOrderTime.setVisibility(View.GONE);
-            tvCancel.setVisibility(View.VISIBLE);
+            tvCancelOrder.setVisibility(View.VISIBLE);
             tvSubmit.setVisibility(View.VISIBLE);
             tvSubmit.setText("立即支付");
             rlOperation.setVisibility(View.VISIBLE);
@@ -281,12 +335,12 @@ public class OrderDetailFragment extends Fragment {
             tvOrderStatus.setText("支付成功");
             rlPayWay.setVisibility(View.VISIBLE);
             tvPayWay.setText(order.getCharge_channel()); ;
-            viewLinePayWay.setVisibility(View.VISIBLE);
+
             tvOrderId.setText(order.getOrder_id());
             tvCreateOrderTime.setText(order.getCreated_at());
             llPayOrderTime.setVisibility(View.VISIBLE);
             tvPayOrderTime.setText(order.getPaid_at());
-            tvCancel.setVisibility(View.GONE);
+            tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.VISIBLE);
             tvSubmit.setText("再次购买");
             rlOperation.setVisibility(View.VISIBLE);
@@ -294,12 +348,11 @@ public class OrderDetailFragment extends Fragment {
             tvOrderStatus.setText("订单已关闭");
             rlPayWay.setVisibility(View.GONE);
             tvPayWay.setText(order.getCharge_channel()); ;
-            viewLinePayWay.setVisibility(View.GONE);
             tvOrderId.setText(order.getOrder_id());
             tvCreateOrderTime.setText(order.getCreated_at());
             llPayOrderTime.setVisibility(View.GONE);
             tvPayOrderTime.setText(order.getPaid_at());
-            tvCancel.setVisibility(View.GONE);
+            tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.VISIBLE);
             tvSubmit.setText("再次购买");
             rlOperation.setVisibility(View.VISIBLE);
@@ -307,12 +360,11 @@ public class OrderDetailFragment extends Fragment {
             tvOrderStatus.setText("退款成功");
             rlPayWay.setVisibility(View.VISIBLE);
             tvPayWay.setText(order.getCharge_channel()); ;
-            viewLinePayWay.setVisibility(View.VISIBLE);
             tvOrderId.setText(order.getOrder_id());
             tvCreateOrderTime.setText(order.getCreated_at());
             llPayOrderTime.setVisibility(View.VISIBLE);
             tvPayOrderTime.setText(order.getPaid_at());
-            tvCancel.setVisibility(View.GONE);
+            tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.GONE);
             rlOperation.setVisibility(View.GONE);
         }
@@ -324,6 +376,15 @@ public class OrderDetailFragment extends Fragment {
         ivTeacherAvator.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
         ivTeacherAvator.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
         ivTeacherAvator.setImageUrl(imgUrl, mImageLoader);
+
+        //上课时间
+        List<String[]> timeslots =  order.getTimeslots();
+
+        if (timeslots != null){
+            List<CourseTimeModel> times = CourseHelper.courseTimes(timeslots);
+            timesAdapter.addAll(times);
+            timesAdapter.notifyDataSetChanged();
+        }
     }
 
     private void updateCourseTimes(List<CourseTimeModel> times) {
@@ -353,9 +414,9 @@ public class OrderDetailFragment extends Fragment {
         @Override
         public void onApiSuccess(@NonNull Order response) {
             if (response!=null){
-                get().getOrderSuccess(response);
+                get().getOrderInfoSuccess(response);
             }else{
-                get().getOrderFailed();
+                get().getOrderInfoFailed();
             }
         }
 
@@ -403,7 +464,6 @@ public class OrderDetailFragment extends Fragment {
         public void onApiFinished() {
             get().stopProcessDialog();
             get().getActivity().finish();
-            MiscUtil.toast("订单取消失败!");
         }
 
         @Override

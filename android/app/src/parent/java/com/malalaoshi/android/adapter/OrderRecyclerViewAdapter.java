@@ -305,7 +305,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         protected void onClickBuyCourse(){
             if ("u".equals(order.getStatus())){
                 //订单详情页
-                OrderInfoActivity.open(this.view.getContext(), order.getId()+"", order.getStatus());
+                OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
             }else{
                 //确认课程页
                 startCourseConfirmActivity();
@@ -336,7 +336,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         @OnClick(R.id.ll_order_item)
         protected void onItemClick(){
             //订单详情
-            OrderInfoActivity.open(this.view.getContext(), order.getId()+"", order.getStatus());
+            OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
         }
 
         public void startProcessDialog(String message){

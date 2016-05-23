@@ -1,9 +1,15 @@
 package com.malalaoshi.android.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kang on 16/5/5.
  */
-public class Order {
+public class Order implements Parcelable {
     private Long id;
     private String teacher;
     private String teacher_name;
@@ -20,6 +26,7 @@ public class Order {
     private String charge_channel;
     private boolean evaluated;
     private boolean is_timeslot_allocated;
+    List<String[]> timeslots;
 
     public Long getId() {
         return id;
@@ -148,4 +155,75 @@ public class Order {
     public void setIs_timeslot_allocated(boolean is_timeslot_allocated) {
         this.is_timeslot_allocated = is_timeslot_allocated;
     }
+
+    public List<String[]> getTimeslots() {
+        return timeslots;
+    }
+
+    public void setTimeslots(List<String[]> timeslots) {
+        this.timeslots = timeslots;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.teacher);
+        dest.writeString(this.teacher_name);
+        dest.writeString(this.teacher_avatar);
+        dest.writeString(this.school);
+        dest.writeString(this.grade);
+        dest.writeString(this.subject);
+        dest.writeValue(this.hours);
+        dest.writeString(this.status);
+        dest.writeString(this.order_id);
+        dest.writeValue(this.to_pay);
+        dest.writeString(this.created_at);
+        dest.writeString(this.paid_at);
+        dest.writeString(this.charge_channel);
+        dest.writeByte(this.evaluated ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.is_timeslot_allocated ? (byte) 1 : (byte) 0);
+        dest.writeList(this.timeslots);
+    }
+
+    public Order() {
+    }
+
+    protected Order(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.teacher = in.readString();
+        this.teacher_name = in.readString();
+        this.teacher_avatar = in.readString();
+        this.school = in.readString();
+        this.grade = in.readString();
+        this.subject = in.readString();
+        this.hours = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.status = in.readString();
+        this.order_id = in.readString();
+        this.to_pay = (Double) in.readValue(Double.class.getClassLoader());
+        this.created_at = in.readString();
+        this.paid_at = in.readString();
+        this.charge_channel = in.readString();
+        this.evaluated = in.readByte() != 0;
+        this.is_timeslot_allocated = in.readByte() != 0;
+        this.timeslots = new ArrayList<String[]>();
+        in.readList(this.timeslots, String[].class.getClassLoader());
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel source) {
+            return new Order(source);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 }

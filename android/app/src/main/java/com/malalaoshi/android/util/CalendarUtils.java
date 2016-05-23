@@ -108,4 +108,27 @@ public class CalendarUtils {
         long milliseconds = (long) (Double.valueOf(seconds) * 1000);
         return format.format(new Date(milliseconds)).split("-");
     }
+
+
+    /**
+     * 返回星期码
+     * @param timestamp
+     * @return
+     * Calendar.SUNDAY
+     * Calendar.MONDAY
+     * Calendar.TUESDAY
+     * Calendar.WEDNESDAY
+     * Calendar.THURSDAY
+     * Calendar.FRIDAY
+     * Calendar.SATURDAY
+     */
+    public static int getWeekBytimestamp(Long timestamp) {
+        if (timestamp==null) return 0;
+        int week = 0;
+        Calendar cd = Calendar.getInstance();
+        cd.setTime(new Date(timestamp));
+        week = cd.get(Calendar.DAY_OF_WEEK);
+        // 获取指定日期转换成星期几
+        return week;
+    }
 }

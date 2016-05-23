@@ -3,7 +3,9 @@ package com.malalaoshi.android.course;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.model.CourseTimeModel;
 import com.malalaoshi.android.entity.CourseDateEntity;
+import com.malalaoshi.android.util.CalendarUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,5 +130,47 @@ public class CourseHelper {
                 break;
         }
         return "周" + week;
+    }
+
+    public static List<CourseTimeModel> courseTimes(List<String[]> timeslots) {
+        //Collections.sort(times);
+        List<CourseTimeModel> list = new ArrayList<>();
+        if ( EmptyUtils.isEmpty(timeslots)) {
+            return list;
+        }
+        CourseTimeModel model = null;
+        Calendar lastCalendar = null;
+        for (int i=0;i<timeslots.size();i++) {
+            String[] data = timeslots.get(i);
+            if (data.length == 2) {
+                String start = data[0];
+                String end = data[1];
+                Calendar startCalendar = CalendarUtils.timestampToCalendar(Long.valueOf(start));
+                Calendar endCalendar = CalendarUtils.timestampToCalendar(Long.valueOf(end));
+                int week = CalendarUtils.getWeekBytimestamp(Long.valueOf(start));
+
+                if (lastCalendar == null) {
+                    model = null;
+                } else {
+                    if (startCalendar.get(Calendar.DAY_OF_YEAR) == lastCalendar.get(Calendar.DAY_OF_YEAR) && startCalendar.get(Calendar.DAY_OF_MONTH) == lastCalendar.get(Calendar.DAY_OF_MONTH)) {
+
+                    } else {
+                        model = null;
+                    }
+                }
+                lastCalendar = startCalendar;
+
+                if (model == null) {
+                    model = new CourseTimeModel();
+                    model.setDate(formatDate(lastCalendar.getTime()));
+                    model.setWeek(formatWeek(lastCalendar.get(Calendar.DAY_OF_WEEK)));
+                    list.add(model);
+                }//DecimalFormat df = new DecimalFormat("0.00");
+                //df.format();
+                String courseTimes = String.format("%02d:%02d-%02d:%02d",startCalendar.get(Calendar.HOUR_OF_DAY),startCalendar.get(Calendar.MINUTE),endCalendar.get(Calendar.HOUR_OF_DAY),endCalendar.get(Calendar.MINUTE));
+                model.setCourseTimes(model.getCourseTimes() + courseTimes + " ");
+            }
+        }
+        return list;
     }
 }
