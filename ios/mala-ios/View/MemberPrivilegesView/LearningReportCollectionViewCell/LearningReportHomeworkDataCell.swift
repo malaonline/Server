@@ -231,7 +231,7 @@ public class PieLegendView: UIView {
         button.sizeToFit()
         currentY = CGFloat(Int(Int(self.viewCount)/3)*20)
         button.frame.origin.y = currentY
-        currentX = CGFloat(Int(Int(self.viewCount)%3)*130)
+        currentX = CGFloat(Int(Int(self.viewCount)%3)*Int(MalaScreenWidth*0.35))
         button.frame.origin.x = currentX
         
         addSubview(button)
