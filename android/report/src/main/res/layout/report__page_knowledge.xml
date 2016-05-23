@@ -28,7 +28,7 @@
         android:layout_height="22dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/view_round_bk"
+        android:background="@drawable/report__view_round_bk"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"

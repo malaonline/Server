@@ -3,10 +3,12 @@ package com.malalaoshi.android.report.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -24,6 +26,7 @@ public class WaveView extends View {
 
     private static final int padding = MiscUtil.dp2px(24);
 
+    private static final int DOTTED_COLOR = Color.parseColor("#9B9B9B");
     private static final int AXIS_COLOR = Color.parseColor("#939393");
     private static final int Y_COLOR = Color.parseColor("#BBDDF6");
     private static final int Y2_COLOR = Color.parseColor("#75cc97");
@@ -95,6 +98,7 @@ public class WaveView extends View {
         path.moveTo(0, 0);
         path2.moveTo(0, 0);
         paint.setTextSize(X_AXIS_TXT_SIZE);
+        paint.setColor(AXIS_COLOR);
         paint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < list.size(); i++) {
             path.lineTo(cellWidth * (i + 1), -list.get(i).getyValue() * (height / max));
@@ -166,6 +170,25 @@ public class WaveView extends View {
         canvas.drawText("数量", 0 - rect.width() / 2, -height - rect.height(), paint);
         canvas.drawText("时间", width + rect.height() / 2, rect.height() / 4, paint);
 
+        //网格
+        drawNet(canvas);
+
         canvas.restore();
+    }
+
+    /**
+     * 画坐标轴网格
+     */
+    private void drawNet(Canvas canvas) {
+
+        paint.setColor(DOTTED_COLOR);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(MiscUtil.dp2px(0.5f));
+        paint.setPathEffect(new DashPathEffect(new float[]{3, 2}, 0));
+        float len = (height - AXIS_OFFSET) / 3;
+        for (int i = 1; i <= 3; i++) {
+            Log.i("AABB", len * i + " " + width + " ");
+            canvas.drawLine(0, -len * i, width, -len * i, paint);
+        }
     }
 }

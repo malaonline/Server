@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/view_round_bk"
+            android:background="@drawable/report__view_round_bk"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
             android:paddingRight="12dp"

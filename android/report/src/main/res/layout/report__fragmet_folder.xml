@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="6dp">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:padding="6dp">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
-    <include layout="@layout/report__page_dot" />
+    <FrameLayout
+        android:id="@+id/dot_view_container"
+        android:layout_width="60dp"
+        android:layout_height="5dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="6dp"
+        android:background="@drawable/report__view_dot_round_back">
+
+        <View
+            android:id="@+id/dot_view"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:background="@drawable/report__view_dot_round_front"/>
+    </FrameLayout>
 </FrameLayout>

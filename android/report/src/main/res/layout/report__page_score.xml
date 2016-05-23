@@ -36,9 +36,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
             android:layout_marginRight="7dp"
-            android:drawableLeft="@drawable/report_ic_line_chart"
+            android:drawableLeft="@drawable/report__ic_line_chart"
             android:drawablePadding="4dp"
-            android:drawableStart="@drawable/report_ic_line_chart"
+            android:drawableStart="@drawable/report__ic_line_chart"
             android:text="平均评分"
             android:textColor="#5E5E5E"
             android:textSize="10sp" />
@@ -46,9 +46,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/view_blue_ring"
+            android:drawableLeft="@drawable/report__view_blue_ring"
             android:drawablePadding="4dp"
-            android:drawableStart="@drawable/view_blue_ring"
+            android:drawableStart="@drawable/report__view_blue_ring"
             android:text="平均评分"
             android:textColor="#5E5E5E"
             android:textSize="10sp" />
