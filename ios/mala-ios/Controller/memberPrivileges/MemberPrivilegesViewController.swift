@@ -14,12 +14,21 @@ private let MemberPrivilegesMemberSerivceCellReuseID = "MemberPrivilegesMemberSe
 class MemberPrivilegesViewController: UITableViewController {
 
     // MARK: - Property
-    
-    
-    // MARK: - Components
-    
-    
-    
+    /// 总练习数
+    var totalNum: Int = 0
+    /// 练习正确数
+    var rightNum: Int = 0
+    /// 学习报告状态
+    var reportStatus: MalaLearningReportStatus = .LoggingIn {
+        didSet {
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.tableView.reloadData()
+            })
+        }
+    }
+    /// 是否已Push新控制器标示（屏蔽pop到本页面时的数据刷新动作）
+    var isPushed: Bool = false
+
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -36,7 +45,12 @@ class MemberPrivilegesViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if !isPushed {
+            loadStudyReportOverview()
+        }
+        isPushed = false
     }
+
     
     // MARK: - Private Method
     private func configure() {
@@ -104,28 +118,94 @@ class MemberPrivilegesViewController: UITableViewController {
         }
     }
     
+    // 获取学生学习报告总结
+    private func loadStudyReportOverview() {
+        
+        self.reportStatus = .LoggingIn
+        
+        // 未登录状态
+        if !MalaUserDefaults.isLogined {
+            self.reportStatus = .UnLogged
+            return
+        }
+        
+        getStudyReportOverview({ (reason, errorMessage) in
+            
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("MemberPrivilegesViewController - loadStudyReportOverview Error \(errorMessage)")
+            }
+            
+        }, completion: { [weak self] (result) in
+            println("学习报告：\(result)")
+            switch result.code {
+            // ok
+            case 0:
+                
+                // 无学习报告，未报名状态
+                if result.results?.count == 0 {
+                    self?.reportStatus = .UnSigned
+                    break
+                }
+                
+                // 有学习报告，报名非数学状态
+                self?.reportStatus = .UnSignedMath
+                
+                // 报名数学状态
+                for reportResult in result.results ?? [] {
+                    if let report = reportResult as? SimpleReportResultModel where report.subject_id == 1 {
+                        self?.totalNum = report.total_nums
+                        self?.rightNum = report.right_nums
+                        self?.reportStatus = .MathSigned
+                    }
+                }
+                break
+                
+            // 从快乐学获取数据失败
+            case -1:
+                self?.ShowTost("学习数据获取失败")
+                break
+
+            default:
+                break
+            }
+        })
+    }
+    
     
     // MARK: - Event Response
     /// 登录
     @objc private func login() {
+        
+        self.reportStatus = .LoggingIn
+        
+        let loginViewController = LoginViewController()
+        loginViewController.popAction = { [weak self] in
+            self?.loadStudyReportOverview()
+        }
+
         self.presentViewController(
-            UINavigationController(rootViewController: LoginViewController()),
+            UINavigationController(rootViewController: loginViewController),
             animated: true,
             completion: { () -> Void in
                 
         })
+        isPushed = true
     }
     /// 显示学习报告样本
     @objc private func showReportDemo() {
         let viewController = LearningReportViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
+        isPushed = true
     }
     /// 显示我的学习报告
     @objc private func showMyReport() {
         let viewController = LearningReportViewController()
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
+        isPushed = true
     }
     
     
@@ -141,8 +221,13 @@ class MemberPrivilegesViewController: UITableViewController {
             /// 学习报告
             let cell = tableView.dequeueReusableCellWithIdentifier(MemberPrivilegesLearningReportCellReuseID, forIndexPath: indexPath) as! LearningReportCell
             
-            return cell
+            println("\(self.totalNum)-\(self.rightNum)")
             
+            cell.totalNum = self.totalNum
+            cell.rightNum = self.rightNum
+            cell.reportStatus = self.reportStatus
+            
+            return cell
             
         case 1:
             /// 会员专享

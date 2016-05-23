@@ -11,8 +11,27 @@ import UIKit
 class LearningReportCell: UITableViewCell {
     
     // MARK: - Property
+    /// 总练习数
+    var totalNum: Int = 1 {
+        didSet {
+            answerNumberLabel.text = String(format: "%d", totalNum)
+        }
+    }
+    /// 练习正确数
+    var rightNum: Int = 0 {
+        didSet {
+            
+            // 若总练习数为零
+            if totalNum == 0 {
+                correctRateLabel.text = "0%"
+            }else {
+                correctRateLabel.text = String(format: "%d", Int(rightNum/self.totalNum))+"%"
+            }
+            
+        }
+    }
     /// 学习报告状态
-    private var reportStatus: MalaLearningReportStatus = .MathSigned {
+    var reportStatus: MalaLearningReportStatus = .LoggingIn {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.changeDisplayMode()
@@ -45,6 +64,7 @@ class LearningReportCell: UITableViewCell {
         button.setBackgroundImage(UIImage(named:"subject_background"), forState: .Normal)
         button.setTitle("数学", forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: -2)
         button.userInteractionEnabled = false
         return button
     }()
@@ -136,16 +156,6 @@ class LearningReportCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
         changeDisplayMode()
-        
-//        delay(2) { [weak self] in
-//            self?.reportStatus = .LoggingIn
-//        }
-//        delay(4) { [weak self] in
-//            self?.reportStatus = .UnSigned
-//        }
-//        delay(6) { [weak self] in
-//            self?.reportStatus = .MathSigned
-//        }
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -747,7 +747,7 @@ func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, comple
         return parseStudyReportResult(data)
     }
     
-    let resource = authJsonResource(path: "/study_report", method: .DELETE, requestParameters: nullDictionary(), parse: parse)
+    let resource = authJsonResource(path: "/study_report", method: .GET, requestParameters: nullDictionary(), parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -1074,7 +1074,7 @@ let parseStudyReportResult: JSONDictionary -> ResultModel = { resultInfo in
     if let
         code = resultInfo["code"] as? Int,
         message = resultInfo["message"] as? String,
-        results = resultInfo["result"] as? [JSONDictionary] {
+        results = resultInfo["results"] as? [JSONDictionary] {
         
         result.code = code
         result.message = message
