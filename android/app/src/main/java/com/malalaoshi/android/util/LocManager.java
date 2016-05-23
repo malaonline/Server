@@ -13,6 +13,8 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.malalaoshi.android.MalaApplication;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,10 @@ public class LocManager {
     public final static int ERROR_LOCATION = 3; //定位失败
     private int locationStatus = NOT_LOCATION;
 
+    //位置
+    //location
+    private Location mLocation;
+
     public int getLocationStatus() {
         return locationStatus;
     }
@@ -54,8 +60,8 @@ public class LocManager {
         listenerList = new ArrayList<>();
     }
 
-    public static LocManager getInstance(Context context) {
-        mContext = context.getApplicationContext();
+    public static LocManager getInstance() {
+        mContext = MalaApplication.getInstance().getApplicationContext();//context.getApplicationContext();Context context
         return instance;
     }
 
@@ -65,6 +71,7 @@ public class LocManager {
     }
 
     public void start() {
+        mLocation = null;
         //开始定位
         locationStatus = BEING_LOCATION;
         locationListener = new LocListener();
@@ -121,6 +128,7 @@ public class LocManager {
             // TODO Auto-generated method stub
             if (location!=null){
                 locationStatus = OK_LOCATION;
+                mLocation = new Location(location);
             }else{
                 locationStatus = ERROR_LOCATION;
             }
@@ -190,5 +198,9 @@ public class LocManager {
 
     public interface ReceiveLocationListener{
         public void onReceiveLocation(Location location);
+    }
+
+    public Location getLocation() {
+        return mLocation;
     }
 }

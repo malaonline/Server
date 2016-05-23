@@ -2,11 +2,13 @@ package com.malalaoshi.android;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,21 +34,27 @@ import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
+import com.malalaoshi.android.util.LocManager;
+import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.view.tabindicator.ViewPagerIndicator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 
 
-public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPagerIndicator.OnPageChangeListener {
+public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPagerIndicator.OnPageChangeListener{
 
     public static String EXTRAS_PAGE_INDEX = "page index";
     public static final int PAGE_INDEX_TEACHERS = 0;
     public static final int PAGE_INDEX_COURSES = 1;
     public static final int PAGE_INDEX_MEMBER_SERVICE = 2;
     public static final int PAGE_INDEX_USER = 3;
+
+    //位置相关权限
+    private static final int PERMISSIONS_REQUEST_LOCATION = 0x07;
 
     private int pageIndex = PAGE_INDEX_TEACHERS;
 
@@ -65,6 +73,10 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
+
+    //定位相关对象
+    private LocManager locManager;
+
     private long lastBackPressedTime;
 
     private boolean isResume = false;
@@ -74,8 +86,11 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_home);
         init();
+        //初始化定位
+        initLocation();
         initData();
         initViews();
+
         setEvent();
     }
 
@@ -99,6 +114,9 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
         indicatorTabs = (ViewPagerIndicator) findViewById(R.id.indicator_tabs);
         vpHome = (ViewPager) findViewById(R.id.viewpage);
+
+        //得到LocationManager
+        locManager = LocManager.getInstance();
     }
 
     private void setEvent() {
@@ -111,6 +129,59 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private void initViews() {
         setCurrentPager(pageIndex);
+    }
+
+    //初始化定位
+    private void initLocation() {
+
+        //注册定位结果回调,定位接口直接放置于locManager对象中
+        //locManager.registerLocationListener(this);
+        //检测获取位置权限
+        List<String> permissions = PermissionUtil.checkPermission(MainActivity.this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
+        if (permissions == null) {
+            return;
+        }
+        if (permissions.size() == 0) {
+            initLocManager();
+        } else {
+            PermissionUtil.requestPermissions(MainActivity.this, permissions, PERMISSIONS_REQUEST_LOCATION);
+        }
+    }
+
+    private void initLocManager() {
+        locManager.initLocation();
+        loadLocation();
+    }
+
+    //启动定位
+    void loadLocation() {
+        locManager.start();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_LOCATION: {
+                permissionsResultLocation(grantResults);
+                break;
+            }
+        }
+    }
+
+    private void permissionsResultLocation(int[] grantResults) {
+        //如果请求被取消，那么 result 数组将为空
+        boolean res = PermissionUtil.permissionsResult(grantResults);
+        if (res) {
+            // 已经获取对应权限
+            initLocManager();
+        } else {
+            // 未获取到授权，取消需要该权限的方法
+            //Toast.makeText(this,"缺少定位相关权限",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initData() {

@@ -62,7 +62,7 @@ import butterknife.ButterKnife;
 /**
  * Created by kang on 16/3/29.
  */
-public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, LocManager.ReceiveLocationListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener {
+public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener {
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
@@ -189,14 +189,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     private boolean isShowAllSchools = false;
 
-    //定位相关对象
-    private LocManager locManager;
-
-    //当前经纬度
-    private double longitude = 0.0f;
-    private double latitude = 0.0f;
-
-
     private boolean teacherInfoFlag = false;
     private boolean schoolFlag = false;
     private boolean memberFlag = false;
@@ -217,13 +209,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_info);
         ButterKnife.bind(this);
-
         initViews();
-        //得到LocationManager
-        locManager = LocManager.getInstance(this);
-
-        //初始化定位
-        initLocation();
         //初始化数据
         initData();
         setEvent();
@@ -283,55 +269,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         titleBarView.setOnTitleBarClickListener(this);
     }
 
-    //初始化定位
-    private void initLocation() {
-
-        //注册定位结果回调
-        locManager.registerLocationListener(this);
-        //检测获取位置权限
-        List<String> permissions = PermissionUtil.checkPermission(TeacherInfoActivity.this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
-        if (permissions == null) {
-            return;
-        }
-        if (permissions.size() == 0) {
-            initLocManager();
-        } else {
-            PermissionUtil.requestPermissions(TeacherInfoActivity.this, permissions, PERMISSIONS_REQUEST_LOCATION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_LOCATION: {
-                permissionsResultLocation(grantResults);
-                break;
-            }
-        }
-    }
-
-
-    private void permissionsResultLocation(int[] grantResults) {
-        //如果请求被取消，那么 result 数组将为空
-        boolean res = PermissionUtil.permissionsResult(grantResults);
-        if (res) {
-            // 已经获取对应权限
-            initLocManager();
-        } else {
-            // 未获取到授权，取消需要该权限的方法
-            //Toast.makeText(this,"缺少定位相关权限",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void initLocManager() {
-        locManager.initLocation();
-        loadLocation();
-    }
-
     private void initData() {
         Intent intent = getIntent();
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
@@ -376,10 +313,11 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        //定位成功
-        if (locManager.getLocationStatus() == LocManager.OK_LOCATION) {
+        //获取位置
+        Location location = LocManager.getInstance().getLocation();
+        if (location!=null) {
             //排序
-            LocationUtil.sortByDistance(mAllSchools, latitude, longitude);
+            LocationUtil.sortByDistance(mAllSchools, location.getLatitude(), location.getLongitude());
             mFirstSchool.clear();
             mFirstSchool.add(mAllSchools.get(0));
             tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
@@ -400,11 +338,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         ApiExecutor.exec(new LoadTeacherInfoRequest(this, mTeacherId));
-    }
-
-    //启动定位
-    void loadLocation() {
-        locManager.start();
     }
 
     private void onLoadMemberServiceSuccess(MemberServiceListResult result) {
@@ -729,20 +662,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             signIntent.putExtra(CourseConfirmActivity.EXTRA_SUBJECT, mTeacher.getSubject());
         }
         startActivity(signIntent);
-    }
-
-    @Override
-    public void onReceiveLocation(Location location) {
-        if (location == null) {
-            return;
-        } else {
-
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            Log.i(TAG, "positioning success," + ",\nlatitude:" + latitude + ",\nlongitude:" + longitude);
-            //定位成功后更新school列表,定位失败则不做处理
-            dealSchools();
-        }
     }
 
     @Override
