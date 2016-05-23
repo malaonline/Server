@@ -388,8 +388,6 @@
 		F46CA24A1CC8841C00457EA6 /* ThemeCalendarViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE61CB760540038CE3D /* ThemeCalendarViewHeader.swift */; };
 		F46CA24B1CC8841C00457EA6 /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		F46CA24C1CC8841C00457EA6 /* ThemeCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE21CB75F980038CE3D /* ThemeCalendarViewController.swift */; };
-		F474E8941CEEDEC00025A865 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F474E8931CEEDEC00025A865 /* Charts.framework */; };
-		F474E8951CEEDEC00025A865 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F474E8931CEEDEC00025A865 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
@@ -462,20 +460,6 @@
 		F4E106261CC0D390001AD4AF /* Extension+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E106251CC0D390001AD4AF /* Extension+UIDevice.swift */; };
 		F9AD22A04A2E9093CFBF5E51 /* Pods_parentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F06668ACE5AD1B644FFCC3 /* Pods_parentTests.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F474E8961CEEDEC00025A865 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F474E8951CEEDEC00025A865 /* Charts.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0644A165A1C6CC7F64BD735D /* Pods_teacher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_teacher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -685,7 +669,6 @@
 		F460651D1C97B168004056B1 /* InfoModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewController.swift; sourceTree = "<group>"; };
 		F460651E1C97B168004056B1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F460652C1C97B1C8004056B1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		F474E8931CEEDEC00025A865 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Charts.framework; path = "/Users/Elors/Library/Developer/Xcode/DerivedData/mala-ios-dmzcpnaykqacssedkhodcuhqlkef/Build/Products/PrdRelease-iphoneos/Charts/Charts.framework"; sourceTree = "<absolute>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
@@ -781,7 +764,6 @@
 				35B134181CAAE767001D2D34 /* CoreTelephony.framework in Frameworks */,
 				F40B53BC1C83ED3600C20037 /* Security.framework in Frameworks */,
 				F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */,
-				F474E8941CEEDEC00025A865 /* Charts.framework in Frameworks */,
 				F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */,
 				92FA4549AEE67A13E2A5088E /* Pods_parent.framework in Frameworks */,
 			);
@@ -1062,7 +1044,6 @@
 		A5927B911BEC8BD900E9BDB4 = {
 			isa = PBXGroup;
 			children = (
-				F474E8931CEEDEC00025A865 /* Charts.framework */,
 				A5927B9C1BEC8BD900E9BDB4 /* mala-ios */,
 				35D7A2F01C0FE82E007D7679 /* teacher */,
 				35D7A3221C0FE851007D7679 /* parent */,
@@ -1576,7 +1557,6 @@
 				F4B8DD8E1CB4CAD1004079C2 /* ShellScript */,
 				60D8017C449AF1BF35998267 /* 📦 Embed Pods Frameworks */,
 				D6C6E437D6CB72F327DE53D7 /* 📦 Copy Pods Resources */,
-				F474E8961CEEDEC00025A865 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
