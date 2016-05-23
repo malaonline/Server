@@ -59,7 +59,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         
         pieChartView.centerText = "错题分布"
         pieChartView.holeRadiusPercent = 0.4
-        pieChartView.animate(xAxisDuration: 1.35)
+        pieChartView.animate(xAxisDuration: 0.65)
         
         pieChartView.usePercentValuesEnabled = true
         pieChartView.drawSliceTextEnabled = false
@@ -84,8 +84,17 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
-        
-        // 测试数据
+        configure()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Private Method
+    private func configure() {
+        // 样本数据
         
         // Y轴数据
         let set = PieChartDataSet(
@@ -124,12 +133,6 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // MARK: - Private Method
     private func setupUserInterface() {
         // Style
         contentView.backgroundColor = MalaColor_F2F2F2_0

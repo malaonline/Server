@@ -389,6 +389,7 @@
 		F46CA24B1CC8841C00457EA6 /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		F46CA24C1CC8841C00457EA6 /* ThemeCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE21CB75F980038CE3D /* ThemeCalendarViewController.swift */; };
 		F474E89D1CF2A9ED0025A865 /* SimpleReportResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */; };
+		F474E89F1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
@@ -671,6 +672,7 @@
 		F460651E1C97B168004056B1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F460652C1C97B1C8004056B1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleReportResultModel.swift; sourceTree = "<group>"; };
+		F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseReportCardCell.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
@@ -1444,6 +1446,7 @@
 				F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */,
 				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
 				F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */,
+				F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2031,6 +2034,7 @@
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
+				F474E89F1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
 				F4D0D17C1CA0F8EE00B25704 /* CoursePopupWindow.swift in Sources */,
