@@ -177,9 +177,7 @@ class MemberPrivilegesViewController: UITableViewController {
     // MARK: - Event Response
     /// 登录
     @objc private func login() {
-        
-        self.reportStatus = .LoggingIn
-        
+                
         let loginViewController = LoginViewController()
         loginViewController.popAction = { [weak self] in
             self?.loadStudyReportOverview()
