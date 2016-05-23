@@ -735,6 +735,27 @@ func cancelOrderWithId(orderID: Int, failureHandler: ((Reason, String?) -> Void)
 }
 
 
+// MARK: - Study Report
+///  获取学习报告总览
+///  包括每个已报名学科，及其支持情况、答题数、正确数
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, completion: ResultModel -> Void) {
+    /// 返回值解析器
+    let parse: JSONDictionary -> ResultModel = { data in
+        return parseStudyReportResult(data)
+    }
+    
+    let resource = authJsonResource(path: "/study_report", method: .DELETE, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Other
 ///  获取用户协议HTML
@@ -1043,4 +1064,26 @@ let parseChargeToken: JSONDictionary -> JSONDictionary? = { chargeInfo in
     
     // 支付信息获取成功
     return chargeInfo
+}
+/// 学习报告总览JSON解析器
+let parseStudyReportResult: JSONDictionary -> ResultModel = { resultInfo in
+    
+    let result = ResultModel()
+    var reports = [SimpleReportResultModel]()
+    
+    if let
+        code = resultInfo["code"] as? Int,
+        message = resultInfo["message"] as? String,
+        results = resultInfo["result"] as? [JSONDictionary] {
+        
+        result.code = code
+        result.message = message
+        
+        for report in results {
+            reports.append(SimpleReportResultModel(dict: report))
+        }
+    }
+    
+    result.results = reports
+    return result
 }

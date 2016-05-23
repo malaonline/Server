@@ -25,8 +25,19 @@ class ResultModel: NSObject {
     var status_code: Int = 0
     var detail: String?
     
+    // study report
+    // 错误码
+    var code: Int = 0
+    // 错误信息
+    var message: String = ""
+    
     
     // MARK: - Constructed
+    override init() {
+        super.init()
+    }
+    
+    
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
