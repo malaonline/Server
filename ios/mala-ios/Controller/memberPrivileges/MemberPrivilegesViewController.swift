@@ -129,13 +129,18 @@ class MemberPrivilegesViewController: UITableViewController {
             return
         }
         
-        getStudyReportOverview({ (reason, errorMessage) in
+        getStudyReportOverview({ [weak self] (reason, errorMessage) in
             
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
                 println("MemberPrivilegesViewController - loadStudyReportOverview Error \(errorMessage)")
             }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.reportStatus = .UnSigned
+                self?.ShowTost("学习数据获取失败，请稍后重试")
+            })
             
         }, completion: { [weak self] (result) in
             println("学习报告：\(result)")
@@ -164,7 +169,9 @@ class MemberPrivilegesViewController: UITableViewController {
                 
             // 从快乐学获取数据失败
             case -1:
-                self?.ShowTost("学习数据获取失败")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self?.ShowTost("学习数据获取失败")
+                })
                 break
 
             default:
