@@ -660,6 +660,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
             signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, mTeacher.getId());
             signIntent.putExtra(CourseConfirmActivity.EXTRA_SUBJECT, mTeacher.getSubject());
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_NAME, mTeacher.getName());
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_AVATOR, mTeacher.getAvatar());
         }
         startActivity(signIntent);
     }

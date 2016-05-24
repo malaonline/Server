@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.activitys.ConfirmOrderActivity;
+import com.malalaoshi.android.activitys.OrderInfoActivity;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -46,6 +48,7 @@ import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.CoursePriceUI;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
+import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
@@ -75,9 +78,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private static final int REQUEST_CODE_COUPON = 0x10;
 
     public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object
-            subject) {
+            subject,String teacherAvator, String teacherName) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
-        fragment.init(schools, prices, teacherId, subject);
+        fragment.init(schools, prices, teacherId, subject,teacherAvator,teacherName);
         return fragment;
     }
 
@@ -156,6 +159,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private View footView;
     //teacher id
     private Long teacher;
+    //teacher avator
+    private String teacherAvator;
+    //teacher name
+    private String teacherName;
     //当前最小的小时数
     private int minHours;
     //当前选择的小时数
@@ -252,9 +259,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         EventBus.getDefault().unregister(this);
     }
 
-    private void init(Object[] schools, Object[] prices, Object teacherId, Object subject) {
+    private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator, String teacherName) {
         if (teacherId != null) {
             this.teacher = (Long) teacherId;
+            this.teacherAvator = teacherAvator;
+            this.teacherName = teacherName;
         }
         final String[] gradeList = MalaApplication.getInstance()
                 .getApplicationContext().getResources().getStringArray(R.array.grade_list);
@@ -422,6 +431,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             MiscUtil.toast("请选择上课时间");
             return;
         }
+
         CreateCourseOrderEntity entity = new CreateCourseOrderEntity();
         if (coupon != null) {
             entity.setCoupon(coupon.getId());
@@ -434,17 +444,52 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         } else {
             entity.setSubject(0);
         }
+        StringBuilder weeklyTimeSlots = new StringBuilder();
+
         entity.setTeacher(teacher);
         List<Integer> list = new ArrayList<>();
         for (CourseDateEntity item : selectedTimeSlots) {
             list.add((int) item.getId());
+            weeklyTimeSlots.append(item.getId()+" ");
         }
         entity.setWeekly_time_slots(list);
+
+
+        //Context context, Order order, long hours,String weeklyTimeSlots,long teacherId
+        Order order = new Order();
+        order.setTeacher(String.valueOf(teacher));
+        order.setTeacher_name(teacherName);
+        order.setTeacher_avatar(teacherAvator);
+        order.setHours(currentHours);
+        order.setGrade(currentGrade.getPrice().getGrade().getName());
+        order.setSubject(subject.getName());
+        order.setTo_pay(Double.valueOf(calculateCost()));
+        order.setSchool(currentSchool.getSchool().getName());
+        ConfirmOrderActivity.open(getContext(),order,currentHours,weeklyTimeSlots.toString(),teacher,entity);
         /**
          * 为什么把创建订单外面，因为创建订单时有加载时间，可以方便做加载动画
          */
-        submitView.setOnClickListener(null);
-        ApiExecutor.exec(new CreateOrderRequest(this, entity));
+        //submitView.setOnClickListener(null);
+        //ApiExecutor.exec(new CreateOrderRequest(this, entity));
+    }
+
+    private float calculateCost(){
+        if (currentGrade == null) {
+            return 0.0f;
+        }
+        float sum = currentGrade.getPrice().getPrice() * currentHours;
+        if (coupon != null) {
+            rlPrice.setVisibility(View.VISIBLE);
+            float price = sum <= 0 ? 1 : sum;
+            price = price / 100f;
+            tvPrice.setText("¥ " + String.valueOf(price));
+            sum -= Integer.valueOf(coupon.getAmount());
+        } else {
+            rlPrice.setVisibility(View.GONE);
+        }
+        sum = sum <= 0 ? 1 : sum;
+        sum = sum / 100f;
+        return sum;
     }
 
     private void dealOrder(@NonNull CreateCourseOrderResultEntity entity) {

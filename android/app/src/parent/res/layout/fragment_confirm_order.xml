@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_teacher_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_teacher"
+                    android:drawablePadding="10dp"
+                    android:layout_marginBottom="9dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal_x"
+                    android:textColor="@color/text_color_home_price_unit" />
+
+                <TextView
+                    android:id="@+id/tv_course_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_teacher_name"
+                    android:drawableLeft="@drawable/ic_course"
+                    android:drawablePadding="10dp"
+                    android:layout_marginBottom="9dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal_x"
+                    android:textColor="@color/text_color_home_price_unit" />
+
+                <LinearLayout
+                    android:layout_below="@+id/tv_course_name"
+                    android:layout_marginRight="61dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/ic_address"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_normal_x"
+                        android:textColor="@color/text_color_home_price_unit" />
+                </LinearLayout>
+
+
+                <com.malalaoshi.android.view.CircleNetworkImage
+                    android:id="@+id/iv_teacher_avator"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:paddingRight="12dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/bg_rectangle_small"
+                    android:drawablePadding="9dp"
+                    android:textColor="@color/text_color_darkgray"
+                    android:textSize="@dimen/text_size_large_x"
+                    android:text="上课时间" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_total_hours"
+                    android:textColor="@color/text_color_home_price_unit"
+                    android:textSize="@dimen/text_size_normal_x"
+                    android:text="共计" />
+                <TextView
+                    android:id="@+id/tv_total_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_total_class_text"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/text_color_darkgray"
+                    android:textSize="@dimen/text_size_normal_x" />
+                <TextView
+                    android:id="@+id/tv_total_class_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/text_color_home_price_unit"
+                    android:textSize="@dimen/text_size_normal_x"
+                    android:text="课时" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/list_divider_light" />
+            <com.malalaoshi.android.view.ScrollListView
+                android:id="@+id/lv_show_times"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/ll_show_times"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:listSelector="#00000000"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="12dp"
+                android:background="@color/white"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:id="@+id/rl_operation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="#fff">
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color" />
+
+        <TextView
+            android:id="@+id/tv_mount_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:text="合计:"
+            android:textColor="#333"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_cost_unit"
+            android:text="¥"
+            android:textColor="@color/theme_red_96"
+            android:textSize="13sp"
+            android:layout_toRightOf="@id/tv_mount_label"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_mount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/tv_cost_unit"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/theme_red_96"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:visibility="visible"
+            android:layout_width="144dp"
+            android:layout_height="37dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_confirm"
+            android:gravity="center"
+            android:text="提交订单"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_normal" />
+    </RelativeLayout>
+</FrameLayout>

@@ -21,6 +21,8 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
     public static final String EXTRA_PRICES = "extra_prices";
     public static final String EXTRA_TEACHER_ID = "extra_teacher_id";
     public static final String EXTRA_SUBJECT = "extra_subject";
+    public static final String EXTRA_TEACHER_AVATOR = "extra_teacher_avator";
+    public static final String EXTRA_TEACHER_NAME = "extra_teacher_name";
     private static final String TAG = "CourseConfirmActivity";
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
@@ -37,7 +39,9 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
         Object[] prices = getIntent().getParcelableArrayExtra(EXTRA_PRICES);
         Object teacherId = getIntent().getLongExtra(EXTRA_TEACHER_ID, 0);
         Object subject = getIntent().getStringExtra(EXTRA_SUBJECT);
-        fragment = CourseConfirmFragment.newInstance(schools, prices, teacherId, subject);
+        String teacherAvator = getIntent().getStringExtra(EXTRA_TEACHER_AVATOR);
+        String teacherName = getIntent().getStringExtra(EXTRA_TEACHER_NAME);
+        fragment = CourseConfirmFragment.newInstance(schools, prices, teacherId, subject,teacherAvator,teacherName);
         FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null
                 , fragment, "couponfragment");
         titleBarView.setOnTitleBarClickListener(this);

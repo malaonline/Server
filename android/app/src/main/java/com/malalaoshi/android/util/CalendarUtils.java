@@ -97,6 +97,14 @@ public class CalendarUtils {
         return calendar;
     }
 
+    public static String timestampToTime(Long timestamp) {
+        if (timestamp==null) return null;
+        Calendar calendar = null;
+        //时间戳转化为Sting或Date
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d = format.format(timestamp * 1000);
+        return d;
+    }
 
     /**
      * Format

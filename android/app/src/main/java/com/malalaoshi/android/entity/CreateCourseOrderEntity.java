@@ -71,4 +71,5 @@ public class CreateCourseOrderEntity  extends JsonBodyBase implements Serializab
     public void setWeekly_time_slots(List<Integer> weekly_time_slots) {
         this.weekly_time_slots = weekly_time_slots;
     }
+
 }

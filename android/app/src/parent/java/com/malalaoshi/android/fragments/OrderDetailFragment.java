@@ -22,10 +22,15 @@ import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
+import com.malalaoshi.android.course.api.CourseTimesApi;
 import com.malalaoshi.android.course.model.CourseTimeModel;
+import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
+import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.pay.PayActivity;
+import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.CalendarUtils;
@@ -46,15 +51,10 @@ import butterknife.OnClick;
 
 
 public class OrderDetailFragment extends Fragment {
-    private static String TAG = "OrderDetailFragment";
-    private static final String ARG_ORDER_INFO = "order info";
-    private static final String ARG_IS_CONFIRM_ORDER = "is confirm order";
-    private static final String ARG_ORDER_ID = "order id";
-    private boolean isConfirmOrder;
-    private String orderId;
 
-    @Bind(R.id.rl_order_status)
-    protected RelativeLayout rlOrderStatus;
+    private static String TAG = "OrderDetailFragment";
+    private static final String ARG_ORDER_ID = "order id";
+    private String orderId;
 
     @Bind(R.id.tv_order_status)
     protected TextView tvOrderStatus;
@@ -110,9 +110,6 @@ public class OrderDetailFragment extends Fragment {
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
-    @Bind(R.id.tv_submit_order)
-    protected TextView tvSubmitOrder;
-
     private ImageLoader mImageLoader;
 
     private CourseTimeAdapter timesAdapter;
@@ -121,41 +118,17 @@ public class OrderDetailFragment extends Fragment {
 
     private boolean loadFinish = false;
 
-    /**
-     * 查看订单
-     * @param orderId
-     * @return
-     */
     public static OrderDetailFragment newInstance(String orderId) {
         if (TextUtils.isEmpty(orderId)){
             return null;
         }
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
-        args.putBoolean(ARG_IS_CONFIRM_ORDER, false);
         args.putString(ARG_ORDER_ID, orderId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    /**
-     * 确认订单
-     * @param orderId
-     * @param order
-     * @return
-     */
-    public static OrderDetailFragment newInstance(String orderId,Order order) {
-        if (TextUtils.isEmpty(orderId)){
-            return null;
-        }
-        OrderDetailFragment fragment = new OrderDetailFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_ORDER_INFO, order);
-        args.putBoolean(ARG_IS_CONFIRM_ORDER, true);
-        args.putString(ARG_ORDER_ID, orderId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,13 +137,7 @@ public class OrderDetailFragment extends Fragment {
         if (args==null){
             throw new IllegalArgumentException("arguments can not been null");
         }
-        isConfirmOrder = args.getBoolean(ARG_IS_CONFIRM_ORDER);
-        if(isConfirmOrder){
-
-        }else{
-            orderId = args.getString(ARG_ORDER_ID);
-            order  = args.getParcelable(ARG_ORDER_INFO);
-        }
+        orderId = args.getString(ARG_ORDER_ID);
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
@@ -209,29 +176,12 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void initViews() {
-        if (isConfirmOrder){
-            rlOrderStatus.setVisibility(View.GONE);
-            rlPayWay.setVisibility(View.GONE);
-            rlOrderTime.setVisibility(View.GONE);
-            tvCancelOrder.setVisibility(View.GONE);
-            tvSubmit.setVisibility(View.GONE);
-            tvSubmitOrder.setVisibility(View.VISIBLE);
-        }else{
-            tvCancelOrder.setVisibility(View.GONE);
-            tvSubmit.setVisibility(View.GONE);
-            tvSubmitOrder.setVisibility(View.GONE);
-        }
-
         timesAdapter = new CourseTimeAdapter(getActivity());
         lvShowTimes.setAdapter(timesAdapter);
     }
 
     private void loadData() {
-        if (isConfirmOrder){
-            ApiExecutor.exec(new FetchOrderRequest(this, orderId));
-        }else{
-            ApiExecutor.exec(new FetchOrderRequest(this, orderId));
-        }
+        ApiExecutor.exec(new FetchOrderRequest(this, orderId));
     }
 
     @OnClick(R.id.tv_submit)
@@ -267,10 +217,6 @@ public class OrderDetailFragment extends Fragment {
         DialogUtil.startCircularProcessDialog(getContext(),message,true,true);
     }
 
-    public void stopProcessDialog(){
-        DialogUtil.stopProcessDialog();
-    }
-
     private void openPayActivity() {
         CreateCourseOrderResultEntity entity = new CreateCourseOrderResultEntity();
         entity.setId(order.getId()+"");
@@ -282,19 +228,8 @@ public class OrderDetailFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void getCourseTimeSuccess(){
-       /* Times times = JsonUtil.parseStringData(json.toString(), Times.class);
-        timesAdapter.clear();
-        if (times != null) {
-            timesAdapter.addAll(times.getDisplayTimes());
-            timesAdapter.notifyDataSetChanged();
-        }*/
-    }
-
-
-
     private void getOrderInfoFailed() {
-
+        MiscUtil.toast("订单信息获取失败!");
     }
 
     private void getOrderInfoSuccess(Order response) {
@@ -323,9 +258,8 @@ public class OrderDetailFragment extends Fragment {
         if ("u".equals(order.getStatus())){
             tvOrderStatus.setText("订单待支付");
             rlPayWay.setVisibility(View.GONE);
-
             tvOrderId.setText(order.getOrder_id());
-            tvCreateOrderTime.setText(order.getCreated_at());
+            tvCreateOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getCreated_at())));
             llPayOrderTime.setVisibility(View.GONE);
             tvCancelOrder.setVisibility(View.VISIBLE);
             tvSubmit.setVisibility(View.VISIBLE);
@@ -335,11 +269,10 @@ public class OrderDetailFragment extends Fragment {
             tvOrderStatus.setText("支付成功");
             rlPayWay.setVisibility(View.VISIBLE);
             tvPayWay.setText(order.getCharge_channel()); ;
-
             tvOrderId.setText(order.getOrder_id());
-            tvCreateOrderTime.setText(order.getCreated_at());
+            tvCreateOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getCreated_at())));
             llPayOrderTime.setVisibility(View.VISIBLE);
-            tvPayOrderTime.setText(order.getPaid_at());
+            tvPayOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getPaid_at())));
             tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.VISIBLE);
             tvSubmit.setText("再次购买");
@@ -349,21 +282,20 @@ public class OrderDetailFragment extends Fragment {
             rlPayWay.setVisibility(View.GONE);
             tvPayWay.setText(order.getCharge_channel()); ;
             tvOrderId.setText(order.getOrder_id());
-            tvCreateOrderTime.setText(order.getCreated_at());
+            tvCreateOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getCreated_at())));
             llPayOrderTime.setVisibility(View.GONE);
-            tvPayOrderTime.setText(order.getPaid_at());
+            rlOperation.setVisibility(View.VISIBLE);
             tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.VISIBLE);
             tvSubmit.setText("再次购买");
-            rlOperation.setVisibility(View.VISIBLE);
         }else{
             tvOrderStatus.setText("退款成功");
             rlPayWay.setVisibility(View.VISIBLE);
             tvPayWay.setText(order.getCharge_channel()); ;
             tvOrderId.setText(order.getOrder_id());
-            tvCreateOrderTime.setText(order.getCreated_at());
+            tvCreateOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getCreated_at())));
             llPayOrderTime.setVisibility(View.VISIBLE);
-            tvPayOrderTime.setText(order.getPaid_at());
+            tvPayOrderTime.setText(CalendarUtils.timestampToTime(Long.valueOf(order.getPaid_at())));
             tvCancelOrder.setVisibility(View.GONE);
             tvSubmit.setVisibility(View.GONE);
             rlOperation.setVisibility(View.GONE);
@@ -385,16 +317,6 @@ public class OrderDetailFragment extends Fragment {
             timesAdapter.addAll(times);
             timesAdapter.notifyDataSetChanged();
         }
-    }
-
-    private void updateCourseTimes(List<CourseTimeModel> times) {
-        timesAdapter.clear();
-        if (EmptyUtils.isEmpty(times)) {
-            timesAdapter.notifyDataSetChanged();
-            return;
-        }
-        timesAdapter.addAll(times);
-        timesAdapter.notifyDataSetChanged();
     }
 
     private static final class FetchOrderRequest extends BaseApiContext<OrderDetailFragment, Order> {
@@ -450,7 +372,6 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onApiSuccess(@NonNull OkResult response) {
-            get().stopProcessDialog();
             get().getActivity().finish();
             if (response.isOk()) {
                 get().order.setStatus("d");
@@ -462,7 +383,7 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onApiFinished() {
-            get().stopProcessDialog();
+            get().stopProcess();
             get().getActivity().finish();
         }
 
