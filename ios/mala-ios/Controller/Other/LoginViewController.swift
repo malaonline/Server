@@ -128,7 +128,7 @@ class LoginViewController: UIViewController {
         let protocolLabel = UILabel()
         protocolLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         protocolLabel.textColor = MalaColor_939393_0
-        protocolLabel.text = "轻触上面验证\"按钮\"即表示你同意"
+        protocolLabel.text = "轻触上面验证按钮即表示你同意"
         return protocolLabel
     }()
     // 协议文字label
