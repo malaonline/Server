@@ -13,6 +13,11 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     
     
     // MARK: - Components
+    /// 图例布局视图
+    private lazy var legendView: CombinedLegendView = {
+        let view = CombinedLegendView()
+        return view
+    }()
     /// 组合统计视图（条形&折线）
     private lazy var combinedChartView: CombinedChartView = {
         
@@ -31,7 +36,6 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         xAxis.labelFont = UIFont.systemFontOfSize(10)
         xAxis.labelTextColor = MalaColor_5E5E5E_0
         xAxis.drawGridLinesEnabled = false
-        xAxis.spaceBetweenLabels = 1
         xAxis.labelPosition = .Bottom
         
         let leftAxis = chartView.leftAxis
@@ -43,7 +47,6 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         leftAxis.axisMinValue = 0
         leftAxis.axisMaxValue = 100
         leftAxis.labelCount = 5
-        leftAxis.drawZeroLineEnabled = false
         
         let pFormatter = NSNumberFormatter()
         pFormatter.numberStyle = .PercentStyle
@@ -74,6 +77,8 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     private func configure() {
         titleLabel.text = "提分点分析"
         descDetailLabel.text = "学生对于圆的知识点、函数初步知识点和几何变换知识点能力突出，可减少习题数。实数可加强练习。"
+        legendView.addLegend(image: "dot_legend", title: "平均分数")
+        legendView.addLegend(image: "histogram_legend", title: "我的评分")
         
         // 样本数据
         let data = CombinedChartData(xVals: ["实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"])
@@ -109,6 +114,7 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         barDataSet.drawValuesEnabled = true
         barDataSet.colors = MalaConfig.chartsColor()
         barDataSet.highlightEnabled = false
+        barDataSet.barSpace = 0.4
         
         let lineData = LineChartData()
         lineData.addDataSet(lineDataSet)
@@ -130,14 +136,61 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         
         // SubViews
         layoutView.addSubview(combinedChartView)
-        
+        layoutView.addSubview(legendView)
         
         // Autolayout
+        legendView.snp_makeConstraints { (make) in
+            make.left.equalTo(descView.snp_left)
+            make.right.equalTo(descView.snp_right)
+            make.height.equalTo(12)
+            make.top.equalTo(layoutView.snp_bottom).multipliedBy(0.17)
+        }
         combinedChartView.snp_makeConstraints { (make) in
-            make.top.equalTo(layoutView.snp_bottom).multipliedBy(0.18)
+            make.top.equalTo(legendView.snp_bottom)
             make.left.equalTo(descView.snp_left)
             make.right.equalTo(descView.snp_right)
             make.bottom.equalTo(layoutView.snp_bottom).multipliedBy(0.68)
         }
+    }
+}
+
+// MARK: - LegendView
+public class CombinedLegendView: UIView {
+    
+    // MARK: - Property
+    private var currentButton: UIButton?
+    
+    
+    // MARK: - Constructed
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    public func addLegend(image imageName: String, title: String) -> UIButton {
+        let button = UIButton()
+        button.adjustsImageWhenHighlighted = false
+        
+        button.setImage(UIImage(named: imageName), forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
+        
+        button.setTitle(title, forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(10)
+        button.setTitleColor(MalaColor_5E5E5E_0, forState: .Normal)
+        
+        button.sizeToFit()
+        self.addSubview(button)
+        
+        button.snp_makeConstraints { (make) in
+            make.centerY.equalTo(self.snp_centerY)
+            make.right.equalTo(currentButton?.snp_left ?? self.snp_right).offset(-13)
+        }
+        currentButton = button
+        
+        return button
     }
 }
