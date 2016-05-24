@@ -236,6 +236,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let xIncrements = 1 + chart.skipWebLineCount
         
+        // get points
         for i in 0.stride(to: data.xValCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
@@ -243,20 +244,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 dist: CGFloat(chart.yRange) * factor,
                 angle: sliceangle * CGFloat(i) + rotationangle)
             
-            _webLineSegmentsBuffer[0].x = center.x
-            _webLineSegmentsBuffer[0].y = center.y
-            _webLineSegmentsBuffer[1].x = p.x
-            _webLineSegmentsBuffer[1].y = p.y
-            
-            CGContextStrokeLineSegments(context, _webLineSegmentsBuffer, 2)
             points.append(p)
         }
-        
-        // draw the inner-web
-        CGContextSetLineWidth(context, chart.innerWebLineWidth)
-        CGContextSetStrokeColorWithColor(context, chart.innerWebColor.CGColor)
-        CGContextSetAlpha(context, chart.webAlpha)
-        
         
         // draw background
         for (index, point) in points.enumerate() {
@@ -269,6 +258,21 @@ public class RadarChartRenderer: LineRadarChartRenderer
         CGContextClosePath(context)
         CGContextSetRGBFillColor(context, 201/255, 228/255, 248/255, 1)
         CGContextEOFillPath(context)
+        
+        // draw web lines
+        for p in points {
+            _webLineSegmentsBuffer[0].x = center.x
+            _webLineSegmentsBuffer[0].y = center.y
+            _webLineSegmentsBuffer[1].x = p.x
+            _webLineSegmentsBuffer[1].y = p.y
+            
+            CGContextStrokeLineSegments(context, _webLineSegmentsBuffer, 2)
+        }
+        
+        // draw the inner-web
+        CGContextSetLineWidth(context, chart.innerWebLineWidth)
+        CGContextSetStrokeColorWithColor(context, chart.innerWebColor.CGColor)
+        CGContextSetAlpha(context, chart.webAlpha)
         
         
         let labelCount = chart.yAxis.entryCount
