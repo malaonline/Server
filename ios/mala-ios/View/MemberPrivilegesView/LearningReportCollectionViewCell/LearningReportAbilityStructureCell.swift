@@ -55,7 +55,7 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     // MARK: - Private Method
     private func configure() {
         titleLabel.text = "能力结构分析"
-        descDetailLabel.text = "学生实际能力很强，数据分析能力运算求解能力较弱，应加强针对性练习，实际应用能力也需注意引导。"
+        descDetailLabel.text = "学生运算求解能力很强，空间想象和数据分析能力较弱，应加强针对性练习，实际应用能力也需注意引导。"
         
         // 样本数据
         let yVals1 = [
