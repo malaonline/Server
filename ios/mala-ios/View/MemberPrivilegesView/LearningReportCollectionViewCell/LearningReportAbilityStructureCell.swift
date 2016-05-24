@@ -25,20 +25,15 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
         radarChartView.rotationEnabled = false
         radarChartView.innerWebColor = UIColor.whiteColor()
         radarChartView.webColor = UIColor.whiteColor()
-        
-        radarChartView.backgroundColor = MalaColor_C9E4F8_0
-        
+                
         let xAxis = radarChartView.xAxis
         xAxis.labelFont = UIFont.systemFontOfSize(12)
         xAxis.labelTextColor = MalaColor_5E5E5E_0
         xAxis.labelWidth = 20
-        xAxis.gridColor = MalaColor_C9E4F8_0
         
         let yAxis = radarChartView.yAxis
         yAxis.enabled = false
         yAxis.axisMinValue = 0
-        yAxis.gridColor = MalaColor_C9E4F8_0
-        
         
         radarChartView.legend.enabled = false
         return radarChartView
@@ -77,8 +72,8 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
         set1.fillColor = MalaColor_F9877C_0
         set1.drawValuesEnabled = false
         set1.drawFilledEnabled = true
+        set1.highlightEnabled = false
         
-        // ["Party A", "Party B", "Party C", "Party D", "Party E"]
         let data = RadarChartData(xVals: ["推理论证", "      数据分析", "空间想象", "运算求解", "实际应用      "], dataSets: [set1])
         data.setValueFont(UIFont.systemFontOfSize(10))
         data.setDrawValues(false)
