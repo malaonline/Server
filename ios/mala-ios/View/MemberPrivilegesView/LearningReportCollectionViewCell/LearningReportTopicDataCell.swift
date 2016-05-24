@@ -41,6 +41,8 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         leftAxis.gridColor = MalaColor_E6E9EC_0
         leftAxis.drawGridLinesEnabled = true
         leftAxis.axisMinValue = 0
+        leftAxis.labelCount = 4
+        leftAxis.drawZeroLineEnabled = false
 
         lineChartView.legend.enabled = true
         lineChartView.legend.form = .Circle
