@@ -20,6 +20,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         lineChartView.animate(xAxisDuration: 0.65)
         lineChartView.descriptionText = ""
         lineChartView.scaleXEnabled = false
+        lineChartView.scaleYEnabled = false
         lineChartView.dragEnabled = false
         lineChartView.drawGridBackgroundEnabled = true
         lineChartView.pinchZoomEnabled = false
