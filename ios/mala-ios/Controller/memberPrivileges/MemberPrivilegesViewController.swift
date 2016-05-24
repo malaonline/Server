@@ -149,7 +149,7 @@ class MemberPrivilegesViewController: UITableViewController {
             case 0:
                 
                 // 无学习报告，未报名状态
-                if result.results?.count == 0 {
+                if result.results == nil || result.results?.count == 0 {
                     self?.reportStatus = .UnSigned
                     break
                 }
