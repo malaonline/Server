@@ -225,6 +225,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         // pixels
         let factor = chart.factor
         let rotationangle = chart.rotationAngle
+        var points = [CGPoint]()
         
         let center = chart.centerOffsets
         
@@ -248,12 +249,27 @@ public class RadarChartRenderer: LineRadarChartRenderer
             _webLineSegmentsBuffer[1].y = p.y
             
             CGContextStrokeLineSegments(context, _webLineSegmentsBuffer, 2)
+            points.append(p)
         }
         
         // draw the inner-web
         CGContextSetLineWidth(context, chart.innerWebLineWidth)
         CGContextSetStrokeColorWithColor(context, chart.innerWebColor.CGColor)
         CGContextSetAlpha(context, chart.webAlpha)
+        
+        
+        // draw background
+        for (index, point) in points.enumerate() {
+            if index == 0 {
+                CGContextMoveToPoint(context, point.x, point.y)
+            }else {
+                CGContextAddLineToPoint(context, point.x, point.y)
+            }
+        }
+        CGContextClosePath(context)
+        CGContextSetRGBFillColor(context, 201/255, 228/255, 248/255, 1)
+        CGContextEOFillPath(context)
+        
         
         let labelCount = chart.yAxis.entryCount
         
