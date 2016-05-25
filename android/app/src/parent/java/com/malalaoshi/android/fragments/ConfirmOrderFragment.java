@@ -209,8 +209,6 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
     }
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
-        boolean isEvaluated = true;
-        isEvaluated = false;
         PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
