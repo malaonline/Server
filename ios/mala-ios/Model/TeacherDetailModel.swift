@@ -23,8 +23,8 @@ class TeacherDetailModel: BaseObjectModel {
     var achievement_set: [AchievementModel?] = []
     var highscore_set: [HighScoreModel?] = []
     var prices: [GradePriceModel?] = []
-    var min_price: Int = 0
-    var max_price: Int = 0
+    var min_price: Int? = 0
+    var max_price: Int? = 0
     
     // 视图变量
     var teachingAgeString: String {

@@ -30,8 +30,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             self.tableHeaderView.name = model.name  ?? "老师姓名"
             self.tableHeaderView.gender = model.gender ?? "m"
             self.tableHeaderView.subject = model.subject ?? "学科"
-            self.tableHeaderView.minPrice = model.min_price
-            self.tableHeaderView.maxPrice = model.max_price
+            self.tableHeaderView.minPrice = model.min_price ?? 0
+            self.tableHeaderView.maxPrice = model.max_price ?? 0
             self.tableView.reloadData()
         }
     }
