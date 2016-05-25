@@ -27,6 +27,7 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
     private static String EXTRA_ORDER_TEACHER_ID = "teacher id";
     private static String EXTRA_ORDER_WEEKLY_TIME_SLOTS = "weekly time slots";
     private static String EXTRA_ORDER_HOURS = "hours";
+    private static String EXTRA_IS_EVALUATED = "isEvaluated";
 
     @Bind(R.id.title_view)
     protected TitleBarView titleView;
@@ -36,7 +37,7 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
      * @param context
      * @param order
      */
-    public static void open(Context context, Order order, long hours, String weeklyTimeSlots, long teacherId, CreateCourseOrderEntity entity) {
+    public static void open(Context context, Order order, long hours, String weeklyTimeSlots, long teacherId, CreateCourseOrderEntity entity, boolean isEvaluated) {
         if (context!=null&&entity!=null&&order!=null&&hours>0&&!TextUtils.isEmpty(weeklyTimeSlots)) {
             Intent intent = new Intent(context, ConfirmOrderActivity.class);
             intent.putExtra(EXTRA_ORDER_INFO, order);
@@ -44,6 +45,7 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
             intent.putExtra(EXTRA_ORDER_HOURS,hours);
             intent.putExtra(EXTRA_ORDER_WEEKLY_TIME_SLOTS,weeklyTimeSlots);
             intent.putExtra(EXTRA_ORDER_TEACHER_ID,teacherId);
+            intent.putExtra(EXTRA_IS_EVALUATED,true);
             context.startActivity(intent);
         }
     }
@@ -65,7 +67,8 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
         long hours = intent.getLongExtra(EXTRA_ORDER_HOURS,0);
         String weeklyTimeSlots = intent.getStringExtra(EXTRA_ORDER_WEEKLY_TIME_SLOTS);
         long teacherId = intent.getLongExtra(EXTRA_ORDER_TEACHER_ID,0);
-        ConfirmOrderFragment confirmOrderFragment = ConfirmOrderFragment.newInstance(order,entity,hours,weeklyTimeSlots.toString(),teacherId);
+        boolean isEvaluated = intent.getBooleanExtra(EXTRA_IS_EVALUATED,true);
+        ConfirmOrderFragment confirmOrderFragment = ConfirmOrderFragment.newInstance(order,entity,hours,weeklyTimeSlots.toString(),teacherId,isEvaluated);
         FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, confirmOrderFragment, OrderDetailFragment.class.getName());
     }
 

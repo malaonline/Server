@@ -465,7 +465,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         order.setSubject(subject.getName());
         order.setTo_pay(Double.valueOf(calculateCost()));
         order.setSchool(currentSchool.getSchool().getName());
-        ConfirmOrderActivity.open(getContext(),order,currentHours,weeklyTimeSlots.toString(),teacher,entity);
+        boolean isEvaluated = true;
+        if (evaluated != null && !evaluated.isEvaluated()) {
+            isEvaluated = false;
+        }
+        ConfirmOrderActivity.open(getContext(),order,currentHours,weeklyTimeSlots.toString(),teacher,entity,isEvaluated);
         /**
          * 为什么把创建订单外面，因为创建订单时有加载时间，可以方便做加载动画
          */

@@ -18,19 +18,13 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.FetchOrderApi;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
-import com.malalaoshi.android.course.api.CourseTimesApi;
 import com.malalaoshi.android.course.model.CourseTimeModel;
-import com.malalaoshi.android.dialogs.PromptDialog;
-import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
-import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.pay.PayActivity;
-import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.CalendarUtils;
@@ -40,9 +34,6 @@ import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.CircleNetworkImage;
 import com.malalaoshi.android.view.ScrollListView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -222,9 +213,7 @@ public class OrderDetailFragment extends Fragment {
         entity.setId(order.getId()+"");
         entity.setOrder_id(order.getOrder_id());
         entity.setTo_pay((long)order.getTo_pay().doubleValue());
-        boolean isEvaluated = true;
-        isEvaluated = false;
-        PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
+        PayActivity.startPayActivity(entity, getActivity(), true);
         getActivity().finish();
     }
 

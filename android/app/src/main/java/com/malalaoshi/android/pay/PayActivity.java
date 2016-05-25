@@ -38,6 +38,12 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
 
     private PayFragment payFragment;
 
+    /**
+     *
+     * @param entity
+     * @param context
+     * @param isEvaluated   true:已经完成测评   false:没有进行测评
+     */
     public static void startPayActivity(CreateCourseOrderResultEntity entity, Activity context, boolean isEvaluated) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra(EXTRA_ORDER_ID, entity);

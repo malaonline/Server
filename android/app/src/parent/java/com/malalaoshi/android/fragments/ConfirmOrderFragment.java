@@ -59,7 +59,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
     private static final String ARG_ORDER_HOURS = "hours";
     private static final String ARG_ORDER_INFO = "order info";
     private static final String ARG_IS_CONFIRM_ORDER = "is confirm order";
-    private static final String ARG_ORDER_ID = "order id";
+    private static final String ARG_IS_EVALUATED = "is evaluated";
 
     @Bind(R.id.tv_teacher_name)
     protected TextView tvTeacherName;
@@ -86,6 +86,8 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
+    boolean isEvaluated = true;
+
     private ImageLoader mImageLoader;
 
     private CourseTimeAdapter timesAdapter;
@@ -102,7 +104,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
 
     private boolean loadFinish = false;
 
-    public static ConfirmOrderFragment newInstance(Order order, CreateCourseOrderEntity entity, long hours, String weeklyTimeSlots, long teacherId) {
+    public static ConfirmOrderFragment newInstance(Order order, CreateCourseOrderEntity entity, long hours, String weeklyTimeSlots, long teacherId, boolean isEvaluated) {
         if (TextUtils.isEmpty(weeklyTimeSlots)&&hours<=0){
             return null;
         }
@@ -114,6 +116,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         args.putLong(ARG_ORDER_HOURS,hours);
         args.putString(ARG_ORDER_WEEKLY_TIME_SLOTS,weeklyTimeSlots);
         args.putLong(ARG_ORDER_TEACHER_ID,teacherId);
+        args.putBoolean(ARG_IS_EVALUATED,isEvaluated);
         fragment.setArguments(args);
         return fragment;
     }
@@ -129,6 +132,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         weeklyTimeSlots = args.getString(ARG_ORDER_WEEKLY_TIME_SLOTS);
         teacherId = args.getLong(ARG_ORDER_TEACHER_ID);
         order  = args.getParcelable(ARG_ORDER_INFO);
+        isEvaluated = args.getBoolean(ARG_IS_EVALUATED,true);
         createCourseOrderEntity  = (CreateCourseOrderEntity) args.getSerializable(ARG_CREATE_ORDER_INFO);
 
         mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
