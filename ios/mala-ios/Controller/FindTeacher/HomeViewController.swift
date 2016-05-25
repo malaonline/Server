@@ -102,7 +102,7 @@ class HomeViewController: UIViewController {
         // leftBarButtonItem
         let leftBarButtonItem = UIBarButtonItem(customView:
             UIButton(
-                title: "洛阳",
+                title: "许昌",
                 imageName: "location_normal",
                 highlightImageName: "location_press",
                 target: self,
@@ -221,7 +221,7 @@ class HomeViewController: UIViewController {
     
     @objc private func profileButtonDidClick() {
         _ = JSSAlertView().show(self,
-            title: "目前只支持洛阳，其他地区正在拓展中...",
+            title: "目前只支持许昌，其他地区正在拓展中...",
             buttonText: "我知道了",
             iconImage: UIImage(named: "alert_Position")
         )
