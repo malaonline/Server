@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,13 +123,15 @@ public class MemberServiceFragment extends BaseFragment {
     }
 
     public void onEventMainThread(BusEvent event) {
+        Log.e("BUS_EVENT_LOGIN_SUCCESS","MemberSerVices"+event.getEventType());
         switch (event.getEventType()) {
-            case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
+            case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
+            case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
                 reloadData();
                 break;
+
         }
     }
-
 
     @OnClick(R.id.ll_refresh_refreshing)//刷新
     public void onClickRefresh(View view){

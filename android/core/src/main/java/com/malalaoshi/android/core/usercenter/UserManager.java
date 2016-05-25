@@ -205,6 +205,8 @@ public class UserManager {
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         MalaContext.getLocalBroadcastManager().sendBroadcast(intent);
+        //发送退出通知
+        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGOUT_SUCCESS));
     }
 
     /**
@@ -218,14 +220,11 @@ public class UserManager {
         setProfileId(user.getProfile_id());
         setUserId(user.getUser_id());
 
-        if (!user.isFirst_login()) {
-            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA));
-        }
-
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         MalaContext.getLocalBroadcastManager().sendBroadcast(intent);
+        //发送登录成功通知
+        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGIN_SUCCESS));
     }
 
     public void startLoginActivity() {

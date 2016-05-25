@@ -153,11 +153,12 @@ public class UserFragment extends BaseFragment {
     }
 
     public void onEventMainThread(BusEvent event) {
+        Log.e("BUS_EVENT_LOGIN_SUCCESS","UserFragment"+event.getEventType());
         switch (event.getEventType()) {
-            case BusEvent.BUS_EVENT_UPDATE_USERCENTER_UI:
+            case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
                 updateUI();
                 break;
-            case BusEvent.BUS_EVENT_RELOAD_USERCENTER_DATA:
+            case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
                 reloadData();
                 break;
 
@@ -198,6 +199,7 @@ public class UserFragment extends BaseFragment {
 
     public void reloadData() {
         if (UserManager.getInstance().isLogin()) {
+            updateUI();
             loadData();
         } else {
             updateUI();

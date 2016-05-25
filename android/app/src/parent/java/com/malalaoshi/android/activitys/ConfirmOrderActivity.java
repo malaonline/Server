@@ -45,7 +45,7 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
             intent.putExtra(EXTRA_ORDER_HOURS,hours);
             intent.putExtra(EXTRA_ORDER_WEEKLY_TIME_SLOTS,weeklyTimeSlots);
             intent.putExtra(EXTRA_ORDER_TEACHER_ID,teacherId);
-            intent.putExtra(EXTRA_IS_EVALUATED,true);
+            intent.putExtra(EXTRA_IS_EVALUATED,isEvaluated);
             context.startActivity(intent);
         }
     }

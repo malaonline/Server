@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,13 +97,18 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
     }
 
     public void onEventMainThread(BusEvent event) {
+        Log.e("BUS_EVENT_LOGIN_SUCCESS","timetable"+event.getEventType());
         switch (event.getEventType()) {
+            case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
+                setCourses(null);
+                break;
+            case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
                 loadData();
                 break;
+
         }
     }
-
 
     private void initData() {
         loadData();
@@ -182,8 +188,12 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
                 }
                 tempCourses.add(course);
             }
-            calendarView.setCourses(mapCourse);
+            setCourses(mapCourse);
         }
+    }
+
+    private void setCourses(HashMap<String, List<Course>> mapCourse){
+        calendarView.setCourses(mapCourse);
     }
 
     @Override
