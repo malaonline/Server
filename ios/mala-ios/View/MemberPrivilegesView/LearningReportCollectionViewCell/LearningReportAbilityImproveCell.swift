@@ -29,6 +29,9 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         ]
         
         chartView.descriptionText = ""
+        chartView.scaleXEnabled = false
+        chartView.scaleYEnabled = false
+        chartView.dragEnabled = false
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         
@@ -39,8 +42,8 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         xAxis.labelPosition = .Bottom
         
         let leftAxis = chartView.leftAxis
-        leftAxis.labelFont = UIFont.systemFontOfSize(9)
-        leftAxis.labelTextColor = MalaColor_939393_0
+        leftAxis.labelFont = UIFont.systemFontOfSize(10)
+        leftAxis.labelTextColor = MalaColor_5E5E5E_0
         leftAxis.gridLineDashLengths = [2,2]
         leftAxis.gridColor = MalaColor_E6E9EC_0
         leftAxis.drawGridLinesEnabled = true
@@ -110,7 +113,6 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
             BarChartDataEntry(value: 61, xIndex: 6)
         ]
         let barDataSet = BarChartDataSet(yVals: yBarVals, label: "")
-        barDataSet.setColor(MalaColor_82C9F9_0)
         barDataSet.drawValuesEnabled = true
         barDataSet.colors = MalaConfig.chartsColor()
         barDataSet.highlightEnabled = false
