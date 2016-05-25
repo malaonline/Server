@@ -11,7 +11,11 @@ import Foundation
 extension Int {
     public var money: String {
         get {
-            return String(format: "%@", String(Double(self)/100))
+            #if USE_PRD_SERVER
+                return String(format: "%@", String(Int(self)/100))
+            #elseif USE_DEV_SERVER
+                return String(format: "%@", String(Double(self)/100))
+            #endif
         }
     }
     
