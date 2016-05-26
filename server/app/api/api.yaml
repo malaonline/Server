@@ -1,0 +1,157 @@
+swagger: '2.0'
+info:
+  title: Mala API
+  description: Mala API for app
+  version: '1.2'
+host: malalaoshi.com
+schemes:
+  - https
+basePath: /api/v1
+produces:
+  - application/json
+paths:
+  /study_report:
+    get:
+      summary: Subjects Summary
+      description: Get the student all subjects summary info
+      tags:
+        - Subjects Summary
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          description: auth token.
+          required: true
+          type: string
+          format: Token XXXXXXXX
+      responses:
+        '200':
+          description: An array of subjects those the user took or bought
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                description: 0 means ok. 见Error的code定义
+              message:
+                type: string
+                description: error message
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/SimpleReportSummary'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /study_report/$subject_id:
+    get:
+      summary: One Subject Report Data
+      description: Get One Subject Report Data by Subject ID
+      tags:
+        - One Subject Report
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          description: auth token.
+          required: true
+          type: string
+          format: Token XXXXXXXX
+      responses:
+        '200':
+          description: An array of subjects
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                description: 0 means ok. 见Error的code定义
+              message:
+                type: string
+                description: error message
+              results:
+                $ref: '#/definitions/SubjectReport'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+# define models
+definitions:
+  SimpleReportSummary:
+    type: object
+    properties:
+      subject_id:
+        type: integer
+        description: |
+          Subject ID.
+          (Now only support math)
+      supported:
+        type: boolean
+        description: whether support the subject or not. if null then supported
+      total_nums:
+        type: integer
+        description: |
+          total number of exercises. 0 means no report.
+          (Optional, if not supported, it's empty)
+      right_nums:
+        type: integer
+        description: |
+          number of exercises those were done correctly.
+          (Optional, if not supported, it's empty)
+  SubjectReport:
+    type: object
+    properties:
+      subject_id:
+        type: integer
+        description: |
+          Subject ID.
+          (Now only support math)
+      supported:
+        type: boolean
+        description: whether support the subject or not. if null then supported
+      total_nums:
+        type: integer
+        description: |
+          total number of exercises. 0 means no report.
+          (Optional, if not supported, it's empty)
+      right_nums:
+        type: integer
+        description: |
+          number of exercises those were done correctly.
+          (Optional, if not supported, it's empty)
+      ability_structure:
+        $ref: '#/definitions/AbilityStructure'
+  AbilityStructure:
+    type: array
+    description: |
+      Abilities Structure. A list of ability <key-value>
+    items:
+      $ref: '#/definitions/AbilityStructureItem'
+  AbilityStructureItem:
+    type: object
+    properties:
+      ability:
+        type: string
+        description: ability key string
+        enum:
+          - abstract: 抽象概括能力
+          - reason: 推理论证能力
+          - appl: 实际应用能力
+          - spatial: 空间想象能力
+          - calc: 运算求解能力
+          - data: 数据分析能力
+      value:
+        type: number
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: |
+          0 means ok.
+            -1: 从快乐学获取数据失败
+            -4: 参数错误
+            -5: 不支持的科目
+      message:
+        type: string
+        description: error message

@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^upload/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
-    url(r'^api/v1/(?P<path>.*\.json)$', django.views.static.serve,
+    url(r'^api/v1/(?P<path>.*(\.json|\.yaml))$', django.views.static.serve,
         {'document_root': os.path.join(BASE_DIR, "app", "api")}),
     url(r'^', include('web.urls', namespace='web')),
 ]
