@@ -27,26 +27,8 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
         return label
     }()
     /// 饼形统计视图
-    private lazy var barChartView: HorizontalBarChartView = {
-        let barChartView = HorizontalBarChartView()
-        
-        barChartView.backgroundColor = UIColor.lightGrayColor()
-        
-        barChartView.drawBarShadowEnabled = false
-        barChartView.drawValueAboveBarEnabled = true
-        
-        let XAxis = barChartView.xAxis
-        XAxis.labelPosition = .Bottom
-        XAxis.drawAxisLineEnabled = false
-        XAxis.drawGridLinesEnabled = false
-        
-        let leftAxis = barChartView.leftAxis
-        leftAxis.drawAxisLineEnabled = false
-        leftAxis.drawGridLinesEnabled = false
-        leftAxis.axisMinValue = 0
-        
-        
-        barChartView.legend.enabled = false
+    private lazy var barChartView: ThemeHorizontalBarChartView = {
+        let barChartView = ThemeHorizontalBarChartView()
         return barChartView
     }()
     
@@ -69,15 +51,16 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
         descDetailLabel.text = "学生各模块水平相差过大，应提前进行针对性练习，实数和相似等模块需提高，多边形板块可以适当减少练习量。"
         
         // 样本数据
-//        let yVals1 = [
-//            ChartDataEntry(value: 0, xIndex: 0),
-//            ChartDataEntry(value: 30, xIndex: 1),
-//            ChartDataEntry(value: 90, xIndex: 2),
-//            ChartDataEntry(value: 23, xIndex: 3),
-//            ChartDataEntry(value: 48, xIndex: 4),
-//            ChartDataEntry(value: 0, xIndex: 5)
-//        ]
-//        let set1 = BarChartDataSet(yVals: <#T##[ChartDataEntry]?#>, label: "")
+        let vals = [
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[0], color: MalaConfig.chartsColor()[0], rightNum: 11, totalNum: 30),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[1], color: MalaConfig.chartsColor()[1], rightNum: 21, totalNum: 50),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[2], color: MalaConfig.chartsColor()[2], rightNum: 109, totalNum: 117),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[7], color: MalaConfig.chartsColor()[3], rightNum: 21, totalNum: 50),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[4], color: MalaConfig.chartsColor()[4], rightNum: 114, totalNum: 120),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[5], color: MalaConfig.chartsColor()[5], rightNum: 21, totalNum: 50),
+            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[6], color: MalaConfig.chartsColor()[6], rightNum: 54, totalNum: 62)
+        ]
+        barChartView.vals = vals
     }
     
     private func setupUserInterface() {
