@@ -135,6 +135,8 @@ definitions:
         $ref: '#/definitions/KnowledgePointAccuracy'
       ability_structure:
         $ref: '#/definitions/AbilityStructure'
+      score_analyses:
+        $ref: '#/definitions/ScoreAnalyses'
   ExerciseErrorDistribution:
     description: 错题分布
     type: array
@@ -187,7 +189,7 @@ definitions:
   AbilityStructure:
     type: array
     description: |
-      Abilities Structure. A list of ability <key-value>
+      能力结构分析(Abilities Structure. A list of ability <key-value>)
     items:
       $ref: '#/definitions/AbilityStructureItem'
   AbilityStructureItem:
@@ -205,6 +207,25 @@ definitions:
           - data: 数据分析能力
       value:
         type: number
+        format: float
+  ScoreAnalyses:
+    description: 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
+    type: array
+    items:
+      $ref: '#/definitions/ScoreAnalysesItem'
+  ScoreAnalysesItem:
+    type: object
+    properties:
+      tag_id:
+        type: integer
+      tag_name:
+        type: string
+      my_score:
+        type: number
+        format: float
+      ave_score:
+        type: number
+        format: float
   Error:
     type: object
     properties:
