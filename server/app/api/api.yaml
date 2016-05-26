@@ -9,6 +9,15 @@ schemes:
 basePath: /api/v1
 produces:
   - application/json
+# define parameters that can be used across operations, not global parameters for all operations.
+parameters:
+  authTokenHeader:
+    name: HTTP_AUTHORIZATION
+    in: header
+    description: auth token.
+    required: true
+    type: string
+    format: Token XXXXXXXX
 paths:
   /study_report:
     get:
@@ -17,12 +26,7 @@ paths:
       tags:
         - Subjects Summary
       parameters:
-        - name: HTTP_AUTHORIZATION
-          in: header
-          description: auth token.
-          required: true
-          type: string
-          format: Token XXXXXXXX
+        - $ref: '#/parameters/authTokenHeader'
       responses:
         '200':
           description: An array of subjects those the user took or bought
@@ -50,12 +54,7 @@ paths:
       tags:
         - One Subject Report
       parameters:
-        - name: HTTP_AUTHORIZATION
-          in: header
-          description: auth token.
-          required: true
-          type: string
-          format: Token XXXXXXXX
+        - $ref: '#/parameters/authTokenHeader'
       responses:
         '200':
           description: An array of subjects
