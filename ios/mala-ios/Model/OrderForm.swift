@@ -40,6 +40,7 @@ class OrderForm: BaseObjectModel {
     var timeSlots: [[Int]]?
     var chargeChannel: String?
     var createAt: NSTimeInterval?
+    var paidAt: NSTimeInterval?
     
     // 其他
     var result: Bool?

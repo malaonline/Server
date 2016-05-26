@@ -832,11 +832,17 @@ let parseOrderFormInfo: JSONDictionary -> OrderForm? = { orderInfo in
         orderId         = orderInfo["order_id"] as? String,
         amount          = orderInfo["to_pay"] as? Int,
         createdAt       = orderInfo["created_at"] as? NSTimeInterval,
-        paidAt          = orderInfo["paid_at"] as? NSTimeInterval,
         chargeChannle   = orderInfo["charge_channel"] as? String,
         evaluated       = orderInfo["evaluated"] as? Bool,
         isTimeAllocated = orderInfo["is_timeslot_allocated"] as? Bool {
-        return OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
+        // 订单信息
+        let order = OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
+        // 判断是否存在支付时间（未支付状态无此数据）
+        if let paidAt = orderInfo["paid_at"] as? NSTimeInterval {
+            order.paidAt = paidAt
+        }
+        
+        return order
     }
     return nil
 }
