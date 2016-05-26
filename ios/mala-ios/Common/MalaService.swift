@@ -836,7 +836,7 @@ let parseOrderFormInfo: JSONDictionary -> OrderForm? = { orderInfo in
         evaluated       = orderInfo["evaluated"] as? Bool,
         isTimeAllocated = orderInfo["is_timeslot_allocated"] as? Bool {
         // 订单信息
-        let order = OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated)
+        let order = OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, createAt: createdAt, evaluated: evaluated)
         // 判断是否存在支付时间（未支付状态无此数据）
         if let paidAt = orderInfo["paid_at"] as? NSTimeInterval {
             order.paidAt = paidAt

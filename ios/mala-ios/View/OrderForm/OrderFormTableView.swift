@@ -101,9 +101,7 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 3:
             let cell = reuseCell as! OrderFormOtherInfoCell
-            cell.orderId = String(format: "%d", self.model?.id ?? 0)
-            cell.createDate = self.model?.createAt
-            cell.paymentDate = self.model?.createAt //TODO: 支付时间
+            cell.model = self.model
             return cell
             
         default:

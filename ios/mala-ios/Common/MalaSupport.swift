@@ -126,6 +126,16 @@ func getDateString(timeStamp: NSTimeInterval) -> String {
     return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("yyyy/MM/dd")
 }
 
+///  根据时间戳获取时间字符串（例如2000/10/10 12:01:01）
+///
+///  - parameter timeStamp: 时间戳
+///
+///  - returns: 时间字符串
+func getDateTimeString(timeStamp: NSTimeInterval) -> String {
+    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("yyyy-MM-dd HH:mm:ss")
+}
+
+
 ///  获取行距为8的文本
 ///
 ///  - parameter string: 文字

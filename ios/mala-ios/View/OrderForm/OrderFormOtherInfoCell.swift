@@ -11,22 +11,58 @@ import UIKit
 class OrderFormOtherInfoCell: UITableViewCell {
 
     // MARK: - Property
+    /// 订单详情模型
+    var model: OrderForm? {
+        didSet {
+            
+            /// 订单状态
+            if let status = MalaOrderStatus(rawValue: (model?.status ?? "")) {
+                switch status {
+                // 已支付、已退款状态时，不显示支付时间
+                case .Penging, .Canceled:
+                    
+                    paymentDateString.hidden = true
+                    paymentDateLabel.hidden = true
+                    
+                    createDateString.snp_updateConstraints { (make) -> Void in
+                        make.top.equalTo(titleString.snp_bottom).offset(MalaLayout_Margin_10)
+                        make.left.equalTo(titleString.snp_left)
+                        make.height.equalTo(MalaLayout_FontSize_12)
+                        make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+                    }
+                    break
+                    
+                default:
+                    break
+                }
+            }
+            
+            self.orderId = String(format: "%d", self.model?.order_id ?? 0)
+            self.createDate = self.model?.createAt
+            self.paymentDate = self.model?.paidAt
+        }
+    }
+    
     /// 订单编号
     var orderId: String = "" {
         didSet {
-            
+            titleLabel.text = orderId
         }
     }
     /// 订单创建时间
     var createDate: NSTimeInterval? {
         didSet {
-            
+            if let createDate = createDate {
+                createDateLabel.text = getDateTimeString(createDate)
+            }
         }
     }
     /// 订单支付时间
     var paymentDate: NSTimeInterval? {
         didSet {
-            
+            if let paymentDate = paymentDate {
+                paymentDateLabel.text = getDateTimeString(paymentDate)
+            }
         }
     }
     
@@ -43,7 +79,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     }()
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
-            text: "0000000001",
+            text: "",
             fontSize: MalaLayout_FontSize_12,
             textColor: MalaColor_939393_0
         )
@@ -60,7 +96,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     }()
     private lazy var createDateLabel: UILabel = {
         let label = UILabel(
-            text: "0000000002",
+            text: "",
             fontSize: MalaLayout_FontSize_12,
             textColor: MalaColor_939393_0
         )
@@ -77,7 +113,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     }()
     private lazy var paymentDateLabel: UILabel = {
         let label = UILabel(
-            text: "0000000003",
+            text: "",
             fontSize: MalaLayout_FontSize_12,
             textColor: MalaColor_939393_0
         )

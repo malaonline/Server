@@ -71,7 +71,7 @@ class OrderForm: BaseObjectModel {
     }
     
     convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?,
-                     orderStatus: String?, amount: Int, evaluated: Bool?) {
+                     orderStatus: String?, amount: Int, createAt: NSTimeInterval = 0, evaluated: Bool?) {
         self.init()
         self.id = id
         self.order_id = orderId
@@ -83,6 +83,7 @@ class OrderForm: BaseObjectModel {
         self.subjectName = subjectName
         self.status = orderStatus
         self.amount = amount
+        self.createAt = createAt
         self.evaluated = evaluated
     }
     
