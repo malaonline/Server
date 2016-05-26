@@ -308,7 +308,7 @@ class LearningReportCell: UITableViewCell {
             layerView.hidden = false
             loadingView.stopAnimating()
             
-            layerLabel.text = "您还未报名，先看看其他样本报告把"
+            layerLabel.text = "学习报告目前只支持数学科目"
             button.setTitle("查看学习报告样本", forState: .Normal)
             button.addTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
             break
@@ -321,8 +321,8 @@ class LearningReportCell: UITableViewCell {
             layerView.hidden = false
             loadingView.stopAnimating()
             
-            layerLabel.text = "当前学科暂未开通学习报告，敬请期待"
-            button.setTitle("查看数学学习报告样本", forState: .Normal)
+            layerLabel.text = "学习报告目前只支持数学科目"
+            button.setTitle("查看学习报告样本", forState: .Normal)
             button.addTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
             break
             

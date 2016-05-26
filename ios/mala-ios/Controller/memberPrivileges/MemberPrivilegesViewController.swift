@@ -140,7 +140,7 @@ class MemberPrivilegesViewController: UITableViewController {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self?.reportStatus = .UnSigned
-                self?.ShowTost("学习数据获取失败，请稍后重试")
+                self?.ShowTost("当前无法访问题目数据，请稍后再试")
             })
             
         }, completion: { [weak self] (result) in
