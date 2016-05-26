@@ -131,6 +131,8 @@ definitions:
         $ref: '#/definitions/ExerciseErrorDistribution'
       month_trend:
         $ref: '#/definitions/ExerciseMonthTrend'
+      knowledge_point_accuracy:
+        $ref: '#/definitions/KnowledgePointAccuracy'
       ability_structure:
         $ref: '#/definitions/AbilityStructure'
   ExerciseErrorDistribution:
@@ -166,6 +168,22 @@ definitions:
       day:
         type: integer
         description: 1, 上旬 16, 下旬
+  KnowledgePointAccuracy:
+    description: 知识点正确率
+    type: array
+    items:
+      $ref: '#/definitions/KnowledgePointAccuracyItem'
+  KnowledgePointAccuracyItem:
+    type: object
+    properties:
+      tag_id:
+        type: integer
+      tag_name:
+        type: string
+      total_item:
+        type: integer
+      total_right_item:
+        type: integer
   AbilityStructure:
     type: array
     description: |
