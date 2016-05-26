@@ -9,6 +9,7 @@ schemes:
 basePath: /api/v1
 produces:
   - application/json
+
 # define parameters that can be used across operations, not global parameters for all operations.
 parameters:
   authTokenHeader:
@@ -18,6 +19,8 @@ parameters:
     required: true
     type: string
     format: Token XXXXXXXX
+
+# The available paths and operations for the API.
 paths:
   /study_report:
     get:
@@ -73,6 +76,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+
 # define models
 definitions:
   SimpleReportSummary:
@@ -117,8 +121,30 @@ definitions:
         description: |
           number of exercises those were done correctly.
           (Optional, if not supported, it's empty)
+      exercise_total_nums:
+        type: integer
+        description: 累计答题次数
+      exercise_finished_nums:
+        type: integer
+        description: 累计答题完成数
+      error_distribution:
+        $ref: '#/definitions/ExerciseErrorDistribution'
       ability_structure:
         $ref: '#/definitions/AbilityStructure'
+  ExerciseErrorDistribution:
+    description: 错题分布
+    type: array
+    items:
+      $ref: '#/definitions/ExerciseErrorDistributionItem'
+  ExerciseErrorDistributionItem:
+    type: object
+    properties:
+      tag_id:
+        type: integer
+      tag_name:
+        type: integer
+      percent:
+        type: number
   AbilityStructure:
     type: array
     description: |
