@@ -48,7 +48,7 @@ paths:
               message:
                 type: string
                 description: error message
-              results:
+              data:
                 type: array
                 items:
                   $ref: '#/definitions/SimpleReportSummary'
@@ -77,7 +77,7 @@ paths:
               message:
                 type: string
                 description: error message
-              results:
+              data:
                 $ref: '#/definitions/SubjectReport'
         default:
           description: Unexpected error
@@ -97,6 +97,9 @@ definitions:
       supported:
         type: boolean
         description: whether support the subject or not. if null then supported
+      purchased:
+        type: boolean
+        description: whether the user has bought the subject
       total_nums:
         type: integer
         description: |
@@ -115,9 +118,6 @@ definitions:
         description: |
           Subject ID.
           (Now only support math)
-      supported:
-        type: boolean
-        description: whether support the subject or not. if null then supported
       total_nums:
         type: integer
         description: |
