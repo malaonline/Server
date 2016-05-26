@@ -13,7 +13,7 @@ extension Int {
         get {
             #if USE_PRD_SERVER
                 return String(format: "%@", String(Int(self)/100))
-            #elseif USE_DEV_SERVER
+            #else
                 return String(format: "%@", String(Double(self)/100))
             #endif
         }
