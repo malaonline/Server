@@ -19,6 +19,12 @@ parameters:
     required: true
     type: string
     format: Token XXXXXXXX
+  subject_id:
+    name: subject_id
+    in: path
+    description: Subject ID.
+    required: true
+    type: integer
 
 # The available paths and operations for the API.
 paths:
@@ -50,7 +56,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /study_report/$subject_id:
+  /study_report/{subject_id}:
     get:
       summary: One Subject Report Data
       description: Get One Subject Report Data by Subject ID
@@ -58,6 +64,7 @@ paths:
         - One Subject Report
       parameters:
         - $ref: '#/parameters/authTokenHeader'
+        - $ref: '#/parameters/subject_id'
       responses:
         '200':
           description: An array of subjects
