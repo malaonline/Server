@@ -129,6 +129,8 @@ definitions:
         description: 累计答题完成数
       error_distribution:
         $ref: '#/definitions/ExerciseErrorDistribution'
+      month_trend:
+        $ref: '#/definitions/ExerciseMonthTrend'
       ability_structure:
         $ref: '#/definitions/AbilityStructure'
   ExerciseErrorDistribution:
@@ -142,9 +144,28 @@ definitions:
       tag_id:
         type: integer
       tag_name:
-        type: integer
+        type: string
       percent:
         type: number
+  ExerciseMonthTrend:
+    description: 按月显示练习量走势
+    type: array
+    items:
+      $ref: '#/definitions/ExerciseMonthTrendItem'
+  ExerciseMonthTrendItem:
+    type: object
+    properties:
+      total_item:
+        type: integer
+      total_error_item:
+        type: integer
+      year:
+        type: integer
+      month:
+        type: integer
+      day:
+        type: integer
+        description: 1, 上旬 16, 下旬
   AbilityStructure:
     type: array
     description: |
