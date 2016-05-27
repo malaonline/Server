@@ -35,7 +35,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         let naviVC  = self.getNaviController(
             MemberPrivilegesViewController(),
             title: MalaCommonString_MemberPrivileges,
-            imageName: "profile_normal"
+            imageName: "serivce_normal"
         )
         return naviVC
     }()
