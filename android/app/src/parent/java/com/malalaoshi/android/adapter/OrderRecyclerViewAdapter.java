@@ -26,6 +26,7 @@ import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.School;
+import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
@@ -314,10 +315,12 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
 
         //启动购买课程页
         private void startCourseConfirmActivity() {
-            Intent signIntent = new Intent(view.getContext(), CourseConfirmActivity.class);
             if (order != null && order.getTeacher() != null) {
-                signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, order.getTeacher());
-                view.getContext().startActivity(signIntent);
+                Subject subject = Subject.getSubjectIdByName(order.getSubject());
+                Long teacherId = Long.valueOf(order.getTeacher());
+                if (teacherId!=null&&subject!=null){
+                    CourseConfirmActivity.open(view.getContext(),teacherId,order.getTeacher_name(),order.getTeacher_avatar(),subject);
+                }
             }
         }
 

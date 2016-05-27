@@ -27,6 +27,7 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.report.ReportActivity;
 import com.malalaoshi.android.result.ReportListResult;
 import com.malalaoshi.android.util.AuthUtils;
+import com.malalaoshi.android.util.MiscUtil;
 
 import java.util.List;
 
@@ -123,7 +124,6 @@ public class MemberServiceFragment extends BaseFragment {
     }
 
     public void onEventMainThread(BusEvent event) {
-        Log.e("BUS_EVENT_LOGIN_SUCCESS","MemberSerVices"+event.getEventType());
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
@@ -208,23 +208,13 @@ public class MemberServiceFragment extends BaseFragment {
         reportStatus = EnumReportStatus.NOTSIGNIN;
     }
 
-    private void showNotSignUpView(){
-        refreshAnimation.stop();
-        rlNonLearningReport.setVisibility(View.VISIBLE);
-        rlLearningReport.setVisibility(View.GONE);
-        llRefreshRefreshing.setVisibility(View.GONE);
-        tvReportPrompt.setText("您还未报名,先看看其他样本报告吧···");
-        tvReportSubmit.setText("查看学习报告样本");
-        reportStatus = EnumReportStatus.NOTSIGNUP;
-    }
-
     private void showEmptyReportView(){
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.VISIBLE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
-        tvReportPrompt.setText("当前科目暂未开通学习报告,敬请期待···");
-        tvReportSubmit.setText("查看数学学习报告样本");
+        tvReportPrompt.setText("学习报告目前只支持数学科目···");
+        tvReportSubmit.setText("查看学习报告样本");
         reportStatus = EnumReportStatus.EMPTYREPORT;
     }
 
@@ -250,25 +240,34 @@ public class MemberServiceFragment extends BaseFragment {
 
     private void dealResponse(ReportListResult response) {
         if (response.getCode()==0){
-            List<Report> reports = response.getResults();
-            if (reports.size()>0){
+            List<Report> reports = response.getData();
+            if (reports!=null&&reports.size()>0){
                 Report report = null;
                 for (int i=0;i<reports.size();i++){
-                    if (reports.get(i).isSupported()){
+                    if (reports.get(i).isSupported()&&reports.get(i).isPurchased()){
                         report = reports.get(i);
                         break;
                     }
                 }
-                if (report!=null&&report.getTotal_nums()>0){
+                if (report!=null){
                     //update ui
                     showReportView(report);
                 }else{
                     showEmptyReportView();
                 }
             }else{
-                showNotSignUpView();
+                showEmptyReportView();
             }
         }else{
+            if (response.getCode()==-1){
+                MiscUtil.toast("从快乐学获取数据失败!");
+            }else if (response.getCode()==-4){
+                MiscUtil.toast("参数错误!");
+            }else if (response.getCode()==-5){
+                MiscUtil.toast("不支持的科目!");
+            }else{
+                MiscUtil.toast("未知错误!");
+            }
             showLoadFailedView();
         }
     }

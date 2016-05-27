@@ -5,6 +5,7 @@ package com.malalaoshi.android.entity;
  */
 public class Report {
     private Long subject_id;
+    private boolean purchased;
     private boolean supported;
     private Integer right_nums;
     private Integer total_nums;
@@ -15,6 +16,14 @@ public class Report {
 
     public void setSubject_id(Long subject_id) {
         this.subject_id = subject_id;
+    }
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
     }
 
     public boolean isSupported() {

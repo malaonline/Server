@@ -22,8 +22,6 @@ import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.decoration.TeacherItemDecoration;
 import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
-import com.malalaoshi.android.net.MoreTeacherListApi;
-import com.malalaoshi.android.net.TeacherListApi;
 import com.malalaoshi.android.refresh.NormalRefreshViewHolder;
 import com.malalaoshi.android.result.OrderListResult;
 import com.malalaoshi.android.util.MiscUtil;
@@ -33,7 +31,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 

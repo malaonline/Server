@@ -184,7 +184,6 @@ public class TeacherListGridItemDecoration extends RecyclerView.ItemDecoration{
         int childCount = parent.getAdapter().getItemCount();
         int itemPosition = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         int top = 0;
-        Log.e("aaaaaaaa",""+itemPosition);
         if (itemPosition==0){
             top += mSpace/2;
             outRect.set( mSpace/2 ,  mSpace, top, mSpace);

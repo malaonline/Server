@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,7 +27,9 @@ import android.widget.TextView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.ConfirmOrderActivity;
-import com.malalaoshi.android.activitys.OrderInfoActivity;
+import com.malalaoshi.android.api.CoursePriceListApi;
+import com.malalaoshi.android.api.SchoolListApi;
+import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -38,25 +41,25 @@ import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
 import com.malalaoshi.android.core.usercenter.entity.Evaluated;
 import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
+import com.malalaoshi.android.core.utils.JsonUtil;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseWeekDataApi;
 import com.malalaoshi.android.course.model.CourseTimeModel;
-import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.entity.CouponEntity;
 import com.malalaoshi.android.entity.CourseDateEntity;
 import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.CoursePriceUI;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
-import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.pay.CouponActivity;
-import com.malalaoshi.android.pay.PayActivity;
-import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.receiver.WeakFragmentReceiver;
+import com.malalaoshi.android.result.CoursePriceListResult;
+import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.DialogUtil;
+import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
@@ -82,6 +85,24 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         fragment.init(schools, prices, teacherId, subject,teacherAvator,teacherName);
         return fragment;
+    }
+
+    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName,String teacherAvator, Subject subject) {
+        CourseConfirmFragment fragment = new CourseConfirmFragment();
+        fragment.init(teacherId, teacherName, teacherAvator, subject);
+        return fragment;
+    }
+
+    private void init(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
+        if (teacherId != null&&subject!=null) {
+            this.teacher = (Long) teacherId;
+            this.teacherAvator = teacherAvator;
+            this.teacherName = teacherName;
+            this.subject = subject;
+        }
+        fetchEvaluated();
+        fetchSchools();
+        fetchCoursePrices();
     }
 
     public CourseConfirmFragment() {
@@ -182,6 +203,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private BroadcastReceiver receiver;
 
+    private boolean loadFinish = false;
+
     private final class Receiver extends WeakFragmentReceiver {
 
         public Receiver(Fragment fragment) {
@@ -201,8 +224,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_course_confirm, container, false);
         ButterKnife.bind(this, view);
-        initGridView();
-        initSchoolListView();
+        //initGridView();
+        //initSchoolListView();
         initChoiceListView();
         initTimesListView();
         minHours = 2;
@@ -245,6 +268,18 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         IntentFilter filter = new IntentFilter();
         filter.addAction(UserManager.ACTION_LOGOUT);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, filter);
+
+        if (!loadFinish) {
+            DialogUtil.startCircularProcessDialog(getContext(), "正在加载数据", true, false);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!loadFinish) {
+            DialogUtil.stopProcessDialog();
+        }
     }
 
     @Override
@@ -454,7 +489,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
         entity.setWeekly_time_slots(list);
 
-
         //Context context, Order order, long hours,String weeklyTimeSlots,long teacherId
         Order order = new Order();
         order.setTeacher(String.valueOf(teacher));
@@ -470,11 +504,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             isEvaluated = false;
         }
         ConfirmOrderActivity.open(getContext(),order,currentHours,weeklyTimeSlots.toString(),teacher,entity,isEvaluated);
-        /**
-         * 为什么把创建订单外面，因为创建订单时有加载时间，可以方便做加载动画
-         */
-        //submitView.setOnClickListener(null);
-        //ApiExecutor.exec(new CreateOrderRequest(this, entity));
     }
 
     private float calculateCost(){
@@ -494,33 +523,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         sum = sum <= 0 ? 1 : sum;
         sum = sum / 100f;
         return sum;
-    }
-
-    private void dealOrder(@NonNull CreateCourseOrderResultEntity entity) {
-        if (!entity.isOk() && entity.getCode() == -1) {
-            DialogUtil.showPromptDialog(
-                    getFragmentManager(), R.drawable.ic_timeallocate,
-                    "该老师部分时段已被占用，请重新选择上课时间!", "知道了", new PromptDialog.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            //刷新数据
-                            fetchWeekData();
-                        }
-                    }, false, false);
-        } else {
-            coupon = null;
-            scholarView.setText("未使用奖学金");
-            calculateSum();
-            openPayActivity(entity);
-        }
-    }
-
-    private void openPayActivity(CreateCourseOrderResultEntity entity) {
-        boolean isEvaluated = true;
-        if (evaluated != null && !evaluated.isEvaluated()) {
-            isEvaluated = false;
-        }
-        PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
     private void openScholarShipActivity() {
@@ -764,44 +766,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         return "课程确认";
     }
 
-    private static final class CreateOrderRequest extends
-            BaseApiContext<CourseConfirmFragment, CreateCourseOrderResultEntity> {
-
-        private CreateCourseOrderEntity entity;
-
-        public CreateOrderRequest(CourseConfirmFragment courseConfirmFragment,
-                CreateCourseOrderEntity entity) {
-            super(courseConfirmFragment);
-            this.entity = entity;
-        }
-
-        @Override
-        public CreateCourseOrderResultEntity request() throws Exception {
-            return PayManager.getInstance().createOrder(entity);
-        }
-
-        @Override
-        public void onApiSuccess(@NonNull CreateCourseOrderResultEntity response) {
-            get().dealOrder(response);
-        }
-
-        @Override
-        public void onApiStarted() {
-            get().submitView.setOnClickListener(null);
-        }
-
-        @Override
-        public void onApiFinished() {
-            get().submitView.setOnClickListener(get());
-        }
-
-        @Override
-        public void onApiFailure(Exception exception) {
-            MiscUtil.toast("创建订单失败");
-        }
-    }
-
-
+    //是否需要测评建档
     private static final class FetchEvaluatedRequest extends BaseApiContext<CourseConfirmFragment, Evaluated> {
 
         private long subjectId;
@@ -824,5 +789,140 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                 get().evaluatedLine.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+
+    private void fetchCoursePrices() {
+        if (teacher != null) {
+            ApiExecutor.exec(new CoursePriceListRequest(this,teacher));
+        }
+    }
+
+    private static final class CoursePriceListRequest extends BaseApiContext<CourseConfirmFragment, CoursePriceListResult> {
+        private Long teacherId;
+        public CoursePriceListRequest(CourseConfirmFragment courseConfirmFragment, Long teacherId) {
+            super(courseConfirmFragment);
+            this.teacherId = teacherId;
+        }
+
+        @Override
+        public CoursePriceListResult request() throws Exception {
+            return new CoursePriceListApi().get(teacherId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull CoursePriceListResult response) {
+            if (response!=null&&response.getResults() != null) {
+                 get().onLoadCoursePricesSuccess(response);
+            }else {
+                get().loadFailure("价格信息下载失败!");
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
+            get().loadFailure("价格信息下载失败!");
+        }
+
+        @Override
+        public void onApiFinished() {
+            CoursePriceListResult response = JsonUtil.parseData(R.raw.courseprices,CoursePriceListResult.class,get().getContext());
+            get().onLoadCoursePricesSuccess(response);
+        }
+
+    }
+
+    private void onLoadCoursePricesSuccess(CoursePriceListResult response) {
+        if (response==null||response.getResults()==null){
+            return;
+        }
+        List<CoursePrice> prices = response.getResults();
+        final String[] gradeList = MalaApplication.getInstance()
+                .getApplicationContext().getResources().getStringArray(R.array.grade_list);
+        if (prices != null) {
+            String text;
+            for (Object price : prices) {
+                CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
+                text = gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
+                text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
+                priceUI.setGradePrice(text);
+                coursePrices.add(priceUI);
+            }
+        }
+        initGridView();
+    }
+
+    private void fetchSchools() {
+        if (subject != null) {
+            ApiExecutor.exec(new LoadSchoolListRequest(this));
+        }
+    }
+
+    private static final class LoadSchoolListRequest extends BaseApiContext<CourseConfirmFragment, SchoolListResult> {
+
+        public LoadSchoolListRequest(CourseConfirmFragment courseConfirmFragment) {
+            super(courseConfirmFragment);
+        }
+
+        @Override
+        public SchoolListResult request() throws Exception {
+            return new SchoolListApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull SchoolListResult response) {
+            if (response!=null&&response.getResults() != null) {
+                get().onLoadSchoolListSuccess(response);
+            }else{
+                get().loadFailure("学校信息加载失败!");
+            }
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
+        }
+
+        @Override
+        public void onApiFinished() {
+            get().stopProcess();
+        }
+
+    }
+
+    private void loadFailure(String message) {
+        MiscUtil.toast(message);
+    }
+
+    private void stopProcess() {
+        MalaContext.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                loadFinish = true;
+                DialogUtil.stopProcessDialog();
+            }
+        });
+    }
+
+    private void onLoadSchoolListSuccess(SchoolListResult response) {
+        //获取体验中心
+        List<School> schools = new ArrayList<>();
+        schools.addAll(response.getResults());
+
+        //获取位置
+        Location location = LocManager.getInstance().getLocation();
+        if (location!=null) {
+            //根据位置排序
+            LocationUtil.sortByDistance(schools, location.getLatitude(), location.getLongitude());
+        }
+
+        if (schools != null) {
+            for (Object school : schools) {
+                SchoolUI schoolUI = new SchoolUI((School) school);
+                schoolList.add(schoolUI);
+            }
+        }
+        initSchoolListView();
     }
 }

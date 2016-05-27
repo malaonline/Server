@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.malalaoshi.android.activitys.ConfirmOrderActivity;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
@@ -30,6 +31,7 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
@@ -37,6 +39,7 @@ import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
+import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.BounceTouchListener;
@@ -645,25 +648,30 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     //启动购买课程页
     private void startCourseConfirmActivity() {
-        Intent signIntent = new Intent(this, CourseConfirmActivity.class);
+        Subject subject = Subject.getSubjectIdByName(mTeacher.getSubject());
+        if (mTeacher!=null&&mTeacher.getId()!=null&&subject!=null){
+            CourseConfirmActivity.open(this,mTeacher.getId(),mTeacher.getName(),mTeacher.getAvatar(),subject);
+        }
+        /*Intent signIntent = new Intent(this, CourseConfirmActivity.class);
         List<School> schools = new ArrayList<>();
         if (MiscUtil.isNotEmpty(mAllSchools)) {
             schools.addAll(mAllSchools);
         }
-        /*if (MiscUtil.isNotEmpty(mOtherSchools)) {
+        *//*if (MiscUtil.isNotEmpty(mOtherSchools)) {
             schools.addAll(mOtherSchools);
-        }*/
+        }*//*
         signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
                 schools.toArray(new School[schools.size()]));
         if (mTeacher != null && mTeacher.getPrices() != null) {
+
             signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
                     mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
             signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, mTeacher.getId());
             signIntent.putExtra(CourseConfirmActivity.EXTRA_SUBJECT, mTeacher.getSubject());
             signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_NAME, mTeacher.getName());
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_AVATOR, mTeacher.getAvatar());
+            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_AVATOR, mTeacher.getId());
         }
-        startActivity(signIntent);
+        startActivity(signIntent);*/
     }
 
     @Override

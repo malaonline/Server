@@ -6,7 +6,7 @@ package com.malalaoshi.android.result;
 public class BaseData<T> {
     private Integer code;
     private String message;
-    private T results;
+    private T data;
 
     public Integer getCode() {
         return code;
@@ -24,11 +24,11 @@ public class BaseData<T> {
         this.message = message;
     }
 
-    public T getResults() {
-        return results;
+    public T getData() {
+        return data;
     }
 
-    public void setResults(T results) {
-        this.results = results;
+    public void setData(T data) {
+        this.data = data;
     }
 }

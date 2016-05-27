@@ -24,6 +24,7 @@ import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.model.CourseTimeModel;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
 import com.malalaoshi.android.entity.Order;
+import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
@@ -190,8 +191,11 @@ public class OrderDetailFragment extends Fragment {
     private void startCourseConfirmActivity() {
         Intent signIntent = new Intent(getContext(), CourseConfirmActivity.class);
         if (order != null && order.getTeacher() != null) {
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, order.getTeacher());
-            getContext().startActivity(signIntent);
+            Subject subject = Subject.getSubjectIdByName(order.getSubject());
+            Long teacherId = Long.valueOf(order.getTeacher());
+            if (teacherId!=null&&subject!=null){
+                CourseConfirmActivity.open(getContext(),teacherId,order.getTeacher_name(),order.getTeacher_avatar(),subject);
+            }
         }
     }
 

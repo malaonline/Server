@@ -153,7 +153,6 @@ public class UserFragment extends BaseFragment {
     }
 
     public void onEventMainThread(BusEvent event) {
-        Log.e("BUS_EVENT_LOGIN_SUCCESS","UserFragment"+event.getEventType());
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
                 updateUI();

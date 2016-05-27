@@ -97,7 +97,6 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
     }
 
     public void onEventMainThread(BusEvent event) {
-        Log.e("BUS_EVENT_LOGIN_SUCCESS","timetable"+event.getEventType());
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
                 setCourses(null);

@@ -79,7 +79,6 @@ public class ViewPagerIndicator extends ViewGroup {
         if (titles==null&&titles.length>0){
             return;
         }
-        Log.e("indicator",getMeasuredWidth()+"");
         this.removeAllViews();
         for (int i=0;i<titles.length;i++){
             View view = null;
@@ -341,7 +340,6 @@ public class ViewPagerIndicator extends ViewGroup {
 
             // 为子View进行布局int l, int t, int r, int b
             child.layout(lc, tc, rc, bc);
-            Log.e("childCount",i+" lc:"+lc+" rc:"+rc+" width:"+width+" tabsWidth:"+tabsWidth);
             left += child.getMeasuredWidth() + lp.leftMargin
                     + lp.rightMargin + tabSpacing;
         }
