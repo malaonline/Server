@@ -21,9 +21,9 @@ target 'parent' do
     pod 'Pingpp/Alipay', '~> 2.2.0'
     pod 'Pingpp/Wx', '~> 2.2.0'
     
-    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
+    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
 end
 
 target 'parentTests' do
-    xcodeproj 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
+    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
 end
