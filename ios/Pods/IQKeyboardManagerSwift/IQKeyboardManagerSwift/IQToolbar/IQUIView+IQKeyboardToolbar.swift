@@ -60,10 +60,9 @@ public extension UIView {
             objc_setAssociatedObject(self, &kIQShouldHideTitle, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             
             if let toolbar = self.inputAccessoryView as? IQToolbar {
-                if let textField = self as? UITextField {
+                if self.respondsToSelector(Selector("placeholder")) {
+                    let textField = self as AnyObject
                     toolbar.title = textField.placeholder
-                } else if let textView = self as? IQTextView {
-                    toolbar.title = textView.placeholder
                 }
             }
         }
@@ -216,7 +215,8 @@ public extension UIView {
     public func addDoneOnKeyboardWithTarget (target : AnyObject?, action : Selector, titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
+            
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -271,10 +271,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -297,7 +296,7 @@ public extension UIView {
     public func addRightButtonOnKeyboardWithImage (image : UIImage, target : AnyObject?, action : Selector, titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
@@ -313,6 +312,7 @@ public extension UIView {
             
             //Right button
             let doneButton = IQBarButtonItem(image: image, style: UIBarButtonItemStyle.Done, target: target, action: action)
+            doneButton.accessibilityLabel = "Toolbar Done Button"
             items.append(doneButton)
             
             //  Adding button to toolBar.
@@ -354,10 +354,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -387,7 +386,7 @@ public extension UIView {
     public func addRightButtonOnKeyboardWithText (text : String, target : AnyObject?, action : Selector, titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
 
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
@@ -444,10 +443,9 @@ public extension UIView {
         var title : String?
 
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -482,7 +480,7 @@ public extension UIView {
     public func addCancelDoneOnKeyboardWithTarget (target : AnyObject?, cancelAction : Selector, doneAction : Selector, titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -545,10 +543,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -587,7 +584,7 @@ public extension UIView {
     public func addRightLeftOnKeyboardWithTarget( target : AnyObject?, leftButtonTitle : String, rightButtonTitle : String, rightButtonAction : Selector, leftButtonAction : Selector, titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -652,10 +649,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -692,7 +688,7 @@ public extension UIView {
     public func addPreviousNextDoneOnKeyboardWithTarget ( target : AnyObject?, previousAction : Selector, nextAction : Selector, doneAction : Selector,  titleText: String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -710,10 +706,21 @@ public extension UIView {
                 }
             }
             
-            prev = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            var imageLeftArrow = UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil)
+            var imageRightArrow = UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil)
             
-            next = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: nextAction)
+            //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
+            if #available(iOS 9.0, *) {
+                imageLeftArrow = imageLeftArrow?.imageFlippedForRightToLeftLayoutDirection()
+                imageRightArrow = imageRightArrow?.imageFlippedForRightToLeftLayoutDirection()
+            }
+
+            prev = IQBarButtonItem(image: imageLeftArrow, style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            prev.accessibilityLabel = "Toolbar Previous Button"
             
+            next = IQBarButtonItem(image: imageRightArrow, style: UIBarButtonItemStyle.Plain, target: target, action: nextAction)
+            next.accessibilityLabel = "Toolbar Next Button"
+
             //Previous button
             items.append(prev)
 
@@ -779,10 +786,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -806,7 +812,7 @@ public extension UIView {
     public func addPreviousNextRightOnKeyboardWithTarget( target : AnyObject?, rightButtonImage : UIImage, previousAction : Selector, nextAction : Selector, rightButtonAction : Selector, titleText : String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -824,9 +830,20 @@ public extension UIView {
                 }
             }
             
-            prev = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            var imageLeftArrow = UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil)
+            var imageRightArrow = UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil)
             
-            next = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
+            if #available(iOS 9.0, *) {
+                imageLeftArrow = imageLeftArrow?.imageFlippedForRightToLeftLayoutDirection()
+                imageRightArrow = imageRightArrow?.imageFlippedForRightToLeftLayoutDirection()
+            }
+            
+            prev = IQBarButtonItem(image: imageLeftArrow, style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            prev.accessibilityLabel = "Toolbar Previous Button"
+            
+            next = IQBarButtonItem(image: imageRightArrow, style: UIBarButtonItemStyle.Plain, target: target, action: nextAction)
+            next.accessibilityLabel = "Toolbar Next Button"
             
             //Previous button
             items.append(prev)
@@ -851,6 +868,7 @@ public extension UIView {
             
             //Right button
             let doneButton = IQBarButtonItem(image: rightButtonImage, style: UIBarButtonItemStyle.Done, target: target, action: rightButtonAction)
+            doneButton.accessibilityLabel = "Toolbar Done Button"
             items.append(doneButton)
             
             //  Adding button to toolBar.
@@ -894,10 +912,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         
@@ -932,7 +949,7 @@ public extension UIView {
     public func addPreviousNextRightOnKeyboardWithTarget( target : AnyObject?, rightButtonTitle : String, previousAction : Selector, nextAction : Selector, rightButtonAction : Selector, titleText : String?) {
         
         //If can't set InputAccessoryView. Then return
-        if self is UITextField || self is UITextView {
+        if self.respondsToSelector(Selector("setInputAccessoryView:")) {
             //  Creating a toolBar for phoneNumber keyboard
             let toolbar = IQToolbar()
             
@@ -950,9 +967,20 @@ public extension UIView {
                 }
             }
             
-            prev = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            var imageLeftArrow = UIImage(named: "IQButtonBarArrowLeft", inBundle: bundle, compatibleWithTraitCollection: nil)
+            var imageRightArrow = UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil)
             
-            next = IQBarButtonItem(image: UIImage(named: "IQButtonBarArrowRight", inBundle: bundle, compatibleWithTraitCollection: nil), style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
+            if #available(iOS 9.0, *) {
+                imageLeftArrow = imageLeftArrow?.imageFlippedForRightToLeftLayoutDirection()
+                imageRightArrow = imageRightArrow?.imageFlippedForRightToLeftLayoutDirection()
+            }
+            
+            prev = IQBarButtonItem(image: imageLeftArrow, style: UIBarButtonItemStyle.Plain, target: target, action: previousAction)
+            prev.accessibilityLabel = "Toolbar Previous Button"
+            
+            next = IQBarButtonItem(image: imageRightArrow, style: UIBarButtonItemStyle.Plain, target: target, action: nextAction)
+            next.accessibilityLabel = "Toolbar Next Button"
             
             //Previous button
             items.append(prev)
@@ -1020,10 +1048,9 @@ public extension UIView {
         var title : String?
         
         if shouldShowPlaceholder == true {
-            if let textField = self as? UITextField {
+            if self.respondsToSelector(Selector("placeholder")) {
+                let textField = self as AnyObject
                 title = textField.placeholder
-            } else if let textView = self as? IQTextView {
-                title = textView.placeholder
             }
         }
         

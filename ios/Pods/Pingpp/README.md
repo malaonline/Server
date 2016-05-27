@@ -18,17 +18,28 @@ iOS SDK 要求 iOS 6.0 及以上版本
 1. 在 `Podfile` 添加
 
     ```
-    pod 'Pingpp', '~> 2.2.0'
+    pod 'Pingpp', '~> 2.2.4'
     ```
 
-    默认会包含支付宝、微信、银联和百度钱包。你也可以自己选择渠道。  
-    目前有 `Alipay`、`Wx`、`UnionPay`、`Bfb`、`ApplePay`、`Cnp`、`One` 五个子模块可选择。  
+    默认会包含支付宝、微信和银联。你也可以自己选择渠道。  
+    目前支持以下模块：
+    - `Alipay`（支付宝移动支付）
+    - `Wx`（微信 App 支付）
+    - `UnionPay`（银联手机支付）
+    - `Bfb`（百度钱包）
+    - `ApplePay`
+    - `Cnp`（应用内快捷支付）
+    - `Fqlpay`（分期乐）
+    - `Qgbc`（量化派）
+    - `Mmdpay`（么么贷）
+    - `One`（壹收款）
+
     例如：
 
     ```
-    pod 'Pingpp/Alipay', '~> 2.2.0'
-    pod 'Pingpp/UnionPay', '~> 2.2.0'
-    pod 'Pingpp/One', '~> 2.2.0'
+    pod 'Pingpp/Alipay', '~> 2.2.4'
+    pod 'Pingpp/UnionPay', '~> 2.2.4'
+    pod 'Pingpp/One', '~> 2.2.4'
     ```
 
 2. 运行 `pod install`
@@ -48,16 +59,18 @@ iOS SDK 要求 iOS 6.0 及以上版本
     SystemConfiguration.framework
     Security.framework
     QuartzCore.framework
+    CoreTelephony.framework
     libc++.tbd
     libz.tbd
     libsqlite3.0.tbd
     libstdc++.tbd
+    CoreTelephony.framework
+    CoreMotion.framework
     ```
 
     百度钱包所需：
 
     ```
-    CoreTelephony.framework
     AddressBook.framework
     AddressBookUI.framework
     AudioToolbox.framework
@@ -74,7 +87,7 @@ iOS SDK 要求 iOS 6.0 及以上版本
     ```
     PassKit.framework
     ```
-3. 如果不需要某些渠道，删除 `lib/Channels` 下的相应目录即可（`Network` 是必要库，不要删除）。
+3. 如果不需要某些渠道，删除 `lib/Channels` 下的相应目录即可。
 4. 添加 URL Schemes：在 Xcode 中，选择你的工程设置项，选中 "TARGETS" 一栏，在 "Info" 标签栏的 "URL Types" 添加 "URL Schemes"，如果使用微信，填入所注册的微信应用程序 id，如果不使用微信，则自定义，允许英文字母和数字，首字母必须是英文字母，建议起名稍复杂一些，尽量避免与其他程序冲突。
 5. 添加 Other Linker Flags：在 Build Settings 搜索 Other Linker Flags ，添加 `-ObjC`。
 6. 2.1.0 及以上版本，可打开 Debug 模式，打印出 log，方便调试。开启方法：`[Pingpp setDebugMode:YES];`。
@@ -104,7 +117,8 @@ iOS SDK 要求 iOS 6.0 及以上版本
     ```
     XXXXXXX does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target.
     ```
-    请到 Xcode 项目的 Build Settings 标签页搜索 bitcode，将 Enable Bitcode 设置为 NO。
+    请到 Xcode 项目的 `Build Settings` 标签页搜索 bitcode，将 `Enable Bitcode` 设置为 `NO`。
+4. 如果不需要应用内快捷支付，请删除 `Channels/Cnp` 目录。否则，请把 `Build Settings` 中的 `CLANG_CXX_LIBRARY` 改成 `libstdc++`。
 
 **关于如何使用 SDK 请参考 [技术文档](https://pingxx.com/document) 或者 [example](https://github.com/PingPlusPlus/pingpp-ios/tree/master/example) 文件夹里的示例。**
 

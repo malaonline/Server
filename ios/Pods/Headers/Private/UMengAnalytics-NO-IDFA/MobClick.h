@@ -1,1 +1,1 @@
-../../../UMengAnalytics-NO-IDFA/umsdk_IOS_analytics_no-idfa_v3.6.7/UMAnalytics_Sdk_3.6.7/MobClick.h
+../../../UMengAnalytics-NO-IDFA/umsdk_IOS_analyics_no-idfa_v4.0.3/UMMobClick.framework/Headers/MobClick.h

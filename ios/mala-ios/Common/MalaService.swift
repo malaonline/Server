@@ -14,7 +14,7 @@ import Alamofire
     public let MalaBaseUrl = "https://malalaoshi.com/api/v1"
 #elseif USE_STAGE_SERVER
     public let MalaBaseUrl = "https://stage.malalaoshi.com/api/v1"
-#elseif USE_DEV_SERVER
+#else
     public let MalaBaseUrl = "https://dev.malalaoshi.com/api/v1"
 #endif
 

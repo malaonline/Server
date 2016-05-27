@@ -1,1 +1,1 @@
-../../../Pingpp/lib/Channels/Network/PingppURLResponse.h
+../../../Pingpp/lib/Dependencies/Network/PingppURLResponse.h

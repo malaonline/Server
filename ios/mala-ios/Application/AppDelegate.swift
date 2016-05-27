@@ -158,8 +158,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func registerThirdParty() {
         
         // 友盟 - 发送启动通知(channelId 默认为 "App Store")
-        MobClick.startWithAppkey(Mala_Umeng_AppKey, reportPolicy: BATCH, channelId: nil)
-        
+        let UMConfigInstance = UMAnalyticsConfig();
+        UMConfigInstance.appKey = Mala_Umeng_AppKey;
+        UMConfigInstance.channelId = nil;
+        UMConfigInstance.bCrashReportEnabled = true;
+
+        MobClick.startWithConfigure(UMConfigInstance);
+
         // Ping++ - 开启DEBUG模式log
         Pingpp.setDebugMode(true)
         
