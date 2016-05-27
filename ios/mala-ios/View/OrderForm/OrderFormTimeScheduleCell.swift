@@ -18,9 +18,9 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         }
     }
     /// 上课时间列表
-    var timeSchedules: NSTimeInterval = 0 {
+    var timeSchedules: [[NSTimeInterval]]? {
         didSet {
-            
+            parseTimeSchedules()
         }
     }
     
@@ -86,7 +86,6 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUserInterface()
-        test()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -149,8 +148,9 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         }
     }
     
-    private func test() {
+    private func parseTimeSchedules() {
         
+        // 解析时间表数据
         let times = [
             "5月2日\n周二",
             "5月2日\n周二",
@@ -169,7 +169,10 @@ class OrderFormTimeScheduleCell: UITableViewCell {
             "10:30-12:30    10:30-12:30",
             "10:30-12:30    10:30-12:30\n10:30-12:30    10:30-12:30\n10:30-12:30"
         ]
-        let timeLine = ThemeTimeLine(times: times, descs: descs, currentStatus: 33, frame: CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: 400))
+        
+        
+        // 设置UI
+        let timeLine = ThemeTimeLine(times: times, descs: descs)
         
         self.contentView.addSubview(timeLine)
         topLayoutView.snp_updateConstraints { (make) in

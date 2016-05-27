@@ -204,3 +204,68 @@ func getTimeSchedule(timeIntervals timeStamps: [[Int]]) -> [String] {
     
     return timeSchedule
 }
+
+///  解析学生上课时间表
+///
+///  - parameter timeSchedule: 上课时间表数据
+///
+///  - returns:
+///  dates:     日期字符串
+///  times:     上课时间字符串
+///  height:    所需高度
+func parseTimeSchedules(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times: [String], height: CGFloat) {
+    
+    var dateStrings = [String]()
+    var timeStrings = [String]()
+    var height: CGFloat = 0
+    
+    var list: [TimeScheduleModel] = []
+    
+    println("学生上课时间数据 ＊＊ \(timeSchedule)")
+    
+    for singleTime in timeSchedule {
+        
+        let currentStartDate = NSDate(timeIntervalSince1970: singleTime[0])
+        let currentEndDate = NSDate(timeIntervalSince1970: singleTime[1])
+        
+        var appendedDate: TimeScheduleModel?
+        
+        // 遍历当前日期数组
+        for dateResult in list {
+            if currentStartDate.isSameDay(dateResult.date) {
+                appendedDate = dateResult
+                break
+            }
+        }
+        
+        if appendedDate != nil {
+            // 若当前日期已存在于数组
+            appendedDate!.times.append([currentStartDate, currentEndDate])
+        }else {
+            // 若日期不存在于数组
+            let result = TimeScheduleModel()
+            result.date = currentStartDate
+            result.times.append([currentStartDate, currentEndDate])
+            list.append(result)
+        }
+        
+    }
+    
+    println("解析学生上课时间表 : \(list)")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return (dateStrings, timeStrings, height)
+}

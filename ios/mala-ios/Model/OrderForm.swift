@@ -37,7 +37,7 @@ class OrderForm: BaseObjectModel {
     var avatarURL: String?
     var amount: Int = 0
     var evaluated: Bool?
-    var timeSlots: [[Int]]?
+    var timeSlots: [[NSTimeInterval]]?
     var chargeChannel: String?
     var createAt: NSTimeInterval?
     var paidAt: NSTimeInterval?
@@ -70,7 +70,7 @@ class OrderForm: BaseObjectModel {
         self.code = code
     }
     
-    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, hours: Int = 0, amount: Int, chargeChannle: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?) {
+    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, hours: Int = 0, amount: Int, timeSlots: [[NSTimeInterval]] = [], chargeChannle: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?) {
         self.init()
         self.id = id
         self.order_id = orderId
@@ -83,14 +83,14 @@ class OrderForm: BaseObjectModel {
         self.status = orderStatus
         self.hours = hours
         self.amount = amount
+        self.timeSlots = timeSlots
         self.chargeChannel = chargeChannle
         self.createAt = createAt
         self.evaluated = evaluated
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,
-                     order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?, timeSlots: [[Int]]? = nil,
-                     chargeChannel: String? = "other", createAt: NSTimeInterval? = 0) {
+                     order_id: String?, parent: Int?, total: Int?, price: Int?, status: String?, is_timeslot_allocated: Bool?, timeSlots: [[NSTimeInterval]]? = nil, chargeChannel: String? = "other", createAt: NSTimeInterval? = 0) {
             self.init()
             self.id = id ?? 0
             self.name = name

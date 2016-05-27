@@ -39,7 +39,7 @@ class ThemeTimeLine: UIView {
     
     
     // MARK: - API
-    convenience init(times: [String], descs: [String], currentStatus: Int, frame: CGRect = CGRectZero) {
+    convenience init(times: [String], descs: [String], currentStatus: Int = 999999, frame: CGRect = CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: 0)) {
         self.init(frame: frame)
         
         viewHeight = 75

@@ -738,6 +738,7 @@
 		F427FFAD1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAC1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift */; };
 		F427FFAF1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */; };
 		F427FFB11CEDA47700EAB748 /* MalaBaseCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */; };
+		F4312B741CF82AC100E0EAF1 /* TimeScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4312B731CF82AC100E0EAF1 /* TimeScheduleModel.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -1019,6 +1020,7 @@
 		F427FFAC1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportAbilityStructureCell.swift; sourceTree = "<group>"; };
 		F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningReportAbilityImproveCell.swift; sourceTree = "<group>"; };
 		F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCardCell.swift; sourceTree = "<group>"; };
+		F4312B731CF82AC100E0EAF1 /* TimeScheduleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeScheduleModel.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -1370,6 +1372,7 @@
 				F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */,
 				F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */,
 				F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */,
+				F4312B731CF82AC100E0EAF1 /* TimeScheduleModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2568,6 +2571,7 @@
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
 				F45F27F61CA8E07E00F0012C /* Extension+UIVIewController.swift in Sources */,
 				F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */,
+				F4312B741CF82AC100E0EAF1 /* TimeScheduleModel.swift in Sources */,
 				F45BDAE81CB760540038CE3D /* ThemeCalendarViewCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				F427FFA91CEDA34700EAB748 /* LearningReportTopicDataCell.swift in Sources */,

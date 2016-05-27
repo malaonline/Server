@@ -89,8 +89,11 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 1:
             let cell = reuseCell as! OrderFormTimeScheduleCell
-            println("当前课时： \(self.model?.hours)")
             cell.classPeriod = self.model?.hours ?? 0
+            
+            parseTimeSchedules(self.model?.timeSlots ?? [])
+            
+            cell.timeSchedules = self.model?.timeSlots
             return cell
             
         case 2:
