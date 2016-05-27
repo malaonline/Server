@@ -1102,8 +1102,8 @@ class StudyReportView(ParentBasedMixin, APIView):
                             'subject_id': tmp_subject.id,
                             'supported': True,
                             'purchased': True,
-                            'total_nums': ret_nums.get('total_item_nums'),
-                            'right_nums': ret_nums.get('total_right_item_nums'),
+                            'total_nums': ret_nums.get('total_item_nums', 0),
+                            'right_nums': ret_nums.get('total_right_item_nums', 0),
                         })
                     else:
                         logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
@@ -1133,21 +1133,38 @@ class StudyReportView(ParentBasedMixin, APIView):
         s_name = the_subject.name
         s_name_en = self.get_subject_en(s_name)
         url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+        ans_data = {'subject_id': the_subject.id}
+        total_nums = exercise_total_nums = 0
+        # 累计答题数、正确答题数
         resp = requests.get(url + '/total-item-nums', params=params)
-        if resp.status_code == 200:
-            ret_json = json.loads(resp.content.decode('utf-8'))
-            if ret_json.get('code') == 0 and ret_json.get('data') is not None:
-                ret_nums = ret_json.get('data')
-                return JsonResponse({
-                    'code': 0, 'message': '', 'data': {
-                        'subject_id': the_subject.id,
-                        'total_nums': ret_nums.get('total_item_nums'),
-                        'right_nums': ret_nums.get('total_right_item_nums'),
-                    }
-                })
-            else:
-                logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
-                return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
-        else:
+        if resp.status_code != 200:
             logger.error('cannot get kuailexue study data')
             return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_nums = ret_json.get('data')
+            ans_data['total_nums'] = total_nums = ret_nums.get('total_item_nums', 0)
+            ans_data['right_nums'] = ret_nums.get('total_right_item_nums', 0)
+        else:
+            logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
+            return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+        # 累计答题次数（即答题次数）及完成率
+        resp = requests.get(url + '/total-exercise-nums', params=params)
+        if resp.status_code != 200:
+            logger.error('cannot get kuailexue study data')
+            return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_nums = ret_json.get('data')
+            ans_data['exercise_total_nums'] = exercise_total_nums = ret_nums.get('total_exercise_nums', 0)
+            ans_data['exercise_finished_nums'] = ret_nums.get('total_finished_exercise_nums', 0)
+        else:
+            logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
+            return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+
+        if total_nums == 0 or exercise_total_nums == 0:
+            math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
+            ans_data['ability_structure'] = [{'ability': ab, 'value': 0} for ab in math_ability_keys]
+            # 后面没有数据, 都是空
+            return JsonResponse({'code': 0, 'message': '', 'data': ans_data})
+        # TODO 带有数据的学习报告
