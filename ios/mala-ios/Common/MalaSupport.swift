@@ -113,8 +113,8 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [Int:[Int:[St
 ///  - parameter timeStamp: 时间戳
 ///
 ///  - returns: 时间字符串
-func getTimeString(timeStamp: NSTimeInterval) -> String {
-    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("HH:mm")
+func getTimeString(timeStamp: NSTimeInterval, format: String = "HH:mm") -> String {
+    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat(format)
 }
 
 ///  根据时间戳获取时间字符串（例如2000/10/10）
@@ -122,8 +122,14 @@ func getTimeString(timeStamp: NSTimeInterval) -> String {
 ///  - parameter timeStamp: 时间戳
 ///
 ///  - returns: 时间字符串
-func getDateString(timeStamp: NSTimeInterval) -> String {
-    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("yyyy/MM/dd")
+func getDateString(timeStamp: NSTimeInterval? = nil, date: NSDate? = nil, format: String = "yyyy/MM/dd") -> String {
+    if timeStamp != nil {
+        return NSDate(timeIntervalSince1970: timeStamp!).formattedDateWithFormat(format)
+    }else if date != nil {
+        return date!.formattedDateWithFormat(format)
+    }else {
+        return NSDate().formattedDateWithFormat(format)
+    }
 }
 
 ///  根据时间戳获取时间字符串（例如2000/10/10 12:01:01）
@@ -131,8 +137,8 @@ func getDateString(timeStamp: NSTimeInterval) -> String {
 ///  - parameter timeStamp: 时间戳
 ///
 ///  - returns: 时间字符串
-func getDateTimeString(timeStamp: NSTimeInterval) -> String {
-    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat("yyyy-MM-dd HH:mm:ss")
+func getDateTimeString(timeStamp: NSTimeInterval, format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+    return NSDate(timeIntervalSince1970: timeStamp).formattedDateWithFormat(format)
 }
 
 
@@ -213,15 +219,13 @@ func getTimeSchedule(timeIntervals timeStamps: [[Int]]) -> [String] {
 ///  dates:     日期字符串
 ///  times:     上课时间字符串
 ///  height:    所需高度
-func parseTimeSchedules(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times: [String], height: CGFloat) {
+func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times: [String], heightCount: Int) {
     
     var dateStrings = [String]()
     var timeStrings = [String]()
-    var height: CGFloat = 0
-    
+    var heightCount: Int = 0
     var list: [TimeScheduleModel] = []
     
-    println("学生上课时间数据 ＊＊ \(timeSchedule)")
     
     for singleTime in timeSchedule {
         
@@ -230,7 +234,7 @@ func parseTimeSchedules(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], t
         
         var appendedDate: TimeScheduleModel?
         
-        // 遍历当前日期数组
+        // 判断此日期是否已存在于数组中
         for dateResult in list {
             if currentStartDate.isSameDay(dateResult.date) {
                 appendedDate = dateResult
@@ -239,10 +243,10 @@ func parseTimeSchedules(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], t
         }
         
         if appendedDate != nil {
-            // 若当前日期已存在于数组
+            // 若当前日期已存在于数组，添加上课时间数据到对应日期中
             appendedDate!.times.append([currentStartDate, currentEndDate])
         }else {
-            // 若日期不存在于数组
+            // 若日期不存在于数组，添加日期和上课时间数据
             let result = TimeScheduleModel()
             result.date = currentStartDate
             result.times.append([currentStartDate, currentEndDate])
@@ -251,21 +255,28 @@ func parseTimeSchedules(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], t
         
     }
     
-    println("解析学生上课时间表 : \(list)")
+    // 解析日期数据为字符串
+    for slotDate in list {
+        
+        // 日期字符串
+        dateStrings.append(getDateString(date: slotDate.date, format: "M月d日") + "\n" + MalaWeekdays[weekdayInt(slotDate.date)])
+
+        // 上课时间字符串
+        var timeString = ""
+        for (index, slot) in slotDate.times.enumerate() {
+            timeString += index%2 == 1 ? "    " : "/n"
+            timeString = index == 0 ? "" : timeString
+            timeString += getDateString(date: slot[0], format: "HH:mm") + "-" + getDateString(date: slot[1], format: "HH:mm")
+        }
+        timeStrings.append(timeString)
+        
+        // 垂直高度数
+        heightCount += slotDate.times.count > 4 ? 4 : 3
+    }
     
+    println("日期表 : \(dateStrings)")
+    println("时间表 : \(timeStrings)")
+    println("高度 : \(heightCount)")
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    return (dateStrings, timeStrings, height)
+    return (dateStrings, timeStrings, heightCount)
 }

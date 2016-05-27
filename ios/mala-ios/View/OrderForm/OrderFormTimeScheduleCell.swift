@@ -20,9 +20,14 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     /// 上课时间列表
     var timeSchedules: [[NSTimeInterval]]? {
         didSet {
-            parseTimeSchedules()
+            if (timeSchedules ?? []) != (oldValue ?? []) && timeSchedules != nil {
+                parseTimeSchedules()
+                hasBeenLayout = true
+            }
         }
     }
+    var hasBeenLayout = false
+    weak var tableView: UITableView?
     
     
     // MARK: - Components
@@ -151,39 +156,21 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     private func parseTimeSchedules() {
         
         // 解析时间表数据
-        let times = [
-            "5月2日\n周二",
-            "5月2日\n周二",
-            "5月2日\n周二",
-            "5月2日\n周二",
-            "5月2日\n周二",
-            "5月2日\n周二",
-            "5月2日\n周二"
-        ]
-        let descs = [
-            "10:30-12:30    10:30-12:30\n10:30-12:30    10:30-12:30\n10:30-12:30",
-            "10:30-12:30    10:30-12:30",
-            "10:30-12:30    10:30-12:30",
-            "10:30-12:30    10:30-12:30\n10:30-12:30",
-            "10:30-12:30    10:30-12:30",
-            "10:30-12:30    10:30-12:30",
-            "10:30-12:30    10:30-12:30\n10:30-12:30    10:30-12:30\n10:30-12:30"
-        ]
-        
+        let result = parseTimeSlots((self.timeSchedules ?? []))
         
         // 设置UI
-        let timeLine = ThemeTimeLine(times: times, descs: descs)
+        let timeLine = ThemeTimeLine(times: result.dates, descs: result.times)
         
         self.contentView.addSubview(timeLine)
         topLayoutView.snp_updateConstraints { (make) in
             make.bottom.equalTo(timeLine.snp_top).offset(-MalaLayout_Margin_10)
         }
-        timeLine.snp_makeConstraints { (make) in
+        timeLine.snp_updateConstraints { (make) in
             make.top.equalTo(topLayoutView.snp_bottom).offset(MalaLayout_Margin_10)
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
-            make.height.equalTo(400)
+            make.height.equalTo(CGFloat(15*result.heightCount))
         }
     }
 }

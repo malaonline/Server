@@ -14,7 +14,7 @@ class ThemeTimeLine: UIView {
     private let LineWidth: CGFloat = 2.0
     private let CircleRadius: CGFloat = 3.0
     private let InitProgressContainerWidth: CGFloat = 20
-    private let ProgressViewContainerLeft: CGFloat = 51
+    private let ProgressViewContainerLeft: CGFloat = 60
     private let ViewWidth: CGFloat = 225
     
     // MARK: - Property

@@ -52,6 +52,10 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         registerClass(OrderFormTimeScheduleCell.self, forCellReuseIdentifier: OrderFormCellReuseId[1]!)
         registerClass(OrderFormPaymentChannelCell.self, forCellReuseIdentifier: OrderFormCellReuseId[2]!)
         registerClass(OrderFormOtherInfoCell.self, forCellReuseIdentifier: OrderFormCellReuseId[3]!)
+        
+        delay(0.3) {
+            self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+        }
     }
     
     // MARK: - Delegate
@@ -89,11 +93,11 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 1:
             let cell = reuseCell as! OrderFormTimeScheduleCell
-            cell.classPeriod = self.model?.hours ?? 0
-            
-            parseTimeSchedules(self.model?.timeSlots ?? [])
-            
-            cell.timeSchedules = self.model?.timeSlots
+            if cell.hasBeenLayout == false {
+                cell.classPeriod = self.model?.hours ?? 0
+                cell.timeSchedules = self.model?.timeSlots
+            }
+            cell.tableView = self
             return cell
             
         case 2:
