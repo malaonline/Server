@@ -359,9 +359,7 @@ class OrderFormViewCell: UITableViewCell {
     
     /// 根据当前订单状态，渲染对应UI样式
     private func changeDisplayMode() {
-        
-        println("orderStatus : \(orderStatus)")
-        
+                
         // 解除绑定事件
         cancelButton.removeTarget(self, action: #selector(OrderFormViewCell.cancelOrderForm), forControlEvents: .TouchUpInside)
         confirmButton.removeTarget(self, action: #selector(OrderFormViewCell.pay), forControlEvents: .TouchUpInside)
