@@ -79,19 +79,11 @@ EOM
       ;;
   esac
 }
-if [[ "$CONFIGURATION" == "DevDebug" ]]; then
+if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"
 fi
-if [[ "$CONFIGURATION" == "PrdRelease" ]]; then
-  install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
-  install_resource "Pingpp/lib/Pingpp.bundle"
-fi
-if [[ "$CONFIGURATION" == "StageRelease" ]]; then
-  install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
-  install_resource "Pingpp/lib/Pingpp.bundle"
-fi
-if [[ "$CONFIGURATION" == "DevRelease" ]]; then
+if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"
 fi

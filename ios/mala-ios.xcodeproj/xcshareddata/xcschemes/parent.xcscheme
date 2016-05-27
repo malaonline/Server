@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "34669287CD22689F6F7BCB8A3CB5D7F3"
-               BuildableName = "Pods.framework"
-               BlueprintName = "Pods"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+               BlueprintIdentifier = "35D7A3201C0FE851007D7679"
+               BuildableName = "parent-dev.app"
+               BlueprintName = "parent-dev"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,9 +28,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "35D7A3201C0FE851007D7679"
-               BuildableName = "parent.app"
-               BlueprintName = "parent"
+               BlueprintIdentifier = "35FF7A3C1CF8325A000A70EE"
+               BuildableName = "parent-stage.app"
+               BlueprintName = "parent-stage"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "35FF7B1F1CF83264000A70EE"
+               BuildableName = "parent-prd.app"
+               BlueprintName = "parent-prd"
                ReferencedContainer = "container:mala-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,7 +65,7 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "DevDebug"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -71,8 +85,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35D7A3201C0FE851007D7679"
-            BuildableName = "parent.app"
-            BlueprintName = "parent"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +94,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "DevDebug"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -94,8 +108,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35D7A3201C0FE851007D7679"
-            BuildableName = "parent.app"
-            BlueprintName = "parent"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -103,7 +117,7 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "PrdRelease"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -113,17 +127,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35D7A3201C0FE851007D7679"
-            BuildableName = "parent.app"
-            BlueprintName = "parent"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "DevDebug">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "StageRelease"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

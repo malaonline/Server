@@ -5,10 +5,6 @@ platform :ios, '8.0'
 use_frameworks!
 inhibit_all_warnings!
 
-
-target 'teacher' do
-end
-
 target 'parent' do
     pod 'SnapKit', '~> 0.20.0'
     pod 'DateTools', '~> 1.7.0'
@@ -16,14 +12,11 @@ target 'parent' do
     pod 'Kingfisher', '~> 2.2.0'
     pod 'IQKeyboardManagerSwift', '~> 4.0.0'
     pod 'Charts', '~> 2.2.4'
-    
     pod 'UMengAnalytics-NO-IDFA'
     pod 'Pingpp/Alipay', '~> 2.2.0'
     pod 'Pingpp/Wx', '~> 2.2.0'
-    
-    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
-end
 
-target 'parentTests' do
-    project 'mala-ios', 'DevDebug' => :debug, 'DevRelease' => :release, 'StageRelease' => :release, 'PrdRelease' => :release
+    target 'parentTests' do
+        inherit! :search_paths
+    end
 end
