@@ -661,9 +661,6 @@ class TestApi(TestCase):
         request_url = "/api/v1/study_report/%s"%(math_id)
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
-        request_url = "/api/v1/study_report/%s/summary"%(math_id)
-        response = client.get(request_url, content_type='application/json')
-        self.assertEqual(200, response.status_code)
 
 
 class TestModels(TestCase):
