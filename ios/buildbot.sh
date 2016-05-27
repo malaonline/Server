@@ -23,7 +23,7 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 
 # Compile Project Release
-buildPath="build/archive/${scheme}.xcarchive"
+buildPath="build/${scheme}.xcarchive"
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
 
 python --version
@@ -32,17 +32,17 @@ python replace_info.py
 # Export dev package
 cfg="dev"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
+mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 # Export stage package
 cfg="stage"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
+mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 # Export prd package
 cfg="prd"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
+mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
