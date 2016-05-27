@@ -544,7 +544,7 @@ class Teacher(BaseModel):
                 (x if x.transferred_from is None else x.transferred_from)
                 for x in occupied]
         self_occupied = TimeSlot.objects.filter(
-                order__parent=parent, deleted=False).filter(
+                order__parent=parent, start__gte=date, deleted=False).filter(
                         ~Q(order__teacher=teacher))
         self_occupied = [
                 (x if x.transferred_from is None else x.transferred_from)
