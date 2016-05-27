@@ -95,7 +95,6 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 2:
             let cell = reuseCell as! OrderFormPaymentChannelCell
-            println("当前支付方式： \(self.model?.channel.rawValue)")
             cell.channel = (self.model?.channel ?? .Other)
             return cell
             

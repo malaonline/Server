@@ -70,7 +70,7 @@ class OrderForm: BaseObjectModel {
         self.code = code
     }
     
-    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, amount: Int, chargeChannle: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?) {
+    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, hours: Int = 0, amount: Int, chargeChannle: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?) {
         self.init()
         self.id = id
         self.order_id = orderId
@@ -81,6 +81,7 @@ class OrderForm: BaseObjectModel {
         self.gradeName = gradeName
         self.subjectName = subjectName
         self.status = orderStatus
+        self.hours = hours
         self.amount = amount
         self.chargeChannel = chargeChannle
         self.createAt = createAt
