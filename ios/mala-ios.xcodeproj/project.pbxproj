@@ -102,6 +102,7 @@
 		357E6A1F1C0FF2EE0009AF9A /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A191C0FF2EE0009AF9A /* JoinViewController.swift */; };
 		357E6A201C0FF2EE0009AF9A /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1A1C0FF2EE0009AF9A /* TransactionListViewController.swift */; };
 		357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357E6A1B1C0FF2EE0009AF9A /* WithdrawViewController.swift */; };
+		358D2ABB1CF842280003AD39 /* ipa.plist in Resources */ = {isa = PBXBuildFile; fileRef = 358D2ABA1CF842280003AD39 /* ipa.plist */; };
 		35B134181CAAE767001D2D34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B134171CAAE767001D2D34 /* CoreTelephony.framework */; };
 		35B134191CAAE773001D2D34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B134171CAAE767001D2D34 /* CoreTelephony.framework */; };
 		35B1341D1CAAE9FE001D2D34 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */; };
@@ -969,6 +970,7 @@
 		357E6A2D1C0FF3010009AF9A /* TeacherCommentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCommentListViewController.swift; sourceTree = "<group>"; };
 		357E6A2E1C0FF3010009AF9A /* TeacherDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailViewController.swift; sourceTree = "<group>"; };
 		357E6A2F1C0FF3010009AF9A /* TeacherListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherListViewController.swift; sourceTree = "<group>"; };
+		358D2ABA1CF842280003AD39 /* ipa.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ipa.plist; sourceTree = "<group>"; };
 		35B134171CAAE767001D2D34 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		35B1341A1CAAE94C001D2D34 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
 		35CAE4B31CAAB4360071772D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -1507,6 +1509,7 @@
 		A5927B911BEC8BD900E9BDB4 = {
 			isa = PBXGroup;
 			children = (
+				358D2ABA1CF842280003AD39 /* ipa.plist */,
 				A5927B9C1BEC8BD900E9BDB4 /* mala-ios */,
 				35D7A2F01C0FE82E007D7679 /* teacher */,
 				35D7A3221C0FE851007D7679 /* parent */,
@@ -2169,6 +2172,7 @@
 				F49BD5A51CA4131D00EB3CCF /* SKPhotoBrowser.bundle in Resources */,
 				307AB8621C323EC300D8397F /* FilterCondition.plist in Resources */,
 				304135A71C23AE6400830C43 /* Assets.xcassets in Resources */,
+				358D2ABB1CF842280003AD39 /* ipa.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

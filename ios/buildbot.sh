@@ -4,12 +4,12 @@ set -e
 # Build configurations
 scheme="parent"
 ipaDir="build/ipa/"
+configuration="Release"
 
 
 # Clean
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
-
 
 # Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AppStore"
@@ -22,26 +22,27 @@ security list-keychains -s ${KEYCHAIN_PATH}
 # xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration DevRelease -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 5s,OS=8.4' test -freshInstall -freshSimulator
 
 
-# Compile Project DevRelease
-configuration="DevRelease"
-buildPath="build/archive/${scheme}_dev_release.xcarchive"
-ipaName="${ipaDir}${scheme}_dev_release.ipa"
-
+# Compile Project Release
+buildPath="build/archive/${scheme}.xcarchive"
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+
+python --version
+python replace_info.py
+
+# Export dev package
+cfg="dev"
+ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
-# Compile Project StageRelease
-configuration="StageRelease"
-buildPath="build/archive/${scheme}_stage_release.xcarchive"
-ipaName="${ipaDir}${scheme}_stage_release.ipa"
-
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+# Export stage package
+cfg="stage"
+ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
-# Compile Project PrdRelease
-configuration="PrdRelease"
-buildPath="build/archive/${scheme}_prd_release.xcarchive"
-ipaName="${ipaDir}${scheme}_prd_release.ipa"
-
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+# Export prd package
+cfg="prd"
+ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+mv build/${cfg}-Info.plist build/archive/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
