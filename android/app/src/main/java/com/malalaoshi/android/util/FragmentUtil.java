@@ -10,6 +10,7 @@ import com.malalaoshi.android.R;
  */
 public final class FragmentUtil{
     public static void openFragment(int containerViewId,FragmentManager fragmentManager, Fragment pre, Fragment newFragment, String fragmentTag){
+        if (newFragment==null) return;
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (pre!=null){
             if (!newFragment.isAdded()) {    // 先判断是否被add过

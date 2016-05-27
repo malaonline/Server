@@ -1,5 +1,7 @@
 package com.malalaoshi.android.core.utils;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

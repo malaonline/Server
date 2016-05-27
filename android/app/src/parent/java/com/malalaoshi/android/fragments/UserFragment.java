@@ -602,7 +602,8 @@ public class UserFragment extends BaseFragment {
 
 
     private void uploadFile() {
-        DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
+        startProcessDialog("正在上传...");
+        //DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
 
         NetworkSender.setUserAvatar(strAvatarLocPath, new NetworkListener() {
             @Override
@@ -640,7 +641,8 @@ public class UserFragment extends BaseFragment {
             ivAvatar.setImageBitmap(bmpAvatar);
         }
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
-        DialogUtil.stopProcessDialog();
+        stopProcessDialog();
+        //DialogUtil.stopProcessDialog();
     }
 
     private void setAvatarFailed(int errorCode) {
@@ -649,7 +651,8 @@ public class UserFragment extends BaseFragment {
         } else {
             MiscUtil.toast(R.string.usercenter_set_avator_failed);
         }
-        DialogUtil.stopProcessDialog();
+        stopProcessDialog();
+        //DialogUtil.stopProcessDialog();
     }
 
     private boolean checkLogin() {

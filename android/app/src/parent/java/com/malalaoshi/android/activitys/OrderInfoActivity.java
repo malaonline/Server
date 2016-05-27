@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.Order;
@@ -27,7 +28,7 @@ public class OrderInfoActivity extends BaseActivity implements TitleBarView.OnTi
     protected TitleBarView titleView;
 
     public static void open(Context context, String orderId) {
-        if (!TextUtils.isEmpty(orderId)) {
+        if (!EmptyUtils.isEmpty(orderId)) {
             Intent intent = new Intent(context, OrderInfoActivity.class);
             intent.putExtra(EXTRA_ORDER_ID, orderId);
             context.startActivity(intent);

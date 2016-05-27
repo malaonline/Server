@@ -89,9 +89,6 @@ public class FlowLayout extends ViewGroup
 			}
 		}
 
-		Log.e("TAG", "sizeWidth = " + sizeWidth);
-		Log.e("TAG", "sizeHeight = " + sizeHeight);
-
 		setMeasuredDimension(
 				//
 				modeWidth == MeasureSpec.EXACTLY ? sizeWidth : width + getPaddingLeft() + getPaddingRight(),

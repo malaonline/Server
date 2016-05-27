@@ -1,25 +1,19 @@
 package com.malalaoshi.android.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.api.FetchOrderApi;
+import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
-import com.malalaoshi.android.core.utils.EmptyUtils;
-import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseTimesApi;
@@ -31,8 +25,6 @@ import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
-import com.malalaoshi.android.pay.api.DeleteOrderApi;
-import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
@@ -45,14 +37,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by kang on 16/5/24.
  */
-public class ConfirmOrderFragment  extends Fragment implements View.OnClickListener {
+public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickListener {
 
-    private static String TAG = "OrderDetailFragment";
     private static final String ARG_CREATE_ORDER_INFO = "createCourseOrderEntity";
     private static final String ARG_ORDER_TEACHER_ID = "teacher id";
     private static final String ARG_ORDER_WEEKLY_TIME_SLOTS = "weekly time slots";
@@ -102,10 +92,8 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
 
     private long teacherId;
 
-    private boolean loadFinish = false;
-
     public static ConfirmOrderFragment newInstance(Order order, CreateCourseOrderEntity entity, long hours, String weeklyTimeSlots, long teacherId, boolean isEvaluated) {
-        if (TextUtils.isEmpty(weeklyTimeSlots)&&hours<=0){
+        if (entity!=null&&TextUtils.isEmpty(weeklyTimeSlots)&&hours<=0){
             return null;
         }
         ConfirmOrderFragment fragment = new ConfirmOrderFragment();
@@ -153,22 +141,6 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         tvSubmit.setOnClickListener(this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!loadFinish) {
-            DialogUtil.startCircularProcessDialog(getContext(), "正在加载数据", true, false);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (!loadFinish) {
-            DialogUtil.stopProcessDialog();
-        }
-    }
-
     private void initData() {
         if (order==null) return;
         tvTeacherName.setText(order.getTeacher_name());
@@ -188,6 +160,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         ivTeacherAvator.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
         ivTeacherAvator.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
         ivTeacherAvator.setImageUrl(imgUrl, mImageLoader);
+        startProcessDialog("startProcessDialog");
         loadData();
     }
 
@@ -200,15 +173,8 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         ApiExecutor.exec(new FetchCourseTimesRequest(this, teacherId, hours, weeklyTimeSlots));
     }
 
-    public void startProcessDialog(String message){
-        DialogUtil.startCircularProcessDialog(getContext(),message,true,true);
-    }
-
-    public void stopProcess(){
-        DialogUtil.stopProcessDialog();
-    }
-
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
+        if (entity==null) return;
         PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
@@ -217,6 +183,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         tvSubmit.setOnClickListener(null);
         ApiExecutor.exec(new CreateOrderRequest(this, createCourseOrderEntity));
     }
+
 
     private static final class FetchCourseTimesRequest extends BaseApiContext<ConfirmOrderFragment, TimesModel> {
 
@@ -251,8 +218,7 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         @Override
         public void onApiFinished() {
             super.onApiFinished();
-            get().loadFinish = true;
-            get().stopProcess();
+            get().stopProcessDialog();
         }
     }
 
@@ -320,5 +286,12 @@ public class ConfirmOrderFragment  extends Fragment implements View.OnClickListe
         } else {
             openPayActivity(entity);
         }
+    }
+
+
+
+    @Override
+    public String getStatName() {
+        return "确认订单页";
     }
 }

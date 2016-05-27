@@ -1,6 +1,5 @@
 package com.malalaoshi.android.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.FetchOrderApi;
+import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
@@ -29,7 +30,6 @@ import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.CalendarUtils;
-import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class OrderDetailFragment extends Fragment {
+public class OrderDetailFragment extends BaseFragment {
 
     private static String TAG = "OrderDetailFragment";
     private static final String ARG_ORDER_ID = "order id";
@@ -108,10 +108,8 @@ public class OrderDetailFragment extends Fragment {
 
     private Order order;
 
-    private boolean loadFinish = false;
-
     public static OrderDetailFragment newInstance(String orderId) {
-        if (TextUtils.isEmpty(orderId)){
+        if (EmptyUtils.isEmpty(orderId)){
             return null;
         }
         OrderDetailFragment fragment = new OrderDetailFragment();
@@ -143,27 +141,8 @@ public class OrderDetailFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!loadFinish) {
-            DialogUtil.startCircularProcessDialog(getContext(), "正在加载数据", true, false);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (!loadFinish) {
-            DialogUtil.stopProcessDialog();
-        }
-    }
-
-    private void stopProcess() {
-        DialogUtil.stopProcessDialog();
-    }
-
     private void initData() {
+        startProcessDialog("正在加载数据···");
         loadData();
     }
 
@@ -178,7 +157,7 @@ public class OrderDetailFragment extends Fragment {
 
     @OnClick(R.id.tv_submit)
     public void onClickSubmit(View view){
-        if (order!=null&&order.getId()!=null&&order.getTo_pay()!=null&&order.getStatus()!=null){
+        if (order!=null&&order.getStatus()!=null){
             if ("u".equals(order.getStatus())){
                 openPayActivity();
             }else{
@@ -189,7 +168,6 @@ public class OrderDetailFragment extends Fragment {
 
     //启动购买课程页
     private void startCourseConfirmActivity() {
-        Intent signIntent = new Intent(getContext(), CourseConfirmActivity.class);
         if (order != null && order.getTeacher() != null) {
             Subject subject = Subject.getSubjectIdByName(order.getSubject());
             Long teacherId = Long.valueOf(order.getTeacher());
@@ -208,11 +186,9 @@ public class OrderDetailFragment extends Fragment {
         }
     }
 
-    public void startProcessDialog(String message){
-        DialogUtil.startCircularProcessDialog(getContext(),message,true,true);
-    }
 
     private void openPayActivity() {
+        if (order==null||order.getId()==null||EmptyUtils.isEmpty(order.getOrder_id())||order.getTo_pay()==null) return;
         CreateCourseOrderResultEntity entity = new CreateCourseOrderResultEntity();
         entity.setId(order.getId()+"");
         entity.setOrder_id(order.getOrder_id());
@@ -337,8 +313,7 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onApiFinished() {
-            get().loadFinish = true;
-            get().stopProcess();
+            get().stopProcessDialog();
         }
 
         @Override
@@ -376,7 +351,7 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         public void onApiFinished() {
-            get().stopProcess();
+            get().stopProcessDialog();
             get().getActivity().finish();
         }
 
@@ -385,4 +360,10 @@ public class OrderDetailFragment extends Fragment {
             MiscUtil.toast("订单状态取消失败,请检查网络!");
         }
     }
+
+    @Override
+    public String getStatName() {
+        return "订单详情页";
+    }
+
 }

@@ -239,36 +239,23 @@ public class MemberServiceFragment extends BaseFragment {
     }
 
     private void dealResponse(ReportListResult response) {
-        if (response.getCode()==0){
-            List<Report> reports = response.getData();
-            if (reports!=null&&reports.size()>0){
-                Report report = null;
-                for (int i=0;i<reports.size();i++){
-                    if (reports.get(i).isSupported()&&reports.get(i).isPurchased()){
-                        report = reports.get(i);
-                        break;
-                    }
+        List<Report> reports = response.getReports();
+        if (reports!=null&&reports.size()>0){
+            Report report = null;
+            for (int i=0;i<reports.size();i++){
+                if (reports.get(i).isSupported()&&reports.get(i).isPurchased()){
+                    report = reports.get(i);
+                    break;
                 }
-                if (report!=null){
-                    //update ui
-                    showReportView(report);
-                }else{
-                    showEmptyReportView();
-                }
+            }
+            if (report!=null){
+                //update ui
+                showReportView(report);
             }else{
                 showEmptyReportView();
             }
         }else{
-            if (response.getCode()==-1){
-                MiscUtil.toast("从快乐学获取数据失败!");
-            }else if (response.getCode()==-4){
-                MiscUtil.toast("参数错误!");
-            }else if (response.getCode()==-5){
-                MiscUtil.toast("不支持的科目!");
-            }else{
-                MiscUtil.toast("未知错误!");
-            }
-            showLoadFailedView();
+            showEmptyReportView();
         }
     }
 

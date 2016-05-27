@@ -80,6 +80,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private static final int REQUEST_CODE_COUPON = 0x10;
 
+    private static final String ARG_TEACHER_ID = "teacher id";
+    private static final String ARG_TEACHER_NAME = "teacher name";
+    private static final String ARG_TEACHER_AVATOR = "teacher avator";
+    private static final String ARG_SUBJECT = "subject";
+
     public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object
             subject,String teacherAvator, String teacherName) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
@@ -88,26 +93,15 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     public static CourseConfirmFragment newInstance(Long teacherId, String teacherName,String teacherAvator, Subject subject) {
+        if (teacherId==null||subject==null) return null;
         CourseConfirmFragment fragment = new CourseConfirmFragment();
-        fragment.init(teacherId, teacherName, teacherAvator, subject);
+        Bundle args = new Bundle();
+        args.putLong(ARG_TEACHER_ID,teacherId);
+        args.putString(ARG_TEACHER_NAME,teacherName);
+        args.putString(ARG_TEACHER_AVATOR,teacherAvator);
+        args.putParcelable(ARG_SUBJECT,subject);
+        fragment.setArguments(args);
         return fragment;
-    }
-
-    private void init(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
-        if (teacherId != null&&subject!=null) {
-            this.teacher = (Long) teacherId;
-            this.teacherAvator = teacherAvator;
-            this.teacherName = teacherName;
-            this.subject = subject;
-        }
-        fetchEvaluated();
-        fetchSchools();
-        fetchCoursePrices();
-    }
-
-    public CourseConfirmFragment() {
-        coursePrices = new ArrayList<>();
-        schoolList = new ArrayList<>();
     }
 
     @Bind(R.id.gv_course)
@@ -203,8 +197,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private BroadcastReceiver receiver;
 
-    private boolean loadFinish = false;
-
     private final class Receiver extends WeakFragmentReceiver {
 
         public Receiver(Fragment fragment) {
@@ -219,11 +211,24 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
     }
 
+    public CourseConfirmFragment() {
+        coursePrices = new ArrayList<>();
+        schoolList = new ArrayList<>();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_course_confirm, container, false);
         ButterKnife.bind(this, view);
+        Bundle args = getArguments();
+        if (args!=null){
+            Long teacherId = args.getLong(ARG_TEACHER_ID);
+            String teacherName = args.getString(ARG_TEACHER_NAME);
+            String teacherAvator = args.getString(ARG_TEACHER_AVATOR);
+            Subject subject = args.getParcelable(ARG_SUBJECT);
+            init(teacherId, teacherName, teacherAvator, subject);
+        }
         //initGridView();
         //initSchoolListView();
         initChoiceListView();
@@ -268,18 +273,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         IntentFilter filter = new IntentFilter();
         filter.addAction(UserManager.ACTION_LOGOUT);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, filter);
-
-        if (!loadFinish) {
-            DialogUtil.startCircularProcessDialog(getContext(), "正在加载数据", true, false);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (!loadFinish) {
-            DialogUtil.stopProcessDialog();
-        }
     }
 
     @Override
@@ -293,6 +286,20 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
+    private void init(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
+        if (teacherId != null&&subject!=null) {
+            this.teacher = (Long) teacherId;
+            this.teacherAvator = teacherAvator;
+            this.teacherName = teacherName;
+            this.subject = subject;
+        }
+        startProcessDialog("正在加载数据···");
+        fetchEvaluated();
+        fetchSchools();
+        fetchCoursePrices();
+    }
+
 
     private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator, String teacherName) {
         if (teacherId != null) {
@@ -886,23 +893,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         public void onApiFinished() {
-            get().stopProcess();
+            get().stopProcessDialog();
         }
 
     }
 
     private void loadFailure(String message) {
         MiscUtil.toast(message);
-    }
-
-    private void stopProcess() {
-        MalaContext.postOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                loadFinish = true;
-                DialogUtil.stopProcessDialog();
-            }
-        });
     }
 
     private void onLoadSchoolListSuccess(SchoolListResult response) {

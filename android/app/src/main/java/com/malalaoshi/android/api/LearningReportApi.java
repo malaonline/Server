@@ -1,7 +1,11 @@
 package com.malalaoshi.android.api;
 
 import com.malalaoshi.android.core.network.api.BaseApi;
+import com.malalaoshi.android.entity.Report;
 import com.malalaoshi.android.result.ReportListResult;
+
+import java.util.List;
+
 /**
  * Created by kang on 16/5/20.
  */

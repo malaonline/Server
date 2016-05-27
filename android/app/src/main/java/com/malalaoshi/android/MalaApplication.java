@@ -41,7 +41,7 @@ public class MalaApplication extends BaseApplication {
     protected void initAlways() {
         instance = this;
         JPushInterface.requestPermission(this); //请求权限
-        JPushInterface.setDebugMode(true);        // 设置开启日志,发布时请关闭日志
+        JPushInterface.setDebugMode(false);        // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);                // 初始化 JPush
         //设置tag和别名(在登录和登出处需要添加设置别名)
         JPushInterface.setAliasAndTags(this, UserManager.getInstance().getUserId(), null, new TagAliasCallback() {

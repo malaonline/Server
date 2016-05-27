@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.activitys.ConfirmOrderActivity;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
@@ -31,11 +30,9 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
-import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
@@ -45,13 +42,10 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
-import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
@@ -69,9 +63,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
-
-    //位置相关权限
-    public static final int PERMISSIONS_REQUEST_LOCATION = 0x07;
 
     //教师id
     private Long mTeacherId;
@@ -196,8 +187,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private boolean schoolFlag = false;
     private boolean memberFlag = false;
 
-    private boolean loadFinish = false;
-
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
             Intent intent = new Intent(context, TeacherInfoActivity.class);
@@ -217,7 +206,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         initData();
         setEvent();
 
-        //DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
         BounceTouchListener bounceTouchListener = new BounceTouchListener(scrollView, R.id.layout_teacher_info_body);
         bounceTouchListener.setOnTranslateListener(new BounceTouchListener.OnTranslateListener() {
             @Override
@@ -236,26 +224,10 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         scrollView.setOnTouchListener(bounceTouchListener);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!loadFinish) {
-            DialogUtil.startCircularProcessDialog(this, "正在加载数据", true, false);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!loadFinish) {
-            DialogUtil.stopProcessDialog();
-        }
-    }
 
     private void stopProcess() {
         if (teacherInfoFlag && schoolFlag && memberFlag) {
-            loadFinish = true;
-            DialogUtil.stopProcessDialog();
+            stopProcessDialog();
         }
     }
 
@@ -281,6 +253,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
         listviewSchool.setAdapter(mSchoolAdapter);
 
+        startProcessDialog("正在加载数据···");
         //老师
         loadTeacherInfo();
         //Member services

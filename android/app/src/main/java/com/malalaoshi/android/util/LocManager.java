@@ -137,7 +137,7 @@ public class LocManager {
                 ReceiveLocationListener listener = listenerList.get(i);
                 listener.onReceiveLocation(location);
             }
-            Log.e(TAG,"latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
+            Log.i(TAG,"latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
             //停止定位
             stop();
             //Location.distanceBetween();
@@ -147,7 +147,7 @@ public class LocManager {
          */
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.e(TAG,"onStatusChanged, status:"+status+",provider"+provider);
+            Log.i(TAG,"onStatusChanged, status:"+status+",provider"+provider);
         }
 
         @Override
@@ -156,7 +156,7 @@ public class LocManager {
          */
         public void onProviderDisabled(String provider) {
             // TODO Auto-generated method stub
-            Log.e(TAG,"onProviderDisabled"+provider);
+            Log.i(TAG,"onProviderDisabled"+provider);
 
         }
 
@@ -166,7 +166,7 @@ public class LocManager {
          */
         public void onProviderEnabled(String provider) {
             // TODO Auto-generated method stub
-            Log.e(TAG, "onProviderEnabled"+provider);
+            Log.i(TAG, "onProviderEnabled"+provider);
         }
 
     }
