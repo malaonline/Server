@@ -40,22 +40,9 @@ paths:
         '200':
           description: An array of subjects those the user took or bought
           schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                description: 0 means ok. 见Error的code定义
-              message:
-                type: string
-                description: error message
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/SimpleReportSummary'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+            type: array
+            items:
+              $ref: '#/definitions/SimpleReportSummary'
   /study_report/{subject_id}:
     get:
       summary: One Subject Report Data
@@ -69,20 +56,7 @@ paths:
         '200':
           description: An array of subjects
           schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                description: 0 means ok. 见Error的code定义
-              message:
-                type: string
-                description: error message
-              data:
-                $ref: '#/definitions/SubjectReport'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/SubjectReport'
 
 # define models
 definitions:
@@ -233,17 +207,3 @@ definitions:
       ave_score:
         type: number
         format: float
-  Error:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-        description: |
-          0 means ok.
-            -1: 从快乐学获取数据失败
-            -4: 参数错误
-            -5: 不支持的科目
-      message:
-        type: string
-        description: error message

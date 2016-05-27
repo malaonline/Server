@@ -29,7 +29,7 @@ from app.pingpp import pingpp
 from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.algorithm import verify_sig
-from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError, KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
 
 from .tasks import autoConfirmClasses
@@ -1076,7 +1076,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         the_subject = get_object_or_404(models.Subject, id=subject)
         s_name = the_subject.name
         if s_name not in self.SUPPORTED_SUBJECTS:
-            return JsonResponse({'code': -5, 'message': '暂时不支持该教学科目'})
+            return HttpResponse(status=404)
         return self.get_one_subject_report(the_subject, params)
 
     def get_subjects_summary(self, parent, params):
@@ -1106,11 +1106,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                             'right_nums': ret_nums.get('total_right_item_nums', 0),
                         })
                     else:
-                        logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
-                        return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+                        logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+                        raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
                 else:
-                    logger.error('cannot get kuailexue study data')
-                    return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+                    logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+                    raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
             else:
                 subjects_list.append({
                     'subject_id': tmp_subject.id,
@@ -1127,7 +1127,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': True,
                     'purchased': False,
                 })
-        return JsonResponse({'code': 0, 'message': '', 'data': subjects_list})
+        return JsonResponse(subjects_list, safe=False)
 
     def get_one_subject_report(self, the_subject, params):
         s_name = the_subject.name
@@ -1138,33 +1138,33 @@ class StudyReportView(ParentBasedMixin, APIView):
         # 累计答题数、正确答题数
         resp = requests.get(url + '/total-item-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot get kuailexue study data')
-            return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
             ans_data['total_nums'] = total_nums = ret_nums.get('total_item_nums', 0)
             ans_data['right_nums'] = ret_nums.get('total_right_item_nums', 0)
         else:
-            logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
-            return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         # 累计答题次数（即答题次数）及完成率
         resp = requests.get(url + '/total-exercise-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot get kuailexue study data')
-            return JsonResponse({'code': -resp.status_code, 'message': "请求失败, 请重试"})
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
             ans_data['exercise_total_nums'] = exercise_total_nums = ret_nums.get('total_exercise_nums', 0)
             ans_data['exercise_finished_nums'] = ret_nums.get('total_finished_exercise_nums', 0)
         else:
-            logger.warning('get kuailexue study data error, return code is %s' % (ret_json.get('code')))
-            return JsonResponse({'code': ret_json.get('code', -1), 'message': ret_json.get('message', '请求失败, 请重试')})
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
         if total_nums == 0 or exercise_total_nums == 0:
             math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
             ans_data['ability_structure'] = [{'ability': ab, 'value': 0} for ab in math_ability_keys]
             # 后面没有数据, 都是空
-            return JsonResponse({'code': 0, 'message': '', 'data': ans_data})
+            return JsonResponse(ans_data)
         # TODO 带有数据的学习报告

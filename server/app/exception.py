@@ -16,3 +16,9 @@ class OrderStatusIncorrect(Exception):
 
 class RefundError(Exception):
     pass
+
+class KuailexueDataError(Exception):
+    pass
+
+class KuailexueServerError(Exception):
+    pass
