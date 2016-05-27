@@ -287,5 +287,6 @@ RAVEN_CONFIG = {
 KUAILEXUE_PARTNER = 'aotu'
 KUAILEXUE_API_ID = 'aotu'
 KUAILEXUE_SERVER = 'http://123.57.152.57'
+KUAILEXUE_REPORT_SUPPORTED_SUBJECTS = '数学' # 学习报告支持的科目, 英文逗号分隔的科目中文, 如: "数学,英语"
 
 from .local_settings import *
