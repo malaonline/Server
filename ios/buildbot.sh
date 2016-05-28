@@ -10,8 +10,6 @@ configuration="Release"
 # Clean
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
-# Remove intermediate files
-rm -rf ~/Library/Developer/Xcode/DerivedData/mala-ios-*
 
 # Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AppStore"
@@ -26,7 +24,7 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 # Compile Project Release
 buildPath="build/${scheme}.xcarchive"
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath}
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath build/derivedData
 
 python --version
 python replace_info.py
