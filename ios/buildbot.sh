@@ -10,6 +10,8 @@ configuration="Release"
 # Clean
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
+# Remove intermediate files
+rm -rf ~/Library/Developer/Xcode/DerivedData/mala-ios-*
 
 # Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AppStore"
