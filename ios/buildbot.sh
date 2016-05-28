@@ -5,11 +5,12 @@ set -e
 scheme="parent"
 ipaDir="build/ipa/"
 configuration="Release"
-
+derivedDataPath="build/derivedDada"
 
 # Clean
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
+rm -rf ${derivedDataPath}
 
 # Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AppStore"
@@ -24,7 +25,7 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 # Compile Project Release
 buildPath="build/${scheme}.xcarchive"
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath build/derivedData
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 
 python --version
 python replace_info.py
