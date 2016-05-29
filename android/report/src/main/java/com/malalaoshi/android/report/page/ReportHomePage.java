@@ -1,11 +1,12 @@
 package com.malalaoshi.android.report.page;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
 
 /**
@@ -16,18 +17,18 @@ public class ReportHomePage extends LinearLayout {
 
     public ReportHomePage(Context context) {
         super(context);
+        initView();
     }
 
     public ReportHomePage(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView();
     }
 
-    public static ReportHomePage newInstance(ViewGroup parent) {
-        return (ReportHomePage) ViewUtils.newInstance(parent, R.layout.report__page_home);
+    private void initView() {
+        setOrientation(VERTICAL);
+        setGravity(Gravity.CENTER_HORIZONTAL);
+        setBackgroundColor(Color.WHITE);
+        LayoutInflater.from(getContext()).inflate(R.layout.report__page_home, this, true);
     }
-
-    public static ReportHomePage newInstance(Context context) {
-        return (ReportHomePage) ViewUtils.newInstance(context, R.layout.report__page_home);
-    }
-
 }

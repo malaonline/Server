@@ -27,23 +27,25 @@ public class SpiderNetView extends View {
         private float x;
         private float y;
 
-        public Pair(float x, float y) {
-            this.x = x;
-            this.y = y;
+        public Pair(double x, double y) {
+            this.x = (float) x;
+            this.y = (float) y;
         }
     }
 
     private static final int SIZE = MiscUtil.dp2px(230);
 
+    private static final double FPI = Math.PI / 5;
+
     private static List<Pair> ANGLE_LIST;
 
     static {
         ANGLE_LIST = new ArrayList<>();
-        ANGLE_LIST.add(new Pair((float) Math.sin(Math.PI / 5f), (float) Math.cos(Math.PI / 5f)));
-        ANGLE_LIST.add(new Pair((float) Math.sin(3 * Math.PI / 5f), (float) Math.cos(3 * Math.PI / 5f)));
-        ANGLE_LIST.add(new Pair((float) Math.sin(5 * Math.PI / 5f), (float) Math.cos(5 * Math.PI / 5f)));
-        ANGLE_LIST.add(new Pair((float) Math.sin(7 * Math.PI / 5f), (float) Math.cos(7 * Math.PI / 5f)));
-        ANGLE_LIST.add(new Pair((float) Math.sin(9 * Math.PI / 5f), (float) Math.cos(9 * Math.PI / 5f)));
+        ANGLE_LIST.add(new Pair(Math.sin(7 * FPI), Math.cos(7 * FPI)));
+        ANGLE_LIST.add(new Pair(Math.sin(9 * FPI), Math.cos(9 * FPI)));
+        ANGLE_LIST.add(new Pair(Math.sin(FPI), Math.cos(FPI)));
+        ANGLE_LIST.add(new Pair(Math.sin(3 * FPI), Math.cos(3 * FPI)));
+        ANGLE_LIST.add(new Pair(Math.sin(5 * FPI), Math.cos(5 * FPI)));
     }
 
     private static final int BACK_COLOR = Color.parseColor("#C9E4F8");
@@ -99,11 +101,10 @@ public class SpiderNetView extends View {
         if (EmptyUtils.isEmpty(list)) {
             return;
         }
-        canvas.save();
+        canvas.translate(width / 2, height / 2);
         drawNet(canvas);
         drawData(canvas);
         drawDataText(canvas);
-        canvas.restore();
     }
 
     private void intSize() {
@@ -122,7 +123,7 @@ public class SpiderNetView extends View {
         for (int i = 0; i < ANGLE_LIST.size(); i++) {
             AxisModel model = list.get(i);
             float value = model.getyValue() * SIZE / 2 / MAX;
-            Pair pair = ANGLE_LIST.get(i);
+            Pair pair = ANGLE_LIST.get(ANGLE_LIST.size() - i - 1);
             if (i == 0) {
                 path.moveTo(value * pair.x, value * pair.y);
             } else {
@@ -144,18 +145,18 @@ public class SpiderNetView extends View {
         paint.setColor(TXT_COLOR);
         for (int i = 0; i < ANGLE_LIST.size(); i++) {
             AxisModel model = list.get(i);
-            Pair pair = ANGLE_LIST.get(i);
+            Pair pair = ANGLE_LIST.get(ANGLE_LIST.size() - i - 1);
             Rect rect = Utils.getTextBounds(paint, model.getxValue());
-            if (i == 0 || i == 4) {
+            if (i == 2 || i == 3) {
                 x = SIZE / 2 * pair.x - rect.width() / 2;
                 y = SIZE / 2 * pair.y + rect.height() + TXT_OFFSET;
             } else if (i == 1) {
                 x = SIZE / 2 * pair.x + TXT_OFFSET;
                 y = SIZE / 2 * pair.y + rect.height() / 2;
-            } else if (i == 2) {
+            } else if (i == 0) {
                 x = SIZE / 2 * pair.x - rect.width() / 2;
                 y = SIZE / 2 * pair.y - rect.height() / 2;
-            } else if (i == 3) {
+            } else if (i == 4) {
                 x = SIZE / 2 * pair.x - rect.width() - TXT_OFFSET;
                 y = SIZE / 2 * pair.y + rect.height() / 2;
             }
@@ -169,9 +170,7 @@ public class SpiderNetView extends View {
      */
     private void drawNet(Canvas canvas) {
         int unit = SIZE / SPIDER_RINGS / 2;
-
         //中心
-        canvas.translate(width / 2, height / 2);
 
         //背景
         path.reset();

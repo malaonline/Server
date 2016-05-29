@@ -37,7 +37,7 @@
             android:layout_marginRight="8dp"
             android:drawableLeft="@drawable/report__blue_circle"
             android:drawablePadding="3dp"
-            android:text="正确数量"
+            android:text="答题数量"
             android:textColor="#5E5E5E"
             android:textSize="@dimen/core__text_size_small" />
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/report__green_circle"
             android:drawablePadding="3dp"
-            android:text="答题数量"
+            android:text="正确数量"
             android:textColor="#5E5E5E"
             android:textSize="@dimen/core__text_size_small" />
     </LinearLayout>

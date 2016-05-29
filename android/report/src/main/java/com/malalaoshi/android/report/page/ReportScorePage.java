@@ -60,7 +60,7 @@ public class ReportScorePage extends LinearLayout {
         list.add(model);
         model = new AxisModel(95, 80, "相似");
         list.add(model);
-        model = new AxisModel(99, 80, "几何变形");
+        model = new AxisModel(100, 80, "几何变换");
         list.add(model);
         lineView.setList(list);
         lineView.setMax(100);

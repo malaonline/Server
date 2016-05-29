@@ -75,19 +75,19 @@ public class ReportKnowledgePage extends LinearLayout {
     private void initView() {
         HorizontalLineView lineView = (HorizontalLineView) findViewById(R.id.view_chart);
         List<AxisModel> list = new ArrayList<>();
-        AxisModel model = new AxisModel(10, 30, "实数");
+        AxisModel model = new AxisModel(11, 30, "实数");
         list.add(model);
-        model = new AxisModel(20, 40, "函数初步");
+        model = new AxisModel(21, 50, "函数初步");
         list.add(model);
-        model = new AxisModel(30, 60, "多边形");
+        model = new AxisModel(109, 117, "多边形");
         list.add(model);
-        model = new AxisModel(25, 60, "圆");
+        model = new AxisModel(21, 50, "圆");
         list.add(model);
-        model = new AxisModel(18, 65, "全等");
+        model = new AxisModel(114, 120, "全等");
         list.add(model);
-        model = new AxisModel(45, 80, "相似");
+        model = new AxisModel(21, 50, "相似");
         list.add(model);
-        model = new AxisModel(59, 80, "几何变形");
+        model = new AxisModel(54, 62, "几何变换");
         list.add(model);
         lineView.setList(list);
     }

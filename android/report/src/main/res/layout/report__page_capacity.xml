@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生各模块水平相差太大，应提前进行针对性练习，实数和相似等模块需提高，多边形板块可以适当减少练习量。"
+                android:text="学生运算求解能力很强，空间想象与数据分析能力较弱，应加强针对性练习，实际应用能力也需注意引导。"
                 android:textColor="#363b4e"
                 android:textSize="12sp" />
         </RelativeLayout>

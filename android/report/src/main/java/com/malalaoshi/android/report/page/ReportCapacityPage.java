@@ -41,22 +41,22 @@ public class ReportCapacityPage extends LinearLayout {
         if (isInEditMode()) {
             return;
         }
-
         initView();
     }
 
     private void initView() {
         SpiderNetView waveView = (SpiderNetView) findViewById(R.id.view_chart);
         List<AxisModel> list = new ArrayList<>();
-        AxisModel model = new AxisModel(60, "推理论证");
+        AxisModel model =
+                new AxisModel(70, "推理论证");
         list.add(model);
-        model = new AxisModel(70, "数据分析");
+        model = new AxisModel(40, "数据分析");
         list.add(model);
-        model = new AxisModel(50, "空间想象");
+        model = new AxisModel(26, "空间想象");
         list.add(model);
-        model = new AxisModel(60, "运算求解");
+        model = new AxisModel(80, "运算求解");
         list.add(model);
-        model = new AxisModel(80, "实际应用");
+        model = new AxisModel(50, "实际应用");
         list.add(model);
         waveView.setList(list);
     }

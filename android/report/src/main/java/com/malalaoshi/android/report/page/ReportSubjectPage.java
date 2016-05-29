@@ -48,21 +48,15 @@ public class ReportSubjectPage extends LinearLayout {
     private void initView() {
         WaveView waveView = (WaveView) findViewById(R.id.view_wave);
         List<AxisModel> list = new ArrayList<>();
-        AxisModel model = new AxisModel(15, 30, "3月上");
+        AxisModel model = new AxisModel(55, 106, "4月上");
         list.add(model);
-        model = new AxisModel(45, 90, "3月下");
+        model = new AxisModel(25, 145, "4月下");
         list.add(model);
-        model = new AxisModel(15, 30, "4月上");
+        model = new AxisModel(75, 85, "5月上");
         list.add(model);
-        model = new AxisModel(20, 40, "4月下");
-        list.add(model);
-        model = new AxisModel(30, 60, "5月上");
-        list.add(model);
-        model = new AxisModel(15, 30, "5月下");
-        list.add(model);
-        model = new AxisModel(15, 30, "6月上");
+        model = new AxisModel(95, 120, "5月下");
         list.add(model);
         waveView.setList(list);
-        waveView.setMax(100);
+        waveView.setMax(150);
     }
 }

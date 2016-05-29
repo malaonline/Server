@@ -151,7 +151,7 @@ public class PieView extends View {
     }
 
     /**
-     * 宽度等分成24份。
+     * 宽度等分成20份。
      */
     private void initSize() {
         float width = getWidth();

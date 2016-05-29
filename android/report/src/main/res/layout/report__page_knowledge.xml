@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
-        android:text="题目数据分析" />
+        android:text="知识点分析" />
 
     <View
         android:layout_width="match_parent"

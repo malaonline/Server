@@ -45,7 +45,7 @@ public class ReportWorkPage extends LinearLayout {
         CONTENT_LIST.add("相似");
         CONTENT_LIST.add("全等");
         CONTENT_LIST.add("微积分");
-        CONTENT_LIST.add("几何变形");
+        CONTENT_LIST.add("几何变换");
         CONTENT_LIST.add("圆");
         CONTENT_LIST.add("其他");
     }
@@ -95,9 +95,16 @@ public class ReportWorkPage extends LinearLayout {
     private void initPieView() {
         PieView pieView = (PieView) findViewById(R.id.pie_view);
         List<PieModel> list = new ArrayList<>();
-        for (int i = 0; i < COLOR_LIST.size(); i++) {
-            list.add(new PieModel(COLOR_LIST.get(i), i * 40, 40));
-        }
+        list.add(new PieModel(COLOR_LIST.get(0), 8));
+        list.add(new PieModel(COLOR_LIST.get(1), 9));
+        list.add(new PieModel(COLOR_LIST.get(2), 12));
+        list.add(new PieModel(COLOR_LIST.get(3), 17));
+        list.add(new PieModel(COLOR_LIST.get(4), 21));
+        list.add(new PieModel(COLOR_LIST.get(5), 3));
+        list.add(new PieModel(COLOR_LIST.get(6), 18));
+        list.add(new PieModel(COLOR_LIST.get(7), 7));
+        list.add(new PieModel(COLOR_LIST.get(8), 5));
+        PieModel.calNumByNumber(list);
         pieView.setData(list);
         pieView.setCenterText("错题分布");
     }
