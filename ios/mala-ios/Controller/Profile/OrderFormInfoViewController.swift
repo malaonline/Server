@@ -131,12 +131,27 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
             })
     }
     
+    private func launchPaymentController() {
+        
+        // 跳转到支付页面
+        let viewController = PaymentViewController()
+        viewController.popAction = {
+            MalaIsPaymentIn = false
+        }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     
     
     // MARK: - Delegate
     ///  立即支付
     func OrderFormPayment() {
-        
+        // 支付页面
+        if let order = self.model {
+            ServiceResponseOrder = order
+            launchPaymentController()
+        }
     }
     
     ///  再次购买
