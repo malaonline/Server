@@ -14,9 +14,51 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "35D7A3201C0FE851007D7679"
+               BuildableName = "parent-dev.app"
+               BlueprintName = "parent-dev"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "35FF7A3C1CF8325A000A70EE"
+               BuildableName = "parent-stage.app"
+               BlueprintName = "parent-stage"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "35FF7B1F1CF83264000A70EE"
                BuildableName = "parent-prd.app"
                BlueprintName = "parent-prd"
+               ReferencedContainer = "container:mala-ios.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4402E131C5A16A700E7D3DB"
+               BuildableName = "parentTests.xctest"
+               BlueprintName = "parentTests"
                ReferencedContainer = "container:mala-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +74,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "35FF7B1F1CF83264000A70EE"
-            BuildableName = "parent-prd.app"
-            BlueprintName = "parent-prd"
+            BlueprintIdentifier = "35D7A3201C0FE851007D7679"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +97,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "35FF7B1F1CF83264000A70EE"
-            BuildableName = "parent-prd.app"
-            BlueprintName = "parent-prd"
+            BlueprintIdentifier = "35D7A3201C0FE851007D7679"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +116,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "35FF7B1F1CF83264000A70EE"
-            BuildableName = "parent-prd.app"
-            BlueprintName = "parent-prd"
+            BlueprintIdentifier = "35D7A3201C0FE851007D7679"
+            BuildableName = "parent-dev.app"
+            BlueprintName = "parent-dev"
             ReferencedContainer = "container:mala-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
