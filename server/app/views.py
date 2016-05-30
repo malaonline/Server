@@ -1170,6 +1170,8 @@ class StudyReportView(ParentBasedMixin, APIView):
 
         # 错题知识点分布
         ans_data['error_rates'] = self._get_error_rates(url, params)
+        # 按月显示练习量走势
+        ans_data['month_trend'] = self._get_month_trend(url, params)
 
         return JsonResponse(ans_data)
 
@@ -1190,6 +1192,30 @@ class StudyReportView(ParentBasedMixin, APIView):
             return [{'id': ep.get('tag_id'),
                      'name': ep.get('tag_name'),
                      'rate': ep.get('per')
+                     } for ep in ret_list]
+        else:
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+
+    def _get_month_trend(self, url, params):
+        '''
+        按月显示练习量走势
+        :param url:
+        :param params:
+        :return: list
+        '''
+        resp = requests.get(url + '/items-trend', params=params)
+        if resp.status_code != 200:
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_list = ret_json.get('data')
+            return [{'total_item': ep.get('total_item', 0),
+                     'error_item': ep.get('total_error_item', 0),
+                     'year': ep.get('year'),
+                     'month': ep.get('month'),
+                     'day': ep.get('day')
                      } for ep in ret_list]
         else:
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
