@@ -33,6 +33,9 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.spaceBetweenLabels = 1
         xAxis.labelPosition = .Bottom
+        xAxis.gridLineDashLengths = [2,2]
+        xAxis.gridColor = MalaColor_E6E9EC_0
+        xAxis.drawGridLinesEnabled = true
         
         let leftAxis = lineChartView.leftAxis
         leftAxis.labelFont = UIFont.systemFontOfSize(9)
