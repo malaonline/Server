@@ -4,12 +4,10 @@ set -e
 # Build configurations
 ipaDir="build/ipa/"
 configuration="Release"
-derivedDataPath="build/derivedData"
 
 # Clean
 mkdir -p ${ipaDir}
 rm -rf ${ipaDir}*.ipa
-rm -rf ${derivedDataPath}
 
 # Provisioning configurations
 AdHocProvisioning="com.malalaoshi.app-AppStore"
@@ -29,6 +27,7 @@ security list-keychains
 scheme="parent-dev"
 buildPath="build/${scheme}.xcarchive"
 ipaName="${ipaDir}${scheme}_release.ipa"
+derivedDataPath="build/derivedData-dev"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
@@ -44,6 +43,7 @@ fi
 scheme="parent-stage"
 buildPath="build/${scheme}.xcarchive"
 ipaName="${ipaDir}${scheme}_release.ipa"
+derivedDataPath="build/derivedData-stage"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
@@ -52,6 +52,7 @@ xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPat
 scheme="parent-prd"
 buildPath="build/${scheme}.xcarchive"
 ipaName="${ipaDir}${scheme}_release.ipa"
+derivedDataPath="build/derivedData-prd"
 
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
