@@ -135,6 +135,19 @@ class OrderFormViewController: BaseTableViewController {
     private func setupNotification() {
         
         NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_PushToPayment,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            // 支付页面
+            if let order = notification.object as? OrderForm {
+                ServiceResponseOrder = order
+                self?.launchPaymentController()
+            }
+            
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_PushTeacherDetailView,
             object: nil,
             queue: nil
@@ -201,6 +214,17 @@ class OrderFormViewController: BaseTableViewController {
                     }
                 })
             })
+    }
+    
+    private func launchPaymentController() {
+        
+        // 跳转到支付页面
+        let viewController = PaymentViewController()
+        viewController.popAction = {
+            MalaIsPaymentIn = false
+        }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     
@@ -286,6 +310,7 @@ class OrderFormViewController: BaseTableViewController {
     
     
     deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushToPayment, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushTeacherDetailView, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_CancelOrderForm, object: nil)
     }
