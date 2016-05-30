@@ -146,11 +146,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             return
         }
         
-        MalaNetworking.sharedTools.loadTeacherDetail(id, finished: {[weak self] (result, error) -> () in
-
-        
-//        MalaNetworking.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
-            
+        MalaNetworking.sharedTools.loadTeacherDetail(id, finished: {[weak self] (result, error) -> () in     
             ThemeHUD.hideActivityIndicator()
             
             if error != nil {

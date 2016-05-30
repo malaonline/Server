@@ -42,6 +42,7 @@ let MalaNotification_ClassPeriodDidChange = "com.malalaoshi.app.ClassPeriodDidCh
 let MalaNotification_OpenTimeScheduleCell = "com.malalaoshi.app.OpenTimeScheduleCell"
 let MalaNotification_PushTeacherDetailView = "com.malalaoshi.app.PushTeacherDetailView"
 let MalaNotification_CancelOrderForm = "com.malalaoshi.app.CancelOrderForm"
+let MalaNotification_PushToPayment = "com.malalaoshi.app.PushToPayment"
 let MalaNotification_PushIntroduction = "com.malalaoshi.app.PushIntroduction"
 let MalaNotification_ShowLearningReport = "com.malalaoshi.app.ShowLearningReport"
 

@@ -440,12 +440,11 @@ class OrderFormViewCell: UITableViewCell {
     // MARK: - Event Response
     /// 立即支付
     @objc private func pay() {
-        print("立即支付")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushToPayment, object: self.model)
     }
     
     /// 再次购买（重复购买）
     @objc private func buyAgain() {
-        print("再次购买")
         MalaIsHasBeenEvaluatedThisSubject = model?.evaluated
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushTeacherDetailView, object: self.model?.teacher)
     }

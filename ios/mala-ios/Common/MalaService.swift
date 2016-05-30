@@ -864,9 +864,11 @@ let parseOrderCreateResult: JSONDictionary -> OrderForm? = { orderInfo in
     
     // 订单创建成功
     if let
-        id = orderInfo["id"] as? Int {
+        id = orderInfo["id"] as? Int,
+        amount = orderInfo["to_pay"] as? Int {
         let order = OrderForm()
         order.id = id
+        order.amount = amount
         return order
     }
     return nil
