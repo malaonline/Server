@@ -40,9 +40,12 @@ paths:
         '200':
           description: An array of subjects those the user took or bought
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/SimpleReportSummary'
+            type: object
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/SimpleReportSummary'
   /study_report/{subject_id}:
     get:
       summary: One Subject Report Data
@@ -105,16 +108,16 @@ definitions:
       exercise_total_nums:
         type: integer
         description: 累计答题次数
-      exercise_finished_nums:
+      exercise_fin_nums:
         type: integer
         description: 累计答题完成数
       error_distribution:
         $ref: '#/definitions/ExerciseErrorDistribution'
       month_trend:
         $ref: '#/definitions/ExerciseMonthTrend'
-      knowledge_point_accuracy:
+      knowledges_accuracy:
         $ref: '#/definitions/KnowledgePointAccuracy'
-      ability_structure:
+      abilities:
         $ref: '#/definitions/AbilityStructure'
       score_analyses:
         $ref: '#/definitions/ScoreAnalyses'
@@ -126,9 +129,9 @@ definitions:
   ExerciseErrorDistributionItem:
     type: object
     properties:
-      tag_id:
+      id:
         type: integer
-      tag_name:
+      name:
         type: string
       percent:
         type: number
@@ -142,7 +145,7 @@ definitions:
     properties:
       total_item:
         type: integer
-      total_error_item:
+      error_item:
         type: integer
       year:
         type: integer
@@ -159,13 +162,13 @@ definitions:
   KnowledgePointAccuracyItem:
     type: object
     properties:
-      tag_id:
+      id:
         type: integer
-      tag_name:
+      name:
         type: string
       total_item:
         type: integer
-      total_right_item:
+      right_item:
         type: integer
   AbilityStructure:
     type: array
@@ -176,7 +179,7 @@ definitions:
   AbilityStructureItem:
     type: object
     properties:
-      ability:
+      key:
         type: string
         description: ability key string
         enum:
@@ -186,7 +189,7 @@ definitions:
           - spatial: 空间想象能力
           - calc: 运算求解能力
           - data: 数据分析能力
-      value:
+      val:
         type: number
         format: float
   ScoreAnalyses:
@@ -197,9 +200,9 @@ definitions:
   ScoreAnalysesItem:
     type: object
     properties:
-      tag_id:
+      id:
         type: integer
-      tag_name:
+      name:
         type: string
       my_score:
         type: number

@@ -1127,7 +1127,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': True,
                     'purchased': False,
                 })
-        return JsonResponse(subjects_list, safe=False)
+        return JsonResponse({'results': subjects_list})
 
     def get_one_subject_report(self, the_subject, params):
         s_name = the_subject.name
@@ -1157,14 +1157,14 @@ class StudyReportView(ParentBasedMixin, APIView):
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
             ans_data['exercise_total_nums'] = exercise_total_nums = ret_nums.get('total_exercise_nums', 0)
-            ans_data['exercise_finished_nums'] = ret_nums.get('total_finished_exercise_nums', 0)
+            ans_data['exercise_fin_nums'] = ret_nums.get('total_finished_exercise_nums', 0)
         else:
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
         if total_nums == 0 or exercise_total_nums == 0:
             math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
-            ans_data['ability_structure'] = [{'ability': ab, 'value': 0} for ab in math_ability_keys]
+            ans_data['abilities'] = [{'key': ab, 'val': 0} for ab in math_ability_keys]
             # 后面没有数据, 都是空
             return JsonResponse(ans_data)
         # TODO 带有数据的学习报告
