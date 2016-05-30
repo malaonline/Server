@@ -12,10 +12,23 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
 
     // MARK: - Property
     /// 教师id
-    var teacherId: Int?
+    var teacherId: Int? {
+        didSet {
+            guard let _ = teacherId else {
+                return
+            }
+            operationQueue.addOperationWithBlock(loadTeacherDetail)
+            operationQueue.addOperationWithBlock(loadSchoolsData)
+            operationQueue.addOperationWithBlock(loadClassSchedule)
+            operationQueue.addOperationWithBlock(loadUserEvaluatedStatus)
+        }
+    }
     /// 教师详情数据模型
     var teacherModel: TeacherDetailModel? {
         didSet {
+            if teacherModel?.id != self.teacherId {
+                self.teacherId = teacherModel?.id
+            }
             self.tableView.teacherModel = teacherModel
         }
     }
@@ -43,13 +56,17 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     /// 必要数据加载完成计数
     private var requiredCount: Int = 0 {
         didSet {
-            // [老师模型][上课地点][老师可用时间表][奖学金][是否首次购买]三个必要数据加载完成才激活界面
-            if requiredCount == 4 {
+            // [老师模型][上课地点][老师可用时间表][奖学金][是否首次购买]5个必要数据加载完成才激活界面
+            if requiredCount == 5 {
                 ThemeHUD.hideActivityIndicator()
             }
         }
     }
-    
+    /// 队列
+    private var operationQueue: NSOperationQueue = {
+        let queue = NSOperationQueue()
+        return queue
+    }()
     
     // MARK: - Compontents
     private lazy var tableView: CourseChoosingTableView = {
@@ -61,7 +78,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         return confirmView
     }()
     
-    
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,12 +96,9 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         } 
         
         setupUserInterface()
-        loadTeacherDetail()
-        loadSchoolsData()
-        loadClassSchedule()
-        loadCoupons()
-        loadUserEvaluatedStatus()
         setupNotification()
+        
+        operationQueue.addOperationWithBlock(loadCoupons)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -133,6 +147,9 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         }
         
         MalaNetworking.sharedTools.loadTeacherDetail(id, finished: {[weak self] (result, error) -> () in
+
+        
+//        MalaNetworking.sharedTools.loadTeacherDetail(teacherId, finished: {[weak self] (result, error) -> () in
             
             ThemeHUD.hideActivityIndicator()
             
@@ -151,6 +168,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     }
     
     private func loadSchoolsData() {
+        
         // // 获取 [教学环境] 数据
         MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
             if error != nil {
@@ -179,7 +197,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     
     private func loadClassSchedule() {
         
-        let teacherID = teacherModel?.id ?? 1
+        let teacherID = teacherModel?.id ?? teacherId ?? 0
         let schoolID = MalaCourseChoosingObject.school?.id ?? 1
         
         getTeacherAvailableTimeInSchool(teacherID, schoolID: schoolID, failureHandler: { (reason, errorMessage) -> Void in
@@ -215,11 +233,12 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     }
     
     private func loadUserEvaluatedStatus() {
-        
         /// 若测评建档结果存在，则不发送请求
         if let _ = MalaIsHasBeenEvaluatedThisSubject {
             return
         }
+        
+        println("*** \(teacherModel?.subject)")
         
         ///  判断用户是否首次购买此学科课程
         isHasBeenEvaluatedWithSubject(MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in

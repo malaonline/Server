@@ -145,6 +145,7 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         // 跳转到课程购买页
         let viewController = CourseChoosingViewController()
         if let id = model?.teacher  {
+            viewController.teacherModel?.subject = model?.subjectName
             viewController.teacherId = id
             viewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(viewController, animated: true)

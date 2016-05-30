@@ -73,6 +73,7 @@ class OrderFormOperatingView: UIView {
         
         button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
         button.setTitle("再次购买", forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Highlighted)
         button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
         button.addTarget(self, action: #selector(OrderFormOperatingView.buyAgain), forControlEvents: .TouchUpInside)
         return button
