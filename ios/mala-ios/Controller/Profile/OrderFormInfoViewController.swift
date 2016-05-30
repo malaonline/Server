@@ -142,6 +142,15 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
     ///  再次购买
     func OrderFormBuyAgain() {
         
+        // 跳转到课程购买页
+        let viewController = CourseChoosingViewController()
+        if let id = model?.teacher  {
+            viewController.teacherId = id
+            viewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }else {
+            self.ShowTost("订单信息有误，请刷新后重试")
+        }
     }
     
     ///  取消订单
