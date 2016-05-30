@@ -3344,7 +3344,7 @@
 			baseConfigurationReference = B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3377,7 +3377,7 @@
 			baseConfigurationReference = CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3409,7 +3409,7 @@
 			baseConfigurationReference = B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-stage";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3442,7 +3442,7 @@
 			baseConfigurationReference = CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-stage";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
