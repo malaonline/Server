@@ -16,11 +16,16 @@ let OrderFormCellReuseId = [
 ]
 
 class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
-
+    
     // MARK: - Property
     /// 订单详情模型
     var model: OrderForm? {
         didSet {
+            println("当前支付渠道信息： \(model?.chargeChannel)")
+            // 若订单状态为[待支付]或[已关闭]，隐藏支付渠道Cell
+            self.shouldHiddenPaymentChannel = (model?.status == MalaOrderStatus.Canceled.rawValue) || (model?.status == MalaOrderStatus.Penging.rawValue)
+            
+            // 刷新数据渲染UI
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.reloadData()
                 delay(0.5) {
@@ -32,6 +37,8 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     }
     // 是否隐藏时间表
     var shouldHiddenTimeSlots: Bool = true
+    // 是否隐藏支付渠道Cell
+    var shouldHiddenPaymentChannel: Bool = false
     
     
     // MARK: - Constructed
@@ -80,11 +87,14 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return OrderFormCellReuseId.count
+        return shouldHiddenPaymentChannel ? OrderFormCellReuseId.count-1 : OrderFormCellReuseId.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let reuseCell = tableView.dequeueReusableCellWithIdentifier(OrderFormCellReuseId[indexPath.section]!, forIndexPath: indexPath)
+        
+        let sectionIndex = (indexPath.section >= 2 && shouldHiddenPaymentChannel) ? indexPath.section+1 : indexPath.section
+        
+        let reuseCell = tableView.dequeueReusableCellWithIdentifier(OrderFormCellReuseId[sectionIndex]!, forIndexPath: indexPath)
         reuseCell.selectionStyle = .None
         
         switch indexPath.section {
@@ -101,10 +111,17 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             return cell
             
         case 2:
-            let cell = reuseCell as! OrderFormPaymentChannelCell
-            cell.channel = (self.model?.channel ?? .Other)
-            return cell
-            
+            // 若隐藏支付渠道Cell，则显示支付信息Cell
+            if shouldHiddenPaymentChannel {
+                let cell = reuseCell as! OrderFormOtherInfoCell
+                cell.model = self.model
+                return cell
+            }else {
+                let cell = reuseCell as! OrderFormPaymentChannelCell
+                cell.channel = (self.model?.channel ?? .Other)
+                return cell
+            }
+
         case 3:
             let cell = reuseCell as! OrderFormOtherInfoCell
             cell.model = self.model
