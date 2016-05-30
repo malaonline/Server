@@ -5,7 +5,7 @@ set -e
 scheme="parent"
 ipaDir="build/ipa/"
 configuration="Release"
-derivedDataPath="build/derivedDada"
+derivedDataPath="build/derivedData"
 
 # Clean
 mkdir -p ${ipaDir}
