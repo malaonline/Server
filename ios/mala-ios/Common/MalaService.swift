@@ -741,9 +741,9 @@ func cancelOrderWithId(orderID: Int, failureHandler: ((Reason, String?) -> Void)
 ///
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, completion: ResultModel -> Void) {
+func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, completion: [SimpleReportResultModel] -> Void) {
     /// 返回值解析器
-    let parse: JSONDictionary -> ResultModel = { data in
+    let parse: JSONDictionary -> [SimpleReportResultModel] = { data in
         return parseStudyReportResult(data)
     }
     
@@ -1073,24 +1073,14 @@ let parseChargeToken: JSONDictionary -> JSONDictionary? = { chargeInfo in
     return chargeInfo
 }
 /// 学习报告总览JSON解析器
-let parseStudyReportResult: JSONDictionary -> ResultModel = { resultInfo in
+let parseStudyReportResult: JSONDictionary -> [SimpleReportResultModel] = { resultInfo in
     
-    let result = ResultModel()
     var reports = [SimpleReportResultModel]()
     
-    if let
-        code = resultInfo["code"] as? Int,
-        message = resultInfo["message"] as? String,
-        results = resultInfo["results"] as? [JSONDictionary] {
-        
-        result.code = code
-        result.message = message
-        
+    if let results = resultInfo["results"] as? [JSONDictionary] {
         for report in results {
             reports.append(SimpleReportResultModel(dict: report))
         }
     }
-    
-    result.results = reports
-    return result
+    return reports
 }

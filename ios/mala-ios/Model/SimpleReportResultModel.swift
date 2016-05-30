@@ -15,6 +15,8 @@ class SimpleReportResultModel: BaseObjectModel {
     var subject_id: Int = 0
     /// 支持情况
     var supported: Bool = false
+    /// 是否报名
+    var purchased: Bool = false
     /// 练习总数（可能为空）
     var total_nums: Int = 0
     /// 练习正确数（可能为空）
@@ -31,10 +33,11 @@ class SimpleReportResultModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(subjectId: Int, supported: Bool, totalNums: Int, rightNums: Int) {
+    convenience init(subjectId: Int, supported: Bool, purchased: Bool, totalNums: Int, rightNums: Int) {
         self.init()
         self.subject_id = subjectId
         self.supported = supported
+        self.purchased = purchased
         self.total_nums = totalNums
         self.right_nums = rightNums
     }

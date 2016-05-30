@@ -143,41 +143,31 @@ class MemberPrivilegesViewController: UITableViewController {
                 self?.ShowTost("当前无法访问题目数据，请稍后再试")
             })
             
-        }, completion: { [weak self] (result) in
-            println("学习报告：\(result)")
-            switch result.code {
-            // ok
-            case 0:
+        }, completion: { [weak self] (results) in
+            
+            println("学习报告：\(results)")
+            
+            // 默认登录未报名状态
+            var status: MalaLearningReportStatus = .UnSigned
+            
+            // 遍历学科报名情况
+            for singleReport in results {
                 
-                // 无学习报告，未报名状态
-                if result.results == nil || result.results?.count == 0 {
-                    self?.reportStatus = .UnSigned
+                // 已报名支持学习报告的科目
+                if singleReport.subject_id == 1 && singleReport.supported && singleReport.purchased {
+                    self?.totalNum = singleReport.total_nums
+                    self?.rightNum = singleReport.right_nums
+                    status = .MathSigned
                     break
                 }
                 
-                // 有学习报告，报名非数学状态
-                self?.reportStatus = .UnSignedMath
-                
-                // 报名数学状态
-                for reportResult in result.results ?? [] {
-                    if let report = reportResult as? SimpleReportResultModel where report.subject_id == 1 {
-                        self?.totalNum = report.total_nums
-                        self?.rightNum = report.right_nums
-                        self?.reportStatus = .MathSigned
-                    }
+                // 报名非数学状态
+                if singleReport.supported == true && singleReport.purchased == false {
+                    status = .UnSignedMath
                 }
-                break
-                
-            // 从快乐学获取数据失败
-            case -1:
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self?.ShowTost("学习数据获取失败")
-                })
-                break
-
-            default:
-                break
             }
+            
+            self?.reportStatus = status
         })
     }
     
