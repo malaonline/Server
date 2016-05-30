@@ -41,7 +41,7 @@ import de.greenrobot.event.EventBus;
  * 会员专享
  */
 
-public class MemberServiceFragment extends BaseFragment {
+public class MemberServiceFragment extends BaseFragment implements View.OnClickListener {
 
     AnimationDrawable refreshAnimation = null;
 
@@ -133,13 +133,6 @@ public class MemberServiceFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.ll_refresh_refreshing)//刷新
-    public void onClickRefresh(View view){
-        if (reportStatus==EnumReportStatus.LONGFAILED){
-            reloadData();
-        }
-    }
-
     @OnClick(R.id.tv_report_submit)//登录或查看样本
     public void onClickNoReport(View view){
         if (reportStatus==EnumReportStatus.NOTSIGNIN){
@@ -155,6 +148,14 @@ public class MemberServiceFragment extends BaseFragment {
     public void onClickOpenReport(View view){
         if (reportStatus==EnumReportStatus.REPORT){
             openLearningReport();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.ll_refresh_refreshing){
+            reloadData();
+            llRefreshRefreshing.setOnClickListener(null);
         }
     }
 
@@ -193,6 +194,7 @@ public class MemberServiceFragment extends BaseFragment {
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.VISIBLE);
+        llRefreshRefreshing.setOnClickListener(this);
         ivRefreshRefreshing.setImageDrawable(getResources().getDrawable(R.drawable.ic_course));
         tvRefreshRefreshing.setText("加载失败,点击重试!");
         reportStatus = EnumReportStatus.LONGFAILED;
@@ -239,7 +241,7 @@ public class MemberServiceFragment extends BaseFragment {
     }
 
     private void dealResponse(ReportListResult response) {
-        List<Report> reports = response.getReports();
+        List<Report> reports = response.getResults();
         if (reports!=null&&reports.size()>0){
             Report report = null;
             for (int i=0;i<reports.size();i++){

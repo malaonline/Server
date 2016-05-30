@@ -9,13 +9,13 @@ import java.util.List;
  * Created by kang on 16/5/20.
  */
 public class ReportListResult  {
-    List<Report> reports;
+    List<Report> results;
 
-    public List<Report> getReports() {
-        return reports;
+    public List<Report> getResults() {
+        return results;
     }
 
-    public void setReports(List<Report> reports) {
-        this.reports = reports;
+    public void setResults(List<Report> results) {
+        this.results = results;
     }
 }

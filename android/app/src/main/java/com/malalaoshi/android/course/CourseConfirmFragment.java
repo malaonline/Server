@@ -29,6 +29,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.ConfirmOrderActivity;
 import com.malalaoshi.android.api.CoursePriceListApi;
 import com.malalaoshi.android.api.SchoolListApi;
+import com.malalaoshi.android.api.TeacherInfoApi;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
@@ -54,6 +55,7 @@ import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.pay.CouponActivity;
 import com.malalaoshi.android.receiver.WeakFragmentReceiver;
 import com.malalaoshi.android.result.CoursePriceListResult;
@@ -805,7 +807,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
     }
 
-    private static final class CoursePriceListRequest extends BaseApiContext<CourseConfirmFragment, CoursePriceListResult> {
+    private static final class CoursePriceListRequest extends BaseApiContext<CourseConfirmFragment, Teacher> {
         private Long teacherId;
         public CoursePriceListRequest(CourseConfirmFragment courseConfirmFragment, Long teacherId) {
             super(courseConfirmFragment);
@@ -813,14 +815,19 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
 
         @Override
-        public CoursePriceListResult request() throws Exception {
-            return new CoursePriceListApi().get(teacherId);
+        public Teacher request() throws Exception {
+            return new TeacherInfoApi().get(teacherId);
         }
 
         @Override
-        public void onApiSuccess(@NonNull CoursePriceListResult response) {
-            if (response!=null&&response.getResults() != null) {
-                 get().onLoadCoursePricesSuccess(response);
+        public void onApiSuccess(@NonNull Teacher response) {
+
+
+
+            if (response!=null&&response.getPrices()!=null) {
+                CoursePriceListResult priceListResult = new CoursePriceListResult();
+                priceListResult.setResults(response.getPrices());
+                get().onLoadCoursePricesSuccess(priceListResult);
             }else {
                 get().loadFailure("价格信息下载失败!");
             }
@@ -834,8 +841,6 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         public void onApiFinished() {
-            CoursePriceListResult response = JsonUtil.parseData(R.raw.courseprices,CoursePriceListResult.class,get().getContext());
-            get().onLoadCoursePricesSuccess(response);
         }
 
     }
