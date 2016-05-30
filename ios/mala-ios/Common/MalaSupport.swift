@@ -274,9 +274,11 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
         heightCount += slotDate.times.count > 4 ? 4 : 3
     }
     
+    heightCount = heightCount == 3 ? 2 : heightCount
+    
     println("日期表 : \(dateStrings)")
     println("时间表 : \(timeStrings)")
     println("高度 : \(heightCount)")
-    
+ 
     return (dateStrings, timeStrings, heightCount)
 }
