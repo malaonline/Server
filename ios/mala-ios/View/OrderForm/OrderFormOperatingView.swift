@@ -139,14 +139,14 @@ class OrderFormOperatingView: UIView {
         confirmButton.snp_makeConstraints { (make) in
             make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
             make.centerY.equalTo(self.snp_centerY)
-            make.width.equalTo(75)
-            make.height.equalTo(27)
+            make.width.equalTo(confirmButton.snp_height).multipliedBy(2.78)
+            make.height.equalTo(self.snp_height).multipliedBy(0.55)
         }
         cancelButton.snp_makeConstraints { (make) in
             make.right.equalTo(confirmButton.snp_left).offset(-MalaLayout_Margin_10)
             make.centerY.equalTo(confirmButton.snp_centerY)
-            make.width.equalTo(75)
-            make.height.equalTo(27)
+            make.width.equalTo(confirmButton.snp_height).multipliedBy(2.78)
+            make.height.equalTo(self.snp_height).multipliedBy(0.55)
         }
     }
     
@@ -165,6 +165,8 @@ class OrderFormOperatingView: UIView {
             // 待付款
             cancelButton.hidden = false
             confirmButton.hidden = false
+            
+            confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             
             confirmButton.setTitle("立即支付", forState: .Normal)
             confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_E26254_0), forState: .Normal)
@@ -206,7 +208,16 @@ class OrderFormOperatingView: UIView {
             cancelButton.hidden = true
             confirmButton.hidden = true
             break
+            
         case .Confirm:
+            //TODO: 确认订单页完善
+            // 确认订单
+            confirmButton.snp_updateConstraints { (make) in
+                make.width.equalTo(confirmButton.snp_height).multipliedBy(3.89)
+                make.height.equalTo(self.snp_height).multipliedBy(0.755)
+            }
+            confirmButton.setTitle("提交订单", forState: .Normal)
+            confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             
             break
         }
@@ -214,7 +225,7 @@ class OrderFormOperatingView: UIView {
     
     
     // MARK: - Event Response
-    /// 立即支付
+    /// 立即支付（确认订单页－提交订单）
     @objc func pay() {
         delegate?.OrderFormPayment()
     }

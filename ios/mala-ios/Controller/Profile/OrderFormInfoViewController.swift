@@ -18,9 +18,11 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         didSet {
             /// 渲染订单UI样式
             tableView.model = model
+            id = model?.id ?? 0
             
             /// 渲染底部视图UI
             confirmView.orderStatus = MalaOrderStatus(rawValue: model?.status ?? "d") ?? .Canceled
+            confirmView.price = model?.amount ?? 0
         }
     }
     
@@ -101,10 +103,40 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         })
     }
     
+    private func cancelOrder() {
+        
+        println("取消订单")
+        ThemeHUD.showActivityIndicator()
+        
+        cancelOrderWithId(id, failureHandler: { (reason, errorMessage) in
+            ThemeHUD.hideActivityIndicator()
+            
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("OrderFormInfoViewController - cancelOrder Error \(errorMessage)")
+            }
+            }, completion:{ [weak self] (result) in
+                ThemeHUD.hideActivityIndicator()
+                println("取消订单结果 - \(result)")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if result {
+                        MalaUnpaidOrderCount -= 1
+                        self?.ShowTost("订单取消成功")
+                        self?.confirmView.orderStatus = .Canceled
+                    }else {
+                        self?.ShowTost("订单取消失败")
+                    }
+                })
+            })
+    }
+    
+    
+    
     // MARK: - Delegate
     ///  立即支付
     func OrderFormPayment() {
-    
+        
     }
     
     ///  再次购买
@@ -115,5 +147,15 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
     ///  取消订单
     func OrderFormCancel() {
         
+        MalaAlert.confirmOrCancel(
+            title: "取消订单",
+            message: "确认取消订单吗？",
+            confirmTitle: "取消订单",
+            cancelTitle: "暂不取消",
+            inViewController: self,
+            withConfirmAction: { [weak self] () -> Void in
+                self?.cancelOrder()
+            }, cancelAction: { () -> Void in
+        })
     }
 }
