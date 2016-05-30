@@ -23,9 +23,15 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.reloadData()
+                delay(0.5) {
+                    self?.shouldHiddenTimeSlots = false
+                    self?.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                }
             })
         }
     }
+    // 是否隐藏时间表
+    var shouldHiddenTimeSlots: Bool = true
     
     
     // MARK: - Constructed
@@ -52,10 +58,6 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         registerClass(OrderFormTimeScheduleCell.self, forCellReuseIdentifier: OrderFormCellReuseId[1]!)
         registerClass(OrderFormPaymentChannelCell.self, forCellReuseIdentifier: OrderFormCellReuseId[2]!)
         registerClass(OrderFormOtherInfoCell.self, forCellReuseIdentifier: OrderFormCellReuseId[3]!)
-        
-        delay(0.3) {
-            self.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-        }
     }
     
     // MARK: - Delegate
@@ -93,11 +95,9 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             
         case 1:
             let cell = reuseCell as! OrderFormTimeScheduleCell
-            if cell.hasBeenLayout == false {
-                cell.classPeriod = self.model?.hours ?? 0
-                cell.timeSchedules = self.model?.timeSlots
-            }
-            cell.tableView = self
+            cell.classPeriod = self.model?.hours ?? 0
+            cell.timeSchedules = self.model?.timeSlots
+            cell.shouldHiddenTimeSlots = self.shouldHiddenTimeSlots
             return cell
             
         case 2:

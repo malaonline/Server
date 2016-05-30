@@ -20,14 +20,20 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     /// 上课时间列表
     var timeSchedules: [[NSTimeInterval]]? {
         didSet {
+            println("newValue: \(timeSchedules)")
+            println("oldValue: \(oldValue)")
+            
             if (timeSchedules ?? []) != (oldValue ?? []) && timeSchedules != nil {
                 parseTimeSchedules()
-                hasBeenLayout = true
             }
         }
     }
-    var hasBeenLayout = false
-    weak var tableView: UITableView?
+    /// 是否隐藏时间表（默认隐藏）
+    var shouldHiddenTimeSlots: Bool = true {
+        didSet {
+            self.timeLineView?.hidden = shouldHiddenTimeSlots
+        }
+    }
     
     
     // MARK: - Components
@@ -81,10 +87,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         return label
     }()
     /// 上课时间表控件
-    private lazy var timeLineView: ThemeTimeLine = {
-        let timeLineView = ThemeTimeLine()
-        return timeLineView
-    }()
+    private  var timeLineView: ThemeTimeLine?
     
     
     // MARK: - Contructed
@@ -159,13 +162,14 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         let result = parseTimeSlots((self.timeSchedules ?? []))
         
         // 设置UI
-        let timeLine = ThemeTimeLine(times: result.dates, descs: result.times)
+        self.timeLineView = ThemeTimeLine(times: result.dates, descs: result.times)
+        timeLineView?.hidden = true
         
-        self.contentView.addSubview(timeLine)
+        self.contentView.addSubview(timeLineView!)
         topLayoutView.snp_updateConstraints { (make) in
-            make.bottom.equalTo(timeLine.snp_top).offset(-MalaLayout_Margin_10)
+            make.bottom.equalTo(timeLineView!.snp_top).offset(-MalaLayout_Margin_10)
         }
-        timeLine.snp_updateConstraints { (make) in
+        timeLineView!.snp_updateConstraints { (make) in
             make.top.equalTo(topLayoutView.snp_bottom).offset(MalaLayout_Margin_10)
             make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
             make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)

@@ -77,6 +77,8 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
     /// 获取订单详情信息
     private func loadOrderFormInfo() {
         
+        ThemeHUD.showActivityIndicator()
+        
         // 获取订单信息
         getOrderInfo(id, failureHandler: { (reason, errorMessage) -> Void in
             ThemeHUD.hideActivityIndicator()
