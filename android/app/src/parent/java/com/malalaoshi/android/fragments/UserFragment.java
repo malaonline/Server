@@ -519,7 +519,7 @@ public class UserFragment extends BaseFragment {
                         //更新UI
                         updateUI();
                         //跳转到登录页面
-                        AuthUtils.redirectLoginActivity(getContext());
+                        //AuthUtils.redirectLoginActivity(getContext());
                         StatReporter.userLogOut();
                     }
 
