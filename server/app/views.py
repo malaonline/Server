@@ -1162,9 +1162,35 @@ class StudyReportView(ParentBasedMixin, APIView):
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
-        if total_nums == 0 or exercise_total_nums == 0:
-            math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
-            ans_data['abilities'] = [{'key': ab, 'val': 0} for ab in math_ability_keys]
-            # 后面没有数据, 都是空
-            return JsonResponse(ans_data)
-        # TODO 带有数据的学习报告
+        math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
+        # if total_nums == 0 or exercise_total_nums == 0:
+        #     ans_data['abilities'] = [{'key': ab, 'val': 0} for ab in math_ability_keys]
+        #     # 后面没有数据, 都是空
+        #     return JsonResponse(ans_data)
+
+        # 错题知识点分布
+        ans_data['error_rates'] = self._get_error_rates(url, params)
+
+        return JsonResponse(ans_data)
+
+    def _get_error_rates(self, url, params):
+        '''
+        错题知识点分布
+        :param url:
+        :param params:
+        :return: list
+        '''
+        resp = requests.get(url + '/error-knowledge-point', params=params)
+        if resp.status_code != 200:
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_list = ret_json.get('data')
+            return [{'id': ep.get('tag_id'),
+                     'name': ep.get('tag_name'),
+                     'rate': ep.get('per')
+                     } for ep in ret_list]
+        else:
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))

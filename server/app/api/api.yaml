@@ -111,7 +111,7 @@ definitions:
       exercise_fin_nums:
         type: integer
         description: 累计答题完成数
-      error_distribution:
+      error_rates:
         $ref: '#/definitions/ExerciseErrorDistribution'
       month_trend:
         $ref: '#/definitions/ExerciseMonthTrend'
@@ -133,7 +133,7 @@ definitions:
         type: integer
       name:
         type: string
-      percent:
+      rate:
         type: number
   ExerciseMonthTrend:
     description: 按月显示练习量走势
