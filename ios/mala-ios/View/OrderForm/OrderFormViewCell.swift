@@ -429,6 +429,9 @@ class OrderFormViewCell: UITableViewCell {
             cancelButton.hidden = true
             confirmButton.hidden = true
             break
+            
+        case .Confirm:
+            break
         }
     }
     

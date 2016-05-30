@@ -37,6 +37,9 @@ class OrderFormStatusCell: UITableViewCell {
                 case .Refund:
                     self.statusLabel.text = "退款成功"
                     break
+                    
+                case .Confirm:
+                    break
                 }
             }
             

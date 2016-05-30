@@ -18,6 +18,9 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         didSet {
             /// 渲染订单UI样式
             tableView.model = model
+            
+            /// 渲染底部视图UI
+            confirmView.orderStatus = MalaOrderStatus(rawValue: model?.status ?? "d") ?? .Canceled
         }
     }
     

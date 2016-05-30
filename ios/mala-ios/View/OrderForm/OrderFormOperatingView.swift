@@ -28,7 +28,7 @@ class OrderFormOperatingView: UIView {
         }
     }
     /// 订单状态
-    private var orderStatus: MalaOrderStatus = .Canceled {
+    var orderStatus: MalaOrderStatus = .Canceled {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.changeDisplayMode()
@@ -205,6 +205,9 @@ class OrderFormOperatingView: UIView {
             // 已退款
             cancelButton.hidden = true
             confirmButton.hidden = true
+            break
+        case .Confirm:
+            
             break
         }
     }

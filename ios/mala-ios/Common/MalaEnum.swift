@@ -54,6 +54,7 @@ enum MalaOrderStatus: String {
     case Paid = "p"
     case Canceled = "d"
     case Refund = "r"
+    case Confirm = "c"
 }
 
 ///  奖学金状态
