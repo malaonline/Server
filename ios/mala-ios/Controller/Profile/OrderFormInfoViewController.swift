@@ -92,7 +92,7 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
                 println("订单获取成功 \(order)")
                 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    ThemeHUD.hideActivityIndicator()
+//                    ThemeHUD.hideActivityIndicator()
                     self?.model = order
                 }
         })

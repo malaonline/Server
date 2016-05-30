@@ -26,13 +26,13 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
             self.shouldHiddenPaymentChannel = (model?.status == MalaOrderStatus.Canceled.rawValue) || (model?.status == MalaOrderStatus.Penging.rawValue)
             
             // 刷新数据渲染UI
-            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                self?.reloadData()
-                delay(0.5) {
-                    self?.shouldHiddenTimeSlots = false
-                    self?.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                }
-            })
+            ThemeHUD.showActivityIndicator()
+            self.reloadData()
+            delay(0.5) { [weak self] in
+                self?.shouldHiddenTimeSlots = false
+                self?.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                ThemeHUD.hideActivityIndicator()
+            }
         }
     }
     // 是否隐藏时间表
