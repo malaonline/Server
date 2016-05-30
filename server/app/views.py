@@ -1041,6 +1041,7 @@ class StudyReportView(ParentBasedMixin, APIView):
     SUMMARY = 'summary'
 
     SUPPORTED_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS.split(',')
+    MATH_ABILITY_KEYS = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
 
     @classmethod
     def get_subject_en(cls, name):
@@ -1162,7 +1163,6 @@ class StudyReportView(ParentBasedMixin, APIView):
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
-        math_ability_keys = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
         # if total_nums == 0 or exercise_total_nums == 0:
         #     ans_data['abilities'] = [{'key': ab, 'val': 0} for ab in math_ability_keys]
         #     # 后面没有数据, 都是空
@@ -1174,6 +1174,8 @@ class StudyReportView(ParentBasedMixin, APIView):
         ans_data['month_trend'] = self._get_month_trend(url, params)
         # 指定学生一级/二级知识点正确率
         ans_data['knowledges_accuracy'] = self._get_knowledges_accuracy(url, params)
+        # 能力结构分析
+        ans_data['abilities'] = self._get_abilities(url, params, self.MATH_ABILITY_KEYS)
 
         return JsonResponse(ans_data)
 
@@ -1242,6 +1244,27 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'total_item': ep.get('total_item'),
                      'right_item': ep.get('total_right_item')
                      } for ep in ret_list]
+        else:
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+
+    def _get_abilities(self, url, params, ability_keys):
+        '''
+        能力结构分析
+        :param url:
+        :param params:
+        :return: list
+        '''
+        resp = requests.get(url + '/ability-structure', params=params)
+        if resp.status_code != 200:
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_obj = ret_json.get('data')
+            if not ret_obj:
+                return [{'key': ab, 'val': 0} for ab in ability_keys]
+            return [{'key': k, 'val': v} for k,v in ret_obj.items()]
         else:
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
