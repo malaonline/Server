@@ -2,7 +2,6 @@
 set -e
 
 # Build configurations
-scheme="parent"
 ipaDir="build/ipa/"
 configuration="Release"
 derivedDataPath="build/derivedData"
@@ -24,26 +23,35 @@ security list-keychains -s ${KEYCHAIN_PATH}
 
 
 # Compile Project Release
-buildPath="build/${scheme}.xcarchive"
-xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 
-python --version
-python replace_info.py
 
 # Export dev package
-cfg="dev"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
+scheme="parent-dev"
+buildPath="build/${scheme}.xcarchive"
+ipaName="${ipaDir}${scheme}_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
-# Export stage package
-cfg="stage"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
+
+if [ $1 = "dev" ]
+then
+    echo 'Only build dev for features branches.'
+    exit
+fi
+
+# Building stage package
+scheme="parent-stage"
+buildPath="build/${scheme}.xcarchive"
+ipaName="${ipaDir}${scheme}_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
-# Export prd package
-cfg="prd"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
-mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
+# Buildng prd package
+scheme="parent-prd"
+buildPath="build/${scheme}.xcarchive"
+ipaName="${ipaDir}${scheme}_release.ipa"
+
+xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
