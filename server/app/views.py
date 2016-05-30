@@ -1176,6 +1176,8 @@ class StudyReportView(ParentBasedMixin, APIView):
         ans_data['knowledges_accuracy'] = self._get_knowledges_accuracy(url, params)
         # 能力结构分析
         ans_data['abilities'] = self._get_abilities(url, params, self.MATH_ABILITY_KEYS)
+        # 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
+        ans_data['score_analyses'] = self._get_score_analyses(url, params)
 
         return JsonResponse(ans_data)
 
@@ -1265,6 +1267,29 @@ class StudyReportView(ParentBasedMixin, APIView):
             if not ret_obj:
                 return [{'key': ab, 'val': 0} for ab in ability_keys]
             return [{'key': k, 'val': v} for k,v in ret_obj.items()]
+        else:
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+
+    def _get_score_analyses(self, url, params):
+        '''
+        各知识点全部用户平均得分率及指定学生得分率
+        :param url:
+        :param params:
+        :return: list
+        '''
+        resp = requests.get(url + '/my-average-score', params=params)
+        if resp.status_code != 200:
+            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        ret_json = json.loads(resp.content.decode('utf-8'))
+        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+            ret_list = ret_json.get('data')
+            return [{'id': ep.get('tag_id'),
+                     'name': ep.get('tag_name'),
+                     'my_score': ep.get('my_score'),
+                     'ave_score': ep.get('ave_score')
+                     } for ep in ret_list]
         else:
             logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
