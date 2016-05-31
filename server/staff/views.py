@@ -78,8 +78,8 @@ class BaseStaffView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         url_name = request.resolver_match.url_name
         for group in self.request.user.groups.all():
-            for url in group.staffpermission_set.all():
-                if url.allowed_url_name == url_name:
+            for staff_permission in group.staffpermission_set.all():
+                if staff_permission.allowed_url_name == url_name:
                     return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
         return HttpResponse("Not Allowed.", status=403)
