@@ -2572,6 +2572,7 @@ class Evaluation(BaseModel):
             return True
         return False
 
+
 class Letter(BaseModel):
     teacher = models.ForeignKey(Teacher)
     parent = models.ForeignKey(Parent)
@@ -2585,3 +2586,11 @@ class Letter(BaseModel):
 
     def __str__(self):
         return '%s %s' % (self.teacher.name, self.parent.student_name)
+
+
+class StaffPermission(BaseModel):
+    groups = models.ManyToManyField(Group)
+    allowed_url_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return '%s' % self.allowed_url_name
