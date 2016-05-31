@@ -4,7 +4,7 @@ import re
 
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
-from Crypto.Hash import SHA256
+from Crypto.Hash import SHA, SHA256
 
 from django.utils import timezone
 
@@ -35,6 +35,33 @@ def decode_base64(data):
     if missing_padding:
         data += b'='*missing_padding
     return base64.decodestring(data)
+
+
+def sign_sha1(body, pri_key):
+    '''
+    sign body with pri_key by hash SHA1, return base64 bytes
+
+    body: binary
+    pur_key: binary
+    '''
+    rsa_pri = RSA.importKey(pri_key)
+    pk = PKCS1_v1_5.new(rsa_pri)
+    h = SHA.new(body)
+    cbs = pk.sign(h)
+    return base64.encodebytes(cbs)
+
+
+def verify_sha1_sig(body, sig, pub_key):
+    '''
+    body: binary
+    sig: binary
+    pubkey: binary
+    '''
+    sig = decode_base64(sig)
+    digest = SHA.new(body)
+    pubkey = RSA.importKey(pub_key)
+    pkcs = PKCS1_v1_5.new(pubkey)
+    return pkcs.verify(digest, sig)
 
 
 def verify_sig(body, sig, pub_key):

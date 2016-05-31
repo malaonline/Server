@@ -4,6 +4,7 @@ import datetime
 import itertools
 from collections import OrderedDict
 import requests
+import hashlib
 
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404, redirect
@@ -28,7 +29,7 @@ from app import models
 from app.pingpp import pingpp
 from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, TPL_STU_PAY_FAIL
-from app.utils.algorithm import verify_sig
+from app.utils.algorithm import verify_sig, verify_sha1_sig, sign_sha1
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError, KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
 
@@ -1033,7 +1034,7 @@ class StudyReportView(ParentBasedMixin, APIView):
     COM_PARAMS = {
         'api_id': settings.KUAILEXUE_API_ID,
         'api_version': 1,
-        'from': settings.KUAILEXUE_PARTNER
+        'partner': settings.KUAILEXUE_PARTNER
     }
     # default params value
     ALL = 'all'
@@ -1066,6 +1067,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         phone = parent.user.profile.phone
         params = self.COM_PARAMS.copy()
         params.update({'uid': phone})
+        self._sign_params(params)
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
@@ -1144,6 +1146,24 @@ class StudyReportView(ParentBasedMixin, APIView):
         ans_data['score_analyses'] = self._get_score_analyses(url, params)
 
         return JsonResponse(ans_data)
+
+    def _sign_params(self, params, sign_key="sign"):
+        body = self._get_param_hash(params)
+        pri_key = open(settings.KUAILEXUE_API_PRI_KEY_PATH, 'rb').read()
+        params[sign_key] = sign_sha1(body.encode('utf-8'), pri_key).decode('utf-8')
+        # if settings.TESTING:
+        #     self._verify_sign(params)
+
+    def _verify_sign(self, params, sign_key="sign"):
+        body = self._get_param_hash(params)
+        pub_key = open(settings.KUAILEXUE_API_PUB_KEY_PATH, 'rb').read()
+        return (verify_sha1_sig(body.encode('utf-8'), params[sign_key].encode('utf-8'), pub_key))
+
+    def _get_param_hash(self, params, sign_key="sign"):
+        s = ''.join(['%s=%s' % (key, params[key]) for key in sorted(params)
+                            if key != sign_key and params[key] is not None and params[key] is not ''])
+        hs = hashlib.md5(s.encode('utf-8')).hexdigest()
+        return hs
 
     def _get_total_nums(self, url, params):
         '''

@@ -288,5 +288,7 @@ KUAILEXUE_PARTNER = 'aotu'
 KUAILEXUE_API_ID = 'aotu'
 KUAILEXUE_SERVER = 'http://123.57.152.57'
 KUAILEXUE_REPORT_SUPPORTED_SUBJECTS = '数学' # 学习报告支持的科目, 英文逗号分隔的科目中文, 如: "数学,英语"
+KUAILEXUE_API_PRI_KEY_PATH = '/opt/keys-pros/mala_kuailexue_pri_key.pem' # 用于调用快乐学API时的私钥
+KUAILEXUE_API_PUB_KEY_PATH = '/opt/keys-pros/mala_to_kuailexue.pub'      # 用于快乐学API, 给快乐学用的公钥
 
 from .local_settings import *
