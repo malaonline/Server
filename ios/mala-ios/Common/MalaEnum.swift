@@ -110,6 +110,8 @@ public enum CourseStatus: String {
     case Future = "future"
 }
 
+
+// MARK: - Study Report
 ///  学习报告状态
 ///
 ///  - LoggingIn:    登录中
@@ -123,4 +125,22 @@ enum MalaLearningReportStatus: String {
     case UnSigned = "l"
     case UnSignedMath = "us"
     case MathSigned = "sm"
+}
+///  学习报告-能力结构
+///
+///  - abstract: 抽象概括能力
+///  - reason:   推理论证能力
+///  - appl:     实际应用能力
+///  - spatial:  空间想象能力
+///  - calc:     运算求解能力
+///  - data:     数据分析能力
+///  - unkown:   未知(内部处理异常使用)
+enum MalaStudyReportAbility: String {
+    case abstract = "abstract"
+    case reason = "reason"
+    case appl = "appl"
+    case spatial = "spatial"
+    case calc = "calc"
+    case data = "data"
+    case unkown = "unkown"
 }
