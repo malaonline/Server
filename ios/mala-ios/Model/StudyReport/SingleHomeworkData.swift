@@ -23,4 +23,9 @@ class SingleHomeworkData: NSObject {
     override init() {
         super.init()
     }
+    
+    init(dict: [String: AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
 }

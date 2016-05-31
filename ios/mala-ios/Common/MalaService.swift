@@ -756,6 +756,26 @@ func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, comple
     }
 }
 
+///  获取单个学科的学习报告
+///
+///  - parameter id: 学科id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getStudyReport(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: SubjectReport -> Void) {
+    /// 返回值解析器
+    let parse: JSONDictionary -> SubjectReport = { data in
+        return parseStudyReport(data)
+    }
+    
+    let resource = authJsonResource(path: "/study_report/\(id)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Other
 ///  获取用户协议HTML
@@ -1090,4 +1110,9 @@ let parseStudyReportResult: JSONDictionary -> [SimpleReportResultModel] = { resu
         }
     }
     return reports
+}
+/// 单门学习报告数据JSON解析器
+let parseStudyReport: JSONDictionary -> SubjectReport = { reportInfo in
+    var report = SubjectReport(dict: reportInfo)
+    return report
 }
