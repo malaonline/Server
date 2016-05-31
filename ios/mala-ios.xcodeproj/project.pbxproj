@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005D41E09EB2398DD895FAE4 /* Pods_parent_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB469CB0C8AEB9D96BB02D2 /* Pods_parent_dev.framework */; };
 		3027F6521C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		3027F6531C3F680400296ED3 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		3037B5831C3A84C2005672D9 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
@@ -279,8 +280,6 @@
 		35FDCF111CAD348900A25FE8 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F49BD59A1CA4131D00EB3CCF /* SKPhotoBrowser.bundle */; };
 		35FDCF121CAD349400A25FE8 /* FilterCondition.plist in Resources */ = {isa = PBXBuildFile; fileRef = 307788511C2A3D7A007AF6B0 /* FilterCondition.plist */; };
 		35FDCF131CAD34A000A25FE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 304135881C23AE6400830C43 /* Assets.xcassets */; };
-		35FF7A3B1CF831C7000A70EE /* Pods_parent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FF7A3A1CF831C7000A70EE /* Pods_parent.framework */; };
-		35FF7A3F1CF8325A000A70EE /* Pods_parent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FF7A3A1CF831C7000A70EE /* Pods_parent.framework */; };
 		35FF7A401CF8325A000A70EE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CAE4B31CAAB4360071772D /* libsqlite3.tbd */; };
 		35FF7A411CF8325A000A70EE /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */; };
 		35FF7A421CF8325A000A70EE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D1A01CA2BFFA00B25704 /* libz.tbd */; };
@@ -493,7 +492,6 @@
 		35FF7B141CF8325A000A70EE /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		35FF7B151CF8325A000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FF7B161CF8325A000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
-		35FF7B221CF83264000A70EE /* Pods_parent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35FF7A3A1CF831C7000A70EE /* Pods_parent.framework */; };
 		35FF7B231CF83264000A70EE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CAE4B31CAAB4360071772D /* libsqlite3.tbd */; };
 		35FF7B241CF83264000A70EE /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */; };
 		35FF7B251CF83264000A70EE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D1A01CA2BFFA00B25704 /* libz.tbd */; };
@@ -708,6 +706,9 @@
 		35FF7BF91CF83264000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FF7C051CF83568000A70EE /* parent-stage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FF7C021CF83568000A70EE /* parent-stage-Info.plist */; };
 		35FF7C061CF83568000A70EE /* parent-prd-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FF7C031CF83568000A70EE /* parent-prd-Info.plist */; };
+		4D9B08D764A72A4D36B254FE /* Pods_parent_prd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F742AA8DF8AB88279B2732 /* Pods_parent_prd.framework */; };
+		A2A4F7446A4B188ACFB1088E /* Pods_parentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E70F673BEA60E7C90A5D42A1 /* Pods_parentTests.framework */; };
+		BE0345859A399C0553F20A0B /* Pods_parent_stage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B118D1E2CC01D0D747BD92 /* Pods_parent_stage.framework */; };
 		F402C9951C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
 		F402C9961C4F69C100E229FA /* TeacherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F402C9941C4F69C100E229FA /* TeacherTableView.swift */; };
 		F404D47F1C8436A700C19C44 /* PaymentBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404D47E1C8436A700C19C44 /* PaymentBottomView.swift */; };
@@ -943,6 +944,8 @@
 
 /* Begin PBXFileReference section */
 		230C79F8DFCE666838AA02E6 /* Pods-parentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parentTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-parentTests/Pods-parentTests.release.xcconfig"; sourceTree = "<group>"; };
+		27E1EB202C2BF124A400C17B /* Pods-parent-dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parent-dev/Pods-parent-dev.debug.xcconfig"; sourceTree = "<group>"; };
+		2BB469CB0C8AEB9D96BB02D2 /* Pods_parent_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_parent_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E65424D1C219BA3007AE628 /* TeacherCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherCollectionCell.swift; sourceTree = "<group>"; };
 		2ECF91491C2ACE7000904C3A /* TeacherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherModel.swift; sourceTree = "<group>"; };
 		3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsSignupView.swift; sourceTree = "<group>"; };
@@ -1023,15 +1026,20 @@
 		35D7A3451C0FE851007D7679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		35E6CB3E1CA0E8C900BA9B38 /* libz.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.tbd; path = usr/lib/libz.1.tbd; sourceTree = SDKROOT; };
-		35FF7A3A1CF831C7000A70EE /* Pods_parent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_parent.framework; path = "Pods/../build/Release-iphoneos/Pods_parent.framework"; sourceTree = "<group>"; };
 		35FF7B1D1CF8325A000A70EE /* parent-stage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "parent-stage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35FF7C001CF83264000A70EE /* parent-prd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "parent-prd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35FF7C021CF83568000A70EE /* parent-stage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "parent-stage-Info.plist"; sourceTree = "<group>"; };
 		35FF7C031CF83568000A70EE /* parent-prd-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "parent-prd-Info.plist"; sourceTree = "<group>"; };
 		35FF7C041CF83568000A70EE /* parent-dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "parent-dev-Info.plist"; sourceTree = "<group>"; };
-		B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parent/Pods-parent.debug.xcconfig"; sourceTree = "<group>"; };
-		CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent.release.xcconfig"; path = "Pods/Target Support Files/Pods-parent/Pods-parent.release.xcconfig"; sourceTree = "<group>"; };
+		360F4FA05A1E5736460744B9 /* Pods-parent-prd.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-prd.release.xcconfig"; path = "Pods/Target Support Files/Pods-parent-prd/Pods-parent-prd.release.xcconfig"; sourceTree = "<group>"; };
+		55F742AA8DF8AB88279B2732 /* Pods_parent_prd.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_parent_prd.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C1FCFE86B8E94F22F978817 /* Pods-parent-stage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-stage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parent-stage/Pods-parent-stage.debug.xcconfig"; sourceTree = "<group>"; };
+		61B118D1E2CC01D0D747BD92 /* Pods_parent_stage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_parent_stage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CC92B14F9947764A79215B8 /* Pods-parent-stage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-stage.release.xcconfig"; path = "Pods/Target Support Files/Pods-parent-stage/Pods-parent-stage.release.xcconfig"; sourceTree = "<group>"; };
+		C898A08D259A5009D3EEE3C7 /* Pods-parent-dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-parent-dev/Pods-parent-dev.release.xcconfig"; sourceTree = "<group>"; };
 		D1294FA97F450E4DACDABEB5 /* Pods-parentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parentTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parentTests/Pods-parentTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E70F673BEA60E7C90A5D42A1 /* Pods_parentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_parentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F12B72CA706C78F519A08F8A /* Pods-parent-prd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-parent-prd.debug.xcconfig"; path = "Pods/Target Support Files/Pods-parent-prd/Pods-parent-prd.debug.xcconfig"; sourceTree = "<group>"; };
 		F402C9941C4F69C100E229FA /* TeacherTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherTableView.swift; sourceTree = "<group>"; };
 		F404D47E1C8436A700C19C44 /* PaymentBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentBottomView.swift; sourceTree = "<group>"; };
 		F40B53AB1C7ED80800C20037 /* MalaService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaService.swift; sourceTree = "<group>"; };
@@ -1232,7 +1240,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35FF7A3B1CF831C7000A70EE /* Pods_parent.framework in Frameworks */,
 				35B1341E1CAAEA21001D2D34 /* libsqlite3.tbd in Frameworks */,
 				35B1341D1CAAE9FE001D2D34 /* libc++.1.tbd in Frameworks */,
 				F4D0D1A11CA2BFFA00B25704 /* libz.tbd in Frameworks */,
@@ -1241,6 +1248,7 @@
 				F40B53BC1C83ED3600C20037 /* Security.framework in Frameworks */,
 				F40B53BB1C83ED2F00C20037 /* SystemConfiguration.framework in Frameworks */,
 				F40B53BA1C83ED2600C20037 /* CFNetwork.framework in Frameworks */,
+				005D41E09EB2398DD895FAE4 /* Pods_parent_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1248,7 +1256,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35FF7A3F1CF8325A000A70EE /* Pods_parent.framework in Frameworks */,
 				35FF7A401CF8325A000A70EE /* libsqlite3.tbd in Frameworks */,
 				35FF7A411CF8325A000A70EE /* libc++.1.tbd in Frameworks */,
 				35FF7A421CF8325A000A70EE /* libz.tbd in Frameworks */,
@@ -1257,6 +1264,7 @@
 				35FF7A451CF8325A000A70EE /* Security.framework in Frameworks */,
 				35FF7A461CF8325A000A70EE /* SystemConfiguration.framework in Frameworks */,
 				35FF7A471CF8325A000A70EE /* CFNetwork.framework in Frameworks */,
+				BE0345859A399C0553F20A0B /* Pods_parent_stage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,7 +1272,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35FF7B221CF83264000A70EE /* Pods_parent.framework in Frameworks */,
 				35FF7B231CF83264000A70EE /* libsqlite3.tbd in Frameworks */,
 				35FF7B241CF83264000A70EE /* libc++.1.tbd in Frameworks */,
 				35FF7B251CF83264000A70EE /* libz.tbd in Frameworks */,
@@ -1273,6 +1280,7 @@
 				35FF7B281CF83264000A70EE /* Security.framework in Frameworks */,
 				35FF7B291CF83264000A70EE /* SystemConfiguration.framework in Frameworks */,
 				35FF7B2A1CF83264000A70EE /* CFNetwork.framework in Frameworks */,
+				4D9B08D764A72A4D36B254FE /* Pods_parent_prd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1288,6 +1296,7 @@
 				35CAE4B01CAAB3FE0071772D /* Security.framework in Frameworks */,
 				35CAE4AF1CAAB3F60071772D /* SystemConfiguration.framework in Frameworks */,
 				35CAE4AE1CAAB3E90071772D /* CFNetwork.framework in Frameworks */,
+				A2A4F7446A4B188ACFB1088E /* Pods_parentTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1594,7 +1603,6 @@
 		D07419656EA549B65E42E332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				35FF7A3A1CF831C7000A70EE /* Pods_parent.framework */,
 				35B1341A1CAAE94C001D2D34 /* libc++abi.tbd */,
 				35B134171CAAE767001D2D34 /* CoreTelephony.framework */,
 				35CAE4B31CAAB4360071772D /* libsqlite3.tbd */,
@@ -1607,6 +1615,10 @@
 				F40B53B81C83EC4600C20037 /* Security.framework */,
 				F40B53B61C83EC3B00C20037 /* SystemConfiguration.framework */,
 				F40B53B41C83EC2F00C20037 /* CFNetwork.framework */,
+				2BB469CB0C8AEB9D96BB02D2 /* Pods_parent_dev.framework */,
+				55F742AA8DF8AB88279B2732 /* Pods_parent_prd.framework */,
+				61B118D1E2CC01D0D747BD92 /* Pods_parent_stage.framework */,
+				E70F673BEA60E7C90A5D42A1 /* Pods_parentTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1616,8 +1628,12 @@
 			children = (
 				D1294FA97F450E4DACDABEB5 /* Pods-parentTests.debug.xcconfig */,
 				230C79F8DFCE666838AA02E6 /* Pods-parentTests.release.xcconfig */,
-				B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */,
-				CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */,
+				27E1EB202C2BF124A400C17B /* Pods-parent-dev.debug.xcconfig */,
+				C898A08D259A5009D3EEE3C7 /* Pods-parent-dev.release.xcconfig */,
+				F12B72CA706C78F519A08F8A /* Pods-parent-prd.debug.xcconfig */,
+				360F4FA05A1E5736460744B9 /* Pods-parent-prd.release.xcconfig */,
+				5C1FCFE86B8E94F22F978817 /* Pods-parent-stage.debug.xcconfig */,
+				9CC92B14F9947764A79215B8 /* Pods-parent-stage.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2352,7 +2368,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-stage/Pods-parent-stage-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		35FF7B191CF8325A000A70EE /* 📦 Copy Pods Resources */ = {
@@ -2367,7 +2383,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-stage/Pods-parent-stage-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		35FF7B201CF83264000A70EE /* 📦 Check Pods Manifest.lock */ = {
@@ -2410,7 +2426,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-prd/Pods-parent-prd-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		35FF7BFC1CF83264000A70EE /* 📦 Copy Pods Resources */ = {
@@ -2425,7 +2441,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-prd/Pods-parent-prd-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3D3EAE42F6D3C697B818DA0A /* 📦 Embed Pods Frameworks */ = {
@@ -2455,7 +2471,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-dev/Pods-parent-dev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6C6E437D6CB72F327DE53D7 /* 📦 Copy Pods Resources */ = {
@@ -2470,7 +2486,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent/Pods-parent-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-parent-dev/Pods-parent-dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DB9D4AE1C502183ED529BD36 /* 📦 Check Pods Manifest.lock */ = {
@@ -3433,7 +3449,7 @@
 		};
 		35D7A3471C0FE851007D7679 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */;
+			baseConfigurationReference = 27E1EB202C2BF124A400C17B /* Pods-parent-dev.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
@@ -3441,6 +3457,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -3466,7 +3483,7 @@
 		};
 		35D7A3481C0FE851007D7679 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */;
+			baseConfigurationReference = C898A08D259A5009D3EEE3C7 /* Pods-parent-dev.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
@@ -3474,6 +3491,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -3498,7 +3516,7 @@
 		};
 		35FF7B1B1CF8325A000A70EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */;
+			baseConfigurationReference = 5C1FCFE86B8E94F22F978817 /* Pods-parent-stage.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-stage";
@@ -3506,6 +3524,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -3531,7 +3550,7 @@
 		};
 		35FF7B1C1CF8325A000A70EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */;
+			baseConfigurationReference = 9CC92B14F9947764A79215B8 /* Pods-parent-stage.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-stage";
@@ -3539,6 +3558,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -3563,7 +3583,7 @@
 		};
 		35FF7BFE1CF83264000A70EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B87F1853F8CB6CD971624539 /* Pods-parent.debug.xcconfig */;
+			baseConfigurationReference = F12B72CA706C78F519A08F8A /* Pods-parent-prd.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3571,6 +3591,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",
@@ -3596,7 +3617,7 @@
 		};
 		35FF7BFF1CF83264000A70EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CD0846A2689E8F2C44F5B935 /* Pods-parent.release.xcconfig */;
+			baseConfigurationReference = 360F4FA05A1E5736460744B9 /* Pods-parent-prd.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3604,6 +3625,7 @@
 				CODE_SIGN_ENTITLEMENTS = parent/parent.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Release-iphoneos",

@@ -1,0 +1,12 @@
+EMBEDDED_CONTENT_CONTAINS_SWIFT = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/Alamofire" "$PODS_CONFIGURATION_BUILD_DIR/Charts" "$PODS_CONFIGURATION_BUILD_DIR/DateTools" "$PODS_CONFIGURATION_BUILD_DIR/IQKeyboardManagerSwift" "$PODS_CONFIGURATION_BUILD_DIR/Kingfisher" "$PODS_CONFIGURATION_BUILD_DIR/SnapKit" "${PODS_ROOT}/Pingpp/lib/Channels/Alipay" "${PODS_ROOT}/UMengAnalytics-NO-IDFA/umsdk_IOS_analyics_no-idfa_v4.0.3"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Pingpp" "${PODS_ROOT}/Headers/Public/UMengAnalytics-NO-IDFA"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+LIBRARY_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/UMengAnalytics-NO-IDFA/**" $(inherited) "${PODS_ROOT}/Pingpp/lib/Channels/Alipay" $(inherited) "${PODS_ROOT}/Pingpp/lib" $(inherited) "${PODS_ROOT}/Pingpp/lib/Dependencies/Network"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/Alamofire/Alamofire.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Charts/Charts.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/DateTools/DateTools.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Kingfisher/Kingfisher.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/SnapKit/SnapKit.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Pingpp" -isystem "${PODS_ROOT}/Headers/Public/UMengAnalytics-NO-IDFA"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"pingpp+alipay" -l"pingpp+network" -l"pingppcore" -l"sqlite3" -l"stdc++" -l"z" -framework "Alamofire" -framework "AlipaySDK" -framework "CFNetwork" -framework "Charts" -framework "CoreMotion" -framework "CoreTelephony" -framework "DateTools" -framework "IQKeyboardManagerSwift" -framework "Kingfisher" -framework "Security" -framework "SnapKit" -framework "SystemConfiguration" -framework "UMMobClick"
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}/Pods
