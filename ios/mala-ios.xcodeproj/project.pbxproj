@@ -818,7 +818,6 @@
 		F460652A1C97B168004056B1 /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651E1C97B168004056B1 /* ProfileViewController.swift */; };
 		F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460652C1C97B1C8004056B1 /* AboutViewController.swift */; };
-		F46CA2441CC8841C00457EA6 /* parent-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5881C3B7341005672D9 /* parent-Bridging-Header.h */; };
 		F46CA2451CC8841C00457EA6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1061B1CBBA35B001AD4AF /* BaseViewController.swift */; };
 		F46CA2461CC8841C00457EA6 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1061F1CBBA497001AD4AF /* BaseTableViewController.swift */; };
 		F46CA2471CC8841C00457EA6 /* Extension+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E106251CC0D390001AD4AF /* Extension+UIDevice.swift */; };
@@ -3206,7 +3205,6 @@
 			files = (
 				F452CD7F1CE07BB2001A30E8 /* OrderFormViewCell.swift in Sources */,
 				F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */,
-				F46CA2441CC8841C00457EA6 /* parent-Bridging-Header.h in Sources */,
 				F46CA2451CC8841C00457EA6 /* BaseViewController.swift in Sources */,
 				F46CA2461CC8841C00457EA6 /* BaseTableViewController.swift in Sources */,
 				F46CA2471CC8841C00457EA6 /* Extension+UIDevice.swift in Sources */,
