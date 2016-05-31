@@ -13,9 +13,9 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 知识点数据
-    var model: SingleTopicData? {
+    var model: [SingleTopicData] = MalaConfig.knowledgeSampleData() {
         didSet {
-            
+            resetData()
         }
     }
     
@@ -44,8 +44,9 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     // MARK: - Instance Method
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUserInterface()
         configure()
+        setupUserInterface()
+        resetData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,18 +58,6 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     private func configure() {
         titleLabel.text = "知识点分析"
         descDetailLabel.text = "学生各模块水平相差过大，应提前进行针对性练习，实数和相似等模块需提高，多边形板块可以适当减少练习量。"
-        
-        // 样本数据
-        let vals = [
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[0], color: MalaConfig.chartsColor()[0], rightNum: 11, totalNum: 30),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[1], color: MalaConfig.chartsColor()[1], rightNum: 21, totalNum: 50),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[2], color: MalaConfig.chartsColor()[2], rightNum: 109, totalNum: 117),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[7], color: MalaConfig.chartsColor()[3], rightNum: 21, totalNum: 50),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[4], color: MalaConfig.chartsColor()[4], rightNum: 114, totalNum: 120),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[5], color: MalaConfig.chartsColor()[5], rightNum: 21, totalNum: 50),
-            ThemeHorizontalBarData(title: MalaConfig.homeworkDataChartsTitle()[6], color: MalaConfig.chartsColor()[6], rightNum: 54, totalNum: 62)
-        ]
-        barChartView.vals = vals
     }
     
     private func setupUserInterface() {
@@ -93,5 +82,20 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
             make.right.equalTo(descView.snp_right)
             make.bottom.equalTo(descView.snp_top).offset(-10)
         }
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        
+    }
+    
+    // 重置数据
+    private func resetData() {
+        var index = -1
+        let vals = model.map { (data) -> ThemeHorizontalBarData in
+            index += 1
+            return ThemeHorizontalBarData(title: data.name, color: MalaConfig.chartsColor()[index], rightNum: data.rightItem, totalNum: data.totalItem)
+        }
+        barChartView.vals = vals
     }
 }

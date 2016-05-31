@@ -14,7 +14,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     /// 标题标签
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
-            text: "麻辣老师学生学习报告样本",
+            text: "",
             fontSize: 16,
             textColor: MalaColor_5E5E5E_0
         )
@@ -28,7 +28,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     /// 日期范围标签
     private lazy var dateLabel: UILabel = {
         let label = UILabel(
-            text: "2016年4月05～2016年5月30",
+            text: "",
             fontSize: 10,
             textColor: UIColor.whiteColor()
         )
@@ -53,7 +53,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     /// 学生姓名标签
     private lazy var nameLabel: UILabel = {
         let label = UILabel(
-            text: "姓名",
+            text: "",
             fontSize: 12,
             textColor: MalaColor_939393_0
         )
@@ -76,7 +76,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     /// 所在年级标签
     private lazy var gradeLabel: UILabel = {
         let label = UILabel(
-            text: "初中二年级",
+            text: "",
             fontSize: 12,
             textColor: MalaColor_939393_0
         )
@@ -93,6 +93,7 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
+        setupSampleData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -169,5 +170,13 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
             make.left.equalTo(gradeString.snp_left).offset(-20)
             make.right.equalTo(layoutView.snp_right)
         }
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        titleLabel.text = "麻辣老师学生学习报告样本"
+        dateLabel.text = "2016年4月17～2016年6月13"
+        nameLabel.text = "王琦"
+        gradeLabel.text = "初中二年级"
     }
 }

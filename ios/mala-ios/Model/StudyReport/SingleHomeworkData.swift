@@ -28,4 +28,11 @@ class SingleHomeworkData: NSObject {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }
+    
+    convenience init(id: Int, name: String, rate: NSNumber) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.rate = rate
+    }
 }

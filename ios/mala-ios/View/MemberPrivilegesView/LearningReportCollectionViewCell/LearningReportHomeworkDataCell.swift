@@ -13,9 +13,9 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     // MARK: - Property
     /// 作业数据
-    var model: SingleHomeworkData? {
+    var model: [SingleHomeworkData] = MalaConfig.homeworkSampleData() {
         didSet {
-            
+            resetData()
         }
     }
     
@@ -74,11 +74,6 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         pieChartView.drawSliceTextEnabled = false
         pieChartView.rotationEnabled = false
         pieChartView.legend.enabled = false
-//        pieChartView.legend.form = .Circle
-//        pieChartView.legend.formSize = 10
-//        pieChartView.legend.font = NSUIFont.systemFontOfSize(11)
-//        pieChartView.legend.textColor = MalaColor_939393_0
-//        pieChartView.legend.position = .BelowChartLeft
         pieChartView.descriptionText = ""
         return pieChartView
     }()
@@ -93,7 +88,8 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
-        configure()
+        setupSampleData()
+        resetData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,46 +98,6 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     
     // MARK: - Private Method
-    private func configure() {
-        // 样本数据
-        
-        // Y轴数据
-        let set = PieChartDataSet(
-            yVals: [
-                ChartDataEntry(value: 0.08, xIndex: 0),
-                ChartDataEntry(value: 0.09, xIndex: 1),
-                ChartDataEntry(value: 0.12, xIndex: 2),
-                ChartDataEntry(value: 0.17, xIndex: 3),
-                ChartDataEntry(value: 0.21, xIndex: 4),
-                ChartDataEntry(value: 0.03, xIndex: 5),
-                ChartDataEntry(value: 0.18, xIndex: 6),
-                ChartDataEntry(value: 0.07, xIndex: 7),
-                ChartDataEntry(value: 0.05, xIndex: 8),
-            ],
-            label: nil
-        )
-        set.colors = MalaConfig.chartsColor()
-        
-        // X轴数据
-        let xVals = MalaConfig.homeworkDataChartsTitle()
-        // 设置数据、样式
-        let data = PieChartData(xVals: xVals, dataSet: set)
-        
-        let pFormatter = NSNumberFormatter()
-        pFormatter.numberStyle = .PercentStyle
-        pFormatter.maximumFractionDigits = 1
-        pFormatter.multiplier = 1
-        pFormatter.percentSymbol = "%"
-        data.setValueFormatter(pFormatter)
-        data.setValueFont(UIFont.systemFontOfSize(11))
-        data.setValueTextColor(UIColor.whiteColor())
-        pieChartView.data = data
-        
-        for (index, string) in MalaConfig.homeworkDataChartsTitle().enumerate() {
-            legendView.addLegend(color: MalaConfig.chartsColor()[index], title: string)
-        }
-    }
-    
     private func setupUserInterface() {
         // Style
         contentView.backgroundColor = MalaColor_F2F2F2_0
@@ -196,6 +152,46 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
             make.left.equalTo(layoutView.snp_left).offset(27)
             make.right.equalTo(layoutView.snp_right).offset(-27)
             make.bottom.equalTo(layoutView.snp_bottom).multipliedBy(0.914)
+        }
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        
+    }
+    
+    // 重置数据
+    private func resetData() {
+        
+        // Y轴数据
+        let yVals = model.map { (data) -> ChartDataEntry in
+            return ChartDataEntry(value: data.rate.doubleValue, xIndex: data.id)
+        }
+        // X轴数据
+        let xVals = model.map { (data) -> String in
+            return data.name
+        }
+        
+        
+        // 设置数据
+        let dataSet = PieChartDataSet(yVals: yVals, label: nil)
+        dataSet.colors = MalaConfig.chartsColor()
+        let data = PieChartData(xVals: xVals, dataSet: dataSet)
+        
+        // 设置数据显示格式
+        let pFormatter = NSNumberFormatter()
+        pFormatter.numberStyle = .PercentStyle
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1
+        pFormatter.percentSymbol = "%"
+        data.setValueFormatter(pFormatter)
+        data.setValueFont(UIFont.systemFontOfSize(11))
+        data.setValueTextColor(UIColor.whiteColor())
+        pieChartView.data = data
+        
+        // 加载图例
+        for (index, string) in xVals.enumerate() {
+            legendView.addLegend(color: MalaConfig.chartsColor()[index], title: string)
         }
     }
 }

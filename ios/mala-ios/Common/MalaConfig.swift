@@ -203,4 +203,68 @@ public class MalaConfig {
             "实数", "函数初步", "多边形", "相似", "全等", "相似", "几何变换", "圆", "其它"
         ]
     }
+    
+    ///  ［作业数据分析页面］样本数据
+    class func homeworkSampleData() -> [SingleHomeworkData] {
+        return [
+            SingleHomeworkData(id: 1, name: "实数", rate: NSNumber(double: 0.15)),
+            SingleHomeworkData(id: 2, name: "函数初步", rate: NSNumber(double: 0.20)),
+            SingleHomeworkData(id: 3, name: "多边形", rate: NSNumber(double: 0.13)),
+            SingleHomeworkData(id: 4, name: "圆", rate: NSNumber(double: 0.06)),
+            SingleHomeworkData(id: 5, name: "全等", rate: NSNumber(double: 0.2)),
+            SingleHomeworkData(id: 6, name: "相似", rate: NSNumber(double: 0.06)),
+            SingleHomeworkData(id: 7, name: "几何变换", rate: NSNumber(double: 0.12)),
+            SingleHomeworkData(id: 8, name: "几何操作", rate: NSNumber(double: 0.08))
+        ]
+    }
+    
+    ///  ［题目数据分析页面］样本数据
+    class func topicSampleData() -> [SingleTimeIntervalData] {
+        return [
+            SingleTimeIntervalData(totalItem: 175, errorItem: 77, year: 2016, month: 4, day: 16),
+            SingleTimeIntervalData(totalItem: 185, errorItem: 63, year: 2016, month: 5, day: 1),
+            SingleTimeIntervalData(totalItem: 192, errorItem: 46, year: 2016, month: 5, day: 16),
+            SingleTimeIntervalData(totalItem: 225, errorItem: 43, year: 2016, month: 6, day: 1)
+        ]
+    }
+    
+    ///  ［知识点分析页面］样本数据
+    class func knowledgeSampleData() -> [SingleTopicData] {
+        return [
+            SingleTopicData(id: 1, name: "实数", totalItem: 100, rightItem: 49),
+            SingleTopicData(id: 2, name: "函数初步", totalItem: 90, rightItem: 20),
+            SingleTopicData(id: 3, name: "圆", totalItem: 100, rightItem: 80),
+            SingleTopicData(id: 4, name: "多边形", totalItem: 105, rightItem: 60),
+            SingleTopicData(id: 5, name: "全等", totalItem: 100, rightItem: 30),
+            SingleTopicData(id: 6, name: "相似", totalItem: 125, rightItem: 95),
+            SingleTopicData(id: 7, name: "几何变换", totalItem: 80, rightItem: 40),
+            SingleTopicData(id: 8, name: "几何操作", totalItem: 70, rightItem: 40),
+        ]
+    }
+    
+    ///  ［能力结构分析页面］样本数据
+    class func abilitySampleData() -> [SingleAbilityData] {
+        return [
+            SingleAbilityData(name: "reason", value: 60),
+            SingleAbilityData(name: "data", value: 30),
+            SingleAbilityData(name: "spatial", value: 42),
+            SingleAbilityData(name: "calc", value: 33),
+            SingleAbilityData(name: "appl", value: 82),
+            SingleAbilityData(name: "abstract", value: 66)
+        ]
+    }
+    
+    ///  ［提分点分析页面］样本数据
+    class func scoreSampleData() -> [SingleTopicScoreData] {
+        return [
+            SingleTopicScoreData(id: 1, name: "", score: NSNumber(double: 0.47), aveScore: NSNumber(double: 0.72)),
+            SingleTopicScoreData(id: 2, name: "", score: NSNumber(double: 0.23), aveScore: NSNumber(double: 0.64)),
+            SingleTopicScoreData(id: 3, name: "", score: NSNumber(double: 0.80), aveScore: NSNumber(double: 0.70)),
+            SingleTopicScoreData(id: 4, name: "", score: NSNumber(double: 0.56), aveScore: NSNumber(double: 0.59)),
+            SingleTopicScoreData(id: 5, name: "", score: NSNumber(double: 0.27), aveScore: NSNumber(double: 0.51)),
+            SingleTopicScoreData(id: 6, name: "", score: NSNumber(double: 0.77), aveScore: NSNumber(double: 0.62)),
+            SingleTopicScoreData(id: 7, name: "", score: NSNumber(double: 0.50), aveScore: NSNumber(double: 0.77)),
+            SingleTopicScoreData(id: 8, name: "", score: NSNumber(double: 0.55), aveScore: NSNumber(double: 0.21))
+        ]
+    }
 }

@@ -13,9 +13,9 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 题目数据
-    var model: SingleTimeIntervalData? {
+    var model: [SingleTimeIntervalData] = MalaConfig.topicSampleData() {
         didSet {
-            
+            resetData()
         }
     }
     
@@ -69,6 +69,8 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         super.init(frame: frame)
         configure()
         setupUserInterface()
+        setupSampleData()
+        resetData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,46 +82,6 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
     private func configure() {
         titleLabel.text = "题目数据分析"
         descDetailLabel.text = "学生4月上旬正确率有上升空间，4月下旬经过大量练习题练习，接触题型增多，通过针对性的专项模块练习，5月下旬正确率明显达到了优秀水平。"
-        
-        // 样本数据
-        let yVals1 = [
-            ChartDataEntry(value: 0, xIndex: 0),
-            ChartDataEntry(value: 47, xIndex: 1),
-            ChartDataEntry(value: 100, xIndex: 2),
-            ChartDataEntry(value: 53, xIndex: 3),
-            ChartDataEntry(value: 53, xIndex: 4),
-            ChartDataEntry(value: 0, xIndex: 5)
-        ]
-        let set1 = LineChartDataSet(yVals: yVals1, label: "答题数量")
-        set1.lineWidth = 0
-        set1.fillAlpha = 1
-        set1.setColor(MalaColor_BBDDF6_0)
-        set1.fillColor = MalaColor_BBDDF6_0
-        set1.drawCirclesEnabled = false
-        set1.drawValuesEnabled = false
-        set1.drawFilledEnabled = true
-        
-        let yVals2 = [
-            ChartDataEntry(value: 0, xIndex: 0),
-            ChartDataEntry(value: 30, xIndex: 1),
-            ChartDataEntry(value: 90, xIndex: 2),
-            ChartDataEntry(value: 23, xIndex: 3),
-            ChartDataEntry(value: 48, xIndex: 4),
-            ChartDataEntry(value: 0, xIndex: 5)
-            ]
-        let set2 = LineChartDataSet(yVals: yVals2, label: "正确数量")
-        set2.lineWidth = 0
-        set2.fillAlpha = 1
-        set2.setColor(MalaColor_75CC97_0)
-        set2.fillColor = MalaColor_75CC97_0
-        set2.drawCirclesEnabled = false
-        set2.drawValuesEnabled = false
-        set2.drawFilledEnabled = true
-        
-        let data = LineChartData(xVals: ["", "4月上", "4月下", "5月上", "5月下", ""], dataSets: [set1, set2])
-        data.setValueTextColor(MalaColor_5E5E5E_0)
-        data.setValueFont(UIFont.systemFontOfSize(10))
-        lineChartView.data = data
     }
     
     private func setupUserInterface() {
@@ -133,5 +95,70 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
             make.right.equalTo(descView.snp_right)
             make.bottom.equalTo(layoutView.snp_bottom).multipliedBy(0.68)
         }
+    }
+    
+    // 重置数据
+    private func resetData() {
+        
+        var totalIndex = 0
+        var rightIndex = 0
+        
+        // 总练习数据
+        var yValsTotal = model.map { (data) -> ChartDataEntry in
+            totalIndex += 1
+            return ChartDataEntry(value: Double(data.totalItem), xIndex: totalIndex)
+        }
+        packageData(&yValsTotal)
+
+        let totalSet = LineChartDataSet(yVals: yValsTotal, label: "答题数量")
+        totalSet.lineWidth = 0
+        totalSet.fillAlpha = 1
+        totalSet.setColor(MalaColor_BBDDF6_0)
+        totalSet.fillColor = MalaColor_BBDDF6_0
+        totalSet.drawCirclesEnabled = false
+        totalSet.drawValuesEnabled = false
+        totalSet.drawFilledEnabled = true
+        
+        // 正确练习数据
+        var yValsRight = model.map { (data) -> ChartDataEntry in
+            rightIndex += 1
+            return ChartDataEntry(value: Double(data.totalItem-data.errorItem), xIndex: rightIndex)
+        }
+        packageData(&yValsRight)
+        
+        let rightSet = LineChartDataSet(yVals: yValsRight, label: "正确数量")
+        rightSet.lineWidth = 0
+        rightSet.fillAlpha = 1
+        rightSet.setColor(MalaColor_75CC97_0)
+        rightSet.fillColor = MalaColor_75CC97_0
+        rightSet.drawCirclesEnabled = false
+        rightSet.drawValuesEnabled = false
+        rightSet.drawFilledEnabled = true
+        
+        let data = LineChartData(xVals: getXVals(), dataSets: [totalSet, rightSet])
+        data.setValueTextColor(MalaColor_5E5E5E_0)
+        data.setValueFont(UIFont.systemFontOfSize(10))
+        lineChartView.data = data
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        
+    }
+    
+    // 包装数据（在数据首尾分别添加空数据，以保持折线图美观性）
+    private func packageData(inout data: [ChartDataEntry]) {
+        data.insert(ChartDataEntry(value: 0, xIndex: 0), atIndex: 0)
+        data.append(ChartDataEntry(value: 0, xIndex: data.count))
+    }
+    
+    // 获取X轴文字信息
+    private func getXVals() -> [String] {
+        var xVals = model.map { (data) -> String in
+            return String(format: "%d月%@", data.month, data.periodString)
+        }
+        xVals.insert("", atIndex: 0)
+        xVals.append("")
+        return xVals
     }
 }

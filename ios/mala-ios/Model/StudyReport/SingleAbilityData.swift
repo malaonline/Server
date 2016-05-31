@@ -21,6 +21,33 @@ class SingleAbilityData: NSObject {
             return MalaStudyReportAbility(rawValue: name) ?? .unkown
         }
     }
+    /// 能力字符串
+    var abilityString: String {
+        get {
+            switch ability {
+            case .abstract:
+                return "抽象概括能力"
+                
+            case .reason:
+                return "推理论证能力"
+                
+            case .appl:
+                return "实际应用能力"
+                
+            case .spatial:
+                return "空间想象能力"
+                
+            case .calc:
+                return "运算求解能力"
+                
+            case .data:
+                return "数据分析能力"
+                
+            case .unkown:
+                return ""
+            }
+        }
+    }
     
     
     // MARK: - Constructed
@@ -31,5 +58,12 @@ class SingleAbilityData: NSObject {
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
+    }
+    
+    
+    convenience init(name: String, value: Int) {
+        self.init()
+        self.name = name
+        self.value = value
     }
 }

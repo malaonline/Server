@@ -30,4 +30,12 @@ class SingleTopicData: NSObject {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }
+    
+    convenience init(id: Int, name: String, totalItem: Int, rightItem: Int) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.totalItem = totalItem
+        self.rightItem = rightItem
+    }
 }

@@ -45,8 +45,8 @@ public class ThemeHorizontalBarChartView: UIView {
             self.addSubview(bar)
             
             bar.snp_makeConstraints(closure: { (make) in
-                make.height.equalTo(19)//self.snp_height).multipliedBy(1/count*2)
-                make.top.equalTo(self.snp_top).offset(((index*2)+1)*19)
+                make.height.equalTo(16)//self.snp_height).multipliedBy(1/count*2)
+                make.top.equalTo(self.snp_top).offset(((index*2)+1)*16)
                 make.left.equalTo(self.snp_left)
                 make.right.equalTo(self.snp_right)
             })

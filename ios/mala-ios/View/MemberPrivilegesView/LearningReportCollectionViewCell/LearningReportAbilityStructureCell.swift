@@ -13,9 +13,9 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 能力结构数据
-    var model: SingleAbilityData? {
+    var model: [SingleAbilityData] = MalaConfig.abilitySampleData() {
         didSet {
-            
+            resetData()
         }
     }
     
@@ -53,6 +53,7 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
         super.init(frame: frame)
         configure()
         setupUserInterface()
+        resetData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,28 +65,6 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     private func configure() {
         titleLabel.text = "能力结构分析"
         descDetailLabel.text = "学生运算求解能力很强，空间想象和数据分析能力较弱，应加强针对性练习，实际应用能力也需注意引导。"
-        
-        // 样本数据
-        let yVals1 = [
-            ChartDataEntry(value: 81, xIndex: 0),
-            ChartDataEntry(value: 67, xIndex: 1),
-            ChartDataEntry(value: 99, xIndex: 2),
-            ChartDataEntry(value: 53, xIndex: 3),
-            ChartDataEntry(value: 78, xIndex: 4),
-        ]
-        let set1 = RadarChartDataSet(yVals: yVals1, label: "")
-        set1.lineWidth = 0
-        set1.fillAlpha = 0.9
-        set1.setColor(MalaColor_F9877C_0)
-        set1.fillColor = MalaColor_F9877C_0
-        set1.drawValuesEnabled = false
-        set1.drawFilledEnabled = true
-        set1.highlightEnabled = false
-        
-        let data = RadarChartData(xVals: ["推理论证", "      数据分析", "空间想象", "运算求解", "实际应用      "], dataSets: [set1])
-        data.setValueFont(UIFont.systemFontOfSize(10))
-        data.setDrawValues(false)
-        radarChartView.data = data
     }
     
     private func setupUserInterface() {
@@ -99,5 +78,51 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
             make.right.equalTo(descView.snp_right)
             make.bottom.equalTo(layoutView.snp_bottom).multipliedBy(0.68)
         }
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        
+    }
+    
+    // 重置数据
+    private func resetData() {
+        
+        var index = -1
+        // 数据
+        let yVals = model.map { (data) -> ChartDataEntry in
+            index += 1
+            return ChartDataEntry(value: Double(data.value), xIndex: index)
+        }
+        
+        // 设置UI
+        let dataSet = RadarChartDataSet(yVals: yVals, label: "")
+        dataSet.lineWidth = 0
+        dataSet.fillAlpha = 0.9
+        dataSet.setColor(MalaColor_F9877C_0)
+        dataSet.fillColor = MalaColor_F9877C_0
+        dataSet.drawValuesEnabled = false
+        dataSet.drawFilledEnabled = true
+        dataSet.highlightEnabled = false
+        
+        let data = RadarChartData(xVals: getXVals(), dataSets: [dataSet])
+        data.setValueFont(UIFont.systemFontOfSize(10))
+        data.setDrawValues(false)
+        radarChartView.data = data
+    }
+    
+    // 获取X轴文字信息
+    private func getXVals() -> [String] {
+        var xVals = [String]()
+        for (index, data) in model.enumerate() {
+            var abilityString = data.abilityString
+            if index == 1 || index == 2 {
+                abilityString = "   "+abilityString
+            }else if index == 4 || index == 5 {
+                abilityString = abilityString+"   "
+            }
+            xVals.append(abilityString)
+        }
+        return xVals
     }
 }

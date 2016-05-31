@@ -30,4 +30,12 @@ class SingleTopicScoreData: NSObject {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }
+    
+    convenience init(id: Int, name: String, score: NSNumber, aveScore: NSNumber) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.score = score
+        self.aveScore = aveScore
+    }
 }

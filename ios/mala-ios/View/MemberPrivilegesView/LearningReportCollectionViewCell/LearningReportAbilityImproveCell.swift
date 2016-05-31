@@ -13,9 +13,9 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 提分点数据
-    var model: SingleTopicScoreData? {
+    var model: [SingleTopicScoreData] = MalaConfig.scoreSampleData() {
         didSet {
-            
+            resetData()
         }
     }
     
@@ -75,8 +75,9 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     // MARK: - Instance Method
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUserInterface()
         configure()
+        setupUserInterface()
+        resetData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,54 +91,6 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         descDetailLabel.text = "学生对于圆的知识点、函数初步知识点和几何变换知识点能力突出，可减少习题数。实数可加强练习。"
         legendView.addLegend(image: "dot_legend", title: "平均分数")
         legendView.addLegend(image: "histogram_legend", title: "我的评分")
-        
-        // 样本数据
-        let data = CombinedChartData(xVals: ["实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"])
-        
-        let yLineVals = [
-            ChartDataEntry(value: 10, xIndex: 0),
-            ChartDataEntry(value: 22, xIndex: 1),
-            ChartDataEntry(value: 23, xIndex: 2),
-            ChartDataEntry(value: 14, xIndex: 3),
-            ChartDataEntry(value: 20, xIndex: 4),
-            ChartDataEntry(value: 37, xIndex: 5),
-            ChartDataEntry(value: 50, xIndex: 6)
-        ]
-        let lineDataSet = LineChartDataSet(yVals: yLineVals, label: "")
-        lineDataSet.setColor(MalaColor_82C9F9_0)
-        lineDataSet.fillAlpha = 1
-        lineDataSet.circleRadius = 6
-        lineDataSet.drawCubicEnabled = true
-        lineDataSet.drawValuesEnabled = true
-        lineDataSet.setDrawHighlightIndicators(false)
-        
-        let yBarVals = [
-            BarChartDataEntry(value: 34, xIndex: 0),
-            BarChartDataEntry(value: 40, xIndex: 1),
-            BarChartDataEntry(value: 30, xIndex: 2),
-            BarChartDataEntry(value: 32, xIndex: 3),
-            BarChartDataEntry(value: 39, xIndex: 4),
-            BarChartDataEntry(value: 47, xIndex: 5),
-            BarChartDataEntry(value: 61, xIndex: 6)
-        ]
-        let barDataSet = BarChartDataSet(yVals: yBarVals, label: "")
-        barDataSet.drawValuesEnabled = true
-        barDataSet.colors = MalaConfig.chartsColor()
-        barDataSet.highlightEnabled = false
-        barDataSet.barSpace = 0.4
-        
-        let lineData = LineChartData()
-        lineData.addDataSet(lineDataSet)
-        lineData.setDrawValues(false)
-        
-        let barData = BarChartData()
-        barData.addDataSet(barDataSet)
-        barData.setDrawValues(false)
-        
-        data.lineData = lineData
-        data.barData = barData
-        
-        combinedChartView.data = data
     }
     
     private func setupUserInterface() {
@@ -161,6 +114,62 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
             make.right.equalTo(descView.snp_right)
             make.bottom.equalTo(layoutView.snp_bottom).multipliedBy(0.68)
         }
+    }
+    
+    // 设置样本数据
+    private func setupSampleData() {
+        
+    }
+    
+    // 重置数据
+    private func resetData() {
+        
+        var aveScoreIndex = -1
+        var myScoreIndex = -1
+        
+        // 设置折线图数据
+        let lineVals = model.map({ (data) -> ChartDataEntry in
+            aveScoreIndex += 1
+            return ChartDataEntry(value: data.aveScore.doubleValue*100, xIndex: aveScoreIndex)
+        })
+        let lineDataSet = LineChartDataSet(yVals: lineVals, label: "")
+        lineDataSet.setColor(MalaColor_82C9F9_0)
+        lineDataSet.fillAlpha = 1
+        lineDataSet.circleRadius = 6
+        lineDataSet.drawCubicEnabled = true
+        lineDataSet.drawValuesEnabled = true
+        lineDataSet.setDrawHighlightIndicators(false)
+        let lineData = LineChartData()
+        lineData.addDataSet(lineDataSet)
+        lineData.setDrawValues(false)
+        
+        // 设置柱状图数据
+        let barVals = model.map({ (data) -> ChartDataEntry in
+            myScoreIndex += 1
+            return BarChartDataEntry(value: data.score.doubleValue*100, xIndex: myScoreIndex)
+        })
+        let barDataSet = BarChartDataSet(yVals: barVals, label: "")
+        barDataSet.drawValuesEnabled = true
+        barDataSet.colors = MalaConfig.chartsColor()
+        barDataSet.highlightEnabled = false
+        barDataSet.barSpace = 0.4
+        let barData = BarChartData()
+        barData.addDataSet(barDataSet)
+        barData.setDrawValues(false)
+        
+        // 设置组合图数据
+        let data = CombinedChartData(xVals: getXVals())
+        data.lineData = lineData
+        data.barData = barData
+        combinedChartView.data = data
+    }
+    
+    // 获取X轴文字信息
+    private func getXVals() -> [String] {
+        let xVals = model.map { (data) -> String in
+            return data.name
+        }
+        return xVals
     }
 }
 
