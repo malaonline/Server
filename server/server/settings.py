@@ -181,7 +181,7 @@ AWS_S3_BUCKET_NAME = 'dev-upload'
 AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
 AWS_S3_KEY_PREFIX = ""
 AWS_S3_BUCKET_AUTH = True
-AWS_S3_MAX_AGE_SECONDS = 60*60  # 1 hour.
+AWS_S3_MAX_AGE_SECONDS = 24*60*60  # 1 day.
 AWS_S3_PUBLIC_URL = ''
 AWS_S3_REDUCED_REDUNDANCY = False
 
