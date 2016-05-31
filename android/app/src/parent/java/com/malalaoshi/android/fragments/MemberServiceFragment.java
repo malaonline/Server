@@ -127,6 +127,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
+            case BusEvent.BUS_EVENT_PAY_SUCCESS:
                 reloadData();
                 break;
 

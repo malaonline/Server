@@ -175,7 +175,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 if (result == null) {
                     showPayFailedDialog("支付失败，请重试！");
                 } else if (result.equals("success")) {
-                    EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
+                    EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_PAY_SUCCESS));
                     getOrderStatusFromOurServer();
                 } else if (result.equals("cancel")) {
                     showPayFailedDialog("支付用户已取消！");
@@ -234,7 +234,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                     public void onDismiss() {
                         PayFragment.this.getActivity().finish();
                         goToHome();
-                        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                     }
                 },true,true);
         if (isResumed()) {
@@ -296,7 +295,6 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                         try {
                             PayFragment.this.getActivity().finish();
                             goToHome();
-                            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
                         } catch (Exception e) {
                         }
                     }

@@ -103,6 +103,7 @@ public class UserTimetableFragment extends BaseFragment implements DatePickerCon
                 break;
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
+            case BusEvent.BUS_EVENT_PAY_SUCCESS:
                 loadData();
                 break;
 
