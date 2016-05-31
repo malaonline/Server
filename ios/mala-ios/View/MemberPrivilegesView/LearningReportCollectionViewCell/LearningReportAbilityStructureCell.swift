@@ -15,6 +15,7 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     /// 能力结构数据
     var model: [SingleAbilityData] = MalaConfig.abilitySampleData() {
         didSet {
+            hideDescription()
             resetData()
         }
     }

@@ -15,6 +15,7 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     /// 提分点数据
     var model: [SingleTopicScoreData] = MalaConfig.scoreSampleData() {
         didSet {
+            hideDescription()
             resetData()
         }
     }

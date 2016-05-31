@@ -38,7 +38,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     /// 学习信息标签
     private lazy var infoLabel: UILabel = {
         let label = UILabel(
-            text: "累计答题1706道  超过85%",
+            text: "",
             fontSize: 10,
             textColor: MalaColor_5E5E5E_0
         )
@@ -56,7 +56,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     /// 作业信息标签
     private lazy var homeworkLabel: UILabel = {
         let label = UILabel(
-            text: "作业102次  准确率78%",
+            text: "",
             fontSize: 10,
             textColor: MalaColor_8DBEDE_0
         )
@@ -125,7 +125,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
             make.width.equalTo(layoutView.snp_width).multipliedBy(0.84)
         }
         infoLabel.snp_makeConstraints { (make) in
-            make.width.equalTo(170)
+            make.width.equalTo(120)
             make.height.equalTo(22)
             make.centerX.equalTo(layoutView.snp_centerX)
             make.top.equalTo(layoutView.snp_bottom).multipliedBy(0.17)
@@ -157,7 +157,8 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     // 设置样本数据
     private func setupSampleData() {
-        
+        infoLabel.text = "累计答题770道"
+        homeworkLabel.text = "准确率80%"
     }
     
     // 重置数据
@@ -195,6 +196,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         }
     }
 }
+
 
 
 // MARK: - LegendView

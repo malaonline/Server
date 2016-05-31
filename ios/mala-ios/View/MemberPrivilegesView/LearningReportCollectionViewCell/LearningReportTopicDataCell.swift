@@ -15,6 +15,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
     /// 题目数据
     var model: [SingleTimeIntervalData] = MalaConfig.topicSampleData() {
         didSet {
+            hideDescription()
             resetData()
         }
     }

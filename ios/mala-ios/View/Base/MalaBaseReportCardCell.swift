@@ -120,4 +120,9 @@ class MalaBaseReportCardCell: MalaBaseCardCell {
             make.bottom.equalTo(descView.snp_bottom).multipliedBy(0.82)
         }
     }
+    
+    func hideDescription() {
+        descView.hidden = true
+        pinIcon.hidden = true
+    }
 }

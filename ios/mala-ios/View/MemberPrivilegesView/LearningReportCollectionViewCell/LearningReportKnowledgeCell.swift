@@ -15,6 +15,7 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     /// 知识点数据
     var model: [SingleTopicData] = MalaConfig.knowledgeSampleData() {
         didSet {
+            hideDescription()
             resetData()
         }
     }
