@@ -11,6 +11,14 @@ import Charts
 
 class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     
+    // MARK: - Property
+    /// 提分点数据
+    var model: SingleTopicScoreData? {
+        didSet {
+            
+        }
+    }
+    
     
     // MARK: - Components
     /// 图例布局视图

@@ -11,6 +11,14 @@ import Charts
 
 class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     
+    // MARK: - Property
+    /// 能力结构数据
+    var model: SingleAbilityData? {
+        didSet {
+            
+        }
+    }
+    
     
     // MARK: - Components
     /// 雷达图

@@ -11,6 +11,14 @@ import Charts
 
 class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     
+    // MARK: - Property
+    /// 知识点数据
+    var model: SingleTopicData? {
+        didSet {
+            
+        }
+    }
+    
     
     // MARK: - Components
     /// 学习信息标签

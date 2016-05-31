@@ -11,6 +11,15 @@ import Charts
 
 class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
+    // MARK: - Property
+    /// 作业数据
+    var model: SingleHomeworkData? {
+        didSet {
+            
+        }
+    }
+    
+    
     // MARK: - Components
     /// 标题标签
     private lazy var titleLabel: UILabel = {

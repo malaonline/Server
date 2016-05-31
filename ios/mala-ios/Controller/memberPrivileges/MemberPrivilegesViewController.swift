@@ -14,6 +14,12 @@ private let MemberPrivilegesMemberSerivceCellReuseID = "MemberPrivilegesMemberSe
 class MemberPrivilegesViewController: UITableViewController {
 
     // MARK: - Property
+    /// 学科学习报告模型
+    var report: SubjectReport = SubjectReport() {
+        didSet {
+            
+        }
+    }
     /// 总练习数
     var totalNum: Int = 0
     /// 练习正确数
@@ -24,6 +30,11 @@ class MemberPrivilegesViewController: UITableViewController {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.tableView.reloadData()
             })
+            
+            // 若当前学习报告状态正确，获取学科学习报告数据
+            if reportStatus == .MathSigned {
+                
+            }
         }
     }
     /// 是否已Push新控制器标示（屏蔽pop到本页面时的数据刷新动作）
@@ -168,6 +179,26 @@ class MemberPrivilegesViewController: UITableViewController {
             }
             
             self?.reportStatus = status
+        })
+    }
+    
+    // 获取学科学习报告
+    private func loadSubjectReport() {
+        getSubjectReport(1, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("MemberPrivilegesViewController - loadSubjectReport Error \(errorMessage)")
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.ShowTost("当前无法访问题目数据，请稍后再试")
+            })
+        }, completion: { [weak self] (report) in
+            println("学科学习报告：\(report)")
+            
+            
+            
         })
     }
     

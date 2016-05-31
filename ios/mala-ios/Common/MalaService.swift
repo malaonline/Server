@@ -761,7 +761,7 @@ func getStudyReportOverview(failureHandler: ((Reason, String?) -> Void)?, comple
 ///  - parameter id: 学科id
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getStudyReport(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: SubjectReport -> Void) {
+func getSubjectReport(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: SubjectReport -> Void) {
     /// 返回值解析器
     let parse: JSONDictionary -> SubjectReport = { data in
         return parseStudyReport(data)

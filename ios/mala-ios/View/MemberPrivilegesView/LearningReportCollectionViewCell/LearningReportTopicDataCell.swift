@@ -11,6 +11,14 @@ import Charts
 
 class LearningReportTopicDataCell: MalaBaseReportCardCell {
     
+    // MARK: - Property
+    /// 题目数据
+    var model: SingleTimeIntervalData? {
+        didSet {
+            
+        }
+    }
+    
     
     // MARK: - Components
     /// 折线统计视图
