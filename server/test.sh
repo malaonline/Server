@@ -5,6 +5,8 @@ ENV=/opt/jenkins/env
 SET=/opt/keys-pros
 
 cp -Rf $SET/local_settings.py ./server/
+cp -Rf $SET/mala_kuailexue.pem ./server/
+cp -Rf $SET/mala_kuailexue.pub ./server/
 
 . $ENV/bin/activate
 
