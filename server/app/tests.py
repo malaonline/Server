@@ -20,6 +20,7 @@ from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.algorithm import verify_sig
 from app.tasks import send_push
+from app.views import StudyReportView
 
 app_path = os.path.abspath(os.path.dirname(__file__))
 
@@ -654,6 +655,12 @@ class TestApi(TestCase):
         password = "123123"
         client = Client()
         client.login(username=username, password=password)
+
+        params = StudyReportView.COM_PARAMS.copy()
+        params.update({'uid': '12345678'})
+        StudyReportView.sign_params(params)
+        self.assertTrue(StudyReportView.verify_sign(params))
+
         request_url = "/api/v1/study_report"
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)

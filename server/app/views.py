@@ -1067,7 +1067,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         phone = parent.user.profile.phone
         params = self.COM_PARAMS.copy()
         params.update({'uid': phone})
-        self._sign_params(params)
+        self.sign_params(params)
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
@@ -1147,19 +1147,20 @@ class StudyReportView(ParentBasedMixin, APIView):
 
         return JsonResponse(ans_data)
 
-    def _sign_params(self, params, sign_key="sign"):
-        body = self._get_param_hash(params)
-        pri_key = open(settings.KUAILEXUE_API_PRI_KEY_PATH, 'rb').read()
+    @classmethod
+    def sign_params(cls, params, sign_key="sign"):
+        body = cls.get_param_hash(params)
+        pri_key = settings.KUAILEXUE_API_PRI_KEY
         params[sign_key] = sign_sha1(body.encode('utf-8'), pri_key).decode('utf-8')
-        # if settings.TESTING:
-        #     self._verify_sign(params)
 
-    def _verify_sign(self, params, sign_key="sign"):
-        body = self._get_param_hash(params)
-        pub_key = open(settings.KUAILEXUE_API_PUB_KEY_PATH, 'rb').read()
+    @classmethod
+    def verify_sign(cls, params, sign_key="sign"):
+        body = cls.get_param_hash(params)
+        pub_key = settings.KUAILEXUE_API_PUB_KEY
         return (verify_sha1_sig(body.encode('utf-8'), params[sign_key].encode('utf-8'), pub_key))
 
-    def _get_param_hash(self, params, sign_key="sign"):
+    @classmethod
+    def get_param_hash(cls, params, sign_key="sign"):
         s = ''.join(['%s=%s' % (key, params[key]) for key in sorted(params)
                             if key != sign_key and params[key] is not None and params[key] is not ''])
         hs = hashlib.md5(s.encode('utf-8')).hexdigest()
