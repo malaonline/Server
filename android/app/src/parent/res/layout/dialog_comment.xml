@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_dialog"
     android:layout_width="272dp"
     android:layout_height="wrap_content"
@@ -104,15 +105,30 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
-            <com.malalaoshi.android.view.CircleNetworkImage
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv_teacher_avater"
                 android:layout_marginBottom="9dp"
                 android:layout_width="69dp"
                 android:layout_height="69dp"
                 android:visibility="visible"
                 android:gravity="center"
-                android:src="@drawable/ic_default_teacher_avatar" />
+                fresco:actualImageScaleType="focusCrop"
+                fresco:placeholderImage="@drawable/ic_default_teacher_avatar"
+                fresco:placeholderImageScaleType="focusCrop"
+                fresco:failureImage="@drawable/ic_default_teacher_avatar"
+                fresco:failureImageScaleType="focusCrop"
+                fresco:fadeDuration="1000"
+                fresco:backgroundImage="@color/white"
+                fresco:roundAsCircle="true"
+                ></com.facebook.drawee.view.SimpleDraweeView>
+            <!--<com.malalaoshi.android.view.CircleNetworkImage
+                android:id="@+id/iv_teacher_avater"
+                android:layout_marginBottom="9dp"
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                android:visibility="visible"
+                android:gravity="center"
+                android:src="@drawable/ic_default_teacher_avatar" />-->
 
             <LinearLayout
                 android:layout_width="wrap_content"

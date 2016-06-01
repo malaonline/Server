@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_experience_center"
     android:paddingTop="@dimen/layout_margin_top"
     android:paddingBottom="@dimen/layout_margin_top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.android.volley.toolbox.NetworkImageView
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_school_pic"
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:placeholderImage="@drawable/ic_default_img"
+        fresco:placeholderImageScaleType="focusCrop"
+        fresco:failureImage="@drawable/ic_default_img"
+        fresco:failureImageScaleType="focusCrop"
+        fresco:fadeDuration="1000"
+        />
+   <!-- <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/iv_school_pic"
         android:scaleType="centerCrop"
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_height"
         android:src="@drawable/ic_default_img"
-        />
+        />-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

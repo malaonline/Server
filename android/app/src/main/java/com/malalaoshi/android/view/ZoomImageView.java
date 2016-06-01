@@ -242,7 +242,7 @@ public class ZoomImageView extends ImageView implements OnGlobalLayoutListener,
         // 将图片移动到控件的中心
         int dx = getWidth() / 2 - dw / 2;
         int dy = getHeight() / 2 - dh / 2;
-        Log.e(TAG, "mInitScale:" + mInitScale + " mMaxScale:" + mMaxScale + " mMidScale:" + mMidScale + "dw:" + dw + "dh:" + dh + "width:" + width + "height:" + height + "dx:" + dx + "dy:" + dy);
+        Log.i(TAG, "mInitScale:" + mInitScale + " mMaxScale:" + mMaxScale + " mMidScale:" + mMidScale + "dw:" + dw + "dh:" + dh + "width:" + width + "height:" + height + "dx:" + dx + "dy:" + dy);
         //重置后平移
         mScaleMatrix.setTranslate(dx, dy);
         mScaleMatrix.postScale(mInitScale, mInitScale, getWidth() / 2,

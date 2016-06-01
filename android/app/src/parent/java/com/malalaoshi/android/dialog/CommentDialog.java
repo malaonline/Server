@@ -3,6 +3,7 @@ package com.malalaoshi.android.dialog;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -22,9 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.CommentApi;
 import com.malalaoshi.android.api.PostCommentApi;
@@ -32,14 +31,10 @@ import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
-import com.malalaoshi.android.util.ImageCache;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.view.CircleNetworkImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +65,7 @@ public class CommentDialog extends DialogFragment  {
     private Comment comment;
 
     @Bind(R.id.iv_teacher_avater)
-    CircleNetworkImage teacherAvater;
+    SimpleDraweeView teacherAvater;
 
     @Bind(R.id.tv_teacher_name)
     TextView tvTeacherName;
@@ -100,8 +95,6 @@ public class CommentDialog extends DialogFragment  {
     protected LinearLayout llContent;
 
     private boolean isOpenInputMethod = false;
-    //图片缓存
-    private ImageLoader mImageLoader;
 
     public static CommentDialog newInstance(String teacherName, String teacherAvatarUrl, String courseName, Long timeslot, Comment comment) {
         CommentDialog f = new CommentDialog();
@@ -129,7 +122,6 @@ public class CommentDialog extends DialogFragment  {
     }
 
     private void init() {
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -230,11 +222,9 @@ public class CommentDialog extends DialogFragment  {
             });
 
         }
-        //初始化控件
-        teacherAvater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-        teacherAvater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-        teacherAvater.setImageUrl(teacherAvatarUrl != null ? teacherAvatarUrl : "", mImageLoader);
-        //mImageLoader.get(teacherAvatarUrl != null ? teacherAvatarUrl : "", ImageLoader.getImageListener(teacherAvater, R.drawable.ic_default_teacher_avatar, R.drawable.ic_default_teacher_avatar));
+        if (!EmptyUtils.isEmpty(teacherAvatarUrl)){
+            teacherAvater.setImageURI(Uri.parse(teacherAvatarUrl));
+        }
         tvTeacherName.setText(teacherName);
         tvCourse.setText(courseName);
     }

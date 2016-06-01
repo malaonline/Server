@@ -1,22 +1,19 @@
 package com.malalaoshi.android.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.Schedule;
-import com.malalaoshi.android.util.ImageCache;
 
 import java.util.List;
 
@@ -43,9 +40,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //上拉加载更多状态-默认为0
     private int load_more_status=0;
 
-    private ImageLoader mImageLoader;
     public ScheduleAdapter(Context context, List<Schedule> schedules){
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mSchedules = schedules;
@@ -84,10 +79,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ItemViewHolder)holder).tvClassTime.setText(schedule.getTime());
             ((ItemViewHolder)holder).tvClassAddress.setText(schedule.getAddress());
             String avatarUrl = schedule.getAvatar();
-            if (avatarUrl != null && !avatarUrl.equals("")) {
-                ((ItemViewHolder)holder).ivTeacherAvatar.setDefaultImageResId(R.drawable.ic_default_img);
-                ((ItemViewHolder)holder).ivTeacherAvatar.setErrorImageResId(R.drawable.ic_default_img);
-                ((ItemViewHolder)holder).ivTeacherAvatar.setImageUrl(avatarUrl, mImageLoader);
+            if (!EmptyUtils.isEmpty(avatarUrl)){
+                ((ItemViewHolder) holder).ivTeacherAvatar.setImageURI(Uri.parse(avatarUrl));
             }
 
             /*  if (schedule.getStatus()==0){
@@ -174,7 +167,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class ItemViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvCourse,tvClassTime,tvClassAddress,tvConfirmTime,tvCourseStart,tvCourseEnd;
-        NetworkImageView ivTeacherAvatar;
+        SimpleDraweeView ivTeacherAvatar;
         View mView;
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -182,7 +175,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvCourse = (TextView) mView.findViewById(R.id.tv_course);
             tvClassTime = (TextView) mView.findViewById(R.id.tv_class_time);
             tvClassAddress = (TextView) mView.findViewById(R.id.tv_class_address);
-            ivTeacherAvatar = (NetworkImageView) mView.findViewById(R.id.iv_teacher_avatar);
+            ivTeacherAvatar = (SimpleDraweeView) mView.findViewById(R.id.iv_teacher_avatar);
             tvConfirmTime = (TextView) mView.findViewById(R.id.tv_confirm_time);
             tvCourseStart = (TextView) mView.findViewById(R.id.tv_course_start);
             tvCourseEnd = (TextView) mView.findViewById(R.id.tv_course_end);

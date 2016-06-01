@@ -2,6 +2,7 @@ package com.malalaoshi.android.adapter;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherInfoActivity;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
-import com.malalaoshi.android.view.CircleNetworkImage;
 
 import java.util.List;
 
@@ -46,11 +45,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
 
     private  List<Teacher> teachersList;
 
-    private ImageLoader mImageLoader;
-
     public TeacherRecyclerViewAdapter(List<Teacher> items){
         teachersList = items;
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -180,7 +176,7 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
         protected TextView level;
 
         @Bind(R.id.teacher_list_item_avater)
-        protected CircleNetworkImage avater;
+        protected SimpleDraweeView avater;
 
         @Bind(R.id.teacher_list_item_price)
         protected TextView price;
@@ -225,14 +221,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
                 tags.setText(tagStr);
             }
             String imgUrl = teacher.getAvatar();
-            if (imgUrl != null && !imgUrl.isEmpty()) {
-                avater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-                avater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-                avater.setImageUrl(imgUrl, mImageLoader);
-            }else{
-                avater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-                avater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-                avater.setImageUrl("", mImageLoader);
+            if (!EmptyUtils.isEmpty(imgUrl)){
+                avater.setImageURI(Uri.parse(imgUrl));
             }
 
             String priceRange = "价格异常";

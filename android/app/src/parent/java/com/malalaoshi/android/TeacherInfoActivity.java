@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
@@ -30,6 +31,7 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
@@ -42,6 +44,7 @@ import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
+import com.malalaoshi.android.util.FrescoUtil;
 import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
@@ -76,9 +79,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     //教师信息请求结果
     private Teacher mTeacher;
 
-    //图片缓存
-    private ImageLoader mImageLoader;
-
     //标题栏
     @Bind(R.id.titleBar)
     protected TitleBarView titleBarView;
@@ -96,7 +96,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     //头像
     @Bind(R.id.parent_teacher_detail_head_portrait)
-    protected CircleImageView mHeadPortrait;
+    protected SimpleDraweeView mHeadPortrait;
 
     //教师姓名
     @Bind(R.id.parent_teacher_detail_name_tv)
@@ -247,7 +247,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     private void initData() {
         Intent intent = getIntent();
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         mAllSchools = new ArrayList<>();
         mFirstSchool = new ArrayList<>();
         mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
@@ -358,7 +357,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
             //头像
             string = teacher.getAvatar();
-            mImageLoader.get(string != null ? string : "", ImageLoader.getImageListener(mHeadPortrait, R.drawable.ic_default_teacher_avatar, R.drawable.ic_default_teacher_avatar));
+            if (!EmptyUtils.isEmpty(string)){
+                mHeadPortrait.setImageURI(Uri.parse(string));
+            }
 
             //性别
             String grender = teacher.getGender();
@@ -502,7 +503,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         int width = (mGallery.getWidth() - 4 * margin) / 3;
 
         for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
-            ImageView imageView = new ImageView(this);
+            SimpleDraweeView imageView = new SimpleDraweeView(this);
 
             imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
                     width, height));
@@ -520,8 +521,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 layoutParams.setMargins(margin, 0, 0, 0);
                 imageView.setLayoutParams(layoutParams);
             }
-
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            FrescoUtil.initRectangleView(this,imageView,R.drawable.ic_default_img,R.drawable.ic_default_img);
             final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -533,8 +533,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     startActivity(intent);
                 }
             });
-
-            mImageLoader.get(gallery[i], ImageLoader.getImageListener(imageView, R.drawable.ic_default_img, R.drawable.ic_default_img));
+            if (!EmptyUtils.isEmpty(gallery[i])){
+                imageView.setImageURI(Uri.parse(gallery[i]));
+            }
             mGallery.addView(imageView, i);
         }
     }

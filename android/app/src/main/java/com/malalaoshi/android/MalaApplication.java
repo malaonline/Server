@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
 
@@ -50,6 +51,8 @@ public class MalaApplication extends BaseApplication {
                 Log.d(TAG, "status code:" + i + " alias:" + s);
             }
         });
+        //初始化图片加载库Freso
+        Fresco.initialize(this);
     }
 
     public static MalaApplication getInstance() {

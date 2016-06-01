@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ProviderInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,30 +15,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
-import com.malalaoshi.android.TeacherInfoActivity;
 import com.malalaoshi.android.activitys.OrderInfoActivity;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
-import com.malalaoshi.android.dialogs.PromptDialog;
-import com.malalaoshi.android.entity.CoursePrice;
 import com.malalaoshi.android.entity.Order;
-import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Subject;
-import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.DialogUtil;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.util.StringUtil;
-import com.malalaoshi.android.view.CircleNetworkImage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -64,11 +56,8 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
 
     private  List<Order> orderList;
 
-    private ImageLoader mImageLoader;
-
     public OrderRecyclerViewAdapter(List<Order> items){
         orderList = items;
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -202,7 +191,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         protected TextView tvTeacherName;
 
         @Bind(R.id.iv_teacher_avator)
-        protected CircleNetworkImage avater;
+        protected SimpleDraweeView avater;
 
         @Bind(R.id.tv_course_name)
         protected TextView tvCourseName;
@@ -294,12 +283,10 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             }
 
             String imgUrl = order.getTeacher_avatar();
-            if (TextUtils.isEmpty(imgUrl)) {
-                imgUrl = "";
+            if (!EmptyUtils.isEmpty(imgUrl)){
+                avater.setImageURI(Uri.parse(imgUrl));
             }
-            avater.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-            avater.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-            avater.setImageUrl(imgUrl, mImageLoader);
+
         }
 
         @OnClick(R.id.tv_buy_course)

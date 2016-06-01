@@ -1,0 +1,91 @@
+{
+  "count": 8,
+  "next": "https://dev.malalaoshi.com/api/v1/users?page=2",
+  "previous": null,
+  "results": [
+    {
+      "grade": {
+        "id": 2,
+        "name": "一年级"
+      },
+      "price": 150
+    },
+    {
+      "grade": {
+        "id": 3,
+        "name": "二年级"
+      },
+      "price": 170
+    },
+    {
+      "grade": {
+        "id": 4,
+        "name": "三年级"
+      },
+      "price": 160
+    },
+    {
+      "grade": {
+        "id": 5,
+        "name": "四年级"
+      },
+      "price": 110
+    },
+    {
+      "grade": {
+        "id": 6,
+        "name": "五年级"
+      },
+      "price": 180
+    },
+    {
+      "grade": {
+        "id": 7,
+        "name": "六年级"
+      },
+      "price": 200
+    },
+    {
+      "grade": {
+        "id": 9,
+        "name": "初一"
+      },
+      "price": 130
+    },
+    {
+      "grade": {
+        "id": 10,
+        "name": "初二"
+      },
+      "price": 130
+    },
+    {
+      "grade": {
+        "id": 11,
+        "name": "初三"
+      },
+      "price": 110
+    },
+    {
+      "grade": {
+        "id": 13,
+        "name": "高一"
+      },
+      "price": 150
+    },
+    {
+      "grade": {
+        "id": 14,
+        "name": "高二"
+      },
+      "price": 110
+    },
+    {
+      "grade": {
+        "id": 15,
+        "name": "高三"
+      },
+      "price": 160
+    }
+  ]
+}

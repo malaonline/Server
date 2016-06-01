@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_teacher_info_body"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -73,15 +74,30 @@
 
             >
 
-            <com.malalaoshi.android.view.CircleImageView
+           <!-- <com.malalaoshi.android.view.CircleImageView
                 android:id="@+id/parent_teacher_detail_head_portrait"
                 android:layout_width="@dimen/avatar_width"
                 android:layout_height="@dimen/avatar_width"
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/default_avatar"
                 app:civ_border_color="@color/colorWhite"
-                app:civ_border_width="@dimen/avatar_border_width" />
-
+                app:civ_border_width="@dimen/avatar_border_width" />-->
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/parent_teacher_detail_head_portrait"
+                android:layout_width="@dimen/avatar_width"
+                android:layout_height="@dimen/avatar_width"
+                android:layout_alignParentBottom="true"
+                fresco:actualImageScaleType="focusCrop"
+                fresco:placeholderImage="@drawable/ic_default_teacher_avatar"
+                fresco:placeholderImageScaleType="focusCrop"
+                fresco:failureImage="@drawable/ic_default_teacher_avatar"
+                fresco:failureImageScaleType="focusCrop"
+                fresco:fadeDuration="1000"
+                fresco:backgroundImage="@color/white"
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderWidth="@dimen/avatar_border_width"
+                fresco:roundingBorderColor="@color/white"
+                />
             <ImageView
                 android:layout_width="@dimen/member_icon_width"
                 android:layout_height="@dimen/member_icon_width"

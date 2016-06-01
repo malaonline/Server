@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
@@ -42,6 +42,7 @@ import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.usercenter.api.UserProfileApi;
 import com.malalaoshi.android.core.usercenter.entity.UserProfile;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.dialogs.PromptDialog;
@@ -60,7 +61,6 @@ import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
-import com.malalaoshi.android.view.CircleImageView;
 
 import org.json.JSONObject;
 
@@ -98,7 +98,7 @@ public class UserFragment extends BaseFragment {
     protected TextView tvUserCity;
 
     @Bind(R.id.iv_user_avatar)
-    protected CircleImageView ivAvatar;
+    protected SimpleDraweeView ivAvatar;
 
     @Bind(R.id.iv_unpaid_orders)
     protected ImageView ivUnpaidOrders;
@@ -110,9 +110,6 @@ public class UserFragment extends BaseFragment {
     protected Button btnLogout;
 
     private String strAvatarLocPath;
-
-    //图片缓存
-    private ImageLoader imageLoader;
 
     private Bitmap bmpAvatar;
 
@@ -179,8 +176,6 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initData() {
-        imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication
-                .getInstance()));
         if (UserManager.getInstance().isLogin()) {
             loadData();
         }
@@ -251,13 +246,13 @@ public class UserFragment extends BaseFragment {
         if (UserManager.getInstance().isLogin()) {
             String string = UserManager.getInstance().getAvatorUrl();
             if (!TextUtils.isEmpty(string)) {
-                imageLoader.get(string != null ? string : "", ImageLoader.getImageListener(ivAvatar, R.drawable
-                        .default_avatar, R.drawable.default_avatar));
+                if (!EmptyUtils.isEmpty(string)){
+                    ivAvatar.setImageURI(Uri.parse(string));
+                }
             }
         } else {
             ivAvatar.setImageResource(R.drawable.default_avatar);
         }
-
     }
 
     private void onLoadUserInfoSuccess(@NonNull UserListResult result) {

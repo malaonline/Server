@@ -8,16 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.volley.toolbox.ImageLoader;
 import com.malalaoshi.android.R;
-
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Created by kang on 16/5/6.
  */
@@ -37,10 +30,6 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     private int load_more_status=0;
 
     public static final int TEACHER_LIST_PAGE_SIZE = 10;
-
-
-    private ImageLoader mImageLoader;
-
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType){

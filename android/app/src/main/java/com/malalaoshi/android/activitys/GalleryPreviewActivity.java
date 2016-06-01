@@ -2,6 +2,7 @@ package com.malalaoshi.android.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +11,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
-import com.malalaoshi.android.util.ImageCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,11 +86,10 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
     }
 
     class GalleryAdapter2 extends BaseAdapter{
-        private ImageLoader imageLoader;
+
         private LayoutInflater layoutInflater;
         GalleryAdapter2(Context context){
             layoutInflater = LayoutInflater.from(context);
-            imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
         }
         @Override
         public int getCount() {
@@ -123,11 +122,11 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
         }
 
         class Holder{
-            NetworkImageView[] networkImageViews = new NetworkImageView[3];
+            SimpleDraweeView[] simpleDraweeViews = new SimpleDraweeView[3];
             public Holder(View itemView) {
-                networkImageViews[0] = (NetworkImageView) itemView.findViewById(R.id.networkImageView1);
-                networkImageViews[1] = (NetworkImageView) itemView.findViewById(R.id.networkImageView2);
-                networkImageViews[2] = (NetworkImageView) itemView.findViewById(R.id.networkImageView3);
+                simpleDraweeViews[0] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView1);
+                simpleDraweeViews[1] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView2);
+                simpleDraweeViews[2] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView3);
             }
             public void update(final int position){
 
@@ -135,14 +134,14 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 for (int i=0;i<count;i++){
                     final int newPos = position*3+i;
                     //重置图高度
-                    int width = networkImageViews[i].getMeasuredWidth();
-                    ViewGroup.LayoutParams layoutParamses =  networkImageViews[i].getLayoutParams();
+                    int width = simpleDraweeViews[i].getMeasuredWidth();
+                    ViewGroup.LayoutParams layoutParamses =  simpleDraweeViews[i].getLayoutParams();
                     layoutParamses.height = width;
-                    networkImageViews[i].setLayoutParams(layoutParamses);
+                    simpleDraweeViews[i].setLayoutParams(layoutParamses);
 
                     //加载图片
-                    updateNetworkImageView(networkImageViews[i],photoUrls[newPos]);
-                    networkImageViews[i].setOnClickListener(new View.OnClickListener() {
+                    updateNetworkImageView(simpleDraweeViews[i],photoUrls[newPos]);
+                    simpleDraweeViews[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
@@ -154,15 +153,9 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 }
             }
 
-            private void updateNetworkImageView(NetworkImageView imageView,String url){
-                if (url != null && !url.isEmpty()) {
-                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
-                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
-                    imageView.setImageUrl(url, imageLoader);
-                }else{
-                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
-                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
-                    imageView.setImageUrl("", imageLoader);
+            private void updateNetworkImageView(SimpleDraweeView imageView,String url){
+                if (!EmptyUtils.isEmpty(url)){
+                    imageView.setImageURI(Uri.parse(url));
                 }
             }
         }
@@ -172,9 +165,8 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
 
     class GalleryAdapter extends RecyclerView.Adapter{
-        private ImageLoader imageLoader;
         GalleryAdapter(){
-            imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
+
         }
 
         @Override
@@ -196,14 +188,14 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
 
         class GalleryViewHolder extends RecyclerView.ViewHolder{
 
-            NetworkImageView[] networkImageViews = new NetworkImageView[3];
+            SimpleDraweeView[] networkImageViews = new SimpleDraweeView[3];
             View parent;
             public GalleryViewHolder(View itemView) {
                 super(itemView);
                 parent = itemView;
-                networkImageViews[0] = (NetworkImageView) itemView.findViewById(R.id.networkImageView1);
-                networkImageViews[1] = (NetworkImageView) itemView.findViewById(R.id.networkImageView2);
-                networkImageViews[2] = (NetworkImageView) itemView.findViewById(R.id.networkImageView3);
+                networkImageViews[0] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView1);
+                networkImageViews[1] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView2);
+                networkImageViews[2] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView3);
             }
 
             public void update(final int position){
@@ -232,15 +224,9 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 }
             }
 
-            private void updateNetworkImageView(NetworkImageView imageView,String url){
-                if (url != null && !url.isEmpty()) {
-                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
-                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
-                    imageView.setImageUrl(url, imageLoader);
-                }else{
-                    imageView.setDefaultImageResId(R.drawable.ic_default_photo);
-                    imageView.setErrorImageResId(R.drawable.ic_default_photo);
-                    imageView.setImageUrl("", imageLoader);
+            private void updateNetworkImageView(SimpleDraweeView imageView,String url){
+                if (!EmptyUtils.isEmpty(url)){
+                    imageView.setImageURI(Uri.parse(url));
                 }
             }
         }

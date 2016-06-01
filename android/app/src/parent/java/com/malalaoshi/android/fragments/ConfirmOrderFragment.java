@@ -1,5 +1,6 @@
 package com.malalaoshi.android.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -8,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseTimesApi;
@@ -26,10 +27,8 @@ import com.malalaoshi.android.entity.TimesModel;
 import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.util.DialogUtil;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.view.CircleNetworkImage;
 import com.malalaoshi.android.view.ScrollListView;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     protected TextView tvSchool;
 
     @Bind(R.id.iv_teacher_avator)
-    protected CircleNetworkImage ivTeacherAvator;
+    protected SimpleDraweeView ivTeacherAvator;
 
     @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
@@ -77,8 +76,6 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     protected TextView tvSubmit;
 
     boolean isEvaluated = true;
-
-    private ImageLoader mImageLoader;
 
     private CourseTimeAdapter timesAdapter;
 
@@ -123,7 +120,6 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         isEvaluated = args.getBoolean(ARG_IS_EVALUATED,true);
         createCourseOrderEntity  = (CreateCourseOrderEntity) args.getSerializable(ARG_CREATE_ORDER_INFO);
 
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -154,12 +150,9 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         };
         tvMount.setText(strTopay);
         String imgUrl = order.getTeacher_avatar();
-        if (TextUtils.isEmpty(imgUrl)) {
-            imgUrl = "";
+        if (!EmptyUtils.isEmpty(imgUrl)){
+            ivTeacherAvator.setImageURI(Uri.parse(imgUrl));
         }
-        ivTeacherAvator.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-        ivTeacherAvator.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-        ivTeacherAvator.setImageUrl(imgUrl, mImageLoader);
         startProcessDialog("startProcessDialog");
         loadData();
     }

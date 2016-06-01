@@ -1,6 +1,7 @@
 package com.malalaoshi.android.activitys;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,15 +9,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.view.ZoomImageView;
+import com.squareup.picasso.Picasso;
+
 
 /**
  * Created by zk on 16/01/12.
@@ -38,13 +37,11 @@ public class GalleryActivity extends BaseActivity {
 	private String[] mImgDes;
 	//当前页索引
 	private int mCurrentItem;
-	//图片View
-	private ImageView[] mImaViews;
 	//页码
 	private TextView mTextView;
 	//照片描述
 	private TextView mTVPicDes;
-	private ImageLoader imageLoader;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,19 +92,34 @@ public class GalleryActivity extends BaseActivity {
 				//ScaleImageView imageView = new ScaleImageView(getApplicationContext());
 				//imageView.setImageResource(mImgs[position]);
 				String imgUrl = mImgUrls[position];
-				if (imgUrl != null && !imgUrl.equals("")) {
-					imageLoader.get(imgUrl, ImageLoader.getImageListener(imageView, R.drawable.ic_default_img_org, R.drawable.ic_default_img_org_error));
-				}
+				//imageView.setImageURI(Uri.parse(imgUrl));
+
+				Picasso.with(GalleryActivity.this) //
+						.load(imgUrl) //
+						.placeholder(R.drawable.ic_default_img_org) //
+						.error(R.drawable.ic_default_img_org_error) //
+						.tag(GalleryActivity.this) //
+						.into(imageView);
+
 				container.addView(imageView);
-				mImaViews[position] = imageView;
+				/*String imgUrl = mImgUrls[position];
+				PhotoView imageView = new PhotoView(GalleryActivity.this);
+				Picasso.with(GalleryActivity.this) //
+						.load(imgUrl) //
+						.placeholder(R.drawable.ic_default_img_org) //
+						.error(R.drawable.ic_default_img_org_error) //
+						.tag(GalleryActivity.this) //
+						.into(imageView);
+				// Now just add PhotoView to ViewPager and return it
+				container.addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);*/
+
 				return imageView;
 			}
 
 			@Override
 			public void destroyItem(ViewGroup container, int position,
 									Object object) {
-				container.removeView(mImaViews[position]);
-				mImaViews[position] = null;
+				container.removeView((View)object);
 			}
 
 			@Override
@@ -117,7 +129,7 @@ public class GalleryActivity extends BaseActivity {
 
 			@Override
 			public int getCount() {
-				return mImaViews.length;
+				return mImgUrls.length;
 			}
 		});
 
@@ -156,8 +168,6 @@ public class GalleryActivity extends BaseActivity {
 		if (mImgUrls==null){
 			mImgUrls = new String[0];
 		}
-		mImaViews = new ImageView[mImgUrls.length];
-		imageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
 	}
 
 	@Override

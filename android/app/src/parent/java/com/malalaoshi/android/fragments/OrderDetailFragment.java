@@ -1,5 +1,6 @@
 package com.malalaoshi.android.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.malalaoshi.android.MalaApplication;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.FetchOrderApi;
 import com.malalaoshi.android.core.base.BaseFragment;
@@ -30,10 +30,8 @@ import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.CalendarUtils;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.view.CircleNetworkImage;
 import com.malalaoshi.android.view.ScrollListView;
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class OrderDetailFragment extends BaseFragment {
     protected TextView tvSchool;
 
     @Bind(R.id.iv_teacher_avator)
-    protected CircleNetworkImage ivTeacherAvator;
+    protected SimpleDraweeView ivTeacherAvator;
 
      @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
@@ -102,8 +100,6 @@ public class OrderDetailFragment extends BaseFragment {
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
-    private ImageLoader mImageLoader;
-
     private CourseTimeAdapter timesAdapter;
 
     private Order order;
@@ -128,7 +124,6 @@ public class OrderDetailFragment extends BaseFragment {
             throw new IllegalArgumentException("arguments can not been null");
         }
         orderId = args.getString(ARG_ORDER_ID);
-        mImageLoader = new ImageLoader(MalaApplication.getHttpRequestQueue(), ImageCache.getInstance(MalaApplication.getInstance()));
     }
 
     @Override
@@ -271,12 +266,9 @@ public class OrderDetailFragment extends BaseFragment {
         }
 
         String imgUrl = order.getTeacher_avatar();
-        if (TextUtils.isEmpty(imgUrl)) {
-            imgUrl = "";
+        if (!EmptyUtils.isEmpty(imgUrl)){
+            ivTeacherAvator.setImageURI(Uri.parse(imgUrl));
         }
-        ivTeacherAvator.setDefaultImageResId(R.drawable.ic_default_teacher_avatar);
-        ivTeacherAvator.setErrorImageResId(R.drawable.ic_default_teacher_avatar);
-        ivTeacherAvator.setImageUrl(imgUrl, mImageLoader);
 
         //上课时间
         List<String[]> timeslots =  order.getTimeslots();
