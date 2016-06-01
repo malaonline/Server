@@ -115,3 +115,18 @@
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class * implements java.io.Serializable { *;}
+
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+-keep class com.facebook.imagepipeline.gif.** { *; }
+-keep class com.facebook.imagepipeline.webp.** { *; }
+-dontwarn com.facebook.**
+
+-keep public class com.squareup.okhttp.OkUrlFactory
+-keep public class com.squareup.okhttp.OkHttpClient
+-dontwarn com.squareup.picasso.**
