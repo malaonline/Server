@@ -58,3 +58,8 @@ celery -A server beat
 
 celery multi start autoconfirm --app=server  -c4  --pidfile=autoconfirm.pid --beat
 
+
+### Kuailexue API Config
+mala_kuailexue.pem:  RSA private key
+mala_kuailexue.pub:  RSA public key, kuailexue verify sign with it, unit test also use it.
+Please overwrite them in folder "/server/server/" with real keys
