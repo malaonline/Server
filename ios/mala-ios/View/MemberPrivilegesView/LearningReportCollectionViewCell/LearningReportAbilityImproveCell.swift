@@ -13,10 +13,19 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 提分点数据
-    var model: [SingleTopicScoreData] = MalaConfig.scoreSampleData() {
+    private var model: [SingleTopicScoreData] = MalaConfig.scoreSampleData() {
         didSet {
-            hideDescription()
             resetData()
+        }
+    }
+    override var asSample: Bool {
+        didSet {
+            if asSample {
+                model = MalaConfig.scoreSampleData()
+            }else {
+                hideDescription()
+                model = MalaSubjectReport.score_analyses
+            }
         }
     }
     

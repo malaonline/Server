@@ -13,10 +13,19 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 知识点数据
-    var model: [SingleTopicData] = MalaConfig.knowledgeSampleData() {
+    private var model: [SingleTopicData] = MalaConfig.knowledgeSampleData() {
         didSet {
-            hideDescription()
             resetData()
+        }
+    }
+    override var asSample: Bool {
+        didSet {
+            if asSample {
+                model = MalaConfig.knowledgeSampleData()
+            }else {
+                hideDescription()
+                model = MalaSubjectReport.knowledges_accuracy
+            }
         }
     }
     

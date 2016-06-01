@@ -32,3 +32,5 @@ var MalaOrderOverView: OrderForm = OrderForm()
 weak var MalaPaymentController: PaymentViewController?
 /// 筛选条件选择下标记录
 var MalaFilterIndexObject = filterSelectedIndexObject()
+/// 用户学习报告数据对象
+var MalaSubjectReport = SubjectReport()

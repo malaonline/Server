@@ -17,7 +17,7 @@ class MemberPrivilegesViewController: UITableViewController {
     /// 学科学习报告模型
     var report: SubjectReport = SubjectReport() {
         didSet {
-            
+            MalaSubjectReport = report
         }
     }
     /// 总练习数
@@ -33,7 +33,7 @@ class MemberPrivilegesViewController: UITableViewController {
             
             // 若当前学习报告状态正确，获取学科学习报告数据
             if reportStatus == .MathSigned {
-                
+                loadSubjectReport()
             }
         }
     }
@@ -196,9 +196,7 @@ class MemberPrivilegesViewController: UITableViewController {
             })
         }, completion: { [weak self] (report) in
             println("学科学习报告：\(report)")
-            
-            
-            
+            self?.report = report
         })
     }
     
@@ -230,6 +228,7 @@ class MemberPrivilegesViewController: UITableViewController {
     /// 显示我的学习报告
     @objc private func showMyReport() {
         let viewController = LearningReportViewController()
+        viewController.sample = false
         viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
         isPushed = true

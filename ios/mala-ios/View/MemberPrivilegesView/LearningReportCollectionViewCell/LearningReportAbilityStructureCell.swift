@@ -13,10 +13,19 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 能力结构数据
-    var model: [SingleAbilityData] = MalaConfig.abilitySampleData() {
+    private var model: [SingleAbilityData] = MalaConfig.abilitySampleData() {
         didSet {
-            hideDescription()
             resetData()
+        }
+    }
+    override var asSample: Bool {
+        didSet {
+            if asSample {
+                model = MalaConfig.abilitySampleData()
+            }else {
+                hideDescription()
+                model = MalaSubjectReport.abilities
+            }
         }
     }
     

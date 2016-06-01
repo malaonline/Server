@@ -26,6 +26,8 @@ class LearningReportViewController: BaseViewController, UICollectionViewDelegate
             collectionView.reloadData()
         }
     }
+    /// 标记是否作为样本展示
+    var sample: Bool = true
     /// 当前下标
     var index: Int?
     
@@ -105,7 +107,8 @@ class LearningReportViewController: BaseViewController, UICollectionViewDelegate
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let reuseCell = collectionView.dequeueReusableCellWithReuseIdentifier(LearningReportCellReuseId[indexPath.row]!, forIndexPath: indexPath)
+        let reuseCell = collectionView.dequeueReusableCellWithReuseIdentifier(LearningReportCellReuseId[indexPath.row]!, forIndexPath: indexPath) as! MalaBaseCardCell
+        reuseCell.asSample = sample
         
         switch indexPath.row {
         case 0:
@@ -133,14 +136,9 @@ class LearningReportViewController: BaseViewController, UICollectionViewDelegate
             return cell
             
         default:
-            break
+            return reuseCell
         }
-        
-        return reuseCell
     }
-    
-    
-    // MARK: - Delegate
     
     
     // MARK: - Event Response

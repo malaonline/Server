@@ -13,9 +13,14 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     // MARK: - Property
     /// 作业数据
-    var model: [SingleHomeworkData] = MalaConfig.homeworkSampleData() {
+    private var model: [SingleHomeworkData] = MalaConfig.homeworkSampleData() {
         didSet {
             resetData()
+        }
+    }
+    override var asSample: Bool {
+        didSet {
+            model = asSample ? MalaConfig.homeworkSampleData() : MalaSubjectReport.error_rates
         }
     }
     
@@ -87,6 +92,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     // MARK: - Instance Method
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configure()
         setupUserInterface()
         setupSampleData()
         resetData()
@@ -98,6 +104,18 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     
     // MARK: - Private Method
+    private func configure() {
+        // X轴数据
+        let xVals = model.map { (data) -> String in
+            return data.name
+        }
+        
+        // 加载图例
+        for (index, string) in xVals.enumerate() {
+            legendView.addLegend(color: MalaConfig.chartsColor()[index], title: string)
+        }
+    }
+    
     private func setupUserInterface() {
         // Style
         contentView.backgroundColor = MalaColor_F2F2F2_0
@@ -189,11 +207,6 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         data.setValueFont(UIFont.systemFontOfSize(11))
         data.setValueTextColor(UIColor.whiteColor())
         pieChartView.data = data
-        
-        // 加载图例
-        for (index, string) in xVals.enumerate() {
-            legendView.addLegend(color: MalaConfig.chartsColor()[index], title: string)
-        }
     }
 }
 

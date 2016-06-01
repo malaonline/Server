@@ -13,13 +13,21 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
     
     // MARK: - Property
     /// 题目数据
-    var model: [SingleTimeIntervalData] = MalaConfig.topicSampleData() {
+    private var model: [SingleTimeIntervalData] = MalaConfig.topicSampleData() {
         didSet {
-            hideDescription()
             resetData()
         }
     }
-    
+    override var asSample: Bool {
+        didSet {
+            if asSample {
+                model = MalaConfig.topicSampleData()
+            }else {
+                hideDescription()
+                model = MalaSubjectReport.month_trend
+            }
+        }
+    }
     
     // MARK: - Components
     /// 折线统计视图

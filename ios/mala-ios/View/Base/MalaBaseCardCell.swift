@@ -17,7 +17,8 @@ class MalaBaseCardCell: UICollectionViewCell {
         view.backgroundColor = UIColor.whiteColor()
         return view
     }()
-    
+    /// 标识是否作为样本展示
+    var asSample: Bool = false
     
     // MARK: - Instance Method
     override init(frame: CGRect) {
