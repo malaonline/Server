@@ -21,11 +21,16 @@ class Command(BaseCommand):
 
         self.add_test_user_into_group('t_manager{id}', 10, '师资管理员', {'password': make_password("123", settings.PASSWORD_SALT)})
 
+        self.add_test_user_into_group('test', 1, '超级管理员')
+
     def add_test_user_into_group(self, test_user_format, count, group_name, newUserData=None):
         #print("add "+group_name+"测试用户 into Group of "+group_name+"...")
         user_group = Group.objects.get(name=group_name)
         for i in range(count):
-            username = test_user_format.format(id=i)
+            if test_user_format == 'test':
+                username = test_user_format
+            else:
+                username = test_user_format.format(id=i)
             try:
                 if newUserData:
                     user, created = User.objects.get_or_create(username=username, defaults=newUserData)

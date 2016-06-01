@@ -673,7 +673,7 @@ class TestApi(TestCase):
 class TestModels(TestCase):
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
-        call_command("build_groups_and_permissions")
+        call_command("mala_all")
 
     def tearDown(self):
         pass
@@ -702,6 +702,12 @@ class TestModels(TestCase):
 
 
 class TestStaffWeb(TestCase):
+    def setUp(self):
+        call_command("mala_all")
+
+    def tearDown(self):
+        pass
+
     def test_coupons_list(self):
         # 奖学金领用列表
         client = Client()
@@ -725,21 +731,21 @@ class TestStaffWeb(TestCase):
         response = client.get(url)
         self.assertEqual(200, response.status_code)
 
-    def test_coupon_config(self):
+    def test_school_timeslot(self):
         # 中心课程列表
         client = Client()
         client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:school_timeslot"))
         self.assertEqual(response.status_code, 200)
 
-    def test_coupon_config(self):
+    def test_schools(self):
         # 中心设置
         client = Client()
         client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:schools"))
         self.assertEqual(response.status_code, 200)
 
-    def test_coupon_config(self):
+    def test_staff_school(self):
         # 新增中心
         client = Client()
         client.login(username='test', password='mala-test')
