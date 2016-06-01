@@ -17,6 +17,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
+from django.contrib.auth.mixins import AccessMixin
 
 # local modules
 from app import models
@@ -68,25 +69,29 @@ def login_auth(request):
     return login(request, {'errors': '用户名或密码错误'})
 
 
-
-class BaseStaffView(TemplateView):
-    """
-    Base view for staff management page views.
-    """
-
-    @method_decorator(mala_staff_required)
+class StaffRoleRequiredMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
         url_name = self.request.resolver_match.url_name
         for group in self.request.user.groups.all():
             for staff_permission in group.staffpermission_set.all():
                 if staff_permission.allowed_url_name == 'all' \
                         or staff_permission.allowed_url_name == url_name:
-                    return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
+                    return super(StaffRoleRequiredMixin, self).dispatch(request, *args, **kwargs)
 
         return HttpResponse("Not Allowed.", status=403)
 
 
-class BaseStaffActionView(View):
+class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
+    """
+    Base view for staff management page views.
+    """
+
+    @method_decorator(mala_staff_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
+
+
+class BaseStaffActionView(StaffRoleRequiredMixin, View):
     """
     Base view for staff management action views.
     """
@@ -96,14 +101,7 @@ class BaseStaffActionView(View):
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
-        url_name = self.request.resolver_match.url_name
-        for group in self.request.user.groups.all():
-            for staff_permission in group.staffpermission_set.all():
-                if staff_permission.allowed_url_name == 'all' \
-                        or staff_permission.allowed_url_name == url_name:
-                    return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
-
-        return HttpResponse("Not Allowed.", status=403)
+        return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
 
 
 def _try_send_sms(phone, tpl_id=0, params=None, times=1):
@@ -130,24 +128,11 @@ def _try_send_sms(phone, tpl_id=0, params=None, times=1):
 
 #因为使用了listView而无法直接继承BaseStaffView
 @method_decorator(mala_staff_required, name='dispatch')
-class CouponsListView(ListView):
+class CouponsListView(StaffRoleRequiredMixin, ListView):
     model = models.Coupon
     template_name = 'staff/coupon/coupons_list.html'
     context_object_name = 'coupons_list'
     paginate_by = 10
-
-    def get(self, request, *args, **kwargs):
-        url_name = self.request.resolver_match.url_name
-        for group in self.request.user.groups.all():
-            for staff_permission in group.staffpermission_set.all():
-                if staff_permission.allowed_url_name == 'all' \
-                        or staff_permission.allowed_url_name == url_name:
-                    self.object_list = self.get_queryset()
-                    context = self.get_context_data()
-                    return self.render_to_response(context)
-
-        return HttpResponse("Not Allowed.", status=403)
-
 
     def get_context_data(self, **kwargs):
         context = super(CouponsListView, self).get_context_data(**kwargs)
