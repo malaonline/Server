@@ -76,10 +76,11 @@ class BaseStaffView(TemplateView):
 
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
-        url_name = request.resolver_match.url_name
+        url_name = self.request.resolver_match.url_name
         for group in self.request.user.groups.all():
             for staff_permission in group.staffpermission_set.all():
-                if staff_permission.allowed_url_name == url_name:
+                if staff_permission.allowed_url_name == 'all' \
+                        or staff_permission.allowed_url_name == url_name:
                     return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
         return HttpResponse("Not Allowed.", status=403)
@@ -95,7 +96,14 @@ class BaseStaffActionView(View):
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
+        url_name = self.request.resolver_match.url_name
+        for group in self.request.user.groups.all():
+            for staff_permission in group.staffpermission_set.all():
+                if staff_permission.allowed_url_name == 'all' \
+                        or staff_permission.allowed_url_name == url_name:
+                    return super(BaseStaffActionView, self).dispatch(request, *args, **kwargs)
+
+        return HttpResponse("Not Allowed.", status=403)
 
 
 def _try_send_sms(phone, tpl_id=0, params=None, times=1):
@@ -127,6 +135,19 @@ class CouponsListView(ListView):
     template_name = 'staff/coupon/coupons_list.html'
     context_object_name = 'coupons_list'
     paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        url_name = self.request.resolver_match.url_name
+        for group in self.request.user.groups.all():
+            for staff_permission in group.staffpermission_set.all():
+                if staff_permission.allowed_url_name == 'all' \
+                        or staff_permission.allowed_url_name == url_name:
+                    self.object_list = self.get_queryset()
+                    context = self.get_context_data()
+                    return self.render_to_response(context)
+
+        return HttpResponse("Not Allowed.", status=403)
+
 
     def get_context_data(self, **kwargs):
         context = super(CouponsListView, self).get_context_data(**kwargs)
