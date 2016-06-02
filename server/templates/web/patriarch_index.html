@@ -1,1 +1,120 @@
-{% extends "web/web_base.html" %}{% block title %}麻辣老师官方网站{% endblock %}{% load staticfiles %}{% load compile_static %}{% block addition_less %}    <link href="{% static 'web/less/index.less'|compile %}" rel="stylesheet" type="text/css">{% endblock %}{% block addition_js %}    <script src="{% static 'web/js/index_fullpage.js' %}"></script>{% endblock %}{% block body_content %}    {% include 'web/modals.html' %}    <div id="fullpage">        <div class="section first-section" id="section0">            <nav class="nav index-nav">                <div class="container">                    <img class="logo-normal" src="{% static 'web/images/logo.png' %}" alt="">                    <img class="logo-mini" src="{% static 'web/images/logo_mini.png' %}" alt="">                    <p class="red">                        我是家长<a href="{% url 'web:teacher-index' %}"> · 注册/登录麻辣老师</a>                    </p>                </div>            </nav>            <div class="intro">                <div class="container">                    <div class="row">                        <div class="col-lg-6 col-xs-12">                            <h2>有个性的老师</h2>                            <h2>专属于你的麻辣老师</h2>                            <img id="qr-img" src="{% static 'web/images/qrcode_lion_big.png' %}" alt="">                        </div>                        <div class="col-lg-6 col-xs-12">                            <img class="img-responsive illustration-big" src="{% static 'web/images/mockup.png' %}" alt="">                        </div>                    </div>                    <div class="row down-icon-row">                        <a class="next-section" href="#">                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">                        </a>                    </div>                </div>            </div>        </div>        <div class="section" id="section1">            <div class="intro">                <div class="container">                    <div class="row">                        <div class="col-lg-6 col-xs-12">                            <img class="img-responsive illustration" src="{% static 'web/images/school_Illustration.png' %}">                        </div>                        <div class="col-lg-6 col-xs-12">                            <img class="img-icon" src="{% static 'web/images/location_icon.png' %}" alt="">                            <h3>身边的学习中心</h3>                            <p>学习中心就在你家社区 私人专属 从未如此便捷</p>                        </div>                    </div>                    <div class="row down-icon-row">                        <a class="next-section" href="#">                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">                        </a>                    </div>                </div>            </div>        </div>        <div class="section" id="section2">            <div class="intro">                <div class="container">                    <div class="row">                        <div class="col-lg-6 col-xs-12">                            <img class="img-icon" src="{% static 'web/images/eye_icon.png' %}" alt="">                            <h3>学习过程完全透明</h3>                            <p>实时查看学习数据 课程、作业、成绩尽在掌握</p>                        </div>                        <div class="col-lg-6 col-xs-12">                            <img class="img-responsive illustration" src="{% static 'web/images/paper_illustration.png' %}" alt="">                        </div>                    </div>                    <div class="row down-icon-row">                        <a class="next-section" href="#">                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">                        </a>                    </div>                </div>            </div>        </div>        <div class="section" id="section3">            <div class="intro">                <div class="container">                    <div class="row">                        <div class="col-lg-4 col-sm-12">                            <img class="img-responsive illustration" src="{% static 'web/images/piggy_bank_illustration.png' %}" alt="">                        </div>                        <div class="col-lg-8 col-sm-12">                            <img class="img-icon" src="{% static 'web/images/dollar_icon.png' %}" alt="">                            <h3>名师护航费用更低</h3>                            <p>去中间环节、让学习费用更低; 精挑喜欢、公开评价、共同定义好老师</p>                        </div>                    </div>                    <div class="row down-icon-row">                        <a class="next-section" href="#">                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">                        </a>                    </div>                </div>            </div>        </div>        <div class="section" id="section4">            <div class="intro">                <div class="container">                    <div class="row">                        <img src="{% static 'web/images/qrcode_lion.png' %}" alt="" class="img-responsive illustration">                        <h3>有个性的麻辣老师 专属于你的麻辣老师</h3>                    </div>                </div>            </div>        </div>        {% include 'web/footer.html' %}    </div>{% endblock %}
+{% extends "web/web_base.html" %}
+{% block title %}麻辣老师官方网站{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% block addition_less %}
+    <link href="{% static 'web/less/index.less'|compile %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'web/js/index_fullpage.js' %}"></script>
+{% endblock %}
+{% block body_content %}
+    {% include 'web/modals.html' %}
+    <div id="fullpage">
+        <div class="section first-section" id="section0">
+            <nav class="nav index-nav">
+                <div class="container">
+                    <img class="logo-normal" src="{% static 'web/images/logo.png' %}" alt="">
+                    <img class="logo-mini" src="{% static 'web/images/logo_mini.png' %}" alt="">
+                    <p class="red">
+                        我是家长<a href="{% url 'web:teacher-index' %}"> · 注册/登录麻辣老师</a>
+                    </p>
+                </div>
+            </nav>
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <h2>有个性的老师</h2>
+                            <h2>专属于你的麻辣老师</h2>
+                            <img id="qr-img" src="{% static 'web/images/qrcode_lion_big.png' %}" alt="">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive illustration-big" src="{% static 'web/images/mockup.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="row down-icon-row">
+                        <a class="next-section" href="#">
+                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section1">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive illustration" src="{% static 'web/images/school_Illustration.png' %}">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-icon" src="{% static 'web/images/location_icon.png' %}" alt="">
+                            <h3>身边的学习中心</h3>
+                            <p>学习中心就在你家社区 私人专属 从未如此便捷</p>
+                        </div>
+                    </div>
+                    <div class="row down-icon-row">
+                        <a class="next-section" href="#">
+                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section2">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-icon" src="{% static 'web/images/eye_icon.png' %}" alt="">
+                            <h3>学习过程完全透明</h3>
+                            <p>实时查看学习数据 课程、作业、成绩尽在掌握</p>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <img class="img-responsive illustration" src="{% static 'web/images/paper_illustration.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="row down-icon-row">
+                        <a class="next-section" href="#">
+                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section3">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-12">
+                            <img class="img-responsive illustration" src="{% static 'web/images/piggy_bank_illustration.png' %}" alt="">
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                            <img class="img-icon" src="{% static 'web/images/dollar_icon.png' %}" alt="">
+                            <h3>名师护航费用更低</h3>
+                            <p>去中间环节、让学习费用更低; 精挑喜欢、公开评价、共同定义好老师</p>
+                        </div>
+                    </div>
+                    <div class="row down-icon-row">
+                        <a class="next-section" href="#">
+                            <img class="img-icon" src="{% static 'web/images/down_arrow_icon.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="section4">
+            <div class="intro">
+                <div class="container">
+                    <div class="row">
+                        <img src="{% static 'web/images/qrcode_lion.png' %}" alt="" class="img-responsive illustration">
+                        <h3>有个性的麻辣老师 专属于你的麻辣老师</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'web/footer.html' %}
+    </div>
+
+{% endblock %}
