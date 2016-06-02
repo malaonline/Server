@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.dialogs.SingleEditDialog;
 
 /**
  * Created by kang on 16/3/22.
@@ -78,5 +79,15 @@ public class DialogUtil {
         PromptDialog promptDialog = PromptDialog.newInstance(drawableId, message, btnText,cancelable, backable);
         promptDialog.setDismissListener(onDismissListener);
         return promptDialog;
+    }
+
+    public static SingleEditDialog createSingleEditDialog( String message, String leftText, String rightText, SingleEditDialog.OnCloseListener onCloseListener , boolean cancelable, boolean backable){
+        SingleEditDialog singleEditDialog = SingleEditDialog.newInstance(message, leftText, rightText,cancelable, backable);
+        singleEditDialog.setOnCloseListener(onCloseListener);
+        return singleEditDialog;
+    }
+    public static void showSingleEditDialog(FragmentManager manager , String message, String leftText, String rightText,SingleEditDialog.OnCloseListener onCloseListener , boolean cancelable, boolean backable){
+        SingleEditDialog singleEditDialog = createSingleEditDialog(message, leftText, rightText,onCloseListener , cancelable, backable);
+        singleEditDialog.show(manager, SingleEditDialog.class.getName());
     }
 }

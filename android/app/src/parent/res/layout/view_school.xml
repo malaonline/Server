@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@id/iv_school_modify_info"
-                android:text="洛阳一中" />
+                android:text="许昌一中" />
         </RelativeLayout>
      </LinearLayout>
 </LinearLayout>

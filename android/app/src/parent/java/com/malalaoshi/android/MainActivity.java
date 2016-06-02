@@ -2,20 +2,18 @@ package com.malalaoshi.android;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
-import com.malalaoshi.android.api.UnpayOrderCountApi;
+import com.malalaoshi.android.api.NoticeMessageApi;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
@@ -23,9 +21,9 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.dialogs.PromptDialog;
-import com.malalaoshi.android.entity.UnpayOrders;
+import com.malalaoshi.android.entity.NoticeMessage;
 import com.malalaoshi.android.events.EventType;
-import com.malalaoshi.android.events.UnpayOrderEvent;
+import com.malalaoshi.android.events.NoticeEvent;
 import com.malalaoshi.android.fragments.MemberServiceFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
@@ -97,7 +95,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     @Override
     protected void onResume() {
         super.onResume();
-        loadUnpayOrders();
+        loadNoticeMessage();
         isResume = true;
     }
 
@@ -269,15 +267,15 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     protected void onClickBarBtnLocation() {
-//        Toast.makeText(this,"TODO: 提示目前只支持洛阳市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持洛阳市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
+//        Toast.makeText(this,"TODO: 提示目前只支持许昌市，换成Dialog", Toast.LENGTH_SHORT).show();
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持许昌市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 
 
-    public void onEventMainThread(UnpayOrderEvent event) {
+    public void onEventMainThread(NoticeEvent event) {
         switch (event.getEventType()) {
-            case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
+            case EventType.BUS_EVENT_NOTICE_MESSAGE:
                 if (event.getUnpayCount()>0){
                     indicatorTabs.setTabIndicatorVisibility(3,View.VISIBLE);
                     if (MalaApplication.getInstance().isFirstStartApp&&isResume){
@@ -351,29 +349,30 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
 
-    public void loadUnpayOrders() {
+    public void loadNoticeMessage() {
         if (UserManager.getInstance().isLogin()) {
-            ApiExecutor.exec(new LoadUnpayOrdersRequest(this));
+            ApiExecutor.exec(new LoadNoticeRequest(this));
         }
     }
 
-    private static final class LoadUnpayOrdersRequest extends BaseApiContext<MainActivity, UnpayOrders> {
+    private static final class LoadNoticeRequest extends BaseApiContext<MainActivity, NoticeMessage> {
 
-        public LoadUnpayOrdersRequest(MainActivity mainActivity) {
+        public LoadNoticeRequest(MainActivity mainActivity) {
             super(mainActivity);
         }
 
         @Override
-        public UnpayOrders request() throws Exception {
-            return new UnpayOrderCountApi().get();
+        public NoticeMessage request() throws Exception {
+            return new NoticeMessageApi().get();
         }
 
         @Override
-        public void onApiSuccess(@NonNull UnpayOrders unpayOrders) {
-            if (unpayOrders != null && unpayOrders.getCount() != null) {
-                UnpayOrderEvent unpayOrderEvent = new UnpayOrderEvent(EventType.BUS_EVENT_UNPAY_ORDER_COUNT);
-                unpayOrderEvent.setUnpayCount(unpayOrders.getCount());
-                EventBus.getDefault().post(unpayOrderEvent);
+        public void onApiSuccess(@NonNull NoticeMessage noticeMessage) {
+            if (noticeMessage != null && noticeMessage.getUnpaid_num() != null&&noticeMessage.getTocomment_num()!=null) {
+                NoticeEvent noticeEvent = new NoticeEvent(EventType.BUS_EVENT_NOTICE_MESSAGE);
+                noticeEvent.setUnpayCount(noticeMessage.getUnpaid_num());
+                noticeEvent.setUncommentCount(noticeMessage.getTocomment_num());
+                EventBus.getDefault().post(noticeEvent);
             }
 
         }

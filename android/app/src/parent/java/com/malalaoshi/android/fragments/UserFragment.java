@@ -20,7 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +29,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
-import com.malalaoshi.android.activitys.ModifyUserNameActivity;
-import com.malalaoshi.android.activitys.ModifyUserSchoolActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.api.StudentInfoApi;
 import com.malalaoshi.android.core.MalaContext;
@@ -40,16 +38,18 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.usercenter.api.AddStudentNameApi;
 import com.malalaoshi.android.core.usercenter.api.UserProfileApi;
+import com.malalaoshi.android.core.usercenter.entity.AddStudentName;
 import com.malalaoshi.android.core.usercenter.entity.UserProfile;
 import com.malalaoshi.android.core.utils.EmptyUtils;
-import com.malalaoshi.android.dialog.RadioDailog;
 import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.dialogs.SingleEditDialog;
 import com.malalaoshi.android.entity.BaseEntity;
 import com.malalaoshi.android.entity.User;
 import com.malalaoshi.android.events.EventType;
-import com.malalaoshi.android.events.UnpayOrderEvent;
+import com.malalaoshi.android.events.NoticeEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
@@ -91,23 +91,19 @@ public class UserFragment extends BaseFragment {
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
 
-    @Bind(R.id.tv_stu_name)
-    protected TextView tvStuName;
-
-    @Bind(R.id.tv_user_city)
-    protected TextView tvUserCity;
-
     @Bind(R.id.iv_user_avatar)
     protected SimpleDraweeView ivAvatar;
-
-    @Bind(R.id.iv_unpaid_orders)
-    protected ImageView ivUnpaidOrders;
 
     @Bind(R.id.tv_unpaid_orders)
     protected TextView tvUnpaidOrders;
 
+    @Bind(R.id.tv_uncomment_course)
+    protected TextView tvUncommentCourse;
+
     @Bind(R.id.btn_logout)
     protected Button btnLogout;
+
+    private String strUserName;
 
     private String strAvatarLocPath;
 
@@ -159,15 +155,18 @@ public class UserFragment extends BaseFragment {
         }
     }
 
-    public void onEventMainThread(UnpayOrderEvent event) {
+    public void onEventMainThread(NoticeEvent event) {
         switch (event.getEventType()) {
-            case EventType.BUS_EVENT_UNPAY_ORDER_COUNT:
-                if (event.getUnpayCount()>0){
-                    ivUnpaidOrders.setVisibility(View.VISIBLE);
+            case EventType.BUS_EVENT_NOTICE_MESSAGE:
+                if (event.getUnpayCount()!=null&&event.getUnpayCount()>0){
                     tvUnpaidOrders.setVisibility(View.VISIBLE);
                 }else{
-                    ivUnpaidOrders.setVisibility(View.GONE);
                     tvUnpaidOrders.setVisibility(View.GONE);
+                }
+                if (event.getUncommentCount()!=null&&event.getUncommentCount()>0){
+                    tvUncommentCourse.setVisibility(View.VISIBLE);
+                }else{
+                    tvUncommentCourse.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -286,13 +285,9 @@ public class UserFragment extends BaseFragment {
     private void updateUserInfoUI() {
         if (UserManager.getInstance().isLogin()) {
             tvUserName.setText(UserManager.getInstance().getStuName());
-            tvStuName.setText(UserManager.getInstance().getStuName());
-            tvUserCity.setText(UserManager.getInstance().getCity());
             btnLogout.setVisibility(View.VISIBLE);
         } else {
             tvUserName.setText("点击登录");
-            tvStuName.setText("");
-            tvUserCity.setText("");
             btnLogout.setVisibility(View.GONE);
         }
 
@@ -426,65 +421,70 @@ public class UserFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.rl_user_name)
+
+
+    @OnClick(R.id.tv_user_name)
     public void OnClickUserName(View view) {
         if (checkLogin() == false) return;
-        Intent intent = new Intent(getActivity(), ModifyUserNameActivity.class);
-        intent.putExtra(ModifyUserNameActivity.EXTRA_USER_NAME, UserManager.getInstance().getStuName());
-        startActivityForResult(intent, ModifyUserNameActivity.RESULT_CODE_NAME);
+        DialogUtil.showSingleEditDialog(
+                getFragmentManager(), tvUserName.getText().toString(),
+                "取消", "保存", new SingleEditDialog.OnCloseListener() {
+                    @Override
+                    public void onLeftClick(EditText editText) {
 
+                    }
+                    @Override
+                    public void onRightClick(EditText editText) {
+                        strUserName = editText.getText().toString();
+                        postModifyUserName();
+                    }
+                }, false, true);
     }
 
-    @OnClick(R.id.rl_user_school)
-    public void OnClickUserSchool(View view) {
+
+
+    private void onChangeStudentNameSuccess(AddStudentName data) {
+        if (data.isDone()) {
+            MiscUtil.toast(R.string.usercenter_set_student_succeed);
+            updateStuName();
+        } else {
+            MiscUtil.toast(R.string.usercenter_set_student_failed);
+        }
+    }
+
+    private void postModifyUserName() {
+        if (TextUtils.isEmpty(strUserName)) {
+            MiscUtil.toast(R.string.usercenter_student_empty);
+            return;
+        }
+        ApiExecutor.exec(new ModifyStudentNameRequest(this,strUserName));
+    }
+
+    private void updateStuName() {
+        if (!TextUtils.isEmpty(strUserName)) {
+            UserManager.getInstance().setStuName(strUserName);
+            tvUserName.setText(strUserName);
+        }
+    }
+
+    @OnClick(R.id.iv_my_collection)
+    public void OnClickUserCollection(View view) {
         if (checkLogin() == false) return;
-        Intent intent = new Intent(getActivity(), ModifyUserSchoolActivity.class);
-        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_GRADE, UserManager.getInstance().getGradeId());
-        intent.putExtra(ModifyUserSchoolActivity.EXTRA_USER_SCHOOL, UserManager.getInstance().getSchool());
-        startActivity(intent);
+
     }
 
-    @OnClick(R.id.rl_user_city)
-    public void OnClickUserCity(View view) {
-        if (checkLogin() == false) return;
-        int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        ArrayList<BaseEntity> datas = new ArrayList<>();
-        initCityDatas(datas);
-        RadioDailog dailog = RadioDailog.newInstance(width, height, "选择城市", datas);
-        dailog.setOnOkClickListener(new RadioDailog.OnOkClickListener() {
-            @Override
-            public void onOkClick(View view, BaseEntity entity) {
-                if (entity != null) {
-                    /*if (userCity == null || userCity.getId() != entity.getId()) {
-                        userCity = entity;
-                        tvUserCity.setText(userCity.getName() != null ? userCity.getName() : "");
-                    }*/
-                }
-
-            }
-        });
-        dailog.show(getFragmentManager(), "tag");
-    }
-
-    private void initCityDatas(ArrayList<BaseEntity> datas) {
-        BaseEntity entity = null;
-        entity = new BaseEntity();
-        entity.setId(1L);
-        entity.setName("洛阳");
-        datas.add(entity);
-        entity = new BaseEntity();
-        entity.setId(0L);
-        entity.setName("其它");
-        datas.add(entity);
-    }
-
-    @OnClick(R.id.rl_user_orders)
+    @OnClick(R.id.iv_my_orders)
     public void OnClickUserOrders(View view) {
         StatReporter.clickOrders(getStatName());
         if (!checkLogin()) return;
         Intent intent = new Intent(getContext(), OrderListActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.iv_my_comment)
+    public void OnClickComments(View view) {
+        if (checkLogin() == false) return;
+
     }
 
     @OnClick(R.id.rl_user_schoolship)
@@ -526,12 +526,6 @@ public class UserFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ModifyUserNameActivity.RESULT_CODE_NAME) {
-            //String userName = data.getStringExtra(ModifyUserNameActivity.EXTRA_USER_NAME);
-            //tvStuName.setText(userName);
-            //tvUserName.setText(userName);
-            updateUI();
-        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_PICK_IMAGE:
@@ -682,6 +676,31 @@ public class UserFragment extends BaseFragment {
         @Override
         public void onApiFailure(Exception exception) {
             get().loadInfoFailed();
+        }
+    }
+
+    private static final class ModifyStudentNameRequest extends BaseApiContext<UserFragment, AddStudentName> {
+
+        private String name;
+
+        public ModifyStudentNameRequest(UserFragment userFragment, String name) {
+            super(userFragment);
+            this.name = name;
+        }
+
+        @Override
+        public AddStudentName request() throws Exception {
+            return new AddStudentNameApi().get(this.name);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull AddStudentName data) {
+            get().onChangeStudentNameSuccess(data);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
         }
     }
 }

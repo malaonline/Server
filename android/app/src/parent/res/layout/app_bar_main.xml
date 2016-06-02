@@ -32,7 +32,7 @@
                     android:drawablePadding="2dp"
                     android:gravity="center|left"
                     android:paddingLeft="8dp"
-                    android:text="洛阳"
+                    android:text="许昌"
                     android:textSize="@dimen/title_left_size" />
 
                 <TextView

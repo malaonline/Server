@@ -30,7 +30,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_school_name"
-            android:text="麻辣体验中心 (洛阳店)"
+            android:text="麻辣体验中心 (许昌店)"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large"
             android:layout_marginTop="@dimen/school_margin_normal"

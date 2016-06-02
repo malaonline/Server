@@ -22,7 +22,7 @@
         android:layout_marginRight="12dp"
         android:drawableLeft="@drawable/home_location_bg"
         android:gravity="center"
-        android:text="洛阳"
+        android:text="许昌"
         android:textColor="#6c6c6c"
         android:textSize="14sp" />
 
