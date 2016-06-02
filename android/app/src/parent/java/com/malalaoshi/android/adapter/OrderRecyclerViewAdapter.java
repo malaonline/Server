@@ -211,6 +211,9 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         @Bind(R.id.tv_cost)
         protected TextView tvCost;
 
+        @Bind(R.id.tv_teacher_status)
+        protected TextView tvTeacherStatus;
+
 
         protected Order order;
 
@@ -280,6 +283,14 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
                 tvOrderStatus.setText("退款成功");
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.GONE);
+            }
+
+            if (!order.is_teacher_published()){
+                tvCancelOrder.setVisibility(View.GONE);
+                tvBuyCourse.setVisibility(View.GONE);
+                tvTeacherStatus.setVisibility(View.VISIBLE);
+            }else{
+                tvTeacherStatus.setVisibility(View.GONE);
             }
 
             String imgUrl = order.getTeacher_avatar();

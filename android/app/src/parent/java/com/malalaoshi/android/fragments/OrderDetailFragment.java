@@ -100,6 +100,10 @@ public class OrderDetailFragment extends BaseFragment {
     @Bind(R.id.tv_submit)
     protected TextView tvSubmit;
 
+    @Bind(R.id.tv_teacher_status)
+    protected TextView tvTeacherStatus;
+
+
     private CourseTimeAdapter timesAdapter;
 
     private Order order;
@@ -264,7 +268,13 @@ public class OrderDetailFragment extends BaseFragment {
             tvSubmit.setVisibility(View.GONE);
             rlOperation.setVisibility(View.GONE);
         }
-
+        if (!order.is_teacher_published()){
+            tvCancelOrder.setVisibility(View.GONE);
+            tvSubmit.setVisibility(View.GONE);
+            tvTeacherStatus.setVisibility(View.VISIBLE);
+        }else{
+            tvTeacherStatus.setVisibility(View.GONE);
+        }
         String imgUrl = order.getTeacher_avatar();
         if (!EmptyUtils.isEmpty(imgUrl)){
             ivTeacherAvator.setImageURI(Uri.parse(imgUrl));

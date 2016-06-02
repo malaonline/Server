@@ -189,6 +189,15 @@
             android:layout_width="71dp"
             android:layout_height="24dp" />
         <TextView
+            android:text="该老师已下架"
+            android:visibility="gone"
+            android:id="@+id/tv_teacher_status"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp" />
+        <TextView
             android:id="@+id/tv_cancel_order"
             android:text="取消订单"
             android:gravity="center"

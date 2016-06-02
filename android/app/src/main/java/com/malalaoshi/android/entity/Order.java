@@ -26,6 +26,7 @@ public class Order implements Parcelable {
     private String charge_channel;
     private boolean evaluated;
     private boolean is_timeslot_allocated;
+    private boolean is_teacher_published;
     List<String[]> timeslots;
 
     public Long getId() {
@@ -164,6 +165,14 @@ public class Order implements Parcelable {
         this.timeslots = timeslots;
     }
 
+    public boolean is_teacher_published() {
+        return is_teacher_published;
+    }
+
+    public void setIs_teacher_published(boolean is_teacher_published) {
+        this.is_teacher_published = is_teacher_published;
+    }
+
 
     @Override
     public int describeContents() {
@@ -188,6 +197,7 @@ public class Order implements Parcelable {
         dest.writeString(this.charge_channel);
         dest.writeByte(this.evaluated ? (byte) 1 : (byte) 0);
         dest.writeByte(this.is_timeslot_allocated ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.is_teacher_published ? (byte) 1 : (byte) 0);
         dest.writeList(this.timeslots);
     }
 
@@ -211,6 +221,7 @@ public class Order implements Parcelable {
         this.charge_channel = in.readString();
         this.evaluated = in.readByte() != 0;
         this.is_timeslot_allocated = in.readByte() != 0;
+        this.is_teacher_published = in.readByte() != 0;
         this.timeslots = new ArrayList<String[]>();
         in.readList(this.timeslots, String[].class.getClassLoader());
     }
