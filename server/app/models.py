@@ -2128,6 +2128,10 @@ class TimeSlot(BaseModel):
         return self.order.subject
 
     @property
+    def grade(self):
+        return self.order.grade
+
+    @property
     def is_passed(self):
         # 不再增加2小时延长时间
         return self.end < timezone.now()

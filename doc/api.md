@@ -675,6 +675,7 @@ data:
             "start": 1465179000,
             "end": 1465186200,
             "subject": "英语",
+            "grade": "六年级",
             "school": "洛阳社区三店",
             "is_passed": false,
             "teacher": {
