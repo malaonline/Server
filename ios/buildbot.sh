@@ -32,6 +32,7 @@ python replace_info.py
 
 # Export dev package
 cfg="dev"
+AdHocProvisioning="Mala AdHoc"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
