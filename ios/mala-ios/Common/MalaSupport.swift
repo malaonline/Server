@@ -195,14 +195,14 @@ func getActivityViewController() -> UIViewController? {
 ///  - parameter timeIntervals: 一组成对的时间戳（分别代表上课和结束的时间）
 ///
 ///  - returns: 文本样式
-func getTimeSchedule(timeIntervals timeStamps: [[Int]]) -> [String] {
+func getTimeSchedule(timeIntervals timeStamps: [[NSTimeInterval]]) -> [String] {
     
     var timeSchedule: [String] = []
     
     for timeStamp in timeStamps {
         
-        let startDate = NSTimeInterval(timeStamp[0])
-        let endDate = NSTimeInterval(timeStamp[1])
+        let startDate = timeStamp[0]
+        let endDate = timeStamp[1]
         
         let string = String(format: "%@ (%@-%@)", getDateString(startDate), getTimeString(startDate), getTimeString(endDate))
         timeSchedule.append(string)
@@ -264,7 +264,7 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
         // 上课时间字符串
         var timeString = ""
         for (index, slot) in slotDate.times.enumerate() {
-            timeString += index%2 == 1 ? "    " : "/n"
+            timeString += index%2 == 1 ? "    " : "\n"
             timeString = index == 0 ? "" : timeString
             timeString += getDateString(date: slot[0], format: "HH:mm") + "-" + getDateString(date: slot[1], format: "HH:mm")
         }

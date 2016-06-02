@@ -558,7 +558,7 @@ func getCourseInfo(id: Int, failureHandler: ((Reason, String?) -> Void)?, comple
 ///  - parameter timeSlots:      所选上课时间
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureHandler: ((Reason, String?) -> Void)?, completion: [[Int]]? -> Void) {
+func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureHandler: ((Reason, String?) -> Void)?, completion: [[NSTimeInterval]]? -> Void) {
     
     guard timeSlots.count != 0 else {
         ThemeHUD.hideActivityIndicator()
@@ -575,7 +575,7 @@ func getConcreteTimeslots(teacherID: Int, hours: Int, timeSlots: [Int], failureH
         "weekly_time_slots": timeSlotStrings.joinWithSeparator(" ")
         ]
     
-    let parse: JSONDictionary -> [[Int]]? = { data in
+    let parse: JSONDictionary -> [[NSTimeInterval]]? = { data in
         return parseConcreteTimeslot(data)
     }
     
@@ -1027,9 +1027,9 @@ let parseUserProtocolHTML: JSONDictionary -> String? = { htmlInfo in
     return htmlString
 }
 /// 上课时间表JSON解析器
-let parseConcreteTimeslot: JSONDictionary -> [[Int]]? = { timeSlotsInfo in
+let parseConcreteTimeslot: JSONDictionary -> [[NSTimeInterval]]? = { timeSlotsInfo in
     
-    guard let data = timeSlotsInfo["data"] as? [[Int]] where data.count != 0 else {
+    guard let data = timeSlotsInfo["data"] as? [[NSTimeInterval]] where data.count != 0 else {
         return nil
     }
     
