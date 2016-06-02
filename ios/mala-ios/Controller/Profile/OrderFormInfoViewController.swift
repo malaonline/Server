@@ -22,7 +22,7 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
             
             /// 渲染底部视图UI
             confirmView.orderStatus = MalaOrderStatus(rawValue: model?.status ?? "d") ?? .Canceled
-            confirmView.price = model?.amount ?? 0
+            confirmView.price = isForConfirm ? MalaCourseChoosingObject.getAmount() ?? 0 : model?.amount ?? 0
         }
     }
     /// 标识是否为确认订单状态
@@ -245,7 +245,14 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
     // MARK: - Delegate
     ///  立即支付
     func OrderFormPayment() {
-        // 支付页面
+        
+        // 订单详情 － 支付
+        if isForConfirm {
+            createOrder()
+            return
+        }
+        
+        // 订单详情 － 支付
         if let order = self.model {
             ServiceResponseOrder = order
             launchPaymentController()

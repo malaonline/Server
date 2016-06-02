@@ -210,15 +210,14 @@ class OrderFormOperatingView: UIView {
             break
             
         case .Confirm:
-            //TODO: 确认订单页完善
-            // 确认订单
-            confirmButton.snp_updateConstraints { (make) in
-                make.width.equalTo(confirmButton.snp_height).multipliedBy(3.89)
-                make.height.equalTo(self.snp_height).multipliedBy(0.755)
-            }
-            confirmButton.setTitle("提交订单", forState: .Normal)
-            confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             
+            // 确认订单
+            cancelButton.hidden = true
+            confirmButton.hidden = false
+            
+            confirmButton.setTitle("提交订单", forState: .Normal)
+            confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
+            confirmButton.addTarget(self, action: #selector(OrderFormOperatingView.pay), forControlEvents: .TouchUpInside)
             break
         }
     }
