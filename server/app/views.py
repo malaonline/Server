@@ -674,11 +674,29 @@ class TeacherWeeklyTimeSlot(ParentBasedMixin, APIView):
         weekly_time_slots = list(region.weekly_time_slots.all())
         slots = itertools.groupby(weekly_time_slots, key=lambda x: x.weekday)
 
+        # 获取所有保留的课程
+        date = timezone.now() - models.TimeSlot.RENEW_TIME
+        reserved_time_slots = models.TimeSlot.objects.filter(
+            order__teacher=teacher,
+            order__parent=parent,
+            start__gte=date,
+            order__school=school,
+            deleted=False)
+
+        # 转换为周课程表形式
+        reserved_weekly_time_slots = [
+            (t.start.astimezone().isoweekday(),
+             t.start.astimezone().time(),
+             t.end.astimezone().time())
+            for t in reserved_time_slots]
+
+        # 增加 reserved 标记'已买'状态
         data = [(str(day), [OrderedDict([
             ('id', s.id),
             ('start', s.start.strftime('%H:%M')),
             ('end', s.end.strftime('%H:%M')),
-            ('available', la_dict[(day, s.start, s.end)])])
+            ('available', la_dict[(day, s.start, s.end)]),
+            ('reserved', (s.weekday, s.start, s.end) in reserved_weekly_time_slots)])
             for s in ss])
             for day, ss in slots]
 
