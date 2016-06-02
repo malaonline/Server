@@ -60,6 +60,26 @@ paths:
           description: An array of subjects
           schema:
             $ref: '#/definitions/SubjectReport'
+  /my_center:
+    get:
+      summary: Personal center data of parent client app
+      description: In parent client app, return some personal info data, such as unpaid orders count, todo comment courses count
+      tags:
+        - Personal Center
+      parameters:
+        - $ref: '#/parameters/authTokenHeader'
+      responses:
+        '200':
+          description: An object of such data related with orders and courses
+          schema:
+            type: object
+            properties:
+              unpaid_num:
+                type: integer
+                description: number of unpaid orders
+              tocomment_num:
+                type: integer
+                description: number of courses to do comment
 
 # define models
 definitions:
