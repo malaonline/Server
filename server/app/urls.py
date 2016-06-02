@@ -44,6 +44,8 @@ urlpatterns = [
         name='concrete_time_slot'),
     url(r'^api/v1/unpaid_count', views.UnpaidCount.as_view(),
         name='unpaid_count'),
+    url(r'^api/v1/my_center', views.ParentCenter.as_view(),
+        name='my_center'),
     url(r'^test/testAutoConfirmClasses', views.autoConfirmClassesView.as_view(),
         name='autoConfirmClasses'),
     url(r'^api/v1/study_report(\/?)$', views.StudyReportView.as_view(),

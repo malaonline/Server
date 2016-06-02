@@ -1045,6 +1045,16 @@ class UnpaidCount(ParentBasedMixin, APIView):
         return JsonResponse({'count': order_count})
 
 
+class ParentCenter(ParentBasedMixin, APIView):
+    queryset = models.Order.objects.all()
+
+    def get(self, request):
+        parent = self.get_parent()
+        unpaid_num = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
+        tocomment_num = models.TimeSlot.objects.filter(order__parent=parent, attendance__isnull=False, comment__isnull=True).count()
+        return JsonResponse({'unpaid_num': unpaid_num, 'tocomment_num': tocomment_num})
+
+
 class StudyReportView(ParentBasedMixin, APIView):
     queryset = models.Parent.objects.all()
 
