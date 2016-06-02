@@ -112,6 +112,7 @@ class GradeSelectCollectionView: UICollectionView, UICollectionViewDelegate, UIC
         // 选中当前选择项
         if indexPath == currentSelectedIndexPath {
             cell.selected = true
+            MalaOrderOverView.gradeName = cell.price?.grade?.name
         }
         return cell
     }

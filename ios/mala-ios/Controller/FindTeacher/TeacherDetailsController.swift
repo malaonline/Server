@@ -26,6 +26,12 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     var teacherID: Int = 0
     var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
+            
+            MalaOrderOverView.avatarURL = model.avatar
+            MalaOrderOverView.teacherName = model.name
+            MalaOrderOverView.subjectName = model.subject
+            MalaOrderOverView.teacher = model.id
+            
             self.tableHeaderView.avatar = model.avatar ?? ""
             self.tableHeaderView.name = model.name  ?? "老师姓名"
             self.tableHeaderView.gender = model.gender ?? "m"

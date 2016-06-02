@@ -87,7 +87,9 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return shouldHiddenPaymentChannel ? OrderFormCellReuseId.count-1 : OrderFormCellReuseId.count
+        var count = shouldHiddenPaymentChannel ? OrderFormCellReuseId.count-1 : OrderFormCellReuseId.count
+        count = model?.status == "c" ? OrderFormCellReuseId.count-2 : count
+        return count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

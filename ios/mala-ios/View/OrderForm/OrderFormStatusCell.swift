@@ -39,6 +39,7 @@ class OrderFormStatusCell: UITableViewCell {
                     break
                     
                 case .Confirm:
+                    self.statusLabel.text = "确认订单"
                     break
                 }
             }

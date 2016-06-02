@@ -454,60 +454,9 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         })
     }
     
-    private func createOrder() {
-        
-        println("创建订单")
-        ThemeHUD.showActivityIndicator()
-        
-        ///  创建订单
-        createOrderWithForm(MalaOrderObject.jsonDictionary(), failureHandler: { [weak self] (reason, errorMessage) -> Void in
-            
-            ThemeHUD.hideActivityIndicator()
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-            
-            // 错误处理
-            if let errorMessage = errorMessage {
-                println("PaymentViewController - CreateOrder Error \(errorMessage)")
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self?.ShowTost("创建订单失败, 请重试！")
-            })
-            
-            }, completion: { [weak self] (order) -> Void in
-                
-                ThemeHUD.hideActivityIndicator()
-                
-                if let errorCode = order.code {
-                    
-                    if errorCode == -1 {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self?.ShowTost("该老师部分时段已被占用，请重新选择上课时间")
-                            self?.loadClassSchedule()
-                        })
-                    }
-                    
-                }else {
-                    ThemeHUD.hideActivityIndicator()
-                    println("创建订单成功:\(order)")
-                    ServiceResponseOrder = order
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self?.launchPaymentController()
-                    })
-                }
-            })
-    }
-    
-    private func launchPaymentController() {
-    
-        // 跳转到支付页面
-        let viewController = PaymentViewController()
-        // 设置支付页面弹栈闭包（用于[课程被抢买]时的回调刷新选课条件）
-        viewController.popAction = { [weak self] in
-            self?.loadClassSchedule()
-            MalaIsPaymentIn = false
-        }
-        
+    private func launchOrderOverViewController() {
+        let viewController = OrderFormInfoViewController()
+        viewController.isForConfirm = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -548,8 +497,8 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             return model.id
         }
         
-        // 创建订单
-        createOrder()
+        // 确认订单
+        launchOrderOverViewController()
     }
     
     
