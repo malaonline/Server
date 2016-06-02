@@ -139,8 +139,8 @@ group_and_permission = [
     ("老师", [], []),
     ("家长", ['Can change parent', 'Can change profile'], []),
     ("学生", [], []),
-    # todo: 暂时保留 师资管理员 角色, 并且拥有所有访问权限
-    ("师资管理员", ['Can change teacher'], ['all'])
+    # todo: 师资管理员暂时只作为登录后台
+    ("师资管理员", ['Can change teacher'], [])
 ]
 
 
