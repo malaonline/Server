@@ -129,9 +129,12 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 simpleDraweeViews[2] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView3);
             }
             public void update(final int position){
-
+                simpleDraweeViews[0].setVisibility(View.INVISIBLE);
+                simpleDraweeViews[1].setVisibility(View.INVISIBLE);
+                simpleDraweeViews[2].setVisibility(View.INVISIBLE);
                 int count = (photoUrls.length - position*3)>3?3:photoUrls.length - position*3;
                 for (int i=0;i<count;i++){
+                    simpleDraweeViews[i].setVisibility(View.VISIBLE);
                     final int newPos = position*3+i;
                     //重置图高度
                     int width = simpleDraweeViews[i].getMeasuredWidth();

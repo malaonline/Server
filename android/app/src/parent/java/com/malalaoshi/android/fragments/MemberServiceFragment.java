@@ -298,8 +298,8 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     @OnClick(R.id.tv_learning_report)//学习报告
     public void onClickLearningReport(View view){
-        //openMemberServiceAvtivity(1);
-        startActivity(new Intent(getActivity(), ReportActivity.class));
+        openMemberServiceAvtivity(1);
+        //startActivity(new Intent(getActivity(), ReportActivity.class));
     }
 
     @OnClick(R.id.tv_counseling)//心理辅导

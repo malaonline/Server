@@ -111,8 +111,6 @@ public class UserFragment extends BaseFragment {
 
     private String strAvatarLocPath;
 
-    private Bitmap bmpAvatar;
-
     private final BroadcastReceiver loginReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -251,7 +249,7 @@ public class UserFragment extends BaseFragment {
                 }
             }
         } else {
-            ivAvatar.setImageResource(R.drawable.default_avatar);
+            ivAvatar.setImageURI(Uri.parse("res://myavator/" + R.drawable.default_avatar));
         }
     }
 
@@ -558,9 +556,10 @@ public class UserFragment extends BaseFragment {
 
     private void postUserAvator(String path) {
         if (path != null && !path.isEmpty()) {
+            strAvatarLocPath = path;
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance
+            Bitmap bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance
                     (MalaApplication.getInstance()));
             //ivAvatar.setImageBitmap(bitmap);
             String cachePath = ImageUtil.getAppDir("cache");
@@ -632,8 +631,8 @@ public class UserFragment extends BaseFragment {
     }
 
     private void setAvatarSucceeded() {
-        if (bmpAvatar != null) {
-            ivAvatar.setImageBitmap(bmpAvatar);
+        if (strAvatarLocPath != null) {
+            ivAvatar.setImageURI(Uri.parse("file://"+strAvatarLocPath));
         }
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
         stopProcessDialog();
