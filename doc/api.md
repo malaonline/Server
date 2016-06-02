@@ -671,10 +671,18 @@ data:
     "previous": null,
     "results": [
         {
-            "id": 1,
-            "end": 1234567890,
-            "subject": "数学",
-            "is_passed": false
+            "id": 16,
+            "start": 1465179000,
+            "end": 1465186200,
+            "subject": "英语",
+            "school": "洛阳社区三店",
+            "is_passed": false,
+            "teacher": {
+                "id": 9,
+                "avatar": "http://127.0.0.1:8000/upload/avatars/img0_f7jKV3b.jpg",
+                "name": "冯老师"
+            },
+            "comment": null
         },
         ...
     ]

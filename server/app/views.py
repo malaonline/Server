@@ -45,6 +45,12 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
+class HugeResultsSetPagination(PageNumberPagination):
+    page_size = 5000
+    page_size_query_param = 'page_size'
+    max_page_size = None
+
+
 class PolicySerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
 
@@ -793,7 +799,7 @@ class TimeSlotSerializer(serializers.ModelSerializer):
 
 
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
-    pagination_class = LargeResultsSetPagination
+    pagination_class = HugeResultsSetPagination
     queryset = models.TimeSlot.objects.all()
     serializer_class = TimeSlotSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -805,10 +811,8 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
         return queryset
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return TimeSlotListSerializer
-        else:
-            return TimeSlotSerializer
+        # 课程列表与课程详情, 都用详情的序列化接口
+        return TimeSlotSerializer
 
 
 class ParentSerializer(serializers.ModelSerializer):
