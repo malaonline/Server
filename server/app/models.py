@@ -2026,6 +2026,7 @@ class TimeSlot(BaseModel):
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
     CONFIRM_TIME = datetime.timedelta(hours=2)
+    COMMENT_DELAY = datetime.timedelta(days=15)
 
     order = models.ForeignKey(Order)
     start = models.DateTimeField()

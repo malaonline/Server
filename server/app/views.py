@@ -1051,7 +1051,8 @@ class ParentCenter(ParentBasedMixin, APIView):
     def get(self, request):
         parent = self.get_parent()
         unpaid_num = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
-        tocomment_num = models.TimeSlot.objects.filter(order__parent=parent, attendance__isnull=False, comment__isnull=True).count()
+        tocomment_num = models.TimeSlot.objects.filter(order__parent=parent, attendance__isnull=False, comment__isnull=True,
+                                                       end__gte=timezone.now()-models.TimeSlot.COMMENT_DELAY).count()
         return JsonResponse({'unpaid_num': unpaid_num, 'tocomment_num': tocomment_num})
 
 
