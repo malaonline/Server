@@ -650,24 +650,24 @@ class TestApi(TestCase):
             profile = user.profile
             self.assertIsNotNone(profile)
 
-    # def test_kuailexue_study_report(self):
-    #     username = "parent1"
-    #     password = "123123"
-    #     client = Client()
-    #     client.login(username=username, password=password)
-    #
-    #     params = StudyReportView.COM_PARAMS.copy()
-    #     params.update({'uid': '12345678'})
-    #     StudyReportView.sign_params(params)
-    #     self.assertTrue(StudyReportView.verify_sign(params))
-    #
-    #     request_url = "/api/v1/study_report"
-    #     response = client.get(request_url, content_type='application/json')
-    #     self.assertEqual(200, response.status_code)
-    #     math_id = Subject.objects.get(name='数学').id
-    #     request_url = "/api/v1/study_report/%s"%(math_id)
-    #     response = client.get(request_url, content_type='application/json')
-    #     self.assertEqual(200, response.status_code)
+    def test_kuailexue_study_report(self):
+        username = "parent1"
+        password = "123123"
+        client = Client()
+        client.login(username=username, password=password)
+
+        params = StudyReportView.COM_PARAMS.copy()
+        params.update({'uid': '12345678'})
+        StudyReportView.sign_params(params)
+        self.assertTrue(StudyReportView.verify_sign(params))
+
+        request_url = "/api/v1/study_report"
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        math_id = Subject.objects.get(name='数学').id
+        request_url = "/api/v1/study_report/%s"%(math_id)
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
 
 
 class TestModels(TestCase):
