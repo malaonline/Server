@@ -882,7 +882,8 @@ result:
             "status": "u",
             "order_id": "1216664871711940",
             "to_pay": 1140,
-            "evaluated": true
+            "evaluated": true,
+            "is_teacher_published": true,
         },
         {
             "id": 32,
@@ -896,7 +897,8 @@ result:
             "status": "p",
             "order_id": "1216670256607750",
             "to_pay": 840,
-            "evaluated": true
+            "evaluated": true,
+            "is_teacher_published": true,
         }
     ]
 }
@@ -932,6 +934,7 @@ result:
     "charge_channel": null,
     "evaluated": true,
     "is_timeslot_allocated": false,
+    "is_teacher_published": true,
     "timeslots": [
         [
             1464134400,

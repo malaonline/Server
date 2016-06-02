@@ -1796,6 +1796,11 @@ class Order(BaseModel):
             return False
         return True
 
+    def is_teacher_published(self):
+        if self.teacher.published:
+            return True
+        return False
+
     @property
     def status_display(self):
         if self.refund_status:

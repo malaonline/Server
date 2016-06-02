@@ -830,7 +830,7 @@ class OrderListSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
                   'school', 'grade', 'subject', 'hours', 'status',
-                  'order_id', 'to_pay', 'evaluated',)
+                  'order_id', 'to_pay', 'evaluated','is_teacher_published')
 
 
 class OrderRetrieveSerializer(serializers.ModelSerializer):
@@ -848,7 +848,7 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
                   'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'created_at', 'paid_at',
                   'charge_channel', 'evaluated', 'is_timeslot_allocated',
-                  'timeslots')
+                  'is_teacher_published', 'timeslots')
 
     def get_created_at(self, obj):
         if obj.created_at:
