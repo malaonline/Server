@@ -19,10 +19,11 @@ public class ThemeHorizontalBarChartView: UIView {
             })
         }
     }
-    /// 条形视图数组
-    var bars: [ThemeHorizontalBar] = []
+    
     
     // MARK: - Components
+    /// 条形视图数组
+    var bars: [ThemeHorizontalBar] = []
     
     
     
@@ -55,6 +56,13 @@ public class ThemeHorizontalBarChartView: UIView {
             bars.append(bar)
         }
     }
+    
+    ///  移除所有图表
+    func removeAllCharts() {
+        for chart in bars {
+            chart.removeFromSuperview()
+        }
+    }
 }
 
 
@@ -67,11 +75,14 @@ public class ThemeHorizontalBar: UIView {
             titleLabel.text = data.title
             progressBar.progressTintColors = [data.color]
             
-            let percent = CGFloat(data.rightNum)/CGFloat(data.totalNum)
-            percentLabel.text = String(format: "%d%%", Int(percent*100))
+            var percent: CGFloat = 0
+            if data.totalNum != 0 {
+                percent = CGFloat(data.rightNum)/CGFloat(data.totalNum)
+                percentLabel.text = String(format: "%d%%", Int(percent*100))
+                progressBar.setProgress(percent, animated: false)
+            }
             progressBar.rightNum = data.rightNum
             progressBar.totalNum = data.totalNum
-            progressBar.setProgress(percent, animated: true)
         }
     }
     
@@ -92,7 +103,9 @@ public class ThemeHorizontalBar: UIView {
         bar.indicatorTextDisplayMode = .Progress
         bar.behavior = .Indeterminate
         bar.stripesOrientation = .Left
+        bar.progressTintColor = MalaColor_E5E5E5_0
         bar.trackTintColor = MalaColor_E5E5E5_0
+        bar.stripesColor = MalaColor_E5E5E5_0
         bar.progressTintColors = [MalaColor_75CC97_0]
         bar.indicatorTextLabel.font = UIFont(name: "HelveticaNeue-Light", size: 9)
         bar.hideGloss = true

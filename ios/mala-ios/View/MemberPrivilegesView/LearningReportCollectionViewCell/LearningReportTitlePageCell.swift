@@ -10,6 +10,13 @@ import UIKit
 
 class LearningReportTitlePageCell: MalaBaseCardCell {
     
+    // MARK: - Property
+    override var asSample: Bool {
+        didSet {
+            
+        }
+    }
+    
     // MARK: - Components
     /// 标题标签
     private lazy var titleLabel: UILabel = {
@@ -175,6 +182,13 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     // 设置样本数据
     private func setupSampleData() {
         titleLabel.text = "麻辣老师学生学习报告样本"
+        dateLabel.text = "2016年4月17～2016年6月13"
+        nameLabel.text = "王琦"
+        gradeLabel.text = "初中二年级"
+    }
+    
+    private func setupRealData() {
+        titleLabel.text = "麻辣老师学生学习报告"
         dateLabel.text = "2016年4月17～2016年6月13"
         nameLabel.text = "王琦"
         gradeLabel.text = "初中二年级"

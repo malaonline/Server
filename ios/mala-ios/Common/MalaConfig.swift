@@ -242,15 +242,29 @@ public class MalaConfig {
         ]
     }
     
+    ///  ［知识点分析页面］默认数据
+    class func knowledgeDefaultData() -> [SingleTopicData] {
+        return [
+            SingleTopicData(id: 1, name: "实数", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 2, name: "函数初步", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 3, name: "圆", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 4, name: "多边形", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 5, name: "全等", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 6, name: "相似", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 7, name: "几何变换", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: 8, name: "几何操作", totalItem: 100, rightItem: 0),
+        ]
+    }
+    
     ///  ［能力结构分析页面］样本数据
     class func abilitySampleData() -> [SingleAbilityData] {
         return [
-            SingleAbilityData(name: "reason", value: 60),
-            SingleAbilityData(name: "data", value: 30),
-            SingleAbilityData(name: "spatial", value: 42),
-            SingleAbilityData(name: "calc", value: 33),
-            SingleAbilityData(name: "appl", value: 82),
-            SingleAbilityData(name: "abstract", value: 66)
+            SingleAbilityData(key: "reason", value: 60),
+            SingleAbilityData(key: "data", value: 30),
+            SingleAbilityData(key: "spatial", value: 42),
+            SingleAbilityData(key: "calc", value: 33),
+            SingleAbilityData(key: "appl", value: 82),
+            SingleAbilityData(key: "abstract", value: 66)
         ]
     }
     

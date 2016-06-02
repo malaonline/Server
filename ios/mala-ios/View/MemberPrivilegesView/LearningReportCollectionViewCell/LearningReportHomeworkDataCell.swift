@@ -182,6 +182,11 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     // 重置数据
     private func resetData() {
         
+        guard model.count != 0 else {
+            handleNullData()
+            return
+        }
+        
         // Y轴数据
         let yVals = model.map { (data) -> ChartDataEntry in
             return ChartDataEntry(value: data.rate.doubleValue, xIndex: data.id)
@@ -190,7 +195,6 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         let xVals = model.map { (data) -> String in
             return data.name
         }
-        
         
         // 设置数据
         let dataSet = PieChartDataSet(yVals: yVals, label: nil)
@@ -206,6 +210,18 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         data.setValueFormatter(pFormatter)
         data.setValueFont(UIFont.systemFontOfSize(11))
         data.setValueTextColor(UIColor.whiteColor())
+        pieChartView.data = data
+    }
+    
+    private func handleNullData() {
+        
+        // Y轴数据
+        let yVals = ChartDataEntry(value: Double(1), xIndex: 0)
+        
+        // 设置空数据
+        let dataSet = PieChartDataSet(yVals: [yVals], label: nil)
+        dataSet.colors = [MalaColor_E5E5E5_3]
+        let data = PieChartData(xVals: [""], dataSet: dataSet)
         pieChartView.data = data
     }
 }
@@ -225,6 +241,7 @@ public class PieLegendView: UIView {
         }
     }
     var viewCount: Int = 0
+    private var legends: [UIButton] = []
     
     
     // MARK: - Constructed
@@ -260,7 +277,14 @@ public class PieLegendView: UIView {
         addSubview(button)
         viewCount += 1
         currentX = CGRectGetMaxX(button.frame)
+        legends.append(button)
         
         return button
+    }
+    
+    public func removeAllLegend() {
+        for legend in legends {
+            legend.removeFromSuperview()
+        }
     }
 }

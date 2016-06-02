@@ -61,6 +61,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         leftAxis.gridColor = MalaColor_E6E9EC_0
         leftAxis.drawGridLinesEnabled = true
         leftAxis.axisMinValue = 0
+        leftAxis.axisMaxValue = 200
         leftAxis.labelCount = 5
 
         lineChartView.legend.enabled = true
@@ -115,7 +116,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         // 总练习数据
         var yValsTotal = model.map { (data) -> ChartDataEntry in
             totalIndex += 1
-            return ChartDataEntry(value: Double(data.totalItem), xIndex: totalIndex)
+            return ChartDataEntry(value: Double(data.total_item), xIndex: totalIndex)
         }
         packageData(&yValsTotal)
 
@@ -131,7 +132,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         // 正确练习数据
         var yValsRight = model.map { (data) -> ChartDataEntry in
             rightIndex += 1
-            return ChartDataEntry(value: Double(data.totalItem-data.errorItem), xIndex: rightIndex)
+            return ChartDataEntry(value: Double(data.total_item-data.error_item), xIndex: rightIndex)
         }
         packageData(&yValsRight)
         

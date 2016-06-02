@@ -176,6 +176,12 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
     
     // 获取X轴文字信息
     private func getXVals() -> [String] {
+        
+        /// 若当前数据无效，则使用默认数据
+        guard model.count != 0 else {
+            return MalaConfig.homeworkDataChartsTitle()
+        }
+        
         let xVals = model.map { (data) -> String in
             return data.name
         }

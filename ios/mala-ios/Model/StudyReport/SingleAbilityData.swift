@@ -12,13 +12,13 @@ class SingleAbilityData: NSObject {
     
     // MARK: - Property
     /// 能力名称（简略）
-    var name: String = ""
+    var key: String = ""
     /// 数值
-    var value: Int = 0
+    var val: Int = 0
     /// 能力
     var ability: MalaStudyReportAbility {
         get {
-            return MalaStudyReportAbility(rawValue: name) ?? .unkown
+            return MalaStudyReportAbility(rawValue: key) ?? .unkown
         }
     }
     /// 能力字符串
@@ -61,9 +61,9 @@ class SingleAbilityData: NSObject {
     }
     
     
-    convenience init(name: String, value: Int) {
+    convenience init(key: String, value: Int) {
         self.init()
-        self.name = name
-        self.value = value
+        self.key = key
+        self.val = value
     }
 }

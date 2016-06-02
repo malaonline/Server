@@ -12,9 +12,9 @@ class SingleTimeIntervalData: NSObject {
     
     // MARK: - Property
     /// 答题数量
-    var totalItem: Int = 0
+    var total_item: Int = 0
     /// 错题数量
-    var errorItem: Int = 0
+    var error_item: Int = 0
     /// 年份
     var year: Int = 0
     /// 月份
@@ -41,8 +41,8 @@ class SingleTimeIntervalData: NSObject {
     
     convenience init(totalItem: Int, errorItem: Int, year: Int, month: Int, day: Int) {
         self.init()
-        self.totalItem = totalItem
-        self.errorItem = errorItem
+        self.total_item = totalItem
+        self.error_item = errorItem
         self.year = year
         self.month = month
         self.day = day

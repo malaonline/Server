@@ -102,7 +102,7 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
         // 数据
         let yVals = model.map { (data) -> ChartDataEntry in
             index += 1
-            return ChartDataEntry(value: Double(data.value), xIndex: index)
+            return ChartDataEntry(value: Double(data.val), xIndex: index)
         }
         
         // 设置UI

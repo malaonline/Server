@@ -101,8 +101,11 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
     
     // 重置数据
     private func resetData() {
+        
+        let data = model.count == 0 ? MalaConfig.knowledgeDefaultData() : model
+        
         var index = -1
-        let vals = model.map { (data) -> ThemeHorizontalBarData in
+        let vals = data.map { (data) -> ThemeHorizontalBarData in
             index += 1
             return ThemeHorizontalBarData(title: data.name, color: MalaConfig.chartsColor()[index], rightNum: data.rightItem, totalNum: data.totalItem)
         }
