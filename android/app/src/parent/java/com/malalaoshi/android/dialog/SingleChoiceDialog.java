@@ -63,7 +63,7 @@ public class SingleChoiceDialog extends DialogFragment implements AdapterView.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_single_eidt, null, false);
+        View view = inflater.inflate(R.layout.dialog_single_choice, null, false);
         ButterKnife.bind(this, view);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return view;

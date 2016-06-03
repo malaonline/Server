@@ -151,7 +151,9 @@ public class SingleEditDialog extends DialogFragment implements View.OnClickList
         ButterKnife.bind(this, view);
         Bundle args = getArguments();
         if (args!=null){
-            editText.setText(args.getString(ARGS_MESSAGE_TEXT_KET,""));
+            String name = args.getString(ARGS_MESSAGE_TEXT_KET,"");
+            editText.setText(name);
+            editText.setSelection(name.length());
             leftView.setText(args.getString(ARGS_LEFT_TEXT_KET,""));
             rightView.setText(args.getString(ARGS_RIGHT_TEXT_KET,""));
             leftView.setOnClickListener(this);

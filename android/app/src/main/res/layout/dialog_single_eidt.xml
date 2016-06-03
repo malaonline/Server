@@ -15,7 +15,7 @@
         android:background="@null"
         android:textColor="#939393"
         android:gravity="center"
-        android:maxLines="4"
+        android:maxLength="4"
         />
     <View
         android:layout_marginLeft="36dp"
