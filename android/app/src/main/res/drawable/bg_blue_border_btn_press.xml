@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="37dp" />
+    <stroke android:color="@color/dialog_title_color" android:width="0.5dp" />
+    <solid android:color="#eeeeee"/>
+</shape>

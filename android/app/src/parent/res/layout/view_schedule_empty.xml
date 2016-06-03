@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_tip"
+        android:text="暂时还没有课程哦!"
+        android:textSize="@dimen/text_size_normal_x"
+        android:textColor="@color/text_color_dlg"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:drawableTop="@drawable/ic_course_empty"
+        android:drawablePadding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_sgin_up"
+        android:text="去报名"
+        android:layout_below="@id/tv_tip"
+        android:textColor="#8dbede"
+        android:textSize="@dimen/text_size_xlarge"
+        android:gravity="center"
+        android:background="@drawable/bg_blue_border_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="164dp"
+        android:layout_height="37dp" />
+</RelativeLayout>
