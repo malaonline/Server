@@ -13,7 +13,11 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     // MARK: - Property
     override var asSample: Bool {
         didSet {
-            
+            if asSample {
+                setupSampleData()
+            }else {
+                setupRealData()
+            }
         }
     }
     
@@ -189,8 +193,8 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
     
     private func setupRealData() {
         titleLabel.text = "麻辣老师学生学习报告"
-        dateLabel.text = "2016年4月17～2016年6月13"
-        nameLabel.text = "王琦"
-        gradeLabel.text = "初中二年级"
+        dateLabel.text = MalaSubjectReport.timePeriod
+        nameLabel.text = MalaUserDefaults.studentName.value ?? ""
+        gradeLabel.text = MalaGradeName[MalaSubjectReport.grade_id]
     }
 }

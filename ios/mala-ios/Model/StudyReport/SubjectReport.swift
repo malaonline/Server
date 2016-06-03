@@ -13,6 +13,8 @@ class SubjectReport: NSObject {
     // MARK: - Property
     /// 学科id
     var subject_id: Int = 0
+    /// 年级id
+    var grade_id: Int = 0
     /// 练习总数
     var total_nums: Int = 0
     /// 正确练习数
@@ -32,6 +34,15 @@ class SubjectReport: NSObject {
     var abilities: [SingleAbilityData] = []
     /// 提分点分析
     var score_analyses: [SingleTopicScoreData] = []
+    
+    /// 时间区间文字
+    var timePeriod: String {
+        get {
+            let startDate = String(format: "%d年%d月%d日", (month_trend.last?.year ?? 0), (month_trend.last?.month ?? 0), (month_trend.last?.day ?? 0))
+            let endDate = String(format: "%d年%d月%d日", (month_trend.first?.year ?? 0), (month_trend.first?.month ?? 0), (month_trend.first?.day ?? 0))
+            return startDate+"~"+endDate
+        }
+    }
     
     
     // MARK: - Constructed
