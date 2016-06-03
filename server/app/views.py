@@ -696,11 +696,10 @@ class TeacherWeeklyTimeSlot(ParentBasedMixin, APIView):
              t.end.astimezone().time())
             for t in reserved_time_slots]
 
-        # 获取该老师被占用时段, 结束时间由小到大
+        # 获取该老师被占用时段, 结束时间由小到大, 所有学校占用都取出来
         occupied_time_slots = models.TimeSlot.objects.filter(
             order__teacher=teacher,
             start__gte=date,
-            order__school=school,
             deleted=False).order_by('end')
 
         # weekly_time_slot 对应的最后被占用时间
