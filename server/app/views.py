@@ -690,23 +690,39 @@ class TeacherWeeklyTimeSlot(ParentBasedMixin, APIView):
             deleted=False)
 
         # 转换为周课程表形式
-        reserved_weekly_time_slots = [
+        reserved = [
             (t.start.astimezone().isoweekday(),
              t.start.astimezone().time(),
              t.end.astimezone().time())
             for t in reserved_time_slots]
 
+        # 获取该老师被占用时段, 结束时间由小到大
+        occupied_time_slots = models.TimeSlot.objects.filter(
+            order__teacher=teacher,
+            start__gte=date,
+            order__school=school,
+            deleted=False).order_by('end')
+
+        # weekly_time_slot 对应的最后被占用时间
+        occupied = {
+            (t.start.astimezone().isoweekday(),
+             t.start.astimezone().time(),
+             t.end.astimezone().time()): t.end.astimezone().timestamp()
+            for t in occupied_time_slots
+        }
+
         # 增加 reserved 标记'已买'状态
+        # 增加 last_occupied_end 标记最后被占用时间
         data = [(str(day), [OrderedDict([
             ('id', s.id),
             ('start', s.start.strftime('%H:%M')),
             ('end', s.end.strftime('%H:%M')),
             ('available', la_dict[(day, s.start, s.end)]),
-            ('reserved', (s.weekday, s.start, s.end) in reserved_weekly_time_slots)])
+            ('reserved', (s.weekday, s.start, s.end) in reserved),
+            ('last_occupied_end', occupied.get((s.weekday, s.start, s.end)))])
             for s in ss])
             for day, ss in slots]
 
-        # weekday = datetime.datetime.today().weekday() + 1
         data = OrderedDict(sorted(data, key=lambda x: int(x[0])))
 
         return JsonResponse(data)
