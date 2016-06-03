@@ -279,6 +279,10 @@ body{
 }
 
 #courseTimePreviewPanel {
+  .title_row.confirm-page {
+    line-height: 16px;
+    border-left: 3px solid #81bcdc;
+  }
   .icons-area {
     float: right;
     img{
@@ -297,6 +301,42 @@ body{
     }
     #courseTimePreview {
       display: none;
+    }
+  }
+}
+
+#teacherInfo {
+  position: relative;
+  &.weui_panel {
+    padding: 10px 12px;
+  }
+  .teacher-desc {
+    > div {
+      img {
+        margin-right: 10px;
+        height: 14px;
+        line-height: 14px;
+      }
+      span {
+        font-size: 14px;
+        line-height: 14px;
+        vertical-align: text-top;
+      }
+    }
+  }
+  .teacher-avatar {
+    position: absolute;
+    padding-top: 10px;
+    padding-right: 12px;
+    top: 0;
+    right: 0;
+    height: 75px;
+    width: 75px;
+    .inner {
+      background-size: cover;
+      background-position: center center;
+      height: 100%;
+      border-radius: 50%;
     }
   }
 }

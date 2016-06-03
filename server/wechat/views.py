@@ -170,8 +170,13 @@ class OrderBaseView(View):
 
 class CourseChoosingView(OrderBaseView):
     template_name = 'wechat/order/course_choosing.html'
+    # 确认订单页面
+    confirm_page = 'wechat/order/confirm.html'
 
     def get(self, request):
+        step = request.GET.get('step')
+        if step == 'confirm_page':
+            return self._get_confirm_page(request)
         kwargs = {}
         kwargs['teacher'] = teacher = self.get_teacher(request)
         parent = self.get_parent(request)
@@ -202,6 +207,29 @@ class CourseChoosingView(OrderBaseView):
         kwargs.update(sign_data)
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
         return render(request, self.template_name, kwargs)
+
+    def _get_confirm_page(self, request):
+        kwargs = {}
+        kwargs['teacher'] = teacher = self.get_teacher(request)
+        parent = self.get_parent(request)
+        if parent is None:
+            redirect_url = _get_auth_redirect_url(request, teacher.id)
+            logger.warning(redirect_url)
+            return HttpResponseRedirect(redirect_url)
+        kwargs['parent'] = parent
+        grade_id = request.GET.get('grade_id')
+        grade = models.Grade.objects.get(id=grade_id)
+        kwargs['grade_subject_name'] = grade.name + teacher.subject().name
+        school_id = request.GET.get('school_id')
+        school = models.School.objects.get(id=school_id)
+        kwargs['school_name'] = school.name
+
+        # wxsdk config
+        url = request.build_absolute_uri()
+        sign_data = _jssdk_sign(url)
+        kwargs.update(sign_data)
+        kwargs['WX_APPID'] = settings.WEIXIN_APPID
+        return render(request, self.confirm_page, kwargs)
 
     def post(self, request):
         action = request.POST.get('action')

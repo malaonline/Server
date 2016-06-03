@@ -195,7 +195,7 @@
     <div class="weui_extra_area pay-action-area" id="payArea">
         <div class="w50 cost-area">还需支付: <span class="cost">￥<span id="realCost">0.00</span></span></div>
         <div class="w50 action-area">
-            <a class="weui_btn weui_btn_warn" id="confirmBtn">确认并支付</a>
+            <a class="weui_btn weui_btn_warn" id="confirmBtn">确认</a>
         </div>
     </div>
 {% endblock %}
@@ -207,6 +207,7 @@
         var teacher_detail_page = '{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}';
         var coupon_list_page = '{% url 'wechat:order-coupon-list' %}?teacher_id={{ teacher.id }}';
         var evaluate_list_page = '{% url 'wechat:order-evaluate-list' %}?teacher_id={{ teacher.id }}';
+        var confirm_page = '{% url 'wechat:order-course-choosing' %}?teacher_id={{ teacher.id }}&step=confirm_page';
         wx.config({
             debug: false,
             appId: '{{ WX_APPID }}',

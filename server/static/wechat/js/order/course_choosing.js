@@ -133,6 +133,7 @@ $(function(){
         chosen_grade_id = val;
         chosen_price = parseInt($(ele).find('input').val());
         sessionStorage.chosen_grade_id = chosen_grade_id;
+        sessionStorage.chosen_price = chosen_price;
         updateCost();
         e.stopPropagation();
     });
@@ -405,122 +406,13 @@ $(function(){
         location.href = evaluate_list_page;
     });
 
-    var isPaying = false;
     var $payBtn = $('#confirmBtn');
-    var beginPaying = function() {
-        isPaying = true;
-        $payBtn.addClass('weui_btn_disabled');
-        showLoading();
-    };
-    var stopPaying = function() {
-        hideLoading();
-        $payBtn.removeClass('weui_btn_disabled');
-        isPaying = false;
-    };
     $payBtn.click(function(e){
         e.preventDefault();
-        if (isPaying) {
-            return;
-        }
-        beginPaying();
         if (!valid_choose(['grade', 'school', 'hour'])) {
-            stopPaying();
             return;
         }
-        var hours = parseInt($courseHours.text());
-        var params = {
-            'action': 'confirm',
-            'teacher': teacherId,
-            'school': chosen_school_id,
-            'grade': chosen_grade_id,
-            'coupon': chosen_coupon_id,
-            'hours': hours,
-            'weekly_time_slots': weekly_time_slot_ids.join('+')
-        };
-        var defaultErrMsg = '请求失败, 请稍后重试或联系客户人员!';
-        $.ajax({'type': "POST", 'url': location.pathname, 'data': params, 'success': function (result) {
-            if (result) {
-                if (result.ok) {
-                    var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
-                    if (data.TESTING) {
-                        $.ajax({ // 取消订单@TESTING
-                            'type': "DELETE", 'url': data.orders_api_url, 'success': function (result) {
-                                stopPaying();
-                            }, 'error': function (xhr, errorType, errorDesc) {
-                                console.log('[' + errorType + '] ' + errorDesc);
-                                stopPaying();
-                            }
-                        });
-                        return;
-                    }
-                    wx.chooseWXPay({
-                        timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                        nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
-                        package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                        signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                        paySign: data.paySign, // 支付签名
-                        success: function (res) {
-                            var verify_params = {
-                                'action': 'verify',
-                                'prepay_id': prepay_id,
-                                'order_id': order_id
-                            };
-                            $.ajax({'type': "POST", 'url': location.pathname, 'data': verify_params, 'success': function(verify_ret){
-                                if (verify_ret) {
-                                    if (verify_ret.ok) {
-                                        //showAlertDialog('支付成功');
-                                        wx.closeWindow();
-                                        return;
-                                    } else {
-                                        showAlertDialog(result.msg);
-                                    }
-                                } else {
-                                    showAlertDialog(defaultErrMsg);
-                                }
-                                stopPaying();
-                            }, 'dataType': 'json', 'error': function() {
-                                showAlertDialog('获取支付结果失败');
-                                stopPaying();
-                            }
-                            });
-                        },
-                        fail: function(res){
-                            $.ajax({ // 取消订单
-                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
-                                    stopPaying();
-                                }, 'error': function(){
-                                    stopPaying();
-                                }
-                            });
-                        },
-                        //complete: function(){
-                        //    stopPaying();
-                        //},
-                        cancel: function(){
-                            $.ajax({ // 取消订单
-                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
-                                    stopPaying();
-                                }, 'error': function(){
-                                    stopPaying();
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    showAlertDialog(result.msg);
-                    stopPaying();
-                    if (result.code==3) {
-                        renderWeeklyTableBySchool(chosen_school_id);
-                    }
-                }
-            } else {
-                showAlertDialog(defaultErrMsg);
-                stopPaying();
-            }
-        }, 'dataType': 'json', 'error': function() {
-            stopPaying();
-        }
-        });
+        location.href = confirm_page + '&grade_id=' + chosen_grade_id + '&school_id='+chosen_school_id;
         e.stopPropagation();
     });
 
@@ -543,6 +435,7 @@ $(function(){
                 var $this = $(this), v = $this.data('gradeid');
                 if (v==chosen_grade_id) {
                     chosen_price = parseInt($this.find('input').val());
+                    sessionStorage.chosen_price = chosen_price;
                     $this.addClass('chosen');
                     return false;
                 }
