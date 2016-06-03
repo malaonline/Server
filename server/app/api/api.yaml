@@ -97,6 +97,9 @@ definitions:
       purchased:
         type: boolean
         description: whether the user has bought the subject
+      grade_id:
+        type: integer
+        description: ID of student's grade when the order is created
       total_nums:
         type: integer
         description: |
@@ -115,6 +118,9 @@ definitions:
         description: |
           Subject ID.
           (Now only support math)
+      grade_id:
+        type: integer
+        description: ID of student's grade when the order is created
       total_nums:
         type: integer
         description: |

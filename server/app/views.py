@@ -1115,7 +1115,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         s_name = the_subject.name
         if s_name not in self.SUPPORTED_SUBJECTS:
             return HttpResponse(status=404)
-        return self.get_one_subject_report(the_subject, params)
+        return self.get_one_subject_report(the_subject, parent, params)
 
     def get_subjects_summary(self, parent, params):
         subjects_list = []
@@ -1124,16 +1124,18 @@ class StudyReportView(ParentBasedMixin, APIView):
         purchased_subjects = []
         # get subject from order
         ordered_subjects = models.Order.objects.filter(parent=parent, status=models.Order.PAID)\
-            .values('subject').order_by('subject').distinct('subject')
+            .values('subject', 'grade', 'created_at').order_by('-created_at')
         for tmp_order in ordered_subjects:
             # only support math presently
             tmp_subject = models.Subject.objects.get(id=tmp_order['subject'])
             s_name = tmp_subject.name
+            if s_name in purchased_subjects:
+                continue
             purchased_subjects.append(s_name)
             if s_name in self.SUPPORTED_SUBJECTS:
                 s_name_en = self.get_subject_en(s_name)
                 url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
-                subject_data = {'subject_id': tmp_subject.id, 'supported': True, 'purchased': True,}
+                subject_data = {'subject_id': tmp_subject.id, 'supported': True, 'purchased': True, 'grade_id': tmp_order['grade'],}
                 # 累计答题数、正确答题数
                 subject_data.update(self._get_total_nums(url, params))
                 subjects_list.append(subject_data)
@@ -1141,6 +1143,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                 subjects_list.append({
                     'subject_id': tmp_subject.id,
                     'purchased': True,
+                    'grade_id': tmp_order['grade'],
                     'supported': False,
                 })
         # subjects supported, but user did not purchase
@@ -1155,11 +1158,16 @@ class StudyReportView(ParentBasedMixin, APIView):
                 })
         return JsonResponse({'results': subjects_list})
 
-    def get_one_subject_report(self, the_subject, params):
+    def get_one_subject_report(self, the_subject, parent, params):
+        # query the last order
+        last_order = models.Order.objects.filter(parent=parent, status=models.Order.PAID, subject=the_subject)\
+            .order_by('-created_at').first()
+        if not last_order:
+            return HttpResponse(status=404) # Have not joined the course
         s_name = the_subject.name
         s_name_en = self.get_subject_en(s_name)
         url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
-        ans_data = {'subject_id': the_subject.id}
+        ans_data = {'subject_id': the_subject.id, 'grade_id': last_order.grade_id}
         if settings.TESTING:
             return JsonResponse(ans_data)
         # 累计答题数、正确答题数
