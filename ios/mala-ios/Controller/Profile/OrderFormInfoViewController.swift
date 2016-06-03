@@ -22,6 +22,7 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
             
             /// 渲染底部视图UI
             confirmView.orderStatus = MalaOrderStatus(rawValue: model?.status ?? "d") ?? .Canceled
+            confirmView.isTeacherPublished = model?.teacherPublished
             confirmView.price = isForConfirm ? MalaCourseChoosingObject.getAmount() ?? 0 : model?.amount ?? 0
         }
     }

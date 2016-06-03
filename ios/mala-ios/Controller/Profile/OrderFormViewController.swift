@@ -259,14 +259,9 @@ class OrderFormViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let model = (tableView.cellForRowAtIndexPath(indexPath) as? OrderFormViewCell)?.model
-        
-        // 订单老师处于上架时才可查看订单详情
-        if model?.teacherPublished == true {            
-            let viewController = OrderFormInfoViewController()
-            viewController.id = models[indexPath.row].id
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
+        let viewController = OrderFormInfoViewController()
+        viewController.id = models[indexPath.row].id
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     

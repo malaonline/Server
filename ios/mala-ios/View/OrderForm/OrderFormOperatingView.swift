@@ -35,6 +35,13 @@ class OrderFormOperatingView: UIView {
             })
         }
     }
+    /// 老师上架状态标记
+    var isTeacherPublished: Bool? {
+        didSet {
+            // 设置老师下架状态
+            disabledLabel.hidden = !(isTeacherPublished == false)
+        }
+    }
     weak var delegate: OrderFormOperatingViewDelegate?
     
     
@@ -92,6 +99,16 @@ class OrderFormOperatingView: UIView {
         button.addTarget(self, action: #selector(OrderFormOperatingView.cancelOrderForm), forControlEvents: .TouchUpInside)
         return button
     }()
+    /// 老师已下架样式
+    private lazy var disabledLabel: UILabel = {
+        let label = UILabel(
+            text: "该老师已下架",
+            fontSize: 12,
+            textColor: MalaColor_939393_0
+        )
+        label.hidden = true
+        return label
+    }()
     
     
     // MARK: - Constructed
@@ -117,6 +134,7 @@ class OrderFormOperatingView: UIView {
         addSubview(priceLabel)
         addSubview(cancelButton)
         addSubview(confirmButton)
+        addSubview(disabledLabel)
         
         // Autolayout
         topLine.snp_makeConstraints(closure: { (make) -> Void in
@@ -147,6 +165,9 @@ class OrderFormOperatingView: UIView {
             make.centerY.equalTo(confirmButton.snp_centerY)
             make.width.equalTo(confirmButton.snp_height).multipliedBy(2.78)
             make.height.equalTo(self.snp_height).multipliedBy(0.55)
+        }
+        disabledLabel.snp_makeConstraints { (make) in
+            make.center.equalTo(confirmButton)
         }
     }
     
@@ -219,6 +240,11 @@ class OrderFormOperatingView: UIView {
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             confirmButton.addTarget(self, action: #selector(OrderFormOperatingView.pay), forControlEvents: .TouchUpInside)
             break
+        }
+        
+        if isTeacherPublished == false {
+            cancelButton.hidden = true
+            confirmButton.hidden = true
         }
     }
     
