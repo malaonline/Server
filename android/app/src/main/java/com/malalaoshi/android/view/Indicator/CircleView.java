@@ -47,14 +47,14 @@ public class CircleView extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(mColor);
-        mPaint.setStrokeWidth(1);
+        mPaint.setStrokeWidth(0);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle(mCenterX, mCenterY, mRadius - 5, mPaint);
+        canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
     }
 
     @Override

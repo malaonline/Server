@@ -13,6 +13,7 @@
         <attr name="smallCircleColor" format="color" />
         <attr name="largeCircleColor" format="color" />
         <attr name="outerCircleColor" format="color" />
+        <attr name="circleradius"  format="integer" />
     </declare-styleable>
 
     <declare-styleable name="CircleView">

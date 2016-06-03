@@ -37,11 +37,13 @@ public class RubberIndicator extends RelativeLayout {
     private static final int DEFAULT_LARGE_CIRCLE_COLOR = 0xFFAF3854;
     private static final int DEFAULT_OUTER_CIRCLE_COLOR = 0xFF533456;
 
-    private static final int SMALL_CIRCLE_RADIUS = 20;
-    private static final int LARGE_CIRCLE_RADIUS = 25;
-    private static final int OUTER_CIRCLE_RADIUS = 50;
+    //TODO
+    private int mCircleRadius;
+   // private static final int SMALL_CIRCLE_RADIUS = 5;
+  //  private static final int LARGE_CIRCLE_RADIUS = 5;
+    //private static final int OUTER_CIRCLE_RADIUS = 5;
 
-    private static final int BEZIER_CURVE_ANCHOR_DISTANCE = 30;
+    private static final int BEZIER_CURVE_ANCHOR_DISTANCE = 5;
 
     private static final int CIRCLE_TYPE_SMALL = 0x00;
     private static final int CIRCLE_TYPE_LARGE = 0x01;
@@ -123,25 +125,26 @@ public class RubberIndicator extends RelativeLayout {
         final TypedArray styledAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.RubberIndicator, defStyle, 0);
         mSmallCircleColor = styledAttributes.getColor(R.styleable.RubberIndicator_smallCircleColor, DEFAULT_SMALL_CIRCLE_COLOR);
         mLargeCircleColor = styledAttributes.getColor(R.styleable.RubberIndicator_largeCircleColor, DEFAULT_LARGE_CIRCLE_COLOR);
-        mOuterCircleColor = styledAttributes.getColor(R.styleable.RubberIndicator_outerCircleColor, DEFAULT_OUTER_CIRCLE_COLOR);
+      //  mOuterCircleColor = styledAttributes.getColor(R.styleable.RubberIndicator_outerCircleColor, DEFAULT_OUTER_CIRCLE_COLOR);
+        mCircleRadius = (int) styledAttributes.getInteger(R.styleable.RubberIndicator_circleradius,5);
         styledAttributes.recycle();
 
         /** Initialize views */
         View rootView = inflate(getContext(), R.layout.rubber_indicator, this);
         mContainer = (LinearLayout) rootView.findViewById(R.id.container);
-        mOuterCircle = (CircleView) rootView.findViewById(R.id.outer_circle);
+       // mOuterCircle = (CircleView) rootView.findViewById(R.id.outer_circle);
         
         // Apply outer color to outerCircle and background shape
-        View containerWrapper = rootView.findViewById(R.id.container_wrapper);
-        mOuterCircle.setColor(mOuterCircleColor);
-        GradientDrawable shape = (GradientDrawable) containerWrapper.getBackground();
-        shape.setColor(mOuterCircleColor);
+       // View containerWrapper = rootView.findViewById(R.id.container_wrapper);
+     //   mOuterCircle.setColor(mOuterCircleColor);
+     //   GradientDrawable shape = (GradientDrawable) containerWrapper.getBackground();
+      //  shape.setColor(mOuterCircleColor);
 
         /** values */
-        mSmallCircleRadius = dp2px(SMALL_CIRCLE_RADIUS+2);
-        //mSmallCircleRadius = dp2px(SMALL_CIRCLE_RADIUS);
-        mLargeCircleRadius = dp2px(LARGE_CIRCLE_RADIUS);
-        mOuterCircleRadius = dp2px(OUTER_CIRCLE_RADIUS);
+        mSmallCircleRadius = dp2px(mCircleRadius);
+       // mSmallCircleRadius = dp2px(SMALL_CIRCLE_RADIUS);
+        mLargeCircleRadius = dp2px(mCircleRadius);
+      //  mOuterCircleRadius = dp2px(OUTER_CIRCLE_RADIUS);
 
         /** animators */
         mPvhScaleX = PropertyValuesHolder.ofFloat("scaleX", 1, 0.8f, 1);
@@ -163,7 +166,7 @@ public class RubberIndicator extends RelativeLayout {
 
         // Prevent crash if the count as not been set
         if(mLargeCircle != null){
-            mOuterCircle.setCenter(mLargeCircle.getCenter());
+         //   mOuterCircle.setCenter(mLargeCircle.getCenter());
         }
     }
 
@@ -265,10 +268,10 @@ public class RubberIndicator extends RelativeLayout {
                 params.height = params.width = mLargeCircleRadius << 1;
                 circleView.setColor(mLargeCircleColor);
                 break;
-            case CIRCLE_TYPE_OUTER:
-                params.height = params.width = mOuterCircleRadius << 1;
-                circleView.setColor(mOuterCircleColor);
-                break;
+           // case CIRCLE_TYPE_OUTER:
+            //    params.height = params.width = mOuterCircleRadius << 1;
+           //     circleView.setColor(mOuterCircleColor);
+           //     break;
         }
 
         circleView.setLayoutParams(params);
@@ -300,16 +303,16 @@ public class RubberIndicator extends RelativeLayout {
                 : mLargeCircle.getX() + mLargeCircle.getWidth() - mSmallCircle.getWidth();
         float largeCircleX = toRight ?
                 mSmallCircle.getX() + mSmallCircle.getWidth() - mLargeCircle.getWidth() : mSmallCircle.getX();
-        float outerCircleX = mOuterCircle.getX() + largeCircleX - mLargeCircle.getX();
+     //   float outerCircleX = mOuterCircle.getX() + largeCircleX - mLargeCircle.getX();
 
         // animations for large circle and outer circle.
         PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("x", mLargeCircle.getX(), largeCircleX);
         ObjectAnimator largeCircleAnim = ObjectAnimator.ofPropertyValuesHolder(
                 mLargeCircle, pvhX, mPvhScaleX, mPvhScaleY);
 
-        pvhX = PropertyValuesHolder.ofFloat("x", mOuterCircle.getX(), outerCircleX);
-        ObjectAnimator outerCircleAnim = ObjectAnimator.ofPropertyValuesHolder(
-                mOuterCircle, pvhX, mPvhScaleX, mPvhScaleY);
+       // pvhX = PropertyValuesHolder.ofFloat("x", mOuterCircle.getX(), outerCircleX);
+       // ObjectAnimator outerCircleAnim = ObjectAnimator.ofPropertyValuesHolder(
+       //         mOuterCircle, pvhX, mPvhScaleX, mPvhScaleY);
 
         // Animations for small circle
         PointF smallCircleCenter = mSmallCircle.getCenter();
@@ -347,7 +350,7 @@ public class RubberIndicator extends RelativeLayout {
 
         mAnim = new AnimatorSet();
         mAnim.play(smallCircleAnim)
-                .with(otherAnim).with(largeCircleAnim).with(outerCircleAnim);
+                .with(otherAnim).with(largeCircleAnim);
         mAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         mAnim.setDuration(500);
         mAnim.addListener(new Animator.AnimatorListener() {

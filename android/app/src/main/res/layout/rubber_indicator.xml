@@ -2,11 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.malalaoshi.android.view.Indicator.CircleView
-        android:id="@+id/outer_circle"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_centerVertical="true"/>
+
 
     <View
         android:id="@+id/container_wrapper"

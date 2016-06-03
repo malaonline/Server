@@ -31,12 +31,14 @@
 
     <com.malalaoshi.android.view.Indicator.RubberIndicator
         android:id="@+id/ri_member_rubber"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="10dp"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         app:smallCircleColor="#c7deee"
         app:largeCircleColor="#8fbcdd"
+        app:circleradius="5"
         ></com.malalaoshi.android.view.Indicator.RubberIndicator>
+
 </RelativeLayout>
