@@ -13,7 +13,7 @@ rm -rf ${ipaDir}*.ipa
 rm -rf ${derivedDataPath}
 
 # Provisioning configurations
-AdHocProvisioning="com.malalaoshi.app-AppStore"
+AdHocProvisioning="Mala AdHoc"
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings ${KEYCHAIN_PATH}
 security list-keychains -s ${KEYCHAIN_PATH}
@@ -32,7 +32,6 @@ python replace_info.py
 
 # Export dev package
 cfg="dev"
-AdHocProvisioning="Mala AdHoc"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
