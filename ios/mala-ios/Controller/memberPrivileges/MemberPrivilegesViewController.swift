@@ -21,9 +21,17 @@ class MemberPrivilegesViewController: UITableViewController {
         }
     }
     /// 总练习数
-    var totalNum: Int = 0
+    var totalNum: Int = 0 {
+        didSet {
+            MalaReportTotalNum = totalNum
+        }
+    }
     /// 练习正确数
-    var rightNum: Int = 0
+    var rightNum: Int = 0 {
+        didSet {
+            MalaReportRightNum = rightNum
+        }
+    }
     /// 学习报告状态
     var reportStatus: MalaLearningReportStatus = .LoggingIn {
         didSet {

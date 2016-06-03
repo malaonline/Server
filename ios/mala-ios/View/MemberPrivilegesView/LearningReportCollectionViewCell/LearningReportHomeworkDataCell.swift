@@ -21,6 +21,18 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     override var asSample: Bool {
         didSet {
             model = asSample ? MalaConfig.homeworkSampleData() : MalaSubjectReport.error_rates
+            
+            if asSample {
+                infoLabel.text = "累计答题770道"
+                homeworkLabel.text = "准确率80%"
+            }else {
+                infoLabel.text = String(format: "累计答题%d道", MalaReportTotalNum)
+                if MalaReportTotalNum != 0 {
+                    homeworkLabel.text = String(format: "准确率%d%%", MalaReportRightNum/MalaReportTotalNum)
+                }else {
+                    homeworkLabel.text = "准确率0%"
+                }
+            }
         }
     }
     
@@ -175,8 +187,8 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
     
     // 设置样本数据
     private func setupSampleData() {
-        infoLabel.text = "累计答题770道"
-        homeworkLabel.text = "准确率80%"
+        infoLabel.text = "累计答题0道"
+        homeworkLabel.text = "准确率0%"
     }
     
     // 重置数据

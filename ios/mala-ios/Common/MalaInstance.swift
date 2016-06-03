@@ -28,9 +28,16 @@ var MalaIsHasBeenEvaluatedThisSubject: Bool? = nil
 /// 用户预览订单模型
 var MalaOrderOverView: OrderForm = OrderForm()
 
+
 /// 支付页面控制器，用于APPDelegate处理回调
 weak var MalaPaymentController: PaymentViewController?
 /// 筛选条件选择下标记录
 var MalaFilterIndexObject = filterSelectedIndexObject()
+
+
 /// 用户学习报告数据对象
 var MalaSubjectReport = SubjectReport()
+/// 用户学习报告总练习数
+var MalaReportTotalNum = 0
+/// 用户学习报告正确练习数
+var MalaReportRightNum = 0

@@ -167,6 +167,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         var xVals = model.map { (data) -> String in
             return String(format: "%d月%@", data.month, data.periodString)
         }
+        xVals = xVals.reverse()
         xVals.insert("", atIndex: 0)
         xVals.append("")
         return xVals
