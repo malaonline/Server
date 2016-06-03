@@ -41,6 +41,7 @@ class OrderForm: BaseObjectModel {
     var chargeChannel: String?
     var createAt: NSTimeInterval?
     var paidAt: NSTimeInterval?
+    var teacherPublished: Bool?
     
     // 其他
     var result: Bool?
@@ -70,7 +71,7 @@ class OrderForm: BaseObjectModel {
         self.code = code
     }
     
-    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, hours: Int = 0, amount: Int, timeSlots: [[NSTimeInterval]] = [], chargeChannel: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?) {
+    convenience init(id: Int, orderId: String?, teacherId: Int?, teacherName: String?, avatarURL: String?, schoolName: String?, gradeName: String?, subjectName: String?, orderStatus: String?, hours: Int = 0, amount: Int, timeSlots: [[NSTimeInterval]] = [], chargeChannel: String? = "other", createAt: NSTimeInterval = 0, evaluated: Bool?, teacherPublished: Bool? = false) {
         self.init()
         self.id = id
         self.order_id = orderId
@@ -87,6 +88,7 @@ class OrderForm: BaseObjectModel {
         self.chargeChannel = chargeChannel
         self.createAt = createAt
         self.evaluated = evaluated
+        self.teacherPublished = teacherPublished
     }
     
     convenience init(id: Int?, name: String?, teacher: Int?, school: Int?, grade: Int?, subject: Int?, coupon: Int?, hours: Int?, timeSchedule: [Int]?,

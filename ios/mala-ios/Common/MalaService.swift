@@ -834,9 +834,10 @@ let parseOrderFormInfo: JSONDictionary -> OrderForm? = { orderInfo in
         createdAt       = orderInfo["created_at"] as? NSTimeInterval,
         timeSlots       = orderInfo["timeslots"] as? [[NSTimeInterval]],
         evaluated       = orderInfo["evaluated"] as? Bool,
-        isTimeAllocated = orderInfo["is_timeslot_allocated"] as? Bool {
+        isTimeAllocated = orderInfo["is_timeslot_allocated"] as? Bool,
+        isteacherPublished = orderInfo["is_teacher_published"] as? Bool {
         // 订单信息
-        let order = OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, hours: hours, amount: amount, timeSlots: timeSlots, createAt: createdAt, evaluated: evaluated)
+        let order = OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, hours: hours, amount: amount, timeSlots: timeSlots, createAt: createdAt, evaluated: evaluated, teacherPublished: isteacherPublished)
         // 判断是否存在支付时间（未支付状态无此数据）
         if let paidAt = orderInfo["paid_at"] as? NSTimeInterval {
             order.paidAt = paidAt
@@ -1057,8 +1058,9 @@ let parseOrderList: JSONDictionary -> ([OrderForm], Int) = { ordersInfo in
             status      = order["status"] as? String,
             orderId     = order["order_id"] as? String,
             amount      = order["to_pay"] as? Int,
-            evaluated   = order["evaluated"] as? Bool {
-            orderList.append(OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated))
+            evaluated   = order["evaluated"] as? Bool,
+            isteacherPublished = order["is_teacher_published"] as? Bool {
+            orderList.append(OrderForm(id: id, orderId: orderId, teacherId: teacher, teacherName: teacherName, avatarURL: avatar, schoolName: school, gradeName: grade, subjectName: subject, orderStatus: status, amount: amount, evaluated: evaluated, teacherPublished: isteacherPublished))
         }
     }
     

@@ -30,6 +30,9 @@ class OrderFormViewCell: UITableViewCell {
             if let status = model?.status, orderStatus = MalaOrderStatus(rawValue: status) {
                 self.orderStatus = orderStatus
             }
+            
+            // 设置老师下架状态
+            disabledLabel.hidden = !(model?.teacherPublished == false)
         }
     }
     /// 订单状态
@@ -167,6 +170,16 @@ class OrderFormViewCell: UITableViewCell {
         label.textColor = MalaColor_333333_0
         return label
     }()
+    /// 老师已下架样式
+    private lazy var disabledLabel: UILabel = {
+        let label = UILabel(
+            text: "该老师已下架",
+            fontSize: 12,
+            textColor: MalaColor_939393_0
+        )
+        label.hidden = true
+        return label
+    }()
     /// 确定按钮（确认支付、再次购买、重新购买）
     private lazy var confirmButton: UIButton = {
         let button = UIButton()
@@ -239,6 +252,7 @@ class OrderFormViewCell: UITableViewCell {
         bottomLayoutView.addSubview(amountString)
         bottomLayoutView.addSubview(confirmButton)
         bottomLayoutView.addSubview(cancelButton)
+        bottomLayoutView.addSubview(disabledLabel)
         
         
         // Autolayout
@@ -349,6 +363,9 @@ class OrderFormViewCell: UITableViewCell {
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
             make.right.equalTo(bottomLayoutView.snp_right)
         }
+        disabledLabel.snp_makeConstraints { (make) in
+            make.center.equalTo(confirmButton)
+        }
         cancelButton.snp_makeConstraints { (make) in
             make.width.equalTo(content.snp_width).multipliedBy(0.23)
             make.height.equalTo(24)
@@ -433,6 +450,11 @@ class OrderFormViewCell: UITableViewCell {
         case .Confirm:
             break
         }
+        
+        if model?.teacherPublished == false {
+            cancelButton.hidden = true
+            confirmButton.hidden = true
+        }
     }
     
     
@@ -458,5 +480,9 @@ class OrderFormViewCell: UITableViewCell {
     // MARK: - Override
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        cancelButton.hidden = false
+        confirmButton.hidden = false
+        disabledLabel.hidden = false
     }
 }
