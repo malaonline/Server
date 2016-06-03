@@ -474,14 +474,16 @@ result:
         "start": "08:00",
         "end": "10:00",
         "available": true,
-        "reserved": false
+        "reserved": false,
+        "last_occupied_end": null
     },
     {
         "id": 2,
         "start": "10:10",
         "end": "12:10",
         "available": false,
-        "reserved": false
+        "reserved": false,
+        "last_occupied_end": 1467012600
     },
     ...
     ],
@@ -490,7 +492,8 @@ result:
         "start": "08:00",
         "end": "10:00",
         "available": true,
-        "reserved": true
+        "reserved": true,
+        "last_occupied_end": 1467012600
     },
     ...
     ],
