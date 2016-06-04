@@ -147,7 +147,6 @@ public class CourseHelper {
                 String end = data[1];
                 Calendar startCalendar = CalendarUtils.timestampToCalendar(Long.valueOf(start));
                 Calendar endCalendar = CalendarUtils.timestampToCalendar(Long.valueOf(end));
-                int week = CalendarUtils.getWeekBytimestamp(Long.valueOf(start));
 
                 if (lastCalendar == null) {
                     model = null;
@@ -173,4 +172,6 @@ public class CourseHelper {
         }
         return list;
     }
+
+
 }

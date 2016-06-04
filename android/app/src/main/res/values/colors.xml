@@ -33,6 +33,9 @@
     <color name="text_color_gray_db">#dbdbdb</color>
     <color name="text_color_lightgray">#c8c8c8</color>
 
+    <color name="item_color_past_bg">#cfcfcf</color>
+    <color name="item_color_bg">#6db2e5</color>
+
     <color name="color_accent">#ff80bd01</color>
 
     <color name="list_divider_light">#ffe0e0e0</color>

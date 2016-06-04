@@ -151,6 +151,7 @@
     <dimen name="text_size_xxlarge">18sp</dimen>
     <dimen name="text_size_xxxlarge">20sp</dimen>
     <dimen name="text_size_xxxxlarge">22sp</dimen>
+    <dimen name="text_size_big_large">27sp</dimen>
 
     <!-- 日历课表 -->
     <dimen name="calendar_toppadding">0dp</dimen>

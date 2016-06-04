@@ -7,14 +7,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.utils.EmptyUtils;
+import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.entity.Schedule;
+import com.malalaoshi.android.util.CalendarUtils;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,7 +31,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private List<Schedule> mSchedules;
+    private Schedule mScheduleData;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
@@ -40,10 +47,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //上拉加载更多状态-默认为0
     private int load_more_status=0;
 
-    public ScheduleAdapter(Context context, List<Schedule> schedules){
+    public ScheduleAdapter(Context context, Schedule scheduleData){
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mSchedules = schedules;
+        mScheduleData = scheduleData;
 
     }
 
@@ -60,7 +67,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_item, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_course_item, null);
             view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_FOOTER) {
@@ -74,21 +81,21 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder){
-            Schedule schedule = mSchedules.get(position);
-            ((ItemViewHolder)holder).tvCourse.setText(schedule.getSubject());
-            ((ItemViewHolder)holder).tvClassTime.setText(schedule.getTime());
-            ((ItemViewHolder)holder).tvClassAddress.setText(schedule.getAddress());
-            String avatarUrl = schedule.getAvatar();
-            if (!EmptyUtils.isEmpty(avatarUrl)){
-                ((ItemViewHolder) holder).ivTeacherAvatar.setImageURI(Uri.parse(avatarUrl));
+            List<Course> courses = mScheduleData.get(position);
+            Course course = courses.get(0);
+            String data = "";
+            if (course!=null){
+                Calendar start = CalendarUtils.timestampToCalendar(course.getStart());
+                if (start!=null){
+                    if (CalendarUtils.compareCurrentYear(start)==0){
+                        data = String.format("%02d月",start.get(Calendar.MONTH));
+                    }else{
+                        data = CalendarUtils.formatDate(start);
+                    }
+                }
             }
-
-            /*  if (schedule.getStatus()==0){
-                ((ItemViewHolder)holder).tvConfirmTime.
-                ((ItemViewHolder)holder).tvCourseStart
-                ((ItemViewHolder)holder).tvCourseEnd
-            }*/
-
+            ((ItemViewHolder)holder).tvData.setText(data);
+            ((ItemViewHolder)holder).baseAdapter.updateData(courses);
         }else if(holder instanceof FooterViewHolder){
             FooterViewHolder footViewHolder=(FooterViewHolder)holder;
             if (position<=0){
@@ -119,14 +126,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     //添加数据
     public void addItem(List<Schedule> newDatas) {
-        newDatas.addAll(mSchedules);
-        mSchedules.removeAll(mSchedules);
-        mSchedules.addAll(newDatas);
         notifyDataSetChanged();
     }
 
     public void addMoreItem(List<Schedule> newDatas) {
-        mSchedules.addAll(newDatas);
         notifyDataSetChanged();
     }
 
@@ -146,7 +149,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mSchedules.size() + 1;
+        return mScheduleData.size() + 1;
     }
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
@@ -160,25 +163,21 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textView = (TextView) view.findViewById(R.id.load_textview);
             progressBar = (ContentLoadingProgressBar) view.findViewById(R.id.progressbar);
         }
-
     }
 
 
     class ItemViewHolder extends RecyclerView.ViewHolder{
-
-        TextView tvCourse,tvClassTime,tvClassAddress,tvConfirmTime,tvCourseStart,tvCourseEnd;
-        SimpleDraweeView ivTeacherAvatar;
+        CourseAdapter baseAdapter;
+        ListView listView;
+        TextView tvData;
         View mView;
         public ItemViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            tvCourse = (TextView) mView.findViewById(R.id.tv_course);
-            tvClassTime = (TextView) mView.findViewById(R.id.tv_class_time);
-            tvClassAddress = (TextView) mView.findViewById(R.id.tv_class_address);
-            ivTeacherAvatar = (SimpleDraweeView) mView.findViewById(R.id.iv_teacher_avatar);
-            tvConfirmTime = (TextView) mView.findViewById(R.id.tv_confirm_time);
-            tvCourseStart = (TextView) mView.findViewById(R.id.tv_course_start);
-            tvCourseEnd = (TextView) mView.findViewById(R.id.tv_course_end);
+            listView = (ListView) mView.findViewById(R.id.listview_schedule);
+            tvData = (TextView) mView.findViewById(R.id.tv_date);
+            baseAdapter = new CourseAdapter(itemView.getContext());
+            listView.setAdapter(baseAdapter);
         }
     }
 

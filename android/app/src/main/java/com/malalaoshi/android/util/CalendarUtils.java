@@ -77,25 +77,6 @@ public class CalendarUtils {
         return calendarDay;
     }
 
-    public static Calendar timestampToCalendar(Long timestamp) {
-        if (timestamp==null) return null;
-        Calendar calendar = null;
-        //时间戳转化为Sting或Date
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String d = format.format(timestamp * 1000);
-        try {
-            Date date = format.parse(d);
-            // 初始化 (重置) Calendar 对象
-            calendar = Calendar.getInstance();
-            // 或者用 Date 来初始化 Calendar 对象
-            calendar.setTime(date);
-           /* calendarDay = new SimpleMonthAdapter.CalendarDay();
-            calendarDay.setDayOfBegin(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));*/
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return calendar;
-    }
 
     public static String timestampToTime(Long timestamp) {
         if (timestamp==null) return null;
@@ -117,7 +98,82 @@ public class CalendarUtils {
         return format.format(new Date(milliseconds)).split("-");
     }
 
+    /**
+     * 根据timestamp获取Calendar
+     * @param timestamp
+     * @return
+     */
+    public static Calendar timestampToCalendar(Long timestamp) {
+        if (timestamp==null) return null;
+        Calendar calendar = null;
+        //时间戳转化为Sting或Date
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d = format.format(timestamp * 1000);
+        try {
+            Date date = format.parse(d);
+            // 初始化 (重置) Calendar 对象
+            calendar = Calendar.getInstance();
+            // 或者用 Date 来初始化 Calendar 对象
+            calendar.setTime(date);
+           /* calendarDay = new SimpleMonthAdapter.CalendarDay();
+            calendarDay.setDayOfBegin(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));*/
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar;
+    }
 
+    public static String formatTime(Calendar calendar){
+        if (calendar==null) return "";
+        String time = String.format("%02d:%02d",calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE));
+        return time;
+    }
+
+    public static String formatDate(Calendar calendar){
+        if (calendar==null) return "";
+        String date = String.format("%04d年%02d月",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+        return date;
+    }
+
+    public static Calendar getCurrentTime(){
+        Calendar cal=Calendar.getInstance();
+        return cal;
+    }
+
+    public static int compareCurrentDate(Calendar calendar){
+        if (calendar==null) return -1;
+        Calendar cal=Calendar.getInstance();
+        if (calendar.get(Calendar.YEAR)>cal.get(Calendar.YEAR)){
+            return 1;
+        } else if (calendar.get(Calendar.YEAR)==cal.get(Calendar.YEAR)){
+            if (calendar.get(Calendar.DAY_OF_YEAR)>cal.get(Calendar.DAY_OF_YEAR)){
+                return 1;
+            }else if (calendar.get(Calendar.DAY_OF_YEAR)==cal.get(Calendar.DAY_OF_YEAR)){
+                return 0;
+            }else{
+                return -1;
+            }
+
+        }else{
+            return -1;
+        }
+    }
+
+    public static int compareCurrentYear(Calendar calendar){
+        if (calendar==null) return -1;
+        Calendar cal=Calendar.getInstance();
+        if (calendar.get(Calendar.YEAR)>cal.get(Calendar.YEAR)){
+            return 1;
+        } else if (calendar.get(Calendar.YEAR)==cal.get(Calendar.YEAR)){
+           return 0;
+        }else{
+            return -1;
+        }
+    }
+
+    /**
+     * 根据timestamp获取星期
+     */
     /**
      * 返回星期码
      * @param timestamp
@@ -130,7 +186,7 @@ public class CalendarUtils {
      * Calendar.FRIDAY
      * Calendar.SATURDAY
      */
-    public static int getWeekBytimestamp(Long timestamp) {
+    public static int getWeekId(Long timestamp) {
         if (timestamp==null) return 0;
         int week = 0;
         Calendar cd = Calendar.getInstance();
@@ -139,4 +195,39 @@ public class CalendarUtils {
         // 获取指定日期转换成星期几
         return week;
     }
+
+    private static String formatWeek(int dateOfWeek) {
+        String week = "";
+        switch (dateOfWeek) {
+            case 1:
+                week = "日";
+                break;
+            case 2:
+                week = "一";
+                break;
+            case 3:
+                week = "二";
+                break;
+            case 4:
+                week = "三";
+                break;
+            case 5:
+                week = "四";
+                break;
+            case 6:
+                week = "五";
+                break;
+            case 7:
+                week = "六";
+                break;
+        }
+        return "周" + week;
+    }
+
+    public static String getWeekBytimestamp(Long timestamp) {
+        int week = getWeekId(timestamp);
+        return formatWeek(week);
+    }
+
+
 }

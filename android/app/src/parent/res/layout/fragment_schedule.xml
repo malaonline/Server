@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/schedule_list_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingTop="0dp">
+    >
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <include layout="@layout/view_schedule_empty" />
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_schedule_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        android:paddingLeft="@dimen/teacher_list_card_diver"
-        android:paddingRight="@dimen/teacher_list_card_diver"
-        android:background="#FFFFFF"
-        android:scrollbarSize="1dp" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none|vertical"
+        android:scrollbarSize="1dp"/>
 
-</cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+</LinearLayout>

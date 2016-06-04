@@ -20,4 +20,8 @@ public class TimeTableApi extends BaseApi {
     public CourseListResult get() throws Exception {
         return httpGet(getPath(), CourseListResult.class);
     }
+
+    public CourseListResult get(String strUrl) throws Exception {
+        return httpGet(strUrl, CourseListResult.class);
+    }
 }

@@ -7,6 +7,7 @@ import com.malalaoshi.android.adapter.SimpleMonthAdapter;
 import com.malalaoshi.android.util.CalendarUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,9 @@ import java.util.Map;
 /**
  * Created by kang on 16/2/17.
  */
-public class Course implements Parcelable {
+public class Course implements Parcelable, Comparable<Course> {
     private Integer id;
+    private String grade;
     private String subject;
     private boolean is_passed;
     private Long start;
@@ -34,6 +36,14 @@ public class Course implements Parcelable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getSubject() {
@@ -165,4 +175,9 @@ public class Course implements Parcelable {
             return new Course[size];
         }
     };
+
+    @Override
+    public int compareTo(Course another) {
+        return this.start.compareTo(another.start);
+    }
 }

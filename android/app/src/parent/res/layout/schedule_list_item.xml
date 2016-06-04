@@ -1,153 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    card_view:cardCornerRadius="@dimen/teacher_list_card_corner_radius"
-    card_view:cardElevation="@dimen/teacher_list_card_elevation"
-    android:background="@color/item_background"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <RelativeLayout
+
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="31"
+            android:id="@+id/tv_day"
+            android:textSize="@dimen/text_size_big_large"
+            android:textColor="@color/text_color_dlg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_week"
+            android:text="周日"
+            android:layout_below="@+id/tv_day"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/text_color_dlg"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-       <!-- <ImageView
-            android:id="@+id/iv_teacher_avatar"
-            android:src="@drawable/ic_sync_black_24dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />-->
-
         <RelativeLayout
-            android:layout_width="52dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="11dp"
-            android:layout_marginTop="8dp" >
-
-            <!--<com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/iv_teacher_avatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
-                android:adjustViewBounds="true"
-                android:background="#DFE4F4"
-                android:scaleType="centerCrop" />-->
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/iv_teacher_avatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
-                android:adjustViewBounds="true"
-                fresco:actualImageScaleType="focusCrop"
-                fresco:placeholderImage="@drawable/ic_default_photo"
-                fresco:placeholderImageScaleType="focusCrop"
-                fresco:failureImage="@drawable/ic_default_photo"
-                fresco:failureImageScaleType="focusCrop"
-                fresco:fadeDuration="1000"
-                fresco:backgroundImage="@color/white"
-                />
-            <TextView
-                android:id="@+id/tv_course"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_close"
-                android:gravity="center"
-                android:singleLine="true"
-                android:textColor="#000"
-                android:visibility="visible" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/rl_schedule"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="#cfcfcf"
             android:gravity="center_vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:paddingTop="8dp"
-                android:paddingBottom="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="上课时间:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text="2015/12/12 10:30-12:30"
-                    android:id="@+id/tv_class_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="地址:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text="建国路"
-                    android:id="@+id/tv_class_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="32dp">
+            <TextView
+                android:id="@+id/tv_grade_course"
+                android:text="初一语文"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_teacher_name"
+                android:text="郭德纲老师"
+                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/white"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
         <TextView
-            android:id="@+id/tv_confirm_time"
-            android:paddingLeft="8dp"
-            android:text="时间确认"
-            android:gravity="center"
+            android:id="@+id/tv_class_time"
+            android:text="8:00-10:00"
+            android:textSize="@dimen/text_size_normal_x"
+            android:textColor="@color/tab_text_normal_color"
+            android:drawableLeft="@drawable/ic_time"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/black_line"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="2dp" />
-        <TextView
-            android:id="@+id/tv_course_start"
-            android:text="课程开始"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/black_line"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="2dp" />
-        <TextView
-            android:paddingRight="8dp"
-            android:id="@+id/tv_course_end"
-            android:text="课程结束"
-            android:gravity="center"
+            android:id="@+id/tv_class_position"
+            android:text="洛阳市麻辣社区中心(黄河店)"
+            android:lineSpacingExtra="3dp"
+            android:textSize="@dimen/text_size_normal_x"
+            android:textColor="@color/tab_text_normal_color"
+            android:drawableLeft="@drawable/ic_position"
+            android:drawablePadding="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-</LinearLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>

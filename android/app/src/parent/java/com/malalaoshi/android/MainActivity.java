@@ -25,6 +25,7 @@ import com.malalaoshi.android.entity.NoticeMessage;
 import com.malalaoshi.android.events.EventType;
 import com.malalaoshi.android.events.NoticeEvent;
 import com.malalaoshi.android.fragments.MemberServiceFragment;
+import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
 import com.malalaoshi.android.fragments.TeacherListFragment;
 import com.malalaoshi.android.fragments.UserFragment;
@@ -329,7 +330,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                     fragment = new TeacherListFragment();
                     break;
                 case 1:
-                    fragment = new UserTimetableFragment();
+                    fragment = new ScheduleFragment();
                     break;
                 case 2:
                     fragment = new MemberServiceFragment();
