@@ -346,7 +346,6 @@ public class UserFragment extends BaseFragment {
 
                 File image = new File(dir, imageFileName);
                 strAvatarLocPath = image.getAbsolutePath();
-                //strAvatarLocPath = outFilePath + "/" + System.currentTimeMillis() + ".png";
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                 this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
@@ -550,15 +549,14 @@ public class UserFragment extends BaseFragment {
 
     private void postUserAvator(String path) {
         if (path != null && !path.isEmpty()) {
-            strAvatarLocPath = path;
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
             Bitmap bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance
                     (MalaApplication.getInstance()));
-            //ivAvatar.setImageBitmap(bitmap);
             String cachePath = ImageUtil.getAppDir("cache");
             if (cachePath != null) {
-                strAvatarLocPath = ImageUtil.saveBitmap(cachePath, "avatar.png", bmpAvatar);
+                String [] result = path.split("/");
+                strAvatarLocPath = ImageUtil.saveBitmap(cachePath, result[result.length-1], bmpAvatar);
                 if (strAvatarLocPath != null) {
                     uploadFile();
                 } else {
@@ -591,7 +589,6 @@ public class UserFragment extends BaseFragment {
 
     private void uploadFile() {
         startProcessDialog("正在上传...");
-        //DialogUtil.startCircularProcessDialog(getContext(), "正在上传...", false, false);
 
         NetworkSender.setUserAvatar(strAvatarLocPath, new NetworkListener() {
             @Override
@@ -626,11 +623,12 @@ public class UserFragment extends BaseFragment {
 
     private void setAvatarSucceeded() {
         if (strAvatarLocPath != null) {
-            ivAvatar.setImageURI(Uri.parse("file://"+strAvatarLocPath));
+            String url = "file://"+strAvatarLocPath;
+            ivAvatar.setImageURI(Uri.parse(url));
+            UserManager.getInstance().setAvatorUrl(url);
         }
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
         stopProcessDialog();
-        //DialogUtil.stopProcessDialog();
     }
 
     private void setAvatarFailed(int errorCode) {
@@ -640,7 +638,6 @@ public class UserFragment extends BaseFragment {
             MiscUtil.toast(R.string.usercenter_set_avator_failed);
         }
         stopProcessDialog();
-        //DialogUtil.stopProcessDialog();
     }
 
     private boolean checkLogin() {

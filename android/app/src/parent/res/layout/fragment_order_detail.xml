@@ -355,20 +355,6 @@
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
-            android:id="@+id/tv_submit_order"
-            android:visibility="gone"
-            android:layout_width="144dp"
-            android:layout_height="37dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/btn_confirm"
-            android:gravity="center"
-            android:text="提交订单"
-            android:textColor="#fff"
-            android:textSize="@dimen/text_size_normal" />
-
-        <TextView
             android:id="@+id/tv_teacher_status"
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -376,7 +362,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:background="@drawable/btn_confirm"
             android:gravity="center_vertical|end"
             android:textColor="@color/text_color_dlg"
             android:text="该老师已下架"
