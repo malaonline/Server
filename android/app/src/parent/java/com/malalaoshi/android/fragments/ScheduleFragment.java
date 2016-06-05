@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;
@@ -50,6 +51,9 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
     @Bind(R.id.rv_schedule_list)
     protected RecyclerView mRecyclerView;
+
+    @Bind(R.id.btn_goback)
+    protected Button btnGoback;
 
     private ScheduleAdapter mScheduleAdapter;
 
@@ -160,6 +164,18 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
         if (mScheduleAdapter.getMoreStatus() != TeacherRecyclerViewAdapter.LOADING_MORE && hasNextData()) {
             mScheduleAdapter.setMoreStatus(ScheduleAdapter.LOADING_MORE);
             loadNextData();
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        int firstvisiable = mLinearLayoutManager.findFirstVisibleItemPosition();
+        int lastvisiable = mLinearLayoutManager.findLastVisibleItemPosition();
+        int index = mScheduleAdapter.getStartIndex();
+        if (firstvisiable>index||lastvisiable<index){
+            btnGoback.setVisibility(View.VISIBLE);
+        }else{
+            btnGoback.setVisibility(View.GONE);
         }
     }
 

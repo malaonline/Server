@@ -181,6 +181,11 @@ public class OrderListFragment extends BaseFragment implements BGARefreshLayout.
     }
 
     @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+    }
+
+    @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
         ApiExecutor.exec(new FetchOrderListRequest(this));
     }

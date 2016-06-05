@@ -252,6 +252,11 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
     }
 
     @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+    }
+
+    @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
         ApiExecutor.exec(new FetchTeacherListRequest(this, gradeId, subjectId, tagIds));
     }
