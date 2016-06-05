@@ -91,6 +91,7 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
             case BusEvent.BUS_EVENT_PAY_SUCCESS:
+                isFirstLoadFinish = false;
                 updateView();
                 break;
         }
@@ -211,6 +212,7 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
         if (null != listCourse) {
             if (listCourse.size()>0){
                 setSchedulePager();
+                mScheduleAdapter.clear();
                 isFirstLoadFinish = true;
                 hostNextUrl = courses.getNext();
                 hostPreviousUrl = courses.getPrevious();

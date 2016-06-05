@@ -130,6 +130,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (newDatas!=null&&newDatas.size()>0){
             List<ScheduleItem> tempDatas = new ArrayList<>();
             Calendar currentCalendar = null;
+            boolean flag = true;
             for (int i = 0; i < newDatas.size(); i++) {
                 Course course = newDatas.get(i);
                 if (currentCalendar==null){
@@ -137,6 +138,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     tempDatas.add(new ScheduleDate(course.getStart()));
                     if (course.is_passed()){
                         startIndex++;
+                    }else{
+                        if (flag){
+                            flag = false;
+                            startIndex++;
+                        }
                     }
                 }else{
                     Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
@@ -145,6 +151,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         tempDatas.add(new ScheduleDate(course.getStart()));
                         if (course.is_passed()){
                             startIndex++;
+                        }else{
+                            if (flag){
+                                flag = false;
+                                startIndex++;
+                            }
                         }
                     }
                 }
@@ -153,7 +164,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 tempDatas.add(new ScheduleCourse(course));
             }
-
+            startIndex++;
             if (mScheduleData.size()>0){
                 ScheduleItem scheduleItem = mScheduleData.get(0);
                 if (scheduleItem.getType()==ScheduleItem.TYPE_DATE){

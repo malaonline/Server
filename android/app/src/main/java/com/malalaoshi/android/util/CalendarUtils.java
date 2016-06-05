@@ -189,8 +189,7 @@ public class CalendarUtils {
     public static int getWeekId(Long timestamp) {
         if (timestamp==null) return 0;
         int week = 0;
-        Calendar cd = Calendar.getInstance();
-        cd.setTime(new Date(timestamp));
+        Calendar cd = timestampToCalendar(timestamp);
         week = cd.get(Calendar.DAY_OF_WEEK);
         // 获取指定日期转换成星期几
         return week;
