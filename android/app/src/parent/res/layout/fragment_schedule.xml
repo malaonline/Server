@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/schedule_list_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
 
-    <include layout="@layout/view_schedule_empty" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_teacher_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/teacher_main_bg"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_schedule_list"
         android:layout_width="match_parent"
@@ -13,4 +19,14 @@
         android:scrollbars="none|vertical"
         android:scrollbarSize="1dp"/>
 
-</LinearLayout>
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
+    <Button
+        android:id="@+id/btn_goback"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@drawable/ic_rocket" />
+</FrameLayout>

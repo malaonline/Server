@@ -198,7 +198,6 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
         }
     }
 
-
     private void getTeachersSucceed(TeacherListResult teacherResult) {
         if (pageType == FILTER_PAGE) {
             flTeacherList.removeAllViews();

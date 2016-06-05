@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private void setEvent() {
         tvTitleLocation.setOnClickListener(this);
-        tvTitleTady.setOnClickListener(this);
+        //tvTitleTady.setOnClickListener(this);
         indicatorTabs.setViewPager(vpHome);
         indicatorTabs.setPageChangeListener(this);
         EventBus.getDefault().register(this);
@@ -231,12 +231,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         switch (i) {
             case PAGE_INDEX_TEACHERS:
                 tvTitleLocation.setVisibility(View.VISIBLE);
-                tvTitleTady.setVisibility(View.GONE);
+                //tvTitleTady.setVisibility(View.GONE);
                 StatReporter.teacherListPage();
                 break;
             case PAGE_INDEX_COURSES:
                 tvTitleLocation.setVisibility(View.GONE);
-                tvTitleTady.setVisibility(View.VISIBLE);
+                //tvTitleTady.setVisibility(View.VISIBLE);
                 //下载数据
                 loadCourses();
                 StatReporter.coursePage();
@@ -245,7 +245,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 StatReporter.memberServicePage();
             case PAGE_INDEX_USER:
                 tvTitleLocation.setVisibility(View.GONE);
-                tvTitleTady.setVisibility(View.GONE);
+                //tvTitleTady.setVisibility(View.GONE);
                 if(PAGE_INDEX_USER==i){
                     StatReporter.myPage();
                 }
