@@ -5,7 +5,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.report.ReportActivity;
 import com.malalaoshi.android.result.ReportListResult;
 import com.malalaoshi.android.util.AuthUtils;
-import com.malalaoshi.android.util.MiscUtil;
 
 import java.util.List;
 
@@ -79,16 +77,16 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     protected TextView tvReportSubmit;
 
     enum EnumReportStatus {
-        LONGING, LONGFAILED, NOTSIGNIN, NOTSIGNUP, EMPTYREPORT, REPORT;
+        LOGIN, LOGIN_FAILED, NOT_SIGN_IN, NOT_SIGN_UP, EMPTY_REPORT, REPORT
     }
 
-    private EnumReportStatus reportStatus = EnumReportStatus.LONGING;
+    private EnumReportStatus reportStatus = EnumReportStatus.LOGIN;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_member_service,container, false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_member_service, container, false);
+        ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -111,13 +109,13 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initView() {
-        refreshAnimation = (AnimationDrawable)ivRefreshRefreshing.getDrawable();
+        refreshAnimation = (AnimationDrawable) ivRefreshRefreshing.getDrawable();
     }
 
     private void loadData() {
-        if (!UserManager.getInstance().isLogin()){
+        if (!UserManager.getInstance().isLogin()) {
             showNotSignInView();
-        }else{
+        } else {
             showLoadingView();
             ApiExecutor.exec(new FetchReportRequest(this));
         }
@@ -135,26 +133,26 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
     }
 
     @OnClick(R.id.tv_report_submit)//登录或查看样本
-    public void onClickNoReport(View view){
-        if (reportStatus==EnumReportStatus.NOTSIGNIN){
+    public void onClickNoReport() {
+        if (reportStatus == EnumReportStatus.NOT_SIGN_IN) {
             openLoginActivity();
-        }else if (reportStatus==EnumReportStatus.NOTSIGNUP){
+        } else if (reportStatus == EnumReportStatus.NOT_SIGN_UP) {
             openSampleReport();
-        }else if (reportStatus==EnumReportStatus.EMPTYREPORT){
+        } else if (reportStatus == EnumReportStatus.EMPTY_REPORT) {
             openSampleReport();
         }
     }
 
     @OnClick(R.id.tv_open_learning_report)//查看样本
-    public void onClickOpenReport(View view){
-        if (reportStatus==EnumReportStatus.REPORT){
+    public void onClickOpenReport() {
+        if (reportStatus == EnumReportStatus.REPORT) {
             openLearningReport();
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.ll_refresh_refreshing){
+        if (v.getId() == R.id.ll_refresh_refreshing) {
             reloadData();
             llRefreshRefreshing.setOnClickListener(null);
         }
@@ -166,7 +164,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     //查看学习报告样本
     private void openSampleReport() {
-        getActivity().startActivity(new Intent(getActivity(), ReportActivity.class));
+        ReportActivity.launch(getActivity(), -1);
     }
 
     //登录
@@ -179,7 +177,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         loadData();
     }
 
-    private void showLoadingView(){
+    private void showLoadingView() {
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.VISIBLE);
@@ -187,10 +185,10 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         ivRefreshRefreshing.setImageDrawable(refreshAnimation);
         refreshAnimation.start();
         tvRefreshRefreshing.setText("正在加载数据···");
-        reportStatus = EnumReportStatus.LONGING;
+        reportStatus = EnumReportStatus.LOGIN;
     }
 
-    private void showLoadFailedView(){
+    private void showLoadFailedView() {
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.GONE);
@@ -198,66 +196,66 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         llRefreshRefreshing.setOnClickListener(this);
         ivRefreshRefreshing.setImageDrawable(getResources().getDrawable(R.drawable.ic_course));
         tvRefreshRefreshing.setText("加载失败,点击重试!");
-        reportStatus = EnumReportStatus.LONGFAILED;
+        reportStatus = EnumReportStatus.LOGIN_FAILED;
     }
 
-    private void showNotSignInView(){
+    private void showNotSignInView() {
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.VISIBLE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
         tvReportPrompt.setText("登录可查看专属学习报告哦···");
         tvReportSubmit.setText("登录");
-        reportStatus = EnumReportStatus.NOTSIGNIN;
+        reportStatus = EnumReportStatus.NOT_SIGN_IN;
     }
 
-    private void showEmptyReportView(){
+    private void showEmptyReportView() {
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.VISIBLE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
         tvReportPrompt.setText("学习报告目前只支持数学科目···");
         tvReportSubmit.setText("查看学习报告样本");
-        reportStatus = EnumReportStatus.EMPTYREPORT;
+        reportStatus = EnumReportStatus.EMPTY_REPORT;
     }
 
-    private void showReportView(Report report){
+    private void showReportView(Report report) {
         refreshAnimation.stop();
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.VISIBLE);
         llRefreshRefreshing.setVisibility(View.GONE);
         Subject subject = Subject.getSubjectById(report.getSubject_id());
-        if (subject!=null){
+        if (subject != null) {
             tvSubject.setText(subject.getName());
-        }else{
+        } else {
             tvSubject.setText("");
         }
-        tvAnswerNumber.setText(report.getTotal_nums()+"");
+        tvAnswerNumber.setText(report.getTotal_nums() + "");
         int rate = 0;
-        if (report.getTotal_nums()>0){
-            rate = report.getRight_nums()*100/report.getTotal_nums();
+        if (report.getTotal_nums() > 0) {
+            rate = report.getRight_nums() * 100 / report.getTotal_nums();
         }
-        tvCorrectRate.setText(rate+"%");
+        tvCorrectRate.setText(rate + "%");
         reportStatus = EnumReportStatus.REPORT;
     }
 
     private void dealResponse(ReportListResult response) {
         List<Report> reports = response.getResults();
-        if (reports!=null&&reports.size()>0){
+        if (reports != null && reports.size() > 0) {
             Report report = null;
-            for (int i=0;i<reports.size();i++){
-                if (reports.get(i).isSupported()&&reports.get(i).isPurchased()){
+            for (int i = 0; i < reports.size(); i++) {
+                if (reports.get(i).isSupported() && reports.get(i).isPurchased()) {
                     report = reports.get(i);
                     break;
                 }
             }
-            if (report!=null){
+            if (report != null) {
                 //update ui
                 showReportView(report);
-            }else{
+            } else {
                 showEmptyReportView();
             }
-        }else{
+        } else {
             showEmptyReportView();
         }
     }
@@ -276,11 +274,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
         @Override
         public void onApiSuccess(@NonNull ReportListResult response) {
-            if (response!=null){
-                get().dealResponse(response);
-            }else{
-                get().showLoadFailedView();
-            }
+            get().dealResponse(response);
         }
 
         @Override
@@ -290,51 +284,53 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    /*************************会员专享*************************/
+    /*************************
+     * 会员专享
+     *************************/
     @OnClick(R.id.tv_with_read)//自习陪读
-    public void onClickWithRead(View view){
+    public void onClickWithRead() {
         openMemberServiceAvtivity(0);
     }
 
     @OnClick(R.id.tv_learning_report)//学习报告
-    public void onClickLearningReport(View view){
+    public void onClickLearningReport() {
         openMemberServiceAvtivity(1);
         //startActivity(new Intent(getActivity(), ReportActivity.class));
     }
 
     @OnClick(R.id.tv_counseling)//心理辅导
-    public void onClickCounseling(View view){
+    public void onClickCounseling() {
         openMemberServiceAvtivity(2);
     }
 
     @OnClick(R.id.tv_lectures)//特色讲座
-    public void onClickLectures(View view){
+    public void onClickLectures() {
         openMemberServiceAvtivity(3);
     }
 
     @OnClick(R.id.tv_exam_explain)//考前串讲
-    public void onClickExamExplain(View view){
+    public void onClickExamExplain() {
         openMemberServiceAvtivity(4);
     }
 
     @OnClick(R.id.tv_mistake)//错题本
-    public void onClickMistake(View view){
+    public void onClickMistake() {
         openMemberServiceAvtivity(5);
     }
 
     @OnClick(R.id.tv_spps_evaluation)//SPPS测评
-    public void onClickSppsEvaluation(View view){
+    public void onClickSppsEvaluation() {
         openMemberServiceAvtivity(6);
     }
 
     @OnClick(R.id.tv_expect_more)//敬请期待
-    public void onClickExpectMore(View view){
+    public void onClickExpectMore() {
         openMemberServiceAvtivity(7);
     }
 
-    private void openMemberServiceAvtivity(int position){
+    private void openMemberServiceAvtivity(int position) {
         Intent intent = new Intent(getContext(), MemberActivity.class);
-        intent.putExtra(MemberActivity.EXTRA_CURRETN_POSITION,position);
+        intent.putExtra(MemberActivity.EXTRA_CURRETN_POSITION, position);
         startActivity(intent);
     }
 

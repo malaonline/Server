@@ -5,9 +5,11 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
 import com.malalaoshi.android.report.entity.AxisModel;
+import com.malalaoshi.android.report.entity.ExerciseMonthTrend;
 import com.malalaoshi.android.report.view.WaveView;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.List;
  * Created by tianwei on 5/22/16.
  */
 public class ReportSubjectPage extends LinearLayout {
+
+    private List<ExerciseMonthTrend> data;
 
     public ReportSubjectPage(Context context) {
         super(context);
@@ -31,32 +35,27 @@ public class ReportSubjectPage extends LinearLayout {
         return (ReportSubjectPage) ViewUtils.newInstance(parent, R.layout.report__page_subject);
     }
 
-    public static ReportSubjectPage newInstance(Context context) {
-        return (ReportSubjectPage) ViewUtils.newInstance(context, R.layout.report__page_subject);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        if (isInEditMode()) {
-            return;
-        }
-
-        initView();
+    public static ReportSubjectPage newInstance(Context context, List<ExerciseMonthTrend> month_trend) {
+        ReportSubjectPage page = (ReportSubjectPage) ViewUtils.newInstance(context, R.layout.report__page_subject);
+        page.setData(month_trend);
+        return page;
     }
 
     private void initView() {
         WaveView waveView = (WaveView) findViewById(R.id.view_wave);
         List<AxisModel> list = new ArrayList<>();
-        AxisModel model = new AxisModel(55, 106, "4月上");
-        list.add(model);
-        model = new AxisModel(25, 145, "4月下");
-        list.add(model);
-        model = new AxisModel(75, 85, "5月上");
-        list.add(model);
-        model = new AxisModel(95, 120, "5月下");
-        list.add(model);
+        if (EmptyUtils.isEmpty(data)) {
+            return;
+        }
+        for (ExerciseMonthTrend item : data) {
+            list.add(new AxisModel(item.getError_item(), item.getTotal_item(), item.getMonthPart()));
+        }
         waveView.setList(list);
         waveView.setMax(150);
+    }
+
+    public void setData(List<ExerciseMonthTrend> data) {
+        this.data = data;
+        initView();
     }
 }

@@ -1,6 +1,7 @@
 package com.malalaoshi.android.report;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -9,7 +10,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.base.BaseTitleActivity;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
+import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.GradeUtils;
+import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.report.adapter.ReportAdapter;
+import com.malalaoshi.android.report.api.SubjectReportApi;
+import com.malalaoshi.android.report.entity.SubjectReport;
 import com.malalaoshi.android.report.page.ReportCapacityPage;
 import com.malalaoshi.android.report.page.ReportHomePage;
 import com.malalaoshi.android.report.page.ReportKnowledgePage;
@@ -33,6 +42,8 @@ public class ReportFragment extends BaseFragment {
     private View dotViewContainer;
     //封面
     private ReportHomePage homePage;
+    //科目
+    private int subjectId;
 
     private List<View> pageList;
     private ViewPager viewPager;
@@ -53,22 +64,27 @@ public class ReportFragment extends BaseFragment {
                 viewPager.setVisibility(View.VISIBLE);
             }
         });
+        initIntent();
         initViewPager(view);
+        requestData();
         return view;
+    }
+
+    private void initIntent() {
+        Bundle bundle = getArguments();
+        if (bundle == null) {
+            return;
+        }
+        subjectId = bundle.getInt(ReportActivity.EXTRA_SUBJECT, Integer.MIN_VALUE);
+        if (subjectId == Integer.MIN_VALUE) {
+            MiscUtil.toast("哎呀，这个报告找不到了。");
+            getActivity().finish();
+        }
     }
 
     private void initViewPager(View view) {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        ReportAdapter adapter = new ReportAdapter(getActivity());
-        viewPager.setAdapter(adapter);
         pageList = new ArrayList<>();
-        pageList.add(ReportWorkPage.newInstance(getActivity()));
-        pageList.add(ReportSubjectPage.newInstance(getActivity()));
-        pageList.add(ReportKnowledgePage.newInstance(getActivity()));
-        pageList.add(ReportCapacityPage.newInstance(getActivity()));
-        pageList.add(ReportScorePage.newInstance(getActivity()));
-        adapter.setList(pageList);
-        adapter.notifyDataSetChanged();
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -85,6 +101,34 @@ public class ReportFragment extends BaseFragment {
 
             }
         });
+    }
+
+    private void fillPages(SubjectReport response) {
+        ReportWorkPage workPage = ReportWorkPage.newInstance(getActivity(), response);
+        pageList.add(workPage);
+        pageList.add(ReportSubjectPage.newInstance(getActivity(), response.getMonth_trend()));
+        pageList.add(ReportKnowledgePage.newInstance(getActivity(), response.getKnowledges_accuracy()));
+        pageList.add(ReportCapacityPage.newInstance(getActivity(), response.getAbilities()));
+        pageList.add(ReportScorePage.newInstance(getActivity(), response.getScore_analyses()));
+        ReportAdapter adapter = new ReportAdapter(getActivity());
+        adapter.setList(pageList);
+        viewPager.setAdapter(adapter);
+        homePage.setStudent(UserManager.getInstance().getStuName());
+        homePage.setGrade(GradeUtils.getGradeName(response.getGrade_id()));
+        if (getActivity() instanceof BaseTitleActivity) {
+            ((BaseTitleActivity) getActivity()).setTitle("学习报告");
+        }
+    }
+
+    private void requestData() {
+        if (subjectId == -1) {
+            //数学样本
+            fillPages(MathReportTemplate.getMathTemplate());
+            homePage.setStudent(MathReportTemplate.getStudent());
+            homePage.setGrade(MathReportTemplate.getGrade());
+            return;
+        }
+        ApiExecutor.exec(new FetchSubjectReport(this, subjectId));
     }
 
     @Override
@@ -104,5 +148,30 @@ public class ReportFragment extends BaseFragment {
         }
         params.setMargins(stepWidth * position, 0, 0, 0);
         dotView.setLayoutParams(params);
+    }
+
+    private static final class FetchSubjectReport extends BaseApiContext<ReportFragment, SubjectReport> {
+
+        private int subjectId;
+
+        public FetchSubjectReport(ReportFragment reportFragment, int subjectId) {
+            super(reportFragment);
+            this.subjectId = subjectId;
+        }
+
+        @Override
+        public SubjectReport request() throws Exception {
+            return new SubjectReportApi().get(subjectId);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull SubjectReport response) {
+            get().fillPages(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+
+        }
     }
 }

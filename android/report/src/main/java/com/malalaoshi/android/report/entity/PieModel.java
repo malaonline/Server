@@ -61,7 +61,7 @@ public class PieModel implements Serializable {
     }
 
     /**
-     * 数量求百分百F
+     * 数量求百分比
      */
     public static void calNumByNumber(List<PieModel> list) {
         if (EmptyUtils.isEmpty(list)) {

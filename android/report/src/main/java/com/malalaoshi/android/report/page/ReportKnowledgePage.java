@@ -6,9 +6,11 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
 import com.malalaoshi.android.report.entity.AxisModel;
+import com.malalaoshi.android.report.entity.KnowledgePointAccuracy;
 import com.malalaoshi.android.report.view.HorizontalLineView;
 
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public class ReportKnowledgePage extends LinearLayout {
         CONTENT_LIST.add("其他");
     }
 
+    private List<KnowledgePointAccuracy> data;
+
     public ReportKnowledgePage(Context context) {
         super(context);
     }
@@ -59,37 +63,26 @@ public class ReportKnowledgePage extends LinearLayout {
         return (ReportKnowledgePage) ViewUtils.newInstance(parent, R.layout.report__page_knowledge);
     }
 
-    public static ReportKnowledgePage newInstance(Context context) {
-        return (ReportKnowledgePage) ViewUtils.newInstance(context, R.layout.report__page_knowledge);
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        if (isInEditMode()) {
-            return;
-        }
-        initView();
+    public static ReportKnowledgePage newInstance(Context context, List<KnowledgePointAccuracy> knowledges_accuracy) {
+        ReportKnowledgePage page = (ReportKnowledgePage) ViewUtils.newInstance(context, R.layout.report__page_knowledge);
+        page.setData(knowledges_accuracy);
+        return page;
     }
 
     private void initView() {
         HorizontalLineView lineView = (HorizontalLineView) findViewById(R.id.view_chart);
         List<AxisModel> list = new ArrayList<>();
-        AxisModel model = new AxisModel(11, 30, "实数");
-        list.add(model);
-        model = new AxisModel(21, 50, "函数初步");
-        list.add(model);
-        model = new AxisModel(109, 117, "多边形");
-        list.add(model);
-        model = new AxisModel(21, 50, "圆");
-        list.add(model);
-        model = new AxisModel(114, 120, "全等");
-        list.add(model);
-        model = new AxisModel(21, 50, "相似");
-        list.add(model);
-        model = new AxisModel(54, 62, "几何变换");
-        list.add(model);
+        if (EmptyUtils.isEmpty(data)) {
+            return;
+        }
+        for (KnowledgePointAccuracy item : data) {
+            list.add(new AxisModel(item.getRight_item(), item.getTotal_item(), item.getName()));
+        }
         lineView.setList(list);
     }
 
+    public void setData(List<KnowledgePointAccuracy> data) {
+        this.data = data;
+        initView();
+    }
 }

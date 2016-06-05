@@ -6,16 +6,21 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
 import com.malalaoshi.android.report.adapter.WorkColorAdapter;
+import com.malalaoshi.android.report.entity.ExerciseErrorDistribution;
 import com.malalaoshi.android.report.entity.PieModel;
+import com.malalaoshi.android.report.entity.SubjectReport;
 import com.malalaoshi.android.report.entity.WorkColorModel;
 import com.malalaoshi.android.report.view.PieView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 作业数据分析
@@ -50,6 +55,10 @@ public class ReportWorkPage extends LinearLayout {
         CONTENT_LIST.add("其他");
     }
 
+    private List<ExerciseErrorDistribution> data;
+    private int answerTotalCount;
+    private int workTotalCount;
+
     public ReportWorkPage(Context context) {
         super(context);
     }
@@ -62,8 +71,13 @@ public class ReportWorkPage extends LinearLayout {
         return (ReportWorkPage) ViewUtils.newInstance(parent, R.layout.report__page_work);
     }
 
-    public static ReportWorkPage newInstance(Context context) {
-        return (ReportWorkPage) ViewUtils.newInstance(context, R.layout.report__page_work);
+    public static ReportWorkPage newInstance(Context context, SubjectReport report) {
+        ReportWorkPage page = (ReportWorkPage) ViewUtils.newInstance(context, R.layout.report__page_work);
+        page.setData(report.getError_rates());
+        page.answerTotalCount = report.getExercise_total_nums();
+        page.workTotalCount = report.getTotal_nums();
+        page.initData();
+        return page;
     }
 
     @Override
@@ -77,7 +91,6 @@ public class ReportWorkPage extends LinearLayout {
             return;
         }
         initGridView();
-        initPieView();
     }
 
     private void initGridView() {
@@ -92,20 +105,26 @@ public class ReportWorkPage extends LinearLayout {
         gridView.setAdapter(adapter);
     }
 
-    private void initPieView() {
+    private void initData() {
         PieView pieView = (PieView) findViewById(R.id.pie_view);
+        pieView.setCenterText("错题分布");
+        if (EmptyUtils.isEmpty(data)) {
+            return;
+        }
         List<PieModel> list = new ArrayList<>();
-        list.add(new PieModel(COLOR_LIST.get(0), 8));
-        list.add(new PieModel(COLOR_LIST.get(1), 9));
-        list.add(new PieModel(COLOR_LIST.get(2), 12));
-        list.add(new PieModel(COLOR_LIST.get(3), 17));
-        list.add(new PieModel(COLOR_LIST.get(4), 21));
-        list.add(new PieModel(COLOR_LIST.get(5), 3));
-        list.add(new PieModel(COLOR_LIST.get(6), 18));
-        list.add(new PieModel(COLOR_LIST.get(7), 7));
-        list.add(new PieModel(COLOR_LIST.get(8), 5));
+        for (int i = 0; i < data.size(); i++) {
+            int color = COLOR_LIST.get(i % COLOR_LIST.size());
+            list.add(new PieModel(color, (int) data.get(i).getRate()));
+        }
         PieModel.calNumByNumber(list);
         pieView.setData(list);
-        pieView.setCenterText("错题分布");
+        String answer = String.format(Locale.getDefault(), "累计答题%d道", answerTotalCount);
+        ((TextView) findViewById(R.id.tv_answer)).setText(answer);
+        String work = String.format(Locale.getDefault(), "作业%d次", workTotalCount);
+        ((TextView) findViewById(R.id.tv_work)).setText(work);
+    }
+
+    public void setData(List<ExerciseErrorDistribution> data) {
+        this.data = data;
     }
 }
