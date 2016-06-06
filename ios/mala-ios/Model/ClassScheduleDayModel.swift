@@ -14,6 +14,7 @@ class ClassScheduleDayModel: BaseObjectModel {
     var start: String?
     var end: String?
     var available: Bool = false
+    var reserved: Bool = false
     var isSelected: Bool = false
     var weekID: Int = 0
     
@@ -23,12 +24,13 @@ class ClassScheduleDayModel: BaseObjectModel {
         super.init()
     }
     
-    convenience init(id: Int, start: String, end: String, available: Bool, weekID: Int) {
+    convenience init(id: Int, start: String, end: String, available: Bool, reserved: Bool, weekID: Int) {
         self.init()
         self.id = id
         self.start = start
         self.end = end
         self.available = available
+        self.reserved = reserved
         self.weekID = weekID
     }
     

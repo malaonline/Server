@@ -81,8 +81,13 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
         // 根据数据源设置显示样式
         if indexPath.section > 0 && indexPath.row > 0 && (model ?? []) != [] {
             let itemModel = model?[indexPath.row-1][indexPath.section-1]
+            
             // 若不可选择 - disable
             cell.button.enabled = itemModel?.available ?? false
+            
+            // 若为预留 - reserved
+            cell.reserved = (itemModel?.available == true && itemModel?.reserved == true)
+            
             // 若已选择的 - selected
             if itemModel?.isSelected != nil {
                 cell.button.selected = itemModel!.isSelected
@@ -154,6 +159,17 @@ class ThemeClassScheduleCell: UICollectionViewCell {
             endLabel.text = end
         }
     }
+    /// 课程预留状态标识
+    var reserved: Bool = false {
+        didSet {
+            if reserved {
+                button.setBackgroundImage(UIImage(named: "timeSlot_bought"), forState: .Normal)
+            }else {
+                button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+            }
+        }
+    }
+    
     
     // MARK: - Compontents
     /// 多状态样式按钮，不进行用户交互
@@ -250,6 +266,7 @@ class ThemeClassScheduleCell: UICollectionViewCell {
         self.setNormal()
         self.hiddenTitle = true
         self.hiddenTime = true
+        self.reserved = false
     }
     
     ///  设置button为normal状态
