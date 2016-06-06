@@ -15,6 +15,8 @@ class ClassScheduleDayModel: BaseObjectModel {
     var end: String?
     var available: Bool = false
     var reserved: Bool = false
+    var last_occupied_end: NSTimeInterval?
+    
     var isSelected: Bool = false
     var weekID: Int = 0
     
