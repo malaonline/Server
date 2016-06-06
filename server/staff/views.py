@@ -1972,6 +1972,7 @@ class SchoolTimeslotView(BaseStaffView):
             stTime = datetime.datetime(searchTime.year, searchTime.month, searchTime.day)
         else:
             stTime = datetime.datetime.strptime(searchTime, '%Y-%m-%d')
+        stTime = timezone.make_aware(stTime)
 
         edTime = stTime + datetime.timedelta(days=1)
 

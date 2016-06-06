@@ -21,7 +21,7 @@
         授课中心
         <select class="form-control" name="schoolId">
             {% for school in schools %}
-            <option value="{{school.id}}" {%if school.id = schoolId|add:0%}selected="true"{%endif%}>{{school.name}}</option>
+            <option value="{{school.id}}" {%if school.id == schoolId|add:0%}selected="true"{%endif%}>{{school.name}}</option>
             {% endfor %}
         </select>
         <input type="submit" value="查询"/>
