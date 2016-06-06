@@ -28,19 +28,68 @@ class ThemeDate {
         /// 课程表时间模型数组
         var modelArray = sortDays
         /// 课时数
-        let classPeriod = period%2 == 0 ? period : period+1
+        var classPeriod = period%2 == 0 ? period : period+1
         /// 当前Date对象
         let today = NSDate()
         // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
         let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
         
+        var index = 0
         
+        repeat {
+            
+            let singleDate = sortDays[index]
+            let firstAvailableDate = ThemeDate().getFirstAvailableDate(singleDate)
+            
+            timeSchedule.append(getDateString(date: firstAvailableDate, format: "yyyy-MM-dd  HH:mm:ss"))
+            
+            classPeriod -= 2
+            index += 1
+            
+            if index == days.count {
+                index == 0
+            }
+            
+        } while classPeriod > 0
         
+        println("本地计算时间表: \(timeSchedule)")
         
-        
-        
-
         return timeSchedule
+    }
+    
+    
+    ///  获取指定上课时间的首个有效开始上课时间
+    ///  (例如：若A老师被买连续三周1节课，则返回第四周的该节课的开始时间)
+    ///
+    ///  - parameter timeSlot: 上课时间模型
+    ///
+    ///  - returns: 首个有效开始上课时间
+    private func getFirstAvailableDate(timeSlot: ClassScheduleDayModel) -> NSDate {
+        
+        // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
+        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
+        
+        if let lastDateTimeInterval = timeSlot.last_occupied_end {
+            var lastDate = NSDate(timeIntervalSince1970: lastDateTimeInterval)
+            // 下一周的课程开始时间
+            lastDate = lastDate.dateByAddingWeeks(1)
+            lastDate = lastDate.dateBySubtractingHours(2)
+            return lastDate
+        }else {
+            let weekId = timeSlot.weekID == 0 ? 7 : timeSlot.weekID
+            var date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
+            
+            // 只有提前三天以上的课程，才会在本周开始授课。
+            //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
+            //（例如在周四预约了周日的课程，相隔周五、周六两天符合要求，将从本周日开始上课）
+            if weekId < (weekdayInt(NSDate())+intervals) {
+                date = date.dateByAddingWeeks(1)
+            }
+            
+            let startDateString = getDateString(date: date, format: "yyyy-MM-dd")
+            let dateString = startDateString + " " + (timeSlot.start ?? "")
+            return dateString.dateWithFormatter("yyyy-MM-dd HH:mm")!
+        }
     }
     
 }

@@ -58,6 +58,17 @@ extension String {
         }
     }
     
+    ///  格式化字符串为日期数据
+    ///
+    ///  - parameter format: 字符串格式化规则
+    ///
+    ///  - returns: 日期数据
+    func dateWithFormatter(format: String = "yyyy/MM/dd") -> NSDate? {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = format
+        return formatter.dateFromString(self)
+    }
+    
     
     init(MinPrice min: String, MaxPrice max: String) {
         self = String(format: "%@-%@元/小时", min, max)
