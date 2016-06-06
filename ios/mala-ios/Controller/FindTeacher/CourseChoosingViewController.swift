@@ -343,16 +343,13 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                 
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
-                
-                // 请求上课时间表，并展开cell
-                if let isOpen = self?.tableView.isOpenTimeScheduleCell where isOpen {
-                    // 请求上课时间表，并展开cell
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self?.loadConcreteTimeslots()
-                        self?.tableView.isOpenTimeScheduleCell = true
-                    })
+
+                // 上课时间
+                if MalaCourseChoosingObject.selectedTime.count != 0 {
+                     let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
+                     self?.tableView.timeScheduleResult = array
                 }else {
-                    self?.isNeedReloadTimeSchedule = true
+                    self?.tableView.timeScheduleResult = []
                 }
         }
         self.observers.append(observerClassScheduleDidTap)
@@ -366,15 +363,10 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                 // 保存选择课时数
                 MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
                 
-                // 请求上课时间表，并展开cell
-                if let isOpen = self?.tableView.isOpenTimeScheduleCell where isOpen {
-                    // 请求上课时间表，并展开cell
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self?.loadConcreteTimeslots()
-                        self?.tableView.isOpenTimeScheduleCell = true
-                    })
-                }else {
-                    self?.isNeedReloadTimeSchedule = true
+                // 上课时间
+                if MalaCourseChoosingObject.selectedTime.count != 0 {
+                     let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
+                     self?.tableView.timeScheduleResult = array
                 }
         }
         self.observers.append(observerClassPeriodDidChange)
