@@ -2120,6 +2120,11 @@ class TimeSlot(BaseModel):
         return self.comment is not None
 
     @property
+    def is_expired(self):
+        #expired timeslot can not be commented any more.
+        return self.end + TimeSlot.COMMENT_DELAY > timezone.now()
+
+    @property
     def school(self):
         return self.order.school
 

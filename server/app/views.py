@@ -806,7 +806,7 @@ class TimeSlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TimeSlot
         fields = ('id', 'start', 'end', 'subject', 'grade', 'school',
-                  'is_passed', 'teacher', 'comment')
+                  'is_passed', 'teacher', 'comment', 'is_expired')
 
     def get_start(self, obj):
         return int(obj.start.timestamp())
