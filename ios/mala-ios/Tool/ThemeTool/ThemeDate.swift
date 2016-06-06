@@ -25,34 +25,32 @@ class ThemeDate {
         let sortDays = days.sort { (model0, model1) -> Bool in
             return (model0.weekID == 0 ? 7 : model0.weekID) < (model1.weekID == 0 ? 7 : model1.weekID)
         }
-        /// 课程表时间模型数组
-        var modelArray = sortDays
         /// 课时数
         var classPeriod = period%2 == 0 ? period : period+1
-        /// 当前Date对象
-        let today = NSDate()
-        // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
-        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
         
         var index = 0
+        var currentWeekAdding = 0
         
         repeat {
             
             let singleDate = sortDays[index]
-            let firstAvailableDate = ThemeDate().getFirstAvailableDate(singleDate)
+            let firstAvailableDate = ThemeDate().getFirstAvailableDate(singleDate).dateByAddingWeeks(currentWeekAdding)
             
-            timeSchedule.append(getDateString(date: firstAvailableDate, format: "yyyy-MM-dd  HH:mm:ss"))
+            let dateString = getDateString(date: firstAvailableDate, format: "yyyy-MM-dd")
+            let startString = getDateString(date: firstAvailableDate, format: "HH:mm")
+            let endString = getDateString(date: firstAvailableDate.dateByAddingHours(2), format: "HH:mm")
+            
+            timeSchedule.append(String(format: "%@ (%@-%@)", dateString, startString, endString))
             
             classPeriod -= 2
             index += 1
             
             if index == days.count {
-                index == 0
+                index = 0
+                currentWeekAdding += 1
             }
             
         } while classPeriod > 0
-        
-        println("本地计算时间表: \(timeSchedule)")
         
         return timeSchedule
     }
@@ -70,7 +68,7 @@ class ThemeDate {
         let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
         
         if let lastDateTimeInterval = timeSlot.last_occupied_end {
-            var lastDate = NSDate(timeIntervalSince1970: lastDateTimeInterval)
+            var lastDate = NSDate(timeIntervalSince1970: lastDateTimeInterval.doubleValue)
             // 下一周的课程开始时间
             lastDate = lastDate.dateByAddingWeeks(1)
             lastDate = lastDate.dateBySubtractingHours(2)
@@ -91,5 +89,4 @@ class ThemeDate {
             return dateString.dateWithFormatter("yyyy-MM-dd HH:mm")!
         }
     }
-    
 }
