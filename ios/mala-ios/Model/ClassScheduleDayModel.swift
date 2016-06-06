@@ -15,7 +15,7 @@ class ClassScheduleDayModel: BaseObjectModel {
     var end: String?
     var available: Bool = false
     var reserved: Bool = false
-    var last_occupied_end: NSTimeInterval?
+    var last_occupied_end: NSNumber?
     
     var isSelected: Bool = false
     var weekID: Int = 0
@@ -39,6 +39,12 @@ class ClassScheduleDayModel: BaseObjectModel {
     override init(dict: [String: AnyObject]) {
         super.init(dict: dict)
         setValuesForKeysWithDictionary(dict)
+    }
+    
+    
+    // MARK: - Override
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        println("ClassScheduleDayModel - Set for UndefinedKey: \(key)")
     }
     
     
