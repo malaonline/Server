@@ -124,6 +124,14 @@ public class MalaConfig {
                     controller: CouponViewController.self,
                     controllerTitle: "我的奖学金",
                     type: nil
+                ),
+                ProfileElementModel(
+                    id: 4,
+                    title: "我的评价",
+                    detail: "",
+                    controller: CommentViewController.self,
+                    controllerTitle: "我的评价",
+                    type: nil
                 )
             ],
             [

@@ -752,6 +752,12 @@
 		F43F44BD1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BE1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BF1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
+		F43F44C11D06B14A00B7A358 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C01D06B14A00B7A358 /* CommentViewController.swift */; };
+		F43F44C21D06B14A00B7A358 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C01D06B14A00B7A358 /* CommentViewController.swift */; };
+		F43F44C31D06B14A00B7A358 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C01D06B14A00B7A358 /* CommentViewController.swift */; };
+		F43F44C51D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
+		F43F44C61D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
+		F43F44C71D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -1055,6 +1061,8 @@
 		F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCardCell.swift; sourceTree = "<group>"; };
 		F4312B731CF82AC100E0EAF1 /* TimeScheduleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeScheduleModel.swift; sourceTree = "<group>"; };
 		F43F44BC1D05608700B7A358 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
+		F43F44C01D06B14A00B7A358 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		F43F44C41D06B66800B7A358 /* CommentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -1862,6 +1870,7 @@
 				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
+				F43F44C01D06B14A00B7A358 /* CommentViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2001,6 +2010,7 @@
 			isa = PBXGroup;
 			children = (
 				F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */,
+				F43F44C41D06B66800B7A358 /* CommentViewCell.swift */,
 			);
 			path = CommentView;
 			sourceTree = "<group>";
@@ -2683,6 +2693,7 @@
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
+				F43F44C51D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				F427FFAD1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
 				F45871EE1C51DFB60048D93F /* CourseChoosingGradeCell.swift in Sources */,
@@ -2753,6 +2764,7 @@
 				F46064F21C926E16004056B1 /* ProfileElementModel.swift in Sources */,
 				F49BD5A61CA4131D00EB3CCF /* SKPhotoBrowser.swift in Sources */,
 				F45E69DE1C8D278A00BD0859 /* ThemeClassSchedule.swift in Sources */,
+				F43F44C11D06B14A00B7A358 /* CommentViewController.swift in Sources */,
 				F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */,
 				30445B1A1C4A3AC8002CD290 /* GradeFilterView.swift in Sources */,
 				307AB8991C33CD5C00D8397F /* CommonFlowLayout.swift in Sources */,
@@ -2889,6 +2901,7 @@
 				35FF7AAA1CF8325A000A70EE /* CouponViewCell.swift in Sources */,
 				35FF7AAB1CF8325A000A70EE /* TeacherDetailsPlaceCell.swift in Sources */,
 				35FF7AAC1CF8325A000A70EE /* MalaUserDefaults.swift in Sources */,
+				F43F44C61D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				35FF7AAD1CF8325A000A70EE /* LearningReportAbilityStructureCell.swift in Sources */,
 				35FF7AAE1CF8325A000A70EE /* UIImage+Navi.swift in Sources */,
 				35FF7AAF1CF8325A000A70EE /* CourseChoosingGradeCell.swift in Sources */,
@@ -2959,6 +2972,7 @@
 				35FF7AEF1CF8325A000A70EE /* ProfileElementModel.swift in Sources */,
 				35FF7AF01CF8325A000A70EE /* SKPhotoBrowser.swift in Sources */,
 				35FF7AF11CF8325A000A70EE /* ThemeClassSchedule.swift in Sources */,
+				F43F44C21D06B14A00B7A358 /* CommentViewController.swift in Sources */,
 				35FF7AF21CF8325A000A70EE /* PaymentChannelSectionHeaderView.swift in Sources */,
 				35FF7AF31CF8325A000A70EE /* GradeFilterView.swift in Sources */,
 				35FF7AF41CF8325A000A70EE /* CommonFlowLayout.swift in Sources */,
@@ -3095,6 +3109,7 @@
 				35FF7B8D1CF83264000A70EE /* CouponViewCell.swift in Sources */,
 				35FF7B8E1CF83264000A70EE /* TeacherDetailsPlaceCell.swift in Sources */,
 				35FF7B8F1CF83264000A70EE /* MalaUserDefaults.swift in Sources */,
+				F43F44C71D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				35FF7B901CF83264000A70EE /* LearningReportAbilityStructureCell.swift in Sources */,
 				35FF7B911CF83264000A70EE /* UIImage+Navi.swift in Sources */,
 				35FF7B921CF83264000A70EE /* CourseChoosingGradeCell.swift in Sources */,
@@ -3165,6 +3180,7 @@
 				35FF7BD21CF83264000A70EE /* ProfileElementModel.swift in Sources */,
 				35FF7BD31CF83264000A70EE /* SKPhotoBrowser.swift in Sources */,
 				35FF7BD41CF83264000A70EE /* ThemeClassSchedule.swift in Sources */,
+				F43F44C31D06B14A00B7A358 /* CommentViewController.swift in Sources */,
 				35FF7BD51CF83264000A70EE /* PaymentChannelSectionHeaderView.swift in Sources */,
 				35FF7BD61CF83264000A70EE /* GradeFilterView.swift in Sources */,
 				35FF7BD71CF83264000A70EE /* CommonFlowLayout.swift in Sources */,
