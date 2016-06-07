@@ -17,6 +17,8 @@ group_and_permission = [
          'evaluations_action',
          'student_schedule_manage',
          'orders_action',
+         # 课程列表, 投诉, 考勤
+         'school_timeslot',
          # 中心设置, 编辑
          'schools',
          'staff_school',
