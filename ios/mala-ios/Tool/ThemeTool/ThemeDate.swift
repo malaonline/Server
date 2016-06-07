@@ -65,7 +65,7 @@ class ThemeDate {
     private func getFirstAvailableDate(timeSlot: ClassScheduleDayModel) -> NSDate {
         
         // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
-        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 3 : 1
+        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 2 : 1
         
         if let lastDateTimeInterval = timeSlot.last_occupied_end {
             var lastDate = NSDate(timeIntervalSince1970: lastDateTimeInterval.doubleValue)
@@ -77,7 +77,7 @@ class ThemeDate {
             let weekId = timeSlot.weekID == 0 ? 7 : timeSlot.weekID
             var date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
             
-            // 只有提前三天以上的课程，才会在本周开始授课。
+            // 只有提前两天以上的课程，才会在本周开始授课。
             //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
             //（例如在周四预约了周日的课程，相隔周五、周六两天符合要求，将从本周日开始上课）
             if weekId < (weekdayInt(NSDate())+intervals) {
