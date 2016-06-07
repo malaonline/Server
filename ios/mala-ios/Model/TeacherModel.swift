@@ -44,6 +44,13 @@ class TeacherModel: BaseObjectModel {
         self.tags = tags
     }
     
+    convenience init(id: Int, name: String, avatar: String) {
+        self.init()
+        self.id = id
+        self.name = name
+        self.avatar = NSURL(string: avatar)
+    }
+    
     // MARK: - Override
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         println("TeacherModel - Set for UndefinedKey: \(key)")

@@ -11,18 +11,27 @@ import UIKit
 public class StudentCourseModel: BaseObjectModel {
 
     // MARK: - Property
+    /// 开始时间 时间戳
+    var start: NSTimeInterval = 0
     /// 结束时间 时间戳
-    var end: NSTimeInterval = 0 {
-        didSet {
-            println("当前为\(date.month())月\(date.day())日 - 状态为: \(self.status)")
-        }
-    }
+    var end: NSTimeInterval = 0
     /// 学科名称
     var subject: String = ""
+    /// 年级名称
+    var grade: String = ""
+    /// 上课地点名称
+    var school: String = ""
     /// 是否完成标记
     var is_passed: Bool = false
+    /// 老师模型
+    var teacher: TeacherModel?
+    /// 评论模型
+    var comment: CommentModel?
+    /// 标示是否过期
+    var is_expired: Bool = false
+    
     /// 是否评价标记
-    var is_commented: Bool = false
+    var is_commented: Bool? = false
     /// 日期对象
     var date: NSDate {
         get {
@@ -54,13 +63,17 @@ public class StudentCourseModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, end: NSTimeInterval, subject: String, is_passed: Bool, is_commented: Bool) {
+    convenience init(id: Int, start: NSTimeInterval, end: NSTimeInterval, subject: String, grade: String, school: String, is_passed: Bool, is_commented: Bool = false, is_expired: Bool) {
         self.init()
         self.id = id
+        self.start = start
         self.end = end
         self.subject = subject
+        self.grade = grade
+        self.school = school
         self.is_passed = is_passed
         self.is_commented = is_commented
+        self.is_expired = is_expired
     }
     
     // MARK: - Override
@@ -71,7 +84,7 @@ public class StudentCourseModel: BaseObjectModel {
     
     // MARK: - Description
     override public var description: String {
-        let keys = ["id", "end", "subject", "is_passed", "is_commented", "date"]
+        let keys = ["id", "start", "end", "subject", "grade", "school", "is_passed", "date"]
         return "\n"+dictionaryWithValuesForKeys(keys).description+"\n"
     }
 }

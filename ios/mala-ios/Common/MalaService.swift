@@ -992,11 +992,39 @@ let parseStudentCourse: JSONDictionary -> [StudentCourseModel]? = { courseInfos 
     for course in courses {
         if let
             id = course["id"] as? Int,
+            start = course["start"] as? NSTimeInterval,
             end = course["end"] as? NSTimeInterval,
             subject = course["subject"] as? String,
+            grade = course["grade"] as? String,
+            school = course["school"] as? String,
             is_passed = course["is_passed"] as? Bool,
-            is_commened = course["is_commented"] as? Bool {
-                courseList.append(StudentCourseModel(dict: course))
+            is_expired = course["is_expired"] as? Bool {
+            
+            let model = StudentCourseModel(id: id, start: start, end: end, subject: subject, grade: grade, school: school, is_passed: is_passed, is_expired: is_expired)
+            
+            if let is_commented = course["is_commented"] as? Bool {
+                model.is_commented = is_commented
+            }
+            
+            /// 老师模型
+            if let
+                teacherDict = course["teacher"] as? JSONDictionary,
+                id = teacherDict["id"] as? Int,
+                avatar = teacherDict["avatar"] as? String,
+                name = teacherDict["name"] as? String {
+                model.teacher = TeacherModel(id: id, name: name, avatar: avatar)
+            }
+            /// 评价模型
+            if let
+                commentDict = course["comment"] as? JSONDictionary,
+                id = commentDict["id"] as? Int,
+                timeslot = commentDict["timeslot"] as? Int,
+                score = commentDict["score"] as? Int,
+                content = commentDict["content"] as? String {
+                model.comment = CommentModel(id: id, timeslot: timeslot, score: score, content: content)
+            }
+            
+            courseList.append(model)
         }else {
             return nil
         }
