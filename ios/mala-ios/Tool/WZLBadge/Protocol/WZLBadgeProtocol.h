@@ -67,7 +67,7 @@ typedef NS_ENUM(NSUInteger, WBadgeAnimType)
 
 @property (nonatomic, assign) WBadgeAnimType aniType;   /* NOTE that this is not animation type of badge's
                                                          appearing, nor  hidding*/
-
+@optional
 @property (nonatomic, assign) NSInteger badgeMaximumBadgeNumber; /*for WBadgeStyleNumber style badge,
                                                                   if badge value is above badgeMaximumBadgeNumber,
                                                                   "badgeMaximumBadgeNumber+" will be printed. */
