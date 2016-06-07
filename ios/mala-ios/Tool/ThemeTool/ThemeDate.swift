@@ -64,9 +64,6 @@ class ThemeDate {
     ///  - returns: 首个有效开始上课时间
     private func getFirstAvailableDate(timeSlot: ClassScheduleDayModel) -> NSDate {
         
-        // 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
-        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 2 : 1
-        
         if let lastDateTimeInterval = timeSlot.last_occupied_end {
             var lastDate = NSDate(timeIntervalSince1970: lastDateTimeInterval.doubleValue)
             // 下一周的课程开始时间
@@ -74,13 +71,13 @@ class ThemeDate {
             lastDate = lastDate.dateBySubtractingHours(2)
             return lastDate
         }else {
-            let weekId = timeSlot.weekID == 0 ? 7 : timeSlot.weekID
+            
             var date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
             
             // 只有提前两天以上的课程，才会在本周开始授课。
             //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
             //（例如在周四预约了周日的课程，相隔周五、周六两天符合要求，将从本周日开始上课）
-            if weekId < (weekdayInt(NSDate())+intervals) {
+            if !couldStartInThisWeek(timeSlot) {
                 date = date.dateByAddingWeeks(1)
             }
             
@@ -88,5 +85,33 @@ class ThemeDate {
             let dateString = startDateString + " " + (timeSlot.start ?? "")
             return dateString.dateWithFormatter("yyyy-MM-dd HH:mm")!
         }
+    }
+    
+    
+    ///  验证指定上课时间是否可在本周开始上课
+    ///
+    ///  - parameter timeSlot: 上课时间模型
+    ///
+    ///  - returns: 可否上课结果
+    private func couldStartInThisWeek(timeSlot: ClassScheduleDayModel) -> Bool {
+        
+        /// 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
+        let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 2 : 0
+        let weekId = timeSlot.weekID == 0 ? 7 : timeSlot.weekID
+        let date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
+        
+        /// 若首次购课
+        if weekId < (weekdayInt(NSDate())+intervals) {
+            return false
+        }
+        
+        let dateString = getDateString(date: date, format: "yyyy-MM-dd") + " " + (timeSlot.start ?? "")
+        let selectedDate = dateString.dateWithFormatter("yyyy-MM-dd HH:mm")!
+        
+        // 若所选时间与当前时间相距不足1小时，则从下周开始计算
+        if selectedDate.hoursFrom(NSDate()) < 1 {
+            return false
+        }
+        return true
     }
 }
