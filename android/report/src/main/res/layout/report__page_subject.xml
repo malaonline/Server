@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生4月上旬正确率有上升空间，4月下旬经过大量习题练习，接触题型增多，通过针对性的专业模块练习，5月下旬正确率明显达到了优秀水平。"
+                android:text="学生4月上旬正确率有上升空间，4月下旬经过大量习题练习，接触题型增多，通过针对性的专项模块练习，5月下旬正确率明显达到了优秀水平。"
                 android:textColor="#363b4e"
                 android:textSize="12sp" />
         </RelativeLayout>

@@ -19,7 +19,7 @@ public final class MathReportTemplate {
 
     private static final String[] SUBJECT_CLASSES = new String[]{
             "实数", "函数初步", "多边形", "相似", "全等", "微积分", "几何变换", "圆", "其他"};
-    private static final float[] SUBJECT_CLASSES_RATE = new float[]{8, 9, 12, 17, 21, 3, 18, 7, 4};
+    private static final float[] SUBJECT_CLASSES_RATE = new float[]{8, 9, 12, 17, 21, 3, 19, 7, 4};
 
     private static final String[] KNOW_CLASSES = new String[]{
             "实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"};
