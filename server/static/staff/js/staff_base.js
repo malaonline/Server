@@ -14,4 +14,13 @@ $(function() {
         showClear: true,
         showClose: true
     });
+    $(document).ready(function () {
+        // template 页面默认隐藏侧边栏, 这里显示出来, 可以避免闪烁
+        $('#staff_menu').show();
+        $('.mui-heading').each(function () {
+            if ($(this).next().has('a:visible').length == 0) {
+                $(this).hide();
+            }
+        });
+    });
 });

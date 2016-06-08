@@ -1,76 +1,76 @@
 {% load custom_tags %}
 
-<div role="tabpanel" class="tab-pane panel-group" id="staff_menu">
+<div role="tabpanel" class="tab-pane panel-group" id="staff_menu" style="display: none">
   <div class="mui-heading">老师管理</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:teachers' %}" class="{% menu_active 'staff:teachers' %}">新注册老师</a>
+      <a href="{% url 'staff:teachers' %}" class="{% menu_style 'staff:teachers' %}">新注册老师</a>
     </li>
     <li>
-      <a href="{% url 'staff:teachers_unpublished' %}" class="{% menu_active 'staff:teachers_unpublished' 'staff:teachers_unpublished_edit'%}">待上架老师</a>
+      <a href="{% url 'staff:teachers_unpublished' %}" class="{% menu_style 'staff:teachers_unpublished' 'staff:teachers_unpublished_edit'%}">待上架老师</a>
     </li>
     <li>
-      <a href="{% url 'staff:teachers_published' %}" class="{% menu_active 'staff:teachers_published' 'staff:teachers_published_edit'%}">已上架老师</a>
+      <a href="{% url 'staff:teachers_published' %}" class="{% menu_style 'staff:teachers_published' 'staff:teachers_published_edit'%}">已上架老师</a>
     </li>
     <li>
-      <a href="{% url 'staff:teachers_bankcard_list' %}" class="{% menu_active 'staff:teachers_bankcard_list' %}">老师银行卡查询</a>
+      <a href="{% url 'staff:teachers_bankcard_list' %}" class="{% menu_style 'staff:teachers_bankcard_list' %}">老师银行卡查询</a>
     </li>
   </ul>
 
   <div class="mui-heading">课前测评</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:evaluations' %}" class="{% menu_active 'staff:evaluations' %}">测评建档列表</a>
+      <a href="{% url 'staff:evaluations' %}" class="{% menu_style 'staff:evaluations' %}">测评建档列表</a>
     </li>
   </ul>
 
   <div class="mui-heading">学生管理</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:student_schedule_manage' %}" class="{% menu_active 'staff:student_schedule_manage' %}">调课与停课管理</a>
+      <a href="{% url 'staff:student_schedule_manage' %}" class="{% menu_style 'staff:student_schedule_manage' %}">调课与停课管理</a>
     </li>
     <li>
-      <a href="{% url 'staff:student_schedule_changelog' %}" class="{% menu_active 'staff:student_schedule_changelog' %}">调课停课记录</a>
+      <a href="{% url 'staff:student_schedule_changelog' %}" class="{% menu_style 'staff:student_schedule_changelog' %}">调课停课记录</a>
     </li>
   </ul>
 
   <div class="mui-heading">中心管理</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:school_timeslot' %}" class="{% menu_active 'staff:school_timeslot' %}">中心课程列表</a>
+      <a href="{% url 'staff:school_timeslot' %}" class="{% menu_style 'staff:school_timeslot' %}">中心课程列表</a>
     </li>
     <li>
-      <a href="{% url 'staff:schools' %}" class="{% menu_active 'staff:schools' 'staff:staff_school'%}">中心设置</a>
+      <a href="{% url 'staff:schools' %}" class="{% menu_style 'staff:schools' 'staff:staff_school'%}">中心设置</a>
     </li>
   </ul>
 
   <div class="mui-heading">订单管理</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:orders_review' %}" class="{% menu_active 'staff:orders_review' %}">购买订单</a>
+      <a href="{% url 'staff:orders_review' %}" class="{% menu_style 'staff:orders_review' %}">购买订单</a>
     </li>
     <li>
-      <a href="{% url 'staff:orders_refund' %}" class="{% menu_active 'staff:orders_refund' %}">退费审核</a>
+      <a href="{% url 'staff:orders_refund' %}" class="{% menu_style 'staff:orders_refund' %}">退费审核</a>
     </li>
   </ul>
 
   <div class="mui-heading">老师资产</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:teachers_income_list' %}" class="{% menu_active 'staff:teachers_income_list' 'staff:teachers_income_detail'%}">老师收入</a>
+      <a href="{% url 'staff:teachers_income_list' %}" class="{% menu_style 'staff:teachers_income_list' 'staff:teachers_income_detail'%}">老师收入</a>
     </li>
     <li>
-      <a href="{% url 'staff:teachers_withdrawal_list' %}" class="{% menu_active 'staff:teachers_withdrawal_list' %}">提现审核</a>
+      <a href="{% url 'staff:teachers_withdrawal_list' %}" class="{% menu_style 'staff:teachers_withdrawal_list' %}">提现审核</a>
     </li>
   </ul>
 
   <div class="mui-heading">奖学金</div>
   <ul class="mui-nav">
     <li>
-      <a href="{% url 'staff:coupon_config' %}" class="{% menu_active 'staff:coupon_config' %}">奖学金设置</a>
+      <a href="{% url 'staff:coupon_config' %}" class="{% menu_style 'staff:coupon_config' %}">奖学金设置</a>
     </li>
     <li>
-      <a href="{% url 'staff:coupons_list' %}" class="{% menu_active 'staff:coupons_list' %}">奖学金领用列表</a>
+      <a href="{% url 'staff:coupons_list' %}" class="{% menu_style 'staff:coupons_list' %}">奖学金领用列表</a>
     </li>
   </ul>
 </div>

@@ -50,27 +50,38 @@ _weekday_dict = {
     7: "周日",
 }
 
+
 @register.filter('weekday_format')
 def weekday_format(weekday):
     return _weekday_dict.get(weekday, "")
 
-@register.simple_tag(name='menu_active', takes_context=True)
-def menu_active_check(context, *args, **kwargs):
+
+@register.simple_tag(name='menu_style', takes_context=True)
+def menu_style_check(context, *args, **kwargs):
     request = context['request']
-    returnCss = 'menu_active'
+    active_style = 'menu_active'
+    display_style = 'hidden'
     try:
         resolver_match = urlresolvers.resolve(request.path_info)
         url_name = resolver_match.url_name
         namespaces = resolver_match.namespaces
         for arg in args:
-            tmpPath = '.'.join(namespaces)
-            if len(tmpPath) > 0:
-                tmpPath += ':' + url_name
+            tmp_path = '.'.join(namespaces)
+            if len(tmp_path) > 0:
+                tmp_path += ':' + url_name
             else:
-                tmpPath = url_name
-            if tmpPath == arg:
-                return returnCss
+                tmp_path = url_name
+            s = arg.split(':')
+            if len(s):
+                temp_url_name = s[-1]
+                for group in request.user.groups.all():
+                    for staff_permission in group.staffpermission_set.all():
+                        if staff_permission.allowed_url_name == 'all' \
+                                or staff_permission.allowed_url_name == temp_url_name:
+                            display_style = ''
+            if tmp_path == arg:
+                return active_style + ' ' + display_style
     except:
-        return ''
+        return display_style
 
-    return ''
+    return display_style
