@@ -1167,7 +1167,7 @@ class Feedback(BaseModel):
 
 
 class Student(BaseModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, default='')
     school_name = models.CharField(max_length=100, default='')
     user = models.OneToOneField(User)
 
@@ -1196,7 +1196,7 @@ class Student(BaseModel):
         student_group = Group.objects.get(name="学生")
         user.groups.add(student_group)
         # 创建学生身份
-        profile = Profile(user=user, phone="")
+        profile = Profile(user=user, phone="fake" + random_string()[:16])
         profile.save()
         student = Student(user=user)
         student.save()
@@ -1210,6 +1210,10 @@ class Student(BaseModel):
 
 class Parent(BaseModel):
     user = models.OneToOneField(User)
+
+    old_student_name = models.CharField(max_length=50)
+    old_student_school_name = models.CharField(max_length=100, default='')
+
     students = models.ManyToManyField(Student)
 
     def recent_orders(self):
@@ -1241,7 +1245,7 @@ class Parent(BaseModel):
         parent_group = Group.objects.get(name="家长")
         user.groups.add(parent_group)
         # 创建家长身份
-        profile = Profile(user=user, phone="")
+        profile = Profile(user=user, phone="fake" + random_string()[:16])
         profile.save()
         parent = Parent(user=user)
         parent.save()

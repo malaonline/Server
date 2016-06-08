@@ -23,7 +23,6 @@ from pprint import pprint as pp
 class TestTeacherWeb(TestCase):
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
-        call_command("build_groups_and_permissions")
 
     def tearDown(self):
         pass
@@ -72,13 +71,8 @@ class TestWebPage(TestCase):
     parent_phone = "18922405997"
     parent_salt = "I'm salt"
 
-    first_init = False
-
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
-        if self.first_init is False:
-            call_command("build_groups_and_permissions")
-            self.first_init = True
         # 创建老师
         teacher_user = User.objects.create(username=self.teacher_name)
         teacher_user.password = make_password(self.teacher_password, self.teacher_salt)
@@ -477,7 +471,6 @@ class TestWebPage(TestCase):
 class TestCommands(TestCase):
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
-        call_command("mala_all")
 
     def tearDown(self):
         pass

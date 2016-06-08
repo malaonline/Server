@@ -19,4 +19,3 @@ cd $DES/server
 python manage.py migrate --noinput
 python manage.py compilestatic
 python manage.py collectstatic --noinput
-python manage.py mala_all

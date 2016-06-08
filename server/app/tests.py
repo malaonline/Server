@@ -676,7 +676,6 @@ class TestApi(TestCase):
 class TestModels(TestCase):
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
-        call_command("mala_all")
 
     def tearDown(self):
         pass
