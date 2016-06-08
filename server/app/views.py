@@ -858,6 +858,16 @@ class ParentViewSet(ParentBasedMixin,
             response.data = {"done": "true"}
         return response
 
+    def partial_update(self, request, *args, **kwargs):
+        parent = self.get_object()
+        data = request.data
+        if 'student_name' in data:
+            parent.student_name = data['student_name']
+        if 'student_school_name' in data:
+            parent.student_school_name = data['student_school_name']
+
+        return super(ParentViewSet, self).partial_update(request, *args, **kwargs)
+
 
 class OrderListSerializer(serializers.ModelSerializer):
     grade = GradeNameSerializer()

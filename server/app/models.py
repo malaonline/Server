@@ -1172,15 +1172,7 @@ class Student(BaseModel):
     user = models.OneToOneField(User)
 
     def __str__(self):
-        try:
-            return "<{pk}>{name}同学,家长手机{phone}".format(
-                pk=self.pk, name=self.name,
-                phone=self.parent.user.profile.phone,
-            )
-        except Exception as e:
-            return "<{pk}>!!!异常记录,{name}同学,信息{msg}".format(
-                pk=self.pk, name=self.name, msg=e
-            )
+        return "<{pk}> {name}".format(pk=self.pk, name=self.name,)
 
     # 新建一个空白 student
     @staticmethod
@@ -1222,13 +1214,13 @@ class Parent(BaseModel):
 
     def __str__(self):
         try:
-            return "<{pk}>{student_name}同学,手机{phone}".format(
+            return "<{pk}>{student_name}的家长,手机{phone}".format(
                 pk=self.pk, student_name=self.student_name,
                 phone=self.user.profile.phone
             )
         except Exception as e:
-            return "<{pk}>!!!异常记录,{student_name}同学,手机{msg}".format(
-                pk=self.pk, student_name=self.student_name, msg=e
+            return "<{pk}>!!!异常记录,{msg}".format(
+                pk=self.pk, msg=e
             )
 
     # 新建一个空白parent
@@ -1276,7 +1268,9 @@ class Parent(BaseModel):
     def check_month_letter(self, teacher):
         date = timezone.localtime(timezone.now())
         date = date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        lts = Letter.objects.filter(created_at__gte=date, teacher=teacher, parent=self).order_by('-created_at')
+        lts = Letter.objects.filter(
+                created_at__gte=date, teacher=teacher, parent=self).order_by(
+                        '-created_at')
         if lts.count() == 0:
             return True, None
         else:
@@ -1303,7 +1297,9 @@ class Parent(BaseModel):
             student.save()
             self.students.add(student)
         else:
-            self.students.first().name = new_value
+            student = self.students.first()
+            student.name = new_value
+            student.save()
 
     @property
     def student_school_name(self):
@@ -1316,18 +1312,9 @@ class Parent(BaseModel):
         if self.students_count() == 0:
             raise Exception("will set school name but no student")
         else:
-            self.students.first().school_name = new_value
-
-# 因为李鑫还没想好,就先不要这个model,以后再放出来
-# class TeacherVistParent(BaseModel):
-#     # 这个模型用来记录老师和家长一对一产生的关系
-#     teacher = models.ForeignKey(Teacher)
-#     parent = models.ForeignKey(Parent)
-#     # 记录老师是否已经访问过这个家长
-#     web_visited = models.BooleanField(default=False)
-#
-#     class Meta:
-#         unique_together = ("teacher", "parent",)
+            student = self.students.first()
+            student.school_name = new_value
+            student.save()
 
 
 class CouponRule(BaseModel):

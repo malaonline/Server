@@ -63,6 +63,7 @@ def copy_student_name(apps, schema_editor):
                           school_name=parent.old_student_name,
                           user=user)
         student.save()
+        parent.students.add(student)
 
 
 class Migration(migrations.Migration):
