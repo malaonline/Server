@@ -284,8 +284,8 @@ RAVEN_CONFIG = {
     'release': 'v1.0.1-%s' % GIT_REV,
 }
 
-KUAILEXUE_PARTNER = 'aotu'
-KUAILEXUE_API_ID = 'aotu'
+KUAILEXUE_PARTNER = 'mala'
+KUAILEXUE_API_ID = 'mala'
 KUAILEXUE_SERVER = 'http://123.57.152.57'
 KUAILEXUE_REPORT_SUPPORTED_SUBJECTS = '数学' # 学习报告支持的科目, 英文逗号分隔的科目中文, 如: "数学,英语"
 KUAILEXUE_API_PRI_KEY = open(os.path.join(BASE_DIR, 'server', 'mala_kuailexue.pem'), 'rb').read() # 用于调用快乐学API时的私钥

@@ -292,6 +292,8 @@ class Profile(BaseModel):
     birthday = models.DateField(blank=True, null=True, default=None)
     wx_openid = models.CharField(
             max_length=100, default=None, null=True, blank=True)
+    klx_username = models.CharField(
+            max_length=255, default=None, null=True, blank=True)
 
     def __str__(self):
         teacher_name = ""

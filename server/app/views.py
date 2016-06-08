@@ -4,7 +4,6 @@ import datetime
 import itertools
 from collections import OrderedDict
 import requests
-import hashlib
 
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -31,6 +30,7 @@ from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, \
         TPL_STU_PAY_FAIL
 from app.utils.algorithm import verify_sig, verify_sha1_sig, sign_sha1
+from app.utils.klx_api import *
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError,\
         KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
@@ -1110,37 +1110,10 @@ class ParentCenter(ParentBasedMixin, APIView):
 class StudyReportView(ParentBasedMixin, APIView):
     queryset = models.Parent.objects.all()
 
-    KUAILEXUE_URL_FMT = '%s/{subject}/%s' % (
-            settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
-    COM_PARAMS = {
-        'api_id': settings.KUAILEXUE_API_ID,
-        'api_version': 1,
-        'partner': settings.KUAILEXUE_PARTNER
-    }
     # default params value
     ALL = 'all'
     MATH = 'math'
     SUMMARY = 'summary'
-
-    SUPPORTED_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS.split(
-            ',')
-    MATH_ABILITY_KEYS = [
-            'abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
-
-    @classmethod
-    def get_subject_en(cls, name):
-        map = {
-            '数学': "math",
-            '英语': "english",
-            '语文': "chinese",
-            '物理': "physics",
-            '化学': "chemistry",
-            '地理': "geography",
-            '政治': "politics",
-            '生物': "biology",
-            '历史': "history",
-        }
-        return map.get(name)
 
     def get(self, request, subject=None):
         '''
@@ -1148,9 +1121,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         parent = self.get_parent()
         phone = parent.user.profile.phone
-        params = self.COM_PARAMS.copy()
-        params.update({'uid': phone})
-        self.sign_params(params)
+        params = klx_build_params({'uid': phone}, True)
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
@@ -1161,7 +1132,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         # to get one certain subject's info
         the_subject = get_object_or_404(models.Subject, id=subject)
         s_name = the_subject.name
-        if s_name not in self.SUPPORTED_SUBJECTS:
+        if s_name not in KLX_SUPPORTED_SUBJECTS:
             return HttpResponse(status=404)
         return self.get_one_subject_report(the_subject, parent, params)
 
@@ -1182,9 +1153,9 @@ class StudyReportView(ParentBasedMixin, APIView):
             if s_name in purchased_subjects:
                 continue
             purchased_subjects.append(s_name)
-            if s_name in self.SUPPORTED_SUBJECTS:
-                s_name_en = self.get_subject_en(s_name)
-                url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+            if s_name in KLX_SUPPORTED_SUBJECTS:
+                s_name_en = klx_subject_en(s_name)
+                url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
                 subject_data = {
                         'subject_id': tmp_subject.id, 'supported': True,
                         'purchased': True, 'grade_id': tmp_order['grade']}
@@ -1199,7 +1170,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': False,
                 })
         # subjects supported, but user did not purchase
-        should_buy_subjects = [b for b in self.SUPPORTED_SUBJECTS
+        should_buy_subjects = [b for b in KLX_SUPPORTED_SUBJECTS
                                if b not in purchased_subjects]
         if should_buy_subjects:
             to_buy_subjects = models.Subject.objects.filter(
@@ -1214,8 +1185,8 @@ class StudyReportView(ParentBasedMixin, APIView):
 
     def get_one_subject_report(self, the_subject, parent, params):
         s_name = the_subject.name
-        s_name_en = self.get_subject_en(s_name)
-        url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
+        s_name_en = klx_subject_en(s_name)
+        url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
         ans_data = {'subject_id': the_subject.id}
         if settings.TESTING:
             return JsonResponse(ans_data)
@@ -1240,33 +1211,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                 url, params)
         # 能力结构分析
         ans_data['abilities'] = self._get_abilities(
-                url, params, self.MATH_ABILITY_KEYS)
+            url, params, KLX_MATH_ABILITY_KEYS)
         # 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
         ans_data['score_analyses'] = self._get_score_analyses(url, params)
 
         return JsonResponse(ans_data)
-
-    @classmethod
-    def sign_params(cls, params, sign_key="sign"):
-        body = cls.get_param_hash(params)
-        pri_key = settings.KUAILEXUE_API_PRI_KEY
-        params[sign_key] = sign_sha1(
-                body.encode('utf-8'), pri_key).decode('utf-8')
-
-    @classmethod
-    def verify_sign(cls, params, sign_key="sign"):
-        body = cls.get_param_hash(params)
-        pub_key = settings.KUAILEXUE_API_PUB_KEY
-        return (verify_sha1_sig(
-            body.encode('utf-8'), params[sign_key].encode('utf-8'), pub_key))
-
-    @classmethod
-    def get_param_hash(cls, params, sign_key="sign"):
-        s = ''.join(['%s=%s' % (key, params[key]) for key in sorted(params)
-                     if key != sign_key and params[key] is not None and
-                     params[key] is not ''])
-        hs = hashlib.md5(s.encode('utf-8')).hexdigest()
-        return hs
 
     def _get_total_nums(self, url, params):
         '''
