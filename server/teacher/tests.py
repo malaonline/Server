@@ -3,7 +3,6 @@ from django.test import Client
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
-from django.core.management import call_command
 from django.utils.timezone import make_aware
 from django.conf import settings
 from django.utils import timezone
@@ -467,31 +466,3 @@ class TestWebPage(TestCase):
                     "student_type": student_type, "page_offset": 1, "student_id": student_list[0].id
                 }))
                 self.assertEqual(response.status_code, 200)
-
-class TestCommands(TestCase):
-    def setUp(self):
-        self.assertTrue(settings.FAKE_SMS_SERVER)
-
-    def tearDown(self):
-        pass
-
-    def test_create_fake_order(self):
-        pass
-        # call_command("create_fake_order")
-        # cfo = create_fake_order.Command()
-        # now = datetime.datetime.now()
-        # # print("build_time_array result")
-        # # pp(cfo.build_time_array(datetime.datetime.now(), 0, [[[1,2,3], [4,5,6]]]))
-        # start_time, end_time = cfo.build_time_array(now, 0, [[[1,2,3], [4,5,6]]])[0]
-        # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 1,2,3), start_time)
-        # self.assertEqual(datetime.datetime(now.year, now.month, now.day, 4,5,6), end_time)
-
-    def test_create_fake_comment(self):
-        pass
-        # call_command("create_fake_order")
-        # call_command("create_fake_comment")
-        # for one_teacher in Teacher.objects.all():
-        #     for one_order in one_teacher.order_set.all():
-        #         for one_time_slot in one_order.timeslot_set.all():
-        #             # one_time_slot = one_teacher.order_set.all()[0].timeslot_set.all()[0]
-        #             self.assertNotEqual(one_time_slot.comment, None)

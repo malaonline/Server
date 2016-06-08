@@ -705,7 +705,7 @@ class TestModels(TestCase):
 
 class TestStaffWeb(TestCase):
     def setUp(self):
-        call_command("mala_all")
+        pass
 
     def tearDown(self):
         pass
