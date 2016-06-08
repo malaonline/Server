@@ -1202,10 +1202,6 @@ class Student(BaseModel):
 
 class Parent(BaseModel):
     user = models.OneToOneField(User)
-
-    old_student_name = models.CharField(max_length=50)
-    old_student_school_name = models.CharField(max_length=100, default='')
-
     students = models.ManyToManyField(Student)
 
     def recent_orders(self):
