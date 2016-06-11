@@ -93,7 +93,7 @@ class CommentViewController: BaseTableViewController {
     
     // MARK: - Delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return MalaLayout_CardCellWidth*0.35
+        return 178
     }
     
     

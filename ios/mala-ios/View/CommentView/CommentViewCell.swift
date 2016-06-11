@@ -144,11 +144,19 @@ class CommentViewCell: UITableViewCell {
         let view = UIView.line(MalaColor_DADADA_0)
         return view
     }()
-    
-    /// 底部价格及操作布局容器
+    /// 底部布局容器
     private lazy var bottomLayoutView: UIView = {
         let view = UIView()
         return view
+    }()
+    /// 已过期文字标签
+    private lazy var expiredLabel: UILabel = {
+        let label = UILabel(
+            text: "评价已过期",
+            fontSize: 12,
+            textColor: MalaColor_939393_0
+        )
+        return label
     }()
     
     
@@ -171,6 +179,9 @@ class CommentViewCell: UITableViewCell {
         // SubViews
         contentView.addSubview(content)
         content.addSubview(mainLayoutView)
+        content.addSubview(separatorLine)
+        content.addSubview(bottomLayoutView)
+        
         mainLayoutView.addSubview(avatarView)
         mainLayoutView.addSubview(statusIcon)
         
@@ -184,6 +195,7 @@ class CommentViewCell: UITableViewCell {
         mainLayoutView.addSubview(schoolIcon)
         mainLayoutView.addSubview(schoolLabel)
         
+        bottomLayoutView.addSubview(expiredLabel)
         
         // Autolayout
         content.snp_makeConstraints { (make) -> Void in
@@ -191,13 +203,26 @@ class CommentViewCell: UITableViewCell {
             make.left.equalTo(self.contentView.snp_left).offset(12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-6)
             make.right.equalTo(self.contentView.snp_right).offset(-12)
-            make.height.equalTo(300)
         }
         mainLayoutView.snp_makeConstraints { (make) in
             make.top.equalTo(content.snp_top)
-            make.height.equalTo(content.snp_height).multipliedBy(0.74)
-            make.left.equalTo(content)
-            make.right.equalTo(content)
+            make.left.equalTo(content.snp_left)
+            make.height.equalTo(252)
+            make.right.equalTo(content.snp_right)
+            make.bottom.equalTo(separatorLine.snp_top)
+        }
+        separatorLine.snp_makeConstraints { (make) in
+            make.top.equalTo(mainLayoutView.snp_bottom).offset(14)
+            make.height.equalTo(MalaScreenOnePixel)
+            make.left.equalTo(content).offset(5)
+            make.right.equalTo(content).offset(-5)
+        }
+        bottomLayoutView.snp_makeConstraints { (make) in
+            make.top.equalTo(separatorLine.snp_bottom)
+            make.bottom.equalTo(content.snp_bottom)
+            make.left.equalTo(content.snp_left)
+            make.right.equalTo(content.snp_right)
+            make.height.equalTo(40)
         }
         statusIcon.snp_makeConstraints { (make) in
             make.right.equalTo(mainLayoutView.snp_right).offset(-30)
@@ -209,9 +234,8 @@ class CommentViewCell: UITableViewCell {
             make.height.equalTo(55)
             make.width.equalTo(55)
         }
-        
         teacherIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(mainLayoutView.snp_top).offset(18)
+            make.top.equalTo(mainLayoutView.snp_top).offset(14)
             make.left.equalTo(mainLayoutView.snp_left).offset(12)
             make.height.equalTo(14)
             make.width.equalTo(14)
@@ -222,7 +246,7 @@ class CommentViewCell: UITableViewCell {
             make.height.equalTo(MalaLayout_Margin_13)
         }
         subjectIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(teacherIcon.snp_bottom).offset(10)
+            make.top.equalTo(teacherIcon.snp_bottom).offset(14)
             make.left.equalTo(mainLayoutView.snp_left).offset(12)
             make.height.equalTo(14)
             make.width.equalTo(14)
@@ -233,7 +257,7 @@ class CommentViewCell: UITableViewCell {
             make.height.equalTo(13)
         }
         timeSlotIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(subjectIcon.snp_bottom).offset(10)
+            make.top.equalTo(subjectIcon.snp_bottom).offset(14)
             make.left.equalTo(mainLayoutView.snp_left).offset(12)
             make.height.equalTo(14)
             make.width.equalTo(14)
@@ -249,7 +273,7 @@ class CommentViewCell: UITableViewCell {
             make.height.equalTo(13)
         }
         schoolIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(timeSlotIcon.snp_bottom).offset(10)
+            make.top.equalTo(timeSlotIcon.snp_bottom).offset(14)
             make.left.equalTo(mainLayoutView.snp_left).offset(12)
             make.height.equalTo(15)
             make.width.equalTo(14)
@@ -258,6 +282,11 @@ class CommentViewCell: UITableViewCell {
             make.top.equalTo(schoolIcon.snp_top)
             make.left.equalTo(schoolIcon.snp_right).offset(10)
             make.height.equalTo(13)
+            make.bottom.equalTo(mainLayoutView.snp_bottom).offset(-14)
+        }
+        expiredLabel.snp_makeConstraints { (make) in
+            make.height.equalTo(12)
+            make.center.equalTo(bottomLayoutView.snp_center)
         }
     }
     
