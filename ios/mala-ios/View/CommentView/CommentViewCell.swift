@@ -404,11 +404,15 @@ class CommentViewCell: UITableViewCell {
     
     // MARK: - Event Response
     ///  去评价
-    func toComment() {
+    @objc private func toComment() {
         
     }
     ///  查看评价
-    func showComment() {
-        
+    @objc private func showComment() {
+//        let commentWindow = CommentPopupWindow(contentView: UIView())
+//        let model = courseView.currentCourse
+//        commentWindow.model = model
+//        commentWindow.isJustShow = true
+//        commentWindow.show()
     }
 }
