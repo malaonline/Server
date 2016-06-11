@@ -24,17 +24,17 @@ class CommentViewCell: UITableViewCell {
             avatarView.kf_setImageWithURL(model?.teacher?.avatar ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
             
             // 课程评价状态
-            if let _ = model?.is_expired {
+            if model?.is_expired == true {
                 // 过期
-                statusIcon.enabled = false
+                setStyleExpired()
                 
-            }else if let _ = model?.comment {
+            }else if model?.comment != nil {
                 // 已评价
-                statusIcon.highlighted = true
+                setStyleCommented()
                 
             }else {
                 // 未评价
-                statusIcon.enabled = true
+                setStyleNoComments()
             }
         }
     }
@@ -144,6 +144,13 @@ class CommentViewCell: UITableViewCell {
         let view = UIView.line(MalaColor_DADADA_0)
         return view
     }()
+    /// 评分面板
+    private lazy var floatRating: FloatRatingView = {
+        let floatRating = FloatRatingView()
+        floatRating.backgroundColor = UIColor.whiteColor()
+        floatRating.editable = false
+        return floatRating
+    }()
     /// 底部布局容器
     private lazy var bottomLayoutView: UIView = {
         let view = UIView()
@@ -157,6 +164,40 @@ class CommentViewCell: UITableViewCell {
             textColor: MalaColor_939393_0
         )
         return label
+    }()
+    /// 评论按钮
+    private lazy var commentButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = MalaColor_E26254_0.CGColor
+        button.layer.borderWidth = MalaScreenOnePixel
+        button.layer.cornerRadius = 3
+        button.layer.masksToBounds = true
+        
+        button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_FFF0EE_0), forState: .Highlighted)
+        button.setTitle("去评价", forState: .Normal)
+        button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.addTarget(self, action: #selector(CommentViewCell.toComment), forControlEvents: .TouchUpInside)
+        button.hidden = true
+        return button
+    }()
+    /// 查看评论按钮
+    private lazy var showCommentButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = MalaColor_82B4D9_0.CGColor
+        button.layer.borderWidth = MalaScreenOnePixel
+        button.layer.cornerRadius = 3
+        button.layer.masksToBounds = true
+        
+        button.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_E6F1FC_0), forState: .Highlighted)
+        button.setTitle("查看评价", forState: .Normal)
+        button.setTitleColor(MalaColor_82B4D9_0, forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.addTarget(self, action: #selector(CommentViewCell.showComment), forControlEvents: .TouchUpInside)
+        button.hidden = true
+        return button
     }()
     
     
@@ -181,6 +222,7 @@ class CommentViewCell: UITableViewCell {
         content.addSubview(mainLayoutView)
         content.addSubview(separatorLine)
         content.addSubview(bottomLayoutView)
+        content.addSubview(floatRating)
         
         mainLayoutView.addSubview(avatarView)
         mainLayoutView.addSubview(statusIcon)
@@ -196,6 +238,8 @@ class CommentViewCell: UITableViewCell {
         mainLayoutView.addSubview(schoolLabel)
         
         bottomLayoutView.addSubview(expiredLabel)
+        bottomLayoutView.addSubview(commentButton)
+        bottomLayoutView.addSubview(showCommentButton)
         
         // Autolayout
         content.snp_makeConstraints { (make) -> Void in
@@ -217,12 +261,17 @@ class CommentViewCell: UITableViewCell {
             make.left.equalTo(content).offset(5)
             make.right.equalTo(content).offset(-5)
         }
+        floatRating.snp_makeConstraints { (make) in
+            make.center.equalTo(separatorLine.snp_center)
+            make.height.equalTo(20)
+            make.width.equalTo(80)
+        }
         bottomLayoutView.snp_makeConstraints { (make) in
             make.top.equalTo(separatorLine.snp_bottom)
             make.bottom.equalTo(content.snp_bottom)
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
         statusIcon.snp_makeConstraints { (make) in
             make.right.equalTo(mainLayoutView.snp_right).offset(-30)
@@ -288,6 +337,16 @@ class CommentViewCell: UITableViewCell {
             make.height.equalTo(12)
             make.center.equalTo(bottomLayoutView.snp_center)
         }
+        commentButton.snp_makeConstraints { (make) in
+            make.center.equalTo(bottomLayoutView.snp_center)
+            make.width.equalTo(96)
+            make.height.equalTo(24)
+        }
+        showCommentButton.snp_makeConstraints { (make) in
+            make.center.equalTo(bottomLayoutView.snp_center)
+            make.width.equalTo(96)
+            make.height.equalTo(24)
+        }
     }
     
     ///  设置日期样式
@@ -307,11 +366,49 @@ class CommentViewCell: UITableViewCell {
     
     ///  设置过期样式
     private func setStyleExpired() {
+        println("课程评价状态 - 过期")
         
+        showCommentButton.hidden = true
+        commentButton.hidden = true
+        
+        statusIcon.enabled = false
+        expiredLabel.hidden = false
+        floatRating.hidden = true
     }
     
-    ///  设置普通样式（包含可使用、已使用）
-    private func setStyleNormal() {
+    ///  设置已评论样式
+    private func setStyleCommented() {
+        println("课程评价状态 - 已评价")
+        
+        commentButton.hidden = true
+        showCommentButton.hidden = false
+        
+        statusIcon.highlighted = true
+        expiredLabel.hidden = true
+        floatRating.hidden = false
+        floatRating.rating = Float((model?.comment?.score) ?? 0)
+    }
+    
+    ///  设置未评论样式
+    private func setStyleNoComments() {
+        println("课程评价状态 - 未评价")
+        
+        commentButton.hidden = false
+        showCommentButton.hidden = true
+        
+        statusIcon.enabled = true
+        expiredLabel.hidden = true
+        floatRating.hidden = true
+    }
+    
+    
+    // MARK: - Event Response
+    ///  去评价
+    func toComment() {
+        
+    }
+    ///  查看评价
+    func showComment() {
         
     }
 }
