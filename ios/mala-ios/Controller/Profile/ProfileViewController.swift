@@ -212,7 +212,8 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     
     ///  HeaderView修改姓名
     func nameEditButtonDidTap(sender: UIButton) {
-        println("HeaderView修改姓名")
+        let window = InfoModifyViewWindow(contentView: UIView())
+        window.show()
     }
     
     ///  HeaderView头像点击事件

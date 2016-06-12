@@ -868,6 +868,9 @@
 		F49BD5A61CA4131D00EB3CCF /* SKPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD59C1CA4131D00EB3CCF /* SKPhotoBrowser.swift */; };
 		F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */; };
 		F49BD5AA1CA413C000EB3CCF /* MalaPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */; };
+		F4ADCFD61D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
+		F4ADCFD71D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
+		F4ADCFD81D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
 		F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
 		F4B3C6741CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
 		F4B3C6751CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
@@ -1177,6 +1180,7 @@
 		F49BD59C1CA4131D00EB3CCF /* SKPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowser.swift; sourceTree = "<group>"; };
 		F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKZoomingScrollView.swift; sourceTree = "<group>"; };
 		F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaPhotoBrowser.swift; sourceTree = "<group>"; };
+		F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewWindow.swift; sourceTree = "<group>"; };
 		F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectReport.swift; sourceTree = "<group>"; };
 		F4B3C6761CFD3EBB00C1B423 /* SingleHomeworkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleHomeworkData.swift; sourceTree = "<group>"; };
 		F4B3C67A1CFD416F00C1B423 /* SingleTimeIntervalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleTimeIntervalData.swift; sourceTree = "<group>"; };
@@ -1661,6 +1665,7 @@
 				F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */,
 				F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */,
 				F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */,
+				F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2631,6 +2636,7 @@
 				F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */,
+				F4ADCFD61D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,
 				F427FFAF1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift in Sources */,
 				307AB8601C323BDF00D8397F /* TeacherModel.swift in Sources */,
 				F48BBAEB1CE9D6A800774297 /* MemberPrivilegesViewController.swift in Sources */,
@@ -2840,6 +2846,7 @@
 				35FF7A6B1CF8325A000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
 				35FF7A6C1CF8325A000A70EE /* MATabListView.swift in Sources */,
 				35FF7A6D1CF8325A000A70EE /* SKIndicatorView.swift in Sources */,
+				F4ADCFD71D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,
 				35FF7A6E1CF8325A000A70EE /* LearningReportAbilityImproveCell.swift in Sources */,
 				35FF7A6F1CF8325A000A70EE /* TeacherModel.swift in Sources */,
 				35FF7A701CF8325A000A70EE /* MemberPrivilegesViewController.swift in Sources */,
@@ -3049,6 +3056,7 @@
 				35FF7B4E1CF83264000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
 				35FF7B4F1CF83264000A70EE /* MATabListView.swift in Sources */,
 				35FF7B501CF83264000A70EE /* SKIndicatorView.swift in Sources */,
+				F4ADCFD81D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,
 				35FF7B511CF83264000A70EE /* LearningReportAbilityImproveCell.swift in Sources */,
 				35FF7B521CF83264000A70EE /* TeacherModel.swift in Sources */,
 				35FF7B531CF83264000A70EE /* MemberPrivilegesViewController.swift in Sources */,
