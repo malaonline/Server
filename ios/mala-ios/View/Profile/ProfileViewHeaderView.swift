@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProfileViewHeaderViewDelegate: NSObjectProtocol {
     func avatarViewDidTap(sender: UIImageView)
+    func nameEditButtonDidTap(sender: UIButton)
 }
 
 class ProfileViewHeaderView: UIView {
@@ -63,11 +64,20 @@ class ProfileViewHeaderView: UIView {
     }()
     /// 姓名label控件
     private lazy var nameLabel: UILabel = {
-        let nameLabel = UILabel()
-        nameLabel.textColor = UIColor.whiteColor()
-        nameLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        nameLabel.textAlignment = .Center
-        return nameLabel
+        let label = UILabel()
+        label.textColor = MalaColor_82B4D9_0
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        label.textAlignment = .Center
+        label.userInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProfileViewHeaderView.nameEditButtonDidTap(_:))))
+        return label
+    }()
+    /// 姓名修改按钮
+    private lazy var editButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "edit_icon"), forState: .Normal)
+        button.addTarget(self, action: #selector(ProfileViewHeaderView.nameEditButtonDidTap(_:)), forControlEvents: .TouchUpInside)
+        return button
     }()
     /// 头像刷新指示器
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -100,11 +110,12 @@ class ProfileViewHeaderView: UIView {
         addSubview(avatarBackground)
         addSubview(avatarView)
         addSubview(nameLabel)
+        addSubview(editButton)
         avatarView.addSubview(activityIndicator)
         
         // Autolayout
         avatarBackground.snp_makeConstraints { (make) in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_16)
+            make.top.equalTo(self.snp_top).offset(16)
             make.centerX.equalTo(self.snp_centerX)
             make.width.equalTo(MalaLayout_AvatarSize)
             make.height.equalTo(MalaLayout_AvatarSize)
@@ -114,10 +125,16 @@ class ProfileViewHeaderView: UIView {
             make.size.equalTo(self.avatarBackground.snp_size).offset(-5)
         })
         nameLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_5)
+            make.top.equalTo(avatarView.snp_bottom).offset(10)
             make.centerX.equalTo(avatarView.snp_centerX)
             make.width.equalTo(100)
             make.height.equalTo(MalaLayout_FontSize_14)
+        }
+        editButton.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(nameLabel.snp_centerY)
+            make.left.equalTo(nameLabel.snp_right).offset(3)
+            make.width.equalTo(9)
+            make.width.equalTo(13)
         }
         activityIndicator.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(avatarView.snp_center)
@@ -130,6 +147,9 @@ class ProfileViewHeaderView: UIView {
         self.delegate?.avatarViewDidTap(sender)
     }
     
+    @objc private func nameEditButtonDidTap(sender: UIButton) {
+        self.delegate?.nameEditButtonDidTap(sender)
+    }
     
     // MARK: - Public Method
     ///  使用UserDefaults中的头像URL刷新头像
