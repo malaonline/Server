@@ -125,7 +125,7 @@ public class CalendarUtils {
 
     public static String formatTime(Calendar calendar){
         if (calendar==null) return "";
-        String time = String.format("%02d:%02d",calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE));
+        String time = String.format("%02d:%02d",calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
         return time;
     }
 

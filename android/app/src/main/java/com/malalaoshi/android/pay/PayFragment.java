@@ -170,7 +170,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
         if (requestCode == PayManager.REQUEST_CODE_PAYMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getExtras().getString("pay_result");
-                Log.e("MALA", "On activity result: " + result);
+                Log.i("MALA", "On activity result: " + result);
 
                 if (result == null) {
                     showPayFailedDialog("支付失败，请重试！");
