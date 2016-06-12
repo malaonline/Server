@@ -127,7 +127,7 @@ class SchoolPhoto(BaseModel):
     img = models.ImageField(null=True, blank=True, upload_to='schools')
 
     def __str__(self):
-        return self.school
+        return '%s' % self.school
 
     def img_url(self):
         return self.img and self.img.url or ''
