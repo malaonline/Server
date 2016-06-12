@@ -127,7 +127,6 @@ class ProfileViewHeaderView: UIView {
         nameLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(avatarView.snp_bottom).offset(10)
             make.centerX.equalTo(avatarView.snp_centerX)
-            make.width.equalTo(100)
             make.height.equalTo(MalaLayout_FontSize_14)
         }
         editButton.snp_makeConstraints { (make) -> Void in
