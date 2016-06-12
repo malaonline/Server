@@ -405,14 +405,21 @@ class CommentViewCell: UITableViewCell {
     // MARK: - Event Response
     ///  去评价
     @objc private func toComment() {
+        let commentWindow = CommentViewWindow(contentView: UIView())
         
+        commentWindow.finishedAction = { [weak self] in
+            self?.setStyleCommented()
+        }
+        
+        commentWindow.model = self.model ?? StudentCourseModel()
+        commentWindow.isJustShow = false
+        commentWindow.show()
     }
     ///  查看评价
     @objc private func showComment() {
-//        let commentWindow = CommentPopupWindow(contentView: UIView())
-//        let model = courseView.currentCourse
-//        commentWindow.model = model
-//        commentWindow.isJustShow = true
-//        commentWindow.show()
+        let commentWindow = CommentViewWindow(contentView: UIView())
+        commentWindow.model = self.model ?? StudentCourseModel()
+        commentWindow.isJustShow = true
+        commentWindow.show()
     }
 }

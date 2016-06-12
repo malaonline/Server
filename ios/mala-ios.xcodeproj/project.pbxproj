@@ -758,6 +758,9 @@
 		F43F44C51D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
 		F43F44C61D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
 		F43F44C71D06B66800B7A358 /* CommentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C41D06B66800B7A358 /* CommentViewCell.swift */; };
+		F43F44C91D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */; };
+		F43F44CA1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */; };
+		F43F44CB1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */; };
 		F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D5E1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */; };
 		F4402D851C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
@@ -1063,6 +1066,7 @@
 		F43F44BC1D05608700B7A358 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F43F44C01D06B14A00B7A358 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		F43F44C41D06B66800B7A358 /* CommentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
+		F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewWindow.swift; sourceTree = "<group>"; };
 		F4402D5C1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingPlaceTableView.swift; sourceTree = "<group>"; };
 		F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleDayModel.swift; sourceTree = "<group>"; };
 		F4402DA11C5768F600E7D3DB /* KMSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMSwizzle.h; sourceTree = "<group>"; };
@@ -2011,6 +2015,7 @@
 			children = (
 				F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */,
 				F43F44C41D06B66800B7A358 /* CommentViewCell.swift */,
+				F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */,
 			);
 			path = CommentView;
 			sourceTree = "<group>";
@@ -2777,6 +2782,7 @@
 				F46065281C97B168004056B1 /* LoginViewController.swift in Sources */,
 				F45871F71C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
 				F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */,
+				F43F44C91D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				F46065231C97B168004056B1 /* PaymentViewController.swift in Sources */,
 				30445B171C4A3959002CD290 /* FilterView.swift in Sources */,
 				F45BDAE91CB760540038CE3D /* ThemeCalendarViewFlowLayout.swift in Sources */,
@@ -2985,6 +2991,7 @@
 				35FF7AFA1CF8325A000A70EE /* LoginViewController.swift in Sources */,
 				35FF7AFB1CF8325A000A70EE /* CourseChoosingClassPeriodCell.swift in Sources */,
 				35FF7AFC1CF8325A000A70EE /* ThemeRefreshView.swift in Sources */,
+				F43F44CA1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				35FF7AFD1CF8325A000A70EE /* PaymentViewController.swift in Sources */,
 				35FF7AFE1CF8325A000A70EE /* FilterView.swift in Sources */,
 				35FF7AFF1CF8325A000A70EE /* ThemeCalendarViewFlowLayout.swift in Sources */,
@@ -3193,6 +3200,7 @@
 				35FF7BDD1CF83264000A70EE /* LoginViewController.swift in Sources */,
 				35FF7BDE1CF83264000A70EE /* CourseChoosingClassPeriodCell.swift in Sources */,
 				35FF7BDF1CF83264000A70EE /* ThemeRefreshView.swift in Sources */,
+				F43F44CB1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				35FF7BE01CF83264000A70EE /* PaymentViewController.swift in Sources */,
 				35FF7BE11CF83264000A70EE /* FilterView.swift in Sources */,
 				35FF7BE21CF83264000A70EE /* ThemeCalendarViewFlowLayout.swift in Sources */,
