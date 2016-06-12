@@ -17,10 +17,19 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             guard let _ = teacherId else {
                 return
             }
-            operationQueue.addOperationWithBlock(loadTeacherDetail)
-            operationQueue.addOperationWithBlock(loadSchoolsData)
-            operationQueue.addOperationWithBlock(loadClassSchedule)
-            operationQueue.addOperationWithBlock(loadUserEvaluatedStatus)
+            
+            let operationTeacher = NSBlockOperation(block: loadTeacherDetail)
+            let operationSchool = NSBlockOperation(block: loadSchoolsData)
+            let operationTimeSlots = NSBlockOperation(block: loadClassSchedule)
+            let operationEvaluatedStatus = NSBlockOperation(block: loadUserEvaluatedStatus)
+            
+            operationTimeSlots.addDependency(operationTeacher)
+            operationTimeSlots.addDependency(operationSchool)
+            
+            operationQueue.addOperation(operationTeacher)
+            operationQueue.addOperation(operationSchool)
+            operationQueue.addOperation(operationTimeSlots)
+            operationQueue.addOperation(operationEvaluatedStatus)
         }
     }
     /// 教师详情数据模型
@@ -187,6 +196,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             }
             self?.schoolArray = tempArray
             MalaCourseChoosingObject.school = tempArray[0]
+            self?.loadClassSchedule()
             self?.requiredCount += 1
         }
     }
