@@ -692,7 +692,17 @@ data:
         ...
     ]
 }
+
+
 ```
+### Get student's passed courses
+
+```
+GET /api/v1/timeslots?only_passed=true
+```
+
+All other parts are the same as the previous interface.
+
 
 ### Get one course
 

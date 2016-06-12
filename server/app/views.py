@@ -822,9 +822,13 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
+        only_passed = self.request.query_params.get('only_passed', '')
         parent = self.get_parent()
         queryset = models.TimeSlot.objects.filter(
-                order__parent=parent, deleted=False).order_by('-end')
+                order__parent=parent, deleted=False)
+        if only_passed:
+            queryset = queryset.filter(end__lt=timezone.now())
+        queryset = queryset.order_by('-end')
         return queryset
 
     def get_serializer_class(self):

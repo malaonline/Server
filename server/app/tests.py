@@ -640,6 +640,15 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertIn('is_expired', json_ret['results'][0])
 
+    def test_get_passed_timeslots(self):
+        username = "parent0"
+        password = "123123"
+        client = Client()
+        client.login(username=username, password=password)
+        request_url = "/api/v1/timeslots?only_passed=true"
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+
     def test_audit_record(self):
         teacher = Teacher.objects.all()[0]
         teacher.status = Teacher.TO_CHOOSE
