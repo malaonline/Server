@@ -115,10 +115,19 @@ class ThemeClassSchedule: UICollectionView, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        // 时间表数据未获取到时，无法点选
+        guard let timeSlots = self.model where timeSlots.count != 0 && timeSlots[0].count != 0 else{
+            return false
+        }
+        
         // 不可点击表头、行头
         if indexPath.section > 0 && indexPath.row > 0 {
-            let itemModel = model?[indexPath.row-1][indexPath.section-1]
-            return itemModel?.available ?? false
+            if let itemModel = model?[indexPath.row-1][indexPath.section-1] {
+                return itemModel.available ?? false
+            }else {
+                return false
+            }
         }
         return false
     }
