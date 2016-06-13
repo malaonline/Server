@@ -35,9 +35,19 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     /// 教师详情数据模型
     var teacherModel: TeacherDetailModel? {
         didSet {
+            
             if teacherModel?.id != self.teacherId {
                 self.teacherId = teacherModel?.id
             }
+            
+            /// 再次购买时，设置订单数据模型
+            if let model = teacherModel {
+                MalaOrderOverView.avatarURL = model.avatar
+                MalaOrderOverView.teacherName = model.name
+                MalaOrderOverView.subjectName = model.subject
+                MalaOrderOverView.teacher = model.id
+            }
+            
             self.tableView.teacherModel = teacherModel
         }
     }
