@@ -261,7 +261,6 @@
 		35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FDCF021CAD0A2300A25FE8 /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		35FDCF031CAD0A2300A25FE8 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FDCF041CAD0A2300A25FE8 /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FDCF051CAD0A4100A25FE8 /* parentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E161C5A16A700E7D3DB /* parentTests.swift */; };
@@ -483,7 +482,6 @@
 		35FF7B111CF8325A000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		35FF7B121CF8325A000A70EE /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FF7B131CF8325A000A70EE /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FF7B141CF8325A000A70EE /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		35FF7B151CF8325A000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FF7B161CF8325A000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FF7B231CF83264000A70EE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CAE4B31CAAB4360071772D /* libsqlite3.tbd */; };
@@ -690,7 +688,6 @@
 		35FF7BF41CF83264000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		35FF7BF51CF83264000A70EE /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FF7BF61CF83264000A70EE /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FF7BF71CF83264000A70EE /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		35FF7BF81CF83264000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FF7BF91CF83264000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FF7C051CF83568000A70EE /* parent-stage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FF7C021CF83568000A70EE /* parent-stage-Info.plist */; };
@@ -823,7 +820,6 @@
 		F46065271C97B168004056B1 /* EvaluationFilingServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065191C97B168004056B1 /* EvaluationFilingServiceController.swift */; };
 		F46065281C97B168004056B1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651A1C97B168004056B1 /* LoginViewController.swift */; };
 		F46065291C97B168004056B1 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651C1C97B168004056B1 /* CouponViewController.swift */; };
-		F460652A1C97B168004056B1 /* InfoModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651D1C97B168004056B1 /* InfoModifyViewController.swift */; };
 		F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651E1C97B168004056B1 /* ProfileViewController.swift */; };
 		F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460652C1C97B1C8004056B1 /* AboutViewController.swift */; };
 		F46CA2451CC8841C00457EA6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1061B1CBBA35B001AD4AF /* BaseViewController.swift */; };
@@ -1142,7 +1138,6 @@
 		F46065191C97B168004056B1 /* EvaluationFilingServiceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFilingServiceController.swift; sourceTree = "<group>"; };
 		F460651A1C97B168004056B1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F460651C1C97B168004056B1 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
-		F460651D1C97B168004056B1 /* InfoModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewController.swift; sourceTree = "<group>"; };
 		F460651E1C97B168004056B1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F460652C1C97B1C8004056B1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleReportResultModel.swift; sourceTree = "<group>"; };
@@ -1875,7 +1870,6 @@
 				F48BBADD1CE5816800774297 /* OrderFormInfoViewController.swift */,
 				F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */,
 				F460651C1C97B168004056B1 /* CouponViewController.swift */,
-				F460651D1C97B168004056B1 /* InfoModifyViewController.swift */,
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
 				F43F44C01D06B14A00B7A358 /* CommentViewController.swift */,
@@ -2812,7 +2806,6 @@
 				F45BDAEB1CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
-				F460652A1C97B168004056B1 /* InfoModifyViewController.swift in Sources */,
 				3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				F46065201C97B168004056B1 /* CourseChoosingViewController.swift in Sources */,
 			);
@@ -3022,7 +3015,6 @@
 				35FF7B111CF8325A000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				35FF7B121CF8325A000A70EE /* IntroductionModel.swift in Sources */,
 				35FF7B131CF8325A000A70EE /* Extension+UIView.swift in Sources */,
-				35FF7B141CF8325A000A70EE /* InfoModifyViewController.swift in Sources */,
 				35FF7B151CF8325A000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FF7B161CF8325A000A70EE /* CourseChoosingViewController.swift in Sources */,
 			);
@@ -3232,7 +3224,6 @@
 				35FF7BF41CF83264000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				35FF7BF51CF83264000A70EE /* IntroductionModel.swift in Sources */,
 				35FF7BF61CF83264000A70EE /* Extension+UIView.swift in Sources */,
-				35FF7BF71CF83264000A70EE /* InfoModifyViewController.swift in Sources */,
 				35FF7BF81CF83264000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FF7BF91CF83264000A70EE /* CourseChoosingViewController.swift in Sources */,
 			);
@@ -3400,7 +3391,6 @@
 				35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */,
 				35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */,
 				35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */,
-				35FDCF021CAD0A2300A25FE8 /* InfoModifyViewController.swift in Sources */,
 				35FDCF031CAD0A2300A25FE8 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FDCF041CAD0A2300A25FE8 /* CourseChoosingViewController.swift in Sources */,
 			);

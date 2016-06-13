@@ -20,7 +20,7 @@ class AboutViewController: BaseViewController, UIScrollViewDelegate {
     /// 应用logoView
     private lazy var appLogoView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "AppIcon-60")
+        imageView.image = UIImage(named: "AppIcon60x60")
         return imageView
     }()
     /// 应用版本号label

@@ -251,7 +251,7 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
             
             // 错误处理
             if let errorMessage = errorMessage {
-                println("InfoModifyViewController - saveStudentName Error \(errorMessage)")
+                println("InfoModifyViewWindow - saveStudentName Error \(errorMessage)")
             }
         }, completion: { [weak self] (bool) -> Void in
             println("学生姓名保存 - \(bool)")
