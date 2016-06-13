@@ -86,6 +86,10 @@ class ProfileItemCollectionViewCell: UICollectionViewCell {
             iconView.image = UIImage(named: model?.iconName ?? "")
             newMessageView.image = UIImage(named: model?.newMessageIconName ?? "")
             titleLabel.text = model?.controllerTitle
+            
+            if let title = model?.controllerTitle  where title == "我的订单" {
+                newMessageView.hidden = (MalaUnpaidOrderCount == 0)
+            }
         }
     }
     
@@ -140,14 +144,19 @@ class ProfileItemCollectionViewCell: UICollectionViewCell {
         }
         newMessageView.snp_makeConstraints { (make) in
             make.top.equalTo(self.iconView.snp_top)
-            make.right.equalTo(self.contentView.snp_right)
-            make.width.equalTo(59)
-            make.height.equalTo(23)
+            make.right.equalTo(self.contentView.snp_right).offset(-10)
+            make.width.equalTo(39)
+            make.height.equalTo(15)
         }
         titleLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(self.contentView.snp_centerX)
             make.top.equalTo(self.iconView.snp_bottom).offset(17)
             make.height.equalTo(14)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        newMessageView.hidden = true
     }
 }
