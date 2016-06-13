@@ -1443,6 +1443,28 @@ class StudentScheduleActionView(BaseStaffActionView):
             return JsonResponse({'ok': False, 'msg': '调课失败, 请稍后重试或联系管理员', 'code': 'transfer_transaction'})
         if ret_code == -2:
             return JsonResponse({'ok': False, 'msg': '调课失败, 调整后的课程时间冲突, 请稍后重试或联系管理员', 'code': 'transfer_conflict'})
+
+        # JPush 通知
+        extras = {
+            "type": "1",  # 课程变动
+            "code": None
+        }
+
+        old_start = timeslot.start.astimezone().strftime("%m月%d日%H:%M")
+        old_end = timeslot.end.astimezone().strftime("%H:%M")
+        new_start = new_start_datetime.astimezone().strftime("%m月%d日%H:%M")
+        new_end = new_end_datetime.astimezone().strftime("%H:%M")
+        subject = timeslot.order.subject.name
+        grade = timeslot.order.grade.name
+        msg = "您在%s-%s的%s%s课程已调整到%s-%s，去查看>>" % (
+            old_start,
+            old_end,
+            grade,
+            subject,
+            new_start,
+            new_end)
+        send_push.delay(msg, title="课程变动", user_ids=[timeslot.order.parent.user_id], extras=extras)
+
         return JsonResponse({'ok': True})
 
 
