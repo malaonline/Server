@@ -8,12 +8,8 @@
 
 import UIKit
 
-class AboutViewController: UIViewController, UIScrollViewDelegate {
+class AboutViewController: BaseViewController, UIScrollViewDelegate {
 
-    // MARK: - Property
-    
-    
-    
     // MARK: - Components
     /// 容器
     private lazy var scrollView: UIScrollView = {
@@ -23,49 +19,48 @@ class AboutViewController: UIViewController, UIScrollViewDelegate {
     }()
     /// 应用logoView
     private lazy var appLogoView: UIImageView = {
-        let appLogoView = UIImageView()
-        appLogoView.image = UIImage(named: "AppIcon60x60")
-        return appLogoView
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "AppIcon-60")
+        return imageView
     }()
     /// 应用版本号label
     private lazy var appVersionLabel: UILabel = {
-        let appVersionLabel = UILabel()
-        appVersionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
-        appVersionLabel.textColor = MalaColor_333333_0
-        appVersionLabel.text = MalaConfig.aboutAPPVersion()
-        return appVersionLabel
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        label.textColor = MalaColor_333333_0
+        label.text = MalaConfig.aboutAPPVersion()
+        return label
     }()
     /// 版权信息label
     private lazy var copyrightLabel: UILabel = {
-        let copyrightLabel = UILabel()
-        copyrightLabel.textAlignment = .Center
-        copyrightLabel.numberOfLines = 2
-        copyrightLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
-        copyrightLabel.textColor = MalaColor_939393_0
-        copyrightLabel.text = MalaConfig.aboutCopyRightString()
-        return copyrightLabel
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.numberOfLines = 2
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.textColor = MalaColor_939393_0
+        label.text = MalaConfig.aboutCopyRightString()
+        return label
     }()
     /// 描述 文字背景
     private lazy var textBackground: UIImageView = {
-        let textBackground = UIImageView(image: UIImage(named: "aboutText_Background"))
-        return textBackground
+        let imageView = UIImageView(image: UIImage(named: "aboutText_Background"))
+        return imageView
     }()
     /// 描述标题
     private lazy var titleView: AboutTitleView = {
-        let titleView = AboutTitleView()
-        titleView.title = MalaCommonString_Malalaoshi
-        return titleView
+        let view = AboutTitleView()
+        view.title = MalaCommonString_Malalaoshi
+        return view
     }()
     /// 关于描述label
     private lazy var aboutTextView: UILabel = {
-        let aboutTextView = UILabel()
-        aboutTextView.numberOfLines = 0
-        aboutTextView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
-        aboutTextView.textColor = MalaColor_939393_0
-        aboutTextView.text = MalaConfig.aboutDescriptionHTMLString()
-        aboutTextView.backgroundColor = MalaColor_F2F2F2_0
-        aboutTextView
-        return aboutTextView
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        label.textColor = MalaColor_939393_0
+        label.text = MalaConfig.aboutDescriptionHTMLString()
+        label.backgroundColor = MalaColor_F2F2F2_0
+        return label
     }()
     
     

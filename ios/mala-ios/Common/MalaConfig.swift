@@ -85,31 +85,7 @@ public class MalaConfig {
         return [
             [
                 ProfileElementModel(
-                    id: 0,
-                    title: "学生姓名",
-                    detail: MalaUserDefaults.studentName.value ?? "",
-                    controller: InfoModifyViewController.self,
-                    controllerTitle: "更改名字",
-                    type: .StudentName
-                ),
-                ProfileElementModel(
                     id: 1,
-                    title: "学校信息",
-                    detail: MalaUserDefaults.schoolName.value ?? "",
-                    controller: InfoModifyViewController.self,
-                    controllerTitle: "所在学校",
-                    type: .StudentSchoolName
-                ),
-                /*ProfileElementModel(
-                    id: 2, 
-                    title: "所在城市",
-                    detail: "", 
-                    controller: InfoModifyViewController.self,
-                    controllerTitle: "所在城市",
-                    type: nil
-                ),*/
-                ProfileElementModel(
-                    id: 2,
                     title: "我的订单",
                     detail: "待支付订单",
                     controller: OrderFormViewController.self,
@@ -118,19 +94,21 @@ public class MalaConfig {
                     badgeNumber: 1
                 ),
                 ProfileElementModel(
+                    id: 2,
+                    title: "我的评价",
+                    detail: "",
+                    controller: CommentViewController.self,
+                    controllerTitle: "我的评价",
+                    type: nil
+                )
+            ],
+            [
+                ProfileElementModel(
                     id: 3,
                     title: "我的奖学金",
                     detail: "",
                     controller: CouponViewController.self,
                     controllerTitle: "我的奖学金",
-                    type: nil
-                ),
-                ProfileElementModel(
-                    id: 4,
-                    title: "我的评价",
-                    detail: "",
-                    controller: CommentViewController.self,
-                    controllerTitle: "我的评价",
                     type: nil
                 )
             ],

@@ -20,15 +20,15 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     // MARK: - Components
     /// [个人中心]头部视图
     private lazy var profileHeaderView: ProfileViewHeaderView = {
-        let profileHeaderView = ProfileViewHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_ProfileHeaderViewHeight))
-        profileHeaderView.name = MalaUserDefaults.studentName.value ?? "学生姓名"
-        profileHeaderView.delegate = self
-        return profileHeaderView
+        let view = ProfileViewHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_ProfileHeaderViewHeight))
+        view.name = MalaUserDefaults.studentName.value ?? "学生姓名"
+        view.delegate = self
+        return view
     }()
     /// [个人中心]底部视图
     private lazy var profileFooterView: UIView = {
-        let profileFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
-        return profileFooterView
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 55))
+        return view
     }()
     /// 顶部背景图
     private lazy var headerBackground: UIImageView = {
@@ -38,21 +38,18 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     }()
     /// [退出登录] 按钮
     private lazy var logoutButton: UIButton = {
-        let logoutButton = UIButton()
+        let button = UIButton()
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
         
-        logoutButton.layer.cornerRadius = 5
-        logoutButton.layer.masksToBounds = true
-        logoutButton.layer.borderColor = MalaColor_E5E5E5_0.CGColor
-        logoutButton.layer.borderWidth = MalaScreenOnePixel
+        button.setTitle("退  出", forState: .Normal)
+        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_82B4D9_0), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0x82B4D9, alpha: 0.6)), forState: .Highlighted)
+        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
         
-        logoutButton.setTitle("退出登录", forState: .Normal)
-        logoutButton.setTitleColor(MalaColor_82B4D9_0, forState: .Normal)
-        logoutButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
-         logoutButton.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0xE5E5E5, alpha: 0.3)), forState: .Highlighted)
-        logoutButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
-        
-        logoutButton.addTarget(self, action: #selector(ProfileViewController.logoutButtonDidTap), forControlEvents: .TouchUpInside)
-        return logoutButton
+        button.addTarget(self, action: #selector(ProfileViewController.logoutButtonDidTap), forControlEvents: .TouchUpInside)
+        return button
     }()
     /// 照片选择器
     private lazy var imagePicker: UIImagePickerController = {
@@ -118,8 +115,8 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         }
         logoutButton.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(profileFooterView.snp_bottom)
-            make.left.equalTo(profileFooterView.snp_left).offset(MalaLayout_FontSize_12)
-            make.right.equalTo(profileFooterView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.centerX.equalTo(profileFooterView)
+            make.width.equalTo(profileFooterView).multipliedBy(0.85)
             make.height.equalTo(37)
         }
     }
@@ -172,7 +169,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 8
+        return 12
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

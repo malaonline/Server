@@ -182,7 +182,6 @@
 		35FDCEAC1CAD0A2300A25FE8 /* PaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CF1C841A9800C20037 /* PaymentChannelCell.swift */; };
 		35FDCEAD1CAD0A2300A25FE8 /* StudentCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1481C9A4F3E00B25704 /* StudentCourseModel.swift */; };
 		35FDCEAE1CAD0A2300A25FE8 /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
-		35FDCEAF1CAD0A2300A25FE8 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		35FDCEB01CAD0A2300A25FE8 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F31CA8DC5C00F0012C /* Toast.swift */; };
 		35FDCEB11CAD0A2300A25FE8 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
 		35FDCEB21CAD0A2300A25FE8 /* UINavigationController+KMNavigationBarTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4402DA41C5768F600E7D3DB /* UINavigationController+KMNavigationBarTransition.m */; };
@@ -390,7 +389,6 @@
 		35FF7AB21CF8325A000A70EE /* PaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CF1C841A9800C20037 /* PaymentChannelCell.swift */; };
 		35FF7AB31CF8325A000A70EE /* StudentCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1481C9A4F3E00B25704 /* StudentCourseModel.swift */; };
 		35FF7AB41CF8325A000A70EE /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
-		35FF7AB51CF8325A000A70EE /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		35FF7AB61CF8325A000A70EE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F31CA8DC5C00F0012C /* Toast.swift */; };
 		35FF7AB71CF8325A000A70EE /* OrderFormPaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD91CE57F9100774297 /* OrderFormPaymentChannelCell.swift */; };
 		35FF7AB81CF8325A000A70EE /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
@@ -598,7 +596,6 @@
 		35FF7B951CF83264000A70EE /* PaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CF1C841A9800C20037 /* PaymentChannelCell.swift */; };
 		35FF7B961CF83264000A70EE /* StudentCourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1481C9A4F3E00B25704 /* StudentCourseModel.swift */; };
 		35FF7B971CF83264000A70EE /* Extension+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D6D361C3E92D500282925 /* Extension+UIImageView.swift */; };
-		35FF7B981CF83264000A70EE /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		35FF7B991CF83264000A70EE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F31CA8DC5C00F0012C /* Toast.swift */; };
 		35FF7B9A1CF83264000A70EE /* OrderFormPaymentChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD91CE57F9100774297 /* OrderFormPaymentChannelCell.swift */; };
 		35FF7B9B1CF83264000A70EE /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E336731C27F61900DCF1C5 /* ResultModel.swift */; };
@@ -771,7 +768,6 @@
 		F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
 		F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
 		F452CD7F1CE07BB2001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
-		F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */; };
 		F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
 		F455EB301C91981B00BAEC78 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */; };
 		F45871EA1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */; };
@@ -1096,7 +1092,6 @@
 		F452CD771CE0313E001A30E8 /* UIView+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WZLBadge.h"; sourceTree = "<group>"; };
 		F452CD781CE0313E001A30E8 /* UIView+WZLBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WZLBadge.m"; sourceTree = "<group>"; };
 		F452CD791CE0313E001A30E8 /* WZLBadgeImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZLBadgeImport.h; sourceTree = "<group>"; };
-		F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileChildNameView.swift; sourceTree = "<group>"; };
 		F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewHeaderView.swift; sourceTree = "<group>"; };
 		F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewCell.swift; sourceTree = "<group>"; };
 		F45871E91C51D7910048D93F /* CourseChoosingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingTableView.swift; sourceTree = "<group>"; };
@@ -1662,7 +1657,6 @@
 				F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */,
 				F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */,
 				F46064F71C941829004056B1 /* SaveNameView.swift */,
-				F455EB2B1C91899A00BAEC78 /* ProfileChildNameView.swift */,
 				F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */,
 				F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */,
 				F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */,
@@ -2713,7 +2707,6 @@
 				F40B53D01C841A9800C20037 /* PaymentChannelCell.swift in Sources */,
 				F4D0D1491C9A4F3E00B25704 /* StudentCourseModel.swift in Sources */,
 				304D6D381C3E92D500282925 /* Extension+UIImageView.swift in Sources */,
-				F455EB2D1C91899A00BAEC78 /* ProfileChildNameView.swift in Sources */,
 				F45F27F41CA8DC5C00F0012C /* Toast.swift in Sources */,
 				F48BBADA1CE57F9100774297 /* OrderFormPaymentChannelCell.swift in Sources */,
 				30E336751C27F61900DCF1C5 /* ResultModel.swift in Sources */,
@@ -2923,7 +2916,6 @@
 				35FF7AB21CF8325A000A70EE /* PaymentChannelCell.swift in Sources */,
 				35FF7AB31CF8325A000A70EE /* StudentCourseModel.swift in Sources */,
 				35FF7AB41CF8325A000A70EE /* Extension+UIImageView.swift in Sources */,
-				35FF7AB51CF8325A000A70EE /* ProfileChildNameView.swift in Sources */,
 				35FF7AB61CF8325A000A70EE /* Toast.swift in Sources */,
 				35FF7AB71CF8325A000A70EE /* OrderFormPaymentChannelCell.swift in Sources */,
 				35FF7AB81CF8325A000A70EE /* ResultModel.swift in Sources */,
@@ -3133,7 +3125,6 @@
 				35FF7B951CF83264000A70EE /* PaymentChannelCell.swift in Sources */,
 				35FF7B961CF83264000A70EE /* StudentCourseModel.swift in Sources */,
 				35FF7B971CF83264000A70EE /* Extension+UIImageView.swift in Sources */,
-				35FF7B981CF83264000A70EE /* ProfileChildNameView.swift in Sources */,
 				35FF7B991CF83264000A70EE /* Toast.swift in Sources */,
 				35FF7B9A1CF83264000A70EE /* OrderFormPaymentChannelCell.swift in Sources */,
 				35FF7B9B1CF83264000A70EE /* ResultModel.swift in Sources */,
@@ -3322,7 +3313,6 @@
 				35FDCEAC1CAD0A2300A25FE8 /* PaymentChannelCell.swift in Sources */,
 				35FDCEAD1CAD0A2300A25FE8 /* StudentCourseModel.swift in Sources */,
 				35FDCEAE1CAD0A2300A25FE8 /* Extension+UIImageView.swift in Sources */,
-				35FDCEAF1CAD0A2300A25FE8 /* ProfileChildNameView.swift in Sources */,
 				35FDCEB01CAD0A2300A25FE8 /* Toast.swift in Sources */,
 				35FDCEB11CAD0A2300A25FE8 /* ResultModel.swift in Sources */,
 				35FDCEB21CAD0A2300A25FE8 /* UINavigationController+KMNavigationBarTransition.m in Sources */,
