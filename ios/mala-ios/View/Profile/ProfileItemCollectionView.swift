@@ -85,7 +85,7 @@ class ProfileItemCollectionViewCell: UICollectionViewCell {
         didSet {
             iconView.image = UIImage(named: model?.iconName ?? "")
             newMessageView.image = UIImage(named: model?.newMessageIconName ?? "")
-            titleLabel.text = model?.title
+            titleLabel.text = model?.controllerTitle
         }
     }
     

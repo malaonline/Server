@@ -9,6 +9,7 @@
 import UIKit
 
 private let ProfileViewTableViewCellReuseID = "ProfileViewTableViewCellReuseID"
+private let ProfileViewTableViewItemCellReuseID = "ProfileViewTableViewItemCellReuseID"
 
 class ProfileViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ProfileViewHeaderViewDelegate {
     
@@ -93,6 +94,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
                 
         // register
         tableView.registerClass(ProfileViewCell.self, forCellReuseIdentifier: ProfileViewTableViewCellReuseID)
+        tableView.registerClass(ProfileItemViewCell.self, forCellReuseIdentifier: ProfileViewTableViewItemCellReuseID)
     }
     
     private func setupUserInterface() {
@@ -162,18 +164,29 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model[section].count
+        return section == 0 ? 1 : model[section].count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewCellReuseID, forIndexPath: indexPath) as! ProfileViewCell
-        cell.model =  model[indexPath.section][indexPath.row]
-        // Section的最后一个Cell隐藏分割线
-        if (indexPath.row+1) == model[indexPath.section].count {
-            cell.hideSeparator()
+        switch indexPath.section {
+        case 0:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewItemCellReuseID, forIndexPath: indexPath) as! ProfileItemViewCell
+            cell.model = model[0]
+            return cell
+            
+        default:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(ProfileViewTableViewCellReuseID, forIndexPath: indexPath) as! ProfileViewCell
+            
+            cell.model =  model[indexPath.section][indexPath.row]
+            // Section的最后一个Cell隐藏分割线
+            if (indexPath.row+1) == model[indexPath.section].count {
+                cell.hideSeparator()
+            }
+            return cell
         }
-        return cell
     }
     
     
@@ -193,7 +206,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 44
+        return indexPath.section == 0 ? 114 : 44
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -364,5 +377,47 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushProfileItemController, object: nil)
+    }
+}
+
+
+class ProfileItemViewCell: UITableViewCell {
+    
+    // MARK: - Property
+    var model: [ProfileElementModel]? {
+        didSet {
+            collectionView.model = model
+        }
+    }
+    
+    
+    // MARK: - Components
+    private lazy var collectionView: ProfileItemCollectionView = {
+        let collectionView = ProfileItemCollectionView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 114), collectionViewLayout: CommonFlowLayout(type: .ProfileItem))
+        return collectionView
+    }()
+    
+    
+    // MARK: - Instance Method
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUserInterface()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Private Method
+    private func setupUserInterface() {
+        
+        contentView.addSubview(collectionView)
+        
+        collectionView.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(contentView)
+            make.width.equalTo(MalaScreenWidth)
+            make.height.equalTo(114)
+        }
     }
 }

@@ -16,6 +16,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         case FilterView
         case SubjectView
         case GradeSelection
+        case ProfileItem
     }
     
     
@@ -33,6 +34,8 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
             subjectViewFlowLayout()
         case .GradeSelection:
             gradeSelectionFlowLayout()
+        case .ProfileItem:
+            profileItemFlowLayout()
         }
     }
 
@@ -87,5 +90,15 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
         minimumInteritemSpacing = 12
         minimumLineSpacing = 14
+    }
+    
+    private func profileItemFlowLayout() {
+        scrollDirection = .Horizontal
+        let itemWidth = MalaScreenWidth/3
+        let itemHeight: CGFloat = 114
+        itemSize = CGSizeMake(itemWidth, itemHeight)
+        sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        minimumInteritemSpacing = 0
+        minimumLineSpacing = 0
     }
 }
