@@ -318,10 +318,11 @@ func saveStudentName(name: String, failureHandler: ((Reason, String?) -> Void)?,
     ]
     
     let parse: JSONDictionary -> Bool? = { data in
-        if let result = data["done"] as? Bool {
-            return result
+        if let result = data["done"] as? String where result == "true" {
+            return true
+        }else {
+            return false
         }
-        return false
     }
     
     let resource = authJsonResource(path: "/parents/\(parentID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
