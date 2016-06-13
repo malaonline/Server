@@ -28,24 +28,29 @@ from app.utils.db import paginate, Pager
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
+from app.tasks import send_push
 
 
 logger = logging.getLogger('app')
 
 # Create your views here.
 
+
 @mala_staff_required
 def index(request):
     return render(request, 'staff/index.html')
+
 
 def login(request, context={}):
     if is_manager(request.user):
         return redirect('staff:index')
     return render(request, 'staff/login.html', context)
 
+
 def logout(request):
     auth.logout(request)
     return redirect('staff:login')
+
 
 @require_POST
 def login_auth(request):
@@ -56,7 +61,7 @@ def login_auth(request):
     # TODO: 错误信息包含‘错误码’，错误描述可能会变
     if not username or not password:
         return login(request, {'errors': '请输入用户名和密码'})
-    #登录前需要先验证
+    # 登录前需要先验证
     newUser=auth.authenticate(username=username,password=password)
     if newUser is not None:
         if not is_manager(newUser):
@@ -1937,6 +1942,12 @@ class OrderRefundActionView(BaseStaffActionView):
                 student_name = parent.student_name or parent.user.profile.mask_phone()
                 amount_str = "%.2f"%(order.last_refund_record().refund_amount/100)
                 _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
+                # JPush 通知
+                extras = {
+                    "type": "2",  # 退费成功
+                    "code": order.id
+                }
+                send_push.delay("您有一笔退费已完成>>", title="退费成功", user_ids=[parent.user_id], extras=extras)
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 
