@@ -24,7 +24,12 @@ def autoConfirmClasses():
         timeslot.confirm()
         logger.debug("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
         user_ids.append(timeslot.order.parent.user_id)
-    send_push("您有课程已完成, 去评价>>", title="完课评价", user_ids=user_ids)
+    # JPush 通知
+    extras = {
+        "type": "3",  # 完课评价
+        "code": None
+    }
+    send_push.delay("您有课程已完成, 去评价>>", title="完课评价", user_ids=user_ids, extras=extras)
     return True
 
 
