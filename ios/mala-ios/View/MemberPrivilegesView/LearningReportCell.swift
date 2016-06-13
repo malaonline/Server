@@ -50,7 +50,7 @@ class LearningReportCell: UITableViewCell {
         let button = UIButton()
         
         button.backgroundColor = MalaColor_8DC1DE_0
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        button.titleLabel?.font = UIFont.systemFontOfSize(16)
         button.setTitle("查看我的学习报告", forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         
@@ -63,7 +63,7 @@ class LearningReportCell: UITableViewCell {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named:"subject_background"), forState: .Normal)
         button.setTitle("数学", forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: -2)
         button.userInteractionEnabled = false
         return button
@@ -72,7 +72,7 @@ class LearningReportCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "学习报告",
-            fontSize: MalaLayout_FontSize_15,
+            fontSize: 15,
             textColor: MalaColor_333333_0
         )
         return label
@@ -188,28 +188,28 @@ class LearningReportCell: UITableViewCell {
         // Autolayout
 //        let learningReportCellHeight: CGFloat = MalaContentHeight-(8*3)-229
         content.snp_makeConstraints { (make) in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_8)
+            make.top.equalTo(self.contentView.snp_top).offset(8)
             make.left.equalTo(self.contentView.snp_left)
             make.right.equalTo(self.contentView.snp_right)
             make.height.equalTo(212)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(content.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(content.snp_top).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.top.equalTo(content.snp_top).offset(16)
+            make.left.equalTo(content.snp_top).offset(12)
+            make.height.equalTo(15)
         }
         subjectLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(content.snp_top).offset(-MalaLayout_Margin_4)
-            make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(content.snp_top).offset(-4)
+            make.right.equalTo(content.snp_right).offset(-12)
             make.width.equalTo(40.5)
             make.height.equalTo(34)
         }
         separator.snp_makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp_bottom).offset(MalaLayout_Margin_20)
+            make.top.equalTo(titleLabel.snp_bottom).offset(20)
             make.centerX.equalTo(content.snp_centerX)
             make.width.equalTo(MalaScreenOnePixel)
-            make.bottom.equalTo(button.snp_top).offset(-MalaLayout_Margin_20)
+            make.bottom.equalTo(button.snp_top).offset(-20)
         }
         answerNumberLabel.snp_makeConstraints { (make) in
             make.left.equalTo(button.snp_left)
@@ -225,17 +225,17 @@ class LearningReportCell: UITableViewCell {
         }
         answerNumberLegend.snp_makeConstraints { (make) in
             make.centerX.equalTo(answerNumberLabel.snp_centerX)
-            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_8)
+            make.top.equalTo(separator.snp_top).offset(8)
         }
         correctRateLegend.snp_makeConstraints { (make) in
             make.centerX.equalTo(correctRateLabel.snp_centerX)
-            make.top.equalTo(separator.snp_top).offset(MalaLayout_Margin_8)
+            make.top.equalTo(separator.snp_top).offset(8)
         }
         button.snp_makeConstraints { (make) in
             make.height.equalTo(37)
-            make.left.equalTo(content.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_12)
-            make.bottom.equalTo(content.snp_bottom).offset(-MalaLayout_Margin_20)
+            make.left.equalTo(content.snp_left).offset(12)
+            make.right.equalTo(content.snp_right).offset(-12)
+            make.bottom.equalTo(content.snp_bottom).offset(-20)
         }
         
         layerView.snp_makeConstraints { (make) in

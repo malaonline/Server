@@ -73,11 +73,11 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : MalaLayout_Margin_4
+        return section == 0 ? 0 : 4
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return MalaLayout_Margin_4
+        return 4
     }
     
     

@@ -37,7 +37,7 @@ class CourseChoosingConfirmView: UIView {
     /// 价格说明标签
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
-        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        stringLabel.font = UIFont.systemFontOfSize(14)
         stringLabel.textColor = MalaColor_333333_0
         stringLabel.text = "还需支付:"
         return stringLabel
@@ -45,7 +45,7 @@ class CourseChoosingConfirmView: UIView {
     /// 金额标签
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.textColor = MalaColor_E26254_0
         priceLabel.textAlignment = .Left
         priceLabel.text = "￥0.01"
@@ -55,7 +55,7 @@ class CourseChoosingConfirmView: UIView {
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
         confirmButton.backgroundColor = MalaColor_E26254_0
-        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(16)
         confirmButton.setTitle("确定", forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         confirmButton.layer.cornerRadius = 5
@@ -104,18 +104,18 @@ class CourseChoosingConfirmView: UIView {
             make.height.equalTo(MalaScreenOnePixel)
         })
         stringLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.snp_left).offset(12)
             make.centerY.equalTo(self.snp_centerY)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(stringLabel.snp_right)
             make.width.equalTo(100)
             make.bottom.equalTo(stringLabel.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         confirmButton.snp_makeConstraints { (make) -> Void in
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.snp_right).offset(-12)
             make.centerY.equalTo(self.snp_centerY)
             make.width.equalTo(144)
             make.height.equalTo(37)

@@ -70,7 +70,7 @@ class CouponViewController: BaseTableViewController {
         
         // rightBarButtonItem
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacerRight.width = -MalaLayout_Margin_5
+        spacerRight.width = -5
         let rightBarButtonItem = UIBarButtonItem(customView: rulesButton)
         navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
     }

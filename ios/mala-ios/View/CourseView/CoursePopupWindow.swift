@@ -82,7 +82,7 @@ public class CoursePopupWindow: UIViewController {
         cancelButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         cancelButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        cancelButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        cancelButton.titleLabel?.font = UIFont.systemFontOfSize(15)
         cancelButton.addTarget(self, action: #selector(CoursePopupWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         return cancelButton
     }()
@@ -94,7 +94,7 @@ public class CoursePopupWindow: UIViewController {
         confirmButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         confirmButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(15)
         confirmButton.addTarget(self, action: #selector(CoursePopupWindow.confirmButtonDidTap), forControlEvents: .TouchUpInside)
         return confirmButton
     }()
@@ -106,7 +106,7 @@ public class CoursePopupWindow: UIViewController {
         dismissButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         dismissButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        dismissButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        dismissButton.titleLabel?.font = UIFont.systemFontOfSize(15)
         dismissButton.hidden = true
         dismissButton.addTarget(self, action: #selector(CoursePopupWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         return dismissButton
@@ -114,7 +114,7 @@ public class CoursePopupWindow: UIViewController {
     /// 上课日期
     private lazy var courseDateLabel: UILabel = {
         let courseDateLabel = UILabel()
-        courseDateLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        courseDateLabel.font = UIFont.systemFontOfSize(14)
         courseDateLabel.textColor = MalaColor_B7B7B7_0
         courseDateLabel.text = ""
         return courseDateLabel
@@ -237,24 +237,24 @@ public class CoursePopupWindow: UIViewController {
         }
         iconView.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.window.snp_centerX)
-            make.top.equalTo(self.window.snp_top).offset(-MalaLayout_FontSize_20)
+            make.top.equalTo(self.window.snp_top).offset(-20)
             make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
             make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
         }
         courseDateLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.iconView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(self.iconView.snp_bottom).offset(10)
             make.centerX.equalTo(self.iconView.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.height.equalTo(15)
         }
         contentContainer.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.courseDateLabel.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
-            make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
+            make.top.equalTo(self.courseDateLabel.snp_bottom).offset(12)
+            make.left.equalTo(self.window.snp_left).offset(26)
+            make.right.equalTo(self.window.snp_right).offset(-26)
+            make.bottom.equalTo(self.pageControl.snp_top).offset(-10)
         }
         pageControl.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(6)
-            make.bottom.equalTo(self.cancelButton.snp_top).offset(-MalaLayout_Margin_10)
+            make.bottom.equalTo(self.cancelButton.snp_top).offset(-10)
             make.centerX.equalTo(self.window.snp_centerX)
         }
         cancelButton.snp_makeConstraints { (make) -> Void in

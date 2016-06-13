@@ -55,7 +55,7 @@ class OrderFormOperatingView: UIView {
     /// 价格说明标签
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
-        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        stringLabel.font = UIFont.systemFontOfSize(14)
         stringLabel.textColor = MalaColor_333333_0
         stringLabel.text = "合计:"
         return stringLabel
@@ -63,7 +63,7 @@ class OrderFormOperatingView: UIView {
     /// 金额标签
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.textColor = MalaColor_E26254_0
         priceLabel.textAlignment = .Left
         priceLabel.text = "￥0.00"
@@ -78,7 +78,7 @@ class OrderFormOperatingView: UIView {
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
         
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitle("再次购买", forState: .Normal)
         button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
         button.addTarget(self, action: #selector(OrderFormOperatingView.buyAgain), forControlEvents: .TouchUpInside)
@@ -93,7 +93,7 @@ class OrderFormOperatingView: UIView {
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
         
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitle("取消订单", forState: .Normal)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         button.addTarget(self, action: #selector(OrderFormOperatingView.cancelOrderForm), forControlEvents: .TouchUpInside)
@@ -144,24 +144,24 @@ class OrderFormOperatingView: UIView {
             make.height.equalTo(MalaScreenOnePixel)
         })
         stringLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.snp_left).offset(12)
             make.centerY.equalTo(self.snp_centerY)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(stringLabel.snp_right)
             make.width.equalTo(100)
             make.bottom.equalTo(stringLabel.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         confirmButton.snp_makeConstraints { (make) in
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.snp_right).offset(-12)
             make.centerY.equalTo(self.snp_centerY)
             make.width.equalTo(confirmButton.snp_height).multipliedBy(2.78)
             make.height.equalTo(self.snp_height).multipliedBy(0.55)
         }
         cancelButton.snp_makeConstraints { (make) in
-            make.right.equalTo(confirmButton.snp_left).offset(-MalaLayout_Margin_10)
+            make.right.equalTo(confirmButton.snp_left).offset(-10)
             make.centerY.equalTo(confirmButton.snp_centerY)
             make.width.equalTo(confirmButton.snp_height).multipliedBy(2.78)
             make.height.equalTo(self.snp_height).multipliedBy(0.55)

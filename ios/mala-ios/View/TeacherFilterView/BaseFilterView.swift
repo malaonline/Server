@@ -146,7 +146,7 @@ class FilterSectionHeaderView: UICollectionReusableView {
     }()
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        titleLabel.font = UIFont.systemFontOfSize(13)
         titleLabel.textColor = MalaColor_939393_0
         titleLabel.text = "小学"
         titleLabel.sizeToFit()
@@ -173,14 +173,14 @@ class FilterSectionHeaderView: UICollectionReusableView {
         
         // AutoLayout
         iconView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_4)
+            make.top.equalTo(self.snp_top).offset(4)
             make.left.equalTo(self.snp_left)
             make.width.equalTo(20)
             make.height.equalTo(20)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.iconView.snp_centerY)
-            make.left.equalTo(self.iconView.snp_right).offset(MalaLayout_Margin_9)
+            make.left.equalTo(self.iconView.snp_right).offset(9)
         }
     }
 }

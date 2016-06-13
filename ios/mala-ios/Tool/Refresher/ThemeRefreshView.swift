@@ -15,7 +15,7 @@ class ThemeRefreshView: UIView {
     private lazy var imageView: UIImageView = UIImageView(image: UIImage(named: "refreshImage"))
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        label.font = UIFont.systemFontOfSize(13)
         label.textColor = MalaColor_939393_0
         label.text = "下拉可刷新"
         label.sizeToFit()

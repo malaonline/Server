@@ -71,10 +71,10 @@ class TeacherDetailsSignupView: UIView {
             make.height.equalTo(MalaScreenOnePixel)
         })
         button.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_6)
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(self.snp_bottom).offset(-MalaLayout_Margin_6)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(self.snp_top).offset(6)
+            make.left.equalTo(self.snp_left).offset(12)
+            make.bottom.equalTo(self.snp_bottom).offset(-6)
+            make.right.equalTo(self.snp_right).offset(-12)
         })
     }
     

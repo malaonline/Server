@@ -22,7 +22,7 @@ class MemberSerivceCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "会员专享",
-            fontSize: MalaLayout_FontSize_15,
+            fontSize: 15,
             textColor: MalaColor_333333_0
         )
         return label
@@ -58,16 +58,16 @@ class MemberSerivceCell: UITableViewCell {
         
         // Autolayout
         content.snp_makeConstraints { (make) in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_8)
+            make.top.equalTo(self.contentView.snp_top).offset(8)
             make.left.equalTo(self.contentView.snp_left)
             make.right.equalTo(self.contentView.snp_right)
             make.height.equalTo(229)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(content.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(content.snp_top).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.top.equalTo(content.snp_top).offset(16)
+            make.left.equalTo(content.snp_top).offset(12)
+            make.height.equalTo(15)
         }
         collectionView.snp_makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp_bottom).offset(16)

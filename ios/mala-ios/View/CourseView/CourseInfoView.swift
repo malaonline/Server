@@ -27,7 +27,7 @@ class CourseInfoView: UIView {
     /// 学习科目label
     private lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
-        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        subjectLabel.font = UIFont.systemFontOfSize(13)
         subjectLabel.textColor = MalaColor_939393_0
         subjectLabel.text = "学习科目:"
         return subjectLabel
@@ -35,14 +35,14 @@ class CourseInfoView: UIView {
     /// 科目
     private lazy var subjectString: UILabel = {
         let subjectString = UILabel()
-        subjectString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        subjectString.font = UIFont.systemFontOfSize(13)
         subjectString.textColor = MalaColor_939393_0
         return subjectString
     }()
     /// 上课地点label
     private lazy var schoolLabel: UILabel = {
         let schoolLabel = UILabel()
-        schoolLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        schoolLabel.font = UIFont.systemFontOfSize(13)
         schoolLabel.textColor = MalaColor_939393_0
         schoolLabel.numberOfLines = 0
         schoolLabel.text = "上课地点:"
@@ -51,7 +51,7 @@ class CourseInfoView: UIView {
     /// 地址
     private lazy var schoolString: UILabel = {
         let schoolString = UILabel()
-        schoolString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        schoolString.font = UIFont.systemFontOfSize(13)
         schoolString.textColor = MalaColor_939393_0
         schoolString.numberOfLines = 0
         return schoolString
@@ -59,7 +59,7 @@ class CourseInfoView: UIView {
     /// 上课时间label
     private lazy var classtimeLabel: UILabel = {
         let classtimeLabel = UILabel()
-        classtimeLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        classtimeLabel.font = UIFont.systemFontOfSize(13)
         classtimeLabel.textColor = MalaColor_939393_0
         classtimeLabel.text = "上课时间:"
         return classtimeLabel
@@ -67,7 +67,7 @@ class CourseInfoView: UIView {
     /// 上课时间
     private lazy var classtimeString: UILabel = {
         let classtimeString = UILabel()
-        classtimeString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        classtimeString.font = UIFont.systemFontOfSize(13)
         classtimeString.textColor = MalaColor_939393_0
         return classtimeString
     }()
@@ -75,7 +75,7 @@ class CourseInfoView: UIView {
     /// 剩余课时label
     private lazy var residualLabel: UILabel = {
         let residualLabel = UILabel()
-        residualLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        residualLabel.font = UIFont.systemFontOfSize(13)
         residualLabel.textColor = MalaColor_939393_0
         residualLabel.text = "剩余课时:"
         return residualLabel
@@ -83,7 +83,7 @@ class CourseInfoView: UIView {
     /// 剩余课时
     private lazy var residualString: UILabel = {
         let residualString = UILabel()
-        residualString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        residualString.font = UIFont.systemFontOfSize(13)
         residualString.textColor = MalaColor_939393_0
         return residualString
     }()
@@ -123,54 +123,54 @@ class CourseInfoView: UIView {
         
         // Autolayout
         subjectLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.snp_top).offset(12)
             make.left.equalTo(self.snp_left)
             make.width.equalTo(65)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         subjectString.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(subjectLabel.snp_top)
-            make.left.equalTo(subjectLabel.snp_right).offset(MalaLayout_Margin_8)
+            make.left.equalTo(subjectLabel.snp_right).offset(8)
             make.right.equalTo(self.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         
         schoolLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(subjectLabel.snp_bottom).offset(MalaLayout_Margin_22)
+            make.top.equalTo(subjectLabel.snp_bottom).offset(22)
             make.left.equalTo(self.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
             make.width.equalTo(65)
         }
         schoolString.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(schoolLabel.snp_top)
-            make.left.equalTo(schoolLabel.snp_right).offset(MalaLayout_Margin_8)
+            make.left.equalTo(schoolLabel.snp_right).offset(8)
             make.right.equalTo(self.snp_right)
         }
         
         classtimeLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(schoolString.snp_bottom).offset(MalaLayout_Margin_22)
+            make.top.equalTo(schoolString.snp_bottom).offset(22)
             make.left.equalTo(self.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
             make.width.equalTo(65)
         }
         classtimeString.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(classtimeLabel.snp_top)
-            make.left.equalTo(classtimeLabel.snp_right).offset(MalaLayout_Margin_8)
+            make.left.equalTo(classtimeLabel.snp_right).offset(8)
             make.right.equalTo(self.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         /*
         residualLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(classtimeLabel.snp_bottom).offset(MalaLayout_Margin_22)
+            make.top.equalTo(classtimeLabel.snp_bottom).offset(22)
             make.left.equalTo(self.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
             make.width.equalTo(65)
         }
         residualString.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(residualLabel.snp_top)
-            make.left.equalTo(residualLabel.snp_right).offset(MalaLayout_Margin_8)
+            make.left.equalTo(residualLabel.snp_right).offset(8)
             make.right.equalTo(self.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         */
     }

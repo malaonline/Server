@@ -29,7 +29,7 @@ class ClassScheduleViewWeekdayHeader: ThemeCalendarViewWeekdayHeader {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-//        textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+//        textFont = UIFont.systemFontOfSize(14)
 //        textColor = MalaDetailsCellTitleColor
 //        headerBackgroundColor = MalaProfileBackgroundColor
         

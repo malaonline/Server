@@ -43,14 +43,14 @@ class CourseChoosingClassPeriodCell: MalaBaseCell {
         // Autolayout
         // Remove margin
         title.snp_updateConstraints { (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
         }
 
         legendView.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(97)
             make.height.equalTo(27)
             make.centerY.equalTo(self.title.snp_centerY)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
         }
     }
 

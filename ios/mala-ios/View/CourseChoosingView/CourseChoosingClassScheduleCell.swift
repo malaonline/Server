@@ -59,18 +59,18 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         }
         
         classSchedule.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top).offset(MalaLayout_Margin_14)
+            make.top.equalTo(self.content.snp_top).offset(14)
             make.left.equalTo(self.content.snp_left)
             make.right.equalTo(self.content.snp_right)
             make.height.equalTo(classSchedule.snp_width).multipliedBy(0.65)
-            make.bottom.equalTo(legendView.snp_top).offset(-MalaLayout_Margin_14)
+            make.bottom.equalTo(legendView.snp_top).offset(-14)
         }
         legendView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.classSchedule.snp_bottom).offset(MalaLayout_Margin_14)
+            make.top.equalTo(self.classSchedule.snp_bottom).offset(14)
             make.left.equalTo(classSchedule.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.height.equalTo(15)
             make.right.equalTo(classSchedule.snp_right)
-            make.bottom.equalTo(self.content.snp_bottom).offset(-MalaLayout_Margin_14)
+            make.bottom.equalTo(self.content.snp_bottom).offset(-14)
         }
     }
     
@@ -96,7 +96,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
 public class LegendView: UIView {
     
     // MARK: - Property
-    private var currentX: CGFloat = MalaLayout_Margin_6
+    private var currentX: CGFloat = 6
     
     
     // MARK: - Constructed
@@ -114,14 +114,14 @@ public class LegendView: UIView {
         button.adjustsImageWhenHighlighted = false
         
         button.setImage(UIImage(named: imageName), forState: .Normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -MalaLayout_Margin_6, bottom: 0, right: MalaLayout_Margin_6)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 6)
         
         button.setTitle(title, forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         
         button.sizeToFit()
-        button.frame.origin.x = (currentX == MalaLayout_Margin_6 ? currentX : currentX+MalaLayout_Margin_12)
+        button.frame.origin.x = (currentX == 6 ? currentX : currentX+12)
         addSubview(button)
         currentX = CGRectGetMaxX(button.frame)
         

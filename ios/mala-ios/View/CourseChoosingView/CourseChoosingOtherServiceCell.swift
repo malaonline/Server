@@ -63,8 +63,8 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
         tableView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top)
             make.bottom.equalTo(priceView.snp_top)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
             make.height.equalTo(otherServiceCount*Int(MalaLayout_OtherServiceCellHeight))
         }
     }
@@ -88,7 +88,7 @@ class PriceResultView: UIView {
     private lazy var stringLabel: UILabel = {
         let stringLabel = UILabel()
         stringLabel.textColor = MalaColor_333333_0
-        stringLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        stringLabel.font = UIFont.systemFontOfSize(14)
         stringLabel.text = "原价:"
         return stringLabel
     }()
@@ -96,7 +96,7 @@ class PriceResultView: UIView {
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
         priceLabel.textColor = MalaColor_E36A5D_0
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.text = "￥0.00"
         return priceLabel
     }()
@@ -133,12 +133,12 @@ class PriceResultView: UIView {
         
         // Autolayout
         priceLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
             make.centerY.equalTo(self.snp_centerY)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.snp_right).offset(-12)
         }
         stringLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
             make.bottom.equalTo(self.priceLabel.snp_bottom)
             make.right.equalTo(priceLabel.snp_left)
         }

@@ -36,14 +36,14 @@ class PaymentChannelCell: UITableViewCell {
     /// 支付方式名称
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.font = UIFont.systemFontOfSize(14)
         titleLabel.textColor = MalaColor_333333_0
         return titleLabel
     }()
     /// 支付方式描述
     private lazy var subTitleLabel: UILabel = {
         let subTitleLabel = UILabel()
-        subTitleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        subTitleLabel.font = UIFont.systemFontOfSize(13)
         subTitleLabel.textColor = MalaColor_6C6C6C_0
         return subTitleLabel
     }()
@@ -95,29 +95,29 @@ class PaymentChannelCell: UITableViewCell {
         
         // Autolayout
         iconView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(contentView.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.top.equalTo(contentView.snp_top).offset(16)
+            make.left.equalTo(contentView.snp_left).offset(12)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-16)
             make.width.equalTo(iconView.snp_height)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
             make.top.equalTo(iconView.snp_top)
-            make.left.equalTo(iconView.snp_right).offset(MalaLayout_Margin_12)
+            make.left.equalTo(iconView.snp_right).offset(12)
         }
         subTitleLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(titleLabel.snp_left)
             make.bottom.equalTo(iconView.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         selectButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(contentView.snp_centerY)
-            make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(contentView.snp_right).offset(-12)
         }
         separatorLine.snp_makeConstraints { (make) in
             make.bottom.equalTo(contentView.snp_bottom)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(contentView.snp_left).offset(12)
+            make.right.equalTo(contentView.snp_right).offset(-12)
             make.height.equalTo(MalaScreenOnePixel)
         }
     }

@@ -29,7 +29,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSFontAttributeName,
-                value: UIFont.systemFontOfSize(MalaLayout_FontSize_14),
+                value: UIFont.systemFontOfSize(14),
                 range: NSMakeRange(0, rangeLocation)
             )
             attrString.addAttribute(
@@ -39,7 +39,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             attrString.addAttribute(
                 NSFontAttributeName,
-                value: UIFont.systemFontOfSize(MalaLayout_FontSize_12),
+                value: UIFont.systemFontOfSize(12),
                 range: NSMakeRange(rangeLocation, 4)
             )
             priceLabel.attributedText = attrString
@@ -60,7 +60,7 @@ class TeacherTableViewCell: UITableViewCell {
     private lazy var courseLabel: UIButton = {
         let courseLabel = UIButton()
         courseLabel.setBackgroundImage(UIImage(named: "tagsTitle"), forState: .Normal)
-        courseLabel.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        courseLabel.titleLabel?.font = UIFont.systemFontOfSize(11)
         courseLabel.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0)
         courseLabel.userInteractionEnabled = false
         return courseLabel
@@ -68,14 +68,14 @@ class TeacherTableViewCell: UITableViewCell {
     /// 老师姓名label
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_17)
+        nameLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 17)
         nameLabel.textColor = MalaColor_4A4A4A_0
         return nameLabel
     }()
     /// 老师级别label
     private lazy var levelLabel: UILabel = {
         let levelLabel = UILabel()
-        levelLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_13)
+        levelLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 13)
         levelLabel.backgroundColor = UIColor.whiteColor()
         levelLabel.textColor = MalaColor_E26254_0
         return levelLabel
@@ -99,14 +99,14 @@ class TeacherTableViewCell: UITableViewCell {
     /// 授课价格label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.textColor = MalaColor_6C6C6C_0
         return priceLabel
     }()
     /// 风格标签label
     private lazy var tagsLabel: UILabel = {
         let tagsLabel = UILabel()
-        tagsLabel.font = UIFont(name: "HelveticaNeue-Thin", size: MalaLayout_FontSize_11)
+        tagsLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 11)
         tagsLabel.textColor = MalaColor_333333_6
         return tagsLabel
     }()
@@ -140,50 +140,50 @@ class TeacherTableViewCell: UITableViewCell {
         
         // Autolayout
         content.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_4)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_4)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(self.contentView.snp_top).offset(4)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-4)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
         }
         courseLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_4)
+            make.top.equalTo(self.contentView.snp_top).offset(4)
             make.left.equalTo(self.contentView.snp_left)
             make.height.equalTo(24)
             make.width.equalTo(100)
         }
         nameLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top).offset(MalaLayout_Margin_15)
+            make.top.equalTo(self.content.snp_top).offset(15)
             make.centerX.equalTo(self.content.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_17)
+            make.height.equalTo(17)
         }
         levelLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(self.nameLabel.snp_bottom).offset(10)
             make.centerX.equalTo(self.content.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         separator.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.content.snp_centerX)
             make.centerY.equalTo(self.levelLabel.snp_centerY)
-            make.left.equalTo(self.content.snp_left).offset(MalaLayout_Margin_10)
-            make.right.equalTo(self.content.snp_right).offset(-MalaLayout_Margin_10)
+            make.left.equalTo(self.content.snp_left).offset(10)
+            make.right.equalTo(self.content.snp_right).offset(-10)
             make.height.equalTo(MalaScreenOnePixel)
         }
         avatarView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.levelLabel.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.levelLabel.snp_bottom).offset(12)
             make.centerX.equalTo(self.content.snp_centerX)
             make.width.equalTo(MalaLayout_AvatarSize)
             make.height.equalTo(MalaLayout_AvatarSize)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.avatarView.snp_bottom).offset(MalaLayout_Margin_11)
+            make.top.equalTo(self.avatarView.snp_bottom).offset(11)
             make.centerX.equalTo(self.content.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         tagsLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.priceLabel.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.priceLabel.snp_bottom).offset(12)
             make.centerX.equalTo(self.content.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_11)
-            make.bottom.equalTo(self.content.snp_bottom).offset(-MalaLayout_Margin_15)
+            make.height.equalTo(11)
+            make.bottom.equalTo(self.content.snp_bottom).offset(-15)
         }
     }
 }

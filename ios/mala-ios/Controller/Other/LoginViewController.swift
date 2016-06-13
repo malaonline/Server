@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
         codeGetButton.setTitleColor(MalaColor_8DBEDF_0, forState: .Disabled)
         codeGetButton.setBackgroundImage(UIImage.withColor(MalaColor_8DBEDF_0), forState: .Normal)
         codeGetButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Disabled)
-        codeGetButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        codeGetButton.titleLabel?.font = UIFont.systemFontOfSize(12)
         codeGetButton.addTarget(self, action: #selector(LoginViewController.codeGetButtonDidTap), forControlEvents: .TouchUpInside)
         return codeGetButton
     }()
@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
         let phoneError = UIButton()
         phoneError.setImage(UIImage(named: "error"), forState: .Normal)
         phoneError.setTitleColor(MalaColor_E36A5D_0, forState: .Normal)
-        phoneError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        phoneError.titleLabel?.font = UIFont.systemFontOfSize(11)
         phoneError.setTitle("手机号错误", forState: .Normal)
         phoneError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
         phoneError.hidden = true
@@ -79,7 +79,7 @@ class LoginViewController: UIViewController {
         let phoneTextField = UITextField()
         phoneTextField.keyboardType = .NumberPad
         phoneTextField.placeholder = "请输入手机号"
-        phoneTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        phoneTextField.font = UIFont.systemFontOfSize(14)
         phoneTextField.textColor = MalaColor_6C6C6C_0
         phoneTextField.addTarget(self, action: #selector(UITextInputDelegate.textDidChange(_:)), forControlEvents: .EditingChanged)
         phoneTextField.clearButtonMode = .Never
@@ -95,7 +95,7 @@ class LoginViewController: UIViewController {
         let codeError = UIButton()
         codeError.setImage(UIImage(named: "error"), forState: .Normal)
         codeError.setTitleColor(MalaColor_E36A5D_0, forState: .Normal)
-        codeError.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        codeError.titleLabel?.font = UIFont.systemFontOfSize(11)
         codeError.setTitle("验证码错误", forState: .Normal)
         codeError.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
         codeError.hidden = true
@@ -107,7 +107,7 @@ class LoginViewController: UIViewController {
         codeTextField.keyboardType = .NumberPad
         codeTextField.placeholder = "请输入验证码"
         codeTextField.textColor = MalaColor_6C6C6C_0
-        codeTextField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        codeTextField.font = UIFont.systemFontOfSize(14)
         codeTextField.addTarget(self, action: #selector(UITextInputDelegate.textDidChange(_:)), forControlEvents: .EditingChanged)
         return codeTextField
     }()
@@ -126,7 +126,7 @@ class LoginViewController: UIViewController {
     // 协议label
     private lazy var protocolLabel: UILabel = {
         let protocolLabel = UILabel()
-        protocolLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        protocolLabel.font = UIFont.systemFontOfSize(12)
         protocolLabel.textColor = MalaColor_939393_0
         protocolLabel.text = "轻触上面验证按钮即表示你同意"
         return protocolLabel
@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
     // 协议文字label
     private lazy var protocolString: UILabel = {
         let protocolString = UILabel()
-        protocolString.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        protocolString.font = UIFont.systemFontOfSize(12)
         protocolString.textColor = MalaColor_88BCDE_95
         protocolString.text = "麻辣老师用户协议"
         protocolString.userInteractionEnabled = true
@@ -183,7 +183,7 @@ class LoginViewController: UIViewController {
         
         // Autolayout
         contentView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.view.snp_top).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.view.snp_top).offset(12)
             make.left.equalTo(self.view.snp_left)
             make.right.equalTo(self.view.snp_right)
             make.height.equalTo(93)
@@ -207,54 +207,54 @@ class LoginViewController: UIViewController {
             make.right.equalTo(self.contentView.snp_right)
         }
         phoneIcon.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_15)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_14)
+            make.top.equalTo(self.contentView.snp_top).offset(15)
+            make.left.equalTo(self.contentView.snp_left).offset(14)
             make.width.equalTo(10)
             make.height.equalTo(15)
         }
         codeGetButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_9)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.top.equalTo(self.contentView.snp_top).offset(9)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
             make.width.equalTo(67)
             make.height.equalTo(27)
         }
         phoneError.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.codeGetButton)
-            make.right.equalTo(self.codeGetButton.snp_left).offset(-MalaLayout_Margin_4)
+            make.right.equalTo(self.codeGetButton.snp_left).offset(-4)
             make.width.equalTo(67)
             make.height.equalTo(15)
         }
         phoneTextField.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.phoneIcon.snp_right).offset(MalaLayout_Margin_10)
-            make.right.equalTo(self.phoneError.snp_left).offset(-MalaLayout_Margin_5)
+            make.left.equalTo(self.phoneIcon.snp_right).offset(10)
+            make.right.equalTo(self.phoneError.snp_left).offset(-5)
             make.centerY.equalTo(self.phoneIcon.snp_centerY)
             make.height.equalTo(25)
         }
         codeIcon.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_15)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_14)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-15)
+            make.left.equalTo(self.contentView.snp_left).offset(14)
         }
         codeError.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_9)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_FontSize_12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-9)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
             make.width.equalTo(67)
             make.height.equalTo(27)
         }
         codeTextField.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.codeIcon.snp_right).offset(MalaLayout_Margin_7)
-            make.right.equalTo(self.codeError.snp_left).offset(-MalaLayout_Margin_5)
+            make.left.equalTo(self.codeIcon.snp_right).offset(7)
+            make.right.equalTo(self.codeError.snp_left).offset(-5)
             make.centerY.equalTo(self.codeIcon.snp_centerY)
             make.height.equalTo(25)
         }
         verifyButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.view.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.view.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(self.contentView.snp_bottom).offset(12)
+            make.left.equalTo(self.view.snp_left).offset(12)
+            make.right.equalTo(self.view.snp_right).offset(-12)
             make.height.equalTo(37)
         }
         protocolLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.verifyButton.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.view.snp_left).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.verifyButton.snp_bottom).offset(12)
+            make.left.equalTo(self.view.snp_left).offset(12)
             make.right.equalTo(self.protocolString.snp_left)
         }
         protocolString.snp_makeConstraints { (make) -> Void in

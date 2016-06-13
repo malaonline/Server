@@ -70,7 +70,7 @@ public class TeacherFilterPopupWindow: UIViewController {
     }()
     private lazy var themeTitle: UILabel = {
         let themeTitle = UILabel()
-        themeTitle.font = UIFont(name: "HelveticaNeue", size: MalaLayout_FontSize_15)
+        themeTitle.font = UIFont(name: "HelveticaNeue", size: 15)
         themeTitle.backgroundColor = UIColor.whiteColor()
         themeTitle.textColor = MalaColor_939393_0
         themeTitle.text = self.tTitle
@@ -207,44 +207,44 @@ public class TeacherFilterPopupWindow: UIViewController {
         }
         themeIcon.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.window.snp_centerX)
-            make.top.equalTo(self.window.snp_top).offset(-MalaLayout_FontSize_20)
+            make.top.equalTo(self.window.snp_top).offset(-20)
             make.width.equalTo(64)
             make.height.equalTo(64)
         }
         closeButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
+            make.top.equalTo(self.window.snp_top).offset(7)
+            make.left.equalTo(self.window.snp_left).offset(5)
         }
         cancelButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_5)
+            make.top.equalTo(self.window.snp_top).offset(7)
+            make.left.equalTo(self.window.snp_left).offset(5)
         }
         confirmButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_7)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_5)
+            make.top.equalTo(self.window.snp_top).offset(7)
+            make.right.equalTo(self.window.snp_right).offset(-5)
         }
         themeTitle.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.themeIcon.snp_bottom).offset(MalaLayout_Margin_16)
+            make.top.equalTo(self.themeIcon.snp_bottom).offset(16)
             make.centerX.equalTo(self.themeIcon.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.height.equalTo(15)
         }
         separator.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.themeTitle.snp_centerY)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
+            make.left.equalTo(self.window.snp_left).offset(26)
+            make.right.equalTo(self.window.snp_right).offset(-26)
             make.height.equalTo(MalaScreenOnePixel)
         }
         pageControl.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(36)
             make.height.equalTo(6)
-            make.bottom.equalTo(self.window.snp_bottom).offset(-MalaLayout_Margin_10)
+            make.bottom.equalTo(self.window.snp_bottom).offset(-10)
             make.centerX.equalTo(self.window.snp_centerX)
         }
         contentContainer.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.themeTitle.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_26)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_26)
-            make.bottom.equalTo(self.pageControl.snp_top).offset(-MalaLayout_Margin_10)
+            make.top.equalTo(self.themeTitle.snp_bottom).offset(12)
+            make.left.equalTo(self.window.snp_left).offset(26)
+            make.right.equalTo(self.window.snp_right).offset(-26)
+            make.bottom.equalTo(self.pageControl.snp_top).offset(-10)
         }
     }
     

@@ -36,7 +36,7 @@ class MalaDefaultPanel: UIView {
     /// 文字label
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        label.font = UIFont.systemFontOfSize(13)
         label.textColor = MalaColor_939393_0
         label.textAlignment = .Center
         return label
@@ -68,11 +68,11 @@ class MalaDefaultPanel: UIView {
         label.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.snp_centerY).offset(-50)
             make.centerX.equalTo(self.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
         }
         imageView.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.snp_centerX)
-            make.bottom.equalTo(label.snp_top).offset(-MalaLayout_Margin_8)
+            make.bottom.equalTo(label.snp_top).offset(-8)
         }
     }
 }

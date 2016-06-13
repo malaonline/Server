@@ -99,12 +99,12 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
             make.width.equalTo(MalaLayout_DetailPhotoWidth)
             make.height.equalTo(self.leftPhoto.snp_height)
             make.top.equalTo(self.leftPhoto.snp_top)
-            make.left.equalTo(self.leftPhoto.snp_right).offset(MalaLayout_Margin_5)
+            make.left.equalTo(self.leftPhoto.snp_right).offset(5)
         }
         rightPhoto.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(self.centerPhoto.snp_height)
             make.top.equalTo(self.centerPhoto.snp_top)
-            make.left.equalTo(self.centerPhoto.snp_right).offset(MalaLayout_Margin_5)
+            make.left.equalTo(self.centerPhoto.snp_right).offset(5)
             make.right.equalTo(self.content.snp_right)
         }
     }

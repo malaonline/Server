@@ -95,20 +95,20 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = MalaColor_333333_0
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        titleLabel.font = UIFont.systemFontOfSize(15)
         return titleLabel
     }()
     private lazy var addressLabel: UILabel = {
         let addressLabel = UILabel()
         addressLabel.textColor = MalaColor_939393_0
-        addressLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        addressLabel.font = UIFont.systemFontOfSize(12)
         return addressLabel
     }()
     private lazy var distanceLabel: UILabel = {
         let distanceLabel = UILabel()
         distanceLabel.text = "未知"
         distanceLabel.textColor = MalaColor_939393_0
-        distanceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        distanceLabel.font = UIFont.systemFontOfSize(12)
         distanceLabel.textAlignment = .Right
         return distanceLabel
     }()
@@ -140,27 +140,27 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
 
         // Autolayout
         photoView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_14)
+            make.top.equalTo(self.contentView.snp_top).offset(14)
             make.left.equalTo(self.contentView.snp_left)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_14)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-14)
             make.width.equalTo(110)
             make.height.equalTo(79)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.photoView.snp_top).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.photoView.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.top.equalTo(self.photoView.snp_top).offset(10)
+            make.left.equalTo(self.photoView.snp_right).offset(10)
+            make.height.equalTo(15)
             make.right.equalTo(self.contentView.snp_right)
         }
         addressLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.photoView.snp_right).offset(MalaLayout_Margin_10)
-            make.bottom.equalTo(self.photoView.snp_bottom).offset(-MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.left.equalTo(self.photoView.snp_right).offset(10)
+            make.bottom.equalTo(self.photoView.snp_bottom).offset(-10)
+            make.height.equalTo(12)
         }
         distanceLabel.snp_makeConstraints { (make) -> Void in
             make.right.equalTo(self.contentView.snp_right)
             make.bottom.equalTo(addressLabel.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.height.equalTo(12)
         }   
     }
 }

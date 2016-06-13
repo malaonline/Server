@@ -25,7 +25,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             if (dropArrow.hidden == false) && (isOpen == true) {
                 self.tableView.timeSchedule = timeScheduleResult
                 self.tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult.count))
+                    make.height.equalTo(Int(28)*(timeScheduleResult.count))
                 }
                 self.tableView.reloadData()
             }else {
@@ -38,7 +38,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         didSet {
             if isOpen {
                 self.tableView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(Int(MalaLayout_FontSize_28)*(timeScheduleResult.count))
+                    make.height.equalTo(Int(28)*(timeScheduleResult.count))
                 }
             }else {
                 self.tableView.snp_updateConstraints { (make) -> Void in
@@ -95,8 +95,8 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         
         // Autolayout
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(title.snp_bottom).offset(MalaLayout_FontSize_14/2)
-            make.bottom.equalTo(contentView.snp_bottom).offset(-MalaLayout_FontSize_14/2)
+            make.top.equalTo(title.snp_bottom).offset(7)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-7)
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
@@ -144,7 +144,7 @@ class TimeScheduleCellTableView: UITableView, UITableViewDelegate, UITableViewDa
     
     // MARK: - Delegate
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return MalaLayout_FontSize_28
+        return 28
     }
     
     func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -171,8 +171,8 @@ class TimeScheduleCellTableViewCell: UITableViewCell {
     // MARK: - Property
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.frame = CGRect(x: 0, y: MalaLayout_FontSize_14/2, width: 0, height: 0)
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        label.frame = CGRect(x: 0, y: 7, width: 0, height: 0)
+        label.font = UIFont.systemFontOfSize(14)
         label.textColor = MalaColor_636363_0
         label.sizeToFit()
         return label

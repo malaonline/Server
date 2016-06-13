@@ -22,7 +22,7 @@ class PaymentBottomView: UIView {
     private lazy var confirmButton: UIButton = {
         let confirmButton = UIButton()
         confirmButton.backgroundColor = MalaColor_E26254_0
-        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_17)
+        confirmButton.titleLabel?.font = UIFont.systemFontOfSize(17)
         confirmButton.setTitle("支付", forState: .Normal)
         confirmButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         confirmButton.layer.cornerRadius = 5
@@ -54,8 +54,8 @@ class PaymentBottomView: UIView {
         
         // Autolayout
         confirmButton.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(self.snp_left).offset(12)
+            make.right.equalTo(self.snp_right).offset(-12)
             make.centerY.equalTo(self.snp_centerY)
             make.height.equalTo(37)
         }

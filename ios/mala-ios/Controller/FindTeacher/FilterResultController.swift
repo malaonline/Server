@@ -258,21 +258,21 @@ class FilterBar: UIView {
         
         // Autolayout
         gradeButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_9)
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.snp_top).offset(9)
+            make.left.equalTo(self.snp_left).offset(12)
             make.width.equalTo(88)
-            make.bottom.equalTo(self.snp_bottom).offset(-MalaLayout_Margin_5)
+            make.bottom.equalTo(self.snp_bottom).offset(-5)
         }
         subjectButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.gradeButton.snp_top)
-            make.left.equalTo(self.gradeButton.snp_right).offset(MalaLayout_Margin_7)
+            make.left.equalTo(self.gradeButton.snp_right).offset(7)
             make.width.equalTo(54)
             make.height.equalTo(gradeButton.snp_height)
         }
         styleButton.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.subjectButton.snp_top)
-            make.left.equalTo(self.subjectButton.snp_right).offset(MalaLayout_Margin_7)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(self.subjectButton.snp_right).offset(7)
+            make.right.equalTo(self.snp_right).offset(-12)
             make.height.equalTo(self.subjectButton.snp_height)
         }
     }

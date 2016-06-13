@@ -39,7 +39,7 @@ class MalaBaseCell: UITableViewCell {
                     make.centerY.equalTo(self.title.snp_centerY)
                     make.width.equalTo(50)
                     make.height.equalTo(title.snp_height)
-                    make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+                    make.right.equalTo(self.contentView.snp_right).offset(-12)
                 })
                 
             case .DropArrow:
@@ -48,16 +48,16 @@ class MalaBaseCell: UITableViewCell {
                     make.centerY.equalTo(self.title.snp_centerY)
                     make.width.equalTo(50)
                     make.height.equalTo(title.snp_height)
-                    make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+                    make.right.equalTo(self.contentView.snp_right).offset(-12)
                 })
                 
             case .SubTitle:
                 contentView.addSubview(subTitleLabel)
                 subTitleLabel.snp_makeConstraints(closure: { (make) -> Void in
-                    make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_16)
-                    make.left.equalTo(self.title.snp_right).offset(MalaLayout_Margin_10)
+                    make.top.equalTo(self.contentView.snp_top).offset(16)
+                    make.left.equalTo(self.title.snp_right).offset(10)
                     make.height.equalTo(self.title.snp_height)
-                    make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+                    make.right.equalTo(self.contentView.snp_right).offset(-12)
                 })
             }
         }
@@ -80,14 +80,14 @@ class MalaBaseCell: UITableViewCell {
     lazy var title: UILabel = {
         let label = UILabel(title: MalaCommonString_Title)
         label.textColor = MalaColor_333333_0
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        label.font = UIFont.systemFontOfSize(15)
         return label
     }()
     /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
     lazy var content: UIView = UIView()
     /// 标签容器
     lazy var tagsView: MATabListView = {
-        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: MalaLayout_FontSize_12))
+        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 12))
         return tagsView
     }()
     /// 详情箭头指示器——附加组件类型之一
@@ -110,7 +110,7 @@ class MalaBaseCell: UITableViewCell {
     /// 副标题label——附加组件类型之一
     lazy var subTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
+        label.font = UIFont.systemFontOfSize(10)
         label.textColor = MalaColor_939393_0
         label.textAlignment = .Right
         return label

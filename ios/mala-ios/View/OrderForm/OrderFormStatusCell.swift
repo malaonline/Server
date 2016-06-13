@@ -56,7 +56,7 @@ class OrderFormStatusCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "订单状态",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -65,7 +65,7 @@ class OrderFormStatusCell: UITableViewCell {
     private lazy var statusLabel: UILabel = {
         let label = UILabel(
             text: "状态",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_E36A5C_0
         )
         return label
@@ -84,7 +84,7 @@ class OrderFormStatusCell: UITableViewCell {
     private lazy var teacherLabel: UILabel = {
         let label = UILabel(
             text: "教师姓名",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -98,7 +98,7 @@ class OrderFormStatusCell: UITableViewCell {
     private lazy var subjectLabel: UILabel = {
         let label = UILabel(
             text: "年级-学科",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -112,7 +112,7 @@ class OrderFormStatusCell: UITableViewCell {
     private lazy var schoolLabel: UILabel = {
         let label = UILabel(
             text: "上课地点",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -157,53 +157,53 @@ class OrderFormStatusCell: UITableViewCell {
         // Autolayout
         // Remove margin
         titleLabel.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.top.equalTo(self.contentView.snp_top).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(13)
         }
         statusLabel.snp_makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp_top)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
         }
         separatorLine.snp_makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp_bottom).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(titleLabel.snp_bottom).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
             make.height.equalTo(MalaScreenOnePixel)
         }
         teacherIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(separatorLine.snp_bottom).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_Margin_13)
-            make.width.equalTo(MalaLayout_Margin_13)
+            make.top.equalTo(separatorLine.snp_bottom).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(13)
+            make.width.equalTo(13)
         }
         teacherLabel.snp_makeConstraints { (make) in
             make.top.equalTo(teacherIcon.snp_top)
-            make.left.equalTo(teacherIcon.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_Margin_13)
+            make.left.equalTo(teacherIcon.snp_right).offset(10)
+            make.height.equalTo(13)
         }
         subjectIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(teacherIcon.snp_bottom).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_Margin_13)
-            make.width.equalTo(MalaLayout_Margin_13)
+            make.top.equalTo(teacherIcon.snp_bottom).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(13)
+            make.width.equalTo(13)
         }
         subjectLabel.snp_makeConstraints { (make) in
             make.top.equalTo(subjectIcon.snp_top)
-            make.left.equalTo(subjectIcon.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_Margin_13)
+            make.left.equalTo(subjectIcon.snp_right).offset(10)
+            make.height.equalTo(13)
         }
         schoolIcon.snp_makeConstraints { (make) in
-            make.top.equalTo(subjectIcon.snp_bottom).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_Margin_13)
-            make.width.equalTo(MalaLayout_Margin_13)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_10)
+            make.top.equalTo(subjectIcon.snp_bottom).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(13)
+            make.width.equalTo(13)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-10)
         }
         schoolLabel.snp_makeConstraints { (make) in
             make.top.equalTo(schoolIcon.snp_top)
-            make.left.equalTo(schoolIcon.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_Margin_13)
+            make.left.equalTo(schoolIcon.snp_right).offset(10)
+            make.height.equalTo(13)
         }
         avatarView.snp_makeConstraints { (make) in
             make.centerY.equalTo(subjectIcon.snp_centerY)

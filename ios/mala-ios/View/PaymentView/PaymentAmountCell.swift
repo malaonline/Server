@@ -23,7 +23,7 @@ class PaymentAmountCell: UITableViewCell {
     /// 应付金额label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        titleLabel.font = UIFont.systemFontOfSize(15)
         titleLabel.textColor = MalaColor_333333_0
         titleLabel.text = "应付金额"
         return titleLabel
@@ -31,7 +31,7 @@ class PaymentAmountCell: UITableViewCell {
     /// 金额标签
     private lazy var amountLabel: UILabel = {
         let amountLabel = UILabel()
-        amountLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        amountLabel.font = UIFont.systemFontOfSize(14)
         amountLabel.textColor = MalaColor_E36A5D_0
         amountLabel.text = "￥0.01"
         return amountLabel
@@ -63,14 +63,14 @@ class PaymentAmountCell: UITableViewCell {
         
         // Autolayout
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(contentView.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.top.equalTo(contentView.snp_top).offset(16)
+            make.left.equalTo(contentView.snp_left).offset(12)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-16)
         }
         amountLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(contentView.snp_centerY)
-            make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.right.equalTo(contentView.snp_right).offset(-12)
+            make.height.equalTo(15)
         }
         
         amount = ServiceResponseOrder.amount == 0 ? MalaCourseChoosingObject.getAmount() ?? 0 : ServiceResponseOrder.amount

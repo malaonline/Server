@@ -62,7 +62,7 @@ class CommentViewCell: UITableViewCell {
         button.setTitle("待 评", forState: .Normal)
         button.setTitle("已 评", forState: .Highlighted)
         button.setTitle("过 期", forState: .Disabled)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.userInteractionEnabled = false
         return button
     }()
@@ -83,7 +83,7 @@ class CommentViewCell: UITableViewCell {
     private lazy var teacherLabel: UILabel = {
         let label = UILabel(
             text: "教师姓名",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_8FBCDD_0
         )
         return label
@@ -97,7 +97,7 @@ class CommentViewCell: UITableViewCell {
     private lazy var subjectLabel: UILabel = {
         let label = UILabel(
             text: "年级-学科",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -111,7 +111,7 @@ class CommentViewCell: UITableViewCell {
     private lazy var timeSlotLabel: UILabel = {
         let label = UILabel(
             text: "上课时间",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -120,7 +120,7 @@ class CommentViewCell: UITableViewCell {
     private lazy var timeLabel: UILabel = {
         let label = UILabel(
             text: "",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_939393_0
         )
         return label
@@ -134,7 +134,7 @@ class CommentViewCell: UITableViewCell {
     private lazy var schoolLabel: UILabel = {
         let label = UILabel(
             text: "上课地点",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -177,7 +177,7 @@ class CommentViewCell: UITableViewCell {
         button.setBackgroundImage(UIImage.withColor(MalaColor_FFF0EE_0), forState: .Highlighted)
         button.setTitle("去评价", forState: .Normal)
         button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.addTarget(self, action: #selector(CommentViewCell.toComment), forControlEvents: .TouchUpInside)
         button.hidden = true
         return button
@@ -194,7 +194,7 @@ class CommentViewCell: UITableViewCell {
         button.setBackgroundImage(UIImage.withColor(MalaColor_E6F1FC_0), forState: .Highlighted)
         button.setTitle("查看评价", forState: .Normal)
         button.setTitleColor(MalaColor_82B4D9_0, forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.addTarget(self, action: #selector(CommentViewCell.showComment), forControlEvents: .TouchUpInside)
         button.hidden = true
         return button
@@ -292,7 +292,7 @@ class CommentViewCell: UITableViewCell {
         teacherLabel.snp_makeConstraints { (make) in
             make.top.equalTo(teacherIcon.snp_top)
             make.left.equalTo(teacherIcon.snp_right).offset(10)
-            make.height.equalTo(MalaLayout_Margin_13)
+            make.height.equalTo(13)
         }
         subjectIcon.snp_makeConstraints { (make) in
             make.top.equalTo(teacherIcon.snp_bottom).offset(14)

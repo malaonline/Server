@@ -25,10 +25,10 @@ class OrderFormOtherInfoCell: UITableViewCell {
                     paymentDateLabel.hidden = true
                     
                     createDateString.snp_updateConstraints { (make) -> Void in
-                        make.top.equalTo(titleString.snp_bottom).offset(MalaLayout_Margin_10)
+                        make.top.equalTo(titleString.snp_bottom).offset(10)
                         make.left.equalTo(titleString.snp_left)
-                        make.height.equalTo(MalaLayout_FontSize_12)
-                        make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+                        make.height.equalTo(12)
+                        make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
                     }
                     break
                     
@@ -72,7 +72,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var titleString: UILabel = {
         let label = UILabel(
             text: "订单编号：",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -80,7 +80,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -89,7 +89,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var createDateString: UILabel = {
         let label = UILabel(
             text: "创建时间：",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -97,7 +97,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var createDateLabel: UILabel = {
         let label = UILabel(
             text: "",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -106,7 +106,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var paymentDateString: UILabel = {
         let label = UILabel(
             text: "支付时间：",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -114,7 +114,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
     private lazy var paymentDateLabel: UILabel = {
         let label = UILabel(
             text: "",
-            fontSize: MalaLayout_FontSize_12,
+            fontSize: 12,
             textColor: MalaColor_939393_0
         )
         return label
@@ -145,35 +145,35 @@ class OrderFormOtherInfoCell: UITableViewCell {
         
         // Autolayout
         titleString.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.top.equalTo(self.contentView.snp_top).offset(16)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(12)
         }
         titleLabel.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(titleString.snp_top)
-            make.left.equalTo(titleString.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.left.equalTo(titleString.snp_right).offset(10)
+            make.height.equalTo(12)
         }
         createDateString.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(titleString.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(titleString.snp_bottom).offset(10)
             make.left.equalTo(titleString.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.height.equalTo(12)
         }
         createDateLabel.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(createDateString.snp_top)
-            make.left.equalTo(createDateString.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.left.equalTo(createDateString.snp_right).offset(10)
+            make.height.equalTo(12)
         }
         paymentDateString.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(createDateString.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(createDateString.snp_bottom).offset(10)
             make.left.equalTo(titleString.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.height.equalTo(12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
         }
         paymentDateLabel.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(paymentDateString.snp_top)
-            make.left.equalTo(paymentDateString.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.left.equalTo(paymentDateString.snp_right).offset(10)
+            make.height.equalTo(12)
         }
     }
 }

@@ -47,7 +47,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_82B4D9_0), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(UIColor(rgbHexValue: 0x82B4D9, alpha: 0.6)), forState: .Highlighted)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        button.titleLabel?.font = UIFont.systemFontOfSize(16)
         
         button.addTarget(self, action: #selector(ProfileViewController.logoutButtonDidTap), forControlEvents: .TouchUpInside)
         return button

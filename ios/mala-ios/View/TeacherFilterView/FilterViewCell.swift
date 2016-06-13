@@ -31,7 +31,7 @@ public class FilterViewCell: UICollectionViewCell {
     // MARK: - Components
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        button.titleLabel?.font = UIFont.systemFontOfSize(13)
         button.titleLabel?.textAlignment = .Center
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         button.setTitle("小学一年级", forState: .Normal)
@@ -64,7 +64,7 @@ public class FilterViewCell: UICollectionViewCell {
         // AutoLayout
         button.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self.contentView.snp_centerY)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_4)
+            make.left.equalTo(self.contentView.snp_left).offset(4)
         }
     }
 }

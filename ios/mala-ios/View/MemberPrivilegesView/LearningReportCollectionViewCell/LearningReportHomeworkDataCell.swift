@@ -244,11 +244,11 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
 public class PieLegendView: UIView {
     
     // MARK: - Property
-    private var currentX: CGFloat = MalaLayout_Margin_6
+    private var currentX: CGFloat = 6
     private var currentY: CGFloat = 0 {
         didSet {
             if currentY != oldValue {
-                self.currentX = MalaLayout_Margin_6
+                self.currentX = 6
             }
         }
     }
@@ -274,10 +274,10 @@ public class PieLegendView: UIView {
         button.setImage(image, forState: .Normal)
         button.imageView?.layer.cornerRadius = 5
         button.imageView?.layer.masksToBounds = true
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -MalaLayout_Margin_6, bottom: 0, right: MalaLayout_Margin_6)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 6)
         
         button.setTitle(title, forState: .Normal)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         
         button.sizeToFit()

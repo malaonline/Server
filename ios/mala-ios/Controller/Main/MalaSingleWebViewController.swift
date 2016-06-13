@@ -35,7 +35,7 @@ class MalaSingleWebViewController: UIViewController, WKNavigationDelegate, WKUID
     private lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.preferences = WKPreferences()
-        configuration.preferences.minimumFontSize = MalaLayout_FontSize_13
+        configuration.preferences.minimumFontSize = 13
         
         let webView = WKWebView(frame: self.view.bounds, configuration: configuration)
         return webView

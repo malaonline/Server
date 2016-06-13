@@ -67,14 +67,14 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var orderIdLabel: UILabel = {
         let label = UILabel()
         label.text = "订单编号："
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = UIColor.whiteColor()
         return label
     }()
     /// 订单编号
     private lazy var orderIdString: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = UIColor.whiteColor()
         return label
     }()
@@ -87,14 +87,14 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var teacherNameLabel: UILabel = {
         let label = UILabel()
         label.text = "教师姓名："
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_636363_0
         return label
     }()
     /// 老师姓名
     private lazy var teacherNameString: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_939393_0
         return label
     }()
@@ -102,14 +102,14 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var subjectLabel: UILabel = {
         let label = UILabel()
         label.text = "课程名称："
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_636363_0
         return label
     }()
     /// 课程名称
     private lazy var subjectString: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_939393_0
         return label
     }()
@@ -117,14 +117,14 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var schoolLabel: UILabel = {
         let label = UILabel()
         label.text = "上课地点："
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_636363_0
         return label
     }()
     /// 课程名称
     private lazy var schoolString: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        label.font = UIFont.systemFontOfSize(11)
         label.textColor = MalaColor_939393_0
         return label
     }()
@@ -132,7 +132,7 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var statusString: UILabel = {
         let label = UILabel()
         label.text = "订单状态"
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.font = UIFont.systemFontOfSize(12)
         label.textColor = MalaColor_939393_0
         return label
     }()
@@ -159,14 +159,14 @@ class OrderFormViewCell: UITableViewCell {
     private lazy var amountLabel: UILabel = {
         let label = UILabel()
         label.text = "共计："
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.font = UIFont.systemFontOfSize(12)
         label.textColor = MalaColor_636363_0
         return label
     }()
     /// 共计金额
     private lazy var amountString: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        label.font = UIFont.systemFontOfSize(16)
         label.textColor = MalaColor_333333_0
         return label
     }()
@@ -189,7 +189,7 @@ class OrderFormViewCell: UITableViewCell {
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
         
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitle("再次购买", forState: .Normal)
         button.setTitleColor(MalaColor_E26254_0, forState: .Normal)
         button.addTarget(self, action: #selector(OrderFormViewCell.buyAgain), forControlEvents: .TouchUpInside)
@@ -204,7 +204,7 @@ class OrderFormViewCell: UITableViewCell {
         button.layer.cornerRadius = 3
         button.layer.masksToBounds = true
         
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitle("取消订单", forState: .Normal)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         button.addTarget(self, action: #selector(OrderFormViewCell.cancelOrderForm), forControlEvents: .TouchUpInside)
@@ -258,16 +258,16 @@ class OrderFormViewCell: UITableViewCell {
         // Autolayout
         separatorView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_6)
+            make.left.equalTo(self.contentView.snp_left).offset(6)
             make.bottom.equalTo(content.snp_top)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_6)
-            make.height.equalTo(MalaLayout_Margin_6)
+            make.right.equalTo(self.contentView.snp_right).offset(-6)
+            make.height.equalTo(6)
         }
         content.snp_makeConstraints { (make) in
             make.top.equalTo(separatorView.snp_bottom)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_6)
+            make.left.equalTo(contentView.snp_left).offset(6)
             make.bottom.equalTo(contentView.snp_bottom)
-            make.right.equalTo(contentView.snp_right).offset(-MalaLayout_Margin_6)
+            make.right.equalTo(contentView.snp_right).offset(-6)
         }
         
         topLayoutView.snp_makeConstraints { (make) in
@@ -277,85 +277,85 @@ class OrderFormViewCell: UITableViewCell {
             make.height.equalTo(content.snp_height).multipliedBy(0.15)
         }
         orderIdLabel.snp_makeConstraints { (make) in
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
             make.centerY.equalTo(topLayoutView.snp_centerY)
-            make.left.equalTo(topLayoutView.snp_left).offset(MalaLayout_Margin_12)
+            make.left.equalTo(topLayoutView.snp_left).offset(12)
         }
         orderIdString.snp_makeConstraints { (make) in
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
             make.centerY.equalTo(orderIdLabel.snp_centerY)
             make.left.equalTo(orderIdLabel.snp_right)
         }
         
         middleLayoutView.snp_makeConstraints { (make) in
             make.top.equalTo(topLayoutView.snp_bottom)
-            make.left.equalTo(content.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(content.snp_left).offset(12)
+            make.right.equalTo(content.snp_right).offset(-12)
             make.height.equalTo(content.snp_height).multipliedBy(0.55)
         }
         teacherNameLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(middleLayoutView.snp_top).offset(MalaLayout_Margin_14)
+            make.top.equalTo(middleLayoutView.snp_top).offset(14)
             make.left.equalTo(middleLayoutView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         teacherNameString.snp_makeConstraints { (make) in
             make.top.equalTo(teacherNameLabel.snp_top)
             make.left.equalTo(teacherNameLabel.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         subjectLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(teacherNameLabel.snp_bottom).offset(MalaLayout_Margin_14)
+            make.top.equalTo(teacherNameLabel.snp_bottom).offset(14)
             make.left.equalTo(middleLayoutView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         subjectString.snp_makeConstraints { (make) in
             make.top.equalTo(subjectLabel.snp_top)
             make.left.equalTo(subjectLabel.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         schoolLabel.snp_makeConstraints { (make) in
-            make.top.equalTo(subjectLabel.snp_bottom).offset(MalaLayout_Margin_14)
+            make.top.equalTo(subjectLabel.snp_bottom).offset(14)
             make.left.equalTo(middleLayoutView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         schoolString.snp_makeConstraints { (make) in
             make.top.equalTo(schoolLabel.snp_top)
             make.left.equalTo(schoolLabel.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         statusString.snp_makeConstraints { (make) in
             make.centerX.equalTo(confirmButton.snp_centerX)
-            make.top.equalTo(middleLayoutView.snp_top).offset(MalaLayout_Margin_14)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.top.equalTo(middleLayoutView.snp_top).offset(14)
+            make.height.equalTo(12)
         }
         avatarView.snp_makeConstraints { (make) in
             make.centerX.equalTo(statusString.snp_centerX)
-            make.bottom.equalTo(middleLayoutView.snp_bottom).offset(-MalaLayout_Margin_14)
+            make.bottom.equalTo(middleLayoutView.snp_bottom).offset(-14)
             make.height.equalTo(55)
             make.width.equalTo(55)
         }
         separatorLine.snp_makeConstraints { (make) in
-            make.left.equalTo(middleLayoutView.snp_left).offset(-MalaLayout_Margin_3)
-            make.right.equalTo(middleLayoutView.snp_right).offset(MalaLayout_Margin_3)
+            make.left.equalTo(middleLayoutView.snp_left).offset(-3)
+            make.right.equalTo(middleLayoutView.snp_right).offset(3)
             make.bottom.equalTo(middleLayoutView.snp_bottom)
             make.height.equalTo(MalaScreenOnePixel)
         }
         
         bottomLayoutView.snp_makeConstraints { (make) in
             make.top.equalTo(middleLayoutView.snp_bottom)
-            make.left.equalTo(content.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_12)
+            make.left.equalTo(content.snp_left).offset(12)
+            make.right.equalTo(content.snp_right).offset(-12)
             make.height.equalTo(content.snp_height).multipliedBy(0.24)
         }
         amountLabel.snp_makeConstraints { (make) in
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
             make.left.equalTo(bottomLayoutView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.height.equalTo(12)
         }
         amountString.snp_makeConstraints { (make) in
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
             make.left.equalTo(amountLabel.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_16)
+            make.height.equalTo(16)
         }
         confirmButton.snp_makeConstraints { (make) in
             make.width.equalTo(content.snp_width).multipliedBy(0.23)
@@ -370,7 +370,7 @@ class OrderFormViewCell: UITableViewCell {
             make.width.equalTo(content.snp_width).multipliedBy(0.23)
             make.height.equalTo(24)
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.right.equalTo(confirmButton.snp_left).offset(-MalaLayout_Margin_14)
+            make.right.equalTo(confirmButton.snp_left).offset(-14)
         }
     }
     

@@ -108,12 +108,12 @@ class TeacherDetailsSubjectCell: MalaBaseCell {
         juniorSchool.snp_makeConstraints { (make) in
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
-            make.top.equalTo(elementarySchool.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(elementarySchool.snp_bottom).offset(12)
         }
         seniorSchool.snp_makeConstraints { (make) in
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
-            make.top.equalTo(juniorSchool.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(juniorSchool.snp_bottom).offset(12)
             make.bottom.equalTo(content.snp_bottom)
         }
     }
@@ -168,7 +168,7 @@ class TeacherDetailsSubjectCell: MalaBaseCell {
         case (_, nil, _):
             
             seniorSchool.snp_updateConstraints(closure: { (make) in
-                make.top.equalTo(elementarySchool.snp_bottom).offset(MalaLayout_Margin_12)
+                make.top.equalTo(elementarySchool.snp_bottom).offset(12)
             })
             
             break

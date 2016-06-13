@@ -95,7 +95,7 @@ class TeacherDetailsHeaderView: UIView {
     /// 老师姓名label
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        label.font = UIFont.systemFontOfSize(16)
         return label
     }()
     /// 老师性别Icon
@@ -107,14 +107,14 @@ class TeacherDetailsHeaderView: UIView {
     private lazy var subjectLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaColor_939393_0
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.font = UIFont.systemFontOfSize(12)
         return label
     }()
     /// 价格label
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaColor_939393_0
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        label.font = UIFont.systemFontOfSize(12)
         label.textAlignment = .Left
         return label
     }()
@@ -154,8 +154,8 @@ class TeacherDetailsHeaderView: UIView {
             make.height.equalTo(MalaLayout_DetailHeaderContentHeight)
         })
         avatarBackground.snp_makeConstraints { (make) in
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_7)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-7)
             make.width.equalTo(MalaLayout_AvatarSize)
             make.height.equalTo(MalaLayout_AvatarSize)
         }
@@ -164,33 +164,33 @@ class TeacherDetailsHeaderView: UIView {
             make.size.equalTo(self.avatarBackground.snp_size).offset(-5)
         })
         vipIconView.snp_makeConstraints(closure: { (make) -> Void in
-            make.right.equalTo(self.avatarView.snp_right).offset(-MalaLayout_Margin_3)
-            make.bottom.equalTo(self.avatarView.snp_bottom).offset(-MalaLayout_Margin_3)
+            make.right.equalTo(self.avatarView.snp_right).offset(-3)
+            make.bottom.equalTo(self.avatarView.snp_bottom).offset(-3)
             make.width.equalTo(MalaLayout_VipIconSize)
             make.height.equalTo(MalaLayout_VipIconSize)
         })
         nameLabel.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.avatarView.snp_right).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_16)
+            make.top.equalTo(self.contentView.snp_top).offset(12)
+            make.left.equalTo(self.avatarView.snp_right).offset(12)
+            make.height.equalTo(16)
         })
         genderIcon.snp_makeConstraints(closure: { (make) -> Void in
             make.centerY.equalTo(self.nameLabel.snp_centerY)
-            make.left.equalTo(self.nameLabel.snp_right).offset(MalaLayout_Margin_12)
-            make.width.equalTo(MalaLayout_FontSize_13)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.left.equalTo(self.nameLabel.snp_right).offset(12)
+            make.width.equalTo(13)
+            make.height.equalTo(13)
         })
         subjectLabel.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_8)
+            make.top.equalTo(self.nameLabel.snp_bottom).offset(8)
             make.left.equalTo(self.nameLabel.snp_left)
-            make.width.equalTo(MalaLayout_FontSize_12*2)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.width.equalTo(24)
+            make.height.equalTo(12)
         })
         priceLabel.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.nameLabel.snp_bottom).offset(MalaLayout_Margin_8)
-            make.left.equalTo(self.subjectLabel.snp_right).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.top.equalTo(self.nameLabel.snp_bottom).offset(8)
+            make.left.equalTo(self.subjectLabel.snp_right).offset(12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
+            make.height.equalTo(12)
         })
     }
 }

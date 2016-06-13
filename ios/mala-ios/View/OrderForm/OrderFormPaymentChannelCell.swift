@@ -34,7 +34,7 @@ class OrderFormPaymentChannelCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "支付方式",
-            fontSize: MalaLayout_FontSize_15,
+            fontSize: 15,
             textColor: MalaColor_333333_0
         )
         return label
@@ -43,7 +43,7 @@ class OrderFormPaymentChannelCell: UITableViewCell {
     private lazy var payChannelLabel: UILabel = {
         let label = UILabel(
             text: "其他支付方式",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -70,15 +70,15 @@ class OrderFormPaymentChannelCell: UITableViewCell {
         
         // Autolayout
         titleLabel.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.top.equalTo(self.contentView.snp_top).offset(16)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(15)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
         }
         payChannelLabel.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(titleLabel.snp_centerY)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
+            make.height.equalTo(13)
         }
     }
 }

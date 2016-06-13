@@ -59,7 +59,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     private lazy var titleView: UILabel = {
         let titleView = UILabel(title: "评价")
         titleView.textColor = MalaColor_8FBCDD_0
-        titleView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        titleView.font = UIFont.systemFontOfSize(16)
         titleView.textAlignment = .Center
         return titleView
     }()
@@ -92,7 +92,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     /// 老师姓名label
     private lazy var teacherNameLabel: UILabel = {
         let teacherNameLabel = UILabel()
-        teacherNameLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        teacherNameLabel.font = UIFont.systemFontOfSize(13)
         teacherNameLabel.textColor = MalaColor_939393_0
         teacherNameLabel.text = "老师姓名"
         return teacherNameLabel
@@ -100,7 +100,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
     /// 教授科目label
     private lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
-        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        subjectLabel.font = UIFont.systemFontOfSize(13)
         subjectLabel.textColor = MalaColor_BEBEBE_0
         subjectLabel.text = "教授科目"
         return subjectLabel
@@ -120,7 +120,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         let textView = UITextView()
         textView.delegate = self
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        textView.font = UIFont.systemFontOfSize(13)
         textView.textColor = MalaColor_D4D4D4_0
         textView.text = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
         return textView
@@ -141,7 +141,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
         commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
-        commitButton.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        commitButton.titleLabel?.font = UIFont.systemFontOfSize(15)
         commitButton.addTarget(self, action: #selector(CommentPopupWindow.commitButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return commitButton
     }()
@@ -252,7 +252,7 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         }
         closeButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(titleView.snp_centerY)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.window.snp_right).offset(-12)
         }
         titleLine.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(titleView.snp_bottom)
@@ -262,39 +262,39 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
         }
         avatarView.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.window.snp_centerX)
-            make.top.equalTo(titleLine.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(titleLine.snp_bottom).offset(10)
             make.width.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
             make.height.equalTo(MalaLayout_CoursePopupWindowTitleViewHeight)
         }
         teacherNameLabel.snp_makeConstraints { (make) -> Void in
-            make.right.equalTo(avatarView.snp_centerX).offset(-MalaLayout_Margin_5)
-            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.right.equalTo(avatarView.snp_centerX).offset(-5)
+            make.top.equalTo(avatarView.snp_bottom).offset(10)
+            make.height.equalTo(13)
         }
         subjectLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(avatarView.snp_centerX).offset(MalaLayout_Margin_5)
-            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.left.equalTo(avatarView.snp_centerX).offset(5)
+            make.top.equalTo(avatarView.snp_bottom).offset(10)
+            make.height.equalTo(13)
         }
         floatRating.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(subjectLabel.snp_bottom).offset(MalaLayout_Margin_12)
+            make.top.equalTo(subjectLabel.snp_bottom).offset(12)
             make.centerX.equalTo(avatarView.snp_centerX)
             make.height.equalTo(30)
             make.width.equalTo(120)
         }
         textBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(floatRating.snp_bottom).offset(MalaLayout_Margin_8)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
-            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(floatRating.snp_bottom).offset(8)
+            make.left.equalTo(self.window.snp_left).offset(18)
+            make.right.equalTo(self.window.snp_right).offset(-18)
+            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-12)
         }
         textView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(textBackground).inset(
                 UIEdgeInsets(
-                    top: MalaLayout_Margin_12,
-                    left: MalaLayout_Margin_5,
-                    bottom: MalaLayout_Margin_12,
-                    right: MalaLayout_Margin_5
+                    top: 12,
+                    left: 5,
+                    bottom: 12,
+                    right: 5
                 )
             )
         }
@@ -335,10 +335,10 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             make.height.equalTo(MalaLayout_CommentPopupWindowHeight)
         }
         textBackground.snp_updateConstraints(closure: { (make) -> Void in
-            make.top.equalTo(titleLine.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
-            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(titleLine.snp_bottom).offset(12)
+            make.left.equalTo(self.window.snp_left).offset(18)
+            make.right.equalTo(self.window.snp_right).offset(-18)
+            make.bottom.equalTo(buttonSeparatorLine.snp_top).offset(-12)
         })
         avatarView.snp_updateConstraints { (make) -> Void in
             make.centerX.equalTo(self.window.snp_centerX)
@@ -347,13 +347,13 @@ public class CommentPopupWindow: UIViewController, UITextViewDelegate {
             make.height.equalTo(0)
         }
         teacherNameLabel.snp_updateConstraints { (make) -> Void in
-            make.right.equalTo(avatarView.snp_centerX).offset(-MalaLayout_Margin_5)
-            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.right.equalTo(avatarView.snp_centerX).offset(-5)
+            make.top.equalTo(avatarView.snp_bottom).offset(10)
             make.height.equalTo(0)
         }
         subjectLabel.snp_updateConstraints { (make) -> Void in
-            make.left.equalTo(avatarView.snp_centerX).offset(MalaLayout_Margin_5)
-            make.top.equalTo(avatarView.snp_bottom).offset(MalaLayout_Margin_10)
+            make.left.equalTo(avatarView.snp_centerX).offset(5)
+            make.top.equalTo(avatarView.snp_bottom).offset(10)
             make.height.equalTo(0)
         }
         floatRating.snp_updateConstraints { (make) -> Void in

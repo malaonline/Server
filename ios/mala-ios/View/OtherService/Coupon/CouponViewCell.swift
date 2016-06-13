@@ -74,29 +74,29 @@ class CouponViewCell: UITableViewCell {
     private lazy var moneySymbol: UILabel = {
         let moneySymbol = UILabel()
         moneySymbol.text = "￥"
-        moneySymbol.font = UIFont.systemFontOfSize(MalaLayout_FontSize_17)
+        moneySymbol.font = UIFont.systemFontOfSize(17)
         moneySymbol.textColor = MalaColor_E26254_0
         return moneySymbol
     }()
     /// 价格文本框
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_37)
-//        priceLabel.font = UIFont(name: "Damascus", size: MalaLayout_FontSize_37)
+        priceLabel.font = UIFont.systemFontOfSize(37)
+//        priceLabel.font = UIFont(name: "Damascus", size: 37)
         priceLabel.textColor = MalaColor_E26254_0
         return priceLabel
     }()
     /// 名称文本框
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_16)
+        titleLabel.font = UIFont.systemFontOfSize(16)
         titleLabel.textColor = MalaColor_333333_0
         return titleLabel
     }()
     /// 描述文本框
     private lazy var descLabel: UILabel = {
         let descLabel = UILabel()
-        descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_11)
+        descLabel.font = UIFont.systemFontOfSize(11)
         descLabel.textColor = MalaColor_6C6C6C_0
         descLabel.hidden = true
         return descLabel
@@ -104,7 +104,7 @@ class CouponViewCell: UITableViewCell {
     /// 使用状态文本框
     private lazy var statusLabel: UILabel = {
         let statusLabel = UILabel()
-        statusLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        statusLabel.font = UIFont.systemFontOfSize(12)
         statusLabel.textColor = MalaColor_E26254_0
         return statusLabel
     }()
@@ -118,21 +118,21 @@ class CouponViewCell: UITableViewCell {
     private lazy var validityTermSymbol: UILabel = {
         let validityTermSymbol = UILabel()
         validityTermSymbol.text = "有效期"
-        validityTermSymbol.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
+        validityTermSymbol.font = UIFont.systemFontOfSize(10)
         validityTermSymbol.textColor = UIColor.whiteColor()
         return validityTermSymbol
     }()
     /// 有效期文本框
     private lazy var validityTermLabel: UILabel = {
         let validityTermLabel = UILabel()
-        validityTermLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
+        validityTermLabel.font = UIFont.systemFontOfSize(10)
         validityTermLabel.textColor = UIColor.whiteColor()
         return validityTermLabel
     }()
     /// 使用说明文本框
     private lazy var useDirectionLabel: UILabel = {
         let useDirectionLabel = UILabel()
-        useDirectionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_10)
+        useDirectionLabel.font = UIFont.systemFontOfSize(10)
         useDirectionLabel.textColor = UIColor.whiteColor()
         return useDirectionLabel
     }()
@@ -173,16 +173,16 @@ class CouponViewCell: UITableViewCell {
         // Autolayout
         separatorView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
             make.bottom.equalTo(content.snp_top)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_Margin_8)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
+            make.height.equalTo(8)
         }
         content.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(separatorView.snp_bottom)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
             make.bottom.equalTo(self.contentView.snp_bottom)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
         }
         topLayoutView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(content.snp_top)
@@ -197,28 +197,28 @@ class CouponViewCell: UITableViewCell {
             make.bottom.equalTo(content.snp_bottom)
         }
         moneySymbol.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(content.snp_left).offset(MalaLayout_Margin_20)
+            make.left.equalTo(content.snp_left).offset(20)
             make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
-            make.height.equalTo(MalaLayout_FontSize_17)
+            make.height.equalTo(17)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(moneySymbol.snp_right)
-            make.height.equalTo(MalaLayout_FontSize_37)
+            make.height.equalTo(37)
             make.centerY.equalTo(topLayoutView.snp_centerY)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
-            make.left.equalTo(priceLabel.snp_right).offset(MalaLayout_FontSize_12)
-            make.height.equalTo(MalaLayout_FontSize_16)
+            make.left.equalTo(priceLabel.snp_right).offset(12)
+            make.height.equalTo(16)
         }
         descLabel.snp_makeConstraints { (make) -> Void in
             make.bottom.equalTo(priceLabel.snp_bottom)
             make.left.equalTo(titleLabel.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_11)
+            make.height.equalTo(11)
         }
         statusLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_12)
-            make.right.equalTo(content.snp_right).offset(-MalaLayout_Margin_20)
+            make.height.equalTo(12)
+            make.right.equalTo(content.snp_right).offset(-20)
             make.centerY.equalTo(topLayoutView.snp_centerY)
         }
         selectedView.snp_makeConstraints { (make) -> Void in
@@ -226,19 +226,19 @@ class CouponViewCell: UITableViewCell {
             make.right.equalTo(topLayoutView.snp_right)
         }
         validityTermSymbol.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(bottomLayoutView.snp_left).offset(MalaLayout_Margin_20)
+            make.left.equalTo(bottomLayoutView.snp_left).offset(20)
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.height.equalTo(MalaLayout_FontSize_10)
+            make.height.equalTo(10)
         }
         validityTermLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.left.equalTo(validityTermSymbol.snp_right).offset(MalaLayout_Margin_10)
-            make.height.equalTo(MalaLayout_FontSize_10)
+            make.left.equalTo(validityTermSymbol.snp_right).offset(10)
+            make.height.equalTo(10)
         }
         useDirectionLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.right.equalTo(bottomLayoutView.snp_right).offset(-MalaLayout_Margin_20)
-            make.height.equalTo(MalaLayout_FontSize_10)
+            make.right.equalTo(bottomLayoutView.snp_right).offset(-20)
+            make.height.equalTo(10)
         }
     }
     

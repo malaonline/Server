@@ -142,7 +142,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     /// cell被冻结时的文字颜色
     public var textDisabledColor: UIColor = MalaColor_333333_0
     /// 文字默认字体
-    public var textDefaultFont: UIFont = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+    public var textDefaultFont: UIFont = UIFont.systemFontOfSize(15)
     /// 分隔线颜色
     var separatorLineColor: UIColor = MalaColor_E5E5E5_0 {
         didSet {
@@ -188,7 +188,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
     lazy var subjectLabel: UILabel = {
         let subjectLabel = UILabel()
         subjectLabel.text = ""
-        subjectLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        subjectLabel.font = UIFont.systemFontOfSize(15)
         subjectLabel.textAlignment = .Center
         return subjectLabel
     }()
@@ -236,7 +236,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         
         // Autolayout
         dayLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(contentView.snp_top).offset(MalaLayout_Margin_15)
+            make.top.equalTo(contentView.snp_top).offset(15)
             make.centerX.equalTo(contentView.snp_centerX)
             make.height.equalTo(ClassScheduleViewCellCircleSize)
             make.width.equalTo(ClassScheduleViewCellCircleSize)
@@ -249,7 +249,7 @@ public class ClassScheduleViewCell: UICollectionViewCell {
         }
         subjectLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(dayLabel.snp_bottom).offset(10)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.height.equalTo(15)
             make.centerX.equalTo(contentView.snp_centerX)
         }
         courseIndicator.snp_makeConstraints { (make) -> Void in

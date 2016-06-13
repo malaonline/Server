@@ -107,7 +107,7 @@ class TeacherDetailsHighScoreTableViewCell: UITableViewCell {
     // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.frame = CGRect(x: 0, y: 0, width: MalaScreenWidth - (MalaLayout_Margin_6*2), height: 33)
+        self.frame = CGRect(x: 0, y: 0, width: MalaScreenWidth - 12, height: 33)
         setupUserInterface()
     }
     

@@ -72,7 +72,7 @@ public class ClassScheduleViewController: ThemeCalendarViewController, ThemeCale
         
         // Navigation
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacerRight.width = -MalaLayout_Margin_5
+        spacerRight.width = -5
         let rightBarButtonItem = UIBarButtonItem(customView: saveButton)
         navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
         

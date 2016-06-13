@@ -16,7 +16,7 @@ class CourseChoosingGradeCell: MalaBaseCell {
             self.collectionView.prices = prices
             var collectionRow = CGFloat(Int(prices.count ?? 0)/2)
             collectionRow = (prices.count)%2 == 0 ? collectionRow : collectionRow + 1
-            let collectionHeight = (MalaLayout_GradeSelectionWidth*0.19) * collectionRow + (MalaLayout_Margin_14*(collectionRow-1))
+            let collectionHeight = (MalaLayout_GradeSelectionWidth*0.19) * collectionRow + (14*(collectionRow-1))
             collectionView.snp_updateConstraints(closure: { (make) -> Void in
                 make.height.equalTo(collectionHeight)
             })

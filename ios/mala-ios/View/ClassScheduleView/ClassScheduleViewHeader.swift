@@ -27,7 +27,7 @@ class ClassScheduleViewHeader: ThemeCalendarViewHeader {
     private func configure() {
         backgroundColor = UIColor.lightGrayColor()
         separatorColor = UIColor.clearColor()
-        textFont = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        textFont = UIFont.systemFontOfSize(14)
         textColor = MalaColor_333333_0
         titleLabel.textAlignment = .Center
     }

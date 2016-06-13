@@ -36,7 +36,7 @@ class EvaluationFilingServiceController: BaseTableViewController {
     
     // MARK: - Delegate
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == (introductions?.count ?? 0)-1 ? 0 : MalaLayout_Margin_8
+        return section == (introductions?.count ?? 0)-1 ? 0 : 8
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -111,7 +111,7 @@ class EvaluationFilingServiceCell: MalaBaseCell {
     /// 简介文本框
     private lazy var contentLabel: UILabel = {
         let contentLabel = UILabel()
-        contentLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        contentLabel.font = UIFont.systemFontOfSize(13)
         contentLabel.textColor = MalaColor_6C6C6C_0
         contentLabel.numberOfLines = 0
         return contentLabel
@@ -146,7 +146,7 @@ class EvaluationFilingServiceCell: MalaBaseCell {
             make.height.equalTo(contentImageView.snp_width).multipliedBy(0.47)
         }
         contentLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(contentImageView.snp_bottom).offset(MalaLayout_Margin_14)
+            make.top.equalTo(contentImageView.snp_bottom).offset(14)
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
             make.bottom.equalTo(content.snp_bottom)

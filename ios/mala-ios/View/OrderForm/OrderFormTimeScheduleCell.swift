@@ -56,7 +56,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel(
             text: "上课时间",
-            fontSize: MalaLayout_FontSize_15,
+            fontSize: 15,
             textColor: MalaColor_333333_0
         )
         return label
@@ -65,7 +65,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     private lazy var periodLabel: UILabel = {
         let label = UILabel(
             text: "0",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_333333_0
         )
         return label
@@ -73,7 +73,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     private lazy var periodLeftLabel: UILabel = {
         let label = UILabel(
             text: "共计",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -81,7 +81,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
     private lazy var periodRightLabel: UILabel = {
         let label = UILabel(
             text: "课时",
-            fontSize: MalaLayout_FontSize_13,
+            fontSize: 13,
             textColor: MalaColor_6C6C6C_0
         )
         return label
@@ -136,23 +136,23 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         }
         titleLabel.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(topLayoutView.snp_centerY)
-            make.left.equalTo(topLayoutView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.left.equalTo(topLayoutView.snp_left).offset(12)
+            make.height.equalTo(15)
         }
         periodRightLabel.snp_makeConstraints { (make) in
             make.centerY.equalTo(topLayoutView.snp_centerY)
-            make.right.equalTo(topLayoutView.snp_right).offset(-MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.right.equalTo(topLayoutView.snp_right).offset(-12)
+            make.height.equalTo(13)
         }
         periodLabel.snp_makeConstraints { (make) in
             make.centerY.equalTo(topLayoutView.snp_centerY)
-            make.right.equalTo(periodRightLabel.snp_left).offset(-MalaLayout_Margin_5)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.right.equalTo(periodRightLabel.snp_left).offset(-5)
+            make.height.equalTo(13)
         }
         periodLeftLabel.snp_makeConstraints { (make) in
             make.centerY.equalTo(topLayoutView.snp_centerY)
-            make.right.equalTo(periodLabel.snp_left).offset(-MalaLayout_Margin_5)
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.right.equalTo(periodLabel.snp_left).offset(-5)
+            make.height.equalTo(13)
         }
     }
     
@@ -167,13 +167,13 @@ class OrderFormTimeScheduleCell: UITableViewCell {
         
         self.contentView.addSubview(timeLineView!)
         topLayoutView.snp_updateConstraints { (make) in
-            make.bottom.equalTo(timeLineView!.snp_top).offset(-MalaLayout_Margin_10)
+            make.bottom.equalTo(timeLineView!.snp_top).offset(-10)
         }
         timeLineView!.snp_updateConstraints { (make) in
-            make.top.equalTo(topLayoutView.snp_bottom).offset(MalaLayout_Margin_10)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
+            make.top.equalTo(topLayoutView.snp_bottom).offset(10)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
             make.height.equalTo(CGFloat(16*result.heightCount))
         }
     }

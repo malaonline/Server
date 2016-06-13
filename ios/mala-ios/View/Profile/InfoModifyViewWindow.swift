@@ -34,7 +34,7 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
         button.setTitleColor(MalaColor_B7B7B7_0, forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        button.titleLabel?.font = UIFont.systemFontOfSize(15)
         button.addTarget(self, action: #selector(InfoModifyViewWindow.cancelButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -46,7 +46,7 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
         button.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
         button.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        button.titleLabel?.font = UIFont.systemFontOfSize(15)
         button.addTarget(self, action: #selector(InfoModifyViewWindow.saveButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()

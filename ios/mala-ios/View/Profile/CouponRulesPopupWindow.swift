@@ -39,7 +39,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
     /// 描述label
     private lazy var descTextView: UITextView = {
         let textView = UITextView()
-        textView.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        textView.font = UIFont.systemFontOfSize(13)
         textView.textColor = MalaColor_939393_0
         textView
         return textView
@@ -58,7 +58,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         button.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        button.titleLabel?.font = UIFont.systemFontOfSize(MalaLayout_FontSize_15)
+        button.titleLabel?.font = UIFont.systemFontOfSize(15)
         button.addTarget(self, action: #selector(CouponRulesPopupWindow.animateDismiss), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -79,7 +79,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         self.titleView.title = title
         self.descTextView.text = desc
         
-        self.windowHeight = CGFloat((desc.characters.count / 16)+2)*MalaLayout_FontSize_14 + 90 + 14 + 44
+        self.windowHeight = CGFloat((desc.characters.count / 16)+2)*14 + 90 + 14 + 44
         self.windowHeight = windowHeight > MalaLayout_CouponRulesPopupWindowHeight ? MalaLayout_CouponRulesPopupWindowHeight : windowHeight
         self.window.snp_updateConstraints { (make) in
             make.height.equalTo(self.windowHeight)
@@ -170,21 +170,21 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
             make.height.equalTo(44)
         }
         textBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.window.snp_top).offset(MalaLayout_Margin_18)
-            make.left.equalTo(self.window.snp_left).offset(MalaLayout_Margin_18)
-            make.right.equalTo(self.window.snp_right).offset(-MalaLayout_Margin_18)
-            make.bottom.equalTo(self.confirmButton.snp_top).offset(-MalaLayout_Margin_18)
+            make.top.equalTo(self.window.snp_top).offset(18)
+            make.left.equalTo(self.window.snp_left).offset(18)
+            make.right.equalTo(self.window.snp_right).offset(-18)
+            make.bottom.equalTo(self.confirmButton.snp_top).offset(-18)
         }
         titleView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(textBackground.snp_top).offset(MalaLayout_Margin_18)
+            make.top.equalTo(textBackground.snp_top).offset(18)
             make.left.equalTo(textBackground.snp_left)
             make.right.equalTo(textBackground.snp_right)
         }
         descTextView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(titleView.snp_bottom).offset(MalaLayout_Margin_18)
-            make.left.equalTo(textBackground.snp_left).offset(MalaLayout_Margin_18)
-            make.right.equalTo(textBackground.snp_right).offset(-MalaLayout_Margin_18)
-            make.bottom.equalTo(textBackground.snp_bottom).offset(-MalaLayout_Margin_18)
+            make.top.equalTo(titleView.snp_bottom).offset(18)
+            make.left.equalTo(textBackground.snp_left).offset(18)
+            make.right.equalTo(textBackground.snp_right).offset(-18)
+            make.bottom.equalTo(textBackground.snp_bottom).offset(-18)
         }
     }
     

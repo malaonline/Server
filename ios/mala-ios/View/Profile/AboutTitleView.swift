@@ -24,7 +24,7 @@ class AboutTitleView: UIView {
     /// 标题
     private var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.font = UIFont.systemFontOfSize(14)
         titleLabel.textColor = MalaColor_6C6C6C_0
         return titleLabel
     }()
@@ -64,17 +64,17 @@ class AboutTitleView: UIView {
             make.centerX.equalTo(self.snp_centerX)
             make.top.equalTo(self.snp_top)
             make.bottom.equalTo(self.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         leftLine.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(titleLabel.snp_centerY)
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_10)
-            make.right.equalTo(titleLabel.snp_left).offset(-MalaLayout_Margin_5)
+            make.left.equalTo(self.snp_left).offset(10)
+            make.right.equalTo(titleLabel.snp_left).offset(-5)
         }
         rightLine.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(titleLabel.snp_centerY)
-            make.left.equalTo(titleLabel.snp_right).offset(MalaLayout_Margin_5)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_10)
+            make.left.equalTo(titleLabel.snp_right).offset(5)
+            make.right.equalTo(self.snp_right).offset(-10)
         }
     }
 }

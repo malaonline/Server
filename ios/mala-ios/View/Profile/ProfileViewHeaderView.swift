@@ -66,7 +66,7 @@ class ProfileViewHeaderView: UIView {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = MalaColor_82B4D9_0
-        label.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        label.font = UIFont.systemFontOfSize(14)
         label.textAlignment = .Center
         label.userInteractionEnabled = true
         label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProfileViewHeaderView.nameEditButtonDidTap(_:))))
@@ -128,7 +128,7 @@ class ProfileViewHeaderView: UIView {
         nameLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(avatarView.snp_bottom).offset(10)
             make.centerX.equalTo(avatarView.snp_centerX)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         editButton.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(nameLabel.snp_centerY)

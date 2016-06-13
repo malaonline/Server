@@ -26,7 +26,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
         let inputField = UITextField()
         inputField.textAlignment = .Center
         inputField.placeholder = "请输入学生姓名"
-        inputField.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        inputField.font = UIFont.systemFontOfSize(14)
         inputField.textColor = MalaColor_636363_0
         inputField.tintColor = MalaColor_82B4D9_0
         inputField.addTarget(self, action: #selector(SaveNameView.inputFieldDidChange), forControlEvents: .EditingChanged)
@@ -36,7 +36,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
     private lazy var descLabel: UILabel = {
         let descLabel = UILabel()
         descLabel.textColor = MalaColor_939393_0
-        descLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        descLabel.font = UIFont.systemFontOfSize(12)
         descLabel.text = "请填写真实姓名，不得超过4个汉字"
         return descLabel
     }()
@@ -80,7 +80,7 @@ class SaveNameView: UIView, UITextFieldDelegate {
         
         // Autolayout
         inputBackground.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(MalaLayout_Margin_12)
+            make.top.equalTo(self.snp_top).offset(12)
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
             make.height.equalTo(MalaLayout_ProfileModifyViewHeight)
@@ -91,14 +91,14 @@ class SaveNameView: UIView, UITextFieldDelegate {
             make.centerY.equalTo(inputBackground.snp_centerY)
         }
         descLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(inputBackground.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.top.equalTo(inputBackground.snp_bottom).offset(12)
+            make.left.equalTo(self.snp_left).offset(12)
+            make.height.equalTo(12)
         }
         finishButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(descLabel.snp_bottom).offset(MalaLayout_Margin_12)
-            make.left.equalTo(self.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(self.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(descLabel.snp_bottom).offset(12)
+            make.left.equalTo(self.snp_left).offset(12)
+            make.right.equalTo(self.snp_right).offset(-12)
             make.height.equalTo(37)
         }
     }

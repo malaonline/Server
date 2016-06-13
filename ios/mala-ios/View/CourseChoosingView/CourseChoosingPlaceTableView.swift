@@ -111,7 +111,7 @@ class CourseChoosingPlaceTableView: UITableView, UITableViewDelegate, UITableVie
             addSubview(button)
             button.snp_makeConstraints { (make) -> Void in
                 make.height.equalTo(38)
-                make.width.equalTo(MalaScreenWidth - (MalaLayout_Margin_6*2))
+                make.width.equalTo(MalaScreenWidth - 12)
                 make.top.equalTo(self.snp_top).offset(64)
             }
         }
@@ -177,14 +177,14 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = MalaColor_636363_0
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.font = UIFont.systemFontOfSize(14)
         return titleLabel
     }()
     /// 上课地点详细地址label
     private lazy var addressLabel: UILabel = {
         let addressLabel = UILabel()
         addressLabel.textColor = MalaColor_939393_0
-        addressLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        addressLabel.font = UIFont.systemFontOfSize(12)
         return addressLabel
     }()
     /// 距上课地点距离
@@ -192,7 +192,7 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
         let positionLabel = UILabel()
         positionLabel.text = "未知"
         positionLabel.textColor = MalaColor_939393_0
-        positionLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_12)
+        positionLabel.font = UIFont.systemFontOfSize(12)
         positionLabel.textAlignment = .Right
         return positionLabel
     }()
@@ -234,27 +234,27 @@ class CourseChoosingPlaceTableViewCell: UITableViewCell {
         
         // Autolayout
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_14)
+            make.top.equalTo(self.contentView.snp_top).offset(14)
             make.left.equalTo(self.contentView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
         }
         selectButton.snp_makeConstraints { (make) -> Void in
             make.right.equalTo(self.contentView.snp_right)
             make.centerY.equalTo(self.contentView.snp_centerY)
-            make.width.equalTo(MalaLayout_Margin_18)
-            make.height.equalTo(MalaLayout_Margin_18)
+            make.width.equalTo(18)
+            make.height.equalTo(18)
         }
         positionLabel.snp_makeConstraints { (make) -> Void in
-            make.right.equalTo(self.selectButton.snp_left).offset(-MalaLayout_Margin_27)
+            make.right.equalTo(self.selectButton.snp_left).offset(-27)
             make.bottom.equalTo(self.titleLabel.snp_bottom)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.height.equalTo(12)
         }
         addressLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.titleLabel.snp_bottom).offset(MalaLayout_Margin_10)
+            make.top.equalTo(self.titleLabel.snp_bottom).offset(10)
             make.left.equalTo(self.titleLabel.snp_left)
-            make.right.equalTo(self.selectButton.snp_left).offset(-MalaLayout_Margin_27)
-//            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_14)
-            make.height.equalTo(MalaLayout_FontSize_12)
+            make.right.equalTo(self.selectButton.snp_left).offset(-27)
+//            make.bottom.equalTo(self.contentView.snp_bottom).offset(-14)
+            make.height.equalTo(12)
         }
     }
 }

@@ -117,7 +117,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     /// 标题Label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.font = UIFont.systemFontOfSize(14)
         titleLabel.textColor = MalaColor_6C6C6C_0
         return titleLabel
     }()
@@ -129,14 +129,14 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     /// 价格Label
     private lazy var priceLabel: UILabel = {
         let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceLabel.font = UIFont.systemFontOfSize(14)
         priceLabel.textColor = MalaColor_333333_0
         return priceLabel
     }()
     /// 价格处理Label
     private lazy var priceHandleLabel: UILabel = {
         let priceHandleLabel = UILabel()
-        priceHandleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        priceHandleLabel.font = UIFont.systemFontOfSize(14)
         priceHandleLabel.textColor = MalaColor_333333_0
         return priceHandleLabel
     }()
@@ -171,7 +171,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
         // Autolayout
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(contentView.snp_left)
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
             make.centerY.equalTo(contentView.snp_centerY)
         }
         detailImageView.snp_makeConstraints { (make) -> Void in
@@ -179,13 +179,13 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             make.centerY.equalTo(contentView.snp_centerY)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_14)
-            make.right.equalTo(detailImageView.snp_left).offset(-MalaLayout_Margin_6)
+            make.height.equalTo(14)
+            make.right.equalTo(detailImageView.snp_left).offset(-6)
             make.centerY.equalTo(contentView.snp_centerY)
         }
         priceHandleLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_FontSize_14)
-            make.right.equalTo(priceLabel.snp_left).offset(-MalaLayout_Margin_6)
+            make.height.equalTo(14)
+            make.right.equalTo(priceLabel.snp_left).offset(-6)
             make.centerY.equalTo(contentView.snp_centerY)
         }
     }

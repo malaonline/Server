@@ -43,14 +43,14 @@ class ProfileViewCell: UITableViewCell {
     /// 标题label
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_14)
+        titleLabel.font = UIFont.systemFontOfSize(14)
         titleLabel.textColor = MalaColor_636363_0
         return titleLabel
     }()
     /// 信息label
     private lazy var infoLabel: UILabel = {
         let infoLabel = UILabel()
-        infoLabel.font = UIFont.systemFontOfSize(MalaLayout_FontSize_13)
+        infoLabel.font = UIFont.systemFontOfSize(13)
         infoLabel.textColor = MalaColor_D4D4D4_0
         return infoLabel
     }()
@@ -88,19 +88,19 @@ class ProfileViewCell: UITableViewCell {
         
         // Autolayout
         titleLabel.snp_makeConstraints { (make) in
-            make.height.equalTo(MalaLayout_FontSize_14)
+            make.height.equalTo(14)
             make.centerY.equalTo(contentView.snp_centerY)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_13)
+            make.left.equalTo(contentView.snp_left).offset(13)
         }
         infoLabel.snp_makeConstraints { (make) in
-            make.height.equalTo(MalaLayout_FontSize_13)
+            make.height.equalTo(13)
             make.centerY.equalTo(contentView.snp_centerY)
             make.right.equalTo(contentView.snp_right)
         }
         separatorLine.snp_makeConstraints { (make) in
             make.bottom.equalTo(contentView.snp_bottom)
-            make.left.equalTo(contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.right.equalTo(contentView.snp_right).offset(MalaLayout_Margin_12)
+            make.left.equalTo(contentView.snp_left).offset(12)
+            make.right.equalTo(contentView.snp_right).offset(12)
             make.height.equalTo(MalaScreenOnePixel)
         }
     }
