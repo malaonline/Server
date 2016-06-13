@@ -15,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,6 +34,8 @@ import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.util.MiscUtil;
 
+import de.greenrobot.event.EventBus;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,12 +45,15 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/3/2.
  */
-public class CommentDialog extends DialogFragment  {
+public class CommentDialog extends DialogFragment {
+
+    public interface OnCommentResultListener {
+        void onSuccess();
+    }
 
     private static String ARGS_DIALOG_TEACHER_NAME = "teacher name";
     private static String ARGS_DIALOG_TEACHER_AVATAR = "teacher avatar";
@@ -63,6 +66,8 @@ public class CommentDialog extends DialogFragment  {
     private String courseName;
     private Long timeslot;
     private Comment comment;
+    private boolean commentSuccess;
+    private OnCommentResultListener resutListener;
 
     @Bind(R.id.iv_teacher_avater)
     SimpleDraweeView teacherAvater;
@@ -96,7 +101,8 @@ public class CommentDialog extends DialogFragment  {
 
     private boolean isOpenInputMethod = false;
 
-    public static CommentDialog newInstance(String teacherName, String teacherAvatarUrl, String courseName, Long timeslot, Comment comment) {
+    public static CommentDialog newInstance(String teacherName, String teacherAvatarUrl, String courseName,
+            Long timeslot, Comment comment) {
         CommentDialog f = new CommentDialog();
         Bundle args = new Bundle();
         args.putString(ARGS_DIALOG_TEACHER_NAME, teacherName);
@@ -124,9 +130,12 @@ public class CommentDialog extends DialogFragment  {
     private void init() {
     }
 
+    public void SetOnCommentResultListener(OnCommentResultListener listener) {
+        resutListener = listener;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent arg2) {
@@ -145,18 +154,19 @@ public class CommentDialog extends DialogFragment  {
         final View rootView = view;//view.findViewById(R.id.ll_dialog);
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int lastY = 0;
+
             @Override
             public void onGlobalLayout() {
                 int[] location = new int[2];
                 rootView.getLocationOnScreen(location);
-                if (lastY==0){
+                if (lastY == 0) {
                     lastY = location[1];
                 }
                 int diff = location[1] - lastY;
-                Log.i("CommentDialog11", "layout height:" +diff+" x"+location[0]+" y"+location[1]);
-                if (diff>0) {
+                Log.i("CommentDialog11", "layout height:" + diff + " x" + location[0] + " y" + location[1]);
+                if (diff > 0) {
                     setCommentLayout(false);
-                } else if (diff<0) {
+                } else if (diff < 0) {
                     setCommentLayout(true);
                 }
                 lastY = location[1];
@@ -222,7 +232,7 @@ public class CommentDialog extends DialogFragment  {
             });
 
         }
-        if (!EmptyUtils.isEmpty(teacherAvatarUrl)){
+        if (!EmptyUtils.isEmpty(teacherAvatarUrl)) {
             teacherAvater.setImageURI(Uri.parse(teacherAvatarUrl));
         }
         tvTeacherName.setText(teacherName);
@@ -309,7 +319,8 @@ public class CommentDialog extends DialogFragment  {
     void editAnimation(int start, int end) {
         final int llY = (int) llCourse.getY();
         final int editY = (int) editComment.getY();
-        final LinearLayout.LayoutParams editLinearParams = (LinearLayout.LayoutParams) editComment.getLayoutParams(); //取控件textView当前的布局参数
+        final LinearLayout.LayoutParams editLinearParams = (LinearLayout.LayoutParams) editComment
+                .getLayoutParams(); //取控件textView当前的布局参数
         final int editHeight = editComment.getMeasuredHeight();
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
         animator.setDuration(100).start();
@@ -352,21 +363,20 @@ public class CommentDialog extends DialogFragment  {
         timer.schedule(new TimerTask() {
 
             public void run() {
-                InputMethodManager inputManager = (InputMethodManager) editText
-                        .getContext().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager) editText.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.showSoftInput(editText, 0);
             }
         }, 50);
     }
 
-    public void setCommentLayout(boolean isOpen){
+    public void setCommentLayout(boolean isOpen) {
         int llHeight = llCourse.getMeasuredHeight();
-        if (isOpen&&!isOpenInputMethod){
+        if (isOpen && !isOpenInputMethod) {
             editAnimation(0, llHeight);
             //openInputMethod(editComment);
             isOpenInputMethod = !isOpenInputMethod;
-        }else if (!isOpen&&isOpenInputMethod){
+        } else if (!isOpen && isOpenInputMethod) {
             editAnimation(0, -llHeight);
             //closeInputMethod();
             isOpenInputMethod = !isOpenInputMethod;
@@ -427,8 +437,12 @@ public class CommentDialog extends DialogFragment  {
 
     private void commentSucceed() {
         //跟新课表
+        commentSuccess = true;
         EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
         MiscUtil.toast(R.string.comment_succeed);
+        if (resutListener != null) {
+            resutListener.onSuccess();
+        }
         dismiss();
     }
 

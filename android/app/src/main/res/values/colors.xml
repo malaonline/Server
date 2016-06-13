@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 颜色的定义尽可能的少，干净。 -->
     <color name="colorPrimary">#8fbcdd</color>
     <color name="colorPrimaryDark">#00ffffff</color>
     <color name="colorAccent">#8fbcdd</color>
@@ -24,6 +26,7 @@
 
     <color name="dialog_title_color">#8fbcdd</color>
 
+    <color name="text_color">#939393</color>
     <color name="text_color_light">#b3ffffff</color>
     <color name="text_color_dark">#de000000</color>
     <color name="text_color_darkgray">#333333</color>

@@ -7,4 +7,5 @@
     <color name="core__blue_light">#c5deee</color>
     <color name="core__gray">#ededed</color>
     <color name="core__title_text_color">#6c6c6c</color>
+    <color name="core__text_color">#939393</color>
 </resources>

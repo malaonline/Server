@@ -147,6 +147,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <activity
+            android:name=".comment.CommentActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name=".receiver.NetworkStateReceiver"
             android:label="NetworkConnection">
@@ -179,6 +184,7 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
+
         <!-- Ping++ end -->
 
         <!-- umeng begin -->

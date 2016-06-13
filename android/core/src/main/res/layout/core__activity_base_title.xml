@@ -23,6 +23,6 @@
     <FrameLayout
         android:id="@+id/core__fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#f6f6f6" />
 </LinearLayout>

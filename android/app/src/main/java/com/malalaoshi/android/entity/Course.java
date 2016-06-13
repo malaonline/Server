@@ -3,15 +3,6 @@ package com.malalaoshi.android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.malalaoshi.android.adapter.SimpleMonthAdapter;
-import com.malalaoshi.android.util.CalendarUtils;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by kang on 16/2/17.
  */
@@ -26,6 +17,7 @@ public class Course implements Parcelable, Comparable<Course> {
     private String school;
     private Teacher teacher;
     private Comment comment;
+    private boolean is_expired;
 
     public Course() {
     }
@@ -110,31 +102,13 @@ public class Course implements Parcelable, Comparable<Course> {
         this.comment = comment;
     }
 
-    public static List<Course> getCources(List<Course> cources, SimpleMonthAdapter.CalendarDay data) {
-        List<Course>  courceList = new ArrayList<>();
-        for (int i=0;i<cources.size();i++){
-            if ((CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd())).equals(data)){
-                courceList.add(cources.get(i));
-            }
-        }
-        return courceList;
+    public boolean is_expired() {
+        return is_expired;
     }
 
-    //将List<Cource>以"year+month"为Key方式存储
-    public static Map<String, List<Course>> getCourses(List<Course> cources){
-        Map<String, List<Course>> mapCourse = new HashMap<>();
-        for (int i=0;i<cources.size();i++){
-            SimpleMonthAdapter.CalendarDay calendar = (CalendarUtils.timestampToCalendarDay(cources.get(i).getEnd()));
-            List<Course> listCourse = mapCourse.get(calendar.getYear()+calendar.getMonth());
-            if (listCourse==null){
-                listCourse = new ArrayList<>();
-                mapCourse.put(calendar.getYear()+calendar.getMonth()+"",listCourse);
-            }
-            listCourse.add(cources.get(i));
-        }
-        return mapCourse;
+    public void setIs_expired(boolean is_expired) {
+        this.is_expired = is_expired;
     }
-
 
     @Override
     public int describeContents() {

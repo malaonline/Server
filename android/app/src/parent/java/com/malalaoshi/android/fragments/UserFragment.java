@@ -31,6 +31,7 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.api.StudentInfoApi;
+import com.malalaoshi.android.comment.CommentActivity;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -62,6 +63,8 @@ import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
 
+import de.greenrobot.event.EventBus;
+
 import org.json.JSONObject;
 
 import java.io.File;
@@ -73,7 +76,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/1/24.
@@ -483,7 +485,7 @@ public class UserFragment extends BaseFragment {
     @OnClick(R.id.iv_my_comment)
     public void OnClickComments(View view) {
         if (checkLogin() == false) return;
-
+        CommentActivity.launch(getActivity());
     }
 
     @OnClick(R.id.rl_user_schoolship)

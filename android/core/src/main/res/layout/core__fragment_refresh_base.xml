@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.chanven.lib.cptr.PtrFrameLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="1dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"/>
+    </com.chanven.lib.cptr.PtrFrameLayout>
+    <include android:id="@+id/view_empty" layout="@layout/core__empty_view"/>
+    <include android:id="@+id/view_error" layout="@layout/core__error_view"/>
+</FrameLayout>
