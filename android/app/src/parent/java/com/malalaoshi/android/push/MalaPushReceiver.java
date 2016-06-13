@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.malalaoshi.android.MainActivity;
 import com.malalaoshi.android.activitys.OrderInfoActivity;
+import com.malalaoshi.android.comment.CommentActivity;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.PushNotificationExtra;
 import com.malalaoshi.android.util.JsonUtil;
@@ -153,7 +154,7 @@ public class MalaPushReceiver extends BroadcastReceiver {
     //打开评价列表
     private void openCommentList(Context context, Bundle bundle) {
         //打开评价列表
-        Intent mIntent = new Intent(context, MainActivity.class);
+        Intent mIntent = new Intent(context, CommentActivity.class);
         mIntent.putExtras(bundle);
         mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mIntent);
