@@ -134,7 +134,7 @@ class ProfileViewHeaderView: UIView {
             make.centerY.equalTo(nameLabel.snp_centerY)
             make.left.equalTo(nameLabel.snp_right).offset(3)
             make.width.equalTo(9)
-            make.width.equalTo(13)
+            make.height.equalTo(13)
         }
         activityIndicator.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(avatarView.snp_center)

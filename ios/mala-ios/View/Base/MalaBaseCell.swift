@@ -140,16 +140,17 @@ class MalaBaseCell: UITableViewCell {
         
         // Autolayout
         title.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(MalaLayout_Margin_16)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.height.equalTo(MalaLayout_FontSize_15)
+            make.top.equalTo(self.contentView.snp_top).offset(16)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.height.equalTo(15)
             make.width.equalTo(100)
+            make.bottom.equalTo(content.snp_top).offset(-14)
         }
         content.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.title.snp_bottom).offset(MalaLayout_Margin_14)
-            make.left.equalTo(self.contentView.snp_left).offset(MalaLayout_Margin_12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-MalaLayout_Margin_16)
-            make.right.equalTo(self.contentView.snp_right).offset(-MalaLayout_Margin_12)
+            make.top.equalTo(self.title.snp_bottom).offset(14)
+            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.right.equalTo(self.contentView.snp_right).offset(-12)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
         }
         tagsView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)

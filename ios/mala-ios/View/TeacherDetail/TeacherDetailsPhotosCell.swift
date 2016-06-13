@@ -88,6 +88,9 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
         content.addSubview(rightPhoto)
 
         // Autolayout
+        content.snp_updateConstraints { (make) -> Void in
+            make.height.equalTo(MalaLayout_DetailPhotoHeight)
+        }
         leftPhoto.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(MalaLayout_DetailPhotoHeight)
             make.width.equalTo(MalaLayout_DetailPhotoWidth)
