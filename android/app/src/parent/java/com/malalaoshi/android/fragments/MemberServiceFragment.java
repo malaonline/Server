@@ -204,7 +204,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         rlNonLearningReport.setVisibility(View.VISIBLE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
-        tvReportPrompt.setText("登录可查看专属学习报告哦···");
+        tvReportPrompt.setText("登录可查看专属学习报告哦");
         tvReportSubmit.setText("登录");
         reportStatus = EnumReportStatus.NOT_SIGN_IN;
     }
@@ -214,7 +214,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         rlNonLearningReport.setVisibility(View.VISIBLE);
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.GONE);
-        tvReportPrompt.setText("学习报告目前只支持数学科目···");
+        tvReportPrompt.setText("学习报告目前只支持数学科目");
         tvReportSubmit.setText("查看学习报告样本");
         reportStatus = EnumReportStatus.EMPTY_REPORT;
     }
