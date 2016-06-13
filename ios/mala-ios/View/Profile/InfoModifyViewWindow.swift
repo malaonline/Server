@@ -257,15 +257,14 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
             println("学生姓名保存 - \(bool)")
             
             MalaUserDefaults.studentName.value = name
-            getInfoWhenLoginSuccess()
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_RefreshStudentName, object: nil)
+            
             ThemeHUD.hideActivityIndicator()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self?.animateDismiss()
             })
         })
-        
     }
-    
     
     
     // MARK: - Event Response

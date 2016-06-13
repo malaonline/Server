@@ -93,6 +93,7 @@ class ProfileViewHeaderView: UIView {
         super.init(frame: frame)
         
         setupUserInterface()
+        setupNotification()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -140,6 +141,16 @@ class ProfileViewHeaderView: UIView {
         }
     }
     
+    private func setupNotification() {
+        // 刷新学生姓名
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_RefreshStudentName,
+            object: nil,
+            queue: nil) { [weak self] (notification) -> Void in
+                self?.nameLabel.text = MalaUserDefaults.studentName.value
+        }
+    }
+    
     
     // MARK: - Event Response
     @objc private func avatarViewDidTap(sender: UIImageView) {
@@ -155,5 +166,9 @@ class ProfileViewHeaderView: UIView {
     func refreshDataWithUserDefaults() {
         avatarURL = MalaUserDefaults.avatar.value ?? ""
         name = MalaUserDefaults.studentName.value ?? ""
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_RefreshStudentName, object: nil)
     }
 }
