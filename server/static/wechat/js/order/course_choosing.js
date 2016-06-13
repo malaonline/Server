@@ -227,14 +227,22 @@ $(function(){
                     }
                     var key = timespan+'_'+ i, ts = _map[key];
                     var $td = $(ele);
-                    if (ts && ts.available) {
+                    if (ts) {
                         $td.attr('tsid', ts.id);
-                        $td.removeClass('unavailable').addClass('available');
-                        if (chosen_time_slot_ids && _contains(chosen_time_slot_ids, ts.id)) {
-                            $td.addClass('chosen');
+                        if (ts.available) {
+                            $td.removeClass('unavailable').addClass('available');
+                            if (chosen_time_slot_ids && _contains(chosen_time_slot_ids, ts.id)) {
+                                $td.addClass('chosen');
+                            }
+                        }
+                        if (ts.reserved) {
+                            console.log("reserved");
+                            $td.addClass('reserved');
+                        } else {
+                            $td.removeClass('reserved')
                         }
                     } else {
-                        $td.removeClass('available').addClass('unavailable');
+                        $td.removeClass('available').addClass('unavailable').removeClass('reserved');
                     }
                 });
             });
@@ -356,6 +364,12 @@ $(function(){
             showLoading();
             _updateCourseTimePreview(parseInt($courseHours.text()));
         }
+    });
+
+    $(".flag.reserved").click(function(e){
+        e.preventDefault();
+        showAlertDialog("麻辣老师为您预留已购课程时间，预留时间截止至该时间课程全部结束后12小时，在此期间，您可再次进行购买。");
+        e.stopPropagation();
     });
 
     $('#decHoursBtn').click(function(e){
