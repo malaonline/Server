@@ -19,14 +19,17 @@ logger = logging.getLogger('app')
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
     logger.debug("target amount:%d" %(len(operateTargets)))
+    user_ids = []
     for timeslot in operateTargets:
         timeslot.confirm()
         logger.debug("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+        user_ids.append(timeslot.order.parent.user_id)
+    send_push("您有课程已完成, 去评价>>", title="完课评价", user_ids=user_ids)
     return True
 
 
 @shared_task
-def send_push(msg, user_ids=None, extras=None):
+def send_push(msg, user_ids=None, extras=None, title=None):
     '''
     user_ids is a list of user_id [1, 2, ...]
     if user_ids is None then send to all
@@ -38,7 +41,7 @@ def send_push(msg, user_ids=None, extras=None):
     push = _jpush.create_push()
 
     ios_msg = jpush.ios(alert=msg, extras=extras)
-    android_msg = jpush.android(alert=msg, extras=extras)
+    android_msg = jpush.android(alert=msg, extras=extras, title=title)
     push.notification = jpush.notification(
             alert=msg, android=android_msg, ios=ios_msg)
     push.platform = jpush.all_
