@@ -85,21 +85,28 @@ public class MalaConfig {
         return [
             [
                 ProfileElementModel(
+                    id: 0,
+                    controller: OrderFormViewController.self,
+                    controllerTitle: "我的收藏",
+                    type: nil,
+                    iconName: "profile_collect",
+                    newMessageIconName: ""
+                ),
+                ProfileElementModel(
                     id: 1,
-                    title: "我的订单",
-                    detail: "待支付订单",
                     controller: OrderFormViewController.self,
                     controllerTitle: "我的订单",
                     type: nil,
-                    badgeNumber: 1
+                    iconName: "profile_order",
+                    newMessageIconName: "profile_unpaid"
                 ),
                 ProfileElementModel(
                     id: 2,
-                    title: "我的评价",
-                    detail: "",
                     controller: CommentViewController.self,
                     controllerTitle: "我的评价",
-                    type: nil
+                    type: nil,
+                    iconName: "profile_comment",
+                    newMessageIconName: "profile_uncomment"
                 )
             ],
             [

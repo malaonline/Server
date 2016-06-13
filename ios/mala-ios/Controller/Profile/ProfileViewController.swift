@@ -71,6 +71,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         println("studentName is \(MalaUserDefaults.studentName.value)")
         configure()
         setupUserInterface()
+        setupNotification()
     }
 
     override func didReceiveMemoryWarning() {
@@ -118,6 +119,21 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
             make.centerX.equalTo(profileFooterView)
             make.width.equalTo(profileFooterView).multipliedBy(0.85)
             make.height.equalTo(37)
+        }
+    }
+    
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_PushProfileItemController,
+            object: nil,
+            queue: nil
+        ) { [weak self] (notification) -> Void in
+            if let model = notification.object as? ProfileElementModel, type = model.controller as? UIViewController.Type {
+                let viewController = type.init()
+                viewController.title = model.controllerTitle
+                viewController.hidesBottomBarWhenPushed = true
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            }
         }
     }
     
@@ -169,7 +185,7 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 12
+        return section == 0 ? 0 : 12
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -344,5 +360,9 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
                 
             }, cancelAction: { () -> Void in
         })
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushProfileItemController, object: nil)
     }
 }

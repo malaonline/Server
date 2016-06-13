@@ -867,6 +867,9 @@
 		F4ADCFD61D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
 		F4ADCFD71D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
 		F4ADCFD81D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */; };
+		F4ADCFDE1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFDD1D0E6E7C004D517A /* ProfileItemCollectionView.swift */; };
+		F4ADCFDF1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFDD1D0E6E7C004D517A /* ProfileItemCollectionView.swift */; };
+		F4ADCFE01D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ADCFDD1D0E6E7C004D517A /* ProfileItemCollectionView.swift */; };
 		F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
 		F4B3C6741CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
 		F4B3C6751CFD3CF000C1B423 /* SubjectReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */; };
@@ -1176,6 +1179,7 @@
 		F49BD59D1CA4131D00EB3CCF /* SKZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKZoomingScrollView.swift; sourceTree = "<group>"; };
 		F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaPhotoBrowser.swift; sourceTree = "<group>"; };
 		F4ADCFD51D0D6E6E004D517A /* InfoModifyViewWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoModifyViewWindow.swift; sourceTree = "<group>"; };
+		F4ADCFDD1D0E6E7C004D517A /* ProfileItemCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCollectionView.swift; sourceTree = "<group>"; };
 		F4B3C6721CFD3CF000C1B423 /* SubjectReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectReport.swift; sourceTree = "<group>"; };
 		F4B3C6761CFD3EBB00C1B423 /* SingleHomeworkData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleHomeworkData.swift; sourceTree = "<group>"; };
 		F4B3C67A1CFD416F00C1B423 /* SingleTimeIntervalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleTimeIntervalData.swift; sourceTree = "<group>"; };
@@ -1653,6 +1657,7 @@
 		F414FFEC1C916ACE0038D7A7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F4ADCFDD1D0E6E7C004D517A /* ProfileItemCollectionView.swift */,
 				F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */,
 				F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */,
 				F455EB2F1C91981B00BAEC78 /* ProfileViewCell.swift */,
@@ -2628,6 +2633,7 @@
 				F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */,
 				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
+				F4ADCFDE1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
 				F49BD5A31CA4131D00EB3CCF /* SKIndicatorView.swift in Sources */,
 				F4ADCFD61D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,
@@ -2837,6 +2843,7 @@
 				35FF7A691CF8325A000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7A6A1CF8325A000A70EE /* HandlePingppBehaviour.swift in Sources */,
 				35FF7A6B1CF8325A000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
+				F4ADCFDF1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				35FF7A6C1CF8325A000A70EE /* MATabListView.swift in Sources */,
 				35FF7A6D1CF8325A000A70EE /* SKIndicatorView.swift in Sources */,
 				F4ADCFD71D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,
@@ -3046,6 +3053,7 @@
 				35FF7B4C1CF83264000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7B4D1CF83264000A70EE /* HandlePingppBehaviour.swift in Sources */,
 				35FF7B4E1CF83264000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
+				F4ADCFE01D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				35FF7B4F1CF83264000A70EE /* MATabListView.swift in Sources */,
 				35FF7B501CF83264000A70EE /* SKIndicatorView.swift in Sources */,
 				F4ADCFD81D0D6E6E004D517A /* InfoModifyViewWindow.swift in Sources */,

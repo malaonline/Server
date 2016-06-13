@@ -23,6 +23,10 @@ class ProfileElementModel: BaseObjectModel {
     var type: userInfoType?
     /// 新消息数
     var badgeNumber: Int? = 0
+    /// 图标名称
+    var iconName: String = ""
+    /// 新消息图片名称
+    var newMessageIconName: String = ""
     
     
     // MARK: - Constructed
@@ -35,7 +39,8 @@ class ProfileElementModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, title: String, detail: String, controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0) {
+    convenience init(id: Int, title: String = "", detail: String = "", controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0,
+                     iconName: String = "", newMessageIconName: String = "") {
         self.init()
         self.id = id
         self.title = title
@@ -44,6 +49,8 @@ class ProfileElementModel: BaseObjectModel {
         self.controllerTitle = controllerTitle
         self.type = type
         self.badgeNumber = badgeNumber
+        self.iconName = iconName
+        self.newMessageIconName = newMessageIconName
     }
     
     // MARK: - Override

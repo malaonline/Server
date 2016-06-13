@@ -46,6 +46,7 @@ let MalaNotification_PushToPayment = "com.malalaoshi.app.PushToPayment"
 let MalaNotification_PushIntroduction = "com.malalaoshi.app.PushIntroduction"
 let MalaNotification_ShowLearningReport = "com.malalaoshi.app.ShowLearningReport"
 let MalaNotification_RefreshStudentName = "com.malalaoshi.app.RefreshStudentName"
+let MalaNotification_PushProfileItemController = "com.malalaoshi.app.PushProfileItemController"
 
 
 // MARK: - Error Detail
