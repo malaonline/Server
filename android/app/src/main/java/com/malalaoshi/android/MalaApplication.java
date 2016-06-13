@@ -7,11 +7,7 @@ import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
-
-import java.util.Set;
-
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
+import com.malalaoshi.android.push.MalaPushClient;
 
 /**
  * Created by liumengjun on 11/16/15.
@@ -41,16 +37,9 @@ public class MalaApplication extends BaseApplication {
     @Override
     protected void initAlways() {
         instance = this;
-        JPushInterface.requestPermission(this); //请求权限
-        JPushInterface.setDebugMode(false);        // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);                // 初始化 JPush
-        //设置tag和别名(在登录和登出处需要添加设置别名)
-        JPushInterface.setAliasAndTags(this, UserManager.getInstance().getUserId(), null, new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-                Log.d(TAG, "status code:" + i + " alias:" + s);
-            }
-        });
+        //启动应用后设置用户初始化并设置用户别名
+        MalaPushClient.getInstance().init();
+        MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
         //初始化图片加载库Freso
         Fresco.initialize(this);
     }
@@ -80,5 +69,19 @@ public class MalaApplication extends BaseApplication {
 
     public void setIsNetworkOk(boolean isNetworkOk) {
         this.isNetworkOk = isNetworkOk;
+    }
+
+    @Override
+    protected void onUserLogined() {
+        //设置tag和别名(在登录和登出处需要添加设置别名)
+        Log.d(TAG,"用户登录后设置JPush别名uid:"+UserManager.getInstance().getUserId());
+        MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
+    }
+
+    @Override
+    protected void onUserLogout() {
+        //退出登录后,应该清空jpush别名,重置tags
+        Log.d(TAG,"用户退出登录后清空JPush别名uid:"+UserManager.getInstance().getUserId());
+        MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
     }
 }

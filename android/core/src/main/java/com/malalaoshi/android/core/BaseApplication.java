@@ -2,9 +2,13 @@ package com.malalaoshi.android.core;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 
 import com.malalaoshi.android.core.stat.StatReporter;
+import com.malalaoshi.android.core.usercenter.UserManager;
 
 import java.util.List;
 
@@ -31,6 +35,9 @@ public abstract class BaseApplication extends Application {
         MalaContext.init(this);
         StatReporter.init();
         StatReporter.onAppLaunch();
+        IntentFilter intentFilter = new IntentFilter(UserManager.ACTION_LOGINED);
+        intentFilter.addAction(UserManager.ACTION_LOGOUT);
+        MalaContext.getLocalBroadcastManager().registerReceiver(loginReceiver, intentFilter);
     }
 
     protected abstract void initOnMainProcess();
@@ -53,4 +60,24 @@ public abstract class BaseApplication extends Application {
         }
         return false;
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        MalaContext.getLocalBroadcastManager().unregisterReceiver(loginReceiver);
+    }
+
+    private final BroadcastReceiver loginReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (UserManager.ACTION_LOGINED.equals(intent.getAction())) {
+                onUserLogined();
+            }else if (UserManager.ACTION_LOGOUT.equals(intent.getAction() )){
+                onUserLogout();
+            }
+        }
+    };
+
+    protected abstract void onUserLogined();
+    protected abstract void onUserLogout();
 }

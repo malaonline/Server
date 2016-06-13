@@ -277,7 +277,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".receiver.PushReceiver"
+            android:name=".push.MalaPushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

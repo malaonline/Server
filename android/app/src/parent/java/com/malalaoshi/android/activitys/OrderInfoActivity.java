@@ -35,6 +35,16 @@ public class OrderInfoActivity extends BaseActivity implements TitleBarView.OnTi
         }
     }
 
+    public static void open(Context context, String orderId, Bundle bundle) {
+        if (!EmptyUtils.isEmpty(orderId)) {
+            Intent intent = new Intent(context, OrderInfoActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtra(OrderInfoActivity.EXTRA_ORDER_ID, orderId);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
