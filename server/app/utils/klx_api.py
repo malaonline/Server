@@ -3,23 +3,29 @@
 #
 import json
 import logging
-import requests
+import random
 import hashlib
+import requests
 
 from django.conf import settings
 
+from app.models import Student
 from app.utils.algorithm import verify_sha1_sig, sign_sha1
 
 __all__ = [
     "KLX_STUDY_URL_FMT",
     "KLX_SUPPORTED_SUBJECTS",
     "KLX_MATH_ABILITY_KEYS",
-    "klx_subject_en",
+    "KLX_ROLE_TEACHER",
+    "KLX_ROLE_STUDENT",
+    "klx_subject_name",
     "klx_sign_params",
     "klx_verify_sign",
     "klx_build_params",
     "klx_register",
     "klx_relation",
+    "klx_reg_student",
+    "klx_reg_teacher",
     ]
 _logger = logging.getLogger('app')
 
@@ -33,8 +39,11 @@ _KLX_COMMON_PARAMS = {
     'partner': settings.KUAILEXUE_PARTNER
 }
 
+KLX_ROLE_TEACHER = 1
+KLX_ROLE_STUDENT = 2
 
-def klx_subject_en(name):
+
+def klx_subject_name(name):
     map = {
         '数学': "math",
         '英语': "english",
@@ -76,18 +85,31 @@ def klx_build_params(params, sign=False):
     return p
 
 
-def klx_register(uid, name):
+def _klx_make_password(n=6):
+    return ''.join(random.sample('0123456789', n))
+
+
+def klx_register(role, uid, name, password=None, subject=None):
     '''
+
+    :param role: 1：老师， 2：学生
     :param uid: models.User.id
     :param name: Student Name or Teacher Name
-    :return: kuailexue uid
+    :param password: 默认123456
+    :param subject: 当role为老师时，该参数必传
+    :return: kuailexue username
     '''
     klx_url = settings.KUAILEXUE_SERVER + '/third-partner/register'
     params = {
-        'partner': settings.KUAILEXUE_PARTNER,
+        'role': role,
         'uid': uid,
         'name': name,
     }
+    if password is not None:
+        params['password'] = password
+    if subject is not None:
+        params['subject'] = subject
+    params = klx_build_params(params, True)
     resp = requests.get(klx_url, data=params)
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
@@ -103,13 +125,19 @@ def klx_register(uid, name):
         return False
 
 
-def klx_relation(klx_teacher_uid, klx_stu_uids):
+def klx_relation(klx_teacher, klx_students):
+    '''
+
+    :param klx_teacher: 老师username
+    :param klx_students: 学生usernames，多个以逗号隔开
+    :return: True or False
+    '''
     klx_url = settings.KUAILEXUE_SERVER + '/third-partner/relation'
     params = {
-        'partner': settings.KUAILEXUE_PARTNER,
-        'tea_username': klx_teacher_uid,
-        'stu_usernames': klx_stu_uids,
+        'tea_username': klx_teacher,
+        'stu_usernames': klx_students,
     }
+    params = klx_build_params(params, True)
     resp = requests.get(klx_url, data=params)
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
@@ -122,4 +150,56 @@ def klx_relation(klx_teacher_uid, klx_stu_uids):
         _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         return False
+
+
+def klx_reg_student(parent, student=None):
+    '''
+    把mala中的student注册到kuailexue中
+    :param parent: models.Parent
+    :param student: models.Student
+    :return: student's klx_username
+    '''
+    # 目前购买课程等等都是parent做的
+    if student is None:
+        student = parent.students.first()
+    if student is None:
+        student = Student.new_student().student
+        parent.students.add(student)
+        parent.save()
+    o_klx_username = student.user.profile.klx_username
+    if o_klx_username:
+        return o_klx_username
+    role = KLX_ROLE_STUDENT
+    uid = student.user_id
+    name = student.name
+    password = _klx_make_password()
+    klx_username = klx_register(role,uid,name,password=password)
+    if klx_username:
+        student.user.profile.klx_username = klx_username
+        student.user.profile.klx_password = password
+        student.user.profile.save()
+    return klx_username
+
+
+def klx_reg_teacher(teacher):
+    '''
+    把mala中的teacher注册到kuailexue中
+    :param teacher: models.Teacher
+    :return: teacher's klx_username
+    '''
+    o_klx_username = teacher.user.profile.klx_username
+    if o_klx_username:
+        return o_klx_username
+    role = KLX_ROLE_TEACHER
+    uid = teacher.user_id
+    name = teacher.name
+    password = _klx_make_password()
+    subject = teacher.subject()
+    klx_subject = klx_subject_name(subject.name)
+    klx_username = klx_register(role,uid,name,password=password,subject=klx_subject)
+    if klx_username:
+        teacher.user.profile.klx_username = klx_username
+        teacher.user.profile.klx_password = password
+        teacher.user.profile.save()
+    return klx_username
 

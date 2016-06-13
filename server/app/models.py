@@ -294,6 +294,8 @@ class Profile(BaseModel):
             max_length=100, default=None, null=True, blank=True)
     klx_username = models.CharField(
             max_length=255, default=None, null=True, blank=True)
+    klx_password = models.CharField(
+            max_length=30, default=None, null=True, blank=True)
 
     def __str__(self):
         teacher_name = ""

@@ -1154,7 +1154,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                 continue
             purchased_subjects.append(s_name)
             if s_name in KLX_SUPPORTED_SUBJECTS:
-                s_name_en = klx_subject_en(s_name)
+                s_name_en = klx_subject_name(s_name)
                 url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
                 subject_data = {
                         'subject_id': tmp_subject.id, 'supported': True,
@@ -1185,7 +1185,7 @@ class StudyReportView(ParentBasedMixin, APIView):
 
     def get_one_subject_report(self, the_subject, parent, params):
         s_name = the_subject.name
-        s_name_en = klx_subject_en(s_name)
+        s_name_en = klx_subject_name(s_name)
         url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
         ans_data = {'subject_id': the_subject.id}
         if settings.TESTING:
