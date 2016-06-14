@@ -85,3 +85,29 @@ def menu_style_check(context, *args, **kwargs):
         return display_style
 
     return display_style
+
+
+@register.simple_tag(name='menu_active', takes_context=True)
+def menu_active(context, *args, **kwargs):
+    '''
+    only menu_active check, do not permissions check
+    '''
+    request = context['request']
+    active_style = 'menu_active'
+    display_style = ''
+    try:
+        resolver_match = urlresolvers.resolve(request.path_info)
+        url_name = resolver_match.url_name
+        namespaces = resolver_match.namespaces
+        for arg in args:
+            tmp_path = '.'.join(namespaces)
+            if len(tmp_path) > 0:
+                tmp_path += ':' + url_name
+            else:
+                tmp_path = url_name
+            if tmp_path == arg:
+                return active_style + ' ' + display_style
+    except:
+        return display_style
+
+    return display_style
