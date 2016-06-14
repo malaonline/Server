@@ -97,7 +97,7 @@ class HomeViewController: UIViewController {
         
         // 设置BarButtomItem间隔
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -16
+        spacer.width = -12
         
         // leftBarButtonItem
         let leftBarButtonItem = UIBarButtonItem(customView:
