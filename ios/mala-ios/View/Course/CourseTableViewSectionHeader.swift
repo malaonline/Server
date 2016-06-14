@@ -10,6 +10,17 @@ import UIKit
 
 class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
 
+    // MARK: - Property
+    /// 日期数据
+    var timeInterval: NSTimeInterval? = 0 {
+        didSet {
+            /// 同年日期仅显示月份，否则显示年月
+            let formatter = NSDate(timeIntervalSince1970: timeInterval ?? 0).year() == NSDate().year() ? "MM月" : "yyyy年MM月"
+            dateLabel.text = getDateString(timeInterval, format: formatter)
+        }
+    }
+    
+    
     // MARK: - Components
     /// 背景图片
     private lazy var backgroundImage: UIImageView = {
@@ -19,7 +30,7 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
     /// 时间文本标签
     private lazy var dateLabel: UILabel = {
         let label = UILabel(
-            text: "2077年8月",
+            text: "",
             fontSize: 20,
             textColor: MalaColor_000000_0
         )

@@ -140,6 +140,10 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCou
         monthDicts[year+month]![day]!.append(course)
     }
     
+    /// 排序
+
+    
+    
     /// 解析[课表字典数据]为[课表数组数据]
     var data = [[[StudentCourseModel]]]()
     
