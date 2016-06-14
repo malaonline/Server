@@ -918,6 +918,9 @@
 		F4F29AFC1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */; };
 		F4F29AFD1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */; };
 		F4F29AFE1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */; };
+		F4F29B001D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
+		F4F29B011D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
+		F4F29B021D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1212,6 +1215,7 @@
 		F4F1EBDF1CF6B98500EBDBF6 /* YLProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLProgressBar.h; sourceTree = "<group>"; };
 		F4F1EBE01CF6B98500EBDBF6 /* YLProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLProgressBar.m; sourceTree = "<group>"; };
 		F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewSectionHeader.swift; sourceTree = "<group>"; };
+		F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2039,6 +2043,7 @@
 			isa = PBXGroup;
 			children = (
 				F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */,
+				F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */,
 			);
 			path = Course;
 			sourceTree = "<group>";
@@ -2765,6 +2770,7 @@
 				F46065281C97B168004056B1 /* LoginViewController.swift in Sources */,
 				F45871F71C51DFFF0048D93F /* CourseChoosingClassPeriodCell.swift in Sources */,
 				F4BD4FD01C745C0A00488613 /* ThemeRefreshView.swift in Sources */,
+				F4F29B001D0FF001000D1904 /* CourseTableViewCell.swift in Sources */,
 				F43F44C91D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				F46065231C97B168004056B1 /* PaymentViewController.swift in Sources */,
 				30445B171C4A3959002CD290 /* FilterView.swift in Sources */,
@@ -2972,6 +2978,7 @@
 				35FF7AFA1CF8325A000A70EE /* LoginViewController.swift in Sources */,
 				35FF7AFB1CF8325A000A70EE /* CourseChoosingClassPeriodCell.swift in Sources */,
 				35FF7AFC1CF8325A000A70EE /* ThemeRefreshView.swift in Sources */,
+				F4F29B011D0FF001000D1904 /* CourseTableViewCell.swift in Sources */,
 				F43F44CA1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				35FF7AFD1CF8325A000A70EE /* PaymentViewController.swift in Sources */,
 				35FF7AFE1CF8325A000A70EE /* FilterView.swift in Sources */,
@@ -3179,6 +3186,7 @@
 				35FF7BDD1CF83264000A70EE /* LoginViewController.swift in Sources */,
 				35FF7BDE1CF83264000A70EE /* CourseChoosingClassPeriodCell.swift in Sources */,
 				35FF7BDF1CF83264000A70EE /* ThemeRefreshView.swift in Sources */,
+				F4F29B021D0FF001000D1904 /* CourseTableViewCell.swift in Sources */,
 				F43F44CB1D0CFD2800B7A358 /* CommentViewWindow.swift in Sources */,
 				35FF7BE01CF83264000A70EE /* PaymentViewController.swift in Sources */,
 				35FF7BE11CF83264000A70EE /* FilterView.swift in Sources */,
