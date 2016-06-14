@@ -698,7 +698,7 @@ data:
 ### Get student's passed courses
 
 ```
-GET /api/v1/timeslots?only_passed=true
+GET /api/v1/timeslots?for_review=true
 ```
 
 All other parts are the same as the previous interface.

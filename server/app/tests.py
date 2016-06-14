@@ -645,7 +645,7 @@ class TestApi(TestCase):
         password = "123123"
         client = Client()
         client.login(username=username, password=password)
-        request_url = "/api/v1/timeslots?only_passed=true"
+        request_url = "/api/v1/timeslots?for_review=true"
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 

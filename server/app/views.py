@@ -7,10 +7,10 @@ import requests
 import hashlib
 
 from django.contrib.auth.models import User, Group
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import View, TemplateView
+from django.shortcuts import get_object_or_404
+from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.core import exceptions
 from django.utils.decorators import method_decorator
@@ -28,13 +28,14 @@ from rest_framework.response import Response
 from app import models
 from app.pingpp import pingpp
 from app.utils import random_name
-from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, TPL_STU_PAY_FAIL
+from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, \
+        TPL_STU_PAY_FAIL
 from app.utils.algorithm import verify_sig, verify_sha1_sig, sign_sha1
-from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError, KuailexueDataError, KuailexueServerError
+from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError,\
+        KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
 
 from .tasks import autoConfirmClasses
-from app.utils.db import QuerySetChain
 
 logger = logging.getLogger('app')
 
@@ -165,11 +166,13 @@ class ConcreteTimeSlots(View):
 
         return JsonResponse({'data': data})
 
-# TODO: 在生产环境去掉!
+
 class autoConfirmClassesView(View):
-    template_name="app/test_auto_confirm_classes.html"
+    template_name = "app/test_auto_confirm_classes.html"
 
     def get(self, request):
+        if not settings.DEBUG:
+            raise PermissionDenied(detail='Disabled in prd env')
         res = autoConfirmClasses()
         if res:
             res_str = '成功'
@@ -256,7 +259,8 @@ class Sms(View):
                 # 强制刷新已经存在的 token
                 if not created:
                     token.delete()
-                    token, created = Token.objects.get_or_create(user=profile.user)
+                    token, created = Token.objects.get_or_create(
+                            user=profile.user)
                 return JsonResponse({
                     'verified': True,
                     'first_login': first_login, 'token': token.key,
@@ -295,7 +299,7 @@ class ProfileViewSet(ProfileBasedMixin,
                 self.get_profile() != self.get_object()):
             return HttpResponse(status=403)
         try:
-            teacher = self.request.user.teacher
+            self.request.user.teacher
             return HttpResponse(status=409)
         except (AttributeError, exceptions.ObjectDoesNotExist):
             # This is right
@@ -634,7 +638,8 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
         if only_valid:
             queryset = query_unexpired.filter(used=False)
         else:
-            queryset = user.parent.coupon_set.all().order_by('-amount', 'expired_at')
+            queryset = user.parent.coupon_set.all().order_by(
+                    '-amount', 'expired_at')
 
         # 奖学金列表排序
         if self.action == 'list':
@@ -822,12 +827,14 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        only_passed = self.request.query_params.get('only_passed', '')
+        for_review = self.request.query_params.get('for_review', '')
         parent = self.get_parent()
         queryset = models.TimeSlot.objects.filter(
                 order__parent=parent, deleted=False)
-        if only_passed:
-            queryset = queryset.filter(end__lt=timezone.now())
+        if for_review:
+            queryset = queryset.filter(
+                    end__lt=timezone.now(),
+                    end__gte=timezone.now() - models.TimeSlot.COMMENT_DELAY)
         queryset = queryset.order_by('-end')
         return queryset
 
@@ -870,7 +877,8 @@ class ParentViewSet(ParentBasedMixin,
         if 'student_school_name' in data:
             parent.student_school_name = data['student_school_name']
 
-        return super(ParentViewSet, self).partial_update(request, *args, **kwargs)
+        return super(ParentViewSet, self).partial_update(
+                request, *args, **kwargs)
 
 
 class OrderListSerializer(serializers.ModelSerializer):
@@ -883,7 +891,7 @@ class OrderListSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
                   'school', 'grade', 'subject', 'hours', 'status',
-                  'order_id', 'to_pay', 'evaluated','is_teacher_published')
+                  'order_id', 'to_pay', 'evaluated', 'is_teacher_published')
 
 
 class OrderRetrieveSerializer(serializers.ModelSerializer):
@@ -964,8 +972,10 @@ class OrderViewSet(ParentBasedMixin,
                              for x in weekly_time_slots]
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
 
-        school = get_object_or_404(models.School, pk=request.data.get('school'))
-        teacher = get_object_or_404(models.Teacher, pk=request.data.get('teacher'))
+        school = get_object_or_404(
+                models.School, pk=request.data.get('school'))
+        teacher = get_object_or_404(
+                models.Teacher, pk=request.data.get('teacher'))
         parent = self.get_parent()
         if not teacher.is_longterm_available(periods, school, parent):
             return False
@@ -978,7 +988,8 @@ class OrderViewSet(ParentBasedMixin,
             return JsonResponse({'ok': False, 'code': -1})
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED,
+                        headers=headers)
 
     def perform_create(self, serializer):
         parent = self.get_parent()
@@ -1076,7 +1087,8 @@ class UnpaidCount(ParentBasedMixin, APIView):
 
     def get(self, request):
         parent = self.get_parent()
-        order_count = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
+        order_count = self.queryset.filter(
+                parent=parent, status=models.Order.PENDING).count()
         return JsonResponse({'count': order_count})
 
 
@@ -1085,16 +1097,21 @@ class ParentCenter(ParentBasedMixin, APIView):
 
     def get(self, request):
         parent = self.get_parent()
-        unpaid_num = self.queryset.filter(parent=parent, status=models.Order.PENDING).count()
-        tocomment_num = models.TimeSlot.objects.filter(order__parent=parent, attendance__isnull=False, comment__isnull=True,
-                                                       end__gte=timezone.now()-models.TimeSlot.COMMENT_DELAY).count()
-        return JsonResponse({'unpaid_num': unpaid_num, 'tocomment_num': tocomment_num})
+        unpaid_num = self.queryset.filter(
+                parent=parent, status=models.Order.PENDING).count()
+        tocomment_num = models.TimeSlot.objects.filter(
+                order__parent=parent, attendance__isnull=False,
+                comment__isnull=True,
+                end__gte=timezone.now()-models.TimeSlot.COMMENT_DELAY).count()
+        return JsonResponse(
+                {'unpaid_num': unpaid_num, 'tocomment_num': tocomment_num})
 
 
 class StudyReportView(ParentBasedMixin, APIView):
     queryset = models.Parent.objects.all()
 
-    KUAILEXUE_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
+    KUAILEXUE_URL_FMT = '%s/{subject}/%s' % (
+            settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
     COM_PARAMS = {
         'api_id': settings.KUAILEXUE_API_ID,
         'api_version': 1,
@@ -1105,8 +1122,10 @@ class StudyReportView(ParentBasedMixin, APIView):
     MATH = 'math'
     SUMMARY = 'summary'
 
-    SUPPORTED_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS.split(',')
-    MATH_ABILITY_KEYS = ['abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
+    SUPPORTED_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS.split(
+            ',')
+    MATH_ABILITY_KEYS = [
+            'abstract', 'reason', 'appl', 'spatial', 'calc', 'data']
 
     @classmethod
     def get_subject_en(cls, name):
@@ -1135,11 +1154,11 @@ class StudyReportView(ParentBasedMixin, APIView):
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
-        ## to collect all purchased subjects info
+        # to collect all purchased subjects info
         if subject == self.ALL:
             return self.get_subjects_summary(parent, params)
 
-        ## to get one certain subject's info
+        # to get one certain subject's info
         the_subject = get_object_or_404(models.Subject, id=subject)
         s_name = the_subject.name
         if s_name not in self.SUPPORTED_SUBJECTS:
@@ -1152,8 +1171,10 @@ class StudyReportView(ParentBasedMixin, APIView):
             return JsonResponse({'results': subjects_list})
         purchased_subjects = []
         # get subject from order
-        ordered_subjects = models.Order.objects.filter(parent=parent, status=models.Order.PAID)\
-            .values('subject', 'grade', 'created_at').order_by('-created_at')
+        ordered_subjects = models.Order.objects.filter(
+                parent=parent, status=models.Order.PAID).values(
+                        'subject', 'grade', 'created_at').order_by(
+                                '-created_at')
         for tmp_order in ordered_subjects:
             # only support math presently
             tmp_subject = models.Subject.objects.get(id=tmp_order['subject'])
@@ -1164,7 +1185,9 @@ class StudyReportView(ParentBasedMixin, APIView):
             if s_name in self.SUPPORTED_SUBJECTS:
                 s_name_en = self.get_subject_en(s_name)
                 url = self.KUAILEXUE_URL_FMT.format(subject=s_name_en)
-                subject_data = {'subject_id': tmp_subject.id, 'supported': True, 'purchased': True, 'grade_id': tmp_order['grade'],}
+                subject_data = {
+                        'subject_id': tmp_subject.id, 'supported': True,
+                        'purchased': True, 'grade_id': tmp_order['grade']}
                 # 累计答题数、正确答题数
                 subject_data.update(self._get_total_nums(url, params))
                 subjects_list.append(subject_data)
@@ -1176,9 +1199,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': False,
                 })
         # subjects supported, but user did not purchase
-        should_buy_subjects = [b for b in self.SUPPORTED_SUBJECTS if b not in purchased_subjects]
+        should_buy_subjects = [b for b in self.SUPPORTED_SUBJECTS
+                               if b not in purchased_subjects]
         if should_buy_subjects:
-            to_buy_subjects = models.Subject.objects.filter(name__in=should_buy_subjects)
+            to_buy_subjects = models.Subject.objects.filter(
+                    name__in=should_buy_subjects)
             for s in to_buy_subjects:
                 subjects_list.append({
                     'subject_id': s.id,
@@ -1195,29 +1220,27 @@ class StudyReportView(ParentBasedMixin, APIView):
         if settings.TESTING:
             return JsonResponse(ans_data)
         # query the last order
-        last_order = models.Order.objects.filter(parent=parent, status=models.Order.PAID, subject=the_subject)\
-            .order_by('-created_at').first()
+        last_order = models.Order.objects.filter(
+                parent=parent, status=models.Order.PAID,
+                subject=the_subject).order_by('-created_at').first()
         if not last_order:
-            return HttpResponse(status=404) # Have not joined the course
+            return HttpResponse(status=404)  # Have not joined the course
         ans_data['grade_id'] = last_order.grade_id
         # 累计答题数、正确答题数
         ans_data.update(self._get_total_nums(url, params))
         # 累计答题次数（即答题次数）及完成率
         ans_data.update(self._get_exercise_total_nums(url, params))
 
-        # if total_nums == 0 or exercise_total_nums == 0:
-        #     ans_data['abilities'] = [{'key': ab, 'val': 0} for ab in math_ability_keys]
-        #     # 后面没有数据, 都是空
-        #     return JsonResponse(ans_data)
-
         # 错题知识点分布
         ans_data['error_rates'] = self._get_error_rates(url, params)
         # 按月显示练习量走势
         ans_data['month_trend'] = self._get_month_trend(url, params)
         # 指定学生一级/二级知识点正确率
-        ans_data['knowledges_accuracy'] = self._get_knowledges_accuracy(url, params)
+        ans_data['knowledges_accuracy'] = self._get_knowledges_accuracy(
+                url, params)
         # 能力结构分析
-        ans_data['abilities'] = self._get_abilities(url, params, self.MATH_ABILITY_KEYS)
+        ans_data['abilities'] = self._get_abilities(
+                url, params, self.MATH_ABILITY_KEYS)
         # 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
         ans_data['score_analyses'] = self._get_score_analyses(url, params)
 
@@ -1227,18 +1250,21 @@ class StudyReportView(ParentBasedMixin, APIView):
     def sign_params(cls, params, sign_key="sign"):
         body = cls.get_param_hash(params)
         pri_key = settings.KUAILEXUE_API_PRI_KEY
-        params[sign_key] = sign_sha1(body.encode('utf-8'), pri_key).decode('utf-8')
+        params[sign_key] = sign_sha1(
+                body.encode('utf-8'), pri_key).decode('utf-8')
 
     @classmethod
     def verify_sign(cls, params, sign_key="sign"):
         body = cls.get_param_hash(params)
         pub_key = settings.KUAILEXUE_API_PUB_KEY
-        return (verify_sha1_sig(body.encode('utf-8'), params[sign_key].encode('utf-8'), pub_key))
+        return (verify_sha1_sig(
+            body.encode('utf-8'), params[sign_key].encode('utf-8'), pub_key))
 
     @classmethod
     def get_param_hash(cls, params, sign_key="sign"):
         s = ''.join(['%s=%s' % (key, params[key]) for key in sorted(params)
-                            if key != sign_key and params[key] is not None and params[key] is not ''])
+                     if key != sign_key and params[key] is not None and
+                     params[key] is not ''])
         hs = hashlib.md5(s.encode('utf-8')).hexdigest()
         return hs
 
@@ -1251,16 +1277,22 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/total-item-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
             return {'total_nums': ret_nums.get('total_item_nums', 0),
                     'right_nums': ret_nums.get('total_right_item_nums', 0)}
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
+                         % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s'
+                    % (ret_json.get('code'), ret_json.get('message')))
 
     def _get_exercise_total_nums(self, url, params):
         '''
@@ -1271,16 +1303,24 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/total-exercise-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
-            return {'exercise_total_nums': ret_nums.get('total_exercise_nums', 0),
-                    'exercise_fin_nums': ret_nums.get('total_finished_exercise_nums', 0)}
+            return {'exercise_total_nums': ret_nums.get(
+                        'total_exercise_nums', 0),
+                    'exercise_fin_nums': ret_nums.get(
+                        'total_finished_exercise_nums', 0)}
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
+                         % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s'
+                    % (ret_json.get('code'), ret_json.get('message')))
 
     def _get_error_rates(self, url, params):
         '''
@@ -1291,8 +1331,11 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/error-knowledge-point', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1301,8 +1344,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'rate': ep.get('per')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
+                         % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s'
+                    % (ret_json.get('code'), ret_json.get('message')))
 
     def _get_month_trend(self, url, params):
         '''
@@ -1313,8 +1359,11 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/items-trend', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1325,8 +1374,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'day': ep.get('day')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
+                         % (ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s'
+                    % (ret_json.get('code'), ret_json.get('message')))
 
     def _get_knowledges_accuracy(self, url, params):
         '''
@@ -1337,8 +1389,11 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/knowledge-point-accuracy', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1348,8 +1403,11 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'right_item': ep.get('total_right_item')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                        ret_json.get('code'), ret_json.get('message')))
 
     def _get_abilities(self, url, params, ability_keys):
         '''
@@ -1360,17 +1418,23 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/ability-structure', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_obj = ret_json.get('data')
             if not ret_obj:
                 return [{'key': ab, 'val': 0} for ab in ability_keys]
-            return [{'key': k, 'val': v} for k,v in ret_obj.items()]
+            return [{'key': k, 'val': v} for k, v in ret_obj.items()]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                        ret_json.get('code'), ret_json.get('message')))
 
     def _get_score_analyses(self, url, params):
         '''
@@ -1381,8 +1445,11 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/my-average-score', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is %s'
+                         % (resp.status_code))
+            raise KuailexueServerError(
+                    'cannot reach kuailexue server, http_status is %s'
+                    % (resp.status_code))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1392,5 +1459,8 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'ave_score': ep.get('ave_score')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-            raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                ret_json.get('code'), ret_json.get('message')))
+            raise KuailexueDataError(
+                    'get kuailexue wrong data, CODE: %s, MSG: %s'
+                    % (ret_json.get('code'), ret_json.get('message')))
