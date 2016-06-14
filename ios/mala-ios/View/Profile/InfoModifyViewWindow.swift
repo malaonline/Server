@@ -144,7 +144,7 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
     private func setupUserInterface() {
         // Style
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: tBakcgroundTansperancy)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CoursePopupWindow.backgroundDidTap)))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(InfoModifyViewWindow.backgroundDidTap)))
         window.backgroundColor = UIColor.whiteColor()
         
         // SubViews

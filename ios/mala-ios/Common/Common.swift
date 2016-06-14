@@ -129,7 +129,7 @@ let MalaColor_E6F1FC_0 = UIColor(rgbHexValue: 0xE6F1FC, alpha: 1.0)
 // MARK: - Common String
 let MalaCommonString_Malalaoshi = "麻辣老师"
 let MalaCommonString_FindTeacher = "找老师"
-let MalaCommonString_ClassSchedule = "课程表"
+let MalaCommonString_ClassSchedule = "课表"
 let MalaCommonString_MemberPrivileges = "会员专享"
 let MalaCommonString_Profile = "我的"
 let MalaCommonString_Title = "标题"

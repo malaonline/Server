@@ -8,15 +8,15 @@
 
 import UIKit
 
-class BaseTableViewController: UITableViewController {
+public class BaseTableViewController: UITableViewController {
 
     // MARK: - Life Cycle
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
