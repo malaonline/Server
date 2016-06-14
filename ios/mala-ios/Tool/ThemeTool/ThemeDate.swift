@@ -72,7 +72,7 @@ class ThemeDate {
             return lastDate
         }else {
             
-            var date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
+            var date = MalaConfig.malaWeekdays()[timeSlot.weekID].dateInThisWeek()
             
             // 只有提前两天以上的课程，才会在本周开始授课。
             //（例如在周五预约了周日的课程，仅相隔周六一天不符合要求，将从下周日开始上课）
@@ -98,7 +98,7 @@ class ThemeDate {
         /// 若首次购课，则[计算上课时间]需要间隔两天，以用于用户安排[建档测评服务]
         let intervals = MalaIsHasBeenEvaluatedThisSubject == true ? 2 : 0
         let weekId = timeSlot.weekID == 0 ? 7 : timeSlot.weekID
-        let date = MalaWeekdays[timeSlot.weekID].dateInThisWeek()
+        let date = MalaConfig.malaWeekdays()[timeSlot.weekID].dateInThisWeek()
         
         /// 若首次购课
         if weekId < (weekdayInt(NSDate())+intervals) {

@@ -186,7 +186,6 @@ class LearningReportCell: UITableViewCell {
         button.addSubview(loadingView)
         
         // Autolayout
-//        let learningReportCellHeight: CGFloat = MalaContentHeight-(8*3)-229
         content.snp_makeConstraints { (make) in
             make.top.equalTo(self.contentView.snp_top).offset(8)
             make.left.equalTo(self.contentView.snp_left)

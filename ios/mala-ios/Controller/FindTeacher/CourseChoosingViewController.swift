@@ -257,7 +257,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         println("*** \(teacherModel?.subject)")
         
         ///  判断用户是否首次购买此学科课程
-        isHasBeenEvaluatedWithSubject(MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in
+        isHasBeenEvaluatedWithSubject(MalaConfig.malaSubjectName()[(teacherModel?.subject) ?? ""] ?? 0, failureHandler: { (reason, errorMessage) -> Void in
             ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
@@ -502,7 +502,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         MalaOrderObject.teacher = (teacherModel?.id) ?? 0
         MalaOrderObject.grade = gradeCourseID
         MalaOrderObject.school  = schoolID
-        MalaOrderObject.subject = MalaSubjectName[(teacherModel?.subject) ?? ""] ?? 0
+        MalaOrderObject.subject = MalaConfig.malaSubjectName()[(teacherModel?.subject) ?? ""] ?? 0
         MalaOrderObject.coupon = MalaCourseChoosingObject.coupon?.id ?? 0
         MalaOrderObject.hours = MalaCourseChoosingObject.classPeriod
         MalaOrderObject.weekly_time_slots = MalaCourseChoosingObject.selectedTime.map{ (model) -> Int in

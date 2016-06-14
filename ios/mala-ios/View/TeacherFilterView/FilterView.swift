@@ -64,7 +64,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     self?.subjects = model!.subjects.map({ (i: NSNumber) -> GradeModel in
                         let subject = GradeModel()
                         subject.id = i.integerValue
-                        subject.name = MalaSubject[i.integerValue]
+                        subject.name = MalaConfig.malaSubject()[i.integerValue]
                         return subject
                     })
                 }else {
@@ -236,7 +236,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         let subjects = grades![2].subjects.map({ (i: NSNumber) -> GradeModel in
             let subject = GradeModel()
             subject.id = i.integerValue
-            subject.name = MalaSubject[i.integerValue]
+            subject.name = MalaConfig.malaSubject()[i.integerValue]
             return subject
         })
         self.subjectView.subjects = subjects

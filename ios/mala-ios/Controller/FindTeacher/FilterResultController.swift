@@ -297,7 +297,7 @@ class FilterBar: UIView {
         filterView.subjects = self.filterCondition?.grade.subjects.map({ (i: NSNumber) -> GradeModel in
                 let subject = GradeModel()
                 subject.id = i.integerValue
-                subject.name = MalaSubject[i.integerValue]
+                subject.name = MalaConfig.malaSubject()[i.integerValue]
                 return subject
             })
         

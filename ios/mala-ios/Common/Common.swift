@@ -142,13 +142,6 @@ let MalaCommonString_EvaluationFiling = "测评建档服务"
 let MalaCommonString_CommentPlaceholder = "请写下对老师的感受吧，对他人的帮助很大哦~最多可输入200字"
 
 
-// MARK: - Common Proportion
-let MalaProportion_HomeCellWidthWithScreenWidth: CGFloat = 0.47
-let MalaProportion_HomeCellMarginWithScreenWidth: CGFloat = 0.02
-let MalaProportion_HomeCellHeightWithWidth: CGFloat = 1.28
-let MalaProportion_DetailPhotoHeightWidthWith: CGFloat = 0.75
-
-
 // MARK: - Common layout
 let MalaLayout_CardCellWidth: CGFloat = MalaScreenWidth - (12*2)
 let MalaLayout_GradeSelectionWidth: CGFloat = (MalaLayout_CardCellWidth - 12)/2
@@ -158,8 +151,8 @@ let MalaLayout_DetailHeaderLayerHeight: CGFloat = 110 //MalaLayout_DetailHeaderH
 let MalaLayout_DetailHeaderHeight: CGFloat = 146.0
 let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
 let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
-let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - (5*2))/3
-let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth * MalaProportion_DetailPhotoHeightWidthWith
+let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - 10)/3
+let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth*0.75
 let MalaLayout_DetailPriceTableViewCellHeight: CGFloat = 71.0
 let MalaLayout_DetailSchoolsTableViewCellHeight: CGFloat = 107.0
 let MalaLayout_DetailBottomViewHeight: CGFloat = 49.0
@@ -185,146 +178,11 @@ let MalaLayout_CouponRulesPopupWindowHeight: CGFloat = 500
 let MalaScreenNaviHeight: CGFloat = 64.0
 let MalaScreenWidth = UIScreen.mainScreen().bounds.size.width
 let MalaScreenHeight = UIScreen.mainScreen().bounds.size.height
-// ScreenHeight Without StatusBar,NavigationBar,TabBar
-let MalaContentHeight = UIScreen.mainScreen().bounds.size.height-20-44-48
 let MalaScreenOnePixel = 1/UIScreen.mainScreen().scale
 let MalaScreenScale = UIScreen.mainScreen().scale
 
 
-// MARK: - Common TextAttribute
-public func commonTextStyle() -> [String: AnyObject]? {
-    let AttributeDictionary = NSMutableDictionary()
-    AttributeDictionary[NSForegroundColorAttributeName] = MalaColor_6C6C6C_0
-    return AttributeDictionary.copy() as? [String : AnyObject]
-}
-
-
-// MARK: - Method
-public func makeStatusBarBlack() {
-    UIApplication.sharedApplication().statusBarStyle = .Default
-}
-public func makeStatusBarWhite() {
-    UIApplication.sharedApplication().statusBarStyle = .LightContent
-}
-public func MalaRandomColor() -> UIColor {
-    return MalaColorArray[randomInRange(0...MalaColorArray.count-1)]
-}
-///  根据Date获取星期数
-///
-///  - parameter date: NSDate对象
-///
-///  - returns: 星期数（0~6, 对应星期日~星期六）
-public func weekdayInt(date: NSDate) -> Int {
-    let calendar = NSCalendar.currentCalendar()
-    let components: NSDateComponents = calendar.components(NSCalendarUnit.Weekday, fromDate: date)
-    return components.weekday-1
-}
-
-
-// MARK: - Dictionary
-let MalaSubject = [
-    1: "数  学",
-    2: "英  语",
-    3: "语  文",
-    4: "物  理",
-    5: "化  学",
-    6: "地  理",
-    7: "历  史",
-    8: "政  治",
-    9: "生  物"
-]
-let MalaSubjectName = [
-    "数学": 1,
-    "英语": 2,
-    "语文": 3,
-    "物理": 4,
-    "化学": 5,
-    "地理": 6,
-    "历史": 7,
-    "政治": 8,
-    "生物": 9
-]
-let MalaGradeShortName = [
-    "一年级": 0,
-    "二年级": 1,
-    "三年级": 2,
-    "四年级": 3,
-    "五年级": 4,
-    "六年级": 5,
-    "初一": 0,
-    "初二": 1,
-    "初三": 2,
-    "高一": 0,
-    "高二": 1,
-    "高三": 2,
-]
-let MalaGradeName = [
-    2: "小学一年级",
-    3: "小学二年级",
-    4: "小学三年级",
-    5: "小学四年级",
-    6: "小学五年级",
-    7: "小学六年级",
-    9: "初中一年级",
-    10:"初中二年级",
-    11:"初中三年级",
-    13:"高中一年级",
-    14:"高中二年级",
-    15:"高中三年级",
-]
-let MalaTeacherDetailsCellTitle = [
-    1: "教授年级",
-    2: "风格标签",
-    3: "提分榜",
-    4: "个人相册",
-    5: "特殊成就",
-    6: "教学环境",
-    7: "会员服务",
-    8: "教龄 级别",
-    9: "价格表"
-]
-let MalaCourseChoosingCellTitle = [
-    1: "选择授课年级",
-    2: "选择上课地点",
-    3: "选择上课时间",
-    4: "选择小时",
-    5: "上课时间",
-    6: "",
-]
-
-
 // MARK: - Array
-let MalaColorArray = [
-    UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0),
-    UIColor(rgbHexValue: 0xF6A466, alpha: 1.0),
-    UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
-    UIColor(rgbHexValue: 0xAC7BD8, alpha: 1.0),
-    UIColor(rgbHexValue: 0xA5B2E4, alpha: 1.0),
-    UIColor(rgbHexValue: 0xF4BB5B, alpha: 1.0),
-    UIColor(rgbHexValue: 0xA4C87F, alpha: 1.0),
-    UIColor(rgbHexValue: 0xEDADD0, alpha: 1.0),
-    UIColor(rgbHexValue: 0xABCB71, alpha: 1.0),
-    UIColor(rgbHexValue: 0x67CFC8, alpha: 1.0),
-    UIColor(rgbHexValue: 0xF58F8F, alpha: 1.0),
-    UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
-    UIColor(rgbHexValue: 0xE5BEED, alpha: 1.0)
-]
-
-let MalaPaymentChannels = [
-    PaymentChannel(imageName: "alipay_icon", title: "支付宝", subTitle: "支付宝安全支付", channel: .Alipay),
-    PaymentChannel(imageName: "wechat_icon", title: "微信支付", subTitle: "微信快捷支付", channel: .Wechat)
-]
-
-let MalaWeekdays = [
-    "周日",
-    "周一",
-    "周二",
-    "周三",
-    "周四",
-    "周五",
-    "周六"
-]
-
 var MalaOtherService = [
     OtherServiceModel(title: "奖学金", type: .Coupon, price: 0, priceHandleType: .Discount, viewController: CouponViewController.self),
     OtherServiceModel(title: MalaCommonString_EvaluationFiling, type: .EvaluationFiling, price: 500, priceHandleType: .Reduce, viewController: EvaluationFilingServiceController.self)

@@ -19,7 +19,7 @@ extension String {
         
         let today = NSDate()
         let todayWeekInt = weekdayInt(today)
-        let targetWeekInt = (MalaWeekdays.indexOf(self) == 0 ? 7 : MalaWeekdays.indexOf(self))
+        let targetWeekInt = (MalaConfig.malaWeekdays().indexOf(self) == 0 ? 7 : MalaConfig.malaWeekdays().indexOf(self))
         
         // 若指定日期为今天
         if todayWeekInt == targetWeekInt {

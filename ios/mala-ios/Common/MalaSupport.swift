@@ -77,6 +77,39 @@ func showSaveResult(viewController: UIViewController?, result: Bool, property: S
     }
 }
 
+
+// MARK: - Common TextAttribute
+public func commonTextStyle() -> [String: AnyObject]? {
+    let AttributeDictionary = NSMutableDictionary()
+    AttributeDictionary[NSForegroundColorAttributeName] = MalaColor_6C6C6C_0
+    return AttributeDictionary.copy() as? [String : AnyObject]
+}
+
+
+// MARK: - Method
+public func makeStatusBarBlack() {
+    UIApplication.sharedApplication().statusBarStyle = .Default
+}
+
+public func makeStatusBarWhite() {
+    UIApplication.sharedApplication().statusBarStyle = .LightContent
+}
+
+public func MalaRandomColor() -> UIColor {
+    return MalaConfig.malaTagColors()[randomInRange(0...MalaConfig.malaTagColors().count-1)]
+}
+
+///  根据Date获取星期数
+///
+///  - parameter date: NSDate对象
+///
+///  - returns: 星期数（0~6, 对应星期日~星期六）
+public func weekdayInt(date: NSDate) -> Int {
+    let calendar = NSCalendar.currentCalendar()
+    let components: NSDateComponents = calendar.components(NSCalendarUnit.Weekday, fromDate: date)
+    return components.weekday-1
+}
+
 ///  解析学生上课时间表
 ///
 ///  - returns: ClassScheduleViewController.model数据
@@ -259,7 +292,7 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
     for slotDate in list {
         
         // 日期字符串
-        dateStrings.append(getDateString(date: slotDate.date, format: "M月d日") + "\n" + MalaWeekdays[weekdayInt(slotDate.date)])
+        dateStrings.append(getDateString(date: slotDate.date, format: "M月d日") + "\n" + MalaConfig.malaWeekdays()[weekdayInt(slotDate.date)])
 
         // 上课时间字符串
         var timeString = ""

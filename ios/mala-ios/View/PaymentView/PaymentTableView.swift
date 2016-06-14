@@ -65,7 +65,7 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         case (1, 0):
             // 支付宝
             let cell = (tableView.dequeueReusableCellWithIdentifier(paymentChannelCellIdentifier, forIndexPath: indexPath)) as! PaymentChannelCell
-            cell.model = MalaPaymentChannels[0]
+            cell.model = MalaConfig.malaPaymentChannels()[0]
             cell.selected = true
             currentSelectedIndexPath = indexPath
             return cell
@@ -73,7 +73,7 @@ class PaymentTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
         case (1, 1):
             // 微信支付
             let cell = (tableView.dequeueReusableCellWithIdentifier(paymentChannelCellIdentifier, forIndexPath: indexPath)) as! PaymentChannelCell
-            cell.model = MalaPaymentChannels[1]
+            cell.model = MalaConfig.malaPaymentChannels()[1]
             cell.hideSeparator()
             return cell
             

@@ -17,6 +17,15 @@ let CourseChoosingCellReuseId = [
     5: "CourseChoosingOtherServiceCellReuseId"      // 其他服务
 ]
 
+let CourseChoosingCellTitle = [
+    1: "选择授课年级",
+    2: "选择上课地点",
+    3: "选择上课时间",
+    4: "选择小时",
+    5: "上课时间",
+    6: "",
+]
+
 
 class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
@@ -143,7 +152,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(CourseChoosingCellReuseId[indexPath.section]!, forIndexPath: indexPath)
         reuseCell.selectionStyle = .None
-        (reuseCell as! MalaBaseCell).title.text = MalaCourseChoosingCellTitle[indexPath.section+1]
+        (reuseCell as! MalaBaseCell).title.text = CourseChoosingCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:

@@ -47,9 +47,9 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     // MARK: - Private Method
     private func homeViewFlowLayout() {
         scrollDirection = .Vertical
-        let itemWidth: CGFloat = MalaScreenWidth * MalaProportion_HomeCellWidthWithScreenWidth
-        let itemHeight: CGFloat = itemWidth * MalaProportion_HomeCellHeightWithWidth
-        let itemMargin: CGFloat = MalaScreenWidth * MalaProportion_HomeCellMarginWithScreenWidth
+        let itemWidth: CGFloat = MalaScreenWidth*0.47
+        let itemHeight: CGFloat = itemWidth*1.28
+        let itemMargin: CGFloat = MalaScreenWidth*0.02
         itemSize = CGSizeMake(itemWidth, itemHeight)
         minimumInteritemSpacing = itemMargin
         minimumLineSpacing = itemMargin

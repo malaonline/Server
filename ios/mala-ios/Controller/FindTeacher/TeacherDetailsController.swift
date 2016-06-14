@@ -20,6 +20,18 @@ private let TeacherDetailsCellReuseId = [
 //    8: "TeacherDetailsPriceCellReuseId"
 ]
 
+private let TeacherDetailsCellTitle = [
+    1: "教授年级",
+    2: "风格标签",
+    3: "提分榜",
+    4: "个人相册",
+    5: "特殊成就",
+    6: "教学环境",
+    7: "会员服务",
+    8: "教龄 级别",
+    9: "价格表"
+]
+
 class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
 
     // MARK: - Property
@@ -387,7 +399,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
-        (reuseCell as! MalaBaseCell).title.text = MalaTeacherDetailsCellTitle[indexPath.section+1]
+        (reuseCell as! MalaBaseCell).title.text = TeacherDetailsCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:

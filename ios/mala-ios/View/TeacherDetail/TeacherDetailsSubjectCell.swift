@@ -30,7 +30,7 @@ class TeacherDetailsSubjectCell: MalaBaseCell {
                     }
                     
                     // 用年级名称获取对应下标
-                    guard let index = MalaGradeShortName[gradeName] else {
+                    guard let index = MalaConfig.malaGradeShortName()[gradeName] else {
                         return
                     }
                     

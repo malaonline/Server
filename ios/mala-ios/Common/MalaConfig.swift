@@ -80,6 +80,110 @@ public class MalaConfig {
         )
     }
     
+    
+    // MARK: - Static Data
+    /// [学科id: 学科名称]
+    class func malaSubject() -> [Int: String] {
+        return [
+            1: "数  学",
+            2: "英  语",
+            3: "语  文",
+            4: "物  理",
+            5: "化  学",
+            6: "地  理",
+            7: "历  史",
+            8: "政  治",
+            9: "生  物"
+        ]
+    }
+    /// [学科名称: 学科id]
+    class func malaSubjectName() -> [String: Int] {
+        return [
+            "数学": 1,
+            "英语": 2,
+            "语文": 3,
+            "物理": 4,
+            "化学": 5,
+            "地理": 6,
+            "历史": 7,
+            "政治": 8,
+            "生物": 9
+        ]
+    }
+    /// [年级简称: 年级内部id]
+    class func malaGradeShortName() -> [String: Int] {
+        return [
+            "一年级": 0,
+            "二年级": 1,
+            "三年级": 2,
+            "四年级": 3,
+            "五年级": 4,
+            "六年级": 5,
+            "初一": 0,
+            "初二": 1,
+            "初三": 2,
+            "高一": 0,
+            "高二": 1,
+            "高三": 2,
+        ]
+    }
+    /// [年级id: 年级全称]
+    class func malaGradeName() -> [Int: String] {
+        return [
+            2: "小学一年级",
+            3: "小学二年级",
+            4: "小学三年级",
+            5: "小学四年级",
+            6: "小学五年级",
+            7: "小学六年级",
+            9: "初中一年级",
+            10:"初中二年级",
+            11:"初中三年级",
+            13:"高中一年级",
+            14:"高中二年级",
+            15:"高中三年级",
+        ]
+    }
+    /// 星期名称对应数组
+    class func malaWeekdays() -> [String] {
+        return [
+            "周日",
+            "周一",
+            "周二",
+            "周三",
+            "周四",
+            "周五",
+            "周六"
+        ]
+    }
+    /// 老师风格标签颜色数组
+    class func malaTagColors() -> [UIColor] {
+        return [
+            UIColor(rgbHexValue: 0x8FBCDD, alpha: 1.0),
+            UIColor(rgbHexValue: 0xF6A466, alpha: 1.0),
+            UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
+            UIColor(rgbHexValue: 0xAC7BD8, alpha: 1.0),
+            UIColor(rgbHexValue: 0xA5B2E4, alpha: 1.0),
+            UIColor(rgbHexValue: 0xF4BB5B, alpha: 1.0),
+            UIColor(rgbHexValue: 0xA4C87F, alpha: 1.0),
+            UIColor(rgbHexValue: 0xEDADD0, alpha: 1.0),
+            UIColor(rgbHexValue: 0xABCB71, alpha: 1.0),
+            UIColor(rgbHexValue: 0x67CFC8, alpha: 1.0),
+            UIColor(rgbHexValue: 0xF58F8F, alpha: 1.0),
+            UIColor(rgbHexValue: 0x9BC3E1, alpha: 1.0),
+            UIColor(rgbHexValue: 0xE5BEED, alpha: 1.0)
+        ]
+    }
+    /// 支付渠道对象列表
+    class func malaPaymentChannels() -> [PaymentChannel] {
+        return [
+            PaymentChannel(imageName: "alipay_icon", title: "支付宝", subTitle: "支付宝安全支付", channel: .Alipay),
+            PaymentChannel(imageName: "wechat_icon", title: "微信支付", subTitle: "微信快捷支付", channel: .Wechat)
+        ]
+    }
+    
+    
+    // MARK: - Static Config
     ///  [个人中心]静态结构数据
     class func profileData() -> [[ProfileElementModel]] {        
         return [

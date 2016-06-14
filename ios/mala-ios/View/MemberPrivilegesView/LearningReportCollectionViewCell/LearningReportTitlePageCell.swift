@@ -195,6 +195,6 @@ class LearningReportTitlePageCell: MalaBaseCardCell {
         titleLabel.text = "麻辣老师学生学习报告"
         dateLabel.text = MalaSubjectReport.timePeriod
         nameLabel.text = MalaUserDefaults.studentName.value ?? ""
-        gradeLabel.text = MalaGradeName[MalaSubjectReport.grade_id]
+        gradeLabel.text = MalaConfig.malaGradeName()[MalaSubjectReport.grade_id]
     }
 }
