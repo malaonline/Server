@@ -152,8 +152,8 @@ $(function(){
     var $courseHours = $('#courseHours');
     var _updateCourseTimePreview = function(hours) {
         if (hours==0 || weekly_time_slot_ids.length==0 || !weeklytimeslots) {
-            $courseTimePreviewPanel.addClass('closed');
-            $courseTimePreview.hide();
+            //$courseTimePreviewPanel.addClass('closed');
+            //$courseTimePreview.hide();
             return $courseTimePreview.html('');
         }
         if ($courseTimePreviewPanel.hasClass('closed')) {
