@@ -114,7 +114,7 @@ def klx_register(role, uid, name, password=None, subject=None):
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-        return False
+        return None
     ret_json = json.loads(resp.content.decode('utf-8'))
     if ret_json.get('code') == 0 and ret_json.get('data') is not None:
         ret_data = ret_json.get('data')
@@ -122,7 +122,7 @@ def klx_register(role, uid, name, password=None, subject=None):
     else:
         _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
-        return False
+        return None
 
 
 def klx_relation(klx_teacher, klx_students):

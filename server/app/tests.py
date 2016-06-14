@@ -680,6 +680,18 @@ class TestApi(TestCase):
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
+    def test_kuailexue_api(self):
+        test_stu_id = 'test_student_1'
+        test_stu_name = '测试学生1'
+        test_tea_id = 'test_teacher_1'
+        test_teat_name = '测试老师1'
+        klx_stu = klx_register(KLX_ROLE_STUDENT, test_stu_id, test_stu_name)
+        self.assertIsNotNone(klx_stu)
+        klx_tea = klx_register(KLX_ROLE_TEACHER, test_tea_id, test_teat_name)
+        self.assertIsNotNone(klx_tea)
+        ok = klx_relation(klx_tea, klx_stu)
+        self.assertTrue(ok)
+
 
 class TestModels(TestCase):
     def setUp(self):
