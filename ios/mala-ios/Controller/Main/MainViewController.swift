@@ -24,7 +24,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     /// 课程表
     private lazy var classScheduleViewController: MainNavigationController = {
         let naviVC = self.getNaviController(
-            CourseTableViewController(),
+            CourseTableViewController(style: .Grouped),
             title: MalaCommonString_ClassSchedule,
             imageName: "schedule_normal"
         )

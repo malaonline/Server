@@ -113,32 +113,48 @@ public func weekdayInt(date: NSDate) -> Int {
 ///  解析学生上课时间表
 ///
 ///  - returns: ClassScheduleViewController.model数据
-func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [Int:[Int:[StudentCourseModel]]] {
+func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCourseModel]]] {
     
-    var monthDicts = [Int:[Int:[StudentCourseModel]]]()
+    var monthDicts = [String:[String:[StudentCourseModel]]]()
     
     ///  遍历上课时间表
     for course in courseTable {
         
-        let day = course.date.day()
-        let month = course.date.month()
+        let day = String(format: "%d", course.date.day())
+        let month = String(format: "%d", course.date.month())
+        let year = String(format: "%d", course.date.year())
         
         println("当前遍历 - 月份: \(course.date.month()) - 日期:\(day)")
         
-        if monthDicts[month] == nil {
+        if monthDicts[year+month] == nil {
             // 没有月份字典
-            monthDicts[month] = [Int:[StudentCourseModel]]()
-            monthDicts[month]![day] = [StudentCourseModel]()
+            monthDicts[year+month] = [String:[StudentCourseModel]]()
+            monthDicts[year+month]![day] = [StudentCourseModel]()
             
-        }else if monthDicts[month]![day] == nil {
+        }else if monthDicts[year+month]![day] == nil {
             // 没有日期字典
-            monthDicts[month]![day] = [StudentCourseModel]()
+            monthDicts[year+month]![day] = [StudentCourseModel]()
         }
         
         // 月份与日期均存在，添加数据到list
-        monthDicts[month]![day]!.append(course)
+        monthDicts[year+month]![day]!.append(course)
     }
-    return monthDicts
+    
+    /// 解析[课表字典数据]为[课表数组数据]
+    var data = [[[StudentCourseModel]]]()
+    
+    for items in monthDicts.enumerate() {
+        
+        var monthItem = [[StudentCourseModel]]()
+        
+        for item in items.element.1.enumerate() {
+            monthItem.append(item.element.1)
+        }
+        
+        data.append(monthItem)
+    }
+    
+    return data
 }
 
 ///  根据时间戳获取时间字符串（例如12:00）
