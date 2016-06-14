@@ -2,7 +2,6 @@
  * Created by liumengjun on 3/5/16.
  */
 $(function(){
-    //alert("course choosing");
     var teacherId = $('#teacherId').val();
     var chosen_grade_id = '';
     var chosen_price = 0;
@@ -11,7 +10,10 @@ $(function(){
     var chosen_coupon_id = '';
     var chosen_coupon_amount = 0;
     var chosen_coupon_min_count = 0;
-    var MAX_PREVIEW_HOURS = 100;
+    var isFirstBuy = $("#isFirstBuy").val() == 'True';
+    var evaluateTime = $("#evaluateTime").val();
+
+    var weeklytimeslots = false;
 
     var $payArea = $('#payArea');
     var $alertDialog = $('#alertDialog');
@@ -145,12 +147,11 @@ $(function(){
         $schools.last().addClass('last');
     });
 
-    var previewCourseTimeUrl = '/api/v1/concrete/timeslots';
     var $courseTimePreviewPanel = $('#courseTimePreviewPanel');
     var $courseTimePreview = $("#courseTimePreview");
     var $courseHours = $('#courseHours');
     var _updateCourseTimePreview = function(hours) {
-        if (hours==0 || weekly_time_slot_ids.length==0) {
+        if (hours==0 || weekly_time_slot_ids.length==0 || !weeklytimeslots) {
             $courseTimePreviewPanel.addClass('closed');
             $courseTimePreview.hide();
             return $courseTimePreview.html('');
@@ -159,18 +160,8 @@ $(function(){
             return;
         }
         $courseTimePreview.html('');
-        var preview_hours = hours > 100 ? MAX_PREVIEW_HOURS : hours;
-        var params = {'hours':preview_hours, 'weekly_time_slots':weekly_time_slot_ids.join(' '), 'teacher': teacherId};
-        $.ajax({'type':"GET", 'url': previewCourseTimeUrl, 'data': params, 'success': function(json){
-            if (json && json.data) {
-                renderCourseTime(json.data, $courseTimePreview);
-            }
-            hideLoading();
-        }, 'dataType': 'json', 'error': function() {
-            hideLoading();
-            $courseTimePreview.html('<p>&nbsp;加载失败</p>');
-        }
-        });
+        courseTimes = calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFirstBuy, evaluateTime);
+        renderCourseTime(courseTimes, $courseTimePreview);
     };
 
     var updateCourseTimePreview = function() {
@@ -217,6 +208,7 @@ $(function(){
         showLoading();
         var params = {'school_id': school_id};
         $.ajax({'type':"GET", 'url': '/api/v1/teachers/'+teacherId+'/weeklytimeslots', 'data': params, 'success': function(json){
+            weeklytimeslots = json;
             var _map = _makeWeeklyTimeSlotToMap(json);
             $weeklyTable.find('tbody > tr').each(function(r){
                 var $row = $(this);
@@ -361,7 +353,6 @@ $(function(){
             $courseTimePreview.hide();
         } else {
             $courseTimePreview.show();
-            showLoading();
             _updateCourseTimePreview(parseInt($courseHours.text()));
         }
     });
