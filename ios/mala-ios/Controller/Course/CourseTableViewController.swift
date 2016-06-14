@@ -15,7 +15,7 @@ public class CourseTableViewController: BaseTableViewController {
 
     // MARK: - Property
     /// 上课时间表数据模型
-    var model: [Int:[Int:[StudentCourseModel]]]? {
+    var model: [[[StudentCourseModel]]]? {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
                 self?.tableView?.reloadData()
@@ -74,8 +74,8 @@ public class CourseTableViewController: BaseTableViewController {
         navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
         
         // register
-//        tableView.registerClass(<#T##cellClass: AnyClass?##AnyClass?#>, forCellReuseIdentifier: CourseTableViewCellReuseId)
-//        tableView.registerClass(<#T##aClass: AnyClass?##AnyClass?#>, forHeaderFooterViewReuseIdentifier: CourseTableViewSectionHeaderViewReuseId)
+        tableView.registerClass(CourseTableViewCell.self, forCellReuseIdentifier: CourseTableViewCellReuseId)
+        tableView.registerClass(CourseTableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: CourseTableViewSectionHeaderViewReuseId)
     }
     
     ///  获取学生可用时间表
@@ -99,20 +99,28 @@ public class CourseTableViewController: BaseTableViewController {
             if let errorMessage = errorMessage {
                 println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
             }
-            }, completion: { [weak self] (courseList) -> Void in
-                println("学生课程表: \(courseList)")
-                guard courseList != nil else {
-                    println("学生上课时间表为空！")
-                    return
-                }
-                self?.model = parseStudentCourseTable(courseList!)
-            })
+        }, completion: { [weak self] (courseList) -> Void in
+            println("学生课程表: \(courseList)")
+            guard courseList != nil else {
+                println("学生上课时间表为空！")
+                return
+            }
+            self?.model = parseStudentCourseTable(courseList!)
+            println("我的课表: \(self?.model)")
+        })
     }
     
     
     // MARK: - DataSource
+    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return model?.count ?? 0
+    }
+    
     public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(CourseTableViewCellReuseId, forIndexPath: indexPath) as! CourseTableViewCell
+        
+        return cell
     }
     
     
@@ -124,6 +132,18 @@ public class CourseTableViewController: BaseTableViewController {
     public override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseTableViewSectionHeaderViewReuseId)
         return headerView
+    }
+    
+    public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 140
+    }
+    
+    public override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 500
+    }
+    
+    public override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
     }
     
     
