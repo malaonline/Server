@@ -28,7 +28,7 @@ from app.utils.db import paginate, Pager
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
-from app.tasks import send_push
+from app.tasks import send_push, Remind
 
 
 logger = logging.getLogger('app')
@@ -1446,7 +1446,7 @@ class StudentScheduleActionView(BaseStaffActionView):
 
         # JPush 通知
         extras = {
-            "type": "1",  # 课程变动
+            "type": Remind.COURSE_CHANGED,  # 课程变动
             "code": None
         }
 
@@ -1463,7 +1463,12 @@ class StudentScheduleActionView(BaseStaffActionView):
             subject,
             new_start,
             new_end)
-        send_push.delay(msg, title="课程变动", user_ids=[timeslot.order.parent.user_id], extras=extras)
+        send_push.delay(
+            msg,
+            title=Remind.title(Remind.COURSE_CHANGED),
+            user_ids=[timeslot.order.parent.user_id],
+            extras=extras
+        )
 
         return JsonResponse({'ok': True})
 
@@ -1966,10 +1971,15 @@ class OrderRefundActionView(BaseStaffActionView):
                 _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
                 # JPush 通知
                 extras = {
-                    "type": "2",  # 退费成功
+                    "type": Remind.ORDER_REFUNDED,  # 退费成功
                     "code": order.id
                 }
-                send_push.delay("您有一笔退费已完成>>", title="退费成功", user_ids=[parent.user_id], extras=extras)
+                send_push.delay(
+                    "您有一笔退费已完成>>",
+                    title=Remind.title(Remind.ORDER_REFUNDED),
+                    user_ids=[parent.user_id],
+                    extras=extras
+                )
                 return JsonResponse({'ok': True})
         return JsonResponse({'ok': False, 'msg': '退费审核失败, 请检查订单状态', 'code': 'order_06'})
 

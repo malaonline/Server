@@ -37,6 +37,11 @@ celery_app.conf.update(
             "schedule": timedelta(
                 seconds=15),
         },
+        "remind-coupons": {
+            "task": "app.tasks.autoRemindCoupons",
+            "schedule": timedelta(
+                seconds=15),
+        },
         "cancel-orders": {
             "task": "app.tasks.autoCancelOrders",
             "schedule": timedelta(

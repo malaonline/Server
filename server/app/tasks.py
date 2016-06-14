@@ -10,10 +10,32 @@ from django.utils import timezone
 import jpush
 
 from celery import shared_task
-from .models import TimeSlot, TimeSlotAttendance, Order, Teacher
+from .models import TimeSlot, TimeSlotAttendance,\
+    Order, Teacher, Coupon
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 
 logger = logging.getLogger('app')
+
+
+class Remind:
+    # 通知和提醒类型
+    COURSE_CHANGED = "1"
+    ORDER_REFUNDED = "2"
+    COURSE_CONFIRMED = "3"
+    COURSE_REMIND = "4"
+    COUPON_WILL_EXPIRED = "5"
+    # 标题
+    titles = {
+        COURSE_CHANGED: '课程变动',
+        ORDER_REFUNDED: '退费成功',
+        COURSE_CONFIRMED: '完课评价',
+        COURSE_REMIND: '课前通知',
+        COUPON_WILL_EXPIRED: '奖学金即将到期'
+    }
+
+    @staticmethod
+    def title(remind_type):
+        return Remind.titles.get(remind_type)
 
 
 @shared_task
@@ -27,10 +49,15 @@ def autoConfirmClasses():
         user_ids.append(timeslot.order.parent.user_id)
     # JPush 通知
     extras = {
-        "type": "3",  # 完课评价
+        "type": Remind.COURSE_CONFIRMED,  # 完课评价
         "code": None
     }
-    send_push.delay("您有课程已完成, 去评价>>", title="完课评价", user_ids=user_ids, extras=extras)
+    send_push.delay(
+        "您有课程已完成, 去评价>>",
+        title=Remind.title(Remind.COURSE_CONFIRMED),
+        user_ids=user_ids,
+        extras=extras
+    )
     return True
 
 
@@ -38,7 +65,7 @@ def autoConfirmClasses():
 def autoRemindClasses():
     # JPush 通知
     extras = {
-        "type": "4",  # 课前通知
+        "type": Remind.COURSE_REMIND,  # 课前通知
         "code": None
     }
     remind_time = timezone.now() + TimeSlot.REMIND_TIME
@@ -50,10 +77,45 @@ def autoRemindClasses():
             timeslot.end.astimezone().time().strftime("%H:%M"),
             timeslot.subject.name
         )
-        send_push.delay(msg, title="课前通知", user_ids=user_ids, extras=extras)
+        send_push.delay(
+            msg,
+            title=Remind.title(Remind.COURSE_REMIND),
+            user_ids=user_ids,
+            extras=extras
+        )
         # 标记为已推送
         timeslot.reminded = True
         timeslot.save()
+
+
+@shared_task
+def autoRemindCoupons():
+    # JPush 通知
+    extras = {
+        "type": Remind.COUPON_WILL_EXPIRED,  # 奖学金即将到期
+        "code": None
+    }
+    remind_time = timezone.now() + Coupon.REMIND_TIME
+    targets = Coupon.objects.filter(
+        used=False,
+        validated_start__lt=timezone.now(),
+        expired_at__lt=remind_time,
+        reminded=False
+    )
+    for coupon in targets:
+        user_ids = [coupon.parent.user_id]
+        msg = "您有一张%d元的奖学金券即将到期，快去使用吧>>" % (
+            coupon.amount_yuan
+        )
+        send_push.delay(
+            msg,
+            title=Remind.title(Remind.COUPON_WILL_EXPIRED),
+            user_ids=user_ids,
+            extras=extras
+        )
+        # 标记为已推送
+        coupon.reminded = True
+        coupon.save()
 
 
 @shared_task

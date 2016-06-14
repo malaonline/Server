@@ -1340,10 +1340,14 @@ class CouponGenerator(BaseModel):
 
 class Coupon(BaseModel):
     # 优惠卷
+    # 过期提醒时间
+    REMIND_TIME = datetime.timedelta(days=3)
     parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+    # 标记此 Coupon 是否推送过通知
+    reminded = models.BooleanField(default=False)
     validated_start = models.DateTimeField(
             null=False, blank=False, default=timezone.now)
     expired_at = models.DateTimeField(
