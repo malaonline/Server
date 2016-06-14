@@ -24,6 +24,7 @@ from app.utils import get_server_host
 from app.utils.smsUtil import tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.types import parseInt
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
+from app.tasks import registerKuaiLeXueUserByOrder
 from .wxapi import *
 
 logger = logging.getLogger('app')
@@ -445,6 +446,8 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+str(order_id))
     try:
         models.Order.objects.allocate_timeslots(order)
+        # 把学生和老师注册到快乐学
+        registerKuaiLeXueUserByOrder.delay(order.id)
         # return JsonResponse({'ok': 1})
     except TimeSlotConflict:
         logger.warning('timeslot conflict, do refund, order_id: '+str(order_id))

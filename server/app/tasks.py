@@ -11,6 +11,7 @@ import jpush
 
 from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance, Order, Teacher
+from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 
 logger = logging.getLogger('app')
 
@@ -104,6 +105,7 @@ def autoCancelOrders():
     logger.debug("effected target amount:%d" % (len(operateTargets)))
     return True
 
+
 @shared_task
 def autoAddTeacherTeachingAge():
     cpmStartDate = timezone.now()
@@ -123,3 +125,29 @@ def autoAddTeacherTeachingAge():
         teacher.save()
 
     return True;
+
+
+@shared_task
+def registerKuaiLeXueUserByOrder(oid):
+    '''
+    注册快乐学用户, 订单付款后, 把学生和老师注册到快乐学, 并关联师生关系
+    :param oid: models.Order.id
+    :return: True or not
+    '''
+    order = Order.objects.get(oid)
+    parent = order.parent
+    teacher = order.teacher
+    klx_stu_name = klx_reg_student(parent)
+    if not klx_stu_name: # just try again
+        klx_stu_name = klx_reg_student(parent)
+    if not klx_stu_name:
+        return False
+    klx_tea_name = klx_reg_teacher(teacher)
+    if not klx_tea_name: # just try again
+        klx_tea_name = klx_reg_teacher(teacher)
+    if not klx_tea_name:
+        return False
+    ok = klx_relation(klx_tea_name, klx_stu_name)
+    if not ok: # just try again
+        ok = klx_relation(klx_tea_name, klx_stu_name)
+    return ok

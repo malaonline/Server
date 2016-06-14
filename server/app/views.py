@@ -35,7 +35,7 @@ from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError,\
         KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
 
-from .tasks import autoConfirmClasses
+from .tasks import autoConfirmClasses, registerKuaiLeXueUserByOrder
 
 logger = logging.getLogger('app')
 
@@ -125,6 +125,8 @@ class ChargeSucceeded(View):
                 raise e
         try:
             models.Order.objects.allocate_timeslots(order)
+            # 把学生和老师注册到快乐学
+            registerKuaiLeXueUserByOrder.delay(order.id)
             return JsonResponse({'ok': 1})
         except TimeSlotConflict:
             logger.info('timeslot conflict, do refund')
