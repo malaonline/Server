@@ -34,6 +34,28 @@ def autoConfirmClasses():
 
 
 @shared_task
+def autoRemindClasses():
+    # JPush 通知
+    extras = {
+        "type": "4",  # 课前通知
+        "code": None
+    }
+    remind_time = timezone.now() + TimeSlot.REMIND_TIME
+    targets = TimeSlot.objects.filter(deleted=False, start__lt=remind_time, reminded=False)
+    for timeslot in targets:
+        user_ids = [timeslot.order.parent.user_id]
+        msg = "您在%s-%s有一节%s课，记得准时参加哦>>" % (
+            timeslot.start.astimezone().time().strftime("%H:%M"),
+            timeslot.end.astimezone().time().strftime("%H:%M"),
+            timeslot.subject.name
+        )
+        send_push.delay(msg, title="课前通知", user_ids=user_ids, extras=extras)
+        # 标记为已推送
+        timeslot.reminded = True
+        timeslot.save()
+
+
+@shared_task
 def send_push(msg, user_ids=None, extras=None, title=None):
     '''
     user_ids is a list of user_id [1, 2, ...]

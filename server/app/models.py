@@ -2089,6 +2089,7 @@ class TimeSlot(BaseModel):
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=2)
     CONFIRM_TIME = datetime.timedelta(hours=2)
+    REMIND_TIME = datetime.timedelta(hours=2)
     COMMENT_DELAY = datetime.timedelta(days=15)
 
     order = models.ForeignKey(Order)
@@ -2111,6 +2112,8 @@ class TimeSlot(BaseModel):
     deleted = models.BooleanField(default=False)
     # suspended 单独指示被停的课, 和被删掉的区分开
     suspended = models.BooleanField(default=False)
+    # 标记此 TimeSlot 是否推送过通知
+    reminded = models.BooleanField(default=False)
 
     # The default manager.
     objects = models.Manager()
