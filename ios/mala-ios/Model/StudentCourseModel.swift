@@ -84,7 +84,7 @@ public class StudentCourseModel: BaseObjectModel {
     
     // MARK: - Description
     override public var description: String {
-        let keys = ["id", "start", "end", "subject", "grade", "school", "is_passed", "date"]
-        return "\n"+dictionaryWithValuesForKeys(keys).description+"\n"
+        let keys = ["id", "start", "end", "subject", "grade", "school", "is_passed"]
+        return "\n"+dictionaryWithValuesForKeys(keys).description+" Date: "+(getDateTimeString(end))+"\n"
     }
 }

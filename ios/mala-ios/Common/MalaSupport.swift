@@ -116,50 +116,59 @@ public func weekdayInt(date: NSDate) -> Int {
 ///  - returns: ClassScheduleViewController.model数据
 func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCourseModel]]] {
     
-    var monthDicts = [String:[String:[StudentCourseModel]]]()
+//    let tempCourseList = [StudentCourseModel](courseTable.reverse())
     
-    ///  遍历上课时间表
-    for course in courseTable {
+    
+    let courseList = [StudentCourseModel](courseTable.reverse())
+    var datas = [[[StudentCourseModel]]]()
+    var currentMonthsIndex: Int = 0
+    var currentDaysIndex: Int = 0
+    
+    for (index, course) in courseList.enumerate() {
         
         let day = String(format: "%d", course.date.day())
         let month = String(format: "%d", course.date.month())
         let year = String(format: "%d", course.date.year())
         
-        println("当前遍历 - 月份: \(course.date.month()) - 日期:\(day)")
+        println("课表年月日: \(year)-\(month)-\(day)")
         
-        if monthDicts[year+month] == nil {
-            // 没有月份字典
-            monthDicts[year+month] = [String:[StudentCourseModel]]()
-            monthDicts[year+month]![day] = [StudentCourseModel]()
+        let courseYearAndMonth = String(course.date.year())+String(course.date.month())
+        let courseDay = course.date.day()
+        
+        if index > 0 {
             
-        }else if monthDicts[year+month]![day] == nil {
-            // 没有日期字典
-            monthDicts[year+month]![day] = [StudentCourseModel]()
+            let previousCourse = courseList[index-1]
+            
+            if courseYearAndMonth == String(previousCourse.date.year())+String(previousCourse.date.month()) {
+                
+                if courseDay == previousCourse.date.day() {
+                    println("同年同月同日")
+                    // 同年同月同日
+                    datas[currentMonthsIndex][currentDaysIndex].append(course)
+                }else {
+                    println("同年同月不同日")
+                    // 同年同月
+                    datas[currentMonthsIndex].append([course])
+                    currentDaysIndex += 1
+                }
+            }else {
+                println("非同年同月")
+                // 非同年同月
+                datas.append([[course]])
+                currentMonthsIndex += 1
+                currentDaysIndex = 0
+            }
+            
+        }else {
+            println("均不同")
+            // 均不同
+            datas.append([[course]])
+            currentMonthsIndex = 0
+            currentDaysIndex = 0
         }
-        
-        // 月份与日期均存在，添加数据到list
-        monthDicts[year+month]![day]!.append(course)
     }
-    
-    /// 排序
-
-    
-    
-    /// 解析[课表字典数据]为[课表数组数据]
-    var data = [[[StudentCourseModel]]]()
-    
-    for items in monthDicts.enumerate() {
-        
-        var monthItem = [[StudentCourseModel]]()
-        
-        for item in items.element.1.enumerate() {
-            monthItem.append(item.element.1)
-        }
-        
-        data.append(monthItem)
-    }
-    
-    return data
+    println("课表字典: \(datas)")
+    return datas
 }
 
 ///  根据时间戳获取时间字符串（例如12:00）
