@@ -80,7 +80,14 @@
                         <th class="text-center">代金券金额</td>
                       </tr>
                       <tr class="couponCondition">
-                        <td class="text-center input-td">购买<input type="text" id="mini_course_count"  data-action="integer" value="{%if couponGenerator%}{{couponGenerator.mini_course_count}}{%endif%}"/>课时</td>
+                        <td class="text-center input-td">
+                            <div style="display: none">
+                                购买<input type="text" id="mini_course_count"  data-action="integer" value="{%if couponGenerator%}{{couponGenerator.mini_course_count}}{%endif%}"/>课时
+                            </div>
+                            <div>
+                                满<input type="text" id="mini_total_price"  data-action="integer" value="{%if couponGenerator%}{%widthratio couponGenerator.mini_total_price 100 1%}{%endif%}"/>元
+                            </div>
+                        </td>
                         <td class="text-center input-td"><input type="text" id="amount" data-action="integer" value="{%if couponGenerator%}{%widthratio couponGenerator.amount 100 1%}{%endif%}"/>元</td>
                       </tr>
                   </table>
@@ -105,7 +112,14 @@
                         <th class="text-center">代金券金额</td>
                       </tr>
                       <tr class="couponCondition">
-                        <td class="text-center input-td">购买<input type="text" id="mini_course_count_give"  data-action="integer"/>课时</td>
+                        <td class="text-center input-td">
+                            <div style="display: none">
+                                购买<input type="text" id="mini_course_count_give"  data-action="integer"/>课时
+                            </div>
+                            <div>
+                                满<input type="text" id="mini_total_price_give"  data-action="integer"/>元
+                            </div>
+                        </td>
                         <td class="text-center input-td"><input type="text" id="amount_give" data-action="integer"/>元</td>
                       </tr>
                   </table>

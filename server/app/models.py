@@ -1260,6 +1260,7 @@ class Parent(BaseModel):
                         parent=self, name='新生奖学金',
                         amount=couponGenerator.amount,
                         mini_course_count=couponGenerator.mini_course_count,
+                        mini_total_price=couponGenerator.mini_total_price,
                         validated_start=couponGenerator.validated_start,
                         expired_at=couponGenerator.expired_at, used=False)
         else:
@@ -1336,6 +1337,7 @@ class CouponGenerator(BaseModel):
             null=False, blank=False, default=timezone.now)
     amount = models.PositiveIntegerField()
     mini_course_count = models.PositiveSmallIntegerField(default=0)
+    mini_total_price = models.PositiveIntegerField(default=0)
 
 
 class Coupon(BaseModel):
@@ -1354,6 +1356,7 @@ class Coupon(BaseModel):
             null=False, blank=False, default=timezone.now)
     used = models.BooleanField(default=False)
     mini_course_count = models.PositiveSmallIntegerField(default=0)
+    mini_total_price = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,

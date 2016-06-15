@@ -2140,6 +2140,7 @@ class CouponConfigView(BaseStaffView):
         couponName = self.request.POST.get('couponName')
         amount = self.request.POST.get('amount', 0)
         mini_course_count = self.request.POST.get('mini_course_count', 0)
+        mini_total_price = self.request.POST.get('mini_total_price', 0)
         parent_phone = self.request.POST.get('parent_phone')
         expiredAt = self.request.POST.get('expiredAt', None)
         validatedStart = self.request.POST.get('validatedStart', None)
@@ -2170,7 +2171,11 @@ class CouponConfigView(BaseStaffView):
             try:
                 gen.mini_course_count = int(mini_course_count)
             except:
-                gen.mini_course_count =  0
+                gen.mini_course_count = 0
+            try:
+                gen.mini_total_price = int(mini_total_price)*100
+            except:
+                gen.mini_total_price = 0
 
             gen.save()
 
@@ -2195,10 +2200,21 @@ class CouponConfigView(BaseStaffView):
             try:
                 mini_course_count = int(mini_course_count)
             except:
-                mini_course_count =  0
-            cp = models.Coupon(parent=query_set[0], name=couponName, amount=amount*100,
-                                                mini_course_count=mini_course_count,validated_start=validated_start,
-                                                expired_at=expired_at,used=False)
+                mini_course_count = 0
+            try:
+                mini_total_price = int(mini_total_price)*100
+            except:
+                mini_total_price = 0
+            cp = models.Coupon(
+                parent=query_set[0],
+                name=couponName,
+                amount=amount*100,
+                mini_course_count=mini_course_count,
+                mini_total_price=mini_total_price,
+                validated_start=validated_start,
+                expired_at=expired_at,
+                used=False
+            )
             cp.save()
 
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})

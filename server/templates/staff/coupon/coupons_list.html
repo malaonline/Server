@@ -94,7 +94,10 @@
                                 <td>{{ coupon.parent.user.profile.phone}}</td>
                                 <td>{{ coupon.name }}</td>
                                 <td>{{ coupon.amount|money_format:'/' }}</td>
-                                <td> 购买{{ coupon.mini_course_count }}课时 </td>
+                                <td>
+                                    满 {% widthratio coupon.mini_total_price 100 1%} 元<br/>
+                                    购买 {{ coupon.mini_course_count }} 课时
+                                </td>
                                 <td>{{ coupon.print_validate_period }}</td>
                                 <td>{{ coupon.created_at|date:"Y-m-d" }}</td>
                                 <td>{{ coupon.used_at|date:"Y-m-d" }}</td>

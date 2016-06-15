@@ -45,7 +45,15 @@ $(function(){
     lasObj.after(newObj);
   });
   $('[data-action=save]').click(function(){
-    var rules = [], validatedStart = null, expiredAt = null, mini_course_count = null, amount = null, parent_phone = null, couponType = null, opened = 0;
+    var rules = [];
+    validatedStart = null;
+    expiredAt = null;
+    mini_course_count = null;
+    mini_total_price = null;
+    amount = null;
+    parent_phone = null;
+    couponType = null;
+    opened = 0;
     _.each($('[name=couponRule]'), function(item){
       rules[rules.length] = $(item).val();
     });
@@ -58,11 +66,13 @@ $(function(){
       validatedStart = $('#validatedStart_new').val();
       expiredAt = $('#expiredAt_new').val();
       mini_course_count = $('#mini_course_count').val();
+      mini_total_price = $('#mini_total_price').val();
       amount = $('#amount').val();
     }else if(couponType == 'give'){
       validatedStart = $('#validatedStart_give').val();
       expiredAt = $('#expiredAt_give').val();
       mini_course_count = $('#mini_course_count_give').val();
+      mini_total_price = $('#mini_total_price_give').val();
       amount = $('#amount_give').val();
       parent_phone = $('#parent_phone').val();
       if(parent_phone.trim().length == 0){
@@ -71,8 +81,8 @@ $(function(){
       }
     }
 
-    if(Number(mini_course_count) <= 0){
-      alert('请输入正确课时！');
+    if(Number(mini_course_count) < 0 || Number(mini_total_price) < 0) {
+      alert('请输入正确使用条件！');
       return false;
     }
     if(Number(amount) <= 0){
@@ -86,6 +96,7 @@ $(function(){
       'parent_phone': parent_phone,
       'amount': amount,
       'mini_course_count': mini_course_count,
+      'mini_total_price': mini_total_price,
       'expiredAt': expiredAt,
       'validatedStart': validatedStart,
       'couponName': '赠送奖学金',
@@ -96,6 +107,7 @@ $(function(){
       $('#validatedStart_give').val("");
       $('#expiredAt_give').val("");
       $('#mini_course_count_give').val("");
+      $('#mini_total_price_give').val("");
       $('#amount_give').val("");
       $('#parent_phone').val("");
     }
