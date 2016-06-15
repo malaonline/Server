@@ -135,32 +135,49 @@
                         <div class="teacher_avatar"></div>
                     </div>
                 </div>
-                <div class="weui_panel teacher_panel">
-                    <div>
+                <div class="weui_panel teacher_panel grade_panel">
+                    <div class="panel_title">
                         教授年级
                     </div>
                     <div>
                         {% for grade in grades_tree %}
-                            <div class="item_distance">
-                            {% for sub_grade in grade.children %}
-                                {% if sub_grade.id in teacher_grade_ids %}<label>{{ sub_grade.name }}</label>{% endif %}
-                            {% endfor %}
+                            <div class="icon_labels_row grade_row">
+                                <div class="icon_box grade_icon {{ grade.key }}">
+                                    <img class="elementary" src="{% static 'wechat/images/ic_pen.png' %}">
+                                    <img class="middle" src="{% static 'wechat/images/ic_book.png' %}">
+                                    <img class="high" src="{% static 'wechat/images/ic_hat.png' %}">
+                                </div>
+                                <div class="labels_box grade_names {{ grade.key }}">
+                                    {% for sub_grade in grade.children %}
+                                        <label>{{ sub_grade.name }}</label>
+                                        {% if forloop.counter == 3 %}
+                                            <br>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
-                    <div>
+                    <div class="panel_title">
                         风格标签
                     </div>
                     <div class="item_distance">
-                        {%for tg in tags%}
-                            <label>{{tg.name}}</label>
-                        {%endfor%}
+                        <div class="icon_labels_row tag_row">
+                            <div class="icon_box tags">
+                                <img class="tags" src="{% static 'wechat/images/ic_tag.png' %}">
+                            </div>
+                            <div class="labels_box tags">
+                                {%for tg in tags%}
+                                    <label>{{tg.name}}</label>
+                                {%endfor%}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel">
-                    <div>
+                    <div class="panel_title">
                         提分榜
                     </div>
                     <div class="highscore_tb">
@@ -183,7 +200,7 @@
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel weui_cells_access" id="photoContent">
-                    <div>
+                    <div class="panel_title">
                         个人相册
                         <div class="weui_cell_ft">
                             <img id="morePhotos">
@@ -193,17 +210,19 @@
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel achievements_panel" id="achievementsPanel">
-                    <div class="achievements_head">
+                    <div class="achievements_head panel_title">
                         特殊成就
                     </div>
                     <div class="item_distance_ach">
                         {%for am in achievements%}
-                            <label class="teacher_achievement" data-img="{{ am.img_url }}">{{am.title}}</label>
+                            <label class="teacher_achievement" data-img="{{ am.img_url }}">
+                                {{am.title}}<img src="{% static 'wechat/images/ic_pic.png' %}">
+                            </label>
                         {%endfor%}
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel school_panel">
-                    <div>
+                    <div class="panel_title">
                         教学环境
                     </div>
                     <div id="schoolsDiv">
@@ -233,18 +252,18 @@
                         {%endif%}
                     </div>
                 </div>
+{#                <div class="weui_panel teacher_panel">#}
+{#                    <div class="panel_title">#}
+{#                        会员服务#}
+{#                    </div>#}
+{#                    <div class="item_distance">#}
+{#                        {%for mb in memberService%}#}
+{#                            <label class="member_service">{{mb.name}}</label>#}
+{#                        {%endfor%}#}
+{#                    </div>#}
+{#                </div>#}
                 <div class="weui_panel teacher_panel">
-                    <div>
-                        会员服务
-                    </div>
-                    <div class="item_distance">
-                        {%for mb in memberService%}
-                            <label class="member_service">{{mb.name}}</label>
-                        {%endfor%}
-                    </div>
-                </div>
-                <div class="weui_panel teacher_panel">
-                    <div class="sub_title_head">
+                    <div class="panel_title">
                         <label>教龄</label><label>级别</label>
                     </div>
                     <div class="item_distance">

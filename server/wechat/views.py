@@ -806,6 +806,7 @@ def teacher_view(request):
     memberService = models.Memberservice.objects.all()
     achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
 
+    teacher_grade_ids = [grade.id for grade in teacher.grades()]
     grades_all = models.Grade.objects.all()
     _heap = {}
     grades_tree = []
@@ -813,10 +814,27 @@ def teacher_view(request):
         if not grade.superset_id:
             _temp = {'id':grade.id, 'name':grade.name, 'children':[]}
             _heap[grade.id] = _temp
-            grades_tree.append(_temp)
         else:
             _temp = _heap[grade.superset_id]
             _temp['children'].append({'id':grade.id, 'name':grade.name})
+    # 过滤该老师的
+    for _, _grade in _heap.items():
+        _children = _grade['children']
+        _exists = []
+        for _child in _children:
+            if _child['id'] in teacher_grade_ids:
+                _exists.append(_child)
+        if len(_exists) > 0:
+            _name = _grade['name']
+            _grade['children'] = _exists
+            if _name == '小学':
+                _grade['key'] = 'elementary'
+            if _name == '初中':
+                _grade['key'] = 'middle'
+            if _name == '高中':
+                _grade['key'] = 'high'
+            grades_tree.append(_grade)
+    grades_tree.sort(key=lambda x: x['id'])
 
     now_timestamp = int(time.time())
 
@@ -842,7 +860,7 @@ def teacher_view(request):
         "memberService": list(memberService),
         "subjects": models.Subject.objects.all,
         "grades_tree": grades_tree,
-        "teacher_grade_ids": [grade.id for grade in teacher.grades()],
+        "teacher_grade_ids": teacher_grade_ids,
         "teacher": teacher
     }
 

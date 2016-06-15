@@ -118,8 +118,18 @@ body{
 .teacher_panel{
   padding-left: 12px;
   padding-right: 12px;
-  padding-top: 16px;
   padding-bottom: 12px;
+  .panel_title {
+    background-color: #F6F6F6;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding: 2px 12px 6px 12px;
+    color: #333333;
+    font-size: 15px;
+    label {
+      margin-right: 12px;
+    }
+  }
   .weui_cell_ft{
     float: right;
     font-size: 20px;
@@ -139,6 +149,70 @@ body{
     color: #808080;
     font-size: 14px;
     font-family: FZLTXHK;
+  }
+}
+.icon_labels_row {
+  position: relative;
+  width: 100%;
+  &:first-child .labels_box{
+    border-top: 0;
+  }
+  &:last-child .labels_box{
+    padding-bottom: 0;
+  }
+  .icon_box {
+    position: absolute;
+    width: 32px;
+    padding-top: 10px;
+    img {
+      display: none;
+      width: 22px;
+      height: 22px;
+    }
+    &.elementary img.elementary{
+      display: inline-block;
+    }
+    &.middle img.middle{
+      display: inline-block;
+    }
+    &.high img.high{
+      display: inline-block;
+    }
+    &.tags {
+      padding-left: 12px;
+      img.tags {
+        display: inline-block;
+      }
+    }
+  }
+  .labels_box {
+    margin-left: 32px;
+    padding-bottom: 8px;
+    border-top: 1px solid #e5e5e5;
+    label {
+      display: inline-block;
+      height: 26px;
+      line-height: 26px;
+      padding: 0 6px;
+      margin-top: 8px;
+      border-radius: 3px;
+    }
+    &.elementary label{
+      color: #e25c5c;
+      background-color: #f9b7b7;
+    }
+    &.middle label{
+      color: #2b7bb4;
+      background-color: #b1d8f3;
+    }
+    &.high label{
+      color: #259746;
+      background-color: #bfe7ca;
+    }
+    &.tags label{
+      color: #5789ac;
+      background-color: #bcd0de;
+    }
   }
 }
 .teacher_highscore{
@@ -363,7 +437,7 @@ a{
 }
 .teacher_achievement{
 //  border: solid 1px #a5a5a5;
-  border: solid 1px rgba(165,165,165,0.5);
+//  border: solid 1px rgba(165,165,165,0.5);
   padding: 2px 6px 0px 6px;
   border-radius: 4px;
   margin-top: 5px;
@@ -395,10 +469,17 @@ a{
   margin-left: -12px;
   clear: both;
   label{
-    color: #939393;
     float: left;
     margin-left: 12px;
     margin-top: 9px;
+    color: #ef8f1d;
+    background-color: #fcdfb7;
+    img {
+      margin-left: 3px;
+      width: 14px;
+      height: 14px;
+      vertical-align: sub;
+    }
   }
 }
 #photoContent{
@@ -417,12 +498,10 @@ a{
   font-size: 15px;
   margin-bottom: 1px;
 }
-.achievements_panel{
-  padding-bottom: 16px;
-}
 .highscore_tb{
   margin-top: 6px;
   margin-bottom: 3px;
+  padding-top: 12px;
 }
 .school_panel{
   padding-bottom: 0px;
@@ -439,18 +518,5 @@ a{
   img{
     width: 15px;
     height: 8px;
-  }
-}
-.sub_title_label{
-  color: #333333;
-}
-.sub_title_head{
-  margin-left: -12px;
-  label{
-    color: #333333;
-    font-size: 15px;
-    float: left;
-    margin-left: 12px;
-    margin-top: 2px;
   }
 }
