@@ -15,7 +15,7 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
     var timeInterval: NSTimeInterval? = 0 {
         didSet {
             /// 同年日期仅显示月份，否则显示年月
-            let formatter = NSDate(timeIntervalSince1970: timeInterval ?? 0).year() == NSDate().year() ? "MM月" : "yyyy年MM月"
+            let formatter = NSDate(timeIntervalSince1970: timeInterval ?? 0).year() == NSDate().year() ? "M月" : "yyyy年M月"
             dateLabel.text = getDateString(timeInterval, format: formatter)
         }
     }

@@ -11,7 +11,7 @@ import UIKit
 private let CourseTableViewSectionHeaderViewReuseId = "CourseTableViewSectionHeaderViewReuseId"
 private let CourseTableViewCellReuseId = "CourseTableViewCellReuseId"
 
-public class CourseTableViewController: BaseTableViewController {
+public class CourseTableViewController: UITableViewController {
 
     // MARK: - Property
     /// 上课时间表数据模型
@@ -66,6 +66,8 @@ public class CourseTableViewController: BaseTableViewController {
         // tableView
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .None
+        tableView.backgroundColor = UIColor.whiteColor()
         
         // Navigation
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
@@ -115,41 +117,36 @@ public class CourseTableViewController: BaseTableViewController {
     public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return model?.count ?? 0
     }
-    
     public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return model?[section].count ?? 0
     }
-    
     public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseTableViewCellReuseId, forIndexPath: indexPath) as! CourseTableViewCell
-        
+        cell.model = model?[indexPath.section][indexPath.row]
         return cell
     }
     
     
     // MARK: - Delegate
-    public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
     public override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseTableViewSectionHeaderViewReuseId) as! CourseTableViewSectionHeader
         headerView.timeInterval = model?[section][0][0].start
         return headerView
     }
-    
     public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 140
     }
-    
-    public override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 500
-    }
-    
     public override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.01
+        return 20
     }
+    public override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat((model?[indexPath.section][indexPath.row].count ?? 0) * 102)
+    }
+    public override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
+    
+    
     
     
     // MARK: - Event Response

@@ -921,6 +921,9 @@
 		F4F29B001D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
 		F4F29B011D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
 		F4F29B021D0FF001000D1904 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */; };
+		F4F29B061D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
+		F4F29B071D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
+		F4F29B081D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1216,6 +1219,7 @@
 		F4F1EBE01CF6B98500EBDBF6 /* YLProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLProgressBar.m; sourceTree = "<group>"; };
 		F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewSectionHeader.swift; sourceTree = "<group>"; };
 		F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
+		F4F29B051D10FF92000D1904 /* SingleCourseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleCourseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2044,6 +2048,7 @@
 			children = (
 				F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */,
 				F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */,
+				F4F29B051D10FF92000D1904 /* SingleCourseView.swift */,
 			);
 			path = Course;
 			sourceTree = "<group>";
@@ -2726,6 +2731,7 @@
 				F460652D1C97B1C8004056B1 /* AboutViewController.swift in Sources */,
 				307AB8A21C33CDD200D8397F /* TeacherDetailModel.swift in Sources */,
 				F4ADCFE41D0FC3CD004D517A /* CourseTableViewController.swift in Sources */,
+				F4F29B061D10FF92000D1904 /* SingleCourseView.swift in Sources */,
 				F4402D5D1C54A5CC00E7D3DB /* CourseChoosingPlaceTableView.swift in Sources */,
 				303BCFF21C44A86200B37DD9 /* SchoolModel.swift in Sources */,
 				F45871FA1C51E0270048D93F /* CourseChoosingTimeScheduleCell.swift in Sources */,
@@ -2934,6 +2940,7 @@
 				35FF7AD01CF8325A000A70EE /* AboutViewController.swift in Sources */,
 				35FF7AD11CF8325A000A70EE /* TeacherDetailModel.swift in Sources */,
 				F4ADCFE51D0FC3CD004D517A /* CourseTableViewController.swift in Sources */,
+				F4F29B071D10FF92000D1904 /* SingleCourseView.swift in Sources */,
 				35FF7AD21CF8325A000A70EE /* CourseChoosingPlaceTableView.swift in Sources */,
 				35FF7AD31CF8325A000A70EE /* SchoolModel.swift in Sources */,
 				35FF7AD41CF8325A000A70EE /* CourseChoosingTimeScheduleCell.swift in Sources */,
@@ -3142,6 +3149,7 @@
 				35FF7BB31CF83264000A70EE /* AboutViewController.swift in Sources */,
 				35FF7BB41CF83264000A70EE /* TeacherDetailModel.swift in Sources */,
 				F4ADCFE61D0FC3CD004D517A /* CourseTableViewController.swift in Sources */,
+				F4F29B081D10FF92000D1904 /* SingleCourseView.swift in Sources */,
 				35FF7BB51CF83264000A70EE /* CourseChoosingPlaceTableView.swift in Sources */,
 				35FF7BB61CF83264000A70EE /* SchoolModel.swift in Sources */,
 				35FF7BB71CF83264000A70EE /* CourseChoosingTimeScheduleCell.swift in Sources */,

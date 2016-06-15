@@ -265,6 +265,26 @@ func getTimeSchedule(timeIntervals timeStamps: [[NSTimeInterval]]) -> [String] {
     return timeSchedule
 }
 
+///  获取日期对应星期字符串
+///
+///  - parameter timeStamp: 时间戳
+///  - parameter date:      日期对象
+///
+///  - returns: 星期字符串
+func getWeekString(timeStamp: NSTimeInterval? = nil, date: NSDate? = nil) -> String {
+    
+    var weekInt = 0
+    
+    if let timeStamp = timeStamp {
+        weekInt = NSDate(timeIntervalSince1970: timeStamp).weekday()
+    }else if let date = date {
+        weekInt = date.weekday()
+    }
+    
+    weekInt = weekInt == 7 ? 0 : weekInt
+    return MalaConfig.malaWeekdays()[weekInt]
+}
+
 ///  解析学生上课时间表
 ///
 ///  - parameter timeSchedule: 上课时间表数据
