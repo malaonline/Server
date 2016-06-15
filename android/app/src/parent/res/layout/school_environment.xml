@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/AppWidget.listLayout">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/teacher_body_prices_padding_bottom"
-        android:text="@string/teaching_environment"
-        android:textColor="@color/teacher_title_text_color"
-        android:textSize="@dimen/text_size_large_x" />
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
 
     <com.malalaoshi.android.view.ScrollListView
         android:id="@+id/listview_school"

@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"/>
     <View
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="49dp"
         android:id="@+id/view_line"
         android:alpha="0"
         android:layout_width="match_parent"
@@ -58,31 +58,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/teacher_body_margin_bottom"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
         android:alpha="0.96"
         android:background="@color/backgrounp"
         android:orientation="vertical">
-
         <View
+            android:id="@+id/view_line_bottom"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:alpha="0.25"
             android:background="@color/colorBlack" />
-
-        <Button
-            android:id="@+id/parent_teacher_signup_btn"
+        <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/teacher_body_margin_button"
-            android:layout_marginLeft="@dimen/teacher_body_padding_normal"
-            android:layout_marginRight="@dimen/teacher_body_padding_normal"
-            android:layout_marginTop="@dimen/teacher_body_margin_button"
-            android:background="@drawable/signup_button"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_collect"
+            android:layout_width="0dp"
+            android:layout_weight="27"
+            android:layout_height="49dp"
+            android:background="@color/white"
+            android:drawableTop="@drawable/ic_uncollect"
+            android:drawablePadding="1dp"
+            android:text="收藏"
+            android:gravity="center"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:id="@+id/parent_teacher_signup_btn"
+            android:layout_width="0dp"
+            android:layout_weight="37"
+            android:layout_height="49dp"
+            android:background="@drawable/logout_btn"
             android:enabled="false"
             android:gravity="center"
             android:text="@string/sign_up_immediately"
-            android:textColor="@color/button_border"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_xlarge" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

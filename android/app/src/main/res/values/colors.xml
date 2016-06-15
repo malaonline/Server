@@ -121,4 +121,11 @@
     <color name="comment_course_text_color">#bebebe</color>
     <color name="comment_content_text_color">#939393</color>
     <color name="comment_content_hint_color">#d4d4d4</color>
+
+    <color name="certificate_text_color">#Ef8f1d</color>
+
+    <color name="tag_text_color">#5789ac</color>
+    <color name="senior_text_color">#259746</color>
+    <color name="junior_text_color">#2b7bb4</color>
+    <color name="primary_text_color">#e25c5c</color>
 </resources>

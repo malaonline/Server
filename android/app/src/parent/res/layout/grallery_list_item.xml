@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.drawee.view.SimpleDraweeView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/iv_grallery"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@drawable/ic_default_img"
+        fresco:placeholderImageScaleType="centerCrop"
+        fresco:failureImage="@drawable/ic_default_img"
+        fresco:failureImageScaleType="centerCrop"
+        fresco:fadeDuration="1000"
+        fresco:backgroundImage="@color/white"
+        />

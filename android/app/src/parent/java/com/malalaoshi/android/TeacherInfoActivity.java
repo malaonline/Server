@@ -3,26 +3,31 @@ package com.malalaoshi.android;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
+import com.malalaoshi.android.adapter.GralleryAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
-import com.malalaoshi.android.api.MemberServiceApi;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -36,24 +41,19 @@ import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
 import com.malalaoshi.android.entity.HighScore;
-import com.malalaoshi.android.entity.MemberService;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.fragments.LoginFragment;
 import com.malalaoshi.android.listener.BounceTouchListener;
-import com.malalaoshi.android.result.MemberServiceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.FrescoUtil;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.Number;
-import com.malalaoshi.android.view.CircleImageView;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -62,7 +62,7 @@ import butterknife.ButterKnife;
 /**
  * Created by kang on 16/3/29.
  */
-public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener {
+public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener, AdapterView.OnItemClickListener {
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
@@ -114,56 +114,77 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.parent_teaching_price_tv)
     protected TextView mPriceRegion;
 
-    //授课年级
-    @Bind(R.id.parent_teacher_detail_grade_fl)
-    protected FlowLayout mGrades;
+    //教龄
+    @Bind(R.id.view_teacher_level)
+    protected View viewTeacherLevel;
+
+    @Bind(R.id.tv_teacher_level)
+    protected TextView tvTeacherLevel;
+
+    //级别
+    @Bind(R.id.view_teacher_seniority)
+    protected View viewTeacherSeniority;
+
+    @Bind(R.id.tv_teacher_seniority)
+    protected TextView tvTeacherSeniority;
+
+    //教授年级
+    //小学
+    @Bind(R.id.rl_teach_primary)
+    protected RelativeLayout rlTeachPrimary;
+
+    @Bind(R.id.fl_teach_primary)
+    protected FlowLayout flTeachPrimary;
+
+    @Bind(R.id.view_primary_line)
+    protected View viewPrimaryLine;
+
+    //初中
+    @Bind(R.id.rl_teach_junior)
+    protected RelativeLayout rlTeachJunior;
+
+    @Bind(R.id.fl_teach_junior)
+    protected FlowLayout flTeachJunior;
+
+    @Bind(R.id.view_junior_line)
+    protected View viewJuniorLine;
+
+    //高中
+    @Bind(R.id.rl_teach_senior)
+    protected RelativeLayout rlTeachSenior;
+
+    @Bind(R.id.fl_teach_senior)
+    protected FlowLayout flTeachSenior;
 
     //标签
-    @Bind(R.id.parent_teacher_detail_tag_ll)
-    protected LinearLayout mTagLayout;
-
-    //教师分格
     @Bind(R.id.parent_teacher_detail_tag_fl)
-    protected FlowLayout mTeachingTags;
+    protected FlowLayout flTags;
 
     //教师提分榜
     @Bind(R.id.parent_teacher_detail_highscore_listview)
     protected ListView mHighScoreList;
 
     //个人相册
-    @Bind(R.id.parent_teacher_detail_gallery_ll)
-    protected LinearLayout mLlGallery;
-
-    //个人相册
-    @Bind(R.id.parent_teacher_detail_gallery_more_iv)
-    protected ImageView mMoreGallery;
+    @Bind(R.id.gv_grallery)
+    protected GridView gvGrallery;
 
     //更多相册
-    @Bind(R.id.parent_teacher_detail_gallery_fl)
-    protected FlowLayout mGallery;
+    @Bind(R.id.tv_gallery_more)
+    protected TextView tvGalleryMore;
+
+    private GralleryAdapter gralleryAdapter;
 
     //特殊成就
     @Bind(R.id.parent_teacher_detail_achievement_fl)
     protected FlowLayout mAchievement;
 
-    @Bind(R.id.parent_teacher_detail_memberservice_ll)
-    protected LinearLayout mMemberServiceLayout;
-
-    //会员服务
-    @Bind(R.id.parent_teacher_detail_memberservice_fl)
-    protected FlowLayout mMemberServiceFl;
-
-    //教龄级别
-    @Bind(R.id.parent_teacher_detail_level_tv)
-    protected TextView mTeacherLevel;
+    //收藏老师
+    @Bind(R.id.btn_collect)
+    protected TextView tvCollect;
 
     //马上报名
     @Bind(R.id.parent_teacher_signup_btn)
-    protected Button mSignUp;
-
-    //教学环境
-    @Bind(R.id.ll_school_environment)
-    protected LinearLayout llSchoolEnviroment;
+    protected TextView tvSignUp;
 
     //学习中心列表
     @Bind(R.id.listview_school)
@@ -185,7 +206,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     private boolean teacherInfoFlag = false;
     private boolean schoolFlag = false;
-    private boolean memberFlag = false;
 
     public static void open(Context context, Long teacherId) {
         if (teacherId != null) {
@@ -226,22 +246,24 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
 
     private void stopProcess() {
-        if (teacherInfoFlag && schoolFlag && memberFlag) {
+        if (teacherInfoFlag && schoolFlag) {
             stopProcessDialog();
         }
     }
 
     private void initViews() {
+        //gvGrallery.setFocusable(false);
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
     }
 
     private void setEvent() {
-        mMoreGallery.setOnClickListener(this);
-        mSignUp.setOnClickListener(this);
+        tvSignUp.setOnClickListener(this);
         llSchoolMore.setOnClickListener(this);
+        tvGalleryMore.setOnClickListener(this);
         scrollView.setScrollViewListener(this);
         titleBarView.setOnTitleBarClickListener(this);
+        gvGrallery.setOnItemClickListener(this);
     }
 
     private void initData() {
@@ -249,22 +271,50 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         mTeacherId = intent.getLongExtra(EXTRA_TEACHER_ID, 0);
         mAllSchools = new ArrayList<>();
         mFirstSchool = new ArrayList<>();
-        mSchoolAdapter = new SchoolAdapter(this, mFirstSchool);
+        mSchoolAdapter = new SchoolAdapter(this);
         listviewSchool.setAdapter(mSchoolAdapter);
+        gralleryAdapter = new GralleryAdapter(this);
+        gvGrallery.setAdapter(gralleryAdapter);
 
         startProcessDialog("正在加载数据···");
+        loadData();
+    }
+
+    private void loadData() {
         //老师
         loadTeacherInfo();
-        //Member services
-        ApiExecutor.exec(new LoadMemberServicesRequest(this));
         //请求教学环境信息
+        loadSchools();
+    }
+
+    private void loadTeacherInfo() {
+        if (mTeacherId == null) {
+            return;
+        }
+        ApiExecutor.exec(new LoadTeacherInfoRequest(this, mTeacherId));
+    }
+
+    private void loadSchools() {
         ApiExecutor.exec(new LoadSchoolListRequest(this));
     }
 
-    private void onLoadSchoolListSuccess(SchoolListResult result) {
+    private void loadSchoolListSuccess(SchoolListResult result) {
         //获取体验中心
         mAllSchools.addAll(result.getResults());
-        if (mAllSchools.size() > 0) {
+        //无数据
+        if (mAllSchools.size() <= 0) {
+            return;
+        }
+
+        //获取位置
+        Location location = LocManager.getInstance().getLocation();
+        if (location!=null) {
+            //排序
+            LocationUtil.sortByDistance(mAllSchools, location.getLatitude(), location.getLongitude());
+            mFirstSchool.clear();
+            mFirstSchool.add(mAllSchools.get(0));
+            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
+        } else {
             School school;
             for (int i = 0; i < mAllSchools.size(); i++) {
                 if (mAllSchools.get(i).isCenter()) {
@@ -276,13 +326,17 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                     mAllSchools.set(0, school);
                     break;
                 }
+
             }
             mFirstSchool.add(mAllSchools.get(0));
-            dealSchools();
+            tvSchoolMore.setText("其他社区中心");
         }
+        isShowAllSchools = false;
+        mSchoolAdapter.addAll(mFirstSchool);
+        mSchoolAdapter.notifyDataSetChanged();
     }
 
-    private void dealSchools() {
+   /* private void dealSchools() {
         //无数据
         if (mAllSchools.size() <= 0 && mFirstSchool.size() <= 0) {
             return;
@@ -299,49 +353,13 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         } else {
             tvSchoolMore.setText("其他社区中心");
         }
-        updateUISchools();
-    }
+        mSchoolAdapter.notifyDataSetChanged();
+    }*/
 
-    private void onLoadTeacherInfoSuccess(@NonNull Teacher teacher) {
+    private void loadTeacherInfoSuccess(@NonNull Teacher teacher) {
         mTeacher = teacher;
         updateUI(mTeacher);
-        mSignUp.setEnabled(true);
-    }
-
-    private void loadTeacherInfo() {
-        if (mTeacherId == null) {
-            return;
-        }
-        ApiExecutor.exec(new LoadTeacherInfoRequest(this, mTeacherId));
-    }
-
-    private void onLoadMemberServiceSuccess(MemberServiceListResult result) {
-        if (result != null && result.getResults() != null && result.getResults().size() > 0) {
-            updateUIServices(result.getResults());
-        } else {
-            Log.e(LoginFragment.class.getName(), "member services request failed!");
-        }
-    }
-
-    //更新教学环境UI
-    private void updateUISchools() {
-        //教学环境
-        llSchoolEnviroment.setVisibility(View.VISIBLE);
-        llSchoolEnviroment.setFocusable(false);
-        mSchoolAdapter.notifyDataSetChanged();
-
-    }
-
-    //跟新会员服务接口
-    private void updateUIServices(List<MemberService> memberServices) {
-        if (memberServices != null && memberServices.size() > 0) {
-            mMemberServiceLayout.setVisibility(View.VISIBLE);
-            String[] datas = new String[memberServices.size()];
-            for (int i = 0; i < memberServices.size(); i++) {
-                datas[i] = memberServices.get(i).getName();
-            }
-            setFlowDatas(mMemberServiceFl, datas);
-        }
+        tvSignUp.setEnabled(true);
     }
 
     //跟新教师详情
@@ -353,7 +371,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             string = teacher.getName();
             if (string != null) {
                 mTeacherName.setText(string);
-                //titleBarView.setTitle(string);
             }
             //头像
             string = teacher.getAvatar();
@@ -389,17 +406,16 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 mPriceRegion.setText(region);
             }
 
-            //教授年级
+           //教授年级
             String[] grades = mTeacher.getGrades();
             if (grades != null && grades.length > 0) {
-                setFlowDatas(mGrades, grades);
+                setGradeTeaching(grades);
             }
 
             //分格标签
             String[] tags = mTeacher.getTags();
             if (tags != null && tags.length > 0) {
-                mTagLayout.setVisibility(View.VISIBLE);
-                setFlowDatas(mTeachingTags, tags);
+                setFlowDatas(flTags, tags, R.drawable.bg_text_tag, R.color.tag_text_color);
             }
 
             //提分榜
@@ -420,7 +436,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
 
             //教龄级别
-            String level = teacher.getLevel();
+         /*   String level = teacher.getLevel();
             Integer teachAge = teacher.getTeaching_age();
             if (level != null && teachAge != null) {
                 mTeacherLevel.setText(teachAge.toString() + "年" + "  " + level);
@@ -428,26 +444,135 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 mTeacherLevel.setText(level);
             } else if (teachAge != null) {
                 mTeacherLevel.setText(teachAge.toString() + "年");
+            }*/
+        }
+    }
+
+    private void setGradeTeaching(String[] grades) {
+        //数据处理
+        int count = 0;
+        List<String> primarys = getPrimaryData(grades);
+        if (primarys.size()>0){
+           setFlowDatas(flTeachPrimary, (String[]) primarys.toArray(new String[primarys.size()]),R.drawable.bg_text_primary,R.color.primary_text_color);
+        }else{
+            rlTeachPrimary.setVisibility(View.GONE);
+            count++;
+        }
+        List<String> juniors = getJuniorData(grades);
+        if (juniors.size()>0){
+            setFlowDatas(flTeachJunior, (String[]) juniors.toArray(new String[juniors.size()]),R.drawable.bg_text_junior,R.color.junior_text_color);
+        }else{
+            rlTeachJunior.setVisibility(View.GONE);
+            count++;
+        }
+
+        List<String> seniors = getSeniorData(grades);
+        if (seniors.size()>0){
+            setFlowDatas(flTeachSenior, (String[]) seniors.toArray(new String[seniors.size()]),R.drawable.bg_text_senior,R.color.senior_text_color);
+        }else{
+            rlTeachSenior.setVisibility(View.GONE);
+            count++;
+        }
+
+        if (count<=1){
+            viewPrimaryLine.setVisibility(View.GONE);
+            viewJuniorLine.setVisibility(View.GONE);
+            return;
+        }else if (count==2){
+            if (primarys.size()>0){
+                viewJuniorLine.setVisibility(View.GONE);
+                return;
+            }else if (seniors.size()>0){
+                viewPrimaryLine.setVisibility(View.GONE);
+                return;
             }
         }
+    }
+
+    private List<String> getPrimaryData(String[] grades) {
+        List<String> primarys = new ArrayList<>();
+        for (int i=0;i<grades.length;i++){
+            if (grades[i].equals("一年级")){
+                primarys.add("一年级");
+                continue;
+            }
+
+            if (grades[i].equals("二年级")){
+                primarys.add("二年级");
+                continue;
+            }
+
+            if (grades[i].equals("三年级")){
+                primarys.add("三年级");
+                continue;
+            }
+
+            if (grades[i].equals("四年级")){
+                primarys.add("四年级");
+                continue;
+            }
+
+            if (grades[i].equals("五年级")){
+                primarys.add("五年级");
+                continue;
+            }
+
+            if (grades[i].equals("六年级")){
+                primarys.add("六年级");
+                continue;
+            }
+        }
+        return primarys;
+    }
+
+    private List<String> getJuniorData(String[] grades) {
+        List<String> juniors = new ArrayList<>();
+        for (int i=0;i<grades.length;i++){
+            if (grades[i].equals("初一")){
+                juniors.add("初一");
+                continue;
+            }
+
+            if (grades[i].equals("初二")){
+                juniors.add("初二");
+                continue;
+            }
+
+            if (grades[i].equals("初三")){
+                juniors.add("初三");
+                continue;
+            }
+        }
+        return juniors;
+    }
+
+    private List<String> getSeniorData(String[] grades) {
+        List<String> seniors = new ArrayList<>();
+        for (int i=0;i<grades.length;i++){
+            if (grades[i].equals("高一")){
+                seniors.add("高一");
+                continue;
+            }
+
+            if (grades[i].equals("高二")){
+                seniors.add("高二");
+                continue;
+            }
+
+            if (grades[i].equals("高三")){
+                seniors.add("高三");
+                continue;
+            }
+        }
+        return seniors;
     }
 
     private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
-        int topButtomPadding = getResources().getDimensionPixelSize(R.dimen.item_text_top_bottom_padding);
-        int leftRightPadding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
+
         for (int i = 0; datas != null && i < datas.size(); i++) {
-            TextView textView = new TextView(this);
-            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            //int padding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
-            layoutParams.setMargins(leftRightPadding, topButtomPadding, leftRightPadding, topButtomPadding);
-            textView.setLayoutParams(layoutParams);
-            textView.setPadding(leftRightPadding, leftRightPadding, leftRightPadding, leftRightPadding);
-            textView.setText(datas.get(i).getTitle());
-            textView.setTextColor(getResources().getColor(R.color.prices_name_text_color));
-            textView.setBackground(getResources().getDrawable(drawable));
+            TextView textView = buildCertTextView(datas.get(i).getTitle(),0);
             final int finalI = i;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -472,75 +597,102 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void setFlowDatas(FlowLayout flowlayout, String[] datas) {
+    private TextView buildCertTextView(String title, int drawableId) {
+        TextView textView = new TextView(this);
+
+        int leftPadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_left_padding);
+        int rightPadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_right_padding);
+        int margin = getResources().getDimensionPixelSize(R.dimen.flow_textview_left_margin);
+        int height = getResources().getDimensionPixelSize(R.dimen.flow_textview_height);
+        int drawablePadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_spacing);
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, height);
+
+        layoutParams.setMargins(margin , margin , margin , margin);
+        textView.setLayoutParams(layoutParams);
+        int topPadding = textView.getPaddingTop();
+        int bottomPadding = textView.getPaddingBottom();
+        textView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
+
+        Drawable drawable= getResources().getDrawable(R.drawable.ic_certificate_icon);
+        // 这一步必须要做,否则不会显示.
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        textView.setCompoundDrawables(null,null,drawable,null);
+        textView.setCompoundDrawablePadding(drawablePadding);
+        textView.setText(title);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
+        textView.setBackground(getResources().getDrawable(R.drawable.item_text_bg));
+        return textView;
+    }
+
+    private void setFlowDatas(FlowLayout flowlayout, String[] datas, int bgDrawableId, int colorId) {
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
-
-        int topButtomPadding = getResources().getDimensionPixelSize(R.dimen.item_text_top_bottom_padding);
-        int leftRightPadding = getResources().getDimensionPixelSize(R.dimen.item_text_padding);
         for (int i = 0; datas != null && i < datas.length; i++) {
-            TextView textView = new TextView(this);
-            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textView.setLayoutParams(layoutParams);
-            textView.setPadding(leftRightPadding, topButtomPadding, leftRightPadding, topButtomPadding);
-            textView.setText(datas[i]);
-            textView.setTextColor(getResources().getColor(R.color.item_text_color_normal));
+            TextView textView = buildFlowTextView(datas[i],bgDrawableId);
+            textView.setTextColor(getResources().getColor(colorId));
             flowlayout.addView(textView, i);
         }
+    }
+
+    private TextView buildFlowTextView(String data, int bgDrawableId) {
+        TextView textView = new TextView(this);
+        int leftPadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_left_padding);
+        int rightPadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_right_padding);
+        int margin = getResources().getDimensionPixelSize(R.dimen.flow_textview_left_margin);
+        int height = getResources().getDimensionPixelSize(R.dimen.flow_textview_height);
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, height);
+
+        layoutParams.setMargins(margin , margin , margin , margin);
+        textView.setLayoutParams(layoutParams);
+        int topPadding = textView.getPaddingTop();
+        int bottomPadding = textView.getPaddingBottom();
+        textView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
+
+        textView.setText(data);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
+        textView.setBackground(getResources().getDrawable(bgDrawableId));
+        return textView;
     }
 
 
     void loadGallery(String[] gallery) {
         if (gallery == null || gallery.length <= 0) {
-            mLlGallery.setVisibility(View.GONE);
             return;
         }
-        mGallery.setFocusable(false);
-        mGallery.removeAllViews();
-        int margin = getResources().getDimensionPixelSize(R.dimen.item_gallery_padding);
-        int height = getResources().getDimensionPixelSize(R.dimen.item_gallery_height);
-        int width = (mGallery.getWidth() - 4 * margin) / 3;
-
-        for (int i = 0; gallery != null && i < 3 && i < gallery.length; i++) {
-            SimpleDraweeView imageView = new SimpleDraweeView(this);
-
-            imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
-                    width, height));
-
-            if (i == 0) {
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
-                layoutParams.setMargins(0, 0, margin, 0);
-                imageView.setLayoutParams(layoutParams);
-            } else if (i == 1) {
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
-                layoutParams.setMargins(margin, 0, margin, 0);
-                imageView.setLayoutParams(layoutParams);
-            } else {
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) imageView.getLayoutParams();
-                layoutParams.setMargins(margin, 0, 0, 0);
-                imageView.setLayoutParams(layoutParams);
-            }
-            FrescoUtil.initRectangleView(this,imageView,R.drawable.ic_default_img,R.drawable.ic_default_img);
-            final int finalI = i;
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //查看更多照片
-                    Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
-                    intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
-                    intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, finalI);
-                    startActivity(intent);
-                }
-            });
-            if (!EmptyUtils.isEmpty(gallery[i])){
-                imageView.setImageURI(Uri.parse(gallery[i]));
-            }
-            mGallery.addView(imageView, i);
-        }
+        gralleryAdapter.addAll(Arrays.asList(gallery));
+        gvGrallery.setFocusable(true);
+        MeasureGrallery(gvGrallery,gralleryAdapter);
+        gvGrallery.setVerticalScrollBarEnabled(true);
+        gvGrallery.setAdapter(gralleryAdapter);
     }
 
-    private void dealRequestError() {
+    private void MeasureGrallery(GridView gvGrallery, GralleryAdapter gralleryAdapter) {
+
+        int childCount = gralleryAdapter.getCount();
+        int gralleryWidth = getResources().getDimensionPixelSize(R.dimen.grallery_width);
+        int gralleryHeight = getResources().getDimensionPixelSize(R.dimen.grallery_height);
+        int gralleryHorizontalSpacing = getResources().getDimensionPixelSize(R.dimen.grallery_horizontal_spacing);
+        int gridviewWidth = 0;
+        if (childCount>0){
+            gridviewWidth = (gralleryWidth+gralleryHorizontalSpacing)*childCount - gralleryHorizontalSpacing;
+            if (childCount==1){
+                gridviewWidth -= gralleryHorizontalSpacing;
+            }
+        }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridviewWidth , gralleryHeight);
+        gvGrallery.setLayoutParams(params);   //重点
+        gvGrallery.setStretchMode(GridView.NO_STRETCH);
+        gvGrallery.setNumColumns(childCount);   //重点
+    }
+
+    private void requestError() {
         Toast.makeText(this, "网络请求失败!", Toast.LENGTH_SHORT).show();
     }
 
@@ -551,7 +703,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 //
                 signUp();
                 break;
-            case R.id.parent_teacher_detail_gallery_more_iv:
+            case R.id.tv_gallery_more:
                 //查看更多照片
                 Intent intent = new Intent(this, GalleryPreviewActivity.class);
                 intent.putExtra(GalleryPreviewActivity.GALLERY_URLS, mTeacher.getPhoto_set());
@@ -570,7 +722,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         if (!isShowAllSchools) {
             ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_up));
             tvSchoolMore.setText("收起");
-            mSchoolAdapter.setSchools(mAllSchools);
+            mSchoolAdapter.clear();
+            mSchoolAdapter.addAll(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
         } else {
             if (mAllSchools==null||mAllSchools.size()<=0){
@@ -583,7 +736,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 tvSchoolMore.setText("其他社区中心");
             }
             ivSchoolMore.setImageDrawable(getResources().getDrawable(R.drawable.ic_list_down));
-            mSchoolAdapter.setSchools(mFirstSchool);
+            mSchoolAdapter.clear();
+            mSchoolAdapter.addAll(mFirstSchool);
             mSchoolAdapter.notifyDataSetChanged();
         }
         isShowAllSchools = !isShowAllSchools;
@@ -626,26 +780,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         if (mTeacher!=null&&mTeacher.getId()!=null&&subject!=null){
             CourseConfirmActivity.open(this,mTeacher.getId(),mTeacher.getName(),mTeacher.getAvatar(),subject);
         }
-        /*Intent signIntent = new Intent(this, CourseConfirmActivity.class);
-        List<School> schools = new ArrayList<>();
-        if (MiscUtil.isNotEmpty(mAllSchools)) {
-            schools.addAll(mAllSchools);
-        }
-        *//*if (MiscUtil.isNotEmpty(mOtherSchools)) {
-            schools.addAll(mOtherSchools);
-        }*//*
-        signIntent.putExtra(CourseConfirmActivity.EXTRA_SCHOOLS,
-                schools.toArray(new School[schools.size()]));
-        if (mTeacher != null && mTeacher.getPrices() != null) {
-
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_PRICES,
-                    mTeacher.getPrices().toArray(new CoursePrice[mTeacher.getPrices().size()]));
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_ID, mTeacher.getId());
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_SUBJECT, mTeacher.getSubject());
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_NAME, mTeacher.getName());
-            signIntent.putExtra(CourseConfirmActivity.EXTRA_TEACHER_AVATOR, mTeacher.getId());
-        }
-        startActivity(signIntent);*/
     }
 
     @Override
@@ -686,9 +820,14 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected String getStatName() {
-        return "老师详情页";
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //查看更多照片
+        Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
+        intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
+        intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
+        startActivity(intent);
     }
+
 
     private static final class LoadTeacherInfoRequest extends BaseApiContext<TeacherInfoActivity, Teacher> {
 
@@ -706,7 +845,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         public void onApiSuccess(@NonNull Teacher response) {
-            get().onLoadTeacherInfoSuccess(response);
+            if (response!=null){
+                get().loadTeacherInfoSuccess(response);
+            }
         }
 
         @Override
@@ -717,29 +858,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         public void onApiFailure(Exception exception) {
-            get().dealRequestError();
-        }
-    }
-
-    private static final class LoadMemberServicesRequest extends BaseApiContext<TeacherInfoActivity, MemberServiceListResult> {
-        public LoadMemberServicesRequest(TeacherInfoActivity teacherInfoActivity) {
-            super(teacherInfoActivity);
-        }
-
-        @Override
-        public MemberServiceListResult request() throws Exception {
-            return new MemberServiceApi().get();
-        }
-
-        @Override
-        public void onApiSuccess(@NonNull MemberServiceListResult response) {
-            get().onLoadMemberServiceSuccess(response);
-        }
-
-        @Override
-        public void onApiFinished() {
-            get().memberFlag = true;
-            get().stopProcess();
+            get().requestError();
         }
     }
 
@@ -757,7 +876,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void onApiSuccess(@NonNull SchoolListResult response) {
             if (response.getResults() != null) {
-                get().onLoadSchoolListSuccess(response);
+                get().loadSchoolListSuccess(response);
             }
         }
 
@@ -769,4 +888,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    @Override
+    protected String getStatName() {
+        return "老师详情页";
+    }
 }

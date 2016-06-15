@@ -180,4 +180,22 @@
 
     <dimen name="coupon_protocol_dialog_width">272dp</dimen>
     <dimen name="coupon_protocol_dialog_height">366dp</dimen>
+
+    <!--相册照片大小-->
+    <dimen name="grallery_width">85dp</dimen>
+    <dimen name="grallery_height">85dp</dimen>
+    <dimen name="grallery_horizontal_spacing">2dp</dimen>
+
+    //
+    <dimen name="flow_textview_width">800dp</dimen>
+    <dimen name="flow_textview_height">25dp</dimen>
+    <dimen name="flow_textview_spacing">3dp</dimen>
+    <dimen name="flow_textview_left_padding">6dp</dimen>
+    <dimen name="flow_textview_right_padding">6dp</dimen>
+    <dimen name="flow_textview_top_padding">4dp</dimen>
+    <dimen name="flow_textview_bottom_padding">4dp</dimen>
+    <dimen name="flow_textview_left_margin">4dp</dimen>
+    <dimen name="flow_textview_right_margin">4dp</dimen>
+    <dimen name="flow_textview_top_margin">4dp</dimen>
+    <dimen name="flow_textview_bottom_margin">4dp</dimen>
 </resources>
