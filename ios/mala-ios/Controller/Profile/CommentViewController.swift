@@ -79,7 +79,6 @@ class CommentViewController: BaseTableViewController {
             self?.isFetching = false
         }, completion: { [weak self] (courseList) -> Void in
             
-            println("学生课程表: \(courseList)")
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
             guard let courseList = courseList else {

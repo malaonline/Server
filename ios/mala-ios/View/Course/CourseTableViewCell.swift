@@ -15,8 +15,8 @@ class CourseTableViewCell: UITableViewCell {
     var model: [StudentCourseModel]? {
         didSet {
             if let courseModel = model?[0] {
-                dateLabel.text = getDateString(courseModel.start, format: "d")
-                weekLabel.text = getWeekString(courseModel.start)
+                dateLabel.text = getDateString(courseModel.end, format: "d")
+                weekLabel.text = getWeekString(courseModel.end)
             }
             
             for courseModel in model ?? [] {

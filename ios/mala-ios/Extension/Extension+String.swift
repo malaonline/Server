@@ -58,6 +58,14 @@ extension String {
         }
     }
     
+    func subStringFromIndex(index: Int) -> String {
+        if self.characters.count != 0 {
+            return self.substringFromIndex(self.startIndex.advancedBy(index))
+        }else {
+            return ""
+        }
+    }
+    
     ///  格式化字符串为日期数据
     ///
     ///  - parameter format: 字符串格式化规则

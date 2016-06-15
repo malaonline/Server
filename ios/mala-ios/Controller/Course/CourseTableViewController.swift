@@ -41,6 +41,7 @@ public class CourseTableViewController: UITableViewController {
         return saveButton
     }()
     
+    
     // MARK: - Life Cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -70,10 +71,10 @@ public class CourseTableViewController: UITableViewController {
         tableView.backgroundColor = UIColor.whiteColor()
         
         // Navigation
-        let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacerRight.width = -5
-        let rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
+//        let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+//        spacerRight.width = -5
+//        let rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+//        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
         
         // register
         tableView.registerClass(CourseTableViewCell.self, forCellReuseIdentifier: CourseTableViewCellReuseId)
@@ -102,13 +103,11 @@ public class CourseTableViewController: UITableViewController {
                 println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
             }
         }, completion: { [weak self] (courseList) -> Void in
-            println("学生课程表: \(courseList)")
             guard courseList != nil else {
                 println("学生上课时间表为空！")
                 return
             }
             self?.model = parseStudentCourseTable(courseList!)
-            println("我的课表: \(self?.model)")
         })
     }
     
