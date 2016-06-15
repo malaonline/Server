@@ -629,11 +629,11 @@ result:
 ```
 
 (Fail)HTTP Status Code 200
-(One or more course in the order has been assigned to other parent)
 ```
 {
     'ok': false,
-    'code': -1
+    'code': -1 // One or more course in the order has been assigned to other parent
+            -2 // Coupon limitation validate Failed
 }
 ```
 

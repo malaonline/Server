@@ -15,7 +15,8 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
-        WeeklyTimeSlot, AuditRecord, Coupon, School, Region, Subject
+        WeeklyTimeSlot, AuditRecord, Coupon, School, Region, Subject, Grade, \
+        Ability
 from app.utils.algorithm import Tree, Node
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.algorithm import verify_sig
@@ -311,17 +312,48 @@ class TestApi(TestCase):
         password = "123123"
         client.login(username=username, password=password)
 
+        subject = Subject.objects.get(pk=1)
+        grade = Grade.objects.get(pk=1)
+        ability = Ability.objects.get(subject=subject, grade=grade)
+        teacher = Teacher.objects.get(pk=2)
+        price = teacher.region.price_set.get(
+            ability=ability, level=teacher.level).price
+        hours = 14
+
         coupon = Coupon.objects.get(pk=2)
         coupon.used = False
+        # 设置奖学金限制条件为不满足
+        coupon.mini_total_price = price * hours + 500
+        coupon.mini_course_count = hours + 5
         coupon.save()
 
         request_url = "/api/v1/orders"
         json_data = json.dumps({
-            'teacher': 2, 'school': 1, 'grade': 1, 'subject': 1,
-            'coupon': 2, 'hours': 14, 'weekly_time_slots': [3, 8],
-            })
+            'teacher': teacher.id,
+            'school': 1,
+            'grade': grade.id,
+            'subject': subject.id,
+            'coupon': coupon.id,
+            'hours': hours,
+            'weekly_time_slots': [3, 8],
+        })
         response = client.post(request_url, content_type="application/json",
                                data=json_data,)
+        # 奖学金校验失败
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertFalse(json_ret['ok'])
+        self.assertEqual(-2, json_ret['code'])
+        self.assertFalse(coupon.used)
+
+        # 设置奖学金限制条件为满足
+        coupon.mini_total_price = 1
+        coupon.mini_course_count = 1
+        coupon.save()
+
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data, )
+        # 奖学金校验成功
         self.assertEqual(201, response.status_code)
         coupon = Coupon.objects.get(pk=2)
         self.assertTrue(coupon.used)

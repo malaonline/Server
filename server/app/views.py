@@ -966,7 +966,27 @@ class OrderViewSet(ParentBasedMixin,
             return sorted(queryset, key=lambda x: x.sort_key())
         return queryset
 
-    def can_create(self, request):
+    def validate_create(self, request):
+        # 奖学金使用校验
+        if request.data.get('coupon'):
+            coupon = get_object_or_404(
+                models.Coupon, pk=request.data.get('coupon'))
+            teacher = get_object_or_404(
+                models.Teacher, pk=request.data.get('teacher'))
+            grade = get_object_or_404(
+                models.Grade, pk=request.data.get('grade'))
+            subject = get_object_or_404(
+                models.Subject, pk=request.data.get('subject'))
+            ability = get_object_or_404(
+                models.Ability, grade=grade, subject=subject)
+            price = teacher.region.price_set.get(
+                ability=ability, level=teacher.level).price
+            hours = request.data.get('hours')
+
+            if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
+                return -2
+
+        # 课程占用校验
         weekly_time_slots = request.data.get('weekly_time_slots')
         if weekly_time_slots is None or len(weekly_time_slots) == 0:
             return False
@@ -980,14 +1000,15 @@ class OrderViewSet(ParentBasedMixin,
                 models.Teacher, pk=request.data.get('teacher'))
         parent = self.get_parent()
         if not teacher.is_longterm_available(periods, school, parent):
-            return False
-        return True
+            return -1
+        return 0
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        if not self.can_create(request):
-            return JsonResponse({'ok': False, 'code': -1})
+        ret_code = self.validate_create(request)
+        if ret_code != 0:
+            return JsonResponse({'ok': False, 'code': ret_code})
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED,
