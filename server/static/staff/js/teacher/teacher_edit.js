@@ -393,6 +393,7 @@ $(function(){
         if ($editBoxList.length>1) {
             $editBox.remove();
         } else {
+            $editBox.find('input[name=achieveId]').val('');
             $editBox.find('input[name$=achieveName]').val('');
             clearImgEditBox($editBox);
         }
