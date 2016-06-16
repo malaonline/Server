@@ -17,11 +17,15 @@ public class CourseTableViewController: UITableViewController {
     /// 上课时间表数据模型
     var model: [[[StudentCourseModel]]]? {
         didSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 ThemeHUD.hideActivityIndicator()
-                self?.defaultView.hidden = !(self?.model?.count == 0)
-                self?.tableView?.reloadData()
-            }
+                if self?.model?.count == 0 {
+                    self?.defaultView.hidden = false
+                }else {
+                    self?.defaultView.hidden = true
+                    self?.tableView.reloadData()
+                }
+            })
         }
     }
     /// 当前月份

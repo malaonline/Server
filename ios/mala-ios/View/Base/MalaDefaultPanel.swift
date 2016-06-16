@@ -25,6 +25,13 @@ class MalaDefaultPanel: UIView {
             label.sizeToFit()
         }
     }
+    /// 描述文字
+    var descText: String = "" {
+        didSet {
+            descLabel.text = descText
+            descLabel.sizeToFit()
+        }
+    }
     /// 按钮描述文字
     var buttonTitle: String = "" {
         didSet {
@@ -39,8 +46,16 @@ class MalaDefaultPanel: UIView {
         let imageView = UIImageView()
         return imageView
     }()
-    /// 文字label
+    /// 文字标签
     private lazy var label: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(13)
+        label.textColor = MalaColor_939393_0
+        label.textAlignment = .Center
+        return label
+    }()
+    /// 描述标签
+    private lazy var descLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = MalaColor_939393_0
@@ -76,6 +91,7 @@ class MalaDefaultPanel: UIView {
         // SubViews
         addSubview(imageView)
         addSubview(label)
+        addSubview(descLabel)
         
         // Autolayout
         label.snp_makeConstraints { (make) -> Void in
@@ -86,6 +102,11 @@ class MalaDefaultPanel: UIView {
         imageView.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.snp_centerX)
             make.bottom.equalTo(label.snp_top).offset(-8)
+        }
+        descLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(label.snp_bottom).offset(12)
+            make.centerX.equalTo(self.snp_centerX)
+            make.height.equalTo(13)
         }
     }
     

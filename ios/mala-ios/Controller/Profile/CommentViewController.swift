@@ -16,13 +16,30 @@ class CommentViewController: BaseTableViewController {
     /// 优惠券模型数组
     var models: [StudentCourseModel] = [] {
         didSet {
-            self.tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                if self?.models.count == 0 {
+                    self?.defaultView.hidden = false
+                }else {
+                    self?.defaultView.hidden = true
+                    self?.tableView.reloadData()
+                }
+            })
         }
     }
     /// 是否正在拉取数据
     var isFetching: Bool = false
     
+    
     // MARK: - Components
+    /// 我的评价缺省面板
+    private lazy var defaultView: UIView = {
+        let view = MalaDefaultPanel()
+        view.imageName = "comment_noData"
+        view.text = "当前暂无评价"
+        view.descText = "上完课后再来这里吧"
+        view.hidden = true
+        return view
+    }()
     /// 下拉刷新视图
     private lazy var refresher: UIRefreshControl = {
         let refresher = UIRefreshControl()
@@ -35,6 +52,7 @@ class CommentViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUserInterface()
         configure()
         loadCourse()
     }
@@ -53,6 +71,16 @@ class CommentViewController: BaseTableViewController {
         tableView.registerClass(CommentViewCell.self, forCellReuseIdentifier: CommentViewCellReuseId)
     }
     
+    private func setupUserInterface() {
+        // SubViews
+        tableView.addSubview(defaultView)
+        
+        // AutoLayout
+        defaultView.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(tableView.snp_size)
+            make.center.equalTo(tableView.snp_center)
+        }
+    }
     
     ///  获取学生课程信息
     @objc private func loadCourse() {
