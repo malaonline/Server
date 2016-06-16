@@ -214,13 +214,16 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
                 ThemeHUD.hideActivityIndicator()
                 
                 if let errorCode = order.code {
-                    
                     if errorCode == -1 {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self?.ShowTost("该老师部分时段已被占用，请重新选择上课时间")
                         })
+                    }else if errorCode == -2 {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self?.ShowTost("奖学金使用信息有误，请重新选择")
+                            self?.navigationController?.popViewControllerAnimated(true)
+                        })
                     }
-                    
                 }else {
                     ThemeHUD.hideActivityIndicator()
                     println("创建订单成功:\(order)")
