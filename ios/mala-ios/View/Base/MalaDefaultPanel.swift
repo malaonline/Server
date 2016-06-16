@@ -25,6 +25,12 @@ class MalaDefaultPanel: UIView {
             label.sizeToFit()
         }
     }
+    /// 按钮描述文字
+    var buttonTitle: String = "" {
+        didSet {
+            button.setTitle(buttonTitle, forState: .Normal)
+        }
+    }
     
     
     // MARK: - Components
@@ -40,6 +46,16 @@ class MalaDefaultPanel: UIView {
         label.textColor = MalaColor_939393_0
         label.textAlignment = .Center
         return label
+    }()
+    /// 按钮
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 18
+        button.layer.masksToBounds = true
+        button.layer.borderColor = MalaColor_8DBEDE_0.CGColor
+        button.layer.borderWidth = 1
+        button.setTitleColor(MalaColor_8DBEDE_0, forState: .Normal)
+        return button
     }()
     
     
@@ -57,9 +73,6 @@ class MalaDefaultPanel: UIView {
     
     // MARK: - Private
     private func setupUserInterface() {
-        // Style
-        
-        
         // SubViews
         addSubview(imageView)
         addSubview(label)
@@ -74,5 +87,19 @@ class MalaDefaultPanel: UIView {
             make.centerX.equalTo(self.snp_centerX)
             make.bottom.equalTo(label.snp_top).offset(-8)
         }
+    }
+    
+    ///  按钮点击事件
+    func addTarget(target: AnyObject?, action: Selector) {
+        
+        addSubview(button)
+        button.snp_makeConstraints { (make) -> Void in
+            make.centerX.equalTo(self.snp_centerX)
+            make.top.equalTo(label.snp_bottom).offset(25)
+            make.height.equalTo(36)
+            make.width.equalTo(164)
+        }
+        
+        button.addTarget(target, action: action, forControlEvents: .TouchUpInside)
     }
 }

@@ -18,8 +18,9 @@ public class CourseTableViewController: UITableViewController {
     var model: [[[StudentCourseModel]]]? {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
-                self?.tableView?.reloadData()
                 ThemeHUD.hideActivityIndicator()
+                self?.defaultView.hidden = !(self?.model?.count == 0)
+                self?.tableView?.reloadData()
             }
         }
     }
@@ -30,6 +31,16 @@ public class CourseTableViewController: UITableViewController {
     
     
     // MARK: - Components
+    /// 我的课表缺省面板
+    private lazy var defaultView: UIView = {
+        let view = MalaDefaultPanel()
+        view.imageName = "course_noData"
+        view.text = "暂时还没有课程哦"
+        view.buttonTitle = "去报名"
+        view.addTarget(self, action: #selector(CourseTableViewController.switchToFindTeacher))
+        view.hidden = true
+        return view
+    }()
     /// 保存按钮
     private lazy var saveButton: UIButton = {
         let saveButton = UIButton(
@@ -48,6 +59,7 @@ public class CourseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configure()
+        setupUserInterface()
     }
     
     override public func didReceiveMemoryWarning() {
@@ -74,6 +86,17 @@ public class CourseTableViewController: UITableViewController {
         // register
         tableView.registerClass(CourseTableViewCell.self, forCellReuseIdentifier: CourseTableViewCellReuseId)
         tableView.registerClass(CourseTableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: CourseTableViewSectionHeaderViewReuseId)
+    }
+    
+    private func setupUserInterface() {
+        // SubViews
+        tableView.addSubview(defaultView)
+        
+        // AutoLayout
+        defaultView.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(tableView.snp_size)
+            make.center.equalTo(tableView.snp_center)
+        }
     }
     
     ///  获取学生可用时间表
@@ -149,5 +172,12 @@ public class CourseTableViewController: UITableViewController {
     ///  滚动到近日首个未上课程
     @objc private func scrollToToday() {
         
+    }
+    ///  跳转到挑选老师页面
+    @objc private func switchToFindTeacher() {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.window?.rootViewController = MainViewController()
+            appDelegate.switchTabBarControllerWithIndex(0)
+        }
     }
 }
