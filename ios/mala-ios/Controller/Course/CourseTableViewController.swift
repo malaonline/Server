@@ -19,6 +19,7 @@ public class CourseTableViewController: UITableViewController {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
                 self?.tableView?.reloadData()
+                ThemeHUD.hideActivityIndicator()
             }
         }
     }
@@ -70,12 +71,6 @@ public class CourseTableViewController: UITableViewController {
         tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor.whiteColor()
         
-        // Navigation
-//        let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-//        spacerRight.width = -5
-//        let rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-//        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacerRight]
-        
         // register
         tableView.registerClass(CourseTableViewCell.self, forCellReuseIdentifier: CourseTableViewCellReuseId)
         tableView.registerClass(CourseTableViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: CourseTableViewSectionHeaderViewReuseId)
@@ -94,6 +89,7 @@ public class CourseTableViewController: UITableViewController {
             }
             return
         }
+        ThemeHUD.showActivityIndicator()
         
         // 发送网络请求
         getStudentCourseTable(failureHandler: { (reason, errorMessage) -> Void in
@@ -102,6 +98,7 @@ public class CourseTableViewController: UITableViewController {
             if let errorMessage = errorMessage {
                 println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
             }
+            ThemeHUD.showActivityIndicator()
         }, completion: { [weak self] (courseList) -> Void in
             guard courseList != nil else {
                 println("学生上课时间表为空！")
