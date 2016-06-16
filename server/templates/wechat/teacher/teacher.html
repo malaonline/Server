@@ -61,6 +61,26 @@
                 {%endif%}
             {%endfor%}
         {%endif%}
+        var drawTeachAgeLevel = function() {
+            var val = document.getElementById("teachingAge").value;
+            var percent = val / 10;
+            _drawArc(percent, 'teachingAgeCanvas', "#fa7a7a");
+            val = document.getElementById("level").value;
+            percent = val / 10;
+            _drawArc(percent, 'levelCanvas', "#fddc55");
+        };
+        var _drawArc = function(percent, canvasId, color) {
+            var ctx = document.getElementById(canvasId).getContext("2d");
+            ctx.lineWidth=3;
+            ctx.strokeStyle='#eeeeee';
+            ctx.beginPath();
+            ctx.arc(22,22,20,-Math.PI/2,Math.PI*2,false);
+            ctx.stroke();
+            ctx.strokeStyle=color;
+            ctx.beginPath();
+            ctx.arc(22,22,20,-Math.PI/2,percent*Math.PI*2,false);
+            ctx.stroke();
+        };
         var cropCenterImg = function (img_ele) {
             var w = img_ele.width, h = img_ele.height;
             if (!img_ele.src || !w || !h || isNaN(w) || isNaN(h)) return;
@@ -88,6 +108,7 @@
 
             $('.teacher_avatar').css('backgroundImage', 'url({%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%})');
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
+            drawTeachAgeLevel();
             $('#moreSchoolDown').attr('src', pullDownImg);
             $('#morePhotos').attr('src', moreImg);
             var $teacherImages = $('.teacher_images');
@@ -134,6 +155,24 @@
                     <div class="teacher_avatar_cont">
                         <div class="teacher_avatar"></div>
                         <img id="verifiedIcon" src="{% static 'wechat/images/ic_verified.png' %}">
+                    </div>
+                </div>
+                <div class="weui_panel teacher_panel level_panel">
+                    <div class="teaching_age">
+                        <input id="teachingAge" type="hidden" value="{{teacher.teaching_age}}">
+                        <div class="inner">
+                            <canvas id="teachingAgeCanvas" width="44" height="44"></canvas>
+                            <img src="{% static 'wechat/images/ic_clock.png' %}">
+                            <div>教龄<br>{{teacher.teaching_age}}年</div>
+                        </div>
+                    </div>
+                    <div class="level">
+                        <input id="level" type="hidden" value="{%if teacher and teacher.level%}{{teacher.level.id}}{%endif%}">
+                        <div class="inner">
+                            <canvas id="levelCanvas" width="44" height="44"></canvas>
+                            <img src="{% static 'wechat/images/ic_crown.png' %}">
+                            <div>级别<br>{%if teacher and teacher.level%}<label>{{teacher.level.name}}</label>{%endif%}</div>
+                        </div>
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel grade_panel">
@@ -263,14 +302,6 @@
 {#                        {%endfor%}#}
 {#                    </div>#}
 {#                </div>#}
-                <div class="weui_panel teacher_panel">
-                    <div class="panel_title">
-                        <label>教龄</label><label>级别</label>
-                    </div>
-                    <div class="item_distance">
-                        <label>{{teacher.teaching_age}}年</label> {%if teacher and teacher.level%}<label>{{teacher.level.name}}</label>{%endif%}
-                    </div>
-                </div>
             </div>
             <div class="submit_content">
                 <div>

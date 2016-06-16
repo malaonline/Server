@@ -133,7 +133,7 @@ body{
     margin-left: -12px;
     margin-right: -12px;
     padding: 2px 12px 6px 12px;
-    color: #333333;
+    color: #939393;
     font-size: 15px;
     label {
       margin-right: 12px;
@@ -149,7 +149,6 @@ body{
     }
   }
   >div:not(.achievements_head):first-child{
-    color: #333333;
     font-size: 15px;
     font-family: FZLTXHK;
     margin-bottom: 4px;
@@ -158,6 +157,43 @@ body{
     color: #808080;
     font-size: 14px;
     font-family: FZLTXHK;
+  }
+}
+.level_panel {
+  margin-top: 0;
+  padding-bottom: 0;
+  >div {
+    float: left;
+    width: 50%;
+    padding: 10px 0;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+  }
+  .inner {
+    position: relative;
+    display: inline-block;
+    width: 94px;
+    height: 44px;
+    canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    img {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 16px;
+      height: 16px;
+    }
+    div {
+      position: absolute;
+      left: 50px;
+      top: 0;
+      font-size: 14px;
+      color: #808080;
+      display: inline-block;
+    }
   }
 }
 .icon_labels_row {
@@ -501,11 +537,6 @@ a{
 }
 .teacher_subject{
   margin-right: 9px;
-}
-.achievements_head{
-  color: #333333;
-  font-size: 15px;
-  margin-bottom: 1px;
 }
 .highscore_tb{
   margin-top: 6px;
