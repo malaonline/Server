@@ -8,7 +8,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -41,6 +40,7 @@ import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
+import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.Subject;
@@ -435,16 +435,22 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void setGradeTeaching(String[] grades) {
+        for (int i=0;i<grades.length;i++){
+           Grade grade = Grade.getGrade(grades[i]);
+            if (grade.getSupersetId()==Grade.PRIMARY_ID){
+
+            }
+        }
         //数据处理
         int count = 0;
-        List<String> primarys = getPrimaryData(grades);
+        List<String> primarys = Grade.getPrimaryData(grades);
         if (primarys.size()>0){
            setFlowDatas(flTeachPrimary, (String[]) primarys.toArray(new String[primarys.size()]),R.drawable.bg_text_primary,R.color.primary_text_color);
         }else{
             rlTeachPrimary.setVisibility(View.GONE);
             count++;
         }
-        List<String> juniors = getJuniorData(grades);
+        List<String> juniors = Grade.getJuniorData(grades);
         if (juniors.size()>0){
             setFlowDatas(flTeachJunior, (String[]) juniors.toArray(new String[juniors.size()]),R.drawable.bg_text_junior,R.color.junior_text_color);
         }else{
@@ -452,7 +458,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             count++;
         }
 
-        List<String> seniors = getSeniorData(grades);
+        List<String> seniors = Grade.getSeniorData(grades);
         if (seniors.size()>0){
             setFlowDatas(flTeachSenior, (String[]) seniors.toArray(new String[seniors.size()]),R.drawable.bg_text_senior,R.color.senior_text_color);
         }else{
@@ -475,83 +481,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private List<String> getPrimaryData(String[] grades) {
-        List<String> primarys = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("一年级")){
-                primarys.add("一年级");
-                continue;
-            }
 
-            if (grades[i].equals("二年级")){
-                primarys.add("二年级");
-                continue;
-            }
-
-            if (grades[i].equals("三年级")){
-                primarys.add("三年级");
-                continue;
-            }
-
-            if (grades[i].equals("四年级")){
-                primarys.add("四年级");
-                continue;
-            }
-
-            if (grades[i].equals("五年级")){
-                primarys.add("五年级");
-                continue;
-            }
-
-            if (grades[i].equals("六年级")){
-                primarys.add("六年级");
-                continue;
-            }
-        }
-        return primarys;
-    }
-
-    private List<String> getJuniorData(String[] grades) {
-        List<String> juniors = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("初一")){
-                juniors.add("初一");
-                continue;
-            }
-
-            if (grades[i].equals("初二")){
-                juniors.add("初二");
-                continue;
-            }
-
-            if (grades[i].equals("初三")){
-                juniors.add("初三");
-                continue;
-            }
-        }
-        return juniors;
-    }
-
-    private List<String> getSeniorData(String[] grades) {
-        List<String> seniors = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("高一")){
-                seniors.add("高一");
-                continue;
-            }
-
-            if (grades[i].equals("高二")){
-                seniors.add("高二");
-                continue;
-            }
-
-            if (grades[i].equals("高三")){
-                seniors.add("高三");
-                continue;
-            }
-        }
-        return seniors;
-    }
 
     private void setFlowCertDatas(FlowLayout flowlayout, final List<Achievement> datas, int drawable) {
         flowlayout.setFocusable(false);
