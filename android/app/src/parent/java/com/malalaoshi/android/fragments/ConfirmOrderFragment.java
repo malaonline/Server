@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/5/24.
@@ -274,9 +276,19 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
                     "该老师部分时段已被占用，请重新选择上课时间!", "知道了", new PromptDialog.OnDismissListener() {
                         @Override
                         public void onDismiss() {
+                            //更新上课列表
+                            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED));
                         }
                     }, false, false);
-        } else {
+        } else if(!entity.isOk() && entity.getCode() == -2) {
+            DialogUtil.showPromptDialog(
+                    getFragmentManager(), R.drawable.ic_timeallocate,
+                    "奖学金使用失败，请重新选择奖学金!", "知道了", new PromptDialog.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                        }
+                    }, false, false);
+        } else  {
             openPayActivity(entity);
         }
     }
