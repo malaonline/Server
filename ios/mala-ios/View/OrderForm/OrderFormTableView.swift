@@ -40,8 +40,8 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
     // 是否隐藏支付渠道Cell
     var shouldHiddenPaymentChannel: Bool = false
     
-    
-    // MARK: - Constructed
+
+    // MARK: - Instance Method
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         configure()
@@ -66,6 +66,7 @@ class OrderFormTableView: UITableView, UITableViewDelegate, UITableViewDataSourc
         registerClass(OrderFormPaymentChannelCell.self, forCellReuseIdentifier: OrderFormCellReuseId[2]!)
         registerClass(OrderFormOtherInfoCell.self, forCellReuseIdentifier: OrderFormCellReuseId[3]!)
     }
+    
     
     // MARK: - Delegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
