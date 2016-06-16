@@ -104,7 +104,6 @@ $(function(){
   var doSave = function(params){
     checkShowLoading();
     $.post("/teacher/basic_doc/", params, function(result){
-        checkHideLoading();
         if(isManualSaveData){
           if(result){
             if(result.ok){
@@ -117,6 +116,7 @@ $(function(){
             alert(pagedefaultErrMsg);
           }
         }
+        checkHideLoading();
     }, 'json').fail(function(jqXHR, errorType, errorDesc){
       checkHideLoading();
       if(isManualSaveData){
