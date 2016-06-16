@@ -105,12 +105,14 @@
         <attr name="vpTabFocusPos" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="CircleProgressbar">
-        <attr name="indeterminate_color" format="color"/>
-        <attr name="progress_pending_color" format="color"/>
-        <attr name="progress_first_phase_color" format="color"/>
-        <attr name="progress_second_phase_color" format="color"/>
+    <declare-styleable name="RingProgressbar">
+        <attr name="progress_backgroud_color" format="color"/>
+        <attr name="progress_color" format="color"/>
+        <attr name="progress_ring_radius" format="dimension"/>
         <attr name="progress_stroke_width" format="dimension"/>
-        <attr name="progress" format="float"/>
+        <attr name="progress_value" format="float"/>
+        <attr name="progress_max_value" format="float"/>
     </declare-styleable>
+
+
 </resources>

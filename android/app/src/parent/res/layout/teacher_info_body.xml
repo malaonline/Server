@@ -110,15 +110,34 @@
         android:layout_gravity="center_vertical"
         android:paddingTop="20dp"
         android:paddingBottom="20dp">
-        <TextView
-            android:id="@+id/view_teacher_seniority"
-            android:text="教龄"
+
+        <RelativeLayout
+            android:id="@+id/rl_teacher_seniority"
             android:layout_marginLeft="35dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.malalaoshi.android.view.RingProgressbar
+                android:id="@+id/view_teacher_seniority"
+                app:progress_color="@color/seniority_color"
+                app:progress_backgroud_color="@color/background"
+                app:progress_ring_radius="25dp"
+                app:progress_stroke_width="3dp"
+                app:progress_value="0"
+                app:progress_max_value="20"
+                android:layout_centerInParent="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                />
+            <TextView
+                android:background="@drawable/ic_seniority"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_toRightOf="@id/view_teacher_seniority"
+            android:layout_toRightOf="@id/rl_teacher_seniority"
             android:layout_centerVertical="true"
             android:orientation="vertical"
             android:gravity="center_horizontal"
@@ -128,29 +147,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="教龄"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size_large_x" />
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
             <TextView
                 android:id="@+id/tv_teacher_seniority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="10年"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size_large_x" />
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/view_teacher_level"
-            android:layout_toRightOf="@+id/view_teacher_seniority"
+
+        <RelativeLayout
+            android:id="@+id/rl_teacher_level"
+            android:layout_toRightOf="@+id/rl_teacher_seniority"
             android:layout_marginLeft="110dp"
-            android:text="教龄"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.malalaoshi.android.view.RingProgressbar
+                android:id="@+id/view_teacher_level"
+                app:progress_color="@color/level_color"
+                app:progress_backgroud_color="@color/background"
+                app:progress_ring_radius="25dp"
+                app:progress_stroke_width="3dp"
+                app:progress_value="0"
+                app:progress_max_value="10"
+                android:layout_centerInParent="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                />
+            <TextView
+                android:background="@drawable/ic_level"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_toRightOf="@+id/view_teacher_level"
+            android:layout_toRightOf="@+id/rl_teacher_level"
             android:layout_centerVertical="true"
             android:orientation="vertical"
             android:gravity="center_horizontal"
@@ -160,17 +198,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="级别"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size_large_x" />
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
 
             <TextView
                 android:id="@+id/tv_teacher_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="T5"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size_large_x" />
+                android:text="T0"
+                android:textColor="@color/tab_text_normal_color"
+                android:textSize="@dimen/text_size_large" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -205,8 +243,9 @@
                 android:id="@+id/tv_teacher_primary_icon"
                 android:background="@drawable/ic_teachprimary"
                 android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="6dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp" />
             <com.malalaoshi.android.view.FlowLayout
                 android:id="@+id/fl_teach_primary"
                 android:layout_toRightOf="@id/tv_teacher_primary_icon"
@@ -230,8 +269,9 @@
                 android:id="@+id/tv_teacher_junior_icon"
                 android:background="@drawable/ic_teachjunior"
                 android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="6dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp" />
             <com.malalaoshi.android.view.FlowLayout
                 android:id="@+id/fl_teach_junior"
                 android:layout_toRightOf="@id/tv_teacher_junior_icon"
@@ -256,8 +296,9 @@
                 android:id="@+id/tv_teacher_senior_icon"
                 android:background="@drawable/ic_teachsenior"
                 android:layout_marginRight="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="6dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp" />
             <com.malalaoshi.android.view.FlowLayout
                 android:id="@+id/fl_teach_senior"
                 android:layout_toRightOf="@id/tv_teacher_senior_icon"
@@ -288,14 +329,15 @@
         android:orientation="horizontal"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp">
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp">
         <TextView
             android:id="@+id/tv_teacher_tag_icon"
             android:background="@drawable/ic_tag"
             android:layout_marginRight="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="6dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp" />
         <com.malalaoshi.android.view.FlowLayout
             android:id="@+id/parent_teacher_detail_tag_fl"
             android:layout_width="match_parent"
@@ -318,6 +360,8 @@
         android:background="@color/white"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -359,17 +403,23 @@
             android:drawablePadding="2dp"
             android:drawableRight="@drawable/ic_more" />
     </RelativeLayout>
-    <HorizontalScrollView
-        android:scrollbars="none"
+    <RelativeLayout
         android:background="@color/white"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <HorizontalScrollView
+        android:id="@+id/hs_grallery"
+        android:scrollbars="none"
         android:layout_width="wrap_content"
-        android:layout_height="105dp">
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:background="@color/white"
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="105dp">
+            android:layout_height="85dp">
             <GridView
                 android:id="@+id/gv_grallery"
                 android:layout_width="wrap_content"
@@ -380,9 +430,8 @@
                 android:scrollbars="none"
                 ></GridView>
         </LinearLayout>
-
     </HorizontalScrollView>
-
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -415,7 +464,7 @@
         android:text="教学环境"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_size_large_x"  />
-    <include layout="@layout/school_environment"></include>
+    <include layout="@layout/school_environment"/>
 
     <View
         style="@style/AppWidget.ItemDivider"

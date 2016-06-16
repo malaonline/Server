@@ -128,4 +128,7 @@
     <color name="senior_text_color">#259746</color>
     <color name="junior_text_color">#2b7bb4</color>
     <color name="primary_text_color">#e25c5c</color>
+    
+    <color name="seniority_color">#fA7a7a</color>
+    <color name="level_color">#FDDC55</color>
 </resources>

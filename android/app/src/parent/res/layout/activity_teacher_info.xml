@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"/>
     <View
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="44dp"
         android:id="@+id/view_line"
         android:alpha="0"
         android:layout_width="match_parent"
@@ -78,6 +78,8 @@
             android:layout_width="0dp"
             android:layout_weight="27"
             android:layout_height="49dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:background="@color/white"
             android:drawableTop="@drawable/ic_uncollect"
             android:drawablePadding="1dp"
@@ -90,7 +92,7 @@
             android:layout_width="0dp"
             android:layout_weight="37"
             android:layout_height="49dp"
-            android:background="@drawable/logout_btn"
+            android:background="@drawable/bg_blue_rectangle_btn"
             android:enabled="false"
             android:gravity="center"
             android:text="@string/sign_up_immediately"

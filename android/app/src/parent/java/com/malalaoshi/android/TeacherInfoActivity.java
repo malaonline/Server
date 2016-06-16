@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,6 +52,7 @@ import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
+import com.malalaoshi.android.view.RingProgressbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,14 +118,14 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     //教龄
     @Bind(R.id.view_teacher_level)
-    protected View viewTeacherLevel;
+    protected RingProgressbar viewTeacherLevel;
 
     @Bind(R.id.tv_teacher_level)
     protected TextView tvTeacherLevel;
 
     //级别
     @Bind(R.id.view_teacher_seniority)
-    protected View viewTeacherSeniority;
+    protected RingProgressbar viewTeacherSeniority;
 
     @Bind(R.id.tv_teacher_seniority)
     protected TextView tvTeacherSeniority;
@@ -163,6 +165,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     //教师提分榜
     @Bind(R.id.parent_teacher_detail_highscore_listview)
     protected ListView mHighScoreList;
+
+    @Bind(R.id.hs_grallery)
+    protected HorizontalScrollView hsGrallery;
 
     //个人相册
     @Bind(R.id.gv_grallery)
@@ -252,7 +257,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initViews() {
-        //gvGrallery.setFocusable(false);
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
     }
@@ -336,25 +340,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         mSchoolAdapter.notifyDataSetChanged();
     }
 
-   /* private void dealSchools() {
-        //无数据
-        if (mAllSchools.size() <= 0 && mFirstSchool.size() <= 0) {
-            return;
-        }
-
-        //获取位置
-        Location location = LocManager.getInstance().getLocation();
-        if (location!=null) {
-            //排序
-            LocationUtil.sortByDistance(mAllSchools, location.getLatitude(), location.getLongitude());
-            mFirstSchool.clear();
-            mFirstSchool.add(mAllSchools.get(0));
-            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
-        } else {
-            tvSchoolMore.setText("其他社区中心");
-        }
-        mSchoolAdapter.notifyDataSetChanged();
-    }*/
 
     private void loadTeacherInfoSuccess(@NonNull Teacher teacher) {
         mTeacher = teacher;
@@ -436,15 +421,16 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
 
             //教龄级别
-         /*   String level = teacher.getLevel();
+            String level = teacher.getLevel();
+            if (!EmptyUtils.isEmpty(level)){
+                viewTeacherLevel.setProgress(0);
+                tvTeacherLevel.setText(level);
+            }
             Integer teachAge = teacher.getTeaching_age();
-            if (level != null && teachAge != null) {
-                mTeacherLevel.setText(teachAge.toString() + "年" + "  " + level);
-            } else if (level != null) {
-                mTeacherLevel.setText(level);
-            } else if (teachAge != null) {
-                mTeacherLevel.setText(teachAge.toString() + "年");
-            }*/
+            if (teachAge!=null){
+                viewTeacherSeniority.setProgress(teachAge);
+                tvTeacherSeniority.setText(teachAge.toString() + "年");
+            }
         }
     }
 
@@ -663,6 +649,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
     void loadGallery(String[] gallery) {
         if (gallery == null || gallery.length <= 0) {
+            hsGrallery.setVisibility(View.GONE);
             return;
         }
         gralleryAdapter.addAll(Arrays.asList(gallery));
