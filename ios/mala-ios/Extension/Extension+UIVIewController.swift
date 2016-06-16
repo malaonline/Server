@@ -44,13 +44,18 @@ extension UIViewController {
             return !tabBadgePointView.hidden
         }
         set {
-            if newValue && tabBadgePointView.superview == nil {
-                tabBadgePointView.center = tabBadgePointViewCenter
-                if let tbb = tabBarButton {
-                    tbb.addSubview(tabBadgePointView)
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                guard let strongSelf = self else {
+                    return
                 }
-            }
-            tabBadgePointView.hidden = newValue == false
+                if newValue && strongSelf.tabBadgePointView.superview == nil {
+                    strongSelf.tabBadgePointView.center = strongSelf.tabBadgePointViewCenter
+                    if let tbb = strongSelf.tabBarButton {
+                        tbb.addSubview(strongSelf.tabBadgePointView)
+                    }
+                }
+                strongSelf.tabBadgePointView.hidden = newValue == false
+            })
         }
     }
     
