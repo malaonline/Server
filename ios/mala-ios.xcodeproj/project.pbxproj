@@ -159,7 +159,6 @@
 		35FDCE941CAD0A2300A25FE8 /* TeacherDetailsPlaceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */; };
 		35FDCE951CAD0A2300A25FE8 /* TeacherDetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */; };
 		35FDCE961CAD0A2300A25FE8 /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
-		35FDCE971CAD0A2300A25FE8 /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
 		35FDCE981CAD0A2300A25FE8 /* BaseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DA2031C4A59CD00891F22 /* BaseFilterView.swift */; };
 		35FDCE991CAD0A2300A25FE8 /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
 		35FDCE9B1CAD0A2300A25FE8 /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
@@ -356,7 +355,6 @@
 		35FF7A961CF8325A000A70EE /* TeacherDetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */; };
 		35FF7A971CF8325A000A70EE /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1061F1CBBA497001AD4AF /* BaseTableViewController.swift */; };
 		35FF7A981CF8325A000A70EE /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
-		35FF7A991CF8325A000A70EE /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
 		35FF7A9A1CF8325A000A70EE /* BaseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DA2031C4A59CD00891F22 /* BaseFilterView.swift */; };
 		35FF7A9B1CF8325A000A70EE /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
 		35FF7A9C1CF8325A000A70EE /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
@@ -558,7 +556,6 @@
 		35FF7B791CF83264000A70EE /* TeacherDetailsPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */; };
 		35FF7B7A1CF83264000A70EE /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1061F1CBBA497001AD4AF /* BaseTableViewController.swift */; };
 		35FF7B7B1CF83264000A70EE /* ProfileViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455EB2C1C91899A00BAEC78 /* ProfileViewHeaderView.swift */; };
-		35FF7B7C1CF83264000A70EE /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
 		35FF7B7D1CF83264000A70EE /* BaseFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DA2031C4A59CD00891F22 /* BaseFilterView.swift */; };
 		35FF7B7E1CF83264000A70EE /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
 		35FF7B7F1CF83264000A70EE /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E3365D1C27A82C00DCF1C5 /* Extension+UIColor.swift */; };
@@ -901,7 +898,6 @@
 		F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
 		F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */; };
 		F4D0D17E1CA148DF00B25704 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */; };
-		F4D0D1811CA1508500B25704 /* CommentPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */; };
 		F4D0D19E1CA2BF0500B25704 /* jpush-ios-2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */; };
 		F4D0D1A11CA2BFFA00B25704 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D0D1A01CA2BFFA00B25704 /* libz.tbd */; };
 		F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4D0D1A21CA2C02400B25704 /* PushConfig.plist */; };
@@ -1204,7 +1200,6 @@
 		F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		F4D0D14E1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherFilterPopupWindow.swift; sourceTree = "<group>"; };
 		F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
-		F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPopupWindow.swift; sourceTree = "<group>"; };
 		F4D0D19C1CA2BF0500B25704 /* jpush-ios-2.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.0.a"; sourceTree = "<group>"; };
 		F4D0D1A01CA2BFFA00B25704 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F4D0D1A21CA2C02400B25704 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
@@ -1997,7 +1992,6 @@
 		F4D0D17F1CA14F7900B25704 /* CommentView */ = {
 			isa = PBXGroup;
 			children = (
-				F4D0D1801CA1508500B25704 /* CommentPopupWindow.swift */,
 				F43F44C41D06B66800B7A358 /* CommentViewCell.swift */,
 				F43F44C81D0CFD2800B7A358 /* CommentViewWindow.swift */,
 			);
@@ -2673,7 +2667,6 @@
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
 				F4E106201CBBA497001AD4AF /* BaseTableViewController.swift in Sources */,
 				F455EB2E1C91899A00BAEC78 /* ProfileViewHeaderView.swift in Sources */,
-				F4D0D1811CA1508500B25704 /* CommentPopupWindow.swift in Sources */,
 				307DA2051C4A59CD00891F22 /* BaseFilterView.swift in Sources */,
 				F427FF9C1CEC1CE100EAB748 /* PageControl.swift in Sources */,
 				30E3365F1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
@@ -2882,7 +2875,6 @@
 				35FF7A961CF8325A000A70EE /* TeacherDetailsPhotosCell.swift in Sources */,
 				35FF7A971CF8325A000A70EE /* BaseTableViewController.swift in Sources */,
 				35FF7A981CF8325A000A70EE /* ProfileViewHeaderView.swift in Sources */,
-				35FF7A991CF8325A000A70EE /* CommentPopupWindow.swift in Sources */,
 				35FF7A9A1CF8325A000A70EE /* BaseFilterView.swift in Sources */,
 				35FF7A9B1CF8325A000A70EE /* PageControl.swift in Sources */,
 				35FF7A9C1CF8325A000A70EE /* Extension+UIColor.swift in Sources */,
@@ -3091,7 +3083,6 @@
 				35FF7B791CF83264000A70EE /* TeacherDetailsPhotosCell.swift in Sources */,
 				35FF7B7A1CF83264000A70EE /* BaseTableViewController.swift in Sources */,
 				35FF7B7B1CF83264000A70EE /* ProfileViewHeaderView.swift in Sources */,
-				35FF7B7C1CF83264000A70EE /* CommentPopupWindow.swift in Sources */,
 				35FF7B7D1CF83264000A70EE /* BaseFilterView.swift in Sources */,
 				35FF7B7E1CF83264000A70EE /* PageControl.swift in Sources */,
 				35FF7B7F1CF83264000A70EE /* Extension+UIColor.swift in Sources */,
@@ -3285,7 +3276,6 @@
 				35FDCE941CAD0A2300A25FE8 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				35FDCE951CAD0A2300A25FE8 /* TeacherDetailsPhotosCell.swift in Sources */,
 				35FDCE961CAD0A2300A25FE8 /* ProfileViewHeaderView.swift in Sources */,
-				35FDCE971CAD0A2300A25FE8 /* CommentPopupWindow.swift in Sources */,
 				35FDCE981CAD0A2300A25FE8 /* BaseFilterView.swift in Sources */,
 				35FDCE991CAD0A2300A25FE8 /* Extension+UIColor.swift in Sources */,
 				35FDCE9B1CAD0A2300A25FE8 /* MalaLocationService.swift in Sources */,

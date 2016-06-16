@@ -44,8 +44,10 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
         button.setTitle("保存", forState: .Normal)
         button.setTitleColor(MalaColor_8FBCDD_0, forState: .Normal)
         button.setTitleColor(MalaColor_B7B7B7_0, forState: .Highlighted)
+        button.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
         button.addTarget(self, action: #selector(InfoModifyViewWindow.saveButtonDidTap), forControlEvents: .TouchUpInside)
         return button
@@ -294,12 +296,6 @@ public class InfoModifyViewWindow: UIViewController, UITextViewDelegate {
         guard let name = nameLabel.text else {
             return
         }
-        
-        if nameLabel.text?.characters.count > 4 {
-            nameLabel.text = nameLabel.text?.subStringToIndex(4)
-            return
-        }
-        
         saveButton.enabled = validateName(name)
     }
     
