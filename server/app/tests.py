@@ -321,10 +321,10 @@ class TestApi(TestCase):
         hours = 14
 
         coupon = Coupon.objects.get(pk=2)
+        # 保留原始可使用时间
+        org_validated_start = coupon.validated_start
+        org_expired_at = coupon.expired_at
         coupon.used = False
-        # 设置奖学金限制条件为不满足
-        coupon.mini_total_price = price * hours + 500
-        coupon.mini_course_count = hours + 5
         coupon.save()
 
         request_url = "/api/v1/orders"
@@ -337,6 +337,10 @@ class TestApi(TestCase):
             'hours': hours,
             'weekly_time_slots': [3, 8],
         })
+        # 设置奖学金课时条件不满足
+        coupon.mini_course_count = hours + 5
+        coupon.mini_total_price = 0
+        coupon.save()
         response = client.post(request_url, content_type="application/json",
                                data=json_data,)
         # 奖学金校验失败
@@ -346,9 +350,38 @@ class TestApi(TestCase):
         self.assertEqual(-2, json_ret['code'])
         self.assertFalse(coupon.used)
 
+        # 设置奖学金最低订单价格不满足
+        coupon.mini_course_count = 0
+        coupon.mini_total_price = price * hours + 500
+        coupon.save()
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data, )
+        # 奖学金校验失败
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertFalse(json_ret['ok'])
+        self.assertEqual(-2, json_ret['code'])
+        self.assertFalse(coupon.used)
+
+        # 设置奖学金可使用时间不满足
+        coupon.mini_course_count = 0
+        coupon.mini_total_price = 0
+        coupon.expired_at = timezone.now() - datetime.timedelta(minutes=1)
+        coupon.save()
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data, )
+        # 奖学金校验失败
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertFalse(json_ret['ok'])
+        self.assertEqual(-2, json_ret['code'])
+        self.assertFalse(coupon.used)
+
         # 设置奖学金限制条件为满足
-        coupon.mini_total_price = 1
-        coupon.mini_course_count = 1
+        coupon.mini_total_price = 0
+        coupon.mini_course_count = 0
+        coupon.validated_start = org_validated_start
+        coupon.expired_at = org_expired_at
         coupon.save()
 
         response = client.post(request_url, content_type="application/json",

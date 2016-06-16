@@ -982,8 +982,14 @@ class OrderViewSet(ParentBasedMixin,
             price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
             hours = request.data.get('hours')
-
+            # 限制条件不满足
             if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
+                return -2
+            validated_start = coupon.validated_start
+            expired_at = coupon.expired_at
+            now = timezone.now()
+            # 使用期限不满足
+            if now < validated_start or now > expired_at:
                 return -2
 
         # 课程占用校验
