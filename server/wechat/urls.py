@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^schools/photos/(?P<pk>[0-9]+)/$', views.SchoolPhotosView.as_view(), name="school-photos"),
     url(r'^teachers/$', views.TeachersView.as_view(), name="teachers"),
     url(r'^teachers/detail/(?P<id>[0-9]+)/$', views.TeacherDetailView.as_view(), name="teacher-detail"),
-    # url(r'^send_template_ms/$', views.send_template_msg, name="send_template_msg"),
     url(r'^order/course_choosing/$', views.CourseChoosingView.as_view(), name="order-course-choosing"),
     url(r'^order/coupon/list/$', views.CouponListView.as_view(), name="order-coupon-list"),
     url(r'^order/evaluate/list/$', views.EvaluateListView.as_view(), name="order-evaluate-list"),

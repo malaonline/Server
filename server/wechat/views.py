@@ -60,6 +60,7 @@ def _get_parent(request):
             login(request, parent.user)
     return parent
 
+
 class TeachersView(ListView):
     model = models.Teacher
     context_object_name = 'teacher_list'
@@ -123,6 +124,7 @@ class SchoolsView(ListView):
 
         return context
 
+
 class SchoolMapView(DetailView):
     model = models.School
     context_object_name = 'school'
@@ -132,6 +134,7 @@ class SchoolMapView(DetailView):
         context = super(SchoolMapView, self).get_context_data(**kwargs)
         context['amap_api_key'] = settings.AMAP_API_KEY
         return context
+
 
 class SchoolPhotosView(DetailView):
     model = models.School
@@ -413,6 +416,7 @@ def _jssdk_sign(url):
             'timestamp': now_timestamp,
             'signature': signature}
 
+
 def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     """
     支付成功, 设置订单支付成功, 并且生成课程安排
@@ -530,181 +534,6 @@ def wx_pay_notify_view(request):
     except:
         pass # 忽略错误, 微信端直接关闭页面
     return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
-
-
-@csrf_exempt
-def get_wx_token(request):
-    retToken, retMsg = _get_wx_token()
-
-    if retMsg:
-        return JsonResponse({'ok': False, 'msg': retMsg, 'code': -1})
-    else:
-        return JsonResponse({'ok': True, 'token': retToken, 'code': 0})
-
-@csrf_exempt
-def send_template_msg(request):
-    tk = get_wx_token(request)
-    if tk.status_code == 200:
-        content = json.loads(tk.content.decode())
-        token = content['token']
-
-        tmpmsg_url = WX_TPL_MSG_URL.format(token=token)
-
-        ct = getContentData(request)
-        ct['access_token'] = token
-        json_template = json.dumps(ct)
-
-        req = requests.post(tmpmsg_url, data=json.dumps(ct))
-        retText = json.loads(req.text)
-
-        msgid = None
-        if 'msgid' in retText:
-            msgid = retText['msgid']
-
-        return JsonResponse({'ok': True, 'msgid': msgid, 'code': 0})
-    else:
-        return JsonResponse({'ok': False, 'msg': '获取token错误', 'code': -1})
-
-def getContentData(request):
-    temptype = request.GET.get("temptype", None)
-    if not temptype:
-        temptype = request.POST.get("temptype", None)
-
-    if temptype == 'payok':
-        return template_msg_data_pay_ok(request)
-    elif temptype == 'payinfo':
-        return template_msg_data_pay_info(request)
-    return {}
-
-# 报名缴费成功
-def template_msg_data_pay_ok(request):
-    tempId = settings.WECHAT_PAY_OK_TEMPLATE
-
-    toUser = request.GET.get("toUser", None)
-    if not toUser:
-        toUser = request.POST.get("toUser", None)
-
-    first = request.GET.get("first", None)
-    if not first:
-        openid = request.POST.get("first", None)
-
-    kw1 = request.GET.get("kw1", None)
-    if not kw1:
-        openid = request.POST.get("kw1", None)
-
-    kw2 = request.GET.get("kw2", None)
-    if not kw2:
-        kw2 = request.POST.get("kw2", None)
-
-    kw3 = request.GET.get("kw3", None)
-    if not kw3:
-        kw3 = request.POST.get("kw3", None)
-
-    kw4 = request.GET.get("kw4", None)
-    if not kw4:
-        kw4 = request.POST.get("kw4", None)
-
-    kw5 = request.GET.get("kw5", None)
-    if not kw5:
-        kw5 = request.POST.get("kw5", None)
-
-    remark = request.GET.get("remark", None)
-    if not remark:
-        remark = request.POST.get("remark", None)
-
-    return {
-        "access_token": None,
-        "touser": toUser,
-        "template_id": tempId,
-        "data": {
-            "first": {
-                "value": first
-            },
-            "keyword1": {
-                "value": kw1
-            },
-            "keyword2": {
-                "value": kw2
-            },
-            "keyword3": {
-                "value": kw3
-            },
-            "keyword4": {
-                "value": kw4
-            },
-            "keyword5": {
-                "value": kw5
-            },
-            "remark": {
-                "value": remark
-            }
-        }
-    }
-
-# 支付提醒：支付提醒，支付失败
-def template_msg_data_pay_info(request):
-    tempId = settings.WECHAT_PAY_INFO_TEMPLATE
-
-    toUser = request.GET.get("toUser", None)
-    if not toUser:
-        toUser = request.POST.get("toUser", None)
-
-    first = request.GET.get("first", None)
-    if not first:
-        first = request.POST.get("first", None)
-
-    kw1 = request.GET.get("kw1", None)
-    if not kw1:
-        kw1 = request.POST.get("kw1", None)
-
-    kw2 = request.GET.get("kw2", None)
-    if not kw2:
-        kw2 = request.POST.get("kw2", None)
-
-    kw3 = request.GET.get("kw3", None)
-    if not kw3:
-        kw3 = request.POST.get("kw3", None)
-
-    kw4 = request.GET.get("kw4", None)
-    if not kw4:
-        kw4 = request.POST.get("kw4", None)
-
-    kw5 = request.GET.get("kw5", None)
-    if not kw5:
-        kw5 = request.POST.get("kw5", None)
-
-    remark = request.GET.get("remark", None)
-    if not remark:
-        remark = request.POST.get("remark", None)
-
-    return {
-        "access_token": None,
-        "touser": toUser,
-        "template_id": tempId,
-        "data": {
-            "first": {
-                "value": first
-            },
-            "keyword1": {
-                "value": kw1
-            },
-            "keyword2": {
-                "value": kw2
-            },
-            "keyword3": {
-                "value": kw3
-            },
-            "keyword4": {
-                "value": kw4
-            },
-            "keyword5": {
-                "value": kw5
-            },
-            "remark": {
-                "value": remark
-            }
-        }
-    }
 
 
 def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
@@ -866,6 +695,7 @@ def teacher_view(request):
 
     return render(request, template_name, context)
 
+
 @csrf_exempt
 def getSchoolsWithDistance(request):
     lat = request.POST.get("lat", None)
@@ -907,12 +737,14 @@ def getSchoolsWithDistance(request):
             sc['dis'] = sc['dis']/1000
     return JsonResponse({'ok': True, 'schools': ret, 'code': 0})
 
+
 def calculateDistance(pointA, pointB):
   R = 6371000; #metres
   toRadians = math.pi/180;
 
   return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(
       toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
+
 
 @csrf_exempt
 def phone_page(request):
@@ -925,6 +757,7 @@ def phone_page(request):
         "openid": openid
     }
     return render(request, template_name, context)
+
 
 @csrf_exempt
 def add_openid(request):
@@ -975,6 +808,7 @@ def add_openid(request):
         "result": True
     })
 
+
 @csrf_exempt
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
@@ -1015,6 +849,7 @@ def check_phone(request):
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
     }
     return render(request, 'wechat/parent/reg_phone.html', context)
+
 
 @csrf_exempt
 def policy(request):
