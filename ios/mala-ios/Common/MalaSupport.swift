@@ -116,21 +116,12 @@ public func weekdayInt(date: NSDate) -> Int {
 ///  - returns: ClassScheduleViewController.model数据
 func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCourseModel]]] {
     
-//    let tempCourseList = [StudentCourseModel](courseTable.reverse())
-    
-    
     let courseList = [StudentCourseModel](courseTable.reverse())
     var datas = [[[StudentCourseModel]]]()
     var currentMonthsIndex: Int = 0
     var currentDaysIndex: Int = 0
     
     for (index, course) in courseList.enumerate() {
-        
-        let day = String(format: "%d", course.date.day())
-        let month = String(format: "%d", course.date.month())
-        let year = String(format: "%d", course.date.year())
-        
-        println("课表年月日: \(year)-\(month)-\(day)")
         
         let courseYearAndMonth = String(course.date.year())+String(course.date.month())
         let courseDay = course.date.day()
@@ -142,32 +133,26 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCou
             if courseYearAndMonth == String(previousCourse.date.year())+String(previousCourse.date.month()) {
                 
                 if courseDay == previousCourse.date.day() {
-                    println("同年同月同日")
                     // 同年同月同日
                     datas[currentMonthsIndex][currentDaysIndex].append(course)
                 }else {
-                    println("同年同月不同日")
                     // 同年同月
                     datas[currentMonthsIndex].append([course])
                     currentDaysIndex += 1
                 }
             }else {
-                println("非同年同月")
                 // 非同年同月
                 datas.append([[course]])
                 currentMonthsIndex += 1
                 currentDaysIndex = 0
             }
-            
         }else {
-            println("均不同")
             // 均不同
             datas.append([[course]])
             currentMonthsIndex = 0
             currentDaysIndex = 0
         }
     }
-    println("课表字典: \(datas)")
     return datas
 }
 
