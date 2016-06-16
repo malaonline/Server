@@ -476,21 +476,23 @@ func getOrderList(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, c
     }
 }
 
-///  获取用户未订单数量
+///  获取用户新消息数量
 ///
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getUnpaidOrderCount(failureHandler: ((Reason, String?) -> Void)?, completion: Int -> Void) {
+func getUserNewMessageCount(failureHandler: ((Reason, String?) -> Void)?, completion: (order: Int, comment: Int) -> Void) {
     
-    let parse: JSONDictionary -> Int = { data in
-        if let count = data["count"] as? Int {
-            return count
+    let parse: JSONDictionary -> (order: Int, comment: Int) = { data in
+        if let
+            order = data["unpaid_num"] as? Int,
+            comment = data["tocomment_num"] as? Int {
+            return (order, comment)
         }else {
-            return 0
+            return (0, 0)
         }
     }
     
-    let resource = authJsonResource(path: "/unpaid_count", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    let resource = authJsonResource(path: "/my_center", method: .GET, requestParameters: nullDictionary(), parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)

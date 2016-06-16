@@ -87,8 +87,13 @@ class ProfileItemCollectionViewCell: UICollectionViewCell {
             newMessageView.image = UIImage(named: model?.newMessageIconName ?? "")
             titleLabel.text = model?.controllerTitle
             
-            if let title = model?.controllerTitle  where title == "我的订单" {
-                newMessageView.hidden = (MalaUnpaidOrderCount == 0)
+            if let title = model?.controllerTitle {
+                if title == "我的订单" {
+                    newMessageView.hidden = (MalaUnpaidOrderCount == 0)
+                }else if title == "我的评价" {
+                    println("我的评价数量 － \(MalaToCommentCount)")
+                    newMessageView.hidden = (MalaToCommentCount == 0)
+                }
             }
         }
     }

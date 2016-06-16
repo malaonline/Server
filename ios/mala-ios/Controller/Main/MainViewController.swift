@@ -112,23 +112,24 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             return
         }
         
-        getUnpaidOrderCount({ (reason, errorMessage) in
+        getUserNewMessageCount({ (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
-                println("MainViewController - loadUnpaindOrder Error \(errorMessage)")
+                println("MainViewController - getUserNewMessageCount Error \(errorMessage)")
             }
-        }, completion: { [weak self] (count) in
-            println("未支付订单：\(count)")
-            if count != 0 {
-                MalaUnpaidOrderCount = count
+        }, completion: { [weak self] (order, comment) in
+            println("未支付订单数量：\(order), 待评价数量：\(comment)")
+            
+            MalaUnpaidOrderCount = order
+            MalaToCommentCount = comment
+            
+            if order != 0 {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self?.popAlert()
                 })
-            }else {
-                MalaUnpaidOrderCount = 0
             }
-            self?.profileViewController.showTabBadgePoint = MalaUnpaidOrderCount > 0
+            self?.profileViewController.showTabBadgePoint = (MalaUnpaidOrderCount > 0 || MalaToCommentCount > 0)
         })
     }
     

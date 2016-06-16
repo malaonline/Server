@@ -478,6 +478,7 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
                     if bool {
                         // 设置评价数据，用于Cell状态更新后显示评论
                         self?.model.comment = comment
+                        MalaToCommentCount -= 1
                         
                         self?.ShowTost("评价成功")
                         delay(1.0, work: { () -> Void in
