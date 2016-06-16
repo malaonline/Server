@@ -122,6 +122,7 @@
                 $(schoolCont[i]).find('img').attr('src', schoolPhotos[i]);
             }
             var tPhotoWidth = ($teacherImages.width() - 10)/3, tPhotoHeight = ($teacherImages.width() - 10)/4;
+            $teacherImages.css('max-height', tPhotoHeight+2);
             $teacherImages.find('.img_box').css('width', tPhotoWidth);
             $teacherImages.find('.img_box').css('height', tPhotoHeight);
             $teacherImages.find('img').bind('load', function (e) {
@@ -131,9 +132,12 @@
                 cropCenterImg(this);
             });
         }
+{#      $.ready(pageload())#}
+        if (/complete|loaded|interactive/.test(document.readyState) && document.body) pageload()
+        else document.addEventListener('DOMContentLoaded', function(){ pageload() }, false)
     </script>
 </head>
-<body ontouchstart onload="pageload()">
+<body ontouchstart>
 <div class="container js_container">
 <div class="page">
     <div class="bd" style="height: 100%;">
