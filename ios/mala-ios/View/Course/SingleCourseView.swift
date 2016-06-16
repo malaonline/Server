@@ -14,10 +14,16 @@ class SingleCourseView: UIView {
     /// 单个课程数据模型
     var model: StudentCourseModel? {
         didSet {
-            subjectLabel.text = String(format: "%@ %@", model?.grade ?? "", model?.subject ?? "")
-            nameLabel.text = model?.teacher?.name
-            timeLabel.text = String(format: "%@-%@", getDateString(model?.start, format: "HH:mm"), getDateString(model?.end, format: "HH:mm"))
+            
+            guard let course = model else {
+                return
+            }
+            
+            subjectLabel.text = String(format: "%@ %@", course.grade, course.subject)
+            nameLabel.text = course.teacher?.name
+            timeLabel.text = String(format: "%@-%@", getDateString(course.start, format: "HH:mm"), getDateString(course.end, format: "HH:mm"))
             schoolLabel.text = model?.school
+            changeUI()
         }
     }
     
@@ -77,6 +83,7 @@ class SingleCourseView: UIView {
         )
         return label
     }()
+    
     
     // MARK: - Instance Method
     override init(frame: CGRect) {
@@ -140,6 +147,28 @@ class SingleCourseView: UIView {
             make.centerY.equalTo(schoolIcon.snp_centerY)
             make.left.equalTo(schoolIcon.snp_right).offset(5)
             make.height.equalTo(13)
+        }
+    }
+    
+    ///  根据课程状态渲染UI
+    private func changeUI() {
+        
+        guard let course = model else {
+            return
+        }
+        
+        switch course.status {
+        case .Past:
+            headerBackground.backgroundColor = MalaColor_CFCFCF_0
+            break
+            
+        case .Today:
+            headerBackground.backgroundColor = MalaColor_6DB2E5_0
+            break
+            
+        case .Future:
+            headerBackground.backgroundColor = MalaColor_6DB2E5_0
+            break
         }
     }
 }

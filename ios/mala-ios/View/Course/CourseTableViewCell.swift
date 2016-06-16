@@ -17,32 +17,9 @@ class CourseTableViewCell: UITableViewCell {
             if let courseModel = model?[0] {
                 dateLabel.text = getDateString(courseModel.end, format: "d")
                 weekLabel.text = getWeekString(courseModel.end)
+                changeUI()
             }
-            
-            for courseModel in model ?? [] {
-                
-                let view = SingleCourseView()
-                view.model = courseModel
-                
-                courseLayoutView.addSubview(view)
-                
-                if let lastCourseView = lastCourseView {
-                    view.snp_makeConstraints { (make) in
-                        make.top.equalTo(lastCourseView.snp_bottom)
-                        make.left.equalTo(courseLayoutView.snp_left)
-                        make.right.equalTo(courseLayoutView.snp_right)
-                        make.height.equalTo(102)
-                    }
-                }else {
-                    view.snp_makeConstraints { (make) in
-                        make.top.equalTo(courseLayoutView.snp_top)
-                        make.left.equalTo(courseLayoutView.snp_left)
-                        make.right.equalTo(courseLayoutView.snp_right)
-                        make.height.equalTo(102)
-                    }
-                }
-                lastCourseView = view
-            }
+            setupCourseViews()
         }
     }
     var lastCourseView: SingleCourseView?
@@ -116,7 +93,60 @@ class CourseTableViewCell: UITableViewCell {
         }
     }
     
+    ///  根据课程状态渲染UI
+    private func changeUI() {
+        
+        guard let course = model?[0] else {
+            return
+        }
+        
+        switch course.status {
+        case .Past:
+            dateLabel.textColor = MalaColor_939393_0
+            weekLabel.textColor = MalaColor_939393_0
+            break
+            
+        case .Today:
+            dateLabel.textColor = MalaColor_6DB2E5_0
+            weekLabel.textColor = MalaColor_6DB2E5_0
+            break
+            
+        case .Future:
+            dateLabel.textColor = MalaColor_333333_0
+            weekLabel.textColor = MalaColor_333333_0
+            break
+        }
+    }
     
+    ///  设置课程视图
+    private func setupCourseViews() {
+        
+        for courseModel in model ?? [] {
+            let view = SingleCourseView()
+            view.model = courseModel
+            courseLayoutView.addSubview(view)
+            
+            if let lastCourseView = lastCourseView {
+                view.snp_makeConstraints { (make) in
+                    make.top.equalTo(lastCourseView.snp_bottom)
+                    make.left.equalTo(courseLayoutView.snp_left)
+                    make.right.equalTo(courseLayoutView.snp_right)
+                    make.height.equalTo(102)
+                }
+            }else {
+                view.snp_makeConstraints { (make) in
+                    make.top.equalTo(courseLayoutView.snp_top)
+                    make.left.equalTo(courseLayoutView.snp_left)
+                    make.right.equalTo(courseLayoutView.snp_right)
+                    make.height.equalTo(102)
+                }
+            }
+            lastCourseView = view
+        }
+    }
+    
+    
+    // MARK: - Override
     override func prepareForReuse() {
         super.prepareForReuse()
         
