@@ -54,11 +54,7 @@
 
         {%if schools%}
             {%for sc in schools%}
-                {%if sc.img%}
-                    schoolPhotos[schoolPhotos.length] = "{{sc.img|safe}}";
-                {%else%}
-                    schoolPhotos[schoolPhotos.length] = "";
-                {%endif%}
+                schoolPhotos[schoolPhotos.length] = "{{sc.get_thumbnail|safe}}";
             {%endfor%}
         {%endif%}
         var drawTeachAgeLevel = function() {
@@ -110,6 +106,7 @@
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             drawTeachAgeLevel();
             $('#moreSchoolDown').attr('src', pullDownImg);
+            $('#moreSchoolUp').attr('src', pullUpImg);
             $('#morePhotos').attr('src', moreImg);
             var $teacherImages = $('.teacher_images');
             for(var i=0;i<userPhotos.length;i++){
@@ -117,9 +114,9 @@
               nimg.find('img').attr('src', userPhotos[i]);
               $teacherImages.append(nimg);
             }
-            var schoolCont = $('.school_cont');
-            for(var i=0;i<schoolCont.length;i++){
-                $(schoolCont[i]).find('img').attr('src', schoolPhotos[i]);
+            var $schools = $('.school_cont');
+            for(var i=0;i<$schools.length;i++){
+                $($schools[i]).find('.school_img_cont').css('backgroundImage', 'url('+schoolPhotos[i]+')');
             }
             var tPhotoWidth = ($teacherImages.width() - 10)/3, tPhotoHeight = ($teacherImages.width() - 10)/4;
             $teacherImages.css('max-height', tPhotoHeight+2);
@@ -131,6 +128,19 @@
             $teacherImages.find('img').each(function (e) {
                 cropCenterImg(this);
             });
+{#            ajaxLoadSchool(39.90809, 116.476021); // only for test, to do remove#}
+            if ($schools.length > 1) {
+                $(".more_schools").click(function() {
+                    $('.more_schools').css('display', 'none');
+                    $('.school_cont').css('display', 'block');
+                    $('.more_schools_collapse').css('display', 'block');
+                });
+                $(".more_schools_collapse").click(function() {
+                    $('.more_schools').css('display', 'block');
+                    $('.more_schools_collapse').css('display', 'none');
+                    $('.more_school_cont').css('display', 'none');
+                });
+            }
         }
 {#      $.ready(pageload())#}
         if (/complete|loaded|interactive/.test(document.readyState) && document.body) pageload()
@@ -272,7 +282,7 @@
                     <div id="schoolsDiv">
                         {%if schools%}
                             {%for sc in schools%}
-                                <div class="school_cont">
+                                <div class="school_cont {%if forloop.counter > 1%}more_school_cont{% endif %}">
                                     <div>
                                         <div class="school_img_cont"></div>
                                         <div>
@@ -288,11 +298,11 @@
                                 <div class="more_schools" id="more_schools">
                                     其他社区中心 <img id="moreSchoolDown">
                                 </div>
-                                <div class="more_schools_collapse" id="more_schools_collapse">
-                                    收起 <img id="moreSchoolUp">
-                                </div>
                                 {%endif%}
                             {%endfor%}
+                            <div class="more_schools_collapse" id="more_schools_collapse">
+                                收起 <img id="moreSchoolUp">
+                            </div>
                         {%endif%}
                     </div>
                 </div>

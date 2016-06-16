@@ -665,6 +665,8 @@ def teacher_view(request):
             grades_tree.append(_grade)
     grades_tree.sort(key=lambda x: x['id'])
 
+    schools = models.School.objects.all()
+
     now_timestamp = int(time.time())
 
     nonce_str = make_nonce_str()
@@ -690,7 +692,8 @@ def teacher_view(request):
         "subjects": models.Subject.objects.all,
         "grades_tree": grades_tree,
         "teacher_grade_ids": teacher_grade_ids,
-        "teacher": teacher
+        "teacher": teacher,
+        "schools": schools
     }
 
     return render(request, template_name, context)

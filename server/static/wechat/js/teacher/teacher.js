@@ -526,6 +526,8 @@ function ajaxLoadSchool(lat, lng){
         console.log("获取学校失败")
       }else{
           var schools = data.schools;
+          var $schoolsDiv = $('#schoolsDiv');
+          $schoolsDiv.html('');
           for(var i=0;i<schools.length;i++){
               var sc = schools[i];
               var schoolDis = $('<div>');
@@ -554,11 +556,11 @@ function ajaxLoadSchool(lat, lng){
                 school_cont.addClass('more_school_cont');
               }
 
-              $('#schoolsDiv').append(school_cont);
+              $schoolsDiv.append(school_cont);
 
               if(i==0 && schools.length > 1){
                   $('.school_panel').css('paddingBottom', '0');
-                  $('#schoolsDiv').css('marginBottom', '0');
+                  $schoolsDiv.css('marginBottom', '0');
                   var msDown = $('<img>');
                   msDown.attr('src', pullDownImg);
                   var moreBtn = $('<div>');
@@ -570,7 +572,7 @@ function ajaxLoadSchool(lat, lng){
                     $('.school_cont').css('display', 'block');
                     $('.more_schools_collapse').css('display', 'block');
                   });
-                  $('#schoolsDiv').append(moreBtn);
+                  $schoolsDiv.append(moreBtn);
               }
           }
           var msDown = $('<img>');
@@ -584,7 +586,7 @@ function ajaxLoadSchool(lat, lng){
             $('.more_schools_collapse').css('display', 'none');
             $('.more_school_cont').css('display', 'none');
           });
-          $('#schoolsDiv').append(moreBtn);
+          $schoolsDiv.append(moreBtn);
           var contWidth = $('.school_cont').width();
           var schImgWidth = contWidth/2.7;
           var schImgHeight = contWidth*3/10.8; //*3/4/2.7
