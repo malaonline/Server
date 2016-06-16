@@ -70,11 +70,11 @@
             ctx.lineWidth=3;
             ctx.strokeStyle='#eeeeee';
             ctx.beginPath();
-            ctx.arc(22,22,20,-Math.PI/2,Math.PI*2,false);
+            ctx.arc(22,22,20,-Math.PI/2,Math.PI*2-Math.PI/2,false);
             ctx.stroke();
             ctx.strokeStyle=color;
             ctx.beginPath();
-            ctx.arc(22,22,20,-Math.PI/2,percent*Math.PI*2,false);
+            ctx.arc(22,22,20,-Math.PI/2,percent*Math.PI*2-Math.PI/2,false);
             ctx.stroke();
         };
         var cropCenterImg = function (img_ele) {
