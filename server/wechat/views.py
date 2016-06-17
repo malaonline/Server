@@ -274,8 +274,19 @@ class CourseChoosingView(OrderBaseView):
         subject = teacher.subject() # 老师只有一个科目
         coupon = coupon_id and coupon_id != '0' and get_object_or_404(models.Coupon, pk=coupon_id) or None
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=w_id) for w_id in weekly_time_slot_ids]
-        if coupon and coupon.used:
-            return JsonResponse({'ok': False, 'msg': '您所选择代金券已使用, 请重新选择', 'code': 2})
+        if coupon:
+            if coupon.used:
+                return JsonResponse({'ok': False, 'msg': '您所选择奖学金已使用, 请重新选择', 'code': 2})
+            # 使用期限不满足
+            if not coupon.check_date():
+                return JsonResponse({'ok': False, 'msg': '您所选择奖学金不在使用有效期内, 请重新选择', 'code': 2})
+            # 限制条件不满足
+            ability = get_object_or_404(
+                models.Ability, grade=grade, subject=subject)
+            price = teacher.region.price_set.get(
+                ability=ability, level=teacher.level).price
+            if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
+                return JsonResponse({'ok': False, 'msg': '您所选择奖学金不满足使用条件, 请重新选择', 'code': 2})
 
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
         if not teacher.is_longterm_available(periods, school, parent):

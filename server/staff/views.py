@@ -2164,6 +2164,7 @@ class CouponConfigView(BaseStaffView):
                 gen.validated_start = datetime.datetime.strptime(validatedStart, '%Y-%m-%d')
             if expiredAt:
                 gen.expired_at = datetime.datetime.strptime(expiredAt, '%Y-%m-%d')
+                gen.expired_at.replace(hour=23, minute=59, second=59, microsecond=999)
             try:
                 gen.amount = int(amount)*100
             except:
@@ -2191,6 +2192,7 @@ class CouponConfigView(BaseStaffView):
                 validated_start = timezone.now()
             if expiredAt:
                 expired_at = datetime.datetime.strptime(expiredAt, '%Y-%m-%d')
+                expired_at.replace(hour=23, minute=59, second=59, microsecond=999)
             else:
                 expired_at = timezone.now()
             try:

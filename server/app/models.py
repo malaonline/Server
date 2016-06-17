@@ -1351,6 +1351,7 @@ class Coupon(BaseModel):
     reminded = models.BooleanField(default=False)
     validated_start = models.DateTimeField(
             null=False, blank=False, default=timezone.now)
+    # 结束日期保存为YYYY-MM-DD 23:59:59.999
     expired_at = models.DateTimeField(
             null=False, blank=False, default=timezone.now)
     used = models.BooleanField(default=False)
@@ -1382,6 +1383,10 @@ class Coupon(BaseModel):
     @property
     def usable(self):
         return self.status == 'unused'
+
+    def check_date(self):
+        now = timezone.now()
+        return now >= localtime(self.validated_start) and now <= localtime(self.expired_at)
 
     def print_validate_period(self):
         return '%s ~ %s' % (
