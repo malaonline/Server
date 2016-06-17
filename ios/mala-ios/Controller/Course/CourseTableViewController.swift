@@ -24,7 +24,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                 }else {
                     self?.defaultView.hidden = true
                     self?.tableView.reloadData()
-                    self?.tableView.scrollToRowAtIndexPath(self?.recentlyCourseIndexPath ?? NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+                    self?.scrollToToday(false)
                 }
             })
         }
@@ -72,7 +72,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             title: "今天",
             titleColor: MalaColor_82B4D9_0,
             target: self,
-            action: #selector(CourseTableViewController.scrollToToday)
+            action: #selector(CourseTableViewController.scrollToToday(_:))
         )
         saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
@@ -103,7 +103,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if isFirstShow {
-            scrollToToday()
+//            scrollToToday(true)
             isFirstShow = false
         }
         loadStudentCourseTable()
@@ -231,8 +231,11 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     
     // MARK: - Event Response
     ///  滚动到近日首个未上课程
-    @objc private func scrollToToday() {
-        println("滚动到近日首个未上课程")
+    @objc private func scrollToToday(animated: Bool = true) {
+        println("滚动到近日首个未上课程 - \(animated)")
+        dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+            self?.tableView.scrollToRowAtIndexPath(self?.recentlyCourseIndexPath ?? NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        })
     }
     ///  跳转到挑选老师页面
     @objc private func switchToFindTeacher() {
