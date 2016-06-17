@@ -108,83 +108,25 @@ public class Grade extends BaseEntity{
         }
         return null;
     }
-
-    public static List<String> getPrimaryData(String[] grades) {
+    public static List<List<String>> getGradesByGroup(String[] grades) {
+        List<List<String>> gradelist = new ArrayList<>();
         List<String> primarys = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("一年级")){
-                primarys.add("一年级");
-                continue;
-            }
-
-            if (grades[i].equals("二年级")){
-                primarys.add("二年级");
-                continue;
-            }
-
-            if (grades[i].equals("三年级")){
-                primarys.add("三年级");
-                continue;
-            }
-
-            if (grades[i].equals("四年级")){
-                primarys.add("四年级");
-                continue;
-            }
-
-            if (grades[i].equals("五年级")){
-                primarys.add("五年级");
-                continue;
-            }
-
-            if (grades[i].equals("六年级")){
-                primarys.add("六年级");
-                continue;
-            }
-        }
-        return primarys;
-    }
-
-    public static List<String> getJuniorData(String[] grades) {
+        gradelist.add(primarys);
         List<String> juniors = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("初一")){
-                juniors.add("初一");
-                continue;
-            }
-
-            if (grades[i].equals("初二")){
-                juniors.add("初二");
-                continue;
-            }
-
-            if (grades[i].equals("初三")){
-                juniors.add("初三");
-                continue;
-            }
-        }
-        return juniors;
-    }
-
-    public static List<String> getSeniorData(String[] grades) {
+        gradelist.add(juniors);
         List<String> seniors = new ArrayList<>();
-        for (int i=0;i<grades.length;i++){
-            if (grades[i].equals("高一")){
-                seniors.add("高一");
-                continue;
-            }
+        gradelist.add(seniors);
+        for (int i=0;grades!=null&&i<grades.length;i++){
 
-            if (grades[i].equals("高二")){
-                seniors.add("高二");
-                continue;
-            }
-
-            if (grades[i].equals("高三")){
-                seniors.add("高三");
-                continue;
+            if (grades[i].contains("年级")){
+                primarys.add(grades[i]);
+            }else if (grades[i].contains("初")){
+                juniors.add(grades[i]);
+            }else if(grades[i].contains("高")){
+                seniors.add(grades[i]);
             }
         }
-        return seniors;
+        return gradelist;
     }
 
     public static String generateGradeViewString(Long [] gradesAry){
