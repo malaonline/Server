@@ -1385,8 +1385,7 @@ class Coupon(BaseModel):
         return self.status == 'unused'
 
     def check_date(self):
-        now = timezone.now()
-        return now >= localtime(self.validated_start) and now <= localtime(self.expired_at)
+        return timezone.now() <= self.expired_at
 
     def print_validate_period(self):
         return '%s ~ %s' % (
