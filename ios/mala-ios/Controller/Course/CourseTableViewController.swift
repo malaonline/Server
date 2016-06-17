@@ -11,7 +11,7 @@ import UIKit
 private let CourseTableViewSectionHeaderViewReuseId = "CourseTableViewSectionHeaderViewReuseId"
 private let CourseTableViewCellReuseId = "CourseTableViewCellReuseId"
 
-public class CourseTableViewController: UITableViewController {
+public class CourseTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - Property
     /// 上课时间表数据模型
@@ -44,6 +44,10 @@ public class CourseTableViewController: UITableViewController {
     
     
     // MARK: - Components
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRectZero, style: .Grouped)
+        return tableView
+    }()
     /// 我的课表缺省面板
     private lazy var defaultView: UIView = {
         let view = MalaDefaultPanel()
@@ -116,9 +120,14 @@ public class CourseTableViewController: UITableViewController {
         navigationItem.titleView?.addSubview(titleLabel)
         
         // SubViews
+        view.addSubview(tableView)
         tableView.addSubview(defaultView)
         
         // AutoLayout
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(view.snp_center)
+            make.size.equalTo(view.snp_size)
+        }
         defaultView.snp_makeConstraints { (make) -> Void in
             make.size.equalTo(tableView.snp_size)
             make.center.equalTo(tableView.snp_center)
@@ -139,7 +148,7 @@ public class CourseTableViewController: UITableViewController {
             // 若在注销后存在课程数据残留，清除数据并刷新日历
             if model != nil {
                 model = nil
-                tableView?.reloadData()
+                tableView.reloadData()
             }
             return
         }
@@ -165,13 +174,13 @@ public class CourseTableViewController: UITableViewController {
     
     
     // MARK: - DataSource
-    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return model?.count ?? 0
     }
-    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return model?[section].count ?? 0
     }
-    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CourseTableViewCellReuseId, forIndexPath: indexPath) as! CourseTableViewCell
         cell.model = model?[indexPath.section][indexPath.row]
         return cell
@@ -179,25 +188,25 @@ public class CourseTableViewController: UITableViewController {
     
     
     // MARK: - Delegate
-    public override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseTableViewSectionHeaderViewReuseId) as! CourseTableViewSectionHeader
         headerView.timeInterval = model?[section][0][0].end
         return headerView
     }
-    public override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         // 实时调整当前第一个显示的Cell日期为导航栏标题日期
         currentDate = (tableView.visibleCells.first as? CourseTableViewCell)?.model?[0].end
     }
-    public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 140
     }
-    public override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
-    public override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return CGFloat((model?[indexPath.section][indexPath.row].count ?? 0) * 102)
     }
-    public override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    public func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
     }
     
