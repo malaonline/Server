@@ -44,6 +44,12 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     
     
     // MARK: - Components
+    private lazy var goTopButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "goTop"), forState: .Normal)
+        button.addTarget(self, action: #selector(CourseTableViewController.scrollToToday), forControlEvents: .TouchUpInside)
+        return button
+    }()
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectZero, style: .Grouped)
         return tableView
@@ -121,12 +127,19 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
         
         // SubViews
         view.addSubview(tableView)
+        view.addSubview(goTopButton)
         tableView.addSubview(defaultView)
         
         // AutoLayout
         tableView.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(view.snp_center)
             make.size.equalTo(view.snp_size)
+        }
+        goTopButton.snp_makeConstraints { (make) -> Void in
+            make.right.equalTo(view.snp_right).offset(-20)
+            make.bottom.equalTo(view.snp_bottom).offset(-64)
+            make.width.equalTo(58)
+            make.height.equalTo(58)
         }
         defaultView.snp_makeConstraints { (make) -> Void in
             make.size.equalTo(tableView.snp_size)
@@ -214,7 +227,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     // MARK: - Event Response
     ///  滚动到近日首个未上课程
     @objc private func scrollToToday() {
-        
+        println("滚动到近日首个未上课程")
     }
     ///  跳转到挑选老师页面
     @objc private func switchToFindTeacher() {
