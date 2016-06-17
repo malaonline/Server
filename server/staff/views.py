@@ -2211,7 +2211,6 @@ class CouponConfigView(BaseStaffView):
                 amount=amount*100,
                 mini_course_count=mini_course_count,
                 mini_total_price=mini_total_price,
-                validated_start=validated_start,
                 expired_at=expired_at,
                 used=False
             )

@@ -98,7 +98,7 @@ def autoRemindCoupons():
     remind_time = timezone.now() + Coupon.REMIND_TIME
     targets = Coupon.objects.filter(
         used=False,
-        validated_start__lt=timezone.now(),
+        expired_at__gt=timezone.now(),
         expired_at__lt=remind_time,
         reminded=False
     )

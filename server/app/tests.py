@@ -321,8 +321,7 @@ class TestApi(TestCase):
         hours = 14
 
         coupon = Coupon.objects.get(pk=2)
-        # 保留原始可使用时间
-        org_validated_start = coupon.validated_start
+        # 保留原始过期时间
         org_expired_at = coupon.expired_at
         coupon.used = False
         coupon.save()
@@ -380,7 +379,6 @@ class TestApi(TestCase):
         # 设置奖学金限制条件为满足
         coupon.mini_total_price = 0
         coupon.mini_course_count = 0
-        coupon.validated_start = org_validated_start
         coupon.expired_at = org_expired_at
         coupon.save()
 

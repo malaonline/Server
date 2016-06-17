@@ -1261,7 +1261,6 @@ class Parent(BaseModel):
                         amount=couponGenerator.amount,
                         mini_course_count=couponGenerator.mini_course_count,
                         mini_total_price=couponGenerator.mini_total_price,
-                        validated_start=couponGenerator.validated_start,
                         expired_at=couponGenerator.expired_at, used=False)
         else:
             super(Parent, self).save(*args, **kwargs)
