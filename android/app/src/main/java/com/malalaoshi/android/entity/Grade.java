@@ -117,12 +117,11 @@ public class Grade extends BaseEntity{
         List<String> seniors = new ArrayList<>();
         gradelist.add(seniors);
         for (int i=0;grades!=null&&i<grades.length;i++){
-
             if (grades[i].contains("年级")){
                 primarys.add(grades[i]);
-            }else if (grades[i].contains("初")){
+            }else if (!grades[i].contains("初中")&&grades[i].contains("初")){
                 juniors.add(grades[i]);
-            }else if(grades[i].contains("高")){
+            }else if(!grades[i].contains("高中")&&grades[i].contains("高")){
                 seniors.add(grades[i]);
             }
         }

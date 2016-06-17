@@ -158,12 +158,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.fl_teach_senior)
     protected FlowLayout flTeachSenior;
 
-    private FlowLayout[] flTeachGrades = new FlowLayout[3];
-
-    private int[] gradeResId  = new int[]{R.drawable.bg_text_primary,R.drawable.bg_text_junior,R.drawable.bg_text_senior};
-
-    private int[] gradeTextColorId  = new int[]{R.color.primary_text_color,R.color.junior_text_color,R.color.senior_text_color};
-
     //标签
     @Bind(R.id.parent_teacher_detail_tag_fl)
     protected FlowLayout flTags;
@@ -263,9 +257,6 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initViews() {
-        flTeachGrades[0] = flTeachPrimary;
-        flTeachGrades[1] = flTeachJunior;
-        flTeachGrades[2] = flTeachSenior;
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
     }
@@ -446,13 +437,25 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         int count = 0;
         List<List<String>> gradelist = Grade.getGradesByGroup(grades);
 
-        for (int i=0;gradelist!=null&&gradelist.size()==flTeachGrades.length&&i<gradelist.size();i++){
-            if (gradelist.get(i).size()>0){
-                setFlowDatas(flTeachGrades[i], (String[]) gradelist.get(i).toArray(new String[gradelist.get(i).size()]),gradeResId[i],gradeTextColorId[i]);
-            }else{
-                flTeachGrades[i].setVisibility(View.GONE);
-                count++;
-            }
+        if (gradelist!=null&&gradelist.get(0)!=null&&gradelist.get(0).size()>0){
+            setFlowDatas(flTeachPrimary, (String[]) gradelist.get(0).toArray(new String[gradelist.get(0).size()]),R.drawable.bg_text_primary,R.color.primary_text_color);
+        }else{
+            rlTeachPrimary.setVisibility(View.GONE);
+            count++;
+        }
+
+        if (gradelist!=null&&gradelist.get(1)!=null&&gradelist.get(1).size()>0){
+            setFlowDatas(flTeachJunior, (String[]) gradelist.get(1).toArray(new String[gradelist.get(1).size()]),R.drawable.bg_text_junior,R.color.junior_text_color);
+        }else{
+            rlTeachJunior.setVisibility(View.GONE);
+            count++;
+        }
+
+        if (gradelist!=null&&gradelist.get(2)!=null&&gradelist.get(2).size()>0){
+            setFlowDatas(flTeachSenior, (String[]) gradelist.get(2).toArray(new String[gradelist.get(2).size()]),R.drawable.bg_text_senior,R.color.senior_text_color);
+        }else{
+            rlTeachSenior.setVisibility(View.GONE);
+            count++;
         }
 
         if (count<=1){
