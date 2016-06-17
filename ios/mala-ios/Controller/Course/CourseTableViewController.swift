@@ -156,6 +156,7 @@ public class CourseTableViewController: UITableViewController {
         }, completion: { [weak self] (courseList) -> Void in
             guard courseList != nil else {
                 println("学生上课时间表为空！")
+                ThemeHUD.hideActivityIndicator()
                 return
             }
             self?.model = parseStudentCourseTable(courseList!)
@@ -184,6 +185,7 @@ public class CourseTableViewController: UITableViewController {
         return headerView
     }
     public override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        // 实时调整当前第一个显示的Cell日期为导航栏标题日期
         currentDate = (tableView.visibleCells.first as? CourseTableViewCell)?.model?[0].end
     }
     public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
