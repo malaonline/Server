@@ -127,6 +127,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //添加数据
     public void addItem(List<Course> newDatas) {
         Collections.sort(newDatas);
+        
+        int count = 0;
+        int childCount = 0;
+        int index = 0;
         if (newDatas!=null&&newDatas.size()>0){
             List<ScheduleItem> tempDatas = new ArrayList<>();
             Calendar currentCalendar = null;
@@ -136,43 +140,52 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (currentCalendar==null){
                     currentCalendar =  CalendarUtils.timestampToCalendar(course.getStart());
                     tempDatas.add(new ScheduleDate(course.getStart()));
-                    if (course.is_passed()){
-                        startIndex++;
-                    }else{
-                        if (flag){
-                            flag = false;
-                            startIndex++;
-                        }
-                    }
+                    count++;
+                    childCount = 0;
                 }else{
                     Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
                     if (currentCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)){
                         currentCalendar = start;
                         tempDatas.add(new ScheduleDate(course.getStart()));
-                        if (course.is_passed()){
-                            startIndex++;
-                        }else{
-                            if (flag){
-                                flag = false;
-                                startIndex++;
-                            }
-                        }
+                        count++;
+                        childCount = 0;
                     }
                 }
+
                 if (course.is_passed()){
+                    childCount++;
                     startIndex++;
+                }else{
+                    if (flag){
+                        flag = false;
+                        index = count - childCount - 1;
+                    }
                 }
+                count++;
+                if (course.is_passed()&&i==newDatas.size()-1){
+                    if (flag){
+                        flag = false;
+                        index = count - childCount - 1;
+                    }
+                }
+
                 tempDatas.add(new ScheduleCourse(course));
             }
-            startIndex++;
+            //startIndex++;
             if (mScheduleData.size()>0){
                 ScheduleItem scheduleItem = mScheduleData.get(0);
                 if (scheduleItem.getType()==ScheduleItem.TYPE_DATE){
                     Calendar firstCalendar =  CalendarUtils.timestampToCalendar(((ScheduleDate)scheduleItem).getTimestamp());
                     if (currentCalendar.get(Calendar.YEAR)==firstCalendar.get(Calendar.YEAR)&&currentCalendar.get(Calendar.MONTH)==firstCalendar.get(Calendar.MONTH)){
                         mScheduleData.remove(0);
+                        count--;
                     }
                 }
+            }
+            if (mScheduleData.size()<=0){
+                startIndex = index;
+            } else {
+                startIndex += count;
             }
             mScheduleData.addAll(0,tempDatas);
             notifyDataSetChanged();

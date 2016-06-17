@@ -225,8 +225,16 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
     }
 
     private void resetPosition() {
-        int index = mScheduleAdapter.getStartIndex();
-        mLinearLayoutManager.scrollToPosition(index);
+        int position = mScheduleAdapter.getItemCount();
+        mLinearLayoutManager.scrollToPosition(position-1);
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                int index = mScheduleAdapter.getStartIndex();
+                mLinearLayoutManager.scrollToPosition(index);
+            }
+        });
+
     }
 
     private void updateNextData(CourseListResult courses){
@@ -282,7 +290,8 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
     @OnClick(R.id.btn_goback)
     public void onClickGoBack(View view){
-       resetPosition();
+        resetPosition();
+        btnGoback.setVisibility(View.GONE);
     }
 
     @Override
