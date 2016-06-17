@@ -24,10 +24,12 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                 }else {
                     self?.defaultView.hidden = true
                     self?.tableView.reloadData()
+                    self?.tableView.scrollToRowAtIndexPath(self?.recentlyCourseIndexPath ?? NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
                 }
             })
         }
     }
+    var recentlyCourseIndexPath: NSIndexPath?
     /// 当前显示年月（用于TitleView显示）
     var currentDate: NSTimeInterval? {
         didSet {
@@ -181,7 +183,10 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                 ThemeHUD.hideActivityIndicator()
                 return
             }
-            self?.model = parseStudentCourseTable(courseList!)
+            // 解析学生上课时间表
+            let result = parseStudentCourseTable(courseList!)
+            self?.recentlyCourseIndexPath = result.recently
+            self?.model = result.model
         })
     }
     

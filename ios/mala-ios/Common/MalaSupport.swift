@@ -113,15 +113,38 @@ public func weekdayInt(date: NSDate) -> Int {
 
 ///  解析学生上课时间表
 ///
-///  - returns: ClassScheduleViewController.model数据
-func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCourseModel]]] {
+///  - returns: [我的课表]页面课表数据
+func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> (model: [[[StudentCourseModel]]], recently: NSIndexPath) {
     
     let courseList = [StudentCourseModel](courseTable.reverse())
     var datas = [[[StudentCourseModel]]]()
     var currentMonthsIndex: Int = 0
     var currentDaysIndex: Int = 0
     
+    /// 距今天最近的上课时间位于[课表数据]的下标
+    var indexPath: (section: Int, row: Int) = (0, 0)
+    var recentCourse: StudentCourseModel?
+    var nowTime: Int = 0
+    let nowTimeInterval = NSDate().timeIntervalSince1970
+    
+    ///  若该课程为最近课程，则将当前下标添加到indexPath中
+    ///
+    ///  - parameter course: 课程模型
+    func validate(course: StudentCourseModel) {
+        if course === recentCourse {
+            indexPath = (currentMonthsIndex, currentDaysIndex)
+        }
+    }
+    
     for (index, course) in courseList.enumerate() {
+        
+        /// 该课程与当前时间的秒数差值
+        let time = Int(course.end - nowTimeInterval)
+        /// 时间差存在且，当前时间差为零 或 当前时间差小于时间差
+        if time > 0 && (nowTime == 0 || time < nowTime) {
+            nowTime = time
+            recentCourse = course
+        }
         
         let courseYearAndMonth = String(course.date.year())+String(course.date.month())
         let courseDay = course.date.day()
@@ -135,25 +158,29 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> [[[StudentCou
                 if courseDay == previousCourse.date.day() {
                     // 同年同月同日
                     datas[currentMonthsIndex][currentDaysIndex].append(course)
+                    validate(course)
                 }else {
                     // 同年同月
                     datas[currentMonthsIndex].append([course])
                     currentDaysIndex += 1
+                    validate(course)
                 }
             }else {
                 // 非同年同月
                 datas.append([[course]])
                 currentMonthsIndex += 1
                 currentDaysIndex = 0
+                validate(course)
             }
         }else {
             // 均不同
             datas.append([[course]])
             currentMonthsIndex = 0
             currentDaysIndex = 0
+            validate(course)
         }
     }
-    return datas
+    return (datas, NSIndexPath(forRow: indexPath.row, inSection: indexPath.section))
 }
 
 ///  根据时间戳获取时间字符串（例如12:00）
