@@ -28,6 +28,15 @@ public class CourseTableViewController: UITableViewController {
             })
         }
     }
+    /// 当前显示年月（用于TitleView显示）
+    var currentDate: NSTimeInterval? {
+        didSet {
+            if currentDate != oldValue {
+                titleLabel.text = getDateTimeString(currentDate ?? 0, format: "yyyy年M月")
+                titleLabel.sizeToFit()
+            }
+        }
+    }
     /// 当前月份
     private let currentMonth = NSDate().month()
     /// 是否为App启动后首次显示
@@ -55,6 +64,15 @@ public class CourseTableViewController: UITableViewController {
         )
         saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
+    }()
+    /// 导航栏TitleView
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel(
+            text: "课表",
+            fontSize: 16,
+            textColor: MalaColor_000000_0
+        )
+        return label
     }()
     
     
@@ -93,6 +111,10 @@ public class CourseTableViewController: UITableViewController {
     }
     
     private func setupUserInterface() {
+        // Style
+        navigationItem.titleView = UIView()
+        navigationItem.titleView?.addSubview(titleLabel)
+        
         // SubViews
         tableView.addSubview(defaultView)
         
@@ -100,6 +122,11 @@ public class CourseTableViewController: UITableViewController {
         defaultView.snp_makeConstraints { (make) -> Void in
             make.size.equalTo(tableView.snp_size)
             make.center.equalTo(tableView.snp_center)
+        }
+        if let titleView = navigationItem.titleView {
+            titleLabel.snp_makeConstraints { (make) -> Void in
+                make.center.equalTo(titleView.snp_center)
+            }
         }
     }
     
@@ -153,8 +180,11 @@ public class CourseTableViewController: UITableViewController {
     // MARK: - Delegate
     public override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CourseTableViewSectionHeaderViewReuseId) as! CourseTableViewSectionHeader
-        headerView.timeInterval = model?[section][0][0].start
+        headerView.timeInterval = model?[section][0][0].end
         return headerView
+    }
+    public override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        currentDate = (tableView.visibleCells.first as? CourseTableViewCell)?.model?[0].end
     }
     public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 140
@@ -168,8 +198,6 @@ public class CourseTableViewController: UITableViewController {
     public override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
     }
-    
-    
     
     
     // MARK: - Event Response
