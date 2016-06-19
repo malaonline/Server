@@ -408,8 +408,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         minHours = minHours < 2 ? 2 : minHours;
         if (currentHours < minHours) {
             setCurrentHours(minHours);
-            setHoursText();
         }
+        setHoursText();
         selectedTimeSlots = sections;
         calculateCourseTimes();
         ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));

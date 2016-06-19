@@ -80,6 +80,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         LOGIN, LOGIN_FAILED, NOT_SIGN_IN, NOT_SIGN_UP, EMPTY_REPORT, REPORT
     }
 
+    private Subject subject;
     private EnumReportStatus reportStatus = EnumReportStatus.LOGIN;
 
     @Nullable
@@ -160,6 +161,11 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
     //查看学习报告
     private void openLearningReport() {
+        if (subject != null) {
+            ReportActivity.launch(getActivity(), subject.getId());
+        } else {
+            openSampleReport();
+        }
     }
 
     //查看学习报告样本
@@ -224,7 +230,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         rlNonLearningReport.setVisibility(View.GONE);
         rlLearningReport.setVisibility(View.VISIBLE);
         llRefreshRefreshing.setVisibility(View.GONE);
-        Subject subject = Subject.getSubjectById(report.getSubject_id());
+        subject = Subject.getSubjectById(report.getSubject_id());
         if (subject != null) {
             tvSubject.setText(subject.getName());
         } else {

@@ -32,7 +32,7 @@ public class ReportActivity extends BaseTitleActivity {
         return "学生报告样本";
     }
 
-    public static void launch(Activity activity, int subject) {
+    public static void launch(Activity activity, long subject) {
         Intent intent = new Intent(activity, ReportActivity.class);
         intent.putExtra(EXTRA_SUBJECT, subject);
         activity.startActivity(intent);

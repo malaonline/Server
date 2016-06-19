@@ -108,7 +108,7 @@ public class PieView extends View {
     private void drawArcText(Canvas canvas, PieModel item) {
         paint.setAlpha(255);
         paint.setStyle(Paint.Style.FILL);
-        String txt = ((int) (item.getSwapAngle() * 100 / 360)) + "%";
+        String txt = item.getNum() + "%";
         Rect rect = getTextBounds(paint, txt);
         float angle = item.getBeginAngle() + item.getSwapAngle() / 2;
         float x = (float) (center + 9 * len * Math.cos(angle * Math.PI / 180));
