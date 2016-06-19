@@ -40,10 +40,9 @@ public class ReportFragment extends BaseFragment {
     private View dotView;
     //页面上的点的容器
     private View dotViewContainer;
-    //封面
-    private ReportHomePage homePage;
     //科目
     private int subjectId;
+    private ReportHomePage homePage;
 
     private List<View> pageList;
     private ViewPager viewPager;
@@ -55,15 +54,6 @@ public class ReportFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.report__fragmet_folder, container, false);
         dotView = view.findViewById(R.id.dot_view);
         dotViewContainer = view.findViewById(R.id.dot_view_container);
-        homePage = (ReportHomePage) view.findViewById(R.id.view_home_page);
-        homePage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homePage.setVisibility(View.GONE);
-                dotViewContainer.setVisibility(View.VISIBLE);
-                viewPager.setVisibility(View.VISIBLE);
-            }
-        });
         initIntent();
         initViewPager(view);
         requestData();
@@ -104,6 +94,14 @@ public class ReportFragment extends BaseFragment {
     }
 
     private void fillPages(SubjectReport response) {
+        homePage = ReportHomePage.newInstance(getActivity());
+        homePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(1);
+            }
+        });
+        pageList.add(homePage);
         ReportWorkPage workPage = ReportWorkPage.newInstance(getActivity(), response);
         pageList.add(workPage);
         pageList.add(ReportSubjectPage.newInstance(getActivity(), response.getMonth_trend()));
@@ -131,13 +129,21 @@ public class ReportFragment extends BaseFragment {
         ApiExecutor.exec(new FetchSubjectReport(this, subjectId));
     }
 
+
     @Override
     public String getStatName() {
         return "学生报告";
     }
 
     private void updatePageIndicator(int position) {
-        int num = pageList.size() - 1;
+        if (position == 0) {
+            dotViewContainer.setVisibility(View.INVISIBLE);
+            return;
+        } else {
+            dotViewContainer.setVisibility(View.VISIBLE);
+        }
+        position--;//去掉首页
+        int num = pageList.size() - 2;
         num = num <= 1 ? 1 : num;
         int stepWidth = (dotViewContainer.getWidth() - dotView.getWidth()) / num;
         FrameLayout.LayoutParams params;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malalaoshi.android.report.page.ReportHomePage
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -101,4 +102,4 @@
         android:layout_marginStart="50dp"
         android:background="@drawable/report__ic_oval_divider"
         android:contentDescription="@null" />
-</merge>
+</com.malalaoshi.android.report.page.ReportHomePage>
