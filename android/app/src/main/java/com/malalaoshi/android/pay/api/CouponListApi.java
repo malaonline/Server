@@ -1,6 +1,7 @@
 package com.malalaoshi.android.pay.api;
 
 import com.malalaoshi.android.core.network.api.BaseApi;
+import com.malalaoshi.android.pay.coupon.CouponResult;
 
 /**
  * Coupon list
@@ -16,7 +17,7 @@ public class CouponListApi extends BaseApi {
         return URL_COUPON_LIST;
     }
 
-    public String get() throws Exception {
-        return httpGet(getPath(), String.class);
+    public CouponResult get() throws Exception {
+        return httpGet(getPath(), CouponResult.class);
     }
 }

@@ -54,7 +54,7 @@ import com.malalaoshi.android.events.NoticeEvent;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.net.NetworkListener;
 import com.malalaoshi.android.net.NetworkSender;
-import com.malalaoshi.android.pay.CouponActivity;
+import com.malalaoshi.android.pay.coupon.CouponActivity;
 import com.malalaoshi.android.result.UserListResult;
 import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.DialogUtil;

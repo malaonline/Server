@@ -1,9 +1,10 @@
-package com.malalaoshi.android.pay;
+package com.malalaoshi.android.pay.coupon;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -23,11 +24,12 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
 
     private static final String EXTRA_CAN_SELECT = "extra_can_select";
     public static final String EXTRA_COUPON = "extra_coupon_selected";
+    private static final String EXTRA_AMOUNT = "extra_order_amount";
 
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
-    //The coupon that is chose currently.
-    private CouponEntity couponEntity;
+
+    private CouponListFragment fragment;
 
     public static void launch(Context context, boolean canSelect) {
         Intent intent = new Intent(context, CouponActivity.class);
@@ -40,11 +42,12 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         context.startActivity(intent);
     }
 
-    public static void launch(Activity activity, int requestCode, CouponEntity coupon) {
+    public static void launch(Activity activity, int requestCode, CouponEntity coupon, long amount) {
         Intent intent = new Intent(activity, CouponActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean(EXTRA_CAN_SELECT, true);
         bundle.putParcelable(EXTRA_COUPON, coupon);
+        bundle.putLong(EXTRA_AMOUNT, amount);
         intent.putExtras(bundle);
         activity.startActivityForResult(intent, requestCode);
     }
@@ -64,19 +67,7 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
     }
 
     private void initFragment() {
-        boolean canSelect = false;
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            Bundle bundle = getIntent().getExtras();
-            canSelect = bundle.getBoolean(EXTRA_CAN_SELECT);
-            couponEntity = bundle.getParcelable(EXTRA_COUPON);
-        }
-        CouponListFragment fragment = CouponListFragment.newInstance(canSelect, couponEntity);
-        fragment.setOnCouponSelectListener(new CouponListFragment.OnCouponSelectListener() {
-            @Override
-            public void onCouponSelect(CouponEntity entity) {
-                couponEntity = entity;
-            }
-        });
+        fragment = (CouponListFragment) Fragment.instantiate(this, CouponListFragment.class.getName(), getIntent().getExtras());
         FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(),
                 null, fragment, "couponfragment");
     }
@@ -88,35 +79,23 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
 
     @Override
     public void onTitleLeftClick() {
-        finishWithResult();
-    }
-
-    private void finishWithResult() {
-        Intent intent = new Intent();
-        if (couponEntity != null) {
-            if (couponEntity.isCheck()) {
-                intent.putExtra(EXTRA_COUPON, couponEntity);
-            }
-            setResult(RESULT_OK, intent);
-        } else {
-            setResult(RESULT_CANCELED);
-        }
-        finish();
+        fragment.onBackClicked();
     }
 
     @Override
     public void onBackPressed() {
-        finishWithResult();
+        fragment.onBackClicked();
     }
 
     @Override
     public void onTitleRightClick() {
         //奖学金使用规则
         CouponProtocolDialog couponProtocolDialog = CouponProtocolDialog.newInstance();
-        couponProtocolDialog.show(getSupportFragmentManager(),CouponProtocolDialog.class.getName());
+        couponProtocolDialog.show(getSupportFragmentManager(), CouponProtocolDialog.class.getName());
     }
 
     @Override
+
     protected String getStatName() {
         return "优惠劵";
     }

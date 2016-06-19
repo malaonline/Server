@@ -40,7 +40,7 @@ public class MiscUtil {
     }
 
     public static String formatDate(long value) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(value);
     }
 

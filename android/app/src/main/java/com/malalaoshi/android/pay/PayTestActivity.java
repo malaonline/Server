@@ -10,6 +10,7 @@ import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.entity.CreateCourseOrderEntity;
 import com.malalaoshi.android.entity.CreateCourseOrderResultEntity;
+import com.malalaoshi.android.pay.coupon.CouponActivity;
 
 import java.util.ArrayList;
 import java.util.List;

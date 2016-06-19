@@ -43,4 +43,5 @@ public abstract class BaseRecycleAdapter<T extends RecyclerView.ViewHolder, D> e
     public int getItemCount() {
         return dataList.size();
     }
+
 }

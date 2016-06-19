@@ -80,7 +80,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
-            android:name=".pay.CouponActivity"
+            android:name=".pay.coupon.CouponActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 

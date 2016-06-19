@@ -1,16 +1,13 @@
-package com.malalaoshi.android.pay;
+package com.malalaoshi.android.pay.coupon;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.malalaoshi.android.R;

@@ -27,10 +27,8 @@ import android.widget.TextView;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.ConfirmOrderActivity;
-import com.malalaoshi.android.api.CoursePriceListApi;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
-import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -42,7 +40,6 @@ import com.malalaoshi.android.core.usercenter.api.EvaluatedApi;
 import com.malalaoshi.android.core.usercenter.entity.Evaluated;
 import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
-import com.malalaoshi.android.core.utils.JsonUtil;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseWeekDataApi;
 import com.malalaoshi.android.course.model.CourseTimeModel;
@@ -56,11 +53,10 @@ import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.entity.SchoolUI;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
-import com.malalaoshi.android.pay.CouponActivity;
+import com.malalaoshi.android.pay.coupon.CouponActivity;
 import com.malalaoshi.android.receiver.WeakFragmentReceiver;
 import com.malalaoshi.android.result.CoursePriceListResult;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -88,20 +84,20 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private static final String ARG_SUBJECT = "subject";
 
     public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object
-            subject,String teacherAvator, String teacherName) {
+            subject, String teacherAvator, String teacherName) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
-        fragment.init(schools, prices, teacherId, subject,teacherAvator,teacherName);
+        fragment.init(schools, prices, teacherId, subject, teacherAvator, teacherName);
         return fragment;
     }
 
-    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName,String teacherAvator, Subject subject) {
-        if (teacherId==null||subject==null) return null;
+    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
+        if (teacherId == null || subject == null) return null;
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         Bundle args = new Bundle();
-        args.putLong(ARG_TEACHER_ID,teacherId);
-        args.putString(ARG_TEACHER_NAME,teacherName);
-        args.putString(ARG_TEACHER_AVATOR,teacherAvator);
-        args.putParcelable(ARG_SUBJECT,subject);
+        args.putLong(ARG_TEACHER_ID, teacherId);
+        args.putString(ARG_TEACHER_NAME, teacherName);
+        args.putString(ARG_TEACHER_AVATOR, teacherAvator);
+        args.putParcelable(ARG_SUBJECT, subject);
         fragment.setArguments(args);
         return fragment;
     }
@@ -162,6 +158,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     @Bind(R.id.tv_mount)
     protected TextView amountView;
+    private long noCouponSum; //以分为单位
 
     @Bind(R.id.tv_submit)
     protected View submitView;
@@ -176,8 +173,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private View footView;
     //teacher id
     private Long teacher;
-    //teacher avator
-    private String teacherAvator;
+    //teacher avatar
+    private String teacherAvatar;
     //teacher name
     private String teacherName;
     //当前最小的小时数
@@ -224,7 +221,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         View view = inflater.inflate(R.layout.fragment_course_confirm, container, false);
         ButterKnife.bind(this, view);
         Bundle args = getArguments();
-        if (args!=null){
+        if (args != null) {
             Long teacherId = args.getLong(ARG_TEACHER_ID);
             String teacherName = args.getString(ARG_TEACHER_NAME);
             String teacherAvator = args.getString(ARG_TEACHER_AVATOR);
@@ -289,10 +286,10 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         EventBus.getDefault().unregister(this);
     }
 
-    private void init(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
-        if (teacherId != null&&subject!=null) {
-            this.teacher = (Long) teacherId;
-            this.teacherAvator = teacherAvator;
+    private void init(Long teacherId, String teacherName, String teacherAvatar, Subject subject) {
+        if (teacherId != null && subject != null) {
+            this.teacher = teacherId;
+            this.teacherAvatar = teacherAvatar;
             this.teacherName = teacherName;
             this.subject = subject;
         }
@@ -306,7 +303,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator, String teacherName) {
         if (teacherId != null) {
             this.teacher = (Long) teacherId;
-            this.teacherAvator = teacherAvator;
+            this.teacherAvatar = teacherAvator;
             this.teacherName = teacherName;
         }
         final String[] gradeList = MalaApplication.getInstance()
@@ -494,7 +491,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         List<Integer> list = new ArrayList<>();
         for (CourseDateEntity item : selectedTimeSlots) {
             list.add((int) item.getId());
-            weeklyTimeSlots.append(item.getId()+" ");
+            weeklyTimeSlots.append(item.getId()).append(" ");
         }
         entity.setWeekly_time_slots(list);
 
@@ -502,40 +499,21 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         Order order = new Order();
         order.setTeacher(String.valueOf(teacher));
         order.setTeacher_name(teacherName);
-        order.setTeacher_avatar(teacherAvator);
+        order.setTeacher_avatar(teacherAvatar);
         order.setHours(currentHours);
         order.setGrade(currentGrade.getPrice().getGrade().getName());
         order.setSubject(subject.getName());
-        order.setTo_pay(Double.valueOf(calculateCost()));
+        order.setTo_pay((double) calculateCost());
         order.setSchool(currentSchool.getSchool().getName());
         boolean isEvaluated = true;
         if (evaluated != null && !evaluated.isEvaluated()) {
             isEvaluated = false;
         }
-        ConfirmOrderActivity.open(getContext(),order,currentHours,weeklyTimeSlots.toString(),teacher,entity,isEvaluated);
-    }
-
-    private float calculateCost(){
-        if (currentGrade == null) {
-            return 0.0f;
-        }
-        float sum = currentGrade.getPrice().getPrice() * currentHours;
-        if (coupon != null) {
-            rlPrice.setVisibility(View.VISIBLE);
-            float price = sum <= 0 ? 1 : sum;
-            price = price / 100f;
-            tvPrice.setText("¥ " + String.valueOf(price));
-            sum -= Integer.valueOf(coupon.getAmount());
-        } else {
-            rlPrice.setVisibility(View.GONE);
-        }
-        sum = sum <= 0 ? 1 : sum;
-        sum = sum / 100f;
-        return sum;
+        ConfirmOrderActivity.open(getContext(), order, currentHours, weeklyTimeSlots.toString(), teacher, entity, isEvaluated);
     }
 
     private void openScholarShipActivity() {
-        CouponActivity.launch(getActivity(), REQUEST_CODE_COUPON, coupon);
+        CouponActivity.launch(getActivity(), REQUEST_CODE_COUPON, coupon, noCouponSum);
     }
 
     @Override
@@ -612,14 +590,12 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
                 getResources().getDrawable(R.drawable.ic_drop_up));
     }
 
-    /**
-     * 计算总费用
-     */
-    private void calculateSum() {
+    private float calculateCost() {
         if (currentGrade == null) {
-            return;
+            return 0.0f;
         }
         float sum = currentGrade.getPrice().getPrice() * currentHours;
+        noCouponSum = (long) sum;
         if (coupon != null) {
             rlPrice.setVisibility(View.VISIBLE);
             float price = sum <= 0 ? 1 : sum;
@@ -631,6 +607,14 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
         sum = sum <= 0 ? 1 : sum;
         sum = sum / 100f;
+        return sum;
+    }
+
+    /**
+     * 计算总费用
+     */
+    private void calculateSum() {
+        float sum = calculateCost();
         amountView.setText("¥ " + String.valueOf(sum));
     }
 
@@ -803,12 +787,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     private void fetchCoursePrices() {
         if (teacher != null) {
-            ApiExecutor.exec(new CoursePriceListRequest(this,teacher));
+            ApiExecutor.exec(new CoursePriceListRequest(this, teacher));
         }
     }
 
     private static final class CoursePriceListRequest extends BaseApiContext<CourseConfirmFragment, Teacher> {
         private Long teacherId;
+
         public CoursePriceListRequest(CourseConfirmFragment courseConfirmFragment, Long teacherId) {
             super(courseConfirmFragment);
             this.teacherId = teacherId;
@@ -821,14 +806,11 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         public void onApiSuccess(@NonNull Teacher response) {
-
-
-
-            if (response!=null&&response.getPrices()!=null) {
+            if (response.getPrices() != null) {
                 CoursePriceListResult priceListResult = new CoursePriceListResult();
                 priceListResult.setResults(response.getPrices());
                 get().onLoadCoursePricesSuccess(priceListResult);
-            }else {
+            } else {
                 get().loadFailure("价格信息下载失败!");
             }
         }
@@ -846,7 +828,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
     private void onLoadCoursePricesSuccess(CoursePriceListResult response) {
-        if (response==null||response.getResults()==null){
+        if (response == null || response.getResults() == null) {
             return;
         }
         List<CoursePrice> prices = response.getResults();
@@ -884,9 +866,9 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         @Override
         public void onApiSuccess(@NonNull SchoolListResult response) {
-            if (response!=null&&response.getResults() != null) {
+            if (response.getResults() != null) {
                 get().onLoadSchoolListSuccess(response);
-            }else{
+            } else {
                 get().loadFailure("学校信息加载失败!");
             }
         }
@@ -914,16 +896,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
         //获取位置
         Location location = LocManager.getInstance().getLocation();
-        if (location!=null) {
+        if (location != null) {
             //根据位置排序
             LocationUtil.sortByDistance(schools, location.getLatitude(), location.getLongitude());
         }
-
-        if (schools != null) {
-            for (Object school : schools) {
-                SchoolUI schoolUI = new SchoolUI((School) school);
-                schoolList.add(schoolUI);
-            }
+        for (Object school : schools) {
+            SchoolUI schoolUI = new SchoolUI((School) school);
+            schoolList.add(schoolUI);
         }
         initSchoolListView();
     }

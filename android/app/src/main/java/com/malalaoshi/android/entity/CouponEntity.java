@@ -8,22 +8,14 @@ import android.os.Parcelable;
  * Created by tianwei on 1/24/16.
  */
 public class CouponEntity implements Parcelable {
-    String name;
-    String amount;
-    long expired_at;
-    boolean used;
-    String description;
-    int id;
-    String useType;
-    boolean check;
-
-    public String getUseType() {
-        return useType;
-    }
-
-    public void setUseType(String userType) {
-        this.useType = userType;
-    }
+    private int id;
+    private String name;
+    private String amount;
+    private long expired_at;
+    private String expiredDate;
+    private boolean used;
+    private String description;
+    private boolean check;
 
     public boolean isCheck() {
         return check;
@@ -81,6 +73,13 @@ public class CouponEntity implements Parcelable {
         this.used = used;
     }
 
+    public String getExpiredDate() {
+        return expiredDate;
+    }
+
+    public void setExpiredDate(String expiredDate) {
+        this.expiredDate = expiredDate;
+    }
 
     @Override
     public int describeContents() {
@@ -95,7 +94,6 @@ public class CouponEntity implements Parcelable {
         dest.writeByte(used ? (byte) 1 : (byte) 0);
         dest.writeString(this.description);
         dest.writeInt(this.id);
-        dest.writeString(this.useType);
         dest.writeByte(check ? (byte) 1 : (byte) 0);
     }
 
@@ -109,7 +107,6 @@ public class CouponEntity implements Parcelable {
         this.used = in.readByte() != 0;
         this.description = in.readString();
         this.id = in.readInt();
-        this.useType = in.readString();
         this.check = in.readByte() != 0;
     }
 
