@@ -2,12 +2,12 @@ package com.malalaoshi.android.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ListView;
+import android.widget.GridView;
 
 /**
  * Created by kang on 16/1/12.
  */
-public class ScrollGridView extends ListView {
+public class ScrollGridView extends GridView {
 
 
     public ScrollGridView(Context context, AttributeSet attrs) {

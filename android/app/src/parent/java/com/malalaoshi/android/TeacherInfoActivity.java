@@ -593,8 +593,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 gridviewWidth -= gralleryHorizontalSpacing;
             }
         }
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridviewWidth , gralleryHeight);
+        ViewGroup.LayoutParams params = gvGrallery.getLayoutParams();
+        params.width = gridviewWidth;
+        params.height = gralleryHeight;
         gvGrallery.setLayoutParams(params);   //重点
         gvGrallery.setStretchMode(GridView.NO_STRETCH);
         gvGrallery.setNumColumns(childCount);   //重点

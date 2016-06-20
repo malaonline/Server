@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
@@ -22,20 +21,10 @@ public class GralleryAdapter extends MalaBaseAdapter<String> {
 
     @Override
     protected View createView(int position, ViewGroup parent) {
-      /*  View view = View.inflate(context, R.layout.grallery_list_item, null);
-        int height = context.getResources().getDimensionPixelOffset(R.dimen.course_time_height);
-        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, height);
-        view.setLayoutParams(params);
-*/
-        SimpleDraweeView imageView = new SimpleDraweeView(context);
-        int gralleryWidth = context.getResources().getDimensionPixelSize(R.dimen.grallery_width);
-        int gralleryHeight = context.getResources().getDimensionPixelSize(R.dimen.grallery_height);
-        imageView.setLayoutParams(new ViewGroup.MarginLayoutParams(
-                gralleryWidth, gralleryHeight));
-        ViewHolder holder = new ViewHolder(imageView);
-        imageView.setTag(holder);
-        return imageView;
+        View view = View.inflate(context, R.layout.grallery_list_item, null);
+        ViewHolder holder = new ViewHolder(view);
+        view.setTag(holder);
+        return view;
     }
 
     @Override
@@ -51,7 +40,8 @@ public class GralleryAdapter extends MalaBaseAdapter<String> {
         private SimpleDraweeView gralleryView;
 
         public ViewHolder(View view) {
-            gralleryView = (SimpleDraweeView) view;
+            gralleryView = (SimpleDraweeView) view.findViewById(R.id.iv_grallery);
+            //gralleryView = (SimpleDraweeView) view;
         }
     }
 }

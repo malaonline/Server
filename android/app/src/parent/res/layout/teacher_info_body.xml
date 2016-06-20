@@ -413,16 +413,14 @@
     <HorizontalScrollView
         android:id="@+id/hs_grallery"
         android:scrollbars="none"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="85dp">
+            android:layout_height="wrap_content">
             <GridView
                 android:id="@+id/gv_grallery"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:background="@color/white"
                 android:columnWidth="85dp"
