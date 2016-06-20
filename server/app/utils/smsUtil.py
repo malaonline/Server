@@ -5,7 +5,7 @@ import re
 import json
 from urllib.parse import urlencode
 
-logger = logging.getLogger('app')
+_logger = logging.getLogger('app')
 
 
 _re_valid_phone = re.compile(r'^((((\+86)|(86))?(1)\d{10})|000\d+)$')
@@ -81,9 +81,31 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
 
 
 def tpl_send_sms(phone, tpl_id, params={}):
-    logger.debug("send sms to "+str(phone)+', '+str(tpl_id)+': '+str(params))
+    _logger.debug("send sms to "+str(phone)+', '+str(tpl_id)+': '+str(params))
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
+
+
+def try_send_sms(phone, tpl_id=0, params={}, times=1):
+    """
+    尝试发送短信
+    :return: True or False
+    """
+    if not phone:
+        return False
+    if not tpl_id:
+        return True
+    if settings.FAKE_SMS_SERVER:
+        return True
+    ok = False
+    while (not ok and times > 0):
+        try:
+            tpl_send_sms(phone, tpl_id, params)
+            ok = True
+        except Exception as ex:
+            _logger.error(ex)
+        times -= 1
+    return ok
 
 
 """
@@ -175,6 +197,12 @@ TPL_COURSE_INCOME = 1274323
 """
 TPL_TEACHER_COURSE_PAID = 1280621
 
+'''
+安排用户测评建档（老师）
+1435971
+【麻辣老师】您有一堂#subject#建档测评课已预约#datetime#
+'''
+TPL_TEACHER_EVALUATE = 1435971
 
 
 ###############################################################################
@@ -207,3 +235,11 @@ TPL_STU_PAY_SUCCESS = 1280611
 【麻辣老师】抱歉！订单购买失败，您的费用不会被扣除。请重新购买或致电咨询。电话：010-57733349。
 """
 TPL_STU_PAY_FAIL = 1280619
+
+'''
+安排用户测评建档（家长）
+1435965
+【麻辣老师】您已预约#datatime#的#subject#课程测评建档服务
+NOTE: 短信模板上datatime单词拼写错了, 请将错就错
+'''
+TPL_STU_EVALUATE = 1435965
