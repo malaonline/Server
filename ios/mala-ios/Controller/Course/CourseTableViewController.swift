@@ -66,8 +66,8 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     private lazy var unLoginDefaultView: UIView = {
         let view = MalaDefaultPanel()
         view.imageName = "course_noData"
-        view.text = "您还没有登陆"
-        view.buttonTitle = "去登陆"
+        view.text = "您还没有登录"
+        view.buttonTitle = "去登录"
         view.addTarget(self, action: #selector(CourseTableViewController.switchToLoginView))
         view.hidden = true
         return view
