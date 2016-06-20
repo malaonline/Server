@@ -39,10 +39,6 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             }
         }
     }
-    /// 当前月份
-    private let currentMonth = NSDate().month()
-    /// 是否为App启动后首次显示
-    private var isFirstShow = true
     
     
     // MARK: - Components
@@ -63,6 +59,16 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
         view.text = "暂时还没有课程哦"
         view.buttonTitle = "去报名"
         view.addTarget(self, action: #selector(CourseTableViewController.switchToFindTeacher))
+        view.hidden = true
+        return view
+    }()
+    /// 我的课表未登录面板
+    private lazy var unLoginDefaultView: UIView = {
+        let view = MalaDefaultPanel()
+        view.imageName = "course_noData"
+        view.text = "您还没有登陆"
+        view.buttonTitle = "去登陆"
+        view.addTarget(self, action: #selector(CourseTableViewController.switchToLoginView))
         view.hidden = true
         return view
     }()
@@ -102,10 +108,6 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if isFirstShow {
-//            scrollToToday(true)
-            isFirstShow = false
-        }
         loadStudentCourseTable()
     }
     
@@ -131,6 +133,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
         view.addSubview(tableView)
         view.addSubview(goTopButton)
         tableView.addSubview(defaultView)
+        tableView.addSubview(unLoginDefaultView)
         
         // AutoLayout
         tableView.snp_makeConstraints { (make) -> Void in
@@ -147,6 +150,10 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             make.size.equalTo(tableView.snp_size)
             make.center.equalTo(tableView.snp_center)
         }
+        unLoginDefaultView.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(tableView.snp_size)
+            make.center.equalTo(tableView.snp_center)
+        }
         if let titleView = navigationItem.titleView {
             titleLabel.snp_makeConstraints { (make) -> Void in
                 make.center.equalTo(titleView.snp_center)
@@ -157,8 +164,10 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     ///  获取学生可用时间表
     private func loadStudentCourseTable() {
         
-        // 课表页面允许用户未登录时查看，此时仅作为日历展示
+        // 用户登录后请求数据，否则显示默认页面
         if !MalaUserDefaults.isLogined {
+            
+            unLoginDefaultView.hidden = false
             
             // 若在注销后存在课程数据残留，清除数据并刷新日历
             if model != nil {
@@ -166,6 +175,8 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                 tableView.reloadData()
             }
             return
+        }else {
+            unLoginDefaultView.hidden = true
         }
         ThemeHUD.showActivityIndicator()
         
@@ -243,5 +254,18 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             appDelegate.window?.rootViewController = MainViewController()
             appDelegate.switchTabBarControllerWithIndex(0)
         }
+    }
+    ///  跳转到登陆页面
+    @objc private func switchToLoginView() {
+        
+        let loginView = LoginViewController()
+        loginView.popAction = loadStudentCourseTable
+        
+        self.presentViewController(
+            UINavigationController(rootViewController: loginView),
+            animated: true,
+            completion: { () -> Void in
+                
+        })
     }
 }
