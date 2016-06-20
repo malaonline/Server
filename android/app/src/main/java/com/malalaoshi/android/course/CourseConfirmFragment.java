@@ -556,7 +556,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             }
             currentSchool = (SchoolUI) schoolAdapter.getItem(position);
             currentSchool.setCheck(true);
-            if (footView.getParent() == null) {
+            if (schoolList.size() > 1&&footView.getParent() == null) {
                 placeListView.addFooterView(footView);
             }
             schoolAdapter.clear();
