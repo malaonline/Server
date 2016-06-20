@@ -744,7 +744,7 @@ class TestApi(TestCase):
         self.assertEqual(200, response.status_code)
 
     def test_kuailexue_api(self):
-        return # TODO: 待kuailexue把接口实现后解封
+        # return # 待kuailexue把接口实现后解封
         test_stu_id = 'test_student_1'
         test_stu_name = '测试学生1'
         test_tea_id = 'test_teacher_1'

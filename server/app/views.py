@@ -1146,8 +1146,8 @@ class StudyReportView(ParentBasedMixin, APIView):
         subject is one subject ID
         '''
         parent = self.get_parent()
-        phone = parent.user.profile.phone
-        params = klx_build_params({'uid': phone}, True)
+        klx_username = klx_reg_student(parent)
+        params = klx_build_params({'username': klx_username}, True)
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
@@ -1158,7 +1158,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         # to get one certain subject's info
         the_subject = get_object_or_404(models.Subject, id=subject)
         s_name = the_subject.name
-        if s_name not in KLX_SUPPORTED_SUBJECTS:
+        if s_name not in KLX_REPORT_SUBJECTS:
             return HttpResponse(status=404)
         return self.get_one_subject_report(the_subject, parent, params)
 
@@ -1179,7 +1179,7 @@ class StudyReportView(ParentBasedMixin, APIView):
             if s_name in purchased_subjects:
                 continue
             purchased_subjects.append(s_name)
-            if s_name in KLX_SUPPORTED_SUBJECTS:
+            if s_name in KLX_REPORT_SUBJECTS:
                 s_name_en = klx_subject_name(s_name)
                 url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
                 subject_data = {
@@ -1196,7 +1196,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': False,
                 })
         # subjects supported, but user did not purchase
-        should_buy_subjects = [b for b in KLX_SUPPORTED_SUBJECTS
+        should_buy_subjects = [b for b in KLX_REPORT_SUBJECTS
                                if b not in purchased_subjects]
         if should_buy_subjects:
             to_buy_subjects = models.Subject.objects.filter(
@@ -1250,6 +1250,8 @@ class StudyReportView(ParentBasedMixin, APIView):
         :param params:
         :return:
         '''
+        # logger.debug(url + '/total-item-nums')
+        # logger.debug(params)
         resp = requests.get(url + '/total-item-nums', params=params)
         if resp.status_code != 200:
             logger.error('cannot reach kuailexue server, http_status is %s'

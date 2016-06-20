@@ -14,7 +14,8 @@ from app.utils.algorithm import verify_sha1_sig, sign_sha1
 
 __all__ = [
     "KLX_STUDY_URL_FMT",
-    "KLX_SUPPORTED_SUBJECTS",
+    "KLX_REPORT_SUBJECTS",
+    "KLX_TEACHING_SUBJECTS",
     "KLX_MATH_ABILITY_KEYS",
     "KLX_ROLE_TEACHER",
     "KLX_ROLE_STUDENT",
@@ -30,7 +31,8 @@ __all__ = [
 _logger = logging.getLogger('app')
 
 KLX_STUDY_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
-KLX_SUPPORTED_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS.split(',')
+KLX_REPORT_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS
+KLX_TEACHING_SUBJECTS = settings.KUAILEXUE_TEACHING_SUBJECTS
 KLX_MATH_ABILITY_KEYS = ('abstract', 'reason', 'appl', 'spatial', 'calc', 'data')
 
 _KLX_COMMON_PARAMS = {
@@ -81,7 +83,7 @@ def klx_build_params(params, sign=False):
     p = _KLX_COMMON_PARAMS.copy()
     p.update(params)
     if sign:
-        klx_sign_params(params)
+        klx_sign_params(p)
     return p
 
 
@@ -100,6 +102,7 @@ def klx_register(role, uid, name, password=None, subject=None):
     :return: kuailexue username
     '''
     klx_url = settings.KUAILEXUE_SERVER + '/third-partner/register'
+    # _logger.debug(klx_url)
     params = {
         'role': role,
         'uid': uid,
@@ -110,13 +113,14 @@ def klx_register(role, uid, name, password=None, subject=None):
     if subject is not None:
         params['subject'] = subject
     params = klx_build_params(params, True)
-    resp = requests.get(klx_url, data=params)
+    # _logger.debug(params)
+    resp = requests.post(klx_url, data=params)
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return None
     ret_json = json.loads(resp.content.decode('utf-8'))
-    if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+    if ret_json.get('data') is not None: # code == 0, 用户已存在时code != 0
         ret_data = ret_json.get('data')
         return ret_data.get('username')
     else:
@@ -138,13 +142,13 @@ def klx_relation(klx_teacher, klx_students):
         'stu_usernames': klx_students,
     }
     params = klx_build_params(params, True)
-    resp = requests.get(klx_url, data=params)
+    resp = requests.post(klx_url, data=params)
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return False
     ret_json = json.loads(resp.content.decode('utf-8'))
-    if ret_json.get('code') == 0 and ret_json.get('message', '').lower() == 'success':
+    if ret_json.get('code') == 0 or ret_json.get('message', '').lower() == 'success':
         return True
     else:
         _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
@@ -154,10 +158,10 @@ def klx_relation(klx_teacher, klx_students):
 
 def klx_reg_student(parent, student=None):
     '''
-    把mala中的student注册到kuailexue中
+    把mala中的student注册到kuailexue中, 返回快乐学用户名。若已注册直接返回已注册的用户名
     :param parent: models.Parent
     :param student: models.Student
-    :return: student's klx_username
+    :return: student's klx_username or None
     '''
     # 目前购买课程等等都是parent做的
     if student is None:
@@ -183,9 +187,9 @@ def klx_reg_student(parent, student=None):
 
 def klx_reg_teacher(teacher):
     '''
-    把mala中的teacher注册到kuailexue中
+    把mala中的teacher注册到kuailexue中, 返回快乐学用户名。若已注册直接返回已注册的用户名
     :param teacher: models.Teacher
-    :return: teacher's klx_username
+    :return: teacher's klx_username or None
     '''
     o_klx_username = teacher.user.profile.klx_username
     if o_klx_username:
@@ -195,6 +199,8 @@ def klx_reg_teacher(teacher):
     name = teacher.name
     password = _klx_make_password()
     subject = teacher.subject()
+    if subject.name not in KLX_TEACHING_SUBJECTS:
+        return None
     klx_subject = klx_subject_name(subject.name)
     klx_username = klx_register(role,uid,name,password=password,subject=klx_subject)
     if klx_username:
