@@ -306,8 +306,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             this.teacherAvatar = teacherAvator;
             this.teacherName = teacherName;
         }
-        final String[] gradeList = MalaApplication.getInstance()
-                .getApplicationContext().getResources().getStringArray(R.array.grade_list);
+        //final String[] gradeList = MalaApplication.getInstance()
+        //        .getApplicationContext().getResources().getStringArray(R.array.grade_list);
         if (schools != null) {
             for (Object school : schools) {
                 SchoolUI schoolUI = new SchoolUI((School) school);
@@ -318,7 +318,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             String text;
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
-                text = gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
+                text = ((CoursePrice) price).getGrade().getName();//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
                 text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
@@ -832,13 +832,13 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             return;
         }
         List<CoursePrice> prices = response.getResults();
-        final String[] gradeList = MalaApplication.getInstance()
-                .getApplicationContext().getResources().getStringArray(R.array.grade_list);
+        //final String[] gradeList = MalaApplication.getInstance()
+        //        .getApplicationContext().getResources().getStringArray(R.array.grade_list);
         if (prices != null) {
             String text;
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
-                text = gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
+                text = ((CoursePrice) price).getGrade().getName();;//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
                 text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
