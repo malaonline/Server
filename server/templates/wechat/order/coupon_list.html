@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 {% block title %}奖学金{% endblock %}
 
 {% block addition_header %}
@@ -19,21 +20,17 @@
                         <div class="coupon-upper">
                             <div class="cost">￥<span class="amount">{{ coupon.amount_yuan }}</span></div>
                             <div class="desc">
-                                <div class="name">{{ coupon.name }}</div>
-                                <div class="limit">满<span class="ccount">{{ coupon.mini_course_count }}</span>课时可以使用</div>
+                                <div class="limit">满<span class="min_cost">{{ coupon.mini_total_price|money_format:'0/' }}</span>元可用</div>
+                                <div class="deadline">有效期至 {{ coupon.expired_at|date:'Y-n-j' }}</div>
                             </div>
                             <div class="status">
-                                <div class="flag unused">未使用</div>
-                                <div class="flag used"><img src="{% static 'wechat/images/coupon_used_icon.png' %}"></div>
-                                <div class="flag expired">已过期</div>
+                                <div class="flag unused"></div>
+                                <div class="flag used"><img src="{% static 'wechat/images/coupon_ic_used.png' %}"></div>
+                                <div class="flag expired"><img src="{% static 'wechat/images/coupon_ic_expired.png' %}"></div>
                             </div>
                         </div>
                         <div class="icons-area">
-                            <img src="{% static 'wechat/images/coupon-checked.png' %}">
-                        </div>
-                        <div class="coupon-footer">
-                            有效期 &nbsp;&nbsp; {{ coupon.expired_at|date:'Y.m.d' }}
-                            <div class="limit">仅在线支付使用</div>
+                            <img src="{% static 'wechat/images/coupon-chosen.png' %}">
                         </div>
                     </div>
                 {% empty %}

@@ -1,8 +1,14 @@
 @import '../variable_func.less';
 
-body{
+body {
   background-color: @bodyBgColor;
 }
+
+div {
+  .border-box();
+}
+
+@costAreaWidth: 90px;
 
 #couponList {
   padding: 0 12px;
@@ -11,97 +17,107 @@ body{
   overflow-x: hidden;
   .coupon {
     position: relative;
-    margin: 8px 0;
+    margin: 10px 0;
+    height: @costAreaWidth;
     padding: 0;
     display: block;
-    background-image: url(../../images/coupon_bg.png);
+    //background-image: url(../../images/coupon_bg.png);
+    //background-size: 100% 100%;
     &.unused {
-      .coupon-upper .status .flag.unused {
-        display: block;
-        color: @costRed;
+      .coupon-upper {
+        .cost {
+          background-image: url(../../images/coupon_bg_l.png);
+        }
+        .desc .limit {
+          color: #6db2e5;
+        }
+        .flag.unused {
+          display: block;
+        }
       }
     }
     &.used {
-      .coupon-upper .status .flag.used {
-        display: block;
-        color: @gray;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 64px;
-        img {
-          max-width: 100%;
-          max-height: 100%;
+      .coupon-upper {
+        .cost {
+          background-image: url(../../images/coupon_bg_l_u.png);
+        }
+        .flag.used {
+          display: block;
         }
       }
     }
     &.expired {
-      background-image: url(../../images/coupon_expired_bg.png);
+      //background-image: url(../../images/coupon_expired_bg.png);
       .coupon-upper {
+        .cost {
+          background-image: url(../../images/coupon_bg_l_u.png);
+        }
         .flag.expired {
           display: block;
         }
-        .cost, .cost.amount, .desc, .desc.name, .desc.limit, .status {
-          color: @grayLight;
-        }
       }
     }
-    background-size: 100% 100%;
     .coupon-upper {
       .clearfix();
-      min-height: 28pt;
-      padding: 16px 20px 8px 20px;
+      position: relative;
+      width: 100%;
       .cost {
-        float: left;
-        width: 70px;
-        color: @costRed;
+        position: absolute;
+        width: @costAreaWidth;
+        height: @costAreaWidth;
+        line-height: @costAreaWidth;
+        font-size: 13px;
+        color: #fff;
+        text-align: center;
+        background-size: 100% 100%;
         .amount {
-          font-size: 24pt;
+          font-size: 28px;
         }
       }
       .desc {
-        float: left;
-        padding-left: 12px;
-        color: @gray;
+        margin-left: @costAreaWidth;
+        height: @costAreaWidth;
+        padding-top: 18px;
+        padding-left: 20px;
+        font-size: 13px;
+        color: #999;
+        background-image: url(../../images/coupon_bg_r.png);
+        background-size: 100% 100%;
         .name {
           font-size: 18px;
         }
         .limit {
-          font-size: @subTitleSize;
-          color: @grayLight;
+          font-size: 17px;
+        }
+        .deadline {
+          margin-top: 10px;
         }
       }
       .status {
-        float: right;
-        padding-top: 12px;
-        padding-right: 6px;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        z-index: 3;
         .flag {
           display: none;
         }
+        img {
+          width: 60px;
+        }
       }
     }
+    @chosenIconSize: 24px;
     .icons-area {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: (@costAreaWidth - @chosenIconSize)/2;
+      right: 10px;
       img {
-        max-height: 24pt;
+        width: @chosenIconSize;
         display: none;
       }
     }
     &.chosen .icons-area img {
       display: inline;
-    }
-    .coupon-footer {
-      .clearfix();
-      .border-box();
-      padding: 14px 20px 6px;
-      width: 100%;
-      font-size: @subTitleSize;
-      color: white;
-      .limit {
-        float: right;
-      }
     }
   }
 }
