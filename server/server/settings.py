@@ -31,6 +31,9 @@ SECRET_KEY = '0jid#n&g1!*f&z7$_^-qfqt2x_hgsv2gw%1ad%%-ml9%dm#7bl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 部署环境类型 debug, dev, stage, prd. 必须在local_settings中覆盖此配置
+ENV_TYPE = 'debug'
+
 ALLOWED_HOSTS = []
 
 DEFAULT_CHARSET = 'utf-8'

@@ -122,7 +122,7 @@ def klx_register(role, uid, name, password=None, subject=None):
     ret_json = json.loads(resp.content.decode('utf-8'))
     if ret_json.get('data') is not None: # code == 0, 用户已存在时code != 0
         ret_data = ret_json.get('data')
-        return ret_data.get('username')
+        return ret_data.get('username')  # (仅供参考)目前返回格式是 KUAILEXUE_PARTNER+uid+'_'+${YYYY}
     else:
         _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
@@ -174,7 +174,7 @@ def klx_reg_student(parent, student=None):
     if o_klx_username:
         return o_klx_username
     role = KLX_ROLE_STUDENT
-    uid = student.user_id
+    uid = '%s_%s' % (settings.ENV_TYPE, student.user_id, )
     name = student.name
     password = _klx_make_password()
     klx_username = klx_register(role,uid,name,password=password)
@@ -195,7 +195,7 @@ def klx_reg_teacher(teacher):
     if o_klx_username:
         return o_klx_username
     role = KLX_ROLE_TEACHER
-    uid = teacher.user_id
+    uid = '%s_%s' % (settings.ENV_TYPE, teacher.user_id, )
     name = teacher.name
     password = _klx_make_password()
     subject = teacher.subject()
