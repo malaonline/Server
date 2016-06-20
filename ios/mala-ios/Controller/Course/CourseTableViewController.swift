@@ -48,7 +48,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
         button.addTarget(self, action: #selector(CourseTableViewController.scrollToToday), forControlEvents: .TouchUpInside)
         return button
     }()
-    private lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectZero, style: .Grouped)
         return tableView
     }()
@@ -185,15 +185,17 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
-                println("ClassSecheduleViewController - loadStudentCourseTable Error \(errorMessage)")
+                println("CourseTableViewController - loadStudentCourseTable Error \(errorMessage)")
             }
             ThemeHUD.showActivityIndicator()
         }, completion: { [weak self] (courseList) -> Void in
+            
             guard courseList != nil else {
                 println("学生上课时间表为空！")
                 ThemeHUD.hideActivityIndicator()
                 return
             }
+            
             // 解析学生上课时间表
             let result = parseStudentCourseTable(courseList!)
             self?.recentlyCourseIndexPath = result.recently
@@ -243,7 +245,6 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     // MARK: - Event Response
     ///  滚动到近日首个未上课程
     @objc private func scrollToToday(animated: Bool = true) {
-        println("滚动到近日首个未上课程 - \(animated)")
         dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
             self?.tableView.scrollToRowAtIndexPath(self?.recentlyCourseIndexPath ?? NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         })
