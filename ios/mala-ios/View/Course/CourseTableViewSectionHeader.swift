@@ -33,6 +33,8 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
             updateParallaxOffset()
         }
     }
+    var defaultOffset: CGFloat = 700
+    var offset: CGFloat = 0
     
     
     // MARK: - Components
@@ -83,12 +85,6 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        self.parallaxRatio = self.parallaxRatio
-//        return
-    }
-    
     ///  添加观察者
     private func safeAddObserver() {
         if let tableView = parentTableView {
@@ -135,9 +131,9 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
     
     ///  更新图片视差偏移量
     private func updateParallaxOffset() {
-        
-        let contentOffset = parentTableView?.contentOffset.y
-        var cellOffset = contentView.frame.origin.y - (contentOffset ?? 0)
+
+        let contentOffset = defaultOffset + (parentTableView?.contentOffset.y ?? 0) - offset
+        let cellOffset = contentView.frame.origin.y - (contentOffset ?? 0)
         
         let percent = (cellOffset + contentView.frame.size.height)/((parentTableView?.frame.size.height ?? 0) + contentView.frame.size.height)
         let extraHeight = contentView.frame.size.height*(parallaxRatio-1)
@@ -146,19 +142,18 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
         rect.size.width = contentView.frame.width
         rect.size.height = 420
         rect.origin.y = -extraHeight*percent-210
-        
-        println("Frame - \(rect) - \(percent) - \(contentOffset) - \(cellOffset)")
-        
+//        println("Frame - \(rect) - \(percent) - \(contentOffset) - \(cellOffset)")
         parallaxImage.frame = rect
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        offset = parentTableView?.contentOffset.y ?? 0
         parallaxImage.frame.origin.y = -100
     }
     
     
     deinit {
-        self.safeRemoveObserver()
+        safeRemoveObserver()
     }
 }
