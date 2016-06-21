@@ -104,7 +104,9 @@ public class FilterGradeFragment extends Fragment {
     }
 
     private void loadDatas() {
-
+        mPrimaryGrages.clear();
+        mMiddleGrages.clear();
+        mSeniorGrages.clear();
         // 小学
         Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
         Map<String, Object> item = null;

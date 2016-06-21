@@ -208,18 +208,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 onClickBarBtnLocation();
                 StatReporter.ClickCityLocation();
                 break;
-            case R.id.tv_title_tady:
-                scrollToToady();
-                StatReporter.ClickToday();
-                break;
-        }
-    }
-
-    //移动到今天
-    private void scrollToToady() {
-        UserTimetableFragment userTimetableFragment = (UserTimetableFragment) mHomeFragmentAdapter.getItem(1);
-        if (userTimetableFragment != null && userTimetableFragment.isResumed()) {
-            userTimetableFragment.scrollToToday();
         }
     }
 

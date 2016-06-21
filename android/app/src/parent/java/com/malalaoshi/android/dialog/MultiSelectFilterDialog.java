@@ -129,6 +129,8 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
         ivRight.setOnClickListener(this);
         fragmentGroupAdapter = new FragmentGroupAdapter(getContext(),getChildFragmentManager(),this);
         viewPager.setAdapter(fragmentGroupAdapter);
+        viewPager.setOffscreenPageLimit(3);//缓存页面
+
     }
 
     @Override
