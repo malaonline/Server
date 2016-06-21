@@ -9,7 +9,7 @@ $(function(){
     var weekly_time_slot_ids = [];
     var chosen_coupon_id = '';
     var chosen_coupon_amount = 0;
-    var chosen_coupon_min_count = 0;
+    var chosen_coupon_min_cost = 0;
     var isFirstBuy = $("#isFirstBuy").val() == 'True';
     var evaluateTime = $("#evaluateTime").val();
 
@@ -289,8 +289,8 @@ $(function(){
         } else {
             var $coupon = null;
             if (chosen_coupon_id) {
-                var min_count = parseInt(chosen_coupon_min_count);
-                if (hours < min_count) {
+                var min_cost = parseInt(chosen_coupon_min_cost);
+                if (hours * chosen_price < min_cost * 100) {
                     chosen_coupon_id = '';
                     sessionStorage.chosen_coupon_id = chosen_coupon_id;
                     $discountCost.html('0');
@@ -416,7 +416,7 @@ $(function(){
         }
         if (sessionStorage.chosen_coupon_id) {
             chosen_coupon_id = sessionStorage.chosen_coupon_id;
-            chosen_coupon_min_count = sessionStorage.chosen_coupon_min_count;
+            chosen_coupon_min_cost = sessionStorage.chosen_coupon_min_cost;
             chosen_coupon_amount = sessionStorage.chosen_coupon_amount;
         }
         if (sessionStorage.weekly_time_slot_ids) {

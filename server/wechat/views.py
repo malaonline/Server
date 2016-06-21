@@ -378,17 +378,15 @@ class CouponListView(OrderBaseView):
         kwargs['parent'] = parent
 
         now = timezone.now()
-        date_from = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        date_to = now.replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
-        coupons = models.Coupon.objects.filter(parent=parent, # validated_start__lte=date_from, expired_at__gt=date_to, used=False
+        coupons = models.Coupon.objects.filter(parent=parent, expired_at__gt=now, used=False
                                         ).order_by('used', '-amount', 'expired_at')
 
         kwargs['coupons'] = sorted(coupons, key=lambda x: x.sort_key())
         pre_chosen_coupon = None
-        for coupon in coupons:
-            if coupon.usable and coupon.mini_course_count==0:
-                pre_chosen_coupon = coupon
-                break
+        # for coupon in coupons:
+        #     if coupon.usable and coupon.mini_course_count==0:
+        #         pre_chosen_coupon = coupon
+        #         break
         # pre_chosen_coupon = pre_chosen_coupon or coupons.first()
         kwargs['pre_chosen_coupon'] = pre_chosen_coupon
         return render(request, self.template_name, kwargs)
