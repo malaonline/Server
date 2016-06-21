@@ -216,7 +216,7 @@ class OrderFormOperatingView: UIView {
             cancelButton.hidden = true
             confirmButton.hidden = false
             
-            confirmButton.setTitle("重新购买", forState: .Normal)
+            confirmButton.setTitle("再次购买", forState: .Normal)
             confirmButton.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forState: .Normal)
             confirmButton.setTitleColor(MalaColor_E26254_0, forState: .Normal)
             

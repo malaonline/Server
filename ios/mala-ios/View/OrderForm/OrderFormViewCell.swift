@@ -464,7 +464,7 @@ class OrderFormViewCell: UITableViewCell {
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushToPayment, object: self.model)
     }
     
-    /// 再次购买（重复购买）
+    /// 再次购买
     @objc private func buyAgain() {
         MalaIsHasBeenEvaluatedThisSubject = model?.evaluated
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushTeacherDetailView, object: self.model?.teacher)
