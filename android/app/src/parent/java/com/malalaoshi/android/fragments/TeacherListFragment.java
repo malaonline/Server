@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.TeacherListFilterActivity;
 import com.malalaoshi.android.adapter.TeacherRecyclerViewAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
@@ -19,6 +20,10 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.decoration.TeacherItemDecoration;
+import com.malalaoshi.android.dialog.MultiSelectFilterDialog;
+import com.malalaoshi.android.entity.Grade;
+import com.malalaoshi.android.entity.Subject;
+import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.net.MoreTeacherListApi;
@@ -37,7 +42,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 
-public class TeacherListFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener {
+public class TeacherListFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate, RecyclerViewLoadMoreListener.OnLoadMoreListener, MultiSelectFilterDialog.OnRightClickListener {
     public static String ARGS_FRAGEMENT_PAGE_TYPE = "pagetype";
     public static String ARGS_FRAGEMENT_GRADE_ID = "gradeId";
     public static String ARGS_FRAGEMENT_SUBJECT_ID = "subjectId";
@@ -285,13 +290,19 @@ public class TeacherListFragment extends BaseFragment implements BGARefreshLayou
     @OnClick(R.id.teacher_filter_btn)
     public void onClickTeacherFilter() {
         StatReporter.ClickTeacherFilter();
-        DialogFragment newFragment = FilterDialogFragment.newInstance();
-        newFragment.show(getFragmentManager(), FilterDialogFragment.class.getSimpleName());
+        MultiSelectFilterDialog newFragment = MultiSelectFilterDialog.newInstance();
+        newFragment.setOnRightClickListener(this);
+        newFragment.show(getFragmentManager(), MultiSelectFilterDialog.class.getSimpleName());
     }
 
     @Override
     public String getStatName() {
         return "老师列表页";
+    }
+
+    @Override
+    public void OnRightClick(View v, Grade grade, Subject subject, ArrayList<Tag> tags) {
+        TeacherListFilterActivity.open(this.getActivity(), grade, subject, tags);
     }
 
     private static final class FetchMoreTeacherListRequest extends BaseApiContext<TeacherListFragment, TeacherListResult> {

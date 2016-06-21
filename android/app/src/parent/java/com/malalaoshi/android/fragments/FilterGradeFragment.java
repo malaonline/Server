@@ -47,7 +47,7 @@ public class FilterGradeFragment extends Fragment {
     private FilterAdapter mMiddleFilterAdapter;
     private FilterAdapter mSeniorFilterAdapter;
 
-    private Map<String, Object> selectedObj;
+    private Map<String, Object> selectedObj = new HashMap<>();
 
     private OnGradeClickListener gradeClickListener;
 
@@ -59,12 +59,32 @@ public class FilterGradeFragment extends Fragment {
         this.gradeClickListener = gradeClickListener;
     }
 
+    public static FilterGradeFragment newInstance() {
+        FilterGradeFragment filterGradeFragment = new FilterGradeFragment();
+        return filterGradeFragment;
+    }
+
+    public static FilterGradeFragment newInstance(Long gradeId) {
+        if (gradeId==null){
+            return null;
+        }
+        FilterGradeFragment filterGradeFragment = new FilterGradeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(ARGMENTS_GRADE_ID,gradeId);
+        filterGradeFragment.setArguments(bundle);
+        return filterGradeFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grade_filter, container, false);
         ButterKnife.bind(this, view);
-        extraGradeId = getArguments().getLong(ARGMENTS_GRADE_ID);
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            extraGradeId = bundle.getLong(ARGMENTS_GRADE_ID);
+        }
+
         initDatas();
         initViews();
         return view;
@@ -87,41 +107,11 @@ public class FilterGradeFragment extends Fragment {
 
         // 小学
         Grade primary = Grade.getGradeById(Grade.PRIMARY_ID);
-        Map<String, Object> item = null;/*new HashMap<String, Object>();
-        item.put("id", primary.getId());
-        item.put("name", primary.getName());
-        if (extraGradeId==primary.getId()){
-            item.put("selected",true);
-            selectedObj = item;
-        }else{
-            item.put("selected", false);
-        }
-        mPrimaryGrages.add(item);*/
+        Map<String, Object> item = null;
         // 初中
         Grade middle = Grade.getGradeById(Grade.MIDDLE_ID);
-       /* item = new HashMap<String, Object>();
-        item.put("id", middle.getId());
-        item.put("name", middle.getName());
-        if (extraGradeId==middle.getId()){
-            item.put("selected",true);
-            selectedObj = item;
-        }else{
-            item.put("selected",false);
-        }
-        mMiddleGrages.add(item);*/
         // 高中
         Grade senior = Grade.getGradeById(Grade.SENIOR_ID);
-       /* item = new HashMap<String, Object>();
-        item.put("id", senior.getId());
-        item.put("name", senior.getName());
-        if (extraGradeId==senior.getId()){
-            selectedObj = item;
-            item.put("selected",true);
-        }else{
-            item.put("selected",false);
-        }
-        mSeniorGrages.add(item);*/
-
         // collect all grade
         for (Grade g: Grade.gradeList) {
             if (g.getSupersetId() == null) {
@@ -131,7 +121,7 @@ public class FilterGradeFragment extends Fragment {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
                 item.put("name",  g.getName());
-                if (extraGradeId==g.getId()){
+                if (extraGradeId!=null&&extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
                 }else{
@@ -143,7 +133,7 @@ public class FilterGradeFragment extends Fragment {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
                 item.put("name",  g.getName());
-                if (extraGradeId==g.getId()){
+                if (extraGradeId!=null&&extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
                 }else{
@@ -155,7 +145,7 @@ public class FilterGradeFragment extends Fragment {
                 item = new HashMap<String, Object>();
                 item.put("id", g.getId());
                 item.put("name",  g.getName());
-                if (extraGradeId==g.getId()){
+                if (extraGradeId!=null&&extraGradeId==g.getId()){
                     selectedObj = item;
                     item.put("selected",true);
                 }else{

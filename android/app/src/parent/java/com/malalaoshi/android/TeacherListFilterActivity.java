@@ -3,14 +3,14 @@ package com.malalaoshi.android;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.view.TitleBarView;
-import com.malalaoshi.android.dialog.FilterDialog;
+import com.malalaoshi.android.dialog.RadioFilterDialog;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Tag;
@@ -22,7 +22,6 @@ import com.malalaoshi.android.util.FragmentUtil;
 import com.malalaoshi.android.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +30,10 @@ import butterknife.OnClick;
 /**
  * Created by zl on 15/12/17.
  */
-public class TeacherListFilterActivity  extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
+public class TeacherListFilterActivity  extends BaseActivity implements TitleBarView.OnTitleBarClickListener,
+        FilterSubjectFragment.OnSubjectClickListener
+        ,FilterGradeFragment.OnGradeClickListener
+        ,FilterTagFragment.OnTagClickListener{
 
     public static final String EXTRA_GRADE = "grade";
     public static final String EXTRA_SUBJECT = "subject";
@@ -55,11 +57,14 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     //筛选条件
     private Grade grade;
     private Subject subject;
-    private List<Tag> tags;
+    private ArrayList<Tag> tags;
+    private ArrayList<Tag> tempTags;
     //筛选
     private Long gradeId;
     private Long subjectId;
     private long[] tagIds;
+
+    private DialogFragment dialogFragment;
 
     public static void open(Context context, Grade grade, Subject subject, ArrayList<Tag> tags) {
         Intent intent = new Intent(context, TeacherListFilterActivity.class);
@@ -130,118 +135,36 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     }
 
     @OnClick(R.id.tv_filter_grade)
-    public void onClickGradeFilter(View v){//int width, int height, List<Fragment> fragments, int pageIndex,FragmentManager fragmentManager
-        List<Fragment> fragments = new ArrayList<>();
-        FilterGradeFragment gradeFragment = new FilterGradeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(FilterGradeFragment.ARGMENTS_GRADE_ID, grade.getId());
-        gradeFragment.setArguments(bundle);
-        fragments.add(gradeFragment);
-        //fragments.add(new FilterSubjectFragment());
-        int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final FilterDialog filterdialog = new FilterDialog();
-        Bundle filterBundle = new Bundle();
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
-        filterdialog.setArguments(filterBundle);
-        filterdialog.setFragments(fragments);
-        filterdialog.setRightBtnVisable(View.GONE);
-        filterdialog.setLeftBtnVisable(View.GONE);
-        filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_grade_dialog));
-        filterdialog.setTitleText("筛选年级");
-        gradeFragment.setOnGradeClickListener(new FilterGradeFragment.OnGradeClickListener() {
-            @Override
-            public void onGradeClick(Grade grade) {
-                TeacherListFilterActivity.this.grade = grade;
-                filterdialog.dismiss();
-                updateConditions();
-                filterFragment.searchTeachers(gradeId,subjectId,tagIds);
-            }
-        });
-        filterdialog.show(getSupportFragmentManager(),"dialog");
+    public void onClickGradeFilter(View v){
+        closeFilterDialog();
+        dialogFragment = RadioFilterDialog.newInstance(grade, this);
+        dialogFragment.show(getSupportFragmentManager(), RadioFilterDialog.class.getName());
         StatReporter.switchFilterGrade();
     }
 
     @OnClick(R.id.tv_filter_subject)
     public void onClickSubjectFilter(View v){
-        List<Fragment> fragments = new ArrayList<>();
-        FilterSubjectFragment subjectFragment = new FilterSubjectFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(FilterSubjectFragment.ARGMENTS_GRADE_ID, grade.getId());
-        bundle.putLong(FilterSubjectFragment.ARGMENTS_SUBJECT_ID, subject.getId());
-        subjectFragment.setArguments(bundle);
-        fragments.add(subjectFragment);
-        int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final FilterDialog filterdialog = new FilterDialog();
-        Bundle filterBundle = new Bundle();
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
-        filterdialog.setArguments(filterBundle);
-        filterdialog.setFragments(fragments);
-        filterdialog.setRightBtnVisable(View.GONE);
-        filterdialog.setLeftBtnVisable(View.GONE);
-        filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
-        filterdialog.setTitleText("筛选课程");
-        subjectFragment.setOnSubjectClickListener(new FilterSubjectFragment.OnSubjectClickListener() {
-            @Override
-            public void onSubjectClick(Subject subject) {
-                TeacherListFilterActivity.this.subject = subject;
-                filterdialog.dismiss();
-                updateConditions();
-                filterFragment.searchTeachers(gradeId,subjectId,tagIds);
-            }
-        });
-        filterdialog.show(getSupportFragmentManager(), "dialog");
+        closeFilterDialog();
+        dialogFragment = RadioFilterDialog.newInstance(grade, subject,this);
+        dialogFragment.show(getSupportFragmentManager(), RadioFilterDialog.class.getName());
+
         StatReporter.switchFilterSubject();
     }
 
     @OnClick(R.id.tv_filter_tag)
     public void onClickTagFilter(View v){
-        List<Fragment> fragments = new ArrayList<>();
-        long[] tagsId = new long[tags==null?0:tags.size()];
-        for (int i=0;tags!=null&&i<tags.size();i++){
-            tagsId[i] = tags.get(i).getId();
-        }
-
-        FilterTagFragment tagFragment = new FilterTagFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLongArray(FilterTagFragment.ARGMENTS_TAGS_ID, tagsId);
-        tagFragment.setArguments(bundle);
-
-        tagFragment.setOnTagClickListener(new FilterTagFragment.OnTagClickListener() {
-            @Override
-            public void onTagClick(ArrayList<Tag> tags) {
-                TeacherListFilterActivity.this.tags = tags;
-            }
-        });
-        fragments.add(tagFragment);
-        int width = getResources().getDimensionPixelSize(R.dimen.filter_dialog_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.filter_dialog_height);
-        final FilterDialog filterdialog = new FilterDialog();
-        Bundle filterBundle = new Bundle();
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_WIDTH, width);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_HEIGHT, height);
-        filterBundle.putInt(FilterDialog.ARGMENTS_DIALOG_PAGEINDEX, 0);
-        filterdialog.setArguments(filterBundle);
-        filterdialog.setFragments(fragments);
-        filterdialog.setRightBtnVisable(View.VISIBLE);
-        filterdialog.setLeftBtnVisable(View.GONE);
-        filterdialog.setTileIconImageDrawable(getResources().getDrawable(R.drawable.ic_tag_dialog));
-        filterdialog.setTitleText("筛选标签");
-        filterdialog.setOnRightClickListener(new FilterDialog.OnRightClickListener() {
+        closeFilterDialog();
+        dialogFragment = RadioFilterDialog.newInstance(tags, this);
+        ((RadioFilterDialog)dialogFragment).setOnRightClickListener(new RadioFilterDialog.OnRightClickListener() {
             @Override
             public void OnRightClick(View v) {
-                //开始筛选
-                filterdialog.dismiss();
+                TeacherListFilterActivity.this.tags = tempTags;
                 updateConditions();
                 filterFragment.searchTeachers(gradeId,subjectId,tagIds);
+                closeFilterDialog();
             }
         });
-        filterdialog.show(getSupportFragmentManager(),"dialog");
+        dialogFragment.show(getSupportFragmentManager(), RadioFilterDialog.class.getName());
         StatReporter.switchFilterFeature();
     }
 
@@ -258,5 +181,35 @@ public class TeacherListFilterActivity  extends BaseActivity implements TitleBar
     @Override
     protected String getStatName() {
         return "老师过滤";
+    }
+
+    @Override
+    public void onSubjectClick(Subject subject) {
+        TeacherListFilterActivity.this.subject = subject;
+        updateConditions();
+        filterFragment.searchTeachers(gradeId,subjectId,tagIds);
+        closeFilterDialog();
+    }
+
+    @Override
+    public void onGradeClick(Grade grade) {
+        TeacherListFilterActivity.this.grade = grade;
+        updateConditions();
+        filterFragment.searchTeachers(gradeId,subjectId,tagIds);
+        closeFilterDialog();
+    }
+
+
+    private void closeFilterDialog() {
+        if (dialogFragment!=null){
+            dialogFragment.dismiss();
+            dialogFragment = null;
+        }
+    }
+
+    @Override
+    public void onTagClick(ArrayList<Tag> tags) {
+        //开始筛选
+        TeacherListFilterActivity.this.tempTags = tags;
     }
 }

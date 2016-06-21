@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.FilterAdapter;
+import com.malalaoshi.android.dialog.MultiSelectFilterDialog;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.view.ExpandedHeightGridView;
 
@@ -46,6 +47,23 @@ public class FilterSubjectFragment extends Fragment {
     public FilterSubjectFragment(){
     }
 
+    public static FilterSubjectFragment newInstance() {
+        FilterSubjectFragment filterSubjectFragment = new FilterSubjectFragment();
+        return filterSubjectFragment;
+    }
+
+    public static FilterSubjectFragment newInstance(Long gradeId,Long subjectId) {
+        if (gradeId==null||subjectId==null){
+            return null;
+        }
+        FilterSubjectFragment filterSubjectFragment = new FilterSubjectFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(ARGMENTS_GRADE_ID,gradeId);
+        bundle.putLong(ARGMENTS_SUBJECT_ID,subjectId);
+        filterSubjectFragment.setArguments(bundle);
+        return filterSubjectFragment;
+    }
+
     public void setOnSubjectClickListener(OnSubjectClickListener subjectClickListener){
         this.subjectClickListener = subjectClickListener;
     }
@@ -55,8 +73,11 @@ public class FilterSubjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subject_filter, container, false);
         ButterKnife.bind(this, view);
-        extraGradeId = getArguments().getLong(ARGMENTS_GRADE_ID);
-        extraSubjectId = getArguments().getLong(ARGMENTS_SUBJECT_ID);
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            extraGradeId = getArguments().getLong(ARGMENTS_GRADE_ID);
+            extraSubjectId = getArguments().getLong(ARGMENTS_SUBJECT_ID);
+        }
         initDatas();
         initViews();
         return view;
@@ -78,7 +99,7 @@ public class FilterSubjectFragment extends Fragment {
         long[] subjects2 = new long[]{1,2,3,4,5,6,7,8,9};
         long[] grade1 = new long[]{1,2,3,4,5,6,7};
         boolean b = false;
-        for (int i=0;i<grade1.length;i++){
+        for (int i=0;extraGradeId!=null&&i<grade1.length;i++){
             if (extraGradeId==grade1[i]){
                 b = true;
                 break;
@@ -98,7 +119,7 @@ public class FilterSubjectFragment extends Fragment {
                         Map<String, Object> item = new HashMap<String, Object>();
                         item.put("id", subject.getId());
                         item.put("name", subject.getName());
-                        if (extraSubjectId==subject.getId()){
+                        if (extraSubjectId!=null&&extraSubjectId==subject.getId()){
                             item.put("selected",true);
                             selectedObj = item;
                         }else{
@@ -129,6 +150,9 @@ public class FilterSubjectFragment extends Fragment {
             subjectClickListener.onSubjectClick(subject);
         }
     }
+
+
+
 
     public interface OnSubjectClickListener{
         void onSubjectClick(Subject subject);

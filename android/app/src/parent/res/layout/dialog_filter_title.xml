@@ -30,7 +30,7 @@ android:layout_height="wrap_content"
             android:id="@+id/filter_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/do_filter"
+            android:text="刷选年级"
             android:textSize="@dimen/text_size_large_x"
             android:textColor="@color/text_color_dlg"
             />

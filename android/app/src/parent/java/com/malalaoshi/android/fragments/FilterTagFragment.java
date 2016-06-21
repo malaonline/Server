@@ -2,6 +2,7 @@ package com.malalaoshi.android.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.api.TagListApi;
+import com.malalaoshi.android.core.network.api.ApiExecutor;
+import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.result.TagListResult;
 import com.malalaoshi.android.util.JsonUtil;
@@ -86,12 +90,31 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
         this.tagsClickListener = tagsClickListener;
     }
 
+    public static FilterTagFragment newInstance() {
+        FilterTagFragment filterTagFragment = new FilterTagFragment();
+        return filterTagFragment;
+    }
+
+    public static FilterTagFragment newInstance(long[] tags) {
+        if (tags==null){
+            return null;
+        }
+        FilterTagFragment filterTagFragment = new FilterTagFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLongArray(ARGMENTS_TAGS_ID,tags);
+        filterTagFragment.setArguments(bundle);
+        return filterTagFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tag_filter, container, false);
         ButterKnife.bind(this, view);
-        extraTagIds = getArguments().getLongArray(ARGMENTS_TAGS_ID);
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            extraTagIds = bundle.getLongArray(ARGMENTS_TAGS_ID);
+        }
         loadAnim = (AnimationDrawable) ivLoadAnim.getDrawable();
 
         initDatas();
@@ -296,34 +319,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
 
     private void loadDatas() {
         loadAnim.start();
-        String url = MalaApplication.getInstance().getMalaHost() + API_TAGS_URL;
-        RequestQueue requestQueue = MalaApplication.getHttpRequestQueue();
-        StringRequest jsonRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        loadAnim.stop();
-                        TagListResult tagsResult = JsonUtil.parseStringData(response, TagListResult.class);
-                        List<Tag> tags = tagsResult.getResults();
-                        setDatas(tags);
-                        updateUI();
-                        mTagsLoading.setVisibility(View.GONE);
-                        mTagsLoadAgain.setVisibility(View.GONE);
-                        mTagsContainer.setVisibility(View.VISIBLE);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loadAnim.stop();
-                if (!MalaApplication.getInstance().isNetworkOk()) {
-                    mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后加载");
-                }
-                mTagsLoading.setVisibility(View.GONE);
-                mTagsLoadAgain.setVisibility(View.VISIBLE);
-                mTagsContainer.setVisibility(View.GONE);
-            }
-        });
-        requestQueue.add(jsonRequest);
+        ApiExecutor.exec(new FetchTagsRequest(this));
     }
     private void setDatas(List<Tag> tags) {
         if (tags == null || tags.isEmpty()) {
@@ -336,7 +332,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             item.put("id", obj.getId());
             item.put("name", obj.getName());
             item.put("selected", false);
-            for (int j=0;j<extraTagIds.length;j++){
+            for (int j=0;extraTagIds!=null&&j<extraTagIds.length;j++){
                 Long tagId = extraTagIds[j];
                 if (tagId.equals(obj.getId())){
                     item.put("selected", true);
@@ -389,5 +385,62 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
 
     public interface OnTagClickListener{
         void onTagClick(ArrayList<Tag> tags);
+    }
+
+    private static final class FetchTagsRequest extends BaseApiContext<FilterTagFragment, TagListResult> {
+
+        public FetchTagsRequest(FilterTagFragment filterTagFragment) {
+            super(filterTagFragment);
+        }
+
+        @Override
+        public TagListResult request() throws Exception {
+            return new TagListApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull TagListResult response) {
+            if (response!=null&&response.getResults()!=null){
+                get().onLoadTagsSuccess(response);
+            }else{
+                get().onLoadTagsFailed();
+            }
+
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().onLoadTagsFailed();
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().onLoadFinish();
+        }
+    }
+
+    private void onLoadFinish() {
+        loadAnim.stop();
+
+    }
+
+    private void onLoadTagsFailed() {
+        if (!MalaApplication.getInstance().isNetworkOk()) {
+            mTagsLoadAgainMsg.setText("网络已断开，请更改网络配置后加载");
+        }
+        mTagsLoading.setVisibility(View.GONE);
+        mTagsLoadAgain.setVisibility(View.VISIBLE);
+        mTagsContainer.setVisibility(View.GONE);
+    }
+
+    private void onLoadTagsSuccess(TagListResult response) {
+        List<Tag> tags = response.getResults();
+        setDatas(tags);
+        updateUI();
+        mTagsLoading.setVisibility(View.GONE);
+        mTagsLoadAgain.setVisibility(View.GONE);
+        mTagsContainer.setVisibility(View.VISIBLE);
+
     }
 }

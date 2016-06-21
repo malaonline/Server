@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="272dp"
+    android:layout_height="332dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:background="@color/colorWhite"
         android:orientation="vertical">
 
         <include layout="@layout/dialog_filter_title" />
 
-        <ViewFlipper
-            android:id="@+id/filter_views"
+        <com.malalaoshi.android.view.SlideViewPager
+            android:id="@+id/filter_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp">
-            <!--年级-->
-            <include layout="@layout/dialog_grade_layout" />
-            <!--科目-->
-            <include layout="@layout/dialog_subject_layout" />
-            <!--风格-->
-            <include layout="@layout/dialog_filter_tags" />
-        </ViewFlipper>
+        </com.malalaoshi.android.view.SlideViewPager>
 
     </LinearLayout>
     <com.malalaoshi.android.view.Indicator.RubberIndicator

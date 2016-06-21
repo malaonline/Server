@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="272dp"
+    android:layout_height="332dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="272dp"
+        android:layout_height="332dp"
         android:layout_marginTop="20dp"
         android:background="@color/colorWhite"
         android:orientation="vertical">
 
         <include layout="@layout/dialog_filter_title" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/filter_viewpager"
+        <FrameLayout
+            android:id="@+id/fl_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp">
-        </android.support.v4.view.ViewPager>
-
+            android:layout_marginRight="4dp" >
+        </FrameLayout>
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_dialog_ic"
@@ -29,6 +27,4 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_grade_dialog" />
-
-
 </RelativeLayout>

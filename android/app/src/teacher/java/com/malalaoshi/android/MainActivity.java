@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.malalaoshi.android.fragments.LoginFragment;
-import com.malalaoshi.android.fragments.MainFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 
 import butterknife.ButterKnife;
