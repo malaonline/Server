@@ -844,10 +844,9 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
         parent = self.get_parent()
         queryset = models.TimeSlot.objects.filter(
                 order__parent=parent, deleted=False)
-        if for_review:
+        if for_review == 'true':
             queryset = queryset.filter(
-                    end__lt=timezone.now(),
-                    end__gte=timezone.now() - models.TimeSlot.COMMENT_DELAY)
+                    end__lt=timezone.now())
         queryset = queryset.order_by('-end')
         return queryset
 
