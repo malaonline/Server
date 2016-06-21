@@ -38,4 +38,8 @@ class SingleTopicScoreData: NSObject {
         self.score = score
         self.aveScore = aveScore
     }
+    
+    override var description: String {
+        return "id: \(id), name: \(name), score: \(score), aveScore: \(aveScore)\n"
+    }
 }
