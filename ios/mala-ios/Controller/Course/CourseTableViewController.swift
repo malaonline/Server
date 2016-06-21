@@ -26,7 +26,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                     self?.defaultView.hidden = true
                     self?.goTopButton.hidden = false
                     self?.tableView.reloadData()
-                    self?.scrollToToday(false)
+                    self?.scrollToToday()
                 }
             })
         }
@@ -83,7 +83,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             title: "今天",
             titleColor: MalaColor_82B4D9_0,
             target: self,
-            action: #selector(CourseTableViewController.scrollToToday(_:))
+            action: #selector(CourseTableViewController.scrollToToday)
         )
         saveButton.setTitleColor(MalaColor_E0E0E0_95, forState: .Disabled)
         return saveButton
@@ -232,11 +232,15 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         // 实时调整当前第一个显示的Cell日期为导航栏标题日期
         currentDate = (tableView.visibleCells.first as? CourseTableViewCell)?.model?[0].end
+        // 当最近一节课程划出屏幕时，显示“回到最近课程”按钮
+        if indexPath == recentlyCourseIndexPath {
+            goTopButton.hidden = true
+        }
     }
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         // 当最近一节课程划出屏幕时，显示“回到最近课程”按钮
         if indexPath == recentlyCourseIndexPath {
-            
+            goTopButton.hidden = false
         }
     }
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -255,7 +259,7 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     
     // MARK: - Event Response
     ///  滚动到近日首个未上课程
-    @objc private func scrollToToday(animated: Bool = true) {
+    @objc private func scrollToToday() {
         dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
             self?.tableView.scrollToRowAtIndexPath(self?.recentlyCourseIndexPath ?? NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
         })

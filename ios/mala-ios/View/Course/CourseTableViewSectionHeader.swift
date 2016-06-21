@@ -20,7 +20,11 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
         }
     }
     /// 所属TableView
-    var parentTableView: UITableView?
+    var parentTableView: UITableView? {
+        didSet {
+            offset = parentTableView?.contentOffset.y ?? 0
+        }
+    }
     /// 高度比率, 应属于[1, 2], 默认为1.5
     var parallaxRatio: CGFloat = 2 {
         didSet {
