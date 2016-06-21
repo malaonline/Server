@@ -36,8 +36,7 @@ class OrderFormOtherInfoCell: UITableViewCell {
                     break
                 }
             }
-            
-            self.orderId = String(format: "%d", self.model?.order_id ?? 0)
+            self.orderId = self.model?.order_id ?? "-"
             self.createDate = self.model?.createAt
             self.paymentDate = self.model?.paidAt
         }
