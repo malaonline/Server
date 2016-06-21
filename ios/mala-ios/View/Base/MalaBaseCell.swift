@@ -150,7 +150,7 @@ class MalaBaseCell: UITableViewCell {
             make.top.equalTo(self.title.snp_bottom).offset(14)
             make.left.equalTo(self.contentView.snp_left).offset(12)
             make.right.equalTo(self.contentView.snp_right).offset(-12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-14)
         }
         tagsView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.content.snp_top)

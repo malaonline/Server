@@ -50,6 +50,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         // SubViews
         content.addSubview(classSchedule)
         content.addSubview(legendView)
+        tagsView.removeFromSuperview()
         
         // Autolayout
         // Remove margin
@@ -59,7 +60,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         }
         
         classSchedule.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top).offset(14)
+            make.top.equalTo(self.content.snp_top)
             make.left.equalTo(self.content.snp_left)
             make.right.equalTo(self.content.snp_right)
             make.height.equalTo(classSchedule.snp_width).multipliedBy(0.65)

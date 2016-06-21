@@ -95,8 +95,8 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         
         // Autolayout
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(title.snp_bottom).offset(7)
-            make.bottom.equalTo(contentView.snp_bottom).offset(-7)
+            make.top.equalTo(title.snp_bottom).offset(14)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-14)
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
