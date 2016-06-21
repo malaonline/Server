@@ -58,53 +58,53 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     // MARK: - Components
     /// 标题视图
     private lazy var titleView: UILabel = {
-        let titleView = UILabel(title: "评价")
-        titleView.textColor = MalaColor_8FBCDD_0
-        titleView.font = UIFont.systemFontOfSize(16)
-        titleView.textAlignment = .Center
-        return titleView
+        let label = UILabel(title: "评价")
+        label.textColor = MalaColor_8FBCDD_0
+        label.font = UIFont.systemFontOfSize(16)
+        label.textAlignment = .Center
+        return label
     }()
     /// 关闭按钮
     private lazy var closeButton: UIButton = {
-        let cancelButton = UIButton()
-        cancelButton.setBackgroundImage(UIImage(named: "close"), forState: .Normal)
-        cancelButton.addTarget(self, action: #selector(CommentViewWindow.closeButtonDidTap), forControlEvents: .TouchUpInside)
-        return cancelButton
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "close"), forState: .Normal)
+        button.addTarget(self, action: #selector(CommentViewWindow.closeButtonDidTap), forControlEvents: .TouchUpInside)
+        return button
     }()
     /// 顶部装饰线
     private lazy var titleLine: UIView = {
-        let titleLine = UIView()
-        titleLine.backgroundColor = MalaColor_8FBCDD_0
-        return titleLine
+        let view = UIView()
+        view.backgroundColor = MalaColor_8FBCDD_0
+        return view
     }()
     /// 老师信息及评分控件容器
     private lazy var teacherContainer: UIView = {
-        let teacherContainer = UIView()
-        return teacherContainer
+        let view = UIView()
+        return view
     }()
     /// 老师头像
     private lazy var avatarView: UIImageView = {
-        let avatarView = UIImageView(image: UIImage(named: "avatar_placeholder"))
-        avatarView.contentMode = .ScaleAspectFill
-        avatarView.layer.cornerRadius = avatarView.frame.width/2
-        avatarView.layer.masksToBounds = true
-        return avatarView
+        let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
+        imageView.contentMode = .ScaleAspectFill
+        imageView.layer.cornerRadius = avatarView.frame.width/2
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     /// 老师姓名label
     private lazy var teacherNameLabel: UILabel = {
-        let teacherNameLabel = UILabel()
-        teacherNameLabel.font = UIFont.systemFontOfSize(13)
-        teacherNameLabel.textColor = MalaColor_939393_0
-        teacherNameLabel.text = "老师姓名"
-        return teacherNameLabel
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(13)
+        label.textColor = MalaColor_939393_0
+        label.text = "老师姓名"
+        return label
     }()
     /// 教授科目label
     private lazy var subjectLabel: UILabel = {
-        let subjectLabel = UILabel()
-        subjectLabel.font = UIFont.systemFontOfSize(13)
-        subjectLabel.textColor = MalaColor_BEBEBE_0
-        subjectLabel.text = "教授科目"
-        return subjectLabel
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(13)
+        label.textColor = MalaColor_BEBEBE_0
+        label.text = "教授科目"
+        return label
     }()
     /// 评分面板
     private lazy var floatRating: FloatRatingView = {
@@ -113,8 +113,8 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     }()
     /// 描述 文字背景
     private lazy var textBackground: UIImageView = {
-        let textBackground = UIImageView(image: UIImage(named: "aboutText_Background"))
-        return textBackground
+        let imageView = UIImageView(image: UIImage(named: "aboutText_Background"))
+        return imageView
     }()
     /// 输入文本框
     private lazy var textView: UITextView = {
@@ -128,23 +128,23 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     }()
     /// 提交按钮装饰线
     private lazy var buttonSeparatorLine: UIView = {
-        let buttonSeparatorLine = UIView()
-        buttonSeparatorLine.backgroundColor = MalaColor_8FBCDD_0
-        return buttonSeparatorLine
+        let view = UIView()
+        view.backgroundColor = MalaColor_8FBCDD_0
+        return view
     }()
     /// 提交按钮
     private lazy var commitButton: UIButton = {
-        let commitButton = UIButton()
-        commitButton.setTitle("提  交", forState: .Normal)
-        commitButton.setTitle("提交中", forState: .Disabled)
-        commitButton.setTitleColor(MalaColor_BCD7EB_0, forState: .Normal)
-        commitButton.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
-        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
-        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
-        commitButton.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
-        commitButton.titleLabel?.font = UIFont.systemFontOfSize(15)
-        commitButton.addTarget(self, action: #selector(CommentViewWindow.commitButtonDidTap(_:)), forControlEvents: .TouchUpInside)
-        return commitButton
+        let button = UIButton()
+        button.setTitle("提  交", forState: .Normal)
+        button.setTitle("提交中", forState: .Disabled)
+        button.setTitleColor(MalaColor_BCD7EB_0, forState: .Normal)
+        button.setTitleColor(MalaColor_B7B7B7_0, forState: .Disabled)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_FFFFFF_9), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Highlighted)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_F8F8F8_0), forState: .Disabled)
+        button.titleLabel?.font = UIFont.systemFontOfSize(15)
+        button.addTarget(self, action: #selector(CommentViewWindow.commitButtonDidTap(_:)), forControlEvents: .TouchUpInside)
+        return button
     }()
     
     
@@ -452,9 +452,18 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     private func saveComment() {
         // 验证数据并创建评论模型
         guard model.id != 0 else {
+            ShowTost("网络环境较差，请稍后重试")
+            commitButton.enabled = true
+            return
+        }
+        guard floatRating.rating > 0 else {
+            ShowTost("请给该课程打个分吧")
+            commitButton.enabled = true
             return
         }
         guard textView.text != MalaCommonString_CommentPlaceholder else {
+            ShowTost("请给该课程写几句评价吧")
+            commitButton.enabled = true
             return
         }
         let comment = CommentModel(id: 0, timeslot: model.id, score: Int(floatRating.rating), content: textView.text)
@@ -529,7 +538,7 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     }
     
     @objc private func commitButtonDidTap(sender: UIButton) {
-        sender.enabled = false
+        commitButton.enabled = false
         saveComment()
     }
 }
