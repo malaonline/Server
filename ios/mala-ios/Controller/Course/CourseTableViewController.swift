@@ -21,14 +21,17 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
                 ThemeHUD.hideActivityIndicator()
                 if self?.model?.count == 0 {
                     self?.defaultView.hidden = false
+                    self?.goTopButton.hidden = true
                 }else {
                     self?.defaultView.hidden = true
+                    self?.goTopButton.hidden = false
                     self?.tableView.reloadData()
                     self?.scrollToToday(false)
                 }
             })
         }
     }
+    /// 距当前时间最近的一节未上课程下标
     var recentlyCourseIndexPath: NSIndexPath?
     /// 当前显示年月（用于TitleView显示）
     var currentDate: NSTimeInterval? {
@@ -42,10 +45,12 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     
     
     // MARK: - Components
+    /// "跳转最近的未上课程"按钮
     private lazy var goTopButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "goTop"), forState: .Normal)
         button.addTarget(self, action: #selector(CourseTableViewController.scrollToToday), forControlEvents: .TouchUpInside)
+        button.hidden = true
         return button
     }()
     lazy var tableView: UITableView = {
@@ -227,6 +232,12 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         // 实时调整当前第一个显示的Cell日期为导航栏标题日期
         currentDate = (tableView.visibleCells.first as? CourseTableViewCell)?.model?[0].end
+    }
+    public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        // 当最近一节课程划出屏幕时，显示“回到最近课程”按钮
+        if indexPath == recentlyCourseIndexPath {
+            
+        }
     }
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 140
