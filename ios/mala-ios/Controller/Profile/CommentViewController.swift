@@ -95,7 +95,7 @@ class CommentViewController: BaseTableViewController {
         
         
         ///  获取学生课程信息
-        getStudentCourseTable(failureHandler: { [weak self] (reason, errorMessage) -> Void in
+        getStudentCourseTable(true, failureHandler: { [weak self] (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
