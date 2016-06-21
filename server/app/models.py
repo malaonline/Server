@@ -1343,6 +1343,8 @@ class Coupon(BaseModel):
     # 优惠卷
     # 过期提醒时间
     REMIND_TIME = datetime.timedelta(days=3)
+    # 三个月以前的不显示
+    OUT_OF_DATE_TIME = datetime.timedelta(days=90)
     parent = models.ForeignKey(Parent, null=True, blank=True)
     name = models.CharField(max_length=50)
     amount = models.PositiveIntegerField()
@@ -1364,18 +1366,17 @@ class Coupon(BaseModel):
 
     def sort_key(self):
         now = timezone.now()
-        if (not self.used) and now > timezone.localtime(self.expired_at):
-            return 3
-        if self.used:
-            return 2
-        return 1
+        # 未过期、未使用的在上, 已过期、已使用的在下
+        if (not self.used) and now <= self.expired_at:
+            return 1
+        return 2
 
     @property
     def status(self):
         now = timezone.now()
         if self.used:
             return 'used'
-        elif (not self.used) and now > localtime(self.expired_at):
+        elif (not self.used) and now > self.expired_at:
             return 'expired'
         else:
             return 'unused'

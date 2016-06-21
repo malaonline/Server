@@ -616,7 +616,8 @@ class CouponSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Coupon
-        fields = ('id', 'name', 'amount', 'expired_at', 'used')
+        fields = ('id', 'name', 'amount', 'expired_at',
+                  'mini_total_price', 'used')
 
     def get_expired_at(self, obj):
         return int(obj.expired_at.timestamp())
@@ -635,13 +636,23 @@ class CouponViewSet(viewsets.ReadOnlyModelViewSet):
             raise PermissionDenied(detail='Role incorrect')
 
         now = timezone.now()
-        query_unexpired = queryset.filter(
-                expired_at__gt=now).order_by('-amount', 'expired_at')
+        out_time = models.Coupon.OUT_OF_DATE_TIME
         if only_valid:
-            queryset = query_unexpired.filter(used=False)
+            # 选课页面的奖学金列表
+            # 自上而下, 金额大到小 => 时间临近的, 是否符合条件客户端判断
+            queryset = queryset.filter(
+                expired_at__gt=now,
+                used=False,
+            ).order_by('-amount', 'expired_at')
         else:
-            queryset = user.parent.coupon_set.all().order_by(
-                    '-amount', 'expired_at')
+            # 我的页面的奖学金列表, 过期太久的不取
+            # 自上而下, 时间临近的 => 金额大到小
+            queryset = queryset.filter(
+                expired_at__gt=now - out_time,
+            ).extra(
+                # 该表达式换数据库后类型能要重写
+                select={'date_diff': 'abs(extract(epoch from (now()-expired_at)))'}
+            ).order_by('date_diff', '-amount')
 
         # 奖学金列表排序
         if self.action == 'list':

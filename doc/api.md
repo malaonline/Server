@@ -533,6 +533,7 @@ result:
             "name": "新生奖学金",
             "amount": 120,
             "expired_at": 1453343547,
+            "mini_total_price": 100,
             "used": false
         },
         {
@@ -540,6 +541,7 @@ result:
             "name": "优惠奖学金",
             "amount": 100,
             "expired_at": 1453343547,
+            "mini_total_price": 50,
             "used": true
         }
     ]
