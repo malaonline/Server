@@ -54,7 +54,7 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         chartView.drawValueAboveBarEnabled = true
         
         let xAxis = chartView.xAxis
-        xAxis.labelFont = UIFont.systemFontOfSize(9)
+        xAxis.labelFont = UIFont.systemFontOfSize(8)
         xAxis.labelTextColor = MalaColor_5E5E5E_0
         xAxis.drawGridLinesEnabled = false
         xAxis.labelPosition = .Bottom
