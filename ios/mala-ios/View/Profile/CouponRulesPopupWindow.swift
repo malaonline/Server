@@ -41,7 +41,7 @@ public class CouponRulesPopupWindow: UIViewController, UITextViewDelegate {
         let textView = UITextView()
         textView.font = UIFont.systemFontOfSize(13)
         textView.textColor = MalaColor_939393_0
-        textView.userInteractionEnabled = false
+        textView.editable = false
         return textView
     }()
     /// 提交按钮装饰线
