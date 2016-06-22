@@ -32,6 +32,18 @@ class CouponModel: NSObject {
             return String(format: "%d", Int(amount/100))
         }
     }
+    /// 使用限制最小金额说明字符串
+    var minPriceString: String {
+        get {
+            return "满"+String(format: "%d", Int(minPrice/100))+"元可用"
+        }
+    }
+    /// 有效期说明字符串
+    var expiredString: String {
+        get {
+            return "有效期至 "+getDateTimeString(expired_at, format: "yyyy-MM-dd")
+        }
+    }
     
     
     ///  根据[有效期]、[使用标记] 生成状态
