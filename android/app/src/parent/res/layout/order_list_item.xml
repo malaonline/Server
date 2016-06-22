@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_order_item"
     android:orientation="vertical"
@@ -74,12 +75,7 @@
                 android:textColor="@color/theme_red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-         <!--   <com.malalaoshi.android.view.CircleNetworkImage
-                android:id="@+id/iv_teacher_avator"
-                android:src="@drawable/ic_default_teacher_avatar"
-                android:layout_marginTop="12dp"
-                android:layout_width="56dp"
-                android:layout_height="56dp" />-->
+
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv_teacher_avator"
                 android:layout_marginTop="12dp"
@@ -96,7 +92,6 @@
                 ></com.facebook.drawee.view.SimpleDraweeView>
 
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/tv_course_name_text"

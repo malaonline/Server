@@ -54,7 +54,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
         holder.update(getItem(position));
     }
 
-    static final class ViewHolder extends RecyclerView.ViewHolder{
+    static final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.rl_order_id)
         protected RelativeLayout rlOrderId;
@@ -102,6 +102,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
 
         protected void update(Order order){
             this.order = order;
+            view.setOnClickListener(this);
             updateItem();
         }
 
@@ -168,7 +169,6 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
             if (!EmptyUtils.isEmpty(imgUrl)){
                 avater.setImageURI(Uri.parse(imgUrl));
             }
-
         }
 
         @OnClick(R.id.tv_buy_course)
@@ -205,18 +205,18 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
 
         }
 
-        @OnClick(R.id.ll_order_item)
-        protected void onItemClick(){
-            //订单详情
-            OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
-        }
-
         public void startProcessDialog(String message){
             DialogUtil.startCircularProcessDialog(view.getContext(),message,true,true);
         }
 
         public void stopProcessDialog(){
             DialogUtil.stopProcessDialog();
+        }
+
+        @Override
+        public void onClick(View v) {
+            //订单详情
+            OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
         }
     }
 
