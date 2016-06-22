@@ -96,9 +96,6 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
     }
 
     public static FilterTagFragment newInstance(long[] tags) {
-        if (tags==null){
-            return null;
-        }
         FilterTagFragment filterTagFragment = new FilterTagFragment();
         Bundle bundle = new Bundle();
         bundle.putLongArray(ARGMENTS_TAGS_ID,tags);

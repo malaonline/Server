@@ -168,7 +168,7 @@ public class RadioFilterDialog   extends DialogFragment implements View.OnClickL
             updateView(View.GONE,R.drawable.ic_subject_dialog,"筛选科目");
         }else if (filterType == FILTER_TYPE_TAGS){
             long[] tagIds = null;
-            if (tags!=null){
+            if (tags!=null&&tags.size()>0){
                 tagIds = new long[tags.size()];
                 int i=0;
                 for (Tag tag:tags){

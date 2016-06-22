@@ -53,9 +53,6 @@ public class FilterSubjectFragment extends Fragment {
     }
 
     public static FilterSubjectFragment newInstance(Long gradeId,Long subjectId) {
-        if (gradeId==null||subjectId==null){
-            return null;
-        }
         FilterSubjectFragment filterSubjectFragment = new FilterSubjectFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(ARGMENTS_GRADE_ID,gradeId);

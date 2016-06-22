@@ -65,9 +65,6 @@ public class FilterGradeFragment extends Fragment {
     }
 
     public static FilterGradeFragment newInstance(Long gradeId) {
-        if (gradeId==null){
-            return null;
-        }
         FilterGradeFragment filterGradeFragment = new FilterGradeFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(ARGMENTS_GRADE_ID,gradeId);
