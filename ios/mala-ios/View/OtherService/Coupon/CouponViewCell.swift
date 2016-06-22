@@ -178,7 +178,8 @@ class CouponViewCell: UITableViewCell {
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(37)
-            make.center.equalTo(leftLayoutView.snp_center)
+            make.centerX.equalTo(leftLayoutView.snp_centerX).offset(5)
+            make.centerY.equalTo(leftLayoutView.snp_centerY)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(content.snp_top).offset(20)
