@@ -15,11 +15,13 @@ def fix_level(apps, schema_editor):
     chinanums = '一二三四五六七八九十'
     commission_percentages = [10,10,10,10,10,10,10,10,10,10]
     region = Region.objects.get(name='许昌市')
+    region.opened = True
+    region.save()
     abilities = Ability.objects.all()
 
     print("修正教师等级")
     for i in range(0,len(chinanums)):
-        level, _ = Level.objects.get_or_create(id=i+1)
+        level, _ = Level.objects.get_or_create(id=i+1, defaults={'level_order': 0})
         level.name = chinanums[i]+'级'
         level.save()
         #print(" {level_name}".format(level_name=level.name))
