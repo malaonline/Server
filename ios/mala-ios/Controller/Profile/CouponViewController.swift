@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let CouponViewCellReuseId = "ScholarshipTableViewCellReuseId"
+private let CouponViewCellReuseId = "CouponViewCellReuseId"
 
 class CouponViewController: BaseTableViewController {
 

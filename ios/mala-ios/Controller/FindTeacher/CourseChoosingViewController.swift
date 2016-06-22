@@ -243,7 +243,6 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         }, completion: { [weak self] (coupons) -> Void in
             println("优惠券列表 \(coupons)")
             MalaUserCoupons = coupons
-            self?.selectDefalutCoupon()
             self?.requiredCount += 1
         })
     }
@@ -270,16 +269,6 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             MalaIsHasBeenEvaluatedThisSubject = bool
             self?.requiredCount += 1
         })
-    }
-    
-    ///  选择默认奖学金
-    private func selectDefalutCoupon() {
-        // 获取第一个可用的优惠券，并添加到选课数据模型中
-        let coupon = getFirstUnusedCoupon(MalaUserCoupons)
-        MalaCourseChoosingObject.coupon = coupon
-        
-        // 将该优惠券模型赋值到[其他服务]数组中，以待显示
-        MalaOtherService[0] = OtherServiceModel(title: (coupon?.name ?? "奖学金"), type: .Coupon, price: coupon?.amount, priceHandleType: .Discount, viewController: CouponViewController.self)
     }
     
     private func setupNotification() {
