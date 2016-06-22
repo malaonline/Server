@@ -15,30 +15,25 @@ class CouponViewCell: UITableViewCell {
     var model: CouponModel? {
         didSet {
             // 设置奖学金对象模型数据
-            self.priceLabel.text = model?.amountString
-            self.titleLabel.text = model?.name
-            self.validityTermLabel.text = String(timeStamp: (model?.expired_at ?? 0))
-            // 使用说明暂时写为常量
-            self.useDirectionLabel.text = "仅在线支付使用"
-            
-            // 优惠券描述暂时不使用
-            //self.descLabel.text = model?.desc
+            priceLabel.text = model?.amountString
+            titleLabel.text = model?.minPriceString
+            validityTermLabel.text = model?.expiredString
+            selectedView.hidden = true
             
             // 奖学金使用状态
-            if model?.status == .Used {
+            guard let status = model?.status else{
+                return
+            }
+            
+            if status == .Used {
                 // 已使用
-                setStyleNormal()
-                self.content.image = UIImage(named: "scholarship_used")
-                self.selectedView.hidden = true
-            }else if model?.status == .Unused {
+                setStyleUsed()
+            }else if status == .Unused {
                 // 未使用
-                setStyleNormal()
-                self.statusLabel.text = "未使用"
-                self.selectedView.hidden = true
-            }else if model?.status == .Expired {
+                setStyleUnused()
+            }else if status == .Expired {
                 // 已过期
                 setStyleExpired()
-                self.selectedView.hidden = true
             }
         }
     }
@@ -52,89 +47,72 @@ class CouponViewCell: UITableViewCell {
     // MARK: - Components
     /// 顶部分隔线视图
     private lazy var separatorView: UIView = {
-        let separatorView = UIView()
-        return separatorView
+        let view = UIView()
+        return view
     }()
     /// 主要布局容器
     private lazy var content: UIImageView = {
-        let content = UIImageView(image: UIImage(named: "scholarship_unused"))
-        return content
+        let imageView = UIImageView(image: UIImage(named: "coupon_valid"))
+        return imageView
     }()
-    /// 顶部布局容器
-    private lazy var topLayoutView: UIView = {
-        let topLayoutView = UIView()
-        return topLayoutView
+    /// 左侧布局容器
+    private lazy var leftLayoutView: UIView = {
+        let view = UIView()
+        return view
     }()
-    /// 底部布局容器
-    private lazy var bottomLayoutView: UIView = {
-        let bottomLayoutView = UIView()
-        return bottomLayoutView
+    /// 右侧布局容器
+    private lazy var rightLayoutView: UIView = {
+        let view = UIView()
+        return view
     }()
-    /// 货币符号标识
+    /// 货币符号标签
     private lazy var moneySymbol: UILabel = {
-        let moneySymbol = UILabel()
-        moneySymbol.text = "￥"
-        moneySymbol.font = UIFont.systemFontOfSize(17)
-        moneySymbol.textColor = MalaColor_E26254_0
-        return moneySymbol
+        let label = UILabel(
+            text: "￥",
+            fontSize: 17,
+            textColor: UIColor.whiteColor()
+        )
+        return label
     }()
     /// 价格文本框
     private lazy var priceLabel: UILabel = {
-        let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(37)
-//        priceLabel.font = UIFont(name: "Damascus", size: 37)
-        priceLabel.textColor = MalaColor_E26254_0
-        return priceLabel
+        let label = UILabel(
+            text: "",
+            fontSize: 37,
+            textColor: UIColor.whiteColor()
+        )
+        // label.font = UIFont(name: "Damascus", size: 37)
+        return label
     }()
-    /// 名称文本框
+    /// 标题标签
     private lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(16)
-        titleLabel.textColor = MalaColor_333333_0
-        return titleLabel
+        let label = UILabel(
+            text: "",
+            fontSize: 17,
+            textColor: MalaColor_6DB2E5_0
+        )
+        return label
     }()
-    /// 描述文本框
-    private lazy var descLabel: UILabel = {
-        let descLabel = UILabel()
-        descLabel.font = UIFont.systemFontOfSize(11)
-        descLabel.textColor = MalaColor_6C6C6C_0
-        descLabel.hidden = true
-        return descLabel
+    /// 有效期标签
+    private lazy var validityTermLabel: UILabel = {
+        let label = UILabel(
+            text: "",
+            fontSize: 13,
+            textColor: MalaColor_999999_0
+        )
+        return label
     }()
-    /// 使用状态文本框
-    private lazy var statusLabel: UILabel = {
-        let statusLabel = UILabel()
-        statusLabel.font = UIFont.systemFontOfSize(12)
-        statusLabel.textColor = MalaColor_E26254_0
-        return statusLabel
+    /// 状态标识图标
+    private lazy var statusIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "coupon_expired"))
+        imageView.hidden = true
+        return imageView
     }()
     /// 选中效果箭头
     lazy var selectedView: UIImageView = {
-        let selectedView = UIImageView(image: UIImage(named: "scholarship_selected"))
-        selectedView.hidden = true
-        return selectedView
-    }()
-    /// “有效期”
-    private lazy var validityTermSymbol: UILabel = {
-        let validityTermSymbol = UILabel()
-        validityTermSymbol.text = "有效期"
-        validityTermSymbol.font = UIFont.systemFontOfSize(10)
-        validityTermSymbol.textColor = UIColor.whiteColor()
-        return validityTermSymbol
-    }()
-    /// 有效期文本框
-    private lazy var validityTermLabel: UILabel = {
-        let validityTermLabel = UILabel()
-        validityTermLabel.font = UIFont.systemFontOfSize(10)
-        validityTermLabel.textColor = UIColor.whiteColor()
-        return validityTermLabel
-    }()
-    /// 使用说明文本框
-    private lazy var useDirectionLabel: UILabel = {
-        let useDirectionLabel = UILabel()
-        useDirectionLabel.font = UIFont.systemFontOfSize(10)
-        useDirectionLabel.textColor = UIColor.whiteColor()
-        return useDirectionLabel
+        let imageView = UIImageView(image: UIImage(named: "coupon_selected"))
+        imageView.hidden = true
+        return imageView
     }()
     
     
@@ -157,19 +135,16 @@ class CouponViewCell: UITableViewCell {
         // SubViews
         contentView.addSubview(separatorView)
         contentView.addSubview(content)
-        content.addSubview(topLayoutView)
-        content.addSubview(bottomLayoutView)
+        content.addSubview(leftLayoutView)
+        content.addSubview(rightLayoutView)
         
-        topLayoutView.addSubview(moneySymbol)
-        topLayoutView.addSubview(priceLabel)
-        topLayoutView.addSubview(titleLabel)
-        topLayoutView.addSubview(descLabel)
-        topLayoutView.addSubview(statusLabel)
-        topLayoutView.addSubview(selectedView)
-        bottomLayoutView.addSubview(validityTermSymbol)
-        bottomLayoutView.addSubview(validityTermLabel)
-        bottomLayoutView.addSubview(useDirectionLabel)
-        
+        leftLayoutView.addSubview(moneySymbol)
+        leftLayoutView.addSubview(priceLabel)
+        rightLayoutView.addSubview(titleLabel)
+        rightLayoutView.addSubview(selectedView)
+        rightLayoutView.addSubview(validityTermLabel)
+        rightLayoutView.addSubview(statusIcon)
+
         // Autolayout
         separatorView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.contentView.snp_top)
@@ -184,83 +159,67 @@ class CouponViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView.snp_bottom)
             make.right.equalTo(self.contentView.snp_right).offset(-12)
         }
-        topLayoutView.snp_makeConstraints { (make) -> Void in
+        leftLayoutView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(content.snp_top)
-            make.left.equalTo(content.snp_left)
-            make.right.equalTo(content.snp_right)
-            make.height.equalTo(content.snp_height).multipliedBy(0.7)
-        }
-        bottomLayoutView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(topLayoutView.snp_bottom)
-            make.left.equalTo(content.snp_left)
-            make.right.equalTo(content.snp_right)
             make.bottom.equalTo(content.snp_bottom)
+            make.left.equalTo(content.snp_left)
+            make.width.equalTo(content.snp_width).multipliedBy(0.2865)
+        }
+        rightLayoutView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(content.snp_top)
+            make.bottom.equalTo(content.snp_bottom)
+            make.left.equalTo(leftLayoutView.snp_right)
+            make.right.equalTo(content.snp_right)
         }
         moneySymbol.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(content.snp_left).offset(20)
+            make.right.equalTo(priceLabel.snp_left)
             make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
             make.height.equalTo(17)
         }
         priceLabel.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(moneySymbol.snp_right)
             make.height.equalTo(37)
-            make.centerY.equalTo(topLayoutView.snp_centerY)
+            make.center.equalTo(leftLayoutView.snp_center)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(priceLabel.snp_bottom).offset(-4)
-            make.left.equalTo(priceLabel.snp_right).offset(12)
-            make.height.equalTo(16)
-        }
-        descLabel.snp_makeConstraints { (make) -> Void in
-            make.bottom.equalTo(priceLabel.snp_bottom)
-            make.left.equalTo(titleLabel.snp_left)
-            make.height.equalTo(11)
-        }
-        statusLabel.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(12)
-            make.right.equalTo(content.snp_right).offset(-20)
-            make.centerY.equalTo(topLayoutView.snp_centerY)
-        }
-        selectedView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(topLayoutView.snp_top)
-            make.right.equalTo(topLayoutView.snp_right)
-        }
-        validityTermSymbol.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(bottomLayoutView.snp_left).offset(20)
-            make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.height.equalTo(10)
+            make.top.equalTo(content.snp_top).offset(20)
+            make.left.equalTo(rightLayoutView.snp_left).offset(20)
+            make.height.equalTo(17)
         }
         validityTermLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.left.equalTo(validityTermSymbol.snp_right).offset(10)
-            make.height.equalTo(10)
+            make.top.equalTo(titleLabel.snp_bottom).offset(12)
+            make.left.equalTo(rightLayoutView.snp_left).offset(20)
+            make.height.equalTo(13)
         }
-        useDirectionLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(bottomLayoutView.snp_centerY)
-            make.right.equalTo(bottomLayoutView.snp_right).offset(-20)
-            make.height.equalTo(10)
+        statusIcon.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(rightLayoutView.snp_top).offset(6)
+            make.right.equalTo(rightLayoutView.snp_right).offset(-6)
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        selectedView.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(rightLayoutView.snp_centerY)
+            make.right.equalTo(rightLayoutView.snp_right).offset(-10)
         }
     }
     
-    ///  设置过期样式
+    ///  设置过期样式(不可用)
     private func setStyleExpired() {
-        self.moneySymbol.textColor = MalaColor_6C6C6C_0
-        self.priceLabel.textColor = MalaColor_6C6C6C_0
-        self.titleLabel.textColor = MalaColor_6C6C6C_0
-        self.descLabel.textColor = MalaColor_6C6C6C_0
-        self.statusLabel.textColor = MalaColor_6C6C6C_0
-        self.content.image = UIImage(named: "scholarship_expired")
-        self.statusLabel.text = "已过期"
+        titleLabel.textColor = MalaColor_999999_0
+        content.image = UIImage(named: "coupon_unvalid")
+        statusIcon.hidden = false
+        statusIcon.image = UIImage(named: "coupon_expired")
     }
-    
-    ///  设置普通样式（包含可使用、已使用）
-    private func setStyleNormal() {
-        self.moneySymbol.textColor = MalaColor_E26254_0
-        self.priceLabel.textColor = MalaColor_E26254_0
-        self.titleLabel.textColor = MalaColor_333333_0
-        self.descLabel.textColor = MalaColor_6C6C6C_0
-        self.statusLabel.textColor = MalaColor_E26254_0
-        self.content.image = UIImage(named: "scholarship_unused")
-        self.statusLabel.text = ""
+    ///  设置已使用样式(不可用)
+    private func setStyleUsed() {
+        titleLabel.textColor = MalaColor_999999_0
+        content.image = UIImage(named: "coupon_unvalid")
+        statusIcon.hidden = false
+        statusIcon.image = UIImage(named: "coupon_used")
+    }
+    ///  设置未使用样式(可用)
+    private func setStyleUnused() {
+        titleLabel.textColor = MalaColor_6DB2E5_0
+        content.image = UIImage(named: "coupon_valid")
+        statusIcon.hidden = true
     }
 }
