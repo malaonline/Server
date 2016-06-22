@@ -34,6 +34,7 @@ from app.templatetags.custom_tags import money_format, weekday_format
 from app.utils.algorithm import check_bankcard_number, check_id_number
 from app.utils.smsUtil import isValidPhone, isValidCode
 from app.utils.db import paginate
+from app.utils.klx_api import *
 
 logger = logging.getLogger('app')
 
@@ -102,6 +103,10 @@ class BasicTeacherView(LoginRequiredMixin, View):
         if self.need_check_qualifield_audit:
             if teacher.status != models.Teacher.INTERVIEW_OK or not teacher.status_confirm:
                 raise BasicTeacherView.TeacherQualifieldNotAudit()
+
+    def setSidebarContent(self, teacher, context):
+        side_bar_content = SideBarContent(teacher)
+        side_bar_content(context)
 
     # @method_decorator(user_passes_test(is_teacher_logined, login_url='teacher:login'))
     def get(self, request, *args, **kwargs):
@@ -2487,9 +2492,6 @@ class WalletBankcardView(BaseTeacherView):
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
 class StudentLetter(BasicTeacherView):
-    def setSidebarContent(self, teacher, context):
-        side_bar_content = SideBarContent(teacher)
-        side_bar_content(context)
 
     def handle_get(self, request, user, teacher, student_type, page_offset, student_id):
         context = {
@@ -2547,8 +2549,7 @@ class StudentLetterView(BasicTeacherView):
             'page_offset': page_offset,
             'student_id': student_id
         }
-        side_bar_content = SideBarContent(teacher)
-        side_bar_content(context)
+        self.setSidebarContent(teacher, context)
         student = None
         try:
             student = models.Parent.objects.get(id=student_id)
@@ -2566,3 +2567,22 @@ class StudentLetterView(BasicTeacherView):
         context["student_name"] = student.student_name or student.user.profile.phone
 
         return render(request, "teacher/letter/view.html", context)
+
+
+class KLXAccountView(BasicTeacherView):
+    def handle_get(self, request, user, teacher, *args, **kwargs):
+        context = {}
+        self.setSidebarContent(teacher, context)
+        set_teacher_page_general_context(teacher, context)
+        subject = teacher.subject()
+        isSupported = subject.name in KLX_TEACHING_SUBJECTS
+        context['subject'] = subject
+        context['isSupported'] = isSupported
+        if isSupported:
+            klx_username = user.profile.klx_username
+            if not klx_username:
+                klx_username = klx_reg_teacher(teacher)
+            klx_password = user.profile.klx_password
+            context['klx_username'] = klx_username or ''
+            context['klx_password'] = klx_password or ''
+        return render(request, "teacher/kuailexue/account.html", context)

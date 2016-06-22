@@ -1,0 +1,57 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    布置作业
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script>
+        function toggle_password(self) {
+            var $this = $("#pswd_btn"), $pswdplain = $("#pswdplain"), $pswdnull = $("#pswdnull");
+            $pswdnull.toggleClass("hide");
+            $pswdplain.toggleClass("hide");
+            if ($pswdplain.hasClass("hide")) {
+                $this.text('显示密码');
+            } else {
+                $this.text('隐藏密码');
+                setTimeout(function() {
+                    if (!$pswdplain.hasClass("hide")) {
+                        toggle_password();
+                    }
+                }, 5000);
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">布置作业</span>
+{% endblock %}
+
+{% block maincontent %}
+    {% if isSupported %}
+        {% if klx_username %}
+            <table width="300" cellpadding="10" cellspacing="3" style="margin: 30px; line-height: 30px">
+                <tr><td>用户名</td><td>{{ klx_username }}</td><td></td></tr>
+                <tr>
+                    <td>初始密码</td>
+                    <td><span id="pswdnull">******</span><span id="pswdplain" class="hide">{{ klx_password }}</span></td>
+                    <td><button id="pswd_btn" onclick="toggle_password()">显示密码</button></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <button onclick="window.open('https://kuailexue.com/')">登录布置作业网站</button>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            <p style="padding: 30px">注册布置作业网站账号失败, 请稍后重试
+        {% endif %}
+    {% else %}
+        <p style="padding: 30px">您所教的科目【{{ subject.name }}】现在还不支持在线上布置作业
+    {% endif %}
+{% endblock %}
