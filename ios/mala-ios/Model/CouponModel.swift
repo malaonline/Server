@@ -59,7 +59,7 @@ class CouponModel: NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, name: String, amount: Int, expired_at: NSTimeInterval, minPrice: Int, used: Bool) {
+    convenience init(id: Int, name: String, amount: Int, expired_at: NSTimeInterval, minPrice: Int = 0, used: Bool) {
         self.init()
         self.id = id
         self.name = name
