@@ -105,7 +105,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             case .None:
                 
                 self.priceHandleLabel.text = ""
-                self.priceLabel.text = ""
+                self.priceLabel.text = "不使用奖学金"
                 break
             }
         }
@@ -117,29 +117,33 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     // MARK: - Components
     /// 标题Label
     private lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(14)
-        titleLabel.textColor = MalaColor_6C6C6C_0
-        return titleLabel
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = MalaColor_6C6C6C_0
+        return label
     }()
     /// 右箭头标示
     private lazy var detailImageView: UIImageView = {
-        let detailImageView = UIImageView(image: UIImage(named: "rightArrow"))
-        return detailImageView
+        let imageView = UIImageView(image: UIImage(named: "rightArrow"))
+        return imageView
     }()
     /// 价格Label
     private lazy var priceLabel: UILabel = {
-        let priceLabel = UILabel()
-        priceLabel.font = UIFont.systemFontOfSize(14)
-        priceLabel.textColor = MalaColor_333333_0
-        return priceLabel
+        let label = UILabel(
+            text: "",
+            fontSize: 14,
+            textColor: MalaColor_333333_0
+        )
+        return label
     }()
     /// 价格处理Label
     private lazy var priceHandleLabel: UILabel = {
-        let priceHandleLabel = UILabel()
-        priceHandleLabel.font = UIFont.systemFontOfSize(14)
-        priceHandleLabel.textColor = MalaColor_333333_0
-        return priceHandleLabel
+        let label = UILabel(
+            text: "",
+            fontSize: 14,
+            textColor: MalaColor_333333_0
+        )
+        return label
     }()
     
     
