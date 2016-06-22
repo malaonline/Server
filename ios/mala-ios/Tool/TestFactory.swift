@@ -149,18 +149,4 @@ class TestFactory {
                 }
         }
     }
-    
-    class func testCoupons() {
-        getCouponList({ (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-            
-            // 错误处理
-            if let errorMessage = errorMessage {
-                println("LoginViewController - VerifyCode Error \(errorMessage)")
-            }
-            }) { (coupons) -> Void in
-                println("优惠券列表： \(coupons)")
-        }
-    }
-    
  }

@@ -24,6 +24,8 @@ class CouponViewController: BaseTableViewController {
     private var currentSelectedIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 1)
     /// 是否仅用于展示（例如[个人中心]）
     var justShow: Bool = true
+    /// 是否只获取可用的奖学金（[选课页面]）
+    var onlyValid: Bool = false
     /// 是否正在拉取数据
     var isFetching: Bool = false
     
@@ -88,7 +90,7 @@ class CouponViewController: BaseTableViewController {
         refreshControl?.beginRefreshing()
 
         ///  获取优惠券信息
-        getCouponList({ [weak self] (reason, errorMessage) -> Void in
+        getCouponList(onlyValid, failureHandler: { [weak self] (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
             // 错误处理
@@ -100,11 +102,11 @@ class CouponViewController: BaseTableViewController {
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
         }, completion: { [weak self] (coupons) -> Void in
-                println("优惠券列表 \(coupons)")
-                MalaUserCoupons = coupons
-                self?.models = MalaUserCoupons
-                self?.refreshControl?.endRefreshing()
-                self?.isFetching = false
+            println("优惠券列表 \(coupons)")
+            MalaUserCoupons = coupons
+            self?.models = MalaUserCoupons
+            self?.refreshControl?.endRefreshing()
+            self?.isFetching = false
         })
 
     }

@@ -232,7 +232,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     
     private func loadCoupons() {
         ///  获取优惠券信息
-        getCouponList({ (reason, errorMessage) -> Void in
+        getCouponList(true, failureHandler: { (reason, errorMessage) -> Void in
             ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             

@@ -368,10 +368,11 @@ func saveStudentSchoolName(name: String, failureHandler: ((Reason, String?) -> V
 
 ///  优惠券列表解析函数
 ///
+///  - parameter onlyValid:      是否只返回可用奖学金
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getCouponList(failureHandler: ((Reason, String?) -> Void)?, completion: [CouponModel] -> Void) {
-    
+func getCouponList(onlyValid: Bool = false, failureHandler: ((Reason, String?) -> Void)?, completion: [CouponModel] -> Void) {
+
     let parse: [JSONDictionary] -> [CouponModel] = { couponData in
         /// 解析优惠券JSON数组
         var coupons = [CouponModel]()
@@ -385,7 +386,7 @@ func getCouponList(failureHandler: ((Reason, String?) -> Void)?, completion: [Co
     }
     
     ///  获取优惠券列表JSON对象
-    headBlockedCoupons(failureHandler) { (jsonData) -> Void in
+    headBlockedCoupons(onlyValid, failureHandler: failureHandler) { (jsonData) -> Void in
         if let coupons = jsonData["results"] as? [JSONDictionary] where coupons.count != 0 {
             completion(parse(coupons))
         }else {
@@ -396,16 +397,16 @@ func getCouponList(failureHandler: ((Reason, String?) -> Void)?, completion: [Co
 
 ///  获取优惠券列表
 ///
+///  - parameter onlyValid:      是否只返回可用奖学金
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func headBlockedCoupons(failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func headBlockedCoupons(onlyValid: Bool = false, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
-    
-    let resource = authJsonResource(path: "/coupons", method: .GET, requestParameters: nullDictionary(), parse: parse)
-    
+    let requestParameters = ["only_valid": String(onlyValid)]
+    let resource = authJsonResource(path: "/coupons", method: .GET, requestParameters: requestParameters, parse: parse)
     apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
