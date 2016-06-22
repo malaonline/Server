@@ -1743,6 +1743,7 @@ class BaseTeacherView(View):
         context['teacher'] = teacher
         context['teacherName'] = teacher.name
         context['title'] = ''
+        set_teacher_page_general_context(teacher, context)
         return context, teacher
 
     def setSidebarContent(self, teacher, context):
