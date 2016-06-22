@@ -289,7 +289,9 @@ RAVEN_CONFIG = {
 
 KUAILEXUE_PARTNER = 'mala'
 KUAILEXUE_API_ID = 'mala'
-KUAILEXUE_SERVER = 'http://stage4-api.kuailexue.com'
+# 测试服务器 stage4-api.kuailexue.com
+# 正式环境是 stage4.kuailexue.com
+KUAILEXUE_SERVER = 'http://stage4.kuailexue.com'
 # 学习报告支持的科目
 KUAILEXUE_REPORT_SUPPORTED_SUBJECTS = ['数学']
 # 注册老师可用的教学科目
