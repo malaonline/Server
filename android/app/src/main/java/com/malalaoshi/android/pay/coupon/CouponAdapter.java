@@ -51,6 +51,18 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
         super.setData(data);
     }
 
+    @Override
+    public void addData(List<CouponEntity> data) {
+        if (data == null) {
+            return;
+        }
+        for (CouponEntity entity : data) {
+            entity.setDescription("满200元可用");
+            entity.setExpiredDate("有效期至 " + MiscUtil.formatDate(entity.getExpired_at() * 1000));
+        }
+        super.addData(data);
+    }
+
     public void setCanSelect(boolean canSelect) {
         this.canSelect = canSelect;
     }

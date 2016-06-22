@@ -1,11 +1,11 @@
 package com.malalaoshi.android.result;
 
+import com.malalaoshi.android.core.base.BaseResult;
 import com.malalaoshi.android.entity.ScheduleItem;
 
-import java.util.List;
 
 /**
  * Created by kang on 15/12/29.
  */
-public class ScheduleListResult extends BaseResult<List<ScheduleItem>> {
+public class ScheduleListResult extends BaseResult<ScheduleItem> {
 }

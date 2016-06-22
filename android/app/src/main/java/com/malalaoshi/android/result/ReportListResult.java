@@ -1,6 +1,5 @@
 package com.malalaoshi.android.result;
 
-import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.entity.Report;
 
 import java.util.List;

@@ -200,6 +200,7 @@ public abstract class BaseRefreshFragment<T extends BaseResult> extends BaseFrag
             refreshLayout.loadMoreComplete(false);
             return;
         }
+        adapter.addData(response.getResults());
         if (EmptyUtils.isEmpty(response.getNext())) {
             refreshLayout.loadMoreComplete(false);
         } else {

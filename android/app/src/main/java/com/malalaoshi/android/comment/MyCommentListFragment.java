@@ -44,6 +44,14 @@ public class MyCommentListFragment extends BaseRefreshFragment<CommentResult> {
     }
 
     @Override
+    protected void loadMoreFinish(CommentResult response) {
+        super.loadMoreFinish(response);
+        if (response != null) {
+            nextUrl = response.getNext();
+        }
+    }
+
+    @Override
     protected CommentResult loadMoreRequest() throws Exception {
         return new MoreCourseInfoApi().getCourseList(nextUrl);
     }

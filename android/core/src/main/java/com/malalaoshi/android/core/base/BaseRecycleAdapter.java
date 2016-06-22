@@ -38,6 +38,13 @@ public abstract class BaseRecycleAdapter<T extends RecyclerView.ViewHolder, D> e
         notifyDataSetChanged();
     }
 
+    public void addData(List<D> data) {
+        if (data == null) {
+            return;
+        }
+        dataList.addAll(data);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {

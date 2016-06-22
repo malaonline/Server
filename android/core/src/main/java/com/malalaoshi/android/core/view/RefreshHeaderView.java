@@ -64,7 +64,7 @@ public class RefreshHeaderView extends LinearLayout implements PtrUIHandler {
             case FINISHED:
                 animation.stop();
                 animation.selectDrawable(3);
-                setText("更新完成");
+                setText("更新完成...");
                 break;
         }
     }

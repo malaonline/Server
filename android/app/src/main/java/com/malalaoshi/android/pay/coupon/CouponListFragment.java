@@ -74,6 +74,14 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
     }
 
     @Override
+    protected void loadMoreFinish(CouponResult response) {
+        super.loadMoreFinish(response);
+        if (response != null) {
+            nextUrl = response.getNext();
+        }
+    }
+
+    @Override
     protected CouponResult loadMoreRequest() throws Exception {
         return new CouponListMoreApi().loadMore(nextUrl);
     }
