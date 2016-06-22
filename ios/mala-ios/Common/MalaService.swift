@@ -961,8 +961,9 @@ let parseCoupon: JSONDictionary -> CouponModel? = { couponInfo in
         name = couponInfo["name"] as? String,
         amount = couponInfo["amount"] as? Int,
         expired_at = couponInfo["expired_at"] as? NSTimeInterval,
+        minPrice = couponInfo["mini_total_price"] as? Int,
         used = couponInfo["used"] as? Bool {
-            return CouponModel(id: id, name: name, amount: amount, expired_at: expired_at, used: used)
+        return CouponModel(id: id, name: name, amount: amount, expired_at: expired_at, minPrice: minPrice, used: used)
     }
     return nil
 }

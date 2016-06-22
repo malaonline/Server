@@ -19,6 +19,8 @@ class CouponModel: NSObject {
     var amount: Int = 0
     /// 有效期
     var expired_at: NSTimeInterval = 0
+    /// 使用限制最小金额
+    var minPrice: Int = 0
     /// 使用标记
     var used: Bool = true
     
@@ -57,12 +59,13 @@ class CouponModel: NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, name: String, amount: Int, expired_at: NSTimeInterval, used: Bool) {
+    convenience init(id: Int, name: String, amount: Int, expired_at: NSTimeInterval, minPrice: Int, used: Bool) {
         self.init()
         self.id = id
         self.name = name
         self.amount = amount
         self.expired_at = expired_at
+        self.minPrice = minPrice
         self.used = used
     }
     
