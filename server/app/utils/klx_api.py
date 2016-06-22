@@ -113,6 +113,8 @@ def klx_register(role, uid, name, password=None, subject=None):
     if subject is not None:
         params['subject'] = subject
     params = klx_build_params(params, True)
+    if settings.TESTING:
+        return klx_verify_sign(params) and '1' or '0'
     # _logger.debug(params)
     resp = requests.post(klx_url, data=params)
     if resp.status_code != 200:
@@ -142,6 +144,8 @@ def klx_relation(klx_teacher, klx_students):
         'stu_usernames': klx_students,
     }
     params = klx_build_params(params, True)
+    if settings.TESTING:
+        return klx_verify_sign(params)
     resp = requests.post(klx_url, data=params)
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
