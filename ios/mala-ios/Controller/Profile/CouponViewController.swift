@@ -125,6 +125,11 @@ class CouponViewController: BaseTableViewController {
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as? CouponViewCell
 
+        // 不可选择被冻结的奖学金
+        guard cell?.disabled == false else {
+            return
+        }
+        
         // 只有未使用的才可选中
         guard cell?.model?.status == .Unused else {
             return

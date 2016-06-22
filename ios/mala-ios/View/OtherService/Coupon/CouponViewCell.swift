@@ -14,24 +14,33 @@ class CouponViewCell: UITableViewCell {
     /// 奖学金模型
     var model: CouponModel? {
         didSet {
-            // 设置奖学金对象模型数据
-            priceLabel.text = model?.amountString
-            titleLabel.text = model?.minPriceString
-            validityTermLabel.text = model?.expiredString
-            selectedView.hidden = true
             
-            // 奖学金使用状态
-            guard let status = model?.status else{
+            guard let model = model else {
                 return
             }
             
-            if status == .Used {
+            // 设置奖学金对象模型数据
+            priceLabel.text = model.amountString
+            titleLabel.text = model.minPriceString
+            validityTermLabel.text = model.expiredString
+            selectedView.hidden = true
+            
+            // 冻结所有[当前选课条件]未满足要求的奖学金
+            let currentPrice = MalaCourseChoosingObject.getPrice()
+            println("冻结Coupon - \(model.minPrice) - \(currentPrice)")
+            if model.minPrice > currentPrice {
+                disabled = true
+                return
+            }
+            
+            // 设置奖学金状态
+            if model.status == .Used {
                 // 已使用
                 setStyleUsed()
-            }else if status == .Unused {
+            }else if model.status == .Unused {
                 // 未使用
                 setStyleUnused()
-            }else if status == .Expired {
+            }else if model.status == .Expired {
                 // 已过期
                 setStyleExpired()
             }
@@ -43,6 +52,15 @@ class CouponViewCell: UITableViewCell {
             self.selectedView.hidden = !showSelectedIndicator
         }
     }
+    /// 是否被冻结
+    var disabled: Bool = false {
+        didSet {
+            if disabled {
+                setStyleDisable()
+            }
+        }
+    }
+    
     
     // MARK: - Components
     /// 顶部分隔线视图
@@ -202,22 +220,27 @@ class CouponViewCell: UITableViewCell {
             make.right.equalTo(rightLayoutView.snp_right).offset(-10)
         }
     }
-    
-    ///  设置过期样式(不可用)
+    ///  不可用样式(当前选课条件不满足使用条件)
+    private func setStyleDisable() {
+        titleLabel.textColor = MalaColor_999999_0
+        content.image = UIImage(named: "coupon_unvalid")
+        statusIcon.hidden = true
+    }
+    ///  过期样式(不可用)
     private func setStyleExpired() {
         titleLabel.textColor = MalaColor_999999_0
         content.image = UIImage(named: "coupon_unvalid")
         statusIcon.hidden = false
         statusIcon.image = UIImage(named: "coupon_expired")
     }
-    ///  设置已使用样式(不可用)
+    ///  已使用样式(不可用)
     private func setStyleUsed() {
         titleLabel.textColor = MalaColor_999999_0
         content.image = UIImage(named: "coupon_unvalid")
         statusIcon.hidden = false
         statusIcon.image = UIImage(named: "coupon_used")
     }
-    ///  设置未使用样式(可用)
+    ///  未使用样式(可用)
     private func setStyleUnused() {
         titleLabel.textColor = MalaColor_6DB2E5_0
         content.image = UIImage(named: "coupon_valid")
