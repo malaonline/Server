@@ -5,7 +5,7 @@
 {% block title %}学习中心{% endblock %}
 
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'wechat/css/schools.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'wechat/css/schools.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_css %}
     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
@@ -30,7 +30,7 @@
 
 {% block addition_js %}
 {#    <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>#}
-    <script type='text/javascript' src='{% static 'wechat/js/calculate_distance.js' %}' charset='utf-8'></script>
+    <script type='text/javascript' src='{% static 'wechat/js/calculate_distance.js' %}?{% lorem 1 w random%}' charset='utf-8'></script>
     <script>
 {#        var photosdic = {{ photosdic|safe }};#}
         wx.config({
@@ -42,5 +42,5 @@
             jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
     </script>
-    <script type='text/javascript' src='{% static 'wechat/js/school/schools.js' %}' charset='utf-8'></script>
+    <script type='text/javascript' src='{% static 'wechat/js/school/schools.js' %}?{% lorem 1 w random%}' charset='utf-8'></script>
 {% endblock %}
