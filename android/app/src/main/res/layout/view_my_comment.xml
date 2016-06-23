@@ -44,18 +44,33 @@
             android:text="初一 数学"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size_normal_x"/>
-        <TextView
-            android:id="@+id/tv_time"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:drawableLeft="@drawable/ic_time"
-            android:drawablePadding="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="2016 10 10"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_normal_x"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawableLeft="@drawable/ic_time"
+                android:drawablePadding="8dp"
+                android:maxLines="1"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_normal_x"/>
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_color_dlg"
+                android:textSize="@dimen/text_size_normal_x"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"

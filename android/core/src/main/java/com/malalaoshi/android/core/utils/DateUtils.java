@@ -1,16 +1,47 @@
 package com.malalaoshi.android.core.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * 日期
  * Created by tianwei on 6/5/16.
  */
 public class DateUtils {
 
+    private static final String NO_HYPHEN_DATE = "yyyyMMdd";
+
+    private static final String HOUR_MIN = "HH:mm";
+
     /**
      * 格式化到如下格式: 4月上 4月下. 旬怎么翻译?
      */
     public static String formatMonthPart(int month, int day) {
         return monthToChinese(month) + "月" + (day < 15 ? "上" : "下");
+    }
+
+    /**
+     * 格式化的格式如下: 20160101
+     */
+    public static String formatNoHyphenDate(long ms) {
+        SimpleDateFormat format = new SimpleDateFormat(NO_HYPHEN_DATE, Locale.getDefault());
+        try {
+            return format.format(ms);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 格式化的格式如下: 10:15
+     */
+    public static String formatHourMin(long ms) {
+        SimpleDateFormat format = new SimpleDateFormat(HOUR_MIN, Locale.getDefault());
+        try {
+            return format.format(ms);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static String monthToChinese(int month) {

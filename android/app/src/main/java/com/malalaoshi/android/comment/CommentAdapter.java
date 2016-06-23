@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
+import com.malalaoshi.android.core.utils.DateUtils;
 import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Course;
@@ -51,8 +52,17 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
             setNoCommentUI(holder, course);
         }
         holder.gradeView.setText(course.getGrade() + " " + course.getSubject());
-        holder.timeView.setText(course.getStart() + "");
+        holder.dateView.setText(formatCourseDate(course.getStart()));
+        holder.timeView.setText(formatCourseTime(course.getStart(), course.getEnd()));
         holder.locationView.setText(course.getSchool());
+    }
+
+    private String formatCourseDate(long ms) {
+        return DateUtils.formatNoHyphenDate(ms * 1000);
+    }
+
+    private String formatCourseTime(long start, long end) {
+        return DateUtils.formatHourMin(start * 1000) + "~" + DateUtils.formatHourMin(end * 1000);
     }
 
     private void setExpiredComment(final CommentViewHolder holder) {
@@ -124,6 +134,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         private TextView teacherView;
         private TextView gradeView;
         private TextView timeView;
+        private TextView dateView;
         private TextView locationView;
         private TextView stateView;
         private SimpleDraweeView iconView;
@@ -134,6 +145,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
             teacherView = (TextView) view.findViewById(R.id.tv_teacher);
             gradeView = (TextView) view.findViewById(R.id.tv_grade);
             timeView = (TextView) view.findViewById(R.id.tv_time);
+            dateView = (TextView) view.findViewById(R.id.tv_date);
             locationView = (TextView) view.findViewById(R.id.tv_location);
             stateView = (TextView) view.findViewById(R.id.tv_status);
             iconView = (SimpleDraweeView) view.findViewById(R.id.iv_icon);
