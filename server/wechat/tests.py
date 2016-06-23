@@ -1,20 +1,39 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, SimpleTestCase
 from django.core.urlresolvers import reverse
-from django.conf import settings
+
+from app.models import Parent, Teacher
 
 from .wxapi import wx_dict2xml, wx_xml2dict
+
 
 class TestWechatPage(TestCase):
     def test_teachers(self):
         client = Client()
         response = client.get(reverse('wechat:teachers'))
         self.assertEqual(response.status_code, 200)
-    def TestWechatSchools(self):
+
+    def testWechatSchools(self):
         client = Client()
         response = client.get(reverse('wechat:schools'))
         self.assertEqual(response.status_code, 200)
 
-class TestUtils(TestCase):
+    def test_teacher(self):
+        teachers = Teacher.objects.filter(published=True)
+        one = list(teachers) and teachers[0]
+        if one:
+            client = Client()
+            response = client.get(reverse("wechat:teacher") + '?teacher_id=' + str(one.id))
+            self.assertEqual(response.status_code, 200)
+        else:
+            print('TestWechat.test_teacher: no teacher exist!')
+
+    def test_phone_page(self):
+        client = Client()
+        response = client.get(reverse("wechat:phone_page"))
+        self.assertEqual(response.status_code, 200)
+
+
+class TestUtils(SimpleTestCase):
     def testXml2Dict(self):
         xml_string = '''
             <xml>

@@ -6,10 +6,9 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth import authenticate
-from django.test import Client, TestCase
-from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.core.urlresolvers import reverse
-from django.core.management import call_command
+from django.test import Client, TestCase, SimpleTestCase
+from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
@@ -17,9 +16,8 @@ from rest_framework.authtoken.models import Token
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         WeeklyTimeSlot, AuditRecord, Coupon, School, Region, Subject, Grade, \
         Ability
-from app.utils.algorithm import Tree, Node
+from app.utils.algorithm import Tree, Node, verify_sig
 from app.utils.types import parseInt, parse_date, parse_date_next
-from app.utils.algorithm import verify_sig
 from app.utils.klx_api import *
 from app.tasks import send_push
 
@@ -787,59 +785,7 @@ class TestModels(TestCase):
             Region.objects.get(name="其它")
 
 
-class TestStaffWeb(TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
-    def test_coupons_list(self):
-        # 奖学金领用列表
-        client = Client()
-        client.login(username='test', password='mala-test')
-        url = "/staff/coupons/list/"
-        response = client.get(url)
-        self.assertEqual(200, response.status_code)
-
-    def test_coupon_config(self):
-        # 奖学金设置
-        client = Client()
-        client.login(username='test', password='mala-test')
-        response = client.get(reverse("staff:coupon_config"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_bankcard_list(self):
-        # 老师银行卡查询
-        client = Client()
-        client.login(username='test', password='mala-test')
-        url = '/staff/teachers/bankcard/list/'
-        response = client.get(url)
-        self.assertEqual(200, response.status_code)
-
-    def test_school_timeslot(self):
-        # 中心课程列表
-        client = Client()
-        client.login(username='test', password='mala-test')
-        response = client.get(reverse("staff:school_timeslot"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_schools(self):
-        # 中心设置
-        client = Client()
-        client.login(username='test', password='mala-test')
-        response = client.get(reverse("staff:schools"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_staff_school(self):
-        # 新增中心
-        client = Client()
-        client.login(username='test', password='mala-test')
-        response = client.get(reverse("staff:staff_school"))
-        self.assertEqual(response.status_code, 200)
-
-
-class TestAlgorithm(TestCase):
+class TestAlgorithm(SimpleTestCase):
     def test_tree_insert(self):
         tree = Tree()
         tree.root = Node("a")
@@ -920,19 +866,3 @@ class TestAlgorithm(TestCase):
         EQIDAQAB
         -----END PUBLIC KEY-----'''
         self.assertTrue(verify_sig(data, sig, pubkey))
-
-class TestWechat(TestCase):
-    def test_teacher(self):
-        teachers = Teacher.objects.filter(published=True)
-        one = list(teachers) and teachers[0]
-        if one:
-            client = Client()
-            response = client.get(reverse("wechat:teacher") + '?teacher_id=' + str(one.id))
-            self.assertEqual(response.status_code, 200)
-        else:
-            print('TestWechat.test_teacher: no teacher exist!')
-
-    def test_phone_page(self):
-        client = Client()
-        response = client.get(reverse("wechat:phone_page"))
-        self.assertEqual(response.status_code, 200)

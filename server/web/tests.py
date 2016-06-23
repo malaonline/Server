@@ -1,12 +1,8 @@
-from django.test import TestCase
-
-# Create your tests here.
-
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 
+# Create your tests here.
 class TestIndex(TestCase):
     def test_index(self):
         client = Client()
