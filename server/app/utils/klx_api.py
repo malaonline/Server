@@ -13,6 +13,7 @@ from app.models import Student
 from app.utils.algorithm import verify_sha1_sig, sign_sha1
 
 __all__ = [
+    "KLX_WEB_SITE",
     "KLX_STUDY_URL_FMT",
     "KLX_REPORT_SUBJECTS",
     "KLX_TEACHING_SUBJECTS",
@@ -30,16 +31,19 @@ __all__ = [
     ]
 _logger = logging.getLogger('app')
 
+KLX_WEB_SITE = settings.KUAILEXUE_WEB_SITE
 KLX_STUDY_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
 KLX_REPORT_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS
 KLX_TEACHING_SUBJECTS = settings.KUAILEXUE_TEACHING_SUBJECTS
 KLX_MATH_ABILITY_KEYS = ('abstract', 'reason', 'appl', 'spatial', 'calc', 'data')
 
-_KLX_COMMON_PARAMS = {
+_klx_common_params = {
     'api_id': settings.KUAILEXUE_API_ID,
     'api_version': 1,
     'partner': settings.KUAILEXUE_PARTNER
 }
+
+_klx_default_password = '123456'
 
 KLX_ROLE_TEACHER = 1
 KLX_ROLE_STUDENT = 2
@@ -80,7 +84,7 @@ def klx_verify_sign(params, sign_key="sign"):
 
 
 def klx_build_params(params, sign=False):
-    p = _KLX_COMMON_PARAMS.copy()
+    p = _klx_common_params.copy()
     p.update(params)
     if sign:
         klx_sign_params(p)
@@ -186,11 +190,14 @@ def klx_reg_student(parent, student=None):
         parent.save()
     o_klx_username = student.user.profile.klx_username
     if o_klx_username:
+        if not student.user.profile.klx_password:
+            student.user.profile.klx_password = _klx_default_password
+            student.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_STUDENT
     uid = '%s_%s' % (settings.ENV_TYPE, student.user_id, )
     name = student.name
-    password = _klx_make_password()
+    password = student.user.profile.klx_password or _klx_make_password()
     klx_username = klx_register(role,uid,name,password=password)
     if klx_username:
         student.user.profile.klx_username = klx_username
@@ -207,11 +214,14 @@ def klx_reg_teacher(teacher):
     '''
     o_klx_username = teacher.user.profile.klx_username
     if o_klx_username:
+        if not teacher.user.profile.klx_password:
+            teacher.user.profile.klx_password = _klx_default_password
+            teacher.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_TEACHER
     uid = '%s_%s' % (settings.ENV_TYPE, teacher.user_id, )
     name = teacher.name
-    password = _klx_make_password()
+    password = teacher.user.profile.klx_password or _klx_make_password()
     subject = teacher.subject()
     if subject.name not in KLX_TEACHING_SUBJECTS:
         return None

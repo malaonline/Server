@@ -2572,7 +2572,7 @@ class StudentLetterView(BasicTeacherView):
 
 class KLXAccountView(BasicTeacherView):
     def handle_get(self, request, user, teacher, *args, **kwargs):
-        context = {}
+        context = {'klx_web_site': KLX_WEB_SITE}
         self.setSidebarContent(teacher, context)
         set_teacher_page_general_context(teacher, context)
         subject = teacher.subject()
