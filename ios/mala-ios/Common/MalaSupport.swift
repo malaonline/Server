@@ -377,3 +377,35 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
  
     return (dateStrings, timeStrings, heightCount)
 }
+
+///  解析奖学金列表数据
+///  将当前不符合使用条件的奖学金设置冻结属性，同时进行排序 (排序条件为: [可用情况][减免金额][过期时间])
+///
+///  - parameter coupons: 奖学金列表数据
+///
+///  - returns: 奖学金列表数据
+func parseCouponlist(coupons: [CouponModel]) -> [CouponModel] {
+    
+    var result = coupons
+    // 当前用户选课价格
+    let currentPrice = MalaCourseChoosingObject.getPrice()
+    
+    for coupon in result {
+        
+        // 冻结尚未满足要求的奖学金
+        if coupon.minPrice > currentPrice {
+            coupon.status = .Disabled
+        }
+  
+    }
+    
+    result.sortInPlace { (coupon1, coupon2) -> Bool in
+        if coupon2.status == .Disabled {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    return result
+}
