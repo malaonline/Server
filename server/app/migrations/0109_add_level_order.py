@@ -5,7 +5,7 @@ from django.db import migrations
 
 def add_order_level(apps, schema_editor):
     Level = apps.get_model('app', 'Level')
-    print("添加教师等级的OrderLevel")
+    #print("添加教师等级的OrderLevel")
     level_map = {
         "一级": 1,
         "二级": 2,

@@ -7,7 +7,7 @@ def add_other_region(apps, schema_editor):
     # 相当于 "其它": {}
     region = Region(name="其它", superset=None, admin_level=1, leaf=True)
     region.save()
-    print("添加地区-其它")
+    #print("添加地区-其它")
 
 
 class Migration(migrations.Migration):

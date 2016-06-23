@@ -25,12 +25,12 @@ def add_teacher(apps, schema_editor):
     School = apps.get_model('app', 'School')
     WeeklyTimeSlot = apps.get_model('app', 'WeeklyTimeSlot')
 
-    print('开放洛阳市')
+    #print('开放洛阳市')
     region = Region.objects.get(name='洛阳市')
     region.opened = True
     region.save()
 
-    print('添加学校')
+    #print('添加学校')
     school = School(name='洛阳中心店', address='南京路1号', region=region,
             center=True, longitude=900, latitude=900)
     name = 'img0.jpg'
@@ -55,7 +55,7 @@ def add_teacher(apps, schema_editor):
     save_image_from_file(school.thumbnail, name)
     school.save()
 
-    print('添加风格标记')
+    #print('添加风格标记')
     tags = ['赏识教育', '100%进步率', '学员过千', '押题达人', '奥赛教练',
             '幽默风趣', '心理专家', '讲解生动', '公立学校老师', '最受学生欢迎',
             '80后名师', '英语演讲冠军',]
@@ -64,7 +64,7 @@ def add_teacher(apps, schema_editor):
         if created:
             tag.save()
 
-    print("添加老师用户")
+    #print("添加老师用户")
     levels = list(Level.objects.all())
     tags = list(Tag.objects.all())
     names = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨'

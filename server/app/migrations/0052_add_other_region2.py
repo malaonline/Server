@@ -8,7 +8,7 @@ def add_other_region(apps, schema_editor):
     region = Region.objects.get(name="其它")
     region.name = "其他"
     region.save()
-    print("改名其它->其他")
+    #print("改名其它->其他")
 
 
 class Migration(migrations.Migration):

@@ -163,7 +163,7 @@ def _add_test_user_into_group(apps, test_user_format, count, group_name,
             else:
                 user = User.objects.get(username=username)
         except User.DoesNotExist:
-            print("{user} not exist".format(user=test_user_format))
+            #print("{user} not exist".format(user=test_user_format))
             continue
         user.groups.add(user_group)
 

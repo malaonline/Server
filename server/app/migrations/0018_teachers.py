@@ -21,7 +21,7 @@ def add_teacher(apps, schema_editor):
     Profile = apps.get_model('app', 'Profile')
     Role = apps.get_model('app', 'Role')
     User = apps.get_model('auth', 'User')
-    print("添加老师用户")
+    #print("添加老师用户")
     role = Role.objects.get(name='老师')
     for i in range(settings.SAMPLE_DATA_LENGTH):
         username = 'test%d' % i

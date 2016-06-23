@@ -39,7 +39,7 @@ def add_parents(apps, schema_editor):
     # parent_group.save()
 
     parent_name_formula = settings.SAMPLE_PARENT_USER_FORMULA
-    print("添加家长用户")
+    #print("添加家长用户")
     # 添加用户
     for i in range(settings.SAMPLE_DATA_LENGTH):
         username = parent_name_formula.format(id=i)

@@ -29,7 +29,7 @@ def add_region(apps, schema_editor):
         data_file = "regions.txt"
     regions = json.load(open(os.path.join(os.path.dirname(__file__),
                                           data_file)))
-    print("添加省份")
+    #print("添加省份")
     dfs(apps, regions, 1)
 
 
