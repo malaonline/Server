@@ -15,7 +15,7 @@ class CouponViewCell: UITableViewCell {
     var model: CouponModel? {
         didSet {
             
-            guard let model = model else {
+            guard let model = model, status = model.status else {
                 return
             }
             
@@ -25,24 +25,27 @@ class CouponViewCell: UITableViewCell {
             validityTermLabel.text = model.expiredString
             selectedView.hidden = true
             
-            // 冻结所有[当前选课条件]未满足要求的奖学金
-            let currentPrice = MalaCourseChoosingObject.getPrice()
-            println("冻结Coupon - \(model.minPrice) - \(currentPrice)")
-            if model.minPrice > currentPrice {
-                disabled = true
-                return
-            }
-            
-            // 设置奖学金状态
-            if model.status == .Used {
+            // 根据奖学金状态渲染UI
+            switch status {
+            case .Used:
                 // 已使用
                 setStyleUsed()
-            }else if model.status == .Unused {
+                break
+                
+            case .Unused:
                 // 未使用
                 setStyleUnused()
-            }else if model.status == .Expired {
+                break
+                
+            case .Expired:
                 // 已过期
                 setStyleExpired()
+                break
+                
+            case .Disabled:
+                // 已冻结
+                disabled = true
+                break
             }
         }
     }

@@ -59,13 +59,15 @@ enum MalaOrderStatus: String {
 
 ///  奖学金状态
 ///
-///  - Unused:  未使用
-///  - Used:    已使用
-///  - Expired: 已过期
+///  - Unused:      未使用
+///  - Used:        已使用
+///  - Expired:     已过期
+///  - Disabled:    已冻结
 enum CouponStatus: Int {
     case Unused
     case Used
     case Expired
+    case Disabled
 }
 
 ///  价钱优惠类型
