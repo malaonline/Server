@@ -379,8 +379,10 @@ public class UserFragment extends BaseFragment {
     }
 
     private void openSysGallay() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");//相片类型
+
+        Intent intent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
 
@@ -516,7 +518,6 @@ public class UserFragment extends BaseFragment {
                         //AuthUtils.redirectLoginActivity(getContext());
                         StatReporter.userLogOut();
                     }
-
                     @Override
                     public void onRightClick() {
 
@@ -530,23 +531,39 @@ public class UserFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_PICK_IMAGE:
-                    Uri uri = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                    Cursor cursor = getActivity().getContentResolver().query(uri,
-                            filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    postUserAvator(picturePath);
+                    dealPickImage(data);
                     break;
                 case REQUEST_CODE_CAPTURE_CAMEIA:
                     postUserAvator(strAvatarLocPath);
                     break;
             }
         }
+    }
+
+    private void dealPickImage(Intent data) {
+            Cursor cursor = null;
+            try{
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                cursor = getContext().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                if (EmptyUtils.isEmpty(picturePath)){
+                    MiscUtil.toast("照片选取失败!");
+                    return;
+                }
+                postUserAvator(picturePath);
+            }catch (Exception e){
+                MiscUtil.toast("照片选取失败!");
+            }finally {
+                if (cursor!=null){
+                    cursor.close();
+                }
+            }
     }
 
     private void postUserAvator(String path) {
