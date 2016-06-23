@@ -24,13 +24,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.ConfirmOrderActivity;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
-import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
@@ -62,19 +61,21 @@ import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 
+import de.greenrobot.event.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 /**
  * Course confirm fragment
  * Created by tianwei on 3/5/16.
  */
-public class CourseConfirmFragment extends BaseFragment implements AdapterView.OnItemClickListener,
-        CourseDateChoiceView.OnCourseDateChoiceListener, View.OnClickListener {
+public class CourseConfirmFragment extends BaseFragment
+        implements AdapterView.OnItemClickListener, CourseDateChoiceView.OnCourseDateChoiceListener,
+        View.OnClickListener {
 
     private static final int REQUEST_CODE_COUPON = 0x10;
 
@@ -83,15 +84,16 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     private static final String ARG_TEACHER_AVATOR = "teacher avator";
     private static final String ARG_SUBJECT = "subject";
 
-    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object
-            subject, String teacherAvator, String teacherName) {
+    public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object subject,
+            String teacherAvator, String teacherName) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         fragment.init(schools, prices, teacherId, subject, teacherAvator, teacherName);
         return fragment;
     }
 
-    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName, String teacherAvator, Subject subject) {
-        if (teacherId == null || subject == null) return null;
+    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName, String teacherAvator,
+            Subject subject) {
+        if (teacherId == null || subject == null) { return null; }
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         Bundle args = new Bundle();
         args.putLong(ARG_TEACHER_ID, teacherId);
@@ -158,7 +160,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
 
     @Bind(R.id.tv_mount)
     protected TextView amountView;
-    private long noCouponSum; //以分为单位
+    private long noCouponSum; //以分为单位,没有计算奖学金前的总和
 
     @Bind(R.id.tv_submit)
     protected View submitView;
@@ -300,7 +302,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
     }
 
 
-    private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator, String teacherName) {
+    private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator,
+            String teacherName) {
         if (teacherId != null) {
             this.teacher = (Long) teacherId;
             this.teacherAvatar = teacherAvator;
@@ -318,7 +321,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             String text;
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
-                text = ((CoursePrice) price).getGrade().getName();//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
+                text = ((CoursePrice) price).getGrade()
+                        .getName();//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
                 text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
@@ -343,8 +347,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         timesListView.setAdapter(timesAdapter);
     }
 
-    private static final class FetchWeekDataRequest extends
-            BaseApiContext<CourseConfirmFragment, String> {
+    private static final class FetchWeekDataRequest extends BaseApiContext<CourseConfirmFragment, String> {
 
         private long teacherId;
         private long schoolId;
@@ -509,7 +512,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         if (evaluated != null && !evaluated.isEvaluated()) {
             isEvaluated = false;
         }
-        ConfirmOrderActivity.open(getContext(), order, currentHours, weeklyTimeSlots.toString(), teacher, entity, isEvaluated);
+        ConfirmOrderActivity
+                .open(getContext(), order, currentHours, weeklyTimeSlots.toString(), teacher, entity, isEvaluated);
     }
 
     private void openScholarShipActivity() {
@@ -556,7 +560,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             }
             currentSchool = (SchoolUI) schoolAdapter.getItem(position);
             currentSchool.setCheck(true);
-            if (schoolList.size() > 1&&footView.getParent() == null) {
+            if (schoolList.size() > 1 && footView.getParent() == null) {
                 placeListView.addFooterView(footView);
             }
             schoolAdapter.clear();
@@ -586,8 +590,7 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
         }
         timesAdapter.addAll(times);
         timesAdapter.notifyDataSetChanged();
-        ((ImageView) showTimesImageView).setImageDrawable(
-                getResources().getDrawable(R.drawable.ic_drop_up));
+        ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_drop_up));
     }
 
     private float calculateCost() {
@@ -838,7 +841,8 @@ public class CourseConfirmFragment extends BaseFragment implements AdapterView.O
             String text;
             for (Object price : prices) {
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
-                text = ((CoursePrice) price).getGrade().getName();;//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
+                text = ((CoursePrice) price).getGrade().getName();
+                ;//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
                 text += "  " + (priceUI.getPrice().getPrice() / 100f) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);

@@ -19,7 +19,10 @@ public class CouponListMoreApi extends BaseApi {
         return url;
     }
 
-    public CouponResult loadMore(String url) throws Exception {
+    public CouponResult loadMore(String url, boolean onlyValid) throws Exception {
+        if (onlyValid) {
+            url += "&only_valid=true";
+        }
         return httpGet(url, CouponResult.class);
     }
 }

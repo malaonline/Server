@@ -46,7 +46,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         if (course.getComment() != null) {
             setCommentedUI(holder, course);
         } else if (course.is_expired()) {
-            setExpiredComment(holder, course);
+            setExpiredComment(holder);
         } else {
             setNoCommentUI(holder, course);
         }
@@ -55,7 +55,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.locationView.setText(course.getSchool());
     }
 
-    private void setExpiredComment(final CommentViewHolder holder, final Course course) {
+    private void setExpiredComment(final CommentViewHolder holder) {
         holder.stateView.setText("过期");
         holder.stateView.setBackgroundResource(R.drawable.ic_comment_expired);
         holder.commentView.setBackground(null);
@@ -69,6 +69,9 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_done_btn);
         holder.commentView.setText("查看评价");
         holder.commentView.setTextColor(getColor(R.color.title_right_color));
+        if (course.is_expired() && course.getComment() == null) {
+            return;
+        }
         holder.commentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

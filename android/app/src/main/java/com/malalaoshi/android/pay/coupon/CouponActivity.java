@@ -22,9 +22,10 @@ import butterknife.ButterKnife;
  */
 public class CouponActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
-    private static final String EXTRA_CAN_SELECT = "extra_can_select";
+    public static final String EXTRA_CAN_SELECT = "extra_can_select";
     public static final String EXTRA_COUPON = "extra_coupon_selected";
-    private static final String EXTRA_AMOUNT = "extra_order_amount";
+    public static final String EXTRA_AMOUNT = "extra_order_amount";
+    public static final String EXTRA_ONLY_VALID = "extra_only_valid";
 
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
@@ -48,6 +49,7 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         bundle.putBoolean(EXTRA_CAN_SELECT, true);
         bundle.putParcelable(EXTRA_COUPON, coupon);
         bundle.putLong(EXTRA_AMOUNT, amount);
+        bundle.putBoolean(EXTRA_ONLY_VALID, true);
         intent.putExtras(bundle);
         activity.startActivityForResult(intent, requestCode);
     }
@@ -67,9 +69,9 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
     }
 
     private void initFragment() {
-        fragment = (CouponListFragment) Fragment.instantiate(this, CouponListFragment.class.getName(), getIntent().getExtras());
-        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(),
-                null, fragment, "couponfragment");
+        fragment = (CouponListFragment) Fragment
+                .instantiate(this, CouponListFragment.class.getName(), getIntent().getExtras());
+        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null, fragment, "couponfragment");
     }
 
     @Override

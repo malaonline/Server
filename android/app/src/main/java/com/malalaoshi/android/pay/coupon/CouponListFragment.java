@@ -16,9 +16,6 @@ import com.malalaoshi.android.pay.api.CouponListMoreApi;
  */
 public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
 
-    private static final String EXTRA_CAN_SELECT = "extra_can_select";
-    private static final String EXTRA_COUPON = "extra_coupon_selected";
-
     public interface OnCouponSelectListener {
         void onCouponSelect(CouponEntity entity);
     }
@@ -28,6 +25,8 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
 
     //订单金额
     private long amount;
+
+    private boolean onlyValid;
 
     private String nextUrl;
 
@@ -55,13 +54,17 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
                 coupon = entity;
             }
         });
-        adapter.setAmount(amount);
         return adapter;
     }
 
     @Override
     protected CouponResult refreshRequest() throws Exception {
-        return new CouponListApi().get();
+        return new CouponListApi().get(onlyValid);
+    }
+
+    @Override
+    protected CouponResult loadMoreRequest() throws Exception {
+        return new CouponListMoreApi().loadMore(nextUrl, onlyValid);
     }
 
     @Override
@@ -82,11 +85,6 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
     }
 
     @Override
-    protected CouponResult loadMoreRequest() throws Exception {
-        return new CouponListMoreApi().loadMore(nextUrl);
-    }
-
-    @Override
     protected void afterCreateView() {
         initBundle();
     }
@@ -95,20 +93,22 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
         Bundle bundle = getArguments();
         boolean canSelect;
         if (bundle != null) {
-            canSelect = bundle.getBoolean(EXTRA_CAN_SELECT, true);
-            coupon = bundle.getParcelable(EXTRA_COUPON);
-            amount = bundle.getLong(EXTRA_COUPON);
+            canSelect = bundle.getBoolean(CouponActivity.EXTRA_CAN_SELECT, true);
+            coupon = bundle.getParcelable(CouponActivity.EXTRA_COUPON);
+            amount = bundle.getLong(CouponActivity.EXTRA_AMOUNT);
+            onlyValid = bundle.getBoolean(CouponActivity.EXTRA_ONLY_VALID);
         } else {
             canSelect = true;
         }
         adapter.setCanSelect(canSelect);
+        adapter.setAmount(amount);
     }
 
     public void onBackClicked() {
         Intent intent = new Intent();
         if (coupon != null) {
             if (coupon.isCheck()) {
-                intent.putExtra(EXTRA_COUPON, coupon);
+                intent.putExtra(CouponActivity.EXTRA_COUPON, coupon);
             }
             getActivity().setResult(Activity.RESULT_OK, intent);
         } else {

@@ -15,6 +15,7 @@ import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 
 import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHolder, CouponEntity> {
@@ -39,16 +40,12 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
         return holder;
     }
 
-    @Override
-    public void setData(List<CouponEntity> data) {
-        if (data == null) {
-            return;
+    private String getCondition(int fen) {
+        float value = fen / 100f;
+        if (value == 0) {
+            return "没有金额限制";
         }
-        for (CouponEntity entity : data) {
-            entity.setDescription("满200元可用");
-            entity.setExpiredDate("有效期至 " + MiscUtil.formatDate(entity.getExpired_at() * 1000));
-        }
-        super.setData(data);
+        return String.format(Locale.getDefault(), "满%.2f元可用", value);
     }
 
     @Override
@@ -57,7 +54,7 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
             return;
         }
         for (CouponEntity entity : data) {
-            entity.setDescription("满200元可用");
+            entity.setDescription(getCondition(entity.getMini_total_price()));
             entity.setExpiredDate("有效期至 " + MiscUtil.formatDate(entity.getExpired_at() * 1000));
         }
         super.addData(data);
@@ -80,12 +77,18 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
             holder.checkView.setVisibility(View.INVISIBLE);
             holder.statusView.setVisibility(View.VISIBLE);
             holder.statusView.setImageResource(R.drawable.ic_coupon_used);
-        } else if (data.getExpired_at() < System.currentTimeMillis()) {
+        } else if (data.getExpired_at() * 1000 < System.currentTimeMillis()) {
             holder.statusContainer.setBackgroundResource(R.drawable.ic_coupon_sum_bk_invalid);
             holder.conditionView.setTextColor(textGrayColor);
             holder.checkView.setVisibility(View.INVISIBLE);
             holder.statusView.setVisibility(View.VISIBLE);
             holder.statusView.setImageResource(R.drawable.ic_coupon_expired);
+        } else if (data.getMini_total_price() > amount && canSelect) {
+            holder.statusContainer.setBackgroundResource(R.drawable.ic_coupon_sum_bk_invalid);
+            holder.conditionView.setTextColor(textGrayColor);
+            holder.checkView.setVisibility(View.INVISIBLE);
+            holder.statusView.setVisibility(View.VISIBLE);
+            holder.statusView.setVisibility(View.INVISIBLE);
         } else {
             holder.statusContainer.setBackgroundResource(R.drawable.ic_coupon_sum_bk);
             holder.conditionView.setTextColor(textBlueColor);
@@ -108,8 +111,7 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
         if (entity.isUsed() || entity.getExpired_at() < System.currentTimeMillis() || !canSelect) {
             return;
         }
-        if (amount < 200) {
-            //TODO 这个只是临时弹，坐等UI设计
+        if (amount < entity.getMini_total_price()) {
             com.malalaoshi.android.core.utils.MiscUtil.toast("订单金额不符合使用条件");
             return;
         }

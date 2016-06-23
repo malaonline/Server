@@ -17,7 +17,11 @@ public class CouponListApi extends BaseApi {
         return URL_COUPON_LIST;
     }
 
-    public CouponResult get() throws Exception {
-        return httpGet(getPath(), CouponResult.class);
+    public CouponResult get(boolean onlyValid) throws Exception {
+        String url = getPath();
+        if (onlyValid) {
+            url += "?only_valid=true";
+        }
+        return httpGet(url, CouponResult.class);
     }
 }

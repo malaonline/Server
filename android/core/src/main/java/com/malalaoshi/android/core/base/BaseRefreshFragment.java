@@ -183,7 +183,8 @@ public abstract class BaseRefreshFragment<T extends BaseResult> extends BaseFrag
             setLayout(LayoutType.EMPTY);
         } else {
             setLayout(LayoutType.LIST);
-            adapter.setData(response.getResults());
+            adapter.clear();
+            adapter.addData(response.getResults());
         }
 
         if (EmptyUtils.isEmpty(response.getNext())) {
