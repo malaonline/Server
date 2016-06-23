@@ -241,7 +241,6 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                 println("CourseChoosingViewController - loadCoupons Error \(errorMessage)")
             }
         }, completion: { [weak self] (coupons) -> Void in
-            println("优惠券列表 \(coupons)")
             MalaUserCoupons = coupons
             self?.requiredCount += 1
         })
@@ -276,9 +275,9 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         let observerChoosingGrade = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ChoosingGrade,
             object: nil,
-            queue: nil) { (notification) -> Void in
+            queue: nil) { [weak self] (notification) -> Void in
                 let price = notification.object as! GradePriceModel
-                
+                self?.calculateCoupon()
                 // 保存用户所选课程
                 if price != MalaCourseChoosingObject.gradePrice {
                     MalaCourseChoosingObject.gradePrice = price
@@ -352,7 +351,8 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                 
                 // 课时选择
                 (self?.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3)) as? CourseChoosingClassPeriodCell)?.updateSetpValue()
-
+                self?.calculateCoupon()
+                
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
                      let array = ThemeDate.dateArray((MalaCourseChoosingObject.selectedTime), period: Int(MalaCourseChoosingObject.classPeriod))
@@ -371,6 +371,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                 let period = (notification.object as? Double) ?? 2
                 // 保存选择课时数
                 MalaCourseChoosingObject.classPeriod = Int(period == 0 ? 2 : period)
+                self?.calculateCoupon()
                 
                 // 上课时间
                 if MalaCourseChoosingObject.selectedTime.count != 0 {
@@ -455,6 +456,28 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         })
     }
     
+    ///  计算最优奖学金使用方案
+    private func calculateCoupon() {
+        println("计算最优奖学金使用方案")
+        
+        var currentCoupon = CouponModel()
+        var currentDis    = 0
+        let currentPrice  = MalaCourseChoosingObject.getPrice()
+        
+        ///  遍历用户当前奖学金
+        for coupon in MalaUserCoupons {            
+            let couponDis = currentPrice - coupon.minPrice
+            if currentPrice >= coupon.minPrice && (currentDis > couponDis || currentDis == 0) {
+                currentDis = couponDis
+                currentCoupon = coupon
+            }
+        }
+        println("Price - \(currentPrice) - \(MalaUserCoupons.count)")
+        println("最优奖学金 - \(currentCoupon)")
+        MalaCourseChoosingObject.coupon = currentCoupon
+    }
+    
+    ///  加载订单预览页面
     private func launchOrderOverViewController() {
         let viewController = OrderFormInfoViewController()
         viewController.isForConfirm = true

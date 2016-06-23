@@ -102,7 +102,6 @@ class CouponViewController: BaseTableViewController {
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
         }, completion: { [weak self] (coupons) -> Void in
-            println("优惠券列表 \(coupons)")
             if self?.justShow == true {
                 MalaUserCoupons = coupons
             }else {
