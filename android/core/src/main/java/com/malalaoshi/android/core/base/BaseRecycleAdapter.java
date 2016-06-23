@@ -29,6 +29,11 @@ public abstract class BaseRecycleAdapter<T extends RecyclerView.ViewHolder, D> e
         return dataList.get(position);
     }
 
+    public void clear(){
+        dataList.clear();
+        notifyDataSetChanged();
+    }
+
     public void setData(List<D> data) {
         if (data == null) {
             return;

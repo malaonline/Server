@@ -19,15 +19,15 @@ public class TeacherListApi extends BaseApi {
         return false;
     }
 
-    public TeacherListResult getTeacherList(long gradeId, long subjectId, long[] tags)
+    public TeacherListResult getTeacherList(Long gradeId, Long subjectId, long[] tags)
             throws Exception {
         String subUrl = "";
         boolean hasParam = false;
-        if (gradeId > 0) {
+        if (gradeId!=null) {
             subUrl += "?grade=" + gradeId;
             hasParam = true;
         }
-        if (subjectId > 0) {
+        if (subjectId!=null) {
             subUrl += hasParam ? "&subject=" : "?subject=";
             subUrl += subjectId;
             hasParam = true;

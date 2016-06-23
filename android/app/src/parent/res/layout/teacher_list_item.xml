@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/teacher_list_item_body"
+    android:layout_marginTop="8dp"
     style="@style/AppWidget.CardViewStyle">
 
     <LinearLayout style="@style/CardView.LinearStyle">

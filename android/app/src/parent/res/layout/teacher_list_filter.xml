@@ -31,7 +31,6 @@
         android:layout_height="44dp">
         <TextView
             android:id="@+id/tv_filter_grade"
-            android:text="小学三年级"
             android:background="@drawable/filter_btn_bg"
             android:layout_marginRight="7dp"
             android:gravity="center"
@@ -67,7 +66,7 @@
             android:layout_height="26dp" />
     </LinearLayout>
     <FrameLayout
-        android:id="@+id/teacher_list_fragment"
+        android:id="@+id/id_content"
         android:background="@color/teacher_main_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>

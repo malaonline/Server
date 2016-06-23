@@ -27,9 +27,8 @@ import com.malalaoshi.android.events.NoticeEvent;
 import com.malalaoshi.android.fragments.MemberServiceFragment;
 import com.malalaoshi.android.fragments.ScheduleFragment;
 import com.malalaoshi.android.fragments.SimpleAlertDialogFragment;
-import com.malalaoshi.android.fragments.TeacherListFragment;
+import com.malalaoshi.android.fragments.MainFragment;
 import com.malalaoshi.android.fragments.UserFragment;
-import com.malalaoshi.android.fragments.UserTimetableFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageCache;
@@ -315,7 +314,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         if (fragment == null) {
             switch (position) {
                 case 0:
-                    fragment = new TeacherListFragment();
+                    fragment = new MainFragment();
                     break;
                 case 1:
                     fragment = new ScheduleFragment();

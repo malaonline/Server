@@ -64,7 +64,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.malalaoshi.android.TeacherListFilterActivity"
+            android:name=".TeacherFilterActivity"
             android:label="老师筛选列表"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

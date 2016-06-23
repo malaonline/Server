@@ -179,6 +179,7 @@ public abstract class BaseRefreshFragment<T extends BaseResult> extends BaseFrag
             return;
         }
         if (EmptyUtils.isEmpty(response.getResults())) {
+            adapter.clear();
             setLayout(LayoutType.EMPTY);
         } else {
             setLayout(LayoutType.LIST);
