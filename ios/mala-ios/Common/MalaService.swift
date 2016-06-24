@@ -11,7 +11,7 @@ import Alamofire
 
 // MARK: Api
 #if USE_PRD_SERVER
-    public let MalaBaseUrl = "https://malalaoshi.com/api/v1"
+    public let MalaBaseUrl = "https://www.malalaoshi.com/api/v1"
 #elseif USE_STAGE_SERVER
     public let MalaBaseUrl = "https://stage.malalaoshi.com/api/v1"
 #else
