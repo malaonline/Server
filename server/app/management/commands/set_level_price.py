@@ -23,7 +23,7 @@ class Command(BaseCommand):
             '--open',
             type=int,
             default=1,
-            help='是否设置开发此地区. 0[默认] or 1',
+            help='是否设置开发此地区. 1[默认] or 0',
         )
         parser.add_argument(
             '--prices',
@@ -47,13 +47,11 @@ class Command(BaseCommand):
         price_cfg = [int(p) for p in prices.split(',')]
         commission_percentages = [int(p) for p in percentages.split(',')]
         if len(price_cfg) != len(commission_percentages):
-            print("价格和佣金比例个数不同")
-            return -1
+            return ("价格和佣金比例个数不同")
 
         levels = list(Level.objects.all())
         if len(levels) != len(price_cfg):
-            print("价格和佣金比例个数和现有级别数不同")
-            return -2
+            return ("价格和佣金比例个数和现有级别数不同")
 
         region = Region.objects.get(name=region_name)
         if is_open != region.opened:
