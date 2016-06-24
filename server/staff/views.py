@@ -2270,7 +2270,6 @@ class EvaluationView(BaseStaffView):
 class EvaluationActionView(BaseStaffActionView):
     def post(self, request):
         action = self.request.POST.get('action')
-        print(action)
         if action == 'schedule-evaluation':
             return self.schedule_evaluation(request)
         if action == 'complete-evaluation':
