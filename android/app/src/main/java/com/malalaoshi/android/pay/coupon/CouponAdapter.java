@@ -54,8 +54,9 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
             return;
         }
         for (CouponEntity entity : data) {
+            entity.setExpired_at(entity.getExpired_at() * 1000);
             entity.setDescription(getCondition(entity.getMini_total_price()));
-            entity.setExpiredDate("有效期至 " + MiscUtil.formatDate(entity.getExpired_at() * 1000));
+            entity.setExpiredDate("有效期至 " + MiscUtil.formatDate(entity.getExpired_at()));
         }
         super.addData(data);
     }
@@ -77,7 +78,7 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
             holder.checkView.setVisibility(View.INVISIBLE);
             holder.statusView.setVisibility(View.VISIBLE);
             holder.statusView.setImageResource(R.drawable.ic_coupon_used);
-        } else if (data.getExpired_at() * 1000 < System.currentTimeMillis()) {
+        } else if (data.getExpired_at() < System.currentTimeMillis()) {
             holder.statusContainer.setBackgroundResource(R.drawable.ic_coupon_sum_bk_invalid);
             holder.conditionView.setTextColor(textGrayColor);
             holder.checkView.setVisibility(View.INVISIBLE);
