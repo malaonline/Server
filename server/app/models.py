@@ -1401,7 +1401,7 @@ class Coupon(BaseModel):
     @property
     def used_at(self):
         if self.used:
-            order =  self.order_set.filter().first()
+            order = self.order_set.filter().first()
             return order and order.created_at
         return None
 

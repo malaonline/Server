@@ -47,7 +47,7 @@ class LargeResultsSetPagination(PageNumberPagination):
 
 
 class HugeResultsSetPagination(PageNumberPagination):
-    page_size = 5000
+    page_size = 50000
     page_size_query_param = 'page_size'
     max_page_size = None
 
@@ -624,6 +624,7 @@ class CouponSerializer(serializers.ModelSerializer):
 
 
 class CouponViewSet(viewsets.ReadOnlyModelViewSet):
+    pagination_class = HugeResultsSetPagination
     queryset = models.Coupon.objects.filter()
 
     def get_queryset(self):
