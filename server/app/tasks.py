@@ -196,7 +196,7 @@ def registerKuaiLeXueUserByOrder(oid):
     :param oid: models.Order.id
     :return: True or not
     '''
-    order = Order.objects.get(oid)
+    order = Order.objects.get(pk=oid)
     parent = order.parent
     teacher = order.teacher
     klx_stu_name = klx_reg_student(parent)
