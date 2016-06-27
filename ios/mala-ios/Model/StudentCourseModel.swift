@@ -42,9 +42,9 @@ public class StudentCourseModel: BaseObjectModel {
     var status: CourseStatus {
         get {
             // 设置课程状态
-            if date.isToday() {
+            if date.isToday() && !is_passed {
                 return .Today
-            }else if date.isEarlierThan(NSDate()) {
+            }else if date.isEarlierThan(NSDate()) || is_passed {
                 return .Past
             }else {
                 return .Future

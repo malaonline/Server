@@ -180,6 +180,13 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> (model: [[[St
             validate(course)
         }
     }
+    
+    ///  若所有课程中无最近未上课程，则选定最后一节课程
+    if nowTime == 0 {
+        let section = datas.count-1
+        let row = datas[section].count-1
+        indexPath = (section, row)
+    }
     return (datas, NSIndexPath(forRow: indexPath.row, inSection: indexPath.section))
 }
 
