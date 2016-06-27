@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsSubjectCell: MalaBaseCell {
+class TeacherDetailsSubjectCell: TeacherDetailBaseCell {
 
     // MARK: - Property
     /// 授课年级字符串数据

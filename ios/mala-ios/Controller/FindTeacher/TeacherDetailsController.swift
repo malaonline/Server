@@ -15,9 +15,6 @@ private let TeacherDetailsCellReuseId = [
     3: "TeacherDetailsPhotosCellReuseId",
     4: "TeacherDetailsCertificateCellReuseId",
     5: "TeacherDetailsPlaceCellReuseId",
-    6: "TeacherDetailsVipServiceCellReuseId",
-//    7: "TeacherDetailsLevelCellReuseId",
-//    8: "TeacherDetailsPriceCellReuseId"
 ]
 
 private let TeacherDetailsCellTitle = [
@@ -27,9 +24,6 @@ private let TeacherDetailsCellTitle = [
     4: "个人相册",
     5: "特殊成就",
     6: "教学环境",
-    7: "会员服务",
-    8: "教龄 级别",
-    9: "价格表"
 ]
 
 class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, SignupButtonDelegate {
@@ -51,12 +45,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         didSet {
             // 刷新 [教学环境] Cell
             self.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
-        }
-    }
-    var memberServiceArray: [MemberServiceModel] = [] {
-        didSet {
-            // 刷新 [会员服务] Cell
-            self.tableView.reloadSections(NSIndexSet(index: 6), withRowAnimation: .None)
         }
     }
     var isOpenSchoolsCell: Bool = false
@@ -108,7 +96,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         loadTeacherDetail()
         setupNotification()
         loadSchoolsData()
-        loadMemberServices()
         
         // 激活Pop手势识别
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -166,9 +153,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         tableView.registerClass(TeacherDetailsPhotosCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[3]!)
         tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
         tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
-        tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
-//        tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
-//        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
         
         // SubViews
         view.addSubview(signupView)
@@ -269,35 +253,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         }
     }
     
-    private func loadMemberServices() {
-        // 获取 [会员服务] 数据
-        MalaNetworking.sharedTools.loadMemberServices{[weak self] (result, error) -> () in
-            
-            ThemeHUD.hideActivityIndicator()
-            
-            if error != nil {
-                println("TeacherDetailsController - loadMemberServices Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                println("TeacherDetailsController - loadMemberServices Format Error")
-                return
-            }
-            
-            // Transfer results to [MemberServiceModel]
-            let resultArray = ResultModel(dict: dict).results
-            var tempArray: [MemberServiceModel] = []
-            for object in resultArray ?? [] {
-                if let dict = object as? [String: AnyObject] {
-                    let set = MemberServiceModel(dict: dict)
-                    tempArray.append(set)
-                }
-            }
-            self?.memberServiceArray = tempArray
-            self?.requiredCount += 1
-        }
-    }
-    
     private func showBackground() {
         // makeStatusBarBlack()
         self.title = model.name 
@@ -369,11 +324,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 8 : 4
+        return 0.01
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == TeacherDetailsCellReuseId.count-1 ? 8 : 4
+        return 0.01
     }
     
     func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -393,7 +348,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
-        (reuseCell as! MalaBaseCell).title.text = TeacherDetailsCellTitle[indexPath.section+1]
+        (reuseCell as! TeacherDetailBaseCell).titleLabel.text = TeacherDetailsCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:
@@ -404,7 +359,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            cell.labels = self.model.tags
+            // cell.labels = self.model.tags
             return cell
             
         case 2:
@@ -415,7 +370,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         case 3:
             let cell = reuseCell as! TeacherDetailsPhotosCell
             cell.photos = self.model.photo_set ?? []
-            cell.accessory = .RightArrow
+            // cell.accessory = .RightArrow
             return cell
             
         case 4:
@@ -427,24 +382,6 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             let cell = reuseCell as! TeacherDetailsPlaceCell
             cell.schools = self.schoolArray
             cell.isOpen = self.isOpenSchoolsCell
-            return cell
-            
-        case 6:
-            let cell = reuseCell as! TeacherDetailsVipServiceCell
-            cell.labels = self.memberServiceArray.map({ (model) -> String in
-                return model.name ?? ""
-            })
-            return cell
-            
-        case 7:
-            let cell = reuseCell as! TeacherDetailsLevelCell
-//            cell.labels = [self.model.teachingAgeString, (self.model.level) ?? ""]
-            return cell
-            
-        case 8:
-            let cell = reuseCell as! TeacherDetailsPriceCell
-            cell.accessory = .SubTitle
-            cell.prices = self.model.prices
             return cell
             
         default:

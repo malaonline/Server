@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsPlaceCell: MalaBaseCell {
+class TeacherDetailsPlaceCell: TeacherDetailBaseCell {
 
     // MARK: - Property
     var schools: [SchoolModel]? {
@@ -78,7 +78,7 @@ class TeacherDetailsPlaceCell: MalaBaseCell {
         // Autolayout
         // Remove margin
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.title.snp_bottom)
+            make.top.equalTo(self.titleLabel.snp_bottom)
             make.bottom.equalTo(self.contentView.snp_bottom)
         }
         tableView.snp_makeConstraints { (make) -> Void in

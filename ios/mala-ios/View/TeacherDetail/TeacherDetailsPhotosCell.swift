@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class TeacherDetailsPhotosCell: MalaBaseCell {
+class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
 
     // MARK: - Property
     /// 图片URL数组
@@ -110,7 +110,7 @@ class TeacherDetailsPhotosCell: MalaBaseCell {
     }
     
     private func configure() {
-        rightArrow.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
+//        rightArrow.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
     }
  
     

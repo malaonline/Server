@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsCertificateCell: MalaBaseCell, MATabListViewDelegate {
+class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegate {
 
     // MARK: - Property
     var models: [AchievementModel?] = [] {
@@ -18,14 +18,14 @@ class TeacherDetailsCertificateCell: MalaBaseCell, MATabListViewDelegate {
                 return
             }
             
-            labels.removeAll()
-            
-            for model in models {
-                labels.append(model?.title ?? "")
-                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
-                photo.caption = model?.title ?? ""
-                images.append(photo)
-            }
+//            labels.removeAll()
+//            
+//            for model in models {
+//                labels.append(model?.title ?? "")
+//                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
+//                photo.caption = model?.title ?? ""
+//                images.append(photo)
+//            }
         }
     }
     var images: [SKPhoto] = []
@@ -44,7 +44,7 @@ class TeacherDetailsCertificateCell: MalaBaseCell, MATabListViewDelegate {
     
     // MARK: - Private Method
     private func configure() {
-        self.tagsView.delegate = self
+//        self.tagsView.delegate = self
     }
     
     
