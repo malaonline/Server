@@ -53,7 +53,7 @@ class TeacherDetailBaseCell: UITableViewCell {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-        content.backgroundColor = UIColor.orangeColor()
+//        content.backgroundColor = UIColor.orangeColor()
         
         // SubViews
         contentView.addSubview(headerView)
