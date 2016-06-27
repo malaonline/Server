@@ -841,12 +841,19 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
     def get_queryset(self):
         for_review = self.request.query_params.get('for_review', '')
         parent = self.get_parent()
-        queryset = models.TimeSlot.objects.filter(
-                order__parent=parent, deleted=False)
+        timeslots = models.TimeSlot.objects.filter(
+            order__parent=parent, deleted=False)
+        evaluations = []
+        # for_review 之获取特定的课程, 不包括测评建档
         if for_review == 'true':
-            queryset = queryset.filter(
-                    end__lt=timezone.now())
-        queryset = queryset.order_by('-end')
+            timeslots = timeslots.filter(end__lt=timezone.now())
+        else:
+            evaluations = models.Evaluation.objects.filter(
+                order__parent=parent, start__isnull=False)
+
+        queryset = [x for x in timeslots] + [y for y in evaluations]
+        if self.action == 'list':
+            return sorted(queryset, key=lambda x: x.end, reverse=True)
         return queryset
 
     def get_serializer_class(self):

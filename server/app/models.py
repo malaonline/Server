@@ -2658,6 +2658,36 @@ class Evaluation(BaseModel):
     def subject(self):
         return self.order.subject
 
+    @property
+    def school(self):
+        return self.order.school
+
+    @property
+    def subject(self):
+        return self.order.subject
+
+    @property
+    def grade(self):
+        return self.order.grade
+
+    @property
+    def is_passed(self):
+        return self.end < timezone.now()
+
+    @property
+    def teacher(self):
+        return self.order.teacher
+
+    @property
+    def comment(self):
+        # 测评建档目前无评价
+        return None
+
+    @property
+    def is_expired(self):
+        # 测评建档目前无评价
+        return True
+
     def schedule(self, start_datetime, end_datetime):
         if self.status is not Evaluation.COMPLETED:
             self.start = start_datetime
