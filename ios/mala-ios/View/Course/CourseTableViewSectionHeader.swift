@@ -87,6 +87,9 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
             make.left.equalTo(contentView.snp_left).offset(70)
             make.bottom.equalTo(contentView.snp_bottom).offset(-20)
         }
+        
+        // 确保图片宽度与屏幕保持一致（仅需在初始化后）
+        parallaxImage.frame.size.width = MalaScreenWidth
     }
     
     ///  添加观察者
