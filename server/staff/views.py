@@ -2291,6 +2291,18 @@ class EvaluationActionView(BaseStaffActionView):
                     subject = "%s%s" % (evaluation.order.grade.name, evaluation.order.subject.name)
                     sched_time = "%s-%s" % (timezone.localtime(evaluation.start).strftime('%m月%d日%H:%M'),
                                           timezone.localtime(evaluation.end).strftime('%H:%M'))
+                    # JPush 通知
+                    extras = {
+                        "type": Remind.EVALUATION_SCHEDULED,  # 测评建档
+                        "code": None
+                    }
+                    msg = "您已预约%s的%s课程测评建档服务" % (sched_time, subject)
+                    send_push.delay(
+                        msg,
+                        title=Remind.title(Remind.EVALUATION_SCHEDULED),
+                        user_ids=[order.parent.user_id],
+                        extras=extras
+                    )
                     # 短信通知家长和老师
                     parent_phone = order.parent.user.profile.phone
                     smsUtil.try_send_sms(parent_phone, smsUtil.TPL_STU_EVALUATE, {'subject': subject, 'datatime': sched_time}, 3)

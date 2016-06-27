@@ -11,7 +11,7 @@ import jpush
 
 from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance,\
-    Order, Teacher, Coupon
+    Order, Teacher, Coupon, Evaluation
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 
 logger = logging.getLogger('app')
@@ -24,13 +24,15 @@ class Remind:
     COURSE_CONFIRMED = "3"
     COURSE_REMIND = "4"
     COUPON_WILL_EXPIRED = "5"
+    EVALUATION_SCHEDULED = "6"
     # 标题
     titles = {
         COURSE_CHANGED: '课程变动',
         ORDER_REFUNDED: '退费成功',
         COURSE_CONFIRMED: '完课评价',
         COURSE_REMIND: '课前通知',
-        COUPON_WILL_EXPIRED: '奖学金即将到期'
+        COUPON_WILL_EXPIRED: '奖学金即将到期',
+        EVALUATION_SCHEDULED: '测评建档',
     }
 
     @staticmethod
@@ -69,13 +71,24 @@ def autoRemindClasses():
         "code": None
     }
     remind_time = timezone.now() + TimeSlot.REMIND_TIME
-    targets = TimeSlot.objects.filter(deleted=False, start__lt=remind_time, reminded=False)
-    for timeslot in targets:
-        user_ids = [timeslot.order.parent.user_id]
+    timeslots = TimeSlot.objects.filter(
+        deleted=False,
+        start__lt=remind_time,
+        reminded=False
+    )
+    evaluations = Evaluation.objects.filter(
+        status=Evaluation.SCHEDULED,
+        start__lt=remind_time,
+        reminded=False
+    )
+    targets = [x for x in timeslots] + [y for y in evaluations]
+
+    for target in targets:
+        user_ids = [target.order.parent.user_id]
         msg = "您在%s-%s有一节%s课，记得准时参加哦>>" % (
-            timeslot.start.astimezone().time().strftime("%H:%M"),
-            timeslot.end.astimezone().time().strftime("%H:%M"),
-            timeslot.subject.name
+            target.start.astimezone().time().strftime("%H:%M"),
+            target.end.astimezone().time().strftime("%H:%M"),
+            target.subject.name
         )
         send_push.delay(
             msg,
@@ -84,8 +97,8 @@ def autoRemindClasses():
             extras=extras
         )
         # 标记为已推送
-        timeslot.reminded = True
-        timeslot.save()
+        target.reminded = True
+        target.save()
 
 
 @shared_task

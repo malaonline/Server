@@ -2645,6 +2645,8 @@ class Evaluation(BaseModel):
         choices=STATUS_CHOICES,
         default=PENDING
     )
+    # 标记此测评建档是否推送过课前通知
+    reminded = models.BooleanField(default=False)
 
     @property
     def status_display(self):
@@ -2652,11 +2654,16 @@ class Evaluation(BaseModel):
             return '已退费'
         return self.get_status_display()
 
+    @property
+    def subject(self):
+        return self.order.subject
+
     def schedule(self, start_datetime, end_datetime):
         if self.status is not Evaluation.COMPLETED:
             self.start = start_datetime
             self.end = end_datetime
             self.status = Evaluation.SCHEDULED
+            self.reminded = False
             self.save()
             return True
         return False
