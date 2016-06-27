@@ -14,12 +14,17 @@ class TeacherTableViewCell: UITableViewCell {
     /// 老师简介模型
     var model: TeacherModel? {
         didSet{
-            courseLabel.setTitle((model!.grades_shortname ?? "")+" • "+(model!.subject ?? ""), forState: .Normal)
-            nameLabel.text = model!.name
-            levelLabel.text = "  "+(model!.level ?? "麻辣讲师")+"  "
-            avatarView.kf_setImageWithURL((model!.avatar ?? NSURL()), placeholderImage: UIImage(named: "avatar_placeholder"))
             
-            let string = String(MinPrice: model!.min_price.money, MaxPrice: model!.max_price.money)
+            guard let model = model else {
+                return
+            }
+            
+            courseLabel.setTitle((model.grades_shortname ?? "")+" • "+(model.subject ?? ""), forState: .Normal)
+            nameLabel.text = model.name
+            levelLabel.text = String(format: "  T%d  ", model.level)
+            avatarView.kf_setImageWithURL((model.avatar ?? NSURL()), placeholderImage: UIImage(named: "avatar_placeholder"))
+            
+            let string = String(MinPrice: model.min_price.money, MaxPrice: model.max_price.money)
             let attrString: NSMutableAttributedString = NSMutableAttributedString(string: string)
             let rangeLocation = (string as NSString).rangeOfString("元").location
             attrString.addAttribute(
@@ -44,7 +49,7 @@ class TeacherTableViewCell: UITableViewCell {
             )
             priceLabel.attributedText = attrString
             
-            tagsLabel.text = model!.tags?.joinWithSeparator("｜")
+            tagsLabel.text = model.tags?.joinWithSeparator("｜")
         }
     }
     

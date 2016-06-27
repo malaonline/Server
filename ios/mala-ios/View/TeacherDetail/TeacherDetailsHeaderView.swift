@@ -13,63 +13,41 @@ import Kingfisher
 class TeacherDetailsHeaderView: UIView {
 
     // MARK: - Property
-    /// 教师头像URL
-    var avatar: String = "" {
-        didSet{
-            guard let url = NSURL(string: avatar) else {
+    var model: TeacherDetailModel = TeacherDetailModel() {
+        didSet {
+            /// 教师头像URL
+            guard let url = NSURL(string: model.avatar ?? "") else {
                 println("TeacherDetailsHeaderView - AvatarURL Format Error")
                 return
             }
-            self.avatarView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "avatar_placeholder"))
-        }
-    }
-    /// 教师姓名
-    var name: String = "老师姓名" {
-        didSet{
-            self.nameLabel.text = name
-            self.nameLabel.sizeToFit()
-        }
-    }
-    /// 教师性别
-    var gender: String = "" {
-        didSet{
-            switch gender {
-            case "f": genderIcon.image = UIImage(named: "gender_female")
-            case "m": genderIcon.image = UIImage(named: "gender_male")
-            default: genderIcon.image = UIImage(named: "")
+            avatarView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "avatar_placeholder"))
+            
+            /// 教师姓名
+            nameLabel.text = model.name
+            nameLabel.sizeToFit()
+            
+            /// 教师性别
+            if model.gender == "f" {
+                genderIcon.image = UIImage(named: "gender_female")
+            }else if model.gender == "m" {
+                genderIcon.image = UIImage(named: "gender_male")
+            }else {
+                genderIcon.image = UIImage(named: "")
             }
-        }
-    }
-    /// 教授学科
-    var subject: String = "学科" {
-        didSet {
-            subjectLabel.text = subject
-        }
-    }
-    /// 最小价格
-    var minPrice: Int = 0 {
-        didSet{
-            priceLabel.text = String(MinPrice: minPrice.money, MaxPrice: maxPrice.money)
-        }
-    }
-    /// 最大价格
-    var maxPrice: Int = 0 {
-        didSet{
-            priceLabel.text = String(MinPrice: minPrice.money, MaxPrice: maxPrice.money)
-        }
-    }
-    /// 教龄
-    var teachingAge: Int = 0 {
-        didSet {
-            teachingAgeLabel.text = String(format: "%d年", teachingAge)
-            teachingAgeProgressBar.progress = Double(teachingAge)/20
-        }
-    }
-    /// 级别
-    var level: String = "" {//TODO: 更改String为Int
-        didSet {
-            levelLabel.text = level // String(format: "T%d", level)
-            // teachingAgeProgressBar.progress = level/10
+            
+            /// 教授学科
+            subjectLabel.text = model.subject
+            
+            /// 价格
+            priceLabel.text = String(MinPrice: model.min_price.money, MaxPrice: model.max_price.money)
+            
+            /// 教龄
+            teachingAgeLabel.text = model.teachingAgeString
+            teachingAgeProgressBar.progress = Double(model.teaching_age)/20
+            
+            /// 级别
+            levelLabel.text = String(format: "T%d", model.level)
+            levelProgressBar.progress = Double(model.level)/10
         }
     }
     

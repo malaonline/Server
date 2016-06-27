@@ -16,7 +16,7 @@ private let TeacherDetailsCellReuseId = [
     4: "TeacherDetailsCertificateCellReuseId",
     5: "TeacherDetailsPlaceCellReuseId",
     6: "TeacherDetailsVipServiceCellReuseId",
-    7: "TeacherDetailsLevelCellReuseId",
+//    7: "TeacherDetailsLevelCellReuseId",
 //    8: "TeacherDetailsPriceCellReuseId"
 ]
 
@@ -38,20 +38,12 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     var teacherID: Int = 0
     var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
-            
             MalaOrderOverView.avatarURL = model.avatar
             MalaOrderOverView.teacherName = model.name
             MalaOrderOverView.subjectName = model.subject
             MalaOrderOverView.teacher = model.id
             
-            self.tableHeaderView.avatar = model.avatar ?? ""
-            self.tableHeaderView.name = model.name  ?? "老师姓名"
-            self.tableHeaderView.gender = model.gender ?? "m"
-            self.tableHeaderView.subject = model.subject ?? "学科"
-            self.tableHeaderView.minPrice = model.min_price ?? 0
-            self.tableHeaderView.maxPrice = model.max_price ?? 0
-            self.tableHeaderView.teachingAge = model.teaching_age
-            self.tableHeaderView.level = model.level ?? "一级"
+            tableHeaderView.model = model
             self.tableView.reloadData()
         }
     }
@@ -175,7 +167,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
         tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
         tableView.registerClass(TeacherDetailsVipServiceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[6]!)
-        tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
+//        tableView.registerClass(TeacherDetailsLevelCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[7]!)
 //        tableView.registerClass(TeacherDetailsPriceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[8]!)
         
         // SubViews
@@ -446,7 +438,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             
         case 7:
             let cell = reuseCell as! TeacherDetailsLevelCell
-            cell.labels = [self.model.teachingAgeString, (self.model.level) ?? ""]
+//            cell.labels = [self.model.teachingAgeString, (self.model.level) ?? ""]
             return cell
             
         case 8:

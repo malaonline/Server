@@ -15,7 +15,7 @@ class TeacherDetailModel: BaseObjectModel {
     var gender: String?
     var degree: String?
     var teaching_age: Int = 0
-    var level: String?
+    var level: Int = 1
     var subject: String?
     var grades: [String] = []
     var tags: [String] = []
@@ -23,13 +23,18 @@ class TeacherDetailModel: BaseObjectModel {
     var achievement_set: [AchievementModel?] = []
     var highscore_set: [HighScoreModel?] = []
     var prices: [GradePriceModel?] = []
-    var min_price: Int? = 0
-    var max_price: Int? = 0
+    var min_price: Int = 0
+    var max_price: Int = 0
     
     // 视图变量
     var teachingAgeString: String {
         get {
             return String(format: "%d年", teaching_age)
+        }
+    }
+    var levelString: String {
+        get {
+            return String(format: "T%d", level)
         }
     }
     
@@ -44,7 +49,7 @@ class TeacherDetailModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, name: String, avatar: String, gender: String, teaching_age: Int, level: String, subject: String, grades: [String],
+    convenience init(id: Int, name: String, avatar: String, gender: String, teaching_age: Int, level: Int, subject: String, grades: [String],
         tags: [String], photo_set: [String], achievement_set: [AchievementModel?], highscore_set: [HighScoreModel?], prices: [GradePriceModel?],
         minPrice: Int, maxPrice: Int) {
             self.init()

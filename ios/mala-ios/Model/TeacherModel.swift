@@ -13,7 +13,7 @@ class TeacherModel: BaseObjectModel {
     // MARK: - Property
     var avatar: NSURL?
     var gender: String?
-    var level: String?
+    var level: Int = 0
     var min_price: Int = 0
     var max_price: Int = 0
     var subject: String?
@@ -31,7 +31,7 @@ class TeacherModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, name: String, avatar: String, degree: String, minPrice: Int, maxPrice: Int, subject: String, shortname: String, tags: [String]) {
+    convenience init(id: Int, name: String, avatar: String, degree: Int, minPrice: Int, maxPrice: Int, subject: String, shortname: String, tags: [String]) {
         self.init()
         self.id = id
         self.name = name

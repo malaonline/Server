@@ -67,7 +67,7 @@ public class MalaConfig {
             avatar: "",
             gender: "m",
             teaching_age: 0,
-            level: "一级",
+            level: 1,
             subject: "学科",
             grades: [],
             tags: [],
