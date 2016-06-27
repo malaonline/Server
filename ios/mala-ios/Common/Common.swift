@@ -128,6 +128,10 @@ let MalaColor_FFF0EE_0 = UIColor(rgbHexValue: 0xFFF0EE, alpha: 1.0)
 let MalaColor_E6F1FC_0 = UIColor(rgbHexValue: 0xE6F1FC, alpha: 1.0)
 let MalaColor_6DB2E5_0 = UIColor(rgbHexValue: 0x6DB2E5, alpha: 1.0)
 let MalaColor_999999_0 = UIColor(rgbHexValue: 0x999999, alpha: 1.0)
+let MalaColor_828282_0 = UIColor(rgbHexValue: 0x828282, alpha: 1.0)
+let MalaColor_EEEEEE_0 = UIColor(rgbHexValue: 0xEEEEEE, alpha: 1.0)
+let MalaColor_FA7A7A_0 = UIColor(rgbHexValue: 0xFA7A7A, alpha: 1.0)
+let MalaColor_FDDC55_0 = UIColor(rgbHexValue: 0xFDDC55, alpha: 1.0)
 
 
 // MARK: - Common String
@@ -153,7 +157,7 @@ let MalaLayout_AvatarSize: CGFloat = 75.0
 let MalaLayout_VipIconSize: CGFloat = 15.0
 let MalaLayout_DetailHeaderLayerHeight: CGFloat = 110 //MalaLayout_DetailHeaderHeight - 6.0
 let MalaLayout_DetailHeaderHeight: CGFloat = 146.0
-let MalaLayout_DetailHeaderContentHeight: CGFloat = 60.0
+let MalaLayout_DetailHeaderContentHeight: CGFloat = 150.0
 let MalaLayout_DeatilHighScoreTableViewCellHeight: CGFloat = 33.0
 let MalaLayout_DetailPhotoWidth: CGFloat = (MalaLayout_CardCellWidth - 10)/3
 let MalaLayout_DetailPhotoHeight: CGFloat = MalaLayout_DetailPhotoWidth*0.75

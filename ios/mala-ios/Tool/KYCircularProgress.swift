@@ -144,7 +144,7 @@ public class KYCircularProgress: UIView {
         }
     }
     
-    required public init?;?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureProgressLayer()
     }
@@ -164,10 +164,6 @@ public class KYCircularProgress: UIView {
         super.init(frame: frame)
         configureProgressLayer()
         configureProgressGuideLayer(showProgressGuide)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     /**
@@ -245,17 +241,13 @@ class KYCircularShapeView: UIView {
         return layer as! CAShapeLayer
     }
     
-    required init?;?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         updateProgress(0)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {

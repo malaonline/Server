@@ -50,6 +50,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             self.tableHeaderView.subject = model.subject ?? "学科"
             self.tableHeaderView.minPrice = model.min_price ?? 0
             self.tableHeaderView.maxPrice = model.max_price ?? 0
+            self.tableHeaderView.teachingAge = model.teaching_age
+            self.tableHeaderView.level = model.level ?? "一级"
             self.tableView.reloadData()
         }
     }
@@ -87,7 +89,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }()
     /// TableView头部视图
     private lazy var tableHeaderView: TeacherDetailsHeaderView = {
-        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 80))
+        let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: 170))
         return tableHeaderView
     }()
     /// 顶部背景图
