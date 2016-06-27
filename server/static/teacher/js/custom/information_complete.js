@@ -71,6 +71,9 @@ $(
         $("#submit_page").click(function(eventObject){
             //console.log("submit_page");
             eventObject.preventDefault();
+            if ($(this).hasClass('disabled')) {
+                return;
+            }
             var name = $("#realName").val();
             var gender = $("#gender-input").val();
             var region = $("#city_input").val();
