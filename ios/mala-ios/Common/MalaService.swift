@@ -992,17 +992,13 @@ let parseStudentCourse: JSONDictionary -> [StudentCourseModel] = { courseInfos i
     var courseList: [StudentCourseModel] = []
     
     /// 确保相应格式正确，且存在数据
-    guard let courses = courseInfos["results"] as? [AnyObject?] where courses.count != 0 else {
+    guard let courses = courseInfos["results"] as? [JSONDictionary] where courses.count != 0 else {
         return courseList
     }
     
     ///  遍历字典数组，转换为模型
     for course in courses {
-        
-        guard let course = course else {
-            continue
-        }
-        
+
         if let
             id = course["id"] as? Int,
             start = course["start"] as? NSTimeInterval,
