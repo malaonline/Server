@@ -6,12 +6,12 @@
     基本资料
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'teacher/less/doc/basic.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}?{% lorem 1 w random%}">
+    <link rel="stylesheet" href="{% static 'teacher/less/doc/basic.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/birthday.js' %}"></script>
-    <script src="{% static 'teacher/js/doc/basic.js' %}"></script>
+    <script src="{% static 'teacher/js/doc/basic.js' %}?{% lorem 1 w random%}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}

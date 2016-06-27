@@ -6,11 +6,11 @@
     提分榜
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'teacher/less/highscore/highscore.less'|compile %}">
+    <link rel="stylesheet" href="{% static 'teacher/less/certificate/certificate.less'|compile %}?{% lorem 1 w random%}">
+    <link rel="stylesheet" href="{% static 'teacher/less/highscore/highscore.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'teacher/js/highscore/hiscore.js' %}"></script>
+    <script src="{% static 'teacher/js/highscore/hiscore.js' %}?{% lorem 1 w random%}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
