@@ -113,7 +113,7 @@ tags=1+3+2
             "avatar": "https:/stnhsh.sths.....",
             "gender": "m",
             "name": "lll",
-            "degree": "s",
+            "level": 2,
             "min_price": 90,
             "max_price": 200,
             "subject": "语文",
@@ -139,7 +139,7 @@ GET /api/v1/teachers/{teacher id}
     "name": "lll",
     "degree": "s",
     "teaching_age": 0,
-    "level": "麻辣合伙人",
+    "level": 6,
     "subject": "语文",
     "grades": ["小学", "初一"],
     "tags": ["幽默", "亲切"]

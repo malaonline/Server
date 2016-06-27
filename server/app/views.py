@@ -526,7 +526,6 @@ class TeacherListSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField()
     tags = TagNameSerializer(many=True)
     subject = SubjectNameSerializer()
-    level = LevelNameSerializer()
 
     class Meta:
         model = models.Teacher
@@ -549,7 +548,6 @@ class TeacherSerializer(serializers.ModelSerializer):
     achievement_set = AchievementSerializer(many=True)
     grades = GradeNameSerializer(many=True)
     subject = SubjectNameSerializer()
-    level = LevelNameSerializer()
     highscore_set = HighscoreSerializer(many=True)
     photo_set = PhotoUrlSerializer(many=True)
 
