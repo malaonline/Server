@@ -192,17 +192,10 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
             if let errorMessage = errorMessage {
                 println("CourseTableViewController - loadStudentCourseTable Error \(errorMessage)")
             }
-            ThemeHUD.showActivityIndicator()
+            ThemeHUD.hideActivityIndicator()
         }, completion: { [weak self] (courseList) -> Void in
-            
-            guard courseList != nil else {
-                println("学生上课时间表为空！")
-                ThemeHUD.hideActivityIndicator()
-                return
-            }
-            
             // 解析学生上课时间表
-            let result = parseStudentCourseTable(courseList!)
+            let result = parseStudentCourseTable(courseList)
             self?.recentlyCourseIndexPath = result.recently
             self?.model = result.model
         })
