@@ -85,7 +85,7 @@ class TeacherDetailsHeaderView: UIView {
     }()
     /// 会员图标显示控件
     private lazy var vipIconView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "vip"))
+        let imageView = UIImageView(image: UIImage(named: "vip_icon"))
         imageView.layer.cornerRadius = MalaLayout_VipIconSize*0.5
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1.0
