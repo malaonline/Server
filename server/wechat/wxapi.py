@@ -126,6 +126,11 @@ def wx_pay_unified_order(order, request, wx_openid):
     params['out_trade_no'] = order.order_id   # Order model记录的ID
     params['total_fee'] = order.to_pay  # 订单总金额，单位为分
     sp_ip = get_request_ip(request)     # APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
+    if not sp_ip:
+        sp_ip = '8.8.8.8'
+    _c = sp_ip.find(',')
+    if _c > -1:
+        sp_ip = sp_ip[0:_c]
     params['spbill_create_ip'] = sp_ip
     # params['time_start'] = ''    # not required, yyyyMMddHHmmss
     # params['time_expire'] = ''   # not required, yyyyMMddHHmmss
@@ -149,6 +154,7 @@ def wx_pay_unified_order(order, request, wx_openid):
         return_code = resp_dict['return_code']
         if return_code != WX_SUCCESS:
             msg = resp_dict['return_msg']
+            logger.error(params)
             logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=return_code, msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
@@ -159,6 +165,7 @@ def wx_pay_unified_order(order, request, wx_openid):
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
             msg = resp_dict['err_code_des']
+            logger.error(params)
             logger.error(_WX_PAY_UNIFIED_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         # prepay_id = resp_dict['prepay_id']
@@ -224,6 +231,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
         return_code = resp_dict['return_code']
         if return_code != WX_SUCCESS:
             msg = resp_dict['return_msg']
+            logger.error(params)
             logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=return_code, msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         given_resp_sign = resp_dict.pop('sign', None)
@@ -234,6 +242,7 @@ def wx_pay_order_query(wx_order_id=None, order_id=None):
         result_code = resp_dict['result_code']
         if result_code != WX_SUCCESS:
             msg = resp_dict['err_code_des']
+            logger.error(params)
             logger.error(_WX_PAY_QUERY_ORDER_LOG_FMT.format(code=resp_dict['err_code'], msg=msg))
             return {'ok': False, 'msg': msg, 'code': 1}
         # trade_state = resp_dict['trade_state']
