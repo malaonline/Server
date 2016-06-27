@@ -75,7 +75,7 @@ public class TeacherAdapter extends BaseRecycleAdapter<TeacherAdapter.ViewHolder
         protected void update(Teacher teacher){
             view.setOnClickListener(this);
             this.teacher = teacher;
-            level.setText(teacher.getLevel());
+            level.setText("T"+teacher.getLevel());
             name.setText(teacher.getName());
             String sub = teacher.getSubject();
             String gradeStr = teacher.getGrades_shortname();

@@ -111,12 +111,6 @@
                         fresco:backgroundImage="@color/white"
                         fresco:roundAsCircle="true"
                         ></com.facebook.drawee.view.SimpleDraweeView>
-
-                   <!-- <com.malalaoshi.android.view.CircleNetworkImage
-                        android:id="@+id/iv_teacher_avator"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_alignParentRight="true" />-->
                 </RelativeLayout>
             </LinearLayout>
 
@@ -326,7 +320,6 @@
             android:layout_marginRight="6dp"
             android:layout_toRightOf="@+id/tv_cost_unit"
             android:gravity="center"
-            android:text="0"
             android:textColor="@color/theme_red_96"
             android:textSize="13sp" />
         <TextView
@@ -340,6 +333,7 @@
             android:gravity="center"
             android:textColor="@color/text_color_dlg"
             android:text="取消订单"
+            android:visibility="gone"
             android:textSize="@dimen/text_size_normal" />
         <TextView
             android:id="@+id/tv_submit"
@@ -352,6 +346,7 @@
             android:gravity="center"
             android:text="提交订单"
             android:textColor="#fff"
+            android:visibility="gone"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView

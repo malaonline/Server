@@ -19,7 +19,7 @@ public class Teacher extends BaseEntity {
     private Double max_price;
 
     private Integer teaching_age;
-    private String level;
+    private Integer level;
     private String subject;
     private String grades_shortname;
     private String[] grades;
@@ -77,11 +77,11 @@ public class Teacher extends BaseEntity {
         this.teaching_age = teaching_age;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -202,7 +202,7 @@ public class Teacher extends BaseEntity {
         dest.writeValue(this.min_price);
         dest.writeValue(this.max_price);
         dest.writeValue(this.teaching_age);
-        dest.writeString(this.level);
+        dest.writeValue(this.level);
         dest.writeString(this.subject);
         dest.writeString(this.grades_shortname);
         dest.writeStringArray(this.grades);
@@ -225,7 +225,7 @@ public class Teacher extends BaseEntity {
         this.min_price = (Double) in.readValue(Double.class.getClassLoader());
         this.max_price = (Double) in.readValue(Double.class.getClassLoader());
         this.teaching_age = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.level = in.readString();
+        this.level = (Integer) in.readValue(Integer.class.getClassLoader());
         this.subject = in.readString();
         this.grades_shortname = in.readString();
         this.grades = in.createStringArray();

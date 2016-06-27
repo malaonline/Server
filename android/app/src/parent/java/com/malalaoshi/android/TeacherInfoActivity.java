@@ -419,10 +419,10 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
 
             //教龄级别
-            String level = teacher.getLevel();
-            if (!EmptyUtils.isEmpty(level)){
-                viewTeacherLevel.setProgress(0);
-                tvTeacherLevel.setText(level);
+            Integer level = teacher.getLevel();
+            if (null!=level){
+                viewTeacherLevel.setProgress(level);
+                tvTeacherLevel.setText("T"+level);
             }
             Integer teachAge = teacher.getTeaching_age();
             if (teachAge!=null){
