@@ -24,12 +24,6 @@
 		3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
 		3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */; };
 		3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */; };
-		3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
-		3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
-		3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
-		3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
-		3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
-		3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		303BCFE81C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */; };
 		303BCFE91C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */; };
 		303BCFEB1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */; };
@@ -124,7 +118,6 @@
 		35FDCE711CAD0A2300A25FE8 /* MalaInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CD1C84140C00C20037 /* MalaInstance.swift */; };
 		35FDCE721CAD0A2300A25FE8 /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		35FDCE731CAD0A2300A25FE8 /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
-		35FDCE741CAD0A2300A25FE8 /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		35FDCE751CAD0A2300A25FE8 /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		35FDCE761CAD0A2300A25FE8 /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */; };
 		35FDCE771CAD0A2300A25FE8 /* TeacherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECF91491C2ACE7000904C3A /* TeacherModel.swift */; };
@@ -188,7 +181,6 @@
 		35FDCEB61CAD0A2300A25FE8 /* TeacherDetailsSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */; };
 		35FDCEB71CAD0A2300A25FE8 /* ThemeReloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F51C93C375004056B1 /* ThemeReloadView.swift */; };
 		35FDCEB81CAD0A2300A25FE8 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
-		35FDCEB91CAD0A2300A25FE8 /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
 		35FDCEBA1CAD0A2300A25FE8 /* Proposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F91C96C8EF004056B1 /* Proposer.swift */; };
 		35FDCEBB1CAD0A2300A25FE8 /* MalaSingleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F91CAA600D00F0012C /* MalaSingleWebViewController.swift */; };
 		35FDCEBC1CAD0A2300A25FE8 /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2561C76B87800FB833B /* CouponModel.swift */; };
@@ -256,7 +248,6 @@
 		35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5821C3A84C2005672D9 /* SMSResultModel.swift */; };
 		35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FDCF031CAD0A2300A25FE8 /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FDCF041CAD0A2300A25FE8 /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FDCF051CAD0A4100A25FE8 /* parentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E161C5A16A700E7D3DB /* parentTests.swift */; };
 		35FDCF061CAD0A4100A25FE8 /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */; };
@@ -309,7 +300,6 @@
 		35FF7A681CF8325A000A70EE /* MalaInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CD1C84140C00C20037 /* MalaInstance.swift */; };
 		35FF7A691CF8325A000A70EE /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		35FF7A6A1CF8325A000A70EE /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
-		35FF7A6B1CF8325A000A70EE /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		35FF7A6C1CF8325A000A70EE /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		35FF7A6D1CF8325A000A70EE /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */; };
 		35FF7A6E1CF8325A000A70EE /* LearningReportAbilityImproveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */; };
@@ -394,7 +384,6 @@
 		35FF7AC01CF8325A000A70EE /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
 		35FF7AC11CF8325A000A70EE /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
 		35FF7AC21CF8325A000A70EE /* MalaBaseCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */; };
-		35FF7AC31CF8325A000A70EE /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
 		35FF7AC41CF8325A000A70EE /* Proposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F91C96C8EF004056B1 /* Proposer.swift */; };
 		35FF7AC51CF8325A000A70EE /* MalaSingleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F91CAA600D00F0012C /* MalaSingleWebViewController.swift */; };
 		35FF7AC61CF8325A000A70EE /* OrderFormOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */; };
@@ -472,7 +461,6 @@
 		35FF7B111CF8325A000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		35FF7B121CF8325A000A70EE /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FF7B131CF8325A000A70EE /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FF7B151CF8325A000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FF7B161CF8325A000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FF7B231CF83264000A70EE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CAE4B31CAAB4360071772D /* libsqlite3.tbd */; };
 		35FF7B241CF83264000A70EE /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E6CB3C1CA0E8C200BA9B38 /* libc++.1.tbd */; };
@@ -510,7 +498,6 @@
 		35FF7B4B1CF83264000A70EE /* MalaInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53CD1C84140C00C20037 /* MalaInstance.swift */; };
 		35FF7B4C1CF83264000A70EE /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063931C3A1AF100729832 /* Extension+UILabel.swift */; };
 		35FF7B4D1CF83264000A70EE /* HandlePingppBehaviour.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E69D11C892F0500BD0859 /* HandlePingppBehaviour.swift */; };
-		35FF7B4E1CF83264000A70EE /* TeacherDetailsPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */; };
 		35FF7B4F1CF83264000A70EE /* MATabListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB98B61C3CEBD6003977FF /* MATabListView.swift */; };
 		35FF7B501CF83264000A70EE /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5981CA4131D00EB3CCF /* SKIndicatorView.swift */; };
 		35FF7B511CF83264000A70EE /* LearningReportAbilityImproveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFAE1CEDA37400EAB748 /* LearningReportAbilityImproveCell.swift */; };
@@ -595,7 +582,6 @@
 		35FF7BA31CF83264000A70EE /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
 		35FF7BA41CF83264000A70EE /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */; };
 		35FF7BA51CF83264000A70EE /* MalaBaseCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */; };
-		35FF7BA61CF83264000A70EE /* TeacherDetailsLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */; };
 		35FF7BA71CF83264000A70EE /* Proposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46064F91C96C8EF004056B1 /* Proposer.swift */; };
 		35FF7BA81CF83264000A70EE /* MalaSingleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27F91CAA600D00F0012C /* MalaSingleWebViewController.swift */; };
 		35FF7BA91CF83264000A70EE /* OrderFormOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBADB1CE57F9E00774297 /* OrderFormOtherInfoCell.swift */; };
@@ -673,7 +659,6 @@
 		35FF7BF41CF83264000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE71CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift */; };
 		35FF7BF51CF83264000A70EE /* IntroductionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C23F1C75CFCC00FB833B /* IntroductionModel.swift */; };
 		35FF7BF61CF83264000A70EE /* Extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308063961C3A271C00729832 /* Extension+UIView.swift */; };
-		35FF7BF81CF83264000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */; };
 		35FF7BF91CF83264000A70EE /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		35FF7C051CF83568000A70EE /* parent-stage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FF7C021CF83568000A70EE /* parent-stage-Info.plist */; };
 		35FF7C061CF83568000A70EE /* parent-prd-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FF7C031CF83568000A70EE /* parent-prd-Info.plist */; };
@@ -719,6 +704,9 @@
 		F41A01A81D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
 		F41A01A91D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
 		F41A01AA1D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
+		F41A01AC1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
+		F41A01AD1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
+		F41A01AE1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
 		F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */; };
 		F427FF9C1CEC1CE100EAB748 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
 		F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
@@ -941,9 +929,6 @@
 		3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPhotosCell.swift; sourceTree = "<group>"; };
 		3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsCertificateCell.swift; sourceTree = "<group>"; };
 		3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPlaceCell.swift; sourceTree = "<group>"; };
-		3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsVipServiceCell.swift; sourceTree = "<group>"; };
-		3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsLevelCell.swift; sourceTree = "<group>"; };
-		3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceCell.swift; sourceTree = "<group>"; };
 		303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPriceTableView.swift; sourceTree = "<group>"; };
 		303BCFEA1C43885700B37DD9 /* TeacherDetailsHighScoreTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsHighScoreTableView.swift; sourceTree = "<group>"; };
 		303BCFED1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsPlaceTableView.swift; sourceTree = "<group>"; };
@@ -1045,6 +1030,7 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCircularProgress.swift; sourceTree = "<group>"; };
+		F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailBaseCell.swift; sourceTree = "<group>"; };
 		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F427FF9B1CEC1CE100EAB748 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeIntroductionView.swift; sourceTree = "<group>"; };
@@ -1314,9 +1300,6 @@
 				3037B5A01C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift */,
 				3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */,
 				3037B5A61C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift */,
-				3037B5A91C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift */,
-				3037B5AC1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift */,
-				3037B5AF1C3BACAD005672D9 /* TeacherDetailsPriceCell.swift */,
 				304D6D331C3E65ED00282925 /* TeacherDetailsHeaderView.swift */,
 				3027F6511C3F680400296ED3 /* TeacherDetailsSignupView.swift */,
 				303BCFE71C3FBDD900B37DD9 /* TeacherDetailsPriceTableView.swift */,
@@ -1968,6 +1951,7 @@
 				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
 				F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */,
 				F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */,
+				F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2535,7 +2519,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3037B5B01C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				F402C9951C4F69C100E229FA /* TeacherTableView.swift in Sources */,
 				30F9E6C51C23BF6F0022A3BF /* Common.swift in Sources */,
 				30445B161C4A3959002CD290 /* FilterView.swift in Sources */,
@@ -2572,7 +2555,6 @@
 				303BCFF41C44ABC900B37DD9 /* TestFactory.swift in Sources */,
 				F45871F31C51DFE70048D93F /* CourseChoosingClassScheduleCell.swift in Sources */,
 				308063971C3A271C00729832 /* Extension+UIView.swift in Sources */,
-				3037B5AA1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				30D4AA131C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
 				3037B59E1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				30E3365E1C27A82C00DCF1C5 /* Extension+UIColor.swift in Sources */,
@@ -2589,7 +2571,6 @@
 				304D6D341C3E65ED00282925 /* TeacherDetailsHeaderView.swift in Sources */,
 				3037B5A71C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				303BCFF11C44A86200B37DD9 /* SchoolModel.swift in Sources */,
-				3037B5AD1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				357E6A1C1C0FF2EE0009AF9A /* BindCardViewController.swift in Sources */,
 				357E6A211C0FF2EE0009AF9A /* WithdrawViewController.swift in Sources */,
 				30E336721C27F41900DCF1C5 /* GradeModel.swift in Sources */,
@@ -2620,7 +2601,6 @@
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */,
-				3037B5B11C3BACAD005672D9 /* TeacherDetailsPriceCell.swift in Sources */,
 				F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
 				F4ADCFDE1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				30EB98B81C3CEBD6003977FF /* MATabListView.swift in Sources */,
@@ -2685,6 +2665,7 @@
 				F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */,
 				F40B53C81C83F98F00C20037 /* PaymentTableView.swift in Sources */,
 				F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */,
+				F41A01AC1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
 				F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */,
 				F4B3C67F1CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
@@ -2714,7 +2695,6 @@
 				F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */,
 				F4D0D14D1C9FA6B700B25704 /* CommentModel.swift in Sources */,
 				F427FFB11CEDA47700EAB748 /* MalaBaseCardCell.swift in Sources */,
-				3037B5AE1C3BAC9A005672D9 /* TeacherDetailsLevelCell.swift in Sources */,
 				F46064FA1C96C8EF004056B1 /* Proposer.swift in Sources */,
 				F45F27FA1CAA600D00F0012C /* MalaSingleWebViewController.swift in Sources */,
 				F48BBADC1CE57F9E00774297 /* OrderFormOtherInfoCell.swift in Sources */,
@@ -2801,7 +2781,6 @@
 				F45BDAEB1CB760540038CE3D /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				F4C5C2401C75CFCC00FB833B /* IntroductionModel.swift in Sources */,
 				308063981C3A271C00729832 /* Extension+UIView.swift in Sources */,
-				3037B5AB1C3BAC84005672D9 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				F46065201C97B168004056B1 /* CourseChoosingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2830,7 +2809,6 @@
 				35FF7A681CF8325A000A70EE /* MalaInstance.swift in Sources */,
 				35FF7A691CF8325A000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7A6A1CF8325A000A70EE /* HandlePingppBehaviour.swift in Sources */,
-				35FF7A6B1CF8325A000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
 				F4ADCFDF1D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				35FF7A6C1CF8325A000A70EE /* MATabListView.swift in Sources */,
 				35FF7A6D1CF8325A000A70EE /* SKIndicatorView.swift in Sources */,
@@ -2894,6 +2872,7 @@
 				35FF7AA51CF8325A000A70EE /* MalaSupport.swift in Sources */,
 				35FF7AA61CF8325A000A70EE /* PaymentTableView.swift in Sources */,
 				35FF7AA71CF8325A000A70EE /* MalaConfig.swift in Sources */,
+				F41A01AD1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
 				35FF7AA81CF8325A000A70EE /* OrderFormViewCell.swift in Sources */,
 				F4B3C6801CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				35FF7AA91CF8325A000A70EE /* TeacherDetailsSubjectCell.swift in Sources */,
@@ -2923,7 +2902,6 @@
 				35FF7AC01CF8325A000A70EE /* ThemeIntroductionView.swift in Sources */,
 				35FF7AC11CF8325A000A70EE /* CommentModel.swift in Sources */,
 				35FF7AC21CF8325A000A70EE /* MalaBaseCardCell.swift in Sources */,
-				35FF7AC31CF8325A000A70EE /* TeacherDetailsLevelCell.swift in Sources */,
 				35FF7AC41CF8325A000A70EE /* Proposer.swift in Sources */,
 				35FF7AC51CF8325A000A70EE /* MalaSingleWebViewController.swift in Sources */,
 				35FF7AC61CF8325A000A70EE /* OrderFormOtherInfoCell.swift in Sources */,
@@ -3010,7 +2988,6 @@
 				35FF7B111CF8325A000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				35FF7B121CF8325A000A70EE /* IntroductionModel.swift in Sources */,
 				35FF7B131CF8325A000A70EE /* Extension+UIView.swift in Sources */,
-				35FF7B151CF8325A000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FF7B161CF8325A000A70EE /* CourseChoosingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3039,7 +3016,6 @@
 				35FF7B4B1CF83264000A70EE /* MalaInstance.swift in Sources */,
 				35FF7B4C1CF83264000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7B4D1CF83264000A70EE /* HandlePingppBehaviour.swift in Sources */,
-				35FF7B4E1CF83264000A70EE /* TeacherDetailsPriceCell.swift in Sources */,
 				F4ADCFE01D0E6E7C004D517A /* ProfileItemCollectionView.swift in Sources */,
 				35FF7B4F1CF83264000A70EE /* MATabListView.swift in Sources */,
 				35FF7B501CF83264000A70EE /* SKIndicatorView.swift in Sources */,
@@ -3103,6 +3079,7 @@
 				35FF7B881CF83264000A70EE /* MalaSupport.swift in Sources */,
 				35FF7B891CF83264000A70EE /* PaymentTableView.swift in Sources */,
 				35FF7B8A1CF83264000A70EE /* MalaConfig.swift in Sources */,
+				F41A01AE1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
 				35FF7B8B1CF83264000A70EE /* OrderFormViewCell.swift in Sources */,
 				F4B3C6811CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				35FF7B8C1CF83264000A70EE /* TeacherDetailsSubjectCell.swift in Sources */,
@@ -3132,7 +3109,6 @@
 				35FF7BA31CF83264000A70EE /* ThemeIntroductionView.swift in Sources */,
 				35FF7BA41CF83264000A70EE /* CommentModel.swift in Sources */,
 				35FF7BA51CF83264000A70EE /* MalaBaseCardCell.swift in Sources */,
-				35FF7BA61CF83264000A70EE /* TeacherDetailsLevelCell.swift in Sources */,
 				35FF7BA71CF83264000A70EE /* Proposer.swift in Sources */,
 				35FF7BA81CF83264000A70EE /* MalaSingleWebViewController.swift in Sources */,
 				35FF7BA91CF83264000A70EE /* OrderFormOtherInfoCell.swift in Sources */,
@@ -3219,7 +3195,6 @@
 				35FF7BF41CF83264000A70EE /* ThemeCalendarViewWeekdayHeader.swift in Sources */,
 				35FF7BF51CF83264000A70EE /* IntroductionModel.swift in Sources */,
 				35FF7BF61CF83264000A70EE /* Extension+UIView.swift in Sources */,
-				35FF7BF81CF83264000A70EE /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FF7BF91CF83264000A70EE /* CourseChoosingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3249,7 +3224,6 @@
 				35FDCE711CAD0A2300A25FE8 /* MalaInstance.swift in Sources */,
 				35FDCE721CAD0A2300A25FE8 /* Extension+UILabel.swift in Sources */,
 				35FDCE731CAD0A2300A25FE8 /* HandlePingppBehaviour.swift in Sources */,
-				35FDCE741CAD0A2300A25FE8 /* TeacherDetailsPriceCell.swift in Sources */,
 				35FDCE751CAD0A2300A25FE8 /* MATabListView.swift in Sources */,
 				35FDCE761CAD0A2300A25FE8 /* SKIndicatorView.swift in Sources */,
 				35FDCE771CAD0A2300A25FE8 /* TeacherModel.swift in Sources */,
@@ -3313,7 +3287,6 @@
 				35FDCEB61CAD0A2300A25FE8 /* TeacherDetailsSignupView.swift in Sources */,
 				35FDCEB71CAD0A2300A25FE8 /* ThemeReloadView.swift in Sources */,
 				35FDCEB81CAD0A2300A25FE8 /* CommentModel.swift in Sources */,
-				35FDCEB91CAD0A2300A25FE8 /* TeacherDetailsLevelCell.swift in Sources */,
 				35FDCEBA1CAD0A2300A25FE8 /* Proposer.swift in Sources */,
 				35FDCEBB1CAD0A2300A25FE8 /* MalaSingleWebViewController.swift in Sources */,
 				35FDCEBC1CAD0A2300A25FE8 /* CouponModel.swift in Sources */,
@@ -3381,7 +3354,6 @@
 				35FDCEFF1CAD0A2300A25FE8 /* SMSResultModel.swift in Sources */,
 				35FDCF001CAD0A2300A25FE8 /* IntroductionModel.swift in Sources */,
 				35FDCF011CAD0A2300A25FE8 /* Extension+UIView.swift in Sources */,
-				35FDCF031CAD0A2300A25FE8 /* TeacherDetailsVipServiceCell.swift in Sources */,
 				35FDCF041CAD0A2300A25FE8 /* CourseChoosingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
