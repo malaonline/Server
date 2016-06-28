@@ -160,7 +160,7 @@ $(function(){
             return;
         }
         $courseTimePreview.html('');
-        courseTimes = calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFirstBuy, evaluateTime);
+        courseTimes = calcCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFirstBuy, evaluateTime);
         renderCourseTime(courseTimes, $courseTimePreview);
     };
 

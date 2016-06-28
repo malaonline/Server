@@ -2,12 +2,24 @@
  * Created by liumengjun on 2016-06-07.
  */
 
-var HOUR_S = 60*60;
+var MINUTE_S = 60;
+var MINUTE_MS = MINUTE_S*1000;
+var HOUR_S = 60*MINUTE_S;
 var HOUR_MS = HOUR_S*1000;
 var DAY_S = 24*HOUR_S;
-var DAY_MS = 24*HOUR_MS;
+var DAY_MS = DAY_S*1000;
 
-function calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFirstBuy, evaluateTime) {
+/**
+ * 计算上课时间
+ * @param hours 已选课时数
+ * @param weekly_time_slot_ids 已选时间段ID
+ * @param weeklytimeslots 服务端获取的all时间段
+ * @param isFirstBuy 是否第一次购买
+ * @param evaluateTime 给建档测评预留的时间
+ * @returns {Array}
+ */
+function calcCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFirstBuy, evaluateTime) {
+    // 根据time slot id收集时间段
     var wts_map = {};
     for (var d in weeklytimeslots) {
         var timeslots = weeklytimeslots[d];
@@ -23,6 +35,7 @@ function calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFi
         var wts = wts_map[tsid];
         chosen_weekly_time_slots.push(wts);
     }
+    // 排序时间段
     var now = new Date(), weekday = now.getDay()==0?7:now.getDay();
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), todayTime = today.getTime();
     chosen_weekly_time_slots.sort(function(a,b){
@@ -31,25 +44,26 @@ function calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFi
         var dd = dayA - dayB;
         return (dd != 0) ? dd : (a.start - b.start);
     });
+    // 遍历时间段, 计算上课时间
     evaluateTime *= 1000;
     var courseStartTime = isFirstBuy?(todayTime+evaluateTime+DAY_MS):todayTime;
     var courseTimes = [];
     var count = hours/ 2, loop = 0;
     while(count>0) {
         for (var i = 0; i < chosen_weekly_time_slots.length && count>0; i++) {
-            var wts = chosen_weekly_time_slots[i], day = wts.day, s = wts.start.split(':')[0];
+            var wts = chosen_weekly_time_slots[i], day = wts.day, sh = wts.start.split(':')[0], sm = wts.start.split(':')[1];
             // 计算天数偏差
             var weekoffset = (weekday < day?0:1) + loop;
             var dayTime = todayTime + (day-weekday + weekoffset * 7)*DAY_MS;
             if (dayTime<courseStartTime) {
                 continue;
             }
-            var startTime = dayTime + s * HOUR_MS;
+            var startTime = dayTime + sh * HOUR_MS + sm * MINUTE_MS;
             if (wts.last_occupied_end && startTime<=wts.last_occupied_end) {
                 continue;
             }
             startTime /= 1000;
-            var endTime = dayTime + wts.end.split(':')[0] * HOUR_S;
+            var endTime = dayTime + wts.end.split(':')[0] * HOUR_S + wts.end.split(':')[1] * MINUTE_S;
             courseTimes.push([startTime, endTime]);
             count--;
         }
@@ -61,6 +75,11 @@ function calculateCourseTimes(hours, weekly_time_slot_ids, weeklytimeslots, isFi
     return courseTimes;
 }
 
+/**
+ * 渲染上课时间
+ * @param courseTimes 上课起止时间对列表 (单位秒)
+ * @param $div 目的DIV (JQuery对象)
+ */
 function renderCourseTime(courseTimes, $div) {
     var WEEKDAYS = '日一二三四五六';
     // 按天合并
