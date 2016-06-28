@@ -17,6 +17,17 @@ class TeacherDetailBaseCell: UITableViewCell {
             titleLabel.text = title
         }
     }
+    /// 标签字符串数组
+    var labels: [String] = [] {
+        didSet {
+            if labels != oldValue {
+                for view in self.tagsView.subviews {
+                    view.removeFromSuperview()
+                }
+                self.tagsView.setTags(labels)
+            }
+        }
+    }
     
     
     // MARK: - Components
@@ -36,6 +47,11 @@ class TeacherDetailBaseCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = MalaColor_F6F6F6_96
         return view
+    }()
+    /// 标签容器
+    lazy var tagsView: MATabListView = {
+        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 12))
+        return tagsView
     }()
     
     
@@ -58,6 +74,7 @@ class TeacherDetailBaseCell: UITableViewCell {
         // SubViews
         contentView.addSubview(headerView)
         contentView.addSubview(content)
+        content.addSubview(tagsView)
         headerView.addSubview(titleLabel)
         
         // Autolayout
@@ -77,6 +94,12 @@ class TeacherDetailBaseCell: UITableViewCell {
             make.centerY.equalTo(headerView.snp_centerY)
             make.left.equalTo(headerView.snp_left).offset(12)
             make.height.equalTo(14)
+        }
+        tagsView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.content.snp_top)
+            make.left.equalTo(self.content.snp_left)
+            make.bottom.equalTo(self.content.snp_bottom)
+            make.right.equalTo(self.content.snp_right)
         }
     }
     

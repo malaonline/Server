@@ -359,7 +359,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             
         case 1:
             let cell = reuseCell as! TeacherDetailsTagsCell
-            // cell.labels = self.model.tags
+             cell.labels = self.model.tags
             return cell
             
         case 2:

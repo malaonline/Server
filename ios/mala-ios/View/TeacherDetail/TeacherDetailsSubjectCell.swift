@@ -93,7 +93,6 @@ class TeacherDetailsSubjectCell: TeacherDetailBaseCell {
     private func setupUserInterface() {
         // Style
         
-        
         // SubViews
         content.addSubview(elementarySchool)
         content.addSubview(juniorSchool)

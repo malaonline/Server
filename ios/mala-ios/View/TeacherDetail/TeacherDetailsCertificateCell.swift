@@ -18,14 +18,14 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
                 return
             }
             
-//            labels.removeAll()
-//            
-//            for model in models {
-//                labels.append(model?.title ?? "")
-//                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
-//                photo.caption = model?.title ?? ""
-//                images.append(photo)
-//            }
+            labels.removeAll()
+            
+            for model in models {
+                labels.append(model?.title ?? "")
+                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
+                photo.caption = model?.title ?? ""
+                images.append(photo)
+            }
         }
     }
     var images: [SKPhoto] = []
@@ -44,7 +44,7 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
     
     // MARK: - Private Method
     private func configure() {
-//        self.tagsView.delegate = self
+        self.tagsView.delegate = self
     }
     
     

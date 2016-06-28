@@ -72,11 +72,11 @@ class TeacherDetailsPlaceCell: TeacherDetailBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
+        tagsView.removeFromSuperview()
         content.addSubview(tableView)
         content.addSubview(button)
         
         // Autolayout
-        // Remove margin
         content.snp_updateConstraints { (make) -> Void in
             make.top.equalTo(self.titleLabel.snp_bottom)
             make.bottom.equalTo(self.contentView.snp_bottom)

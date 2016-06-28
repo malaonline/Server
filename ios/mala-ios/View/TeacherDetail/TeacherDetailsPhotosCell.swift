@@ -83,6 +83,7 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     private func setupUserInterface() {
         
         // SubViews
+        tagsView.removeFromSuperview()
         content.addSubview(leftPhoto)
         content.addSubview(centerPhoto)
         content.addSubview(rightPhoto)
