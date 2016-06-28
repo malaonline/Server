@@ -150,9 +150,9 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
         var rect = contentView.frame
         rect.size.width = MalaScreenWidth
         rect.size.height = 420
-        println("0000 - \(-extraHeight*percent-210)")
+        // println("0000 - \(-extraHeight*percent-210)")
         rect.origin.y = -extraHeight*percent-210
-        println("Frame - \(rect) - \(extraHeight) - \(percent) - \(parentTableView?.contentOffset.y)")
+        // println("Frame - \(rect) - \(extraHeight) - \(percent) - \(parentTableView?.contentOffset.y)")
         parallaxImage.frame = rect
     }
 
