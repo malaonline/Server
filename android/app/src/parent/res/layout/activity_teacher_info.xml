@@ -21,11 +21,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/iv_teacher_bk"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_teacher_bg" />
+                    android:src="@drawable/core__teacher_banner" />
             </RelativeLayout>
 
 

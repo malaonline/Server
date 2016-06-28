@@ -2,6 +2,7 @@ package com.malalaoshi.android;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -30,12 +31,14 @@ import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
+import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.BitmapUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
@@ -64,7 +67,9 @@ import butterknife.ButterKnife;
 /**
  * Created by kang on 16/3/29.
  */
-public class TeacherInfoActivity extends BaseActivity implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener, AdapterView.OnItemClickListener {
+public class TeacherInfoActivity extends BaseActivity
+        implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener,
+        AdapterView.OnItemClickListener {
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
@@ -205,6 +210,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.tv_school_more)
     protected TextView tvSchoolMore;
 
+    @Bind(R.id.iv_teacher_bk)
+    protected ImageView teacherView;
+
     private SchoolAdapter mSchoolAdapter;
 
     private boolean isShowAllSchools = false;
@@ -312,12 +320,13 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
         //获取位置
         Location location = LocManager.getInstance().getLocation();
-        if (location!=null) {
+        if (location != null) {
             //排序
             LocationUtil.sortByDistance(mAllSchools, location.getLatitude(), location.getLongitude());
             mFirstSchool.clear();
             mFirstSchool.add(mAllSchools.get(0));
-            tvSchoolMore.setText(String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
+            tvSchoolMore.setText(
+                    String.format("离您最近的社区中心 (%s)", LocationUtil.formatDistance(mAllSchools.get(0).getDistance())));
         } else {
             School school;
             for (int i = 0; i < mAllSchools.size(); i++) {
@@ -347,6 +356,23 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         tvSignUp.setEnabled(true);
     }
 
+    private void updateBlurImage(final String url) {
+        MalaContext.exec(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap bitmap = BitmapUtils.blurBitmap(url);
+                MalaContext.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bitmap != null) {
+                            teacherView.setImageBitmap(bitmap);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     //跟新教师详情
     private void updateUI(Teacher teacher) {
         if (teacher != null) {
@@ -359,15 +385,16 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             }
             //头像
             string = teacher.getAvatar();
-            if (!EmptyUtils.isEmpty(string)){
+            if (!EmptyUtils.isEmpty(string)) {
                 mHeadPortrait.setImageURI(Uri.parse(string));
+                updateBlurImage(string);
             }
 
             //性别
-            String grender = teacher.getGender();
-            if (grender != null && grender.equals("m")) {
+            String gender = teacher.getGender();
+            if (gender != null && gender.equals("m")) {
                 mTeacherGender.setImageResource(R.drawable.ic_male_gender);
-            } else if (grender != null && grender.equals("f")) {
+            } else if (gender != null && gender.equals("f")) {
                 mTeacherGender.setImageResource(R.drawable.ic_female_gender);
             }
 
@@ -381,7 +408,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             String region = null;
             if (minPrice != null && maxPrice != null) {
 
-                region = com.malalaoshi.android.util.Number.subZeroAndDot(minPrice * 0.01d) + "-" + Number.subZeroAndDot(maxPrice * 0.01d) + "元/小时";
+                region = com.malalaoshi.android.util.Number.subZeroAndDot(minPrice * 0.01d) + "-" + Number
+                        .subZeroAndDot(maxPrice * 0.01d) + "元/小时";
             } else if (minPrice != null) {
                 region = Number.subZeroAndDot(minPrice * 0.01d) + "元/小时";
             } else if (maxPrice != null) {
@@ -391,7 +419,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 mPriceRegion.setText(region);
             }
 
-           //教授年级
+            //教授年级
             String[] grades = mTeacher.getGrades();
             setGradeTeaching(grades);
 
@@ -425,7 +453,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
                 tvTeacherLevel.setText("T"+level);
             }
             Integer teachAge = teacher.getTeaching_age();
-            if (teachAge!=null){
+            if (teachAge != null) {
                 viewTeacherSeniority.setProgress(teachAge);
                 tvTeacherSeniority.setText(teachAge.toString() + "年");
             }
@@ -437,36 +465,39 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         int count = 0;
         List<List<String>> gradelist = Grade.getGradesByGroup(grades);
 
-        if (gradelist!=null&&gradelist.get(0)!=null&&gradelist.get(0).size()>0){
-            setFlowDatas(flTeachPrimary, (String[]) gradelist.get(0).toArray(new String[gradelist.get(0).size()]),R.drawable.bg_text_primary,R.color.primary_text_color);
-        }else{
+        if (gradelist != null && gradelist.get(0) != null && gradelist.get(0).size() > 0) {
+            setFlowDatas(flTeachPrimary, (String[]) gradelist.get(0).toArray(new String[gradelist.get(0).size()]),
+                    R.drawable.bg_text_primary, R.color.primary_text_color);
+        } else {
             rlTeachPrimary.setVisibility(View.GONE);
             count++;
         }
 
-        if (gradelist!=null&&gradelist.get(1)!=null&&gradelist.get(1).size()>0){
-            setFlowDatas(flTeachJunior, (String[]) gradelist.get(1).toArray(new String[gradelist.get(1).size()]),R.drawable.bg_text_junior,R.color.junior_text_color);
-        }else{
+        if (gradelist != null && gradelist.get(1) != null && gradelist.get(1).size() > 0) {
+            setFlowDatas(flTeachJunior, (String[]) gradelist.get(1).toArray(new String[gradelist.get(1).size()]),
+                    R.drawable.bg_text_junior, R.color.junior_text_color);
+        } else {
             rlTeachJunior.setVisibility(View.GONE);
             count++;
         }
 
-        if (gradelist!=null&&gradelist.get(2)!=null&&gradelist.get(2).size()>0){
-            setFlowDatas(flTeachSenior, (String[]) gradelist.get(2).toArray(new String[gradelist.get(2).size()]),R.drawable.bg_text_senior,R.color.senior_text_color);
-        }else{
+        if (gradelist != null && gradelist.get(2) != null && gradelist.get(2).size() > 0) {
+            setFlowDatas(flTeachSenior, (String[]) gradelist.get(2).toArray(new String[gradelist.get(2).size()]),
+                    R.drawable.bg_text_senior, R.color.senior_text_color);
+        } else {
             rlTeachSenior.setVisibility(View.GONE);
             count++;
         }
 
-        if (count<=1){
+        if (count <= 1) {
             viewPrimaryLine.setVisibility(View.GONE);
             viewJuniorLine.setVisibility(View.GONE);
             return;
-        }else if (count==2){
-            if (gradelist.get(0).size()>0){
+        } else if (count == 2) {
+            if (gradelist.get(0).size() > 0) {
                 viewJuniorLine.setVisibility(View.GONE);
                 return;
-            }else if (gradelist.get(2).size()>0){
+            } else if (gradelist.get(2).size() > 0) {
                 viewPrimaryLine.setVisibility(View.GONE);
                 return;
             }
@@ -479,7 +510,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         flowlayout.removeAllViews();
 
         for (int i = 0; datas != null && i < datas.size(); i++) {
-            TextView textView = buildCertTextView(datas.get(i).getTitle(),0);
+            TextView textView = buildCertTextView(datas.get(i).getTitle(), 0);
             final int finalI = i;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -515,20 +546,20 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, height);
 
-        layoutParams.setMargins(margin , margin , margin , margin);
+        layoutParams.setMargins(margin, margin, margin, margin);
         textView.setLayoutParams(layoutParams);
         int topPadding = textView.getPaddingTop();
         int bottomPadding = textView.getPaddingBottom();
-        textView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
+        textView.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
 
-        Drawable drawable= getResources().getDrawable(R.drawable.ic_certificate_icon);
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_certificate_icon);
         // 这一步必须要做,否则不会显示.
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        textView.setCompoundDrawables(null,null,drawable,null);
+        textView.setCompoundDrawables(null, null, drawable, null);
         textView.setCompoundDrawablePadding(drawablePadding);
         textView.setText(title);
         textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
         textView.setBackground(getResources().getDrawable(R.drawable.item_text_bg));
         return textView;
@@ -538,7 +569,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         flowlayout.setFocusable(false);
         flowlayout.removeAllViews();
         for (int i = 0; datas != null && i < datas.length; i++) {
-            TextView textView = buildFlowTextView(datas[i],bgDrawableId);
+            TextView textView = buildFlowTextView(datas[i], bgDrawableId);
             textView.setTextColor(getResources().getColor(colorId));
             flowlayout.addView(textView, i);
         }
@@ -553,15 +584,15 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, height);
 
-        layoutParams.setMargins(margin , margin , margin , margin);
+        layoutParams.setMargins(margin, margin, margin, margin);
         textView.setLayoutParams(layoutParams);
         int topPadding = textView.getPaddingTop();
         int bottomPadding = textView.getPaddingBottom();
-        textView.setPadding(leftPadding,topPadding,rightPadding,bottomPadding);
+        textView.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
 
         textView.setText(data);
         textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
         textView.setBackground(getResources().getDrawable(bgDrawableId));
         return textView;
@@ -575,7 +606,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         }
         gralleryAdapter.addAll(Arrays.asList(gallery));
         gvGrallery.setFocusable(true);
-        MeasureGrallery(gvGrallery,gralleryAdapter);
+        MeasureGrallery(gvGrallery, gralleryAdapter);
         gvGrallery.setVerticalScrollBarEnabled(true);
         gvGrallery.setAdapter(gralleryAdapter);
     }
@@ -587,9 +618,9 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
         int gralleryHeight = getResources().getDimensionPixelSize(R.dimen.grallery_height);
         int gralleryHorizontalSpacing = getResources().getDimensionPixelSize(R.dimen.grallery_horizontal_spacing);
         int gridviewWidth = 0;
-        if (childCount>0){
-            gridviewWidth = (gralleryWidth+gralleryHorizontalSpacing)*childCount - gralleryHorizontalSpacing;
-            if (childCount==1){
+        if (childCount > 0) {
+            gridviewWidth = (gralleryWidth + gralleryHorizontalSpacing) * childCount - gralleryHorizontalSpacing;
+            if (childCount == 1) {
                 gridviewWidth -= gralleryHorizontalSpacing;
             }
         }
@@ -635,7 +666,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
             mSchoolAdapter.addAll(mAllSchools);
             mSchoolAdapter.notifyDataSetChanged();
         } else {
-            if (mAllSchools==null||mAllSchools.size()<=0){
+            if (mAllSchools == null || mAllSchools.size() <= 0) {
                 return;
             }
             Double dis = mAllSchools.get(0).getDistance();
@@ -686,8 +717,8 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
     //启动购买课程页
     private void startCourseConfirmActivity() {
         Subject subject = Subject.getSubjectIdByName(mTeacher.getSubject());
-        if (mTeacher!=null&&mTeacher.getId()!=null&&subject!=null){
-            CourseConfirmActivity.open(this,mTeacher.getId(),mTeacher.getName(),mTeacher.getAvatar(),subject);
+        if (mTeacher != null && mTeacher.getId() != null && subject != null) {
+            CourseConfirmActivity.open(this, mTeacher.getId(), mTeacher.getName(), mTeacher.getAvatar(), subject);
         }
     }
 
@@ -754,7 +785,7 @@ public class TeacherInfoActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         public void onApiSuccess(@NonNull Teacher response) {
-            if (response!=null){
+            if (response != null) {
                 get().loadTeacherInfoSuccess(response);
             }
         }
