@@ -21,23 +21,32 @@ class TeacherDetailsSignupView: UIView {
     
     
     // MARK: - Components
+    /// 装饰线
     private lazy var topLine: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0.25
         return view
     }()
+    /// 收藏按钮
+    private lazy var likeButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFontOfSize(10)
+        button.setImage(UIImage(named: "like_icon"), forState: .Normal)
+        button.setTitle("收藏", forState: .Normal)
+        button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: -10, left: 10.35, bottom: 10, right: -10.35)
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: -10.35, bottom: -10, right: 10.35)
+        return button
+    }()
+    /// 报名按钮
     private lazy var button: UIButton = {
         let button = UIButton(
             title: "马上报名",
-            titleColor: MalaColor_82B4D9_0,
-            backgroundColor: UIColor(rgbHexValue: 0xFFFFFF, alpha: 0.95)
+            titleColor: MalaColor_FFFFFF_9,
+            backgroundColor: MalaColor_7FB4DC_0
         )
-        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
-        button.layer.cornerRadius = 5.0
-        button.layer.masksToBounds = true
-        button.layer.borderColor = MalaColor_E5E5E5_0.CGColor
-        button.layer.borderWidth = 1.0
+        // button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
         button.addTarget(self, action: #selector(TeacherDetailsSignupView.buttonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -61,6 +70,7 @@ class TeacherDetailsSignupView: UIView {
 
         // SubViews
         self.addSubview(topLine)
+        self.addSubview(likeButton)
         self.addSubview(button)
         
         // Autolayout
@@ -70,11 +80,17 @@ class TeacherDetailsSignupView: UIView {
             make.top.equalTo(self.snp_top)
             make.height.equalTo(MalaScreenOnePixel)
         })
+        likeButton.snp_makeConstraints(closure: { (make) -> Void in
+            make.top.equalTo(topLine.snp_bottom)
+            make.left.equalTo(self.snp_left)
+            make.bottom.equalTo(self.snp_bottom)
+            make.right.equalTo(self.snp_right).multipliedBy(0.422)
+        })
         button.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.snp_top).offset(6)
-            make.left.equalTo(self.snp_left).offset(12)
-            make.bottom.equalTo(self.snp_bottom).offset(-6)
-            make.right.equalTo(self.snp_right).offset(-12)
+            make.top.equalTo(topLine.snp_bottom)
+            make.left.equalTo(likeButton.snp_right)
+            make.bottom.equalTo(self.snp_bottom)
+            make.right.equalTo(self.snp_right)
         })
     }
     
