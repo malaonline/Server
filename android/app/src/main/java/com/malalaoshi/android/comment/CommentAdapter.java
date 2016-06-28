@@ -15,6 +15,7 @@ import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.core.utils.DateUtils;
 import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.dialog.CommentDialog;
+import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.entity.Course;
 
 /**
@@ -113,7 +114,8 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
                         course.getComment());
         commentDialog.SetOnCommentResultListener(new CommentDialog.OnCommentResultListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Comment response) {
+                course.setComment(response);
                 setCommentedUI(holder, course);
             }
         });

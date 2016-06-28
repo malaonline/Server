@@ -52,7 +52,7 @@ import butterknife.OnClick;
 public class CommentDialog extends DialogFragment {
 
     public interface OnCommentResultListener {
-        void onSuccess();
+        void onSuccess(Comment response);
     }
 
     private static String ARGS_DIALOG_TEACHER_NAME = "teacher name";
@@ -405,7 +405,7 @@ public class CommentDialog extends DialogFragment {
 
         @Override
         public void onApiSuccess(@NonNull Comment response) {
-            get().commentSucceed();
+            get().commentSucceed(response);
         }
 
         @Override
@@ -435,13 +435,13 @@ public class CommentDialog extends DialogFragment {
         ApiExecutor.exec(new PostCommentRequest(this, json.toString()));
     }
 
-    private void commentSucceed() {
+    private void commentSucceed(Comment response) {
         //跟新课表
         commentSuccess = true;
         EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
         MiscUtil.toast(R.string.comment_succeed);
         if (resutListener != null) {
-            resutListener.onSuccess();
+            resutListener.onSuccess(response);
         }
         dismiss();
     }
