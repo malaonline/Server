@@ -182,7 +182,7 @@ func parseStudentCourseTable(courseTable: [StudentCourseModel]) -> (model: [[[St
     }
     
     ///  若所有课程中无最近未上课程，则选定最后一节课程
-    if nowTime == 0 {
+    if nowTime == 0 && datas.count > 0 && datas[0].count > 0 {
         let section = datas.count-1
         let row = datas[section].count-1
         indexPath = (section, row)
