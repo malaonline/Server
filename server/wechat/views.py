@@ -98,10 +98,6 @@ class SchoolsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(SchoolsView, self).get_context_data(**kwargs)
         openid = self.request.GET.get("openid", None) or self.request.POST.get("openid", None)
-        server_timestamp = int(time.time())
-        nonce_str = make_nonce_str()
-        access_token, msg = _get_wx_token()
-        jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
         cur_url = self.request.build_absolute_uri()
 
         # schools = self.model.objects.all()
@@ -110,16 +106,13 @@ class SchoolsView(ListView):
         #     photosdic[school.id] = school.get_photo_url_list()
         # photosdic = json.dumps(photosdic)
 
-        signature = wx_signature({'noncestr': nonce_str,
-                            'jsapi_ticket': jsapi_ticket,
-                            'timestamp': server_timestamp,
-                            'url': cur_url})
+        sign_data = _jssdk_sign(cur_url)
 
         context['WX_OPENID'] = openid
         context['WX_APPID'] = settings.WEIXIN_APPID
-        context['WX_NONCE_STR'] = nonce_str
-        context['WX_SIGNITURE'] = signature
-        context['server_timestamp'] = server_timestamp
+        context['WX_NONCE_STR'] = sign_data['noncestr']
+        context['WX_SIGNITURE'] = sign_data['signature']
+        context['server_timestamp'] = sign_data['timestamp']
         # context['photosdic'] = photosdic
 
         return context
@@ -332,9 +325,14 @@ class CourseChoosingView(OrderBaseView):
             if trade_state == WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
                 try:
-                    set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
-                except:
-                    pass # 忽略错误, 微信端直接关闭页面
+                    ret_code = set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
+                    if ret_code == 1:
+                        return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+                except (OrderStatusIncorrect, RefundError):
+                    return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+                except Exception as ex:
+                    logger.exception(ex)
+                    return JsonResponse({'ok': False, 'msg': '未知异常, 请稍后重试', 'code': 5})
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == WX_PAYERROR:
@@ -433,6 +431,10 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     有两个地方调用:
         1, 刚支付完, verify order 主动去微信查询订单状态, 当支付成功时调用
         2, 接受微信支付结果异步通知中, 当支付成功时调用
+    return:
+        0, all ok
+        1, 分配上课时间失败
+        -1, ignore it
     """
     logger.debug('wx_pub_pay try to set_order_paid, order_no: '+str(order_id)+', prepay_id: '+str(prepay_id)+', open_id: '+str(open_id))
     charge = None
@@ -452,7 +454,7 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         order_id = order.order_id
 
     if order.status == models.Order.PAID:
-        return # 已经处理过了, 直接返回
+        return -1 # 已经处理过了, 直接返回
     order.status = models.Order.PAID
     order.paid_at = timezone.now()
     order.save()
@@ -460,9 +462,11 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
     logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+str(order_id))
     try:
         models.Order.objects.allocate_timeslots(order)
+        # 微信通知用户购课成功信息
+        send_pay_info_to_user(open_id, order_id)
         # 把学生和老师注册到快乐学
         registerKuaiLeXueUserByOrder.delay(order.id)
-        # return JsonResponse({'ok': 1})
+        return 0
     except TimeSlotConflict:
         logger.warning('timeslot conflict, do refund, order_id: '+str(order_id))
         # 微信通知用户失败信息
@@ -478,15 +482,12 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
             models.Order.objects.refund(
                     order, '课程被抢占，自动退款', order.parent.user)
         except OrderStatusIncorrect as e:
-            logger.error(e)
+            logger.exception(e)
             raise e
         except RefundError as e:
-            logger.error(e)
+            logger.exception(e)
             raise e
-        return # 没有其他错误, 直接返回
-
-    # 微信通知用户购课成功信息
-    send_pay_info_to_user(open_id, order_id)
+        return 1 # 没有其他错误, 返回分配上课时间失败
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -542,7 +543,7 @@ def wx_pay_notify_view(request):
     try:
         set_order_paid(order_id=order_id, open_id=openid)
     except:
-        pass # 忽略错误, 微信端直接关闭页面
+        pass # 该view为异步调用, 忽略错误
     return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
 
 
@@ -593,6 +594,9 @@ def send_pay_info_to_user(openid, order_no):
     tpl_id = settings.WECHAT_PAY_INFO_TEMPLATE
     _try_send_wx_tpl_msg(tpl_id, openid, data, 3)
 
+
+FAIL_HINT_MSG = '您好，该老师该时段课程已被抢购，您可重新选择课时进行购买。' \
+                '我们将在24小时内为您退款。退款事宜请联系客服：%s' % (settings.SERVICE_SUPPORT_TEL,)
 
 def send_pay_fail_to_user(openid, order_no):
     """
@@ -677,23 +681,14 @@ def teacher_view(request):
 
     schools = models.School.objects.all()
 
-    now_timestamp = int(time.time())
-
-    nonce_str = make_nonce_str()
-    access_token, msg = _get_wx_token()
-    jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
     cur_url = request.build_absolute_uri()
-
-    signature = wx_signature({'noncestr': nonce_str,
-                            'jsapi_ticket': jsapi_ticket,
-                            'timestamp': now_timestamp,
-                            'url': cur_url})
+    sign_data = _jssdk_sign(cur_url)
 
     context = {
-        "server_timestamp": now_timestamp,
+        "server_timestamp": sign_data['timestamp'],
         "WX_APPID": settings.WEIXIN_APPID,
-        "WX_NONCE_STR": nonce_str,
-        "WX_SIGNATURE": signature,
+        "WX_NONCE_STR": sign_data['noncestr'],
+        "WX_SIGNATURE": sign_data['signature'],
         "openid": openid,
         "gender": gender,
         "tags": list(teacher.tags.all()),
