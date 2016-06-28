@@ -194,7 +194,8 @@ public class MalaConfig {
                     controllerTitle: "我的收藏",
                     type: nil,
                     iconName: "profile_collect",
-                    newMessageIconName: ""
+                    newMessageIconName: "",
+                    disabled: true
                 ),
                 ProfileElementModel(
                     id: 1,

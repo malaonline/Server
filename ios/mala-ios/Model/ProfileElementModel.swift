@@ -28,6 +28,9 @@ class ProfileElementModel: BaseObjectModel {
     /// 新消息图片名称
     var newMessageIconName: String = ""
     
+    /// 是否冻结
+    var disabled: Bool = false
+    
     
     // MARK: - Constructed
     override init() {
@@ -39,8 +42,7 @@ class ProfileElementModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, title: String = "", detail: String = "", controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0,
-                     iconName: String = "", newMessageIconName: String = "") {
+    convenience init(id: Int, title: String = "", detail: String = "", controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0, iconName: String = "", newMessageIconName: String = "", disabled: Bool = false) {
         self.init()
         self.id = id
         self.title = title
@@ -51,6 +53,7 @@ class ProfileElementModel: BaseObjectModel {
         self.badgeNumber = badgeNumber
         self.iconName = iconName
         self.newMessageIconName = newMessageIconName
+        self.disabled = disabled
     }
     
     // MARK: - Override

@@ -259,6 +259,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.whiteColor()), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = nil
         turnBackButtonBlack()
+        isNavigationBarShow = true
     }
     
     private func hideBackground() {
@@ -267,6 +268,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         navigationController?.navigationBar.setBackgroundImage(UIImage.withColor(UIColor.clearColor()), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
         turnBackButtonWhite()
+        isNavigationBarShow = false
     }
     
     // 跳转到课程购买页
@@ -315,11 +317,9 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         // 上下滑动页面到一定程度且 NavigationBar 尚未显示，渲染NavigationBar样式
         if displacement > -40 && !isNavigationBarShow {
             showBackground()
-            isNavigationBarShow = true
         }
         if displacement < -40 && isNavigationBarShow {
             hideBackground()
-            isNavigationBarShow = false
         }
     }
     
