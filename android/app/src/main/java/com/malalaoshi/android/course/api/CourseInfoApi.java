@@ -11,7 +11,7 @@ import com.malalaoshi.android.entity.Course;
 public class CourseInfoApi extends BaseApi {
 
     private static final String URL_TIMES_LOTS_BY_ID = "/api/v1/timeslots/%s";
-    private static final String URL_COURSE_LIST = "/api/v1/timeslots";
+    private static final String URL_COURSE_LIST = "/api/v1/timeslots?for_review=true";
 
     @Override
     protected String getPath() {
