@@ -151,6 +151,7 @@ public class UserFragment extends BaseFragment {
                 updateUI();
                 break;
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
+            case BusEvent.BUS_EVENT_UPDATE_USER_NAME_SUCCESS:
                 reloadData();
                 break;
 
