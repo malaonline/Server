@@ -15,8 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="18dp"
-            android:background="@drawable/ic_dialog_note"
-            android:minHeight="200dp"
+            android:background="@drawable/ic_edit_bg"
+            android:minHeight="232dp"
+            android:paddingBottom="45dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -54,9 +55,9 @@
 
             <TextView
                 android:id="@+id/tv_content"
+                android:lineSpacingExtra="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="测试内容"
                 android:textColor="#939393"
                 android:textSize="13sp" />
         </LinearLayout>
