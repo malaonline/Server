@@ -43,6 +43,17 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     
     
     // MARK: - Components
+    private lazy var detailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "rightArrow"), forState: .Normal)
+        button.setTitle("更多", forState: .Normal)
+        button.setTitleColor(MalaColor_939393_0, forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(12)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: -24)
+        button.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
+        return button
+    }()
     private lazy var leftPhoto: UIImageView = {
         let leftPhoto =  UIImageView.placeHolder()
         leftPhoto.tag = 0
@@ -70,7 +81,6 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configure()
         setupUserInterface()
     }
     
@@ -84,11 +94,17 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
         
         // SubViews
         tagsView.removeFromSuperview()
+        headerView.addSubview(detailButton)
         content.addSubview(leftPhoto)
         content.addSubview(centerPhoto)
         content.addSubview(rightPhoto)
 
         // Autolayout
+        detailButton.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(13)
+            make.right.equalTo(headerView.snp_right).offset(-12)
+            make.centerY.equalTo(headerView.snp_centerY)
+        }
         leftPhoto.snp_makeConstraints { (make) -> Void in
             make.height.equalTo(MalaLayout_DetailPhotoHeight)
             make.width.equalTo(MalaLayout_DetailPhotoWidth)
@@ -108,10 +124,6 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
             make.left.equalTo(self.centerPhoto.snp_right).offset(5)
             make.right.equalTo(self.content.snp_right)
         }
-    }
-    
-    private func configure() {
-//        rightArrow.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
     }
  
     

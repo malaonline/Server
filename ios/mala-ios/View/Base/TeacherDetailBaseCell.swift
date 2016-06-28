@@ -31,6 +31,12 @@ class TeacherDetailBaseCell: UITableViewCell {
     
     
     // MARK: - Components
+    /// 头部视图
+    lazy var headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = MalaColor_F6F6F6_96
+        return view
+    }()
     /// 标题标签
     lazy var titleLabel: UILabel = {
         let label = UILabel(
@@ -42,12 +48,6 @@ class TeacherDetailBaseCell: UITableViewCell {
     }()
     /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
     lazy var content: UIView = UIView()
-    /// 头部视图
-    private lazy var headerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = MalaColor_F6F6F6_96
-        return view
-    }()
     /// 标签容器
     lazy var tagsView: MATabListView = {
         let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 12))

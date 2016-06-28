@@ -22,7 +22,6 @@ public class MalaPhotoBrowser: BaseViewController, UICollectionViewDataSource, U
                 image.shouldCachePhotoURLImage = true
                 images.append(image)
             }
-            println("collectionView reload - \(images)")
             collectionView.reloadData()
         }
     }
