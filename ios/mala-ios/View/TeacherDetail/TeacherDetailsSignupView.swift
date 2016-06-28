@@ -35,8 +35,8 @@ class TeacherDetailsSignupView: UIView {
         button.setImage(UIImage(named: "like_icon"), forState: .Normal)
         button.setTitle("收藏", forState: .Normal)
         button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: -10, left: 10.35, bottom: 10, right: -10.35)
-        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: -10.35, bottom: -10, right: 10.35)
+        button.imageEdgeInsets = UIEdgeInsets(top: -8, left: 10.35, bottom: 8, right: -10.35)
+        button.titleEdgeInsets = UIEdgeInsets(top: 8, left: -10.25, bottom: -8, right: 10.25)
         return button
     }()
     /// 报名按钮
@@ -70,7 +70,7 @@ class TeacherDetailsSignupView: UIView {
 
         // SubViews
         self.addSubview(topLine)
-        self.addSubview(likeButton)
+        // self.addSubview(likeButton)  //TODO: 暂时不加入收藏功能
         self.addSubview(button)
         
         // Autolayout
@@ -80,15 +80,17 @@ class TeacherDetailsSignupView: UIView {
             make.top.equalTo(self.snp_top)
             make.height.equalTo(MalaScreenOnePixel)
         })
-        likeButton.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(topLine.snp_bottom)
-            make.left.equalTo(self.snp_left)
-            make.bottom.equalTo(self.snp_bottom)
-            make.right.equalTo(self.snp_right).multipliedBy(0.422)
-        })
+        // likeButton.snp_makeConstraints(closure: { (make) -> Void in
+            // make.top.equalTo(topLine.snp_bottom)
+            // make.left.equalTo(self.snp_left)
+            // make.bottom.equalTo(self.snp_bottom)
+            // make.right.equalTo(self.snp_right).multipliedBy(0.422)
+        // })
         button.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(topLine.snp_bottom)
-            make.left.equalTo(likeButton.snp_right)
+            // make.top.equalTo(topLine.snp_bottom)
+            // make.left.equalTo(likeButton.snp_right)
+            make.top.equalTo(self.snp_top)
+            make.left.equalTo(self.snp_left)
             make.bottom.equalTo(self.snp_bottom)
             make.right.equalTo(self.snp_right)
         })
