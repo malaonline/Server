@@ -89,6 +89,7 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
         }
         
         // 确保图片宽度与屏幕保持一致（仅需在初始化后）
+        updateParallaxOffset()
         parallaxImage.frame.size.width = MalaScreenWidth
     }
     
@@ -141,22 +142,29 @@ class CourseTableViewSectionHeader: UITableViewHeaderFooterView {
 
         let contentOffset = defaultOffset + (parentTableView?.contentOffset.y ?? 0) - offset
         let cellOffset = contentView.frame.origin.y - (contentOffset ?? 0)
-        
-        let percent = (cellOffset + contentView.frame.size.height)/((parentTableView?.frame.size.height ?? 0) + contentView.frame.size.height)
-        let extraHeight = contentView.frame.size.height*(parallaxRatio-1)
+        let contentViewHeight: CGFloat = 140
+
+        let percent = (cellOffset + contentViewHeight)/((parentTableView?.frame.size.height ?? (MalaScreenHeight-64)) + contentViewHeight)
+        let extraHeight = contentViewHeight*(parallaxRatio-1)
         
         var rect = contentView.frame
-        rect.size.width = contentView.frame.width
+        rect.size.width = MalaScreenWidth
         rect.size.height = 420
+        println("0000 - \(-extraHeight*percent-210)")
         rect.origin.y = -extraHeight*percent-210
-//        println("Frame - \(rect) - \(percent) - \(contentOffset) - \(cellOffset)")
+        println("Frame - \(rect) - \(extraHeight) - \(percent) - \(parentTableView?.contentOffset.y)")
         parallaxImage.frame = rect
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
         offset = parentTableView?.contentOffset.y ?? 0
-        parallaxImage.frame.origin.y = -100
+        
+        let contentOffset = defaultOffset + (parentTableView?.contentOffset.y ?? 0) - offset
+        let cellOffset = contentView.frame.origin.y - (contentOffset ?? 0)
+        let percent = (cellOffset + contentView.frame.size.height)/((parentTableView?.frame.size.height ?? 1) + contentView.frame.size.height)
+        let extraHeight = contentView.frame.size.height*(parallaxRatio-1)
+        parallaxImage.frame.origin.y = -extraHeight*percent-210
     }
     
     
