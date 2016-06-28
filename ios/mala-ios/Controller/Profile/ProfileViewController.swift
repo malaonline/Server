@@ -341,15 +341,16 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
                         
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             self?.profileHeaderView.avatar = UIImage(data: imageData) ?? UIImage()
+                            self?.profileHeaderView.refreshAvatar = false
                         }
                         
                         println("newAvatarURLString: \(newAvatarURLString)")
                         
-                        self.updateAvatar() {
-                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                self?.profileHeaderView.refreshAvatar = false
-                            }
-                        }
+//                        self.updateAvatar() {
+//                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+//                                self?.profileHeaderView.refreshAvatar = false
+//                            }
+//                        }
                     }
             })
         }
