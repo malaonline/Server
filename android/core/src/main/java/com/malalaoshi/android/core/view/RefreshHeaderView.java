@@ -98,7 +98,7 @@ public class RefreshHeaderView extends LinearLayout implements PtrUIHandler {
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
         if (ptrIndicator.getCurrentPercent() >= 1 && this.status == Status.REFRESH_PREPARE) {
-            setText("释放跟新...");
+            setText("释放更新...");
         } else if (this.status == Status.REFRESH_PREPARE) {
             setText("下拉刷新...");
         }
