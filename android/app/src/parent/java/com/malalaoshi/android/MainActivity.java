@@ -43,7 +43,7 @@ import java.util.Map;
 import de.greenrobot.event.EventBus;
 
 
-public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPagerIndicator.OnPageChangeListener{
+public class MainActivity extends BaseActivity implements FragmentGroupAdapter.IFragmentGroup, View.OnClickListener, ViewPagerIndicator.OnPageChangeListener, ScheduleFragment.OnClickEmptyCourse {
 
     public static String EXTRAS_PAGE_INDEX = "page index";
     public static final int PAGE_INDEX_TEACHERS = 0;
@@ -318,6 +318,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                     break;
                 case 1:
                     fragment = new ScheduleFragment();
+                    ((ScheduleFragment)fragment).setOnClickEmptyCourse(this);
                     break;
                 case 2:
                     fragment = new MemberServiceFragment();
@@ -341,6 +342,12 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         if (UserManager.getInstance().isLogin()) {
             ApiExecutor.exec(new LoadNoticeRequest(this));
         }
+    }
+
+    @Override
+    public void onClickEmptyCourse(View v) {
+        setCurrentPager(PAGE_INDEX_TEACHERS);
+        vpHome.setCurrentItem(PAGE_INDEX_TEACHERS);
     }
 
     private static final class LoadNoticeRequest extends BaseApiContext<MainActivity, NoticeMessage> {

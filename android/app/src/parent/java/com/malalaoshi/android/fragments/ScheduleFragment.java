@@ -63,6 +63,15 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
     private String hostPreviousUrl;
 
     private boolean isFirstLoadFinish = false;
+    private OnClickEmptyCourse onClickEmptyCourse;
+
+    public interface OnClickEmptyCourse{
+        public void onClickEmptyCourse(View v);
+    }
+
+    public void setOnClickEmptyCourse(OnClickEmptyCourse onClickEmptyCourse) {
+        this.onClickEmptyCourse = onClickEmptyCourse;
+    }
 
     @Nullable
     @Override
@@ -298,6 +307,9 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
     public void onClick(View v) {
         if (UserManager.getInstance().isLogin()){
             //滑动到教师列表页
+            if (onClickEmptyCourse!=null){
+                onClickEmptyCourse.onClickEmptyCourse(v);
+            }
         }else {
             AuthUtils.redirectLoginActivity(getContext());
         }
