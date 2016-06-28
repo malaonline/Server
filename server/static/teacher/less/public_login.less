@@ -1,15 +1,17 @@
 @import "../../common/less/bootstrap.less";
 @border_gray: #cdcecf;
 
+@side_bar_width: 146px;
+
 .side_bar{
-  width: 146px;
+  width: @side_bar_width;
   float: left;
   background: #eaebec;
   padding-left: 35px;
   padding-top: 25px;
   //padding-right: 35px;
   padding-bottom: 25px;
-  min-height: 600px;
+  min-height: 666px;
   .section-title{
     //font-weight:bold;
   }
@@ -45,13 +47,22 @@
   float: left;
   padding: 5px;
   min-width: 750px;
-  width: auto;
+  width: 980px - @side_bar_width - 9px;
   margin-top: 5px;
   margin-left: 9px;
+  @media (min-width: @screen-lg-min) {
+    width: @container-lg - @side_bar_width - 9px;
+  }
 }
 
 .mala_header_dark{
   min-width: @page_min_width;
+  @media (min-width: @screen-md-min) {
+    width: @container-md;
+  }
+  @media (min-width: @screen-lg-min) {
+    width: @container-lg;
+  }
 }
 
 .tag-tab{

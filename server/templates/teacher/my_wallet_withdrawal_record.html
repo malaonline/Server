@@ -8,7 +8,7 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_wallet_withdrawal_record.less'|compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/my_wallet_withdrawal_record.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
     {#    <script src="{% static 'teacher/js/custom/my_wallet_withdrawal.js' %}"></script>#}
