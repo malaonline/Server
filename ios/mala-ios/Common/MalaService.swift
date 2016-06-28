@@ -445,9 +445,7 @@ func getStudentCourseTable(onlyPassed: Bool = false, page: Int = 1, failureHandl
     let parse: JSONDictionary -> [StudentCourseModel] = { data in
         return parseStudentCourse(data)
     }
-    
-    let requestParameters = onlyPassed ? ["for_review": true] : nullDictionary()
-    
+    let requestParameters = ["for_review": String(onlyPassed)]    
     let resource = authJsonResource(path: "/timeslots", method: .GET, requestParameters: requestParameters, parse: parse)
     
     if let failureHandler = failureHandler {
