@@ -1547,7 +1547,7 @@ class MyWalletBase(BasicTeacherView):
 
 class MyWalletWithdrawal(MyWalletBase):
     # 我的钱包
-    template_url = "teacher/my_wallet_withdrawal.html"
+    template_url = "teacher/wallet/my_wallet_withdrawal.html"
 
     def get_handle(self, context, teacher:models.Teacher):
         # 第一张银行卡
@@ -1568,7 +1568,7 @@ class MyWalletWithdrawal(MyWalletBase):
 
 class MyWalletWithdrawalResult(MyWalletBase):
     # 我的钱包,提现结果
-    template_url = "teacher/my_wallet_withdrawal_result.html"
+    template_url = "teacher/wallet/my_wallet_withdrawal_result.html"
 
     def get_handle(self, context, teacher:models.Teacher):
         context["bank_card_end_number"] = self.request.session.pop("bank_card_end_number", "****")
@@ -1578,7 +1578,7 @@ class MyWalletWithdrawalResult(MyWalletBase):
 
 class MyWalletWithdrawalRecord(MyWalletBase):
     # 我的钱包,提现记录
-    template_url = "teacher/my_wallet_withdrawal_record.html"
+    template_url = "teacher/wallet/my_wallet_withdrawal_record.html"
 
     def _fake_record_list(self):
         return [["2015-12-21 16:38:22",
