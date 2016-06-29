@@ -9,7 +9,7 @@
     {% load staticfiles %}
     {% load compile_static %}
 
-    <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'common/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{% static 'web/fullpage/jquery.fullpage.min.css' %}">
 
     {% block addition_less %}{% endblock %}

@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles%}
     {% load compile_static %}
-    <link href="{% static 'common/less/bootstrap.less'|compile %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'common/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'common/less/bootstrap-datetimepicker.less'|compile %}" rel="stylesheet" type="text/css">
     <link href="{% static 'staff/less/staff-base.less'|compile %}" rel="stylesheet" type="text/css">
     {% block addition_header %}{% endblock %}

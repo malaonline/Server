@@ -57,3 +57,6 @@ src
 server/custom_settings/developer
 db.sqlite3
 db_store.json
+
+celerybeat-schedule
+*.pid
