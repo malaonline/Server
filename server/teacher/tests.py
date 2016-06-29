@@ -162,13 +162,6 @@ class TestWebPage(TestCase):
         profile.delete()
         old_user.delete()
 
-    def test_register_show(self):
-        client = Client()
-        register_url = reverse("teacher:login")
-        response = client.get(register_url)
-        self.assertEqual(response.status_code, 200)
-
-
     def test_information_complete(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
