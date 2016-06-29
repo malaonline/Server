@@ -48,54 +48,49 @@ public class MalaRemoteNotificationHandler: NSObject {
                 // 提示信息
                 var title: String = ""
                 // 提示确认闭包
-                var action: ()->() = {}
+                var action: ()->() = action = {
+                    /// 课表页
+                    appDelegate.switchTabBarControllerWithIndex(1)
+                }
                 
                 ///  匹配信息类型
                 switch type {
                     
                 case .Changed:
                     title = "课程变动"
-                    action = {
-                        /// 课表页
-                        appDelegate.switchTabBarControllerWithIndex(1)
-                    }
                     
                 case .Refunds:
                     title = "退费成功"
                     action = {
                         /// 订单详情页
-                        if let viewController = getActivityViewController() where self.code != 0 {
-                            
-                            println("退费成功 - \(viewController) - \(self.code)")
-                            
-                            if let mainViewController = viewController as? MainViewController,
-                                naviVC = mainViewController.viewControllers?[0] as? UINavigationController {
-                                let orderFormViewController = OrderFormInfoViewController()
-                                orderFormViewController.id = self.code
-                                naviVC.pushViewController(orderFormViewController, animated: true)
-                            }else {
-                                let orderFormViewController = OrderFormInfoViewController()
-                                orderFormViewController.id = self.code
-                                viewController.navigationController?.pushViewController(orderFormViewController, animated: true)
-                            }
-                        }
+//                        if let viewController = getActivityViewController() where self.code != 0 {
+//                            
+//                            println("退费成功 - \(viewController) - \(self.code)")
+//                            
+//                            if let mainViewController = viewController as? MainViewController,
+//                                naviVC = mainViewController.viewControllers?[0] as? UINavigationController {
+//                                let orderFormViewController = OrderFormInfoViewController()
+//                                orderFormViewController.id = self.code
+//                                naviVC.pushViewController(orderFormViewController, animated: true)
+//                            }else {
+//                                let orderFormViewController = OrderFormInfoViewController()
+//                                orderFormViewController.id = self.code
+//                                viewController.navigationController?.pushViewController(orderFormViewController, animated: true)
+//                            }
+//                        }
                     }
             
                 case .Finished:
                     title = "完课评价"
-                    action = {
-                        /// 我的评价
-                        if let viewController = getActivityViewController() {
-                            viewController.navigationController?.pushViewController(CommentViewController(), animated: true)
-                        }
-                    }
+//                    action = {
+//                        /// 我的评价
+//                        if let viewController = getActivityViewController() {
+//                            viewController.navigationController?.pushViewController(CommentViewController(), animated: true)
+//                        }
+//                    }
                     
                 case .Starting:
                     title = "课前通知"
-                    action = {
-                        /// 课表页
-                        appDelegate.switchTabBarControllerWithIndex(1)
-                    }
                     
                 case .Maturity:
                     title = "奖学金即将到期"
@@ -108,10 +103,6 @@ public class MalaRemoteNotificationHandler: NSObject {
                     
                 case .Evaluation:
                     title = "测评建档"
-                    action = {
-                        /// 课表页
-                        appDelegate.switchTabBarControllerWithIndex(1)
-                    }
                 }
                 
                 // 若当前在前台，弹出提示
