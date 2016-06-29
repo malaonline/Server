@@ -24,13 +24,13 @@ class CommentViewCell: UITableViewCell {
             avatarView.kf_setImageWithURL(model?.teacher?.avatar ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
             
             // 课程评价状态
-            if model?.is_expired == true {
-                // 过期
-                setStyleExpired()
-                
-            }else if model?.comment != nil {
+            if model?.comment != nil {
                 // 已评价
                 setStyleCommented()
+                
+            }else if model?.is_expired == true {
+                // 过期
+                setStyleExpired()
                 
             }else {
                 // 未评价
