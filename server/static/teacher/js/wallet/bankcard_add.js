@@ -36,58 +36,83 @@ $(function () {
         });
     });
 
+    var clsRowError = function($formRow) {
+        $formRow.removeClass('has-error');
+        $formRow.find('.hint-block').html('');
+    };
+    var setRowError = function($formRow, msg) {
+        $formRow.addClass('has-error');
+        $formRow.find('.hint-block').html(msg);
+    };
+
     // 检测身份证号
+    var $idNum = $('#id_num');
+    var getIdNum = function(){
+        return $.trim($idNum.val());
+    };
     var checkIdNum = function(ignoreBlank, hospitable){
-        var $idNum = $('#id_num'), $formRow = $idNum.closest('.form-group'), id_num = $.trim($idNum.val());
+        var $formRow = $idNum.closest('.form-group'), id_num = getIdNum();
         if (!id_num && ignoreBlank) return false;
         var ok = checkIDNumber(id_num);
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
             if (!hospitable) {
-                $formRow.addClass('has-error');
-                $formRow.find('.hint-block').html('身份证号错误');
+                setRowError($formRow, '身份证号错误');
             }
         }
         return ok;
     };
     checkIdNum(true);
     // 检测银行卡号
+    var $cardNumber = $('#card_number');
+    var getCardNumer = function(){
+        return $.trim($cardNumber.val())
+    };
     var checkCardNum = function(ignoreBlank, hospitable){
-        var $card_number = $('#card_number'), $formRow = $card_number.closest('.form-group'), card_number = $.trim($card_number.val());
-        if (!card_number && ignoreBlank) return false;
+        var $formRow = $cardNumber.closest('.form-group'), card_number = getCardNumer();
+        if (!card_number && ignoreBlank) {
+            if (!hospitable) {
+                setRowError($formRow, '银行卡号格式错误');
+            }
+            return false;
+        }
         card_number = card_number.replace(/\s+/g,"");
         var ok = /^\d{16,19}$/.test(card_number);
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
             if (!hospitable) {
-                $formRow.addClass('has-error');
-                $formRow.find('.hint-block').html('银行卡号格式错误');
+                setRowError($formRow, '银行卡号格式错误');
             }
         }
         return ok;
     };
-    checkCardNum(true);
+    checkCardNum(true, true);
     // 检测手机号
+    var $phone = $('#phone');
+    var getPhone = function(){
+        return $.trim($phone.val());
+    };
     var checkPhone = function(ignoreBlank, hospitable){
-        var $phone = $('#phone'), $formRow = $phone.closest('.form-group'), phone = $.trim($phone.val());
-        if (!phone && ignoreBlank) return false;
+        var $formRow = $phone.closest('.form-group'), phone = getPhone();
+        if (!phone && ignoreBlank) {
+            if (!hospitable) {
+                setRowError($formRow, '手机号格式错误');
+            }
+            return false;
+        }
         var ok = checkMobile(phone);
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
             if (!hospitable) {
-                $formRow.addClass('has-error');
-                $formRow.find('.hint-block').html('手机号格式错误');
+                setRowError($formRow, '手机号格式错误');
             }
         }
         return ok;
     };
-    checkPhone(true);
+    checkPhone(true, true);
     // 检测所在地区
     var $province = $("#province"), $city = $("#city"), $district = $("#district");
     var getRegion = function(){
@@ -98,12 +123,10 @@ $(function () {
         var $formRow = $province.closest('.form-group'), region = getRegion();
         var ok = !!region;
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
             if (!hospitable) {
-                $formRow.addClass('has-error');
-                $formRow.find('.hint-block').html('所属省市不能为空');
+                setRowError($formRow, '所属省市不能为空');
             }
         }
         return ok;
@@ -117,34 +140,32 @@ $(function () {
         var $formRow = $openingBack.closest('.form-group'), openingBack = getOpeningBack();
         var ok = !!openingBack;
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
             if (!hospitable) {
-                $formRow.addClass('has-error');
-                $formRow.find('.hint-block').html('开户行不能为空');
+                setRowError($formRow, '开户行不能为空');
             }
         }
         return ok;
     };
 
-    var canGetCheckcode = function() {
+    var canGetCheckcode = function(force) {
         var ok = true;
-        ok = ok && !!$.trim($('#id_num').val()); // check if has ID number
+        ok = ok && !!getIdNum(); // check if has ID number
         ok = ok ? ok && checkIdNum(): false;
-        ok = ok && !!$.trim($('#card_number').val()); // check if has card number
-        ok = ok ? ok && checkCardNum(): false;
+        ok = ok && !!getCardNumer(); // check if has card number
+        ok = force ? checkCardNum(false, !force) && ok : (ok ? ok && checkCardNum(false, !force): false);
         ok = ok && !!getOpeningBack(); // check if has opening bank
-        ok = ok ? ok && checkOpeningBank(): false;
+        ok = force ? checkOpeningBank(false, !force) && ok : (ok ? ok && checkOpeningBank(!force): false);
         ok = ok && !!getRegion(); // check if has region
-        ok = ok ? ok && checkRegion(): false;
-        ok = ok && !!$.trim($('#phone').val()); // check if has phone number
-        ok = ok ? ok && checkPhone(): false;
+        ok = force ? checkRegion(false, !force) && ok : (ok ? ok && checkRegion(!force): false);
+        ok = ok && !!getPhone(); // check if has phone number
+        ok = force ? checkPhone(false, !force) && ok : (ok ? ok && checkPhone(false, !force): false);
         return ok;
     };
 
-    var validateGetCheckcode = function() {
-        if (canGetCheckcode()) {
+    var validateGetCheckcode = function(force) {
+        if (canGetCheckcode(force)) {
             $getCodeBtn = $("[data-action=get-checkcode]");
             if ($getCodeBtn.data('getting')) {
                 return;
@@ -155,51 +176,50 @@ $(function () {
         }
     };
 
+    var $checkcode = $('#checkcode');
     var checkCheckcode = function() {
-        var $checkcode = $('#checkcode'), $formRow = $checkcode.closest('.form-group'), checkcode = $.trim($checkcode.val());
+        var $formRow = $checkcode.closest('.form-group'), checkcode = $.trim($checkcode.val());
         if (!checkcode) {
             return false;
         }
         var ok = /^\d+$/.test(checkcode);
         if (ok) {
-            $formRow.removeClass('has-error');
-            $formRow.find('.hint-block').html('');
+            clsRowError($formRow);
         } else {
-            $formRow.addClass('has-error');
-            $formRow.find('.hint-block').html('验证码格式错误');
+            setRowError($formRow, '验证码格式错误');
         }
         return ok;
     };
 
-    var canNextStep = function() {
-        var ok = canGetCheckcode();
+    var canNextStep = function(force) {
+        var ok = canGetCheckcode(force);
         ok = ok ? ok && checkCheckcode(): false;
         return ok;
     };
 
-    var validateNextStep = function() {
-        if (canNextStep()) {
+    var validateNextStep = function(force) {
+        if (canNextStep(force)) {
             $("[data-action=next-step]").removeClass('disabled');
         } else {
             $("[data-action=next-step]").addClass('disabled');
         }
     };
 
-    var validateUI = function() {
-        validateGetCheckcode();
-        validateNextStep();
+    var validateUI = function(force) {
+        validateGetCheckcode(force);
+        validateNextStep(force);
     };
 
-    $('#id_num').blur(function(e){
+    $idNum.blur(function(e){
         checkIdNum();
         validateUI();
     });
-    $('#id_num').bind("input propertychange change keyup", function(e){
+    $idNum.bind("input propertychange change keyup", function(e){
         checkIdNum(false, true);
         validateUI();
     });
     var formatCardNumber = function() {
-        var $card_number = $('#card_number'), card_number = $.trim($card_number.val());
+        var card_number = getCardNumer();
         if (!card_number) return false;
         card_number = card_number.replace(/\s+/g,"");
         var newVal = '';
@@ -209,23 +229,23 @@ $(function () {
                 newVal += ' ';
             }
         }
-        $card_number.val(newVal);
+        $cardNumber.val(newVal);
     };
-    $('#card_number').blur(function(e){
+    $cardNumber.blur(function(e){
         checkCardNum();
         formatCardNumber();
         validateUI();
     });
-    $('#card_number').bind("input propertychange change keyup", function(e){
+    $cardNumber.bind("input propertychange change keyup", function(e){
         checkCardNum(false, true);
         formatCardNumber();
         validateUI();
     });
-    $('#opening_bank').blur(function(e){
+    $openingBack.blur(function(e){
         checkOpeningBank();
         validateUI();
     });
-    $('#opening_bank').bind("input propertychange change keyup", function(e){
+    $openingBack.bind("input propertychange change keyup", function(e){
         checkOpeningBank(true);
         validateUI();
     });
@@ -237,17 +257,22 @@ $(function () {
         checkRegion(true);
         validateUI();
     });
-    $('#phone').blur(function(e){
+    $phone.blur(function(e){
         checkPhone();
         validateUI();
     });
-    $('#phone').bind("input propertychange change keyup", function(e){
+    $phone.bind("input propertychange change keyup", function(e){
         checkPhone(false, true);
         validateUI();
     });
 
-    $('#checkcode').bind("input propertychange change keyup blur", function(e){
-        validateUI();
+    $checkcode.bind("focus input propertychange change keyup blur", function(e){
+        validateUI(true);
+    });
+
+    $('input').bind("focus", function(e){
+        var $input = $(this), $formRow = $input.closest('.form-group');
+        clsRowError($formRow);
     });
 
     // actions
@@ -257,7 +282,7 @@ $(function () {
         }
         var $this = $(this), timer, countdown = 60;
         $this.addClass('disabled');
-        var phone = $.trim($('#phone').val());
+        var phone = getPhone();
         $.post("/api/v1/sms", {'action':"send", 'phone':phone}, function(data){
             if (data) {
                 if (data.sent) {
