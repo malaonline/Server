@@ -108,7 +108,7 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
 
     private void initView() {
-        defaultPager = LayoutInflater.from(getContext()).inflate(R.layout.view_schedule_empty, null);
+        defaultPager = LayoutInflater.from(getContext()).inflate(R.layout.view_default, null);
         updateView();
     }
 
