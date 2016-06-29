@@ -74,7 +74,7 @@ class BasicTeacherView(LoginRequiredMixin, View):
 
     # 基础类,用于一些特定测试
     def not_teacher_role(self):
-        return HttpResponseRedirect(reverse("teacher:login"))
+        return HttpResponseRedirect(reverse(LOGIN_URL))
 
     need_check_percent = True
 
