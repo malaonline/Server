@@ -30,4 +30,23 @@
         android:layout_marginBottom="42dp"
         android:layout_marginRight="42dp"
         android:background="@drawable/ic_rocket" />
+
+
+    <com.malalaoshi.android.view.DefaultView
+        android:id="@+id/view_empty"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.malalaoshi.android.view.DefaultView
+        android:id="@+id/view_unsigin_up"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.malalaoshi.android.view.ListDefaultView
+        android:id="@+id/view_error"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 tvTitleLocation.setVisibility(View.GONE);
                 //tvTitleTady.setVisibility(View.VISIBLE);
                 //下载数据
-                loadCourses();
+                //loadCourses();
                 StatReporter.coursePage();
                 break;
             case PAGE_INDEX_MEMBER_SERVICE:

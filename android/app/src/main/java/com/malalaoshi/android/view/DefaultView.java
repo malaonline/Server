@@ -16,6 +16,12 @@ public class DefaultView extends RelativeLayout implements View.OnClickListener 
 
     private TextView tvDefaultTip;
     private TextView tvDefaultOper;
+    private OnBtnClickListener onBtnClickListener;
+
+    public interface OnBtnClickListener{
+        public void OnBtnClickListener(View view);
+    }
+
     public DefaultView(Context context) {
         this(context,null);
     }
@@ -32,10 +38,15 @@ public class DefaultView extends RelativeLayout implements View.OnClickListener 
         tvDefaultOper.setOnClickListener(this);
     }
 
+    public void setOnBtnClickListener(OnBtnClickListener onBtnClickListener) {
+        this.onBtnClickListener = onBtnClickListener;
+    }
 
     @Override
     public void onClick(View v) {
-
+        if (onBtnClickListener!=null){
+            onBtnClickListener.OnBtnClickListener(v);
+        }
     }
 
     public void setText(String text) {

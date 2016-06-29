@@ -21,12 +21,15 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.core.utils.EmptyUtils;
+import com.malalaoshi.android.core.view.ErrorView;
 import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.listener.RecyclerViewLoadMoreListener;
 import com.malalaoshi.android.refresh.NormalRefreshViewHolder;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.view.DefaultView;
+import com.malalaoshi.android.view.ListDefaultView;
 
 import java.util.List;
 
@@ -40,11 +43,18 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by kang on 15/12/29.
  */
-public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMoreListener.OnLoadMoreListener, BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener {
+public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMoreListener.OnLoadMoreListener, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final String TAG = "ScheduleFragment";
 
-    private View defaultPager;
+    @Bind(R.id.view_unsigin_up)
+    protected DefaultView unSiginupView;
+
+    @Bind(R.id.view_empty)
+    protected DefaultView emptyView;
+
+    @Bind(R.id.view_error)
+    protected ListDefaultView errorView;
 
     @Bind(R.id.refresh_layout)
     protected BGARefreshLayout refreshLayout;
@@ -64,6 +74,7 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
     private boolean isFirstLoadFinish = false;
     private OnClickEmptyCourse onClickEmptyCourse;
+
 
     public interface OnClickEmptyCourse{
         public void onClickEmptyCourse(View v);
@@ -108,26 +119,54 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
 
     private void initView() {
-        defaultPager = LayoutInflater.from(getContext()).inflate(R.layout.view_default, null);
+        unSiginupView.setText("您还没有登录哦!");
+        unSiginupView.setButtonText("去登陆");
+
+        emptyView.setText("您还没有课程哦!");
+        emptyView.setButtonText("去报名");
+
         updateView();
     }
 
     private void updateView(){
         if (!UserManager.getInstance().isLogin()){
-            setSignUpPager();
+            setNoSignUpView();
         }else{
-            setSchedulePager();
+            setListView();
             refreshLayout.beginRefreshing();
         }
     }
 
     protected void setEvent() {
         mRecyclerView.addOnScrollListener(new RecyclerViewLoadMoreListener(mLinearLayoutManager, this, 20));
-        defaultPager.findViewById(R.id.tv_default_oper).setOnClickListener(this);
+        unSiginupView.setOnBtnClickListener(new DefaultView.OnBtnClickListener() {
+            @Override
+            public void OnBtnClickListener(View view) {
+                AuthUtils.redirectLoginActivity(getContext());
+            }
+        });
+        emptyView.setOnBtnClickListener(new DefaultView.OnBtnClickListener() {
+            @Override
+            public void OnBtnClickListener(View view) {
+                if (onClickEmptyCourse!=null){
+                    onClickEmptyCourse.onClickEmptyCourse(view);
+                }
+            }
+        });
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRecyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateView();
+                    }
+                });
+            }
+        });
     }
 
     private void initData() {
-
         //初始化adapter
         mScheduleAdapter = new ScheduleAdapter(getActivity());
         //初始化recyclerview
@@ -148,33 +187,28 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
         refreshLayout.setDelegate(this);
     }
 
-    private void setSignUpPager(){
-        refreshLayout.removeAllViews();
-        refreshLayout.addView(defaultPager);
-        ((TextView)refreshLayout.findViewById(R.id.tv_default_tip)).setText("您还没有登录哦!");
-        ((TextView)refreshLayout.findViewById(R.id.tv_default_oper)).setText("去登录");
+    private void setNoSignUpView(){
+        unSiginupView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+        errorView.setVisibility(View.GONE);
     }
 
-    private void setEmptySchedulePager(){
-        refreshLayout.removeAllViews();
-        refreshLayout.addView(defaultPager);
-        ((TextView)refreshLayout.findViewById(R.id.tv_default_tip)).setText("您还没有课程哦!");
-        ((TextView)refreshLayout.findViewById(R.id.tv_default_oper)).setText("去报名");
+    private void setEmptyView(){
+        unSiginupView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
     }
 
-    private void setSchedulePager(){
-        refreshLayout.removeAllViews();
-        refreshLayout.addView(mRecyclerView);
+    private void setErrorView(){
+        unSiginupView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
     }
 
-
-
-    @Override
-    public void onLoadMore() {
-        if (mScheduleAdapter.getMoreStatus() != TeacherRecyclerViewAdapter.LOADING_MORE && hasNextData()) {
-            mScheduleAdapter.setMoreStatus(ScheduleAdapter.LOADING_MORE);
-            loadNextData();
-        }
+    private void setListView(){
+        unSiginupView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        errorView.setVisibility(View.GONE);
     }
 
     @Override
@@ -189,48 +223,10 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
         }
     }
 
-    private boolean hasNextData(){
-        return !EmptyUtils.isEmpty(hostNextUrl);
-    }
-
-    private boolean hasPreviousData(){
-        return  !EmptyUtils.isEmpty(hostPreviousUrl);
-    }
-
-    public void loadData() {
-        ApiExecutor.exec(new LoadTimeTable(this));
-    }
-
-    public void loadNextData() {
-        if (!hasNextData()) {
-            return;
-        }
-        ApiExecutor.exec(new LoadTimeTable(this,hostNextUrl,LoadTimeTable.TYPE_LOAD_NEXT));
-    }
-
-    public void loadPreviousData() {
-        if (!hasPreviousData()) {
-            refreshLayout.endRefreshing();
-            return;
-        }
-        ApiExecutor.exec(new LoadTimeTable(this,hostPreviousUrl,LoadTimeTable.TYPE_LOAD_PREVIOUS));
-    }
-
-    private void updateData(CourseListResult courses) {
-        List<Course> listCourse = courses.getResults();
-        if (null != listCourse) {
-            if (listCourse.size()>0){
-                setSchedulePager();
-                mScheduleAdapter.clear();
-                isFirstLoadFinish = true;
-                hostNextUrl = courses.getNext();
-                hostPreviousUrl = courses.getPrevious();
-                mScheduleAdapter.addItem(listCourse);
-                resetPosition();
-            }else{
-                setEmptySchedulePager();
-            }
-        }
+    @OnClick(R.id.btn_goback)
+    public void onClickGoBack(View view){
+        resetPosition();
+        btnGoback.setVisibility(View.GONE);
     }
 
     private void resetPosition() {
@@ -243,22 +239,63 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
                 mLinearLayoutManager.scrollToPosition(index);
             }
         });
+    }
+
+    private boolean hasNextData(){
+        return !EmptyUtils.isEmpty(hostNextUrl);
+    }
+
+    private boolean hasPreviousData(){
+        return  !EmptyUtils.isEmpty(hostPreviousUrl);
+    }
+
+    public void loadData() {
+        setListView();
+        ApiExecutor.exec(new LoadTimeTable(this));
+    }
+
+    public void loadNextData() {
+        if (!hasNextData()) {
+            return;
+        }
+        ApiExecutor.exec(new LoadMoreTimeTable(this,hostNextUrl));
+    }
+
+    public void loadPreviousData() {
+        if (!hasPreviousData()) {
+            refreshLayout.endRefreshing();
+            MiscUtil.toast("没有数据了!");
+            return;
+        }
+        ApiExecutor.exec(new PullTimeTable(this,hostPreviousUrl));
+    }
+
+    private void updateData(CourseListResult courses) {
+        if (courses!=null&&courses.getResults()!=null&&courses.getResults().size()>0){
+            setListView();
+            mScheduleAdapter.clear();
+            isFirstLoadFinish = true;
+            hostNextUrl = courses.getNext();
+            hostPreviousUrl = courses.getPrevious();
+            mScheduleAdapter.addItem(courses.getResults());
+            resetPosition();
+        }else{
+            setEmptyView();
+        }
 
     }
 
     private void updateNextData(CourseListResult courses){
-        List<Course> listCourse = courses.getResults();
-        if ((null != listCourse)) {
+        if (courses!=null&&courses.getResults()!=null&&courses.getResults().size()>0){
             hostNextUrl = courses.getNext();
-            mScheduleAdapter.addItem(listCourse);
+            mScheduleAdapter.addItem(courses.getResults());
         }
     }
 
     private void updatePreviousData(CourseListResult courses){
-        List<Course> listCourse = courses.getResults();
-        if ((null != listCourse)) {
+        if (courses!=null&&courses.getResults()!=null&&courses.getResults().size()>0){
             hostPreviousUrl = courses.getPrevious();
-            mScheduleAdapter.addMoreItem(listCourse);
+            mScheduleAdapter.addMoreItem(courses.getResults());
         }
     }
 
@@ -293,97 +330,105 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
     }
 
     @Override
+    public void onLoadMore() {
+        if (mScheduleAdapter.getMoreStatus() != TeacherRecyclerViewAdapter.LOADING_MORE && hasNextData()) {
+            mScheduleAdapter.setMoreStatus(ScheduleAdapter.LOADING_MORE);
+            loadNextData();
+        }
+    }
+
+    @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
     }
 
-    @OnClick(R.id.btn_goback)
-    public void onClickGoBack(View view){
-        resetPosition();
-        btnGoback.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (UserManager.getInstance().isLogin()){
-            //滑动到教师列表页
-            if (onClickEmptyCourse!=null){
-                onClickEmptyCourse.onClickEmptyCourse(v);
-            }
-        }else {
-            AuthUtils.redirectLoginActivity(getContext());
-        }
-    }
-
     private static final class LoadTimeTable extends BaseApiContext<ScheduleFragment, CourseListResult> {
-        private int loadType = 0;
-        private static final int TYPE_LOAD = 0;
-        private static final int TYPE_LOAD_NEXT = 1;
-        private static final int TYPE_LOAD_PREVIOUS = 2;
-        private String strUrl;
+
         public LoadTimeTable(ScheduleFragment scheduleFragment) {
             super(scheduleFragment);
-            loadType = TYPE_LOAD;
-            strUrl = null;
-        }
-
-        public LoadTimeTable(ScheduleFragment scheduleFragment, String url, int type) {
-            super(scheduleFragment);
-            loadType = type;
-            strUrl = url;
         }
 
         @Override
         public CourseListResult request() throws Exception {
-            if (loadType!=TYPE_LOAD){
-                return new TimeTableApi().get(strUrl);
-            }else{
-                return new TimeTableApi().get();
-            }
+            return new TimeTableApi().get();
         }
 
         @Override
         public void onApiSuccess(@NonNull CourseListResult response) {
-            switch (loadType){
-                case TYPE_LOAD:
-                    get().updateData(response);
-                    break;
-                case TYPE_LOAD_NEXT:
-                    get().updateNextData(response);
-                    break;
-                case TYPE_LOAD_PREVIOUS:
-                    get().updatePreviousData(response);
-                    break;
-            }
+            get().updateData(response);
         }
 
         @Override
         public void onApiFailure(Exception exception) {
             MiscUtil.toast("加载失败,请检查网络连接!");
-            switch (loadType){
-                case TYPE_LOAD:
-                    break;
-                case TYPE_LOAD_NEXT:
-                    break;
-                case TYPE_LOAD_PREVIOUS:
-                    break;
-            }
+            get().setErrorView();
         }
 
         @Override
         public void onApiFinished() {
             super.onApiFinished();
-            switch (loadType){
-                case TYPE_LOAD:
-                    get().updateRefeshStatus();
-                    break;
-                case TYPE_LOAD_NEXT:
-                    get().updateNextRefeshStatus();
-                    break;
-                case TYPE_LOAD_PREVIOUS:
-                    get().updatePreviousRefeshStatus();
-                    break;
-            }
+            get().updateRefeshStatus();
+        }
+    }
+
+    private static final class LoadMoreTimeTable extends BaseApiContext<ScheduleFragment, CourseListResult> {
+        private String strUrl;
+
+        public LoadMoreTimeTable(ScheduleFragment scheduleFragment, String url) {
+            super(scheduleFragment);
+            strUrl = url;
+        }
+
+        @Override
+        public CourseListResult request() throws Exception {
+            return new TimeTableApi().get(strUrl);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull CourseListResult response) {
+            get().updateNextData(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("加载失败,请检查网络连接!");
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().updateNextRefeshStatus();
+        }
+    }
+
+
+    private static final class PullTimeTable extends BaseApiContext<ScheduleFragment, CourseListResult> {
+        private String strUrl;
+
+        public PullTimeTable(ScheduleFragment scheduleFragment, String url) {
+            super(scheduleFragment);
+            strUrl = url;
+        }
+
+        @Override
+        public CourseListResult request() throws Exception {
+            return new TimeTableApi().get(strUrl);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull CourseListResult response) {
+            get().updatePreviousData(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            MiscUtil.toast("加载失败,请检查网络连接!");
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().updatePreviousRefeshStatus();
         }
     }
 
