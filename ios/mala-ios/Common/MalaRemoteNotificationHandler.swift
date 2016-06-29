@@ -48,7 +48,7 @@ public class MalaRemoteNotificationHandler: NSObject {
                 // 提示信息
                 var title: String = ""
                 // 提示确认闭包
-                var action: ()->() = action = {
+                var action: ()->() = {
                     /// 课表页
                     appDelegate.switchTabBarControllerWithIndex(1)
                 }
