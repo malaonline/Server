@@ -25,13 +25,13 @@
                 {%endif%}
                 </h3>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>中心名称</label>
                 <div>
                     <input type="text" class="form-control" id="schoolName" name="schoolName" placeholder="请输入中心名称" value="{{school.name }}" >
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>中心类别</label>
                 <div>
                     <select class="form-control" name="center">
@@ -40,7 +40,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>是否开放</label>
                 <div>
                     <select class="form-control" name="opened">
@@ -49,7 +49,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>所属地区</label>
                 <div class="school-place">
                     <select class="form-control">
@@ -65,31 +65,31 @@
                     </select>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>详细地址</label>
                 <div>
                     <input type="text" class="form-control" name="address" value="{{school.address}}" />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>联系电话</label>
                 <div>
                     <input type="text" class="form-control" name="phone" value="{{school.phone|default_if_none:""}}" />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>上课座位</label>
                 <div>
                     <input type="number" data-action="integer" class="form-control" name="class_seat" value="{{school.class_seat}}" />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>自习座位</label>
                 <div>
                     <input type="number" data-action="integer" class="form-control" name="study_seat" value="{{school.study_seat}}" />
                 </div>
             </div>
-            <div class="form-row member-service">
+            <div class="row form-row member-service">
                 <label>会员服务</label>
                 <div class="checkbox">
                     {% for service in memberservices %}
@@ -155,13 +155,13 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度</label>
                 <div>
                     <input type="text" class="form-control" id="longitude" name="longitude" value="{{school.longitude }}" data-old="{{school.longitude }}">
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纬度</label>
                 <div>
                     <input type="text" class="form-control" id="latitude" name="latitude" value="{{school.latitude }}" data-old="{{school.latitude }}">
@@ -170,19 +170,19 @@
             <div class="lngLatInfo">
                 经纬度查询地址：<a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">点我</a>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>描述标题</label>
                 <div>
                     <input type="text" class="form-control" name="desc_title" value="{{school.desc_title|default_if_none:""}}" />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <label>描述内容</label>
                 <div>
                     <textarea class="form-control" cols="19" rows="5" name="desc_content" id="desc_content">{{school.desc_content|default_if_none:""}}</textarea>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row form-row">
                 <button class="btn btn-default submit_button" id="subBtn">提交</button>
             </div>
         </form>

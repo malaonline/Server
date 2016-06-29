@@ -66,18 +66,18 @@
                             <span class="subclass-price">{{ one_student.price }}</span>
                             <span class="student-state">
                             {% if one_student.state == "新生" %}
-                                <span class="state-new" data-toggle="tooltip" data-placement="right" title="首次上课的学生,得好好准备">首次上课</span>
+                                <span class="label label-default state-new" data-toggle="tooltip" data-placement="right" title="首次上课的学生,得好好准备">首次上课</span>
                             {% elif one_student.state == "续费" %}
-                                <span class="state-renewal" data-toggle="tooltip" data-placement="right" title="课都快上完了,提醒他续费吧">提醒续费</span>
+                                <span class="label label-default state-renewal" data-toggle="tooltip" data-placement="right" title="课都快上完了,提醒他续费吧">提醒续费</span>
                             {% elif one_student.state == "正常" %}
 {#                                正常就不再显示#}
 {#                                <span class="state-normal" data-toggle="tooltip" data-placement="right" title="正常上课ing">正常</span>#}
                             {% endif %}
                             {% if one_student.state == "退费" %}
-                                <span class="state-refund" data-toggle="tooltip" data-placement="right" title="已经退费了,他真的走了">退费</span>
+                                <span class="label label-default state-refund" data-toggle="tooltip" data-placement="right" title="已经退费了,他真的走了">退费</span>
                             {% endif %}
                             {% if one_student.state == "结课" %}
-                                <span class="state-session" data-toggle="tooltip" data-placement="right" title="已经完成课程学习">结课</span>
+                                <span class="label label-default state-session" data-toggle="tooltip" data-placement="right" title="已经完成课程学习">结课</span>
                             {% endif %}
                             </span>
                             {% if one_student.mail == True %}

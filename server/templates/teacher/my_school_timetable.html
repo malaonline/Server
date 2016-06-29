@@ -132,19 +132,19 @@
                                                         <span class="class-progress"></span>
 {#                                                        <span class="class-progress"><%= item.progress %></span>#}
                                                         <% if(item.comment_state == 0) { %>
-                                                        <span class="to-evaluate" attrShow="true">待评</span>
+                                                        <span class="label label-default to-evaluate" attrShow="true">待评</span>
                                                         <% } %>
                                                         <% if(item.comment_state == 1) { %>
-                                                        <span class="evaluated" attrShow="true">已评</span>
+                                                        <span class="label label-default evaluated" attrShow="true">已评</span>
                                                         <% } %>
                                                         <% if(item.class_state == 2) { %>
-                                                        <span class="complete-tag" attrShow="true">完成</span>
+                                                        <span class="label label-default complete-tag" attrShow="true">完成</span>
                                                         <% } %>
                                                         <% if(item.class_state == 1) { %>
-                                                        <span class="working" attrShow="true">上课中</span>
+                                                        <span class="label label-default working" attrShow="true">上课中</span>
                                                         <% } %>
                                                         <% if(item.class_state == 0) { %>
-                                                        <span class="waiting" attrShow="true">待上课</span>
+                                                        <span class="label label-default waiting" attrShow="true">待上课</span>
                                                         <% } %>
                                                     </div>
                                                 </div>

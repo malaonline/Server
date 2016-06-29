@@ -8,6 +8,7 @@
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles %}
     {% load compile_static %}
+    <link href="{% static 'common/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'teacher/less/teacher-base.less'|compile %}" rel="stylesheet" type="text/css">
     {% block addition_header %}{% endblock %}
     <script src="{% static 'common/js/underscore-min.js' %}"></script>

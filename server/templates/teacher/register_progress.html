@@ -5,10 +5,10 @@
     注册进度查看
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/register_progress.less'|compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/register_progress.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'teacher/js/custom/register_progress.js' %}"></script>
+    <script src="{% static 'teacher/js/custom/register_progress.js' %}?{% lorem 1 w random%}"></script>
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -155,10 +155,10 @@
 {#                        <form action="{% url 'teacher:register-progress' %}" method="post">#}
                         <form method="post">
                             {% csrf_token %}
-                            <button class="confirm_button" href="{% url 'teacher:first-page' %}">马上体验</button>
+                            <button class="btn btn-primary confirm_button" href="{% url 'teacher:first-page' %}">马上体验</button>
                         </form>
                     {% else %}
-                        <button class="confirm_button" disabled="disabled">马上体验</button>
+                        <button class="btn btn-primary confirm_button" disabled="disabled">马上体验</button>
                     {% endif %}
                 </div>
             </div>

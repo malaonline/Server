@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load compile_static %}
 {% block addition_header %}{% endblock %}
-<link rel="stylesheet" href="{% static 'teacher/less/teacher_frame_base.less'|compile %}">
+<link rel="stylesheet" href="{% static 'teacher/less/teacher_frame_base.less'|compile %}?{% lorem 1 w random%}">
 {% block addition_js %}{% endblock %}
 <div class="side_bar">
     <p class="section-title"><a class="{% menu_active 'teacher:first-page' %}" href="{% url 'teacher:first-page' %}">首页</a></p>

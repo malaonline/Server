@@ -31,7 +31,7 @@
         <div class="sms_code">
             <div class="sms_label">请输入手机验证码</div>
             <div class="sms_input"><input name="sms_code" type="text" class="input_control" id="sms_code"/></div>
-            <div class="send_sms"><button id="get_sms">获得验证码</button></div>
+            <div class="send_sms"><button class="btn btn-default" id="get_sms">获得验证码</button></div>
         </div>
 
         <script lang="javascript">
@@ -42,7 +42,7 @@
 {#        验证码已经发送至手机{{ phone }},如未收到验证码,请60s后重试!#}
         </div>
         <div class="next_button">
-            <button id="next_page">下一步</button>
+            <button class="btn btn-default" id="next_page">下一步</button>
         </div>
     </div>
 {% endblock %}

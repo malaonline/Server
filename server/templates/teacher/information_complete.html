@@ -5,10 +5,10 @@
     信息完善
 {% endblock %}
 {% block addition_header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/information_complete.less'|compile %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'teacher/less/information_complete.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'teacher/js/custom/information_complete.js' %}"></script>
+    <script src="{% static 'teacher/js/custom/information_complete.js' %}?{% lorem 1 w random%}"></script>
 {% endblock %}
 {% block body %}
 {#    从python渲染的javascript数据 #}
@@ -25,11 +25,11 @@
                 <p class="information_header">恭喜您注册成功!</p>
                 <p class="information_header">为了能够与您及时取得联系,请您尽快完善个人资料.</p>
                 <form class="form-horizontal">
-                    <div class="form-row">
+                    <div class="row form-row">
                         <label for="realName" class="real_name_label">您的姓名</label>
                         <input type="text" class="form-control real_name_input" id="realName" placeholder="请输入您的真实姓名" value="{{ name }}">
                     </div>
-                    <div class="form-row">
+                    <div class="row form-row">
                         <label for="gender" class="gender_label">性别</label>
                         <div class="input-group gender_input" id="gender">
                             <div class="input-group-btn">
@@ -45,7 +45,7 @@
                             </div><!-- /btn-group -->
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row form-row">
                         <label for="city" class="city_label">所在城市</label>
                         <div class="input-group city_input">
                             <div class="input-group-btn">
@@ -67,7 +67,7 @@
                             </div><!-- /btn-group -->
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row form-row">
                         <label for="class" class="subclass_label">授课科目</label>
                         <div class="input-group subclass_input">
                             <div class="input-group-btn">
@@ -102,7 +102,7 @@
                         </button>
                     </script>
 
-                    <div class="form-row">
+                    <div class="row form-row">
                         <label for="class" class="grand_label">授课年级</label>
                         <div class="grand_input" id="grand_input">
                         </div>
@@ -115,7 +115,7 @@
                             请至少选择一个年级
                         </span>
                     </div>
-                    <div class="form-row">
+                    <div class="row form-row">
                         <button class="btn btn-default disabled submit_button" id="submit_page">提交</button>
                     </div>
                     <div class="error_output" id="error_output"></div>
