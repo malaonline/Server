@@ -102,6 +102,8 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
         }
         adapter.setCanSelect(canSelect);
         adapter.setAmount(amount);
+
+        setEmptyViewText("当前暂无奖学金");
     }
 
     public void onBackClicked() {

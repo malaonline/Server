@@ -154,7 +154,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="10年"
                 android:textColor="@color/tab_text_normal_color"
                 android:textSize="@dimen/text_size_large" />
         </LinearLayout>
@@ -206,7 +205,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="T0"
                 android:textColor="@color/tab_text_normal_color"
                 android:textSize="@dimen/text_size_large" />
         </LinearLayout>

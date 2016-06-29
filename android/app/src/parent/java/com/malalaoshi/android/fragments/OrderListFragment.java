@@ -55,7 +55,7 @@ public class OrderListFragment extends BaseRefreshFragment<OrderListResult>{
 
     @Override
     protected void afterCreateView() {
-
+        setEmptyViewText("当前暂无订单");
     }
 
     @Override

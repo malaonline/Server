@@ -76,6 +76,22 @@ public abstract class BaseRefreshFragment<T extends BaseResult> extends BaseFrag
         emptyView.setText(txt);
     }
 
+    /**
+     * 设置空view的图标
+     * @param rid
+     */
+    public void setEmptyViewIcon(int rid){
+        emptyView.setImage(rid);
+    }
+
+    public void setErrorViewText(String txt){
+        errorView.setText(txt);
+    }
+
+    public void setErrorViewIcon(int rid){
+        errorView.setImage(rid);
+    }
+
     public void setLayout(LayoutType type) {
         switch (type) {
             case EMPTY:
