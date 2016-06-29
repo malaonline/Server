@@ -29,17 +29,8 @@
   border-style: solid;
   border-color: @border_gray;
 
-  .complete-icon, .working-icon, .waiting-icon{
-    .glyphicon;
-    .glyphicon-stop;
-  }
   .complete-icon{
     color: @border_gray;
-  }
-  .working-icon{
-    color: red;
-    .glyphicon;
-    .glyphicon-unchecked;
   }
   .waiting-icon{
     color: #414142;
@@ -61,14 +52,7 @@
         margin-left: 138px;
         margin-right: 138px;
       }
-      .left-arraow {
-        .glyphicon;
-        .glyphicon-chevron-left;
-        color: @border_gray;
-      }
-      .right-arrow {
-        .glyphicon;
-        .glyphicon-chevron-right;
+      .glyphicon{
         color: @border_gray;
       }
     }
@@ -109,18 +93,6 @@
         .tag{
           font-size: 12px;
           margin-bottom: 3px;
-          i[attrStatue="complete"]{
-            .complete-icon;
-          }
-          i[attrStatue="blank"]{
-
-          }
-          i[attrStatue="waiting"]{
-            .waiting-icon;
-          }
-          i[attrStatue="working"]{
-            .working-icon;
-          }
         }
       }
       .normal-last{
@@ -135,21 +107,6 @@
       .normal[attrSelect=true], .normal-last[attrSelect=true],
       .normal[attrSelect=true][attrStatue="pass"], .normal-last[attrSelect=true][attrStatue="today"] {
         background-color: #898989;
-      }
-      .today {
-
-      }
-      .waiting {
-
-      }
-      .complete {
-
-      }
-      .working {
-
-      }
-      .waiting {
-
       }
     }
   }
@@ -209,9 +166,7 @@
             margin-top: 5px;
           }
         }
-        .details-icon{
-          .glyphicon;
-          .glyphicon-record;
+        .glyphicon-record {
           top: 4px;
           float: left;
         }

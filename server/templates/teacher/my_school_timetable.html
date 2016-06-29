@@ -31,9 +31,9 @@
                             <div class="calander">
                                 <div class="year-and-month">
                                     <p>
-                                        <a href="{{ pre_month_url }}"><i class="left-arraow"></i></a>
+                                        <a href="{{ pre_month_url }}"><i class="glyphicon glyphicon-chevron-left"></i></a>
                                         <span class="year-and-month-title">{{ current.year }}年{{ current.month }}月</span>
-                                        <a href="{{ next_month_url }}"><i class="right-arrow"></i></a>
+                                        <a href="{{ next_month_url }}"><i class="glyphicon glyphicon-chevron-right"></i></a>
                                     </p>
                                 </div>
                                 <div class="week-title">
@@ -91,13 +91,10 @@
                                         {% if one_day.1 == 0 %}
                                         {% endif %}
                                         {% if one_day.1 == 1 %}
-                                            <p class="tag"><i attrStatue="complete"></i></p>
-                                        {% endif %}
-                                        {% if one_day.1 == 2 %}
-                                            <p class="tag"><i attrStatue="working"></i></p>
+                                            <p class="tag"><i attrStatue="complete-icon glyphicon glyphicon-stop"></i></p>
                                         {% endif %}
                                         {% if one_day.1 == 3 %}
-                                            <p class="tag"><i attrStatue="waiting"></i></p>
+                                            <p class="tag"><i attrStatue="waiting-icon glyphicon glyphicon-stop"></i></p>
                                         {% endif %}
                                         </div>
                                         {% endfor %}
@@ -108,9 +105,8 @@
                                     </div>
                                     </div>
                                     <div class="caleder-annotation">
-                                        <i class="complete-icon"></i><span>完成</span>
-                                        <i class="waiting-icon" attrType="secondIcon"></i><span>待上课</span>
-{#                                        <i class="working-icon" attrType="thirdIcon"></i><span>上课中</span>#}
+                                        <i class="complete-icon glyphicon glyphicon-stop"></i><span>完成</span>
+                                        <i class="waiting-icon glyphicon glyphicon-stop" attrType="secondIcon"></i><span>待上课</span>
                                     </div>
                                     </div>
                                     <script id="time_slot_header_template" type="text/template">
@@ -124,7 +120,7 @@
                                             <% console.log(datas); %>
                                             <% _.each(datas, function(item) { %>
                                             <div class="one-detail">
-                                                <i class="details-icon"></i>
+                                                <i class="glyphicon glyphicon-record"></i>
                                                 <div class="info-area">
                                                     <div class="first-row">
                                                         <span class="duration"><%= item.duration %></span>
