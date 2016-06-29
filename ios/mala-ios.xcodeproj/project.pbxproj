@@ -826,6 +826,12 @@
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
+		F49432D81D237B34001C4D22 /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432D71D237B34001C4D22 /* FilterBar.swift */; };
+		F49432D91D237B34001C4D22 /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432D71D237B34001C4D22 /* FilterBar.swift */; };
+		F49432DA1D237B34001C4D22 /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432D71D237B34001C4D22 /* FilterBar.swift */; };
+		F49432DC1D237BBE001C4D22 /* ConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432DB1D237BBE001C4D22 /* ConditionObject.swift */; };
+		F49432DD1D237BBE001C4D22 /* ConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432DB1D237BBE001C4D22 /* ConditionObject.swift */; };
+		F49432DE1D237BBE001C4D22 /* ConditionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432DB1D237BBE001C4D22 /* ConditionObject.swift */; };
 		F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */; };
 		F49BD59E1CA4131D00EB3CCF /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */; };
 		F49BD59F1CA4131D00EB3CCF /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */; };
@@ -1145,6 +1151,8 @@
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
+		F49432D71D237B34001C4D22 /* FilterBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterBar.swift; sourceTree = "<group>"; };
+		F49432DB1D237BBE001C4D22 /* ConditionObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionObject.swift; sourceTree = "<group>"; };
 		F49BD55C1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaRemoteNotificationHandler.swift; sourceTree = "<group>"; };
 		F49BD5931CA4131D00EB3CCF /* UIImage+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotation.swift"; sourceTree = "<group>"; };
 		F49BD5941CA4131D00EB3CCF /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Radius.swift"; sourceTree = "<group>"; };
@@ -1407,6 +1415,7 @@
 				F4D0D14C1C9FA6B700B25704 /* CommentModel.swift */,
 				F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */,
 				F4312B731CF82AC100E0EAF1 /* TimeScheduleModel.swift */,
+				F49432DB1D237BBE001C4D22 /* ConditionObject.swift */,
 				F4B3C6711CFD3CF000C1B423 /* StudyReport */,
 			);
 			path = Model;
@@ -1457,6 +1466,7 @@
 				30445B1B1C4A3B3D002CD290 /* SubjectFilterView.swift */,
 				30445B1E1C4A3B96002CD290 /* StyleFilterView.swift */,
 				30AE09321C2AC94F00FD607D /* FilterViewCell.swift */,
+				F49432D71D237B34001C4D22 /* FilterBar.swift */,
 			);
 			path = TeacherFilterView;
 			sourceTree = "<group>";
@@ -2642,6 +2652,7 @@
 				F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */,
 				F41A01B01D2220AF0069CF29 /* UIImageEffects.swift in Sources */,
 				F49BD5A21CA4131D00EB3CCF /* SKDetectingView.swift in Sources */,
+				F49432D81D237B34001C4D22 /* FilterBar.swift in Sources */,
 				30D4AA051C23E07600C5A336 /* Common.swift in Sources */,
 				F45871EB1C51D7910048D93F /* CourseChoosingTableView.swift in Sources */,
 				F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */,
@@ -2653,6 +2664,7 @@
 				F46065291C97B168004056B1 /* CouponViewController.swift in Sources */,
 				F4D6785B1CEACD0E009EC956 /* MemberSerivceCell.swift in Sources */,
 				30D4AA141C2417A700C5A336 /* Extension+UIButton.swift in Sources */,
+				F49432DC1D237BBE001C4D22 /* ConditionObject.swift in Sources */,
 				F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */,
 				303BCFEF1C44A58600B37DD9 /* TeacherDetailsPlaceTableView.swift in Sources */,
 				3037B5A21C3BAB15005672D9 /* TeacherDetailsPhotosCell.swift in Sources */,
@@ -2850,6 +2862,7 @@
 				35FF7A881CF8325A000A70EE /* SKDetectingView.swift in Sources */,
 				F41A01B11D2220AF0069CF29 /* UIImageEffects.swift in Sources */,
 				35FF7A891CF8325A000A70EE /* Common.swift in Sources */,
+				F49432D91D237B34001C4D22 /* FilterBar.swift in Sources */,
 				35FF7A8A1CF8325A000A70EE /* CourseChoosingTableView.swift in Sources */,
 				35FF7A8B1CF8325A000A70EE /* JSSAlertView.swift in Sources */,
 				35FF7A8C1CF8325A000A70EE /* BaseObjectModel.swift in Sources */,
@@ -2861,6 +2874,7 @@
 				35FF7A921CF8325A000A70EE /* MemberSerivceCell.swift in Sources */,
 				F4B3C6741CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
 				35FF7A931CF8325A000A70EE /* Extension+UIButton.swift in Sources */,
+				F49432DD1D237BBE001C4D22 /* ConditionObject.swift in Sources */,
 				35FF7A941CF8325A000A70EE /* OrderFormViewController.swift in Sources */,
 				35FF7A951CF8325A000A70EE /* TeacherDetailsPlaceTableView.swift in Sources */,
 				35FF7A961CF8325A000A70EE /* TeacherDetailsPhotosCell.swift in Sources */,
@@ -3058,6 +3072,7 @@
 				35FF7B6B1CF83264000A70EE /* SKDetectingView.swift in Sources */,
 				F41A01B21D2220AF0069CF29 /* UIImageEffects.swift in Sources */,
 				35FF7B6C1CF83264000A70EE /* Common.swift in Sources */,
+				F49432DA1D237B34001C4D22 /* FilterBar.swift in Sources */,
 				35FF7B6D1CF83264000A70EE /* CourseChoosingTableView.swift in Sources */,
 				35FF7B6E1CF83264000A70EE /* JSSAlertView.swift in Sources */,
 				35FF7B6F1CF83264000A70EE /* BaseObjectModel.swift in Sources */,
@@ -3069,6 +3084,7 @@
 				35FF7B751CF83264000A70EE /* MemberSerivceCell.swift in Sources */,
 				F4B3C6751CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
 				35FF7B761CF83264000A70EE /* Extension+UIButton.swift in Sources */,
+				F49432DE1D237BBE001C4D22 /* ConditionObject.swift in Sources */,
 				35FF7B771CF83264000A70EE /* OrderFormViewController.swift in Sources */,
 				35FF7B781CF83264000A70EE /* TeacherDetailsPlaceTableView.swift in Sources */,
 				35FF7B791CF83264000A70EE /* TeacherDetailsPhotosCell.swift in Sources */,

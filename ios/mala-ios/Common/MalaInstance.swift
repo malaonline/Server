@@ -10,6 +10,9 @@ import UIKit
 
 
 // MARK: - Instance
+/// 筛选条件
+var MalaCondition: ConditionObject = ConditionObject()
+
 /// 当前课程选择对象
 var MalaCourseChoosingObject: CourseChoosingObject = CourseChoosingObject()
 /// 其他课程服务数组

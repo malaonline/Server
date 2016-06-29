@@ -31,17 +31,6 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
             self.styleView.tagsModel = tags
         }
     }
-    /// 当前筛选条件记录模型
-    var filterObject: ConditionObject = {
-        let object = ConditionObject()
-        object.subject = GradeModel()
-        object.tags = []
-        return object
-    }() {
-        didSet {
-            
-        }
-    }
     /// 当前显示面板下标标记
     var currentIndex: Int = 1
     /// 二级选择标识
@@ -54,7 +43,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         let gradeView = GradeFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .FilterView),
             didTapCallBack: { [weak self] (model) -> () in
-                self?.filterObject.grade = model!
+                MalaCondition.grade = model!
                 
                 // 如果为一次筛选
                 if !(self?.isSecondaryFilter ?? false) {
@@ -78,7 +67,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         let subjectView = SubjectFilterView(frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .SubjectView),
             didTapCallBack: { [weak self] (model) -> () in
-                self?.filterObject.subject = model!
+                MalaCondition.subject = model!
                 
                 // 如果为一次筛选
                 if !(self?.isSecondaryFilter ?? false) {
@@ -97,11 +86,14 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
         )
         return styleView
     }()
+    /// 观察者对象数组
+    var observers: [AnyObject] = []
     
     
     // MARK: - Constructed
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         configuration()
         registerNotification()
         setupUserInterface()
@@ -156,7 +148,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     
     private func registerNotification() {
         // pop页面通知处理
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerPopFilterView = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_PopFilterView,
             object: nil,
             queue: nil
@@ -164,13 +156,13 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                 // pop当前面板
                 self?.scrollToPanel((self?.currentIndex ?? 2) - 1, animated: true)
         }
+        observers.append(observerPopFilterView)
         
         // 确认按钮点击通知处理
-        NSNotificationCenter.defaultCenter().addObserverForName(
+        let observerConfirm = NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ConfirmFilterView,
             object: nil,
             queue: nil) { [weak self] (notification) -> Void in
-                // 提交筛选条件
                 // 将选中字符串数组遍历为对象数组
                 let tagsCondition = self?.styleView.selectedItems.map({ (string: String) -> BaseObjectModel in
                     var tagObject = BaseObjectModel()
@@ -182,9 +174,10 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
                     return tagObject
                 })
                 MalaFilterIndexObject.tags = self?.styleView.selectedItems ?? []
-                self?.filterObject.tags = tagsCondition ?? []
+                MalaCondition.tags = tagsCondition ?? []
                 self?.commitCondition()
         }
+        observers.append(observerConfirm)
     }
     
     private func setupUserInterface() {
@@ -216,7 +209,7 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     }
     
     private func commitCondition() {
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: self.filterObject)
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_CommitCondition, object: nil)
         self.container?.close()
     }
     
@@ -266,59 +259,15 @@ class FilterView: UIScrollView, UIScrollViewDelegate {
     }
     
     deinit {
+        println("FilterView Deinit")
         // 移除观察者
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PopFilterView, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ConfirmFilterView, object: nil)
-    }
-}
-
-
-// MARK: - Condition Object
-class ConditionObject: NSObject {
-    
-    // MARK: - Property
-    var grade: GradeModel = GradeModel()
-    var subject: GradeModel = GradeModel()
-    var tags: [BaseObjectModel] = []
-    
-    
-    // MARK: - Public Method
-    ///  根据筛选条件对象模型，返回条件字典
-    ///
-    ///  - returns: 条件字典
-    func getParam() -> [String: AnyObject] {
-        var param: [String: AnyObject] = [String: AnyObject]()
-        
-        // 过滤年级
-        param["grade"] = grade.id
-        // 过滤科目
-        param["subject"] = subject.id
-        // 过滤风格
-        if tags.count != 0 {
-            let tagsString: String = tags.reduce("", combine: { (string, model) -> String in
-                let operation = (String(string) == "" ? "" : " ")
-                return String(string)+operation+String(model.id)
-            })
-            param["tags"] = tagsString
+        for observer in observers {
+            NSNotificationCenter.defaultCenter().removeObserver(observer)
+            self.observers.removeAtIndex(0)
         }
-        return param
-    }
-    
-    
-    // MARK: - Override
-    override var description: String {
-        let tagsString = self.tags.map({ (object: BaseObjectModel) -> String in
-            return object.name ?? ""
-        })
-        let string = String(
-            format: "grade: %@, subject: %@ , tags: %@",
-            self.grade.name ?? "",
-            self.subject.name ?? "",
-            tagsString.joinWithSeparator(" • ")
-        )
-        return string
     }
 }
+
 
 /// 筛选条件选择下标
 public class filterSelectedIndexObject: NSObject {

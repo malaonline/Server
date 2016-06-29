@@ -53,7 +53,7 @@ class ThemeTags: UIView {
         }
     }
     // 当前选中项字符串数组
-    private(set) var selectedItems: [String] = []
+    private(set) var selectedItems: [String] = MalaFilterIndexObject.tags
     // 当前布局高度
     private var currentHeight: CGFloat = 0
     // 当前布局宽度
@@ -102,7 +102,7 @@ class ThemeTags: UIView {
         
         // 排列显示高于临界值数组 剩余标签
         layoutRemainder(.HigherArray)
-        self.allButton?.selected = true
+//        self.allButton?.selected = true
     }
     
     ///  将指定数组的可整行排列的标签，进行显示

@@ -13,8 +13,6 @@ private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 class HomeViewController: UIViewController {
     
     // MARK: - Property
-    /// 筛选条件
-    private var condition: ConditionObject?
     private var filterResultDidShow: Bool = false
     /// 当前显示页数
     var currentPageIndex = 1
@@ -68,7 +66,6 @@ class HomeViewController: UIViewController {
             queue: nil) { [weak self] (notification) -> Void in
                 if !(self?.filterResultDidShow ?? false) {
                     self?.filterResultDidShow = true
-                    self?.condition = notification.object as? ConditionObject
                     self?.resolveFilterCondition()
                 }
         }
@@ -140,7 +137,6 @@ class HomeViewController: UIViewController {
         }else {
             currentPageIndex = 1
         }
-        
         MalaNetworking.sharedTools.loadTeachers(filters, page: currentPageIndex) { [weak self] result, error in
             if error != nil {
                 println("HomeViewController - loadTeachers Request Error")
@@ -200,7 +196,6 @@ class HomeViewController: UIViewController {
     
     private func resolveFilterCondition() {
         let viewController = FilterResultController()
-        viewController.filterCondition = self.condition
         navigationController?.pushViewController(viewController, animated: true)
     }
     
