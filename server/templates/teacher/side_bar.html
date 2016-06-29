@@ -27,7 +27,6 @@
     <p class="section-link"><a class="{% menu_active 'teacher:basic_doc' %}" href="{% url 'teacher:basic_doc' %}">基本资料</a>
         {% if information_not_complete == False %}
             {% load staticfiles %}
-{#        <i class="info_icon"></i>#}
             <img src="{% static 'teacher/images/teacher_info_not_complete.png' %}">
         {% endif %}
     </p>
