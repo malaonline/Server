@@ -265,9 +265,9 @@ class TeacherUnpublishedView(BaseStaffView):
         for_published = self.list_type == 'published'
         query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
         if name:
-            query_set = query_set.filter(name__icontains = name)
+            query_set = query_set.filter(name__icontains=name)
         if phone:
-            query_set = query_set.filter(user__profile__phone__contains = phone)
+            query_set = query_set.filter(user__profile__phone__contains=phone)
         if region:
             query_set = query_set.filter(region_id=region)
         if grade:
@@ -277,6 +277,7 @@ class TeacherUnpublishedView(BaseStaffView):
         if level:
             query_set = query_set.filter(level_id=level)
         query_set = query_set.order_by('id')
+        query_set = query_set.distinct()
         # paginate
         query_set, pager = paginate(query_set, page, 15)
         kwargs['teachers'] = query_set
