@@ -16,7 +16,7 @@ public class SubjectReportApi extends BaseApi {
         return URL_REPORT;
     }
 
-    public SubjectReport get(int subject) throws Exception {
+    public SubjectReport get(long subject) throws Exception {
         return httpGet(getPath() + subject, SubjectReport.class);
     }
 

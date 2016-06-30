@@ -36,6 +36,7 @@ public class ReportActivity extends BaseTitleActivity {
         Intent intent = new Intent(activity, ReportActivity.class);
         Bundle bundle = new Bundle();
         bundle.putLong(EXTRA_SUBJECT, subject);
+        intent.putExtras(bundle);
         activity.startActivity(intent);
     }
 }

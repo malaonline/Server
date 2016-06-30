@@ -41,7 +41,7 @@ public class ReportFragment extends BaseFragment {
     //页面上的点的容器
     private View dotViewContainer;
     //科目
-    private int subjectId;
+    private long subjectId;
     private ReportHomePage homePage;
 
     private List<View> pageList;
@@ -65,7 +65,7 @@ public class ReportFragment extends BaseFragment {
         if (bundle == null) {
             return;
         }
-        subjectId = bundle.getInt(ReportActivity.EXTRA_SUBJECT, Integer.MIN_VALUE);
+        subjectId = bundle.getLong(ReportActivity.EXTRA_SUBJECT, Integer.MIN_VALUE);
         if (subjectId == Integer.MIN_VALUE) {
             MiscUtil.toast("哎呀，这个报告找不到了。");
             getActivity().finish();
@@ -158,9 +158,9 @@ public class ReportFragment extends BaseFragment {
 
     private static final class FetchSubjectReport extends BaseApiContext<ReportFragment, SubjectReport> {
 
-        private int subjectId;
+        private long subjectId;
 
-        public FetchSubjectReport(ReportFragment reportFragment, int subjectId) {
+        public FetchSubjectReport(ReportFragment reportFragment, long subjectId) {
             super(reportFragment);
             this.subjectId = subjectId;
         }
