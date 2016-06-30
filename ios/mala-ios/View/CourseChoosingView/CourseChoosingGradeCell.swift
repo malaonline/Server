@@ -51,14 +51,15 @@ class CourseChoosingGradeCell: MalaBaseCell {
         self.title.text = "选择授课年级"
         
         // SubViews
-        self.content.addSubview(collectionView)
+        tagsView.removeFromSuperview()
+        content.addSubview(collectionView)
         
         // Autolayout
         collectionView.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.left.equalTo(self.content.snp_left)
-            make.right.equalTo(self.content.snp_right)
-            make.bottom.equalTo(self.content.snp_bottom)
+            make.top.equalTo(content.snp_top)
+            make.left.equalTo(content.snp_left)
+            make.right.equalTo(content.snp_right)
+            make.bottom.equalTo(content.snp_bottom)
         })
     }
 }

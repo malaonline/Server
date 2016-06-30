@@ -48,30 +48,27 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
+        tagsView.removeFromSuperview()
         content.addSubview(classSchedule)
         content.addSubview(legendView)
-        tagsView.removeFromSuperview()
         
         // Autolayout
         // Remove margin
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.title.snp_bottom)
-            make.bottom.equalTo(self.contentView.snp_bottom)
+            make.top.equalTo(title.snp_bottom).offset(14)
         }
-        
         classSchedule.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.left.equalTo(self.content.snp_left)
-            make.right.equalTo(self.content.snp_right)
+            make.top.equalTo(content.snp_top)
+            make.left.equalTo(content.snp_left)
+            make.right.equalTo(content.snp_right)
             make.height.equalTo(classSchedule.snp_width).multipliedBy(0.65)
-            make.bottom.equalTo(legendView.snp_top).offset(-14)
         }
         legendView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.classSchedule.snp_bottom).offset(14)
-            make.left.equalTo(classSchedule.snp_left)
+            make.top.equalTo(classSchedule.snp_bottom).offset(14)
+            make.left.equalTo(content.snp_left)
             make.height.equalTo(15)
-            make.right.equalTo(classSchedule.snp_right)
-            make.bottom.equalTo(self.content.snp_bottom).offset(-14)
+            make.right.equalTo(content.snp_right)
+            make.bottom.equalTo(content.snp_bottom)
         }
     }
     

@@ -45,8 +45,8 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
     private func setupUserInterface() {
         // Style
         
-        
         // SubViews
+        tagsView.removeFromSuperview()
         contentView.addSubview(tableView)
         contentView.addSubview(priceView)
         

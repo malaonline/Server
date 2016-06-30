@@ -140,23 +140,21 @@ class MalaBaseCell: UITableViewCell {
         
         // Autolayout
         title.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(16)
-            make.left.equalTo(self.contentView.snp_left).offset(12)
+            make.top.equalTo(contentView.snp_top).offset(16)
+            make.left.equalTo(contentView.snp_left).offset(12)
             make.height.equalTo(15)
-            make.width.equalTo(100)
-            make.bottom.equalTo(content.snp_top).offset(-14)
         }
         content.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.title.snp_bottom).offset(14)
-            make.left.equalTo(self.contentView.snp_left).offset(12)
-            make.right.equalTo(self.contentView.snp_right).offset(-12)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-14)
+            make.top.equalTo(title.snp_bottom).offset(14)
+            make.left.equalTo(contentView.snp_left).offset(12)
+            make.right.equalTo(contentView.snp_right).offset(-12)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-14)
         }
         tagsView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.bottom.equalTo(self.content.snp_bottom)
-            make.left.equalTo(self.content.snp_left)
-            make.right.equalTo(self.content.snp_right)
+            make.top.equalTo(content.snp_top)
+            make.bottom.equalTo(content.snp_bottom)
+            make.left.equalTo(content.snp_left)
+            make.right.equalTo(content.snp_right)
         }
     }
     
