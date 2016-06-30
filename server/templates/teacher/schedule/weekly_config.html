@@ -1,0 +1,20 @@
+{% extends "teacher/teacher_frame.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% block title %}
+    授课时间设置
+{% endblock %}
+{% block addition_header %}
+    <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}?{% lorem 1 w random%}">
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="title">授课时间设置</span>
+{% endblock %}
+
+{% block maincontent %}
+
+{% endblock %}

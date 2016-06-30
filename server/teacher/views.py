@@ -1047,7 +1047,7 @@ class MySchoolTimetable(BasicTeacherView):
         set_teacher_page_general_context(teacher, context)
         side_bar_content = SideBarContent(teacher)
         side_bar_content(context)
-        return render(request, "teacher/my_school_timetable.html", context)
+        return render(request, "teacher/schedule/my_school_timetable.html", context)
 
 
 class MyStudents(BasicTeacherView):
@@ -2581,3 +2581,16 @@ class KLXAccountView(BasicTeacherView):
             context['klx_username'] = klx_username or ''
             context['klx_password'] = klx_password or ''
         return render(request, "teacher/kuailexue/account.html", context)
+
+
+class ScheduleWeeklyConfigView(BasicTeacherView):
+    '''
+    授课时间(周表)设置
+    '''
+    def handle_get(self, request, user, teacher, *args, **kwargs):
+        context = {'klx_web_site': KLX_WEB_SITE}
+        self.setSidebarContent(teacher, context)
+        set_teacher_page_general_context(teacher, context)
+        weekly_time_slots = teacher.weekly_time_slots.all()
+        context['weekly_time_slots'] = weekly_time_slots
+        return render(request, "teacher/schedule/weekly_config.html", context)

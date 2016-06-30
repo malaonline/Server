@@ -40,4 +40,5 @@ urlpatterns = [
     url(r'^my_students/letter/(?P<student_type>[0-9]{1})/(?P<page_offset>[0-9]+)/(?P<student_id>[0-9]+)/$', views.StudentLetter.as_view(), name="student-letter"),
     url(r'^my_students/letter/(?P<student_type>[0-9]{1})/(?P<page_offset>[0-9]+)/(?P<student_id>[0-9]+)/(?P<letter_id>[0-9]+)$', views.StudentLetterView.as_view(), name="student-letter-view"),
     url(r'^kuailexue/account/$', views.KLXAccountView.as_view(), name="klx-account"),
+    url(r'^schedule/weekly_config/$', views.ScheduleWeeklyConfigView.as_view(), name="schedule-weekly-config"),
 ]
