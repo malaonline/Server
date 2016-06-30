@@ -1,0 +1,69 @@
+@import "../variables.less";
+
+@timeAvailableColor: #81bcdc;
+@timeUnavailableColor: #ddd;
+@timeRemovedColor: #ff5544;
+@timeChosenColor: #5588ff;
+
+.weekly-time-panel {
+  padding: 30px;
+  table {
+    border-collapse: collapse;
+    tr {
+      height: 45px;
+    }
+    td {
+      padding: 3px 0;
+      min-width: 60px;
+      line-height: 14px;
+      text-align: center;
+    }
+    tbody {
+      .hours-col {
+        font-size: 14px;
+        color: #939393;
+      }
+      .unavailable {
+        background-color: @timeUnavailableColor;
+        &.chosen {
+          background-color: @timeChosenColor;
+        }
+      }
+      .available {
+        background-color: @timeAvailableColor;
+        &.removed {
+          background-color: @timeRemovedColor;
+        }
+      }
+    }
+  }
+  .flags {
+    padding: 10px 3px;
+    line-height: 14px;
+    .flag {
+      margin-right: 10px;
+      font-size: 14px;
+      color: #939393;
+      .rect {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin-right: 7px;
+        vertical-align: -1px;
+        border-radius: 2px;
+        &.unavailable {
+          background-color: @timeUnavailableColor;
+        }
+        &.available {
+          background-color: @timeAvailableColor;
+        }
+        &.chosen {
+          background-color: @timeChosenColor;
+        }
+        &.removed {
+          background-color: @timeRemovedColor;
+        }
+      }
+    }
+  }
+}

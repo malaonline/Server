@@ -2591,6 +2591,28 @@ class ScheduleWeeklyConfigView(BasicTeacherView):
         context = {'klx_web_site': KLX_WEB_SITE}
         self.setSidebarContent(teacher, context)
         set_teacher_page_general_context(teacher, context)
-        weekly_time_slots = teacher.weekly_time_slots.all()
+        weekly_time_slots = teacher.region.weekly_time_slots.all()
+        # 老师自己设置的可用时间表
+        available_weekly_times = set(teacher.weekly_time_slots.all())
+        for s in weekly_time_slots:
+            s.available = True if s in available_weekly_times else False
         context['weekly_time_slots'] = weekly_time_slots
+        context['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         return render(request, "teacher/schedule/weekly_config.html", context)
+
+    def handle_post(self, request, user, teacher, *args, **kwargs):
+        new_ids_str = request.POST.get('new_ids')
+        removed_ids_str = request.POST.get('removed_ids')
+        new_ids = new_ids_str and [s for s in new_ids_str.split('+') if s and s.strip() != ''] or None
+        removed_ids = removed_ids_str and [s for s in removed_ids_str.split('+') if s and s.strip() != ''] or None
+        if not new_ids and not removed_ids:
+            return JsonResponse({'ok': False, 'msg': '没有变化', 'code': 1})
+        if new_ids:
+            new_ts_set = models.WeeklyTimeSlot.objects.filter(id__in=new_ids)
+            for s in new_ts_set:
+                teacher.weekly_time_slots.add(s)
+        if removed_ids:
+            removed_ts_set = models.WeeklyTimeSlot.objects.filter(id__in=removed_ids)
+            for s in removed_ts_set:
+                teacher.weekly_time_slots.remove(s)
+        return JsonResponse({'ok': True, 'msg': 'ok', 'code': 0})

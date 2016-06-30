@@ -2,13 +2,24 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 {% block title %}
     授课时间设置
 {% endblock %}
 {% block addition_header %}
     <link rel="stylesheet" href="{% static 'teacher/less/teacher_page.less'|compile %}?{% lorem 1 w random%}">
+    <link rel="stylesheet" href="{% static 'teacher/less/schedule/weekly_config.less'|compile %}?{% lorem 1 w random%}">
 {% endblock %}
 {% block addition_js %}
+    <script>
+        var weekly_timeslots_map = {}, k='', o={};
+        {% for s in weekly_time_slots %}
+        k = '{{ s.weekday }}'+'_'+'{{ s.start|date:'H:i' }}'+'_'+'{{ s.end|date:'H:i' }}';
+        o = {'id': "{{ s.id }}", 'd': "{{ s.weekday }}", 's': "{{ s.start|date:'H:i' }}", 'e': "{{ s.end|date:'H:i' }}", 'ok': {% if s.available %}true{% else %}false{% endif %}};
+        weekly_timeslots_map[k] = o;
+        {% endfor %}
+    </script>
+    <script src="{% static 'teacher/js/schedule/weekly_config.js' %}?{% lorem 1 w random%}"></script>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -16,5 +27,32 @@
 {% endblock %}
 
 {% block maincontent %}
-
+    <div class="weekly-time-panel">
+        <table border="1" id="weeklyTable">
+            <thead>
+                <tr>
+                    <td>时间</td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td><td>周日</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for timeslot in daily_time_slots %}
+                    <tr start="{{ timeslot.start|date:'H:i' }}" end="{{ timeslot.end|date:'H:i' }}">
+                        <td class="hours-col">{{ timeslot.start|date:'H:i' }}<br>{{ timeslot.end|date:'H:i' }}</td>
+                        {% for day in 7|num_range %}
+                            <td class="phase" day="{{ day }}"></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="flags">
+            <span class="flag"><span class="rect available"></span>授课</span>
+            <span class="flag"><span class="rect unavailable"></span>不授课</span>
+            <span class="flag"><span class="rect removed"></span>已取消</span>
+            <span class="flag"><span class="rect chosen"></span>已选</span>
+        </div>
+        <div class="action-panel">
+            <input id="saveWeeklyConfig" class="btn btn-success btn-save" type="button" value="保存"/>
+        </div>
+    </div>
 {% endblock %}
