@@ -580,7 +580,7 @@ class Teacher(BaseModel):
             return (w - 1) * 24 * 60 + t.hour * 60 + t.minute
 
         # 老师自己设置的可用时间表
-        available_weekly_times = self.weekly_time_slots.all()
+        available_weekly_times = set(self.weekly_time_slots.all())
         for s in weekly_time_slots:
             s.available = True if s in available_weekly_times else False
 
