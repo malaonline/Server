@@ -28,6 +28,7 @@ import com.malalaoshi.android.refresh.NormalRefreshViewHolder;
 import com.malalaoshi.android.result.CourseListResult;
 import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.MiscUtil;
+import com.malalaoshi.android.util.ScrollSpeedLinearLayoutManger;
 import com.malalaoshi.android.view.DefaultView;
 import com.malalaoshi.android.view.ListDefaultView;
 
@@ -67,7 +68,7 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
     private ScheduleAdapter mScheduleAdapter;
 
-    private LinearLayoutManager mLinearLayoutManager;
+    private ScrollSpeedLinearLayoutManger mLinearLayoutManager;
 
     private String hostNextUrl;
     private String hostPreviousUrl;
@@ -171,7 +172,8 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
         mScheduleAdapter = new ScheduleAdapter(getActivity());
         //初始化recyclerview
         //设置布局管理器
-        mLinearLayoutManager = new GridScrollYLinearLayoutManager(getActivity(), 1);
+        mLinearLayoutManager = new ScrollSpeedLinearLayoutManger(getActivity(), 1);
+        mLinearLayoutManager.setSpeedSlow();
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         // 设置adapter
         mRecyclerView.setAdapter(mScheduleAdapter);
@@ -225,20 +227,17 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
 
     @OnClick(R.id.btn_goback)
     public void onClickGoBack(View view){
-        resetPosition();
-        btnGoback.setVisibility(View.GONE);
-    }
-
-    private void resetPosition() {
-        int position = mScheduleAdapter.getItemCount();
-        mLinearLayoutManager.scrollToPosition(position-1);
         mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
                 int index = mScheduleAdapter.getStartIndex();
-                mLinearLayoutManager.scrollToPosition(index);
+                //mLinearLayoutManager.scrollToPosition(index);
+                // mLinearLayoutManager.scrollToPositionWithOffset(index,0);
+                // mLinearLayoutManager.scrollToPositionWithOffset(index,0);
+                mRecyclerView.smoothScrollToPosition(index+1);
             }
         });
+        //btnGoback.setVisibility(View.GONE);
     }
 
     private boolean hasNextData(){
@@ -278,7 +277,11 @@ public class ScheduleFragment extends BaseFragment implements RecyclerViewLoadMo
             hostNextUrl = courses.getNext();
             hostPreviousUrl = courses.getPrevious();
             mScheduleAdapter.addItem(courses.getResults());
-            resetPosition();
+
+            int index = mScheduleAdapter.getStartIndex();
+            //mLinearLayoutManager.scrollToPosition(index);
+            mLinearLayoutManager.scrollToPositionWithOffset(index,0);
+            //resetPosition();
         }else{
             setEmptyView();
         }
