@@ -191,7 +191,9 @@ public abstract class BaseRefreshFragment<T extends BaseResult> extends BaseFrag
     protected void refreshFinish(T response) {
         refreshLayout.refreshComplete();
         if (response == null) {
-            setLayout(LayoutType.REFRESH_FAILED);
+            if(adapter.getItemCount()<=0){
+                setLayout(LayoutType.REFRESH_FAILED);
+            }
             return;
         }
         if (EmptyUtils.isEmpty(response.getResults())) {
