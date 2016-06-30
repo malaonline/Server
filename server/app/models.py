@@ -539,6 +539,12 @@ class Teacher(BaseModel):
         region = school.region
         weekly_time_slots = region.weekly_time_slots.all()
 
+        # 如果家长和老师为同一用户, 不让选课
+        if parent.user == self.user:
+            data = {(s.weekday, s.start, s.end): False
+                    for s in weekly_time_slots}
+            return data
+
         date = timezone.now() - renew_time
         occupied = TimeSlot.objects.filter(
                 order__teacher=teacher, start__gte=date, deleted=False)
@@ -573,13 +579,15 @@ class Teacher(BaseModel):
         def w2m(w, t):
             return (w - 1) * 24 * 60 + t.hour * 60 + t.minute
 
+        # 老师自己设置的可用时间表
+        available_weekly_times = self.weekly_time_slots.all()
+        for s in weekly_time_slots:
+            s.available = True if s in available_weekly_times else False
+
         data = {(s.weekday, s.start, s.end): (segtree.query_len(
-            w2m(s.weekday, s.start), w2m(s.weekday, s.end) - 1) == 0)
-            for s in weekly_time_slots
-            }
-        # 如果家长和老师为同一用户, 不让选课
-        if parent.user == self.user:
-            data = {(s.weekday, s.start, s.end): False for s in weekly_time_slots}
+            w2m(s.weekday, s.start),
+            w2m(s.weekday, s.end) - 1) == 0 and s.available)
+                for s in weekly_time_slots}
         return data
 
     def is_longterm_available(self, periods, school, parent):
