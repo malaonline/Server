@@ -81,6 +81,9 @@ $(function(){
         var origTotalCost = chosen_hours * chosen_price; // 单位是分
         var discount = parseFloat(chosen_coupon_amount); // 单位是元
         var realCost = origTotalCost - discount * 100;
+        if (origTotalCost>0) {
+            realCost = Math.max(realCost, 1); // 暂时不支持免费订单, 最少1分
+        }
         $realCost.text(_format_money(realCost));
     };
 
