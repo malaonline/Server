@@ -63,32 +63,25 @@ public class MalaRemoteNotificationHandler: NSObject {
                     title = "退费成功"
                     action = {
                         /// 订单详情页
-//                        if let viewController = getActivityViewController() where self.code != 0 {
-//                            
-//                            println("退费成功 - \(viewController) - \(self.code)")
-//                            
-//                            if let mainViewController = viewController as? MainViewController,
-//                                naviVC = mainViewController.viewControllers?[0] as? UINavigationController {
-//                                let orderFormViewController = OrderFormInfoViewController()
-//                                orderFormViewController.id = self.code
-//                                naviVC.pushViewController(orderFormViewController, animated: true)
-//                            }else {
-//                                let orderFormViewController = OrderFormInfoViewController()
-//                                orderFormViewController.id = self.code
-//                                viewController.navigationController?.pushViewController(orderFormViewController, animated: true)
-//                            }
-//                        }
+                        if let viewController = getActivityViewController() {
+                            let orderFormViewController = OrderFormInfoViewController()
+                            orderFormViewController.id = self.code
+                            orderFormViewController.hidesBottomBarWhenPushed = true
+                            viewController.navigationController?.pushViewController(orderFormViewController, animated: true)
+                        }
                     }
             
                 case .Finished:
                     title = "完课评价"
-//                    action = {
-//                        /// 我的评价
-//                        if let viewController = getActivityViewController() {
-//                            viewController.navigationController?.pushViewController(CommentViewController(), animated: true)
-//                        }
-//                    }
-                    
+                    action = {
+                        /// 我的评价
+                        if let viewController = getActivityViewController() {
+                            let commentViewController = CommentViewController()
+                            commentViewController.hidesBottomBarWhenPushed = true
+                            viewController.navigationController?.pushViewController(commentViewController, animated: true)
+                        }
+                    }
+                
                 case .Starting:
                     title = "课前通知"
                     
@@ -97,7 +90,9 @@ public class MalaRemoteNotificationHandler: NSObject {
                     action = {
                         /// 我的奖学金
                         if let viewController = getActivityViewController() {
-                            viewController.navigationController?.pushViewController(CouponViewController(), animated: true)
+                            let couponViewController = CouponViewController()
+                            couponViewController.hidesBottomBarWhenPushed = true
+                            viewController.navigationController?.pushViewController(couponViewController, animated: true)
                         }
                     }
                     

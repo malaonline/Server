@@ -271,7 +271,7 @@ func getActivityViewController() -> UIViewController? {
     
     // 过滤TabbarController情况
     if let mainViewController = activityViewController as? MainViewController,
-        naviVC = mainViewController.viewControllers?[0] as? UINavigationController {
+        naviVC = mainViewController.viewControllers?[mainViewController.selectedIndex] as? UINavigationController {
         activityViewController = naviVC.viewControllers[0]
     }
     
