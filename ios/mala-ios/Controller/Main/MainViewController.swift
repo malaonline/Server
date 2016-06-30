@@ -106,7 +106,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     /// 查询用户是否有未支付订单
-    private func loadUnpaindOrder() {
+    func loadUnpaindOrder() {
                 
         if !MalaUserDefaults.isLogined {
             return
@@ -116,7 +116,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
-                println("MainViewController - getUserNewMessageCount Error \(errorMessage)")
+                println("MainViewController - loadUnpaindOrder Error \(errorMessage)")
             }
         }, completion: { [weak self] (order, comment) in
             println("未支付订单数量：\(order), 待评价数量：\(comment)")
@@ -124,9 +124,9 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             MalaUnpaidOrderCount = order
             MalaToCommentCount = comment
             
-            if order != 0 {
+            if order != 0, let viewController = getActivityViewController() {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self?.popAlert()
+                    self?.popAlert(viewController)
                 })
             }
             self?.profileViewController.showTabBadgePoint = (MalaUnpaidOrderCount > 0 || MalaToCommentCount > 0)
@@ -134,8 +134,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     /// 弹出未支付订单提示
-    private func popAlert() {
-        let alert = JSSAlertView().show(self,
+    private func popAlert(viewController: UIViewController) {
+        let alert = JSSAlertView().show(viewController,
                                         title: "您有订单尚未支付",
                                         buttonText: "查看订单",
                                         iconImage: UIImage(named: "alert_PaymentSuccess")
@@ -147,11 +147,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     /// 切换到个人信息页面
     private func switchToProfile() {
         
-        let viewController = OrderFormViewController()
-        viewController.hidesBottomBarWhenPushed = true
+        let orderViewController = OrderFormViewController()
+        orderViewController.hidesBottomBarWhenPushed = true
         
-        if let naviVC = self.viewControllers?[0] as? UINavigationController {
-            naviVC.pushViewController(viewController, animated: true)
+        if let viewController = getActivityViewController() {
+            viewController.navigationController?.pushViewController(orderViewController, animated: true)
         }
     }
     

@@ -8,6 +8,9 @@
 
 import UIKit
 
+// MARK: - Common Instance
+var MalaMainViewController: MainViewController = MainViewController()
+
 
 // MARK: - Instance
 /// 筛选条件

@@ -23,7 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup Window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.backgroundColor = UIColor.whiteColor()
-        window?.rootViewController = MainViewController()
+        let mainViewController = MainViewController()
+        MalaMainViewController = mainViewController
+        window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
         
         // 全局的外观自定义
