@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from app.models import Region, Grade, Subject, Ability, Level, Price
+from app.models import Region, Grade, Subject, Ability, Level, Price, WeeklyTimeSlot
 
 
 class Command(BaseCommand):
@@ -57,6 +57,13 @@ class Command(BaseCommand):
         if is_open != region.opened:
             region.opened = is_open
             region.save()
+
+        region.weekly_time_slots.clear()
+        if is_open:
+            all_weekly_timeslots = list(WeeklyTimeSlot.objects.all())
+            for wt in all_weekly_timeslots:
+                region.weekly_time_slots.add(wt)
+
         abilities = Ability.objects.all()
         for level in levels:
             # print(" {level_name}".format(level_name=level.name))
