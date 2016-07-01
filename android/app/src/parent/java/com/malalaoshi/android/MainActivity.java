@@ -255,8 +255,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     protected void onClickBarBtnLocation() {
-//        Toast.makeText(this,"TODO: 提示目前只支持许昌市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持许昌市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
+//        Toast.makeText(this,"TODO: 提示目前只支持郑州市，换成Dialog", Toast.LENGTH_SHORT).show();
+        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持郑州市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
         d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
     }
 

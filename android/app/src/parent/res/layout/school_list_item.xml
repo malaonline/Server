@@ -18,19 +18,12 @@
         fresco:failureImageScaleType="focusCrop"
         fresco:fadeDuration="1000"
         />
-   <!-- <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/iv_school_pic"
-        android:scaleType="centerCrop"
-        android:layout_width="@dimen/image_width"
-        android:layout_height="@dimen/image_height"
-        android:src="@drawable/ic_default_img"
-        />-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_school_name"
-            android:text="麻辣体验中心 (许昌店)"
             android:textColor="@color/item_text_color_normal"
             android:textSize="@dimen/text_size_large"
             android:layout_marginTop="@dimen/school_margin_normal"
@@ -40,7 +33,6 @@
 
         <TextView
             android:id="@+id/tv_school_address"
-            android:text="洞西区 长江路"
             android:textColor="@color/prices_name_text_color"
             android:textSize="@dimen/text_size_normal"
             android:layout_marginBottom="@dimen/school_margin_normal"

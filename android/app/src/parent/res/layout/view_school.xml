@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@id/iv_modify_grade_info"
-                android:text="小学三年级" />
+                 />
         </RelativeLayout>
         <TextView
             android:visibility="gone"
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="所在学校" />
+                 />
 
             <ImageView
                 android:id="@+id/iv_school_modify_info"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@id/iv_school_modify_info"
-                android:text="许昌一中" />
+                 />
         </RelativeLayout>
      </LinearLayout>
 </LinearLayout>
