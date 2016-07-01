@@ -27,7 +27,7 @@ class CourseChoosingGradeCell: MalaBaseCell {
     // MARK: - Compontents
     private lazy var collectionView: GradeSelectCollectionView = {
         let collectionView = GradeSelectCollectionView(
-            frame: CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: 0),
+            frame: CGRectZero,
             collectionViewLayout: CommonFlowLayout(type: .GradeSelection)
         )
         return collectionView
