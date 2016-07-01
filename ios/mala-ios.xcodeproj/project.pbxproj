@@ -2169,6 +2169,7 @@
 					};
 					35D7A3201C0FE851007D7679 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 85KXKD6J43;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -2180,6 +2181,9 @@
 								enabled = 0;
 							};
 						};
+					};
+					35FF7B1F1CF83264000A70EE = {
+						DevelopmentTeam = 85KXKD6J43;
 					};
 					F4402E131C5A16A700E7D3DB = {
 						CreatedOnToolsVersion = 7.2;
@@ -3456,7 +3460,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e26a97e5-af61-4540-a2af-49cfb400a15c";
+				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3484,7 +3488,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e26a97e5-af61-4540-a2af-49cfb400a15c";
+				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3566,7 +3570,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3594,7 +3598,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
