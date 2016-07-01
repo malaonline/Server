@@ -19,7 +19,7 @@
             android:layout_height="205dp">
             <ImageView
                 android:id="@+id/iv_refresh_refreshing"
-                android:src="@anim/refresh_refreshing"
+                android:src="@drawable/refresh_refreshing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView

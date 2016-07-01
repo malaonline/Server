@@ -2,132 +2,78 @@ package com.malalaoshi.android.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 import com.malalaoshi.android.R;
+import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.entity.ScheduleCourse;
 import com.malalaoshi.android.entity.ScheduleDate;
 import com.malalaoshi.android.entity.ScheduleItem;
 import com.malalaoshi.android.util.CalendarUtils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by kang on 15/12/29.
+ * Created by kang on 16/6/29.
  */
-public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private List<ScheduleItem> mScheduleData = new ArrayList<>();
+public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentViewHolder,ScheduleItem> {
 
     private static final int TYPE_ITEM_COURSE = 3;
     private static final int TYPE_ITEM_DATE = 2;
-    private static final int TYPE_FOOTER = 1;
 
-    //上拉加载更多
-    public static final int  PULLUP_LOAD_MORE=0;
-    //正在加载中
-    public static final int  LOADING_MORE=1;
-    //没有更多数据,到底了
-    public static final int NODATA_LOADING = 2;
-    //没有更多数据,到底了
-    public static final int GONE_LOADING = 3;
-    //上拉加载更多状态-默认为0
-    private int load_more_status=0;
-
-    private int startIndex = 0;
-
-    public ScheduleAdapter(Context context){
+    public ScheduleAdapter(Context context) {
+        super(context);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            if (mScheduleData.get(position).getType()==ScheduleItem.TYPE_COURSE){
-                return TYPE_ITEM_COURSE;
-            }else{
-                return TYPE_ITEM_DATE;
-            }
-        }
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public ParentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM_COURSE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_course_item, null);
-            view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_ITEM_DATE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_date_item, null);
-            view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return new ItemDateViewHolder(view);
-        } else if (viewType == TYPE_FOOTER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_footerview, null);
-            int height = parent.getContext().getResources().getDimensionPixelSize(R.dimen.list_footer_height);
-            view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, height));
-            return new FooterViewHolder(view);
         }
         return null;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ParentViewHolder holder, int position) {
         int type = getItemViewType(position);
-        if (type==TYPE_FOOTER){
-            FooterViewHolder footViewHolder=(FooterViewHolder)holder;
-            if (position<=0){
-                ((FooterViewHolder) holder).view.setVisibility(View.GONE);
-            }else{
-                ((FooterViewHolder) holder).view.setVisibility(View.VISIBLE);
-            }
-
-            switch (load_more_status){
-                case PULLUP_LOAD_MORE:
-                    footViewHolder.textView.setText("上拉加载更多...");
-                    footViewHolder.progressBar.setVisibility(View.GONE);
-                    break;
-                case LOADING_MORE:
-                    footViewHolder.textView.setText("加载中...");
-                    footViewHolder.progressBar.setVisibility(View.VISIBLE);
-                    break;
-                case NODATA_LOADING:
-                    footViewHolder.textView.setText("到底了,没有更多数据了!");
-                    footViewHolder.progressBar.setVisibility(View.GONE);
-                    break;
-                case GONE_LOADING:
-                    ((FooterViewHolder) holder).view.setVisibility(View.GONE);
-                    break;
-            }
-        } else if (type==TYPE_ITEM_DATE){
-            ScheduleDate scheduleDate = (ScheduleDate) mScheduleData.get(position);
+         if (type==TYPE_ITEM_DATE){
+            ScheduleDate scheduleDate = (ScheduleDate) getItem(position);
             ((ItemDateViewHolder)holder).update(position,scheduleDate);
         } else{
-            ScheduleCourse scheduleCourse = (ScheduleCourse) mScheduleData.get(position);
+            ScheduleCourse scheduleCourse = (ScheduleCourse) getItem(position);
             ((ItemViewHolder)holder).update(position,scheduleCourse);
         }
     }
 
-    //添加数据
+    @Override
+    public int getItemViewType(int position) {
+        if (getItem(position).getType()==ScheduleItem.TYPE_COURSE){
+            return TYPE_ITEM_COURSE;
+        }else {
+            return TYPE_ITEM_DATE;
+        }
+    }
+
+
+   /* //添加数据
     public void addItem(List<Course> newDatas) {
         Collections.sort(newDatas);
-        
+
         int count = 0;
         int childCount = 0;
         int index = 0;
@@ -172,22 +118,22 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 tempDatas.add(new ScheduleCourse(course));
             }
             //startIndex++;
-            if (mScheduleData.size()>0){
-                ScheduleItem scheduleItem = mScheduleData.get(0);
+            if (getItemCount()>0){
+                ScheduleItem scheduleItem = (ScheduleItem) getItem(0);
                 if (scheduleItem.getType()==ScheduleItem.TYPE_DATE){
                     Calendar firstCalendar =  CalendarUtils.timestampToCalendar(((ScheduleDate)scheduleItem).getTimestamp());
                     if (currentCalendar.get(Calendar.YEAR)==firstCalendar.get(Calendar.YEAR)&&currentCalendar.get(Calendar.MONTH)==firstCalendar.get(Calendar.MONTH)){
-                        mScheduleData.remove(0);
+                        getDataList().remove(0);
                         count--;
                     }
                 }
             }
-            if (mScheduleData.size()<=0){
+            if (getItemCount()<=0){
                 startIndex = index;
             } else {
                 startIndex += count;
             }
-            mScheduleData.addAll(0,tempDatas);
+            getDataList().addAll(0,tempDatas);
             notifyDataSetChanged();
         }
     }
@@ -200,56 +146,31 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Course course = newDatas.get(i);
                 if (currentCalendar==null){
                     currentCalendar =  CalendarUtils.timestampToCalendar(course.getStart());
-                    if (mScheduleData.size()>0){
-                        ScheduleItem scheduleItem = mScheduleData.get(0);
+                    if (getItemCount()>0){
+                        ScheduleItem scheduleItem = (ScheduleItem) getItem(0);
                         if (scheduleItem.getType()==ScheduleItem.TYPE_COURSE){
                             Calendar lastCalendar =  CalendarUtils.timestampToCalendar(((ScheduleCourse)scheduleItem).getCourse().getStart());
                             if (currentCalendar.get(Calendar.YEAR)!=lastCalendar.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=lastCalendar.get(Calendar.MONTH)){
-                                mScheduleData.add(new ScheduleDate(course.getStart()));
+                                getDataList().add(new ScheduleDate(course.getStart()));
                             }
                         }else{
-                            mScheduleData.add(new ScheduleDate(course.getStart()));
+                            getDataList().add(new ScheduleDate(course.getStart()));
                         }
                     }else{
-                        mScheduleData.add(new ScheduleDate(course.getStart()));
+                        getDataList().add(new ScheduleDate(course.getStart()));
                     }
                 }else{
                     Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
                     if (currentCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)){
                         currentCalendar = start;
-                        mScheduleData.add(new ScheduleDate(course.getStart()));
+                        getDataList().add(new ScheduleDate(course.getStart()));
                     }
                 }
-                mScheduleData.add(new ScheduleCourse(course));
+                getDataList().add(new ScheduleCourse(course));
             }
             notifyDataSetChanged();
         }
-    }
-
-    public int getStartIndex(){
-        return startIndex;
-    }
-
-    public void setMoreStatus(int status){
-        load_more_status=status;
-        notifyDataSetChanged();
-    }
-
-    public int getMoreStatus(){
-        return load_more_status;
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return mScheduleData.size() + 1;
-    }
-
-    public void clear() {
-        mScheduleData.clear();
-        startIndex = 0;
-        notifyDataSetChanged();
-    }
+    }*/
 
     abstract class ParentViewHolder extends RecyclerView.ViewHolder{
 
@@ -258,23 +179,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public abstract void update(int position, ScheduleItem scheduleItem);
-    }
-
-    class FooterViewHolder extends ParentViewHolder {
-
-        View view;
-        TextView textView;
-        ContentLoadingProgressBar progressBar;
-        public FooterViewHolder(View view) {
-            super(view);
-            this.view = view;
-            textView = (TextView) view.findViewById(R.id.load_textview);
-            progressBar = (ContentLoadingProgressBar) view.findViewById(R.id.progressbar);
-        }
-
-        @Override
-        public void update(int position, ScheduleItem scheduleItem) {
-        }
     }
 
     class ItemViewHolder extends ParentViewHolder{
@@ -361,6 +265,29 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvData.setText(data);
         }
 
+    }
+
+    public int getFirstUnpassMonth(){
+        int count = getItemCount();
+        int index = 0;
+        int childCount = 0;
+        for (int i=0;i<count;i++){
+            ScheduleItem item = getItem(i);
+            if (item.getType()==ScheduleItem.TYPE_DATE){
+                if (i==0){
+                    index += childCount;
+                }else{
+                    index += (childCount+1);
+                }
+                childCount = 0;
+            }else{
+                if (!((ScheduleCourse)item).getCourse().is_passed()){
+                    break;
+                }
+                childCount++;
+            }
+        }
+        return index;
     }
 
 }

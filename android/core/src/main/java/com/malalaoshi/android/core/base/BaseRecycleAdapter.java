@@ -31,6 +31,7 @@ public abstract class BaseRecycleAdapter<T extends RecyclerView.ViewHolder, D> e
 
     public void clear(){
         dataList.clear();
+        notifyDataSetChanged();
     }
 
     public void addData(List<D> data) {
@@ -38,6 +39,14 @@ public abstract class BaseRecycleAdapter<T extends RecyclerView.ViewHolder, D> e
             return;
         }
         dataList.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void insertData(List<D> data) {
+        if (data == null) {
+            return;
+        }
+        dataList.addAll(0,data);
         notifyDataSetChanged();
     }
 

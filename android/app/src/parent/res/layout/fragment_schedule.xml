@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_teacher_list"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/refresh_layout"
+    <com.chanven.lib.cptr.PtrFrameLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/teacher_main_bg"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_schedule_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none|vertical"
-        android:scrollbarSize="1dp"/>
-
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
-
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="1dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"/>
+    </com.chanven.lib.cptr.PtrFrameLayout>
     <Button
         android:id="@+id/btn_goback"
         android:layout_width="64dp"
@@ -30,23 +24,19 @@
         android:layout_marginBottom="42dp"
         android:layout_marginRight="42dp"
         android:background="@drawable/ic_rocket" />
-
-
     <com.malalaoshi.android.view.DefaultView
         android:id="@+id/view_empty"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <com.malalaoshi.android.view.DefaultView
-        android:id="@+id/view_unsigin_up"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        />
     <com.malalaoshi.android.view.ListDefaultView
         android:id="@+id/view_error"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+         />
+    <com.malalaoshi.android.view.DefaultView
+        android:id="@+id/view_unsigin_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
 </FrameLayout>

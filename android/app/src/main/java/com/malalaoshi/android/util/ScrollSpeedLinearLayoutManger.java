@@ -3,18 +3,16 @@ package com.malalaoshi.android.util;
 import android.content.Context;
 import android.graphics.PointF;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 
-import cn.bingoogolapple.refreshlayout.widget.GridScrollYLinearLayoutManager;
 
 /**
  * Created by kang on 16/6/30.
  */
-public class ScrollSpeedLinearLayoutManger extends GridScrollYLinearLayoutManager {
+public class ScrollSpeedLinearLayoutManger extends GridLayoutManager {
     private float MILLISECONDS_PER_INCH = 0.3f;
     private Context context;
 
