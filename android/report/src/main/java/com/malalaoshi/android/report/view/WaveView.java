@@ -209,7 +209,7 @@ public class WaveView extends View {
             AxisModel model = list.get(i);
             rect = Utils.getTextBounds(paint, model.getxValue());
             x = cellWidth * (i + 1) - rect.width() / 2;
-            canvas.drawText(model.getxValue(), x, rect.height() + MiscUtil.dp2px(7), paint);
+            canvas.drawText(model.getxValue()==null?"":model.getxValue(), x, rect.height() + MiscUtil.dp2px(7), paint);
         }
     }
 
