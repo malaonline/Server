@@ -13,7 +13,7 @@ rm -rf ${ipaDir}*.ipa
 rm -rf ${derivedDataPath}
 
 # Provisioning configurations
-AdHocProvisioning="Mala AdHoc"
+AdHocProvisioning="Mala_DevAdHoc"
 security -v unlock-keychain -p ${KEYCHAIN_PASSWORD} ${KEYCHAIN_PATH}
 security set-keychain-settings ${KEYCHAIN_PATH}
 security list-keychains -s ${KEYCHAIN_PATH}
@@ -44,6 +44,7 @@ xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPat
 
 # Export prd package
 cfg="prd"
+AdHocProvisioning="Mala_PrdAdHoc"
 ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
