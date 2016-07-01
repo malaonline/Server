@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/tv_default_tip"
-        android:text="您还没有登录哦!"
         android:textSize="@dimen/text_size_normal_x"
         android:textColor="@color/text_color_dlg"
         android:gravity="center"
@@ -19,7 +18,6 @@
 
     <TextView
         android:id="@+id/tv_default_oper"
-        android:text="去登录"
         android:layout_below="@id/tv_default_tip"
         android:textColor="#8dbede"
         android:textSize="@dimen/text_size_xlarge"

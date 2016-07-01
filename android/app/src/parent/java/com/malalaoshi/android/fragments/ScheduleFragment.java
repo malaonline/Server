@@ -175,8 +175,8 @@ public class ScheduleFragment extends BaseFragment {
         emptyView.setText("您还没有课程哦!");
         emptyView.setButtonText("去报名");
 
-        emptyView.setText("您还没有登录哦!");
-        emptyView.setButtonText("去登录");
+        unsignupView.setText("您还没有登录哦!");
+        unsignupView.setButtonText("去登录");
         loadData();
     }
 
