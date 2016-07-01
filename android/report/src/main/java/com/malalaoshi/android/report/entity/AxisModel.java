@@ -43,7 +43,7 @@ public class AxisModel implements Serializable {
     }
 
     public String getxValue() {
-        return xValue;
+        return xValue == null ? "" : xValue;
     }
 
     public void setxValue(String xValue) {
