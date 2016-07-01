@@ -39,7 +39,7 @@ class TeacherDetailsHeaderView: UIView {
             subjectLabel.text = model.subject
             
             /// 价格
-            priceLabel.text = String(format: "%@/%@元每小时", model.min_price.money, model.max_price.money)
+            priceLabel.text = String(MinPrice: model.min_price.money, MaxPrice: model.max_price.money)
             
             /// 教龄
             teachingAgeLabel.text = model.teachingAgeString
