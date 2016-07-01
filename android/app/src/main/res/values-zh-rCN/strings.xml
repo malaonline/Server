@@ -90,7 +90,7 @@
 
     <string name="comment_succeed">评价成功!</string>
     <string name="comment_failed">评价失败!</string>
-    <string name="load_user_info_failed">用户信息下载失败!</string>
+    <string name="load_user_info_failed">数据加载失败!</string>
     <string name="usercenter_student_empty">用户姓名不能为空!</string>
     <string name="usercenter_set_school_failed">学校设置失败!</string>
     <string name="usercenter_set_school_succeed">学校设置成功!</string>
