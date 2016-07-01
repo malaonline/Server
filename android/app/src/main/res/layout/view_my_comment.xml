@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/ic_no_comment"
+            android:background="@drawable/ic_empty_comment"
             android:gravity="center_horizontal"
             android:paddingTop="6dp"
             android:text="待评"

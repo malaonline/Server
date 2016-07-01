@@ -1,5 +1,6 @@
 package com.malalaoshi.android.comment;
 
+import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.core.base.BaseRefreshFragment;
 import com.malalaoshi.android.course.api.CourseInfoApi;
@@ -15,12 +16,13 @@ public class MyCommentListFragment extends BaseRefreshFragment<CommentResult> {
 
     @Override
     public String getStatName() {
-        return "我的评论";
+        return "我的评价";
     }
 
     @Override
     protected void afterCreateView() {
-        setEmptyViewText("我还没有课程，请先报名吧");
+        setEmptyViewText("当前暂无评价\n上完课再来这里吧");
+        setEmptyViewIcon(R.drawable.ic_empty_comment);
     }
 
     @Override

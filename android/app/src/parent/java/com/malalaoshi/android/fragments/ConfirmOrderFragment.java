@@ -155,7 +155,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         if (!EmptyUtils.isEmpty(imgUrl)){
             ivTeacherAvator.setImageURI(Uri.parse(imgUrl));
         }
-        startProcessDialog("startProcessDialog");
+        startProcessDialog("正在加载数据···");
         loadData();
     }
 

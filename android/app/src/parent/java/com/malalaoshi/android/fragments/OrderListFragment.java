@@ -1,5 +1,6 @@
 package com.malalaoshi.android.fragments;
 
+import com.malalaoshi.android.R;
 import com.malalaoshi.android.adapter.OrderAdapter;
 import com.malalaoshi.android.api.MoreOrderListApi;
 import com.malalaoshi.android.api.OrderListApi;
@@ -55,7 +56,8 @@ public class OrderListFragment extends BaseRefreshFragment<OrderListResult>{
 
     @Override
     protected void afterCreateView() {
-        setEmptyViewText("当前暂无订单");
+        setEmptyViewText("没有订单");
+        setEmptyViewIcon(R.drawable.ic_empty_order);
     }
 
     @Override

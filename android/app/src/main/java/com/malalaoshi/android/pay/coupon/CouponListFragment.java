@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.core.base.BaseRefreshFragment;
 import com.malalaoshi.android.entity.CouponEntity;
@@ -103,7 +104,9 @@ public class CouponListFragment extends BaseRefreshFragment<CouponResult> {
         adapter.setCanSelect(canSelect);
         adapter.setAmount(amount);
 
-        setEmptyViewText("当前暂无奖学金");
+        setEmptyViewText("您当前没有奖学金哦");
+        setEmptyViewIcon(R.drawable.ic_empty_coupon);
+
     }
 
     public void onBackClicked() {
