@@ -314,8 +314,7 @@ func getWeekString(timeStamp: NSTimeInterval? = nil, date: NSDate? = nil) -> Str
     }else if let date = date {
         weekInt = date.weekday()
     }
-    
-    weekInt = weekInt == 7 ? 0 : weekInt
+    weekInt -= 1
     return MalaConfig.malaWeekdays()[weekInt]
 }
 
