@@ -1016,50 +1016,50 @@ class TeacherActionView(BaseStaffActionView):
             teacher.published = (flag == 'true')
 
             # 判断是否可以上架 BE-71
-            errmsg = ""
-            if teacher.published:
-                certification_all = models.Certificate.objects.filter(teacher=teacher)
-                for cert in certification_all:
-                    if cert.type == models.Certificate.ID_HELD:
-                        if cert.name is None or cert.name == '':
-                            errmsg += '身份证不能为空，'
-                        if not cert.verified:
-                            errmsg += '身份证照认证未通过，'
-                    elif cert.type == models.Certificate.ACADEMIC:
-                        if not cert.verified:
-                            errmsg += '学历证认证未通过，'
-                    elif cert.type == models.Certificate.TEACHING:  #教师资格
-                        pass
-                    elif cert.type == models.Certificate.ENGLISH:   #英语水平认证
-                        pass
-
-                if teacher.name is None or teacher.name == '':
-                    errmsg += '老师姓名不能为空，'
-
-                profile = models.Profile.objects.get(user=teacher.user)
-                if profile.phone is None or profile.phone == '':
-                    errmsg += '手机号未填写，'
-                if profile.gender not in [models.Profile.MALE, models.Profile.FEMALE]:
-                    errmsg += '性别没有，'
-                if not profile.avatar or profile.avatar.url is None or profile.avatar.url == '':
-                    errmsg += '头像没有，'
-                if not teacher.region or not teacher.region.id:
-                    errmsg += '所在地区不能为空，'
-                if not teacher.level or not teacher.level.id:
-                    errmsg += '教师级别不能为空，'
-                if teacher.subject() is None:
-                    errmsg += '教授科目不能为空，'
-                if teacher.grades() is None or len(teacher.grades()) == 0:
-                    errmsg += '年级至少选择一个，'
-                if teacher.tags.all() is None or len(teacher.tags.all()) == 0:
-                    errmsg += '风格标记至少选择一个，'
-
-                highscores = models.Highscore.objects.filter(teacher=teacher)
-                if highscores.count() == 0:
-                    errmsg += '提分榜至少填一个，'
-
-                if len(errmsg) > 0:
-                    return JsonResponse({'ok': False, 'msg': errmsg, 'code': -1})
+            # errmsg = ""
+            # if teacher.published:
+            #     certification_all = models.Certificate.objects.filter(teacher=teacher)
+            #     for cert in certification_all:
+            #         if cert.type == models.Certificate.ID_HELD:
+            #             if cert.name is None or cert.name == '':
+            #                 errmsg += '身份证不能为空，'
+            #             if not cert.verified:
+            #                 errmsg += '身份证照认证未通过，'
+            #         elif cert.type == models.Certificate.ACADEMIC:
+            #             if not cert.verified:
+            #                 errmsg += '学历证认证未通过，'
+            #         elif cert.type == models.Certificate.TEACHING:  #教师资格
+            #             pass
+            #         elif cert.type == models.Certificate.ENGLISH:   #英语水平认证
+            #             pass
+            #
+            #     if teacher.name is None or teacher.name == '':
+            #         errmsg += '老师姓名不能为空，'
+            #
+            #     profile = models.Profile.objects.get(user=teacher.user)
+            #     if profile.phone is None or profile.phone == '':
+            #         errmsg += '手机号未填写，'
+            #     if profile.gender not in [models.Profile.MALE, models.Profile.FEMALE]:
+            #         errmsg += '性别没有，'
+            #     if not profile.avatar or profile.avatar.url is None or profile.avatar.url == '':
+            #         errmsg += '头像没有，'
+            #     if not teacher.region or not teacher.region.id:
+            #         errmsg += '所在地区不能为空，'
+            #     if not teacher.level or not teacher.level.id:
+            #         errmsg += '教师级别不能为空，'
+            #     if teacher.subject() is None:
+            #         errmsg += '教授科目不能为空，'
+            #     if teacher.grades() is None or len(teacher.grades()) == 0:
+            #         errmsg += '年级至少选择一个，'
+            #     if teacher.tags.all() is None or len(teacher.tags.all()) == 0:
+            #         errmsg += '风格标记至少选择一个，'
+            #
+            #     highscores = models.Highscore.objects.filter(teacher=teacher)
+            #     if highscores.count() == 0:
+            #         errmsg += '提分榜至少填一个，'
+            #
+            #     if len(errmsg) > 0:
+            #         return JsonResponse({'ok': False, 'msg': errmsg, 'code': -1})
 
             teacher.save()
             # send notice (sms) to teacher
