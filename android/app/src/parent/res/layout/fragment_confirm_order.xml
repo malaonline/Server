@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_teacher"
                     android:drawablePadding="10dp"
-                    android:layout_marginBottom="9dp"
+                    android:layout_marginBottom="6dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal_x"
                     android:textColor="@color/text_color_home_price_unit" />
@@ -41,7 +41,7 @@
                     android:layout_below="@+id/tv_teacher_name"
                     android:drawableLeft="@drawable/ic_course"
                     android:drawablePadding="10dp"
-                    android:layout_marginBottom="9dp"
+                    android:layout_marginBottom="6dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal_x"
                     android:textColor="@color/text_color_home_price_unit" />

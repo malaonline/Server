@@ -16,7 +16,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="205dp">
+            android:layout_height="212dp">
             <ImageView
                 android:id="@+id/iv_refresh_refreshing"
                 android:src="@drawable/refresh_refreshing"

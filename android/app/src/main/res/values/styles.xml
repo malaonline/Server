@@ -111,7 +111,7 @@
     <style name="AppWidget.ItemLine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/backgrounp</item>
+        <item name="android:background">@color/list_divider_color</item>
     </style>
 
     <style name="AppWidget.ItemStyle">

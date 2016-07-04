@@ -38,11 +38,11 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
     public ParentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM_COURSE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_course_item, null);
-            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_ITEM_DATE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list_date_item, null);
-            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+           // view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return new ItemDateViewHolder(view);
         }
         return null;
@@ -212,7 +212,7 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
             if (data.is_passed()) {
                 tvDay.setTextColor(resources.getColor(R.color.text_color_dlg));
                 tvWeek.setTextColor(resources.getColor(R.color.text_color_dlg));
-                rlSchedule.setBackgroundColor(resources.getColor(R.color.item_color_past_bg));
+                rlSchedule.setBackgroundResource(R.drawable.bg_corner_normal);
             } else {
                 if(CalendarUtils.compareCurrentDate(start)==0){
                     tvDay.setTextColor(resources.getColor(R.color.item_color_bg));
@@ -221,7 +221,7 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
                     tvDay.setTextColor(resources.getColor(R.color.text_color_darkgray));
                     tvWeek.setTextColor(resources.getColor(R.color.text_color_darkgray));
                 }
-                rlSchedule.setBackgroundColor(resources.getColor(R.color.item_color_bg));
+                rlSchedule.setBackgroundResource(R.drawable.bg_corner_blue);
 
             }
             tvGradeCourse.setText(data.getGrade()+" "+data.getSubject());

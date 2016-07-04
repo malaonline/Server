@@ -37,7 +37,7 @@
         <View
             android:id="@+id/iv_time_line"
             android:layout_width="1dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/iv_time"
             android:layout_centerHorizontal="true"
