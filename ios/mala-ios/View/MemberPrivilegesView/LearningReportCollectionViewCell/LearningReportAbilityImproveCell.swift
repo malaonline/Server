@@ -187,6 +187,10 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         }
         return xVals
     }
+    
+    override func hideDescription() {
+        descDetailLabel.text = "矩形为学生各模块分数，折线为所有学生平均分数。通过矩形和折线的上下关系可发现学生与平均分数之间的对比关系。"
+    }
 }
 
 // MARK: - LegendView

@@ -111,4 +111,8 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
         }
         barChartView.vals = vals
     }
+    
+    override func hideDescription() {
+        descDetailLabel.text = "学生各知识点颜色填充的越完整正确率越高，方便查看学生各知识点的掌握情况，有针对性的进行练习。"
+    }
 }

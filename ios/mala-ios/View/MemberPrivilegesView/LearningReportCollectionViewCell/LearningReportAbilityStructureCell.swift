@@ -135,4 +135,8 @@ class LearningReportAbilityStructureCell: MalaBaseReportCardCell {
         }
         return xVals
     }
+    
+    override func hideDescription() {
+        descDetailLabel.text = "红色区域越接近最外边对应的能力越强， 通过直观的方式，了解学生思考问题的方式，对弱势项进行引导。"
+    }
 }

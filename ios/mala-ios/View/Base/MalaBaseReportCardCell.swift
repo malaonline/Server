@@ -122,7 +122,7 @@ class MalaBaseReportCardCell: MalaBaseCardCell {
     }
     
     func hideDescription() {
-        descView.hidden = true
-        pinIcon.hidden = true
+        // descView.hidden = true
+        // pinIcon.hidden = true
     }
 }

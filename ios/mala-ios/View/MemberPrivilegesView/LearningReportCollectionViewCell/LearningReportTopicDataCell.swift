@@ -172,4 +172,8 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         xVals.append("")
         return xVals
     }
+    
+    override func hideDescription() {
+        descDetailLabel.text = "蓝色区域为学生答题数量，区域越大答题数越多。绿色区域为学生正确数量，和蓝色区域的差别越小学生正确率越高。"
+    }
 }
