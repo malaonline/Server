@@ -12,6 +12,7 @@ function checkMobile(phone_val){
  * 检测身份证号
  */
 function checkIDNumber(id_num){
+    return true;
     var b = /^\d{17}[0-9xX]$/.test(id_num);
     if (!b) return false;
     var w = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2];
