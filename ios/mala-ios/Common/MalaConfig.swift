@@ -55,7 +55,7 @@ public class MalaConfig {
     }
     ///  已买课程说明String
     class func boughtDescriptionString() -> String {
-        return "您在该时间段有课程未上完，我们将为您保留老师该段的上课时间直到您在该时间段课程全部结束后的12小时，在此期间，方便您继续购买。"
+        return "您在该时间段有课程未上完，直到您在该时间段课程全部结束后的12小时，我们都为您保留老师时间，方便您继续购买。"
     }
     
     // MARK: - Default Data
