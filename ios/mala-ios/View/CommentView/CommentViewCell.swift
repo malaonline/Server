@@ -371,6 +371,7 @@ class CommentViewCell: UITableViewCell {
         showCommentButton.hidden = true
         commentButton.hidden = true
         
+        statusIcon.highlighted = false
         statusIcon.enabled = false
         expiredLabel.hidden = false
         floatRating.hidden = true
@@ -384,6 +385,7 @@ class CommentViewCell: UITableViewCell {
         showCommentButton.hidden = false
         
         statusIcon.highlighted = true
+        statusIcon.enabled = true
         expiredLabel.hidden = true
         floatRating.hidden = false
         floatRating.rating = Float((model?.comment?.score) ?? 0)
@@ -396,6 +398,7 @@ class CommentViewCell: UITableViewCell {
         commentButton.hidden = false
         showCommentButton.hidden = true
         
+        statusIcon.highlighted = false
         statusIcon.enabled = true
         expiredLabel.hidden = true
         floatRating.hidden = true
