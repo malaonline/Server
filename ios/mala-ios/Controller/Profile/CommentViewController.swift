@@ -109,10 +109,6 @@ class CommentViewController: BaseTableViewController {
             
             self?.refreshControl?.endRefreshing()
             self?.isFetching = false
-            guard courseList.count != 0  else {
-                println("学生上课时间表为空！")
-                return
-            }
             self?.models = courseList
         })
     }
