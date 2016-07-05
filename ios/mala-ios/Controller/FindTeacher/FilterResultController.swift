@@ -31,14 +31,6 @@ class FilterResultController: BaseViewController {
         filterBar.controller = self
         return filterBar
     }()
-    /// 无筛选结果缺省面板
-    private lazy var defaultView: UIView = {
-        let defaultView = MalaDefaultPanel()
-        defaultView.imageName = "filter_no_result"
-        defaultView.text = "请重新设定筛选条件！"
-        defaultView.hidden = true
-        return defaultView
-    }()
     
     
     // MARK: - Life Cycle
@@ -63,14 +55,15 @@ class FilterResultController: BaseViewController {
     // MARK: - Private Method
     private func setupUserInterface() {
         // style
-        self.title = MalaCommonString_FilterResult
-        self.view.backgroundColor = MalaColor_EDEDED_0
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+        title = MalaCommonString_FilterResult
+        view.backgroundColor = MalaColor_EDEDED_0
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+        defaultView.imageName = "filter_no_result"
+        defaultView.text = "请重新设定筛选条件！"
         
         // SubViews
-        self.view.addSubview(filterBar)
-        self.view.addSubview(tableView)
-        self.view.addSubview(defaultView)
+        view.addSubview(filterBar)
+        view.addSubview(tableView)
         
         // AutoLayout
         filterBar.snp_makeConstraints { (make) -> Void in
@@ -85,17 +78,13 @@ class FilterResultController: BaseViewController {
             make.right.equalTo(self.view.snp_right)
             make.bottom.equalTo(self.view.snp_bottom)
         }
-        defaultView.snp_makeConstraints { (make) -> Void in
-            make.size.equalTo(tableView.snp_size)
-            make.center.equalTo(tableView.snp_center)
-        }
     }
     
     private func showDefatultViewWhenModelIsEmpty() {
         if tableView.teachers.count == 0 {
-            defaultView.hidden = false
+            showDefaultView()
         }else {
-            defaultView.hidden = true
+            hideDefaultView()
         }
     }
     

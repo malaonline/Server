@@ -16,7 +16,14 @@ class CouponViewController: BaseTableViewController {
     /// 优惠券模型数组
     var models: [CouponModel] = MalaUserCoupons {
         didSet {
-            self.tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                if self?.models.count == 0 {
+                    self?.showDefaultView()
+                }else {
+                    self?.hideDefaultView()
+                    self?.tableView.reloadData()
+                }
+            })
         }
     }
     /// 当前选择项IndexPath标记
@@ -69,6 +76,8 @@ class CouponViewController: BaseTableViewController {
         tableView.separatorStyle = .None
         refreshControl = refresher
         tableView.registerClass(CouponViewCell.self, forCellReuseIdentifier: CouponViewCellReuseId)
+        defaultView.imageName = "no_coupons"
+        defaultView.text = "您当前没有奖学金哦！"
         
         // rightBarButtonItem
         let spacerRight = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)

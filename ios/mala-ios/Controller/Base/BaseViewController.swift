@@ -21,10 +21,18 @@ public class BaseViewController: UIViewController {
         )
         return backBarButton
     }()
+    /// 无筛选结果缺省面板
+    lazy var defaultView: MalaDefaultPanel = {
+        let defaultView = MalaDefaultPanel()
+        defaultView.hidden = true
+        return defaultView
+    }()
+    
 
     // MARK: - Life Cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
+        setupUserInterface()
         configure()
     }
 
@@ -33,7 +41,18 @@ public class BaseViewController: UIViewController {
     }
     
 
-    // MARK: - Private 
+    // MARK: - Private
+    private func setupUserInterface() {
+        // SubViews
+        view.addSubview(defaultView)
+        
+        // AutoLayout
+        defaultView.snp_makeConstraints { (make) -> Void in
+            make.size.equalTo(view.snp_size)
+            make.center.equalTo(view.snp_center)
+        }
+    }
+    
     private func configure() {
         
         // 设置BarButtomItem间隔
@@ -57,5 +76,15 @@ public class BaseViewController: UIViewController {
     
     @objc func turnBackButtonWhite() {
         backBarButton.setImage(UIImage(named: "leftArrow"), forState: .Normal)
+    }
+    
+    
+    // MARK: - API
+    func showDefaultView() {
+        defaultView.hidden = false
+    }
+    
+    func hideDefaultView() {
+        defaultView.hidden = true
     }
 }

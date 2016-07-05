@@ -18,9 +18,9 @@ class CommentViewController: BaseTableViewController {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 if self?.models.count == 0 {
-                    self?.defaultView.hidden = false
+                    self?.showDefaultView()
                 }else {
-                    self?.defaultView.hidden = true
+                    self?.hideDefaultView()
                     self?.tableView.reloadData()
                 }
             })
@@ -31,15 +31,6 @@ class CommentViewController: BaseTableViewController {
     
     
     // MARK: - Components
-    /// 我的评价缺省面板
-    private lazy var defaultView: UIView = {
-        let view = MalaDefaultPanel()
-        view.imageName = "comment_noData"
-        view.text = "当前暂无评价"
-        view.descText = "上完课后再来这里吧"
-        view.hidden = true
-        return view
-    }()
     /// 下拉刷新视图
     private lazy var refresher: UIRefreshControl = {
         let refresher = UIRefreshControl()
@@ -72,6 +63,11 @@ class CommentViewController: BaseTableViewController {
     }
     
     private func setupUserInterface() {
+        // Style
+        defaultView.imageName = "comment_noData"
+        defaultView.text = "当前暂无评价"
+        defaultView.descText = "上完课后再来这里吧"
+        
         // SubViews
         tableView.addSubview(defaultView)
         

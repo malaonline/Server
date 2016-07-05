@@ -23,7 +23,12 @@ class OrderFormViewController: BaseTableViewController {
     var models: [OrderForm] = [] {
         didSet {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                self?.tableView.reloadData()
+                if self?.models.count == 0 {
+                    self?.showDefaultView()
+                }else {
+                    self?.hideDefaultView()
+                    self?.tableView.reloadData()
+                }
             })
         }
     }
@@ -70,6 +75,8 @@ class OrderFormViewController: BaseTableViewController {
     // MARK: - Private Method
     private func configure() {
         title = "我的订单"
+        defaultView.imageName = "no_order"
+        defaultView.text = "没有订单"
         
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
