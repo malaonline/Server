@@ -197,7 +197,7 @@ TPL_COURSE_INCOME = 1274323
 """
 付款成功（老师）
 1280621
-【麻辣老师】尊敬的#username#，您的课程被购买，学生姓名#studentname#，#grade#，共#number#小时。
+【麻辣老师】尊敬的#username#，您的课程被购买，学生姓名#studentname#，#grade#，#coursetime#，共#number#节课。
 """
 TPL_TEACHER_COURSE_PAID = 1280621
 
@@ -210,11 +210,11 @@ TPL_TEACHER_EVALUATE = 1435971
 
 '''
 调课成功后短信提醒 (老师)
-000000
-您在#olddate#的#subject#课程已调整到#newdate#，记得按时上课哦
-e.g. 您在11月12日10:10－12:10的初三数学课程已调整到11月13日16:10-18：10，记得按时上课哦
+1458571
+【麻辣老师】您在#olddate#的#subject#课程已调整到#newdate#，记得按时上课哦。
+e.g. 【麻辣老师】您在11月12日10:10－12:10的初三数学课程已调整到11月13日16:10-18：10，记得按时上课哦。
 '''
-TPL_TEA_TRANSFER_COURSE = 000000
+TPL_TEA_TRANSFER_COURSE = 1458571
 
 
 
@@ -259,8 +259,8 @@ TPL_STU_EVALUATE = 1435965
 
 '''
 调课成功后短信提醒 (家长,学生)
-000000
-您在#olddate#的#subject#课程已调整到#newdate#，记得按时参加哦
-e.g. 您在11月12日10:10－12:10的初三数学课程已调整到11月13日16:10-18：10，记得按时参加哦
+1458583
+【麻辣老师】您在#olddate#的#subject#课程已调整到#newdate#，记得按时参加哦。
+e.g. 【麻辣老师】您在11月12日10:10－12:10的初三数学课程已调整到11月13日16:10-18：10，记得按时参加哦。
 '''
-TPL_STU_TRANSFER_COURSE = 000000
+TPL_STU_TRANSFER_COURSE = 1458583

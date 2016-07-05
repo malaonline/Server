@@ -1540,12 +1540,19 @@ class OrderManager(models.Manager):
         semaphore = posix_ipc.Semaphore(
                 name, flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
+        course_times = []
         try:
             timeslots = self.get_order_timeslots(order)
             for ts in timeslots:
                 timeslot = TimeSlot(
                         order=order, start=ts['start'], end=ts['end'])
                 timeslot.save()
+                course_time = "%s-%s" % (
+                    timezone.localtime(timeslot.start).strftime(
+                        '%Y-%m-%d %H:%M'),
+                    timezone.localtime(timeslot.end).strftime('%H:%M')
+                )
+                course_times.append(course_time)
         except Exception as e:
             raise e
         finally:
@@ -1554,10 +1561,12 @@ class OrderManager(models.Manager):
         teacher_name = order.teacher.name
         student_name = order.parent.student_name
         grade = order.grade.name + order.subject.name
+        coursetime = '，'.join(x for x in course_times)
         try:
             tpl_send_sms(order.teacher.phone(), TPL_TEACHER_COURSE_PAID, {
                 'username': teacher_name, 'studentname': student_name,
-                'grade': grade, 'number': order.hours})
+                'grade': grade, 'coursetime': coursetime,
+                'number': course_times.count()})
         except Exception as ex:
             logger.error(ex)
         try:
