@@ -67,15 +67,6 @@ class CommentViewController: BaseTableViewController {
         defaultView.imageName = "comment_noData"
         defaultView.text = "当前暂无评价"
         defaultView.descText = "上完课后再来这里吧"
-        
-        // SubViews
-        tableView.addSubview(defaultView)
-        
-        // AutoLayout
-        defaultView.snp_makeConstraints { (make) -> Void in
-            make.size.equalTo(tableView.snp_size)
-            make.center.equalTo(tableView.snp_center)
-        }
     }
     
     ///  获取学生课程信息

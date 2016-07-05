@@ -284,8 +284,7 @@ class TeacherDetailsHeaderView: UIView {
             make.bottom.equalTo(contentView.snp_bottom).offset(-20)
         }
         teachingAgeIcon.snp_makeConstraints { (make) in
-            make.centerX.equalTo(teachingAgeProgressBar.snp_centerX)
-            make.centerY.equalTo(teachingAgeProgressBar.snp_centerY).offset(-1)
+            make.center.equalTo(teachingAgeProgressBar.snp_center)
             make.width.equalTo(23)
             make.height.equalTo(23)
         }
@@ -324,5 +323,10 @@ class TeacherDetailsHeaderView: UIView {
             make.left.equalTo(levelProgressBar.snp_right).offset(12)
             make.top.equalTo(levelProgressBar.snp_centerY).offset(5)
         }
+    }
+    
+    
+    deinit {
+        println("TeacherDetailsHeaderView Deinit")
     }
 }

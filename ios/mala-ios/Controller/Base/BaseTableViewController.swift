@@ -22,7 +22,6 @@ public class BaseTableViewController: UITableViewController {
     // MARK: - Life Cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
-        setupUserInterface()
         configure()
     }
     
@@ -32,14 +31,16 @@ public class BaseTableViewController: UITableViewController {
     
     
     // MARK: - Private
-    private func setupUserInterface() {
-        // SubViews
-        view.addSubview(defaultView)
-        
-        // AutoLayout
-        defaultView.snp_makeConstraints { (make) -> Void in
-            make.size.equalTo(view.snp_size)
-            make.center.equalTo(view.snp_center)
+    private func setupDefaultViewIfNeed() {
+        if defaultView.superview == nil {
+            // SubViews
+            view.addSubview(defaultView)
+            
+            // AutoLayout
+            defaultView.snp_makeConstraints { (make) -> Void in
+                make.size.equalTo(view.snp_size)
+                make.center.equalTo(view.snp_center)
+            }
         }
     }
     
@@ -70,10 +71,12 @@ public class BaseTableViewController: UITableViewController {
     
     // MARK: - API
     func showDefaultView() {
+        setupDefaultViewIfNeed()
         defaultView.hidden = false
     }
     
     func hideDefaultView() {
+        setupDefaultViewIfNeed()
         defaultView.hidden = true
     }
 }

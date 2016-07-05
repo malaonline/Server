@@ -101,4 +101,9 @@ class TeacherDetailsSignupView: UIView {
     @objc private func buttonDidTap() {
         delegate?.signupButtonDidTap(self.button)
     }
+
+    
+    deinit {
+        println("TeacherDetailsSignupView Deinit")
+    }
 }

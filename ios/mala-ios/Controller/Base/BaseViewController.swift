@@ -32,7 +32,6 @@ public class BaseViewController: UIViewController {
     // MARK: - Life Cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
-        setupUserInterface()
         configure()
     }
 
@@ -42,14 +41,16 @@ public class BaseViewController: UIViewController {
     
 
     // MARK: - Private
-    private func setupUserInterface() {
-        // SubViews
-        view.addSubview(defaultView)
-        
-        // AutoLayout
-        defaultView.snp_makeConstraints { (make) -> Void in
-            make.size.equalTo(view.snp_size)
-            make.center.equalTo(view.snp_center)
+    private func setupDefaultViewIfNeed() {
+        if defaultView.superview == nil {
+            // SubViews
+            view.addSubview(defaultView)
+            
+            // AutoLayout
+            defaultView.snp_makeConstraints { (make) -> Void in
+                make.size.equalTo(view.snp_size)
+                make.center.equalTo(view.snp_center)
+            }
         }
     }
     
@@ -81,10 +82,12 @@ public class BaseViewController: UIViewController {
     
     // MARK: - API
     func showDefaultView() {
+        setupDefaultViewIfNeed()
         defaultView.hidden = false
     }
     
     func hideDefaultView() {
+        setupDefaultViewIfNeed()
         defaultView.hidden = true
     }
 }
