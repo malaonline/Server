@@ -1566,7 +1566,7 @@ class OrderManager(models.Manager):
             tpl_send_sms(order.teacher.phone(), TPL_TEACHER_COURSE_PAID, {
                 'username': teacher_name, 'studentname': student_name,
                 'grade': grade, 'coursetime': coursetime,
-                'number': course_times.count()})
+                'number': len(course_times)})
         except Exception as ex:
             logger.error(ex)
         try:
