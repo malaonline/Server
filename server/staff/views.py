@@ -1449,6 +1449,26 @@ class StudentScheduleActionView(BaseStaffActionView):
             extras=extras
         )
 
+        # 短信通知家长
+        old_date = "%s-%s" % (old_start, old_end)
+        new_date = "%s-%s" % (new_start, new_end)
+        grade_subject = grade + subject
+        parent = timeslot.order.parent
+        smsUtil.try_send_sms(
+            parent.user.profile.phone,
+            smsUtil.TPL_STU_TRANSFER_COURSE,
+            {'olddate': old_date,
+             'subject': grade_subject,
+             'newdate': new_date}, 3)
+        # 短信通知老师
+        teacher = timeslot.order.teacher
+        smsUtil.try_send_sms(
+            teacher.user.profile.phone,
+            smsUtil.TPL_TEA_TRANSFER_COURSE,
+            {'olddate': old_date,
+             'subject': grade_subject,
+             'newdate': new_date}, 3)
+
         return JsonResponse({'ok': True})
 
 
