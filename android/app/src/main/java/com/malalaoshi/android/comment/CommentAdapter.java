@@ -93,7 +93,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
 
     private void setNoCommentUI(final CommentViewHolder holder, final Course course) {
         holder.stateView.setText("待评");
-        holder.stateView.setBackgroundResource(R.drawable.ic_empty_comment);
+        holder.stateView.setBackgroundResource(R.drawable.ic_no_comment);
         holder.commentView.setText("去评价");
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_valid_btn);
         holder.commentView.setTextColor(getColor(R.color.theme_red));

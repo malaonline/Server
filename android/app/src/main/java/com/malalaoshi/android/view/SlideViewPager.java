@@ -20,10 +20,15 @@ public class SlideViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!canSlide) {
+        /*if (!canSlide) {
             return true;
-        }
-        return super.onTouchEvent(ev);
+        }*/
+        return this.canSlide && super.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return this.canSlide && super.onInterceptTouchEvent(ev);
     }
 
     public boolean isCanSlide() {

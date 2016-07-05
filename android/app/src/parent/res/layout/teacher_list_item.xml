@@ -67,14 +67,6 @@
             fresco:roundAsCircle="true"
             ></com.facebook.drawee.view.SimpleDraweeView>
 
-        <!--<com.malalaoshi.android.view.CircleNetworkImage
-            android:id="@+id/teacher_list_item_avater"
-            android:layout_width="@dimen/home_avater_height"
-            android:layout_height="@dimen/home_avater_width"
-            android:layout_marginTop="@dimen/home_margin_top_xlarge"
-            android:gravity="center"
-            android:src="@drawable/ic_default_teacher_avatar" />
--->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
