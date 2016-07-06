@@ -298,16 +298,17 @@ class Profile(BaseModel):
             max_length=30, default=None, null=True, blank=True)
 
     def __str__(self):
-        teacher_name = ""
-        student_name = ""
+        profile_name = ""
         if hasattr(self.user, "teacher"):
-            teacher_name = '%s(老师)' % self.user.teacher.name
+            profile_name = '%s(老师)' % self.user.teacher.name
         if hasattr(self.user, "parent"):
-            student_name = '%s(家长)' % self.user.parent.student_name
+            profile_name = '%s(家长)' % self.user.parent.student_name
+        if hasattr(self.user, "student"):
+            profile_name = '%s(学生)' % self.user.student.name
 
-        return 'phone:{phone} {user_id} {teacher_name}{student_name}'.format(
+        return 'phone:{phone} [{user_id}] {profile_name}'.format(
                 phone=self.phone, user_id=self.user.pk,
-                teacher_name=teacher_name, student_name=student_name)
+                profile_name=profile_name)
 
     # 带有掩码的手机号码
     def mask_phone(self):
