@@ -49,12 +49,14 @@ class ThemePhotoCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ThemePhotoCollectionViewCellReuseId, forIndexPath: indexPath) as! ThemePhotoCollectionViewCell
         cell.url = urls[indexPath.row]
+        cell.imageView.tag = indexPath.row
         return cell
     }
     
     // MARK: - Delegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ThemePhotoCollectionViewCell
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: cell.imageView)
     }
 }
 

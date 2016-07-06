@@ -15,31 +15,10 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     /// 图片URL数组
     var photos: [String] = [] {
         didSet {
-
-            // 加载图片展示在老师详情页面
-            if photos.count >= 1 {
-                leftPhoto.kf_setImageWithURL(NSURL(string: photos[0]) ?? NSURL(), placeholderImage: nil)
-            }
-            
-            if photos.count >= 2 {
-                centerPhoto.kf_setImageWithURL(NSURL(string: photos[1]) ?? NSURL(), placeholderImage: nil)
-            }
-            
-            if photos.count >= 3 {
-                rightPhoto.kf_setImageWithURL(NSURL(string: photos[2]) ?? NSURL(), placeholderImage: nil)
-            }
-            
-            // 加载图片对象
-            images.removeAll()
-            for imageURL in photos {
-                let image = SKPhoto.photoWithImageURL(imageURL)
-                image.shouldCachePhotoURLImage = true
-                images.append(image)
-            }
+            // 加载图片URL数据
+            photoCollection.urls = photos
         }
     }
-    /// 图片浏览器 - 图片对象
-    var images: [SKPhoto] = [SKPhoto]()
     
     
     // MARK: - Components
@@ -54,33 +33,16 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
         button.addTarget(self, action: #selector(TeacherDetailsPhotosCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
-    private lazy var leftPhoto: UIImageView = {
-        let leftPhoto =  UIImageView.placeHolder()
-        leftPhoto.tag = 0
-        leftPhoto.userInteractionEnabled = true
-        leftPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
-        return leftPhoto
-    }()
-    private lazy var centerPhoto: UIImageView = {
-        let centerPhoto =  UIImageView.placeHolder()
-        centerPhoto.tag = 1
-        centerPhoto.userInteractionEnabled = true
-        centerPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
-        return centerPhoto
-    }()
-    private lazy var rightPhoto: UIImageView = {
-        let rightPhoto =  UIImageView.placeHolder()
-        rightPhoto.tag = 2
-        rightPhoto.userInteractionEnabled = true
-        rightPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsPhotosCell.imagesDidTap(_:))))
-        return rightPhoto
+    /// 图片滚动浏览视图
+    private lazy var photoCollection: ThemePhotoCollectionView = {
+        let collection = ThemePhotoCollectionView(frame: CGRectZero, collectionViewLayout: CommonFlowLayout(type: .DetailPhotoView))
+        return collection
     }()
     
     
     // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupUserInterface()
     }
     
@@ -95,9 +57,7 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
         // SubViews
         tagsView.removeFromSuperview()
         headerView.addSubview(detailButton)
-        content.addSubview(leftPhoto)
-        content.addSubview(centerPhoto)
-        content.addSubview(rightPhoto)
+        content.addSubview(photoCollection)
 
         // Autolayout
         detailButton.snp_makeConstraints { (make) -> Void in
@@ -105,24 +65,18 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
             make.right.equalTo(headerView.snp_right).offset(-12)
             make.centerY.equalTo(headerView.snp_centerY)
         }
-        leftPhoto.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(MalaLayout_DetailPhotoHeight)
-            make.width.equalTo(MalaLayout_DetailPhotoWidth)
-            make.top.equalTo(self.content.snp_top)
-            make.bottom.equalTo(self.content.snp_bottom)
-            make.left.equalTo(self.content.snp_left)
+        content.snp_updateConstraints { (make) -> Void in
+            make.top.equalTo(headerView.snp_bottom).offset(10)
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.bottom.equalTo(contentView.snp_bottom).offset(-10)
         }
-        centerPhoto.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(MalaLayout_DetailPhotoWidth)
-            make.height.equalTo(self.leftPhoto.snp_height)
-            make.top.equalTo(self.leftPhoto.snp_top)
-            make.left.equalTo(self.leftPhoto.snp_right).offset(5)
-        }
-        rightPhoto.snp_makeConstraints { (make) -> Void in
-            make.height.equalTo(self.centerPhoto.snp_height)
-            make.top.equalTo(self.centerPhoto.snp_top)
-            make.left.equalTo(self.centerPhoto.snp_right).offset(5)
-            make.right.equalTo(self.content.snp_right)
+        photoCollection.snp_makeConstraints { (make) in
+            make.left.equalTo(content)
+            make.right.equalTo(content)
+            make.top.equalTo(content)
+            make.height.equalTo(MalaLayout_DetailPhotoWidth)
+            make.bottom.equalTo(content)
         }
     }
  
@@ -130,30 +84,7 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     // MARK: - Events Response
     ///  查看相册按钮点击事件
     @objc private func detailButtonDidTap() {
-        
         // 相册
-        let browser = MalaPhotoBrowser()
-        browser.imageURLs = photos
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
-    }
-    ///  图片点击事件
-    @objc private func imagesDidTap(gesture: UITapGestureRecognizer) {
-        
-        /// 确保是imageView触发手势，且imageView图片存在
-        guard let imageView = gesture.view as? UIImageView, originImage = imageView.image else {
-            return
-        }
-        
-        /// 图片浏览器
-        let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: imageView)
-        browser.initializePageIndex(imageView.tag)
-        browser.displayAction = false
-        browser.displayBackAndForwardButton = false
-        browser.displayDeleteButton = false
-        browser.statusBarStyle = nil
-        browser.bounceAnimation = false
-        browser.navigationController?.navigationBarHidden = true
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: "browser")
     }
 }

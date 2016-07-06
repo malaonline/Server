@@ -195,11 +195,34 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             object: nil,
             queue: nil
             ) { [weak self] (notification) -> Void in
+                
                 // push图片浏览器
-                if let photoBrowser = notification.object as? SKPhotoBrowser {
-                    self?.navigationController?.presentViewController(photoBrowser, animated: true, completion: nil)
-                }else if let malaPhotoBrowser = notification.object as? MalaPhotoBrowser {
-                    self?.navigationController?.pushViewController(malaPhotoBrowser, animated: true)
+                if let info = notification.object as? String where info == "browser" {
+                    // 相册
+                    let browser = MalaPhotoBrowser()
+                    browser.imageURLs = self?.model.photo_set ?? []
+                    self?.navigationController?.pushViewController(browser, animated: true)
+                }
+                
+                /// 确保是imageView触发手势，且imageView图片存在
+                if let imageView = notification.object as? UIImageView, originImage = imageView.image {
+                    
+                    let images = self?.model.photo_set?.map({ (imageURL) -> SKPhoto in
+                        let image = SKPhoto.photoWithImageURL(imageURL)
+                        image.shouldCachePhotoURLImage = true
+                        return image
+                    })
+                    
+                    /// 图片浏览器
+                    let browser = SKPhotoBrowser(originImage: originImage, photos: images ?? [], animatedFromView: imageView)
+                    browser.initializePageIndex(imageView.tag)
+                    browser.displayAction = false
+                    browser.displayBackAndForwardButton = false
+                    browser.displayDeleteButton = false
+                    browser.statusBarStyle = nil
+                    browser.bounceAnimation = false
+                    browser.navigationController?.navigationBarHidden = true
+                    self?.navigationController?.presentViewController(browser, animated: true, completion: nil)
                 }
         }
     }
