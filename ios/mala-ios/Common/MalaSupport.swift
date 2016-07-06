@@ -8,6 +8,7 @@
 
 import Foundation
 import DateTools
+import Kingfisher
 
 // MARK: - Task
 typealias CancelableTask = (cancel: Bool) -> Void
@@ -59,7 +60,9 @@ func unregisterThirdPartyPush() {
 
 ///  清空缓存
 func cleanCaches() {
-    
+    KingfisherManager.sharedManager.cache.clearDiskCache()
+    KingfisherManager.sharedManager.cache.clearMemoryCache()
+    KingfisherManager.sharedManager.cache.cleanExpiredDiskCache()
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 public class BaseTableViewController: UITableViewController {
 
@@ -27,6 +28,7 @@ public class BaseTableViewController: UITableViewController {
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        KingfisherManager.sharedManager.cache.clearMemoryCache()
     }
     
     

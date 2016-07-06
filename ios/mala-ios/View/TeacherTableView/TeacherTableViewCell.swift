@@ -22,7 +22,11 @@ class TeacherTableViewCell: UITableViewCell {
             courseLabel.setTitle((model.grades_shortname ?? "")+" • "+(model.subject ?? ""), forState: .Normal)
             nameLabel.text = model.name
             levelLabel.text = String(format: "  T%d  ", model.level)
-            avatarView.kf_setImageWithURL((model.avatar ?? NSURL()), placeholderImage: UIImage(named: "avatar_placeholder"))
+            avatarView.kf_setImageWithURL(
+                (model.avatar ?? NSURL()),
+                placeholderImage: UIImage(named: "avatar_placeholder"),
+                optionsInfo: [.Transition(.Fade(0.25))]
+            )
             
             let string = String(MinPrice: model.min_price.money, MaxPrice: model.max_price.money)
             let attrString: NSMutableAttributedString = NSMutableAttributedString(string: string)

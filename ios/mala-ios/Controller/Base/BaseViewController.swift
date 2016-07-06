@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 public class BaseViewController: UIViewController {
     
@@ -37,6 +38,7 @@ public class BaseViewController: UIViewController {
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        KingfisherManager.sharedManager.cache.clearMemoryCache()
     }
     
 
