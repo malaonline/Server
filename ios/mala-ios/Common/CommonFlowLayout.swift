@@ -17,6 +17,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         case SubjectView
         case GradeSelection
         case ProfileItem
+        case DetailPhotoView
     }
     
     
@@ -36,6 +37,8 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
             gradeSelectionFlowLayout()
         case .ProfileItem:
             profileItemFlowLayout()
+        case .DetailPhotoView:
+            DetailPhotoViewFlowLayout()
         }
     }
 
@@ -100,5 +103,15 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
+    }
+    
+    private func DetailPhotoViewFlowLayout() {
+        scrollDirection = .Horizontal
+        let itemWidth: CGFloat = MalaLayout_DetailPhotoWidth
+        let itemHeight: CGFloat = MalaLayout_DetailPhotoWidth
+        itemSize = CGSizeMake(itemWidth, itemHeight)
+        sectionInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        minimumInteritemSpacing = 0
+        minimumLineSpacing = 2
     }
 }

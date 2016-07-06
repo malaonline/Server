@@ -808,6 +808,9 @@
 		F46CA24C1CC8841C00457EA6 /* ThemeCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45BDAE21CB75F980038CE3D /* ThemeCalendarViewController.swift */; };
 		F474E89D1CF2A9ED0025A865 /* SimpleReportResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */; };
 		F474E89F1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */; };
+		F4767A3F1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
+		F4767A401D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
+		F4767A411D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
@@ -1130,6 +1133,7 @@
 		F460652C1C97B1C8004056B1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleReportResultModel.swift; sourceTree = "<group>"; };
 		F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseReportCardCell.swift; sourceTree = "<group>"; };
+		F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemePhotoCollectionView.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
@@ -1791,6 +1795,7 @@
 				F48BBAE51CE5C2AC00774297 /* ThemeTimeLine.swift */,
 				F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */,
 				F45F0DDC1CF6E142004DC1A6 /* ThemeHorizontalBarChartView.swift */,
+				F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */,
 			);
 			path = ThemeTool;
 			sourceTree = "<group>";
@@ -2734,6 +2739,7 @@
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
 				F427FFA51CEDA1E900EAB748 /* LearningReportTitlePageCell.swift in Sources */,
 				F427FFA21CED9A4300EAB748 /* LearningReportViewController.swift in Sources */,
+				F4767A3F1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */,
 				F4D678591CEACCF2009EC956 /* LearningReportCell.swift in Sources */,
 				F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */,
 				F48BBADE1CE5816800774297 /* OrderFormInfoViewController.swift in Sources */,
@@ -2944,6 +2950,7 @@
 				35FF7AD81CF8325A000A70EE /* ProfileViewController.swift in Sources */,
 				35FF7ADB1CF8325A000A70EE /* LearningReportTitlePageCell.swift in Sources */,
 				35FF7ADC1CF8325A000A70EE /* LearningReportViewController.swift in Sources */,
+				F4767A401D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */,
 				35FF7ADD1CF8325A000A70EE /* LearningReportCell.swift in Sources */,
 				35FF7ADE1CF8325A000A70EE /* ClassScheduleViewHeader.swift in Sources */,
 				35FF7ADF1CF8325A000A70EE /* OrderFormInfoViewController.swift in Sources */,
@@ -3154,6 +3161,7 @@
 				35FF7BBB1CF83264000A70EE /* ProfileViewController.swift in Sources */,
 				35FF7BBE1CF83264000A70EE /* LearningReportTitlePageCell.swift in Sources */,
 				35FF7BBF1CF83264000A70EE /* LearningReportViewController.swift in Sources */,
+				F4767A411D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */,
 				35FF7BC01CF83264000A70EE /* LearningReportCell.swift in Sources */,
 				35FF7BC11CF83264000A70EE /* ClassScheduleViewHeader.swift in Sources */,
 				35FF7BC21CF83264000A70EE /* OrderFormInfoViewController.swift in Sources */,
