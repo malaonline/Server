@@ -164,7 +164,7 @@ public class WaveView extends View {
         }
         Path path = new Path();
         Path path2 = new Path();
-        float cellWidth = (width - AXIS_OFFSET) / (list.size() + 1);
+        float cellWidth = getCellWidth();
         path.moveTo(0, 0);
         path2.moveTo(0, 0);
         paint.setTextSize(X_AXIS_TXT_SIZE);
@@ -203,14 +203,22 @@ public class WaveView extends View {
             return;
         }
         Rect rect;
-        float cellWidth = width / (list.size() + 1);
+        float cellWidth = getCellWidth();
         float x;
         for (int i = 0; i < list.size(); i++) {
             AxisModel model = list.get(i);
             rect = Utils.getTextBounds(paint, model.getxValue());
             x = cellWidth * (i + 1) - rect.width() / 2;
-            canvas.drawText(model.getxValue()==null?"":model.getxValue(), x, rect.height() + MiscUtil.dp2px(7), paint);
+            canvas.drawText(model.getxValue() == null ? "" : model.getxValue(), x, rect.height() + MiscUtil.dp2px(7),
+                    paint);
         }
+    }
+
+    /**
+     * 每一单元格的宽度
+     */
+    private float getCellWidth() {
+        return (width - AXIS_OFFSET) / (list.size() + 1);
     }
 
     /**
@@ -236,7 +244,7 @@ public class WaveView extends View {
         }
 
         //Y轴方向
-        len = width / (list.size() + 1);
+        len = getCellWidth();
         for (int i = 1; i <= list.size(); i++) {
             path.reset();
             path.moveTo(len * i, 0);
