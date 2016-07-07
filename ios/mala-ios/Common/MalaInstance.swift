@@ -47,6 +47,6 @@ var MalaFilterIndexObject = filterSelectedIndexObject()
 /// 用户学习报告数据对象
 var MalaSubjectReport = SubjectReport()
 /// 用户学习报告总练习数
-var MalaReportTotalNum = 0
+var MalaReportTotalNum: CGFloat = 0
 /// 用户学习报告正确练习数
-var MalaReportRightNum = 0
+var MalaReportRightNum: CGFloat = 0

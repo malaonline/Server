@@ -21,13 +21,13 @@ class MemberPrivilegesViewController: UITableViewController {
         }
     }
     /// 总练习数
-    var totalNum: Int = 0 {
+    var totalNum: CGFloat = 0 {
         didSet {
             MalaReportTotalNum = totalNum
         }
     }
     /// 练习正确数
-    var rightNum: Int = 0 {
+    var rightNum: CGFloat = 0 {
         didSet {
             MalaReportRightNum = rightNum
         }
@@ -174,8 +174,8 @@ class MemberPrivilegesViewController: UITableViewController {
                 
                 // 已报名支持学习报告的科目
                 if singleReport.subject_id == 1 && singleReport.supported && singleReport.purchased {
-                    self?.totalNum = singleReport.total_nums
-                    self?.rightNum = singleReport.right_nums
+                    self?.totalNum = CGFloat(singleReport.total_nums)
+                    self?.rightNum = CGFloat(singleReport.right_nums)
                     status = .MathSigned
                     break
                 }
@@ -255,7 +255,7 @@ class MemberPrivilegesViewController: UITableViewController {
             /// 学习报告
             let cell = tableView.dequeueReusableCellWithIdentifier(MemberPrivilegesLearningReportCellReuseID, forIndexPath: indexPath) as! LearningReportCell
             
-            println("\(self.totalNum)-\(self.rightNum)")
+            println("\(self.rightNum)-\(self.totalNum)")
             
             cell.totalNum = self.totalNum
             cell.rightNum = self.rightNum

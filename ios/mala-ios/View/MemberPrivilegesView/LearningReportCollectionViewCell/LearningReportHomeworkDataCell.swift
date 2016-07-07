@@ -26,9 +26,9 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
                 infoLabel.text = "累计答题770道"
                 homeworkLabel.text = "准确率80%"
             }else {
-                infoLabel.text = String(format: "累计答题%d道", MalaReportTotalNum)
+                infoLabel.text = String(format: "累计答题%d道", Int(MalaReportTotalNum))
                 if MalaReportTotalNum != 0 {
-                    homeworkLabel.text = String(format: "准确率%d%%", MalaReportRightNum/MalaReportTotalNum)
+                    homeworkLabel.text = String(format: "准确率%.2f%%", Float(MalaReportRightNum/MalaReportTotalNum))
                 }else {
                     homeworkLabel.text = "准确率0%"
                 }

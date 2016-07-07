@@ -12,20 +12,20 @@ class LearningReportCell: UITableViewCell {
     
     // MARK: - Property
     /// 总练习数
-    var totalNum: Int = 1 {
+    var totalNum: CGFloat = 1 {
         didSet {
-            answerNumberLabel.text = String(format: "%d", totalNum)
+            answerNumberLabel.text = String(format: "%d", Int(totalNum))
         }
     }
     /// 练习正确数
-    var rightNum: Int = 0 {
+    var rightNum: CGFloat = 0 {
         didSet {
             
             // 若总练习数为零
             if totalNum == 0 {
                 correctRateLabel.text = "0%"
             }else {
-                correctRateLabel.text = String(format: "%d", Int(rightNum/self.totalNum))+"%"
+                correctRateLabel.text = String(format: "%.2f%%", CGFloat(rightNum/totalNum))
             }
             
         }
