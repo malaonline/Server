@@ -7,6 +7,9 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -35,6 +38,7 @@ public class WaveView extends View {
     private static final int AXIS_WIDTH = MiscUtil.dp2px(1);
 
     private Paint paint;
+    private TextPaint textPaint;
 
     //可画图区域宽度
     private float width;
@@ -68,6 +72,10 @@ public class WaveView extends View {
     private void init() {
         paint = new Paint();
         paint.setAntiAlias(true);
+        textPaint = new TextPaint();
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(AXIS_COLOR);
+        textPaint.setTextSize(AXIS_TXT_SIZE);
         list = new ArrayList<>();
         initTextSize();
     }
@@ -205,13 +213,28 @@ public class WaveView extends View {
         Rect rect;
         float cellWidth = getCellWidth();
         float x;
+        if (list.size() > 10) {
+            textPaint.setTextSize(MiscUtil.dp2px(6));
+        } else if (list.size() > 7) {
+            textPaint.setTextSize(MiscUtil.dp2px(7));
+        } else {
+            textPaint.setTextSize(AXIS_TXT_SIZE);
+        }
         for (int i = 0; i < list.size(); i++) {
             AxisModel model = list.get(i);
-            rect = Utils.getTextBounds(paint, model.getxValue());
+            rect = Utils.getTextBounds(textPaint, model.getxValue());
             x = cellWidth * (i + 1) - rect.width() / 2;
-            canvas.drawText(model.getxValue() == null ? "" : model.getxValue(), x, rect.height() + MiscUtil.dp2px(7),
-                    paint);
+            drawText(canvas, model.getxValue(), cellWidth, x, rect.height());
         }
+    }
+
+    private void drawText(Canvas canvas, String txt, float cellWidth, float x, float y) {
+        StaticLayout layout = new StaticLayout(txt, textPaint, (int) (cellWidth * 3f / 4),
+                Layout.Alignment.ALIGN_CENTER, 1f, 1f, true);
+        canvas.save();
+        canvas.translate(x, y);
+        layout.draw(canvas);
+        canvas.restore();
     }
 
     /**

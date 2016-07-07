@@ -188,7 +188,7 @@ public class LineView extends View {
         canvas.drawPath(path, paint);
         //画平均线圈圈
         float yy;
-        paint.setStrokeWidth(MiscUtil.dp2px(2f));
+        paint.setStrokeWidth(MiscUtil.dp2px(1f));
         for (int i = 0; i < list.size(); i++) {
             startX = AXIS_OFFSET + cellWidth * i + cellWidth / 3f;
             yy = -list.get(i).getY2Value() * unitHeight;
@@ -197,7 +197,7 @@ public class LineView extends View {
             canvas.drawCircle(startX, yy, MiscUtil.dp2px(4), paint);
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(Color.WHITE);
-            canvas.drawCircle(startX, yy, MiscUtil.dp2px(3), paint);
+            canvas.drawCircle(startX, yy, MiscUtil.dp2px(3.5f), paint);
         }
     }
 

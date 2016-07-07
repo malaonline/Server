@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.malalaoshi.android.core.utils.DateUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
@@ -49,7 +50,8 @@ public class ReportSubjectPage extends LinearLayout {
         }
         int max = 0;
         for (ExerciseMonthTrend item : data) {
-            list.add(new AxisModel(item.getError_item(), item.getTotal_item(), item.getMonthPart()));
+            String x = DateUtils.formatMonthPart(item.getMonth(), item.getDay());
+            list.add(new AxisModel(item.getError_item(), item.getTotal_item(), x));
             if (max < item.getTotal_item()) {
                 max = item.getTotal_item();
             }

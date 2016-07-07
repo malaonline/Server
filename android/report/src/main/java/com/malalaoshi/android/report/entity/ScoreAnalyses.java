@@ -12,7 +12,7 @@ public class ScoreAnalyses implements Serializable {
     private float my_score;
     private float ave_score;
 
-    public ScoreAnalyses(int my, int ave, String name) {
+    public ScoreAnalyses(float my, float ave, String name) {
         setMy_score(my);
         setAve_score(ave);
         setName(name);

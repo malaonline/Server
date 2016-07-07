@@ -18,7 +18,8 @@ public final class MathReportTemplate {
 
 
     private static final String[] SUBJECT_CLASSES = new String[]{"实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换", "其他"};
-    private static final float[] SUBJECT_CLASSES_RATE = new float[]{18, 8, 10, 5, 26, 14, 16, 3};
+    private static final float[] SUBJECT_CLASSES_RATE = new float[]{0.18f, 0.08f, 0.10f, 0.05f, 0.26f, 0.14f, 0.16f,
+            0.03f};
     private static final String[] KNOW_CLASSES = new String[]{"实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"};
 
     /**
@@ -69,13 +70,13 @@ public final class MathReportTemplate {
 
         //提分点
         List<ScoreAnalyses> scoreAnalyses = new ArrayList<>();
-        scoreAnalyses.add(new ScoreAnalyses(60, 55, "实数"));
-        scoreAnalyses.add(new ScoreAnalyses(90, 60, "函数初步"));
-        scoreAnalyses.add(new ScoreAnalyses(80, 70, "多边形"));
-        scoreAnalyses.add(new ScoreAnalyses(85, 60, "圆"));
-        scoreAnalyses.add(new ScoreAnalyses(78, 65, "全等"));
-        scoreAnalyses.add(new ScoreAnalyses(95, 80, "相似"));
-        scoreAnalyses.add(new ScoreAnalyses(100, 80, "几何变换"));
+        scoreAnalyses.add(new ScoreAnalyses(0.60f, 0.55f, "实数"));
+        scoreAnalyses.add(new ScoreAnalyses(0.90f, 0.60f, "函数初步"));
+        scoreAnalyses.add(new ScoreAnalyses(0.80f, 0.70f, "多边形"));
+        scoreAnalyses.add(new ScoreAnalyses(0.85f, 0.60f, "圆"));
+        scoreAnalyses.add(new ScoreAnalyses(0.78f, 0.65f, "全等"));
+        scoreAnalyses.add(new ScoreAnalyses(0.95f, 0.80f, "相似"));
+        scoreAnalyses.add(new ScoreAnalyses(0.9f, 0.8f, "几何变换"));
         report.setScore_analyses(scoreAnalyses);
         return report;
     }
