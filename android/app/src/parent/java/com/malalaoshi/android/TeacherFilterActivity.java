@@ -61,6 +61,13 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
     private DialogFragment dialogFragment;
 
     public static void open(Context context, Grade grade, Subject subject, ArrayList<Tag> tags) {
+        if (grade==null||subject==null){
+            return;
+        }
+        if (tags==null){
+            tags = new ArrayList<>();
+        }
+
         Intent intent = new Intent(context, TeacherFilterActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_GRADE, grade);
