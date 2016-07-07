@@ -1563,13 +1563,21 @@ class SchoolView(BaseStaffView):
 
         staySchoolImgIds = request.POST.getlist('schoolImgId')
         staySchoolImgIds = [i for i in staySchoolImgIds if i]
-        models.SchoolPhoto.objects.filter(school_id=schoolId).exclude(id__in=staySchoolImgIds).delete()
+        models.SchoolPhoto.objects.filter(school_id=schoolId).exclude(
+            id__in=staySchoolImgIds).delete()
         newSchoolImgs = request.FILES.getlist('schoolImg')
-        for schoolImg in newSchoolImgs:
+        for index, schoolImg in enumerate(newSchoolImgs):
             photo = models.SchoolPhoto(school=school)
             _img_content = ContentFile(schoolImg.read())
-            photo.img.save("photo"+str(school.id)+'_'+str(_img_content.size), _img_content)
+            photo.img.save(
+                "photo" + str(school.id) + '_' + str(_img_content.size),
+                _img_content)
             photo.save()
+            # 保存第一张图为API接口的缩略图
+            if index == 0:
+                school.thumbnail.save(
+                    "photo" + str(school.id) + '_' + str(_img_content.size),
+                    _img_content)
 
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
