@@ -1223,7 +1223,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': True,
                     'purchased': False,
                 })
-        logger.debug(subjects_list)
+        settings.DEBUG and logger.debug(json.dumps(subjects_list))
         return JsonResponse({'results': subjects_list})
 
     def get_one_subject_report(self, the_subject, parent, params):
@@ -1258,7 +1258,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         # 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
         ans_data['score_analyses'] = self._get_score_analyses(url, params)
 
-        logger.debug(ans_data)
+        settings.DEBUG and logger.debug(json.dumps(ans_data))
         return JsonResponse(ans_data)
 
     def _get_total_nums(self, url, params):

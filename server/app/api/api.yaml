@@ -156,7 +156,7 @@ definitions:
     type: object
     properties:
       id:
-        type: integer
+        type: string
       name:
         type: string
       rate:
@@ -189,7 +189,7 @@ definitions:
     type: object
     properties:
       id:
-        type: integer
+        type: string
       name:
         type: string
       total_item:
@@ -227,7 +227,7 @@ definitions:
     type: object
     properties:
       id:
-        type: integer
+        type: string
       name:
         type: string
       my_score:
