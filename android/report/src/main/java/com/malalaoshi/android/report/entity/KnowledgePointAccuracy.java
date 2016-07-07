@@ -1,11 +1,13 @@
 package com.malalaoshi.android.report.entity;
 
+import java.io.Serializable;
+
 /**
  * 知识点正确率
  * Created by tianwei on 6/4/16.
  */
-public class KnowledgePointAccuracy {
-    private int id;
+public class KnowledgePointAccuracy implements Serializable {
+    private String id;
     private String name;
     private int total_item;
     private int right_item;
@@ -16,11 +18,11 @@ public class KnowledgePointAccuracy {
         setRight_item(right);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@
         style="@style/report__page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="24dp"
         android:text="提分点分析"/>
 
     <View

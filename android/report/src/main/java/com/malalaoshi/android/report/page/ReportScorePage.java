@@ -48,7 +48,8 @@ public class ReportScorePage extends LinearLayout {
             return;
         }
         for (ScoreAnalyses item : data) {
-            list.add(new AxisModel((int) item.getMy_score(), (int) item.getAve_score(), item.getName()));
+            list.add(new AxisModel(Math.round(item.getMy_score() * 100), Math.round(item.getAve_score()) * 100,
+                    item.getName()));
         }
         lineView.setList(list);
         lineView.setMax(100);

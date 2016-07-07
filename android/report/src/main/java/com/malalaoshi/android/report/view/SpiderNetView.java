@@ -122,7 +122,8 @@ public class SpiderNetView extends View {
         paint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < ANGLE_LIST.size(); i++) {
             AxisModel model = list.get(i);
-            float value = model.getyValue() * SIZE / 2 / MAX;
+            float value = model.getyValue() > 0 ? model.getyValue() : 2;
+            value = value * SIZE / 2 / MAX;
             Pair pair = ANGLE_LIST.get(ANGLE_LIST.size() - i - 1);
             if (i == 0) {
                 path.moveTo(value * pair.x, value * pair.y);

@@ -251,5 +251,6 @@ public class WaveView extends View {
             path.lineTo(len * i, -height);
             canvas.drawPath(path, paint);
         }
+        paint.setPathEffect(null);
     }
 }

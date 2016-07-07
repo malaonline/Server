@@ -29,7 +29,6 @@ import java.util.Locale;
 public class ReportWorkPage extends LinearLayout {
 
     private static final List<Integer> COLOR_LIST;
-    private static final List<String> CONTENT_LIST;
 
     static {
         COLOR_LIST = new ArrayList<>();
@@ -42,17 +41,6 @@ public class ReportWorkPage extends LinearLayout {
         COLOR_LIST.add(Color.parseColor("#F7AF63"));
         COLOR_LIST.add(Color.parseColor("#BA9CDA"));
         COLOR_LIST.add(Color.parseColor("#C09C8B"));
-
-        CONTENT_LIST = new ArrayList<>();
-        CONTENT_LIST.add("实数");
-        CONTENT_LIST.add("函数初步");
-        CONTENT_LIST.add("多边形");
-        CONTENT_LIST.add("相似");
-        CONTENT_LIST.add("全等");
-        CONTENT_LIST.add("微积分");
-        CONTENT_LIST.add("几何变换");
-        CONTENT_LIST.add("圆");
-        CONTENT_LIST.add("其他");
     }
 
     private List<ExerciseErrorDistribution> data;
@@ -83,23 +71,15 @@ public class ReportWorkPage extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        initView();
-    }
-
-    private void initView() {
-        if (isInEditMode()) {
-            return;
-        }
-        initGridView();
     }
 
     private void initGridView() {
         GridView gridView = (GridView) findViewById(R.id.grid_view);
         WorkColorAdapter adapter = new WorkColorAdapter(getContext());
-        for (int i = 0; i < COLOR_LIST.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             WorkColorModel model = new WorkColorModel();
-            model.setColor(COLOR_LIST.get(i));
-            model.setContent(CONTENT_LIST.get(i));
+            model.setColor(COLOR_LIST.get(i % COLOR_LIST.size()));
+            model.setContent(data.get(i).getName());
             adapter.getList().add(model);
         }
         gridView.setAdapter(adapter);
@@ -114,10 +94,11 @@ public class ReportWorkPage extends LinearLayout {
         List<PieModel> list = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             int color = COLOR_LIST.get(i % COLOR_LIST.size());
-            list.add(new PieModel(color, (int) data.get(i).getRate()));
+            list.add(new PieModel(color, Math.round(data.get(i).getRate() * 100)));
         }
         PieModel.calNumByNumber(list);
         pieView.setData(list);
+        initGridView();
         String answer = String.format(Locale.getDefault(), "累计答题%d道", answerTotalCount);
         ((TextView) findViewById(R.id.tv_answer)).setText(answer);
         String work = String.format(Locale.getDefault(), "作业%d次", workTotalCount);

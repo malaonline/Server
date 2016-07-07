@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,13 @@ import com.malalaoshi.android.core.base.BaseTitleActivity;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.DateUtils;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.GradeUtils;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.report.adapter.ReportAdapter;
 import com.malalaoshi.android.report.api.SubjectReportApi;
+import com.malalaoshi.android.report.entity.ExerciseMonthTrend;
 import com.malalaoshi.android.report.entity.SubjectReport;
 import com.malalaoshi.android.report.page.ReportCapacityPage;
 import com.malalaoshi.android.report.page.ReportHomePage;
@@ -27,6 +31,8 @@ import com.malalaoshi.android.report.page.ReportSubjectPage;
 import com.malalaoshi.android.report.page.ReportWorkPage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,7 +56,7 @@ public class ReportFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.report__fragmet_folder, container, false);
         dotView = view.findViewById(R.id.dot_view);
         dotViewContainer = view.findViewById(R.id.dot_view_container);
@@ -94,6 +100,8 @@ public class ReportFragment extends BaseFragment {
     }
 
     private void fillPages(SubjectReport response) {
+        Collections.sort(response.getMonth_trend());
+        String reportTime = getReportDatetime(response.getMonth_trend());
         homePage = ReportHomePage.newInstance(getActivity());
         homePage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +121,21 @@ public class ReportFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
         homePage.setStudent(UserManager.getInstance().getStuName());
         homePage.setGrade(GradeUtils.getGradeName(response.getGrade_id()));
+        homePage.setReportTime(reportTime);
         if (getActivity() instanceof BaseTitleActivity) {
             ((BaseTitleActivity) getActivity()).setTitle("学习报告");
         }
+    }
+
+    private String getReportDatetime(List<ExerciseMonthTrend> month_trend) {
+        if (EmptyUtils.isEmpty(month_trend)) {
+            return "我的报告";
+        }
+        for (ExerciseMonthTrend data : month_trend) {
+            data.setTime(new Date(data.getYear() - 1900, data.getMonth() - 1, data.getDay()).getTime());
+        }
+        return DateUtils.formatFull(month_trend.get(0).getTime()) + "~" + DateUtils
+                .formatFull(month_trend.get(month_trend.size() - 1).getTime());
     }
 
     private void requestData() {
@@ -177,7 +197,7 @@ public class ReportFragment extends BaseFragment {
 
         @Override
         public void onApiFailure(Exception exception) {
-
+            Log.i("mala", "error: " + exception.getMessage());
         }
     }
 }

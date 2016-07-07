@@ -17,6 +17,7 @@ public class ReportHomePage extends LinearLayout {
 
     private TextView nameView;
     private TextView gradeView;
+    private TextView dateView;
 
     public ReportHomePage(Context context) {
         super(context);
@@ -36,6 +37,10 @@ public class ReportHomePage extends LinearLayout {
         return (ReportHomePage) ViewUtils.newInstance(context, R.layout.report__page_home);
     }
 
+    public void setReportTime(String time) {
+        dateView.setText(time);
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -45,6 +50,7 @@ public class ReportHomePage extends LinearLayout {
     private void initView() {
         nameView = (TextView) findViewById(R.id.tv_name);
         gradeView = (TextView) findViewById(R.id.tv_grade);
+        dateView = (TextView) findViewById(R.id.tv_time);
     }
 
     public void setStudent(String student) {

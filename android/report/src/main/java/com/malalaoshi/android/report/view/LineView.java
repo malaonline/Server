@@ -194,10 +194,10 @@ public class LineView extends View {
             yy = -list.get(i).getY2Value() * unitHeight;
             paint.setStyle(Paint.Style.STROKE);
             paint.setColor(PATH_COLOR);
-            canvas.drawCircle(startX, yy, MiscUtil.dp2px(6), paint);
+            canvas.drawCircle(startX, yy, MiscUtil.dp2px(4), paint);
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(Color.WHITE);
-            canvas.drawCircle(startX, yy, MiscUtil.dp2px(5), paint);
+            canvas.drawCircle(startX, yy, MiscUtil.dp2px(3), paint);
         }
     }
 
@@ -266,8 +266,8 @@ public class LineView extends View {
         if (EmptyUtils.isEmpty(list)) {
             return;
         }
-
         drawNetText(canvas);
+        paint.setPathEffect(null);
     }
 
     /**

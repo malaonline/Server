@@ -47,11 +47,15 @@ public class ReportSubjectPage extends LinearLayout {
         if (EmptyUtils.isEmpty(data)) {
             return;
         }
+        int max = 0;
         for (ExerciseMonthTrend item : data) {
             list.add(new AxisModel(item.getError_item(), item.getTotal_item(), item.getMonthPart()));
+            if (max < item.getTotal_item()) {
+                max = item.getTotal_item();
+            }
         }
         waveView.setList(list);
-        waveView.setMax(150);
+        waveView.setMax(max);
     }
 
     public void setData(List<ExerciseMonthTrend> data) {

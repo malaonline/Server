@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malalaoshi.android.report.page.ReportKnowledgePage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malalaoshi.android.report.page.ReportKnowledgePage
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -11,8 +12,8 @@
         style="@style/report__page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:text="知识点分析" />
+        android:layout_marginTop="24dp"
+        android:text="知识点分析"/>
 
     <View
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider" />
+        android:background="@color/report__gray_divider"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,13 +33,14 @@
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:text="注：21/50 即代表答对题/总题目数" />
+        android:text="注：21/50 即代表答对题/总题目数"
+        android:textSize="13dp"/>
 
     <com.malalaoshi.android.report.view.HorizontalLineView
         android:id="@+id/view_chart"
         android:layout_width="match_parent"
         android:layout_height="185dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -59,16 +61,16 @@
                 android:layout_height="wrap_content"
                 android:text="解读："
                 android:textColor="#363b4e"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生各模块水平相差过大，应提前进行针对性练习，实数和相似等模块需提高，多边形板块可以适当减少练习量。"
+                android:text="学生各模块水平相差过大，应提前进行针对性练习，实数和全等等模块需提高，圆的板块可以适当减少练习量。"
                 android:textColor="#363b4e"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
 
         <ImageView
@@ -79,7 +81,7 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@null"
-            android:src="@drawable/report__ic_pin" />
+            android:src="@drawable/report__ic_pin"/>
     </FrameLayout>
 
 </com.malalaoshi.android.report.page.ReportKnowledgePage>

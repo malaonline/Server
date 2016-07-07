@@ -13,6 +13,8 @@ public class DateUtils {
 
     private static final String HOUR_MIN = "HH:mm";
 
+    private static final String DATE_FULL = "yyyy年MM月dd";
+
     /**
      * 格式化到如下格式: 4月上 4月下. 旬怎么翻译?
      */
@@ -72,6 +74,18 @@ public class DateUtils {
                 return "十二";
             default:
                 throw new RuntimeException("非法月份");
+        }
+    }
+
+    /**
+     * 格式化后如下:2016年1月1. 没有日
+     */
+    public static String formatFull(long ms) {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FULL, Locale.getDefault());
+        try {
+            return format.format(ms);
+        } catch (Exception e) {
+            return "";
         }
     }
 }

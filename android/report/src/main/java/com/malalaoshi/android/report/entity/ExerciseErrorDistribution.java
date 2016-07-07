@@ -7,21 +7,21 @@ import java.io.Serializable;
  * Created by tianwei on 6/4/16.
  */
 public class ExerciseErrorDistribution implements Serializable {
-    private int id;
+    private String id;
     private String name;
     private float rate;
 
-    public ExerciseErrorDistribution(int id, String name, float rate) {
+    public ExerciseErrorDistribution(String id, String name, float rate) {
         setId(id);
         setName(name);
         setRate(rate);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

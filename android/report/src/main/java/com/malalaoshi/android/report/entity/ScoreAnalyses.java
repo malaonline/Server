@@ -1,11 +1,13 @@
 package com.malalaoshi.android.report.entity;
 
+import java.io.Serializable;
+
 /**
  * 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
  * Created by tianwei on 6/4/16.
  */
-public class ScoreAnalyses {
-    private int id;
+public class ScoreAnalyses implements Serializable {
+    private String id;
     private String name;
     private float my_score;
     private float ave_score;
@@ -16,11 +18,11 @@ public class ScoreAnalyses {
         setName(name);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

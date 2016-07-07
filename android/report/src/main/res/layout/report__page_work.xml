@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malalaoshi.android.report.page.ReportWorkPage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malalaoshi.android.report.page.ReportWorkPage
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -11,8 +12,8 @@
         style="@style/report__page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="作业数据分析"
-        android:layout_marginTop="38dp" />
+        android:layout_marginTop="24dp"
+        android:text="作业数据分析"/>
 
     <View
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider" />
+        android:background="@color/report__gray_divider"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -36,12 +37,13 @@
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
             android:paddingRight="12dp"
-            android:text="" />
+            android:textSize="12dp"
+            android:text=""/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/report__ic_smile" />
+            android:background="@drawable/report__ic_smile"/>
     </FrameLayout>
 
     <TextView
@@ -50,20 +52,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="@color/report__txt_blue"
-        android:textSize="@dimen/core__text_size_small" />
+        android:textSize="@dimen/core__text_size_small"/>
 
     <com.malalaoshi.android.report.view.PieView
         android:id="@+id/pie_view"
         android:layout_width="202dp"
         android:layout_height="202dp"
         android:layout_marginBottom="17dp"
-        android:layout_marginTop="17dp" />
+        android:layout_marginTop="17dp"/>
 
     <GridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3" />
+        android:numColumns="3"/>
 
 
 </com.malalaoshi.android.report.page.ReportWorkPage>

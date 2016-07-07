@@ -1,10 +1,12 @@
 package com.malalaoshi.android.report.entity;
 
+import java.io.Serializable;
+
 /**
  * 能力结构分析
  * Created by tianwei on 6/4/16.
  */
-public class AbilityStructure {
+public class AbilityStructure implements Serializable {
     private String key;
     private float val;
 

@@ -17,12 +17,9 @@ import java.util.List;
 public final class MathReportTemplate {
 
 
-    private static final String[] SUBJECT_CLASSES = new String[]{
-            "实数", "函数初步", "多边形", "相似", "全等", "微积分", "几何变换", "圆", "其他"};
-    private static final float[] SUBJECT_CLASSES_RATE = new float[]{8, 9, 12, 17, 21, 3, 19, 7, 4};
-
-    private static final String[] KNOW_CLASSES = new String[]{
-            "实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"};
+    private static final String[] SUBJECT_CLASSES = new String[]{"实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换", "其他"};
+    private static final float[] SUBJECT_CLASSES_RATE = new float[]{18, 8, 10, 5, 26, 14, 16, 3};
+    private static final String[] KNOW_CLASSES = new String[]{"实数", "函数初步", "多边形", "圆", "全等", "相似", "几何变换"};
 
     /**
      * 数学的模板
@@ -38,7 +35,7 @@ public final class MathReportTemplate {
         //错题分布
         List<ExerciseErrorDistribution> distributions = new ArrayList<>();
         for (int i = 0; i < SUBJECT_CLASSES.length; i++) {
-            distributions.add(new ExerciseErrorDistribution(i, SUBJECT_CLASSES[i], SUBJECT_CLASSES_RATE[i]));
+            distributions.add(new ExerciseErrorDistribution(i + "", SUBJECT_CLASSES[i], SUBJECT_CLASSES_RATE[i]));
         }
         report.setError_rates(distributions);
 
@@ -52,20 +49,20 @@ public final class MathReportTemplate {
 
         //知识点分析
         List<KnowledgePointAccuracy> accuracies = new ArrayList<>();
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[0], 30, 11));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[1], 50, 21));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[2], 117, 109));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[3], 50, 21));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[4], 120, 114));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[5], 50, 21));
-        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[6], 62, 54));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[0], 40, 21));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[1], 71, 60));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[2], 88, 70));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[3], 57, 51));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[4], 160, 109));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[5], 33, 24));
+        accuracies.add(new KnowledgePointAccuracy(KNOW_CLASSES[6], 65, 54));
         report.setKnowledges_accuracy(accuracies);
 
         //能力结构
         List<AbilityStructure> abilityStructures = new ArrayList<>();
         abilityStructures.add(new AbilityStructure(70, "推理论证"));
         abilityStructures.add(new AbilityStructure(40, "数据分析"));
-        abilityStructures.add(new AbilityStructure(26, "空间想象"));
+        abilityStructures.add(new AbilityStructure(35, "空间想象"));
         abilityStructures.add(new AbilityStructure(80, "运算求解"));
         abilityStructures.add(new AbilityStructure(50, "实际应用"));
         report.setAbilities(abilityStructures);

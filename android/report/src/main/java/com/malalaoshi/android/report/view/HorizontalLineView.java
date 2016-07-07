@@ -129,6 +129,7 @@ public class HorizontalLineView extends View {
         float backBegin = maxLeftTextWidth + TXT_MARGIN * 2;
         float frontWidth;
         float lineHeight = cellHeight * 0.7f;
+        float txtBegin;
         String frontTxt;
         RectF rectF;
         Rect frontTxtRect;
@@ -150,9 +151,9 @@ public class HorizontalLineView extends View {
             paint.setColor(Color.WHITE);
             frontTxt = item.getyValue() + "/" + item.getY2Value();
             frontTxtRect = Utils.getTextBounds(paint, frontTxt);
-            canvas.drawText(frontTxt, backBegin + frontWidth - frontTxtRect.width() - TXT_MARGIN,
-                    cellHeight * (i + 0.5f) - frontTxtRect.height() / 8, paint);
-
+            txtBegin = backBegin + frontWidth - frontTxtRect.width() - TXT_MARGIN;
+            txtBegin = txtBegin < backBegin ? backBegin : txtBegin;
+            canvas.drawText(frontTxt, txtBegin, cellHeight * (i + 0.5f) - frontTxtRect.height() / 8, paint);
         }
     }
 
