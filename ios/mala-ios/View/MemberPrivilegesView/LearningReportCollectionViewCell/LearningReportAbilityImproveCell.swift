@@ -140,7 +140,7 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         // 设置折线图数据
         let lineVals = model.map({ (data) -> ChartDataEntry in
             aveScoreIndex += 1
-            return ChartDataEntry(value: data.aveScore.doubleValue*100, xIndex: aveScoreIndex)
+            return ChartDataEntry(value: data.ave_score.doubleValue*100, xIndex: aveScoreIndex)
         })
         let lineDataSet = LineChartDataSet(yVals: lineVals, label: "")
         lineDataSet.setColor(MalaColor_82C9F9_0)
@@ -156,7 +156,7 @@ class LearningReportAbilityImproveCell: MalaBaseReportCardCell {
         // 设置柱状图数据
         let barVals = model.map({ (data) -> ChartDataEntry in
             myScoreIndex += 1
-            return BarChartDataEntry(value: data.score.doubleValue*100, xIndex: myScoreIndex)
+            return BarChartDataEntry(value: data.my_score.doubleValue*100, xIndex: myScoreIndex)
         })
         let barDataSet = BarChartDataSet(yVals: barVals, label: "")
         barDataSet.drawValuesEnabled = true

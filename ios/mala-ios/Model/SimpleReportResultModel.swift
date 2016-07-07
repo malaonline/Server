@@ -13,6 +13,8 @@ class SimpleReportResultModel: BaseObjectModel {
     // MARK: - Property
     /// 科目id
     var subject_id: Int = 0
+    /// 年级id
+    var grade_id: Int = 0
     /// 支持情况
     var supported: Bool = false
     /// 是否报名

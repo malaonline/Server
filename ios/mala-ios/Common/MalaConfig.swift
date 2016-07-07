@@ -329,28 +329,28 @@ public class MalaConfig {
     ///  ［知识点分析页面］样本数据
     class func knowledgeSampleData() -> [SingleTopicData] {
         return [
-            SingleTopicData(id: 1, name: "实数", totalItem: 100, rightItem: 49),
-            SingleTopicData(id: 2, name: "函数初步", totalItem: 90, rightItem: 20),
-            SingleTopicData(id: 3, name: "圆", totalItem: 100, rightItem: 80),
-            SingleTopicData(id: 4, name: "多边形", totalItem: 105, rightItem: 60),
-            SingleTopicData(id: 5, name: "全等", totalItem: 100, rightItem: 30),
-            SingleTopicData(id: 6, name: "相似", totalItem: 125, rightItem: 95),
-            SingleTopicData(id: 7, name: "几何变换", totalItem: 80, rightItem: 40),
-            SingleTopicData(id: 8, name: "几何操作", totalItem: 70, rightItem: 40),
+            SingleTopicData(id: "1", name: "实数", totalItem: 100, rightItem: 49),
+            SingleTopicData(id: "2", name: "函数初步", totalItem: 90, rightItem: 20),
+            SingleTopicData(id: "3", name: "圆", totalItem: 100, rightItem: 80),
+            SingleTopicData(id: "4", name: "多边形", totalItem: 105, rightItem: 60),
+            SingleTopicData(id: "5", name: "全等", totalItem: 100, rightItem: 30),
+            SingleTopicData(id: "6", name: "相似", totalItem: 125, rightItem: 95),
+            SingleTopicData(id: "7", name: "几何变换", totalItem: 80, rightItem: 40),
+            SingleTopicData(id: "8", name: "几何操作", totalItem: 70, rightItem: 40),
         ]
     }
     
     ///  ［知识点分析页面］默认数据
     class func knowledgeDefaultData() -> [SingleTopicData] {
         return [
-            SingleTopicData(id: 1, name: "实数", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 2, name: "函数初步", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 3, name: "圆", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 4, name: "多边形", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 5, name: "全等", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 6, name: "相似", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 7, name: "几何变换", totalItem: 100, rightItem: 0),
-            SingleTopicData(id: 8, name: "几何操作", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "1", name: "实数", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "2", name: "函数初步", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "3", name: "圆", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "4", name: "多边形", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "5", name: "全等", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "6", name: "相似", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "7", name: "几何变换", totalItem: 100, rightItem: 0),
+            SingleTopicData(id: "8", name: "几何操作", totalItem: 100, rightItem: 0),
         ]
     }
     
@@ -369,14 +369,14 @@ public class MalaConfig {
     ///  ［提分点分析页面］样本数据
     class func scoreSampleData() -> [SingleTopicScoreData] {
         return [
-            SingleTopicScoreData(id: 1, name: "实数", score: NSNumber(double: 0.47), aveScore: NSNumber(double: 0.72)),
-            SingleTopicScoreData(id: 2, name: "函数初步", score: NSNumber(double: 0.23), aveScore: NSNumber(double: 0.64)),
-            SingleTopicScoreData(id: 3, name: "圆", score: NSNumber(double: 0.80), aveScore: NSNumber(double: 0.70)),
-            SingleTopicScoreData(id: 4, name: "多边形", score: NSNumber(double: 0.56), aveScore: NSNumber(double: 0.59)),
-            SingleTopicScoreData(id: 5, name: "全等", score: NSNumber(double: 0.27), aveScore: NSNumber(double: 0.51)),
-            SingleTopicScoreData(id: 6, name: "相似", score: NSNumber(double: 0.77), aveScore: NSNumber(double: 0.62)),
-            SingleTopicScoreData(id: 7, name: "几何变换", score: NSNumber(double: 0.50), aveScore: NSNumber(double: 0.77)),
-            SingleTopicScoreData(id: 8, name: "几何操作", score: NSNumber(double: 0.55), aveScore: NSNumber(double: 0.21))
+            SingleTopicScoreData(id: "1", name: "实数", score: NSNumber(double: 0.47), aveScore: NSNumber(double: 0.72)),
+            SingleTopicScoreData(id: "2", name: "函数初步", score: NSNumber(double: 0.23), aveScore: NSNumber(double: 0.64)),
+            SingleTopicScoreData(id: "3", name: "圆", score: NSNumber(double: 0.80), aveScore: NSNumber(double: 0.70)),
+            SingleTopicScoreData(id: "4", name: "多边形", score: NSNumber(double: 0.56), aveScore: NSNumber(double: 0.59)),
+            SingleTopicScoreData(id: "5", name: "全等", score: NSNumber(double: 0.27), aveScore: NSNumber(double: 0.51)),
+            SingleTopicScoreData(id: "6", name: "相似", score: NSNumber(double: 0.77), aveScore: NSNumber(double: 0.62)),
+            SingleTopicScoreData(id: "7", name: "几何变换", score: NSNumber(double: 0.50), aveScore: NSNumber(double: 0.77)),
+            SingleTopicScoreData(id: "8", name: "几何操作", score: NSNumber(double: 0.55), aveScore: NSNumber(double: 0.21))
         ]
     }
 }

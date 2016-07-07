@@ -107,7 +107,7 @@ class LearningReportKnowledgeCell: MalaBaseReportCardCell {
         var index = -1
         let vals = data.map { (data) -> ThemeHorizontalBarData in
             index += 1
-            return ThemeHorizontalBarData(title: data.name, color: MalaConfig.chartsColor()[index], rightNum: data.rightItem, totalNum: data.totalItem)
+            return ThemeHorizontalBarData(title: data.name, color: MalaConfig.chartsColor()[index], rightNum: data.right_item, totalNum: data.total_item)
         }
         barChartView.vals = vals
     }

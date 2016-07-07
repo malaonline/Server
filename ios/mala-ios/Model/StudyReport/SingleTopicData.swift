@@ -12,13 +12,13 @@ class SingleTopicData: NSObject {
     
     // MARK: - Property
     /// 题目类型id
-    var id: Int = 0
+    var id: String = ""
     /// 题目名称
     var name: String = ""
     /// 所做此题目练习总数
-    var totalItem: Int = 0
+    var total_item: Int = 0
     /// 所做此题目练习正确数
-    var rightItem: Int = 0
+    var right_item: Int = 0
     
     
     // MARK: - Constructed
@@ -31,11 +31,11 @@ class SingleTopicData: NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, name: String, totalItem: Int, rightItem: Int) {
+    convenience init(id: String, name: String, totalItem: Int, rightItem: Int) {
         self.init()
         self.id = id
         self.name = name
-        self.totalItem = totalItem
-        self.rightItem = rightItem
+        self.total_item = totalItem
+        self.right_item = rightItem
     }
 }
