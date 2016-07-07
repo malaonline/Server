@@ -35,7 +35,7 @@
 {% block maincontent %}
     {% if isSupported %}
         {% if klx_username %}
-            <table width="300" cellpadding="10" cellspacing="3" style="margin: 30px; line-height: 30px">
+            <table width="400" cellpadding="10" cellspacing="3" style="margin: 30px; line-height: 30px">
                 <tr><td>用户名</td><td>{{ klx_username }}</td><td></td></tr>
                 <tr>
                     <td>初始密码</td>
@@ -45,6 +45,11 @@
                 <tr>
                     <td colspan="3">
                         <button onclick="window.open('{{ klx_web_site }}')">登录布置作业网站</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        首次登录设置学校时, 请您选择相应地区的麻辣老师学校。
                     </td>
                 </tr>
             </table>
