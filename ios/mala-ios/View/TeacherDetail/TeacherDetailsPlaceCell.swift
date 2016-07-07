@@ -14,9 +14,6 @@ class TeacherDetailsPlaceCell: TeacherDetailBaseCell {
     var schools: [SchoolModel]? {
         didSet {
             tableView.model = schools ?? []
-            tableView.snp_updateConstraints { (make) -> Void in
-                make.height.equalTo(MalaLayout_DetailSchoolsTableViewCellHeight)
-            }
         }
     }
     var isOpen: Bool = false {

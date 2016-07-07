@@ -188,6 +188,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                 if let isOpen = notification.object as? Bool {
                     self?.isOpenSchoolsCell = isOpen
                     self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .Fade)
+                    if isOpen {
+                        self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 5), atScrollPosition: .Top, animated: true)
+                    }else {
+                        self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 5), atScrollPosition: .Bottom, animated: false)
+                    }
                 }
         }
         NSNotificationCenter.defaultCenter().addObserverForName(

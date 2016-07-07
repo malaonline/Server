@@ -144,7 +144,6 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
             make.left.equalTo(self.contentView.snp_left)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-14)
             make.width.equalTo(110)
-            make.height.equalTo(79)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(self.photoView.snp_top).offset(10)
