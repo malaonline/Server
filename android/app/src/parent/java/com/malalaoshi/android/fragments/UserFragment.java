@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,10 +98,10 @@ public class UserFragment extends BaseFragment {
     protected SimpleDraweeView ivAvatar;
 
     @Bind(R.id.tv_unpaid_orders)
-    protected TextView tvUnpaidOrders;
+    protected ImageView tvUnpaidOrders;
 
     @Bind(R.id.tv_uncomment_course)
-    protected TextView tvUncommentCourse;
+    protected ImageView tvUncommentCourse;
 
     @Bind(R.id.btn_logout)
     protected Button btnLogout;

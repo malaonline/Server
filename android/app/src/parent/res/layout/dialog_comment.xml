@@ -189,7 +189,7 @@
         android:textSize="@dimen/text_size_large_x"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:textColor="@drawable/submit_tv_drawable"
+        android:textColor="@color/title_right_color"
         android:background="@drawable/bg_course_btn"
         android:gravity="center"
         android:text="提交" />
