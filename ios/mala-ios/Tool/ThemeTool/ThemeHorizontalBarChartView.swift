@@ -143,7 +143,7 @@ public class ThemeHorizontalBar: UIView {
         
         // AutoLayout
         titleLabel.snp_makeConstraints { (make) in
-            make.width.equalTo(45)
+            make.width.equalTo(56)
             make.left.equalTo(self.snp_left)
             make.right.equalTo(progressBar.snp_left).offset(-8)
             make.height.equalTo(self.snp_height)
@@ -156,7 +156,7 @@ public class ThemeHorizontalBar: UIView {
             make.height.equalTo(self.snp_height)
         }
         percentLabel.snp_makeConstraints { (make) in
-            make.width.equalTo(25)
+            make.width.equalTo(34)
             make.right.equalTo(self.snp_right)
             make.left.equalTo(progressBar.snp_right).offset(8)
             make.height.equalTo(self.snp_height)
