@@ -43,7 +43,8 @@ class Remind:
 @shared_task
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
-    logger.debug("target amount:%d" %(len(operateTargets)))
+    if operateTargets.count() > 0:
+        logger.debug("target amount:%d" %(len(operateTargets)))
     user_ids = []
     for timeslot in operateTargets:
         timeslot.confirm()
