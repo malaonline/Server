@@ -43,7 +43,7 @@ class Remind:
 @shared_task
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
-    if operateTargets.count() > 0:
+    if len(operateTargets) > 0:
         logger.debug("target amount:%d" %(len(operateTargets)))
     user_ids = []
     for timeslot in operateTargets:
@@ -171,14 +171,16 @@ def send_push(msg, user_ids=None, extras=None, title=None):
 @shared_task
 def autoCancelOrders():
     operateTargets = Order.objects.should_auto_canceled_objects()
-    logger.debug("estimated target amount:%d" %(len(operateTargets)))
+    if len(operateTargets) > 0:
+        logger.debug("estimated target amount:%d" %(len(operateTargets)))
     count = 0
     for order in operateTargets:
         if Order.objects.filter(pk=order.id, status=Order.PENDING).update(status=Order.CANCELED):
             order.cancel()
             count += 1
             logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
-    logger.debug("effected target amount:%d" % (len(operateTargets)))
+    if count > 0:
+        logger.debug("effected target amount:%d" % count)
     return True
 
 
