@@ -114,7 +114,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         var rightIndex = 0
         
         // 总练习数据
-        var yValsTotal = model.map { (data) -> ChartDataEntry in
+        var yValsTotal = model.reverse().map { (data) -> ChartDataEntry in
             totalIndex += 1
             return ChartDataEntry(value: Double(data.total_item), xIndex: totalIndex)
         }
@@ -130,7 +130,7 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         totalSet.drawFilledEnabled = true
         
         // 正确练习数据
-        var yValsRight = model.map { (data) -> ChartDataEntry in
+        var yValsRight = model.reverse().map { (data) -> ChartDataEntry in
             rightIndex += 1
             return ChartDataEntry(value: Double(data.total_item-data.error_item), xIndex: rightIndex)
         }

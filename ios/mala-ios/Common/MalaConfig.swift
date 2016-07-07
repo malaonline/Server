@@ -319,10 +319,18 @@ public class MalaConfig {
     ///  ［题目数据分析页面］样本数据
     class func topicSampleData() -> [SingleTimeIntervalData] {
         return [
-            SingleTimeIntervalData(totalItem: 175, errorItem: 77, year: 2016, month: 4, day: 16),
-            SingleTimeIntervalData(totalItem: 185, errorItem: 63, year: 2016, month: 5, day: 1),
-            SingleTimeIntervalData(totalItem: 192, errorItem: 46, year: 2016, month: 5, day: 16),
-            SingleTimeIntervalData(totalItem: 225, errorItem: 43, year: 2016, month: 6, day: 1)
+            SingleTimeIntervalData(totalItem: 16, errorItem: 15, year: 2016, month: 7, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 6, day: 16),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 6, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 5, day: 16),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 5, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 4, day: 16),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 4, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 3, day: 16),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 3, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 2, day: 16),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 2, day: 1),
+            SingleTimeIntervalData(totalItem: 0, errorItem: 0, year: 2016, month: 1, day: 16)
         ]
     }
     
