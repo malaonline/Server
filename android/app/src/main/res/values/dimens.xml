@@ -136,6 +136,9 @@
     <dimen name="tab_divider">7dp</dimen>
     <dimen name="tab_text_padding">5dp</dimen>
 
+    <!-- 教师详情页头像背景图片高度 -->
+    <dimen name="bg_teacher_height">110dp</dimen>
+
     <!-- 指示器渐隐区域-->
     <dimen name="indicator_move_boundary_top">12dp</dimen>
     <dimen name="indicator_move_boundary_bottom">0dp</dimen>

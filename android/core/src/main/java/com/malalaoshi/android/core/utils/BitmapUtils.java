@@ -23,7 +23,7 @@ import java.io.File;
  */
 public class BitmapUtils {
 
-    public static Bitmap blurBitmap(String url) {
+    public static Bitmap blurBitmap(String url, int width, int height) {
         String path = "";
         if (url.contains("?")) {
             path = url.split("\\?")[0];
@@ -33,7 +33,8 @@ public class BitmapUtils {
             return BitmapFactory.decodeFile(cacheFile.getAbsolutePath());
         }
         try {
-            Bitmap bitmap = Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).get();
+            Bitmap bitmap = Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).resize(width,height).get();
+            //Bitmap bitmap = Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).get();
             Bitmap result = blurBitmap(bitmap);
             bitmap.recycle();
             //保存cache

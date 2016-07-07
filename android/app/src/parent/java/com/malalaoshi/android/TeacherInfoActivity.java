@@ -50,6 +50,7 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.SchoolListResult;
+import com.malalaoshi.android.util.DensityUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.Number;
@@ -360,7 +361,9 @@ public class TeacherInfoActivity extends BaseActivity
         MalaContext.exec(new Runnable() {
             @Override
             public void run() {
-                final Bitmap bitmap = BitmapUtils.blurBitmap(url);
+                int height = getResources().getDimensionPixelSize(R.dimen.bg_teacher_height);
+                int width = DensityUtil.getScreemWidth(getBaseContext());
+                final Bitmap bitmap = BitmapUtils.blurBitmap(url,width,height);
                 MalaContext.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {

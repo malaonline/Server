@@ -23,7 +23,7 @@
                 <ImageView
                     android:id="@+id/iv_teacher_bk"
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
+                    android:layout_height="@dimen/bg_teacher_height"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/core__teacher_banner" />
