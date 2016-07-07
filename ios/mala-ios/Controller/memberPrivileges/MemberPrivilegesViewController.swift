@@ -38,11 +38,6 @@ class MemberPrivilegesViewController: UITableViewController {
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
                 self?.tableView.reloadData()
             })
-            
-            // 若当前学习报告状态正确，获取学科学习报告数据
-            if reportStatus == .MathSigned {
-                loadSubjectReport()
-            }
         }
     }
     /// 是否已Push新控制器标示（屏蔽pop到本页面时的数据刷新动作）
@@ -141,7 +136,7 @@ class MemberPrivilegesViewController: UITableViewController {
     // 获取学生学习报告总结
     private func loadStudyReportOverview() {
         
-        self.reportStatus = .LoggingIn
+        reportStatus = .LoggingIn
         
         // 未登录状态
         if !MalaUserDefaults.isLogined {
@@ -186,12 +181,18 @@ class MemberPrivilegesViewController: UITableViewController {
                 }
             }
             
-            self?.reportStatus = status
+            // 若当前学习报告状态正确，获取学科学习报告数据
+            if status == .MathSigned {
+                self?.loadSubjectReport()
+            }else {
+                self?.reportStatus = status
+            }
         })
     }
     
     // 获取学科学习报告
     private func loadSubjectReport() {
+        
         getSubjectReport(1, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
@@ -200,11 +201,13 @@ class MemberPrivilegesViewController: UITableViewController {
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self?.reportStatus = .UnSigned
                 self?.ShowTost("当前无法访问题目数据，请稍后再试")
             })
         }, completion: { [weak self] (report) in
             println("学科学习报告：\(report)")
             self?.report = report
+            self?.reportStatus = .MathSigned
         })
     }
     

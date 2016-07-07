@@ -123,6 +123,7 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         }
         
         // 加载图例
+        legendView.removeAllLegend()
         for (index, string) in xVals.enumerate() {
             legendView.addLegend(color: MalaConfig.chartsColor()[index], title: string)
         }
@@ -207,8 +208,8 @@ class LearningReportHomeworkDataCell: MalaBaseCardCell {
         let xVals = model.map { (data) -> String in
             return data.name
         }
-        
         // 设置数据
+        configure()
         let dataSet = PieChartDataSet(yVals: yVals, label: nil)
         dataSet.colors = MalaConfig.chartsColor()
         let data = PieChartData(xVals: xVals, dataSet: dataSet)
@@ -253,7 +254,7 @@ public class PieLegendView: UIView {
         }
     }
     var viewCount: Int = 0
-    private var legends: [UIButton] = []
+    var legends: [UIButton] = []
     
     
     // MARK: - Constructed
@@ -295,6 +296,9 @@ public class PieLegendView: UIView {
     }
     
     public func removeAllLegend() {
+        currentX = 0
+        currentY = 0
+        viewCount = 0
         for legend in legends {
             legend.removeFromSuperview()
         }
