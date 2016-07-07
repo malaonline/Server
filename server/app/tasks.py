@@ -14,7 +14,7 @@ from .models import TimeSlot, TimeSlotAttendance,\
     Order, Teacher, Coupon, Evaluation
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 
-logger = logging.getLogger('app')
+logger = logging.getLogger('tasks')
 
 
 class Remind:
@@ -43,12 +43,11 @@ class Remind:
 @shared_task
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
-    if len(operateTargets) > 0:
-        logger.debug("target amount:%d" %(len(operateTargets)))
+    logger.debug("[autoConfirmClasses] target amount:%d" %(len(operateTargets)))
     user_ids = []
     for timeslot in operateTargets:
         timeslot.confirm()
-        logger.debug("The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+        logger.debug("[autoConfirmClasses] The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
         user_ids.append(timeslot.order.parent.user_id)
     # JPush 通知
     extras = {
@@ -171,16 +170,15 @@ def send_push(msg, user_ids=None, extras=None, title=None):
 @shared_task
 def autoCancelOrders():
     operateTargets = Order.objects.should_auto_canceled_objects()
-    if len(operateTargets) > 0:
-        logger.debug("estimated target amount:%d" %(len(operateTargets)))
+    logger.debug("[autoCancelOrders] estimated target amount:%d" %(len(operateTargets)))
     count = 0
     for order in operateTargets:
         if Order.objects.filter(pk=order.id, status=Order.PENDING).update(status=Order.CANCELED):
             order.cancel()
             count += 1
-            logger.debug("The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
+            logger.debug("[autoCancelOrders] The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
     if count > 0:
-        logger.debug("effected target amount:%d" % count)
+        logger.debug("[autoCancelOrders] effected target amount:%d" % count)
     return True
 
 

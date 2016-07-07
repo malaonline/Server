@@ -59,4 +59,5 @@ db.sqlite3
 db_store.json
 
 celerybeat-schedule
+celerybeat-schedule.db
 *.pid

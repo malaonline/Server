@@ -12,7 +12,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 from django.conf import settings  # noqa
 import logging
 
-logger = logging.getLogger('app')
+logger = logging.getLogger('tasks')
 
 celery_app = Celery('server')
 
