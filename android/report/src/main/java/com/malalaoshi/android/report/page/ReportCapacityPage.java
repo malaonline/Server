@@ -13,13 +13,27 @@ import com.malalaoshi.android.report.entity.AxisModel;
 import com.malalaoshi.android.report.view.SpiderNetView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 能力数据分析页
  * Created by tianwei on 5/22/16.
  */
 public class ReportCapacityPage extends LinearLayout {
+
+    private static final Map<String, String> NAME;
+
+    static {
+        NAME = new HashMap<>();
+        NAME.put("spatial", "空间想象");
+        NAME.put("abstract", "抽象概括");
+        NAME.put("calc", "运算求解");
+        NAME.put("appl", "实际应用");
+        NAME.put("data", "数据分析");
+        NAME.put("reason", "推理论证");
+    }
 
     private List<AbilityStructure> data;
 
@@ -48,7 +62,11 @@ public class ReportCapacityPage extends LinearLayout {
             return;
         }
         for (AbilityStructure item : data) {
-            list.add(new AxisModel((int) item.getVal(), item.getKey()));
+            String name = NAME.get(item.getKey());
+            if (name == null) {
+                name = item.getKey();
+            }
+            list.add(new AxisModel((int) item.getVal(), name));
         }
         waveView.setList(list);
     }
