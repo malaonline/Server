@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生对于圆的知识点和函数初步知识点，以及几何变形知识点能力突出，可减少习题数。实数可加强练习。"
+                android:text="矩形为学生各模块分数，折线为所有学生平均分数。通过矩形和折线的上下关系可发现学生与平均分数之间的对比关系。"
                 android:textColor="#363b4e"
                 android:textSize="12sp"/>
         </RelativeLayout>

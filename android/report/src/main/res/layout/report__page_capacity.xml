@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生运算求解能力很强，空间想象与数据分析能力较弱，应加强针对性练习，实际应用能力也需注意引导。"
+                android:text="红色区域越接近最外边对应的能力越强， 通过直观的方式，了解学生思考问题的方式，对弱势项进行引导。"
                 android:textColor="#363b4e"
                 android:textSize="12sp" />
         </RelativeLayout>

@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_des_title"
                 android:layout_marginTop="7dp"
-                android:text="学生各模块水平相差过大，应提前进行针对性练习，实数和全等等模块需提高，圆的板块可以适当减少练习量。"
+                android:text="学生各知识点颜色填充的越完整正确率越高，方便查看学生各知识点的掌握情况，有针对性的进行练习。"
                 android:textColor="#363b4e"
                 android:textSize="12sp"/>
         </RelativeLayout>
