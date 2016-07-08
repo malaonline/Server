@@ -259,14 +259,7 @@ public class PayFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getOrderStatusSuccess(@NonNull OrderStatusModel status) {
-        if (status.getStatus().equals("d")){
-            //订单已经取消
-            if ("p".equals(status.getStatus())) {
-                showPayResultDialog("当前订单已取消,稍后会自动退款！");
-                return;
-            }
-            return;
-        }else if (status.getStatus().equals("p")){
+        if (status.getStatus().equals("p")){
             if (status.is_timeslot_allocated()) {
                 String message = "";
                 if (!isEvaluated){
@@ -279,9 +272,17 @@ public class PayFragment extends Fragment implements View.OnClickListener {
                 //课程被占用
                 showPayResultDialog("课程被抢占，稍后会自动退款。请重新选择时间段！");
             }
+        }else if (status.getStatus().equals("d")){
+            //订单已经取消
+            showPayResultDialog("当前订单已取消,稍后会自动退款！");
+            return;
+            /*if ("p".equals(status.getStatus())) {
+                showPayResultDialog("当前订单已取消,稍后会自动退款！");
+                return;
+            }*/
         }else{
             //订单状态错误
-            showPayResultDialog("订单状态错误,稍后会自动退款！");
+            showPayResultDialog("购买失败,稍后会自动退款！");
         }
     }
 
