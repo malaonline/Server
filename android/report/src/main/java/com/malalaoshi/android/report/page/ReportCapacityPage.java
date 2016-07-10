@@ -2,15 +2,18 @@ package com.malalaoshi.android.report.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
 import com.malalaoshi.android.report.entity.AbilityStructure;
 import com.malalaoshi.android.report.entity.AxisModel;
-import com.malalaoshi.android.report.view.SpiderNetView;
+import com.malalaoshi.android.report.view.PolygonNetView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +39,7 @@ public class ReportCapacityPage extends LinearLayout {
     }
 
     private List<AbilityStructure> data;
+    private PolygonNetView netView;
 
     public ReportCapacityPage(Context context) {
         super(context);
@@ -56,7 +60,7 @@ public class ReportCapacityPage extends LinearLayout {
     }
 
     private void initView() {
-        SpiderNetView waveView = (SpiderNetView) findViewById(R.id.view_chart);
+        netView = (PolygonNetView) findViewById(R.id.view_chart);
         List<AxisModel> list = new ArrayList<>();
         if (EmptyUtils.isEmpty(data)) {
             return;
@@ -68,7 +72,32 @@ public class ReportCapacityPage extends LinearLayout {
             }
             list.add(new AxisModel((int) item.getVal(), name));
         }
-        waveView.setList(list);
+        netView.setData(list);
+        initDebug();
+    }
+
+    /**
+     * Debug
+     */
+    private void initDebug() {
+        Button downButton = (Button) findViewById(R.id.btn_down);
+        Button addButton = (Button) findViewById(R.id.btn_add);
+        if (MalaContext.isDebug()) {
+            downButton.setVisibility(VISIBLE);
+            addButton.setVisibility(VISIBLE);
+            downButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    netView.updateData(false);
+                }
+            });
+            addButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    netView.updateData(true);
+                }
+            });
+        }
     }
 
     public void setData(List<AbilityStructure> data) {

@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malalaoshi.android.report.page.ReportCapacityPage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malalaoshi.android.report.page.ReportCapacityPage
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/report__page_title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="能力结构分析" />
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/report__page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="能力结构分析"/>
+
+        <Button
+            android:id="@+id/btn_down"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="-1"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_down"
+            android:text="+1"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -21,12 +44,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider" />
+        android:background="@color/report__gray_divider"/>
 
-    <com.malalaoshi.android.report.view.SpiderNetView
+    <com.malalaoshi.android.report.view.PolygonNetView
         android:id="@+id/view_chart"
         android:layout_width="match_parent"
-        android:layout_height="270dp" />
+        android:layout_height="270dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -47,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="解读："
                 android:textColor="#363b4e"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +79,7 @@
                 android:layout_marginTop="7dp"
                 android:text="红色区域越接近最外边对应的能力越强， 通过直观的方式，了解学生思考问题的方式，对弱势项进行引导。"
                 android:textColor="#363b4e"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
 
         <ImageView
@@ -67,7 +90,7 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@null"
-            android:src="@drawable/report__ic_pin" />
+            android:src="@drawable/report__ic_pin"/>
     </FrameLayout>
 
 </com.malalaoshi.android.report.page.ReportCapacityPage>

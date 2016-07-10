@@ -40,4 +40,8 @@ public class MalaContext {
     public static LocalBroadcastManager getLocalBroadcastManager() {
         return localBroadcastManager;
     }
+
+    public static boolean isDebug() {
+        return "debug".equals(context.getResources().getString(R.string.build_type));
+    }
 }

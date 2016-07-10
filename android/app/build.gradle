@@ -59,6 +59,7 @@ android {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_DEBUG]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
+            resValue("string", "build_type", "debug")
         }
 
         devrelease {
@@ -71,6 +72,7 @@ android {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
+            resValue("string", "build_type", "release")
         }
         stagerelease {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -82,6 +84,7 @@ android {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
             buildConfigField("String", "API_HOST", "\"" + STAGE_SERVER + "\"")
             resValue("string", "api_host", "\"" + STAGE_SERVER + "\"")
+            resValue("string", "build_type", "release")
         }
         prdrelease {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -93,6 +96,7 @@ android {
             manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
             buildConfigField("String", "API_HOST", "\"" + PRD_SERVER + "\"")
             resValue("string", "api_host", "\"" + PRD_SERVER + "\"")
+            resValue("string", "build_type", "release")
         }
     }
 
