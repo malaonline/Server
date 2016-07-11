@@ -44,9 +44,18 @@ class Command(BaseCommand):
             failfast=self.failfast,
         ).run(suite)
 
+    def init(self):
+        unittest.installHandler()
+        # do not override user-defined settings
+        if not hasattr(settings, "COLD_TESTING"):
+            settings.COLD_TESTING = True
+
+    def deinit(self):
+        unittest.removeHandler()
+
     def handle(self, *args, **options):
         test_labels = options.get('test_labels')
-        unittest.installHandler()
+        self.init()
         suite = self.build_suite(test_labels)
         result = self.run_suite(suite)
-        unittest.removeHandler()
+        self.deinit()

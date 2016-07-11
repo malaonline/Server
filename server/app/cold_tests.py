@@ -1,6 +1,7 @@
 import datetime
 import unittest
 
+from django.conf import settings
 from django.utils import timezone
 
 from app.utils.types import parseInt, parse_date, parse_date_next

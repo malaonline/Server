@@ -156,11 +156,14 @@ def klx_relation(klx_teacher, klx_students):
     if settings.TESTING:
         return klx_verify_sign(params)
     try:
-        resp = requests.post(klx_url, data=params, timeout=10)
+        # resp = requests.post(klx_url, data=params, timeout=10)
+        resp = requests.get(klx_url, params=params, timeout=10)
     except Exception as err:
         _logger.error('cannot reach kuailexue server')
         _logger.exception(err)
         return False
+    if hasattr(settings, "COLD_TESTING") and settings.COLD_TESTING:
+        print('\n%s'%(resp.url))
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
